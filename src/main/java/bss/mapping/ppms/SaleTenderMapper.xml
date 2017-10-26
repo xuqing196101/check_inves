@@ -383,6 +383,9 @@
 		<if test="statusBid != null  and statusBid != '' ">
 			AND st.STATUS_BID=#{statusBid,jdbcType=DECIMAL}
 		</if>
+		<if test="isTurnUp ==3 ">
+			AND st.IS_TURN_UP=0
+		</if>
 		order by CREATED_AT
 	</select>
 

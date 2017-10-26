@@ -1963,59 +1963,73 @@ public class OpenBiddingController extends BaseSupplierController{
 
   @ResponseBody
   @RequestMapping("/isTurnUp")
-  public String isTurnUp(String projectId, String isTurnUp) throws ParseException{
-    DictionaryData dd = new DictionaryData();
-    dd.setCode("OPEN_FILE");
-    List<DictionaryData > list = dictionaryDataServiceI.find(dd);
-    //查出项目的所有包、然后全部修改状态
-    SaleTender condition = new SaleTender();
-    condition.setProjectId(projectId);
-    condition.setStatusBid(NUMBER_TWO);
-    condition.setStatusBond(NUMBER_TWO);
-    List<SaleTender> stList = saleTenderService.find(condition);
-    List<String> strList = new ArrayList<String>();
-    JSONArray json=JSONArray.fromObject(isTurnUp);
-    JSONObject jsonQuote = new JSONObject();
-    int count = 0;
-    //这里写两遍是因为文件上传用的是saletender的id，上传的是供应商的投标文件，但是saletender里面有可能有两个供应商在不同的包下面，所以判断文件上传就会有点麻烦，因为供应商相同的saletender数据有多条，但是只是其中一个有值
-    for (int i = 0; i < json.size(); i++) {
-      jsonQuote = json.getJSONObject(i); 
+  public String isTurnUp(String projectId, String isTurnUp,String type) throws ParseException{
+    if(type!=null&&"delete".equals(type)){
+      //查出项目的所有包、然后全部修改状态
+      SaleTender condition = new SaleTender();
+      condition.setProjectId(projectId);
+      condition.setStatusBid(NUMBER_TWO);
+      condition.setStatusBond(NUMBER_TWO);
+      List<SaleTender> stList = saleTenderService.find(condition);
       for (SaleTender st : stList) {
-          if (st.getSuppliers().getId().equals(jsonQuote.getString("supplierId"))) {
-              if (list != null && list.size() > 0) {
-                  List<UploadFile> blist1 = uploadService.getFilesOther(st.getId(), list.get(0).getId(),  Constant.SUPPLIER_SYS_KEY.toString());
-                  if (blist1 != null && blist1.size() > 0) {
-                      strList.add(st.getSuppliers().getId());
-                  }
-              }
-              st.setIsTurnUp(Integer.parseInt(jsonQuote.getString("isTurnUp")));
-          }
+        st.setIsTurnUp(null);
       }
-    }
-    //这段代码略坑！！！
-    /*for (int i = 0; i < json.size(); i++) {
+      saleTenderService.batchUpdate(stList);
+      
+    }else{
+      DictionaryData dd = new DictionaryData();
+      dd.setCode("OPEN_FILE");
+      List<DictionaryData > list = dictionaryDataServiceI.find(dd);
+      //查出项目的所有包、然后全部修改状态
+      SaleTender condition = new SaleTender();
+      condition.setProjectId(projectId);
+      condition.setStatusBid(NUMBER_TWO);
+      condition.setStatusBond(NUMBER_TWO);
+      List<SaleTender> stList = saleTenderService.find(condition);
+      List<String> strList = new ArrayList<String>();
+      JSONArray json=JSONArray.fromObject(isTurnUp);
+      JSONObject jsonQuote = new JSONObject();
+      int count = 0;
+      //这里写两遍是因为文件上传用的是saletender的id，上传的是供应商的投标文件，但是saletender里面有可能有两个供应商在不同的包下面，所以判断文件上传就会有点麻烦，因为供应商相同的saletender数据有多条，但是只是其中一个有值
+      for (int i = 0; i < json.size(); i++) {
         jsonQuote = json.getJSONObject(i); 
         for (SaleTender st : stList) {
             if (st.getSuppliers().getId().equals(jsonQuote.getString("supplierId"))) {
                 if (list != null && list.size() > 0) {
                     List<UploadFile> blist1 = uploadService.getFilesOther(st.getId(), list.get(0).getId(),  Constant.SUPPLIER_SYS_KEY.toString());
-                    if (blist1 != null && blist1.size() == 0) {
-                        if (!strList.contains(st.getSuppliers().getId()) && Integer.parseInt(jsonQuote.getString("isTurnUp")) == 0) {
-                          count ++ ;
-                          break labe;
-                        }
+                    if (blist1 != null && blist1.size() > 0) {
+                        strList.add(st.getSuppliers().getId());
                     }
                 }
                 st.setIsTurnUp(Integer.parseInt(jsonQuote.getString("isTurnUp")));
             }
         }
-      }*/
-    
-    /*if (count > 0) {
-      return "false";
-    } else {*/
-      //批量更新、项目所有的包
-      saleTenderService.batchUpdate(stList);
+      }
+      //这段代码略坑！！！
+      /*for (int i = 0; i < json.size(); i++) {
+          jsonQuote = json.getJSONObject(i); 
+          for (SaleTender st : stList) {
+              if (st.getSuppliers().getId().equals(jsonQuote.getString("supplierId"))) {
+                  if (list != null && list.size() > 0) {
+                      List<UploadFile> blist1 = uploadService.getFilesOther(st.getId(), list.get(0).getId(),  Constant.SUPPLIER_SYS_KEY.toString());
+                      if (blist1 != null && blist1.size() == 0) {
+                          if (!strList.contains(st.getSuppliers().getId()) && Integer.parseInt(jsonQuote.getString("isTurnUp")) == 0) {
+                            count ++ ;
+                            break labe;
+                          }
+                      }
+                  }
+                  st.setIsTurnUp(Integer.parseInt(jsonQuote.getString("isTurnUp")));
+              }
+          }
+        }*/
+      
+      /*if (count > 0) {
+        return "false";
+      } else {*/
+        //批量更新、项目所有的包
+        saleTenderService.batchUpdate(stList);
+    }
       return "true";
     //}
   }

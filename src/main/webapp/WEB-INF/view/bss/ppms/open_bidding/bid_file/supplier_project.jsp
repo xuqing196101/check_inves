@@ -44,6 +44,37 @@
 	            $("#batch_upload").hide();
 	            
 			}
+	       	
+	       	var sel=document.getElementsByName("select");
+	       	for(var i=0;i<sel.length;i++){
+	       		if(getCookie($(sel[i]).attr("id"))!=null&&getCookie($(sel[i]).attr("id"))!=""){
+	       			var text="";
+	       			if(getCookie($(sel[i]).attr("id"))=="1"){
+	       				text="已到场";
+	       			}else if(getCookie($(sel[i]).attr("id"))=="0"){
+	       				text="未到场";
+	       			}else{
+	       				text="请选择";
+	       			}
+	       			var arr = $(sel[i]).parents("tr").find("td:last").find("div");
+	    			if (text == '已到场') {
+	    				for (var k = 0; k < arr.length; k++) {
+	    					$(arr[k]).css({
+	    						top: 0
+	    					});
+	    				}
+	    			}
+	       			oht:
+	       			for (var j = 0; j < sel[i].options.length; j++) { 
+	       				if(sel[i].options[j].text==text){
+	       					sel[i].options[j].selected = true;
+	       					break oht;
+	       				}
+	       			}
+	       			/* $(".selector").find("option:selected").text(text);  */
+	       			/* $(sel[i]).find("option[text='"+text+"']").attr("selected","selected"); */
+	       		}
+	       	}
 	    })
 		function download(id, key) {
 			var form = $("<form>");
@@ -119,6 +150,17 @@
 													  	    shade:0.01, //遮罩透明度
 														  		type : 1,
 														  		area : [ '30%', '200px'  ], //宽高
+														  		end : function () {
+														  			$.ajax({
+																		url: "${pageContext.request.contextPath}/open_bidding/isTurnUp.html?type=delete&projectId=" + projectId,
+																		type: "post",
+																		dataType: "json",
+																		async:false,
+																		success: function(data2) {
+																			window.location.reload();
+																		}
+														  			});
+													              },
 														  		content : $('#openDivPackages', window.parent.document),
 													});
 												}else{
@@ -173,15 +215,24 @@
 			var textVal = $(obj).find("option:selected").text();
 			var arr = new Array();
 			arr = $(obj).parents("tr").find("td:last").find("div");
-			
 			if (textVal == '已到场') {
+				setCookie($(obj).attr("id"),1,1);
 				for (var i = 0; i < arr.length; i++) {
 					/* $(arr[i]).removeClass("hide"); */
 					$(arr[i]).css({
 						top: 0
 					});
 				}
-			} else {
+			} else if(textVal=='未到场'){
+				setCookie($(obj).attr("id"),0,1);
+				for (var i = 0; i < arr.length; i++) {
+					/* $(arr[i]).addClass("hide"); */
+					$(arr[i]).css({
+						top: '-100%'
+					});
+				}
+			}else{
+				setCookie($(obj).attr("id"),3,1);
 				for (var i = 0; i < arr.length; i++) {
 					/* $(arr[i]).addClass("hide"); */
 					$(arr[i]).css({
@@ -190,7 +241,24 @@
 				}
 			}
 		}
-		
+		function getCookie(cname)
+		{
+		  var name = cname + "=";
+		  var ca = document.cookie.split(';');
+		  for(var i=0; i<ca.length; i++) 
+		  {
+		    var c = ca[i].trim();
+		    if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+		  }
+		  return "";
+		}
+		function setCookie(cname,cvalue,exdays)
+		{
+		  var d = new Date();
+		  d.setTime(d.getTime()+(60*60*1000));
+		  var expires = "expires="+d.toGMTString();
+		  document.cookie = cname + "=" + cvalue + "; " + expires;
+		}
 		</script>
 	</head>
 
@@ -224,7 +292,7 @@
 							<td class="tl">${list.packageName }</td>
 							<td class="tc">
 								<c:if test="${empty list.isturnUp}">
-									<select onchange="yincUpload(this)">
+									<select onchange="yincUpload(this)" name="select" id="select_${(vs.index+1)}_${list.id}">
 										<option value="">请选择</option>
 										<option value="${list.id}">已到场</option>
 										<option value="${list.id}">未到场</option>

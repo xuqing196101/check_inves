@@ -55,7 +55,7 @@
   <div id="openAudit" class="layui-layer-wrap">
     	<div class="drop_window">
     		<ul class="list-unstyled">
-    			<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+    			<li class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
           	<label class="col-md-12 pl20 col-xs-12">上传转竞谈附件：</label>
             <span class="col-md-12 col-xs-12">
               <u:upload id="upload_${projectId}" groups="show_${projectId},upload_${projectId}" multiple="true" auto="true" businessId="${auditCode}" typeId="${auditJZXTP}" sysKey="2"/>

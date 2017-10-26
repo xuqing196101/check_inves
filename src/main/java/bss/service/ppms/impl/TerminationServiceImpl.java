@@ -292,22 +292,22 @@ public class TerminationServiceImpl implements TerminationService {
             }
           }
         }
-        flowDefine(flw,mapId,project,projectId,IsTurnUpMap,firstAuditIdMap);
+        flowDefine(flw,mapId,project,projectId,IsTurnUpMap,firstAuditIdMap,type);
        }
       }
   }
-  private void flowDefine(FlowDefine flw,Map<String, String> mapId,Project project,String oldProjectId,Map<String, Map<String, Object>> IsTurnUpMap,Map<String, String> firstAuditIdMap){
+  private void flowDefine(FlowDefine flw,Map<String, String> mapId,Project project,String oldProjectId,Map<String, Map<String, Object>> IsTurnUpMap,Map<String, String> firstAuditIdMap,String type){
     //判断是采购方式
     DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(flw.getPurchaseTypeId());
     if(TerminationConstant.MODE_GKZB.equals(data.getCode())){//公开招标
       project_gkzb(flw, mapId, project, oldProjectId, IsTurnUpMap,
-          firstAuditIdMap);
+          firstAuditIdMap,type);
     }else if(TerminationConstant.MODE_XJCG.equals(data.getCode())){//询价采购
       project_xjcg(flw, mapId, project, oldProjectId, IsTurnUpMap,
           firstAuditIdMap);
     }else if(TerminationConstant.MODE_JZXTP.equals(data.getCode())){//竞争性谈判
       project_jzxtp(flw, mapId, project, oldProjectId, IsTurnUpMap,
-          firstAuditIdMap);
+          firstAuditIdMap,type);
     }else if(TerminationConstant.MODE_DYLY.equals(data.getCode())){//单一来源
       project_dyly(flw, mapId, project, oldProjectId, IsTurnUpMap);
     }else if(TerminationConstant.MODE_YQZB.equals(data.getCode())){//邀请招标
@@ -319,19 +319,19 @@ public class TerminationServiceImpl implements TerminationService {
   private void project_jzxtp(FlowDefine flw, Map<String, String> mapId,
       Project project, String oldProjectId,
       Map<String, Map<String, Object>> IsTurnUpMap,
-      Map<String, String> firstAuditIdMap) {
+      Map<String, String> firstAuditIdMap,String type) {
     if(flw.getCode().equals("XMXX")){//项目信息
     }else if(flw.getCode().equals("NZCGWJ")){//拟制竞谈文件
       flw_nzcgwj(mapId, project, oldProjectId,firstAuditIdMap);
     }else if(flw.getCode().equals("NZCGGG")){//发布竞谈公告
       flw_nzcggg(project, oldProjectId);
     }else if(flw.getCode().equals("CQGYS")){//抽取供应商
-      flw_fsbs(mapId, project, oldProjectId,IsTurnUpMap,"JZXTP");
+      flw_fsbs(mapId, project, oldProjectId,IsTurnUpMap,"JZXTP",type);
     }else if(flw.getCode().equals("FSBS")){//发售标书
-      flw_gysqd(IsTurnUpMap,"JZXTP","one");
+      flw_gysqd(IsTurnUpMap,"JZXTP","one",null);
     }else if(flw.getCode().equals("CQPSZJ")){//抽取评审专家
     }else if(flw.getCode().equals("GYSQD")){//供应商签到
-      flw_gysqd(IsTurnUpMap,"JZXTP","two");
+      flw_gysqd(IsTurnUpMap,"JZXTP","two",null);
       IsTurnUpMap=null;
     }else if(flw.getCode().equals("KBCB")){//开标唱标
       flw_kbcb(mapId, project, oldProjectId);
@@ -354,12 +354,12 @@ public class TerminationServiceImpl implements TerminationService {
     }else if(flw.getCode().equals("NZCGGG")){//拟制招标公告
       flw_nzcggg(project, oldProjectId);
     }else if(flw.getCode().equals("CQGYS")){//抽取供应商
-      flw_fsbs(mapId, project, oldProjectId,IsTurnUpMap,"YQZB");
+      flw_fsbs(mapId, project, oldProjectId,IsTurnUpMap,"YQZB",null);
     }else if(flw.getCode().equals("FSBS")){//发售标书
-      flw_gysqd(IsTurnUpMap,"YQZB","one");
+      flw_gysqd(IsTurnUpMap,"YQZB","one",null);
     }else if(flw.getCode().equals("CQPSZJ")){//抽取评审专家
     }else if(flw.getCode().equals("GYSQD")){//供应商签到
-      flw_gysqd(IsTurnUpMap,"YQZB","two");
+      flw_gysqd(IsTurnUpMap,"YQZB","two",null);
       IsTurnUpMap=null;
     }else if(flw.getCode().equals("KBCB")){//开标唱标
       flw_kbcb(mapId, project, oldProjectId);
@@ -382,13 +382,13 @@ public class TerminationServiceImpl implements TerminationService {
     }else if(flw.getCode().equals("NZCGGG")){//拟制询价公告
       flw_nzcggg(project, oldProjectId);
     }else if(flw.getCode().equals("CQGYS")){//抽取供应商
-      flw_fsbs(mapId, project, oldProjectId,IsTurnUpMap,"XJCG");
+      flw_fsbs(mapId, project, oldProjectId,IsTurnUpMap,"XJCG",null);
     }else if(flw.getCode().equals("FSBS")){//发售标书
-      flw_gysqd(IsTurnUpMap,"XJCG","one");
+      flw_gysqd(IsTurnUpMap,"XJCG","one",null);
     }else if(flw.getCode().equals("CQPSZJ")){//抽取评审专家
       
     }else if(flw.getCode().equals("GYSQD")){//供应商签到
-      flw_gysqd(IsTurnUpMap,"XJCG","two");
+      flw_gysqd(IsTurnUpMap,"XJCG","two",null);
       IsTurnUpMap=null;
     }else if(flw.getCode().equals("KBCB")){//开标唱标
       flw_kbcb(mapId, project, oldProjectId);
@@ -405,13 +405,13 @@ public class TerminationServiceImpl implements TerminationService {
     if(flw.getCode().equals("XMXX")){//项目信息
       
     }else if(flw.getCode().equals("ZDGYS")){//指定供应商
-      flw_fsbs(mapId, project, oldProjectId,IsTurnUpMap,null);
+      flw_fsbs(mapId, project, oldProjectId,IsTurnUpMap,null,null);
     }else if(flw.getCode().equals("NZCGGG")){//编制单一来源公示
       flw_nzcggg(project, oldProjectId);
     }else if(flw.getCode().equals("CQPSZJ")){//抽取评审专家
       
     }else if(flw.getCode().equals("GYSQD")){//供应商签到
-      flw_gysqd(IsTurnUpMap,null,null);
+      flw_gysqd(IsTurnUpMap,null,null,null);
       IsTurnUpMap=null;
     }else if(flw.getCode().equals("KBCB")){//开标唱标
       flw_kbcb(mapId, project, oldProjectId);
@@ -478,7 +478,7 @@ public class TerminationServiceImpl implements TerminationService {
   }
   private void project_gkzb(FlowDefine flw, Map<String, String> mapId,
       Project project, String oldProjectId, Map<String, Map<String, Object>> IsTurnUpMap,
-      Map<String, String> firstAuditIdMap) {
+      Map<String, String> firstAuditIdMap,String type) {
     if(flw.getCode().equals("XMXX")){//项目信息
       
     }else if(flw.getCode().equals("NZCGWJ")){//拟制招标文件
@@ -486,11 +486,11 @@ public class TerminationServiceImpl implements TerminationService {
     }else if(flw.getCode().equals("NZCGGG")){//拟制招标公告
       flw_nzcggg(project, oldProjectId);
     }else if(flw.getCode().equals("FSBS")){//发售标书
-      flw_fsbs(mapId, project, oldProjectId,IsTurnUpMap,null);
+      flw_fsbs(mapId, project, oldProjectId,IsTurnUpMap,null,type);
     }else if(flw.getCode().equals("CQPSZJ")){//抽取评审专家
       
     }else if(flw.getCode().equals("GYSQD")){//供应商签到
-      flw_gysqd(IsTurnUpMap,null,null);
+      flw_gysqd(IsTurnUpMap,null,null,type);
       IsTurnUpMap=null;
     }else if(flw.getCode().equals("KBCB")){//开标唱标
       flw_kbcb(mapId, project, oldProjectId);
@@ -623,7 +623,7 @@ public class TerminationServiceImpl implements TerminationService {
       }
     }
   }
-  private void flw_gysqd(Map<String, Map<String, Object>> IsTurnUpMap,String code,String step) {
+  private void flw_gysqd(Map<String, Map<String, Object>> IsTurnUpMap,String code,String step,String type) {
     Iterator<Entry<String, Map<String, Object>>> iterator = IsTurnUpMap.entrySet().iterator();
     while (iterator.hasNext()) {
       Entry<String, Map<String, Object>> next = iterator.next();
@@ -645,7 +645,7 @@ public class TerminationServiceImpl implements TerminationService {
     //添加投标文件
   }
   private void flw_fsbs(Map<String, String> mapId, Project project,
-      String oldProjectId,Map<String, Map<String, Object>> IsTurnUpMap,String code) {
+      String oldProjectId,Map<String, Map<String, Object>> IsTurnUpMap,String code,String type) {
     Iterator<Entry<String, String>> iterator = mapId.entrySet().iterator();
     while (iterator.hasNext()) {
       Entry<String, String> next = iterator.next();
@@ -654,6 +654,9 @@ public class TerminationServiceImpl implements TerminationService {
       SaleTender saleTender = new SaleTender();
       saleTender.setProject(new Project(oldProjectId));
       saleTender.setPackages(oldId);
+      if(type!=null){
+        saleTender.setIsTurnUp(3);
+      }
       List<SaleTender> saleTenders = saleTenderMapper.getPackegeSupplier(saleTender);
       for(SaleTender st:saleTenders){
         st.setId(WfUtil.createUUID());
@@ -731,16 +734,52 @@ public class TerminationServiceImpl implements TerminationService {
     String tableName = Constant.fileSystem.get(systemKey);
     List<UploadFile> files = uploadDao.getFiles(tableName, oldProjectId, typeId);
     if (files != null && files.size() > 0){
-      
+       for(UploadFile uf:files){
+         uf.setBusinessId(project.getId());
+         uf.setTableName(tableName);
+         uploadDao.insertFile(uf);
+       }
     }
     //采购管理部门审核意见附件
     String pc_reason = DictionaryDataUtil.getId("PC_REASON");
+    files = uploadDao.getFiles(tableName, oldProjectId, pc_reason);
+    if (files != null && files.size() > 0){
+      for(UploadFile uf:files){
+        uf.setBusinessId(project.getId());
+        uf.setTableName(tableName);
+        uploadDao.insertFile(uf);
+      }
+   }
     //事业部门审核意见附件
     String cause_reason = DictionaryDataUtil.getId("CAUSE_REASON");
+    files = uploadDao.getFiles(tableName, oldProjectId, cause_reason);
+    if (files != null && files.size() > 0){
+      for(UploadFile uf:files){
+        uf.setBusinessId(project.getId());
+        uf.setTableName(tableName);
+        uploadDao.insertFile(uf);
+      }
+   }
     //财务部门审核意见附件
     String finance_reason = DictionaryDataUtil.getId("FINANCE_REASON");
+    files = uploadDao.getFiles(tableName, oldProjectId, finance_reason);
+    if (files != null && files.size() > 0){
+      for(UploadFile uf:files){
+        uf.setBusinessId(project.getId());
+        uf.setTableName(tableName);
+        uploadDao.insertFile(uf);
+      }
+   }
     //最终意见附件
     String FINAL_OPINION = DictionaryDataUtil.getId("FINAL_OPINION");
+    files = uploadDao.getFiles(tableName, oldProjectId, FINAL_OPINION);
+    if (files != null && files.size() > 0){
+      for(UploadFile uf:files){
+        uf.setBusinessId(project.getId());
+        uf.setTableName(tableName);
+        uploadDao.insertFile(uf);
+      }
+   }
   }
   private void insert_paramInterval(Project project, String oldProjectId,
       Map<String, String> mapId, Map<String, String> scoreModelId) {
@@ -928,7 +967,7 @@ public class TerminationServiceImpl implements TerminationService {
     project.setName(project.getName().substring(0,project.getName().lastIndexOf("（"))+title);
     
     project.setProjectNumber(project.getProjectNumber().substring(0,project.getProjectNumber().lastIndexOf("（"))+title);
-    project.setConfirmFile(null);
+    /*project.setConfirmFile(null);*/
     //project.setSupplierNumber(null);
     //project.setDeadline(null);
     //project.setBidDate(null);
@@ -942,6 +981,8 @@ public class TerminationServiceImpl implements TerminationService {
     	/*project.setPurchaseType("3CF3C643AE0A4499ADB15473106A7B80");*/
     	project.setPurchaseNewType(DictionaryDataUtil.getId("JZXTP"));
     	
+    }else{
+      project.setConfirmFile(null);
     }
     if("XMLX".equals(currFlowDefineId)){
       
