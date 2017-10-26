@@ -1,5 +1,6 @@
 package extract.controller.expert;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.util.AuthorityUtil;
 import ses.util.DictionaryDataUtil;
 
 import com.alibaba.fastjson.JSON;
@@ -31,7 +34,7 @@ import extract.service.expert.ExpertExtractProjectService;
 
 @Controller
 @RequestMapping("/extractExpertRecord")
-public class ExtractExpertRecordController {
+public class ExtractExpertRecordController extends BaseSupplierController{
 
     /** 专家抽取项目信息 **/
     @Autowired
@@ -45,40 +48,52 @@ public class ExtractExpertRecordController {
      * @data 2017年9月13日
      * @param
      * @return
+     * @throws IOException 
      */
     @RequestMapping("/getRecordList")
-    public String getRecordList(@CurrentUser User user, Model model,@RequestParam(defaultValue = "1") Integer page, String startTime,String endTime, ExpertExtractProject expertExtractProject) {
-        // 声明标识是否是资源服务中心
-        String authType = null;
-        if (null != user && ("4".equals(user.getTypeName()) || "1".equals(user.getTypeName()))) {
-            authType = user.getTypeName();
-            Map<String, Object> map = new HashMap<>();
-            if (authType.equals("1")) {
-                map.put("procurementDepId", user.getOrg().getId());
-            }
-            map.put("page", page);
-            map.put("startTime", null == startTime ? "" : startTime.trim());
-            map.put("endTime", null == endTime ? "" : endTime.trim());
-            List<ExpertExtractProject> list = expertExtractProjectService.findAll(map, expertExtractProject);
-            PageInfo<ExpertExtractProject> info = new PageInfo<>(list);
-            model.addAttribute("info", info);
-            // 采购方式
-            List<DictionaryData> purchaseWayList = DictionaryDataUtil.find(5);
-            if (purchaseWayList != null && purchaseWayList.size() > 0) {
-                for (DictionaryData dictionaryData : purchaseWayList) {
-                    if ("XJCG".equals(dictionaryData.getCode())) {
-                        dictionaryData.setName("询价");
-                    }
+    public String getRecordList(@CurrentUser User user, Model model,@RequestParam(defaultValue = "1") Integer page, String startTime,String endTime, ExpertExtractProject expertExtractProject,HttpServletRequest request) throws IOException {
+    	//获取当前登录用户数据查看权限
+		Integer dataAccess = user.getDataAccess();
+		if (dataAccess == null) {
+			return AuthorityUtil.valiDataAccess(dataAccess, request, response);
+		}
+    	
+        Map<String, Object> map = new HashMap<>();
+        if (dataAccess == 1) {
+			//查看所有数据
+		} else if (dataAccess == 2) {
+			//查看本单位数据
+			String orgId = ""; 
+			if (user.getOrg() != null) {
+				orgId = user.getOrg().getId();
+			} else {
+				orgId = user.getOrgId();
+			}
+			map.put("procurementDepId", orgId);
+		} else if (dataAccess == 3) {
+			//查看本人数据
+			map.put("userId", user.getId());
+		}
+        map.put("page", page);
+        map.put("startTime", null == startTime ? "" : startTime.trim());
+        map.put("endTime", null == endTime ? "" : endTime.trim());
+        List<ExpertExtractProject> list = expertExtractProjectService.findAll(map, expertExtractProject);
+        PageInfo<ExpertExtractProject> info = new PageInfo<>(list);
+        model.addAttribute("info", info);
+        // 采购方式
+        List<DictionaryData> purchaseWayList = DictionaryDataUtil.find(5);
+        if (purchaseWayList != null && purchaseWayList.size() > 0) {
+            for (DictionaryData dictionaryData : purchaseWayList) {
+                if ("XJCG".equals(dictionaryData.getCode())) {
+                    dictionaryData.setName("询价");
                 }
             }
-            model.addAttribute("purchaseWayList", purchaseWayList);
-            model.addAttribute("project", expertExtractProject);
-            model.addAttribute("startTime", startTime);
-            model.addAttribute("endTime", endTime);
-            model.addAttribute("authType", authType);
-            return "ses/ems/exam/expert/extract/project_list";
         }
-        return "redirect:/qualifyError.jsp";
+        model.addAttribute("purchaseWayList", purchaseWayList);
+        model.addAttribute("project", expertExtractProject);
+        model.addAttribute("startTime", startTime);
+        model.addAttribute("endTime", endTime);
+        return "ses/ems/exam/expert/extract/project_list";
     }
 
     /**
