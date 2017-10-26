@@ -136,7 +136,10 @@
         $("#idCardNumber").val("");
         $("#expertType").val("");
         $("#expertTypeIds").val("");
+        $("#categoryIds").val("");
+        $("#category").val("");
         $("#orgName option:selected").removeAttr("selected");
+        $("#address option:selected").removeAttr("selected");
         $("#formSearch").submit();
       }
       //查看信息
@@ -335,6 +338,153 @@
           $("#expertTypeIds").val(rid);
         }
     </script>
+    
+    <!-- 品目 -->
+    <script type="text/javascript">
+      var key;
+      function showCategory() {
+        var zTreeObj;
+        var zNodes;
+        var setting = {
+          async: {
+            autoParam: ["id"],
+            enable: true,
+            url: "${pageContext.request.contextPath}/category/createtree.do",
+            otherParam: {
+              categoryIds: "${categoryIds}",
+            },
+            dataType: "json",
+            type: "post",
+          },
+          check: {
+            enable: true,
+            chkboxType: {
+              "Y": "s",
+              "N": "s"
+            }
+          },
+          callback: {
+            beforeClick: beforeClickCategory,
+            onCheck: onCheckCategory
+          },
+          data: {
+            simpleData: {
+              enable: true,
+              idKey: "id",
+              pIdKey: "parentId"
+            }
+          },
+          view: {
+            fontCss: getFontCss
+          }
+        };
+        zTreeObj = $.fn.zTree.init($("#treeRole"), setting, zNodes);
+        key = $("#key");
+        key.bind("focus", focusKey)
+          .bind("blur", blurKey)
+          .bind("propertychange", searchNode)
+          .bind("input", searchNode);
+
+        var cityObj = $("#category");
+        var cityOffset = $("#category").offset();
+        $("#roleContent").css({
+          left: cityOffset.left + "px",
+          top: cityOffset.top + cityObj.outerHeight() + "px"
+        }).slideDown("fast");
+        $("body").bind("mousedown", onBodyDownOrg);
+      }
+
+      function focusKey(e) {
+        if(key.hasClass("empty")) {
+          key.removeClass("empty");
+        }
+      }
+
+      function blurKey(e) {
+        if(key.get(0).value === "") {
+          key.addClass("empty");
+        }
+      }
+      var lastValue = "",
+        nodeList = [],
+        fontCss = {};
+
+      function clickRadio(e) {
+        lastValue = "";
+        searchNode(e);
+      }
+
+      function searchNode(e) {
+        var zTree = $.fn.zTree.getZTreeObj("treeRole");
+        var value = $.trim(key.get(0).value);
+        var keyType = "name";
+        if(key.hasClass("empty")) {
+          value = "";
+        }
+        if(lastValue === value) return;
+        lastValue = value;
+        if(value === "") return;
+        updateNodes(false);
+        nodeList = zTree.getNodesByParamFuzzy(keyType, value);
+        updateNodes(true);
+      }
+
+      function updateNodes(highlight) {
+        var zTree = $.fn.zTree.getZTreeObj("treeRole");
+        for(var i = 0, l = nodeList.length; i < l; i++) {
+          nodeList[i].highlight = highlight;
+          zTree.updateNode(nodeList[i]);
+        }
+      }
+
+      function getFontCss(treeId, treeNode) {
+        return(!!treeNode.highlight) ? {
+          color: "#A60000",
+          "font-weight": "bold"
+        } : {
+          color: "#333",
+          "font-weight": "normal"
+        };
+      }
+
+      function filter(node) {
+        return !node.isParent && node.isFirstNode;
+      }
+
+      function beforeClickCategory(treeId, treeNode) {
+        var zTree = $.fn.zTree.getZTreeObj("treeRole");
+        zTree.checkNode(treeNode, !treeNode.checked, null, true);
+        return false;
+      }
+
+      function onCheckCategory(e, treeId, treeNode) {
+        var zTree = $.fn.zTree.getZTreeObj("treeRole"),
+          nodes = zTree.getCheckedNodes(true),
+          v = "";
+        var rid = "";
+        for(var i = 0, l = nodes.length; i < l; i++) {
+          v += nodes[i].name + ",";
+          rid += nodes[i].id + ",";
+        }
+        if(v.length > 0) v = v.substring(0, v.length - 1);
+        if(rid.length > 0) rid = rid.substring(0, rid.length - 1);
+        var cityObj = $("#category");
+        cityObj.attr("value", v);
+        $("#categoryIds").val(rid);
+      }
+
+      function onBodyDownOrg(event) {
+        if(!(event.target.id == "menuBtn" || event.target.id == "roleSel" || event.target.id == "roleContent" || $(event.target).parents("#roleContent").length > 0)) {
+          hideRole();
+        }
+      }
+
+      function hideRole() {
+        $("#roleContent").fadeOut("fast");
+        $("body").unbind("mousedown", onBodyDownOrg);
+
+      }
+    </script>
   </head>
 
   <body>
@@ -360,7 +510,7 @@
     </div>
     
     <div id="roleContent" class="roleContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
-	    <input type="text" id="key" value="" class="empty" /><br/>
+	    <!-- <input type="text" id="key" value="" class="empty" /><br/> -->
 	    <ul id="treeRole" class="ztree" style="margin-top:0;"></ul>
 	  </div>
 	  <div id="expertTypeContent" class="expertTypeContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
@@ -468,6 +618,19 @@
           <input   type="hidden" name="expertTypeIds"  id="expertTypeIds" value="${expertTypeIds}" /></span>
         </li>
         <li>
+        <li>
+         <label class="fl">地区：</label>
+         <select name="address" id="address" class="w220">
+           <option value=''>全部</option>
+           <c:forEach items="${privnce}" var="list">
+             <option <c:if test="${expert.address eq list.id }">selected</c:if> value="${list.id }">${list.name }</option>
+           </c:forEach>
+         </select>
+        </li>
+        <li>
+          <label class="fl">品目：</label><span><input id="category" type="text" name="categoryNames" value="${categoryNames}" readonly onclick="showCategory();" class="w220"/>
+          <input type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds}" /></span>
+        </li>
       </ul>
       <div class="col-md-12 clear tc mt10">
         <input class="btn mt1"  value="查询" type="submit">
@@ -504,6 +667,7 @@
               <!-- <th class="info">积分</th> -->
               <th class="info">专家类型</th>
               <th class="info">采购机构</th>
+              <th class="info">地区</th>
               <th class="info">专家状态</th>
             </tr>
           </thead>
@@ -539,6 +703,7 @@
               <%-- <td class="tc"  class="tc">${e.honestyScore }</td> --%>
               <td class="tc">${e.expertsFrom }</td>
               <td class="tc">${e.orgName }</td>
+              <td class="tc">${e.address }</td>
               <td class="tc" id="${e.id}">
                 <c:if test="${e.status eq '-3'}">
                   <span class="label rounded-2x label-dark">公示中</span>
