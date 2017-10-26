@@ -431,9 +431,9 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 
 
     @Override
-    public String vaProjectCode(String code) {
+    public String vaProjectCode(String code,String xmProjectId) {
         Map<String, Object> map = new HashMap<String, Object>();
-        int v = expertExtractProjectMapper.vaProjectCode(code);
+        int v = expertExtractProjectMapper.vaProjectCode(code,xmProjectId);
         if(v > 0){
             //已经存在
             map.put("status", "no");

@@ -564,8 +564,8 @@ public class ExtractExpertController {
      */
     @ResponseBody
     @RequestMapping("/vaProjectCode")
-    public String vaProjectCode(String code){
-        return expertExtractProjectService.vaProjectCode(code);
+    public String vaProjectCode(String code,String xmProjectId){
+        return expertExtractProjectService.vaProjectCode(code,xmProjectId);
     }
     
     /**

@@ -341,6 +341,9 @@
   <!-- 验证项目编号唯一 -->
   <select id="vaProjectCode" parameterType="String" resultType="Integer">
     SELECT COUNT(ID) FROM T_SES_EMS_PROJECT_EXTRACT_INFO WHERE IS_DELETED = 0 AND CODE = #{code}
+    <if test="xmProjectId != null and xmProjectId != ''">
+          AND PROJECT_ID  &lt;&gt; #{xmProjectId}
+    </if>
   </select>
   
   <!-- 修改项目抽取状态 -->
