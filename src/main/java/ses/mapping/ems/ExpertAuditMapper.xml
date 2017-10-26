@@ -297,6 +297,9 @@
     <if test="auditFieldName != '' and auditFieldName != null">
     	and AUDIT_FIELD_NAME = #{auditFieldName}
     </if>
+    <if test="auditFalg !='' and auditFalg !=null">
+        and AUDIT_FALG = #{auditFalg}
+    </if>
     <if test="type !=null ">
     	and TYPE = #{type}
     </if>
@@ -336,6 +339,9 @@
     </if>
     <if test="auditFalg !='' and auditFalg !=null">
         and AUDIT_FALG = #{auditFalg}
+    </if>
+    <if test="statusQuery!=null">
+    	AND (AUDIT_STATUS IN ('1','3','6') OR AUDIT_STATUS is null)
     </if>
     <if test="auditStatus != null and auditStatus != ''">
         and AUDIT_STATUS = #{auditStatus}

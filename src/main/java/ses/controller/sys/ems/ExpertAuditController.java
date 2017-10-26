@@ -2813,6 +2813,7 @@ public class ExpertAuditController{
 			expertAudit2.setExpertId(expert.getId());
 			expertAudit2.setSuggestType("one");
 			expertAudit2.setAuditField(str);
+			expertAudit2.setStatusQuery("notPass");
 			expertAudit2.setAuditFalg(Integer.parseInt(tableType));
 	    	List < ExpertAudit > basicFileList1 = expertAuditService.selectbyAuditType(expertAudit2);
 	    	ExpertAudit expertAuditMap = new ExpertAudit();

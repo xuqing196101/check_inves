@@ -78,7 +78,7 @@
 								<w:rPr>
 									<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体" />
 									<w:sz w:val="24" /></w:rPr>
-								<w:t>${expertNum}</w:t>
+								<w:t>专家编号：${expertNum}</w:t>
 							</w:r>
 						</w:p>
 						<w:tbl>
@@ -678,7 +678,7 @@
 											<w:rPr>
 												<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体" />
 												<w:szCs w:val="21" /></w:rPr>
-											<w:t>复审内容</w:t>
+											<w:t>专家复审内容</w:t>
 										</w:r>
 									</w:p>
 								</w:tc>
@@ -703,7 +703,7 @@
 											<w:rPr>
 												<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体" />
 												<w:szCs w:val="21" /></w:rPr>
-											<w:t>复审</w:t>
+											<w:t>专家复审</w:t>
 										</w:r>
 										<w:r>
 											<w:rPr>
