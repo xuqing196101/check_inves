@@ -314,7 +314,7 @@
                   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><div
                           class="star_red">*</div>所在地区：</span>
                   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                  	<input class="input_group " readonly name="areaName" id="area" onclick="showTree();">
+                  	<input type="text" readonly="readonly"  name="areaName" id="area" onclick="showTree();">
                   	 <span class="add-on">i</span>
                   	  <div class="cue" id="areaNameError"></div>
                   </div>
