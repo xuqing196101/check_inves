@@ -635,7 +635,25 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
         Integer selectCount;
         count = expertAuditMapper.selectRegExpCateCount(map);
         if(count != null && count > 0){
-            return JdcgResult.build(500, "基本信息中有不通过项");
+        	ExpertAudit expertAudit = new ExpertAudit();
+        	expertAudit.setExpertId(expertId);
+        	expertAudit.setAuditFalg(auditFalg);
+        	expertAudit.setSuggestType(Constant.EXPERT_BASIC_INFO_ITEM_FLAG);
+        	expertAudit.setStatusQuery("notPass");
+        	expertAudit.setIsDeleted(1);
+        	List<ExpertAudit> list = getListByExpert(expertAudit);
+        	String name="不通过";
+        	if(list.size()>0){
+	        	if(list.get(0)!=null){
+		        	if("1".equals(list.get(0).getAuditStatus())){
+		        		name="退回修改";
+		        	}
+		        	if("3".equals(list.get(0).getAuditStatus())){
+		        		name="未修改";
+		        	}
+	        	}
+        	}
+            return JdcgResult.build(500, "基本信息中有"+name+"项");
         }
 
         // 判断专家类型和产品类别分别不能有全不通过项
