@@ -1,7 +1,6 @@
 package extract.dao.supplier;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -10,7 +9,6 @@ import ses.model.bms.Category;
 import ses.model.bms.CategoryQua;
 import ses.model.bms.DictionaryData;
 import extract.model.supplier.Qua;
-import extract.model.supplier.SupplierConType;
 import extract.model.supplier.SupplierExtractCondition;
 
 
@@ -22,16 +20,15 @@ public interface SupplierExtractConditionMapper {
      */
     int deleteByPrimaryKey(String id);
 
-    /**
-     * 插入数据库记录
-     *
-     * @param record
-     */
-    int insert(SupplierExtractCondition record);
 
     /**
+     * 
+     * <简述> 动态添加一条数据
      *
+     * @author Jia Chengxiang
+     * @dateTime 2017-10-25下午8:33:10
      * @param record
+     * @return
      */
     int insertSelective(SupplierExtractCondition record);
 
@@ -41,55 +38,8 @@ public interface SupplierExtractConditionMapper {
      * @param id
      */
     SupplierExtractCondition selectByPrimaryKey(String id);
-
-    /**
-     *
-     * @param record
-     */
-    int updateByPrimaryKeySelective(SupplierExtractCondition condition);
-
-    /**
-     * 根据主键来更新数据库记录
-     *
-     * @param record
-     */
-    int updateByPrimaryKey(SupplierExtractCondition record);
     
-    /**
-     * @Description:获取集合信息
-     *
-     * @author Wang Wenshuai
-     * @version 2016年9月28日 上午10:47:15  
-     * @param @param record
-     * @param @return      
-     * @return List<SupplierCondition>
-     */
-    List<SupplierExtractCondition> list(SupplierExtractCondition record);
-    
-    
-    /**
-     * 
-     *〈简述〉根据关联包id查询是否有未抽取的条件
-     *〈详细描述〉
-     * @author Wang Wenshuai
-     * @param packid 包id 
-     * @return 数量
-     */
-    Integer getCount(String packId);
-
 	void updateConditionByPrimaryKeySelective(SupplierExtractCondition condition);
-
-	List<SupplierConType> getAreaInfoByConditionId(String id);
-	
-	void deleteAreaInfoByConditionId(String id);
-	
-	void insertAreaCondition(SupplierExtractCondition condition);
-	
-	List<SupplierConType> getTypeInfoByMap(Map<String, String> map);
-
-	void deleteTypeInfoByMap(Map<String, String> map);
-
-	void insertTypeInfo(SupplierExtractCondition condition);
 
 	List<DictionaryData> getEngAptitudeLevelByCategoryId(
 			Map<String, String[]> map);

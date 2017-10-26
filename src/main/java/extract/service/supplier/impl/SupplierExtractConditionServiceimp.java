@@ -130,24 +130,9 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	//类别是4种，每种类别对应多种品目 这里面会有关联关系前台传进来的数据是
 	//
 	//extTypeCategoryMapper.insertSupplierArea(condition);
-    conditionMapper.updateByPrimaryKeySelective(condition);
+    conditionMapper.updateConditionByPrimaryKeySelective(condition);
   }
 
-  /**
-   * @Description:集合查询
-   *
-   * @author Wang Wenshuai
-   * @version 2016年9月28日 上午10:36:20  
-   * @param @param condition
-   * @param @return      
-   * @return List<ExpExtCondition>
-   */
-  public List<SupplierExtractCondition> list(SupplierExtractCondition condition,Integer pageNum){
-    if(pageNum != null && pageNum!=0){
-      PageHelper.startPage(pageNum,PropUtil.getIntegerProperty("pageSize"));
-    }
-    return conditionMapper.list(condition);
-  }
 
   /**
    * @Description:获取单个

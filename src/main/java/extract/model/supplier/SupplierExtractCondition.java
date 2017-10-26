@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class SupplierExtractCondition {
@@ -32,14 +33,10 @@ public class SupplierExtractCondition {
    
    private String quaId;
    
-   
-    /**
-     * 关联供应商
-     */
-    private List<SupplierExtractResult> extRelatesList;
-
-    private List<String> supplierIds;
-
+   /**
+    * 排除供应商
+    */
+   private List<String> supplierIds;
     /**
      * <pre>
      * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.ID
@@ -79,30 +76,6 @@ public class SupplierExtractCondition {
      * </pre>
      */
     private String address;
-
-    /**
-     * <pre>
-     * 供应商类型
-     * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.EXPERTS_TYPE_ID
-     * </pre>
-     */
-    private String expertsTypeId;
-
-    /**
-     * <pre>
-     * 开标时间
-     * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.TENDER_TIME
-     * </pre>
-     */
-    private Date tenderTime;
-
-    /**
-     * <pre>
-     * 响应时间
-     * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.RESPONSE TIME
-     * </pre>
-     */
-    private String responseTime;
 
 
     /**
@@ -177,6 +150,7 @@ public class SupplierExtractCondition {
      */
     private String addressId;
     
+    private Short isDelete;
     
     /**
      * 抽取级别id
@@ -195,7 +169,12 @@ public class SupplierExtractCondition {
     private String[] addressIds;
     
     
+    /**
+     * 资质类型
+     */
     private String quaType;
+    
+    private Date updatedAt;
     
     /**
      * <pre>
@@ -217,6 +196,7 @@ public class SupplierExtractCondition {
         return id;
     }
 
+    
     /**
      * <pre>
      * 设置：null
@@ -305,82 +285,6 @@ public class SupplierExtractCondition {
         this.address = address == null ? null : address.trim();
     }
 
-    /**
-     * <pre>
-     * 获取：专家类型
-     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.EXPERTS_TYPE_ID
-     * </pre>
-     *
-     * @return T_SES_SMS_SUPPLIE_CONDITION.EXPERTS_TYPE_ID：专家类型
-     */
-    public String getExpertsTypeId() {
-        return expertsTypeId;
-    }
-
-    /**
-     * <pre>
-     * 设置：专家类型
-     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.EXPERTS_TYPE_ID
-     * </pre>
-     *
-     * @param expertsTypeId
-     *            T_SES_SMS_SUPPLIE_CONDITION.EXPERTS_TYPE_ID：专家类型
-     */
-    public void setExpertsTypeId(String expertsTypeId) {
-        this.expertsTypeId = expertsTypeId == null ? null : expertsTypeId.trim();
-    }
-
-    /**
-     * <pre>
-     * 获取：开标时间
-     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.TENDER_TIME
-     * </pre>
-     *
-     * @return T_SES_SMS_SUPPLIE_CONDITION.TENDER_TIME：开标时间
-     */
-    public Date getTenderTime() {
-        return tenderTime;
-    }
-
-    /**
-     * <pre>
-     * 设置：开标时间
-     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.TENDER_TIME
-     * </pre>
-     *
-     * @param tenderTime
-     *            T_SES_SMS_SUPPLIE_CONDITION.TENDER_TIME：开标时间
-     */
-    public void setTenderTime(Date tenderTime) {
-        this.tenderTime = tenderTime;
-    }
-
-    /**
-     * <pre>
-     * 获取：响应时间
-     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.RESPONSE TIME
-     * </pre>
-     *
-     * @return T_SES_SMS_SUPPLIE_CONDITION.RESPONSE TIME：响应时间
-     */
-    public String getResponseTime() {
-        return responseTime;
-    }
-
-    /**
-     * <pre>
-     * 设置：响应时间
-     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.RESPONSE TIME
-     * </pre>
-     *
-     * @param responseTime
-     *            T_SES_SMS_SUPPLIE_CONDITION.RESPONSE TIME：响应时间
-     */
-    public void setResponseTime(String responseTime) {
-        this.responseTime = responseTime == null ? null : responseTime.trim();
-    }
-
-
 
     /**
      * <pre>
@@ -459,20 +363,6 @@ public class SupplierExtractCondition {
     public SupplierExtractCondition(String projectId) {
         super();
         this.projectId = projectId;
-    }
-
-    /**
-     * @return Returns the extRelatesList.
-     */
-    public List<SupplierExtractResult> getExtRelatesList() {
-        return extRelatesList;
-    }
-
-    /**
-     * @param extRelatesList The extRelatesList to set.
-     */
-    public void setExtRelatesList(List<SupplierExtractResult> extRelatesList) {
-        this.extRelatesList = extRelatesList;
     }
 
     /**
@@ -574,7 +464,7 @@ public class SupplierExtractCondition {
     }
 
 	public String[] getAddressIds() {
-		return addressId.split(",");
+		return StringUtils.isNotBlank(addressId)?addressId.split(","):null;
 	}
 
 	public void setAddressIds(String[] addressIds) {
@@ -590,7 +480,7 @@ public class SupplierExtractCondition {
 	}
 
 	public String[] getCategoryIds() {
-		return categoryId.split(",");
+		return StringUtils.isNotBlank(categoryId)?categoryId.split(","):null;
 	}
 
 	public void setCategoryIds(String[] categoryIds) {
@@ -616,7 +506,7 @@ public class SupplierExtractCondition {
 	}
 
 	public String[] getLevelTypeIds() {
-		return levelTypeId.split(",");
+		return StringUtils.isNotBlank(levelTypeId)?levelTypeId.split(","):null;
 	}
 
 	public void setLevelTypeIds(String[] levelTypeIds) {
@@ -656,7 +546,7 @@ public class SupplierExtractCondition {
 	}
 
 	public String[] getProvinces() {
-		return province.split(",");
+		return StringUtils.isNotBlank(province)?province.split(","):null;
 	}
 
 	public void setProvinces(String[] provinces) {
@@ -664,7 +554,7 @@ public class SupplierExtractCondition {
 	}
 
 	public String[] getSupplierTypeCodes() {
-		return supplierTypeCode.split(",");
+		return StringUtils.isNotBlank(supplierTypeCode)?supplierTypeCode.split(","):null;
 	}
 
 	public void setSupplierTypeCodes(String[] supplierTypeCodes) {
@@ -713,7 +603,7 @@ public class SupplierExtractCondition {
 	}
 
 	public String[] getQuaIds() {
-		return quaId.split(",");
+		return StringUtils.isNotBlank(quaId)?quaId.split(","):null;
 	}
 
 	public void setQuaIds(String[] quaIds) {
@@ -729,15 +619,33 @@ public class SupplierExtractCondition {
 	}
 	
 	public int getCsize(){
-		return this.getCategoryIds().length;
+		return this.getCategoryIds()==null?0:this.getCategoryIds().length;
 	}
 
-	public void setQuaType(String string) {
-		
+	public void setQuaType(String quaType) {
+		this.quaType = quaType;
 	}
 
 	public String getQuaType() {
 		return quaType;
+	}
+
+	public Short getIsDelete() {
+		return isDelete;
+	}
+
+	public void setIsDelete(Short isDelete) {
+		this.isDelete = isDelete;
+	}
+
+
+	public Date getUpdatedAt() {
+		return this.updatedAt == null ? new Date():this.updatedAt;
+	}
+
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 	
 	

@@ -5,60 +5,18 @@ import java.util.List;
 import extract.model.supplier.SupplierExtractProjectInfo;
 
 public interface SupplierExtractRecordMapper {
-    /**
-     * 根据主键删除数据库的记录
-     *
-     * @param id
-     */
-    int deleteByPrimaryKey(String id);
+
 
     /**
-     * 插入数据库记录
-     *
-     * @param record
-     */
-    int insert(SupplierExtractProjectInfo record);
-
-    /**
-     *
-     * @param record
-     */
-    int insertSelective(SupplierExtractProjectInfo record);
-
-    /**
-     * 根据主键获取一条数据库记录
+     * 根据主键获取一条数据库记录(关联查询，带有省市中文名称)
      *
      * @param id
      */
     SupplierExtractProjectInfo selectByPrimaryKey(String id);
 
-    /**
-     *	动态修改项目记录表
-     * @param record
-     */
-    int updateByPrimaryKeySelective(SupplierExtractProjectInfo record);
-
-    /**
-     * 根据主键来更新数据库记录
-     *
-     * @param record
-     */
-    int updateByPrimaryKey(SupplierExtractProjectInfo record);
     
     /**
-     * @Description:获取集合信息
-     *
-     * @author Wang Wenshuai
-     * @version 2016年10月9日 下午4:59:51  
-     * @param @param record
-     * @param @return      
-     * @return List<SupplierExtracts>
-     */
-    List<SupplierExtractProjectInfo> list(SupplierExtractProjectInfo record);
-
-    
-    /**
-     * 下载记录表需要的项目信息
+     * 下载记录表需要的项目信息（仅是表数据）
      * @param id
      * @return
      */
@@ -71,8 +29,25 @@ public interface SupplierExtractRecordMapper {
 	 */
 	List<SupplierExtractProjectInfo> getList(SupplierExtractProjectInfo project);
 
+	/**
+	 * 
+	 * <简述> 修改数据
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-10-25下午9:29:03
+	 * @param projectInfo
+	 * @return
+	 */
 	int saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo);
 
+	/**
+	 * 插入数据
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-10-25下午9:29:20
+	 * @param record
+	 */
 	void insertProjectInfo(SupplierExtractProjectInfo record);
 	
 	/**

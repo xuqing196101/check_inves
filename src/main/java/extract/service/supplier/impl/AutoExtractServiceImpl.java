@@ -374,20 +374,24 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 	public Map<String, Object> exportExtractInfo(
 			SupplierExtractCondition condition, SupplierConType conType,
 			String projectInto) {
+		ArrayList<SupplierExtractProjectInfo> projectInfos = new ArrayList<>();
+		ArrayList<SupplierExtractCondition> conditions = new ArrayList<>();
+		conditions.add(condition);
 		//查询项目信息
 		SupplierExtractProjectInfo projectInfo = recordService.selectByPrimaryKey(condition.getRecordId());
+		projectInfos.add(projectInfo);
 		if(null!=projectInfo){
 			 //生成json 并保存
-            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_EXTRACT_PROJECT_PATH_FILENAME, 35),JSON.toJSONString(projectInfo));
+            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_EXTRACT_PROJECT_PATH_FILENAME, 35),JSON.toJSONString(projectInfos));
 		}
 		
 		//条件信息
-        FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_EXTRACT_PROJECT_PATH_FILENAME, 35),JSON.toJSONString(condition));
+        FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_EXTRACT_CONDITION_PATH_FILENAME, 35),JSON.toJSONString(conditions));
 		
         //详细条件
-        FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_EXTRACT_PROJECT_PATH_FILENAME, 35),JSON.toJSONString(condition));
+        //FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_EXTRACT_CONTYPE_PATH_FILENAME, 35),JSON.toJSONString(condition.getSupplierConType()));
 		
-        synchRecordService.synchBidding(new Date(), "1", Constant.DATE_SYNCH_SUPPLIER_EXTRACT, Constant.OPER_TYPE_EXPORT, Constant.SUPPLIER_EXTRACT_COMMIT);
+        synchRecordService.synchBidding(new Date(), "1", Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO, Constant.OPER_TYPE_EXPORT, Constant.SUPPLIER_EXTRACT_COMMIT);
 		return null;
 	}
 	
@@ -417,7 +421,7 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
                 for (SupplierExtractCondition condition : conditions) {
                 	SupplierExtractCondition extractCondition = conditionMapper.selectByPrimaryKey(condition.getId());
                     if(extractCondition != null){
-                    	conditionMapper.updateByPrimaryKeySelective(condition);
+                    	conditionMapper.updateConditionByPrimaryKeySelective(condition);
                     }else{
                     	conditionMapper.insertSelective(condition);
                     }
@@ -427,7 +431,7 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
                 }
             }
         }
-        synchRecordService.synchBidding(new Date(), num+"", Constant.DATE_SYNCH_SUPPLIER_EXTRACT, Constant.OPER_TYPE_IMPORT, Constant.SUPPLIER_EXTRACT_COMMIT_IMPORT);
+        synchRecordService.synchBidding(new Date(), num+"", Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO, Constant.OPER_TYPE_IMPORT, Constant.SUPPLIER_EXTRACT_COMMIT_IMPORT);
 	}
 	
 	 /**
