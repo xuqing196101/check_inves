@@ -113,6 +113,8 @@ public class SupplierMatEng implements Serializable {
 	private List<SupplierAptitute> listSupplierAptitutes = new ArrayList<SupplierAptitute>();
 
 	private List<SupplierRegPerson> listSupplierRegPersons = new ArrayList<SupplierRegPerson>();
+	
+	private List<SupplierEngQua> listSupplierEngQuas = new ArrayList<SupplierEngQua>();
 
 	public String getId() {
 		return id;
@@ -186,30 +188,6 @@ public class SupplierMatEng implements Serializable {
 		this.updatedAt = updatedAt;
 	}
 
-	public List<SupplierCertEng> getListSupplierCertEngs() {
-		return listSupplierCertEngs;
-	}
-
-	public void setListSupplierCertEngs(List<SupplierCertEng> listSupplierCertEngs) {
-		this.listSupplierCertEngs = listSupplierCertEngs;
-	}
-
-	public List<SupplierAptitute> getListSupplierAptitutes() {
-		return listSupplierAptitutes;
-	}
-
-	public void setListSupplierAptitutes(List<SupplierAptitute> listSupplierAptitutes) {
-		this.listSupplierAptitutes = listSupplierAptitutes;
-	}
-
-	public List<SupplierRegPerson> getListSupplierRegPersons() {
-		return listSupplierRegPersons;
-	}
-
-	public void setListSupplierRegPersons(List<SupplierRegPerson> listSupplierRegPersons) {
-		this.listSupplierRegPersons = listSupplierRegPersons;
-	}
-
     public String getConfidentialAchievement() {
         return confidentialAchievement;
     }
@@ -241,5 +219,37 @@ public class SupplierMatEng implements Serializable {
 	public void setBusinessScopeAreas(List<Area> businessScopeAreas) {
 		this.businessScopeAreas = businessScopeAreas;
 	}
-    
+	
+	public List<SupplierCertEng> getListSupplierCertEngs() {
+		return listSupplierCertEngs;
+	}
+
+	public void setListSupplierCertEngs(List<SupplierCertEng> listSupplierCertEngs) {
+		this.listSupplierCertEngs = listSupplierCertEngs;
+	}
+
+	public List<SupplierAptitute> getListSupplierAptitutes() {
+		return listSupplierAptitutes;
+	}
+
+	public void setListSupplierAptitutes(List<SupplierAptitute> listSupplierAptitutes) {
+		this.listSupplierAptitutes = listSupplierAptitutes;
+	}
+
+	public List<SupplierRegPerson> getListSupplierRegPersons() {
+		return listSupplierRegPersons;
+	}
+
+	public void setListSupplierRegPersons(List<SupplierRegPerson> listSupplierRegPersons) {
+		this.listSupplierRegPersons = listSupplierRegPersons;
+	}
+
+	public List<SupplierEngQua> getListSupplierEngQuas() {
+		return listSupplierEngQuas;
+	}
+
+	public void setListSupplierEngQuas(List<SupplierEngQua> listSupplierEngQuas) {
+		this.listSupplierEngQuas = listSupplierEngQuas;
+	}
+	
 }

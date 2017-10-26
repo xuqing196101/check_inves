@@ -995,6 +995,14 @@ public class SupplierController extends BaseSupplierController {
 		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		model.addAttribute("rootArea", areaService.findRootArea());
+		String businessScope = supplier.getSupplierMatEng().getBusinessScope();
+		if (businessScope != null) {
+		    String[] scope = businessScope.split(",");
+		    for (String areaId : scope) {
+		        Area area = areaService.listById(areaId);
+		        supplier.getSupplierMatEng().getBusinessScopeAreas().add(area);
+            }
+		}
 		//资质类型
 		List<Qualification> quaList = qualificationService.findList(null, Integer.MAX_VALUE, null, 4);
 		// 去掉下面的代码（只要后台维护的资质，不要供应商自己添加的资质）
@@ -1895,11 +1903,11 @@ public class SupplierController extends BaseSupplierController {
 			String pwd=supplier.getPassword();
 			supplier.setPassword(pwd.replaceAll("\\s",""));
 		}
-		if(supplier.getPassword().length() < 6 || supplier.getPassword().length() > 20) {
+		if(StringUtils.isNotBlank(supplier.getLoginName()) && (supplier.getPassword().length() < 6 || supplier.getPassword().length() > 20)) {
 			model.addAttribute("err_msg_password", "密码不能出现空格，密码长度为6-20位！");
 			count++;
 		}
-		if(supplier.getConfirmPassword() == null || !supplier.getPassword().equals(supplier.getConfirmPassword())) {
+		if(supplier.getConfirmPassword() == null || !supplier.getConfirmPassword().equals(supplier.getPassword())) {
 			model.addAttribute("err_msg_ConfirmPassword", "密码和确认密码不一致！");
 			count++;
 		}
@@ -3434,6 +3442,25 @@ public class SupplierController extends BaseSupplierController {
 		return new ModelAndView("ses/sms/supplier_register/add_sale_cert");
 	}
 
+	/**
+	 *〈简述〉添加供应商工程资质证书信息
+	 *〈详细描述〉
+	 * @author WangHuijie
+	 * @param number
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/addEngQua")
+	public ModelAndView addEngQua(String number, Model model) {
+		model.addAttribute("engQuaNumber", number);
+		model.addAttribute("id", UUID.randomUUID().toString().toUpperCase().replaceAll("-", ""));
+		//初始化供应商注册附件类型
+		model.addAttribute("typeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierEngCert());
+		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		return new ModelAndView("ses/sms/supplier_register/add_eng_qua");
+	}
+	
 	/**
 	 *〈简述〉添加供应商工程证书信息
 	 *〈详细描述〉

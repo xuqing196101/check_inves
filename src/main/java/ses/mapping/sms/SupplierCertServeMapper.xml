@@ -147,7 +147,7 @@
 		where ID = #{id}
 	</update>
 	
-	<select id="findCertSeBySupplierMatSeId" parameterType="java.lang.String" resultMap="BaseResultMap">
+	<select id="findCertSeByMatSeId" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select * from T_SES_SMS_SUPPLIER_CERT_SERVE where MAT_SERVE_ID = #{supplierMatServeId}
 	</select>
 	
