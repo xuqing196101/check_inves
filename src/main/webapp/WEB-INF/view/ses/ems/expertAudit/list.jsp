@@ -449,8 +449,8 @@
               <th class="info">技术职称(职务)</th>
               <th class="info">类型</th>
               <th class="info">类别</th>
-              <th class="info">提交时间</th>
-              <th class="info">初审时间</th>
+              <th class="info">最新提交时间</th>
+              <th class="info">最新审核时间</th>
               <th class="info">审核人</th>
               <th class="info">状态</th>
               

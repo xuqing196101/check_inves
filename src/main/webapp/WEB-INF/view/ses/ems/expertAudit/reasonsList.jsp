@@ -650,7 +650,8 @@
                             <!-- 状态 -->
                             <c:if test="${reasons.auditStatus eq '1'}"><td class="tc">退回修改</td></c:if>
                             <c:if test="${reasons.suggestType eq 'six' && reasons.auditStatus eq '2'}"><td class="tc">审核不通过</td></c:if>
-                            <c:if test="${reasons.suggestType != 'six' && reasons.auditStatus eq '2'}"><td class="tc">已修改</td></c:if>
+                            <c:if test="${reasons.suggestType eq 'seven' && reasons.type eq '1' && reasons.auditFieldId != 'isTitle' && reasons.auditStatus eq '2'}"><td class="tc">审核不通过</td></c:if>
+                            <c:if test="${reasons.suggestType != 'six' && reasons.auditStatus eq '2' && !(reasons.suggestType eq 'seven' && reasons.type eq '1' && reasons.auditFieldId != 'isTitle' && reasons.auditStatus eq '2') }"><td class="tc">已修改</td></c:if>
                             <c:if test="${reasons.auditStatus eq '3'}"><td class="tc">未修改</td></c:if>
                             <c:if test="${reasons.auditStatus eq '4'}"><td class="tc">撤销退回</td></c:if>
                             <c:if test="${reasons.auditStatus eq '5'}"><td class="tc">撤销不通过</td></c:if>
@@ -830,6 +831,7 @@
     <input name="sign" value="${sign}" type="hidden">
     <input name="status" id="expertStatus" value="${status}" type="hidden">
     <input name="batchId" value="${batchId}" type="hidden">
+    <input name="isReviewRevision" value="${isReviewRevision}" type="hidden">
 </form>
 
 <form id="form_id_word" method="post">

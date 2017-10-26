@@ -360,7 +360,7 @@ public class ExpertAuditController{
 	 * @throws IllegalAccessException 
 	 */
 	@RequestMapping("/basicInfo")
-	public String basicInfo(@CurrentUser User user,Expert expert, Model model, Integer pageNum, String expertId, Integer sign, String batchId) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	public String basicInfo(@CurrentUser User user,Expert expert, Model model, Integer pageNum, String expertId, Integer sign, String batchId, String isReviewRevision) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		model.addAttribute("batchId", batchId);
 		//暂存中
 		temporaryAudit(expertId,user.getRelName());
@@ -462,7 +462,7 @@ public class ExpertAuditController{
 		model.addAttribute("expertId", expertId);
 		//  判断当前状态如果为退回修改则比较两次的信息
 		// 判断有没有进行修改
-		if(expert.getStatus() != null || expert.getStatus().equals("0") || "9".equals(expert.getStatus())) {
+		if(expert.getStatus().equals("0") || "9".equals(expert.getStatus())) {
 			ExpertHistory oldExpert = service.selectOldExpertById(expertId);
 			if(oldExpert != null) {
 				Map < String, Object > compareMap = compareExpert(oldExpert, (ExpertHistory) expert);
@@ -620,6 +620,18 @@ public class ExpertAuditController{
 					}
 				model.addAttribute("fileModify", fileModify);
 			}
+		}
+		
+		// 查询审核最终意见,是否有记录（复审退回修改给采购机构，采购机构确认后退回给专家，专家修改完再提交后，《显示专家复审意见标签及意见信息》）
+		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+		expertAuditOpinion.setFlagAudit(10);
+		expertAuditOpinion.setFlagTime(1);
+		expertAuditOpinion.setExpertId(expertId);
+		expertAuditOpinion = expertAuditOpinionService.findByExpertId(expertAuditOpinion);
+		if(expertAuditOpinion !=null){
+			model.addAttribute("isReviewRevision", "yes");
+		}else{
+			model.addAttribute("isReviewRevision", "no");
 		}
 
 		return "ses/ems/expertAudit/basic_info";
@@ -859,7 +871,9 @@ public class ExpertAuditController{
 	 * @return String
 	 */
 	@RequestMapping("/product")
-	public String product(Expert expert, Model model, String expertId, Integer sign, String batchId) {
+	public String product(Expert expert, Model model, String expertId, Integer sign, String batchId, String isReviewRevision) {
+		// 查询审核最终意见,是否有记录（复审退回修改给采购机构，采购机构确认后退回给专家，专家修改完再提交后，《显示专家复审意见标签及意见信息》的标识）
+		model.addAttribute("isReviewRevision", isReviewRevision);
 		//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
 		model.addAttribute("batchId", batchId);
@@ -906,6 +920,7 @@ public class ExpertAuditController{
 
 		model.addAttribute("goodsServerId", goodsServerId);
 		model.addAttribute("goodsProjectId", goodsProjectId);
+		
 		
 		return "ses/ems/expertAudit/product";
 	}
@@ -1319,7 +1334,7 @@ public class ExpertAuditController{
 	 * @return String
 	 */
 	@RequestMapping("/expertFile")
-	public String expertFile(Expert expert, Model model, String expertId, Integer sign, String batchId) {
+	public String expertFile(Expert expert, Model model, String expertId, Integer sign, String batchId, String isReviewRevision) {
 		//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
 		model.addAttribute("batchId", batchId);
@@ -1370,6 +1385,9 @@ public class ExpertAuditController{
 				model.addAttribute("fileModify", fileModify);
 			}
 		}
+		
+		// 查询审核最终意见,是否有记录（复审退回修改给采购机构，采购机构确认后退回给专家，专家修改完再提交后，《显示专家复审意见标签及意见信息》的标识）
+		model.addAttribute("isReviewRevision", isReviewRevision);
 		return "ses/ems/expertAudit/expertFile";
 	}
 
@@ -1450,7 +1468,7 @@ public class ExpertAuditController{
 	 * @return String
 	 */
 	@RequestMapping("/expertType")
-	public String expertType(ExpertAudit expertAudit, Model model, String expertId, Integer sign, String batchId) {
+	public String expertType(ExpertAudit expertAudit, Model model, String expertId, Integer sign, String batchId, String isReviewRevision) {
 		model.addAttribute("batchId", batchId);
 		//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
@@ -1690,6 +1708,9 @@ public class ExpertAuditController{
 				model.addAttribute("fileModify", fileModify);
 			}
 		}
+		
+		// 查询审核最终意见,是否有记录（复审退回修改给采购机构，采购机构确认后退回给专家，专家修改完再提交后，《显示专家复审意见标签及意见信息》的标识）
+		model.addAttribute("isReviewRevision", isReviewRevision);
 		return "ses/ems/expertAudit/expertType";
 	}
 
@@ -1734,7 +1755,7 @@ public class ExpertAuditController{
 	 * @return String
 	 */
 	@RequestMapping("/reasonsList")
-	public String reasonsList(ExpertAudit expertAudit, Model model, String expertId, Integer sign, String batchId) {
+	public String reasonsList(ExpertAudit expertAudit, Model model, String expertId, Integer sign, String batchId, String isReviewRevision) {
 		//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
 		model.addAttribute("batchId", batchId);
@@ -1923,6 +1944,8 @@ public class ExpertAuditController{
 			fileUploadItem(model);
 		}
 		
+		// 查询审核最终意见,是否有记录（复审退回修改给采购机构，采购机构确认后退回给专家，专家修改完再提交后，《显示专家复审意见标签及意见信息》的标识）
+		model.addAttribute("isReviewRevision", isReviewRevision);
 		return "ses/ems/expertAudit/reasonsList";
 	}
 
@@ -2790,6 +2813,7 @@ public class ExpertAuditController{
 			expertAudit2.setExpertId(expert.getId());
 			expertAudit2.setSuggestType("one");
 			expertAudit2.setAuditField(str);
+			expertAudit2.setStatusQuery("notPass");
 			expertAudit2.setAuditFalg(Integer.parseInt(tableType));
 	    	List < ExpertAudit > basicFileList1 = expertAuditService.selectbyAuditType(expertAudit2);
 	    	ExpertAudit expertAuditMap = new ExpertAudit();
@@ -3496,7 +3520,7 @@ public class ExpertAuditController{
      *复审时查看的初审信息
      */
     @RequestMapping(value = "/preliminaryInfo")
-    public String preliminaryInfo(Model model, String expertId, Integer sign, String batchId){
+    public String preliminaryInfo(Model model, String expertId, Integer sign, String batchId, String isReviewRevision){
     	//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
 		model.addAttribute("batchId", batchId);
@@ -3591,6 +3615,9 @@ public class ExpertAuditController{
 		if(sign == 2){
 			fileUploadItem(model);
 		}
+		
+		// 查询审核最终意见,是否有记录（复审退回修改给采购机构，采购机构确认后退回给专家，专家修改完再提交后，《显示专家复审意见标签及意见信息》的标识）
+		model.addAttribute("isReviewRevision", isReviewRevision);
     	return "ses/ems/expertAudit/preliminary_info";
     }
     
