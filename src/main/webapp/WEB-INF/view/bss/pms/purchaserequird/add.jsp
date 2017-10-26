@@ -7,6 +7,8 @@
     <%@ include file="/WEB-INF/view/common.jsp" %>
     <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
     <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
+    <link href="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.js"></script>
 
     <script type="text/javascript">
 	
@@ -1463,30 +1465,29 @@
           <div class="col-md-12 col-xs-12 col-sm-12 mt5 over_auto" style="max-height:300px" id="add_div">
 
             <form id="add_form" action="${pageContext.request.contextPath}/purchaser/adddetail.html" method="post">
-              <table id="table" class="table table-bordered table-condensed lockout table_input ">
+              <table id="table" class="table table-bordered table_input">
                 <thead>
                   <tr class="space_nowrap">
-                    <th class="seq">行号</th>
-                    <th class="seq">序号</th>
-                    <th class="department">需求部门</th>
-                    <th class="goodsname">物资类别及<br/>物资名称</th>
-                    <th class="stand">规格型号</th>
-                    <th class="qualitstand">质量技术标准<br/>（技术参数）</th>
-                    <th class="item">计量<br/>单位</th>
-                    <th class="purchasecount">采购<br/>数量</th>
-                    <th class="price">单价<br/>（元）</th>
-                    <th class="budget">预算金额<br/>（万元）</th>
-                    <th class="deliverdate">交货<br/>期限</th>
-                    <th class="purchasetype">采购方式<br/>建议</th>
-                    <th class="purchasename">供应商名称</th>
-                    <th name="userNone" class="freetax">是否申请<br/>办理免税</th>
-                    <th name="userNone" class="goodsuse">物资用途<br/>（仅进口）</th>
-                    <th name="userNone" class="useunit">使用单位<br/>（仅进口）</th>
-                    <th class="memo">备注</th>
-                    <th name="file_up" class="extrafile">附件</th>
-                    <th class="w100">操作</th>
+                    <th class="w50">行号</th>
+                    <th class="w50">序号</th>
+                    <th class="w80">需求部门</th>
+                    <th class="w180">物资类别及物资名称</th>
+                    <th class="w80">规格型号</th>
+                    <th class="w180">质量技术标准（技术参数）</th>
+                    <th class="w80">计量单位</th>
+                    <th class="w80">采购数量</th>
+                    <th class="w80">单价（元）</th>
+                    <th class="w100">预算金额（万元）</th>
+                    <th class="w80">交货期限</th>
+                    <th class="w100">采购方式建议</th>
+                    <th class="w100">供应商名称</th>
+                    <th class="w180">是否申请办理免税</th>
+                    <th class="w180">物资用途（仅进口）</th>
+                    <th class="w180">使用单位（仅进口）</th>
+                    <th class="w120">备注</th>
+                    <th class="w80">附件</th>
+                    <th class="w80">操作</th>
                   </tr>
-
                 </thead>
                 <tbody id="detailZeroRow">
                   <c:if test="${plist==null }">
@@ -1732,7 +1733,15 @@
         <input type="button" class="btn input" onclick="rest()" value="清空" />
       </div>
     </div>
+    
+  <script>
+    // 锁表头锁表列
+    $(function () {
+      $('#table').m_fixedTable({
+        fixedNumber: 2
+      });
+    });
+  </script>
 
-  </body>
-
+</body>
 </html>
