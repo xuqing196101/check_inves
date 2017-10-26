@@ -59,10 +59,10 @@
            		getCheckOpinionType(expertId);
            	}
            	if(checkVal == '5'){
-           		$("#cate_result").html("预复审不合格 。");
+           		$("#cate_result").html("预复审不合格。");
            	}
            	if(checkVal == '10'){
-           		$("#cate_result").html("退回修改 。");
+           		$("#cate_result").html("退回修改。");
            	}
             
             //控制《预初审合格》《预初审不合格》
