@@ -420,7 +420,7 @@ public class ExpertServiceImpl implements ExpertService {
 				    map.put("expert", "2");
 				}else if(expert.getStatus().equals("6")){
                     // 复查合格
-                    map.put("expert", "7");
+                    /*map.put("expert", "7");*/
                 }else if(expert.getStatus().equals("7") && 1 == expert.getIsProvisional()){
                     // 临时专家,并且参加的评审项目已结束
                     map.put("expert", "7");
