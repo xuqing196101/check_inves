@@ -644,7 +644,9 @@ public class ProjectServiceImpl implements ProjectService {
 		List<Packages> findByIds = packageMapper.findByID(hashMap);
 		if(findByIds != null && findByIds.size() > 0){
 			for (Packages packages : findByIds) {
-				if (!StringUtils.equals(packages.getProjectStatus(), DictionaryDataUtil.getId("ZJZXTP")) && !StringUtils.equals(packages.getProjectStatus(), DictionaryDataUtil.getId("YZZ"))) {
+				if (!StringUtils.equals(packages.getProjectStatus(), DictionaryDataUtil.getId("ZJZXTP")) &&
+						!StringUtils.equals(packages.getProjectStatus(), DictionaryDataUtil.getId("YZZ")) && 
+						!StringUtils.equals(packages.getProjectStatus(), DictionaryDataUtil.getId("ZJTSHZ"))) {
 					packages.setProjectStatus(status);
 					packageMapper.updateByPrimaryKeySelective(packages);
 				}

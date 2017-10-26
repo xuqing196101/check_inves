@@ -225,8 +225,34 @@
 		}
 	}
 	//转为竞争性谈判
+	var indexAudit;
 	function updateJZ(projectId, packageId,flowDefineId){
 		$.ajax({
+				url: "${pageContext.request.contextPath}/packageExpert/isFirstGather.do",
+				data: {"projectId": projectId, "packageId": packageId, "flowDefineId":flowDefineId},
+				dataType:'json',
+				success:function(result){
+		    	if(!result.success){
+	           layer.msg(result.msg);
+		    	}else{
+		    		indexAudit = layer.open({
+			  	    shift: 1, //0-6的动画形式，-1不开启
+			  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+			  	    title: ['提示','border-bottom:1px solid #e5e5e5'],
+			  	    shade:0.01, //遮罩透明度
+				  		type : 2,
+				  		area : [ '30%', '400px'  ], //宽高
+				  		content : '${pageContext.request.contextPath}/packageAdvice/auditFile.do?pachageIds=' + packageId + '&projectId=' + projectId + '&currHuanjieId='+flowDefineId+'&type=2',
+						});
+		    	}
+       },
+     	 error: function(result){
+         layer.msg("符合性检查结束失败",{offset: ['222px']});
+     		}
+			});
+		
+	
+		/* $.ajax({
 			url:"${pageContext.request.contextPath}/open_bidding/transformationJZXTP.do",
 			data:{"packageIds":packageId,
 				  "projectId":projectId,
@@ -259,7 +285,7 @@
 	   				layer.msg("不能转为竞争性谈判");
 	   			}
 	   		}
-  		});
+  		}); */
 	}
 	//继续实施
 	function continueSs(projectId, packageId,flowDefineId){
