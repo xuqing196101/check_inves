@@ -595,6 +595,7 @@ public class ExpertController extends BaseController {
 	            expertAudit.setExpertId(expertId);
 	            expertAudit.setSuggestType(stepNumber);
 	            expertAudit.setStatusQuery("notPass");
+	            expertAudit.setIsDeleted(1);
 	            List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);
 	            // 所有的不通过字段的名字
 	            StringBuffer errorField = new StringBuffer();
@@ -611,6 +612,7 @@ public class ExpertController extends BaseController {
     			expertAuditFor.setSuggestType("seven");
     			expertAuditFor.setType("1");
     			expertAuditFor.setStatusQuery("notPass");
+    			expertAuditFor.setIsDeleted(1);
     			List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
     			
     			
