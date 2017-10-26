@@ -10,7 +10,7 @@
     var el = this;
     var fixedHeader = '<div class="mfixed-header"></div>';
     var fixedHeader_columns = '<div class="mfixed-header-columns"></div>';
-    var fixedColumns = '<div class="mfixed-columns"><table class="table table-bordered table-hover"><tbody></tbody></table></div>';
+    var fixedColumns = '<div class="mfixed-columns"><table class="'+ $(el).attr('class') +'"><tbody></tbody></table></div>';
     
     var build_structure = function () {
       // 初始化结构
@@ -37,8 +37,8 @@
           header_columns_html += '<th style="width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'px">'+ $(this).html() +'</th>';
         }
       });
-      header_html = '<table class="table table-bordered" style="width: '+ $(el).find('thead').width() +'px"><thead>'+ header_html +'</thead></table>';
-      header_columns_html = '<table class="table table-bordered"><thead>'+ header_columns_html +'</thead></table>';
+      header_html = '<table class="'+ $(el).attr('class') +'" style="width: '+ $(el).find('thead').width() +'px"><thead>'+ header_html +'</thead></table>';
+      header_columns_html = '<table class="'+ $(el).attr('class') +'"><thead>'+ header_columns_html +'</thead></table>';
       
       // 构造冻结列html
       var columns_startIndex = 0;
