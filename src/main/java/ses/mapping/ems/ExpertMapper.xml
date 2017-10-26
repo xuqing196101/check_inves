@@ -180,12 +180,23 @@
         T1.COVER_NOTE,
         T1.AUDIT_TEMPORARY,
         T2.LOGIN_NAME AS loginName,
-        org.SHORT_NAME AS orgName
+        org.SHORT_NAME AS orgName,
+        AREA.NAME AS ADDRESS
       from
         T_SES_EMS_EXPERT t1
         LEFT JOIN T_SES_BMS_USER t2 ON T1.ID = T2.TYPE_ID
         LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON T1.PURCHASE_DEP_ID = dep.ID
         LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
+        LEFT JOIN T_SES_BMS_AREA A ON t1.address = A.ID
+        LEFT JOIN T_SES_BMS_AREA AREA ON A.PARENT_ID = AREA.ID
+        <if test="expertCategoryId != null and expertCategoryId != ''">
+          RIGHT JOIN (
+            select expert_id as expertId from T_SES_EMS_EXPERT_CATEGORY where category_id in 
+            (<foreach collection="expertCategoryId" item="categoryId" index="index"  open="" separator="," close="">
+              #{categoryId}
+            </foreach>) 
+          ) t5  on t1.ID = t5.expertId
+        </if>
         where 1=1 and IS_DELETE = 0
         <if test="relName != null and relName !=''">
             AND T1.REAL_NAME like CONCAT(CONCAT('%', #{relName}), '%')
@@ -233,6 +244,9 @@
         <if test="auditTemporary !=null">
           and T1.AUDIT_TEMPORARY = #{auditTemporary}
         </if>
+        <if test="address != null and address !=''">
+		      AND A.PARENT_ID = #{address}
+		    </if>
         ORDER BY T1.SUBMIT_AT DESC NULLS LAST
     </select>
 
