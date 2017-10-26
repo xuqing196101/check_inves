@@ -540,11 +540,15 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		String ob = (String)class1.getMethod("get"+code+"OverseasBranch").invoke(conType);
 		String qid = (String)class1.getMethod("get"+code+"QuaId").invoke(conType);
 		//String qname = (String)class1.getMethod("get"+code+"QuaName").invoke(conType);
-		if(null != mu){
-			condition.setIsMulticondition(mu);
-		}
 		if(StringUtils.isNotBlank(cid)){
 			condition.setCategoryId(cid);
+		}
+		if(null != mu){
+			if(2==mu && StringUtils.isNotBlank(cid)){
+				int size = conditionMapper.seleselectChildCate(cid.split(",")).size();
+				condition.setCsize(size);
+			}
+			condition.setIsMulticondition(mu);
 		}
 		//若勾选了父节点
 		if(StringUtils.isNotBlank(pid)){

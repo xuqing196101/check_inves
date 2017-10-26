@@ -77,7 +77,13 @@ public class SupplierExtractCondition {
      */
     private String address;
 
-
+    /**
+     * 品目同时满足时 sql查询用
+     */
+    private int csize;
+    
+    private Short quaSize;
+    
     /**
      * <pre>
      * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.SUPPLIER_LEVEL
@@ -618,10 +624,6 @@ public class SupplierExtractCondition {
 		this.quaId = quaId;
 	}
 	
-	public int getCsize(){
-		return this.getCategoryIds()==null?0:this.getCategoryIds().length;
-	}
-
 	public void setQuaType(String quaType) {
 		this.quaType = quaType;
 	}
@@ -646,6 +648,25 @@ public class SupplierExtractCondition {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+
+	public Short getQuaSize() {
+		return quaSize;
+	}
+
+
+	public void setQuaSize(Short quaSize) {
+		this.quaSize = quaSize;
+	}
+
+
+	public void setCsize(int size) {
+		this.csize = size;
+	}
+	
+	public int getCsize(){
+		return this.csize;
 	}
 	
 	
