@@ -36,6 +36,7 @@
     <result column="CONTACT_NUM" jdbcType="VARCHAR" property="contactNum" />
     <result column="PROVINCE_NAME" jdbcType="VARCHAR" property="provinceName" />
     <result column="CITY_NAME" jdbcType="VARCHAR" property="cityName" />
+    <result column="EXTRACT_USER" jdbcType="VARCHAR" property="extractUser" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
@@ -50,7 +51,7 @@
     <!--
     @mbggenerated
     -->
-    E.ID,E.PROJECT_NAME,E.EXTRACTION_TIME,E.PACKAGE_NAME,E.PROJECT_ID,E.PROJECT_CODE,E.STATUS,E.CREATED_AT
+    E.ID,E.PROJECT_NAME,E.EXTRACTION_TIME,E.PACKAGE_NAME,E.PROJECT_ID,E.PROJECT_CODE,E.STATUS,E.CREATED_AT,E.EXTRACT_USER
    <!--  E.ID,E.CONDITION_ID,E.PROJECT_ID,E.STATUS,E.PROJECT_NAME,E.PROJECT_CODE,E.EXTRACTION_TIME,E.PACKAGE_NAME,E.EXTRACT_THE_WAY,E.EXTRACTS_PEOPLE,E.PURCHASE_TYPE,E.TENDER_AT,D.NAME PURCHASE_TYPE_NAME -->
   </sql>
  
@@ -235,6 +236,9 @@
       <if test="projectInto != null">
         PROJECT_INTO,
       </if>
+      <if test="extractUser != null">
+        EXTRACT_USER,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -273,6 +277,9 @@
       </if>
        <if test="projectInto != null">
        	#{projectInto,jdbcType=VARCHAR},
+      </if>
+       <if test="extractUser != null">
+       	#{extractUser,jdbcType=VARCHAR},
       </if>
     </trim>
     </insert>
