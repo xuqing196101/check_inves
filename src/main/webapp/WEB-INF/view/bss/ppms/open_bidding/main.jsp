@@ -264,7 +264,7 @@
     <div class="pr mt20 mb40">
       <!-- 左侧导航开始 -->
       <div class="m_tree_nav open" id="show_tree_div">
-        <div class="btn_toggle" onclick="tree_toggle()">收<br>起</div>
+        <div class="btn_toggle" onclick="tree_toggle()"><img src="${pageContext.request.contextPath }/public/backend/images/btn_toggle.png" alt=""></div>
         <ul class="btn_list" id="menu">
           <c:forEach items="${fds}" var="fd">
             <!-- 已执行 -->

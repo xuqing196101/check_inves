@@ -341,17 +341,17 @@
         <table id="table" class="table table-bordered table-hover mb0" style="min-width: 1600px;">
           <thead>
             <tr>
-              <th>选择</th>
-              <th>序号</th>
-              <th>需求部门</th>
-              <th>物资类别<br/>及名称</th>
-              <th>规格型号</th>
-              <th>质量技术标准<br/>(技术参数)</th>
-              <th>计量<br/>单位</th>
-              <th>采购<br/>数量</th>
-              <th>交货<br/>期限</th>
-              <th>采购方式</th>
-              <th>供应商名称</th>
+              <th class="w50">选择</th>
+              <th class="w50">序号</th>
+              <th class="w120">需求部门</th>
+              <th class="w120">物资类别<br/>及名称</th>
+              <th class="w120">规格型号</th>
+              <th class="w120">质量技术标准<br/>(技术参数)</th>
+              <th class="w50">计量<br/>单位</th>
+              <th class="w50">采购<br/>数量</th>
+              <th class="w180">交货期限</th>
+              <th class="w80">采购方式</th>
+              <th class="w120">供应商名称</th>
               <!-- <th class="info freetax">是否申请<br/>办理免税</th>
               <th class="info goodsuse">物资用途<br/>（进口）</th>
               <th class="info useunit">使用单位<br/>（进口）</th> -->

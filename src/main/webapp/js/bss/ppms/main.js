@@ -523,13 +523,11 @@ function closelayer(){
 function tree_toggle() {
 	if ($('#show_tree_div').hasClass('open')) {
 		$('#show_tree_div').removeClass('open');
-		$('#show_tree_div .btn_toggle').html('展<br>开');
 		$('#show_tree_div').animate({
 			left: '-180'
 		});
 	} else {
 		$('#show_tree_div').addClass('open');
-		$('#show_tree_div .btn_toggle').html('收<br>起');
 		$('#show_tree_div').animate({
 			left: '0'
 		});

@@ -1989,23 +1989,24 @@ table.lockout .extrafile{
 		.m_tree_nav .btn_toggle {
 			position: absolute;
 			top: 0;
-			right: -31px;
-			width: 31px;
+			right: -30px;
+			width: 30px;
 			height: 80px;
 			color: #FFF;
-			font-size: 16px;
-			line-height: 24px;
-			padding-top: 14px;
+			font-size: 0px;
+			line-height: normal;
 			cursor: pointer;
 			text-align: center;
+			margin-left: -30px;
 			background-color: #8fc31f;
 			border-radius: 0 10px 10px 0 !important;
 			/*background-image: url(../images/btn_toggle.png);
 			background-repeat: no-repeat;
 			background-position: -34px 0;*/
+			overflow: hidden;
 		}
-		.m_tree_nav.open .btn_toggle {
-			background-position: 0 0;
+		.m_tree_nav.open .btn_toggle img {
+		  margin-left: 0;
 		}
 		
 		/* 复审-批次专家创建新列表样式 */

@@ -41,19 +41,19 @@
       <table class="table table-bordered table-condensed table-hover table-striped">
         <thead>
           <tr class="info">
-            <th class="w200">供应商名称</th>
-            <th style="width: 110px;">&nbsp;总报价&nbsp;（万元）</th>
-            <th style="width: 50px;">总得分</th>
-            <th style="width: 20px;">排名</th>
-            <th style="width: 50px;">中标状态</th>
-            <th class="w50">占比（%）</th>
+            <th>供应商名称</th>
+            <th class="w120">总报价（万元）</th>
+            <th class="w100">总得分</th>
+            <th class="w80">排名</th>
+            <th class="w100">中标状态</th>
+            <th class="w120">占比（%）</th>
             <th class="w100">实际成交总价（万元）</th>
-            <th style="width: 80px;">操作</th>
+            <th class="w120">操作</th>
           </tr>
         </thead>
         <c:forEach items="${supplierCheckPass}" var="checkpass" varStatus="vs">
           <tr id="${checkpass.id}">
-            <td class="opinter" title="${checkpass.supplier.supplierName }">
+            <td class="tc opinter" title="${checkpass.supplier.supplierName }">
               <c:choose>
                 <c:when test="${fn:length(checkpass.supplier.supplierName) >10}">
                   <a href="javascript:void(0)" onclick="openTheDetail('${checkpass.id}',this)">${fn:substring(checkpass.supplier.supplierName , 0, 10)}...</a>
