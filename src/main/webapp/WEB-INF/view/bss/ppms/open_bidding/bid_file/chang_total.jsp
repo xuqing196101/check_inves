@@ -207,21 +207,25 @@
 	<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
 		<div class="col-md-12 col-sm-12 col-xs-12 p0">
 			 	<c:if test="${vsKey.index ==0 }">
-				 	<h2  onclick="ycDiv(this,'${vsKey.index}')" <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ' || mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP'}">
+				 	<h2  onclick="ycDiv(this,'${vsKey.index}')" <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ' || mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP' || mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHZ'}">
 				 	class="count_flow hand fl spread" </c:if>class="count_flow spread hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ'}"><span class="star_red">[该包已终止]</span></c:if> 
-				 	<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP'}"><span class="star_red">[该包已转竞谈]</span></c:if> </span>
+				 	<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP'}"><span class="star_red">[该包已转竞谈]</span></c:if>
+				 <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHZ'}"><span class="star_red">[该包转竞谈审核中]</span></c:if>
+				  </span>
 				 	<span>项目预算报价(万元)：${fn:substringAfter(treemapKey, "|")}</span>
 				 	</h2>
 			 	</c:if>
 			 	<c:if test="${vsKey.index != 0 }">
-				 	<h2  onclick="ycDiv(this,'${vsKey.index}')" <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ' || mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP'}">
+				 	<h2  onclick="ycDiv(this,'${vsKey.index}')" <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ' || mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP' || mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHZ'}">
 				 	class="count_flow hand fl spread" </c:if>class="count_flow shrink hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ'}"><span class="star_red">[该包已终止]</span></c:if>
-				 	 <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP'}"><span class="star_red">[该包已转竞谈]</span></c:if></span>
+				 	 <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP'}"><span class="star_red">[该包已转竞谈]</span></c:if>
+				 	 <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHZ'}"><span class="star_red">[该包转竞谈审核中]</span></c:if>
+				 	 </span>
 				 	<span>项目预算报价(万元)：${fn:substringAfter(treemapKey, "|")}</span>
 				 	</h2>
 			 	</c:if>
         </div>
-        <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'YZZ' && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJZXTP'}"> 
+        <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'YZZ' && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJZXTP' && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJTSHZ'}"> 
         <div class="p0 ${vsKey.index} w100p clear">
 		<table class="table table-bordered table-condensed mt5 left_table table_input">
 			<thead>

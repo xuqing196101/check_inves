@@ -43,7 +43,7 @@
       <form id="form">
         <h2 class="count_flow"><i>1</i>项目信息</h2>
         <input value = "${projectId}" type = "hidden" name = "id" id = "projectId">
-        <input value = "${expertExtractProject.projectId}" type = "hidden" name = "projectId" >
+        <input value = "${expertExtractProject.projectId}" type = "hidden" name = "projectId" id = "xmProjectId">
         <input value = "${expertExtractProject.packageId}" type = "hidden" name = "packageId" id="packageId">
         <input type = "hidden" name = "isAuto" id = "isAuto">
         <ul class="ul_list">

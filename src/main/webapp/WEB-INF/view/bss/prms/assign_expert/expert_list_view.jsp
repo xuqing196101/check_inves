@@ -121,13 +121,17 @@
         <h2 class="list_title">专家名单</h2>
         <c:forEach items="${packages}" var="pack" varStatus="vs">
         <div class="over_hideen">
-			<h2 onclick="ycDiv(this,'${vs.index}')" <c:if test="${pack.projectStatus=='YZZ' || pack.projectStatus=='ZJZXTP'}">class="count_flow hand fl spread"</c:if>class="count_flow shrink hand fl clear" id="package">包名:<span class="f15 blue">${pack.name}</span><c:if test="${pack.projectStatus=='YZZ'}"><span class="star_red">[该包已终止]</span></c:if><c:if test="${pack.projectStatus=='ZJZXTP'}"><span class="star_red">[该包已转竞谈]</span></c:if>
+			<h2 onclick="ycDiv(this,'${vs.index}')" 
+			<c:if test="${pack.projectStatus=='YZZ' || pack.projectStatus=='ZJZXTP' || pack.projectStatus=='ZJTSHZ'}">class="count_flow hand fl spread"</c:if>class="count_flow shrink hand fl clear" id="package">包名:<span class="f15 blue">${pack.name}</span>
+			<c:if test="${pack.projectStatus=='YZZ'}"><span class="star_red">[该包已终止]</span></c:if>
+			<c:if test="${pack.projectStatus=='ZJZXTP'}"><span class="star_red">[该包已转竞谈]</span></c:if>
+			<c:if test="${pack.projectStatus=='ZJTSHZ'}"><span class="star_red">[该包转竞谈审核中]</span></c:if>
           	</h2>
        		<div class="fl mt20 ml10">
-             <button class="btn"  <c:if test="${pack.projectStatus=='YZZ' || pack.projectStatus=='ZJZXTP'}">disabled="disabled"</c:if>onclick="resetPwd('${vs.index}');" type="button">重置密码</button>
+             <button class="btn"  <c:if test="${pack.projectStatus=='YZZ' || pack.projectStatus=='ZJZXTP' || pack.projectStatus=='ZJTSHZ'}">disabled="disabled"</c:if>onclick="resetPwd('${vs.index}');" type="button">重置密码</button>
            	</div>
         </div>
-        <c:if test="${pack.projectStatus!='YZZ' || pack.projectStatus=='ZJZXTP'}">
+        <c:if test="${pack.projectStatus ne 'YZZ' || pack.projectStatus ne 'ZJZXTP' || pack.projectStatus ne 'ZJTSHZ'}">
        	<div class="p0${vs.index} hide">
         	<table class="table table-bordered table-condensed table-hover table-striped mt5 space_nowrap">
 	            <thead>
