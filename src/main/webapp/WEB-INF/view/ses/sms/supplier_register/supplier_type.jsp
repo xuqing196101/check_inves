@@ -2395,7 +2395,7 @@
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w200">
-																 	<input type="text" class="border0"   maxlength="30" onkeyup="checkInputLength(this,30)"
+																 	<input type="text" class="border0"   maxlength="30" 
 																 		<c:if test="${!fn:contains(engPageField,engQua.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																		name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].name"
 																		value="${engQua.name}" />
@@ -2405,7 +2405,7 @@
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w150">
-															 		<input type="text" class="border0" maxlength="30" onkeyup="checkInputLength(this,30)" 
+															 		<input type="text" class="border0" maxlength="30"  
 																 		<c:if test="${!fn:contains(engPageField,engQua.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																		name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].code"
 																		value="${engQua.code}" />
@@ -2414,7 +2414,7 @@
 															
 															<!--工程 资质等级 -->	
 															<td class="tc"
-																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>><input maxlength="30" onkeyup="checkInputLength(this,30)"
+																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>><input maxlength="30" 
 																type="text" class="border0" <c:if test="${!fn:contains(engPageField,engQua.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].levelCert"
 																value="${engQua.levelCert}" />
@@ -2424,7 +2424,7 @@
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w200">
-															 		<input type="text" class="border0" maxlength="60" onkeyup="checkInputLength(this,60)"
+															 		<input type="text" class="border0" maxlength="60" 
 															    <c:if test="${!fn:contains(engPageField,engQua.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																	name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].licenceAuthorith"
 																	value="${engQua.licenceAuthorith}" />
@@ -2448,7 +2448,7 @@
 															<!-- 工程 证书状态 -->	
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>><input
-																type="text" class="border0" maxlength="15" onkeyup="checkInputLength(this,15)"  <c:if test="${!fn:contains(engPageField,engQua.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
+																type="text" class="border0" maxlength="15" <c:if test="${!fn:contains(engPageField,engQua.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].mot"
 																value="${engQua.mot}" />
 															</td>
@@ -2904,7 +2904,7 @@
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w200">
-																 	<input type="text" class="border0"   maxlength="30" onkeyup="checkInputLength(this,30)"
+																 	<input type="text" class="border0"   maxlength="30" 
 																 		<c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																		name="supplierMatSe.listSupplierCertSes[${certSeNumber}].name"
 																		value="${certSe.name}" />
@@ -2914,7 +2914,7 @@
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w150">
-															 		<input type="text" class="border0" maxlength="30" onkeyup="checkInputLength(this,30)" 
+															 		<input type="text" class="border0" maxlength="30"  
 																 		<c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																		name="supplierMatSe.listSupplierCertSes[${certSeNumber}].code"
 																		value="${certSe.code}" />
@@ -2923,7 +2923,7 @@
 															
 															<!--服务 资质等级 -->	
 															<td class="tc"
-																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input maxlength="30" onkeyup="checkInputLength(this,30)"
+																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input maxlength="30" 
 																type="text" class="border0" <c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																name="supplierMatSe.listSupplierCertSes[${certSeNumber}].levelCert"
 																value="${certSe.levelCert}" />
@@ -2933,7 +2933,7 @@
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w200">
-															 		<input type="text" class="border0" maxlength="60" onkeyup="checkInputLength(this,60)"
+															 		<input type="text" class="border0" maxlength="60" 
 															    <c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																	name="supplierMatSe.listSupplierCertSes[${certSeNumber}].licenceAuthorith"
 																	value="${certSe.licenceAuthorith}" />
@@ -2957,7 +2957,7 @@
 															<!-- 服务证书状态 -->	
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input
-																type="text" class="border0" maxlength="15" onkeyup="checkInputLength(this,15)"  <c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
+																type="text" class="border0" maxlength="15" <c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																name="supplierMatSe.listSupplierCertSes[${certSeNumber}].mot"
 																value="${certSe.mot}" />
 															</td>
