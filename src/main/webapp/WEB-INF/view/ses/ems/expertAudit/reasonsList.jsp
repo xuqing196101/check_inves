@@ -831,6 +831,7 @@
     <input name="sign" value="${sign}" type="hidden">
     <input name="status" id="expertStatus" value="${status}" type="hidden">
     <input name="batchId" value="${batchId}" type="hidden">
+    <input name="isReviewRevision" value="${isReviewRevision}" type="hidden">
 </form>
 
 <form id="form_id_word" method="post">

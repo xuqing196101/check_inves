@@ -35,7 +35,7 @@
     <c:if test="${sign == 1}">
 	    <li id="reverse_of_five" onclick="jump('reasonsList')">
 	      <a aria-expanded="false" href="#tab-1" data-toggle="tab">采购机构初审汇总</a>
-        <c:if test="${expert.status == 10 or status == 10 or expert.status == 5 or status == 5}">
+        <c:if test="${expert.status == 10 or status == 10 or expert.status == 5 or status == 5 or isReviewRevision eq 'yes'}">
           <i id="reverse_of_seven_i"></i>
         </c:if>
         <c:if test="${sign == 1 and (expert.status != 0 and status != 0 and expert.status != 3 and status != 3 and expert.status != 9 and status != 9 and expert.status != 5 and status != 5 and expert.status != 10 and status != 10)}">
@@ -43,7 +43,7 @@
         </c:if>
 	    </li>
     </c:if>
-    <c:if test="${sign == 1 and (expert.status == 10 or status == 10 or expert.status == 5 or status == 5)}">
+    <c:if test="${sign == 1 and (expert.status == 10 or status == 10 or expert.status == 5 or status == 5 or isReviewRevision eq 'yes') }">
       <li id="reverse_of_seven" onclick="jump('preliminaryInfo')">
         <a aria-expanded="false" href="#tab-1" data-toggle="tab">专家复审意见</a>
       </li>
