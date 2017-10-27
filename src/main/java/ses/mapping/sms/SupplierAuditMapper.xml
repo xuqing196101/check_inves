@@ -364,7 +364,7 @@
             <if test="auditContent != null">
                 AUDIT_CONTENT = #{auditContent},
             </if>
-            <if test="auditContent != null">
+            <if test="auditFieldName != null">
                 AUDIT_FIELD_NAME = #{auditFieldName},
             </if>
             <if test="isDeleted != null">

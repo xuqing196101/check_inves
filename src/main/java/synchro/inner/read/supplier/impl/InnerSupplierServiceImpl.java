@@ -574,7 +574,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                 if (audit == null) {
                     supplierAuditMapper.inserActive(sat);
                 } else {
-                    supplierAuditMapper.updateByPrimaryKeySelective(sat);
+                    supplierAuditMapper.updateByIdSelective(sat);
                 }
             }
             List<SupplierModify> supplierModify = sb.getSupplierModify();
