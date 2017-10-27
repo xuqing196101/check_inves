@@ -489,15 +489,9 @@ public class ExpertAuditController{
 					 map.remove("auditContent");
 		            // 调用getter方法获取属性值  
 					Object param =  oldExpert.getClass().getMethod(method).invoke(oldExpert);
-					if("getAddress".equals(method)){
-						/*Area area = areaService.listById((String) param);
-						String sonName = area.getName();
-						String parentName="";
-						for(int i = 0; i < privnce.size(); i++) {
-							if(area.getParentId().equals(privnce.get(i).getId())) {
-								parentName = privnce.get(i).getName();
-							}
-						}*/
+					if("getGender".equals(method)){
+						map.put("auditField", "性别");
+					}else if("getAddress".equals(method)){
 						map.put("auditField", "地区");
 					}else if (param instanceof Integer) {
 						   map.put("auditContent", ((Integer) param).intValue()+"");
