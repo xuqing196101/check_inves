@@ -40,7 +40,7 @@ public interface SupplierCertProMapper {
      */
     int updateByPrimaryKey(SupplierCertPro record);
     
-    List<SupplierCertPro> findCertProBySupplierMatProId(String supplierMatProId);
+    List<SupplierCertPro> findCertProByMatProId(String supplierMatProId);
     
     /**
      * @Title: findBySupplierId
@@ -52,17 +52,6 @@ public interface SupplierCertProMapper {
      * @return List<SupplierCertPro>
      */
     List<SupplierCertPro> findBySupplierId(String supplierId);
-    
-    /**
-     * @Title: findCertProByProId
-     * @Description: 根据供应商生产类型Id查询证书
-     * author: Li Xiaoxiao 
-     * @param @param supplierMatProId
-     * @param @return     
-     * @return List<SupplierCertPro>     
-     * @throws
-     */
-    List<SupplierCertPro> findCertProByProId(String matProId);
     
     /**
      * 根据主键删除数据库的记录

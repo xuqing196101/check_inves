@@ -1,6 +1,7 @@
 package ses.formbean;
 
 import ses.model.bms.User;
+import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierAuditNot;
 import ses.model.sms.SupplierAuditOpinion;
@@ -38,6 +39,8 @@ public class SupplierAuditFormBean implements Serializable{
 	private SupplierAuditOpinion supplierAuditOpinions;
 	
 	private User user;
+
+	private Supplier supplier;
 	
 	public User getUser() {
 		return user;
@@ -127,4 +130,12 @@ public class SupplierAuditFormBean implements Serializable{
     public void setSupplierAuditOpinions(SupplierAuditOpinion supplierAuditOpinions) {
         this.supplierAuditOpinions = supplierAuditOpinions;
     }
+
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
 }

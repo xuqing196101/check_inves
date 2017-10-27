@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import ses.dao.bms.QualificationMapper;
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierCertEngMapper;
+import ses.dao.sms.SupplierEngQuaMapper;
 import ses.dao.sms.SupplierMatEngMapper;
 import ses.dao.sms.SupplierPorjectQuaMapper;
 import ses.dao.sms.SupplierRegPersonMapper;
@@ -22,6 +23,7 @@ import ses.model.bms.Qualification;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierCertEng;
+import ses.model.sms.SupplierEngQua;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierPorjectQua;
 import ses.model.sms.SupplierRegPerson;
@@ -35,6 +37,10 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
 
 	@Autowired
 	private SupplierMatEngMapper supplierMatEngMapper;
+	
+	/** 供应商工程资质证书信息Mapper **/
+	@Autowired
+	private SupplierEngQuaMapper supplierEngQuaMapper;
 	
 	/** 供应商注册人员登记Mapper **/
 	@Autowired
@@ -82,6 +88,23 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
 
             }
             SupplierMatEng supplierMatEng = supplierMatEngMapper.getMatEngBySupplierId(supplier.getId());
+            // 供应商工程资质证书信息
+            List<SupplierEngQua> listEngQuas = supplier.getSupplierMatEng().getListSupplierEngQuas();
+			for (SupplierEngQua engQua : listEngQuas) {
+				if (engQua != null && engQua.getId() != null) {
+					SupplierEngQua engQuaBean = supplierEngQuaMapper.selectByPrimaryKey(engQua.getId());
+					// 判断是否已经存在,来选择insert还是update
+					if (engQuaBean != null) {
+						// 修改
+						engQua.setMatEngId(supplierMatEng.getId());
+						supplierEngQuaMapper.updateByPrimaryKeySelective(engQua);
+					} else {
+						// 新增
+						engQua.setMatEngId(supplierMatEng.getId());
+						supplierEngQuaMapper.insertSelective(engQua);
+					}
+				}
+			}
             // 供应商注册人员登记
             List<SupplierRegPerson> listRegPersons = supplier.getSupplierMatEng().getListSupplierRegPersons();
 			for (SupplierRegPerson regPerson : listRegPersons) {
@@ -252,10 +275,16 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
         List<SupplierRegPerson> regPersons = new ArrayList<SupplierRegPerson>();
         regPersons.add(regPerson);
         
+        SupplierEngQua engQua = new SupplierEngQua();
+        engQua.setId(WfUtil.createUUID());
+        List<SupplierEngQua> engQuas = new ArrayList<SupplierEngQua>();
+        engQuas.add(engQua);
+        
         SupplierMatEng eng = new  SupplierMatEng();
         eng.setListSupplierAptitutes(aptitutes);
         eng.setListSupplierCertEngs(certEngs);
         eng.setListSupplierRegPersons(regPersons);
+        eng.setListSupplierEngQuas(engQuas);
         return eng;
     }
     

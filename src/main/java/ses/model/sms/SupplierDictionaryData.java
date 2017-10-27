@@ -47,6 +47,8 @@ public class SupplierDictionaryData implements Serializable {
 	private String supplierSellCert;  //供应商物资销售资质证书
 
 	private String supplierEngCert;  //供应商工程资质证书
+	
+	private String supplierEngQua;  //供应商工程资质证书
 
 	private String supplierServeCert;  //供应商服务资质证书
 
@@ -239,6 +241,14 @@ public class SupplierDictionaryData implements Serializable {
 	public void setSupplierEngCert(String supplierEngCert) {
 		this.supplierEngCert = supplierEngCert;
 	}
+	
+	public String getSupplierEngQua() {
+		return supplierEngQua;
+	}
+
+	public void setSupplierEngQua(String supplierEngQua) {
+		this.supplierEngQua = supplierEngQua;
+	}
 
 	public String getSupplierServeCert() {
 		return supplierServeCert;
@@ -335,4 +345,5 @@ public class SupplierDictionaryData implements Serializable {
     public void setSupplierHousePoperty(String supplierHousePoperty) {
         this.supplierHousePoperty = supplierHousePoperty;
     }
+
 }

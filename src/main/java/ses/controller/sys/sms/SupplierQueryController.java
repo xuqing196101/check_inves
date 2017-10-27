@@ -4,7 +4,6 @@ import bss.formbean.Maps;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
-import common.model.UploadFile;
 import common.service.UploadService;
 import common.utils.JdcgResult;
 import dss.model.rids.SupplierAnalyzeVo;
@@ -34,8 +33,8 @@ import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
-import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierEdit;
+import ses.model.sms.SupplierEngQua;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierItemLevel;
@@ -46,7 +45,6 @@ import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierPorjectQua;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
-import ses.model.sms.SupplierTypeRelate;
 import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
@@ -328,7 +326,12 @@ public class SupplierQueryController extends BaseSupplierController {
             List<String> listSupplierTypeIds = Arrays.asList(supplierTypeIds.split(","));
             sup.setItemType(listSupplierTypeIds);
         }
-        
+
+        // 物资生产品目ID截取
+        if(sup.getQueryCategory() != null && sup.getQueryCategory().contains(ses.util.Constant.UNDERLINE_PRODUCT)){
+            sup.setQueryCategory(sup.getQueryCategory().substring(0,sup.getQueryCategory().indexOf(ses.util.Constant.UNDERLINE_PRODUCT)));
+        }
+
         //地区
         List < Area > privnce = areaService.findRootArea();
         model.addAttribute("privnce", privnce);
@@ -2095,17 +2098,27 @@ public class SupplierQueryController extends BaseSupplierController {
 			supplierMatEng = supplier.getSupplierMatEng();
 			if(supplierMatEng != null){
 				request.setAttribute("supplierMatEngs", supplierMatEng);
-				//资质资格证书信息
-//				List < SupplierCertEng > supplierCertEng = supplierAuditService.findCertEngBySupplierId(supplierId);
-				List < SupplierCertEng > supplierCertEng = supplierMatEng.getListSupplierCertEngs();
-				for(int i = 0; i < supplierCertEng.size() - 1; i++) {
-					for(int j = supplierCertEng.size() - 1; j > i; j--) {
-						if(supplierCertEng.get(j).getId().equals(supplierCertEng.get(i).getId())) {
-							supplierCertEng.remove(j);
+				//资质证书信息
+				List < SupplierEngQua > supplierEngQuas = supplierMatEng.getListSupplierEngQuas();
+				for(int i = 0; i < supplierEngQuas.size() - 1; i++) {
+					for(int j = supplierEngQuas.size() - 1; j > i; j--) {
+						if(supplierEngQuas.get(j).getId().equals(supplierEngQuas.get(i).getId())) {
+							supplierEngQuas.remove(j);
 						}
 					}
 				}
-				request.setAttribute("supplierCertEng", supplierCertEng);
+				request.setAttribute("supplierEngQuas", supplierEngQuas);
+				//资质资格证书信息
+//				List < SupplierCertEng > supplierCertEngs = supplierAuditService.findCertEngBySupplierId(supplierId);
+				List < SupplierCertEng > supplierCertEngs = supplierMatEng.getListSupplierCertEngs();
+				for(int i = 0; i < supplierCertEngs.size() - 1; i++) {
+					for(int j = supplierCertEngs.size() - 1; j > i; j--) {
+						if(supplierCertEngs.get(j).getId().equals(supplierCertEngs.get(i).getId())) {
+							supplierCertEngs.remove(j);
+						}
+					}
+				}
+				request.setAttribute("supplierCertEngs", supplierCertEngs);
 
 				//资质资格信息
 //				List < SupplierAptitute > supplierAptitute = supplierAuditService.findAptituteBySupplierId(supplierId);
@@ -2119,7 +2132,7 @@ public class SupplierQueryController extends BaseSupplierController {
 				}
 				request.setAttribute("supplierAptitutes", supplierAptitute);
 				//资质类型
-				request.setAttribute("typeList", qualificationService.findList(null, Integer.MAX_VALUE,null, 4));
+				request.setAttribute("typeList", qualificationService.findList(null, Integer.MAX_VALUE, null, 4));
 				//资质登记
 				List < DictionaryData > businessList = DictionaryDataUtil.find(31);
 				for(DictionaryData data : businessList){

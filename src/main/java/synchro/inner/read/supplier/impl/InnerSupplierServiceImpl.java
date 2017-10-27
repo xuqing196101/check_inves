@@ -19,6 +19,7 @@ import ses.dao.sms.SupplierCertEngMapper;
 import ses.dao.sms.SupplierCertProMapper;
 import ses.dao.sms.SupplierCertSellMapper;
 import ses.dao.sms.SupplierCertServeMapper;
+import ses.dao.sms.SupplierEngQuaMapper;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierHistoryMapper;
 import ses.dao.sms.SupplierItemMapper;
@@ -47,6 +48,7 @@ import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
+import ses.model.sms.SupplierEngQua;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierHistory;
 import ses.model.sms.SupplierItem;
@@ -134,10 +136,8 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     @Autowired
     private SupplierCertProMapper supplierCertProMapper;
 
-
     @Autowired
     private SupplierCertSellMapper supplierCertSellMapper;
-
 
     @Autowired
     private SupplierAptituteMapper supplierAptituteMapper;
@@ -150,6 +150,9 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 
     @Autowired
     private SupplierCertServeMapper supplierCertServeMapper;
+    
+    @Autowired
+    private SupplierEngQuaMapper supplierEngQuaMapper;
 
     @Autowired
     private SupplierItemMapper supplierItemMapper;
@@ -361,6 +364,8 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                 supplierCertEngMapper.deleteByMatEngId(supplier.getSupplierMatEng().getId());
                 // 删除供应商资质证书详细信息
                 supplierAptituteMapper.deleteByMatEngId(supplier.getSupplierMatEng().getId());
+                // 删除供应商资质证书信息
+                supplierEngQuaMapper.deleteByMatEngId(supplier.getSupplierMatEng().getId());
                 // 重新插入取得注册资质的人员信息
                 if (supplier.getSupplierMatEng().getListSupplierRegPersons().size() > 0) {
                     for (SupplierRegPerson sp : supplier.getSupplierMatEng().getListSupplierRegPersons()) {
@@ -378,6 +383,12 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                     for (SupplierAptitute sb : supplier.getSupplierMatEng().getListSupplierAptitutes()) {
                         supplierAptituteMapper.insertSelective(sb);
                     }
+                }
+                // 重新插入供应商资质证书信息
+                if (supplier.getSupplierMatEng().getListSupplierEngQuas().size() > 0) {
+                	for (SupplierEngQua sb : supplier.getSupplierMatEng().getListSupplierEngQuas()) {
+                		supplierEngQuaMapper.insertSelective(sb);
+                	}
                 }
             }
 
@@ -478,8 +489,6 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                 // 再做插入操作
                 saveSupplier(supplier);
             }
-
-
         }
         synchRecordService.importNewSupplierRecord(new Integer(list.size()).toString());
     }
@@ -524,7 +533,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     }
 
     /**
-     * Description:供应商退回修改导入
+     * Description:供应商退回修改导入外网
      *
      * @param [file：文件, flag：标识]
      * @author Easong
@@ -542,7 +551,10 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                     userMapper.updateByPrimaryKeySelective(user);
                 }
             }
-            supplierMapper.updateSupplierStatus(sb.getSupplierId(), sb.getStatus(), sb.getAuditDate());
+            // 退回修改供应商基本信息导入外网
+            //supplierMapper.updateSupplierStatus(sb.getSupplierId(), sb.getStatus(), sb.getAuditDate());
+            supplierMapper.updateByPrimaryKeySelectiveOfBack(sb.getSupplier());
+
             List<SupplierAuditNot> auditNots = sb.getSupplierAuditNot();
             for (SupplierAuditNot sa : auditNots) {
                 SupplierAuditNot not = supplierAuditNotMapper.selectById(sa.getId());
@@ -554,9 +566,10 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                 }
             }
             List<SupplierAudit> supplierAudits = sb.getSupplierAudits();
-            supplierAuditMapper.deleteBySupplierId(sb.getSupplierId());
+            if(sb.getSupplier() != null){
+                supplierAuditMapper.deleteBySupplierId(sb.getSupplier().getId());
+            }
             for (SupplierAudit sat : supplierAudits) {
-
                 SupplierAudit audit = supplierAuditMapper.selectById(sat.getId());
                 if (audit == null) {
                     supplierAuditMapper.inserActive(sat);
@@ -610,7 +623,6 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                     }
                 }
             }
-
         }
         //
         if ("publicity".equals(flag)) {
@@ -832,6 +844,17 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                         }
 
                     }
+                }
+                if (supplier.getSupplierMatEng().getListSupplierEngQuas().size() > 0) {
+                	for (SupplierEngQua seq : supplier.getSupplierMatEng().getListSupplierEngQuas()) {
+                		SupplierEngQua engQua = supplierEngQuaMapper.selectByPrimaryKey(seq.getId());
+                		if (engQua == null) {
+                			supplierEngQuaMapper.insertSelective(seq);
+                		} else {
+                			supplierEngQuaMapper.updateByPrimaryKeySelective(seq);
+                		}
+                		
+                	}
                 }
             }
             if (supplier.getSupplierMatSe() != null) {

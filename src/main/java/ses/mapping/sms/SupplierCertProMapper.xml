@@ -147,7 +147,7 @@
 		where ID = #{id}
 	</update>
 	
-	<select id="findCertProBySupplierMatProId" parameterType="java.lang.String" resultMap="BaseResultMap">
+	<select id="findCertProByMatProId" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select *
 		from 
 			T_SES_SMS_SUPPLIER_CERT_PRO
@@ -174,13 +174,6 @@
 		where
 		    T2.SUPPLIER_ID = #{supplierId}
   </select>
-	
-	<select id="findCertProByProId" parameterType="java.lang.String" resultMap="BaseResultMap">
-		select
-		<include refid="Base_Column_List" />
-		from T_SES_SMS_SUPPLIER_CERT_PRO
-		where MAT_PRO_ID = #{matProId}
-	</select>
 	
 	<!-- 根据主键删除 -->
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">

@@ -7,7 +7,8 @@
 
 	<head>
         <%@ include file="../../../common.jsp"%>
-		<script type="text/javascript">
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/supplier_query/select_supplier_by_province.js"></script>
+        <script type="text/javascript">
 			$(function() {
 				laypage({
 					cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
@@ -49,6 +50,8 @@
 				$("#supplierTypeIds").val('');
 				$("#mobile").val('');
 				$("#isProvisional").val('');
+                $("#supplierGradeInputVal").val('');
+                $("#supplierGradeInput").val('');
 				$("#status option:selected").removeAttr("selected");
 				$("#address option:selected").removeAttr("selected");
 				$("#businessNature option:selected").removeAttr("selected");
@@ -338,7 +341,13 @@
 		<div id="supplierTypeContent" class="supplierTypeContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 			<ul id="treeSupplierType" class="ztree" style="margin-top:0;"></ul>
 		</div>
-
+        <div id="supplierGradeTreeContent" class="supplierTypeContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+            <div class="col-md-12 col-xs-8 col-sm-8 p0">
+                <input type="text" id="search" class="input_group" value="">
+                <img src="${pageContext.request.contextPath }/public/backend/images/view.png" onclick="loadZtree()">
+            </div>
+            <ul id="supplierGradeTree" class="ztree" style="margin-top:0;"></ul>
+        </div>
 		<div class="container">
 			<div class="headline-v2">
 				<h2>供应商信息</h2>
@@ -448,6 +457,28 @@
                 </select>
               </li>
             </c:if>
+				  <c:if test ="${sign == 2 }">
+					  <li>
+						  <label class="fl">供应商等级：</label>
+						  <select  name="supplierLevelName" id="supplierLevel" class="w220">
+							  <option selected="selected" value=''>全部</option>
+							  <option value="一级">一级</option>
+							  <option value="二级">二级</option>
+							  <option value="三级">三级</option>
+							  <option value="四级">四级</option>
+							  <option value="五级">五级</option>
+							  <option value="六级">六级</option>
+							  <option value="七级">七级</option>
+							  <option value="八级">八级</option>
+						  </select>
+					  </li>
+				  </c:if>
+				  <c:if test ="${sign == 2 }">
+					  <li>
+						  <label class="fl">供应商品目：</label><span><input  class="w220" name="queryCategoryName" id="supplierGradeInput" class="span2 mt5" type="text" name=""  readonly value="${supplier.queryCategoryName }" onclick="initZtree(true);" />
+						<input type="hidden" name="queryCategory" id="supplierGradeInputVal" value="${supplier.queryCategory}"/></span>
+					  </li>
+				  </c:if>
 		       </ul>
 		       <div class="col-md-12 clear tc mt10">
 	           <button type="button" onclick="submit()" class="btn">查询</button>
@@ -475,16 +506,16 @@
 					<thead>
 						<tr>
 							<th class="info w50">序号</th>
-							<th class="info w110">供应商名称</th>
+							<th class="info w170">供应商名称</th>
 							<!-- <th class="info">用户名</th> -->
 							<th class="info w80">联系人</th>
 							<th class="info w100">手机号</th>
-							<th class="info w100">注册日期</th>
-							<th class="info w100">提交日期</th>
-							<th class="info w100">审核日期</th>
-							<th class="info w100">地区</th>
-							<th class="info w100">供应商类型</th>
-							<th class="info w80">企业性质</th>
+							<th class="info w90">注册日期</th>
+							<th class="info w90">提交日期</th>
+							<th class="info w90">审核日期</th>
+							<th class="info w80">地区</th>
+							<th class="info w80">供应商类型</th>
+							<th class="info w70">企业性质</th>
 							<th class="info w100">采购机构</th>
 							<th class="info w100">供应商状态</th>
 <!--
@@ -511,8 +542,8 @@
 								<td class="tc">${(vs.count)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
 								<td class="hand" title="${list.supplierName}">
 									<a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/supplierQuery/essential.html?judge=5&supplierId=${list.id}&sign=${sign}')">
-										<c:if test="${fn:length (list.supplierName) > 6}">${fn:substring(list.supplierName,0,6)}...</c:if>
-	                  <c:if test="${fn:length (list.supplierName) <= 6}">${list.supplierName}</c:if>
+										<c:if test="${fn:length (list.supplierName) > 11}">${fn:substring(list.supplierName,0,11)}...</c:if>
+	                  <c:if test="${fn:length (list.supplierName) <= 11}">${list.supplierName}</c:if>
 								  </a>
 								</td>
 								<%-- <td class="">${list.loginName }</td> --%>

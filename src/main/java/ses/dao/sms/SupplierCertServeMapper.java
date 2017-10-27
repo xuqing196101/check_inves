@@ -38,7 +38,7 @@ public interface SupplierCertServeMapper {
      */
     int updateByPrimaryKey(SupplierCertServe record);
     
-    List<SupplierCertServe> findCertSeBySupplierMatSeId(String supplierMatSeId);
+    List<SupplierCertServe> findCertSeByMatSeId(String supplierMatSeId);
     
     /**
      * @Title: findCertSeBySupplierSupplierId

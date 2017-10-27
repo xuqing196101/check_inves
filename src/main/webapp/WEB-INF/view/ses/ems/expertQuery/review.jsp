@@ -29,7 +29,7 @@
         var status = $(":radio:checked").val();
         var expertId = $("input[name='expertId']").val();
         var expertStatus = $("input[name='status']").val();
-        if(status != null && typeof(status) != "undefined") {
+        if(status != null && typeof(status) != "undefined" && status == -3) {
           $.ajax({
             url:globalPath + "/expertAudit/findCategoryCount.do",
             data: {
@@ -39,17 +39,17 @@
             type: "post",
             dataType: "json",
             success: function(data) {
-              if(status == -3) {
                 if(data.isGoodsServer == 1 && data.pass == 0){
                   $("#check_opinion").html("预复审合格，通过的是物资服务经济类别。");
                 }else{
                   $("#check_opinion").html("预复审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
                 }
-              } else if(status == 5) {
-                $("#check_opinion").html("预复审不合格。");
-              }
-            }
+             }
           });
+        }else if(status == 5) {
+          $("#check_opinion").html("预复审不合格。");
+        }else if(status == 10) {
+          $("#check_opinion").html("复审退回修改。");
         }
       }
     </script>
@@ -103,7 +103,7 @@
               <a aria-expanded="ture" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('auditInfo');">采购机构初审意见</a>
             </li>
             <li class="active">
-              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('review');">资源服务中心复审意见</a>
+              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('review');">专家复审意见</a>
             </li>
             <li class="">
               <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('reviewCheck');">采购机构复查意见</a>

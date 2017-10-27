@@ -146,6 +146,7 @@
 			<mvc:exclude-mapping path="/supplier_stockholder/*.*" />
 			<mvc:exclude-mapping path="/supplier_aptitute/*.*" />
 			<mvc:exclude-mapping path="/supplier_cert_eng/*.*" />
+			<mvc:exclude-mapping path="/supplier_eng_qua/*.*" />
 			<mvc:exclude-mapping path="/supplier_cert_pro/*.*" />
 			<mvc:exclude-mapping path="/supplier_cert_se/*.*" />
 			<mvc:exclude-mapping path="/supplier_cert_sell/*.*" />

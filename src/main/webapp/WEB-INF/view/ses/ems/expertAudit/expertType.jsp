@@ -367,6 +367,7 @@
    	  <input name="expertId" value="${expert.id}" type="hidden">
    	  <input name="sign" value="${sign}" type="hidden">
    	  <input name="batchId" value="${batchId}" type="hidden">
+   	  <input name="isReviewRevision" value="${isReviewRevision}" type="hidden">
     </form>
         <input id="status" value="${expert.status}" type="hidden">
 	</body>
