@@ -37,9 +37,6 @@ function selectQua(){
 }
 //});
 
-
-
-
 $(function () {
         loadAreaZtree();
         //loadTypeTree();
@@ -310,34 +307,8 @@ $(function () {
             			}
 					}
             		
-            		/*if(null!=data.PRODUCTCount){
-            			products = data.PRODUCTCount;
-            			$("#productCount").html(products);
-            			//$(".productCount").html(productCount);
-            			//window.sessionStorage.setIterm("products",data.products);
-            		}
-            		if(null!=data.SERVICECount){
-            			services = data.SERVICECount;
-            			$("#serviceCount").html(services);
-            			//$(".serviceCount").html(serviceCount);
-            			//window.sessionStorage.setIterm("services",data.services);
-            		}
-            		if(null!=data.SALESCount){
-            			sales = data.SALESCount;
-            			$("#salesCount").html(sales);
-            			//$(".salesCount").html(salesCount);
-            			//window.sessionStorage.setIterm("sales",data.sales);
-            		}
-            		if(null!=data.PROJECTCount){
-            			projects = data.PROJECTCount;
-            			$("#projectCount").html(projects);
-            		}
-            		if(null!=data.GOODSCount){
-            			goods = data.GOODSCount;
-            			$("#goodsCount").html(goods);
-            		}*/
             	}else{
-            		//layer.msg("没有满足条件的供应商,检查抽取条件");
+
             	}
             }
         });
@@ -362,10 +333,6 @@ $(function () {
     
     /**点击抽取--对参数进行校验*/
     function checkEmpty(){
-    	
-    	//$(".cue").empty();
-    	/*$("#eError").empty();
-    	$("#sError").empty();*/
     	$("#areaError").empty();
     	
     	var count = 0;
@@ -376,17 +343,6 @@ $(function () {
     		});
     		
     		$($(this).parents("li").find("select")).each(function(index, ele){
-    			/*if(!ele.value){
-    				$(ele).parents("li").find(".cue").html("不能为空");
-    				count++;
-    			}else{
-    				if(ele.value.split(" ").length>1){
-    					$(ele).parents("li").find(".cue").html("不能包含空格");
-    					count ++ ;
-    				}else{
-    					$(ele).parents("li").find(".cue").html("");
-    				}
-    			}*/
     			count = checkEmptyAndspace(ele,count);
     		});
     	});
@@ -448,11 +404,6 @@ $(function () {
             $("#contactNumError").html("不能为空");  
             count3++;
         }
-        /*var phone = $("[name='contactNum']").val();
-        if(!(/^1[34578]\d{9}$/.test(phone))){ 
-            $("#contactNumError").html("手机号码有误，请重填");  
-            count3++;
-        }*/
     	
     	return count+count1+count2+count3;
     }
@@ -641,9 +592,6 @@ $(function () {
     	//需要判断能参加，满足后不再追加
     	var agreeCount=0;
     	
-    	//计数  确认参加人数
-    	//agreeCount = parseInt($(type+"ExtractNum").val())-$(obj).find("select").length;
-    	
     	agreeCount = parseInt($(obj).parent().prev().find("span:first").html());
     	
     	
@@ -814,15 +762,9 @@ $(function () {
     /**展示品目*/
     function opens(cate) {
     	//获取类别
-    	//var typeId = $("#supplierTypeId").val();
     	var typeCode = $(cate).attr("typeCode");
-    	//重置资质tree
-    	//loadQuaList("init");
-    	//cate.value = "";
-        //  iframe层
         var iframeWin;
         var categoryId = $("#"+code+"CategoryIds").val();
-        
         var parentId = $(cate).prev(".parentId");
         if(parentId.length<=0){
         	$(cate).before("<input class='parentId' type='hidden' name='"+code+"ParentId'>");
@@ -847,12 +789,8 @@ $(function () {
             , yes: function () {
                 iframeWin.getChildren(cate);
                 initTypeLevelId();
-                //若是工程类，需要根据品目去动态生成等级树
-                //if(typeCode == "PROJECT"){
-                	//加载资质类型
-                	emptyQuaInfo(code);
-                	loadQuaList(null);
-               // }
+            	emptyQuaInfo(code);
+            	loadQuaList(null);
                 selectLikeSupplier();
             }
             , btn2: function () {
@@ -861,7 +799,7 @@ $(function () {
                 $(cate).val("");
                 emptyQuaInfo(code);
                 $("#"+code+"QuaTree").empty();
-                selectLikeSupplier();
+                opens(cate);
             }
         });
     }
@@ -968,10 +906,6 @@ $(function () {
 		}
     	//obj 供应商类型
     	if(null!=obj){
-    		/*var types = $(obj).val().split(",");
-    		for(var type in types ){
-    			showCategoryAndLevel(types[type]);
-    		}*/
     		var type = $(obj).val();
     		showCategoryAndLevel(type);
     		selectLikeSupplier();
@@ -980,46 +914,12 @@ $(function () {
      
      //显示品目等级信息div
      function showCategoryAndLevel(code){
-    	 /*if ('PROJECT' == code) {
-    		 //查询数量
-    		 //selectTypeCount("PROJECT");
-    		 $(".projectCount").removeClass("dnone");
-    		 //追加结果表
-    		 $("#projectResult").removeClass("dnone");
-    	 } else if ('SERVICE' == code) {
-    		 //selectTypeCount("SERVICE");
-    		 $(".serviceCount").removeClass("dnone");
-    		 //加载服务等级树
-    		 loadLevelTree("serviceLevelTree");
-    		 //追加结果表
-    		 $("#serviceResult").removeClass("dnone");
-    	 } else if ('PRODUCT' == code) {
-    		 //selectTypeCount("PRODUCT");
-    		 $(".productCount").removeClass("dnone");
-    		 //加载生产等级树
-    		 loadLevelTree("productLevelTree");
-    		 //追加结果表
-    		 $("#productResult").removeClass("dnone");
-    	 } else if ('SALES' == code) {
-    		 //selectTypeCount("SALES");
-    		 $(".salesCount").removeClass("dnone");
-    		 //销售等级树
-    		 loadLevelTree("salesLevelTree");
-    		 //追加结果表
-    		 $("#salesResult").removeClass("dnone");
-    	 }*/
     	var typeCode = $("#supplierType").val();
     	code = typeCode.toLowerCase();
     	
     	$("#extractNumber").find("input").attr("id",code+"ExtractNum");
     	$("#extractNumber").find("input").attr("name",code+"ExtractNum");
     	 $("."+code+"Count").removeClass("dnone");
-		 //追加结果表
-		// $("#"+code+"Result").removeClass("dnone");
-		 //$("#"+code+"ExtractNum").val("0");
-		 /*if(code != "project"){
-			 loadLevelTree(code+"LevelTree");
-		 }*/
 		 loadQuaList(null);
      }
      
@@ -1275,34 +1175,6 @@ $(function () {
             codes += nodes[i].code + ",";
             var typeCode = nodes[i].code.toLowerCase();
             $("#"+typeCode+"Result").removeClass("dnone");
-           /* if ('PROJECT' == nodes[i].code) {
-            	//查询数量
-            	//selectTypeCount("PROJECT");
-                $(".projectCount").removeClass("dnone");
-              //追加结果表
-                $("#projectResult").removeClass("dnone");
-            } else if ('SERVICE' == nodes[i].code) {
-            	//selectTypeCount("SERVICE");
-                $(".serviceCount").removeClass("dnone");
-                //加载服务等级树
-                loadLevelTree("serviceLevelTree");
-                //追加结果表
-                $("#serviceResult").removeClass("dnone");
-            } else if ('PRODUCT' == nodes[i].code) {
-            	//selectTypeCount("PRODUCT");
-                $(".productCount").removeClass("dnone");
-                //加载生产等级树
-                loadLevelTree("productLevelTree");
-              //追加结果表
-                $("#productResult").removeClass("dnone");
-            } else if ('SALES' == nodes[i].code) {
-            	//selectTypeCount("SALES");
-                $(".salesCount").removeClass("dnone");
-                //销售等级树
-                loadLevelTree("salesLevelTree");
-              //追加结果表
-                $("#salesResult").removeClass("dnone");
-            }*/
         }
         if (v.length > 0) v = v.substring(0, v.length - 1);
         if (rid.length > 0) rid = rid.substring(0, rid.length - 1);
@@ -1400,9 +1272,6 @@ $(function () {
        };
 	
     	var quaTree = $.fn.zTree.init($("#"+code+"QuaTree"), setting,nodes);
-		   //var treeObj = $.fn.zTree.getZTreeObj(code+"QuaTree");
-       //treeObj.checkAllNodes(true);
-       //choseQua('',"quaTree",'');
     }
     
     //加载资质树时回显
@@ -1610,17 +1479,6 @@ $(function () {
         
 	}
 	
-	//展示资质等级
-	/*function showQuaLevel(obj){
-		var quaId = $("#quaId").val();
-		if(null!=quaId&& ""!=quaId){
-			$("body").bind("mousedown", onBodyDownProjectLevel);
-		}else{
-			layer.msg("请选择工程资质");
-		}
-		
-	}*/
-	
 	//显示资质信息
 	function showQua(obj){
 		var levelType = $(obj);
@@ -1778,57 +1636,6 @@ $(function () {
     	}
     }
     
-   
-    
-    
-    /**抽取级别----end----*/
-    /**选择参加与否选项后自动触发*/
-   /* function operation(select) {
-        var x, y;
-        var oRect = select.getBoundingClientRect();
-        x = oRect.left - 450;
-        y = oRect.top - 150;
-        layer.confirm('确定本次操作吗？', {
-            btn: ['确定', '取消'], shade: 0.01
-        }, function (index) {
-            var strs = new Array();
-            var v = select.value;
-            var obj = $(select).parents("tbody");
-            var objTr = $(select).parents("tr");
-            var req = objTr.attr("index");
-           // strs = v.split(",");
-            layer.close(index);
-            if (v == "3") {
-                layer.prompt({
-                    formType: 2,
-                    shade: 0.01,
-                    offset: [y, x],
-                    title: '不参加理由'
-                }, function (value, index, elem) {
-                    saveResult(objTr, value,2);
-                    layer.close(index);
-                    //select.options[0].selected = true;
-                	appendTd(req,obj,"不能参加");
-                	//删除
-                	$(objTr).remove();
-                	
-                });
-            } else if(v == "1"){
-                //select.disabled = true;
-            	$(select).parents("td").html("能参加");
-            	select.remove();
-                saveResult(objTr, '',1);
-            	appendTd(req,obj,"能参加");
-            }else{
-            	appendTd(req,obj,"待定");
-            }
-        }, function (index) {
-            layer.close(index);
-            select.options[0].selected = true;
-        });
-    }*/
-    
-    
     function operation(select) {
         var x, y;
         var oRect = select.getBoundingClientRect();
@@ -1950,8 +1757,6 @@ $(function () {
 	    		}
     		}
     	});
-    	
-    	
     	
 		var index_1 = layer.alert("是否需要发送短信至确认参加供应商",function(){
 			layer.close(index_1);
