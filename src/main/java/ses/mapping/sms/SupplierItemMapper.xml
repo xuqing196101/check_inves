@@ -103,6 +103,12 @@
 			<if test="nodeLevel != null">
 				NODE_LEVEL,
 			</if>
+			<if test="isReturned != null">
+				IS_RETURNED,
+			</if>
+			<if test="isDeleted != null">
+				IS_DELETED,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -142,7 +148,13 @@
 				#{professType},
 			</if>
 			<if test="nodeLevel != null">
-				#{nodeLevel}
+				#{nodeLevel},
+			</if>
+			<if test="isReturned != null">
+				#{isReturned},
+			</if>
+			<if test="isDeleted != null">
+				#{isDeleted}
 			</if>
 		</trim>
 	

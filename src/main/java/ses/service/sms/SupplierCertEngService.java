@@ -9,8 +9,7 @@ public interface SupplierCertEngService {
 
 	public SupplierCertEng queryById(String id);
 	
-	
-	List<SupplierCertEng> queryByEngId(String endId);
+	List<SupplierCertEng> queryByEngId(String engId);
 	
 	/**
      *〈简述〉

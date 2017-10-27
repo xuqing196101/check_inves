@@ -6,6 +6,7 @@
 <html>
 	<head>
 		<%@ include file="../../../common.jsp"%>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/supplier_query/select_supplier_by_province.js"></script>
 		<script type="text/javascript">
 			$(function() {
 				laypage({
@@ -49,6 +50,8 @@
 				$("#supplierType").val('');
 				$("#isProvisional").val('');
 				$("#creditCode").val('');
+				$("#supplierGradeInputVal").val('');
+				$("#supplierGradeInput").val('');
 				$("#orgName option:selected").removeAttr("selected");
 				$("#status option:selected").removeAttr("selected");
 				$("#address option:selected").removeAttr("selected");
@@ -278,7 +281,7 @@
 							if(zNodes[i].isParent) {
 
 							} else {
-								//zNodes[i].icon = "${ctxStatic}/images/532.ico";//设置图标  
+								//zNodes[i].icon = "${ctxStatic}/images/532.ico";//设置图标
 							}
 						}
 						tree = $.fn.zTree.init($("#treeSupplierType"), setting, zNodes);
@@ -305,11 +308,11 @@
 					hideSupplierType();
 				}
 			}
-			
 
-			
-			
-			
+
+
+
+
 		//撤销
    /* 	function cancellation(){
    		var id = $(":radio:checked").val();
@@ -339,9 +342,9 @@
    		}else{
    			layer.msg("请选择供应商！",{offset : '100px'});
    		}
-   		
+
    	} */
-   	
+
    		//禁用F12键及右键
   		 /* function click(e) {
 			if (document.layers) {
@@ -355,14 +358,14 @@
 			}
 			document.onmousedown=click;
 			document.oncontextmenu = new Function("return false;");
-			document.onkeydown =document.onkeyup = document.onkeypress=function(){ 
-				if(window.event.keyCode == 123) { 
+			document.onkeydown =document.onkeyup = document.onkeypress=function(){
+				if(window.event.keyCode == 123) {
 					window.event.returnValue=false;
-					return(false); 
-				} 
+					return(false);
+				}
 			}; */
-			
-			
+
+
 			/**重置密码*/
 	 		/* function resetPwd(){
  	   		var id = $(":radio:checked").val();
@@ -384,7 +387,7 @@
             layer.msg("请选择供应商！",{offset: '100px'});
         	}
 	 		} */
-	 		
+
 	 		//窗口
 	 		function openDiy(){
 				layer.open({
@@ -432,6 +435,13 @@
 	<div id="supplierTypeContent" class="supplierTypeContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 		<ul id="treeSupplierType" class="ztree" style="margin-top:0;"></ul>
 	</div>
+    <div id="supplierGradeTreeContent" class="supplierTypeContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+        <div class="col-md-12 col-xs-8 col-sm-8 p0">
+            <input type="text" id="search" class="input_group" value="">
+            <img src="${pageContext.request.contextPath }/public/backend/images/view.png" onclick="loadZtree()">
+        </div>
+        <ul id="supplierGradeTree" class="ztree" style="margin-top:0;"></ul>
+    </div>
 
 	<body>
 		<div class="container">
@@ -537,7 +547,7 @@
                 </c:forEach>
               </select>
             </li>
-            
+
 	          <c:if test ="${sign == 1 }">
               <li>
                 <label class="fl">地区：</label>
@@ -549,6 +559,12 @@
                 </select>
               </li>
             </c:if>
+                <c:if test ="${sign == 1 }">
+                    <li>
+                        <label class="fl">供应商品目：</label><span><input  class="w220" name="queryCategoryName" id="supplierGradeInput" class="span2 mt5" type="text" name=""  readonly value="${supplier.queryCategoryName }" onclick="initZtree(true);" />
+						<input type="hidden" name="queryCategory" id="supplierGradeInputVal" value="${supplier.queryCategory}"/></span>
+                    </li>
+                </c:if>
 	        </ul>
 	          <div class="col-md-12 clear tc mt10">
             	<button type="button" onclick="submit()" class="btn">查询</button>
@@ -571,7 +587,7 @@
 	       </form>
      </h2>
 			<div class="col-md-12 pl20 mt10">
-				
+
 			</div>
 
 			<div class="content table_box">
@@ -645,7 +661,7 @@
 									<c:if test="${list.status==6 }"><span class="label rounded-2x label-dark">复核未通过</span></c:if>
 									<c:if test="${list.status==7 }"><span class="label rounded-2x label-u">考察合格</span></c:if>
 									<c:if test="${list.status==8 }"><span class="label rounded-2x label-dark">考察不合格</span></c:if> --%>
-									
+
 									<%-- <c:if test="${list.status==5 and list.isProvisional == 1}"><span class="label rounded-2x label-dark">临时</span></c:if>
 									<c:if test="${list.status==-1 }"><span class="label rounded-2x label-dark">暂存</span></c:if>
 									<c:if test="${list.status==0 }"><span class="label rounded-2x label-dark">待审核</span></c:if>
@@ -662,13 +678,13 @@
 									<c:if test="${list.status==-4 }"><span class="label rounded-2x label-dark">预复核结束</span></c:if>
 									<c:if test="${list.status==-5 }"><span class="label rounded-2x label-dark">预考察结束</span></c:if>
 									<c:if test="${list.status==10 }"><span class="label rounded-2x label-dark">异议处理</span></c:if> --%>
-									
+
 									<%-- <c:set var="label_color" value="label-dark"/>
 									<c:if test="${list.status==5 || list.status==7 }"><c:set var="label_color" value="label-u"/></c:if>
 									<c:if test="${list.status==5 and list.isProvisional == 1}"><span class="label rounded-2x label-dark">临时</span></c:if>
 									<c:if test="${list.status==5 and list.isProvisional == 0}"><span class="label rounded-2x label-u">${supplierStatusMap[list.status]}</span></c:if>
 									<c:if test="${list.status!=5 }"><span class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if> --%>
-									
+
 									<c:set var="label_color" value="label-dark"/>
 									<c:if test="${list.status==5 || list.status==7 }"><c:set var="label_color" value="label-u"/></c:if>
 									<c:if test="${list.status==5 and list.isProvisional == 1}"><span class="label rounded-2x label-dark">临时</span></c:if>
@@ -680,7 +696,7 @@
 									<c:if test="${list.status == 5 and list.auditTemporary != 3 and list.isProvisional != 1}"><span class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if>
 									<c:if test="${list.status == 5 and list.auditTemporary == 3 and list.isProvisional != 1}"><span class="label rounded-2x ${label_color}">${supplierAuditTemporaryStatusMap[list.auditTemporary]}</span></c:if>
 									<c:if test="${list.status != 0 && list.status != 9 && list.status != 1 && list.status != 5 }"><span class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if>
-									
+
 								</td>
 							</tr>
 						</c:forEach>
@@ -689,7 +705,7 @@
 				<div id="pagediv" align="right"></div>
 			</div>
 		</div>
-		
+
 		<div id="openDiv" class="dnone layui-layer-wrap" >
 		  <form id="form2" action="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?sign=${sign}" method="post" class="mb0">
 		  	<div class="drop_window">

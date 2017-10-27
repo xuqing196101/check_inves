@@ -34,8 +34,8 @@ public class SupplierCertProServiceImpl implements SupplierCertProService {
 	}
 
 	@Override
-	public List<SupplierCertPro> queryByProId(String proId) {
-		return supplierCertProMapper.findCertProByProId(proId);
+	public List<SupplierCertPro> queryByMatProId(String proId) {
+		return supplierCertProMapper.findCertProByMatProId(proId);
 	}
 
 	@Override

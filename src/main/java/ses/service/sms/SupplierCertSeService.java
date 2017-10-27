@@ -9,7 +9,7 @@ public interface SupplierCertSeService {
 
 	public SupplierCertServe queryById(String id);
 	
-	List<SupplierCertServe> queryServerId(String serverId);
+	List<SupplierCertServe> queryByServerId(String serverId);
 
 	/**
 	 * 批量删除服务证书

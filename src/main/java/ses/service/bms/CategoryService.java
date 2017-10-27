@@ -17,6 +17,14 @@ import ses.model.bms.DictionaryData;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierTypeTree;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 
    /**
@@ -472,5 +480,17 @@ import ses.model.sms.SupplierTypeTree;
 	 * @return
 	 */
 	Set<Category> selectCategoryByName(String typeId, String cateName, String cateCode);
+	 
+	/**
+	 * Description: 根据条件查询目录树
+	 *              包括：
+	 *              物资生产、物资销售、工程、服务
+	 *
+	 * @author Easong
+	 * @version 2017/10/24
+	 * @param 
+	 * @since JDK1.7
+	 */
+	List<Category> selectAllCateByCond(Map<String, Object> map);
 	
 }
