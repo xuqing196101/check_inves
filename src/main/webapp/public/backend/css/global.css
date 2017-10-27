@@ -1997,13 +1997,15 @@ table.lockout .extrafile{
 			line-height: normal;
 			cursor: pointer;
 			text-align: center;
-			margin-left: -30px;
 			background-color: #8fc31f;
 			border-radius: 0 10px 10px 0 !important;
 			/*background-image: url(../images/btn_toggle.png);
 			background-repeat: no-repeat;
 			background-position: -34px 0;*/
 			overflow: hidden;
+		}
+		.m_tree_nav .btn_toggle img {
+		  margin-left: -30px;
 		}
 		.m_tree_nav.open .btn_toggle img {
 		  margin-left: 0;
