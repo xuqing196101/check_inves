@@ -248,11 +248,11 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
         if(expertExtractCondition.getExpertKindId() != null){
             String[] typeCodes = expertExtractCondition.getExpertKindId().split(",");
             for (String typeCode : typeCodes) {
+            	if(typeCode.length() > 25){
+            		typeCode = DictionaryDataUtil.findById(typeCode) == null ? "" : DictionaryDataUtil.findById(typeCode).getCode();
+            	}
                 if(DictionaryDataUtil.get(typeCode) != null){
                     map.put("expertsTypeId", DictionaryDataUtil.get(typeCode).getId());
-                }
-                if(typeCode.length() > 25){
-                    typeCode = DictionaryDataUtil.findById(typeCode) == null ? "" : DictionaryDataUtil.findById(typeCode).getCode();
                 }
                 //附加产品目录
                 Set<String> expertIds = new HashSet<>();
