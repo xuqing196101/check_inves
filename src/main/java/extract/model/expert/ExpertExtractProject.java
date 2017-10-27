@@ -135,7 +135,20 @@ public class ExpertExtractProject {
      */
     private String reviewSite;
     
-    public String getReviewSite() {
+    /**
+     * 抽取人
+     */
+    private String createrId;
+    
+    public String getCreaterId() {
+		return createrId;
+	}
+
+	public void setCreaterId(String createrId) {
+		this.createrId = createrId;
+	}
+
+	public String getReviewSite() {
 		return reviewSite;
 	}
 

@@ -169,7 +169,7 @@ public class ExtractSupplierController extends BaseController {
     		String recordId = WfUtil.createUUID();
     		eRecord.setId(recordId);
     		eRecord.setProcurementDepId(user.getOrg().getId());
-    		
+    		eRecord.setExtractUser(user.getId());
     		expExtractRecordService.insertProjectInfo(eRecord);
     		
     		if("advPro".equals(eRecord.getProjectInto())){

@@ -317,7 +317,7 @@ public class Constant {
     public final static String MILITARY_EXPERT_FILE_EXPERT = "military_expert";
 
     /** 供应商抽取信息 **/
-    public final static String DATE_SYNCH_SUPPLIER_EXTRACT ="SYNCH_S_UPPLIER_EXTRACT_INFO";
+    public final static String DATE_SYNCH_SUPPLIER_EXTRACT_INFO ="SYNCH_S_UPPLIER_EXTRACT_INFO";
     /** 供应商抽取信息描述 **/
     public final static String SUPPLIER_EXTRACT_COMMIT = "导出供应商抽取项目信息数量:";
     /** 供应商抽取信息导入描述 **/

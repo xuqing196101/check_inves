@@ -1302,6 +1302,7 @@ function uuid() {
 //验证项目编号
 function vaCode(){
     var projectCode = $("#projectCode").val();
+    var xmProjectId = $("#xmProjectId").val();
     if(projectCode == null || projectCode == ""){
         $("#err_code").html("项目编号不能为空");
     }else{
@@ -1309,7 +1310,8 @@ function vaCode(){
         $.ajax({
             url : globalPath + "/extractExpert/vaProjectCode.do",
             data : {
-                "code" : projectCode
+                "code" : projectCode,
+                "xmProjectId" : xmProjectId
             },
             dataType : "json",
             async : false,

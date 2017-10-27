@@ -117,13 +117,15 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 			 list = recordMapper.getList(project);
 		 }
 		for (SupplierExtractProjectInfo projectInfo : list) {
-			String temp = "";
-			List<ExtractUser> getlistByRid = userMapper.getlistByRid(projectInfo.getId());
-			for (ExtractUser e : getlistByRid) {
-				temp += e.getName()+",";
-			}
-			if(StringUtils.isNotBlank(temp)){
-				projectInfo.setExtractUser(temp.substring(0,temp.lastIndexOf(",")));
+			if(StringUtils.isBlank(projectInfo.getExtractUser())){
+				String temp = "";
+				List<ExtractUser> getlistByRid = userMapper.getlistByRid(projectInfo.getId());
+				for (ExtractUser e : getlistByRid) {
+					temp += e.getName()+",";
+				}
+				if(StringUtils.isNotBlank(temp)){
+					projectInfo.setExtractUser(temp.substring(0,temp.lastIndexOf(",")));
+				}
 			}
 			if(projectInfo != null && projectInfo.getPurchaseType() != null && projectInfo.getPurchaseType().equals("询价采购")){
 				projectInfo.setPurchaseType("询价");
