@@ -235,6 +235,8 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 		map.put("type", "seven");
 		// 复审不通过的专家类型 2:复审
 		map.put("flag", 2);
+		// 审核不通过标识
+		map.put("auditStatus", 6);
 		return mapper.selectNoPassCateByExpertId(map);
 	}
 
@@ -261,6 +263,7 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
         map.put("type", "six");
         // 设置复审字段标识，只查询复审不通过的参评类别
         map.put("flag", 2);
+        map.put("auditStatus", 6);
         return mapper.selectPassCateByExpertId(map);
     }
     /**

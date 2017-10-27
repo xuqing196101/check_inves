@@ -247,6 +247,7 @@
       <input name="sign" value="${sign}" type="hidden">
       <input name="status" id="status" value="${status}" type="hidden">
       <input name="batchId" value="${batchId}" type="hidden">
+      <input name="isReviewRevision" value="${isReviewRevision}" type="hidden">
     </form>
 
   </body>

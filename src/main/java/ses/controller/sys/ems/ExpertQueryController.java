@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -180,7 +181,15 @@ public class ExpertQueryController {
 	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping(value = "/list")
-    public String findAllExpert(Expert expert, Integer page, Model model, String province, String cateTypeDictCode, String reqType, Integer flag) throws UnsupportedEncodingException {
+    public String findAllExpert(Expert expert, Integer page, Model model, String province, String cateTypeDictCode, String reqType, Integer flag, String categoryIds, String categoryNames) throws UnsupportedEncodingException {
+		//品目id
+		if (categoryIds != null && !"".equals(categoryIds)) {
+            List<String> listCategoryIds = Arrays.asList(categoryIds.split(","));
+            expert.setExpertCategoryId(listCategoryIds);
+            model.addAttribute("categoryIds", categoryIds);
+            model.addAttribute("categoryNames", categoryNames);
+        }
+		
 		// 用于查询地区专家
 		if(province != null && expert.getAddress() == null){
 			// 查询该省所对应的ID
@@ -253,6 +262,10 @@ public class ExpertQueryController {
         // 请求标识
         model.addAttribute("reqType", reqType);
         model.addAttribute("flag", flag);
+        
+        //地区
+        List < Area > privnce = areaServiceI.findRootArea();
+        model.addAttribute("privnce", privnce);
         return "ses/ems/expertQuery/list";
     }
 	
@@ -736,7 +749,7 @@ public class ExpertQueryController {
      * @return
      */
 	@RequestMapping(value = "/readOnlyList")
-    public String readOnlyList(Expert expert, Integer page, Model model, String province, String cateTypeDictCode, String reqType) {
+    public String readOnlyList(Expert expert, Integer page, Model model, String province, String cateTypeDictCode, String reqType, String categoryIds) {
 		// 用于查询地区专家
 		if(province != null && expert.getAddress() == null){
 			// 查询该省所对应的ID
@@ -750,6 +763,13 @@ public class ExpertQueryController {
 				expert.setExpertsTypeId(dictionaryData.getId());
 			}
 		}
+		
+		//品目查询
+		if (categoryIds != null && !"".equals(categoryIds)) {
+            List<String> listCategoryIds = Arrays.asList(categoryIds.split(","));
+            expert.setExpertCategoryId(listCategoryIds);
+        }
+		
 		List < Expert > allExpert = service.selectRuKuExpert(expert, page);
         for(Expert exp: allExpert) {
             DictionaryData dictionaryData = dictionaryDataServiceI

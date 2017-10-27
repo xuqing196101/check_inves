@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplierEngQuaMapper">
+	<resultMap id="BaseResultMap" type="ses.model.sms.SupplierEngQua">
+		<id column="ID" property="id" />
+		<result column="MAT_ENG_ID" property="matEngId" />
+		<result column="NAME" property="name" />
+		<result column="CODE" property="code" />
+		<result column="LEVEL_CERT" property="levelCert" />
+		<result column="LICENCE_AUTHORITH" property="licenceAuthorith" />
+		<result column="EXP_START_DATE" property="expStartDate" jdbcType="TIMESTAMP"/>
+		<result column="EXP_END_DATE" property="expEndDate" jdbcType="TIMESTAMP"/>
+		<result column="MOT" property="mot" />
+		<result column="FILE_NAME" property="attach" />
+		<result column="ID_" property="attachId" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, MAT_ENG_ID, NAME, LEVEL_CERT, LICENCE_AUTHORITH, EXP_START_DATE, EXP_END_DATE,
+		MOT, ATTACH, CODE
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER_ENG_QUA
+		where ID = #{id}
+	</select>
+	<insert id="insert" parameterType="ses.model.sms.SupplierEngQua">
+		insert into T_SES_SMS_SUPPLIER_ENG_QUA (ID, MAT_ENG_ID, NAME,
+		LEVEL_CERT, LICENCE_AUTHORITH, EXP_START_DATE,
+		EXP_END_DATE, MOT, ATTACH
+		)
+		values (#{id}, #{matEngId}, #{name},
+		#{levelCert}, #{licenceAuthorith}, #{expStartDate,jdbcType=TIMESTAMP},
+		#{expEndDate,jdbcType=TIMESTAMP}, #{mot}, #{attach}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="ses.model.sms.SupplierEngQua">
+		insert into T_SES_SMS_SUPPLIER_ENG_QUA
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="matEngId != null">
+				MAT_ENG_ID,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="code != null">
+				CODE,
+			</if>
+			<if test="levelCert != null">
+				LEVEL_CERT,
+			</if>
+			<if test="licenceAuthorith != null">
+				LICENCE_AUTHORITH,
+			</if>
+			<if test="expStartDate != null">
+				EXP_START_DATE,
+			</if>
+			<if test="expEndDate != null">
+				EXP_END_DATE,
+			</if>
+			<if test="mot != null">
+				MOT,
+			</if>
+			<if test="attach != null">
+				ATTACH,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="matEngId != null">
+				#{matEngId},
+			</if>
+			<if test="name != null">
+				#{name},
+			</if>
+			<if test="code != null">
+				#{code},
+			</if>
+			<if test="levelCert != null">
+				#{levelCert},
+			</if>
+			<if test="licenceAuthorith != null">
+				#{licenceAuthorith},
+			</if>
+			<if test="expStartDate != null">
+				#{expStartDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="expEndDate != null">
+				#{expEndDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mot != null">
+				#{mot},
+			</if>
+			<if test="attach != null">
+				#{attach},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierEngQua">
+		update T_SES_SMS_SUPPLIER_ENG_QUA
+		<set>
+			<if test="matEngId != null">
+				MAT_ENG_ID = #{matEngId},
+			</if>
+			<if test="name != null">
+				NAME = #{name},
+			</if>
+			<if test="code != null">
+				CODE = #{code},
+			</if>
+			<if test="levelCert != null">
+				LEVEL_CERT = #{levelCert},
+			</if>
+			<if test="licenceAuthorith != null">
+				LICENCE_AUTHORITH = #{licenceAuthorith},
+			</if>
+			<if test="expStartDate != null">
+				EXP_START_DATE = #{expStartDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="expEndDate != null">
+				EXP_END_DATE = #{expEndDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mot != null">
+				MOT = #{mot},
+			</if>
+			<if test="attach != null">
+				ATTACH = #{attach},
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierEngQua">
+		update T_SES_SMS_SUPPLIER_ENG_QUA
+		set MAT_ENG_ID = #{matEngId},
+		NAME = #{name},
+		LEVEL_CERT = #{levelCert},
+		LICENCE_AUTHORITH = #{licenceAuthorith},
+		EXP_START_DATE = #{expStartDate,jdbcType=TIMESTAMP},
+		EXP_END_DATE = #{expEndDate,jdbcType=TIMESTAMP},
+		MOT = #{mot},
+		ATTACH = #{attach}
+		where ID = #{id}
+	</update>
+	
+	<select id="findEngQuaByMatEngId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select * from T_SES_SMS_SUPPLIER_ENG_QUA where MAT_ENG_ID = #{supplierMatEngId}
+	</select>
+	
+	<!-- 服务资质证书信息 -->
+	<select id="findEngQuaBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
+	    select
+            t1.*, 
+            t3.ID as ID_,
+            t3.NAME as FILE_NAME
+        from
+            T_SES_SMS_SUPPLIER_ENG_QUA t1
+        left join 
+            T_SES_SMS_SUPPLIER_MAT_SERVE t2 
+         on
+            t1.MAT_ENG_ID = t2. ID
+        left join  
+            T_SES_SMS_SUPPLIER_ATTACHMENT t3 
+        on 
+            t3.BUSINESS_ID = t1. ID
+        where
+            t2.SUPPLIER_ID = #{supplierId}
+	</select>
+	
+	<!-- 根据主键删除 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_ENG_QUA
+		where ID = #{id}
+	</delete>
+	<!-- 根据服务id删除 -->
+	<delete id="deleteByMatEngId" >
+		delete from T_SES_SMS_SUPPLIER_ENG_QUA
+		where MAT_ENG_ID = #{matEngId}
+	</delete>
+</mapper>

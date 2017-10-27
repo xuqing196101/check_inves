@@ -39,8 +39,6 @@ public interface SupplierCertSellMapper {
      */
     int updateByPrimaryKey(SupplierCertSell record);
     
-    List<SupplierCertSell> findCertSellBySuppliermatSellId(@Param("supplierMatSellId")String supplierMatSellId);
-    
     /**
      * @Title: findCertSellBySupplierId
      * @author Xu Qing

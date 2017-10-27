@@ -13,9 +13,11 @@ import bss.service.ppms.SaleTenderService;
 import bss.service.prms.PackageExpertService;
 import bss.service.prms.ReviewProgressService;
 import bss.util.ExcelRead;
+
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import com.google.zxing.WriterException;
+
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
@@ -25,6 +27,7 @@ import common.utils.ListSortUtil;
 import common.utils.QRCodeUtil;
 import common.utils.RSAEncrypt;
 import net.sf.json.JSONObject;
+
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -47,6 +50,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
@@ -73,6 +77,7 @@ import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
+import ses.model.sms.SupplierEngQua;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatPro;
 import ses.service.bms.AreaServiceI;
@@ -113,6 +118,7 @@ import javax.imageio.stream.ImageOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -126,6 +132,7 @@ import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -588,6 +595,7 @@ public class ExpertController extends BaseController {
 	            expertAudit.setExpertId(expertId);
 	            expertAudit.setSuggestType(stepNumber);
 	            expertAudit.setStatusQuery("notPass");
+	            expertAudit.setIsDeleted(1);
 	            List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);
 	            // 所有的不通过字段的名字
 	            StringBuffer errorField = new StringBuffer();
@@ -604,6 +612,7 @@ public class ExpertController extends BaseController {
     			expertAuditFor.setSuggestType("seven");
     			expertAuditFor.setType("1");
     			expertAuditFor.setStatusQuery("notPass");
+    			expertAuditFor.setIsDeleted(1);
     			List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
     			
     			
@@ -2223,8 +2232,19 @@ public class ExpertController extends BaseController {
      * @return String
      */
     @RequestMapping("/findAllExpert")
-    public String findAllExpert(Expert expert, Integer page,HttpServletRequest request, HttpServletResponse response, String expertTypeIds, String expertType) {
+    public String findAllExpert(Expert expert, Integer page,HttpServletRequest request, HttpServletResponse response, String expertTypeIds, String expertType, String categoryIds, String categoryNames) {
+    	//类型id
     	expert.setExpertsTypeId(expertTypeIds);
+    	
+    	//品目id
+		if (categoryIds != null && !"".equals(categoryIds)) {
+            List<String> listCategoryIds = Arrays.asList(categoryIds.split(","));
+            expert.setExpertCategoryId(listCategoryIds);
+            request.setAttribute("categoryIds", categoryIds);
+            request.setAttribute("categoryNames", categoryNames);
+        }
+		
+    	
         List < Expert > allExpert = service.selectAllExpert(page == null ? 0 : page, expert);
         for(Expert exp: allExpert) {
             DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(exp.getGender());
@@ -2276,6 +2296,11 @@ public class ExpertController extends BaseController {
         request.setAttribute("expert", expert);
         request.setAttribute("expertType", expertType);
         request.setAttribute("expertTypeIds", expertTypeIds);
+        
+        
+        //地区
+        List < Area > privnce = areaServiceI.findRootArea();
+        request.setAttribute("privnce", privnce);
         return "ses/ems/expert/list";
     }
 
@@ -3034,46 +3059,64 @@ public class ExpertController extends BaseController {
         	SupplierMatPro pro=new SupplierMatPro();
         	supplier.setSupplierMatPro(pro);
         }
-            //		    List < SupplierCertServe > listSupplierCertSes = new ArrayList < SupplierCertServe > ();
-            if (supplier.getSupplierMatSe() != null && supplier.getSupplierMatSe().getListSupplierCertSes() != null&&supplier.getSupplierTypeIds().contains("SERVICE")) {
-                List < SupplierCertServe >    listSupplierCertSes = supplier.getSupplierMatSe().getListSupplierCertSes();
-               if(listSupplierCertSes!=null && !listSupplierCertSes.isEmpty()){
-
-                for(SupplierCertServe server: listSupplierCertSes) {
-                	if(server.getCode() != null){
-                		SupplierCertPro pro = new SupplierCertPro();
-                        pro.setName(server.getName());
-                        pro.setCode(server.getCode());
-                        pro.setLevelCert(server.getLevelCert());
-                        pro.setLicenceAuthorith(server.getLicenceAuthorith());
-                        pro.setExpStartDate(server.getExpStartDate());
-                        pro.setExpEndDate(server.getExpEndDate());
-                        pro.setMot(server.getMot());
-                        listSupplierCertPros.add(pro);
-                	}
-                }
-               }
-            }
-            //		    List < SupplierCertSell > listSupplierCertSells = new ArrayList < SupplierCertSell > ();
-            if (supplier.getSupplierMatSell() != null && supplier.getSupplierMatSell().getListSupplierCertSells() != null&&supplier.getSupplierTypeIds().contains("SALES")) {
-                List < SupplierCertSell >    listSupplierCertSells = supplier.getSupplierMatSell().getListSupplierCertSells();
-                if(listSupplierCertSells !=null && !listSupplierCertSells.isEmpty()){
-                for(SupplierCertSell sell: listSupplierCertSells) {
-                	if(sell.getCode() != null){
-                		SupplierCertPro pro = new SupplierCertPro();
-                        pro.setName(sell.getName());
-                        pro.setCode(sell.getCode());
-                        pro.setLevelCert(sell.getLevelCert());
-                        pro.setLicenceAuthorith(sell.getLicenceAuthorith());
-                        pro.setExpStartDate(sell.getExpStartDate());
-                        pro.setExpEndDate(sell.getExpEndDate());
-                        pro.setMot(sell.getMot());
-                        listSupplierCertPros.add(pro);
-                	}
-                }
-                }
-            }
-            supplier.getSupplierMatPro().setListSupplierCertPros(listSupplierCertPros);
+        //		    List < SupplierCertServe > listSupplierCertSes = new ArrayList < SupplierCertServe > ();
+        if (supplier.getSupplierMatSe() != null && supplier.getSupplierMatSe().getListSupplierCertSes() != null && supplier.getSupplierTypeIds().contains("SERVICE")) {
+            List < SupplierCertServe > listSupplierCertSes = supplier.getSupplierMatSe().getListSupplierCertSes();
+		   if(listSupplierCertSes != null && !listSupplierCertSes.isEmpty()){
+			   for(SupplierCertServe server: listSupplierCertSes) {
+				   if(server.getCode() != null){
+					   SupplierCertPro pro = new SupplierCertPro();
+					   pro.setName(server.getName());
+					   pro.setCode(server.getCode());
+					   pro.setLevelCert(server.getLevelCert());
+					   pro.setLicenceAuthorith(server.getLicenceAuthorith());
+					   pro.setExpStartDate(server.getExpStartDate());
+					   pro.setExpEndDate(server.getExpEndDate());
+					   pro.setMot(server.getMot());
+					   listSupplierCertPros.add(pro);
+				   }
+			   }
+		   }
+        }
+        //		    List < SupplierCertSell > listSupplierCertSells = new ArrayList < SupplierCertSell > ();
+		if (supplier.getSupplierMatSell() != null && supplier.getSupplierMatSell().getListSupplierCertSells() != null && supplier.getSupplierTypeIds().contains("SALES")) {
+			List < SupplierCertSell > listSupplierCertSells = supplier.getSupplierMatSell().getListSupplierCertSells();
+			if(listSupplierCertSells != null && !listSupplierCertSells.isEmpty()){
+			    for(SupplierCertSell sell: listSupplierCertSells) {
+					if(sell.getCode() != null){
+						SupplierCertPro pro = new SupplierCertPro();
+					    pro.setName(sell.getName());
+					    pro.setCode(sell.getCode());
+					    pro.setLevelCert(sell.getLevelCert());
+					    pro.setLicenceAuthorith(sell.getLicenceAuthorith());
+					    pro.setExpStartDate(sell.getExpStartDate());
+					    pro.setExpEndDate(sell.getExpEndDate());
+					    pro.setMot(sell.getMot());
+					    listSupplierCertPros.add(pro);
+					}
+			    }
+			}
+		}
+        //		    List < SupplierEngQua > listSupplierEngQuas = new ArrayList < SupplierEngQua > ();
+		if (supplier.getSupplierMatEng() != null && supplier.getSupplierMatEng().getListSupplierEngQuas() != null && supplier.getSupplierTypeIds().contains("PROJECT")) {
+			List < SupplierEngQua > listSupplierEngQuas = supplier.getSupplierMatEng().getListSupplierEngQuas();
+			if(listSupplierEngQuas != null && !listSupplierEngQuas.isEmpty()){
+				for(SupplierEngQua engQua: listSupplierEngQuas) {
+					if(engQua.getCode() != null){
+						SupplierCertPro pro = new SupplierCertPro();
+						pro.setName(engQua.getName());
+						pro.setCode(engQua.getCode());
+						pro.setLevelCert(engQua.getLevelCert());
+						pro.setLicenceAuthorith(engQua.getLicenceAuthorith());
+						pro.setExpStartDate(engQua.getExpStartDate());
+						pro.setExpEndDate(engQua.getExpEndDate());
+						pro.setMot(engQua.getMot());
+						listSupplierCertPros.add(pro);
+					}
+				}
+			}
+        }
+        supplier.getSupplierMatPro().setListSupplierCertPros(listSupplierCertPros);
 
         // 品目信息
         List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();

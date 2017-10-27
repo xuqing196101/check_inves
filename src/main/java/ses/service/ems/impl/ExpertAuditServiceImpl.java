@@ -1,11 +1,9 @@
 package ses.service.ems.impl;
 
 import com.github.pagehelper.PageHelper;
-
 import common.constant.StaticVariables;
 import common.utils.DateUtils;
 import common.utils.JdcgResult;
-
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -15,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import ses.dao.ems.ExpertAuditFileModifyMapper;
 import ses.dao.ems.ExpertAuditMapper;
 import ses.dao.ems.ExpertAuditOpinionMapper;
@@ -30,10 +27,10 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
 import ses.model.ems.ExpertAuditOpinion;
+import ses.model.ems.ExpertBatchDetails;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertPublicity;
 import ses.model.ems.ExpertReviewTeam;
-import ses.model.sms.SupplierAuditOpinion;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertService;
 import ses.util.Constant;
@@ -42,7 +39,6 @@ import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -534,6 +530,8 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 		ExpertPublicity expertPublicityQuery = (ExpertPublicity) map.get("expertPublicity");
 		List<ExpertPublicity> list = expertMapper.selectExpByPublictyList(expertPublicityQuery);
 		StringBuffer sb = new StringBuffer();
+		// 专家编号
+        ExpertBatchDetails expertBatchDetails = null;
 		if(list != null && !list.isEmpty()){
 			for (ExpertPublicity expertPublicity : list) {
 				// 查询专家类别
@@ -571,7 +569,12 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 					// 没意见设置为""
                     expertPublicity.setAuditOpinion("");
 				}
-			}
+				// 查询专家编号
+                expertBatchDetails = new ExpertBatchDetails();
+                expertBatchDetails.setExpertId(expertPublicity.getId());
+                ExpertBatchDetails expertBatchDetails1 = expertBatchDetailsMapper.findExpertBatchDetails(expertBatchDetails);
+                expertPublicity.setExpertNum(expertBatchDetails1.getCount());
+            }
 		}
 		return list;
 	}
@@ -635,7 +638,25 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
         Integer selectCount;
         count = expertAuditMapper.selectRegExpCateCount(map);
         if(count != null && count > 0){
-            return JdcgResult.build(500, "基本信息中有不通过项");
+        	ExpertAudit expertAudit = new ExpertAudit();
+        	expertAudit.setExpertId(expertId);
+        	expertAudit.setAuditFalg(auditFalg);
+        	expertAudit.setSuggestType(Constant.EXPERT_BASIC_INFO_ITEM_FLAG);
+        	expertAudit.setStatusQuery("notPass");
+        	expertAudit.setIsDeleted(1);
+        	List<ExpertAudit> list = getListByExpert(expertAudit);
+        	String name="不通过";
+        	if(list.size()>0){
+	        	if(list.get(0)!=null){
+		        	if("1".equals(list.get(0).getAuditStatus())){
+		        		name="退回修改";
+		        	}
+		        	if("3".equals(list.get(0).getAuditStatus())){
+		        		name="未修改";
+		        	}
+	        	}
+        	}
+            return JdcgResult.build(500, "基本信息中有"+name+"项");
         }
 
         // 判断专家类型和产品类别分别不能有全不通过项

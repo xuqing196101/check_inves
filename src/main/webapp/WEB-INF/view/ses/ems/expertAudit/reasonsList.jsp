@@ -59,10 +59,10 @@
            		getCheckOpinionType(expertId);
            	}
            	if(checkVal == '5'){
-           		$("#cate_result").html("预复审不合格 。");
+           		$("#cate_result").html("预复审不合格。");
            	}
            	if(checkVal == '10'){
-           		$("#cate_result").html("退回修改 。");
+           		$("#cate_result").html("退回修改。");
            	}
             
             //控制《预初审合格》《预初审不合格》
@@ -78,18 +78,23 @@
         
         function showDiv(){
 					var s=$('input[name="chkItem"]:checked').eq(0).parent("td").parent("tr").find("td").eq(7).text();
+					var status=$("#expertStatus").val();
+					if(status==10){
+						layer.alert("复审退回修改的专家不能修改审核记录状态！", {offset: '100px'});
+						return;
+					}
 					var show=true;
 					if($('input[name="chkItem"]:checked').size()<=0){
 						  layer.alert("请选择需要修改状态的信息！", {offset: '100px'});
 						  return;
 					}
 					$('input[name="chkItem"]:checked').each(function () {
-            var str=$(this).parent("td").parent("tr").find("td").eq(7).text();
-            if(s!=str){
-            	layer.alert("请选择相同状态的审核记录！", {offset: '100px'});
-            	show=false;
-            }
-	        });
+		            var str=$(this).parent("td").parent("tr").find("td").eq(7).text();
+		            if(s!=str){
+		            	layer.alert("请选择相同状态的审核记录！", {offset: '100px'});
+		            	show=false;
+		            }
+			        });
 				 if("已修改"==s||"撤销退回"==s||"撤销不通过"==s){
 					 layer.alert(s+"的审核记录不能修改状态！", {offset: '100px'});
 					 return;
@@ -650,7 +655,8 @@
                             <!-- 状态 -->
                             <c:if test="${reasons.auditStatus eq '1'}"><td class="tc">退回修改</td></c:if>
                             <c:if test="${reasons.suggestType eq 'six' && reasons.auditStatus eq '2'}"><td class="tc">审核不通过</td></c:if>
-                            <c:if test="${reasons.suggestType != 'six' && reasons.auditStatus eq '2'}"><td class="tc">已修改</td></c:if>
+                            <c:if test="${reasons.suggestType eq 'seven' && reasons.type eq '1' && reasons.auditFieldId != 'isTitle' && reasons.auditStatus eq '2'}"><td class="tc">审核不通过</td></c:if>
+                            <c:if test="${reasons.suggestType != 'six' && reasons.auditStatus eq '2' && !(reasons.suggestType eq 'seven' && reasons.type eq '1' && reasons.auditFieldId != 'isTitle' && reasons.auditStatus eq '2') }"><td class="tc">已修改</td></c:if>
                             <c:if test="${reasons.auditStatus eq '3'}"><td class="tc">未修改</td></c:if>
                             <c:if test="${reasons.auditStatus eq '4'}"><td class="tc">撤销退回</td></c:if>
                             <c:if test="${reasons.auditStatus eq '5'}"><td class="tc">撤销不通过</td></c:if>
@@ -830,6 +836,7 @@
     <input name="sign" value="${sign}" type="hidden">
     <input name="status" id="expertStatus" value="${status}" type="hidden">
     <input name="batchId" value="${batchId}" type="hidden">
+    <input name="isReviewRevision" value="${isReviewRevision}" type="hidden">
 </form>
 
 <form id="form_id_word" method="post">

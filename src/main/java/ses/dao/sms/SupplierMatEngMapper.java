@@ -47,7 +47,13 @@ public interface SupplierMatEngMapper {
      * @param @return      
      * @return String
      */
-    String findSupplierIdById(String id);
+    String findSupplierIdByEngAptId(String id);
+    /**
+     * 查询供应商id
+     * @param id
+     * @return
+     */
+    String findSupplierIdByEngQuaId(String id);
     
     /**
      * 根据主键删除数据库的记录

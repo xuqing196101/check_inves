@@ -107,6 +107,7 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
 				"SUPPLIER_PRO_CERT",//
 				"SUPPLIER_SELL_CERT",//
 				"SUPPLIER_ENG_CERT",//
+				"SUPPLIER_ENG_QUA",//
 				"SUPPLIER_SERVE_CERT",//
 				"SUPPLIER_ENG_CERT_FILE",//
 				"SUPPLIER_PRODUCT_PIC",//
@@ -214,6 +215,10 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
 			}
 			if ("SUPPLIER_ENG_CERT".equals(dictionaryData.getCode())) {
 				supplierDictionaryData.setSupplierEngCert(dictionaryData.getId());
+				continue;
+			}
+			if ("SUPPLIER_ENG_QUA".equals(dictionaryData.getCode())) {
+				supplierDictionaryData.setSupplierEngQua(dictionaryData.getId());
 				continue;
 			}
 			if ("SUPPLIER_SERVE_CERT".equals(dictionaryData.getCode())) {

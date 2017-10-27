@@ -472,6 +472,8 @@ public class Expert extends ExpertHistory implements Serializable {
     private Integer isReviewEnd;//是否复审结束（1是）
 
     private String addressName;
+    
+    private List<String> expertCategoryId;
     /**
      * 专家提交审核时间
      **/
@@ -1128,6 +1130,14 @@ public class Expert extends ExpertHistory implements Serializable {
 
 	public void setAddressName(String addressName) {
 		this.addressName = addressName;
+	}
+
+	public List<String> getExpertCategoryId() {
+		return expertCategoryId;
+	}
+
+	public void setExpertCategoryId(List<String> expertCategoryId) {
+		this.expertCategoryId = expertCategoryId;
 	}
     
 }
