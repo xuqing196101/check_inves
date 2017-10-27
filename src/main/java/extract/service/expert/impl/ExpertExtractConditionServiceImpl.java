@@ -91,10 +91,8 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
      * @throws NoSuchFieldException 
      */
     @Override
-    public ExpertExtractCondition save(ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception {
-        String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-        expertExtractCondition.setProjectId(expertExtractCondition.getId());
-        expertExtractCondition.setId(uuid);
+    public ExpertExtractCondition save(String proId, ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception {
+        expertExtractCondition.setProjectId(proId);
         String kind = expertExtractCondition.getExpertKindId();
         if(kind != null && kind.indexOf(",") >= 0){
             String[] typeCodes = kind.split(",");
@@ -135,7 +133,7 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
             field2.setAccessible(true); //设置些属性是可以访问的  
             String technicalTitle = (String)field2.get(expertExtractCateInfo);
             expertExtractTypeInfo.setTechnicalTitle(technicalTitle);
-            expertExtractTypeInfo.setConditionId(uuid);
+            expertExtractTypeInfo.setConditionId(expertExtractCondition.getId());
             expertExtractTypeInfo.setExpertTypeCode(typeCode);
             //获取是否同时满足
             Field field3 = c.getDeclaredField(typeCode.toLowerCase()+"_isSatisfy");
@@ -175,7 +173,7 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                     ExtractCategory extractCategory = new ExtractCategory();
                     String cid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
                     extractCategory.setId(cid);
-                    extractCategory.setConditionId(uuid);
+                    extractCategory.setConditionId(expertExtractCondition.getId());
                     extractCategory.setCategoryId(str);
                     extractCategory.setTypeId(DictionaryDataUtil.getId(typeCode));
                     extractCategory.setIsDeleted((short) 0);
@@ -195,7 +193,7 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                         ExtractCategory extractCategory = new ExtractCategory();
                         String cid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
                         extractCategory.setId(cid);
-                        extractCategory.setConditionId(uuid);
+                        extractCategory.setConditionId(expertExtractCondition.getId());
                         extractCategory.setCategoryId(str);
                         extractCategory.setTypeId(DictionaryDataUtil.getId(typeCode));
                         extractCategory.setIsDeleted((short) 0);
