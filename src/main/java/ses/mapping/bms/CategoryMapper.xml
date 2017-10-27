@@ -618,7 +618,11 @@
   </select>
   <select id="findCategoryByChildrenAndWuZi" parameterType="Map" resultMap="CateMap">
 		 SELECT <include refid="Base_Column_List" /> 
-		 FROM T_SES_BMS_CATEGORY WHERE IS_PUBLISH = 0 AND IS_DELETED = 0 AND NAME LIKE CONCAT(CONCAT('%', #{name}), '%')  START WITH
+		 FROM T_SES_BMS_CATEGORY WHERE IS_PUBLISH = 0 AND IS_DELETED = 0
+		 <if test="status != null">
+		 AND CLASSIFY_STATUS in (#{status},3)
+		</if>
+		 AND NAME LIKE CONCAT(CONCAT('%', #{name}), '%')  START WITH
          PARENT_ID=#{id} CONNECT BY PRIOR ID=PARENT_ID ORDER BY CODE
 	</select>
 	
