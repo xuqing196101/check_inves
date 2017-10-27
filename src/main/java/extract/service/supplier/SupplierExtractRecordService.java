@@ -52,7 +52,7 @@ public interface SupplierExtractRecordService {
    * @param project
    * @return
    */
-  List<SupplierExtractProjectInfo> getList(int i, User user, SupplierExtractProjectInfo project);
+  List<SupplierExtractProjectInfo> getList(int i, User user, SupplierExtractProjectInfo project,Integer dataAccess);
 
   /**
    * 

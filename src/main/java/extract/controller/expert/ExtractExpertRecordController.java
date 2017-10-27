@@ -57,7 +57,6 @@ public class ExtractExpertRecordController extends BaseSupplierController{
 		if (dataAccess == null) {
 			return AuthorityUtil.valiDataAccess(dataAccess, request, response);
 		}
-    	
         Map<String, Object> map = new HashMap<>();
         if (dataAccess == 1) {
 			//查看所有数据

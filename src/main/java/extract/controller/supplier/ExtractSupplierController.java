@@ -35,6 +35,7 @@ import ses.model.ems.ExtConType;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.util.AuthorityUtil;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
 import bss.controller.base.BaseController;
@@ -107,31 +108,29 @@ public class ExtractSupplierController extends BaseController {
      * @param  model
      * @param  project
      * @return String
+     * @throws Exception 
      */
     @RequestMapping("/projectList")
-    public String list(Integer page, Model model, SupplierExtractProjectInfo project,@CurrentUser User user,String startTime,String endTime){
-    	if(null!=user && ("1".equals(user.getTypeName()) || "4".equals(user.getTypeName())) ){
-    		Map<String, Object> map = new HashMap<>();
-    		map.put("page", page);
-    		map.put("startTime", null == startTime ? "" : startTime.trim());
-    		map.put("endTime", null == endTime ? "" : endTime.trim());
-    		
-    		//采购方式
-            List<DictionaryData> purchaseWayList = new ArrayList<>();
-            DictionaryData dictionaryData = DictionaryDataUtil.get("XJCG");
-            dictionaryData.setName("询价");
-            purchaseWayList.add(dictionaryData);
-            purchaseWayList.add(DictionaryDataUtil.get("YQZB"));
-            purchaseWayList.add(DictionaryDataUtil.get("JZXTP"));
-            model.addAttribute("purchaseTypeList",purchaseWayList);
-            model.addAttribute("startTime",startTime);
-            model.addAttribute("endTime",endTime);
-            model.addAttribute("project",project);
-            List<SupplierExtractProjectInfo> extractRecords = expExtractRecordService.getList(page == null?1:page,user,project);
-            model.addAttribute("info", new PageInfo<SupplierExtractProjectInfo>(extractRecords));
-    		return "ses/sms/supplier_extracts/project_list";
-    	}
-    	return "redirect:/qualifyError.jsp";
+    public String list(Integer page, Model model, SupplierExtractProjectInfo project,@CurrentUser User user,String startTime,String endTime) throws Exception{
+    	//获取当前登录用户数据查看权限
+		Integer dataAccess = user.getDataAccess();
+		if (dataAccess == null) {
+			return AuthorityUtil.valiDataAccess(dataAccess, request, response);
+		}
+		//采购方式
+        List<DictionaryData> purchaseWayList = new ArrayList<>();
+        DictionaryData dictionaryData = DictionaryDataUtil.get("XJCG");
+        dictionaryData.setName("询价");
+        purchaseWayList.add(dictionaryData);
+        purchaseWayList.add(DictionaryDataUtil.get("YQZB"));
+        purchaseWayList.add(DictionaryDataUtil.get("JZXTP"));
+        model.addAttribute("purchaseTypeList",purchaseWayList);
+        model.addAttribute("startTime",startTime);
+        model.addAttribute("endTime",endTime);
+        model.addAttribute("project",project);
+        List<SupplierExtractProjectInfo> extractRecords = expExtractRecordService.getList(page == null?1:page,user,project,dataAccess);
+        model.addAttribute("info", new PageInfo<SupplierExtractProjectInfo>(extractRecords));
+		return "ses/sms/supplier_extracts/project_list";
     }
     
     /**
