@@ -141,7 +141,7 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);  
                   </tr>
                 </c:if>
               </c:forEach>
-              <tr>
+              <%-- <tr>
                 <td style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;text-align: center;" colspan="2">总分</td>
                 <c:forEach items="${extensions.supplierList}" var="supplier">
                   <c:if test="${supplier.packages eq pack.id}">
@@ -177,7 +177,7 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);  
 	                </td>
                   </c:if>
                 </c:forEach>
-              </tr>
+              </tr> --%>
    	</table>
   	
   	</c:forEach>

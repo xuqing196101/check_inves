@@ -221,7 +221,7 @@
 					AND	PO.ORG_ID = #{orgId,jdbcType=VARCHAR}
 				</if>
 			
-		)
+		) and pa.TYPE = 2
 		<if test="name != null">
      and PS.NAME like CONCAT(CONCAT('%', #{name}), '%')
     </if>

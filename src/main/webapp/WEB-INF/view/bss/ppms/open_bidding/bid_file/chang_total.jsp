@@ -37,6 +37,7 @@
 	    x=oRect.left - 150;  
 	    y=oRect.top - 150;  
 		var allTable = document.getElementsByTagName("table");
+		/* var allTable = document.getElementById("tables"); */
 		var priceStr = "";
 		var count = 0;
 		var i = 0;
@@ -227,7 +228,7 @@
         </div>
         <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'YZZ' && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJZXTP' && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJTSHZ'}"> 
         <div class="p0 ${vsKey.index} w100p clear">
-		<table class="table table-bordered table-condensed mt5 left_table table_input">
+		<table id="tables" class="table table-bordered table-condensed mt5 left_table table_input">
 			<thead>
 				<tr>
 					<th class="info w50">序号</th>

@@ -73,7 +73,7 @@ public class PackageAdviceServiceImpl implements PackageAdviceService {
 	private static final Integer ZJZXTP = 2;
 	
 	@Override
-	public void savaAudit(String projectId, String packageIds, String advice, String flowDefineId, String auditCode) {
+	public void savaAudit(String projectId, String packageIds, String advice, String flowDefineId, String auditCode, String type) {
 		String[] packageId = packageIds.split(StaticVariables.COMMA_SPLLIT);
 		if (packageId.length > 0) {
 			PackageAdvice packageAdvice = null; 
@@ -85,15 +85,21 @@ public class PackageAdviceServiceImpl implements PackageAdviceService {
 				packageAdvice.setFlowDefineId(flowDefineId);
 				packageAdvice.setStatus(AUDIT_NOT);
 				packageAdvice.setAdvice(advice);
-				packageAdvice.setType(ZJZXTP);
+				if ("1".equals(type)) {
+					packageAdvice.setType(SUSPEND);
+				} else {
+					packageAdvice.setType(ZJZXTP);
+				}
 				packageAdvice.setCode(auditCode);
 				packageAdvice.setCreatedAt(new Date());
 				mapper.insert(packageAdvice);
 				
-				Packages packages = packageMapper.selectByPrimaryKeyId(packId);
-				if (packages != null) {
-					packages.setProjectStatus(DictionaryDataUtil.getId("ZJTSHZ"));
-					packageMapper.updateByPrimaryKeySelective(packages);
+				if ("2".equals(type)) {
+					Packages packages = packageMapper.selectByPrimaryKeyId(packId);
+					if (packages != null) {
+						packages.setProjectStatus(DictionaryDataUtil.getId("ZJTSHZ"));
+						packageMapper.updateByPrimaryKeySelective(packages);
+					}
 				}
 			}
 		}

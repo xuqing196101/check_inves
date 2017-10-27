@@ -18,7 +18,7 @@ import bss.model.ppms.Project;
  */
 public interface PackageAdviceService {
 
-	void savaAudit(String projectId, String packageIds,String advice,String flowDefineId, String auditCode);
+	void savaAudit(String projectId, String packageIds,String advice,String flowDefineId, String auditCode, String type);
 
 	List<PackageAdvice> list(PackageAdvice packageAdvice, User user, Integer page);
 

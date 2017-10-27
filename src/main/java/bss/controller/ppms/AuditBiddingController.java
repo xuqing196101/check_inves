@@ -203,7 +203,7 @@ public class AuditBiddingController extends BaseController {
     	  String projectStatus = packages.getProjectStatus();
         if(projectStatus!=null){
           DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
-          if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())){
+          if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())&&!"ZJTSHZ".equals(dd.getCode())){
             packageUpdateProjectSatus(status, packages);
           }
         }else{

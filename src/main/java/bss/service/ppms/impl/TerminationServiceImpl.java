@@ -999,6 +999,7 @@ public class TerminationServiceImpl implements TerminationService {
 	  Project project = projectMapper.selectProjectByPrimaryKey(projectId);
 	  HashMap<String, Object> map = new HashMap<>();
 	  map.put("projectId", projectId);
+	  map.put("projectStatus", "status");
 	  List<Packages> findByID = packageMapper.findByID(map);
 	  if (findByID != null && !findByID.isEmpty() && findByID.size() > 1) {
 		  List<String> num = new ArrayList<String>();
@@ -1007,7 +1008,7 @@ public class TerminationServiceImpl implements TerminationService {
 			  for (String packageId : packageIds) {
 				  if (!StringUtils.equals(packageId, packages.getId())) {
 					  num.add(packages.getName().substring(1, packages.getName().length()-1));
-					  if(!packages.getProjectStatus().equals(DictionaryDataUtil.getId("YZZ")) || !packages.getProjectStatus().equals(DictionaryDataUtil.getId("JZXTP"))){
+					  if(!packages.getProjectStatus().equals(DictionaryDataUtil.getId("YZZ")) && !packages.getProjectStatus().equals(DictionaryDataUtil.getId("ZJZXTP"))){
 						  number = 1;
 					  }
 				  }
@@ -1016,7 +1017,7 @@ public class TerminationServiceImpl implements TerminationService {
 		  String title = ShortBooleanTitle(num);
 		  String name = project.getName().substring(0,project.getName().lastIndexOf("（"));
 		  project.setName(name+title);
-		  project.setProjectNumber(name+title);
+		  project.setProjectNumber(project.getProjectNumber().substring(0,project.getProjectNumber().lastIndexOf("（"))+title);
 		  if (number == 0) {
 			  project.setStatus(DictionaryDataUtil.getId("YZZ"));
 		  }

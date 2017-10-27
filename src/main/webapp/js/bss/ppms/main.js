@@ -349,7 +349,7 @@ function submitcurr() {
 								}
 								$("#openDiv_packages").append(html);
 								fflog=false;
-								indexLayer =  layer.open({
+								/*indexLayer =  layer.open({
 								  	    shift: 1, //0-6的动画形式，-1不开启
 								  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
 								  	    title: ['提示','border-bottom:1px solid #e5e5e5'],
@@ -357,7 +357,8 @@ function submitcurr() {
 									  		type : 1,
 									  		area : [ '30%', '200px'  ], //宽高
 									  		content : $('#openDivPackages'),
-								});
+								});*/
+								submitFlw(data,currFlowDefineId,projectId);
 							}else{
 								if(data2.status == "failed"){
 									$("#jzxtp").hide();

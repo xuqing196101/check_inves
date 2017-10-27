@@ -114,6 +114,22 @@
   			layer.alert("请选择终止流程");
   			return false;
   		}
+  		indexAudit = layer.open({
+  	    shift: 1, //0-6的动画形式，-1不开启
+  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+  	    title: ['提示','border-bottom:1px solid #e5e5e5'],
+  	    shade:0.01, //遮罩透明度
+	  		type : 2,
+	  		area : [ '30%', '400px'  ], //宽高
+	  		content : '${pageContext.request.contextPath}/packageAdvice/auditFile.do?pachageIds=' + ids + '&projectId=${project.id}' + '&currHuanjieId='+$("#currHuanjieId").val() + '&type=1',
+			});
+  	}
+  	
+  	function auditSuspend(){
+  		var val=[];
+  		$('input[type="radio"]:checked').each(function(){ 
+  			val.push($(this).val()); 
+  		});
   		$.ajax({
 			url:"${pageContext.request.contextPath}/termination/ter_package.do",
 			data:{"packagesId":ids,"projectId":'${project.id}',"currFlowDefineId":val.join(','),"oldCurrFlowDefineId":$("#currHuanjieId").val()},
@@ -163,7 +179,7 @@
   	    shade:0.01, //遮罩透明度
 	  		type : 2,
 	  		area : [ '30%', '400px'  ], //宽高
-	  		content : '${pageContext.request.contextPath}/packageAdvice/auditFile.do?pachageIds=' + pachageIds + '&projectId=${project.id}' + '&currHuanjieId='+currHuanjieId,
+	  		content : '${pageContext.request.contextPath}/packageAdvice/auditFile.do?pachageIds=' + pachageIds + '&projectId=${project.id}' + '&currHuanjieId='+currHuanjieId+'&type=2',
 			});
   		
   		

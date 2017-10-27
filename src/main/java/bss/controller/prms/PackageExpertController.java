@@ -358,7 +358,12 @@ public class PackageExpertController {
         Project project = projectService.selectById(projectId);
         DictionaryData dictionaryData = null;
         if (project != null && project.getPurchaseType() != null ){
+          if(project.getPurchaseNewType()!=null){
+            dictionaryData = DictionaryDataUtil.findById(project.getPurchaseNewType());
+          }else{
             dictionaryData = DictionaryDataUtil.findById(project.getPurchaseType());
+          }
+            /*dictionaryData = DictionaryDataUtil.findById(project.getPurchaseType());*/
             if(dictionaryData!=null){
               project.setPurchaseType(dictionaryData.getCode());
             }
@@ -1728,7 +1733,12 @@ public class PackageExpertController {
         model.addAttribute("packExpertExtList", packExpertExtList);
         Project project = projectService.selectById(projectId);
         model.addAttribute("supplierNumber",project.getSupplierNumber());
-        DictionaryData dd = DictionaryDataUtil.findById(project.getPurchaseType());
+        DictionaryData dd =null;
+        if(project.getPurchaseNewType()!=null){
+           dd = DictionaryDataUtil.findById(project.getPurchaseNewType());
+        }else{
+           dd = DictionaryDataUtil.findById(project.getPurchaseType());
+        }
         if (dd != null) {
           String purcahseCode = dd.getCode();
           model.addAttribute("purcahseCode", purcahseCode);
@@ -3422,45 +3432,50 @@ public class PackageExpertController {
         pack.put("projectStatus", "close");
         List<Packages> packages = packageService.findPackageById(pack);
         for (Packages packages2 : packages) {
-          int count = 0;
-          for (int i = 1; i < packageExperts.size(); i++) {
-            PackageExpert packageExpert = packageExperts.get(i);
-            //校验每包组长数量
-            if (packages2.getId().equals(packageExpert.getPackageId()) && packageExpert.getIsGroupLeader() == 1) {
-                count ++;
-            }
-            //校验组长必须签到
-            if (packages2.getId().equals(packageExpert.getPackageId()) && packageExpert.getIsGroupLeader() == 1 && packageExpert.getIsSigin() == 0) {
-              msg += "【"+packages2.getName()+"】请选择已到场的专家作为组长.";
-              flag = 1;
-            }
-            //临时专家字段校验
-            if (packages2.getId().equals(packageExpert.getPackageId()) && packageExpert.getIsTempExpert() == 0) {
-              Expert expert = packageExpert.getExpert();
-              if (expert != null ) {
-                if ("".equals(expert.getRelName()) || expert.getRelName() == null 
-                    || "".equals(expert.getIdNumber()) || expert.getIdNumber() == null 
-                    || "".equals(expert.getMobile()) || expert.getMobile() == null
-                    || "".equals(expert.getAtDuty()) || expert.getAtDuty() == null) {
-                  msg += "【"+packages2.getName()+"】临时专家填写项不能为空.";
+        	String yzz = DictionaryDataUtil.getId("YZZ");
+        	String zjzxtp = DictionaryDataUtil.getId("ZJZXTP");
+        	String zjtshz = DictionaryDataUtil.getId("ZJTSHZ");
+        	if (!packages2.getProjectStatus().equals(yzz) && !packages2.getProjectStatus().equals(zjzxtp) && !packages2.getProjectStatus().equals(zjtshz)) {
+        		int count = 0;
+                for (int i = 1; i < packageExperts.size(); i++) {
+                  PackageExpert packageExpert = packageExperts.get(i);
+                  //校验每包组长数量
+                  if (packages2.getId().equals(packageExpert.getPackageId()) && packageExpert.getIsGroupLeader() == 1) {
+                      count ++;
+                  }
+                  //校验组长必须签到
+                  if (packages2.getId().equals(packageExpert.getPackageId()) && packageExpert.getIsGroupLeader() == 1 && packageExpert.getIsSigin() == 0) {
+                    msg += "【"+packages2.getName()+"】请选择已到场的专家作为组长.";
+                    flag = 1;
+                  }
+                  //临时专家字段校验
+                  if (packages2.getId().equals(packageExpert.getPackageId()) && packageExpert.getIsTempExpert() == 0) {
+                    Expert expert = packageExpert.getExpert();
+                    if (expert != null ) {
+                      if ("".equals(expert.getRelName()) || expert.getRelName() == null 
+                          || "".equals(expert.getIdNumber()) || expert.getIdNumber() == null 
+                          || "".equals(expert.getMobile()) || expert.getMobile() == null
+                          || "".equals(expert.getAtDuty()) || expert.getAtDuty() == null) {
+                        msg += "【"+packages2.getName()+"】临时专家填写项不能为空.";
+                        flag = 1;
+                      }
+                      List<User> users = userService.findByLoginName(expert.getMobile());
+                      if (users.size() > 0) {
+                        msg += "已存在【"+expert.getRelName()+"】手机号的用户名";
+                        flag = 1;
+                      }
+                    }
+                  }
+                }
+                if (count == 0) {
+                  msg += "【"+packages2.getName()+"】请设置组长";
                   flag = 1;
                 }
-                List<User> users = userService.findByLoginName(expert.getMobile());
-                if (users.size() > 0) {
-                  msg += "已存在【"+expert.getRelName()+"】手机号的用户名";
+                if (count > 1) {
+                  msg += "【"+packages2.getName()+"】请设置一个组长";
                   flag = 1;
                 }
-              }
-            }
-          }
-          if (count == 0) {
-            msg += "【"+packages2.getName()+"】请设置组长";
-            flag = 1;
-          }
-          if (count > 1) {
-            msg += "【"+packages2.getName()+"】请设置一个组长";
-            flag = 1;
-          }
+			}
         }
         if (flag == 1) {
           response.setContentType("text/html;charset=utf-8");
@@ -3657,7 +3672,7 @@ public class PackageExpertController {
             rankList.add(rank);
         }
         // 循环遍历判断名次
-        for (SupplierRank rank : rankList) {
+       /* for (SupplierRank rank : rankList) {
             int count = 0;
             int sum = 0;
             // 判断review_result是否不为空
@@ -3690,7 +3705,7 @@ public class PackageExpertController {
                 }
                 rank.setRank(sum - count);
             }
-        }
+        }*/
         model.addAttribute("rankList", rankList);
         // 项目中抽取的专家信息
         Map<String, Object> mapSearch1 = new HashMap<String, Object>(); 
@@ -3819,7 +3834,7 @@ public class PackageExpertController {
             rankList.add(rank);
         }
         // 循环遍历判断名次
-        for (SupplierRank rank : rankList) {
+       /* for (SupplierRank rank : rankList) {
             int count = 0;
             int sum = 0;
             // 判断review_result是否不为空
@@ -3852,7 +3867,7 @@ public class PackageExpertController {
                 }
                 rank.setRank(sum - count);
             }
-        }
+        }*/
         model.addAttribute("rankList", rankList);
         // 项目中抽取的专家信息
         Map<String, Object> mapSearch1 = new HashMap<String, Object>(); 

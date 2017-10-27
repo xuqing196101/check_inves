@@ -369,6 +369,9 @@
 		<if test="projectId != null and projectId !=''">
 			AND p.PROJECT_ID = #{projectId}
 		</if>
+		<if test="projectStatus != null and projectStatus !=''">
+			AND p.PROJECT_STATUS not in(select id from T_SES_BMS_DICTIONARY_DATA where code='ZJZXTP' or code='YZZ')
+		</if>
 		<if test="listPackagesID != null ">
 			AND p.ID IN 
 			<foreach item="item" index="index" collection="listPackagesID" open="(" separator="," close=")">  
