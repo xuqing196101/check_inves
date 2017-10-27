@@ -31,10 +31,16 @@
         width: $('.mfixed-main').width()
       });
       $(el).find('thead th').each(function (index) {
-        header_html += '<th style="width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'">'+ $(this).html() +'</th>';
-        
-        if (index < opts.fixedNumber) {
-          header_columns_html += '<th style="width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'px">'+ $(this).html() +'</th>';
+        if ($(this).attr('style') != undefined) {
+          header_html += '<th style="'+ $(this).attr('style') +'width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'">'+ $(this).html() +'</th>';
+          if (index < opts.fixedNumber) {
+            header_columns_html += '<th style="'+ $(this).attr('style') +'width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'px">'+ $(this).html() +'</th>';
+          }
+        } else {
+          header_html += '<th style="width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'">'+ $(this).html() +'</th>';
+          if (index < opts.fixedNumber) {
+            header_columns_html += '<th style="width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'px">'+ $(this).html() +'</th>';
+          }
         }
       });
       header_html = '<table class="'+ $(el).attr('class') +'" style="width: '+ $(el).find('thead').width() +'px"><thead>'+ header_html +'</thead></table>';
