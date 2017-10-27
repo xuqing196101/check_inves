@@ -4,7 +4,6 @@ import bss.formbean.Maps;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
-import common.model.UploadFile;
 import common.service.UploadService;
 import common.utils.JdcgResult;
 import dss.model.rids.SupplierAnalyzeVo;
@@ -34,7 +33,6 @@ import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
-import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierEdit;
 import ses.model.sms.SupplierEngQua;
 import ses.model.sms.SupplierFinance;
@@ -47,7 +45,6 @@ import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierPorjectQua;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
-import ses.model.sms.SupplierTypeRelate;
 import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
@@ -329,7 +326,12 @@ public class SupplierQueryController extends BaseSupplierController {
             List<String> listSupplierTypeIds = Arrays.asList(supplierTypeIds.split(","));
             sup.setItemType(listSupplierTypeIds);
         }
-        
+
+        // 物资生产品目ID截取
+        if(sup.getQueryCategory() != null && sup.getQueryCategory().contains(ses.util.Constant.UNDERLINE_PRODUCT)){
+            sup.setQueryCategory(sup.getQueryCategory().substring(0,sup.getQueryCategory().indexOf(ses.util.Constant.UNDERLINE_PRODUCT)));
+        }
+
         //地区
         List < Area > privnce = areaService.findRootArea();
         model.addAttribute("privnce", privnce);

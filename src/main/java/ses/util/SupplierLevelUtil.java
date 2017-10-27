@@ -1,22 +1,20 @@
 package ses.util;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.ParseException;
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierFinance;
 import ses.service.bms.CategoryService;
 import ses.service.ems.ExpertService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierService;
+
+import javax.annotation.PostConstruct;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 版权：(C) 版权所有 2011-2016
@@ -146,11 +144,11 @@ public class SupplierLevelUtil {
      */
     public static Integer getLevel(String supplierId, String typeCode) {
         BigDecimal score = null;
-        if (typeCode.equals("PRODUCT")) {
+        if ("PRODUCT".equals(typeCode)) {
             score = supplierLevelUtil.supplierServiceImpl.selectById(supplierId).getLevelScoreProduct();
-        } else if (typeCode.equals("SALES")) {
+        } else if ("SALES".equals(typeCode)) {
             score = supplierLevelUtil.supplierServiceImpl.selectById(supplierId).getLevelScoreSales();
-        } else if (typeCode.equals("SERVICE")) {
+        } else if ("SERVICE".equals(typeCode)) {
             score = supplierLevelUtil.supplierServiceImpl.selectById(supplierId).getLevelScoreService();
         } else {
             return null;

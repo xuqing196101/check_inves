@@ -996,7 +996,8 @@ public class SupplierController extends BaseSupplierController {
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		model.addAttribute("rootArea", areaService.findRootArea());
 		String businessScope = supplier.getSupplierMatEng().getBusinessScope();
-		if (businessScope != null) {
+		List<Area> businessScopeAreas = supplier.getSupplierMatEng().getBusinessScopeAreas();
+		if (businessScope != null && businessScopeAreas.isEmpty()) {
 		    String[] scope = businessScope.split(",");
 		    for (String areaId : scope) {
 		        Area area = areaService.listById(areaId);
@@ -1736,7 +1737,7 @@ public class SupplierController extends BaseSupplierController {
 		supplierAudit.setSupplierId(supplier.getId());
 		supplierAuditService.updateIsDeleteBySupplierId(supplierAudit);
 		//清空审核人
-		supplier.setAuditor("");
+		//supplier.setAuditor("");
 		supplierAuditService.updateStatus(supplier);
 		
 		request.getSession().removeAttribute("currSupplier");

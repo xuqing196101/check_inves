@@ -1,6 +1,34 @@
 package ses.controller.sys.bms;
 
 
+import com.alibaba.fastjson.JSON;
+import common.annotation.CurrentUser;
+import common.bean.ResBean;
+import common.constant.Constant;
+import common.constant.StaticVariables;
+import net.sf.json.JSONSerializer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import ses.controller.sys.sms.BaseSupplierController;
+import ses.model.bms.Category;
+import ses.model.bms.CategoryTree;
+import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
+import ses.model.sms.SupplierTypeTree;
+import ses.service.bms.CategoryAttachmentService;
+import ses.service.bms.CategoryService;
+import ses.service.bms.DictionaryDataServiceI;
+import ses.service.ems.ExpertService;
+import ses.util.DictionaryDataUtil;
+import ses.util.PropUtil;
+import ses.util.WfUtil;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -13,41 +41,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-
-
-
-import com.alibaba.fastjson.JSON;
-
-import common.annotation.CurrentUser;
-import common.bean.ResBean;
-import common.constant.Constant;
-import common.constant.StaticVariables;
-import net.sf.json.JSONSerializer;
-import ses.controller.sys.sms.BaseSupplierController;
-import ses.model.bms.Category;
-import ses.model.bms.CategoryTree;
-import ses.model.bms.DictionaryData;
-import ses.model.bms.User;
-import ses.model.sms.SupplierTypeTree;
-import ses.service.bms.CategoryAttachmentService;
-import ses.service.bms.CategoryService;
-import ses.service.bms.DictionaryDataServiceI;
-import ses.service.ems.ExpertService;
-import ses.util.DictionaryDataUtil;
-import ses.util.EncodingTool;
-import ses.util.PropUtil;
-import ses.util.WfUtil;
 
 /**
  * 
@@ -721,6 +714,24 @@ public class CategoryController extends BaseSupplierController {
     @ResponseBody
     public List<DictionaryData> getEngLevelByCid(String categoryId){
     	return categoryService.getEngAptitudeLevelByCategoryId(categoryId);
+    }
+
+    /**
+     *
+     * Description:
+     *
+     * @author Easong
+     * @version 2017/10/24
+     * @param
+     * @since JDK1.7
+     */
+    @RequestMapping("/selectAllCateByCond")
+    @ResponseBody
+    public List<Category> selectAllCateByCond(Category category, String name){
+        Map<String, Object> map = new HashMap<>();
+        map.put("name",name);
+        map.put("category", category);
+        return categoryService.selectAllCateByCond(map);
     }
     
     

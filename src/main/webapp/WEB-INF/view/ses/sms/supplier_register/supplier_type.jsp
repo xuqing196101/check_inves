@@ -2315,17 +2315,32 @@
 										</div>
 										<ul class="list-unstyled overflow_h">
 											<input type="hidden" name="supplierMatEng.businessScope" id="businessScope" value="${currSupplier.supplierMatEng.businessScope}"/>
-											<c:forEach items="${currSupplier.supplierMatEng.businessScopeAreas}" var="area" varStatus="st">
-												<li class="col-md-3 col-sm-6 col-xs-12 pl10" id="area_${area.id}" >
-													<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">${area.name}</span>
-													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0"
-														<c:if test="${fn:contains(engPageField,area.name)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${area.name}','mat_eng_page')"</c:if>>
-														<c:if test="${(fn:contains(engPageField,area.name)&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}">  	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" exts="${properties['file.picture.type']}" id="conAch_up_${st.index+1}" multiple="true" auto="true" /></c:if>
-														<c:if test="${!fn:contains(engPageField,area.name)&&currSupplier.status==2}">  <u:show showId="area_show_${st.index+1}" delete="false" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" /></c:if>
-														<c:if test="${currSupplier.status==-1 || empty(currSupplier.status) || fn:contains(engPageField,area.name)}">  <u:show showId="area_show_${st.index+1}" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" /></c:if>
-														<div class="cue">${area.errInfo}</div>
-													</div>
-												</li>
+											<c:forEach items="${rootArea}" var="ra" varStatus="st">
+												<c:set var="flag" value="0"/>
+												<c:forEach items="${currSupplier.supplierMatEng.businessScopeAreas}" var="area">
+													<c:if test="${ra.id == area.id}">
+														<c:set var="flag" value="1"/>
+														<li class="col-md-3 col-sm-6 col-xs-12 pl10" id="area_${area.id}" >
+															<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">${area.name}</span>
+															<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+																<c:if test="${fn:contains(engPageField,area.name)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${area.name}','mat_eng_page')"</c:if>
+																<c:if test="${(fn:contains(engPageField,area.name)&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}">  	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" exts="${properties['file.picture.type']}" id="conAch_up_${st.index+1}" multiple="true" auto="true" /></c:if>
+																<c:if test="${!fn:contains(engPageField,area.name)&&currSupplier.status==2}">  <u:show showId="area_show_${st.index+1}" delete="false" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" /></c:if>
+																<c:if test="${currSupplier.status==-1 || empty(currSupplier.status) || fn:contains(engPageField,area.name)}">  <u:show showId="area_show_${st.index+1}" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" /></c:if>
+																<div class="cue">${area.errInfo}</div>
+															</div>
+														</li>
+													</c:if>
+												</c:forEach>
+												<c:if test="${flag == 0}">
+													<li class="col-md-3 col-sm-6 col-xs-12 pl10" id="area_${ra.id}" >
+														<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">${ra.name}</span>
+														<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+															<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" businessId="${currSupplier.id}_${ra.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" exts="${properties['file.picture.type']}" id="conAch_up_${st.index+1}" multiple="true" auto="true" />
+															<u:show showId="area_show_${st.index+1}" businessId="${currSupplier.id}_${ra.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" />
+														</div>
+													</li>
+												</c:if>
 											</c:forEach>
 										</ul>
 									</fieldset>
@@ -2380,7 +2395,7 @@
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w200">
-																 	<input type="text" class="border0"   maxlength="30" onkeyup="checkInputLength(this,30)"
+																 	<input type="text" class="border0"   maxlength="30" 
 																 		<c:if test="${!fn:contains(engPageField,engQua.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																		name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].name"
 																		value="${engQua.name}" />
@@ -2390,7 +2405,7 @@
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w150">
-															 		<input type="text" class="border0" maxlength="30" onkeyup="checkInputLength(this,30)" 
+															 		<input type="text" class="border0" maxlength="30"  
 																 		<c:if test="${!fn:contains(engPageField,engQua.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																		name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].code"
 																		value="${engQua.code}" />
@@ -2399,7 +2414,7 @@
 															
 															<!--工程 资质等级 -->	
 															<td class="tc"
-																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>><input maxlength="30" onkeyup="checkInputLength(this,30)"
+																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>><input maxlength="30" 
 																type="text" class="border0" <c:if test="${!fn:contains(engPageField,engQua.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].levelCert"
 																value="${engQua.levelCert}" />
@@ -2409,7 +2424,7 @@
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w200">
-															 		<input type="text" class="border0" maxlength="60" onkeyup="checkInputLength(this,60)"
+															 		<input type="text" class="border0" maxlength="60" 
 															    <c:if test="${!fn:contains(engPageField,engQua.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																	name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].licenceAuthorith"
 																	value="${engQua.licenceAuthorith}" />
@@ -2433,7 +2448,7 @@
 															<!-- 工程 证书状态 -->	
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>><input
-																type="text" class="border0" maxlength="15" onkeyup="checkInputLength(this,15)"  <c:if test="${!fn:contains(engPageField,engQua.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
+																type="text" class="border0" maxlength="15" <c:if test="${!fn:contains(engPageField,engQua.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].mot"
 																value="${engQua.mot}" />
 															</td>
@@ -2889,7 +2904,7 @@
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w200">
-																 	<input type="text" class="border0"   maxlength="30" onkeyup="checkInputLength(this,30)"
+																 	<input type="text" class="border0"   maxlength="30" 
 																 		<c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																		name="supplierMatSe.listSupplierCertSes[${certSeNumber}].name"
 																		value="${certSe.name}" />
@@ -2899,7 +2914,7 @@
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w150">
-															 		<input type="text" class="border0" maxlength="30" onkeyup="checkInputLength(this,30)" 
+															 		<input type="text" class="border0" maxlength="30"  
 																 		<c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																		name="supplierMatSe.listSupplierCertSes[${certSeNumber}].code"
 																		value="${certSe.code}" />
@@ -2908,7 +2923,7 @@
 															
 															<!--服务 资质等级 -->	
 															<td class="tc"
-																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input maxlength="30" onkeyup="checkInputLength(this,30)"
+																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input maxlength="30" 
 																type="text" class="border0" <c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																name="supplierMatSe.listSupplierCertSes[${certSeNumber}].levelCert"
 																value="${certSe.levelCert}" />
@@ -2918,7 +2933,7 @@
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w200">
-															 		<input type="text" class="border0" maxlength="60" onkeyup="checkInputLength(this,60)"
+															 		<input type="text" class="border0" maxlength="60" 
 															    <c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																	name="supplierMatSe.listSupplierCertSes[${certSeNumber}].licenceAuthorith"
 																	value="${certSe.licenceAuthorith}" />
@@ -2942,7 +2957,7 @@
 															<!-- 服务证书状态 -->	
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input
-																type="text" class="border0" maxlength="15" onkeyup="checkInputLength(this,15)"  <c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
+																type="text" class="border0" maxlength="15" <c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																name="supplierMatSe.listSupplierCertSes[${certSeNumber}].mot"
 																value="${certSe.mot}" />
 															</td>

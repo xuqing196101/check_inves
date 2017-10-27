@@ -108,6 +108,9 @@
       <if test="relationId != null">
         RELATION_ID,
       </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -131,10 +134,13 @@
       <if test="relationId != null">
         #{relationId},
       </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
     </trim>
     <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
       select sys_guid() from dual
-  </selectKey>
+    </selectKey>
   </insert>
   
   <insert id="add" parameterType="ses.model.sms.SupplierModify">
