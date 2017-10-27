@@ -82,7 +82,7 @@ public class SupplierExtractCondition {
      */
     private int csize;
     
-    private Short quaSize;
+    private int quaSize;
     
     /**
      * <pre>
@@ -651,12 +651,12 @@ public class SupplierExtractCondition {
 	}
 
 
-	public Short getQuaSize() {
-		return quaSize;
+	public int getQuaSize() {
+		return StringUtils.isBlank(quaId)?quaSize:quaId.split(",").length;
 	}
 
 
-	public void setQuaSize(Short quaSize) {
+	public void setQuaSize(int quaSize) {
 		this.quaSize = quaSize;
 	}
 

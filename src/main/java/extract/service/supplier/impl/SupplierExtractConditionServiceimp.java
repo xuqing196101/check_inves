@@ -31,14 +31,12 @@ import ses.model.bms.Qualification;
 import ses.model.sms.Supplier;
 import ses.service.bms.CategoryService;
 import ses.util.DictionaryDataUtil;
-import ses.util.PropUtil;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.pagehelper.PageHelper;
 
 import extract.dao.supplier.ExtractConditionRelationMapper;
 import extract.dao.supplier.SupplierExtractConditionMapper;
@@ -175,11 +173,9 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	 }
 	  
 	this.excludeSupplier(condition);
-	
 	try {
 		String typeCode = condition.getSupplierTypeCode();
 		String code = this.setExtractCondition(typeCode, condition, conType);
-		
 		if(type == 1){
 			if(null == condition.getExtractNum()){
 				map.put("error",code+"ExtractNumError");
