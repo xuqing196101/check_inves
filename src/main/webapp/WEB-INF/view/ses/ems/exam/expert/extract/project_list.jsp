@@ -229,7 +229,7 @@ function form_reset(){
               <c:if test="${fn:length(obj.extractPerson) <= 5 }">${obj.extractPerson }</c:if>
             </td>
             <td class="tc w150"><!-- reviewTime -->
-              <fmt:formatDate value="${obj.updatedAt }" pattern="yyyy/MM/dd HH:mm:ss" />
+              <fmt:formatDate value="${obj.createdAt }" pattern="yyyy/MM/dd HH:mm:ss" />
             </td>
             <td class="tc w90" id="${obj.id }">
               <c:if test="${obj.status == '0' }">未开始</c:if>
