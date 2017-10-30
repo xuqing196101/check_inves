@@ -624,7 +624,7 @@ function expert_auditBatch(url) {
     var ids = select_ids.toString();
     var state = $("#" + ids + "").parent("tr").find("td").eq(10).text(); //.trim();
     state = trim(state);
-    if( state =="公示中"  ||state == "复审合格"||state == "复审结束"  || state == "复审不合格"|| state == "复审退回修改" || state == "复查合格" || state == "复查未合格"){
+    if( state =="公示中"  ||state == "复审合格"||state == "专家复审结束"  || state == "复审不合格"|| state == "复审退回修改" || state == "复查合格" || state == "复查未合格"){
     	 layer.msg('只能选择未复审完成的专家', {
     	      offset: '100px'
     	    });
