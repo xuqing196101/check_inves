@@ -19,7 +19,7 @@
 .f18 {
   font-size: 18px; }
 .f22 {
-  font-size: 22px; }
+  font-size: 22px !important; }
 .f25 {
   font-size: 30px!important; }
 .f50p {

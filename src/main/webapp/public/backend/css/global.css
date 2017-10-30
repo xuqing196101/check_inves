@@ -26,6 +26,8 @@ p, li, li a, label {
     color: #555;
 }
 
+input { outline: none; }
+
 
 .search_detail {
 	padding: 10px;
@@ -1956,7 +1958,7 @@ table.lockout .extrafile{
 		.m_table_fixed_border {
 			border-collapse: inherit;
 		}
-		.p20 { padding: 20px; }
+		.p20 { padding: 20px !important; }
 		.m_inline { display: inline-block; vertical-align: middle; }
 		.m_upload_file .wuexample, .m_upload_file .m_uploadFiles {
 			float: none !important;
@@ -2048,3 +2050,6 @@ table.lockout .extrafile{
 	overflow: hidden;
 	padding: 0;
 }
+
+/* 上传插件格式化 */
+.uploadFiles { margin: 0; padding: 0; }
