@@ -309,7 +309,7 @@
 					function(index, element) {
 						if (element.value == "" || !isProCheck) {
 							flag = false;
-							layer.msg("物资生产资质证书信息不能为空! ");
+							layer.msg("物资生产资质证书信息不能为空！");
 						}
 						count++;
 					});
@@ -317,13 +317,13 @@
 					function(index, element) {
 						if (element.value == "" || !isProCheck) {
 							flag = false;
-							layer.msg("物资生产资质证书信息不能为空! ");
+							layer.msg("物资生产资质证书信息不能为空！");
 						}
 						count++;
 					});
 			if (count == 0) {
 				flag = false;
-				layer.msg("物资生产资质证书信息不能为空! ");
+				layer.msg("物资生产资质证书信息不能为空！");
 			}
 		}
 		// 判断有没有勾选工程
@@ -332,7 +332,7 @@
 				function(index, element) {
 					if (element.value == "" || !isEngCheck) {
 						flag = false;
-						layer.msg("工程资质（认证）证书信息不能为空! ");
+						layer.msg("工程资质（认证）证书信息不能为空！");
 					}
 				}
 			);
@@ -340,7 +340,7 @@
 				function(index, element) {
 					if (element.value == "" || !isEngCheck) {
 						flag = false;
-						layer.msg("工程资质证书详细信息不能为空! ");
+						layer.msg("工程资质证书详细信息不能为空！");
 					}
 				}
 			);
@@ -360,7 +360,7 @@
 				//console.log(count+","+size);
 				if(count != 0 && count < size){
 					flag = false;
-					layer.msg("工程资质证书信息没有填写完整(第"+(index+1)+"行)!");
+					layer.msg("工程资质证书信息没有填写完整(第"+(index+1)+"行)！");
 					return false;
 				}
 			});
@@ -391,7 +391,7 @@
 				//console.log(count+","+size);
 				if(count != 0 && count < size){
 					flag = false;
-					layer.msg("物资销售资质证书信息没有填写完整(第"+(index+1)+"行)!");
+					layer.msg("物资销售资质证书信息没有填写完整(第"+(index+1)+"行)！");
 					return false;
 				}
 			});
@@ -422,7 +422,7 @@
 				//console.log(count+","+size);
 				if(count != 0 && count < size){
 					flag = false;
-					layer.msg("服务资质证书信息没有填写完整(第"+(index+1)+"行)!");
+					layer.msg("服务资质证书信息没有填写完整(第"+(index+1)+"行)！");
 					return false;
 				}
 			});
@@ -437,18 +437,21 @@
 							&& $(this).val() <= startDate) {
 						flag = false;
 						if(tbody_id == "cert_pro_list_tbody_id"){
-							layer.msg("物资生产资质证书-结束时间应大于开始时间!");
+							layer.msg("物资生产资质证书-结束时间应大于开始时间！");
 						}
 						if(tbody_id == "cert_sell_list_tbody_id"){
-							layer.msg("物资销售资质证书-结束时间应大于开始时间!");
+							layer.msg("物资销售资质证书-结束时间应大于开始时间！");
+						}
+						if(tbody_id == "eng_qua_list_tbody_id"){
+							layer.msg("工程资质证书-结束时间应大于开始时间！");
 						}
 						if(tbody_id == "cert_eng_list_tbody_id"){
-							layer.msg("工程资质证书-结束时间应大于开始时间!");
+							layer.msg("工程资质（认证）证书-结束时间应大于开始时间！");
 						}
 						if(tbody_id == "cert_se_list_tbody_id"){
-							layer.msg("服务资质证书-结束时间应大于开始时间!");
+							layer.msg("服务资质证书-结束时间应大于开始时间！");
 						}
-						//layer.msg("结束时间应大于开始时间!");
+						//layer.msg("结束时间应大于开始时间！");
 					}
 				});
 		if (flag == true) {
@@ -496,7 +499,7 @@
 			});
 			
 		}
-
+		
 	}
 	
 	function addEngQua() {
@@ -525,11 +528,11 @@
 		if (size > 0) {
 		
 			// 退回修改审核通过的项不能删除
-			var isDel = checkIsDelForTuihui(checkboxs, '${engPageField}');
+			/* var isDel = checkIsDelForTuihui(checkboxs, '${engPageField}');
 			if(!isDel){
 				layer.msg("审核通过的项不能删除！");
 				return;
-			}
+			} */
 		
 			layer.confirm(
 				"已勾选" + size + "条记录，确定删除？",
@@ -1330,7 +1333,7 @@
 			var project = "${project}";
 			var server = "${server}";
 			if(supplierType == "false"){
-				layer.msg("请选择供应商类型!");
+				layer.msg("请选择供应商类型！");
 			}
 			var msg = "";
 			if (pro == "false") {
@@ -1347,7 +1350,7 @@
 			}
 			if (msg != "") {
 				var msg = msg.substring(0, msg.length - 1);
-				layer.msg(msg + "没有通过校验!");
+				layer.msg(msg + "没有通过校验！");
 			}
 			var checkeds = $("#supplierTypes").val();
 			if(checkeds != "" && checkeds != "null"){
@@ -2032,15 +2035,15 @@
 																</td>
 																<td class="tc"
 																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
-																	<input type="text" required="required" readonly="readonly" 
-																	<c:if test="${(fn:contains(proPageField,certPro.id)&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}"> onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"</c:if>
+																	<input type="text" required="required"
+																	<c:if test="${(fn:contains(proPageField,certPro.id)&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}"> onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',readOnly:true})"</c:if>
 																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].expStartDate"
 																	value="<fmt:formatDate value="${certPro.expStartDate}" pattern="yyyy-MM-dd "/>"
 																	class="border0" /></td>
 																<td class="tc"
 																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
-																	<input type="text" required="required" readonly="readonly"
-																	<c:if test="${(fn:contains(proPageField,certPro.id)&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}"> onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})"</c:if>
+																	<input type="text" required="required"
+																	<c:if test="${(fn:contains(proPageField,certPro.id)&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}"> onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',readOnly:true})"</c:if>
 																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].expEndDate"
 																	value="<fmt:formatDate value="${certPro.expEndDate}" pattern="yyyy-MM-dd "/>"
 																	class="border0" /></td>
@@ -2162,15 +2165,15 @@
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
-																<input type="text" readonly="readonly"
-																<c:if test="${(fn:contains(sellPageField,certSell.id)&&currSupplier.status==2 ) || currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"</c:if> 
+																<input type="text"
+																<c:if test="${(fn:contains(sellPageField,certSell.id)&&currSupplier.status==2 ) || currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',readOnly:true})"</c:if> 
 																name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expStartDate"
 																value="<fmt:formatDate value="${certSell.expStartDate}" pattern="yyyy-MM-dd "/>"
 																class="border0" /></td>
 															<td class="tc"
 																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
-																<input type="text" readonly="readonly"
-																<c:if test="${(fn:contains(sellPageField,certSell.id)&&currSupplier.status==2 ) || currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})"</c:if> 
+																<input type="text"
+																<c:if test="${(fn:contains(sellPageField,certSell.id)&&currSupplier.status==2 ) || currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',readOnly:true})"</c:if> 
 																name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expEndDate"
 																value="<fmt:formatDate value="${certSell.expEndDate}" pattern="yyyy-MM-dd "/>"
 																class="border0" /></td>
@@ -2348,14 +2351,15 @@
 									<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 										<span class="font_line"> 资质证书信息 </span>
 										<div class="col-md-12 col-xs-12 col-sm-12 p0">
-											<c:choose>
+											<%-- <c:choose>
                        	<c:when test="${currSupplier.status==2 }">
                          	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
                          </c:when>
                          <c:otherwise>
                            <button type="button" class="btn" onclick="addEngQua()">新增</button>
                          </c:otherwise>
-                       </c:choose>
+                       </c:choose> --%>
+                      <button type="button" class="btn" onclick="addEngQua()">新增</button>
 											<button type="button" class="btn" onclick="delEngQua()">删除</button>
 											<span class="red">${eng_qua }</span>
 										</div>
@@ -2431,17 +2435,31 @@
 																</div>
 															</td>
 														
-															<td class="tc"
+															<%-- <td class="tc"
 																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>><input
 																type="text" class="border0"
-																readonly="readonly"  <c:if test="${(fn:contains(engPageField,engQua.id)&&currSupplier.status==2) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" </c:if>
+																<c:if test="${(fn:contains(engPageField,engQua.id)&&currSupplier.status==2) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',readOnly:true})" </c:if>
 																name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].expStartDate"
 																value="<fmt:formatDate value="${engQua.expStartDate}" pattern="yyyy-MM-dd "/>" />
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>><input
 																type="text" class="border0"
-																readonly="readonly" <c:if test="${(fn:contains(engPageField,engQua.id)&&currSupplier.status==2) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})" </c:if>
+																<c:if test="${(fn:contains(engPageField,engQua.id)&&currSupplier.status==2) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',readOnly:true})" </c:if>
+																name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].expEndDate"
+																value="<fmt:formatDate value="${engQua.expEndDate}" pattern="yyyy-MM-dd "/>" />
+															</td> --%>
+															<td class="tc"
+																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>><input
+																type="text" class="border0"
+																onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',readOnly:true})"
+																name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].expStartDate"
+																value="<fmt:formatDate value="${engQua.expStartDate}" pattern="yyyy-MM-dd "/>" />
+															</td>
+															<td class="tc"
+																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>><input
+																type="text" class="border0"
+																readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',readOnly:true})"
 																name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].expEndDate"
 																value="<fmt:formatDate value="${engQua.expEndDate}" pattern="yyyy-MM-dd "/>" />
 															</td>
@@ -2456,7 +2474,7 @@
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="fl w200">
-																<c:if test="${(fn:contains(engPageField,engQua.id)&&currSupplier.status==2 ) || currSupplier.status==-1 || empty(currSupplier.status)}">	 <u:upload
+																<%-- <c:if test="${(fn:contains(engPageField,engQua.id)&&currSupplier.status==2 ) || currSupplier.status==-1 || empty(currSupplier.status)}">	 <u:upload
 																	singleFileSize="${properties['file.picture.upload.singleFileSize']}"
 																	exts="${properties['file.picture.type']}"
 																	id="eng_qua_up_${engQuaNumber}" multiple="true"
@@ -2464,7 +2482,15 @@
 																	typeId="${supplierDictionaryData.supplierEngQua}"
 																	sysKey="${sysKey}" auto="true" /></c:if> 
 																	<c:if test="${!fn:contains(engPageField,engQua.id)&&currSupplier.status==2 }">	 <u:show showId="eng_qua_show_${engQuaNumber}" delete="false"  businessId="${engQua.id}" 	typeId="${supplierDictionaryData.supplierEngQua}" sysKey="${sysKey}" /> </c:if>
-																	<c:if test="${currSupplier.status==-1 || empty(currSupplier.status)||fn:contains(engPageField,engQua.id)}">	 <u:show showId="eng_qua_show_${engQuaNumber}"   businessId="${engQua.id}" 	typeId="${supplierDictionaryData.supplierEngQua}" sysKey="${sysKey}" /> </c:if>
+																	<c:if test="${currSupplier.status==-1 || empty(currSupplier.status)||fn:contains(engPageField,engQua.id)}">	 <u:show showId="eng_qua_show_${engQuaNumber}"   businessId="${engQua.id}" 	typeId="${supplierDictionaryData.supplierEngQua}" sysKey="${sysKey}" /> </c:if> --%>
+																	<u:upload
+																	singleFileSize="${properties['file.picture.upload.singleFileSize']}"
+																	exts="${properties['file.picture.type']}"
+																	id="eng_qua_up_${engQuaNumber}" multiple="true"
+																	businessId="${engQua.id}"
+																	typeId="${supplierDictionaryData.supplierEngQua}"
+																	sysKey="${sysKey}" auto="true" />
+																	<u:show showId="eng_qua_show_${engQuaNumber}" businessId="${engQua.id}" typeId="${supplierDictionaryData.supplierEngQua}" sysKey="${sysKey}" />
 																</div>
 															</td>
 														</tr>
@@ -2624,14 +2650,14 @@
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input
 																type="text" required="required" class="border0"
-																readonly="readonly"  <c:if test="${(fn:contains(engPageField,certEng.id)&&currSupplier.status==2 ) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"</c:if>
+																<c:if test="${(fn:contains(engPageField,certEng.id)&&currSupplier.status==2 ) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',readOnly:true})"</c:if>
 																name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expStartDate"
 																value="<fmt:formatDate value="${certEng.expStartDate}" pattern="yyyy-MM-dd"/>" />
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input
 																type="text" required="required" class="border0"
-																readonly="readonly" <c:if test="${(fn:contains(engPageField,certEng.id)&&currSupplier.status==2) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})"</c:if>
+																<c:if test="${(fn:contains(engPageField,certEng.id)&&currSupplier.status==2) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',readOnly:true})"</c:if>
 																name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expEndDate"
 																value="<fmt:formatDate value="${certEng.expEndDate}" pattern="yyyy-MM-dd"/>"
 																pattern="yyyy-MM-dd" />
@@ -2943,14 +2969,14 @@
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input
 																type="text" class="border0"
-																readonly="readonly"  <c:if test="${(fn:contains(servePageField,certSe.id)&&currSupplier.status==2) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" </c:if>
+																<c:if test="${(fn:contains(servePageField,certSe.id)&&currSupplier.status==2) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',readOnly:true})" </c:if>
 																name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expStartDate"
 																value="<fmt:formatDate value="${certSe.expStartDate}" pattern="yyyy-MM-dd "/>" />
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input
 																type="text" class="border0"
-																readonly="readonly" <c:if test="${(fn:contains(servePageField,certSe.id)&&currSupplier.status==2) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})" </c:if>
+																<c:if test="${(fn:contains(servePageField,certSe.id)&&currSupplier.status==2) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',readOnly:true})" </c:if>
 																name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expEndDate"
 																value="<fmt:formatDate value="${certSe.expEndDate}" pattern="yyyy-MM-dd "/>" />
 															</td>
@@ -3053,6 +3079,11 @@
 					$(this).attr('disabled',false);
 				}
 			});
+			
+			// 特殊处理资质证书信息
+			// eng_qua_list_tbody_id
+			$("#eng_qua_list_tbody_id input").removeAttr('disabled').removeAttr('readonly');
+			
 			/* $("select").change(function(){
 				this.selectedIndex=this.defaultIndex;
 			}); */
