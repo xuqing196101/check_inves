@@ -28,6 +28,8 @@ p, li, li a, label {
 
 input { outline: none; }
 
+ul, li, label { margin: 0; padding: 0; }
+
 
 .search_detail {
 	padding: 10px;
