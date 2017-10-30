@@ -1565,22 +1565,22 @@
 				SUPPLIER_STATUS = #{status},
 			</if>
 			<if test="auditDate != null">
-				AUDIT_DATE=#{auditDate,jdbcType=TIMESTAMP},
+				AUDIT_DATE = #{auditDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				UPDATED_AT=#{updatedAt},
+				UPDATED_AT = #{updatedAt},
 			</if>
 			<if test="isPublish != null">
-				IS_PUBLISH=#{isPublish},
+				IS_PUBLISH = #{isPublish},
 			</if>
 			<if test="auditor !=null">
-        AUDITOR =#{auditor},
+        AUDITOR = #{auditor},
       </if>
       <if test="auditTemporary !=null">
-        AUDIT_TEMPORARY =#{auditTemporary},
+        AUDIT_TEMPORARY = #{auditTemporary},
       </if>
       <if test="auditOpinionAttach !=null">
-        AUDIT_OPINION_ATTACH =#{auditOpinionAttach}
+        AUDIT_OPINION_ATTACH = #{auditOpinionAttach}
       </if>
 		</set>
 		where ID = #{id}
