@@ -143,8 +143,12 @@
       <div class="content">
         <div class="col-md-12 tab-v2 job-content">
           <%@include file="/WEB-INF/view/ses/ems/expertAudit/common_jump.jsp" %>
-
-          <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
+          <c:if test="${sign eq '1'}">
+            <h2 class="count_flow"><i>1</i>复审汇总信息</h2>
+          </c:if>
+          <c:if test="${sign ne '1'}">
+            <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
+          </c:if>
           <ul class="ul_list count_flow">
             <table class="table table-bordered table-condensed table-hover">
               <thead>
@@ -234,7 +238,7 @@
 	            <a class="btn" type="button" onclick="nextStep();">下一步</a>
 	          </c:if>
 	          
-	          <c:if test = "${sign eq '1' && status eq '10'}" >
+	          <c:if test = "${sign eq '1' && (status eq '10' || status eq '5')}" >
               <a class="btn" type="button" onclick="preliminaryConfirmation();">确认</a>
             </c:if>
 	        </div>

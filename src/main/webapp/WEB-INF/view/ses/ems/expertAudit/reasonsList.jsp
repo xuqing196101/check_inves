@@ -623,7 +623,7 @@
                         <th class="info w80">审批字段</th>
                         <th class="info w200">审批内容</th>
                         <th class="info">审核理由</th>
-                        <th class="info w150">审核时间</th>
+                        <!-- <th class="info w150">审核时间</th> -->
                         <th class="info w100">状态</th>
                     </tr>
                     </thead>
@@ -649,9 +649,9 @@
                                 <c:if test="${fn:length (reasons.auditReason) <= 20}">${reasons.auditReason}</c:if>
                             </td>
                             <!-- 审核时间 auditAt-->
-                            <td class="tc">
+                            <%-- <td class="tc">
                             	<fmt:formatDate value="${reasons.auditAt }" pattern="yyyy-MM-dd HH:mm"/>
-                            </td>
+                            </td> --%>
                             <!-- 状态 -->
                             <c:if test="${reasons.auditStatus eq '1'}"><td class="tc">退回修改</td></c:if>
                             <c:if test="${reasons.suggestType eq 'six' && reasons.auditStatus eq '2'}"><td class="tc">审核不通过</td></c:if>
