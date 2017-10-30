@@ -141,7 +141,7 @@
 									type: "post",
 									data: {
 										"auditType": "mat_pro_page",
-										"auditFieldName": "生产-资质证书",
+										"auditFieldName": "物资生产-资质证书",
 										"auditContent": auditContent,
 										"suggest": text,
 										"supplierId": supplierId,
@@ -250,7 +250,7 @@
 								type: "post",
 								data: {
 									"auditType": "mat_sell_page",
-									"auditFieldName": "销售-资质证书",
+									"auditFieldName": "物资销售-资质证书",
 									"auditContent": auditContent,
 									"suggest": text,
 									"supplierId": supplierId,
