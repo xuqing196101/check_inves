@@ -6,8 +6,16 @@
 <head>
 <%@ include file="../../../common.jsp"%>
 <%@ include file="/WEB-INF/view/common/map.jsp"%>
+<script src="${pageContext.request.contextPath}/public/highmap/js/highcharts.js"></script>
+<script src="${pageContext.request.contextPath}/public/highmap/js/modules/map.js"></script>
+<script src="${pageContext.request.contextPath}/public/highmap/js/modules/data.js"></script>
+<script src="${pageContext.request.contextPath}/public/highmap/js/modules/drilldown.js"></script>
+<script src="${pageContext.request.contextPath}/public/highmap/js/modules/exporting.js"></script>
+<script src="${pageContext.request.contextPath}/public/highmap/js/cn-china-by-peng8.js"></script>
+<script src="${pageContext.request.contextPath}/public/echarts/china.js"></script>
+<link href="${pageContext.request.contextPath}/public/highmap/js/font-awesome.css" media="screen" rel="stylesheet">
 <script type="text/javascript">
-	$(function () {
+/* 	$(function () {
 	var address;
     Highcharts.setOptions({
         lang:{
@@ -155,7 +163,7 @@
             }
         }
     });
-});
+}); */
 
 var base64EncodeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";  
 var base64DecodeChars = new Array(  
@@ -246,6 +254,92 @@ function chongzhi(){
 	$("#quaEdndate").val('');
 	$("option")[0].selected = true;
 }
+</script>
+<script type="text/javascript">
+	$(function() {
+		option = {
+			/*    title : {
+			       text: '供应商数量统计',
+			       x:'center'
+			   }, */
+			tooltip: {
+				trigger: 'item'
+			},
+			legend: {
+				orient: 'vertical',
+				x: 'left',
+				data: ['']
+			},
+			dataRange: {
+				min: 0,
+				max: '${maxCount}',
+				x: 'left',
+				y: 'bottom',
+				text: ['高', '低'], // 文本，默认为数值文本
+				calculable: true
+			},
+			toolbox: {
+				show: true,
+				orient: 'vertical',
+				x: 'right',
+				y: 'center',
+				feature: {
+					mark: {
+						show: true
+					},
+					dataView: {
+						show: true,
+						readOnly: false
+					},
+					restore: {
+						show: true
+					},
+					saveAsImage: {
+						show: true
+					}
+				}
+			},
+			roamController: {
+				show: true,
+				x: 'right',
+				mapTypeControl: {
+					'china': true
+				}
+			},
+			series: [{
+				name: '中国',
+				type: 'map',
+				mapType: 'china',
+				roam: false,
+				itemStyle: {
+					normal: {
+						label: {
+							show: true
+						}
+					},
+					emphasis: {
+						label: {
+							show: true
+						}
+					}
+				},
+				data:eval('${data}'),
+			}]
+		};
+
+		var myChart = echarts.init(document.getElementById("mapsId"));
+		myChart.setOption(option);
+		myChart.hideLoading();
+		myChart.on('click', function(params) {
+			var address = encodeURI(params.name);
+			address=encodeURI(address);
+			var name = $("#name").val();
+			var quaStartDate = $("#quaStartDate").val();
+			var quaEdndate = $("#quaEdndate").val();
+			window.location.href="${pageContext.request.contextPath}/purchaseManage/purchaseDepdetailList.html?parentName="+address+"&name="+name+"&quaStartDate="+quaStartDate+"&quaEdndate="+quaEdndate;
+		});
+
+	});
 </script>
 </head>
   <body>
