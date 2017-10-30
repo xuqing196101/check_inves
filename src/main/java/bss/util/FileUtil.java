@@ -219,15 +219,14 @@ public class FileUtil {
     }*/
 
     /**
-     *
      * Description: 将指定文件下所有内容复制到指定的文件夹
      * 使用文件通道的方式复制文件
      * FileChannel复制文件的速度比BufferedInputStream/BufferedOutputStream
      * 复制文件的速度快了近三分之一
      *
+     * @param [oldPath: 原路径   newPath：目标路径]
      * @author Easong
      * @version 2017/10/30
-     * @param [oldPath: 原路径   newPath：目标路径]
      * @since JDK1.7
      */
     public static void copyFolder(String oldPath, String newPath) {
@@ -243,32 +242,37 @@ public class FileUtil {
             //要注意，这个temp仅仅是一个临时文件指针
             //整个程序并没有创建临时文件
             File temp = null;
-            for (int i = 0; i < file.length; i++) {
-                //如果oldPath以路径分隔符/或者\结尾，那么则oldPath/文件名就可以了
-                //否则要自己oldPath后面补个路径分隔符再加文件名
-                //谁知道你传递过来的参数是f:/a还是f:/a/啊？
-                if (oldPath.endsWith(File.separator)) {
-                    temp = new File(oldPath + file[i]);
-                } else {
-                    temp = new File(oldPath + File.separator + file[i]);
+            if (file != null) {
+                for (int i = 0; i < file.length; i++) {
+                    //如果oldPath以路径分隔符/或者\结尾，那么则oldPath/文件名就可以了
+                    //否则要自己oldPath后面补个路径分隔符再加文件名
+                    //谁知道你传递过来的参数是f:/a还是f:/a/啊？
+                    if (oldPath.endsWith(File.separator)) {
+                        temp = new File(oldPath + file[i]);
+                    } else {
+                        temp = new File(oldPath + File.separator + file[i]);
+                    }
+                    //如果游标遇到文件
+                    if (temp.isFile()) {
+                        cin = new FileInputStream(temp).getChannel();
+                        cout = new FileOutputStream(newPath + "/" + (temp.getName()).toString()).getChannel();
+                        cin.transferTo(0, cin.size(), cout);
+                        cout.close();
+                        cin.close();
+                    }
+                    //如果游标遇到文件夹
+                    if (temp.isDirectory()) {
+                        copyFolder(oldPath + "/" + file[i], newPath + "/" + file[i]);
+                    }
                 }
-                //如果游标遇到文件
-                if (temp.isFile()) {
-                    cin = new FileInputStream(temp).getChannel();
-                    cout = new FileOutputStream(newPath + "/" + (temp.getName()).toString()).getChannel();
-                    cin.transferTo(0, cin.size(), cout);
-                    cout.close();
-                    cin.close();
-                }
-                //如果游标遇到文件夹
-                if (temp.isDirectory()) {
-                    copyFolder(oldPath + "/" + file[i], newPath + "/" + file[i]);
-                }
+                // 删除内网import下的供应商图片
+                /*if ("0".equals(StaticVariables.ipAddressType)) {
+                    FileUtils.deleteDirectory(filelist);
+                }*/
             }
-            // 删除文件
-            //FileUtils.deleteDirectory(filelist);
         } catch (Exception e) {
             logger.error("复制整个文件夹内容操作出错");
+            e.printStackTrace();
         } finally {
             // 释放资源
             if (cout != null) {

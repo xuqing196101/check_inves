@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -33,16 +34,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-
-import common.annotation.CurrentUser;
-import common.annotation.SystemControllerLog;
-import common.constant.Constant;
-import common.constant.StaticVariables;
-import common.model.UploadFile;
-import common.service.UploadService;
 import ses.model.bms.Area;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
@@ -58,13 +49,11 @@ import ses.model.oms.util.AjaxJsonData;
 import ses.model.oms.util.CommonConstant;
 import ses.model.oms.util.Ztree;
 import ses.service.bms.AreaServiceI;
-import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.DepartmentServiceI;
 import ses.service.oms.OrgInfoService;
 import ses.service.oms.OrgLocaleService;
 import ses.service.oms.OrgnizationServiceI;
-import ses.service.oms.PurChaseDepOrgService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.oms.PurchaseServiceI;
 import ses.util.DictionaryDataUtil;
@@ -72,6 +61,14 @@ import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.ValidateUtils;
 import ses.util.WfUtil;
+import bss.formbean.Maps;
+
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
+import common.annotation.SystemControllerLog;
+import common.constant.StaticVariables;
 
 
 /**
@@ -1154,35 +1151,34 @@ public class PurchaseManageController {
 		HashMap<String, Object> condtionmap = new HashMap<String, Object>();
 		condtionmap.put("typeName", 1);
 		condtionmap.put("name", purchaseDep.getName());
-		StringBuffer sb = new StringBuffer("");
 		List<PurchaseDep> oList = purchaseOrgnizationServiceI.findPurchaseDepList(condtionmap);
 		//开始循环 判断地址是否
-		Map<String,Integer> map= new HashMap<String,Integer>(40);
-		map=getMap();
-		List<String> list=getAllProvince();
-		for(PurchaseDep pDep:oList){
-			for(String str:list){
-				int count=1;
-				if(pDep.getProvinceName()!=null &&pDep.getProvinceName().indexOf(str)!=-1){
-					if(map.get(str)==null){
-						map.put(str, count);
-					}else{
-						map.put(str,map.get(str)+1);
-					}
-				}else {
-					//map.put(str, 0);
-				}
-			}
-		}
-		for (Object o : map.keySet()) { 
-			sb.append(o).append(map.get(o));
-		}
-		String highMapStr=null;
-		if(sb.length()>0){
-			highMapStr=sb.toString();
-		}
+		Map<String, Integer> map = getMap();
+        Integer maxCount = 0;
+        for (PurchaseDep pDep:oList) {
+            for (Map.Entry<String, Integer> entry:map.entrySet()) {   
+                if (pDep.getProvinceName() != null && !"".equals(pDep.getProvinceName()) && pDep.getProvinceName().indexOf(entry.getKey()) != -1){
+                    map.put((String) entry.getKey(), (Integer) map.get(entry.getKey()) + 1);
+                    if (maxCount < map.get(entry.getKey())) {
+                        maxCount = map.get(entry.getKey());
+                    }
+                    break;
+                }
+            }
+        }
+        if (maxCount == 0) {
+            maxCount =2500;
+        }
+        List<Maps> listMap = new LinkedList<Maps>();
+        for (Map.Entry<String, Integer> entry:map.entrySet()) {   
+            Maps mp = new Maps();
+            mp.setValue(new BigDecimal(entry.getValue()));
+            mp.setName(entry.getKey());
+            listMap.add(mp);
+        }
 		//model.addAttribute("data1", map);
-		model.addAttribute("data", highMapStr);
+        model.addAttribute("data", JSON.toJSONString(listMap));
+        model.addAttribute("maxCount", maxCount);
 		model.addAttribute("purchaseDep",purchaseDep);
 		model.addAttribute("authType",user.getTypeName());
 		return "ses/oms/purchase_dep/purchasedep_map_list";
@@ -1320,6 +1316,7 @@ public class PurchaseManageController {
 		map.put("山东", 0);
 		map.put("天津", 0);
 		map.put("吉林", 0);
+		map.put("南海诸岛", 0);
 		return map;
 	}
 	public void setUploadFile(HttpServletRequest request, PurchaseDep purchaseDep) throws IOException {
