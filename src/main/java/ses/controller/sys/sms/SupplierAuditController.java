@@ -269,9 +269,22 @@ public class SupplierAuditController extends BaseSupplierController {
 	 */
 	@RequestMapping("essential")
 	public String essentialInformation(HttpServletRequest request, Supplier supplier, String supplierId, Integer sign) {
+		
+		supplier = supplierService.get(supplierId, 1);
+		
+		// 获取登录用户
+		Object loginUserSession = request.getSession().getAttribute("loginUser");
+		if(loginUserSession == null){
+			return null;
+		}
+		User user = (User) loginUserSession;
+		if(supplier.getAuditor() != null && !supplier.getAuditor().equals(user.getRelName())){
+			return null;
+		}
+		
 		request.setAttribute("sign", sign);
 		
-		SupplierModify supplierModify= new SupplierModify();
+		SupplierModify supplierModify = new SupplierModify();
 		supplierModify.setSupplierId(supplierId);
 		//先删除对比的旧数据
 		supplierModifyService.deleteByType(supplierModify);
@@ -283,9 +296,6 @@ public class SupplierAuditController extends BaseSupplierController {
 		//文件
 		request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
-
-//		supplier = supplierAuditService.supplierById(supplierId);
-		supplier = supplierService.get(supplierId, 1);
 
 		//在数据字典里查询营业执照类型
 		List < DictionaryData > list = DictionaryDataUtil.find(17);
@@ -1268,13 +1278,21 @@ public class SupplierAuditController extends BaseSupplierController {
 	@RequestMapping("auditReasons")
 	@ResponseBody
 	public JdcgResult auditReasons(SupplierAudit supplierAudit, HttpServletRequest request, HttpServletResponse response) throws IOException {
-		User user = (User) request.getSession().getAttribute("loginUser");
-		if(user ==null){
-			return null;
+		String supplierId = supplierAudit.getSupplierId();
+//		Supplier supplier = supplierAuditService.supplierById(id);
+		Supplier supplier = supplierService.selectById(supplierId);
+		
+		// 获取登录用户
+		Object loginUserSession = request.getSession().getAttribute("loginUser");
+		if(loginUserSession == null){
+			return new JdcgResult(501, "对不起，您没有登录或登录失效！", null);
 		}
-		String id = supplierAudit.getSupplierId();
-		Supplier supplier = supplierAuditService.supplierById(id);
-
+		// 校验审核人权限
+		User user = (User) loginUserSession;
+		if(supplier.getAuditor() != null && !supplier.getAuditor().equals(user.getRelName())){
+			return new JdcgResult(501, "对不起，您没有审核权限！", null);
+		}
+		
 		supplierAudit.setStatus(supplier.getStatus());
 		supplierAudit.setCreatedAt(new Date());
 		supplierAudit.setUserId(supplier.getProcurementDepId());
@@ -1289,7 +1307,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(suggest.length()>900){
 			return new JdcgResult(504, "审核内容长度过长", null);
 		}
-		supplierAudit.setSupplierId(id);
+		supplierAudit.setSupplierId(supplierId);
 		// 设置默认退回状态
 		if(auditType != null && (auditType.startsWith("items_") || auditType.equals("supplierType_page"))){
 			supplierAudit.setReturnStatus(2);
@@ -1311,6 +1329,8 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(same) {
 			int i=supplierAuditService.auditReasons(supplierAudit);
 			if(i>0){
+				// 审核完后更新审核人/审核状态
+				updateSupplierAuditStatus(user, supplier);
 				return new JdcgResult(500, "审核成功", null);
 			}else{
 				return new JdcgResult(502, "审核失败", null);
@@ -1319,6 +1339,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			return new JdcgResult(503, "已审核", null);
 		}
 	}
+	
 	/**
 	 * 
 	 * Description:批量 插入审核
@@ -1338,6 +1359,11 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(user == null){
 			return new JdcgResult(501, "登录超时", null);
 		}
+		String supplierId = supplierAuditList.get(0).getSupplierId();
+		Supplier supplier = supplierService.selectById(supplierId);
+		if(supplier.getAuditor() != null && !supplier.getAuditor().equals(user.getRelName())){
+			return new JdcgResult(501, "对不起，您没有审核权限！", null);
+		}
 		if(null != supplierAuditList && !supplierAuditList.isEmpty()){
 			String suggest=supplierAuditList.get(0).getSuggest().trim();
 			if(suggest.length()>900){
@@ -1352,8 +1378,6 @@ public class SupplierAuditController extends BaseSupplierController {
 			if(null != alist && !alist.isEmpty()){
 				return new JdcgResult(503, "选择中存在已审核，不可重复审核", null);
 			}else{
-				String supplierId = supplierAuditList.get(0).getSupplierId();
-				Supplier supplier = supplierService.selectById(supplierId);
 				Date date = new Date();
 				for (SupplierAudit audit2 : supplierAuditList) {
 					audit2.setStatus(supplier.getStatus());
@@ -1369,6 +1393,8 @@ public class SupplierAuditController extends BaseSupplierController {
 				
 				int i=supplierAuditService.insertAudit(supplierAuditList);
 				if(i>0){
+					// 审核完后更新审核人/审核状态
+					updateSupplierAuditStatus(user, supplier);
 					return new JdcgResult(500, "审核成功", null);
 				}else{
 					return new JdcgResult(502, "审核失败", null);
@@ -1394,6 +1420,10 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(user == null){
 			return new JdcgResult(501, "登录超时", null);
 		}
+		Supplier supplier = supplierService.selectById(supplierId);
+		if(supplier.getAuditor() != null && !supplier.getAuditor().equals(user.getRelName())){
+			return new JdcgResult(501, "对不起，您没有审核权限！", null);
+		}
 		if(StringUtils.isBlank(supplierId) || StringUtils.isBlank(supplierTypeId) || StringUtils.isBlank(itemIds)){
 			return new JdcgResult(504, "参数错误", null);
 		}
@@ -1403,7 +1433,51 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(suggest.trim().length() > 900){
 			return new JdcgResult(504, "审核内容长度过长", null);
 		}
-		return supplierAuditService.auditContractMuti(user.getId(), supplierId, supplierTypeId, suggest, itemIds);
+		JdcgResult result = supplierAuditService.auditContractMuti(user.getId(), supplierId, supplierTypeId, suggest, itemIds);
+		if(result != null && result.getStatus() != null && result.getStatus() == 500){
+			// 审核完后更新审核人/审核状态
+			updateSupplierAuditStatus(user, supplier);
+		}
+		return result;
+	}
+	
+	/**
+	 * 更新审核人/审核状态
+	 * @param user
+	 * @param supplier
+	 * @return
+	 */
+	private int updateSupplierAuditStatus(User user, Supplier supplier){
+		if(supplier.getAuditor() == null){
+			Supplier updateSupplier = new Supplier();
+			Date nowDate = new Date();
+			updateSupplier.setId(supplier.getId());
+			updateSupplier.setAuditor(user.getRelName());
+			updateSupplier.setAuditDate(nowDate);
+			updateSupplier.setUpdatedAt(nowDate);
+			Integer auditTemporary = 0;
+			Integer status = supplier.getStatus();
+			if(status != null && (status == 0 || status == 9)){
+				auditTemporary = 1;// 审核中
+			}
+			updateSupplier.setAuditTemporary(auditTemporary);
+			return supplierAuditService.updateStatus(updateSupplier);
+		}else{
+			if(supplier.getAuditor().equals(user.getRelName()) && (supplier.getAuditTemporary() == null || supplier.getAuditTemporary() == 0)){
+				Supplier updateSupplier = new Supplier();
+				Date nowDate = new Date();
+				updateSupplier.setId(supplier.getId());
+				updateSupplier.setUpdatedAt(nowDate);
+				Integer auditTemporary = 0;
+				Integer status = supplier.getStatus();
+				if(status != null && (status == 0 || status == 9)){
+					auditTemporary = 1;// 审核中
+				}
+				updateSupplier.setAuditTemporary(auditTemporary);
+				return supplierAuditService.updateStatus(updateSupplier);
+			}
+		}
+		return 0;
 	}
 	
 	/**
@@ -1510,18 +1584,26 @@ public class SupplierAuditController extends BaseSupplierController {
 	@RequestMapping("updateStatus")
 	public String updateStatus(@CurrentUser User user, HttpServletRequest request, Supplier supplier, SupplierAudit supplierAudit, SupplierAuditOpinion supplierAuditOpinion) throws IOException {
 		String supplierId = supplierAudit.getSupplierId();
-		Todos todos = new Todos();
 		/*User user = (User) request.getSession().getAttribute("loginUser");*/
-		//更新状态
-		supplier.setId(supplierId);
-		supplier.setAuditDate(new Date());
-		//审核人
-		supplier.setAuditor(user.getRelName());
-		//还原审核暂存状态
-		supplier.setAuditTemporary(0);
+//		supplier = supplierAuditService.supplierById(supplierId);
+		supplier = supplierService.selectById(supplierId);
+		String supplierName = supplier.getSupplierName();
+		
+		// 更新状态
+		Supplier updateSupplier = new Supplier();
+		updateSupplier.setId(supplierId);
+		// 取消审核暂存状态
+		updateSupplier.setAuditTemporary(0);
 		// 设置修改时间
-		supplier.setUpdatedAt(new Date());
-		supplierAuditService.updateStatus(supplier);
+		Date nowDate = new Date();
+		updateSupplier.setUpdatedAt(nowDate);
+		if(supplier.getAuditor() == null){
+			// 审核人
+			updateSupplier.setAuditor(user.getRelName());
+			// 审核时间
+			updateSupplier.setAuditDate(nowDate);
+		}
+		supplierAuditService.updateStatus(updateSupplier);
 
 		if(supplier.getStatus() != null && supplier.getStatus() == 1){
 			// 供应商分级要素得分
@@ -1532,10 +1614,6 @@ public class SupplierAuditController extends BaseSupplierController {
 	        	supplierService.updateSupplierProcurementDep(supplier);
 	        }
 		}
-		
-		//更新待办
-		supplier = supplierAuditService.supplierById(supplierId);
-		String supplierName = supplier.getSupplierName();
 		
 		//记录最终意见
 		if(supplier != null && supplier.getStatus() != -2){
@@ -1554,6 +1632,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			supplierAuditNotService.insertSelective(supplierAuditNot);
 		}
 		
+		Todos todos = new Todos();
 		/**
 		 * 更新待办(已完成)
 		 */
@@ -1675,13 +1754,12 @@ public class SupplierAuditController extends BaseSupplierController {
 				}*/
 
 		//审核完更新状态
-		List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
-		if(reasonsList.size() != 0) {
+		int countAudit = supplierAuditService.countAuditRecords(supplierAudit, null);
+		if(countAudit != 0) {
 			supplierAudit.setStatus(supplier.getStatus());
 			supplierAudit.setSupplierId(supplierId);
 			supplierAuditService.updateStatusById(supplierAudit);
 		}
-		
 
 		if (supplier.getStatus() == 2) {
 			// 删除之前的历史记录
@@ -4840,6 +4918,27 @@ public class SupplierAuditController extends BaseSupplierController {
 			return new JdcgResult(504, "参数错误", null);
 		}
 		return supplierAuditService.updateReturnStatus(ids, status);
+	}
+	
+	/**
+	 * 校验审核人
+	 * @param supplierId
+	 * @return
+	 */
+	@RequestMapping("/validateAuditor")
+	@ResponseBody
+	public JdcgResult validateAuditor(String supplierId){
+		// 获取登录用户
+		Object loginUserSession = request.getSession().getAttribute("loginUser");
+		if(loginUserSession == null){
+			return new JdcgResult(0, "对不起，您没有登录或登录失效！", null);
+		}
+		Supplier supplier = supplierService.selectById(supplierId);
+		User user = (User) loginUserSession;
+		if(supplier.getAuditor() != null && !supplier.getAuditor().equals(user.getRelName())){
+			return new JdcgResult(0, "对不起，您没有审核权限！", null);
+		}
+		return new JdcgResult(1, null, null);
 	}
 	
 	/*@RequestMapping("/saveAuditOpinion")
