@@ -3090,12 +3090,12 @@
 			
 			// 控制4大类别的编辑性
 			$("input[type='checkbox'][name='chkItem']").attr('disabled',true);
-			/* $("input[type='checkbox'][name='chkItem']").each(function(){
+			$("input[type='checkbox'][name='chkItem']").each(function(){
 				var typeErrorField = '${typePageField}';
 				if(typeErrorField.indexOf($(this).parent().attr("id")) >= 0){
 					$(this).attr('disabled',false);
 				}
-			}); */
+			});
 			// 控制承揽业务范围：省、直辖市
 			var engPageField = '${engPageField}';
 			$("#areaSelect").attr('disabled',false);

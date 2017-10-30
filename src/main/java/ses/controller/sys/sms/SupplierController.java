@@ -278,7 +278,7 @@ public class SupplierController extends BaseSupplierController {
         	}
         	
         	// 如果供应商类型被退回，自动去掉勾选
-        	SupplierAudit supplierAudit = new SupplierAudit();
+        	/*SupplierAudit supplierAudit = new SupplierAudit();
         	supplierAudit.setSupplierId(suppId);
         	supplierAudit.setAuditType("supplierType_page");
         	List<SupplierAudit> auditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{2});
@@ -290,7 +290,7 @@ public class SupplierController extends BaseSupplierController {
         				supplierTypeRelateService.delete(suppId, dd.getCode());
         			}
         		}
-        	}
+        	}*/
     	}
     	
     	supplier = supplierService.get(suppId, 2);
