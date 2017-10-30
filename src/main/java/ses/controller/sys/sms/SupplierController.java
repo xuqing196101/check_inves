@@ -3456,7 +3456,7 @@ public class SupplierController extends BaseSupplierController {
 		model.addAttribute("engQuaNumber", number);
 		model.addAttribute("id", UUID.randomUUID().toString().toUpperCase().replaceAll("-", ""));
 		//初始化供应商注册附件类型
-		model.addAttribute("typeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierEngCert());
+		model.addAttribute("typeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierEngQua());
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		return new ModelAndView("ses/sms/supplier_register/add_eng_qua");
 	}
