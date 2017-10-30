@@ -42,26 +42,32 @@ public class SupplierEngQuaServiceImpl implements SupplierEngQuaService {
 	@Override
 	public boolean deleteEngQuaByIds(String ids) {
 		boolean isSuccess = false;
-	    try{
-            if(StringUtils.isNotBlank(ids)){
-                String[] idArray = ids.split(",");
-                int delCount = 0;
-                for(int i=0;i<idArray.length;i++){
-                    if(StringUtils.isNotBlank(idArray[i])){
-                        int key = supplierEngQuaMapper.deleteByPrimaryKey(idArray[i]);
-                        if(key == 1){
-                            delCount++;
-                        }
-                    }
-                }
-                if(delCount==idArray.length){
-                    isSuccess = true;
-                }
-            }
-        }catch (Exception e){
-	        e.printStackTrace();
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-        }
-        return isSuccess;
+		try {
+			if (StringUtils.isNotBlank(ids)) {
+				String[] idArray = ids.split(",");
+				int delCount = 0;
+				int hasCount = 0;
+				for (int i = 0; i < idArray.length; i++) {
+					String id = idArray[i];
+					if (StringUtils.isNotBlank(id)) {
+						SupplierEngQua engQua = supplierEngQuaMapper.selectByPrimaryKey(id);
+						if (engQua != null) {
+							int key = supplierEngQuaMapper.deleteByPrimaryKey(id);
+							if (key == 1) {
+								delCount++;
+							}
+							hasCount++;
+						}
+					}
+				}
+				if (delCount == hasCount) {
+					isSuccess = true;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+		}
+		return isSuccess;
 	}
 }
