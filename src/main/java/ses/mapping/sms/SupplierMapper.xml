@@ -1350,7 +1350,13 @@
 				     ON T1. ID = T3.SUPPLIER_ID
 				    LEFT JOIN T_SES_SMS_SUPPLIER_ITEM ITEM
 				     ON T3.SUPPLIER_ID = ITEM.SUPPLIER_ID
+				    LEFT JOIN T_SES_SMS_SUPPLIER_ITEM_LEVEL SL
+				     ON T1.ID = SL.SUPPLIER_ID
 				    WHERE INSTR(#{supplierTypeIds}, ITEM.SUPPLIER_TYPE_RELATE_ID) > 0 AND ITEM.CATEGORY_ID = #{queryCategory}
+                    <!--供应商登记查询条件-->
+                    <if test="supplierLevel != null and supplierLevel != ''">
+                        AND SL.SUPPLIER_LEVEL = #{supplierLevel}
+                    </if>
                     )
 			  </when>
 			  <when test="queryCategory == null or queryCategory == ''">

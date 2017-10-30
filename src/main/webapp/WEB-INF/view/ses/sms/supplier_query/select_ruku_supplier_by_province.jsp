@@ -7,7 +7,7 @@
 
 	<head>
         <%@ include file="../../../common.jsp"%>
-        <script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/supplier_query/select_supplier_by_province.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/supplier_query/select_ruku_supplier_by_province.js"></script>
         <script type="text/javascript">
 			$(function() {
 				laypage({
@@ -52,6 +52,7 @@
 				$("#isProvisional").val('');
                 $("#supplierGradeInputVal").val('');
                 $("#supplierGradeInput").val('');
+                $("#supplierLevel").val();
 				$("#status option:selected").removeAttr("selected");
 				$("#address option:selected").removeAttr("selected");
 				$("#businessNature option:selected").removeAttr("selected");
@@ -79,6 +80,13 @@
 						optionStatus[i].selected = true;
 					}
 				}
+                var supplierLevel = '${supplier.supplierLevel}';
+				// 获取供应商品目
+                var supplierCateQuery = $("#supplierGradeInput").val();
+				if(supplierCateQuery != ''){
+                    $("#supplierLevelLi").css("display", "block");
+                    $("#supplierLevel").val(supplierLevel);
+                }
 			});
 		</script>
 		<script type="text/javascript">
@@ -456,29 +464,25 @@
                   </c:forEach>
                 </select>
               </li>
-            </c:if>
-				  <c:if test ="${sign == 2 }">
-					  <li>
-						  <label class="fl">供应商等级：</label>
-						  <select  name="supplierLevelName" id="supplierLevel" class="w220">
-							  <option selected="selected" value=''>全部</option>
-							  <option value="一级">一级</option>
-							  <option value="二级">二级</option>
-							  <option value="三级">三级</option>
-							  <option value="四级">四级</option>
-							  <option value="五级">五级</option>
-							  <option value="六级">六级</option>
-							  <option value="七级">七级</option>
-							  <option value="八级">八级</option>
-						  </select>
-					  </li>
-				  </c:if>
-				  <c:if test ="${sign == 2 }">
-					  <li>
-						  <label class="fl">供应商品目：</label><span><input  class="w220" name="queryCategoryName" id="supplierGradeInput" class="span2 mt5" type="text" name=""  readonly value="${supplier.queryCategoryName }" onclick="initZtree(true);" />
+				  <li>
+					  <label class="fl">供应商品目：</label><span><input  class="w220" name="queryCategoryName" id="supplierGradeInput" class="span2 mt5" type="text" name=""  readonly value="${supplier.queryCategoryName }" onclick="initZtree(true);" />
 						<input type="hidden" name="queryCategory" id="supplierGradeInputVal" value="${supplier.queryCategory}"/></span>
-					  </li>
-				  </c:if>
+				  </li>
+				  <li id="supplierLevelLi" class="display-none">
+					  <label class="fl">供应商等级：</label>
+					  <select name="supplierLevel" id="supplierLevel" class="w220">
+						  <option selected="selected" value=''>全部</option>
+						  <option value="一级">一级</option>
+						  <option value="二级">二级</option>
+						  <option value="三级">三级</option>
+						  <option value="四级">四级</option>
+						  <option value="五级">五级</option>
+						  <option value="六级">六级</option>
+						  <option value="七级">七级</option>
+						  <option value="八级">八级</option>
+					  </select>
+				  </li>
+            </c:if>
 		       </ul>
 		       <div class="col-md-12 clear tc mt10">
 	           <button type="button" onclick="submit()" class="btn">查询</button>
