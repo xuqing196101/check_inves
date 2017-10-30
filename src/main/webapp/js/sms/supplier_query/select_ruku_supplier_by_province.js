@@ -136,6 +136,8 @@ function zTreeOnClick(event, treeId, treeNode){
     $("#supplierGradeInput").val(currentNodeName);
     // 关闭树
     hideSupplierGradeTreeContent();
+    // 打开等级选择框
+    $("#supplierLevelLi").css("display", "block");
 }
 
 /**
