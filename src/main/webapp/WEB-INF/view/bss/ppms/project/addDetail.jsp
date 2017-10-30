@@ -203,45 +203,13 @@
         });
       }
 
-      function check1(ele) {
-        obj = ele;
-        var flag = $(ele).prop("checked");
-        var id = $(ele).val();
-        $.ajax({
-          url: "${pageContext.request.contextPath}/project/checkDeail.html",
-          data: {
-            "id": id,
-            "flag": flag
-          },
-          type: "post",
-          dataType: "json",
-          success: function(result) {
-            for(var i = 0; i < result.length; i++) {
-              $("input[name='chkItem']").each(function() {
-                var v1 = result[i].id;
-                var v2 = $(this).val();
-                if(v2 == v1) {
-                  $(this).prop("checked", flag);
-                }
-              });
-            }
-          },
-          error: function() {
-            layer.msg("失败", {
-              offset: ['222px', '390px']
-            });
-          }
-        });
-
-      }
-
       function save() {
         var checkIds = [];
         $('input[name^="chkItem"]:checked').each(function() {
           checkIds.push($(this).val());
         });
         if(checkIds.length < 1) {
-          layer.alert("请勾选明细", "#tb_id");
+          layer.alert("请勾选明细");
         } else {
           $.ajax({
             url: "${pageContext.request.contextPath}/project/purchaseType.html",

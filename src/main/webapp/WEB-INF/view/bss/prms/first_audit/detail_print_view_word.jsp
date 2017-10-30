@@ -126,7 +126,7 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
 			      	<tr>
 			      	  <td  style="border: 1px solid #ddd;padding: 5px 10px;width:20%;">${first.content}</td>
 			      	  <c:forEach items="${ext.supplierList}" var="supplier" varStatus="v">
-			      	  	 <td  style="border: 1px solid #ddd;padding: 5px 10px;width:10%;text-align: center;">
+			      	  	 <td  style="border: 1px solid #ddd;padding: 5px 10px;width:${8/fn:length(ext.supplierList)*(fn:length(ext.supplierList)==8?100:10)}%;text-align: center;">
 			      	  
 	                   <c:if test="${fn:contains(supplier.packages,ext.packageId)}">
 			                    <c:forEach items="${reviewFirstAuditList }" var="r" >                
