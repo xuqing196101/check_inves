@@ -2307,7 +2307,7 @@ resultMap="BaseResultMap">
     <if test="addressName != null and addressName !=''">
       and AREA.NAME like CONCAT(CONCAT('%', #{addressName}), '%')
     </if>
-    ORDER BY T1.CREATED_AT DESC
+    ORDER BY DECODE (T1.STATUS,'6','1'),T1.AUDIT_AT DESC NULLS LAST
   </select>
 
 	<!-- 统计注册专家数 -->
