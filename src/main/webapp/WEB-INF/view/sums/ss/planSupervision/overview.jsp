@@ -433,7 +433,7 @@
                   <tbody>
                     <c:forEach items="${listAuditPerson}" var="obj" varStatus="vs">
                       <tr>
-                        <td class="tc">第${(vs.index+1)}轮</td>
+                        <td class="tc">第${obj.type}轮</td>
                         <td class="tc">${obj.name}</td>
                         <td class="tc"><button class="btn" onclick="viewAuditPerson('${detailId}','${(vs.index+1)}');" type="button">查看</button> </td>
                         <td class="tc">

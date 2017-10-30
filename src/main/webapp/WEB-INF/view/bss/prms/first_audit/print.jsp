@@ -121,11 +121,11 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
    			  </td>
    			</tr>
    			<c:forEach items="${extensions.firstAuditList }" var="first" varStatus="vs">
-		      	<c:if test="${first.kind == d.id}">
+		      	<c:if test="${first.kind eq d.id}">
 			      	<tr>
 			      	  <td  style="border: 1px solid #ddd;padding: 5px 10px;width:20%;">${first.content}</td>
 			      	  <c:forEach items="${extensions.supplierList}" var="supplier" varStatus="v">
-			      	  	 <td  style="border: 1px solid #ddd;padding: 5px 10px;width:10%;text-align: center;">
+			      	  	 <td  style="border: 1px solid #ddd;padding: 5px 10px;width:${8/fn:length(extensions.supplierList)*(fn:length(extensions.supplierList)==8?100:10)}%;text-align: center;">
 			      	  
 	                   <c:if test="${fn:contains(supplier.packages,extensions.packageId)}">
 			                    <c:forEach items="${reviewFirstAuditList }" var="r" >

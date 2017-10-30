@@ -567,6 +567,17 @@ public class TerminationServiceImpl implements TerminationService {
             reviewFirstAuditMapper.insertSelective(rfa);
           }
        }
+        Packages oldPackages = packageMapper.selectByPrimaryKeyId(oldId);
+        Packages newPackages = packageMapper.selectByPrimaryKeyId(newId);
+        if (newPackages != null) {
+        	if (oldPackages.getQualificationTime() != null) {
+            	newPackages.setQualificationTime(oldPackages.getQualificationTime());
+    		}
+            if (oldPackages.getTechniqueTime() != null) {
+            	newPackages.setTechniqueTime(oldPackages.getTechniqueTime());
+    		}
+            packageMapper.updateByPrimaryKeySelective(newPackages);
+		}
     }
   }
   private void flw_kbcb(Map<String, String> mapId, Project project,
@@ -952,6 +963,8 @@ public class TerminationServiceImpl implements TerminationService {
           }else{
             pg.setNewFlowId(currFlowDefineId);
           }
+          pg.setTechniqueTime(null);
+          pg.setQualificationTime(null);
           pg.setProjectStatus(null);
           packageMapper.insertSelective(pg);
           mapId.put(pagId, pg.getId());

@@ -1459,7 +1459,7 @@
       <if test="principal != null and principal != ''">
         OR (p.PRINCIPAL = #{principal}) 
       </if>
-      ) AND p.IS_REHEARSE = 0 AND (p.PARENT_ID != '1' OR p.PARENT_ID IS NULL)
+      ) AND p.IS_REHEARSE = 0 AND (p.PARENT_ID != '1' OR p.PARENT_ID IS NULL) AND STATUS != '4'
       <if test="purchaseDepId != null and purchaseDepId != ''">
         AND  p.PURCHASE_DEP_ID = #{purchaseDepId}
       </if>

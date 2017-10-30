@@ -123,7 +123,7 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
 			      	  <td  style="border: 1px solid #ddd;padding: 5px 10px;width:20%;">${first.content}</td>
 			      	  
 			      	  <c:forEach items="${extensions.supplierList}" var="supplier">
-			      	  	 <td  style="border: 1px solid #ddd;padding: 5px 10px;width:10%;text-align: center;">
+			      	  	 <td  style="border: 1px solid #ddd;padding: 5px 10px;width:${8/fn:length(extensions.supplierList)*(fn:length(extensions.supplierList)==8?100:10)}%;text-align: center;">
 			      	  
 	                       <c:forEach items="${reviewFirstAudits}" var="rfa">
 		  	  	  	 				<c:if test="${rfa.firstAuditId eq first.id && rfa.supplierId eq supplier.suppliers.id && rfa.isPass==0}">

@@ -122,7 +122,7 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
    			  </td>
    			</tr>
    			<c:forEach items="${ext.firstAuditList }" var="first" varStatus="vs">
-		      	<c:if test="${first.kind == d.id}">
+		      	<c:if test="${first.kind eq d.id}">
 			      	<tr>
 			      	  <td  style="border: 1px solid #ddd;padding: 5px 10px;width:20%;">${first.content}</td>
 			      	  <c:forEach items="${ext.supplierList}" var="supplier" varStatus="v">
