@@ -10,10 +10,10 @@
 <td class="tc"><input type="text" maxlength="10" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].levelCert" class="border0"/></td>
 <td class="tc"><input type="text" maxlength="30" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].licenceAuthorith" class="border0"/></td>
 <td class="tc">
-	<input type="text" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expStartDate" class="border0"/>
+	<input type="text" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',readOnly:true})" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expStartDate" class="border0"/>
 </td>
 <td class="tc">
-	<input type="text" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expEndDate" class="border0"/>
+	<input type="text" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',readOnly:true})" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expEndDate" class="border0"/>
 </td>
 <td class="tc"><input type="text" maxlength="15" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].mot" class="border0"/></td>
 <td class="tc w200">

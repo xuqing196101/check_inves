@@ -1657,7 +1657,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		supplierTypeAudit.setAuditType("supplierType_page");
 		List<SupplierAudit> supplierTypeAuditList = this.getAuditRecords(supplierTypeAudit, new Integer[]{2});
 		List<String> supplierTypeList = supplierTypeRelateService.findTypeBySupplierId(supplierId);
-		if(supplierTypeList != null){
+		if(supplierTypeList != null && supplierTypeList.size() > 0){
 			for(String supplierType : supplierTypeList){
 				DictionaryData dd = DictionaryDataUtil.get(supplierType);
 				if(supplierTypeAuditList != null){
@@ -1674,7 +1674,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 				supplierItemAudit.setSupplierId(supplierId);
 				supplierItemAudit.setAuditType(getAuditType(supplierType));
 				List<SupplierAudit> supplierItemAuditList = this.getAuditRecords(supplierItemAudit, new Integer[]{2});
-				if(itemList != null){
+				if(itemList != null && itemList.size() > 0){
 					for(SupplierItem item : itemList){
 						for(SupplierAudit audit : supplierItemAuditList){
 							if(audit.getAuditField() != null && audit.getAuditField().equals(item.getCategoryId())){

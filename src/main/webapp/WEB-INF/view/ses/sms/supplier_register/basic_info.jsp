@@ -200,14 +200,14 @@
 				// 非空校验
 				$("#financeInfo").find("input[type='text']").each(function(index, element) {
 					if(element.value.trim().length <= 0) {
-						msg = "近三年财务信息不能为空!";
+						msg = "近三年财务信息不能为空！";
 						flag = false;
 					}
 				});
 				// 事务所联系方式格式校验
 				$("#financeInfo").find("input[name$='telephone']").each(function(index, element) {
 					if(element.value.trim().length <= 0) {
-						msg = "近三年财务信息不能为空!";
+						msg = "近三年财务信息不能为空！";
 						flag = false;
 					}
 				});
@@ -2495,7 +2495,7 @@
 				}
 			}
 			if(!bool){
-				var msg = "信用代码18位，请按照实际社会信用代码填写!";
+				var msg = "信用代码18位，请按照实际社会信用代码填写！";
 				layer.msg(msg);
 			}
 			return bool;

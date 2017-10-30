@@ -9,8 +9,8 @@
 <td class="tc"><input type="text" class="border0" maxlength="15" name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].code"/></td>
 <td class="tc"><input type="text" class="border0" maxlength="30" name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].levelCert"/></td>
 <td class="tc"><input type="text" class="border0" maxlength="60" name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].licenceAuthorith"/></td>
-<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].expStartDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" readonly="readonly"/></td>
-<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].expEndDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})" readonly="readonly"/></td>
+<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].expStartDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',readOnly:true})"/></td>
+<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].expEndDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',readOnly:true})"/></td>
 <td class="tc"><input type="text" class="border0" maxlength="15" name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].mot"/></td>
 <td class="tc w200">
 	<div class="w200">

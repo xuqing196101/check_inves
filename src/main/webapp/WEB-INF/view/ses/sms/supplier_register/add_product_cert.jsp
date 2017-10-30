@@ -11,12 +11,12 @@
   <td class="tc"><input type="text" maxlength="10" name="supplierMatPro.listSupplierCertPros[${certProNumber}].levelCert" class="border0"/> </td>
   <td class="tc"><input type="text" maxlength="30" name="supplierMatPro.listSupplierCertPros[${certProNumber}].licenceAuthorith" class="border0"/></td>
   <td class="tc">
-    <input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expStartDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" class="border0" readonly="readonly"/>
+    <input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expStartDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',readOnly:true})" class="border0"/>
   </td>
   <td class="tc">
-    <input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expEndDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})" class="border0" readonly="readonly"/>
+    <input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expEndDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',readOnly:true})" class="border0"/>
   </td>
-  <td class="tc"><input type="text" maxlength="15" onblur="tempSave()" name="supplierMatPro.listSupplierCertPros[${certProNumber}].mot" class="border0"/> </td>
+  <td class="tc"><input type="text" maxlength="15" name="supplierMatPro.listSupplierCertPros[${certProNumber}].mot" class="border0"/> </td>
   <td class="tc w200">
   <div class="w200">
     <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="pro_up_${certProNumber}" multiple="true" businessId="${id}" typeId="${typeId}" sysKey="${sysKey}"  auto="true" />

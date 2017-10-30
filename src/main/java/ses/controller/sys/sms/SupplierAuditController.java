@@ -4941,13 +4941,6 @@ public class SupplierAuditController extends BaseSupplierController {
 		return new JdcgResult(1, null, null);
 	}
 	
-	/*@RequestMapping("/saveAuditOpinion")
-	@ResponseBody
-	public JdcgResult saveAuditOpinion(){
-		//SupplierAuditOpinionService
-		supplierAuditOpinionService.insertSelective(supplierAuditOpinion, vertifyFlag)
-	}*/
-	
 	/**
 	 * 
 	 * Description: 数字转化字母
