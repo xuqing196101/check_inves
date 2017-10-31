@@ -265,7 +265,7 @@
   
   <!-- 条件查询 -->
   <select id="findByConditionId" resultType="String" parameterType="String">
-    SELECT EXPERT_ID FROM T_SES_EMS_EXTRACT_RESULT WHERE IS_DELETED = 0 AND IS_JOIN = 1 AND CONDITION_ID = #{conditionId,jdbcType=VARCHAR}
+    SELECT EXPERT_ID FROM T_SES_EMS_EXTRACT_RESULT WHERE IS_DELETED = 0 AND CONDITION_ID = #{conditionId,jdbcType=VARCHAR}
   </select>
   
   <!-- 下载抽取结果 -->
