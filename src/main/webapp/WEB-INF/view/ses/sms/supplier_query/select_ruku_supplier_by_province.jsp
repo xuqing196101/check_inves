@@ -510,7 +510,7 @@
 					<thead>
 						<tr>
 							<th class="info w50">序号</th>
-							<th class="info w100">供应商名称</th>
+							<th class="info w160">供应商名称</th>
 							<!-- <th class="info">用户名</th> -->
 							<th class="info w80">联系人</th>
 							<th class="info w100">手机号</th>

@@ -597,14 +597,14 @@
 							<!-- <th class="info w50">选择</th> -->
 							<th class="info w50">序号</th>
 							<th class="info" width="10%">采购机构</th>
-							<th class="info" width="17%">供应商名称</th>
+							<th class="info" width="21%">供应商名称</th>
 							<th class="info" width="8%">地区</th>
 							<th class="info" width="7%">企业性质</th>
-							<th class="info" width="17%">供应商类型</th>
+							<th class="info" width="15%">供应商类型</th>
 							<th class="info w90">注册日期</th>
 							<th class="info w90">提交日期</th>
 							<th class="info w90">审核日期</th>
-							<th class="info">供应商状态</th>
+							<th class="info" width="8%">供应商状态</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -619,14 +619,14 @@
                                     <c:choose>
                                         <c:when test="${list.status ==5 and list.isProvisional == 1 }">
                                             <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierQuery/temporarySupplier.html?supplierId=${list.id}&sign=${sign}')">
-                                                <c:if test="${fn:length (list.supplierName) > 12}">${fn:substring(list.supplierName,0,12)}...</c:if>
-                                                <c:if test="${fn:length (list.supplierName) <= 12}">${list.supplierName}</c:if>
+                                                <c:if test="${fn:length (list.supplierName) > 15}">${fn:substring(list.supplierName,0,15)}...</c:if>
+                                                <c:if test="${fn:length (list.supplierName) <= 15}">${list.supplierName}</c:if>
                                             </a>
                                         </c:when>
                                         <c:otherwise>
                                             <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierQuery/essential.html?supplierId=${list.id}&sign=${sign}')">
-                                                <c:if test="${fn:length (list.supplierName) > 12}">${fn:substring(list.supplierName,0,12)}...</c:if>
-                                                <c:if test="${fn:length (list.supplierName) <= 12}">${list.supplierName}</c:if>
+                                                <c:if test="${fn:length (list.supplierName) > 15}">${fn:substring(list.supplierName,0,15)}...</c:if>
+                                                <c:if test="${fn:length (list.supplierName) <= 15}">${list.supplierName}</c:if>
                                             </a>
                                         </c:otherwise>
                                     </c:choose>
