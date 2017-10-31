@@ -2285,6 +2285,12 @@ public class ExpertAuditController{
 		}else if("1".equals(tableType) || "2".equals(tableType) || "3".equals(tableType)){
 			ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
 			expertAuditOpinion.setExpertId(expert.getId());
+			if("1".equals(tableType)){
+				expertAuditOpinion.setFlagTime(0);
+			}
+			if("2".equals(tableType)){
+				expertAuditOpinion.setFlagTime(1);
+			}
 			expertAuditOpinion = expertAuditOpinionService.selectByPrimaryKey(expertAuditOpinion);
 			//拼接参评类别审核意见
 			Map<String, Object> remap = new HashMap<String, Object>();
