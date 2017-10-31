@@ -124,6 +124,7 @@
 				$("input[name='supplierName']").val("");
 				$("input[name='loginName']").val("");
 				$("input[name='mobile']").val("");
+				$("input[name='creditCode']").val("");
 				$("#form1").submit();
 			}
 			
