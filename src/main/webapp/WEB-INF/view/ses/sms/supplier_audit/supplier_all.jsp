@@ -525,8 +525,8 @@
 								<th class="info">供应商名称</th>
 								<th class="info">供应商类型</th>
 								<th class="info">企业性质</th>
-								<th class="info">提交时间</th>
-								<th class="info">审核时间</th>
+								<th class="info">最新提交时间</th>
+								<th class="info">最新审核时间</th>
 								<th class="info">审核人</th>
 								<th class="info">状态</th>
 							</tr>

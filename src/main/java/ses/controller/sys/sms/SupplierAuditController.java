@@ -1467,6 +1467,7 @@ public class SupplierAuditController extends BaseSupplierController {
 				Supplier updateSupplier = new Supplier();
 				Date nowDate = new Date();
 				updateSupplier.setId(supplier.getId());
+				updateSupplier.setAuditDate(nowDate);
 				updateSupplier.setUpdatedAt(nowDate);
 				Integer auditTemporary = 0;
 				Integer status = supplier.getStatus();
