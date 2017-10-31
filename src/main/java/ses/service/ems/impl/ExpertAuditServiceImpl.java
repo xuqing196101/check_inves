@@ -632,11 +632,11 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
         map.put("expertId",expertId);
         map.put("auditFalg",auditFalg);
         
-        map.put("regType", Constant.EXPERT_BASIC_INFO_ITEM_FLAG);
+        //map.put("regType", Constant.EXPERT_BASIC_INFO_ITEM_FLAG);
         Integer count;
         // 定义选择类型数量
         Integer selectCount;
-        count = expertAuditMapper.selectRegExpCateCount(map);
+        /*count = expertAuditMapper.selectRegExpCateCount(map);
         if(count != null && count > 0){
         	ExpertAudit expertAudit = new ExpertAudit();
         	expertAudit.setExpertId(expertId);
@@ -657,7 +657,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	        	}
         	}
             return JdcgResult.build(500, "基本信息中有"+name+"项");
-        }
+        }*/
 
         // 判断专家类型和产品类别分别不能有全不通过项
         // 获取专家选择品目的类型

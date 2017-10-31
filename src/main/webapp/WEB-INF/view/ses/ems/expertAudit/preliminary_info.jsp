@@ -182,7 +182,7 @@
                     <c:if test="${fn:length (reasons.auditReason) <= 20}">${reasons.auditReason}</c:if>
                   </td>
                   <!-- 状态 -->
-                   <c:if test="${reasons.auditStatus eq '1'}"><td class="tc">退回修改</td></c:if>
+                   <c:if test="${reasons.auditStatus eq '1'}"><td class="tc">有问题</td></c:if>
                    <c:if test="${reasons.suggestType eq 'six' && reasons.auditStatus eq '2'}"><td class="tc">审核不通过</td></c:if>
                    <c:if test="${reasons.suggestType != 'six' && reasons.auditStatus eq '2'}"><td class="tc">已修改</td></c:if>
                    <c:if test="${reasons.auditStatus eq '3'}"><td class="tc">未修改</td></c:if>
