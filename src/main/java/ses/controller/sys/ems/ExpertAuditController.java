@@ -1053,15 +1053,15 @@ public class ExpertAuditController{
         }
         model.addAttribute("expertId", expertId);
         model.addAttribute("typeId", typeId);
-        model.addAttribute("result", new PageInfo < > (items));
+        /*model.addAttribute("result", new PageInfo < > (items));*/
         model.addAttribute("itemsList", allTreeList);
         List<ExpertCategory> list = expertCategoryService.getListCount(expertId, typeId, "1");//设置level为1是为了过滤掉父节点,只统计子节点个数
         
-        model.addAttribute("resultPages", (list == null ? 0 : this.totalPages(list)));
+        /*model.addAttribute("resultPages", (list == null ? 0 : this.totalPages(list)));
         model.addAttribute("resultTotal", (list == null ? 0 : list.size()));
         model.addAttribute("resultpageNum", pageNum);
         model.addAttribute("resultStartRow", (list == null ? 0 : 1));
-        model.addAttribute("resultEndRow", new PageInfo < > (items).getEndRow()+1);
+        model.addAttribute("resultEndRow", new PageInfo < > (items).getEndRow()+1);*/
 
         
         //未通过 字段

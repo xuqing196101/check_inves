@@ -577,7 +577,7 @@
 						</div> --%>
 						
 						<div class="mt20" id="tbody_category"></div>
-							<div id="pagediv" align="right" class="mb50"></div>
+						<!-- <div id="pagediv" align="right" class="mb50"></div> -->
 					</div>
 					<div class="col-md-12 add_regist tc">
 						<a class="btn" type="button" onclick="lastStep();">上一步</a>
