@@ -716,6 +716,50 @@ function againAudit_checkAll() {
   }
 }
 
+//  创建复审批次列表反选操作
+function againAudit_reverseSelection() {
+  var push_list = [];
+  var remove_list = [];
+  var select_num = 0;
+  
+  $('.againAudit_table .select_item').each(function () {
+    if (!$(this).is(':checked')) {
+      push_list.push($(this).val());
+      $(this).prop('checked', true);
+      select_num++;
+    } else {
+      remove_list.push($(this).val());
+      $(this).prop('checked', false);
+    }
+  });
+  
+  for (var i in remove_list) {
+    for (var ii in select_ids) {
+      if (select_ids[ii] === remove_list[i]) {
+        select_ids.splice(ii, 1);
+      }
+    }
+  }
+  
+  for (var iii in push_list) {
+    var hassame = 0;
+    for (var iiii in select_ids) {
+      if (select_ids[iiii] === push_list[iii]) {
+        hassame = 1;
+      }
+    }
+    if (hassame === 0) {
+      select_ids.push(push_list[iii]);
+    }
+  }
+  
+  if (select_num === $('.againAudit_table .select_item').length) {
+    $('[name=checkAll]').prop('checked', true);
+  } else {
+    $('[name=checkAll]').prop('checked', false);
+  }
+}
+
 // 去除空格
 function Trim(str, is_global) {
   var result;
