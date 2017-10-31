@@ -778,7 +778,7 @@ function opens(cate) {
         title: "选择条件",
         shadeClose: true,
         shade: 0.01,
-        area: ['430px', '400px'],
+        area: ['440px', '400px'],
         offset: '20px',
         skin: "aabbcc",
         content: globalPath+'/extractExpert/addHeading.do?type='+typeCode+'&&id='+ids+'&&isSatisfy='+isSatisfy, //iframe的url

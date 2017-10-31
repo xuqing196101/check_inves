@@ -301,8 +301,8 @@ function searchCate() {
 			</div>
 			<div >
 				产品类别：<input type="text" id="key" class="mr3 empty w125" name="cateName">
-				目录编码：<input type="text" id="codeName" class="mr3 empty w125" name="codeName"><br>
-				<div class="textc">
+				目录编码：<input type="text" id="codeName" class="mr3 empty w125" name="codeName">
+				<div class="tc">
 					<input type="button" id="search" class="btn" value="搜索" onclick="searchCate()">
 				</div>
 				<div class="clear"></div>
