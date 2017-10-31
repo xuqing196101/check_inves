@@ -238,7 +238,7 @@
 	            <a class="btn" type="button" onclick="nextStep();">下一步</a>
 	          </c:if>
 	          
-	          <c:if test = "${sign eq '1' && (status eq '10' || status eq '5')}" >
+	          <c:if test = "${sign eq '1' && (status eq '10' || (reviewUnqualifiedConfirm != 1 and status eq '5'))}" >
               <a class="btn" type="button" onclick="preliminaryConfirmation();">确认</a>
             </c:if>
 	        </div>

@@ -3648,6 +3648,7 @@ public class ExpertAuditController{
 		
 		Expert expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("status", expert.getStatus());
+		model.addAttribute("reviewUnqualifiedConfirm", expert.getReviewUnqualifiedConfirm());
 		
 		//批准初审表
 		if(sign == 2){
@@ -4037,9 +4038,15 @@ public class ExpertAuditController{
 		Expert expert = new Expert();
 		expert.setId(expertId);
 		if(expertAuditOpinion !=null && expertAuditOpinion.getFlagAudit() !=null){
+			expert.setAuditAt(new Date());
+			
 			if(expertAuditOpinion.getFlagAudit() == 5){
 				//复审不合格
 				expert.setStatus("5");
+				//复审不合格确认标识（采购机构操作）
+				expert.setReviewUnqualifiedConfirm(1);
+				
+				expertService.updateByPrimaryKeySelective(expert);
 			}
 			if(expertAuditOpinion.getFlagAudit() == 10){
 				//退回修改
@@ -4076,14 +4083,12 @@ public class ExpertAuditController{
 					/*expertAuditService.delFileModifyByExpertId(expert.getId());*/
 					expertAuditService.updateIsDeleted(expert.getId());
 					
+					//还原复审结束状态
+					expert.setIsReviewEnd(0);
+					expertService.updateByPrimaryKeySelective(expert);
 				}
 			}
 		}
-		//还原复审结束状态
-		expert.setIsReviewEnd(0);
-		
-		expert.setAuditAt(new Date());
-		expertService.updateByPrimaryKeySelective(expert);
 		return "redirect:list.html";
     }
     
