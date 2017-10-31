@@ -981,7 +981,7 @@ public class ExpertAuditController{
         // 查询已选中的节点信息(所有子节点)
         List<ExpertCategory> items = null;
         if(StringUtils.isEmpty(flags)){
-            items = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
+            items = expertCategoryService.getListByExpertId(expertId, typeId);
         }else {
             items = expertCategoryService.selectPassCateByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
         }

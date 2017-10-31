@@ -97,9 +97,9 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 	
 	@Override
     public List<ExpertCategory> getListByExpertId(String expertId, String typeId, Integer pageNum) {
-	    /*if (pageNum != null) {
+	    if (pageNum != null) {
             PageHelper.startPage(pageNum, PropUtil.getIntegerProperty("pageSizeArticle"));
-        }*/
+        }
         List<ExpertCategory> list = mapper.selectListByExpertId(expertId, typeId, "1");
         return list;
     }
