@@ -79,24 +79,25 @@
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/batchDetails.js"></script>
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
   <script>
+  	var batchId='${batchId}';
     var root_url = '${pageContext.request.contextPath}';  // 根目录地址
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/findBatchDetails.do';  // 列表地址
     var audit_url = '${pageContext.request.contextPath}/expertAgainAudit/checkGroupStatus.do';  // 校验地址
-    var jump_auditBatch_url = '${pageContext.request.contextPath}/expertAgainAudit/groupBatch.html?batchId='+getUrlParam('batchId');
+    var jump_auditBatch_url = '${pageContext.request.contextPath}/expertAgainAudit/groupBatch.html?batchId='+batchId;
     var select_ids = [];  // 选择的专家id集合
     
     $(function () {
       $('#table_content').listConstructor({
         url: list_url,
         data: {
-          batchId: getUrlParam('batchId')
+          batchId: batchId
         }
       });
     });
     
     // 跳转批次审核
     function jump_auditBatch() {
-      window.location.href = '${pageContext.request.contextPath}/expertAgainAudit/auditBatch.html?batchId='+getUrlParam('batchId');
+      window.location.href = '${pageContext.request.contextPath}/expertAgainAudit/auditBatch.html?batchId='+batchId;
     }
     //下载
     function downloadTable(id) {

@@ -205,8 +205,10 @@
                     <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '10'}">checked</c:if> value="10">退回修改
                   </c:if>
                   <c:if test="${sign == 2}">
-	                  <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> value="15">初审合格
-	                  <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> value="16">初审不合格
+                  		<c:if test="${auditOpinion.flagAudit eq '15'}">初审合格</c:if>
+                  		<c:if test="${auditOpinion.flagAudit eq '16'}">初审不合格</c:if>
+	                  <%-- <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> value="15">初审合格
+	                  <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> value="16">初审不合格 --%>
                   </c:if>
                 </div>
               </li>
@@ -214,7 +216,8 @@
                 <div id="check_opinion"></div>
               </li>
             <li class="mt10">
-               <textarea id="opinion" readonly="readonly" class="col-md-12 col-xs-12 col-sm-12 h80">${auditOpinion.opinion }</textarea>
+            	${auditOpinion.opinion }
+               <%-- <textarea id="opinion" readonly="readonly" class="col-md-12 col-xs-12 col-sm-12 h80">${auditOpinion.opinion }</textarea> --%>
             </li>
           </ul>
           
