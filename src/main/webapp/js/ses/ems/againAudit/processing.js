@@ -609,37 +609,37 @@ function checkOnly(el) {
   // }
 }
 
-// 专家批次审核
-function expert_auditBatch(url) {
+// 专家批次复审
+function expert_auditBatch(url, expertId) {
   var batchId = getUrlParam('batchId')
-  if (select_ids.length > 1) {
-    layer.msg('不能多选，请选择一项', {
-      offset: '100px'
-    });
-  } else if (select_ids.length === 0) {
-    layer.msg('请至少选择一项', {
-      offset: '100px'
-    });
-  } else {
-    var ids = select_ids.toString();
-    var state = $("#" + ids + "").parent("tr").find("td").eq(10).text(); //.trim();
-    state = trim(state);
-    if( state =="公示中"  ||state == "复审合格"||state == "专家复审结束"  || state == "复审不合格"|| state == "复审退回修改" || state == "复查合格" || state == "复查未合格"){
-    	 layer.msg('只能选择未复审完成的专家', {
-    	      offset: '100px'
-    	    });
-    	 return;
-    }
+  // if (select_ids.length > 1) {
+  //   layer.msg('不能多选，请选择一项', {
+  //     offset: '100px'
+  //   });
+  // } else if (select_ids.length === 0) {
+  //   layer.msg('请至少选择一项', {
+  //     offset: '100px'
+  //   });
+  // } else {
+    // var ids = select_ids.toString();
+    // var state = $("#" + ids + "").parent("tr").find("td").eq(10).text(); //.trim();
+    // state = trim(state);
+    // if( state =="公示中"  ||state == "复审合格"||state == "专家复审结束"  || state == "复审不合格"|| state == "复审退回修改" || state == "复查合格" || state == "复查未合格"){
+    // 	 layer.msg('只能选择未复审完成的专家', {
+    // 	      offset: '100px'
+    // 	    });
+    // 	 return;
+    // }
     $.ajax({
       type: 'POST',
       dataType: 'json',
       url: audit_url,
       data: {
-        expertId: ids
+        expertId: expertId
       },
       success: function (data) {
         if (data.status) {
-          window.location.href=url+"/expertAudit/basicInfo.html?expertId="+ids+"&sign=2"+"&batchId=" + batchId;
+          window.location.href=url+"/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2"+"&batchId=" + batchId;
         } else {
           layer.msg(data.message, {
             offset: '100px'
@@ -647,7 +647,7 @@ function expert_auditBatch(url) {
         }
       }
     });
-  }
+  // }
 }
 
 //  全选操作

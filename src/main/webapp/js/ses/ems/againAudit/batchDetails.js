@@ -174,14 +174,11 @@
           // $('#btn_group').html('<button type="button" class="btn btn-windows git" onclick="expert_auditBatch(\''+ root_url +'\')">审核</button>'
           //   +'<button type="button" onclick="downloadTable(2)" class="btn btn-windows input">下载复审表</button>');
           
-          $('#btn_group').html('<button type="button" class="btn btn-windows git" onclick="expert_auditBatch(\''+ root_url +'\')">审核</button>'
-            +'<button type="button" class="btn btn-windows reset" onclick="javascript: location.reload()">刷新</button>'
-          );
+          $('#btn_group').html('<button type="button" class="btn btn-windows reset" onclick="javascript: location.reload()">刷新</button>');
           
           $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped break-all againAudit_table">'
             +'<thead>'
             +'  <tr>'
-            +'    <th class="info w30"></th>'
             +'    <th class="info w100">专家编号</th>'
             +'    <th class="info w100">采购机构</th>'
             +'    <th class="info w80">专家姓名</th>'
@@ -297,8 +294,11 @@
                 list_content.list.list[i].auditAt = '';
               }
               
+              if (list_content.list.list[i].status != "公示中" && list_content.list.list[i].status != "复审合格" && list_content.list.list[i].status != "专家复审结束" && list_content.list.list[i].status != "复审不合格" && list_content.list.list[i].status != "复审退回修改" && list_content.list.list[i].status != "复查合格" && list_content.list.list[i].status != "复查未合格") {
+                btn += '<button type="button" class="btn w100p m0" onclick="expert_auditBatch(\''+ root_url +'\', \''+ list_content.list.list[i].expertId +'\')">复审</button>';
+              }
+              
               $('#list_content').append('<tr><input id="'+ list_content.list.list[i].expertId +'" type="hidden">'
-                +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content.list.list[i].expertId +'" class="select_item"></td>'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].batchDetailsNumber +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].orgName +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].realName +'</td>'
