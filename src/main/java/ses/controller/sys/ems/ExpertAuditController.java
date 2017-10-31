@@ -4087,4 +4087,16 @@ public class ExpertAuditController{
 		return "redirect:list.html";
     }
     
+    
+    /**
+     * 查询专家信息
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/findExpertInfo")
+    @ResponseBody
+    public Expert findExpertInfo(String id){
+    	Expert expertInfo = expertService.selectByPrimaryKey(id);
+		return expertInfo;
+    }
 }

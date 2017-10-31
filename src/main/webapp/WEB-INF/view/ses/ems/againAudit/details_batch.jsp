@@ -102,13 +102,25 @@
     function downloadTable(id) {
         var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
         state = trim(state);
-        if(state =="预复审结束" || state =="公示中" || state == "复审预合格" ||state == "复审合格" || state == "复审不合格"|| state == "复审退回修改" || state == "复查合格" || state == "复查未合格") {
-          $("input[name='tableType']").val('2');
-          $("input[name='expertId']").val(id);
-          $("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/download.html");
-          $("#form_id").submit();
+        if(state =="专家预复审结束") {
+        	$.ajax({
+        		url: "${pageContext.request.contextPath}/expertAudit/findExpertInfo.do",
+        	  data:{"id":id},
+        	  type: "post",
+        	  success: function(data){
+        		  if(data.isReviewEnd != 1){
+        			  $("input[name='tableType']").val('2');
+     	          $("input[name='expertId']").val(id);
+     	          $("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/download.html");
+     	          $("#form_id").submit();
+        		  }else {
+     	          layer.msg("该专家已复审结束，请刷新页面 !", {offset: '100px',});
+        		  }
+        	  }
+        	});
+          
         } else {
-          layer.msg("请选择审核过的专家 !", {
+          layer.msg("请选择预复审结束的专家 !", {
             offset: '100px',
           });
         }
@@ -171,14 +183,14 @@
       });
     }
     
-    //复审确认（资源服务中心）
+    //复审批准（资源服务中心）
     function reviewConfirm(){
     	var ids = [];
     	$('input[type="checkbox"]:checked').each(function() {
         var id = $(this).val();
        	var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
         state = trim(state);
-        if(state !="" && state == "复审结束"){
+        if(state !="" && state == "专家复审结束"){
         	ids.push(id);
         }
       });

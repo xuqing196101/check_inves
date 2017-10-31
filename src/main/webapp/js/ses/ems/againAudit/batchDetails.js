@@ -47,7 +47,7 @@
             +'    <th class="info">工作单位</th>'
             +'    <th class="info w120">技术职称(职称)</th>'
             +'    <th class="info w60">审核组</th>'
-            +'    <th class="info w80">审核状态</th>'
+            +'    <th class="info w110">审核状态</th>'
             +'    <th class="info w100">操作</th>'
             +'  </tr>'
             +'</thead>'
@@ -69,10 +69,10 @@
               if (list_content.list[i].status === '-3') {
                 list_content.list[i].status = '公示中';
               } else if (list_content.list[i].status === '-2' && list_content.list[i].isReviewEnd != '1') {
-                list_content.list[i].status = '预复审结束';
+                list_content.list[i].status = '专家预复审结束';
                 btn = '<button type="button" class="btn" onclick="downloadTable(\''+ list_content.list[i].expertId +'\')">下载复审表</button>';
               } else if (list_content.list[i].status === '-2' && list_content.list[i].isReviewEnd == '1') {
-            	  list_content.list[i].status = '复审结束';
+            	  list_content.list[i].status = '专家复审结束';
               } else if (list_content.list[i].status === '-1') {
                 list_content.list[i].status = '暂存';
               } else if (list_content.list[i].status === '0') {
