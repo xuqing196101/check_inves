@@ -1127,6 +1127,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	            if(nowDateString.equals(afterDateString)){
 	                // 审核通过，自动入库
 	                supplier.setStatus(1);
+	                // 设置更新时间
+	                supplier.setUpdatedAt(new Date());
 	                // 修改
 	                supplierMapper.updateStatus(supplier);
 	            }

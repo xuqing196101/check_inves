@@ -1566,34 +1566,34 @@
 	</select>
 
 	<!-- 根据供应商Id更新状态 -->
-	<update id="updateStatus" parameterType="ses.model.sms.Supplier">
-		update
-		T_SES_SMS_SUPPLIER
-		<set>
-			<if test="status != null">
-				SUPPLIER_STATUS = #{status},
-			</if>
-			<if test="auditDate != null">
-				AUDIT_DATE = #{auditDate,jdbcType=TIMESTAMP},
-			</if>
-			<if test="updatedAt != null">
-				UPDATED_AT = #{updatedAt},
-			</if>
-			<if test="isPublish != null">
-				IS_PUBLISH = #{isPublish},
-			</if>
-			<if test="auditor !=null">
-        AUDITOR = #{auditor},
-      </if>
-      <if test="auditTemporary !=null">
-        AUDIT_TEMPORARY = #{auditTemporary},
-      </if>
-      <if test="auditOpinionAttach !=null">
-        AUDIT_OPINION_ATTACH = #{auditOpinionAttach}
-      </if>
-		</set>
-		where ID = #{id}
-	</update>
+    <update id="updateStatus" parameterType="ses.model.sms.Supplier">
+        update
+        T_SES_SMS_SUPPLIER
+        <set>
+            <if test="status != null">
+                SUPPLIER_STATUS = #{status},
+            </if>
+            <if test="auditDate != null">
+                AUDIT_DATE = #{auditDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedAt != null">
+                UPDATED_AT = #{updatedAt},
+            </if>
+            <if test="isPublish != null">
+                IS_PUBLISH = #{isPublish},
+            </if>
+            <if test="auditor !=null">
+                AUDITOR = #{auditor},
+            </if>
+            <if test="auditTemporary !=null">
+                AUDIT_TEMPORARY = #{auditTemporary},
+            </if>
+            <if test="auditOpinionAttach !=null">
+                AUDIT_OPINION_ATTACH = #{auditOpinionAttach}
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
 
 	<update id="updateSupplierInspectListById" parameterType="ses.model.sms.Supplier">
 		update
