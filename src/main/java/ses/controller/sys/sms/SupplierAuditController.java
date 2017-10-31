@@ -1587,8 +1587,8 @@ public class SupplierAuditController extends BaseSupplierController {
 		String supplierId = supplierAudit.getSupplierId();
 		/*User user = (User) request.getSession().getAttribute("loginUser");*/
 //		supplier = supplierAuditService.supplierById(supplierId);
-		supplier = supplierService.selectById(supplierId);
-		String supplierName = supplier.getSupplierName();
+		Supplier persistentSupplier = supplierService.selectById(supplierId);
+		String supplierName = persistentSupplier.getSupplierName();
 		
 		// 更新状态
 		Supplier updateSupplier = new Supplier();
@@ -1598,14 +1598,16 @@ public class SupplierAuditController extends BaseSupplierController {
 		// 设置修改时间
 		Date nowDate = new Date();
 		updateSupplier.setUpdatedAt(nowDate);
-		if(supplier.getAuditor() == null){
+		if(persistentSupplier.getAuditor() == null){
 			// 审核人
 			updateSupplier.setAuditor(user.getRelName());
 			// 审核时间
 			updateSupplier.setAuditDate(nowDate);
 		}
+		// 更新状态
+		updateSupplier.setStatus(supplier.getStatus());
 		supplierAuditService.updateStatus(updateSupplier);
-
+		
 		if(supplier.getStatus() != null && supplier.getStatus() == 1){
 			// 供应商分级要素得分
 	        supplier.setLevelScoreProduct(SupplierLevelUtil.getScore(supplier.getId(), "PRODUCT"));
@@ -1615,6 +1617,9 @@ public class SupplierAuditController extends BaseSupplierController {
 	        	supplierService.updateSupplierProcurementDep(supplier);
 	        }
 		}
+		
+		// 持久化供应商信息
+		supplier = persistentSupplier;
 		
 		//记录最终意见
 		if(supplier != null && supplier.getStatus() != -2){
