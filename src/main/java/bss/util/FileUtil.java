@@ -8,9 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
@@ -230,7 +228,7 @@ public class FileUtil {
      * @since JDK1.7
      */
     public static void copyFolder(String oldPath, String newPath) {
-        // 定义文件管道
+       /* // 定义文件管道
         FileChannel cin = null;
         FileChannel cout = null;
         try {
@@ -266,9 +264,9 @@ public class FileUtil {
                     }
                 }
                 // 删除内网import下的供应商图片
-                /*if ("0".equals(StaticVariables.ipAddressType)) {
+                *//*if ("0".equals(StaticVariables.ipAddressType)) {
                     FileUtils.deleteDirectory(filelist);
-                }*/
+                }*//*
             }
         } catch (Exception e) {
             logger.error("复制整个文件夹内容操作出错");
@@ -289,6 +287,20 @@ public class FileUtil {
                     e.printStackTrace();
                 }
             }
+        }*/
+        try {
+            File srcDir = new File(oldPath);
+            if (srcDir.exists()) {
+                FileUtils.copyDirectory(srcDir, new File(newPath));
+                // 删除内网import下的供应商图片
+                /*if ("0".equals(StaticVariables.ipAddressType)) {
+                    FileUtils.deleteDirectory(srcDir);
+                }*/
+            }
+        } catch (IOException e) {
+            logger.error("复制整个文件夹内容操作出错");
+            e.printStackTrace();
+            throw new RuntimeException("copy file error");
         }
     }
 }
