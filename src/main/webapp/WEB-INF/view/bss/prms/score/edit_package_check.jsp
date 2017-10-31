@@ -390,14 +390,16 @@
 					     </div>
 		       </li>
 		       <li>
-		       <label class="fl">模板选择</label>
+		       <label class="fl">模板选择：</label>
 		       </li>
 		       <li>
 					<select id="fatId" class="w180">
 		            </select>
 	           </li>
-	           <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" class="btn">确定选择</button>
-	           <button type="reset" class="btn" onclick="clearSearch();">重置</button>
+	           <li class="f0 lh0">
+		           <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" class="btn mb0 mr10">确定选择</button>
+		           <button type="reset" class="btn mb0" onclick="clearSearch();">重置</button>
+	           </li>
 	           <%-- <div class="pull-right">
 	              <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入模板</button>
 	           </div> --%>

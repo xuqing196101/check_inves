@@ -1013,6 +1013,7 @@ public class ProjectController extends BaseController {
                          }
                      }
                      if(list != null && list.size() > 0){
+                    	 sort(list);
                          //添加项目明细
                          projectService.addProejctDetail(list,project2.getId(),position);
                          //已经添加为项目明细的采购明细的状态改成2:暂被引用状态
@@ -1058,6 +1059,7 @@ public class ProjectController extends BaseController {
                  projectTaskService.insertSelective(projectTask);
                  
                  if(list != null && list.size() > 0){
+                	 sort(list);
                     int position = 1;
                     //添加项目明细
                     projectService.addProejctDetail(list,project.getId(),position);

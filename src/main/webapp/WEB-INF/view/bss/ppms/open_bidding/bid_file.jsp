@@ -222,16 +222,17 @@
 		 </li>
 	   </ul>
 	 </div>
-	 
-	 <input type="hidden" id="tipMsg" value="${msg}">
+	   
+	   <div class="clear"></div>
+	   <input type="hidden" id="tipMsg" value="${msg}">
      <input type="hidden" id="projectId" value="${projectId}">
-     <table class="table table-bordered table-condensed table-hover table-striped">
+     <table class="table table-bordered table-condensed table-hover table-striped mb0 mt20">
          <thead>
          <tr>
-           <th class="w50 info">序号</th>
-           <th class="info">包名</th>
-           <th class="info">状态</th>
-           <th class="info">操作</th>
+           <th class="w50">序号</th>
+           <th>包名</th>
+           <th>状态</th>
+           <th class="w120">操作</th>
          </tr>
          </thead>
          <c:forEach items="${packages}" var="p" varStatus="vs">

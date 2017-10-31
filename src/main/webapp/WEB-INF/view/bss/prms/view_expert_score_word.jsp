@@ -97,7 +97,7 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
    		  <th  rowspan="2" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:15%;">评审指标</th>
    		  <th  rowspan="2" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:5%;">标准分值</th>
    		  <c:forEach items="${extensions.supplierList}" var="supplier">
-		       <th style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">${supplier.suppliers.supplierName}</th>
+		       <th style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:${7/fn:length(extensions.supplierList)*(fn:length(extensions.supplierList)==7?100:10)}%;">${supplier.suppliers.supplierName}</th>
 		   </c:forEach>
 		   <%-- <c:if test="${fn:length(extensions.supplierList)<8}">
 		        <c:forEach begin="1" end="${8-fn:length(extensions.supplierList)}"  step="1" varStatus="i">
@@ -108,7 +108,7 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
    		  </tr>
    		  <tr style="box-sizing: border-box; border:1px solid #dddddd; border-radius: 0px !important;">
    		  <c:forEach items="${extensions.supplierList}" var="supplier">
-		   	   <th style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">得分</th>
+		   	   <th style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:${7/fn:length(extensions.supplierList)*(fn:length(extensions.supplierList)==7?100:10)}%;">得分</th>
 	   	  </c:forEach>
 	   	  <%-- <c:if test="${fn:length(extensions.supplierList)<8}">
 		        <c:forEach begin="1" end="${8-fn:length(extensions.supplierList)}"  step="1" varStatus="i">

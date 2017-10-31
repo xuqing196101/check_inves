@@ -225,20 +225,21 @@
 		    </c:if> --%>
 		    <input type="hidden" id="tipMsg" value="${msg}">
 			<div id="package">
-				<div>
-					<h2 class="f16 count_flow"><span id="projectName">项目名称:${project.name }</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<span id="projectCode">项目编号:${project.projectNumber }</span></h2>
-				</div>
+			  <div class="clear"></div>
+				<h2 class="f16 count_flow mt10">
+				  <span id="projectName">项目名称：<span class="red">${project.name }</span></span>
+					<span id="projectCode" class="ml20">项目编号：<span class="red">${project.projectNumber }</span></span>
+			  </h2>
 				<table class="table table-bordered table-condensed mt5">
 					<thead>
 						<tr>
 						<!-- 	<th class="info w30"><input type="checkbox" id="checkAll"
 								onclick="selectAll()" alt=""></th> -->
-							<th>序号</th>
+							<th class="w30">序号</th>
 							<th>包名</th>
 							<th>状态</th>
 							<th>评分办法</th>
-							<th>操作</th>
+							<th class="w100">操作</th>
 							<!-- <th>评分办法名称</th>
 							<th>评标方法</th> -->
 						</tr>

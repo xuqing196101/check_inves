@@ -1,5 +1,6 @@
 @charset "UTF-8";
 /*字体*/
+.f0 { font-size: 0px; }
 .f8 {
   font-size: 8px; }
 
@@ -19,7 +20,7 @@
 .f18 {
   font-size: 18px; }
 .f22 {
-  font-size: 22px; }
+  font-size: 22px !important; }
 .f25 {
   font-size: 30px!important; }
 .f50p {
@@ -212,7 +213,7 @@
   height: 25px; }
 
 .h30 {
-  height: 30px; }
+  height: 30px !important; }
   
 .h35 {
   height: 35px; }
@@ -853,16 +854,22 @@ border:1px solid #eeeeee;
   text-decoration: underline; 
 }
 
+.lh0 { line-height: normal; }
+
 .lh60 {
-  line-height: 60px; 
+  line-height: 60px;
 }
 
 .lh23 {
-  line-height: 23px; 
+  line-height: 23px;
+}
+
+.lh22 {
+  line-height: 22px;
 }
 
 .lh28 {
-  line-height: 28px; 
+  line-height: 28px;
 }
 
 .lh30 {
@@ -1099,4 +1106,10 @@ text-align:center;
     border-collapse:collapse;
     font-size:14px;
     text-align:center;
+}
+.select2-noborder .select2-container .select2-choice {
+	border: none !important;
+}
+.select2-noborder .select2-container .select2-choice .select2-arrow {
+	border: 1px solid #aaa !important;
 }

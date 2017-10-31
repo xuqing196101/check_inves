@@ -540,38 +540,24 @@
 				</ul>
 			</div>
 		</c:if>
-		<!-- 按钮 -->
-		<c:if test="${process != 1 && project.confirmFile != 1 && project.confirmFile != 3 && project.confirmFile != 4 && ope =='add'}">
-			<div class="mt5 mb5 fr" id="handle">
-				<!-- <input type="button" class="btn btn-windows cancel" onclick="delMark()" value="删除标记"></input>
-	      	 <input type="button" class="btn btn-windows cancel" onclick="searchMark()" value="查看标记"></input>
-	      	 <input type="button" class="btn btn-windows cancel" onclick="mark()" value="标记"></input>
-	      	 <input type="button" class="btn btn-windows cancel" onclick="closeFile()" value="关闭当前文档"></input> -->
-				<!-- <input type="button" class="btn btn-windows " onclick="queryVersion()" value="版本查询"></input> -->
-				<!-- <input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input> -->
-				<input type="button" class="btn btn-windows save" onclick="saveFile('0')" value="暂存">
-				<input type="button" class="btn btn-windows git" onclick="saveFile('1')" value="提交至采购管理部门"></input>
-			</div>
-		</c:if>
-		<c:if test="${(project.confirmFile == 3 || project.confirmFile == 4) && process != 1}">
-			<div class="mt5 mb5 fr" id="handle">
-				<input type="button" class="btn btn-windows save" onclick="oncreate();" value="生成正式采购文件">
-			</div>
-		</c:if>
-		<form id="MyFile" method="post" class="h800">
+		<div class="clear"></div>
+		<form id="MyFile" method="post" class="h800 mt10">
+		  <div class="fl">
 			<c:if test="${ (project.confirmFile == null || project.confirmFile == 0 || project.confirmFile == 2) && process != 1  }">
 				<div class="" id="audit_file_add">
-					<span class="fl">上传审批文件：</span>
-					<div>
+					<span class="fl h30 lh30">上传审批文件：</span>
+					<div class="fl lh22">
 						<u:upload id="a" buttonName="上传彩色扫描件" exts="jpg,jpeg,gif,png,bmp,pdf" multiple="true" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 						<u:show showId="b" groups="b,c,d" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
 					</div>
+					<div class="clear"></div>
 				</div>
 				<div class="dnone" id="audit_file_view">
 					<span class="fl">审批文件：</span>
 					<u:show showId="d" groups="b,c,d" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
 				</div>
 			</c:if>
+			</div>
 
 			<c:if test="${project.confirmFile == 1 || project.confirmFile == 3 || project.confirmFile == 4 || process == 1 }">
 				<div class="clear">
@@ -579,6 +565,26 @@
 					<u:show showId="c" groups="b,c,d" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
 				</div>
 			</c:if>
+			
+			<!-- 按钮 -->
+			<div class="mt5 mb5 fr" id="handle">
+	    <c:if test="${process != 1 && project.confirmFile != 1 && project.confirmFile != 3 && project.confirmFile != 4 && ope =='add'}">
+        <!-- <input type="button" class="btn btn-windows cancel" onclick="delMark()" value="删除标记"></input>
+           <input type="button" class="btn btn-windows cancel" onclick="searchMark()" value="查看标记"></input>
+           <input type="button" class="btn btn-windows cancel" onclick="mark()" value="标记"></input>
+           <input type="button" class="btn btn-windows cancel" onclick="closeFile()" value="关闭当前文档"></input> -->
+        <!-- <input type="button" class="btn btn-windows " onclick="queryVersion()" value="版本查询"></input> -->
+        <!-- <input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input> -->
+        <input type="button" class="btn btn-windows save" onclick="saveFile('0')" value="暂存">
+        <input type="button" class="btn btn-windows git" onclick="saveFile('1')" value="提交至采购管理部门"></input>
+	    </c:if>
+	    <c:if test="${(project.confirmFile == 3 || project.confirmFile == 4) && process != 1}">
+        <input type="button" class="btn btn-windows save" onclick="oncreate();" value="生成正式采购文件">
+	    </c:if>
+	    </div>
+			
+			<div class="clear"></div>
+			
 			<input type="hidden" id="ope" value="${ope}">
 			<input type="hidden" id="confirmFileId" value="${project.confirmFile}">
 			<input type="hidden" id="flowDefineId" value="${flowDefineId }">

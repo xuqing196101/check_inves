@@ -149,12 +149,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<!-- 录入采购计划开始-->
 		<div class="container">
 			<!-- 项目戳开始 -->
-			<div class="container" id="tab-1">
+			<div class="clear" id="tab-1">
 				<div class="headline-v2 fl">
 					<h2>项目评审</h2>
 				</div>
 			</div>
-			<div class="container">
+			<div class="clear">
 				<div class="search_detail">
 					<form action="${pageContext.request.contextPath}/expert/projectList.html" method="post" id="formSearch">
 						<input type="hidden" name="pageNum" id="pageNum">
@@ -185,7 +185,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<!-- <div class="col-md-12 col-sm-12 col-xs-12 pl20 mt10">
 					<input class="btn fl" value="评审" type="button" onclick="review()">
 				</div> -->
-				<div class="col-md-12 col-sm-12 col-xs-12 pl20 mt10">
+				<div class="col-md-12 col-sm-12 col-xs-12 pl20 pr0">
 					<table class="table table-striped table-bordered table-hover">
 						<thead>
 							<tr>

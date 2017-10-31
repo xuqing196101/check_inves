@@ -755,7 +755,7 @@ public class ProjectServiceImpl implements ProjectService {
                //根据当前环节的步骤获取前面的环节
                 for (FlowDefine flowDefine : defines) {
                     if(flowDefine.getStep() < define.getStep()){
-                        if(!"CQPSZJ".equals(flowDefine.getCode())){
+                        if(!"CQPSZJ".equals(flowDefine.getCode()) && !"XMXX".equals(flowDefine.getCode())){
                             list.add(flowDefine);
                         }
                     }

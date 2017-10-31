@@ -531,7 +531,7 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
             if(selectById != null && selectById.size() > 0){
             	for (ProjectDetail projectDetail : selectById) {
             		Project project = viewProjects(projectDetail.getProject().getId());
-                	if(project != null){
+                	if(project != null && !"4".equals(project.getStatus())){
                         list.add(project);
                 	}
 				}
@@ -1397,7 +1397,7 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 	
 	public Project viewProjects(String projectId){
 		Project project = projectMapper.selectProjectByPrimaryKey(projectId);
-    	if(project != null){
+    	if(project != null && !"4".equals(project.getStatus())){
     		if(StringUtils.isNotBlank(project.getAppointMan())){
     			List<User> user = userMapper.selectByPrimaryKey(project.getAppointMan());
                 project.setAppointMan(user.get(0).getRelName());
@@ -1416,7 +1416,7 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
             }
     	}
 		return project;
-	}
+	} 
 	
 	public void opop(int num, HashMap<String, Object> map, List<FlowDefine> defines, Project project, String detailId, Packages packages){
 		for (int i=0; i<defines.size();i++) {

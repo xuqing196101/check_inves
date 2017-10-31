@@ -93,8 +93,8 @@
     <div class="container container_box">
     	<div>
           <h2 class="count_flow"><i>1</i>项目基本信息</h2>
-          <ul class="ul_list">
-            <table class="table table-bordered mt10">
+          <div class="ul_list mb0 p20">
+            <table class="table table-bordered m0">
               <tbody>
                 <tr>
                   <td width="10%" class="info">项目名称：</td>
@@ -103,39 +103,50 @@
                   <td width="25%">${advice.project.projectNumber}</td>
                 </tr>
                 <tr>
-                  <td width="10%" class="info">采购机构：</td>
-                  <td width="25%">${advice.project.purchaseDepName}</td>
-                  <td width="10%" class="info">项目状态：</td>
-                  <td width="25%">${advice.project.status}</td>
+                  <td class="info">采购机构：</td>
+                  <td>${advice.project.purchaseDepName}</td>
+                  <td class="info">项目状态：</td>
+                  <td>${advice.project.status}</td>
                 </tr>
                 <tr>
-                  <td width="10%" class="info">项目负责人：</td>
-                  <td width="25%">${advice.project.principal}</td>
-                  <td width="10%" class="info">负责人电话：</td>
-                  <td width="25%">${advice.project.ipone}</td>
+                  <td class="info">项目负责人：</td>
+                  <td>${advice.project.principal}</td>
+                  <td class="info">负责人电话：</td>
+                  <td>${advice.project.ipone}</td>
                 </tr>
               </tbody>
             </table>
-          </ul>
+          </div>
         </div>
-        <div class="padding-top-10 clear" id="clear">
+        <div class="clear"></div>
+        <div id="clear">
           <h2 class="count_flow"><i>2</i>转竞谈谈判信息</h2>
-          <ul class="ul_list">
-          	<div class=" mt10">
-	          	<p>项目预算（万元）：${advice.budget}</p><br/>
-	          	<p>转竞谈谈判原因：${advice.advice}</p><br/>
-	          	<p>附件：</p>
-	          	<u:show showId="show1_${advice.project.id}" delete="false" businessId="${advice.code}" sysKey="2" typeId="${auditJZXTP}"/>
-	          	<br/><br/><br/>
-	          	<p>状态：<c:if test="${advice.status == 1}">待审核</c:if>
-                  <c:if test="${advice.status == 2}">审核中</c:if>
-                  <c:if test="${advice.status == 3}">审核通过</c:if>
-                  <c:if test="${advice.status == 4}">审核不通过</c:if>
-	          	</p>
-          	</div>
-          </ul>
+          <div class="ul_list mb0 p20">
+            <table class="table table-bordered m0">
+              <tbody>
+                <tr>
+                  <td width="16%" class="info tc">项目预算（万元）：</td>
+                  <td width="16%" class="tc">${advice.budget}</td>
+                  <td width="16%" class="info tc">附件：</td>
+                  <td width="16%" class="tc"><u:show showId="show1_${advice.project.id}" delete="false" businessId="${advice.code}" sysKey="2" typeId="${auditJZXTP}"/></td>
+                  <td width="16%" class="info tc">状态：</td>
+                  <td width="16%" class="tc">
+                    <c:if test="${advice.status == 1}">待审核</c:if>
+										<c:if test="${advice.status == 2}">审核中</c:if>
+										<c:if test="${advice.status == 3}">审核通过</c:if>
+										<c:if test="${advice.status == 4}">审核不通过</c:if>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="info tc">转竞谈谈判原因：</td>
+                  <td colspan="5" class="no_break">${advice.advice}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="clear"></div>
         </div>
-        <div class="mt5 mb5 tc">
+        <div class="mt10 tc">
         	<c:if test="${status == 1 || status == 2}">
 	        	<button class="btn" onclick="pass('${advice.code}')" type="button">审核通过</button>
 	        	<button class="btn" onclick="noPass('${advice.code}')" type="button">审核不通过</button>

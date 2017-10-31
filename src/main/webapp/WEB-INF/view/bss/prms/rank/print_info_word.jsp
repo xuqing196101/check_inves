@@ -93,7 +93,7 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);  
 </head>
 <body>
 
-<div style="width:85%;margin:auto;" class = "Section1">
+<div style="width:100%;margin:auto;" class = "Section1">
     <div align="center" style="display: block;background: #fff;padding: 1px 10px;margin: 10px 0 10px 20px;border-left: 4px solid #2c9fa6;">
    		<h2>${pack.name}供应商排名</h2>
    	</div>
@@ -102,21 +102,21 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);  
   	<table align="center" style="border:1px solid #dddddd; border-collapse: collapse;margin: auto;" colspan="0" rowspan="0">
   	<thead>
    		  <tr style="box-sizing: border-box; border:1px solid #dddddd; border-radius: 0px !important;">
-   		  <th colspan="2" width="120" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">专家/供应商</th>
+   		  <th colspan="2"  style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px; width:20%;">专家/供应商</th>
    		 
    		  <c:forEach items="${extensions.supplierList}" var="supplier" varStatus="vs">
    		          <c:if test="${supplier.packages eq pack.id}">
-	                <th width="180" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">
+	                <th style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px; width:${8/fn:length(extensions.supplierList)*(fn:length(extensions.supplierList)==8?100:10)}%;">
 	   		      ${supplier.suppliers.supplierName}
 	   		        </th>
                   </c:if>	   		    		    
    		  </c:forEach>
-   		   <c:if test="${fn:length(extensions.supplierList)<8}">
+   		   <%-- <c:if test="${fn:length(extensions.supplierList)<8}">
 		        <c:forEach begin="1" end="${8-fn:length(extensions.supplierList)}"  step="1" varStatus="i">
-		            <th width="180" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">
+		            <th style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">
 		            </th>
 		         </c:forEach>
-		  </c:if>
+		  </c:if> --%>
 		  </tr>
 		  <c:set value="0" var="number"></c:set>
    		  <c:forEach items="${expertList}" var="expert">
@@ -124,12 +124,12 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);  
                 <c:set value="${number+1}" var="number"></c:set>
                   <tr>
                   	<c:if test="${expert.count != 0 and number == 1}">
-                     <td rowspan="${expert.count}" width="120" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">${expert.reviewTypeId}</td>
+                     <td rowspan="${fn:length(expertList)}" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:10%;">${expert.reviewTypeId}</td>
                      </c:if>
-                    <td width="120" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">${expert.expert.relName}</td>
+                    <td style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:10%;">${expert.expert.relName}</td>
                     <c:forEach items="${extensions.supplierList}" var="supplier">
                   	  <c:if test="${supplier.packages eq pack.id}">
-	                    <td width="120" style="border: 1px solid #ddd;padding: 5px 10px;">
+	                    <td style="border: 1px solid #ddd;padding: 5px 10px;">
 	                      <c:forEach items="${expertScoreList}" var="score">
 	                        <c:if test="${score.packageId eq pack.id and score.supplierId eq supplier.suppliers.id and score.expertId eq expert.expert.id}">
 	                          ${score.score}

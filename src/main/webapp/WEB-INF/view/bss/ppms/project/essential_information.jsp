@@ -416,131 +416,134 @@
         <div class="tab-content">
           <div class="tab-pane fade active in" id="tab-1">
             <form id="save_form_id" action="${pageContext.request.contextPath}/project/updateProject.html" method="post">
-              <h2 onclick="ycDiv(this,'${1}')" class="count_flow spread hand">基本信息</h2>
+              <h2 onclick="ycDiv(this,'${1}')" class="count_flow spread hand mt0 mb10">基本信息</h2>
               <input type="hidden" name="id" id="id" value="${project.id}" />
               <input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId}" />
               <input type="hidden" name="status" id="status" value="${project.status}" />
               <div class="p0${1}">
-                <table class="table table-bordered left_table">
+                <table class="table table-bordered left_table mb0">
                   <tbody>
                     <tr>
-                      <td class="bggrey">项目编号:</td>
-                      <td class="p0"><input name="projectNumber" class="m0" id="projectNumber" value="${project.projectNumber}" type="text" class="m0" /></td>
-                      <td class="bggrey">项目名称:</td>
-                      <td class="p0"><input name="name" class="m0" id="name" value="${project.name}" type="text" /></td>
+                      <td class="bggrey" width="15%">项目编号:</td>
+                      <td width="35%"><input name="projectNumber" class="m0 border0" id="projectNumber" value="${project.projectNumber}" type="text" /></td>
+                      <td class="bggrey" width="15%">项目名称:</td>
+                      <td width="35%"><input name="name" class="m0 border0" id="name" value="${project.name}" type="text" /></td>
                     </tr>
                     <tr>
                       <td class="bggrey">项目负责人:</td>
-                      <td class="p0"><input type="hidden" name="userId" id="userId" value="${project.principal}" />
-                        <select id="principal" name="principal" class="col-md-12 col-sm-12 col-xs-12 p0" onchange="change(this.options[this.selectedIndex].value)"></select>
+                      <td>
+                        <input type="hidden" name="userId" id="userId" value="${project.principal}" />
+                        <div class="select2-noborder">
+                          <select id="principal" name="principal" class="col-md-12 col-sm-12 col-xs-12 p0 border0" onchange="change(this.options[this.selectedIndex].value)"></select>
+                        </div>
                       </td>
                       <td class="bggrey">负责人手机:</td>
-                      <td class="p0"><input name="ipone" id="ipone" class="m0" value="${project.ipone}" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"/></td>
+                      <td><input name="ipone" id="ipone" class="m0 border0" value="${project.ipone}" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"/></td>
                     </tr>
                     <tr>
                       <td class="bggrey">采购机构名称:</td>
-                      <td class="p0">
-                        <input name="purchaseDepId" class="m0" id="purchaseDepId" value="${project.purchaseDepId}" type="text" disabled="disabled"/>
+                      <td>
+                        <input name="purchaseDepId" class="m0 border0" id="purchaseDepId" value="${project.purchaseDepId}" type="text" disabled="disabled"/>
                       </td>
                       <td class="bggrey"><span class="red star_red">*</span>最少供应商数量:</td>
-                      <td class="p0"><input name="supplierNumber" class="m0" id="supplierNumber" value="${project.supplierNumber}" type="text" /></td>
+                      <td><input name="supplierNumber" class="m0 border0" id="supplierNumber" value="${project.supplierNumber}" type="text" /></td>
                     </tr>
                     <tr>
                       <td class="bggrey">采购方式:</td>
-                      <td class="p0">
-                        <input name="purchaseType" class="m0" id="purchaseType" value="${project.purchaseType}" type="text" disabled="disabled"/>
+                      <td>
+                        <input name="purchaseType" class="m0 border0" id="purchaseType" value="${project.purchaseType}" type="text" disabled="disabled"/>
                       </td>
                       <td class="bggrey"><span class="red star_red">*</span>采购文件收费:</td>
-                      <td class="p0">
-                        <input name="isCharge" class="m0" id="isCharge" value="0" type="radio" />是
-                        <input name="isCharge" class="m0" id="isCharge" value="1" type="radio" />否
+                      <td>
+                        <laber><input name="isCharge" class="m0" id="isCharge" value="0" type="radio" />是</laber>
+                        <laber class="ml10"><input name="isCharge" class="m0" id="isCharge" value="1" type="radio" />否</laber>
                       </td>
                     </tr>
                     <tr>
                       <td class="bggrey"><span class="red star_red">*</span>投标截止时间:</td>
-                      <td class="p0"><input readonly="readonly" onfocus="getValue()" value="<fmt:formatDate type='date' value='${project.deadline }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="deadline" id="deadline" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" /></td>
+                      <td><input readonly="readonly" onfocus="getValue()" value="<fmt:formatDate type='date' value='${project.deadline }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="deadline" id="deadline" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate border0" /></td>
                       <td class="bggrey"><span class="red star_red">*</span>开标时间:</td>
-                      <td class="p0"><input readonly="readonly" value="<fmt:formatDate type='date' value='${project.bidDate }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="bidDate" id="bidDate" type="text"  class="Wdate"></td>
+                      <td><input readonly="readonly" value="<fmt:formatDate type='date' value='${project.bidDate }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="bidDate" id="bidDate" type="text"  class="Wdate border0"></td>
                     </tr>
                     <tr>
                       <td class="bggrey"><span class="red star_red">*</span>开标地点:</td>
-                      <td colspan="3" class="p0"><input name="bidAddress" id="bidAddress" value="${project.bidAddress}" type="text" class="m0" /></td>
+                      <td colspan="3"><input name="bidAddress" id="bidAddress" value="${project.bidAddress}" type="text" class="m0 border0" /></td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              <h2 onclick="ycDiv(this,'${2}')" class="count_flow spread hand">时间信息</h2>
+              <h2 onclick="ycDiv(this,'${2}')" class="count_flow spread hand mt10 mb10">时间信息</h2>
               <div class="p0${2}">
-                <table class="table table-bordered">
+                <table class="table table-bordered mb0">
                   <tbody>
                     <tr>
-                      <td class="bggrey">招标文件报批时间:</td>
-                      <td>
-                        <fmt:formatDate value='${project.approvalTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                      <td class="bggrey" width="15%">招标文件报批时间:</td>
+                      <td width="35%">
+                        <span class="lh30"></span><fmt:formatDate value='${project.approvalTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></span>
                       </td>
-                      <td class="bggrey">招标文件批复时间:</td>
-                      <td>
-                        <fmt:formatDate value='${project.replyTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                      <td class="bggrey" width="15%">招标文件批复时间:</td>
+                      <td width="35%">
+                        <span class="lh30"><fmt:formatDate value='${project.replyTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></span>
                       </td>
                     </tr>
                     <tr>
                       <td class="bggrey">采购需求提报时间:</td>
                       <td>
-                        <fmt:formatDate value='${auditDate}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                        <span class="lh30"><fmt:formatDate value='${auditDate}' pattern='yyyy年MM月dd日  HH:mm:ss' /></span>
                       </td>
                       <td class="bggrey">采购任务下达时间:</td>
                       <td>
-                        <fmt:formatDate value='${task.giveTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                        <span class="lh30"><fmt:formatDate value='${task.giveTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></span>
                       </td>
                     </tr>
                     <tr>
                       <td class="bggrey">采购任务受理时间:</td>
                       <td>
-                        <fmt:formatDate value='${task.acceptTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                        <span class="lh30"><fmt:formatDate value='${task.acceptTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></span>
                       </td>
                       <td class="bggrey">采购项目立项时间:</td>
                       <td>
-                        <fmt:formatDate value='${project.createAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                        <span class="lh30"><fmt:formatDate value='${project.createAt}' pattern='yyyy年MM月dd日  HH:mm:ss' /></span>
                       </td>
                     </tr>
                     <tr>
                       <td class="bggrey">采购项目实施时间:</td>
                       <td>
-                        <fmt:formatDate value='${project.startTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                        <span class="lh30"><fmt:formatDate value='${project.startTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></span>
                       </td>
                       <td class="bggrey">招标公告审批时间:</td>
                       <td>
-                        <fmt:formatDate value='${project.appTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                        <span class="lh30"><fmt:formatDate value='${project.appTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></span>
                       </td>
                     </tr>
                     <tr>
                       <td class="bggrey">项目结束时间:</td>
                       <td>
-                        <fmt:formatDate value='${project.endTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                        <span class="lh30"><fmt:formatDate value='${project.endTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></span>
                       </td>
                       <td class="bggrey">供应商报名时间:</td>
                       <td>
-                        <fmt:formatDate value='${project.signUpTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                        <span class="lh30"><fmt:formatDate value='${project.signUpTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></span>
                       </td>
                     </tr>
                     <tr>
                       <td class="bggrey">报名截止时间:</td>
                       <td>
-                        <fmt:formatDate value='${project.applyDeanline}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                        <span class="lh30"><fmt:formatDate value='${project.applyDeanline}' pattern='yyyy年MM月dd日  HH:mm:ss' /></span>
                       </td>
                       <td class="bggrey">售后维护时间:</td>
                       <td>
-                        <fmt:formatDate value='${project.maintenanceTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                        <span class="lh30"><fmt:formatDate value='${project.maintenanceTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></span>
                       </td>
                     </tr>
                     <tr>
                       <td class="bggrey">合同签订时间:</td>
                       <td>
-                        <fmt:formatDate value='${project.signingTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                        <span class="lh30"><fmt:formatDate value='${project.signingTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></span>
                       </td>
                       <td class="bggrey">验收时间:</td>
                       <td>
-                        <fmt:formatDate value='${project.acceptanceTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                        <span class="lh30"><fmt:formatDate value='${project.acceptanceTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></span>
                       </td>
                     </tr>
                   </tbody>
@@ -623,8 +626,9 @@
                     <span class="f16 b">包名：</span>
                     <span class="f14 blue">${pack.name }</span>
                   </div>
+                  <div class="clear"></div>
                   <input type="hidden" value="${pack.id }" />
-                  <table id="table_1_${p.index}" class="table table-bordered table-condensed table-hover table-striped left_table lockout hide ">
+                  <table id="table_1_${p.index}" class="table table-bordered table-condensed table-hover table-striped left_table lockout hide mt10 mb0">
                     <thead>
                       <tr>
                         <th class="info w50">序号</th>
@@ -668,7 +672,7 @@
                         <td class="tc">
                           <div class="purchasecount">${obj.purchaseCount}</div>
                         </td>
-                        <td class="tl" title="${obj.deliverDate }">
+                        <td class="tc" title="${obj.deliverDate }">
                           <c:if test="${fn:length (obj.deliverDate) > 16}">${fn:substring(obj.deliverDate,0,15)}...</c:if>
                             <c:if test="${fn:length(obj.deliverDate) <= 16}">${obj.deliverDate}</c:if>
                         </td>
@@ -699,50 +703,53 @@
               </c:if>
           </div>
           <div class="tab-pane fade " id="tab-3">
-            <button class="btn btn-windows input" type="button" onclick="bidRegister('${project.id}','1')">投标登记表</button>
-            <button class="btn btn-windows input" type="button" onclick="bidRegister('${project.id}','2')">开标记录</button>
-            <button class="btn btn-windows input" type="button" onclick="bidRegister('${project.id}','3')">有效监标词</button>
-            <button class="btn btn-windows input" type="button" onclick="bidRegister('${project.id}','4')">大会主持词</button>
-            <button class="btn btn-windows input" type="button" onclick="bidRegister('${project.id}','5')">保证金登记表</button>
-            <button class="btn btn-windows input" type="button" onclick="bidRegister('${project.id}','6')">送审单</button>
-            <button class="btn btn-windows input" type="button" onclick="bidRegister('${project.id}','7')">保密审查单</button>
-            <button class="btn btn-windows input" type="button" onclick="bidRegister('${project.id}','8')">公告封面</button>
-            <button class="btn btn-windows input" type="button" onclick="bidRegister('${project.id}','9')">招标文件</button>
-            <button class="btn btn-windows input" type="button" onclick="bidRegister('${project.id}','10')">专家签到表</button>
-            <button class="btn btn-windows input" type="button" onclick="bidRegister('${project.id}','11')">评标报告</button>
-            <button class="btn btn-windows input" type="button" onclick="bidRegister('${project.id}','12')">中标通知书</button>
-            <button class="btn btn-windows input" type="button" onclick="bidRegister('${project.id}','13')">评标报告（综合）</button>
-            <button class="btn btn-windows input" type="button" onclick="bidRegister('${project.id}','14')">评标报告（最低）</button>
-            <button class="btn btn-windows input mt10" type="button" onclick="bidRegister('${project.id}','15')">劳务发放登记表</button>
+          <div class="row mt10">
+            <div class="col-sm-2 col-xs-4 mb10"><button class="btn btn-windows input m0 w100p" type="button" onclick="bidRegister('${project.id}','1')">投标登记表</button></div>
+            <div class="col-sm-2 col-xs-4 mb10"><button class="btn btn-windows input m0 w100p" type="button" onclick="bidRegister('${project.id}','2')">开标记录</button></div>
+            <div class="col-sm-2 col-xs-4 mb10"><button class="btn btn-windows input m0 w100p" type="button" onclick="bidRegister('${project.id}','3')">有效监标词</button></div>
+            <div class="col-sm-2 col-xs-4 mb10"><button class="btn btn-windows input m0 w100p" type="button" onclick="bidRegister('${project.id}','4')">大会主持词</button></div>
+            <div class="col-sm-2 col-xs-4 mb10"><button class="btn btn-windows input m0 w100p" type="button" onclick="bidRegister('${project.id}','5')">保证金登记表</button></div>
+            <div class="col-sm-2 col-xs-4 mb10"><button class="btn btn-windows input m0 w100p" type="button" onclick="bidRegister('${project.id}','6')">送审单</button></div>
+            <div class="col-sm-2 col-xs-4 mb10"><button class="btn btn-windows input m0 w100p" type="button" onclick="bidRegister('${project.id}','7')">保密审查单</button></div>
+            <div class="col-sm-2 col-xs-4 mb10"><button class="btn btn-windows input m0 w100p" type="button" onclick="bidRegister('${project.id}','8')">公告封面</button></div>
+            <div class="col-sm-2 col-xs-4 mb10"><button class="btn btn-windows input m0 w100p" type="button" onclick="bidRegister('${project.id}','9')">招标文件</button></div>
+            <div class="col-sm-2 col-xs-4 mb10"><button class="btn btn-windows input m0 w100p" type="button" onclick="bidRegister('${project.id}','10')">专家签到表</button></div>
+            <div class="col-sm-2 col-xs-4 mb10"><button class="btn btn-windows input m0 w100p" type="button" onclick="bidRegister('${project.id}','11')">评标报告</button></div>
+            <div class="col-sm-2 col-xs-4 mb10"><button class="btn btn-windows input m0 w100p" type="button" onclick="bidRegister('${project.id}','12')">中标通知书</button></div>
+            <div class="col-sm-2 col-xs-4 mb10"><button class="btn btn-windows input m0 w100p" type="button" onclick="bidRegister('${project.id}','13')">评标报告（综合）</button></div>
+            <div class="col-sm-2 col-xs-4 mb10"><button class="btn btn-windows input m0 w100p" type="button" onclick="bidRegister('${project.id}','14')">评标报告（最低）</button></div>
+            <div class="col-sm-2 col-xs-4 mb10"><button class="btn btn-windows input m0 w100p" type="button" onclick="bidRegister('${project.id}','15')">劳务发放登记表</button></div>
           </div>
-          <div class="tab-pane fade " id="tab-4">
-            <div class="margin-bottom-0  categories">
-              <form id="add_form" action="${pageContext.request.contextPath}/project/adddetail.html" method="post">
-                <div>报批文件：</div>
-                <c:if test="${project.parentId ne null}">
-                	<u:show showId="upload_id" groups="upload123,upload_id" delete="false" businessId="${project.parentId}" sysKey="2" typeId="${dataIds}" />
-                </c:if>
-                <c:if test="${project.parentId eq null}">
-                	<u:show showId="upload_id" groups="upload123,upload_id" delete="false" businessId="${project.id}" sysKey="2" typeId="${dataIds}" />
-                </c:if>
-              </form>
-            </div>
+          </div>
+          <div class="tab-pane fade" id="tab-4">
+	          <div class="margin-bottom-0 categories">
+		          <form id="add_form" action="${pageContext.request.contextPath}/project/adddetail.html" method="post">
+		            <div class="fl">报批文件：</div>
+		            <div class="fl">
+			            <c:if test="${project.parentId ne null}">
+			            	<u:show showId="upload_id" groups="upload123,upload_id" delete="false" businessId="${project.parentId}" sysKey="2" typeId="${dataIds}" />
+			            </c:if>
+			            <c:if test="${project.parentId eq null}">
+			            	<u:show showId="upload_id" groups="upload123,upload_id" delete="false" businessId="${project.id}" sysKey="2" typeId="${dataIds}" />
+			            </c:if>
+		            </div>
+		          </form>
+	          </div>
           </div>
           <div class="tab-pane fade " id="tab-5">
-            <u:upload id="upload123" groups="upload123,upload_id" multiple="true" auto="true" businessId="${project.id}" typeId="${dataId}" sysKey="2" buttonName="上传附件" />
-            <%-- <u:show showId="upload123" groups="upload123,upload_id" businessId="${project.id}" sysKey="2" typeId="${dataId}" /> --%> &nbsp;
-            <button class="btn btn-windows input" onclick="downloads();">下载</button>
-            <button class="btn btn-windows delete" onclick="deleted();">删除</button>
-            <table class="table table-bordered table-condensed mt5">
+            <div class="lh22 fl"><u:upload id="upload123" groups="upload123,upload_id" multiple="true" auto="true" businessId="${project.id}" typeId="${dataId}" sysKey="2" buttonName="上传附件" /></div>
+            <%-- <u:show showId="upload123" groups="upload123,upload_id" businessId="${project.id}" sysKey="2" typeId="${dataId}" /> --%>
+            <div class="fl ml5"><button class="btn btn-windows input m0" onclick="downloads();">下载</button></div>
+            <div class="fl ml5"><button class="btn btn-windows delete m0" onclick="deleted();">删除</button></div>
+            <div class="clear"></div>
+            <table class="table table-bordered table-condensed mt10 mb0">
               <thead>
                 <tr>
-                  <th class="w30">
-                    <input type="checkbox" id="checkAll" onclick="selectAll()" />
-                  </th>
-                  <th class="info w50">序号</th>
-                  <th class="info">附件名称</th>
-                  <th class="info">操作人</th>
-                  <th class="info">上传时间</th>
+                  <th class="w30"><input type="checkbox" id="checkAll" onclick="selectAll()" /></th>
+                  <th class="w50">序号</th>
+                  <th>附件名称</th>
+                  <th class="w180">操作人</th>
+                  <th class="w200">上传时间</th>
                 </tr>
               </thead>
               <tbody id="loadUpload"></tbody>

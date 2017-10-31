@@ -136,7 +136,12 @@
             $(divObj[i]).addClass("hide");
           };
         };
-      };
+      }
+      
+      setTimeout(function () {
+        var boxwidth = $("#content").width();
+        FixTable("table", 3, boxwidth, 460);
+      }, 200);
     }
     
     function viewUpload(obj){
@@ -156,14 +161,14 @@
       <div class="p0${1}">
         <form action="" method="post">
           <div class="over_scroll col-md-12 col-xs-12 col-sm-12 p0 m0">
-            <table class="table table-bordered table-condensed table-hover p0 space_nowrap" id="table2">
+            <table class="table table-bordered table-condensed table-hover p0 space_nowrap mb0" id="table2">
               <thead>
                 <th class="info space_nowrap">资格性和符合性检查项</th>
                 <c:set var="suppliers" value="0" />
                 <c:forEach items="${extension.supplierList}" var="supplier" varStatus="vs">
                   <c:if test="${fn:contains(supplier.packages,extension.packageId)}">
                     <c:set var="suppliers" value="${suppliers+1}" />
-                    <th class="info">
+                    <th class="info w120">
                       ${supplier.suppliers.supplierName }
                     </th>
                   </c:if>
@@ -171,12 +176,12 @@
               </thead>
               <c:forEach items="${dds}" var="d">
                 <tr>
-                  <td class="info" colspan="${suppliers+1}"><b>${d.name}</b></td>
+                  <td class="info tc f22" colspan="${suppliers+1}"><b>${d.name}</b></td>
                 </tr>
                 <c:forEach items="${extension.firstAuditList }" var="first" varStatus="vs">
                   <c:if test="${first.kind == d.id}">
                     <tr>
-                      <td class="w260">
+                      <td>
                         <a href="javascript:void(0);" title="${first.content}">${first.name}</a>
                       </td>
                       <c:forEach items="${extension.supplierList }" var="supplier" varStatus="v">
@@ -206,18 +211,18 @@
       <h2 onclick="ycDiv(this,'${2}')" class="count_flow spread hand" id="clear">经济技术评审</h2>
       <div class="p0${2}">
         <div class="content" id="content">
-          <table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; width:1600px; font-size: medium; border-left-color: #dddddd; max-width:10000px" border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed table_input left_table lockout">
+          <table id="table" class="table table-bordered table-condensed lockout" style="width:1600px; font-size: medium; max-width:10000px">
             <tr>
-              <th class="tc w100" rowspan="2">评审项目</th>
-              <th class="tc w180" rowspan="2">评审指标</th>
-              <th class="tc w50" rowspan="2">标准分值</th>
+              <th class="tc w120" rowspan="2">评审项目</th>
+              <th class="tc w260" rowspan="2">评审指标</th>
+              <th class="tc w120" rowspan="2">标准分值</th>
               <c:forEach items="${supplierList}" var="supplier">
                 <th class="tc">${supplier.suppliers.supplierName}</th>
               </c:forEach>
             </tr>
             <tr>
               <c:forEach items="${supplierList}" var="supplier">
-                <th class="tc w100">得分</th>
+                <th class="t">得分</th>
               </c:forEach>
             </tr>
             <c:forEach items="${markTermList}" var="markTerm">
