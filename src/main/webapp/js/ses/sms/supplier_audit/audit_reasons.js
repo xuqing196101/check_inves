@@ -42,6 +42,23 @@ $(function () {
         // 预审核通过
         getCheckOpinionType(supplierId);
     }
+    // 无提示暂存审核意见
+    $("#oprTempSave,#oprNextStep").mousedown(function(e){
+    	e.preventDefault();
+    });
+    $("#opinion").focus(function(){
+		$(this).attr("data-oval", $(this).val());
+	}).blur(function(e){
+		//e.relatedTarget
+		console.log(e);
+		if(e){
+			var oldVal = $(this).attr("data-oval"); //获取原值
+			var newVal = $(this).val(); //获取当前值
+			if (newVal && $.trim(newVal) != "" && oldVal != newVal){
+				tempSave("noTip");
+			}
+		}
+	});
 });
 
 /**
@@ -131,15 +148,17 @@ function tempSave(flag){
 	        success:function (data) {
 	            if(flag == 1){
 	                if(data == 500){
-                        layer.alert(data.msg);
+                        layer.msg(data.msg);
                     }else {
                         var action = globalPath + "/supplierAudit/uploadApproveFile.html";
                         $("#form_id").attr("action", action);
                         $("#form_id").submit();
                     }
+	            }else if(flag == "noTip"){
+	            	
 	            }else{
 	                if(data.status == 200){
-	                    layer.alert("暂存成功！");
+	                    layer.msg("暂存成功！");
 	                }
 	            }
 	            // 关闭旋转图标

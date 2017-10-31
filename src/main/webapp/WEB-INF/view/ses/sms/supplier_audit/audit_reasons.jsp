@@ -614,9 +614,9 @@
 											<%--<input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">--%>
 											<%-- <input class="btn btn-windows cancel"  type="button" onclick="shenhe(3)" value="审核不通过" id="butongguo">--%>
 											<c:if test="${supplierStatus == -2}">
-												<a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();">暂存</a>
+												<a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();" id="oprTempSave">暂存</a>
 											</c:if>
-											<a class="btn" type="button" onclick="nextStep();">下一步</a>
+											<a class="btn" type="button" onclick="nextStep();" id="oprNextStep">下一步</a>
 										</c:if>
 										
 										<c:if test="${supplierStatus == 4}">
