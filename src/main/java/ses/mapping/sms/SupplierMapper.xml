@@ -1960,24 +1960,24 @@
 	select f.* from (
 	select  
 	 o.id as id,o.name as name,o.short_name as shortName,d.id as depId,o.position,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id) as  TJSH,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=10) as YYCL,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=0) as DSH,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=9) as THZSH,
-  (select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and AUDIT_TEMPORARY=1) as SHZ,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=2) as THXG,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=-2) as YSHJS,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=3) as SHBTG,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=-3) as GSZ,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=1) as RKDFH,
-  (select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and AUDIT_TEMPORARY=2) as FHZ,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=-4) as YFHJS,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=6) as FHBHG,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=5) as FHHGDKC,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and AUDIT_TEMPORARY=3) as KCZ,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=-5) as YKCJS,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=8) as KCBHG,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=7) as KCHG
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and IS_DELETED = 0 AND IS_PROVISIONAL=0) as  TJSH,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=10 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as YYCL,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=0 and IS_DELETED = 0 and AUDIT_TEMPORARY=0 AND IS_PROVISIONAL=0) as DSH,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=9 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as THZSH,
+    (select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and AUDIT_TEMPORARY=1 and SUPPLIER_STATUS=9 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as SHZ,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=2 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as THXG,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=-2 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as YSHJS,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=3 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as SHBTG,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=-3 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as GSZ,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=1 and IS_DELETED = 0 and AUDIT_TEMPORARY=0 AND IS_PROVISIONAL=0) as RKDFH,
+    (select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and AUDIT_TEMPORARY=2 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as FHZ,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=-4 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as YFHJS,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=6 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as FHBHG,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=5 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as FHHGDKC,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and AUDIT_TEMPORARY=3 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as KCZ,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=-5 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as YKCJS,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=8 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as KCBHG,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=7 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as KCHG
  from 
 	 T_SES_OMS_ORG o inner join T_SES_OMS_PURCHASE_DEP d  on o.id =d.org_id LEFT JOIN T_SES_SMS_SUPPLIER s
 	 on o.id=s.PROCUREMENT_DEP_ID where 1=1
@@ -1992,8 +1992,8 @@
 	select f.*  from (
 	select  
 	 o.id as id,o.name as name,o.short_name as shortName,d.id as depId,o.position,
-	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id) as  TJCS,
-	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=0) as DCS,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and IS_DELETE = 0 ) as  TJCS,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=0 and IS_DELETE = 0 and AUDIT_TEMPORARY=0 AND IS_PROVISIONAL=0) as DCS,
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=9) as THZCS,
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=18) as YYCL,
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and AUDIT_TEMPORARY=1) as CSZ,

@@ -290,11 +290,11 @@
 
         var erro = "${erro}";
         if(erro) {
-          $("#saveCheck").hide();
-          $("input:text").each(function() {
+          /* $("#saveCheck").hide(); */
+         /*  $("input:text").each(function() {
             $(this).attr("disabled", "disabled");
           });
-          $("select").attr("disabled", "disabled");
+          $("select").attr("disabled", "disabled"); */
         }
       });
 
