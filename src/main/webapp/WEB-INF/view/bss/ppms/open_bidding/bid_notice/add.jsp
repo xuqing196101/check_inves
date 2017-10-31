@@ -382,7 +382,7 @@
 		    <ul id="treeCategory" class="ztree" style="margin-top:0;"></ul>
 		</div>
    	</div>
-	 <form  method="post" id="form" > 
+	  <form  method="post" id="form" > 
 	    <input type="hidden" id="is_saveNotice" value="${saveStatus}">
 	    <input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId}">
 	    <input type="hidden" id="noticeType" name="noticeType" value="${noticeType}">
@@ -393,89 +393,90 @@
 	    <input type="hidden" name="lastArticleTypeId" id="articleTypeId" value="${article.lastArticleType.id}">
 	    <input type="hidden" name="id" id="articleId" value="${articleId}">
 	    <input type="hidden" name="projectId" value="${projectId}">
-		<ul class="clear col-md-12 col-sm-12 col-xs-12 p0 mb10">
-			<li class="col-md-12 col-sm-12 col-xs-12">
-				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">
-				<div class="star_red">*</div>公告标题：</span>
-				<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-				 <c:if test="${article.name == null && noticeType == 'purchase'}">
-				 	<input type="text" id="name" name="name" value="${project.name}采购公告(${project.projectNumber})">
-				 </c:if>
-				 <c:if test="${article.name == null && noticeType == 'win'}">
-				 	<input type="text" id="name" name="name" value="${project.name}中标公示(${project.projectNumber})">
-				 </c:if>
-				 <c:if test="${article.name != null}">
-				 	<input type="text" id="name" name="name" value="${article.name}"><br>
-				 </c:if>
-			 	</div>
-			 </li>
-			 <li class="col-md-3 col-sm-6 col-xs-12 clear pl0">
-			 	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">
-					<div class="star_red">*</div>发布范围：
-				</span>
-				<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
-		            <label class="fl margin-bottom-0"><input type="radio" name="ranges"  value="0">内网</label>
-		            <label class="ml30 fl"><input type="radio" name="ranges" value="2" >内外网</label>
-				</div>
-			</li>
-			<li class="col-md-3 col-sm-6 col-xs-12 pl0">
-				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">
-					<div class="star_red">*</div>选择产品类别：
-				</span>
-				<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">
-					<input id="cId" name="categoryIds"  type="hidden" value="${categoryIds}">
-			        <input id="categorySel"  type="text" name="categoryName"  readonly value="${categoryNames}"  onclick="showCategory('${articleId}');" />
-					<div class="drop_up" onclick="showCategory('${articleId}');">
-					    <img src="${pageContext.request.contextPath}/public/backend/images/down.png" />
-			        </div>
-					<div class="cue" id="ERR_category">${ERR_category}</div>
-				</div>
-			</li>
-	        <li class="col-md-12 col-sm-12 col-xs-12 pl0">
-	        	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">
-	        		<div class="star_red">*</div>信息正文：
-	        	</span>
-				 <c:if test='${article.name == null || article.name == ""}'>
-		             <input type="hidden" id="articleContent" value='${article1.content}'>
-				 </c:if>
-				 <c:if test='${article.name != null && article.name != ""}'>
-		             <input type="hidden" id="articleContent" value='${article.content}'>
-				 </c:if>
-				 <div class="col-md-12 col-sm-12 col-xs-12 p0">
-             	 	<script id="editor" name="content" type="text/plain" class="ml125 w900 edit-posit"></script>
-			 	 </div>
-			 </li>
-                          <%-- 上传附件： 
-             <u:upload id="a" groups="a,c" businessId="${articleId }" multiple="true" sysKey="${sysKey }" typeId="${typeId }" auto="true" />
-             <u:show  showId="b" groups="b,d,c"  businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/> --%>
-     			<c:if test="${operatorId eq null}">
-     			
-     		  <li class="col-md-3 col-sm-6 col-xs-12 pl15 mt5">
-	              <span class="fl" >公告附件：</span>
-	               <u:upload id="a" groups="a,c,e"  buttonName="上传附件" businessId="${articleId}" multiple="true" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-             		 <u:show  showId="b" groups="b,d,f,g"  businessId="${articleId}" sysKey="${sysKey}" typeId="${typeId}"/>
-              </li>
-              <%-- <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-	              <span class="" >审批附件: </span>
-	                <u:upload id="c"  groups="a,c,e" businessId="${articleId}"  sysKey="${sysKey}" typeId="${typeId_examine}" auto="true" />
-                  <u:show  showId="d"  groups="b,d,f,g" businessId="${articleId}" sysKey="${sysKey}" typeId="${typeId_examine}"/>
-              </li> --%>
-              <li class="col-md-6 col-sm-6 col-xs-12 pl15 mt5">
-	              <span class="fl" >单位及保密委员会审核表： </span>
-	                <u:upload id="e" exts="png,jpeg,jpg,bmp" groups="a,c,f" multiple="true" businessId="${articleId}"  sysKey="${sysKey}" typeId="${security}" auto="true" />
-                  <u:show  showId="f"  groups="b,d,f,g" businessId="${articleId}" sysKey="${sysKey}" typeId="${security}"/>
-              </li>
-              </c:if>	
-           </ul>
-                  <!-- 按钮 -->
-        <div class="w100p tc fl">
-		     <%-- <input type="button" class="btn btn-windows input" onclick="inputTemplete('${projectId }')" value="模板导入"></input> --%>
-	         <!-- <input type="button" class="btn btn-windows output" onclick="exportWord()" value="导出"></input> -->
-	         <!-- <input type="button" class="btn btn-windows git" onclick="pre_view()" value="预览"></input>   -->
-	         <input type="button" class="btn btn-windows save" onclick="save()" value="保存"></input>
-	         <!-- <input type="button" class="btn btn-windows apply" onclick="publish()" value="提交"></input>  --> 
-	    </div>
-      </form>
+	    
+	    <table class="table table-bordered left_table mb0">
+	      <tbody>
+	        <tr>
+	          <td class="bggrey"><span class="star_red">*</span>公告标题：</td>
+	          <td colspan="3">
+	            <c:if test="${article.name == null && noticeType == 'purchase'}">
+	            <input type="text" id="name" name="name" value="${project.name}采购公告(${project.projectNumber})" class="m0 border0">
+	            </c:if>
+	            <c:if test="${article.name == null && noticeType == 'win'}">
+	            <input type="text" id="name" name="name" value="${project.name}中标公示(${project.projectNumber})" class="m0 border0">
+	            </c:if>
+	            <c:if test="${article.name != null}">
+	            <input type="text" id="name" name="name" value="${article.name}" class="mb0 border0">
+	            </c:if>
+	          </td>
+	        </tr>
+	        <tr>
+	          <td class="bggrey w120"><span class="star_red">*</span>发布范围：</td>
+	          <td>
+	            <label class="mb0 ml10 hand fl h30 lh30"><input type="radio" name="ranges" value="0"> 内网</label>
+              <label class="mb0 ml10 hand fl h30 lh30"><input type="radio" name="ranges" value="2" > 内外网</label>
+	          </td>
+	          <td class="bggrey w190"><span class="star_red">*</span>选择产品类别：</td>
+	          <td>
+	            <div class="input-append input_group fn mb0">
+		            <input id="cId" name="categoryIds" type="hidden" value="${categoryIds}">
+		            <input id="categorySel" type="text" name="categoryName" readonly value="${categoryNames}" onclick="showCategory('${articleId}');" class="border0" />
+		            <div class="drop_up wAuto border0" onclick="showCategory('${articleId}');">
+		              <img src="${pageContext.request.contextPath}/public/backend/images/down.png" />
+		            </div>
+		            <div class="cue" id="ERR_category">${ERR_category}</div>
+	            </div>
+	          </td>
+	        </tr>
+	        <c:if test="${operatorId eq null}">
+	        <tr>
+	          <td class="bggrey"><span class="fl lh26">公告附件：</span></td>
+	          <td>
+	            <u:upload id="a" groups="a,c,e"  buttonName="上传附件" businessId="${articleId}" multiple="true" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+              <u:show  showId="b" groups="b,d,f,g"  businessId="${articleId}" sysKey="${sysKey}" typeId="${typeId}"/>
+	          </td>
+	          <td class="bggrey"><span class="fl lh26">单位及保密委员会审核表： </span></td>
+	          <td>
+	            <u:upload id="e" exts="png,jpeg,jpg,bmp" groups="a,c,f" multiple="true" businessId="${articleId}"  sysKey="${sysKey}" typeId="${security}" auto="true" />
+              <u:show  showId="f"  groups="b,d,f,g" businessId="${articleId}" sysKey="${sysKey}" typeId="${security}"/>
+	          </td>
+	        </tr>
+	        </c:if>
+	        <tr>
+	          <td class="bggrey"><span class="star_red">*</span>信息正文：</td>
+	          <td colspan="3">
+	            <c:if test='${article.name == null || article.name == ""}'>
+		          <input type="hidden" id="articleContent" value='${article1.content}'>
+		          </c:if>
+		          <c:if test='${article.name != null && article.name != ""}'>
+		          <input type="hidden" id="articleContent" value='${article.content}'>
+		          </c:if>
+		          
+	            <script id="editor" name="content" type="text/plain" class="ml125 w900 edit-posit"></script>
+	          </td>
+	        </tr>
+	      </tbody>
+	    </table>
+	    
+	    <!-- 按钮 -->
+      <div class="tc mt10">
+        <%-- <input type="button" class="btn btn-windows input" onclick="inputTemplete('${projectId }')" value="模板导入"></input> --%>
+        <!-- <input type="button" class="btn btn-windows output" onclick="exportWord()" value="导出"></input> -->
+        <!-- <input type="button" class="btn btn-windows git" onclick="pre_view()" value="预览"></input>   -->
+        <input type="button" class="btn btn-windows save" onclick="save()" value="保存"></input>
+        <!-- <input type="button" class="btn btn-windows apply" onclick="publish()" value="提交"></input>  --> 
+      </div>
+				
+			<%-- 上传附件： 
+       <u:upload id="a" groups="a,c" businessId="${articleId }" multiple="true" sysKey="${sysKey }" typeId="${typeId }" auto="true" />
+       <u:show  showId="b" groups="b,d,c"  businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/> --%>
+       
+       <%-- <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+         <span class="" >审批附件: </span>
+         <u:upload id="c"  groups="a,c,e" businessId="${articleId}"  sysKey="${sysKey}" typeId="${typeId_examine}" auto="true" />
+         <u:show  showId="d"  groups="b,d,f,g" businessId="${articleId}" sysKey="${sysKey}" typeId="${typeId_examine}"/>
+       </li> --%>
+    </form>
       
 	<div class="dnone" id="preview">
 	   	<!-- <div class="col-md-12 p30_40 border1 margin-top-20"> -->
