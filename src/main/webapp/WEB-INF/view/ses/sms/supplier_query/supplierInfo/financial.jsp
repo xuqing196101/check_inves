@@ -85,9 +85,6 @@
 						<li class="">
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('table');">承诺书/申请表</a>
 						</li>
-						<li class="">
-              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('audit');">审核信息</a>
-            </li>
 					</ul>
 					<form id="form_id" action="" method="post">
 						<input name="supplierId" id="id" value="${suppliers.id }" type="hidden">

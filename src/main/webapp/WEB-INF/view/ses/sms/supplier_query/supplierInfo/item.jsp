@@ -271,9 +271,6 @@
 						<li class="">
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('table');">承诺书/申请表</a>
 						</li>
-						<li class="">
-              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('audit');">审核信息</a>
-            </li>
 					</ul>
 					<div class="content ">
 						<div class="col-md-12 tab-v2 job-content">
