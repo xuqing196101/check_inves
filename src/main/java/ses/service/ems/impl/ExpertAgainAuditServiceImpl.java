@@ -549,6 +549,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		String ipAddressType = PropUtil.getProperty("ipAddressType");
 		user.setNetType(Integer.valueOf(ipAddressType));
 		userMapper.saveUser(user);
+		expertReviewTeamMapper.deleteGroupreReviewTeam(e.get(0).get("groupId"));
 		for (Map<String, String> map : e) {
 			ExpertReviewTeam expertReviewTeam = new ExpertReviewTeam();
 			expertReviewTeam.setGroupId(map.get("groupId"));

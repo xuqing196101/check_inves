@@ -56,4 +56,9 @@
         T_SYS_EMS_EXPERT_REVIEWTEAM
         where ID = #{id,jdbcType=VARCHAR}
    </delete>
+   <delete id="deleteGroupreReviewTeam" parameterType="java.lang.String">
+   		 delete from
+        T_SYS_EMS_EXPERT_REVIEWTEAM
+        where GROUP_ID = #{groupId,jdbcType=VARCHAR}
+   </delete>
 </mapper>

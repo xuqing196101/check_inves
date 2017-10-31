@@ -692,7 +692,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
         Pattern p2 = Pattern.compile("[\u4e00-\u9fa5]");
         Matcher matcher = p.matcher(password);
         Matcher matcher2 = p2.matcher(password);
-        if(password.trim().length() < 6 || matcher.find() || matcher2.find()) {
+        if( matcher.find() || matcher2.find()) {
         	img.setStatus(false);
         	img.setMessage("密码不符合规则");
         	super.writeJson(response, img);
