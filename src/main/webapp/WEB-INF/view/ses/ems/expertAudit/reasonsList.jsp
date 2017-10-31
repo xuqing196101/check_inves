@@ -640,10 +640,10 @@
                                 <c:if test="${reasons.suggestType eq 'five'}">承诺书和申请表</c:if>
                             </td>
                             <td class="text-center">${reasons.auditField }</td>
-                            <td class="hand" title="${reasons.auditContent}">
+                            <td class="hand"  title="${reasons.catalogCode == null ? reasons.auditContent : reasons.catalogCode}">
                                 <c:if test="${fn:length (reasons.auditContent) > 30}">${fn:substring(reasons.auditContent,0,30)}...</c:if>
                                 <c:if test="${fn:length (reasons.auditContent) <= 30}">${reasons.auditContent}</c:if>
-                            </td>
+                            
                             <td class="hand" title="${reasons.auditReason}">
                                 <c:if test="${fn:length (reasons.auditReason) > 20}">${fn:substring(reasons.auditReason,0,20)}...</c:if>
                                 <c:if test="${fn:length (reasons.auditReason) <= 20}">${reasons.auditReason}</c:if>

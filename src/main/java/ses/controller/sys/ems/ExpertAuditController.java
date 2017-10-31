@@ -1821,6 +1821,7 @@ public class ExpertAuditController{
 						tree = getTreeListByCategoryId(category.getId(), null);
 					}else{
 						tree = getTreeListByCategoryId(e.getAuditFieldId(), "ENG_INFO_ID");
+						category=engCategoryService.findById(e.getAuditFieldId());
 					}
 					String rootNode = tree.getRootNode();
 		        	String firstNode = tree.getFirstNode();
@@ -1840,6 +1841,7 @@ public class ExpertAuditController{
 		        	}
 		
 					e.setAuditContent(items.toString());
+					e.setCatalogCode(category.getCode());
 					items.setLength(0);
 					if(tree != null && tree.getRootNodeCode() != null){
 						map.put(tree.getRootNodeCode(), map.get(tree.getRootNodeCode())+1);
@@ -3591,6 +3593,7 @@ public class ExpertAuditController{
 						tree = getTreeListByCategoryId(category.getId(), null);
 					}else{
 						tree = getTreeListByCategoryId(e.getAuditFieldId(), "ENG_INFO_ID");
+						category=engCategoryService.findById(e.getAuditFieldId());
 					}
 					String rootNode = tree.getRootNode();
 		        	String firstNode = tree.getFirstNode();
@@ -3610,6 +3613,7 @@ public class ExpertAuditController{
 		        	}
 		
 					e.setAuditContent(items.toString());
+					e.setCatalogCode(category.getCode());
 					items.setLength(0);
 					if(tree != null && tree.getRootNodeCode() != null){
 						map.put(tree.getRootNodeCode(), map.get(tree.getRootNodeCode())+1);
@@ -3966,6 +3970,7 @@ public class ExpertAuditController{
 						tree = getTreeListByCategoryId(category.getId(), null);
 					}else{
 						tree = getTreeListByCategoryId(e.getAuditFieldId(), "ENG_INFO_ID");
+						category=engCategoryService.findById(e.getAuditFieldId());
 					}
 					String rootNode = tree.getRootNode();
 		        	String firstNode = tree.getFirstNode();
@@ -3985,6 +3990,7 @@ public class ExpertAuditController{
 		        	}
 		
 					e.setAuditContent(items.toString());
+					e.setCatalogCode(category.getCode());
 					items.setLength(0);
 					if(tree != null && tree.getRootNodeCode() != null){
 						map.put(tree.getRootNodeCode(), map.get(tree.getRootNodeCode())+1);

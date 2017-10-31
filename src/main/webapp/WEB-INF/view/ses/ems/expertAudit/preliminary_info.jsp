@@ -173,7 +173,7 @@
                     <c:if test="${reasons.suggestType eq 'five'}">承诺书和申请表</c:if>
                   </td>
                   <td class="">${reasons.auditField }</td>
-                  <td class="hand" title="${reasons.auditContent}">
+                  <td class="hand" title="${reasons.catalogCode == null ? reasons.auditContent : reasons.catalogCode}">
                     <c:if test="${fn:length (reasons.auditContent) > 20}">${fn:substring(reasons.auditContent,0,20)}...</c:if>
                     <c:if test="${fn:length (reasons.auditContent) <= 20}">${reasons.auditContent}</c:if>
                   </td>
