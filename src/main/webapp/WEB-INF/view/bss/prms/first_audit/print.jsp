@@ -93,6 +93,11 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
    	</div>
   	<h4>评审人员：${expert.relName}</h4>
   	<c:forEach items="${extension}" var="extensions" >
+  	<table>
+  	  <tr><td></td></tr>
+  	  <tr><td></td></tr>
+  	  <tr><td></td></tr>
+  	</table>
   	<table align="center" style="border:1px solid #dddddd; border-collapse: collapse;width:100%;" colspan="0" rowspan="0">
   	<thead>
    		  <tr style="box-sizing: border-box; border:1px solid #dddddd; border-radius: 0px !important;">
@@ -125,7 +130,7 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
 			      	<tr>
 			      	  <td  style="border: 1px solid #ddd;padding: 5px 10px;width:20%;">${first.content}</td>
 			      	  <c:forEach items="${extensions.supplierList}" var="supplier" varStatus="v">
-			      	  	 <td  style="border: 1px solid #ddd;padding: 5px 10px;width:${8/fn:length(extensions.supplierList)*(fn:length(extensions.supplierList)==8?100:10)}%;text-align: center;">
+			      	  	 <td  style="border: 1px solid #ddd;padding: 5px 10px;width:<c:if test="${fn:length(extensions.supplierList)==1}">80</c:if><c:if test="${fn:length(extensions.supplierList)!=1}">${8/fn:length(extensions.supplierList)*10}</c:if>%;text-align: center;">
 			      	  
 	                   <c:if test="${fn:contains(supplier.packages,extensions.packageId)}">
 			                    <c:forEach items="${reviewFirstAuditList }" var="r" >

@@ -90,14 +90,19 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
    		 <h2>${expert.relName}评审结果</h2>
    	</div>
   	<c:forEach items="${supplierList}" var="extensions" >
-  	<table align="center" style="border:1px solid #dddddd; border-collapse: collapse;width:100%;" >
+  	<table>
+  	  <tr><td></td></tr>
+  	  <tr><td></td></tr>
+  	  <tr><td></td></tr>
+  	</table>
+  	<table align="center" style="border:1px solid #dddddd; border-collapse: collapse;width:100%;margin-top:20px;" >
   	<thead>
    		  <tr style="box-sizing: border-box; border:1px solid #dddddd; border-radius: 0px !important;">
-   		  <th  rowspan="2" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:10%;">评审项目</th>
-   		  <th  rowspan="2" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:15%;">评审指标</th>
+   		  <th  rowspan="2" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:5%;">评审项目</th>
+   		  <th  rowspan="2" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:10%;">评审指标</th>
    		  <th  rowspan="2" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:5%;">标准分值</th>
    		  <c:forEach items="${extensions.supplierList}" var="supplier">
-		       <th style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:${7/fn:length(extensions.supplierList)*(fn:length(extensions.supplierList)==7?100:10)}%;">${supplier.suppliers.supplierName}</th>
+		       <th colspan="2" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:<c:if test="${fn:length(extensions.supplierList)==1}">70</c:if><c:if test="${fn:length(extensions.supplierList)!=1}">${8/fn:length(extensions.supplierList)*10}</c:if>%;">${supplier.suppliers.supplierName}</th>
 		   </c:forEach>
 		   <%-- <c:if test="${fn:length(extensions.supplierList)<8}">
 		        <c:forEach begin="1" end="${8-fn:length(extensions.supplierList)}"  step="1" varStatus="i">
@@ -108,7 +113,8 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
    		  </tr>
    		  <tr style="box-sizing: border-box; border:1px solid #dddddd; border-radius: 0px !important;">
    		  <c:forEach items="${extensions.supplierList}" var="supplier">
-		   	   <th style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:${7/fn:length(extensions.supplierList)*(fn:length(extensions.supplierList)==7?100:10)}%;">得分</th>
+		   	   <th style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:<c:if test="${fn:length(extensions.supplierList)==1}">35</c:if><c:if test="${fn:length(extensions.supplierList)!=1}">${8/fn:length(extensions.supplierList)*5}</c:if>%;">参数</th>
+		   	   <th style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:<c:if test="${fn:length(extensions.supplierList)==1}">35</c:if><c:if test="${fn:length(extensions.supplierList)!=1}">${8/fn:length(extensions.supplierList)*5}</c:if>%;">得分</th>
 	   	  </c:forEach>
 	   	  <%-- <c:if test="${fn:length(extensions.supplierList)<8}">
 		        <c:forEach begin="1" end="${8-fn:length(extensions.supplierList)}"  step="1" varStatus="i">
@@ -127,15 +133,20 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
 			    	    <tr>
 			    	     <c:if test="${score.count == 0}"></c:if>
 			    	     <c:if test="${score.count != 0}">
-			    	     <td    rowspan="${score.count}" style="border: 1px solid #ddd;padding: 5px 10px;width:10%;" >${markTerm.name}</td>
+			    	     <td    rowspan="${score.count}" style="border: 1px solid #ddd;padding: 5px 10px;width:5%;" >${markTerm.name}</td>
 			    	     </c:if>
-			    	    
-			    	      
-			    	      <td  style="border: 1px solid #ddd;padding: 5px 10px;width:15%;" >
+			    	      <td  style="border: 1px solid #ddd;padding: 5px 10px;width:10%;" >
 			    	      ${score.name}
 			    	      </td>
 				 	     <td  style="border: 1px solid #ddd;padding: 5px 10px;width:5%;text-align: center;">${score.standardScore}</td>
 				 	      <c:forEach items="${extensions.supplierList}" var="supplier">
+				 	      <td style="border: 1px solid #ddd;padding: 5px 10px;text-align: center;">
+			                   <c:forEach items="${scores}" var="sco">
+			                      <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}">
+			                           ${sco.expertValue }
+			                       </c:if>
+			                    </c:forEach>
+			                </td>
 					 	    <td  style="border: 1px solid #ddd;padding: 5px 10px;text-align: center;">
 					            <c:forEach items="${scores}" var="sco">
 					 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}"><font color="red" >${sco.score}</font></c:if>
@@ -153,6 +164,7 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
 		 	<td style="border: 1px solid #ddd;padding: 5px 10px;">--</td>
 		 	<td style="border: 1px solid #ddd;padding: 5px 10px;">--</td>
 		 	<c:forEach items="${extensions.supplierList}" var="supplier">
+		 	<td class="tc"></td>
 		      <td style="border: 1px solid #ddd;padding: 5px 10px;text-align: center;">
 		      	<input type="hidden" name="${supplier.suppliers.id}_total"/>
 		      	<span>

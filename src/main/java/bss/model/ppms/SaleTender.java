@@ -42,7 +42,7 @@ public class SaleTender {
         this.supplierId = supplierId;
     }
 
-
+    private Integer ranking;
     /**
      * <pre>
      * 表字段 : T_BSS_PPMS_SALE_TENDER.ID
@@ -765,6 +765,16 @@ public class SaleTender {
 
     public BigDecimal getPriceScore() {
       return priceScore;
+    }
+
+
+    public Integer getRanking() {
+      return ranking;
+    }
+
+
+    public void setRanking(Integer ranking) {
+      this.ranking = ranking;
     }
 
 

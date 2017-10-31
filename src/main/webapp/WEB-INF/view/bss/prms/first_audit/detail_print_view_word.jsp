@@ -94,15 +94,19 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
   	<c:forEach items="${extensions}" var="extension"  varStatus="p" >
   	<h4>评审人员：${extension[0].expert.relName}</h4>
   	   <c:forEach items="${extension}" var="ext" >
+  	   <table>
+  	  <tr><td></td></tr>
+  	  <tr><td></td></tr>
+  	  <tr><td></td></tr>
+  	</table>
   	<table align="center" style="border:1px solid #dddddd; border-collapse: collapse;width:100%;" colspan="0" rowspan="0">
   	<thead>
-   		  <tr style="box-sizing: border-box; border:1px solid #dddddd; border-radius: 0px !important;">
    		  <th  style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:20%;">资格性和符合性检查项</th>
    		  <c:set var="suppliers" value="0" />
    		  <c:forEach items="${ext.supplierList}" var="supplier" varStatus="vs">
    		  	<c:if test="${fn:contains(supplier.packages,ext.packageId)}">
 	   		    <c:set var="suppliers" value="${suppliers+1}" />
-	   		    <th  style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:10%;">
+	   		    <th  style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:<c:if test="${fn:length(ext.supplierList)==1}">80</c:if><c:if test="${fn:length(ext.supplierList)!=1}">${8/fn:length(ext.supplierList)*10}</c:if>%;">
 	   		      ${supplier.suppliers.supplierName}
 	   		    </th>
    		    </c:if>
@@ -117,7 +121,7 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
    		</thead>
    		 <c:forEach items="${ext.dds}" var="d">
    			<tr  style="box-sizing: border-box; border:1px solid #dddddd; border-radius: 0px !important;">
-   			  <td  style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:100%;" colspan="${suppliers+1}">
+   			  <td  style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;" colspan="${suppliers+1}">
    				<b>${d.name}</b>
    			  </td>
    			</tr>
@@ -126,7 +130,7 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
 			      	<tr>
 			      	  <td  style="border: 1px solid #ddd;padding: 5px 10px;width:20%;">${first.content}</td>
 			      	  <c:forEach items="${ext.supplierList}" var="supplier" varStatus="v">
-			      	  	 <td  style="border: 1px solid #ddd;padding: 5px 10px;width:${8/fn:length(ext.supplierList)*(fn:length(ext.supplierList)==8?100:10)}%;text-align: center;">
+			      	  	 <td  style="border: 1px solid #ddd;padding: 5px 10px;text-align: center;">
 			      	  
 	                   <c:if test="${fn:contains(supplier.packages,ext.packageId)}">
 			                    <c:forEach items="${reviewFirstAuditList }" var="r" >                

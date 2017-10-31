@@ -91,14 +91,18 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
    		<h2>${project.name}--${pack.name}</h2>
    	</div>
   	<c:forEach items="${saleTenderList}" var="extensions" >
+  	<table>
+  	  <tr><td></td></tr>
+  	  <tr><td></td></tr>
+  	  <tr><td></td></tr>
+  	</table>
   	<table align="center" style="border:1px solid #dddddd; border-collapse: collapse;width:100%;" colspan="0" rowspan="0">
   	<thead>
-   		  <tr style="box-sizing: border-box; border:1px solid #dddddd; border-radius: 0px !important;">
    		  <th  style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:20%;">评审内容/供应商</th>
    		  <c:set var="suppliers" value="0" />
    		   <c:forEach items="${extensions.supplierList}" var="supplier" varStatus="vs">
    		  	<c:set var="suppliers" value="${suppliers+1}" />
-	   		    <th  style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:10%;">
+	   		    <th  style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:<c:if test="${fn:length(extensions.supplierList)==1}">80</c:if><c:if test="${fn:length(extensions.supplierList)!=1}">${8/fn:length(extensions.supplierList)*10}</c:if>%;">
 	   		      ${supplier.suppliers.supplierName}
 	   		    </th>
    		    
@@ -113,7 +117,7 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
    		</thead>
    		<c:forEach items="${dds}" var="d">
    			<tr  style="box-sizing: border-box; border:1px solid #dddddd; border-radius: 0px !important;">
-   			  <td  style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:100%;" colspan="${suppliers+1}">
+   			  <td  style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;" colspan="${suppliers+1}">
    				<b>${d.name}</b>
    			  </td>
    			</tr>
@@ -123,7 +127,7 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
 			      	  <td  style="border: 1px solid #ddd;padding: 5px 10px;width:20%;">${first.content}</td>
 			      	  
 			      	  <c:forEach items="${extensions.supplierList}" var="supplier">
-			      	  	 <td  style="border: 1px solid #ddd;padding: 5px 10px;width:${8/fn:length(extensions.supplierList)*(fn:length(extensions.supplierList)==8?100:10)}%;text-align: center;">
+			      	  	 <td  style="border: 1px solid #ddd;padding: 5px 10px;text-align: center;">
 			      	  
 	                       <c:forEach items="${reviewFirstAudits}" var="rfa">
 		  	  	  	 				<c:if test="${rfa.firstAuditId eq first.id && rfa.supplierId eq supplier.suppliers.id && rfa.isPass==0}">

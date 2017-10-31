@@ -131,11 +131,12 @@ function printResult(expertId,projectId,packageId){
               <th class="tc" rowspan="2" width="180">评审指标</th>
               <th class="tc" rowspan="2" width="100">标准分值</th>
               <c:forEach items="${supplierList}" var="supplier">
-              <th class="tc">${supplier.suppliers.supplierName}</th>
+              <th class="tc" colspan="2">${supplier.suppliers.supplierName}</th>
             </c:forEach>
         </tr>
         <tr>
         <c:forEach items="${supplierList}" var="supplier">
+                  <th class="tc">参数</th>
                   <th class="tc">得分</th>
                 </c:forEach>
         </tr>
@@ -166,6 +167,13 @@ function printResult(expertId,projectId,packageId){
                 <td class="tc">${score.standardScore}</td>
                 <c:forEach items="${supplierList}" var="supplier">
                 <td class="tc">
+                   <c:forEach items="${scores}" var="sco">
+                      <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}">
+                           ${sco.expertValue }
+                       </c:if>
+                    </c:forEach>
+                </td>
+                <td class="tc">
                   <input type="hidden" name="supplierId"  value="${supplier.suppliers.id}"/>
                   <input type="hidden" name="expertScore" readonly="readonly"
                     <c:forEach items="${scores}" var="sco">
@@ -187,7 +195,8 @@ function printResult(expertId,projectId,packageId){
           <td class="tc">--</td>
           <td class="tc">--</td>
           <c:forEach items="${supplierList}" var="supplier">
-              <td class="tc" >
+              <td class="tc"></td>
+              <td class="tc"  >
                 <input type="hidden" name="${supplier.suppliers.id}_total"/>
                 <span>
                   <c:set var="sum_score" value="0"/>

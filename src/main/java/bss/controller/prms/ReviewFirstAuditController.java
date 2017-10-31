@@ -650,7 +650,8 @@ public class ReviewFirstAuditController extends BaseSupplierController {
     for (int i = 0; i < finalSupplier.size(); i++) {
       SaleTender st = finalSupplier.get(i);
       String reviewResult = st.getReviewResult();
-      int rank = i+1;
+      int rank = st.getRanking();
+      
       reviewResult += rank;
       //插入排名
       HashMap<String, Object> ranMap = new HashMap<String, Object>();

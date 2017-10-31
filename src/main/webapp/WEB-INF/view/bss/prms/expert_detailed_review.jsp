@@ -127,16 +127,16 @@
 		window.open("${pageContext.request.contextPath}/packageExpert/showViewBySupplierId.html?projectId=${projectId}&packageId=${packageId}&supplierId=" + supplierId, "评分详情");
 	}
 	function printRank(){
-		var packageId = "${packageId}";
+		/* var packageId = "${packageId}";
 		var isEnd = $("#is_end").val();
 		if (isEnd != "1") {
 			layer.alert("该包暂未结束评分!", {
 				offset : [ y, x ],
 				shade : 0.01
 			});
-		} else {
+		} else { */
 			window.open("${pageContext.request.contextPath}/packageExpert/printRank.html?packages=${packageId}", "打印汇总表");
-		}
+		/* } */
 	}
 	function refur(packageId,projectId){
 		layer.msg("刷新成功",{offset: ['100px']});

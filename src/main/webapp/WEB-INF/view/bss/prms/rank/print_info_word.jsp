@@ -99,14 +99,19 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);  
    	</div>
    	
   	<c:forEach items="${supplierList}" var="extensions" >
-  	<table align="center" style="border:1px solid #dddddd; border-collapse: collapse;margin: auto;" colspan="0" rowspan="0">
+  	<table>
+  	  <tr><td></td></tr>
+  	  <tr><td></td></tr>
+  	  <tr><td></td></tr>
+  	</table>
+  	<table align="center" style="border:1px solid #dddddd; border-collapse: collapse;margin: auto;width:100%;" colspan="0" rowspan="0">
   	<thead>
    		  <tr style="box-sizing: border-box; border:1px solid #dddddd; border-radius: 0px !important;">
    		  <th colspan="2"  style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px; width:20%;">专家/供应商</th>
    		 
    		  <c:forEach items="${extensions.supplierList}" var="supplier" varStatus="vs">
    		          <c:if test="${supplier.packages eq pack.id}">
-	                <th style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px; width:${8/fn:length(extensions.supplierList)*(fn:length(extensions.supplierList)==8?100:10)}%;">
+	                <th style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px; width:<c:if test="${fn:length(extensions.supplierList)==1}">80</c:if><c:if test="${fn:length(extensions.supplierList)!=1}">${8/fn:length(extensions.supplierList)*10}</c:if>%;">
 	   		      ${supplier.suppliers.supplierName}
 	   		        </th>
                   </c:if>	   		    		    

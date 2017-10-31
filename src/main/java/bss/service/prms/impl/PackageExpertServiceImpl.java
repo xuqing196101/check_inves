@@ -732,13 +732,13 @@ public class PackageExpertServiceImpl implements PackageExpertService {
             if(totalScore1.compareTo(totalScore2) == 0){
                 BigDecimal price1 = o1.getTotalPrice();
                 BigDecimal price2 = o2.getTotalPrice();
-                if(price1.compareTo(price2) == 1){  
+                if(price1.compareTo(price2) == 1){ 
                   return 1;
                 }
-                if(price1.compareTo(price2) == 0){  
+                if(price1.compareTo(price2) == 0){ 
                   return 0;
                 }
-                if(price1.compareTo(price2) == -1){  
+                if(price1.compareTo(price2) == -1){ 
                   return -1;
                 }
                 return 0;
@@ -749,8 +749,45 @@ public class PackageExpertServiceImpl implements PackageExpertService {
             return 0; 
           }
         });   
+        Integer ranking=1;
+        if(finalSupplier!=null&&finalSupplier.size()>0){
+          for(int i=0;i<finalSupplier.size();i++){
+            SaleTender saleTender = finalSupplier.get(i);
+            if(i==1){
+              saleTender.setRanking(ranking);
+            }else if(i!=finalSupplier.size()-1){
+              SaleTender saleTender2 = finalSupplier.get(i+1);
+              if(saleTender.getEconomicScore().add(saleTender.getTechnologyScore()).equals(saleTender2.getEconomicScore().add(saleTender2.getTechnologyScore()))){
+                if(saleTender.getTotalPrice().doubleValue()<saleTender2.getTotalPrice().doubleValue()){
+                  saleTender.setRanking(ranking);
+                  ranking++;
+                }else if(saleTender.getTotalPrice().doubleValue()>saleTender2.getTotalPrice().doubleValue()){
+                  saleTender2.setRanking(ranking);
+                  ranking++;
+                  saleTender.setRanking(ranking);
+                }else{
+                  saleTender2.setRanking(ranking);
+                  saleTender.setRanking(ranking);
+                }
+               
+              }else if( saleTender.getEconomicScore().add(saleTender.getTechnologyScore()).doubleValue()<saleTender2.getEconomicScore().add(saleTender2.getTechnologyScore()).doubleValue()){
+                saleTender.setRanking(ranking);
+                ranking++;
+              }
+            }else{
+              SaleTender saleTender1 = finalSupplier.get(i-1);
+              if(saleTender.getEconomicScore().add(saleTender.getTechnologyScore()).equals(saleTender1.getEconomicScore().add(saleTender1.getTechnologyScore()))){
+                saleTender.setRanking(ranking);
+              }else if( saleTender1.getEconomicScore().add(saleTender1.getTechnologyScore()).doubleValue()<saleTender.getEconomicScore().add(saleTender.getTechnologyScore()).doubleValue()){
+                saleTender.setRanking(ranking);
+                ranking++;
+              }
+            }
+          }
+        }
+        
         for (SaleTender obj : finalSupplier) {
-          System.out.println(obj.getEconomicScore()+"--"+obj.getTechnologyScore());
+          System.out.println(obj.getEconomicScore()+"--"+obj.getTechnologyScore()+"-=-="+obj.getRanking()+"-=-="+obj.getTotalPrice());
         }
       }
       
