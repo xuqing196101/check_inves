@@ -514,7 +514,7 @@ function save_editMembers() {
     });
     
     if (empty_sum === 0) {
-      layer.confirm('保存后无法再次添加，您确定要保存么？', {
+      layer.confirm('您确定要保存么？', {
         btn: ['确定', '取消']
       }, function () {
         $.ajax({
