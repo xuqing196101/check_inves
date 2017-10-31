@@ -1971,7 +1971,7 @@
 											</div>
 											<div class="col-md-12 col-xs-12 col-sm-12 over_auto p0">
 												<table
-													class="table table-bordered table-condensed mt5 table_wrap left_table table_input">
+													class="table table-bordered table-condensed mt5 table_wrap left_table table_input m_table_fixed_border">
 													<thead>
 														<tr>
 															<th class="info"><input type="checkbox"
@@ -2104,7 +2104,7 @@
 										</div>
 										<div class="col-md-12 col-sm-12 col-xs-12 over_auto p0">
 											<table id="share_table_id"
-												class="table table-bordered table-condensed mt5 table_input left_table table_wrap">
+												class="table table-bordered table-condensed mt5 table_input left_table table_wrap m_table_fixed_border">
 												<thead>
 													<tr>
 														<th class="info"><input type="checkbox"
@@ -2365,7 +2365,7 @@
 										</div>
 										<div class="col-md-12 col-xs-12 col-sm-12 over_auto p0">
 											<table id="share_table_id"
-												class="table table-bordered table-condensed mt5 table_wrap left_table table_input">
+												class="table table-bordered table-condensed mt5 table_wrap left_table table_input m_table_fixed_border">
 												<thead>
 													<tr>
 														<th class="info"><input type="checkbox"
@@ -2520,7 +2520,7 @@
 										<div
 											class="col-md-12 col-xs-12 col-sm-12 p0 over_auto clear">
 											<table
-												class="table table-bordered table-condensed mt5 table_input left_table table_wrap">
+												class="table table-bordered table-condensed mt5 table_input left_table table_wrap m_table_fixed_border">
 												<thead>
 													<tr>
 														<th class="info"><input type="checkbox"
@@ -2584,7 +2584,7 @@
 										<div
 											class="clear over_auto col-md-12 col-xs-12 col-sm-12 p0">
 											<table
-												class="table table-bordered table-condensed mt5 table_input left_table">
+												class="table table-bordered table-condensed mt5 table_input left_table m_table_fixed_border">
 												<thead>
 													<tr class="space_nowrap">
 														<th class="info"><input type="checkbox"
@@ -2705,7 +2705,7 @@
 										</div>
 										<div class="over_auto clear col-md-12 col-xs-12 col-sm-12 p0">
 											<table
-												class="table table-bordered table-condensed mt5 table_input left_table">
+												class="table table-bordered table-condensed mt5 table_input left_table m_table_fixed_border">
 												<thead>
 													<tr class="space_nowrap">
 														<th class="info"><input type="checkbox"
@@ -2896,7 +2896,7 @@
 										</div>
 										<div class="col-md-12 col-xs-12 col-sm-12 over_auto p0">
 											<table id="share_table_id"
-												class="table table-bordered table-condensed mt5 table_wrap left_table table_input">
+												class="table table-bordered table-condensed mt5 table_wrap left_table table_input m_table_fixed_border">
 												<thead>
 													<tr>
 														<th class="info"><input type="checkbox"
