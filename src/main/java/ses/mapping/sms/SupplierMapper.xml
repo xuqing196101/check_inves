@@ -1145,7 +1145,7 @@
 
 	<!-- 发售标书中登记库内的供应商 -->
 	<select id="selectSaleTenderSupplier" parameterType="ses.model.sms.Supplier"
-    resultMap="supplierMap">
+    resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from T_SES_SMS_SUPPLIER where IS_DELETED=0 and (((SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS = 7) and IS_PROVISIONAL = '0') or (SUPPLIER_STATUS=5 and IS_PROVISIONAL = '1'))
@@ -1171,7 +1171,6 @@
 				#{id}
 			</foreach>
 		</if>
-		 ORDER BY AUDIT_DATE DESC
 	</select>
 	<!-- 根据审核状态获取条数 -->
 	<select id="getCount" parameterType="ses.model.sms.Supplier"

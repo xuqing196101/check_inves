@@ -7,7 +7,7 @@
 
 	<head>
 		<base href="${pageContext.request.contextPath}/" target="_self">
-
+		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<title>模版管理</title>
 
 		<meta http-equiv="pragma" content="no-cache">
