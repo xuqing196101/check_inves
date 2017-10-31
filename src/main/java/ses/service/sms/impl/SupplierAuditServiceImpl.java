@@ -2536,7 +2536,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 //			auditCount = this.countAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
 			if(auditCount > 0){
 //				return JdcgResult.build(500, "基本、财务、股东信息中有不通过项！");
-				return JdcgResult.build(500, "还有退回修改/未修改的记录！");
+				//暂时去掉基本信息退回修改/未修改的校验
+				//return JdcgResult.build(500, "还有退回修改/未修改的记录！");
 			}
 			JdcgResult result = getTypeAndItemNotPass(supplierId);
 			if(result != null && result.getStatus() != 0){

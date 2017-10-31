@@ -475,7 +475,8 @@
 									</td>
 									<td class="tc">
 										<c:choose>
-											<c:when test="${reasons.returnStatus == 1}">退回修改</c:when>
+											<%-- <c:when test="${reasons.returnStatus == 1}">退回修改</c:when> --%>
+											<c:when test="${reasons.returnStatus == 1}">有问题</c:when>
 											<c:when test="${reasons.returnStatus == 2}">审核不通过</c:when>
 											<c:when test="${reasons.returnStatus == 3}">已修改</c:when>
 											<c:when test="${reasons.returnStatus == 4}">未修改</c:when>
@@ -495,13 +496,13 @@
 											<c:set var="isTypeNotPass_SERVICE" value="1" />
 										</c:if>
 										<!-- 若存在新审核的和已审核未修改的，则表示未通过（产品审核不通过，可以预审核通过） -->
-										<c:if test="${(reasons.returnStatus == 1 || reasons.returnStatus == 4)}">
+										<%-- <c:if test="${(reasons.returnStatus == 1 || reasons.returnStatus == 4)}">
 											<c:set var="isNotPass" value="${isNotPass+1}" />
 											<c:if test="${reasons.auditType == 'mat_pro_page' && isTypeNotPass_PRODUCT == 1}"><c:set var="isNotPass" value="${isNotPass-1}" /></c:if>
 											<c:if test="${reasons.auditType == 'mat_sell_page' && isTypeNotPass_SALES == 1}"><c:set var="isNotPass" value="${isNotPass-1}" /></c:if>
 											<c:if test="${reasons.auditType == 'mat_eng_page' && isTypeNotPass_PROJECT == 1}"><c:set var="isNotPass" value="${isNotPass-1}" /></c:if>
 											<c:if test="${reasons.auditType == 'mat_serve_page' && isTypeNotPass_SERVICE == 1}"><c:set var="isNotPass" value="${isNotPass-1}" /></c:if>
-										</c:if>
+										</c:if> --%>
 									</td>
 								</tr>
 							</c:forEach>
