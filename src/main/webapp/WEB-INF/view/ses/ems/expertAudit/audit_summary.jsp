@@ -124,7 +124,7 @@
           $("input[name='updateStatusRadio']").attr("disabled","disabled");
           $("input[name='updateStatusRadio']").removeAttr('checked');
           $("input[type='checkbox']").attr("disabled","disabled");
-          if("退回修改"==s||"未修改"==s){
+          if("有问题"==s||"未修改"==s){
            $("#revokeReturn").attr("disabled",false);
           }
           if("审核不通过"==s){
@@ -222,7 +222,7 @@
               <button class="btn btn-windows edit" type="button" onclick="showDiv()" style=" border-bottom-width: -;margin-bottom: 7px;">改状态</button>  
             </c:if> 
 		         <div id="updateStatus" style="display: none">
-		          <input type="radio" id="upd" onclick="updateStatus(1)" name="updateStatusRadio" >退回修改
+		          <input type="radio" id="upd" onclick="updateStatus(1)" name="updateStatusRadio" >有问题
 		          <input type="radio" id="yupd" onclick="updateStatus(2)" name="updateStatusRadio" >已修改
 		          <input type="radio" id="nupd" onclick="updateStatus(3)" name="updateStatusRadio" >未修改
 		          <input type="radio" id="revokeReturn" onclick="updateStatus(4)" name="updateStatusRadio" >撤销退回
@@ -267,7 +267,7 @@
                   <fmt:formatDate value="${reasons.auditAt }" pattern="yyyy-MM-dd HH:mm"/>
                 </td> --%>
                  <!-- 状态 -->
-                 <c:if test="${reasons.auditStatus eq '1'}"><td class="tc">退回修改</td></c:if>
+                 <c:if test="${reasons.auditStatus eq '1'}"><td class="tc">有问题</td></c:if>
                  <c:if test="${reasons.suggestType eq 'six' && reasons.auditStatus eq '2'}"><td class="tc">审核不通过</td></c:if>
                  <c:if test="${reasons.suggestType != 'six' && reasons.auditStatus eq '2'}"><td class="tc">已修改</td></c:if>
                  <c:if test="${reasons.auditStatus eq '3'}"><td class="tc">未修改</td></c:if>
