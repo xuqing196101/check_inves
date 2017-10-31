@@ -159,7 +159,7 @@
 
 				$("#address_list_body").find("input[type='text']").each(function(index, element) {
 					if(element.value.trim().length <= 0) {
-						msg = "地址信息不能为空!";
+						msg = "地址信息不能为空！";
 						flag = false;
 					}
 				});
@@ -237,7 +237,7 @@
 				
 				// 校验信用代码
 				var creditCodeValue = $("#creditCode").val();
-				if(creditCodeValue == ""){
+				if($.trim(creditCodeValue) == ""){
 					msg = "信用代码不能为空!";
 					flag = false;
 				}

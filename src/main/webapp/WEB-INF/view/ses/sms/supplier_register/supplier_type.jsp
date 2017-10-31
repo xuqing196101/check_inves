@@ -303,34 +303,21 @@
 				isServerCheck = true;
 			}
 		});
-		var count = 0;
 		if (isProCheck == true) {
-			$("#cert_pro_list_tbody_id").find("tr").each(
-					function(index, element) {
-						if (element.value == "" || !isProCheck) {
-							flag = false;
-							layer.msg("物资生产资质证书信息不能为空！");
-						}
-						count++;
-					});
 			$("#cert_pro_list_tbody_id").find("input[type='text']").each(
-					function(index, element) {
-						if (element.value == "" || !isProCheck) {
-							flag = false;
-							layer.msg("物资生产资质证书信息不能为空！");
-						}
-						count++;
-					});
-			if (count == 0) {
-				flag = false;
-				layer.msg("物资生产资质证书信息不能为空！");
-			}
+				function(index, element) {
+					if ($.trim(element.value) == "" || !isProCheck) {
+						flag = false;
+						layer.msg("物资生产资质证书信息不能为空！");
+					}
+				}
+			);
 		}
 		// 判断有没有勾选工程
 		if (isEngCheck == true) {
 			$("#cert_eng_list_tbody_id").find("input[type='text']").each(
 				function(index, element) {
-					if (element.value == "" || !isEngCheck) {
+					if ($.trim(element.value) == "" || !isEngCheck) {
 						flag = false;
 						layer.msg("工程资质（认证）证书信息不能为空！");
 					}
@@ -338,7 +325,7 @@
 			);
 			$("#aptitute_list_tbody_id").find("input[type='text']").each(
 				function(index, element) {
-					if (element.value == "" || !isEngCheck) {
+					if ($.trim(element.value) == "" || !isEngCheck) {
 						flag = false;
 						layer.msg("工程资质证书详细信息不能为空！");
 					}
@@ -352,7 +339,7 @@
 				$(this).find("td").not(":first").each(function(n, e){
 					var txt = $(this).find("input[type='text']").val();// 文本
 					var pic = $(this).find("ul[id^='eng_qua_show_'][id$='_disFileId']").html();// 图片
-					if(txt == "" || pic == ""){
+					if((txt !== undefined && $.trim(txt) == "") || (pic !== undefined && $.trim(pic) == "")){
 						count++;
 					}
 					size++;
@@ -383,7 +370,7 @@
 				$(this).find("td").not(":first").each(function(n, e){
 					var txt = $(this).find("input[type='text']").val();// 文本
 					var pic = $(this).find("ul[id^='sale_show_'][id$='_disFileId']").html();// 图片
-					if(txt == "" || pic == ""){
+					if((txt !== undefined && $.trim(txt) == "") || (pic !== undefined && $.trim(pic) == "")){
 						count++;
 					}
 					size++;
@@ -414,7 +401,7 @@
 				$(this).find("td").not(":first").each(function(n, e){
 					var txt = $(this).find("input[type='text']").val();// 文本
 					var pic = $(this).find("ul[id^='se_show_'][id$='_disFileId']").html();// 图片
-					if(txt == "" || pic == ""){
+					if((txt !== undefined && $.trim(txt) == "") || (pic !== undefined && $.trim(pic) == "")){
 						count++;
 					}
 					size++;
