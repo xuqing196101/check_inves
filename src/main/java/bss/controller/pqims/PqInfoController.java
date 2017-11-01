@@ -253,10 +253,15 @@ public class PqInfoController extends BaseSupplierController{
 	 * @Description:
 	 * @param:     
 	 * @return:
+	 * @throws IOException 
 	 */
 	@RequestMapping("/getAllReasult")
-	public String getAllResult(@CurrentUser User user, Model model,Integer page, PqInfo pqInfo){
+	public String getAllResult(@CurrentUser User user, Model model,Integer page, PqInfo pqInfo) throws IOException{
 	    if(user != null && user.getOrg() != null){
+	        Integer dataAccess = user.getDataAccess();
+	        if (dataAccess == null) {
+	            return AuthorityUtil.valiDataAccess(dataAccess, request, response);
+	        }
 	        Orgnization org = orgnizationService.getOrgByPrimaryKey(user.getOrg().getId());
 	        if(org != null && "1".equals(org.getTypeName())){
 	            HashMap<String, Object> map = new HashMap<>();
