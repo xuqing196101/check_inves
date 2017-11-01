@@ -277,10 +277,10 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(loginUserSession == null){
 			return null;
 		}
-		User user = (User) loginUserSession;
+		/*User user = (User) loginUserSession;
 		if(supplier.getAuditor() != null && !supplier.getAuditor().equals(user.getRelName())){
 			return null;
-		}
+		}*/
 		
 		request.setAttribute("sign", sign);
 		
@@ -1289,44 +1289,38 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		// 校验审核人权限
 		User user = (User) loginUserSession;
-		if(supplier.getAuditor() != null && !supplier.getAuditor().equals(user.getRelName())){
+		/*if(supplier.getAuditor() != null && !supplier.getAuditor().equals(user.getRelName())){
 			return new JdcgResult(501, "对不起，您没有审核权限！", null);
-		}
+		}*/
 		
 		supplierAudit.setStatus(supplier.getStatus());
 		supplierAudit.setCreatedAt(new Date());
 		supplierAudit.setUserId(supplier.getProcurementDepId());
 		supplierAudit.setUserId(user.getId());
 
-		//唯一检验
-		String auditField = supplierAudit.getAuditField();
-		String auditType = supplierAudit.getAuditType();
-		String auditFieldName = supplierAudit.getAuditFieldName();
-		String auditContent = supplierAudit.getAuditContent();
 		String suggest=supplierAudit.getSuggest().trim();
 		if(suggest.length()>900){
 			return new JdcgResult(504, "审核内容长度过长", null);
 		}
-		supplierAudit.setSupplierId(supplierId);
-		// 设置默认退回状态
-		if(auditType != null && (auditType.startsWith("items_") || auditType.equals("supplierType_page"))){
-			supplierAudit.setReturnStatus(2);
-		}else{
-			supplierAudit.setReturnStatus(1);
-		}
-//		List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+		// 唯一检验
 		// 退回修改/审核不通过/未修改 的记录不能再次审核
-		List < SupplierAudit > reasonsList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2,4});
-		boolean same = true;
-		if(null !=reasonsList && !reasonsList.isEmpty()){
-			for(int i = 0; i < reasonsList.size(); i++) {
-				if(reasonsList.get(i).getAuditField().equals(auditField) && reasonsList.get(i).getAuditType().equals(auditType) && reasonsList.get(i).getAuditFieldName().equals(auditFieldName) && reasonsList.get(i).getAuditContent().equals(auditContent)) {
-					same = false;
-					break;
-				}
+		String auditField = supplierAudit.getAuditField();
+		String auditType = supplierAudit.getAuditType();
+		String auditFieldName = supplierAudit.getAuditFieldName();
+		String auditContent = supplierAudit.getAuditContent();
+		supplierAudit.setSupplierId(supplierId);
+		supplierAudit.setAuditField(auditField);
+		supplierAudit.setAuditType(auditType);
+		supplierAudit.setAuditFieldName(auditFieldName);
+		supplierAudit.setAuditContent(auditContent);
+		int auditCount = supplierAuditService.countAuditRecords(supplierAudit, new Integer[]{1,2,4});
+		if(auditCount == 0) {
+			// 设置默认退回状态
+			if(auditType != null && (auditType.startsWith("items_") || auditType.equals("supplierType_page"))){
+				supplierAudit.setReturnStatus(2);
+			}else{
+				supplierAudit.setReturnStatus(1);
 			}
-		}
-		if(same) {
 			int i=supplierAuditService.auditReasons(supplierAudit);
 			if(i>0){
 				// 审核完后更新审核人/审核状态
@@ -1361,9 +1355,9 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		String supplierId = supplierAuditList.get(0).getSupplierId();
 		Supplier supplier = supplierService.selectById(supplierId);
-		if(supplier.getAuditor() != null && !supplier.getAuditor().equals(user.getRelName())){
+		/*if(supplier.getAuditor() != null && !supplier.getAuditor().equals(user.getRelName())){
 			return new JdcgResult(501, "对不起，您没有审核权限！", null);
-		}
+		}*/
 		if(null != supplierAuditList && !supplierAuditList.isEmpty()){
 			String suggest=supplierAuditList.get(0).getSuggest().trim();
 			if(suggest.length()>900){
@@ -1421,9 +1415,9 @@ public class SupplierAuditController extends BaseSupplierController {
 			return new JdcgResult(501, "登录超时", null);
 		}
 		Supplier supplier = supplierService.selectById(supplierId);
-		if(supplier.getAuditor() != null && !supplier.getAuditor().equals(user.getRelName())){
+		/*if(supplier.getAuditor() != null && !supplier.getAuditor().equals(user.getRelName())){
 			return new JdcgResult(501, "对不起，您没有审核权限！", null);
-		}
+		}*/
 		if(StringUtils.isBlank(supplierId) || StringUtils.isBlank(supplierTypeId) || StringUtils.isBlank(itemIds)){
 			return new JdcgResult(504, "参数错误", null);
 		}
@@ -1448,7 +1442,24 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return
 	 */
 	private int updateSupplierAuditStatus(User user, Supplier supplier){
-		if(supplier.getAuditor() == null){
+		Supplier updateSupplier = new Supplier();
+		Date nowDate = new Date();
+		updateSupplier.setId(supplier.getId());
+		updateSupplier.setAuditDate(nowDate);
+		updateSupplier.setUpdatedAt(nowDate);
+		Integer auditTemporary = 0;
+		Integer status = supplier.getStatus();
+		if(status != null && (status == 0 || status == 9)){
+			auditTemporary = 1;// 审核中
+		}
+		updateSupplier.setAuditTemporary(auditTemporary);
+		if(StringUtils.isBlank(supplier.getAuditor())){
+			updateSupplier.setAuditor(user.getRelName());
+		}
+		return supplierAuditService.updateStatus(updateSupplier);
+	}
+	/*private int updateSupplierAuditStatus(User user, Supplier supplier){
+		if(StringUtils.isBlank(supplier.getAuditor())){
 			Supplier updateSupplier = new Supplier();
 			Date nowDate = new Date();
 			updateSupplier.setId(supplier.getId());
@@ -1463,7 +1474,8 @@ public class SupplierAuditController extends BaseSupplierController {
 			updateSupplier.setAuditTemporary(auditTemporary);
 			return supplierAuditService.updateStatus(updateSupplier);
 		}else{
-			if(supplier.getAuditor().equals(user.getRelName()) && (supplier.getAuditTemporary() == null || supplier.getAuditTemporary() == 0)){
+			//if(supplier.getAuditor().equals(user.getRelName()) && (supplier.getAuditTemporary() == null || supplier.getAuditTemporary() == 0)){
+			if(supplier.getAuditTemporary() == null || supplier.getAuditTemporary() == 0){
 				Supplier updateSupplier = new Supplier();
 				Date nowDate = new Date();
 				updateSupplier.setId(supplier.getId());
@@ -1479,7 +1491,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 		}
 		return 0;
-	}
+	}*/
 	
 	/**
 	 * @Title: reasonsList
@@ -1598,6 +1610,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		// 设置修改时间
 		Date nowDate = new Date();
 		updateSupplier.setUpdatedAt(nowDate);
+		updateSupplier.setAuditDate(nowDate);
 		if(persistentSupplier.getAuditor() == null){
 			// 审核人
 			updateSupplier.setAuditor(user.getRelName());
@@ -4945,6 +4958,48 @@ public class SupplierAuditController extends BaseSupplierController {
 			return new JdcgResult(0, "对不起，您没有审核权限！", null);
 		}
 		return new JdcgResult(1, null, null);
+	}
+	
+	/**
+	 * 更新审核人
+	 * @param supplierId
+	 * @param auditor
+	 * @return
+	 */
+	@RequestMapping("/updateAuditor")
+	@ResponseBody
+	public JdcgResult updateAuditor(String supplierId, String auditor){
+		// 获取登录用户
+		Object loginUserSession = request.getSession().getAttribute("loginUser");
+		if(loginUserSession == null){
+			return new JdcgResult(0, "对不起，您没有登录或登录失效！", null);
+		}
+		Supplier supplier = supplierService.selectById(supplierId);
+		if(StringUtils.isBlank(supplier.getAuditor()) && StringUtils.isNotBlank(auditor)){
+			Supplier updateSupplier = new Supplier();
+			updateSupplier.setId(supplierId);
+			updateSupplier.setAuditor(auditor);
+			supplierAuditService.updateStatus(updateSupplier);
+		}
+		return new JdcgResult(1, null, null);
+	}
+	
+	/**
+	 * 更新审核人
+	 * @param supplierId
+	 * @param auditor
+	 * @return
+	 */
+	@RequestMapping("/ajaxSupplier")
+	@ResponseBody
+	public JdcgResult ajaxSupplier(String supplierId){
+		// 获取登录用户
+		Object loginUserSession = request.getSession().getAttribute("loginUser");
+		if(loginUserSession == null){
+			return new JdcgResult(0, "对不起，您没有登录或登录失效！", null);
+		}
+		Supplier supplier = supplierService.selectById(supplierId);
+		return new JdcgResult(1, "OK", supplier);
 	}
 	
 	/**

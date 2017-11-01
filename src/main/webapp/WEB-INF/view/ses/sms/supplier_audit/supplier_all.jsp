@@ -105,10 +105,43 @@
 					 } */
 					
 				 	// 校验审核人权限
-					if(!validateAuditor(id)){
+					/* if(!validateAuditor(id)){
 						return;
-					}
+					} */
 					
+					// 审核人弹出框
+					$.ajax({
+						url: "${pageContext.request.contextPath}/supplierAudit/ajaxSupplier.do",
+						data: {"supplierId" : id},
+						type: "post",
+						dataType: "json",
+						success: function(result) {
+							if(result && result.status == 1){
+								if($.trim(result.data.auditor) == ""){
+									layer.prompt({
+									  formType: 0,// 0（文本）默认1（密码）2（多行文本）
+									  value: '',
+									  title: '请填写审核人：'
+									}, function(val, index){
+										// 保存审核人
+										var bool = updateAuditor(id, val);
+										if(bool){
+											toAlertAudit(id);
+										}
+									  layer.close(index);
+									});
+								}else{
+									toAlertAudit(id);
+								}
+							}else{
+								layer.msg(result.msg);
+							}
+						}
+					});
+					
+				}
+				
+				function toAlertAudit(id){
 					$.ajax({
 						url: "${pageContext.request.contextPath}/supplierAudit/auditNotReason.do",
 						data: {"supplierId" : id},
@@ -142,15 +175,44 @@
 							}
 						}
 					});
-					
 				}
 				
 				function toEssential(id, sign){
 					// 校验审核人权限
-					if(!validateAuditor(id)){
+					/* if(!validateAuditor(id)){
 						return;
-					}
-					jumppage('${pageContext.request.contextPath}/supplierAudit/essential.html?supplierId='+id+'&sign='+sign)
+					} */
+					//jumppage('${pageContext.request.contextPath}/supplierAudit/essential.html?supplierId='+id+'&sign='+sign)
+					// 审核人弹出框
+					$.ajax({
+						url: "${pageContext.request.contextPath}/supplierAudit/ajaxSupplier.do",
+						data: {"supplierId" : id},
+						type: "post",
+						dataType: "json",
+						async: false,
+						success: function(result) {
+							if(result && result.status == 1){
+								if($.trim(result.data.auditor) == ""){
+									layer.prompt({
+									  formType: 0,// 0（文本）默认1（密码）2（多行文本）
+									  value: '',
+									  title: '请填写审核人：'
+									}, function(val, index){
+										// 保存审核人
+										var bool = updateAuditor(id, val);
+										if(bool){
+											jumppage('${pageContext.request.contextPath}/supplierAudit/essential.html?supplierId='+id+'&sign='+sign)
+										}
+										layer.close(index);
+									});
+								}else{
+									jumppage('${pageContext.request.contextPath}/supplierAudit/essential.html?supplierId='+id+'&sign='+sign)
+								}
+							}else{
+								layer.msg(result.msg);
+							}
+						}
+					});
 				}
 				
 				function validateAuditor(id){
@@ -170,6 +232,25 @@
 						}
 					});
 					return validateAuditorFlag;
+				}
+				
+				function updateAuditor(id, auditor){
+					var bool = false;
+					$.ajax({
+						url: "${pageContext.request.contextPath}/supplierAudit/updateAuditor.do",
+						data: {"supplierId" : id, "auditor" : auditor},
+						type: "post",
+						dataType: "json",
+						async: false,
+						success: function(result) {
+							if(result && result.status == 1){
+								bool = true;
+							}else{
+								layer.msg(result.msg);
+							}
+						}
+					});
+					return bool;
 				}
 				
 				
