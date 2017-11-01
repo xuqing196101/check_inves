@@ -503,6 +503,9 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	            if(nowDateString.equals(afterDateString)){
 	                // 审核通过，自动入库
 	            	expert.setStatus("6");
+	            	expert.setUpdatedAt(new Date());
+	            	//入库时间
+	            	expert.setStorageAt(new Date());
 	                // 修改
 	            	expertMapper.updateByPrimaryKeySelective(expert);
 	            }
