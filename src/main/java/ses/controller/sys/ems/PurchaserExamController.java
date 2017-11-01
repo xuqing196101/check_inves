@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -814,28 +813,50 @@ public class PurchaserExamController extends BaseSupplierController{
 	* @param @param page
 	* @param @return      
 	* @return String
+	 * @throws IOException 
 	 */
 	@RequestMapping("/paperManage")
-	public String paperManage(@CurrentUser User user,Model model,Integer page){
-       //判断是否 是资源服务中心 
-		List<ExamPaper> paperList = examPaperService.queryAllPaper(null,page==null?1:page);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		for(int i=0;i<paperList.size();i++){
-			paperList.get(i).setStartTrueDate(sdf.format(paperList.get(i).getStartTime()));
-			paperList.get(i).setOffTrueDate(sdf.format(paperList.get(i).getOffTime()));
-			Date startTime = paperList.get(i).getStartTime();
-		    Date offTime = paperList.get(i).getOffTime();
-		    if(new Date().getTime()>=startTime.getTime()&&new Date().getTime()<=offTime.getTime()){
-		    	paperList.get(i).setStatus("正在考试中");
-			}else if(new Date().getTime()<startTime.getTime()){
-				paperList.get(i).setStatus("未开始");
-			}else if(new Date().getTime()>offTime.getTime()){
-				paperList.get(i).setStatus("已结束");
+	public String paperManage(@CurrentUser User user,Model model,Integer page) throws IOException{
+		//获取当前登录用户数据查看权限
+		Integer dataAccess = user.getDataAccess();
+		if (dataAccess == null) {
+			return AuthorityUtil.valiDataAccess(dataAccess, request, response);
+		}else {
+			ExamPaper examPaper = new ExamPaper();
+			if (dataAccess == 1) {
+				//查看所有数据
+			} else if (dataAccess == 2) {
+				//查看本单位数据
+				String orgId = ""; 
+				if (user.getOrg() != null) {
+					orgId = user.getOrg().getId();
+				} else {
+					orgId = user.getOrgId();
+				}
+				examPaper.setOrgId(orgId);
+			} else if (dataAccess == 3) {
+				//查看本人数据
+				examPaper.setCreaterId(user.getId());
 			}
+			List<ExamPaper> paperList = examPaperService.queryAllPaper(examPaper,page==null?1:page);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			for(int i=0;i<paperList.size();i++){
+				paperList.get(i).setStartTrueDate(sdf.format(paperList.get(i).getStartTime()));
+				paperList.get(i).setOffTrueDate(sdf.format(paperList.get(i).getOffTime()));
+				Date startTime = paperList.get(i).getStartTime();
+			    Date offTime = paperList.get(i).getOffTime();
+			    if(new Date().getTime()>=startTime.getTime()&&new Date().getTime()<=offTime.getTime()){
+			    	paperList.get(i).setStatus("正在考试中");
+				}else if(new Date().getTime()<startTime.getTime()){
+					paperList.get(i).setStatus("未开始");
+				}else if(new Date().getTime()>offTime.getTime()){
+					paperList.get(i).setStatus("已结束");
+				}
+			}
+			model.addAttribute("paperList", new PageInfo<ExamPaper>(paperList));
+		    model.addAttribute("authType", 1);
+		    return "ses/ems/exam/purchaser/paper/list";
 		}
-		model.addAttribute("paperList", new PageInfo<ExamPaper>(paperList));
-	    model.addAttribute("authType", 1);
-		return "ses/ems/exam/purchaser/paper/list";
 	}
 	
 	/**
@@ -866,7 +887,7 @@ public class PurchaserExamController extends BaseSupplierController{
 	 * @throws ParseException 
 	 */
 	@RequestMapping("/saveToExamPaper")
-	public String saveToExamPaper(HttpServletRequest request,Model model,ExamPaper examPaper) throws ParseException{
+	public String saveToExamPaper(@CurrentUser User user,HttpServletRequest request,Model model,ExamPaper examPaper) throws ParseException{
 		Map<String,Object> errorData = new HashMap<String,Object>();
 		String name = request.getParameter("name");
 		String error = "无";
@@ -1117,6 +1138,8 @@ public class PurchaserExamController extends BaseSupplierController{
 		examPaper.setPassStandard(passStandard);
 		examPaper.setTypeDistribution(JSONSerializer.toJSON(map).toString());
 		examPaper.setYear(startTime.substring(0, 4));
+		examPaper.setCreaterId(user.getId());
+		examPaper.setOrgId(user.getOrg() == null ? user.getOrgId() : user.getOrg().getId());
 		examPaperService.insertSelective(examPaper);
 		return "redirect:paperManage.html";
 	}
@@ -1212,7 +1235,7 @@ public class PurchaserExamController extends BaseSupplierController{
 	 * @throws ParseException 
 	 */
 	@RequestMapping("/editToExamPaper")
-	public String editToExamPaper(HttpServletRequest request,Model model,ExamPaper examPaper) throws ParseException{
+	public String editToExamPaper(@CurrentUser User user,HttpServletRequest request,Model model,ExamPaper examPaper) throws ParseException{
 		examPaper.setId(request.getParameter("paperId"));
 		String paperName = request.getParameter("paperName");
 		String paperCode = request.getParameter("paperCode");
@@ -1468,6 +1491,8 @@ public class PurchaserExamController extends BaseSupplierController{
 		examPaper.setUpdatedAt(new Date());
 		examPaper.setTypeDistribution(JSONSerializer.toJSON(map).toString());
 		examPaper.setYear(startTime.substring(0, 4));
+		examPaper.setCreaterId(user.getId());
+		examPaper.setOrgId(user.getOrg() == null ? user.getOrgId() : user.getOrg().getId());
 		examPaperService.updateByPrimaryKeySelective(examPaper);
 		return "redirect:paperManage.html";
 	}
@@ -1648,15 +1673,9 @@ public class PurchaserExamController extends BaseSupplierController{
 	* @param @param page
 	* @param @return      
 	* @return String
-	 * @throws IOException 
 	 */
 	@RequestMapping("/result")
-	public String result(@CurrentUser User user, Model model, HttpServletRequest request, Integer page) throws IOException{
-		//获取当前登录用户数据查看权限
-		Integer dataAccess = user.getDataAccess();
-		if (dataAccess == null) {
-			return AuthorityUtil.valiDataAccess(dataAccess, request, response);
-		}
+	public String result(Model model,HttpServletRequest request,Integer page){
 		List<ExamPaperUser> reference = examPaperUserService.findAll();
 		for(int i=0;i<reference.size();i++){
 			ExamPaperUser paperUser = reference.get(i);
@@ -1698,22 +1717,6 @@ public class PurchaserExamController extends BaseSupplierController{
 		}
 		if(status!=null&&!status.equals("")){
 			map.put("status", status);
-		}
-		if (dataAccess == 1) {
-			//查看所有数据
-		} else if (dataAccess == 2) {
-			//查看本单位数据
-			String orgId = ""; 
-			if (user.getOrg() != null) {
-				orgId = user.getOrg().getId();
-			} else {
-				orgId = user.getOrgId();
-			}
-			map.put("orgId", orgId);
-			
-		} else if (dataAccess == 3) {
-			//查看本人数据
-			map.put("userId", user.getId());
 		}
 		if(page==null){
 			page = 1;

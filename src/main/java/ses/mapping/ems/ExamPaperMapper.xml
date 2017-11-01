@@ -14,11 +14,13 @@
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
     <result column="PASS_STANDARD" property="passStandard" />
     <result column="OFF_TIME" property="offTime" jdbcType="TIMESTAMP"/>
+    <result column="ORG_ID" property="orgId" />
+    <result column="CREATER_ID" property="createrId" />
   </resultMap>
   
   <sql id="Base_Column_List">
     ID, NAME, CODE, SCORE, START_TIME, YEAR, 
-    TYPE_DISTRIBUTION, TEST_TIME, CREATED_AT, UPDATED_AT,PASS_STANDARD,OFF_TIME
+    TYPE_DISTRIBUTION, TEST_TIME, CREATED_AT, UPDATED_AT,PASS_STANDARD,OFF_TIME,CREATER_ID,ORG_ID
   </sql>
   
   <!-- 根据主键ID查找考卷 -->
@@ -78,6 +80,12 @@
       <if test="offTime != null">
         OFF_TIME,
       </if>
+      <if test="orgId != null">
+        ORG_ID,
+      </if>
+      <if test="createrId != null">
+        CREATER_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -115,6 +123,12 @@
       </if>
       <if test="offTime != null">
         #{offTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orgId != null">
+        #{orgId},
+      </if>
+      <if test="createrId != null">
+        #{createrId},
       </if>
     </trim>
   </insert>
@@ -155,16 +169,30 @@
       </if>
       <if test="offTime != null">
       </if>
+      <if test="orgId != null">
+        ORG_ID = #{orgId},
+      </if>
+      <if test="createrId != null">
+        CREATER_ID = #{createrId},
+      </if>
     </set>
     where ID = #{id}
   </update>
   
   <!-- 查找所有的采购人考卷 -->
-  <select id="queryAllPaper" resultMap="BaseResultMap">
+  <select id="queryAllPaper" resultMap="BaseResultMap" parameterType="Object">
   	SELECT
 		*
 	FROM
 		T_SES_EMS_EXAM_PAPER
+	WHERE
+		1=1
+	<if test="orgId != null">
+      AND ORG_ID = #{orgId}
+    </if>
+    <if test="createrId != null">
+      AND CREATER_ID = #{createrId}
+    </if>
 	ORDER BY
 		START_TIME DESC
   </select>
