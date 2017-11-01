@@ -18,6 +18,8 @@ $(function () {
     // 获取复选框选择类型
     //var checkVal = $("input:radio[name='selectOption'] :checked").val();
     $("input[name='selectOption']").bind("click", function(){
+        // 无提示暂存审核意见
+        tempSave("noTip");
         // 清空意见内容
         //$("#opinion").val("");
         var selectedVal = $(this).val();
@@ -43,19 +45,21 @@ $(function () {
         getCheckOpinionType(supplierId);
     }
     // 无提示暂存审核意见
-    $("#oprTempSave,#oprNextStep").mousedown(function(e){
-    	e.preventDefault();
+    var lock = 0;// 对冲突元素加锁
+    $("#oprTempSave,#oprNextStep,input[name='selectOption']").mousedown(function(e){
+        lock = 1;
     });
     $("#opinion").focus(function(){
 		$(this).attr("data-oval", $(this).val());
 	}).blur(function(e){
 		//e.relatedTarget
-		console.log(e);
 		if(e){
 			var oldVal = $(this).attr("data-oval"); //获取原值
 			var newVal = $(this).val(); //获取当前值
 			if (newVal && $.trim(newVal) != "" && oldVal != newVal){
-				tempSave("noTip");
+				if(lock == 0){
+					tempSave("noTip");
+				}
 			}
 		}
 	});
