@@ -560,7 +560,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 					expertPublicity.setExpertsTypeId("");
 				}
 				// 查询选择和未通过的产品小类
-				selectChooseOrNoPassCateOfDB(expertPublicity);
+				//selectChooseOrNoPassCateOfDB(expertPublicity);
 				// 查询审核意见
                 ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
                 expertAuditOpinion.setExpertId(expertPublicity.getId());
@@ -576,7 +576,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
                 expertBatchDetails = new ExpertBatchDetails();
                 expertBatchDetails.setExpertId(expertPublicity.getId());
                 ExpertBatchDetails expertBatchDetails1 = expertBatchDetailsMapper.findExpertBatchDetails(expertBatchDetails);
-                expertPublicity.setExpertNum(expertBatchDetails1.getCount());
+                expertPublicity.setExpertNum(expertBatchDetails1.getBatchDetailsNumber());
             }
 		}
 		return list;
