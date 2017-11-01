@@ -117,6 +117,7 @@
 					 var projectId = $("#projectId").val();
 					 var ends = end(projectId);
 					 if(ends){
+					    $("#jsonString").val(JSON.stringify(jsonStr));
 					 	$.ajax({
 				        type: "POST",
 				        url: "${pageContext.request.contextPath}/open_bidding/isTurnUp.html?projectId=" + projectId,
@@ -150,7 +151,7 @@
 													  	    shade:0.01, //遮罩透明度
 														  		type : 1,
 														  		area : [ '30%', '200px'  ], //宽高
-														  		end : function () {
+														  		cancel : function () {
 														  			$.ajax({
 																		url: "${pageContext.request.contextPath}/open_bidding/isTurnUp.html?type=delete&projectId=" + projectId,
 																		type: "post",
@@ -273,7 +274,7 @@
 				 <u:show showId="flshow" groups="${supplierList[0].groupShowId}" businessId="1234567890-1234567890-1234567890" sysKey="${sysKey}" typeId="${typeId}" />
 			</c:if>
 			</div> --%>
-
+        <input type="hidden" id="jsonString" value="">
 				<table class="table table-bordered table-condensed table-hover table-striped">
 					<thead>
 						<tr>

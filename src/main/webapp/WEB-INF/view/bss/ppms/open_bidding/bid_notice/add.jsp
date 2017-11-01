@@ -464,7 +464,7 @@
         <!-- <input type="button" class="btn btn-windows output" onclick="exportWord()" value="导出"></input> -->
         <!-- <input type="button" class="btn btn-windows git" onclick="pre_view()" value="预览"></input>   -->
         <input type="button" class="btn btn-windows save" onclick="save()" value="保存"></input>
-        <!-- <input type="button" class="btn btn-windows apply" onclick="publish()" value="提交"></input>  --> 
+        <input type="button" class="btn btn-windows apply" onclick="publish()" value="提交"></input>
       </div>
 				
 			<%-- 上传附件： 

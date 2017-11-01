@@ -80,7 +80,7 @@
 	            </span>
             </c:if>
             <c:if test="${type == 1}">
-            	<label class="col-md-12 pl20 col-xs-12">上传中止附件：</label>
+            	<label class="col-md-12 pl20 col-xs-12">上传终止附件：</label>
 	            <span class="col-md-12 col-xs-12">
 	              <u:upload id="upload_${projectId}" groups="show_${projectId},upload_${projectId}" multiple="true" auto="true" businessId="${auditCode}" typeId="${auditZZFJ}" sysKey="2"/>
 	              <u:show showId="show_${projectId}" groups="show_${projectId},upload_${projectId}" businessId="${auditCode}" sysKey="2" typeId="${auditZZFJ}"/>
@@ -90,7 +90,7 @@
           </li>
     			<li class="col-md-12 col-sm-6 col-xs-12">
    	      	<label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>
-   	      	<c:if test="${type == 2}">转竞谈</c:if><c:if test="${type == 1}">中止</c:if>原因：</label>
+   	      	<c:if test="${type == 2}">转竞谈</c:if><c:if test="${type == 1}">终止</c:if>原因：</label>
    	      	<span class="col-md-12 col-sm-12 col-xs-12 p0">
             	<textarea id="advice" name="advice" class="w100p h80 p0" rows="3" cols="1"></textarea>
             </span>

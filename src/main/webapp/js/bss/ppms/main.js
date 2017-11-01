@@ -375,7 +375,7 @@ function submitcurr() {
 							});
 						}
 					});
-				}else if (data.flowType =="NZCGGG" || data.flowType == "NZZBGS"){
+				}/*else if (data.flowType =="NZCGGG" || data.flowType == "NZZBGS"){
 					var noticeType = null;
 					if(data.flowType =="NZCGGG"){
 						noticeType = "purchase";
@@ -393,7 +393,7 @@ function submitcurr() {
 					} else {
 						submitFlw(data,currFlowDefineId,projectId);
 					}
-				} else {
+				}*/ else {
 					submitFlw(data,currFlowDefineId,projectId);
 				}
 			},
@@ -406,7 +406,7 @@ function submitcurr() {
 	});
 }
 
-function ifNotice(projectId, noticeType){
+/*function ifNotice(projectId, noticeType){
 	var bool = true;
 	$.ajax({
 		url: globalPath+"/open_bidding/ifNotice.html",
@@ -429,7 +429,7 @@ function ifNotice(projectId, noticeType){
 		}
 	});
 	return bool;
-}
+}*/
 
 function submitFlw(data,currFlowDefineId,projectId){
 	if(data.success) {
