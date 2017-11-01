@@ -41,7 +41,9 @@
 					$("#"+supplierId+"_"+packageId).text('已移除');
 					$("#"+supplierId+"_"+packageId).next().children().attr("disabled","disabled");
 					layer.msg("移除成功!",{offset: '100px'});
-					//window.location.reload();
+					var path = "${pageContext.request.contextPath}/packageExpert/confirmSupplier.html?projectId=" + projectId + "&flowDefineId=${flowDefineId}";
+				      $("#tab-8").load(path);
+					/* window.location.reload(); */
 				},
 				error: function () {
 					layer.msg("抱歉,移除失败!",{offset: ['100px', '350px']});
@@ -77,6 +79,7 @@
 			  <th class="info">供应商名称</th>
 			  <th class="info">状态</th>
 			  <th class="info">操作</th>
+			  <th class="info">备注</th>
 			</tr>
 			</thead>
 			<tbody>
@@ -97,6 +100,10 @@
 					    <c:if test="${supp.isRemoved eq '2'}">已放弃报价</c:if>
 					    </td>
 					    <td class="tc"><input <c:if test="${supp.isFirstPass != 1 or supp.isRemoved ne '0' or supp.isFinish == 1}">disabled="disabled"</c:if> type="button" value="移除" onclick="removeSupplier('${supp.suppliers.id}','${supp.packages}')" class="btn"></td>
+					    <td class="tc w100" title="${supp.removedReason }">
+						    <c:if test="${fn:length (supp.removedReason) > 8}">${fn:substring(supp.removedReason,0,7)}...</c:if>
+	                        <c:if test="${fn:length(supp.removedReason) <= 8}">${supp.removedReason}</c:if>
+					    </td>
 					  </tr>
 					</c:if>
 				</c:forEach>

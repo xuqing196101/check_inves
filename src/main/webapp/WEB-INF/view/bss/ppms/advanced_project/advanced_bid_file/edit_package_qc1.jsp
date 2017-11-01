@@ -79,17 +79,19 @@
   function addModel(obj, kindId, status) {
     var projectId = $("#projectId").val();
     var packageId = $("#packageId").val();
+    var flowDefineId = "${flowDefineId}";
     var name = encodeURI(obj);
     name = encodeURI(name);
-    window.location.href = "${pageContext.request.contextPath}/adIntelligentScore/gettreebody.html?projectId=" + projectId + "&packageId=" + packageId + "&id=" + kindId + "&name=" + name + "&addStatus=" + status;
+    window.location.href = "${pageContext.request.contextPath}/adIntelligentScore/gettreebody.html?projectId=" + projectId + "&packageId=" + packageId + "&id=" + kindId + "&name=" + name + "&addStatus=" + status + "&flowDefineId="+ flowDefineId;
   }
 
   //删除评审项 
   function delItem(id, status) {
     var projectId = $("#projectId").val();
     var packageId = $("#packageId").val();
+    var flowDefineId = "${flowDefineId}";
     //为2 为顶级结点     1 为子节点
-    window.location.href = "${pageContext.request.contextPath}/adIntelligentScore/deleteScoreModel.html?id=" + id + "&deleteStatus=" + status + "&projectId=" + projectId + "&packageId=" + packageId;
+    window.location.href = "${pageContext.request.contextPath}/adIntelligentScore/deleteScoreModel.html?id=" + id + "&deleteStatus=" + status + "&projectId=" + projectId + "&packageId=" + packageId + "&flowDefineId="+ flowDefineId;
   }
 
   //关闭弹窗
@@ -97,13 +99,9 @@
     layer.closeAll();
   }
 
-  //返回模板列表
-  function goBack() {
-
-  }
-
   //保存评审项
   function saveItem() {
+  	var flowDefineId = "${flowDefineId}";
     $.ajax({
       type: "POST",
       url: "${pageContext.request.contextPath}/adIntelligentScore/saveScore.html",
@@ -117,7 +115,7 @@
         } else {
           var packageId = $("#packageId").val();
           var projectId = $("#projectId").val();
-          window.location.href = '${pageContext.request.contextPath}/adIntelligentScore/editPackageScore.html?packageId=' + packageId + '&projectId=' + projectId;
+          window.location.href = '${pageContext.request.contextPath}/adIntelligentScore/editPackageScore.html?packageId=' + packageId + '&projectId=' + projectId + '&flowDefineId=' + flowDefineId;
           layer.closeAll();
           layer.msg(result.msg, {
             offset: ['150px']
@@ -134,6 +132,7 @@
 
   //引入模板内容
   function loadTemplat(projectId, packageId) {
+  	var flowDefineId = "${flowDefineId}";
     var index = layer.load(1, {
       shade: [0.2, '#BFBFBF'] //0.1透明度的白色背景
     });
@@ -158,7 +157,7 @@
             $('#loadTemp').removeAttr("disabled");
             var packageId = $("#packageId").val();
             var projectId = $("#projectId").val();
-            window.location.href = '${pageContext.request.contextPath}/adIntelligentScore/editPackageScore.html?packageId=' + packageId + '&projectId=' + projectId;
+            window.location.href = '${pageContext.request.contextPath}/adIntelligentScore/editPackageScore.html?packageId=' + packageId + '&projectId=' + projectId + '&flowDefineId=' + flowDefineId;
             layer.closeAll();
             layer.msg(result.msg, {
               offset: ['150px']
@@ -180,17 +179,18 @@
 
   //引入其他项目包的评审项
   function loadOtherPackage(packageId, projectId) {
+  	var flowDefineId = "${flowDefineId}";
     layer.open({
       type: 2,
       title: '引入模板',
-      area: ['800px', '600px'],
+      area: ['800px', '360px'],
       closeBtn: 1,
       shade: 0.01, //遮罩透明度
       moveType: 1, //拖拽风格，0是默认，1是传统拖动
       shift: 1, //0-6的动画形式，-1不开启
       offset: '20px',
       shadeClose: false,
-      content: '${pageContext.request.contextPath}/adFirstAudit/loadOtherPackage.html?oldPackageId=' + packageId + '&oldProjectId=' + projectId
+      content: '${pageContext.request.contextPath}/adIntelligentScore/loadOtherPackage.html?oldPackageId=' + packageId + '&oldProjectId=' + projectId + '&flowDefineId=' + flowDefineId
     });
 
   }
@@ -367,28 +367,38 @@
   }
 
   $(function() {
-    var html = "<option value=''>请选择</option>";
-    $.ajax({
-      url: "${pageContext.request.contextPath}/adFirstAudit/find.do",
-      data: {
-        "type": "REVIEW_ET"
-      },
-      dataType: 'json',
-      success: function(result) {
-        $("#fatId").empty();
-        if(result.success == false && typeof(result.success) != "undefined") {
-          //layer.msg(result.msg,{offset: ['150px']});
-        } else {
-          if(result.length > 0) {
-            for(var i = 0; i < result.length; i++) {
-              html += "<option value='" + result[i].id + "'>" + result[i].name + "</option>";
-            }
-          }
-        }
-        $("#fatId").append(html);
-      }
-    });
-  });
+		initTem();
+	});
+	
+	function initTem(){
+		var html = "<option value=''>请选择</option>";
+		$.ajax({
+				url: "${pageContext.request.contextPath}/adFirstAudit/find.do",
+				data: {"type" : "REVIEW_ET"},
+				dataType: 'json',
+				success: function(result){
+					$("#fatId").empty();	
+					if (result.success == false && typeof(result.success) != "undefined") {
+						//layer.msg(result.msg,{offset: ['150px']});
+					} else {
+						if (result.length > 0) {
+							for (var i = 0; i < result.length; i++) {
+								html += "<option value='"+result[i].id+"'>"+result[i].name+"</option>";	
+							}
+						}
+					}
+					$("#fatId").append(html);
+				}
+			});
+			
+			var bool = "${flag}";
+    	if(bool){
+    		$("a").each(function() {
+         	$(this).removeAttr("onclick");
+         	$(this).removeClass();
+      	});
+    	}
+	}
 
   function findTem() {
     var categoryId = $("#cId").val();
@@ -417,6 +427,12 @@
       }
     });
   }
+  
+  function clearSearch() {
+		$("#categorySel").val("");
+     $("#fatId option:selected").removeAttr("selected");
+     initTem();
+   }
 </script>
 
 <body onload="getTotal()">
@@ -430,7 +446,7 @@
     </div>
   </div>
   <h2 class="list_title">${packages.name}  经济技术审查项编辑</h2>
-  <c:if test="${project.confirmFile != 1 && isView != 1}">
+  <c:if test="${project.confirmFile != 1 && isView != 1 && flag ne '1'}">
     <div class="search_detail ml0">
       <ul class="demand_list">
         <li>
@@ -447,9 +463,8 @@
         </li>
 
         <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" id="loadTemp" class="btn">确定选择</button>
-        <%--  <div class="pull-right">
-                <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入模板</button>
-             </div> --%>
+        <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入历史数据</button>
+        <button type="reset" class="btn" onclick="clearSearch();">重置</button>
       </ul>
       <div class="clear"></div>
     </div>
@@ -473,7 +488,7 @@
     </div>
   </div>
   <div class="mt40 tc mb50">
-    <c:if test="${project.confirmFile != 1 }">
+    <c:if test="${project.confirmFile != 1 && flag ne '1'}">
       <button class="btn btn-windows back" onclick="window.location.href='${pageContext.request.contextPath}/adIntelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}'">返回</button>
     </c:if>
   </div>

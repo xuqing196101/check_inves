@@ -88,55 +88,68 @@
       }
 
       function jumpLoad(url, projectId, flowDefineId) {
-        $.ajax({
-          url: "${pageContext.request.contextPath }/Adopen_bidding/getNextFd.do?flowDefineId=" + flowDefineId + "&projectId=" + projectId,
-          contentType: "application/json;charset=UTF-8",
-          dataType: "json", //返回格式为json
-          type: "POST", //请求方式           
-          success: function(data) {
-            if(data.success) {
-              //当前环节经办人
-              $("#currHuanjieId").val(data.currFlowDefineId);
-              $("#currPrincipal").empty();
-              $.each(data.users, function(i, user) {
-                $("#currPrincipal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
-              });
-              $("#currPrincipal").select2();
-              $("#currPrincipal").select2("val", data.currOperatorId);
-              $("#isOperate").val(data.isOperate);
-              //禁止变更经办人操作
-              if(data.isOperate == 0) {
-                $("#submitdiv").attr("disabled", true);
-                $("#principal").attr("disabled", true);
-                $("#currPrincipal").attr("disabled", true);
-              } else {
-                $("#submitdiv").attr("disabled", false);
-                $("#principal").attr("disabled", false);
-                $("#currPrincipal").attr("disabled", false);
-              }
-              if(!data.isEnd) {
-                $("#nextHaunjie").show();
-                $("#updateOperateId").show();
-                $("#huanjie").html(data.flowDefineName);
-                $("#huanjieId").val(data.flowDefineId);
-                $("#principal").empty();
-                $.each(data.users, function(i, user) {
-                  $("#principal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
-                });
-                $("#principal").select2();
-                $("#principal").select2("val", data.operatorId);
-              }
-              if(data.isEnd) {
-                $("#nextHaunjie").hide();
-                $("#updateOperateId").hide();
-              }
-            }
-          }
-        }); 
-        var urls = "${pageContext.request.contextPath}/" + url + "?projectId=" + projectId + "&flowDefineId=" + flowDefineId;
-        $("#as").attr("href", urls);
-        var el = document.getElementById('as');
-        el.click(); //触发打开事件
+      	$.ajax({
+					url: globalPath+"/Adopen_bidding/getNextKb.do?flowDefineId=" + flowDefineId + "&projectId=" + projectId,
+					contentType: "application/json;charset=UTF-8",
+					dataType: "json", //返回格式为json
+			    async : false,
+					type: "POST", //请求方式           
+					success: function(data) {
+						if(data.next == '1') {
+							layer.alert(data.name + "环节未结束");
+						} else {
+							$.ajax({
+			          url: "${pageContext.request.contextPath }/Adopen_bidding/getNextFd.do?flowDefineId=" + flowDefineId + "&projectId=" + projectId,
+			          contentType: "application/json;charset=UTF-8",
+			          dataType: "json", //返回格式为json
+			          type: "POST", //请求方式           
+			          success: function(data) {
+			            if(data.success) {
+			              //当前环节经办人
+			              $("#currHuanjieId").val(data.currFlowDefineId);
+			              $("#currPrincipal").empty();
+			              $.each(data.users, function(i, user) {
+			                $("#currPrincipal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
+			              });
+			              $("#currPrincipal").select2();
+			              $("#currPrincipal").select2("val", data.currOperatorId);
+			              $("#isOperate").val(data.isOperate);
+			              //禁止变更经办人操作
+			              if(data.isOperate == 0) {
+			                $("#submitdiv").attr("disabled", true);
+			                $("#principal").attr("disabled", true);
+			                $("#currPrincipal").attr("disabled", true);
+			              } else {
+			                $("#submitdiv").attr("disabled", false);
+			                $("#principal").attr("disabled", false);
+			                $("#currPrincipal").attr("disabled", false);
+			              }
+			              if(!data.isEnd) {
+			                $("#nextHaunjie").show();
+			                $("#updateOperateId").show();
+			                $("#huanjie").html(data.flowDefineName);
+			                $("#huanjieId").val(data.flowDefineId);
+			                $("#principal").empty();
+			                $.each(data.users, function(i, user) {
+			                  $("#principal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
+			                });
+			                $("#principal").select2();
+			                $("#principal").select2("val", data.operatorId);
+			              }
+			              if(data.isEnd) {
+			                $("#nextHaunjie").hide();
+			                $("#updateOperateId").hide();
+			              }
+			            }
+			          }
+			        }); 
+			        var urls = "${pageContext.request.contextPath}/" + url + "?projectId=" + projectId + "&flowDefineId=" + flowDefineId;
+			        $("#as").attr("href", urls);
+			        var el = document.getElementById('as');
+			        el.click(); //触发打开事件
+						}
+					}
+				});
       }
 
       //提交下一环节经办人
@@ -253,7 +266,6 @@
         var currUpdateUserId = $("#currPrincipal").val();
         layer.confirm('您确定已经完成当前环节操作吗?', {
           title: '提示',
-          offset: '222px',
           shade: 0.01
         }, function(index) {
           //校验当前环节是否完成
@@ -278,27 +290,41 @@
                   dataType: "json",
                   success: function(data2) {
                     if(data2.success) {
-                      layer.msg("提交成功", {
-                        offset: '100px'
-                      });
+                      jumpLoad(data2.url, projectId, currFlowDefineId);
+                      $("#"+currFlowDefineId+"_exe").removeClass("executed");
+                      $("#"+currFlowDefineId+"_exe").addClass("executed");
+                      layer.msg("提交成功");
                     }
                   },
                   error: function() {
-                    layer.msg("提交失败", {
-                      offset: '100px'
-                    });
+                    layer.msg("提交失败");
                   }
                 });
+              } else {
+                layer.alert(data.msg);
               }
             },
             error: function() {
-              layer.msg("提交失败", {
-                offset: '100px'
-              });
+              layer.msg("提交失败");
             }
           });
         });
       }
+      
+      // 左侧导航收缩
+			function tree_toggle() {
+				if ($('#show_tree_div').hasClass('open')) {
+					$('#show_tree_div').removeClass('open');
+					$('#show_tree_div').animate({
+						left: '-180'
+					});
+				} else {
+					$('#show_tree_div').addClass('open');
+					$('#show_tree_div').animate({
+						left: '0'
+					});
+				}
+			}
     </script>
   </head>
 
@@ -318,7 +344,7 @@
             <a href="">采购项目管理</a>
           </li>
           <li>
-            <a href="">采购项目实施</a>
+            <a href="">预研采购项目实施</a>
           </li>
         </ul>
       </div>
@@ -326,16 +352,39 @@
     <!--=== End Breadcrumbs ===-->
 
     <!--=== Content Part ===-->
-    <div class="container content height-350">
-      <div class="row">
-        <!-- Begin Content -->
-        <div class="col-md-12" style="min-height:400px;">
-          <div class="col-md-2 col-sm-3 col-xs-12 " id="show_tree_div">
+    <!-- 主要内容开始 -->
+    <div class="pr mt20 mb40">
+      <!-- 左侧导航开始 -->
+      <div class="m_tree_nav open" id="show_tree_div">
+        <div class="btn_toggle" onclick="tree_toggle()">收起/展开</div>
             <ul class="btn_list" id="menu">
               <c:forEach items="${list}" var="fd">
-                    <li onclick="jumpLoad('${fd.description}','${project.id }','${fd.id}')" <c:if test="${fd.position == 1}">class="active"</c:if>>
-                      <a class="son-menu">${fd.name }</a>
-                    </li>
+                <c:if test="${fd.advancedUrl ne null}">
+                    <!-- 已执行 -->
+	                <c:if test="${fd.status == 1}">
+	                  <li onclick="jumpLoad('${fd.advancedUrl}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active "</c:if>>
+	                <a class="executed son-menu" id='${fd.id}_exe'>${fd.name }</a>
+	                </li>
+	                </c:if>
+	                <!-- 执行中 -->
+	                <c:if test="${fd.status == 2}">
+	                  <li onclick="jumpLoad('${fd.advancedUrl}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active "</c:if>>
+	                <a class="son-menu" id='${fd.id}_exe'>${fd.name }</a>
+	                </li>
+	                </c:if>
+	                <!-- 环节结束，不可在操作 -->
+	                <c:if test="${fd.status == 3}">
+	                  <li onclick="jumpLoad('${fd.advancedUrl}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active"</c:if>>
+	                <a class="executed son-menu " id='${fd.id}_exe'>${fd.name }</a>
+	                </li>
+	                </c:if>
+	                <!-- 未执行 -->
+	                <c:if test="${fd.status == 0}">
+	                  <li onclick="jumpLoad('${fd.advancedUrl}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active"</c:if>>
+	                <a class="son-menu" id='${fd.id}_exe'>${fd.name }</a>
+	                </li>
+	                </c:if>
+                </c:if>
               </c:forEach>
             </ul>
           </div>
@@ -387,6 +436,7 @@
               <button class="btn btn-windows back" onclick="back();" type="button">返回列表</button>
             </div>
           </div>
+          <div class="clear"></div>
         </div>
       </div>
     </div>

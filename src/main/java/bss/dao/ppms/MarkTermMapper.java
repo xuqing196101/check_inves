@@ -17,4 +17,5 @@ public interface MarkTermMapper {
 	public int insert(MarkTerm markTerm);
 	public int delMarkTermByParentId(HashMap<String, Object> map);
 	public MarkTerm findMarkTermById(String id);
+	public List<MarkTerm> findMarkTermByPackageId(MarkTerm markTerm);
 }

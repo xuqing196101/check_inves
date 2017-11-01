@@ -28,8 +28,9 @@
 				 <td class="info tc">质量技术标准</td>
 				 <td class="info tc">计量单位</td>
 				 <td class="info tc">采购数量</td>
-				 <td class="info tc">单价</td>
-				 <td class="info tc">备注</td>
+				 <td class="info tc">单价（元）</td>
+				 <td class="info tc">金额（万元）</td>
+				 <!-- <td class="info tc">备注</td> -->
 				 <!-- <td class="info tc">采购方式</td> -->
 				</tr>
 			 </thead>
@@ -42,7 +43,8 @@
 			       <td>${detail.item}</td>
 			       <td class="tr">${detail.purchaseCount}</td>
 			       <td class="tr">${detail.unitPrice}</td>
-			       <td class="tr">${detail.trademark}</td>
+			       <td class="tr"><fmt:formatNumber type="number" value="${detail.purchaseCount/10000*detail.unitPrice}" pattern="#0.0000" maxFractionDigits="4"/></td>
+			       <%-- <td class="tr">${detail.trademark}</td> --%>
 			      <%--  <td>${detail.purchaseType}</td> --%>
 			    </tr>
 			 

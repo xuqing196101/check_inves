@@ -17,7 +17,7 @@
       }
 
       function contractList(id) {
-        var contractRequireds = "${contractRequireds}";
+        var contractRequireds = "${contractStatus}";
         if(contractRequireds){
           window.location.href = "${pageContext.request.contextPath}/projectSupervision/contractList.html?projectId=" + id;
         }
@@ -29,6 +29,10 @@
 
       function demandList(id) {
         window.location.href = "${pageContext.request.contextPath}/projectSupervision/demandList.html?projectId=" + id;
+      }
+      
+      function goBack() {
+      	window.location.href = "${pageContext.request.contextPath}/projectSupervision/list.html";
       }
     </script>
   </head>
@@ -88,6 +92,9 @@
                 <c:if test="${projectStatus gt 0 && projectStatus lt 50}">
                   <div data-dimension="150" data-text="${projectStatus}%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="${projectStatus}" data-fgcolor="#ff8641" data-bgcolor="#eee" class="circle_box"></div>
                 </c:if>
+                <c:if test="${projectStatus eq null}">
+                  <div data-dimension="150" data-text="0%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="0" data-fgcolor="#ffffff" data-bgcolor="#eeeeee" class="circle_box"></div>
+                </c:if>
               </td>
               <td class="tc" width="25%" onclick="contractList('${project.id}')">
                 <c:if test="${contractStatus eq null}">
@@ -114,7 +121,7 @@
       </div>
     </div>
     <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
-      <button class="btn btn-windows back" onclick="window.history.go(-1)" type="button">返回</button>
+      <button class="btn btn-windows back" onclick="goBack();" type="button">返回</button>
     </div>
   </body>
 

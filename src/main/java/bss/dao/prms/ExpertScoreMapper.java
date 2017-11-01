@@ -70,4 +70,6 @@ public interface ExpertScoreMapper {
      * @return
      */
     BigDecimal selectSumByMap(Map<String, Object> map3);
+    
+    List<ExpertScore> selectByScore(ExpertScore expertScore);
 }

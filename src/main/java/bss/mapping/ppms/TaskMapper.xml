@@ -465,7 +465,7 @@
     t.MATERIALS_TYPE as materialsType,
     t.ORG_ID as orgId,
     t.COLLECT_ID as collectId,
-    o.NAME as orgName 
+    o.SHORT_NAME as orgName 
     from T_BSS_PPMS_TASK t left join T_SES_OMS_ORG o on t.ORG_ID = o.ID 
     where 1=1
     and t.IS_DELETED = 0
@@ -474,7 +474,7 @@
       	and t.NAME like CONCAT(CONCAT('%', #{name}), '%')
     </if>
     <if test="orgName != null and orgName !=''">
-      	and o.NAME like CONCAT(CONCAT('%', #{orgName}), '%')
+      	and o.SHORT_NAME like CONCAT(CONCAT('%', #{orgName}), '%')
     </if>
     <if test="documentNumber != null and documentNumber !=''">
        	and t.DOCUMENT_NUMBER like CONCAT(CONCAT('%', #{documentNumber}), '%')

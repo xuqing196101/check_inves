@@ -104,6 +104,8 @@ public interface SupplierCheckPassMapper {
      */
     String[] selectWonBid(String projectId);
     
+    List<SupplierCheckPass> getByCheck(String packageId);
+    
     List<SupplierCheckPass> getByContractId(String contractId);
     List<SupplierCheckPass> selectPackageIdWonBid(String packageId);
     List<SupplierCheckPass> listsupplier(HashMap<String, Object> map);

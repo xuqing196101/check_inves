@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Set;
 
 import common.utils.JdcgResult;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -360,6 +362,10 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 	}
 
     @Override
+    public List<PurchaseRequired> connectByList(String id) {
+        
+        return purchaseRequiredMapper.connectByList(id);
+    }
     public void deletedList(String unqueId) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("planNo", unqueId);
@@ -368,6 +374,7 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
             for (PurchaseRequired purchaseRequired : byMap) {
                 purchaseRequiredMapper.deleteByPrimaryKey(purchaseRequired.getId());
             }
-        }
+    
     }
+}
 }

@@ -10,6 +10,14 @@
     <link href="${pageContext.request.contextPath}/public/easyui/themes/icon.css" media="screen" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
     <script type="text/javascript">
+    	$(function() {
+      	$("input[name='linkman']").each(function(){
+      		if($(this).val() == '已废标'){
+      			$(this).prev().css("color","gray");
+      		}
+      	});
+      });
+      
       function view(id){
         window.location.href = "${pageContext.request.contextPath}/supervision/viewPack.html?id=" + id +"&requiredId=${requiredId}";
       }
@@ -56,14 +64,16 @@
               <th>创建时间</th>
               <th>创建人</th>
               <th>项目状态</th>
-              <th>进度</th>
             </tr>
           </thead>
           <tbody id="tbody_id">
             <c:forEach items="${list}" var="obj" varStatus="vs">
               <tr class="pointer">
                 <td class="tc w50">${(vs.index+1)}</td>
-                <td class="tl pl20" onclick="view('${obj.id}')">${obj.name}</td>
+                <td class="tl pl20" onclick="view('${obj.id}')">
+                	<a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.name}</a>
+                	<input type="hidden" name="linkman" value="${obj.status}"/>
+                </td>
                 <td class="tl pl20" onclick="view('${obj.id}')">${obj.projectNumber}</td>
                 <td class="tc " onclick="view('${obj.id}')">${obj.purchaseDepId}</td>
                 <td class="tc " onclick="view('${obj.id}')">
@@ -76,9 +86,6 @@
                 </td>
                 <td class="tl pl20" onclick="view('${obj.id}')">${obj.appointMan}</td>
                 <td class="tc">${obj.status}</td>
-                <td class="tc">
-                  <a href="javascript:void(0)" onclick="view('${obj.id}');">查看</a>
-                </td>
               </tr>
             </c:forEach>
           </tbody>

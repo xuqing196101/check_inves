@@ -90,7 +90,7 @@
         window.location.href = "${pageContext.request.contextPath}/advancedProject/addDetail.html?id=" + id + "&name=" + name + "&projectNumber=" + projectNumber+"&projectId="+projectId;
       }
 
-      // 添加
+      /** 添加 **/
       function add() {
         var name = $("input[name='name']").val();
         var projectNumber = $("input[name='projectNumber']").val();
@@ -227,7 +227,7 @@
               </table>
               <div id="pagediv" align="right"></div>
             </div>
-            <c:if test="${lists != null}">
+            <c:if test="${lists ne null}">
               <div class="col-md-12 pl20 mt10">
 						    <button class="btn btn-windows delete" onclick="deleted();" type="button">删除</button>
 						  </div>

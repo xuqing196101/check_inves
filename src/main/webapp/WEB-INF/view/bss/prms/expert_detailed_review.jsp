@@ -127,16 +127,20 @@
 		window.open("${pageContext.request.contextPath}/packageExpert/showViewBySupplierId.html?projectId=${projectId}&packageId=${packageId}&supplierId=" + supplierId, "评分详情");
 	}
 	function printRank(){
-		var packageId = "${packageId}";
+		/* var packageId = "${packageId}";
 		var isEnd = $("#is_end").val();
 		if (isEnd != "1") {
 			layer.alert("该包暂未结束评分!", {
 				offset : [ y, x ],
 				shade : 0.01
 			});
-		} else {
+		} else { */
 			window.open("${pageContext.request.contextPath}/packageExpert/printRank.html?packages=${packageId}", "打印汇总表");
-		}
+		/* } */
+	}
+	function refur(packageId,projectId){
+		layer.msg("刷新成功",{offset: ['100px']});
+		$("#tab-6").load('${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId='+packageId+'&projectId='+projectId);
 	}
 </script>
 </head>
@@ -151,8 +155,9 @@
 		  <c:if test="${isEnd == 1}">
 			  <button disabled="disabled" class="btn" id="endId" onclick="toTotal()" type="button">结束评审</button>
 			  <button disabled="disabled" class="btn" id="backId" onclick="backScore()" type="button">复核评分</button>
-		  </c:if>
+		  </c:if> 
 		  <button class="btn btn-windows input" onclick="printRank()" type="button">打印汇总表</button>
+		  <button class="btn" onclick="refur('${packageId}','${projectId}')" type="button">刷新</button>
 		</div>
 		<!--循环供应商  -->
 		<div class="over_scroll col-md-12 col-xs-12 col-sm-12 p0 m0">

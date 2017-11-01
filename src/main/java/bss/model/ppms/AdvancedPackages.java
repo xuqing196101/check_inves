@@ -3,8 +3,13 @@
  */
 package bss.model.ppms;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+
+import ses.model.ems.Expert;
+import ses.model.ems.ProjectExtract;
+import ses.model.sms.Supplier;
 
 import bss.model.prms.FirstAudit;
 
@@ -76,6 +81,42 @@ public class AdvancedPackages {
      * 是否维护经济技术评分细则 0 未维护 1:维护中 2：已维护
      */
     private Integer isEditSecond;
+    
+    private List<SaleTender> saleTenderList;
+    
+    private List<ProjectExtract> listProjectExtract;
+    
+    /**
+     * 是否结束报价  0：未结束 1：已结束
+     */
+    private Integer isEndPrice;
+    
+    private Date techniqueTime; //评审技术性时间
+    
+    private Date qualificationTime; //评审资格性时间
+    
+    private String projectStatus; //项目状态
+    
+    private String packageNumber; //包号
+    
+    /**这个包的项目预算*/
+    private BigDecimal projectBudget;
+    
+    /**每个包下面的供应商*/
+    private List<Supplier> suppliers;
+    
+    /**
+     * 多次报价时间（查询报价历史的时候用得到）
+     */
+    private List<Date> dataList;
+    
+    private List<Expert> listExperts;
+    
+    private List<SupplierCheckPass> listCheckPasses;
+    
+    private Negotiation negotiation;
+    
+    private NegotiationReport negotiationReport;
 
     public String getId() {
         return id;
@@ -275,6 +316,118 @@ public class AdvancedPackages {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
+    }
+
+    public List<SaleTender> getSaleTenderList() {
+        return saleTenderList;
+    }
+
+    public void setSaleTenderList(List<SaleTender> saleTenderList) {
+        this.saleTenderList = saleTenderList;
+    }
+
+    public List<ProjectExtract> getListProjectExtract() {
+        return listProjectExtract;
+    }
+
+    public void setListProjectExtract(List<ProjectExtract> listProjectExtract) {
+        this.listProjectExtract = listProjectExtract;
+    }
+
+    public Integer getIsEndPrice() {
+        return isEndPrice;
+    }
+
+    public void setIsEndPrice(Integer isEndPrice) {
+        this.isEndPrice = isEndPrice;
+    }
+
+    public Date getTechniqueTime() {
+        return techniqueTime;
+    }
+
+    public void setTechniqueTime(Date techniqueTime) {
+        this.techniqueTime = techniqueTime;
+    }
+
+    public Date getQualificationTime() {
+        return qualificationTime;
+    }
+
+    public void setQualificationTime(Date qualificationTime) {
+        this.qualificationTime = qualificationTime;
+    }
+
+    public String getProjectStatus() {
+        return projectStatus;
+    }
+
+    public void setProjectStatus(String projectStatus) {
+        this.projectStatus = projectStatus;
+    }
+
+    public String getPackageNumber() {
+        return packageNumber;
+    }
+
+    public void setPackageNumber(String packageNumber) {
+        this.packageNumber = packageNumber;
+    }
+
+    public BigDecimal getProjectBudget() {
+        return projectBudget;
+    }
+
+    public void setProjectBudget(BigDecimal projectBudget) {
+        this.projectBudget = projectBudget;
+    }
+
+    public List<Supplier> getSuppliers() {
+        return suppliers;
+    }
+
+    public void setSuppliers(List<Supplier> suppliers) {
+        this.suppliers = suppliers;
+    }
+
+    public List<Date> getDataList() {
+        return dataList;
+    }
+
+    public void setDataList(List<Date> dataList) {
+        this.dataList = dataList;
+    }
+
+    public List<Expert> getListExperts() {
+        return listExperts;
+    }
+
+    public void setListExperts(List<Expert> listExperts) {
+        this.listExperts = listExperts;
+    }
+
+    public List<SupplierCheckPass> getListCheckPasses() {
+        return listCheckPasses;
+    }
+
+    public void setListCheckPasses(List<SupplierCheckPass> listCheckPasses) {
+        this.listCheckPasses = listCheckPasses;
+    }
+
+    public Negotiation getNegotiation() {
+        return negotiation;
+    }
+
+    public void setNegotiation(Negotiation negotiation) {
+        this.negotiation = negotiation;
+    }
+
+    public NegotiationReport getNegotiationReport() {
+        return negotiationReport;
+    }
+
+    public void setNegotiationReport(NegotiationReport negotiationReport) {
+        this.negotiationReport = negotiationReport;
     }
     
 }

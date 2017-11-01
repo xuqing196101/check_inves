@@ -56,6 +56,7 @@ import bss.service.ppms.TaskService;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 import common.constant.StaticVariables;
 import common.service.UpdateHistoryService;
@@ -187,52 +188,28 @@ public class TaskAdjustController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/all")
-	public String requiredList(String id,Model model){
+	public String requiredList(@CurrentUser User user, String id, Model model){
 		Task task = taskService.selectById(id);
-		
-		
 		//所有明细
-		if(StringUtils.isNotBlank(task.getCollectId())){
-		    List<PurchaseDetail> list = purchaseDetailService.getUnique(task.getCollectId(),null,null);
-		    model.addAttribute("list", list);
+		if(task != null && StringUtils.isNotBlank(task.getCollectId())){
+			List<PurchaseDetail> list = purchaseDetailService.findTaskByDetail(task.getId(), user.getOrg().getId());
+			for (PurchaseDetail purchaseDetail : list) {
+			  HashMap<String, Object> map=new HashMap<String, Object>();
+	      map.put("id",purchaseDetail.getId());
+	      List<PurchaseDetail> prs = purchaseDetailService.selectByParentId(map);
+	      if(prs!=null&&!prs.isEmpty()&&prs.size()>1){
+	        purchaseDetail.setIsParent("true");
+	      }
+      }
+			if (list != null && !list.isEmpty()) {
+				model.addAttribute("list", list);
+				model.addAttribute("types", DictionaryDataUtil.find(5));
+				HashMap<String, Object> map = new HashMap<>();
+				map.put("typeName", 1);
+			    List<PurchaseDep> orgs = purchaseOrgnizationServiceI.findPurchaseDepList(map);
+			    model.addAttribute("orgs", orgs);
+			}
 		}
-		
-		HashMap<String, Object> map = new HashMap<>();
-		map.put("typeName", 1);
-	    List<PurchaseDep> orgs = purchaseOrgnizationServiceI.findPurchaseDepList(map);
-	    model.addAttribute("orgs", orgs);	
-	    
-	    List<DictionaryData> types = DictionaryDataUtil.find(5);
-//	          采购方式 
-	    model.addAttribute("types", types);	 
-	    String fileId = DictionaryDataUtil.getId("CGJH_ADJUST");
-	    model.addAttribute("fileId", fileId);
-	    model.addAttribute("id", id);
-//		CollectPlan cPlan=collectPlanService.queryById(id);
-//		int backInfo=0;
-//		if (cPlan.getStatus()!=null && cPlan.getStatus()==4) {
-//			backInfo=2;
-//			List<CollectPlan> list = collectPlanService.queryCollect(new CollectPlan(), 1);
-//			PageInfo<CollectPlan> info = new PageInfo<>(list);
-//			model.addAttribute("info", info);
-//			model.addAttribute("inf", new CollectPlan());
-//			model.addAttribute("backInfo", backInfo);
-//			return "bss/pms/taskadjust/planlist";
-//		}else{
-//			List<PurchaseRequired> purList=new LinkedList<PurchaseRequired>();
-//			List<String> list = collectPurchaseService.getNo(id);
-//			model.addAttribute("backInfo", backInfo);
-//			Map<String,Object> map=new HashMap<String,Object>();
-//			for(String str:list){
-//				map.put("isMaster", "1");
-//				map.put("planNo", str);
-//				List<PurchaseRequired> pur = purchaseRequiredService.getByMap(map);
-//				 purList.addAll(pur);
-//			}
-//			model.addAttribute("list", purList);
-//			model.addAttribute("id", id);
-//			return "bss/pms/taskadjust/edit";
-//		}
 		return "bss/pms/taskadjust/edit";
 	}
 	

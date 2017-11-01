@@ -46,7 +46,8 @@
       }
 
       function view(id) {
-        window.location.href = "${pageContext.request.contextPath}/planSupervision/overview.html?id=" + id;
+      	var projectId = "${project.id}";
+        window.location.href = "${pageContext.request.contextPath}/planSupervision/overview.html?id=" + id + "&projectId=" + projectId;
       }
 
       function bigImg(obj, x) {

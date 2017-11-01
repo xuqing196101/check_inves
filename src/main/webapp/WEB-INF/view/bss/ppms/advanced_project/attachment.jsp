@@ -8,8 +8,12 @@
 <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <script type="text/javascript">
   function start(id){
+    var name = $("input[name='name']").val();
+    var documentNumber = $("#documentNumber").val();
+    name = $.trim(name);
+    documentNumber = $.trim(documentNumber);
     $.ajax({
-          url: "${pageContext.request.contextPath}/advancedProject/verifys.html",
+          url: "${pageContext.request.contextPath}/advancedProject/verifyUpload.html",
           data: "id=" + id,
           type: "post",
           dataType: "json",
@@ -19,7 +23,15 @@
               shade: 0.01
              });
             }else{
-              $("#form1").submit();
+              if(name == ""){
+                layer.tips("名称不允许为空", "#name");
+                $("#name").focus();
+              } else if (documentNumber == ""){
+                layer.tips("名称不允许为空", "#documentNumber");
+                $("#documentNumber").focus();
+              } else {
+                $("#form1").submit();
+              }
             }
           },
         });    
@@ -52,7 +64,7 @@
            <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
                <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">采购任务名称:</span>
                <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0 input_group input-append">
-                   <input  type="text" name="name" value="${proName}">
+                   <input  type="text" id="name" name="name" value="${proName}">
                </div>
            </li>
            <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">

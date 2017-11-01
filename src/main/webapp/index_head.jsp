@@ -81,13 +81,11 @@
   
   /* 
   function myInfo(){
-
     if(user!=null && user!=''){
       window.location.href="${pageContext.request.contextPath}/login/index.html";
     }else{
       window.location.href="${pageContext.request.contextPath}/index/sign.html";
     }
-
   }
    */
   

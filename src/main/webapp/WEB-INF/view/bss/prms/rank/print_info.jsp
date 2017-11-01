@@ -58,7 +58,7 @@
                   </tr>
                 </c:if>
               </c:forEach>
-              <tr>
+             <%--  <tr>
                 <td class="tc" colspan="2">总分</td>
                 <c:forEach items="${supplierList}" var="supplier">
                   <c:if test="${supplier.packages eq pack.id}">
@@ -94,7 +94,7 @@
 	                </td>
                   </c:if>
                 </c:forEach>
-              </tr>
+              </tr> --%>
 			</table>
 </div></div>			
   </body>

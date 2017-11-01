@@ -51,6 +51,7 @@
 		<if test="orgName!= null and orgName !='' ">
 		 and	o.name  like   CONCAT(CONCAT('%', #{orgName}), '%')
 		</if>
+		 order by POSITION
 	</select>
 	<!-- 删除 -->
 	<delete id="delByOrgId" parameterType="java.util.Map">

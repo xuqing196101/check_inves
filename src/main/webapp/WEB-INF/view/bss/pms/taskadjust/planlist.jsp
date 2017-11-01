@@ -96,12 +96,17 @@
 		if(taskNature == "1"){
 		  layer.msg("预研任务不能修改！");
 		}else{
-		  if(id.length==1){   
-      window.location.href="${pageContext.request.contextPath}/adjust/all.html?id="+id;
+		  if(id.length==1){
+	  var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).text();
+	  if($.trim(status)!="已取消"){
+		  window.location.href="${pageContext.request.contextPath}/adjust/all.html?id="+id;
+	  }else{
+		  layer.msg("已取消任务不能调整");
+	  }
       }else if(id.length>1){
-      layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+      layer.msg("只能选择一个");
     }else{
-      layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
+      layer.msg("请选中一条");
     }
 		}
 		
@@ -261,7 +266,7 @@
               <td>
                 <a href="javascript:void(0)" onclick="viewd('${obj.id}');">
                   <c:forEach items="${list2}" var="list" varStatus="vs">
-                    <c:if test="${obj.orgId eq list.id}">${list.name}</c:if>
+                    <c:if test="${obj.orgId eq list.id}">${list.shortName}</c:if>
                   </c:forEach>
                 </a>
               </td>

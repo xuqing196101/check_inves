@@ -54,7 +54,7 @@
       <if test="reviewSite != null">
         and REVIEW_SITE = #{reviewSite} 
       </if>
-     ORDER BY CREATED_AT DESC
+     ORDER BY REVIEW_TIME DESC
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">

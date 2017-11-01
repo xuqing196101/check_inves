@@ -7,11 +7,20 @@
     <%@ include file="/WEB-INF/view/common.jsp" %>
     <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
     <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
+    <%-- <link href="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.js"></script> --%>
 
     <script type="text/javascript">
+	
+    
       var flag;
       var indNum = 1;
       $(function() {
+    	  $('body').click(function(e) {
+    	       if(e.target.name != 'hidden'){
+    	    	   $("#materialName").addClass("dnone");
+    	       } 
+    	    })
         $("td[name='userNone']").attr("style", "display:none");
         $("th[name='userNone']").attr("style", "display:none");
 
@@ -94,6 +103,7 @@
                   "index": indexCount,
                   "indNum": indNum
               },
+              async:false,
               success: function(data) {
                   $("#detailZeroRow").append(data);
                   init_web_upload();
@@ -105,29 +115,32 @@
                       $("td[name='userNone']").attr("style", "display:none");
                       $("th[name='userNone']").attr("style", "display:none");
                   }
+                  /* $('#table').m_fixedTable({
+                      fixedNumber: 1
+                    }); */
               }
           });
       }
 
-      function trimNull(notAttrtr){
+      function trimNull(notAttrtr,numb){
     	  var trimFlog=false;
     	  if($.trim($($(notAttrtr).children()[3]).children(":first").val()) == "") {
-              layer.alert("需求明细中物资类别及物资名称不能为空");
+              layer.alert("第"+(numb+1)+"行，需求明细中物资类别及物资名称不能为空");
               trimFlog=true;
-            } else if($.trim($($(notAttrtr).children()[5]).children(":first").val()) == "") {
-              layer.alert("需求明细中质量技术标准不能为空");
+            } /* else if($.trim($($(notAttrtr).children()[5]).children(":first").val()) == "") {
+              layer.alert("第"+(numb+1)+"行，需求明细中质量技术标准不能为空");
               trimFlog=true;
-            } else if($.trim($($(notAttrtr).children()[6]).children(":first").val()) == "") {
-              layer.alert("需求明细中计量单位不能为空");
+            }  */else if($.trim($($(notAttrtr).children()[6]).children(":first").val()) == "") {
+              layer.alert("第"+(numb+1)+"行，需求明细中计量单位不能为空");
               trimFlog=true;
             } else if($.trim($($(notAttrtr).children()[7]).children(":first").next().val()) == "") {
-              layer.alert("需求明细中采购数量不能为空");
+              layer.alert("第"+(numb+1)+"行，需求明细中采购数量不能为空");
               trimFlog=true;
             } else if($.trim($($(notAttrtr).children()[8]).children(":first").next().val()) == "") {
-              layer.alert("需求明细中单价不能为空");
+              layer.alert("第"+(numb+1)+"行，需求明细中单价不能为空");
               trimFlog=true;
             }else if($.trim($($(notAttrtr).children()[11]).children(":first").val()) == "") {
-                layer.alert("需求明细中采购方式不能为空");
+                layer.alert("第"+(numb+1)+"行，需求明细中采购方式不能为空");
                 trimFlog=true;
               }
     	  return trimFlog;
@@ -145,7 +158,7 @@
         	var tableTr=$("#detailZeroRow tr");
         	for(var i = 1; i < tableTr.length; i++) {
         		 if(typeof($(tableTr[i]).attr("attr"))=="undefined"){//获取子节点
-        			  if(trimNull(tableTr[i])){
+        			  if(trimNull(tableTr[i],i)){
         				  return false;
         				  break;
         			  }
@@ -214,7 +227,6 @@
               var goodsUse = $(this).find("td:eq(14)").children(":first").val();
               var useUnit = $(this).find("td:eq(15)").children(":first").val();
               var memo = $(this).find("td:eq(16)").children(":first").val();
-
               var json = {
                 "seq": seq,
                 "id": id,
@@ -388,7 +400,7 @@
             	  }else{
             		  name=data[i].name.split("@")[0];
             	  }
-                html += "<div style='width:178px;height:20px;' class='pointer' onmouseover='changeColor(this)' onclick='getValue(this)' title='"+title+"'>" + name + "</div>";
+                html += "<div style='width:178px;height:20px;' class='pointer' onmouseover='changeColor(this)'  onclick='getValue(this)' title='"+title+"'>" + name + "</div>";
               }
               $("#materialName").html(html);
               $("#materialName").removeClass("dnone");
@@ -411,6 +423,7 @@
         $(obj).parent().parent().find("input").val($(obj).html());
         $(obj).parent().addClass("dnone");
       }
+      
 
       //删除一行
       function delRowIndex(obj) {
@@ -511,9 +524,10 @@
     				  }else{
     					  indexCount=parseInt($($(tr).children()[0]).text())-2;
     				  }
-    				  
+    				  var tr3=$($(tr).prev().children()[3]).children(":first");
+    				  $(tr3).after($("#materialName"));
     				  $(tr).remove();
-    				  sum1(price);
+    				  deleteSum1(price);
     			  }else{//删除当前节点，把父节点的父节点的readOnly=false,并且删除tr上的attr=“true”
     				    $(tr).prev().removeAttr("attr");
     		    	  var tr7=$($(tr).prev().children()[7]).children(":first").next();
@@ -543,7 +557,7 @@
 	    					  indexCount=parseInt($($(tr).children()[0]).text())-2;
 	    				  }
     		    	  $(tr).remove();
-    		    	  sum1(price);
+    		    	  deleteSum1(price);
     			  }
     			  
     		  }
@@ -665,7 +679,7 @@
                 shade: 0.01
               });
               //  layer.msg("上传成功");
-              // $("#jhmc").val(data[0].planName);
+              $("#jhmc").val(data[0].planName);
               $("#detailZeroRow").empty();
               var count = 1;
               $.ajax({
@@ -713,6 +727,7 @@
       function details() {
         var bool = true;
         $("#table tr").each(function(i) {
+        	if($(this).attr("attr")!="true"){
           var val1 = $(this).find("td:eq(8)").children(":first").next().val(); //上级id
           var val2 = $(this).find("td:eq(7)").children(":first").next().val();
           if($.trim(val1) != "" && $.trim(val2)) {
@@ -726,6 +741,7 @@
             }
 
           }
+        	}
         });
         return bool;
 
@@ -768,6 +784,10 @@
         }
       }
 
+      function deleteSum1(obj) {
+            var id = $(obj).next().val(); //parentId
+            aa(id);
+        }
       function aa(id) { // id是指当前的父级parentid
         var budget = 0;
         $("#table tr").each(function() {
@@ -806,9 +826,10 @@
           var pid = $(this).find("td:eq(9)").children(":last").val();
           if(id == pid) {
             var currBud = $(this).find("td:eq(9)").children(":first").next().val() - 0;
-            bud = bud + currBud;
-            bud = bud.toFixed(2);
-
+            bud = bud + parseFloat(currBud);
+            if(bud!=0){
+            	bud = bud.toFixed(2);
+            }
             var spid = $(this).find("td:eq(9)").children(":last").val();
             aa(spid);
           }
@@ -934,6 +955,9 @@
         var prev = $(obj).parent().parent().prev().find("td:eq(1)").children(":first").next().val();
         
         val = $.trim(val);
+        if(val=="一"){
+  		    return false;
+  	    }
         if(val){
           //判断是否有括号，如果有代表是二级，四级，六级节点
           var plural = ifBracket(val);
@@ -1445,30 +1469,29 @@
           <div class="col-md-12 col-xs-12 col-sm-12 mt5 over_auto" style="max-height:300px" id="add_div">
 
             <form id="add_form" action="${pageContext.request.contextPath}/purchaser/adddetail.html" method="post">
-              <table id="table" class="table table-bordered table-condensed lockout table_input ">
+              <table id="table" class="table table-bordered table_input">
                 <thead>
                   <tr class="space_nowrap">
-                    <th class="seq">行号</th>
-                    <th class="seq">序号</th>
-                    <th class="department">需求部门</th>
-                    <th class="goodsname">物资类别及<br/>物资名称</th>
-                    <th class="stand">规格型号</th>
-                    <th class="qualitstand">质量技术标准<br/>（技术参数）</th>
-                    <th class="item">计量<br/>单位</th>
-                    <th class="purchasecount">采购<br/>数量</th>
-                    <th class="price">单价<br/>（元）</th>
-                    <th class="budget">预算金额<br/>（万元）</th>
-                    <th class="deliverdate">交货<br/>期限</th>
-                    <th class="purchasetype">采购方式<br/>建议</th>
-                    <th class="purchasename">供应商名称</th>
-                    <th name="userNone" class="freetax">是否申请<br/>办理免税</th>
-                    <th name="userNone" class="goodsuse">物资用途<br/>（仅进口）</th>
-                    <th name="userNone" class="useunit">使用单位<br/>（仅进口）</th>
-                    <th class="memo">备注</th>
-                    <th name="file_up" class="extrafile">附件</th>
-                    <th class="w100">操作</th>
+                    <th class="w50">行号</th>
+                    <th class="w50">序号</th>
+                    <th class="w80">需求部门</th>
+                    <th class="w180">物资类别及物资名称</th>
+                    <th class="w80">规格型号</th>
+                    <th class="w180">质量技术标准（技术参数）</th>
+                    <th class="w80">计量单位</th>
+                    <th class="w80">采购数量</th>
+                    <th class="w80">单价（元）</th>
+                    <th class="w100">预算金额（万元）</th>
+                    <th class="w80">交货期限</th>
+                    <th class="w100">采购方式建议</th>
+                    <th class="w100">供应商名称</th>
+                    <th class="w180" name="userNone">是否申请办理免税</th>
+                    <th class="w180" name="userNone">物资用途（仅进口）</th>
+                    <th class="w180" name="userNone">使用单位（仅进口）</th>
+                    <th class="w120">备注</th>
+                    <th class="w180">附件</th>
+                    <th class="w80">操作</th>
                   </tr>
-
                 </thead>
                 <tbody id="detailZeroRow">
                   <c:if test="${plist==null }">
@@ -1484,8 +1507,8 @@
                       <td name="department">
                         <input type="text" name="list[0].department" readonly="readonly" value="${orgName}" class="department">
                       </td>
-                      <td>
-                        <input type="text" name="list[0].goodsName"  class="goodsname" />
+                      <td name="hidden">
+                        <input type="text" name="list[0].goodsName"  class="goodsname"  />
                       </td>
                       <td><input type="text" name="list[0].stand" class="stand"></td>
                       <td><input type="text" name="list[0].qualitStand" class="qualitstand"></td>
@@ -1541,8 +1564,8 @@
                       <td name="department">
                         <input type="text" name="list[1].department" readonly="readonly" value="${orgName}" class="department">
                       </td>
-                      <td>
-                        <input type="text" name="list[1].goodsName" onkeyup="listName(this)" class="goodsname" />
+                      <td name="hidden">
+                        <input type="text" name="list[1].goodsName" onkeyup="listName(this)" class="goodsname"  />
                       </td>
                       <td><input type="text" name="list[1].stand" class="stand"></td>
                       <td><input type="text" name="list[1].qualitStand" class="qualitstand"></td>
@@ -1601,8 +1624,8 @@
                           <input type="hidden" name="list[${vs.index }].department" value="${orgId }">
                           <input type="text" readonly="readonly" value="${orgName}" class="department">
                         </td>
-                        <td>
-                          <input type="text" class="goodsname" name="list[${vs.index }].goodsName" onkeyup="listName(this)" value="${objs.goodsName}" />
+                        <td name="hidden">
+                          <input type="text" class="goodsname" name="list[${vs.index }].goodsName" onkeyup="listName(this)" />
                         </td>
                         <td><input type="text" name="list[${vs.index }].stand" value="${objs.stand}" class="stand"></td>
                         <td><input type="text" name="list[${vs.index }].qualitStand" value="${objs.qualitStand}" class="qualitstand"></td>
@@ -1696,7 +1719,7 @@
         </form>
       </div>
     </div>
-    <div id="materialName" class="dnone" style="width:178px;max-height:400px;overflow:scroll;border:1px solid grey;">
+    <div id="materialName" class="dnone"  style="width:178px;height:200px;overflow:scroll;border:1px solid grey;">
 
 
     </div>
@@ -1714,7 +1737,15 @@
         <input type="button" class="btn input" onclick="rest()" value="清空" />
       </div>
     </div>
+    
+  <script>
+    // 锁表头锁表列
+    /* $(function () {
+      $('#table').m_fixedTable({
+        fixedNumber: 1
+      });
+    }); */
+  </script>
 
-  </body>
-
+</body>
 </html>

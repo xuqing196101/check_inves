@@ -61,6 +61,11 @@ public class FlowDefine {
      * @Fields status : 0:未执行，1:已执行，2：执行中，3：环节结束（不可再操作），4：将要执行
      */
     private Integer status;
+    
+    /**
+     * @Fields status : 预研项目流程
+     */
+    private String advancedUrl;
 
     public String getId() {
         return id;
@@ -142,6 +147,14 @@ public class FlowDefine {
       this.code = code;
     }
 
+    public String getAdvancedUrl() {
+        return advancedUrl;
+    }
+
+    public void setAdvancedUrl(String advancedUrl) {
+        this.advancedUrl = advancedUrl;
+    }
+    
 	@Override
 	public String toString() {
 		return "FlowDefine [id=" + id + ", name=" + name + ", code=" + code + ", step=" + step + ", url=" + url

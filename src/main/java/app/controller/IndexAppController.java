@@ -758,7 +758,6 @@ public class IndexAppController {
     public String appDatailsById(String id,HttpServletRequest request,String url){
         Article article = indexAppService.selectContentById(id);
         indexAppService.getContentImg(article, request);
-        //String tempContextUrl = request.getScheme()+"://"+ request.getServerName() +":"+ request.getServerPort() +request.getContextPath();
         String content = null;
         if(article != null){
             content = "<div style='width: 100%;overflow: hidden; padding: 30px;'>"

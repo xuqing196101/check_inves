@@ -201,7 +201,7 @@
     <if test="type != null">
       and TYPE = #{type}
     </if>
-    ORDER BY CREATE_DATE ASC
+    ORDER BY TYPE ASC
   </select>
   
   

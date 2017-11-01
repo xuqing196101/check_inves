@@ -268,10 +268,12 @@ public class ExcelUtil {
 	        				  if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
 	        					 Double value = cell.getNumericCellValue();
 	        					 if(value==0){
-	        						 errMsg=String.valueOf(row.getRowNum()+1)+"行，G列错误,采购数量不能为0！";
+	        						/* errMsg=String.valueOf(row.getRowNum()+1)+"行，G列错误,采购数量不能为0！";
 			        				 map.put("errMsg", errMsg);
 			        				 bool=false;
-			        				 break;
+			        				 break;*/
+	        					   rq.setPurchaseCount(new BigDecimal(0)); 
+                       continue;
 	        					 }
 	 	        				 if(value!=null){ 
 	 		        				 rq.setPurchaseCount(new BigDecimal(cell.getNumericCellValue())); 
@@ -288,12 +290,12 @@ public class ExcelUtil {
 	        			 if(cell.getColumnIndex()==7){
 	        				 boolean addMer = isAddMer(sheet,row.getRowNum(),cell.getColumnIndex());
 	        				 if(rq.getItem()!=null){
-	        					
+	        				   
 	        					 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC||cell.getCellType()==HSSFCell.CELL_TYPE_FORMULA){
 			        				  rq.setPrice(new BigDecimal(cell.getNumericCellValue()));
 		        					 continue;
 		        				 }
-	        					 
+	                    
 //	        					 else  if(addMer==true){
 //	        						 errMsg=String.valueOf(row.getRowNum()+1)+"行，H列错误,不能合并单元格！";
 //			        				 map.put("errMsg", errMsg); 
@@ -325,7 +327,7 @@ public class ExcelUtil {
 	        				 
 	        				 
 	        					 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC||cell.getCellType()==HSSFCell.CELL_TYPE_FORMULA){
-		        					 rq.setBudget(new BigDecimal(cell.getNumericCellValue()));
+	        					   rq.setBudget(new BigDecimal(cell.getNumericCellValue()));
 		        					 continue;
 		        				 }
 	        					 if(cell.getCellType()!=3){
@@ -449,14 +451,14 @@ public class ExcelUtil {
 	        			 
 						}
        			 if(rq.getPurchaseCount()!=null){
-     				if(rq.getQualitStand()==null||StringUtils.isBlank(rq.getQualitStand().trim())){
+     				/*if(rq.getQualitStand()==null||StringUtils.isBlank(rq.getQualitStand().trim())){
      					 errMsg=String.valueOf(row.getRowNum()+1)+"行，质量技术参数不能为空";
 	        				 map.put("errMsg", errMsg);
 	        				 bool=false;
 	        				 break;
-     			  } 
+     			  } */
      		 }
-			 if(rq.getPurchaseCount()!=null){
+			 if(rq.getPurchaseCount()!=null&&rq.getPrice()!=null){
      				if(rq.getGoodsName()==null||StringUtils.isBlank(rq.getGoodsName().trim())){
      					 errMsg=String.valueOf(row.getRowNum()+1)+"行，物资类别及名称不能为空";
 	        				 map.put("errMsg", errMsg);
@@ -465,7 +467,7 @@ public class ExcelUtil {
      			  } 
      		 }
 			 
-			 if(rq.getPurchaseCount()!=null){
+			 if(rq.getPurchaseCount()!=null&&rq.getPrice()!=null){
      				if(rq.getItem()==null||StringUtils.isBlank(rq.getItem().trim())){
      					 errMsg=String.valueOf(row.getRowNum()+1)+"行，计量单位不能为空";
 	        				 map.put("errMsg", errMsg);
@@ -473,7 +475,7 @@ public class ExcelUtil {
 	        				 break;
      			  } 
      		 }
-			 if(rq.getPurchaseCount()!=null){
+			 if(rq.getPurchaseCount()!=null&&rq.getPrice()!=null){
      				if(rq.getPrice()==null){
      					 errMsg=String.valueOf(row.getRowNum()+1)+"行，单价不能为空";
 	        				 map.put("errMsg", errMsg);
@@ -481,7 +483,7 @@ public class ExcelUtil {
 	        				 break;
      			  } 
      		 }
-			 if(rq.getPurchaseCount()!=null){
+			 if(rq.getPurchaseCount()!=null&&rq.getPrice()!=null){
      				if(rq.getBudget()==null){
      					 errMsg=String.valueOf(row.getRowNum()+1)+"行，预算金额不能为空";
 	        				 map.put("errMsg", errMsg);
@@ -490,14 +492,14 @@ public class ExcelUtil {
      			  } 
      		 }
 			 if(rq.getPurchaseCount()!=null){
-     				if(rq.getDeliverDate()==null||StringUtils.isBlank(rq.getDeliverDate().trim())){
+     				/*if(rq.getDeliverDate()==null||StringUtils.isBlank(rq.getDeliverDate().trim())){
      					 errMsg=String.valueOf(row.getRowNum()+1)+"行，交货期限不能为空";
 	        				 map.put("errMsg", errMsg);
 	        				 bool=false;
 	        				 break;
-     			  } 
+     			  } */
      		 }
-			 if(rq.getPurchaseCount()!=null){
+			 if(rq.getPurchaseCount()!=null&&rq.getPrice()!=null){
      				if(rq.getPurchaseType()==null||StringUtils.isBlank(rq.getPurchaseType().trim())){
      					 errMsg=String.valueOf(row.getRowNum()+1)+"行，采购方式不能为空";
 	        				 map.put("errMsg", errMsg);
