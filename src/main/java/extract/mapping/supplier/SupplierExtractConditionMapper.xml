@@ -233,7 +233,7 @@
     	 	#{it}
     	 </foreach>
     	 <if test="quaType!=null">
-	    	 AND QUA_TYPE =#{quaType} 
+	    	 AND Q.QUA_TYPE =#{quaType} 
     	 </if>
 		GROUP BY D.ID,Q.QUA_TYPE  ORDER BY Q.QUA_TYPE ASC 
     </select>

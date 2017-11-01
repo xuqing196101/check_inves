@@ -279,22 +279,22 @@
   //获取选中子节点id
   function getChildren(cate){
   	var typeCode = $(cate).attr("typeCode");
-      var Obj=$.fn.zTree.getZTreeObj("ztree");  
-       var nodes=Obj.getCheckedNodes(true);  
-       var ids  = "";
-       var names = "";
-       var parentId = "";
-       var parentName="";
-       for(var i=0;i<nodes.length;i++){ 
-           if(!nodes[i].isParent){
+    var Obj=$.fn.zTree.getZTreeObj("ztree");  
+    var nodes=Obj.getCheckedNodes(true);  
+    var ids  = "";
+    var names = "";
+    var parentId = "";
+    var parentName="";
+    for(var i=0;i<nodes.length;i++){ 
+         if(!nodes[i].isParent){
           //获取选中节点的值  
-          	 ids+=nodes[i].id+","; 
-          	 names+=nodes[i].name+",";
-           }else{
-           		parentId += nodes[i].id+",";
-           		parentName+=nodes[i].name+",";
-           }
-       } 
+         	ids+=nodes[i].id+","; 
+            names+=nodes[i].name+",";
+         }else{
+       		parentId += nodes[i].id+",";
+       		parentName+=nodes[i].name+",";
+         }
+     } 
         //是否满足
        var issatisfy=$('input[name="radio"]:checked ').val();
        var cname = parentName+names;

@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -220,69 +222,57 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 	 * @return
 	 */
 	@Override
-	public void receiveVoiceResult(String json) {
+	public String receiveVoiceResult(String json) {
 		
 		ProjectVoiceResult projectVoiceResult = null;
-		
 		//解析json
-		if(StringUtils.isNotBlank(json)){
-			
-			//解析json
-			try {
-				projectVoiceResult = mapper.readValue(json, ProjectVoiceResult.class);
-				
-				/*
-				 projectVoiceResult = mapper.readValue(json, ProjectVoiceResult.class);
-				 System.out.println(projectVoiceResult.getRecordId());
-				ProjectVoiceResult parse = (ProjectVoiceResult)JSON.parse(json);*/
-				
-				
-				/*Map<Object, Class<SupplierVoiceResult>> map = new HashMap<Object, Class<SupplierVoiceResult>>();
-				map.put("suppliers", SupplierVoiceResult.class);
-				projectVoiceResult = (ProjectVoiceResult)JSONObject.toBean(JSONObject.fromObject(json),ProjectVoiceResult.class,map);*/
-
-				//System.out.println(parse.getProjectId());
-			} catch (Exception e) {
-				e.printStackTrace();
+		try {
+			Map<Object, Class<SupplierVoiceResult>> cMap = new HashMap<Object, Class<SupplierVoiceResult>>();
+		    cMap.put("expertList", SupplierVoiceResult.class);
+			json = json.indexOf("＂") != -1 ? json.replace("＂", "\"") : json;
+			projectVoiceResult = (ProjectVoiceResult)JSONObject.toBean(JSONObject.fromObject(json),ProjectVoiceResult.class,cMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error of json transform";
+		}
+		
+		//获取项目信息,查询抽取数量
+		SupplierExtractProjectInfo projectInfo = recordService.selectByPrimaryKey(projectVoiceResult.getRecordId());
+		SupplierExtractCondition condition = conditionMapper.selectByPrimaryKey(projectInfo.getConditionId());
+		
+		HashMap<Object, Object> hashMap = new HashMap<>();
+		String supplierTypeCode = condition.getSupplierTypeCode().toLowerCase();
+		hashMap.put("conditionId", projectInfo.getConditionId());
+		hashMap.put("propertyName", supplierTypeCode+"ExtractNum");
+		List<String> conditionConTypes = contypeMapper.getByMap(hashMap);
+		
+		String ExtractNum = null;
+		if(conditionConTypes.size()>0){
+			ExtractNum = conditionConTypes.get(0);
+		}
+		
+		if(null != projectVoiceResult){
+			//获取参加状态,持久化
+			List<SupplierVoiceResult> suppliersResult = projectVoiceResult.getSupplierResult();
+			int count = 0;
+			for (SupplierVoiceResult supplier : suppliersResult) {
+				if(supplier.getJoin().equals("1")){
+					count ++;
+				}
 			}
 			
-			//获取项目信息,查询抽取数量
-			SupplierExtractProjectInfo projectInfo = recordService.selectByPrimaryKey(projectVoiceResult.getRecordId());
-			SupplierExtractCondition condition = conditionMapper.selectByPrimaryKey(projectInfo.getConditionId());
-			
-			HashMap<Object, Object> hashMap = new HashMap<>();
-			String supplierTypeCode = condition.getSupplierTypeCode().toLowerCase();
-			hashMap.put("conditionId", projectInfo.getConditionId());
-			hashMap.put("propertyName", supplierTypeCode+"ExtractNum");
-			List<String> conditionConTypes = contypeMapper.getByMap(hashMap);
-			
-			String ExtractNum = null;
-			if(conditionConTypes.size()>0){
-				ExtractNum = conditionConTypes.get(0);
-			}
-			
-			if(null != projectVoiceResult){
-				//获取参加状态,持久化
-				List<SupplierVoiceResult> suppliersResult = projectVoiceResult.getSuppliers();
-				int count = 0;
-				for (SupplierVoiceResult supplier : suppliersResult) {
-					if(supplier.getJoin().equals("1")){
-						count ++;
-					}
-				}
-				
-				//修改供应商参加状态
-				resultService.saveOrUpdateVoiceResult(condition, null,suppliersResult,projectInfo.getProjectInto());
-				//判断参加人数是否满足，不满足再次获取供应商通知
-				int parseInt = Integer.parseInt(ExtractNum);
-				if(count<parseInt){
-					SupplierConType conType = this.selectconType(parseInt-count,condition.getId());
-					Map<String, Object> autoExtract = this.autoExtract(condition, conType,projectInfo.getProjectInto());
-				}else{
-					//修改项目状态为抽取结束
-				}
+			//修改供应商参加状态
+			resultService.saveOrUpdateVoiceResult(condition, null,suppliersResult,projectInfo.getProjectInto());
+			//判断参加人数是否满足，不满足再次获取供应商通知
+			int parseInt = Integer.parseInt(ExtractNum);
+			if(count<parseInt){
+				SupplierConType conType = this.selectconType(parseInt-count,condition.getId());
+				Map<String, Object> autoExtract = this.autoExtract(condition, conType,projectInfo.getProjectInto());
+			}else{
+				//修改项目状态为抽取结束
 			}
 		}
+		return "service error";
 	}
 	
 	

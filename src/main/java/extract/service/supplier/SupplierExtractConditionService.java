@@ -173,6 +173,16 @@ public interface SupplierExtractConditionService {
   
   int saveContype(SupplierExtractCondition condition, SupplierConType conType);
 
+
+  void setExtractCondition2(SupplierExtractCondition condition, String typeCode);
+
+
+  int saveContype2(SupplierExtractCondition condition);
+
+
+  Map<String, Object> selectLikeSupplier2(SupplierExtractCondition condition,
+		int type);
+
 }
 
 

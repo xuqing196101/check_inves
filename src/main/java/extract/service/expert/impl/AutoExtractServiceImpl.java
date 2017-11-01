@@ -83,7 +83,7 @@ public class AutoExtractServiceImpl implements AutoExtractService {
         Map<Object, Class<ExpertResult>> cMap = new HashMap<Object, Class<ExpertResult>>();
         cMap.put("expertList", ExpertResult.class);
         ProjectVoiceResult projectVoiceResult = (ProjectVoiceResult)JSONObject.toBean(JSONObject.fromObject(result),ProjectVoiceResult.class,cMap);
-        List<ExpertResult> expertList = projectVoiceResult.getExpertList();
+        List<ExpertResult> expertList = projectVoiceResult.getExpertResult();
         //查询抽取的项目信息 
         ExpertExtractProject expertExtractProject = expertExtractProjectMapper.selectByPrimaryKey(projectVoiceResult.getRecordeId());
         for (ExpertResult expertResult : expertList) {

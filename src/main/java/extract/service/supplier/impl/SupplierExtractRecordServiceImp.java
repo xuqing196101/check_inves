@@ -220,7 +220,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
         return service.downloadFile(fileName, filePath, downFileName);
 	}
 
-	private Map<String, Object> selectExtractInfo(String recordId, String projectInto) {
+	private Map<String, Object> selectExtractInfo1(String recordId, String projectInto) {
 		
 		SupplierExtractProjectInfo projectInfo = recordMapper.getProjectInfoById(recordId);
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
@@ -270,9 +270,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 		map.put("extractUsers",  userMapper.getlistByRid(recordId));
 		map.put("supervises",  superviseMapper.getlistByRid(recordId));
 		
-		
-		
-			String temp = "";
+		String temp = "";
 		if("PROJECT".equals(projectCode)){
 			//供应商类型
 			map.put("typeCode",projectCode);
@@ -364,7 +362,6 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 					List<String> byMap2 = conditionRelationMapper.getByMap(hashMap);
 					List<String> list = null;
 					if(null != byMap2 && byMap2.size()>0){
-						
 						list= conditionMapper.getCategoryByList(byMap2);
 					}
 					if(null != list && list.size()>0){
@@ -478,6 +475,170 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 				hashMap2.put("supplierType",supplierTypeCode);
 				//List<SupplierExtractResult> supplierListByRid = conMapper.getSupplierListByRid(hashMap2);
 				map.put("result", conMapper.getSupplierListByRid(hashMap2));*/
+			}
+		}
+		
+		return map;
+	}
+	
+	
+	private Map<String, Object> selectExtractInfo(String recordId, String projectInto) {
+		
+		SupplierExtractProjectInfo projectInfo = recordMapper.getProjectInfoById(recordId);
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+		
+		String projectCode = projectInfo.getProjectType();
+		Map<String, Object> map = new HashMap<>();
+		SupplierExtractCondition condition = conditionMapper.getByRid(projectInfo.getId());
+		if(null ==condition){
+			return null;
+		}
+		HashMap<Object, Object> hashMap = new HashMap<>();
+		hashMap.put("conditionId", condition.getId());
+		
+		//采购机构
+		map.put("ProcurementDep",orgnizationMapper.findOrgByPrimaryKey(projectInfo.getProcurementDepId()).getName());
+		
+		//项目实施地点
+		/*if(StringUtils.isNotBlank(projectInfo.getExtractionSites())){
+			map.put("construction", areaMapper.selectById(projectInfo.getConstructionPro()).getName() + areaMapper.selectById(projectInfo.getConstructionAddr()).getName());
+		}*/
+		//抽取地点
+		map.put("construction", projectInfo.getExtractionSites());
+		
+		//抽取时间
+		map.put("extractTime", simpleDateFormat.format(projectInfo.getCreatedAt()));
+		
+		//项目编号
+		map.put("projectCode", projectInfo.getProjectCode());
+		
+		//抽取方式
+		map.put("extractTheWay", projectInfo.getExtractTheWay()==0?"自动抽取":"人工抽取");
+		
+		//项目名称
+		map.put("projectName", projectInfo.getProjectName());
+		
+		//供应商地域
+		map.put("areaName", condition.getAreaName());
+		
+		
+		//人员信息
+		map.put("extractUsers",  userMapper.getlistByRid(recordId));
+		map.put("supervises",  superviseMapper.getlistByRid(recordId));
+		
+		//类别
+		String temp = "";
+		hashMap.put("propertyName", "categoryId");
+		List<String> byMap2 = conditionRelationMapper.getByMap(hashMap);
+		List<String> list = null;
+		if(null != byMap2 && byMap2.size()>0){
+			list= conditionMapper.getCategoryByList(byMap2);
+		}
+		if(null != list && list.size()>0){
+			temp = "";
+			for (String string : list) {
+				temp +=(string + ",");
+			}
+			temp = temp.substring(0,temp.lastIndexOf(","));
+		}else{
+			temp = "所有类别";
+		}
+		map.put("category", temp);
+		
+		//供应商数量
+		hashMap.put("propertyName", "extractNum");
+		List<String> byMap3 = conditionRelationMapper.getByMap(hashMap);
+		if(null !=byMap3 && byMap3.size()>0){
+			
+			map.put("extractNum",byMap3.get(0) );
+		}else{
+			
+			map.put("extractNum", "0");
+		}
+		
+		if("PROJECT".equals(projectCode)){
+			//供应商类型
+			map.put("typeCode",projectCode);
+			
+			//建设单位
+			map.put("conCom", "");
+			
+			
+			//供应商资质等级
+			hashMap.put("propertyName","level");
+			List<String> byMap = conditionRelationMapper.getByMap(hashMap);
+			if(null!=byMap && byMap.size()>0){
+				List<String> list3 = conditionMapper.getLevelByList(byMap);
+				temp = "";
+				for (String string : list3) {
+					temp +=(string + ",");
+				}
+				temp = temp.substring(0,temp.lastIndexOf(","));
+			}else{
+				temp = "所有等级";
+			}
+			map.put("quaLevel", temp);
+			
+			//抽取结果
+			HashMap<String,String> hashMap2 = new HashMap<>();
+			hashMap2.put("recordId", recordId);
+			hashMap2.put("supplierType",projectCode);
+			if("relPro".equals(projectInto)){
+				map.put("result", conMapper.getSupplierListByRidForRel(hashMap2));
+			}else if("advPro".equals(projectInto)){
+				map.put("result", conMapper.getSupplierListByRidForAdv(hashMap2));
+			}else{
+				map.put("result", conMapper.getSupplierListByRid(hashMap2));
+			}
+			
+			//保密要求
+			hashMap.put("propertyName","isHavingConCert");
+			List<String> bm = conditionRelationMapper.getByMap(hashMap);
+			if(null !=byMap3 && byMap3.size()>0){
+				
+				map.put("projectIsHavingConCert",bm.get(0).equals("0")?"无":"有" );
+			}else{
+				map.put("projectIsHavingConCert", "不限");
+			}
+			
+			//企业性质
+			hashMap.put("propertyName", "businessNature");
+			List<String> byMap5 = conditionRelationMapper.getByMap(hashMap);
+			if(null !=byMap5 && byMap5.size()>0){
+				map.put("projectBusinessNature",byMap5.get(0).equals("0")?"不限":(dictionaryDataMapper.selectByPrimaryKey(byMap5.get(0)).getName()));
+			}else{
+				map.put("projectBusinessNature", "不限");
+			}
+			
+		}else{
+			//供应商类型
+			map.put("typeCode",dictionaryDataMapper.selectByCode(condition.getSupplierTypeCode()).get(0).getName());
+			String supplierTypeCode = condition.getSupplierTypeCode();
+			
+			//供应商等级
+			hashMap.put("propertyName", "level");
+			List<String> byMap = conditionRelationMapper.getByMap(hashMap);
+			temp = "";
+			if(null!=byMap && byMap.size()>0){
+				for (String string : byMap) {
+					temp +=(string + ",");
+				}
+				temp = temp.substring(0,temp.lastIndexOf(","));
+			}else{
+				temp ="不限等级";
+			}
+			map.put("level",temp);
+			
+			//抽取结果
+			HashMap<String,String> hashMap2 = new HashMap<>();
+			hashMap2.put("recordId", recordId);
+			hashMap2.put("supplierType",supplierTypeCode);
+			if("relPro".equals(projectInto)){
+				map.put("result", conMapper.getSupplierListByRidForRel(hashMap2));
+			}else if("advPro".equals(projectInto)){
+				map.put("result", conMapper.getSupplierListByRidForAdv(hashMap2));
+			}else{
+				map.put("result", conMapper.getSupplierListByRid(hashMap2));
 			}
 		}
 		
