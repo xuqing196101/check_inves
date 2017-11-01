@@ -1505,7 +1505,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		int isAllTypeNotPass = 0;// 所有类型不通过
 		int isAllItemNotPass = 0;// 类型下所有品目不通过
 		
-		JdcgResult vertifyResult = supplierAuditService.vertifyReturnToModify(supplierId);
+		JdcgResult vertifyResult = supplierAuditService.getTypeAndItemNotPass(supplierId);
 		if(vertifyResult != null && vertifyResult.getStatus() == 1){
 			isAllTypeNotPass = 1;
 		}
