@@ -9,6 +9,7 @@ import bss.model.ppms.FlowDefine;
 import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Negotiation;
 import bss.model.ppms.NegotiationReport;
+import bss.model.ppms.PackageAdvice;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
@@ -20,15 +21,19 @@ import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.NegotiationReportService;
 import bss.service.ppms.NegotiationService;
+import bss.service.ppms.PackageAdviceService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.TaskService;
+import bss.service.ppms.impl.PackageAdviceServiceImpl;
+
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.constant.StaticVariables;
@@ -36,6 +41,7 @@ import common.model.UploadFile;
 import common.service.UploadService;
 import common.utils.JdcgResult;
 import net.sf.json.JSONObject;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -48,6 +54,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.ExpExtractRecord;
@@ -76,6 +83,7 @@ import ses.util.WordUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DateFormat;
@@ -172,6 +180,9 @@ public class ProjectController extends BaseController {
     
     @Autowired
     private NegotiationService negotiationService;
+    
+    @Autowired
+    private PackageAdviceService adviceService;
     
     /** SCCUESS */
     private static final String SUCCESS = "SCCUESS";
@@ -1424,6 +1435,12 @@ public class ProjectController extends BaseController {
     public String starts(@CurrentUser User user,String projectId, String flowDefineId, Model model, Integer page) {
         if(StringUtils.isNotBlank(projectId)){
             Project project = projectService.selectById(projectId);
+            HashMap<String, Object> adviceMap=new HashMap<String, Object>();
+            adviceMap.put("projectId", project.getId());
+            List<PackageAdvice> packAdvice = adviceService.find(adviceMap);
+            model.addAttribute("ZJTFJ_FJ", DictionaryDataUtil.getId("ZJTFJ"));
+            model.addAttribute("ZZFJ_FJ", DictionaryDataUtil.getId("ZZFJ"));
+            model.addAttribute("packAdvice", packAdvice);
             if(project != null && StringUtils.isNotBlank(project.getPrincipal())){
                 String purchaseType = DictionaryDataUtil.getId("DYLY");
                 if(project.getPurchaseType().equals(purchaseType)){

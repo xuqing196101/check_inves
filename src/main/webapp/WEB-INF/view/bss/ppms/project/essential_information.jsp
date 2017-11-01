@@ -423,6 +423,22 @@
               <div class="p0${1}">
                 <table class="table table-bordered left_table mb0">
                   <tbody>
+                  <tr>
+                      <td class="bggrey" width="15%">终止审核附件:</td>
+                      <td width="35%">
+                      <div class="h30 lh30">
+                        <c:forEach items="${packAdvice}" var="pd" varStatus="v">
+                           <u:show showId="upload_ids${v.index+1}"  delete="false" businessId="${pd.code}" sysKey="1" typeId="${ZZFJ_FJ}" />
+                        </c:forEach>
+                        </div>
+                      </td>
+                      <td class="bggrey" width="15%">转竞谈审核附件:</td>
+                      <td width="35%">
+                      <c:forEach items="${packAdvice}" var="pd" varStatus="v">
+                           <u:show showId="upload_id${v.index+1}"  delete="false" businessId="${pd.code}" sysKey="2" typeId="${ZJTFJ_FJ}" />
+                        </c:forEach>
+                      </td>
+                    </tr>
                     <tr>
                       <td class="bggrey" width="15%">项目编号:</td>
                       <td width="35%"><input name="projectNumber" class="m0 border0" id="projectNumber" value="${project.projectNumber}" type="text" /></td>
