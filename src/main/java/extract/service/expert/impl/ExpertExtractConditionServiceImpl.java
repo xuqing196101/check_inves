@@ -446,6 +446,16 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
             } else {
                 exp.setExpertsTypeId("");
             }
+            
+            StringBuffer professional = new StringBuffer();
+            List<String> professionalList = expertExtractConditionMapper.selProfessionalByExpertId(exp.getId());
+            for (String str : professionalList) {
+            	professional.append(str + "、");
+			}
+            if(professional.length() > 0){
+                String prof = professional.toString().substring(0, professional.length() - 1);
+                exp.setProfessional(prof);
+            }
         }
         return expertList;
     }
