@@ -1269,14 +1269,14 @@ public class ExpExtractRecordController extends BaseController {
     }
     if(StringUtils.isEmpty(mobile)){
         model.addAttribute("mobile", "不能为空");
-    }else{
+    }/*else{
     	Map<String, Object> map = new HashMap<>();
      	map.put("mobile", mobile);
     	List<Expert> list = expertServices.yzCardNumber(map);
     	if(list != null && list.size() != 0){
             model.addAttribute("mobile", "联系电话已存在");
         }
-    }
+    }*/
     if (loginPwd == null || "".equals(loginPwd)) {
       model.addAttribute("loginPwdError", "不能为空");
       /*if (loginPwd == null || !loginPwd.matches("^\\w{6,20}$")) {
@@ -1294,13 +1294,13 @@ public class ExpExtractRecordController extends BaseController {
       model.addAttribute("packageIdError", "不能为空");
       type = 1;
     }
-      String validateIdCard = validateIdCard(expert.getIdCardNumber());
+      /*String validateIdCard = validateIdCard(expert.getIdCardNumber());
       if(!"success".equals(validateIdCard)){
           model.addAttribute("idCardNumberError", validateIdCard);
           type = 1;
-      }
+      }*/
 
-    if(expert.getIdCardNumber() != null && !"".equals(expert.getIdCardNumber())){
+    /*if(expert.getIdCardNumber() != null && !"".equals(expert.getIdCardNumber())){
         Map<String, Object> map = new HashMap<>();
     	map.put("idCardNumber", expert.getIdCardNumber());
    	  List<Expert> list = expertServices.yzCardNumber(map);
@@ -1309,7 +1309,7 @@ public class ExpExtractRecordController extends BaseController {
         type = 1;
       }
 
-    }
+    }*/
 
 
     if (type == 1){

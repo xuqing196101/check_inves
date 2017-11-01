@@ -1635,6 +1635,9 @@ public class IndexNewsController extends BaseSupplierController{
             content = content.replaceAll(CommonStringUtil.getAppendString("&nbsp;", 30), "");
             content = content.replaceAll(":=\"\"", "=\"\"");
           }
+          //生成图片不识别的样式替换
+          content = content.replaceAll("windowtext", "black");
+          content = content.replaceAll("rgb\\(221, 221, 221\\)", "black");
           
           divStyle.append(content);
           divStyle.append("</div>");
