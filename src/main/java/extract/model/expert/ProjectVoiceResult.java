@@ -34,13 +34,12 @@ public class ProjectVoiceResult {
         this.recordeId = recordeId;
     }
 
-	public List<ExpertResult> getExpertResult() {
-		return expertResult;
-	}
+    public List<ExpertResult> getExpertResult() {
+        return expertResult;
+    }
 
-	public void setExpertResult(List<ExpertResult> expertResult) {
-		this.expertResult = expertResult;
-	}
+    public void setExpertResult(List<ExpertResult> expertResult) {
+        this.expertResult = expertResult;
+    }
 
-    
 }
