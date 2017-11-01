@@ -4,9 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -898,6 +900,21 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 			img.setStatus(false);
 			img.setMessage("当前批次剩余待分组专家不足,请手动分配");
 		}
+		return img;
+	}
+
+	@Override
+	public ExpertAgainAuditImg selectReviewTeamAll() {
+		// TODO Auto-generated method stub
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		Set<ExpertReviewTeam> set = new HashSet<ExpertReviewTeam>();
+		List<ExpertReviewTeam> list = expertReviewTeamMapper.selectReviewTeamAll();
+		set.addAll(list);
+		list.clear();
+		list.addAll(set);
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		img.setObject(list);
 		return img;
 	} 
 	

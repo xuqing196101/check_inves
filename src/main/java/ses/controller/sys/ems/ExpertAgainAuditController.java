@@ -929,4 +929,25 @@ public class ExpertAgainAuditController extends BaseSupplierController {
     	}
     	return jdcgResult;
     }
+    /*
+	 * 获取历史评审专家信息
+	 * */
+	@RequestMapping("selectReviewTeamAll")
+	public void selectReviewTeamAll(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response) {
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		if(user==null){
+			img.setStatus(false);
+			img.setMessage("请登录");
+			super.writeJson(response, img);
+			return;
+		}
+		if(!"4".equals(user.getTypeName())){
+			img.setStatus(false);
+			img.setMessage("您的权限不足");
+			super.writeJson(response, img);
+			return;
+		}
+		img=againAuditService.selectReviewTeamAll();
+		super.writeJson(response, img);
+	}
 }

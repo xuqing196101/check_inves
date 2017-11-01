@@ -28,4 +28,5 @@ public interface ExpertAgainAuditService {
 	ExpertAgainAuditImg checkGroupStatus(String expertId);
 	void handleExpertReviewTeam(String expertId);
 	ExpertAgainAuditImg automaticGrouping(String batchId,int count);
+	ExpertAgainAuditImg selectReviewTeamAll();
 }
