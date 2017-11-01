@@ -385,7 +385,6 @@
 							<div class="cue" id="ExtractNumError">${loginPwdError}</div>
 						</div>
 					</li>
-					<li class="clear"></li>
 					<li class="col-md-12 col-sm-12 col-xs-12 dnone"><span
 						class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span
 							class="red">*</span> 限制地区理由:</span>
@@ -437,8 +436,8 @@
 						</select>
 						<div class="cue">${loginPwdError}</div>
 					</li>
-					
-					<li class="col-md-3 col-sm-6 col-xs-12">
+					<li class="clear"></li>
+					<li class="col-md-3 col-sm-6 col-xs-12 pl0">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">资质信息：</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="hidden" name="quaId" id="quaId">
