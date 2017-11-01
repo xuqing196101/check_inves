@@ -1428,6 +1428,12 @@ public class OpenBiddingController extends BaseSupplierController{
         if (selectQuoteHistoryList != null && !selectQuoteHistoryList.isEmpty()) {
 			model.addAttribute("selectQuoteList", selectQuoteHistoryList);
 		}*/
+      } else {
+    	  String id = DictionaryDataUtil.getId("JZXTP");
+    	  Project project = projectService.selectById(projectId);
+    	  if (id.equals(project.getPurchaseType()) || StringUtils.isNotBlank(project.getPurchaseNewType())) {
+    		  model.addAttribute("count", 1);
+    	  }
       }
     }
     //该环节设置为执行中状态
@@ -1754,26 +1760,30 @@ public class OpenBiddingController extends BaseSupplierController{
     for (ProjectDetail projectDetail : detailList) {
       projectBudget = projectBudget.add(new BigDecimal(projectDetail.getBudget()));
     }
-    Quote quote = new Quote();
-    quote.setProjectId(projectId);
-    quote.setPackageId(pack.getId());
-    quote.setCreatedAt(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp).getTime()));
-    List<Quote> listQuotebyPackage = supplierQuoteService.selectQuoteHistoryList(quote);
-    for (SaleTender saleTender : stList) {
-      for (Quote qp : listQuotebyPackage) {
-        if (qp.getSupplierId().equals(saleTender.getSuppliers().getId())) {
-          saleTender.setTotal(qp.getTotal());
-          saleTender.setDeliveryTime(qp.getDeliveryTime());
-          saleTender.setQuoteId(qp.getId());
-          saleTender.setRemovedReason(qp.getGiveUpReason());
-          if (qp.getIsRemove() == null) {
-            saleTender.setIsRemoved("正常");
-          } else {
-            saleTender.setIsRemoved("放弃报价");
-          }  
-        }
-      }
-    }
+    if (StringUtils.isNotBlank(timestamp)) {
+    	Quote quote = new Quote();
+        quote.setProjectId(projectId);
+        quote.setPackageId(pack.getId());
+        quote.setCreatedAt(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp).getTime()));
+        List<Quote> listQuotebyPackage = supplierQuoteService.selectQuoteHistoryList(quote);
+        if (listQuotebyPackage != null && !listQuotebyPackage.isEmpty()) {
+        	for (SaleTender saleTender : stList) {
+        	      for (Quote qp : listQuotebyPackage) {
+        	        if (qp.getSupplierId().equals(saleTender.getSuppliers().getId())) {
+        	          saleTender.setTotal(qp.getTotal());
+        	          saleTender.setDeliveryTime(qp.getDeliveryTime());
+        	          saleTender.setQuoteId(qp.getId());
+        	          saleTender.setRemovedReason(qp.getGiveUpReason());
+        	          if (qp.getIsRemove() == null) {
+        	            saleTender.setIsRemoved("正常");
+        	          } else {
+        	            saleTender.setIsRemoved("放弃报价");
+        	          }  
+        	        }
+        	      }
+        	    }
+    	}
+	}
     if (stList != null && stList.size() > 0) {
       treeMap.put(pack.getName()+"|"+projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP), stList);
     }

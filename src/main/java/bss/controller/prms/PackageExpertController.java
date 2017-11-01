@@ -366,6 +366,9 @@ public class PackageExpertController {
             /*dictionaryData = DictionaryDataUtil.findById(project.getPurchaseType());*/
             if(dictionaryData!=null){
               project.setPurchaseType(dictionaryData.getCode());
+              if ("JZXTP".equals(dictionaryData.getCode())) {
+            	  status = false;
+              }
             }
         }
         if (status) {
@@ -464,6 +467,11 @@ public class PackageExpertController {
                     if (expList != null && expList.size() > 0) {
                       Short isEnd = expList.get(0).getIsGatherGather();
                       mapPackageZhpf.put(pack.getName(), isEnd);
+                      
+                      Short isGather = expList.get(0).getIsGather();
+                      if (isGather == 0) {
+                    	  pack.setIsEditFirst(0);
+                      }
                     }
                 }
                 condition1.setProjectId(projectId);
