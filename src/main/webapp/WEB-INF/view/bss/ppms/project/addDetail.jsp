@@ -98,15 +98,15 @@
                       html += "</td>";
                       html += "<td class='text-center'><div class='seq'>" + item.seq + "</div></td>";
                       html += "<td class='text-center'><div class='department'>" + item.department + "</div></td>";
-                      html += "<td><div class='goodsname'>" + item.goodsName + "</div></td>";
-                      html += "<td><div class='stand'>" + item.stand + "</div></td>";
-                      html += "<td class='text-center'><div class='qualitStand'>" + item.qualitStand + "</div></td>";
+                      html += "<td><div class='goodsname' title="+item.goodsName+">" + (item.goodsName.length>15?(item.goodsName.substr(0,15)+"..."):item.goodsName)+ "</div></td>";
+                      html += "<td><div class='stand' title="+item.stand+">" +  (item.stand.length>15?(item.stand.substr(0,15)+"..."):item.stand)+ "</div></td>";
+                      html += "<td class='text-center'><div class='qualitStand' title="+item.qualitStand+">" + (item.qualitStand.length>15?(item.qualitStand.substr(0,15)+"..."):item.qualitStand) + "</div></td>";
                       html += "<td class='text-center'><div class='item'>" + item.item + "</div></td>";
                       html += "<td class='text-center'><div class='purchaseCount'>" + item.purchaseCount + "</div></td>";
                       html += "<td><div class='deliverDate'>" + item.deliverDate + "</div></td>";
                       html += "<td class='text-center'><div class='purchaseType tc'>" + item.purchaseType + "</div></td>";
                       html += "<td><div class='purchasename'>" + code + "</div></td>";
-                      html += "<td><div class='memo'>" + item.memo + "</div><input type='hidden' id='planType' value='" + item.planType + "' /></td>";
+                      html += "<td><div class='memo' title="+item.memo+">" + (item.memo.length>15?(item.memo.substr(0,15)+"..."):item.memo) + "</div><input type='hidden' id='planType' value='" + item.planType + "' /></td>";
                       html += "</tr>";
                       lis.push(html);
                     }
@@ -323,7 +323,7 @@
               <!-- <th class="info freetax">是否申请<br/>办理免税</th>
               <th class="info goodsuse">物资用途<br/>（进口）</th>
               <th class="info useunit">使用单位<br/>（进口）</th> -->
-              <th>备注</th>
+              <th class="w120">备注</th>
             </tr>
           </thead>
           <tbody></tbody>

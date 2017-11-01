@@ -192,7 +192,7 @@
     <h2 class="list_title mb0 clear">标的录入</h2>
     <div style="margin-top: 10px;">
       <button class="btn btn-windows add " onclick="add(this);" type="button">新增</button>
-      <button class="btn btn-windows add " onclick="del(this);" type="button">删除</button>
+      <button class="btn btn-windows delete " onclick="del(this);" type="button">删除</button>
     </div>
     <div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto">
       <table class="table table-bordered table-condensed lockout" id="forAppendTr">

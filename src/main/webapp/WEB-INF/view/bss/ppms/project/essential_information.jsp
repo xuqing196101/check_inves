@@ -434,7 +434,7 @@
                       </td>
                       <td class="bggrey" width="15%">转竞谈审核附件:</td>
                       <td width="35%">
-                      <c:forEach items="${packAdvice}" var="pd" varStatus="v">
+                      <c:forEach items="${packAdvice}" var="pd" varStatus="v" >
                            <u:show showId="upload_id${v.index+1}"  delete="false" businessId="${pd.code}" sysKey="2" typeId="${ZJTFJ_FJ}" />
                         </c:forEach>
                       </td>
