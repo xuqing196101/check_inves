@@ -2058,8 +2058,8 @@ public class ExpertController extends BaseController {
                     	/* expertAuditService.deleteByExpertId(expertId);*/
                     	
                     	//清空审核人
-                    	expert.setAuditor("");
-                    	expert.setAuditAt(null);
+                    	/*expert.setAuditor("");
+                    	expert.setAuditAt(null);*/
                     	
                     	//退回修改再审核的状态
                     	expert.setStatus("9");

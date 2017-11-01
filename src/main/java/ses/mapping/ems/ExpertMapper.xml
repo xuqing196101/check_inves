@@ -861,7 +861,7 @@
             <if test="remarks != null">
                 REMARKS = #{remarks,jdbcType=VARCHAR},
             </if>
-            <if test="auditAt != ''">
+            <if test="auditAt != null">
                 AUDIT_AT = #{auditAt,jdbcType=TIMESTAMP},
             </if>
             <if test="isReferenceLftter != null">
