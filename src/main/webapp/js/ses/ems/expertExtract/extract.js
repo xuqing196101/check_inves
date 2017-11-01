@@ -151,31 +151,9 @@ function validationIsNull(code){
     }
     
     //项目编号
-    var projectCode = $("#projectCode").val();
-    if(projectCode == null || projectCode == ""){
-        $("#err_code").html("项目编号不能为空");
-        flag = false;
-        layer.msg("请完善项目信息");
-    }else{
-        // 验证项目编号重复校验
-        $.ajax({
-            url : globalPath + "/extractExpert/vaProjectCode.do",
-            data : {
-                "code" : projectCode
-            },
-            dataType : "json",
-            async : false,
-            type : "POST",
-            success : function(data) {
-                if(data.status == "no"){
-                    $("#err_code").html("项目编号已被使用");
-                    flag = false;
-                    layer.msg("请完善项目信息");
-                }else{
-                    $("#err_code").html("");
-                }
-            }
-        });
+    var xmProjectId = $("#xmProjectId").val();
+    if(xmProjectId == null || xmProjectId == ''){
+    	vaCode();
     }
     // 评审时间
     var reviewTime = $("#reviewTime").val();

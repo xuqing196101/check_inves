@@ -109,23 +109,31 @@ public class DemandSupervisionServiceImpl implements DemandSupervisionService {
         if(details != null && details.size() > 0){
             HashSet<String> set = new HashSet<>();
             for (PurchaseDetail purchaseDetail : details) {
-                if(!"1".equals(purchaseDetail.getParentId())){
-                    HashMap<String, Object> maps = new HashMap<>();
+            	HashMap<String, Object> hashMap = new HashMap<>();
+            	hashMap.put("id", purchaseDetail.getId());
+            	List<PurchaseDetail> selectByParentId = purchaseDetailMapper.selectByParentId(hashMap);
+            	if(selectByParentId != null && selectByParentId.size() == 1){
+            		HashMap<String, Object> maps = new HashMap<>();
                     maps.put("requiredId", purchaseDetail.getId());
                     List<ProjectDetail> selectById = projectDetailMapper.selectById(maps);
                     if(selectById != null && selectById.size() > 0){
-                        set.add(selectById.get(0).getProject().getId());
+                    	for (ProjectDetail projectDetail : selectById) {
+                    		set.add(projectDetail.getProject().getId());
+						}
                     }
-                }
+            	}
             }
             if(set != null && set.size() > 0){
                 List<String> status = new ArrayList<String>();
                 for (String string : set) {
-                    Project project = projectMapper.selectProjectByPrimaryKey(string);
-                    if(!"4".equals(project.getStatus())){
-                        String projectStatus = supervisionService.progressBarProject(project.getStatus());
-                        String proStatus = projectStatus + ".00";
-                        status.add(proStatus);
+                	Project project = projectMapper.selectProjectByPrimaryKey(string);
+                	if(project != null && !"4".equals(project.getStatus())){
+                    	DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
+                    	if(!"YJFB".equals(findById.getCode())){
+                    		String projectStatus = supervisionService.progressBarProject(project.getStatus());
+                            String proStatus = projectStatus + ".00";
+                            status.add(proStatus);
+                    	}
                     }
                 }
                 if(status != null && status.size() > 0){

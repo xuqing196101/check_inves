@@ -5,11 +5,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
+import common.constant.StaticVariables;
 
+import ses.dao.sms.QuoteMapper;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
@@ -20,10 +23,16 @@ import ses.model.sms.SupplierCertPro;
 import ses.service.bms.TodosService;
 import ses.service.sms.SupplierAuditService;
 import ses.util.PropertiesUtil;
+import bss.dao.ppms.AdvancedDetailMapper;
+import bss.dao.ppms.ProjectDetailMapper;
 import bss.dao.ppms.SupplierCheckPassMapper;
+import bss.dao.ppms.theSubjectMapper;
+import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.Packages;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.SupplierCheckPass;
+import bss.model.ppms.theSubject;
+import bss.service.ppms.BidMethodService;
 import bss.service.ppms.SupplierCheckPassService;
 import bss.util.PropUtil;
 
@@ -42,6 +51,21 @@ public class SupplierCheckPassServiceImpl implements SupplierCheckPassService {
   
   @Autowired
   SupplierAuditService supplierAuditService;
+  
+  @Autowired
+  private AdvancedDetailMapper detailMapper;
+  
+  @Autowired
+  private theSubjectMapper theSubjectMapper;
+  
+  @Autowired
+  private QuoteMapper quoteMapper;
+  
+  @Autowired
+  private BidMethodService bidMethodService;
+  
+  @Autowired
+  private ProjectDetailMapper projectDetailMapper;
 
   /**
    * 
@@ -270,4 +294,103 @@ public class SupplierCheckPassServiceImpl implements SupplierCheckPassService {
 	public List<SupplierCheckPass> listCheckPassOrderRanking(String packId) {
 		return checkPassMapper.listCheckPassOrderRanking(packId);
 	}
+
+    @Override
+    public Boolean checkpassId(String ids, String priceRatios) {
+        Boolean flag = true;
+        String[] id = ids.split(StaticVariables.COMMA_SPLLIT);
+        String[] ratios = priceRatios.split(StaticVariables.COMMA_SPLLIT);
+        for (int i = 0; i < id.length; i++ ) {
+            SupplierCheckPass pass = checkPassMapper.selectByPrimaryKey(id[i]);
+            if(pass != null){
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("packageId", pass.getPackageId());
+                List<AdvancedDetail> selectByAll = detailMapper.selectByAll(map);
+                if(selectByAll != null && !selectByAll.isEmpty()){
+                    for (AdvancedDetail detail : selectByAll) {
+                        BigDecimal decimal = new BigDecimal(ratios[i]);
+                        BigDecimal multiply = detail.getPurchaseCount().multiply(decimal);
+                        BigDecimal divide = multiply.divide(new BigDecimal("100"));
+                        if(new BigDecimal(divide.intValue()).compareTo(divide) != 0){
+                            flag = false;
+                            continue;
+                        }
+                    }
+                } else {
+                	List<ProjectDetail> projectDetails = projectDetailMapper.selectByPackageId(pass.getPackageId());
+                	if (projectDetails != null && !projectDetails.isEmpty()) {
+						for (ProjectDetail projectDetail : projectDetails) {
+	                        BigDecimal decimal = new BigDecimal(ratios[i]);
+	                        BigDecimal multiply = new BigDecimal(projectDetail.getPurchaseCount()).multiply(decimal);
+	                        BigDecimal divide = multiply.divide(new BigDecimal("100"));
+	                        if(new BigDecimal(divide.intValue()).compareTo(divide) != 0){
+	                            flag = false;
+	                            continue;
+	                        }
+						}
+					}
+                }
+            }
+        }
+        return flag;
+    }
+
+    @Override
+    public List<SupplierCheckPass> checkPassSupplier(String supplierIds, String packageId) {
+        SupplierCheckPass checkPass = new SupplierCheckPass();
+        String[] supplierId = supplierIds.split(StaticVariables.COMMA_SPLLIT);
+        String str_id = "";
+        for (String id : supplierId) {
+            str_id += "'" + id + "',";
+        }
+        str_id = str_id.substring(0,str_id.lastIndexOf(StaticVariables.COMMA_SPLLIT));
+        str_id = "(" + str_id + ")";
+        //checkPass.setId(str_id);
+        checkPass.setSupplierId(str_id);
+        //查询是否中标条件---已中标的
+        checkPass.setIsWonBid((short)1);
+        checkPass.setPackageId(packageId);
+        List<SupplierCheckPass> listSupplierCheckPass = checkPassMapper.listCheckPassBD(checkPass);
+        if(listSupplierCheckPass != null && !listSupplierCheckPass.isEmpty()){
+            for (SupplierCheckPass supplierCheckPass : listSupplierCheckPass) {
+                if(StringUtils.isNotBlank(supplierCheckPass.getSupplierId()) && StringUtils.isNotBlank(supplierCheckPass.getPackageId())){
+                    HashMap<String, Object> map=new HashMap<String, Object>();
+                    map.put("supplierId", supplierCheckPass.getSupplierId());
+                    map.put("packageId", supplierCheckPass.getPackageId());
+                    List<theSubject> theSubjects = theSubjectMapper.selectBysupplierIdAndPackagesId(map);
+                    if(theSubjects != null && !theSubjects.isEmpty()){
+                        BigDecimal totalAmount = BigDecimal.ZERO;
+                        for (theSubject theSubject : theSubjects) {
+                            if(theSubject.getDetailId()!=null){
+                                Double sum= theSubject.getPurchaseCount()==null?0.0:Double.parseDouble(theSubject.getPurchaseCount());
+                                BigDecimal price = theSubject.getUnitPrice()==null?new BigDecimal(0):theSubject.getUnitPrice();
+                                BigDecimal sumB = new BigDecimal(Double.toString(sum));  
+                                BigDecimal multiply = sumB.multiply(price);
+                                totalAmount = totalAmount.add(multiply);
+                            }
+                        }
+                        totalAmount=totalAmount.divide(new BigDecimal(10000+""));
+                        supplierCheckPass.setMoney(totalAmount);
+                        supplierCheckPass.setSubjects(theSubjects);
+                    }
+                    Quote quote = new Quote();
+                    quote.setPackageId(packageId);
+                    quote.setSupplierId(supplierCheckPass.getSupplier().getId());
+                    List<Quote> quoteList = quoteMapper.selectQuoteHistory(quote);
+                    supplierCheckPass.getSupplier().setListQuote(quoteList);
+
+                     String method = bidMethodService.getMethod(supplierCheckPass.getProjectId(),supplierCheckPass.getPackageId());
+                      if(StringUtils.isNotBlank(method)){
+                          if("PBFF_JZJF".equals(method)||"PBFF_ZDJF".equals(method)){
+                              supplierCheckPass.setTotalScoreString("");
+                          }else if("OPEN_ZHPFF".equals(method)){
+                              supplierCheckPass.setTotalScoreString(supplierCheckPass.getTotalScore()+"");
+                          }
+                      }
+                }
+            }
+        }
+    
+        return listSupplierCheckPass;
+    }
 }

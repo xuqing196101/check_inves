@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.ppms.PackageAdviceMapper">
+  <resultMap id="PackageAdviceResult" type="bss.model.ppms.PackageAdvice">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+    <result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
+    <result column="TYPE" property="type" />
+    <result column="FLOW_DEFINE_ID" jdbcType="VARCHAR" property="flowDefineId" />
+    <result column="ADVICE" jdbcType="VARCHAR" property="advice" />
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="REASON" jdbcType="VARCHAR" property="reason" />
+    <result column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="STATUS" property="status" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="ADUIT_TIME" jdbcType="TIMESTAMP" property="aduitTime" />
+    <association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, PROJECT_ID, PACKAGE_ID, CREATED_AT, TYPE, FLOW_DEFINE_ID, ADVICE, ADUIT_TIME, USER_ID, STATUS, CODE, REASON
+  </sql>
+  
+  <!-- 查询条件 -->
+  <sql id="Example_Where_Clause">
+  	WHERE 1=1
+    <trim suffixOverrides=",">
+      <if test="id != null and id != ''">
+        AND pa.ID = #{id} 
+      </if>
+      <if test="projectId != null">
+        AND pa.PROJECT_ID = #{projectId} 
+      </if>
+      <if test="packageId != null">
+        AND pa.PACKAGE_ID = #{packageId} 
+      </if>
+      <if test="createdAt != null">
+        AND pa.CREATED_AT = #{createdAt} 
+      </if>
+      <if test="aduitTime != null">
+        AND pa.ADUIT_TIME = #{aduitTime} 
+      </if>
+      <if test="type != null">
+        AND pa.TYPE = #{type} 
+      </if>
+      <if test="status != null">
+        AND pa.STATUS = #{status} 
+      </if>
+      <if test="flowDefineId != null and flowDefineId !='' ">
+        AND pa.FLOW_DEFINE_ID = #{flowDefineId} 
+      </if>
+      <if test="code != null and code !='' ">
+        AND pa.CODE = #{code} 
+      </if>
+      <if test="advice != null and advice !='' ">
+        AND pa.ADVICE = #{advice} 
+      </if>
+      <if test="userId != null and userId !='' ">
+        AND pa.USER_ID = #{userId} 
+      </if>
+    </trim>
+  </sql>
+  
+  <!-- 1.根据id主键查询 -->
+  <select id="selectById" parameterType="java.lang.String" resultMap="PackageAdviceResult">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM T_BSS_PPMS_PACKAGE_ADVICE
+    WHERE ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 2.根据条件查询 -->
+  <select id="findByList" parameterType="java.util.Map" resultMap="PackageAdviceResult">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM T_BSS_PPMS_PACKAGE_ADVICE pa
+    <include refid="Example_Where_Clause"/>
+  </select>
+  
+  <!-- 3.插入数据 -->
+  <insert id="insert" parameterType="bss.model.ppms.PackageAdvice">
+    insert into T_BSS_PPMS_PACKAGE_ADVICE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="packageId != null">
+        PACKAGE_ID,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="flowDefineId != null">
+        FLOW_DEFINE_ID,
+      </if>
+      <if test="advice != null">
+        ADVICE,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="aduitTime != null">
+        ADUIT_TIME,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="reason != null">
+        REASON,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="packageId != null">
+        #{packageId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type},
+      </if>
+      <if test="flowDefineId != null">
+        #{flowDefineId,jdbcType=VARCHAR},
+      </if>
+      <if test="advice != null">
+        #{advice,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="aduitTime != null">
+        #{aduitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+      <if test="code != null">
+        #{code},
+      </if>
+      <if test="reason != null">
+        #{reason},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 4.更新数据 -->
+  <update id="update" parameterType="bss.model.ppms.PackageAdvice">
+    update T_BSS_PPMS_PACKAGE_ADVICE
+    <set>
+      <if test="projectId != null">
+        PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="packageId != null">
+        PACKAGE_ID = #{packageId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        TYPE = #{type},
+      </if>
+      <if test="flowDefineId != null">
+        FLOW_DEFINE_ID = #{flowDefineId,jdbcType=VARCHAR},
+      </if>
+      <if test="advice != null">
+        ADVICE = #{advice,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status},
+      </if>
+      <if test="code != null">
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null">
+        REASON = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="aduitTime != null">
+        ADUIT_TIME = #{aduitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="findByProjectList" parameterType="java.util.Map" resultMap="PackageAdviceResult">
+  	SELECT
+			SPLIT_PACKAGEID (wm_concat(PA.PACKAGE_ID)) AS packageName,
+			PA.PROJECT_ID,
+			PA.STATUS,
+			PA.CODE,
+			PA.ADVICE,
+			PA.CREATED_AT
+		FROM
+			T_BSS_PPMS_PACKAGE_ADVICE pa LEFT JOIN T_BSS_PPMS_PROJECTS ps ON PS.ID = PA.PROJECT_ID
+		WHERE
+		EXISTS (
+			SELECT
+				PO.PURCHASE_DEP_ID
+			FROM
+				T_SES_OMS_PURDEP_ORG po
+			WHERE
+				PO.PURCHASE_DEP_ID = PS.PURCHASE_DEP_ID
+				<if test="orgId != null">
+					AND	PO.ORG_ID = #{orgId,jdbcType=VARCHAR}
+				</if>
+			
+		) and pa.TYPE = 2
+		<if test="name != null">
+     and PS.NAME like CONCAT(CONCAT('%', #{name}), '%')
+    </if>
+    <if test="projectNumber != null">
+     and PS.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
+    </if>
+    <if test="status != null">
+     and PA.STATUS = #{status}
+    </if>
+    <if test="code != null">
+     and PA.CODE = #{code}
+    </if>
+    GROUP BY PA.CODE, PA.PROJECT_ID, PA.STATUS,PA.ADVICE, PA.CREATED_AT
+		ORDER BY PA.CREATED_AT DESC
+  </select>
+  
+  <select id="selectByCode" parameterType="java.lang.String" resultMap="PackageAdviceResult">
+  	SELECT
+			wm_concat (PACKAGE_ID),
+			PROJECT_ID,STATUS,ADVICE,CODE
+		FROM
+			T_BSS_PPMS_PACKAGE_ADVICE
+		WHERE
+			CODE = #{code}
+		GROUP BY
+			PROJECT_ID,STATUS,ADVICE,CODE
+  </select>
+  
+</mapper>

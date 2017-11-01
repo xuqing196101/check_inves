@@ -44,6 +44,37 @@
 	            $("#batch_upload").hide();
 	            
 			}
+	       	
+	       	var sel=document.getElementsByName("select");
+	       	for(var i=0;i<sel.length;i++){
+	       		if(getCookie($(sel[i]).attr("id"))!=null&&getCookie($(sel[i]).attr("id"))!=""){
+	       			var text="";
+	       			if(getCookie($(sel[i]).attr("id"))=="1"){
+	       				text="已到场";
+	       			}else if(getCookie($(sel[i]).attr("id"))=="0"){
+	       				text="未到场";
+	       			}else{
+	       				text="请选择";
+	       			}
+	       			var arr = $(sel[i]).parents("tr").find("td:last").find("div");
+	    			if (text == '已到场') {
+	    				for (var k = 0; k < arr.length; k++) {
+	    					$(arr[k]).css({
+	    						top: 0
+	    					});
+	    				}
+	    			}
+	       			oht:
+	       			for (var j = 0; j < sel[i].options.length; j++) { 
+	       				if(sel[i].options[j].text==text){
+	       					sel[i].options[j].selected = true;
+	       					break oht;
+	       				}
+	       			}
+	       			/* $(".selector").find("option:selected").text(text);  */
+	       			/* $(sel[i]).find("option[text='"+text+"']").attr("selected","selected"); */
+	       		}
+	       	}
 	    })
 		function download(id, key) {
 			var form = $("<form>");
@@ -54,6 +85,7 @@
 			form.submit();
 		}
 		var jsonStr = [];
+		var indexLayer;
 		function updateSaleTender() {
 			var allTable = document.getElementsByTagName("table");
 			for(var j = 1; j < allTable[0].rows.length; j++) {
@@ -83,13 +115,68 @@
 						//console.log(jsonStr);
 					}
 					 var projectId = $("#projectId").val();
-					$.ajax({
+					 var ends = end(projectId);
+					 if(ends){
+					    $("#jsonString").val(JSON.stringify(jsonStr));
+					 	$.ajax({
 				        type: "POST",
 				        url: "${pageContext.request.contextPath}/open_bidding/isTurnUp.html?projectId=" + projectId,
 				        data: {isTurnUp:JSON.stringify(jsonStr)},
 				        dataType: "json",
+				        async:false,
 				        success: function (message) {
 				        	if (message == true) {
+				        		$.ajax({
+											url: "${pageContext.request.contextPath}/open_bidding/checkSupplierNumber.html",
+											data: {
+												"projectId": projectId
+											},
+											type: "post",
+											dataType: "json",
+											async:false,
+											success: function(data2) {
+												if(data2.rules != null){
+													var split = data2.rules.split(";");
+													var html="";
+													$('#openDiv_packages', window.parent.document).empty();
+													for(var i=0;i<split.length;i++){
+														var split2=split[i].split(",");
+														html+='<div class=" mt10 fl ml10"><input type="checkbox" value="'+split2[0]+'" name="packagesId" />'+split2[1]+'</div>';
+													}
+													$("#openDiv_packages", window.parent.document).append(html);
+													indexLayer = parent.layer.open({
+													  	    shift: 1, //0-6的动画形式，-1不开启
+													  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+													  	    title: ['提示','border-bottom:1px solid #e5e5e5'],
+													  	    shade:0.01, //遮罩透明度
+														  		type : 1,
+														  		area : [ '30%', '200px'  ], //宽高
+														  		cancel : function () {
+														  			$.ajax({
+																		url: "${pageContext.request.contextPath}/open_bidding/isTurnUp.html?type=delete&projectId=" + projectId,
+																		type: "post",
+																		dataType: "json",
+																		async:false,
+																		success: function(data2) {
+																			window.location.reload();
+																		}
+														  			});
+													              },
+														  		content : $('#openDivPackages', window.parent.document),
+													});
+												}else{
+													if(data2.status == "failed"){
+														$("#jzxtp", window.parent.document).hide();
+													}
+													
+												}
+											},
+											error: function() {
+												layer.msg("提交失败", {
+													offset: '100px'
+												});
+											}
+										});
 				        		window.location.reload();
 				        	} else {
 				        		layer.msg("必须上传投标文件",{offset: ['25%', '25%']});
@@ -97,7 +184,25 @@
 				        	}
 				        },
 		    		  });
+					 } else {
+					 		layer.msg("发售标书环节未结束");
+					 }
 				});
+		}
+		
+		function end(id){
+			var bool = true;
+			$.ajax({
+				type: "post",
+				url: "${pageContext.request.contextPath}/open_bidding/end.html?projectId=" + id,
+				dataType: "text",
+				success: function (message) {
+					if(message != "ok"){
+						bool = false;
+					}
+				},
+			});
+			return bool;
 		}
 		
 		$(function(){
@@ -111,18 +216,50 @@
 			var textVal = $(obj).find("option:selected").text();
 			var arr = new Array();
 			arr = $(obj).parents("tr").find("td:last").find("div");
-			
 			if (textVal == '已到场') {
+				setCookie($(obj).attr("id"),1,1);
 				for (var i = 0; i < arr.length; i++) {
-					$(arr[i]).removeClass("hide");
+					/* $(arr[i]).removeClass("hide"); */
+					$(arr[i]).css({
+						top: 0
+					});
 				}
-			} else {
+			} else if(textVal=='未到场'){
+				setCookie($(obj).attr("id"),0,1);
 				for (var i = 0; i < arr.length; i++) {
-					$(arr[i]).addClass("hide");
+					/* $(arr[i]).addClass("hide"); */
+					$(arr[i]).css({
+						top: '-100%'
+					});
+				}
+			}else{
+				setCookie($(obj).attr("id"),3,1);
+				for (var i = 0; i < arr.length; i++) {
+					/* $(arr[i]).addClass("hide"); */
+					$(arr[i]).css({
+						top: '-100%'
+					});
 				}
 			}
 		}
-		
+		function getCookie(cname)
+		{
+		  var name = cname + "=";
+		  var ca = document.cookie.split(';');
+		  for(var i=0; i<ca.length; i++) 
+		  {
+		    var c = ca[i].trim();
+		    if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+		  }
+		  return "";
+		}
+		function setCookie(cname,cvalue,exdays)
+		{
+		  var d = new Date();
+		  d.setTime(d.getTime()+(60*60*1000));
+		  var expires = "expires="+d.toGMTString();
+		  document.cookie = cname + "=" + cvalue + "; " + expires;
+		}
 		</script>
 	</head>
 
@@ -137,7 +274,7 @@
 				 <u:show showId="flshow" groups="${supplierList[0].groupShowId}" businessId="1234567890-1234567890-1234567890" sysKey="${sysKey}" typeId="${typeId}" />
 			</c:if>
 			</div> --%>
-
+        <input type="hidden" id="jsonString" value="">
 				<table class="table table-bordered table-condensed table-hover table-striped">
 					<thead>
 						<tr>
@@ -156,7 +293,7 @@
 							<td class="tl">${list.packageName }</td>
 							<td class="tc">
 								<c:if test="${empty list.isturnUp}">
-									<select onchange="yincUpload(this)">
+									<select onchange="yincUpload(this)" name="select" id="select_${(vs.index+1)}_${list.id}">
 										<option value="">请选择</option>
 										<option value="${list.id}">已到场</option>
 										<option value="${list.id}">未到场</option>
@@ -170,9 +307,9 @@
 									未到场
 								</c:if>
 							</td>
-							<td>
+							<td style="position: relative; overflow: hidden;">
 							    <c:if test="${flag == false}">
-							    	<div id="upload_tag_${vs.index+1}">
+							    <div id="upload_tag_${vs.index+1}" style="position: absolute; top: -100px; left: 0; width: 100%;">
 										<c:if test="${fn:length(supplierList) > 1}">
 											<u:upload id="${list.groupsUpload}" exts="txt,rar,zip,doc,docx,pdf" multiple="true" groups="${list.groupsUploadId}" buttonName="上传附件" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 											<u:show showId="${list.groupShow}" groups="${list.groupShowId}" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" />

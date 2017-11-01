@@ -229,13 +229,27 @@
       </if>
     ORDER BY fe.step DESC
   </select>
-  
+  <select id="findExecutedByProjectIdAndFlowId" parameterType="bss.model.ppms.FlowExecute" resultMap="FlowExecuteResult">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_FLOW_EXECUTE fe
+    where fe.STATUS != 0 
+      
+      <if test=" flowDefineId != null and flowDefineId != ''">
+        and fe.FLOW_DEFINE_ID = #{flowDefineId}
+      </if>
+      <if test=" projectId != null and projectId != ''">
+        and fe.PROJECT_ID = #{projectId}
+      </if>
+     
+    ORDER BY fe.status DESC
+  </select>
   <!-- 7.根据状态倒序-->
   <select id="findStatusDesc" parameterType="java.lang.String" resultMap="FlowExecuteResult">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_FLOW_EXECUTE fe
-    where fe.STATUS != 0 
+    where fe.STATUS != 0 and fe.IS_DELETED = 0
       <if test="id != null and id != ''">
         and fe.ID = #{id} 
       </if>

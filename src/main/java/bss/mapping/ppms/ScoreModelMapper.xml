@@ -144,9 +144,9 @@
       	<!-- <if test="markTerm != null and markTerm.name!='' ">
         	and m.name like CONCAT(CONCAT('%', #{markTerm.name}), '%')
       	</if> -->
-      	<if test="name != null and name!='' ">
+      	<!-- <if test="name != null and name!='' ">
         	and sm.review_content like CONCAT(CONCAT('%', #{name}), '%')
-        </if>
+        </if> -->
       	<if test="markTermId != null and markTermId !='' ">
         	and sm.mark_term_id = #{markTermId} 
       	</if>
@@ -810,6 +810,15 @@
 		</foreach>
 	</update> -->
 	<!-- t_bss_ppms_param_interval 参数区间表 -->
+	<select id="findScoreModelByPackageId" parameterType="bss.model.ppms.ScoreModel" resultMap="BaseMap">
+	   select * from T_BSS_PPMS_SCORE_MODEL where 1=1
+	   <if test="projectId != null">
+         	and PROJECT_ID = #{projectId}
+      	</if>
+      	<if test="packageId != null">
+         	and package_id = #{packageId}
+      	</if>
+	</select>
 	
 	<select id="findListByScoreModelByTime" parameterType="bss.model.ppms.ScoreModel" resultMap="BaseMap">
    		SELECT

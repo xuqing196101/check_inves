@@ -22,6 +22,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import bss.controller.base.BaseController;
+import bss.model.ppms.FlowExecute;
+import bss.model.ppms.Packages;
+import bss.model.ppms.Project;
+import bss.model.ppms.SaleTender;
+import bss.service.ppms.FlowMangeService;
+import bss.service.ppms.PackageService;
+import bss.service.ppms.ProjectService;
+import bss.service.ppms.SaleTenderService;
+import bss.util.PropUtil;
+
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import ses.dao.bms.DictionaryDataMapper;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
@@ -137,6 +151,8 @@ public class SupplierExtractsController extends BaseController {
     private FlowMangeService flowMangeService;
     @Autowired
     private OrgnizationServiceI orgnizationService;
+    @Autowired
+    private FlowMangeService flowManageService;
 
     @Autowired
     private SupplierExtRelateService supplierExtRelateService;
@@ -377,8 +393,7 @@ public class SupplierExtractsController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("/validateAddExtraction")
-    public String validateAddExtraction(Project project, String packageName, String typeclassId, String[] sids, String extractionSites,HttpServletRequest sq,String[] packageId, String[] superviseId,Integer type){
-
+    public String validateAddExtraction(Project project, String packageName, String typeclassId, String[] sids, String extractionSites,HttpServletRequest sq,String[] packageId, String[] superviseId,Integer type,String flowDefineId){
         Map<String, String> map = new HashMap<String, String>();
         map.put("type", type.toString());
 
@@ -511,6 +526,7 @@ public class SupplierExtractsController extends BaseController {
         if(projectId != null && !"".equals(projectId)){
             HashMap<String, Object> map = new HashMap<String, Object>();
             map.put("projectId",projectId);
+            map.put("projectStatus","1");
             findPackageById = packagesService.findPackageById(map);
         }
         return  JSON.toJSONString(findPackageById);
@@ -1116,7 +1132,11 @@ public class SupplierExtractsController extends BaseController {
             model.addAttribute("armyBuinessTelephoneError", "不能为空");
             type = 1;
         }
-        if (StringUtils.isNotBlank(supplier.getCreditCode()) && StringUtils.isNotBlank(supplier.getArmyBuinessTelephone())) {
+        if(supplier.getCreditCode()==null||"".equals(supplier.getCreditCode())){
+          model.addAttribute("creditCodeError", "不能为空");
+          type = 1;
+        }
+        /*if (StringUtils.isNotBlank(supplier.getCreditCode()) && StringUtils.isNotBlank(supplier.getArmyBuinessTelephone())) {
             HashMap<String, Object> map = new HashMap<>();
             map.put("armyBuinessTelephone", supplier.getArmyBuinessTelephone());
             map.put("creditCode", supplier.getCreditCode());
@@ -1126,13 +1146,13 @@ public class SupplierExtractsController extends BaseController {
             if (supplier.getCreditCode().length() > 36) {
                 model.addAttribute("creditCodeError", "不能为空或是字符过长!");
                 type = 1;
-            }
+            }*/
 
-            if (supplier.getCreditCode().length() != 18) {
+           /* if (supplier.getCreditCode().length() != 18) {
                 model.addAttribute("creditCodeError", "格式错误!");
                 type = 1;
-            }
-            if (tempList != null && tempList.size() > 0) {
+            }*/
+            /*if (tempList != null && tempList.size() > 0) {
                 for (Supplier supp : tempList) {
                     if (!supp.getId().equals(supplier.getId())) {
                         model.addAttribute("creditCodeError", "社会统一信用代码已被占用!");
@@ -1140,11 +1160,12 @@ public class SupplierExtractsController extends BaseController {
                         break;
                     }
                 }
-            }
-        } else {
+            }*/
+       /* } else {
             model.addAttribute("creditCodeError", "不能为空");
             type = 1;
-        }
+        }*/
+        /*}*/
 
         if (loginName == null || "".equals(loginName)) {
             model.addAttribute("loginNameError", "不能为空");

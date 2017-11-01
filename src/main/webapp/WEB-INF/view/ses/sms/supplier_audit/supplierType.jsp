@@ -224,7 +224,6 @@
 			      	}
 						});
         }
-			}
 
 			//销售
 			function reasonSale(id, str) {
@@ -276,14 +275,12 @@
 							$("#" + id + "_show").removeClass('hidden');
 							$("#" + id + "_show1").removeClass('hidden');
 							$("#" + id + "_show2").removeClass('hidden');
-
 							layer.close(index);
 							}else{
 			      			layer.msg('不能为空！', {offset:'100px'});
 			      	}
 					});
         }
-			}
 
 			function reasonSale1(obj) {
 				var supplierStatus= $("input[name='supplierStatus']").val();
@@ -337,7 +334,6 @@
 			      	}
 					});
         }
-			}
 
 			//工程
 			function reasonEngineering(id, auditFieldName, str) {
@@ -556,7 +552,6 @@
 			      	}
 						});
         }
-			}
 
 			//服务
 			function reasonService1(obj) {

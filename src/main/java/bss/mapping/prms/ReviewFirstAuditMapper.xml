@@ -88,7 +88,7 @@
         REJECT_REASON,
       </if>
       <if test="expertId != null">
-        EXPERT_ID
+        EXPERT_ID,
       </if>
       <if test="isBack != null">
         IS_BACK

@@ -121,6 +121,9 @@ public class PurchaseRequired {
   private String progressBar;
   
   private Integer enterPort;
+  
+  
+  private String isParent;
   public String getUserName() {
 	return userName;
 }
@@ -561,7 +564,15 @@ public String getSign() {
 		this.enterPort = enterPort;
 	}
 
-	@Override
+	public String getIsParent() {
+    return isParent;
+  }
+
+  public void setIsParent(String isParent) {
+    this.isParent = isParent;
+  }
+
+  @Override
 	public String toString() {
 		return "PurchaseRequired [id=" + id + ", planName=" + planName + ", planNo=" + planNo + ", referenceNo="
 				+ referenceNo + ", planType=" + planType + ", department=" + department + ", goodsName=" + goodsName

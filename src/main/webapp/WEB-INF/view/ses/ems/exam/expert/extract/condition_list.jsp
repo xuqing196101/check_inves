@@ -157,14 +157,13 @@
               <input readonly id="packageId" name="packageId" type="hidden">
             </div>
           </li>
-          <li class="col-md-3 col-sm-4 col-xs-12 ">
-            <div class="col-md-12 tc mt20">
-              <button class="btn" onclick="extractVerify('${project.id}');" type="button">抽取</button>
-              <!-- <button class="btn" onclick="finish();" type="button">完成抽取</button>
-                <button class="btn" onclick="temporary();" type="button">暂存</button> -->
-            </div>
-          </li>
         </ul>
+        <div class="clear"></div>
+        <div class="tc mt20">
+          <button class="btn" onclick="extractVerify('${project.id}');" type="button">抽取</button>
+          <!-- <button class="btn" onclick="finish();" type="button">完成抽取</button>
+          <button class="btn" onclick="temporary();" type="button">暂存</button> -->
+        </div>
       </form>
     </div>
     <!-- 项目信息结束 -->

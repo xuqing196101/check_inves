@@ -185,7 +185,7 @@
              <a  href="${pageContext.request.contextPath}/AdAuditbidding/viewAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}">04、审核意见</a>
            </li>
           <li>
-            <c:if test="${project.confirmFile == 0 || project.confirmFile==null}">
+            <c:if test="${project.confirmFile == 0 || project.confirmFile eq null}">
               <a onclick="confirmOk(this,'${projectId}','${flowDefineId }');" id="queren">05、确认</a>
             </c:if>
             <c:if test="${project.confirmFile == 1 }">

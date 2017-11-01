@@ -12,5 +12,7 @@ public interface ProjectTaskService {
 	List<ProjectTask> queryByNo(HashMap<String,Object> map);
 	
 	List<ProjectTask> queryByProjectNos(HashMap<String,Object> map);
+	
+	void deleteByProjectId(String projectId);
 
 }

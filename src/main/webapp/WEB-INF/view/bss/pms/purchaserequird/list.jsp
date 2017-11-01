@@ -299,7 +299,7 @@
 			<tr class="pointer">
 			  <td class="tc w30">
 			<%--   <c:if test="${obj.status=='1' || obj.status=='4'  }"> --%>
-                 <input type="checkbox" value="${obj.uniqueId }" name="chkItem" onclick="check()">
+                 <input type="checkbox" value="${obj.uniqueId }" name="chkItem" >
             <%--   </c:if> --%>
 			  </td>
 			  <td class="tc w50" onclick="view('${obj.uniqueId }')" >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>

@@ -17,9 +17,22 @@
 
     <script type="text/javascript">
       $(function() {
+    	  $('body').click(function(e) {
+   	       if(e.target.name != 'hidden'){
+   	    	   $("#materialName").addClass("dnone");
+   	       } 
+   	    })
           delId = [];
         });
+      //只能输入数字
+      function checkNum(obj, num) {
+        var vals = $(obj).val();
+        var reg = /^\d+\.?\d*$/;
+        if(!reg.exec(vals)) {
+          $(obj).val("");
+        } else {}
 
+      }
       function referenceNO() {
         var referenceNO = $("#referenceNo").val();
         if(referenceNO == '') {
@@ -81,6 +94,11 @@
           aa(id);
         }
       }
+      
+      function deleteSum1(obj) {
+            var id = $(obj).next().val(); //parentId
+            aa(id);
+        }
 
       function adds(obj) {
         var bool = true;
@@ -203,25 +221,25 @@
         return bool;
 
       }
-      function trimNull(notAttrtr){
+      function trimNull(notAttrtr,numb){
     	  var trimFlog=false;
     	  if($.trim($($(notAttrtr).children()[3]).children(":first").children(":first").next().val()) == "") {
-              layer.alert("需求明细中物资类别及物资名称不能为空");
+              layer.alert("第"+(numb+1)+"行，需求明细中物资类别及物资名称不能为空");
               trimFlog=true;
-            } else if($.trim($($(notAttrtr).children()[5]).children(":last").val()) == "") {
+            } /* else if($.trim($($(notAttrtr).children()[5]).children(":last").val()) == "") {
               layer.alert("需求明细中质量技术标准不能为空");
               trimFlog=true;
-            } else if($.trim($($(notAttrtr).children()[6]).children(":last").val()) == "") {
-              layer.alert("需求明细中计量单位不能为空");
+            }  */else if($.trim($($(notAttrtr).children()[6]).children(":last").val()) == "") {
+              layer.alert("第"+(numb+1)+"行，需求明细中计量单位不能为空");
               trimFlog=true;
             } else if($.trim($($(notAttrtr).children()[7]).children(":first").next().val()) == "") {
-              layer.alert("需求明细中采购数量不能为空");
+              layer.alert("第"+(numb+1)+"行，需求明细中采购数量不能为空");
               trimFlog=true;
             } else if($.trim($($(notAttrtr).children()[8]).children(":first").next().val()) == "") {
-              layer.alert("需求明细中单价不能为空");
+              layer.alert("第"+(numb+1)+"行，需求明细中单价不能为空");
               trimFlog=true;
             }else if($.trim($($(notAttrtr).children()[11]).children(":first").val()) == "") {
-                layer.alert("需求明细中采购方式不能为空");
+                layer.alert("第"+(numb+1)+"行，需求明细中采购方式不能为空");
                 trimFlog=true;
               }
     	  return trimFlog;
@@ -239,7 +257,7 @@
             	var tableTr=$("#detailZeroRow tr");
             	for(var i = 1; i < tableTr.length; i++) {
             		 if(typeof($(tableTr[i]).attr("attr"))=="undefined"){//获取子节点
-            			  if(trimNull(tableTr[i])){
+            			  if(trimNull(tableTr[i],i)){
             				  return false;
             				  break;
             			  }
@@ -1256,9 +1274,9 @@
         			}
         			var price;
         			if(trPid!=trPrevPid){
-        				price=$($(tr).prev().children()[8]).children(":first").next();
-        			}else{
         				price=$($(tr).next().children()[8]).children(":first").next();
+        			}else{
+        				price=$($(tr).prev().children()[8]).children(":first").next();
         			}
         			var trNextAllNum=tr.nextAll();
 	  				  if(trNextAllNum.length>0){
@@ -1269,8 +1287,10 @@
 	  				  }else{
 	  					  indexCount=parseInt($($(tr).children()[0]).text())-2;
 	  				  }
+	  				  var tr3=$($(tr).prev().children()[3]).children(":first").children(":last");
+	  				  $(tr3).after($("#materialName"));
     				  $(tr).remove();
-    				  sum1(price);
+    				  deleteSum1(price);
     			  }else{//删除当前节点，把父节点的父节点的readOnly=false,并且删除tr上的attr=“true”
     				    $(tr).prev().removeAttr("attr");
     		    	  var tr7=$($(tr).prev().children()[7]).children(":first").next();
@@ -1303,7 +1323,7 @@
 	    				  }
     				  
     		    	  $(tr).remove();
-    		    	  sum1(tr8);
+    		    	  deleteSum1(tr8);
     			  }
     			  
     		  }
@@ -1631,7 +1651,7 @@
       <h2 class="count_flow">
       <i>2</i>需求明细
     </h2>
-      <div class="content mt0 require_ul_list">
+      <div class="ul_list">
         <div class="col-md-12 p115 mt10">
           <button class="btn btn-windows add" onclick="aadd()">添加</button>
           <button class="btn btn-windows input" onclick="down()">下载模板</button>
@@ -1639,7 +1659,7 @@
           <button class="btn padding-left-10 padding-right-10 btn_back" onclick="typeShow()">查看产品分类目录</button>
           <button class="btn padding-left-10 padding-right-10 btn_back" onclick="chakan()">查看编制说明</button>
         </div>
-        <div class="content " id="content">
+         <div class="col-md-12 col-xs-12 col-sm-12 mt5 over_auto" style="max-height:300px" id="add_div">
           <input type="hidden" name="enterPort" id="enterPort" value="${list[0].enterPort}" /> <input type="hidden" id="oneNodeId" value=""> <input type="hidden" id="twoNodeId" value="">
           <input type="hidden" id="threeNodeId" value=""> <input type="hidden" id="fourNodeId" value=""> <input type="hidden" id="fiveNodeId" value=""> <input type="hidden" id="sixNodeId" value=""> <input type="hidden" id="oneNodeId" value="">
           <table id="table" class="table table-bordered table-condensed lockout">
@@ -1683,20 +1703,20 @@
               <input type="hidden" id="listSize" value="${listSize }" />
               <tbody id="detailZeroRow">
                 <c:forEach items="${list }" var="obj" varStatus="vs">
-                  <tr style="cursor: pointer;" name="detailRow"  <c:if test="${obj.price=='' || obj.price==null}">attr="true"</c:if> >
+                  <tr style="cursor: pointer;" name="detailRow"  <c:if test="${obj.isParent=='true'}">attr="true"</c:if> >
                     <td class="tc">
                       ${vs.index+1 }
                     </td>
                     <td class="tc">
                       <input type="hidden" id="id${vs.index}" name="list[${vs.index }].id" value="${obj.id }">
-                      <input type="text" class="w70" id="seq${vs.index}" name="list[${vs.index }].seq" value="${obj.seq}" onblur="selectNode(this,'${vs.index}')">
+                      <input type="text" class="w70" id="seq${vs.index}" name="list[${vs.index }].seq" value="${obj.seq}" onchanges="selectNode(this,'${vs.index}')">
                       <input type="hidden" id="parentId${vs.index}" name="list[${vs.index }].parentId" value="${obj.parentId }"> 
                     </td>
                     <td>
                       <div class="department">${obj.department}</div>
                     </td>
                     <td>
-                      <div class="goodsname">
+                      <div class="goodsname" name="hidden">
                         <input type="hidden" name="ss" value="${obj.id }">
                         <input type="text" name="list[${vs.index }].goodsName" class="target" onkeyup="listName(this)" value="${obj.goodsName}">
                       </div>
@@ -1713,12 +1733,12 @@
                     </td>
                     <td>
                       <input type="hidden" name="ss" value="${obj.id }">
-                      <input maxlength="11" class="purchasecount"  <c:if test="${obj.price!=''&&obj.price!=null}">onblur="sum2(this);"</c:if> <c:if test="${obj.price==''||obj.price==null}">readonly="readonly"</c:if> type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount" value="${obj.purchaseCount}" />
+                      <input maxlength="11" class="purchasecount" onkeyup="checkNum(this,1)"  <c:if test="${obj.isParent!='true'}">onblur="sum2(this);"</c:if> <c:if test="${obj.isParent=='true'}">readonly="readonly"</c:if> type="text" name="list[${vs.index }].purchaseCount" value="${obj.purchaseCount}" />
                       <input type="hidden" name="ss" value="${obj.parentId }">
                     </td>
                     <td class="tl w80">
                       <input type="hidden" name="ss" value="${obj.id }">
-                      <input maxlength="11" class="price" name="list[${vs.index }].price" <c:if test="${obj.price==''||obj.price==null}">readonly="readonly"</c:if> <c:if test="${obj.price!=''&&obj.price!=null}">onblur="sum1(this);"</c:if> value="${obj.price}" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" />
+                      <input maxlength="11" class="price" name="list[${vs.index }].price" onkeyup="checkNum(this,2)" <c:if test="${obj.isParent=='true'}">readonly="readonly"</c:if> <c:if test="${obj.isParent!='true'}">onblur="sum1(this);"</c:if> value="${obj.price}" type="text"  />
                       <input type="hidden" name="ss" value="${obj.parentId }">
                     </td>
                     <td><input type="hidden" name="ss" value="${obj.id }">
@@ -1727,11 +1747,11 @@
                     </td>
                     <td class="tc">
                       <input type="hidden" name="ss" value="${obj.id }">
-                      <textarea name="list[${vs.index }].deliverDate" class="target deliverdate">${obj.deliverDate}</textarea>
+                      <input type="text" class="deliverdate" name="list[${index }].deliverDate" value="${obj.deliverDate}">
                     </td>
 
                     <td>
-                      <select name="list[${vs.index }].purchaseType" <c:if test="${obj.price==null}"> onchange="changeType(this);" </c:if>
+                      <select name="list[${vs.index }].purchaseType" <c:if test="${obj.isParent=='true'}"> onchange="changeType(this);" </c:if>
                         <c:if test="${obj.price!=null}"> onchange="ssl(this);" </c:if>
                         class="purchasetype" id="select">
                         <option value="">请选择</option>
@@ -1751,18 +1771,14 @@
                     <td name="userNone" <c:if test="${list[0].enterPort==0}"> style="display:none;" </c:if>><input type="text" name="list[${vs.index }].userUnit" value="${obj.useUnit}"></td>
 
                     <td>
-                      <div class="memo">
-                        <input type="hidden" name="ss" value="${obj.id }">
-                        <textarea name="list[${vs.index }].memo" class="target purchasename">${obj.memo}</textarea>
-                      </div>
+                        <input type="text" name="list[${vs.index }].memo" class="memo" value="${obj.memo}">
                     </td>
                     <td>
-                      <c:if test="${obj.purchaseCount!=null}">
                         <div class="extrafile">
                           <u:upload id="up_${vs.index}" multiple="true" businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${detailId}" auto="true" />
                           <u:show showId="show_${vs.index}" businessId="${obj.id}" sysKey="2" typeId="${detailId}" />
                         </div>
-                      </c:if> <input type="hidden" class="ptype" name="ptype" value="${obj.purchaseType}" /></td>
+                       <input type="hidden" class="ptype" name="ptype" value="${obj.purchaseType}" /></td>
                     <td class="tc w100"><input type="hidden" value="${obj.id}" /> <button type="button" class="btn" onclick="delRowIndex(this);">删除</button></td>
 
                   </tr>
@@ -1781,11 +1797,15 @@
           <input type="hidden" name="mobile" />
           <input type="hidden" name="referenceNo" />
           <input type="hidden" name="delobjId" />
-          <input class="btn btn-windows git" type="button" onclick="submit('1')" value="保存"><input class="btn btn-windows back" value="返回" type="button" onclick="go();">
         </div>
 
       </div>
+      <div class="col-md-12 col-sm-12 col-xs-12 mt20 tc">
+          <input class="btn btn-windows git" type="button" onclick="submit('1')" value="保存">
+          <input class="btn btn-windows back" value="返回" type="button" onclick="go();">
+      </div>
     </div>
+    
     <div id="organization" class="dnone">
       <p align="center">编制说明
         <p style="margin-left: 20px;">1、请严格按照序号顺序为：一、（一）、1（1）、a、（a）的顺序填写序号，括号为中文括号</p>

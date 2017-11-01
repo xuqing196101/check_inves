@@ -60,7 +60,7 @@
   function submit(){
   	$("#form1").submit();
   }
-function reset(){
+function resets(){
 	$("#name").val('');
 }
 
@@ -126,11 +126,11 @@ function reset(){
 		<ul class="demand_list">
 	      <li>
 	        <label class="fl">采购管理部门名称：</label>
-	        <span><input type="text" name="name" id="name" value="${orgnization.name}"></span>
+	        <span><input type="text" name="name" id="name" value="${name}"></span>
 	      </li>
 	    </ul>
 	        <button class="btn fl" onclick="submit()" type="button">查询</button>
-          <button class="btn fl" onclick="reset()" type="button"> 重置</button>
+          <button class="btn fl" onclick="resets()" type="button"> 重置</button>
 	    <div class="clear"></div>
 	  </form>
 	</h2>

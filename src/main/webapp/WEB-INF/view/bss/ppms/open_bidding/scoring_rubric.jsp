@@ -16,6 +16,10 @@
             $("#tipMsg").val("");
             layer.alert("综合评分法必须有且只有一个价格评审数据.",{offset: '50px'});
         }
+		if ($("#tipMsg").val() == "noScore") {
+            $("#tipMsg").val("");
+            layer.alert("综合评分法总分必须100分",{offset: '50px'});
+        }
     	var packageId=	$("input[name='packageId']").val();
     	var flag="${flag}";
     	if(flag=="success"){
@@ -221,20 +225,21 @@
 		    </c:if> --%>
 		    <input type="hidden" id="tipMsg" value="${msg}">
 			<div id="package">
-				<div>
-					<h2 class="f16 count_flow"><span id="projectName">项目名称:${project.name }</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<span id="projectCode">项目编号:${project.projectNumber }</span></h2>
-				</div>
+			  <div class="clear"></div>
+				<h2 class="f16 count_flow mt10">
+				  <span id="projectName">项目名称：<span class="red">${project.name }</span></span>
+					<span id="projectCode" class="ml20">项目编号：<span class="red">${project.projectNumber }</span></span>
+			  </h2>
 				<table class="table table-bordered table-condensed mt5">
 					<thead>
 						<tr>
 						<!-- 	<th class="info w30"><input type="checkbox" id="checkAll"
 								onclick="selectAll()" alt=""></th> -->
-							<th>序号</th>
+							<th class="w30">序号</th>
 							<th>包名</th>
 							<th>状态</th>
 							<th>评分办法</th>
-							<th>操作</th>
+							<th class="w100">操作</th>
 							<!-- <th>评分办法名称</th>
 							<th>评标方法</th> -->
 						</tr>
@@ -245,7 +250,17 @@
 								<%-- <td class="tc w30"><input type="checkbox" value="${p.id }" name="chkItem">
 								</td> --%>
 								<td class="tc w50">${vs.index+1 }</td>
-								<td class="tc">${p.name}</td>
+								<td class="tc">${p.name}
+								<c:if test="${p.projectStatus=='YZZ'}">
+                       <span class="star_red">[该包已终止]</span>
+                    </c:if>
+                    <c:if test="${p.projectStatus=='ZJZXTP'}">
+                       <span class="star_red">[该包已转竞谈]</span>
+                    </c:if>
+                    <c:if test="${p.projectStatus=='ZJTSHZ'}">
+                       <span class="star_red">[该包转竞谈审核中]</span>
+                    </c:if>
+								</td>
 								<td class="tc">
 								<c:if test="${p.isEditSecond == 0}">
 										请选择评分办法
@@ -266,14 +281,14 @@
 								 <td class="tc">
 								   <c:if test="${p.isHaveScoreMethod == 1 and project.confirmFile != 1}">
 								       <!-- <button class="btn" type="button" onclick="editScoreMethod()">修改评分方法</button> -->
-				                       <button class="btn" type="button" onclick="editPackageFirstAudit('${p.id}','${projectId}')">编辑</button>
+				                       <button class="btn" type="button" <c:if test="${p.projectStatus=='YZZ'}">disabled="disabled"</c:if> onclick="editPackageFirstAudit('${p.id}','${projectId}')">编辑</button>
 								   </c:if>
 								   <c:if test="${p.isHaveScoreMethod == 2 and project.confirmFile != 1}">
-				                       <button class="btn" type="button" onclick="addScoreMethod('${p.id}','${projectId}')">选择评分办法</button>
+				                       <button class="btn" type="button" <c:if test="${p.projectStatus=='YZZ'}">disabled="disabled"</c:if> onclick="addScoreMethod('${p.id}','${projectId}')">选择评分办法</button>
 								   </c:if>
 								   <!-- 采购文件提交后不可修改 -->
 								   <c:if test="${project.confirmFile == 1}">
-				                       <button class="btn" type="button" onclick="view('${p.id}','${projectId}','${p.isEditSecond}')">查看</button>
+				                       <button class="btn" type="button" <c:if test="${p.projectStatus=='YZZ'}">disabled="disabled"</c:if> onclick="view('${p.id}','${projectId}','${p.isEditSecond}')">查看</button>
 								   </c:if>
 				                </td>
 								<%-- <td align="center">

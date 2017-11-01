@@ -6,9 +6,9 @@
      <div class="head_main">
        <div class="container">
         <!-- logo和搜索 -->
-         <div class="navbar-header ">
-           <div class="row container">
-            <div class="col-md-3 col-sm-12 col-xs-12 padding-bottom-30 mt10">
+         <div class="navbar-header w100p">
+           <div class="row">
+            <div class="col-md-3 col-sm-12 col-xs-12 padding-bottom-30 mt20">
               <a href="${pageContext.request.contextPath}/">
                  <img alt="Logo" src="${pageContext.request.contextPath}/public/backend/images/logo_2.png" id="logo-header">
               </a>

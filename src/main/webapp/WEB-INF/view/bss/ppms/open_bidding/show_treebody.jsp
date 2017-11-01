@@ -498,13 +498,10 @@ System.out.print(scoreModel);
 											varStatus="vs">
 											<tr class="cursor">
 												<td class="tc">${vs.index+1 }</td>
-												<td class="tc" id="startParam${vs.index+1 }">${pi.startParam
-													}</td>
-												<td class="tc" id="endParam${vs.index+1 }">${pi.endParam
-													}</td>
-												<td class="tc" id="score${vs.index+1 }">${pi.score }</td>
-												<td class="tc">${pi.explain }
-												</td>
+												<td class="tc" id="startParam${vs.index+1}">${pi.startParam}</td>
+												<td class="tc" id="endParam${vs.index+1}">${pi.endParam}</td>
+												<td class="tc" id="score${vs.index+1}">${pi.score}</td>
+												<td class="tc">${pi.explain}</td>
 											</tr>
 										</c:forEach>
 									</tbody>

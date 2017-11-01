@@ -58,4 +58,7 @@ public interface ProjectDetailMapper {
 	 List<ProjectDetail> selectByDemand(HashMap<String,Object> map);
 	 List<ProjectDetail> selectByPackageId(String packageId);
 	 
+	 List<ProjectDetail> selectByPackageRecursively(String packageId);
+	 List<ProjectDetail> selectByRequiredIdTree(String requiredId);
+	 
 }

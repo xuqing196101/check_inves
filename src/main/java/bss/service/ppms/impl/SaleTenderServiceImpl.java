@@ -649,5 +649,11 @@ public class SaleTenderServiceImpl implements SaleTenderService {
       }
       return saleTenderList;
     }
+
+    @Override
+    public List<SaleTender> getAdPackegeSuppliers(HashMap<String, Object> map) {
+        
+        return saleTenderMapper.getAdPackegeSuppliers(map);
+    }
 }
 

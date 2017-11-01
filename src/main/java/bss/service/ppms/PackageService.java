@@ -3,16 +3,11 @@
  */
 package bss.service.ppms;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ses.model.ems.ExpExtCondition;
-import ses.model.ems.ProjectExtract;
 import bss.model.ppms.Packages;
-import bss.model.ppms.SaleTender;
-import bss.model.ppms.SupplierCheckPass;
 
 /**
  * @Title:PackageService
@@ -208,6 +203,19 @@ public interface PackageService {
      */
     List<Packages> listExtRelate(String projectId);
     List<Packages> selectByProjectKey(HashMap<String,Object> map);
+    
+    /**
+     * 
+    * @Title: merge
+    * @author FengTian 
+    * @date 2017-5-27 下午2:35:15  
+    * @Description: 合并 分包
+    * @param @param projectId
+    * @param @param id
+    * @param @return      
+    * @return String
+     */
+    String merge(String projectId, String id);
 
     /**
      *〈简述〉
@@ -218,5 +226,27 @@ public interface PackageService {
      * @return
      */
     List<Packages> findPackage(HashMap<String, Object> map, int i);
+    
+    /**
+     * 获取有资格性符合性检查的包
+     * @param map
+     * @param i
+     * @return
+     */
+    List<Packages> selectByPackageFirstAudit(HashMap<String, Object> map);
+
+
+    /**
+     * 
+    * @Title: savePackage
+    * @author FengTian 
+    * @date 2017-10-17 上午10:10:30  
+    * @Description: TODO 
+    * @param @param ids
+    * @param @param projectId
+    * @param @return      
+    * @return Boolean
+     */
+    Boolean savePackage(String ids, String projectId);
 
 }

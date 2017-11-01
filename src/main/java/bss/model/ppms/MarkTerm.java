@@ -43,6 +43,7 @@ public class MarkTerm implements Serializable ,java.lang.Comparable{
 	private String smname;
 	private Integer smtypename;
 	private Double scscore;
+	private String checkedPrice;
 	//添加作为比较器 treeMap 
 	private int judge;
 	//scoremodel的id
@@ -284,7 +285,12 @@ public class MarkTerm implements Serializable ,java.lang.Comparable{
      */
     public void setScoreModels(ScoreModel scoreModels) {
       this.scoreModels = scoreModels;
-    }    
+    }
+    public String getCheckedPrice() {
+      return checkedPrice;
+    }
+    public void setCheckedPrice(String checkedPrice) {
+      this.checkedPrice = checkedPrice;
+    }
     
-	
 }
