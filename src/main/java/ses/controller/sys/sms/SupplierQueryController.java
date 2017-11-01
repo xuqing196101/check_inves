@@ -1864,10 +1864,12 @@ public class SupplierQueryController extends BaseSupplierController {
 		if(StringUtils.isBlank(supplierId)){
 			return "ses/sms/supplier_query/supplierInfo/template_upload";
 		}
-		model.addAttribute("person",person);
+        Supplier supplier = supplierService.selectById(supplierId);
+        model.addAttribute("person",person);
 		model.addAttribute("supplierId",supplierId);
 		model.addAttribute("judge",judge);
 		model.addAttribute("sign",sign);
+		model.addAttribute("suppliers",supplier);
 		return "ses/sms/supplier_query/supplierInfo/template_upload";
 	}
     
@@ -2007,7 +2009,7 @@ public class SupplierQueryController extends BaseSupplierController {
  	}
        
     @RequestMapping("supplierType")
-   	public String supplierType(HttpServletRequest request, Supplier supplierQuery,Integer person, Integer judge, Integer sign, SupplierMatSell supplierMatSell, SupplierMatPro supplierMatPro, SupplierMatEng supplierMatEng, SupplierMatServe supplierMatSe, String supplierId, Integer supplierStatus, String reqType) {
+   	public String supplierType(Model model, HttpServletRequest request, Supplier supplierQuery,Integer person, Integer judge, Integer sign, SupplierMatSell supplierMatSell, SupplierMatPro supplierMatPro, SupplierMatEng supplierMatEng, SupplierMatServe supplierMatSe, String supplierId, Integer supplierStatus, String reqType) {
     	// 获取查询条件
     	// 获取地址
     	String addressCond = supplierQuery.getAddress();
@@ -2025,6 +2027,7 @@ public class SupplierQueryController extends BaseSupplierController {
    		request.setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
    		
 		Supplier supplier = supplierService.get(supplierId, 2);
+        model.addAttribute("suppliers", supplier);
 		if(supplier != null){
 			supplierStatus = supplier.getStatus();
 			/**
@@ -2371,7 +2374,9 @@ public class SupplierQueryController extends BaseSupplierController {
 		model.addAttribute("judge", judge);
 		model.addAttribute("person", person);
 		model.addAttribute("supplierId", supplierAudit.getSupplierId());
-		return "/ses/sms/supplier_query/supplierInfo/auditInfo";
+        Supplier supplier = supplierService.selectById(supplierAudit.getSupplierId());
+        model.addAttribute("suppliers", supplier);
+        return "/ses/sms/supplier_query/supplierInfo/auditInfo";
 	}
     
     /**
