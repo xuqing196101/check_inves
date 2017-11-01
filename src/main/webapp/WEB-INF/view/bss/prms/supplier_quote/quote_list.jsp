@@ -171,6 +171,7 @@
 			<c:forEach items="${packLis}" var="packLis" varStatus="vs">
 	     <c:if test="${packLis.name==fn:substringBefore(treemapKey, '|')}">
 	     <c:set value="${packLis.isEndPrice}" var="isEndPrice"></c:set>
+	     <c:set value="${packLis.isEditFirst}" var="isEditFirst"></c:set>
 	     </c:if>
 	  </c:forEach>
 		<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
@@ -191,7 +192,8 @@
 		</c:forEach>
 		<c:if test="${dd.code eq 'JZXTP' || dd.code eq 'DYLY'}">
 	        <c:if test="${isEndPrice !=1 }">
-        		 <button class="btn" onclick = "quoteAgain('${project.id}','${packId}',1)">再次报价</button>
+	        	
+        		 <button class="btn" <c:if test="${isEditFirst == 0 }">disabled="disabled"</c:if> onclick = "quoteAgain('${project.id}','${packId}',1)">再次报价</button>
         		 <span class="ml50">查看历史报价:</span>
 				 <select onchange="showQuoteHistory('${project.id}','${packId}',this.options[this.options.selectedIndex].value)">
 						<c:if test="${empty treemap.value[0].dataList or fn:length(treemap.value[0].dataList) == 1}">
@@ -224,7 +226,9 @@
         	</c:if>
 		 </c:if>
 		</table>
+		<c:if test="${treemap.value[0].dataList[0] ne null}">
 		 <iframe src="${pageContext.request.contextPath}/open_bidding/viewChangtotalByPackId.html?projectId=${project.id}&packId=${packId}&flowDefineId=${flowDefineId}&timestamp=<fmt:formatDate value="${treemap.value[0].dataList[0]}" pattern="YYYY-MM-dd HH:mm:ss"/>&purchaseType=${project.purchaseType}" id="ifs" class="table table-bordered table-condensed mt5" height="380"></iframe>
+		</c:if>
 		</div>
 		</c:if>
 	</c:forEach>
