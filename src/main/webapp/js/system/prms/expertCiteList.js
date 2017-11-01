@@ -97,7 +97,8 @@ $("input[name='chkItem']").click(function () {
 $(".footerDiv > .back").click(function () {
     var projectId = $("input[name='projectId']").val();
     $.ajaxSetup({cache:false});
-    var path = globalPath + '/packageExpert/auditManage.html?projectId='+projectId;
+    /*var path = globalPath + '/packageExpert/auditManage.html?projectId='+projectId;*/
+    var path = globalPath + '/packageExpert/assignedExpert.html?projectId='+projectId;
     $("#tab-1").load(path);
 })
 /**保存按钮*/

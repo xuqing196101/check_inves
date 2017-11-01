@@ -181,6 +181,7 @@
   </head>
   <body>
      <div class="col-md-12 p0">
+     <h2 class="list_title">拟制符合性审查项</h2>
 	   <ul class="flow_step">
 	     <li class="active">
 		   <a  href="${pageContext.request.contextPath}/firstAudit/toAdd.html?projectId=${projectId}&flowDefineId=${flowDefineId}" >01、资格性和符合性审查</a>
@@ -221,22 +222,33 @@
 		 </li>
 	   </ul>
 	 </div>
-	 <h2 class="list_title">拟制符合性审查项</h2>
-	 <input type="hidden" id="tipMsg" value="${msg}">
+	   
+	   <div class="clear"></div>
+	   <input type="hidden" id="tipMsg" value="${msg}">
      <input type="hidden" id="projectId" value="${projectId}">
-     <table class="table table-bordered table-condensed table-hover table-striped">
+     <table class="table table-bordered table-condensed table-hover table-striped mb0 mt20">
          <thead>
          <tr>
-           <th class="w50 info">序号</th>
-           <th class="info">包名</th>
-           <th class="info">状态</th>
-           <th class="info">操作</th>
+           <th class="w50">序号</th>
+           <th>包名</th>
+           <th>状态</th>
+           <th class="w120">操作</th>
          </tr>
          </thead>
          <c:forEach items="${packages}" var="p" varStatus="vs">
             <tr>
                 <td class="tc w30">${vs.count}</td>
-                <td class="tc">${p.name}</td>
+                <td class="tc">${p.name}
+                    <c:if test="${p.projectStatus=='YZZ'}">
+                       <span class="star_red">[该包已终止]</span>
+                    </c:if>
+                    <c:if test="${p.projectStatus=='ZJZXTP'}">
+                       <span class="star_red">[该包已转竞谈]</span>
+                    </c:if>
+                    <c:if test="${p.projectStatus=='ZJTSHZ'}">
+                       <span class="star_red">[该包转竞谈审核中]</span>
+                    </c:if>
+                </td>
                 <td class="tc">
                 	<c:if test="${p.isEditFirst == 0}">
                 		未维护检查数据
@@ -247,10 +259,10 @@
                 </td>
                 <td class="tc">
                 	<c:if test="${project.confirmFile == 1}">
-                		<button class="btn" type="button" onclick="view('${p.id}','${projectId}')">查看</button>
+                		<button class="btn" type="button" onclick="view('${p.id}','${projectId}')"  <c:if test="${p.projectStatus=='YZZ'}">disabled="disabled"</c:if>>查看</button>
                 	</c:if>
                 	<c:if test="${project.confirmFile != 1}">
-	                    <button class="btn btn-windows edit" type="button" onclick="editPackageFirstAudit('${p.id}','${projectId}')">编辑</button>
+	                    <button class="btn btn-windows edit" type="button" onclick="editPackageFirstAudit('${p.id}','${projectId}')" <c:if test="${p.projectStatus=='YZZ'}">disabled="disabled"</c:if>>编辑</button>
                 	</c:if>
                 </td>
          </c:forEach>

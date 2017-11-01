@@ -55,7 +55,7 @@
     
     //显示包评审项信息
     function view(packageId,projectId){
-    	window.open("${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId="+packageId+"&projectId="+projectId+"&flag="+1);   
+    	window.open("${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId="+packageId+"&projectId="+projectId+"&flag="+1+"&flowDefineId=${flowDefineId}");   
     }
     
     //引入包评审项
@@ -98,7 +98,7 @@
           	<label class="fl">项目名称：</label><span><input type="text" name="projectName" value="${projectName}"/></span>
           </li>
           <li>
-            <label class="fl w50">包名：</label><span><input type="text" name="packageName" value="${packageName}"/></span>
+            <label class="fl w50">项目编号：</label><span><input type="text" name="projectNumber" value="${projectNumber}"/></span>
           </li>
           <li>
             <button type="submit" class="btn fl">查询</button>

@@ -420,7 +420,7 @@ public class ExpertServiceImpl implements ExpertService {
 				    map.put("expert", "2");
 				}else if(expert.getStatus().equals("6")){
                     // 复查合格
-                    map.put("expert", "7");
+                    /*map.put("expert", "7");*/
                 }else if(expert.getStatus().equals("7") && 1 == expert.getIsProvisional()){
                     // 临时专家,并且参加的评审项目已结束
                     map.put("expert", "7");
@@ -1314,12 +1314,12 @@ public class ExpertServiceImpl implements ExpertService {
         if(pageNum != null){
             PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
         }
-        
+        String yzz = DictionaryDataUtil.getId("YZZ");
         List<ProjectExt> projectExtList = new ArrayList<ProjectExt>();
         ProjectExt projectExt;
         for (Packages packages : packageList) {
             Project project = projectMapper.selectProjectByPrimaryKey(packages.getProjectId());
-            if (project != null) {
+            if (project != null && !yzz.equals(project.getStatus())) {
                 projectExt = new ProjectExt();
                 PropertyUtils.copyProperties(projectExt, project);
                 projectExt.setPackageId(packages.getId());

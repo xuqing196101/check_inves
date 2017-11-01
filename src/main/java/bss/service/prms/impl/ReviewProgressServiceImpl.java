@@ -8,12 +8,14 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import bss.dao.ppms.AdvancedPackageMapper;
 import bss.dao.ppms.PackageMapper;
 import bss.dao.ppms.SaleTenderMapper;
 import bss.dao.prms.FirstAuditMapper;
 import bss.dao.prms.PackageExpertMapper;
 import bss.dao.prms.ReviewFirstAuditMapper;
 import bss.dao.prms.ReviewProgressMapper;
+import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.Packages;
 import bss.model.ppms.SaleTender;
 import bss.model.prms.FirstAudit;
@@ -37,6 +39,9 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
 	private SaleTenderMapper saleTenderMapper;
 	@Autowired
 	private FirstAuditMapper firstAuditMapper;
+	
+	@Autowired
+	private AdvancedPackageMapper advancedPackageMapper;
 	
 	@Override
 	public int deleteByPrimaryKey(String id) {
@@ -171,10 +176,13 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
                            noPassNum += 1;
                        }
                    }
-                   //如果不通过的专家比通过的专家多，则该项判为不合格
+                  //如果不通过的专家比通过的专家多，则该项判为不合格
                    if (noPassNum > passNum) {
                        isPass += 1;
                    }
+                   /*if (noPassNum > 0) {
+                     isPass += 1;
+                 }*/
                }
                if (isPass == 0) {
                    //供应商合格
@@ -228,6 +236,11 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
       			 List<Packages> packages = packageMapper.findPackageById(packageMap);
       			 if (packages != null && packages.size() > 0) {
       			     reviewProgress.setPackageName(packages.get(0).getName());
+      			 } else {
+      			     List<AdvancedPackages> selectByAll = advancedPackageMapper.selectByAll(packageMap);
+      			     if(selectByAll != null && !selectByAll.isEmpty()){
+      			       reviewProgress.setPackageName(selectByAll.get(0).getName());
+      			     }
       			 }
       			 reviewProgress.setProjectId(projectId);
       			 //新增
@@ -341,6 +354,11 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
             List<Packages> packages = packageMapper.findPackageById(packageMap);
             if (packages != null && packages.size() > 0) {
                 reviewProgress.setPackageName(packages.get(0).getName());
+            } else {
+                List<AdvancedPackages> selectByAll = advancedPackageMapper.selectByAll(packageMap);
+                if(selectByAll != null && !selectByAll.isEmpty()){
+                  reviewProgress.setPackageName(selectByAll.get(0).getName());
+                }
             }
     			  //新增
     			  save(reviewProgress);

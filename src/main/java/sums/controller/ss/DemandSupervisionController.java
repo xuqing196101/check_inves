@@ -378,7 +378,7 @@ public class DemandSupervisionController extends BaseController{
                                 if(packages2.getId().equals(details.get(i).getPackageId())){
                                     DictionaryData findById = DictionaryDataUtil.findById(details.get(i).getPurchaseType());
                                     details.get(i).setPurchaseType(findById.getName());
-                                    String[] progressBarPlan = supervisionService.progressBar(details.get(i).getRequiredId());
+                                    String[] progressBarPlan = supervisionService.progressBar(details.get(i).getRequiredId(),id);
                                     details.get(i).setProgressBar(progressBarPlan[0]);
                                     details.get(i).setStatus(progressBarPlan[1]);
                                     list.add(details.get(i));
@@ -401,7 +401,7 @@ public class DemandSupervisionController extends BaseController{
                             if(detail.getPrice() != null){
                                 DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
                                 detail.setPurchaseType(findById.getName());
-                                String[] progressBarPlan = supervisionService.progressBar(detail.getRequiredId());
+                                String[] progressBarPlan = supervisionService.progressBar(detail.getRequiredId(),id);
                                 detail.setProgressBar(progressBarPlan[0]);
                                 detail.setStatus(progressBarPlan[1]);
                                 list.add(detail);
@@ -555,61 +555,61 @@ public class DemandSupervisionController extends BaseController{
     @RequestMapping(value="/paixu",produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String paixu(Model model, String id, String fileId,Integer page){
-        JSONObject jsonObj = new JSONObject();
-        if (StringUtils.isNotBlank(fileId) && StringUtils.isNotBlank(id)) {
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("fileId", fileId);
-            PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-            List<PurchaseDetail> details = purchaseDetailService.getByMap(map);
-            if(details != null && details.size() > 0){
-                for (PurchaseDetail detail : details) { 
-                    if(detail.getPrice() == null){
-                        detail.setPurchaseType("");
-                        detail.setStatus(null);
-                    }else{
-                        DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
-                        if(findById != null){
-                            detail.setPurchaseType(findById.getName());
-                        }
-                        String[] progressBarPlan = supervisionService.progressBar(detail.getId());
-                        detail.setProgressBar(progressBarPlan[0]);
-                        detail.setStatus(progressBarPlan[1]);
-                        detail.setOneAdvice(findById.getCode());
-                    }
-                }
-                PageInfo<PurchaseDetail> pageInfo = new PageInfo<PurchaseDetail>(details);
-                jsonObj.put("pages", pageInfo.getPages());
-                jsonObj.put("data", pageInfo.getList());
-            } else {
-                PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-                List<PurchaseRequired> purchaseRequireds = purchaseRequiredService.getUnique(id);
-                if(purchaseRequireds != null && purchaseRequireds.size() > 0){
-                    for (PurchaseRequired purchaseRequired : purchaseRequireds) {
-                        HashMap<String, Object> maps = new HashMap<>();
-                        maps.put("id", purchaseRequired.getId());
-                        List<PurchaseRequired> purchaseDetails = purchaseRequiredService.selectByParentId(maps);
-                        if(purchaseDetails.size() > 1){
-                            purchaseRequired.setPurchaseType("");
-                            purchaseRequired.setStatus(null);
-                        }else{
-                            DictionaryData findById = DictionaryDataUtil.findById(purchaseRequired.getPurchaseType());
-                            if(findById != null){
-                                purchaseRequired.setPurchaseType(findById.getName());
-                            }
-                            String[] progressBarPlan = supervisionService.progressBar(purchaseRequired.getId());
-                            purchaseRequired.setProgressBar(progressBarPlan[0]);
-                            purchaseRequired.setStatus(progressBarPlan[1]);
-                            purchaseRequired.setOneAdvice(findById.getCode());
-                        }
-                    }
-                }
-                PageInfo<PurchaseRequired> pageInfo = new PageInfo<PurchaseRequired>(purchaseRequireds);
-                jsonObj.put("pages", pageInfo.getPages());
-                jsonObj.put("data", pageInfo.getList());
-            }
-        }
-        return jsonObj.toString();
-    }
+      JSONObject jsonObj = new JSONObject();
+      HashMap<String, Object> map = new HashMap<>();
+      map.put("fileId", fileId);
+      PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+      List<PurchaseDetail> details = purchaseDetailService.getByMap(map);
+      if(details != null && details.size() > 0){
+          for (PurchaseDetail detail : details) { 
+              if(detail.getPrice() == null){
+                  detail.setPurchaseType("");
+                  detail.setStatus(null);
+              }else{
+                  DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
+                  if(findById != null){
+                      detail.setPurchaseType(findById.getName());
+                  }
+                  String[] progressBarPlan = supervisionService.progressBar(detail.getId(), null);
+                  detail.setProgressBar(progressBarPlan[0]);
+                  detail.setStatus(progressBarPlan[1]);
+                  detail.setOneAdvice(findById.getCode());
+              }
+          }
+          PageInfo<PurchaseDetail> pageInfo = new PageInfo<PurchaseDetail>(details);
+          jsonObj.put("pages", pageInfo.getPages());
+          jsonObj.put("data", pageInfo.getList());
+      } else {
+          PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+          List<PurchaseRequired> purchaseRequireds = purchaseRequiredService.getUnique(id);
+          if(purchaseRequireds != null && purchaseRequireds.size() > 0){
+              for (PurchaseRequired purchaseRequired : purchaseRequireds) {
+                  HashMap<String, Object> maps = new HashMap<>();
+                  maps.put("id", purchaseRequired.getId());
+                  List<PurchaseRequired> purchaseDetails = purchaseRequiredService.selectByParentId(maps);
+                  if(purchaseDetails.size() > 1){
+                      purchaseRequired.setPurchaseType("");
+                      purchaseRequired.setStatus(null);
+                  }else{
+                      DictionaryData findById = DictionaryDataUtil.findById(purchaseRequired.getPurchaseType());
+                      if(findById != null){
+                          purchaseRequired.setPurchaseType(findById.getName());
+                      }
+                      String[] progressBarPlan = supervisionService.progressBar(purchaseRequired.getId(), null);
+                      purchaseRequired.setProgressBar(progressBarPlan[0]);
+                      purchaseRequired.setStatus(progressBarPlan[1]);
+                      purchaseRequired.setOneAdvice(findById.getCode());
+                  }
+              }
+          }
+          PageInfo<PurchaseRequired> pageInfo = new PageInfo<PurchaseRequired>(purchaseRequireds);
+          jsonObj.put("pages", pageInfo.getPages());
+          jsonObj.put("data", pageInfo.getList());
+      }
+      
+      return jsonObj.toString();
+  }
+
     
     /**
      * 

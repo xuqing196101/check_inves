@@ -482,7 +482,7 @@
 								<td>
 									<select class="org" name="list[${vs.index }].organization" disabled="disabled" class="organization">
 										<c:forEach items="${org }" var="ss">
-											<option value="${ss.name }" <c:if test="${ss.name==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
+											<option value="${ss.name }" <c:if test="${ss.name==obj.organization }">selected="selected" </c:if> >${ss.shortName}</option>
 										</c:forEach>
 									</select>
 								</td>

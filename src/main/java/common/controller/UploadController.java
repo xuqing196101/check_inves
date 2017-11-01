@@ -139,7 +139,7 @@ public class UploadController {
         
         List<UploadFile> list = uploadService.getFiles(request);
         for(UploadFile upload:list){
-        	if(upload.getPath()!=null&&!"".equals(upload.getPath())){
+        	if(StringUtils.isNotBlank(upload.getPath())){
         		upload.setPath(upload.getPath().substring(upload.getPath().indexOf("."),upload.getPath().length()));
         	}
         	

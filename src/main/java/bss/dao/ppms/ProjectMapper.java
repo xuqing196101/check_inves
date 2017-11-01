@@ -53,6 +53,8 @@ public interface ProjectMapper {
     
     List<Project> selectByOrg(HashMap<String,Object> map);
     
+    List<Project> selectByOrgnization(HashMap<String,Object> map);
+    
     List<Project> selectByDemand(HashMap<String,Object> map);
     
     /**

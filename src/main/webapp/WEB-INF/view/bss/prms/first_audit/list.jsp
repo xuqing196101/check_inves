@@ -135,11 +135,31 @@
 			</tr>
 			</thead>
 			<tbody id="ty">
+			<c:set value="false" var="flg"></c:set>
 			<c:forEach items="${reviewProgressList}" var="rp" varStatus="vs">
 		       <tr>
 		       	<%-- <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${rp.packageId}" /></td> --%>
 		        <td class="tc w30">${vs.count}</td>
-		        <td class="tc">${rp.packageName}</td>
+		        <td class="tc">${rp.packageName}
+		        <c:set value="false" var="flg"></c:set>
+		         <c:forEach items="${packageList}" var="pa">
+		            <c:if test="${pa.id==rp.packageId }">
+		              <c:if test="${pa.projectStatus eq 'YZZ'}">
+		                <span class="star_red">[已终止]</span>
+		                <c:set value="true" var="flg"></c:set>
+		              </c:if>
+		              <c:if test="${pa.projectStatus eq 'ZJZXTP'}">
+		                <span class="star_red">[已转竞谈]</span>
+		                <c:set value="true" var="flg"></c:set>
+		              </c:if>
+		              <c:if test="${pa.projectStatus eq 'ZJTSHZ'}">
+		                <span class="star_red">[转竞谈审核中]</span>
+		                <c:set value="true" var="flg"></c:set>
+		              </c:if>
+		            </c:if>
+		         </c:forEach>
+		        
+		        </td>
 		        <td class="tc">
 		        	<input type="hidden" value="${rp.isGather}">
 		        	<c:if test="${rp.auditStatus == 0}">符合性和资格性检查未开始</c:if>
@@ -162,7 +182,7 @@
 				  <input type="hidden" value="${rp.firstAuditProgress*100}">
 			    </td>
 			    <td class="tc w100">
-		          <input class="btn" type="button" value="查看" onclick="fitsrView('${rp.packageId}','${projectId}','${flowDefineId}')">
+		          <input class="btn" type="button" <c:if test="${flg eq 'true' }">disabled="disabled" </c:if> value="查看" onclick="fitsrView('${rp.packageId}','${projectId}','${flowDefineId}')">
 		        </td>
 		      </tr>
 			</c:forEach>

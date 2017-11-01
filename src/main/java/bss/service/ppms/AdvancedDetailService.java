@@ -102,4 +102,10 @@ public interface AdvancedDetailService {
     
     List<AdvancedDetail> selectByCondition(HashMap<String,Object> map);
     
+    List<AdvancedDetail> viewDetail(String projectId);
+    
+    List<AdvancedDetail> showDetail(List<AdvancedDetail> list, String projectId);
+    
+    List<AdvancedDetail> showPackDetail(List<AdvancedDetail> list, String projectId);
+    
 }

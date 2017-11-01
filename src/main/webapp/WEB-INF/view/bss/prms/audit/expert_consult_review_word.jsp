@@ -31,6 +31,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <meta http-equiv="description" content="This is my page">
 
+<style>
+
+@page
+    {mso-page-border-surround-header:no;
+    mso-page-border-surround-footer:no;}
+@page Section1
+    {size:841.9pt 595.3pt;
+    mso-page-orientation:landscape;
+    margin:89.85pt 72.0pt 89.85pt 72.0pt;
+    mso-header-margin:42.55pt;
+    mso-footer-margin:49.6pt;
+    mso-paper-source:0;
+    layout-grid:15.6pt;}
+div.Section1
+    {page:Section1;}
+
+</style>
 <!--
 
 <link rel="stylesheet" type="text/css" href="styles.css">
@@ -56,7 +73,7 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);
 </head>
 
 <body>
-<div style="width:85%;margin:auto;">
+<div style="width:100%;margin:auto;" class = "Section1">
     <div style="display: block;background: #fff;padding: 1px 10px;margin: 10px 0 10px 20px;border-left: 4px solid #2c9fa6;">
    		<h2>专家咨询委员会1</h2>
    	</div>
@@ -64,55 +81,55 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);
    		<h2>${project.name}--${pack.name}</h2>
    	</div>
   	<c:forEach items="${saleTenderList}" var="extensions" >
-  	<table align="center" style="border:1px solid #dddddd; border-collapse: collapse;margin: auto;" colspan="0" rowspan="0">
+  	<table  style="border:1px solid #dddddd; border-collapse: collapse;width:100%;" colspan="0" rowspan="0">
   	<thead>
    		  <tr style="box-sizing: border-box; border:1px solid #dddddd; border-radius: 0px !important;">
-   		  <th width="120" rowspan="2" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">评审内容/供应商</th>
+   		  <th  rowspan="2" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:20%;">评审内容/供应商</th>
    		  <c:set var="suppliers" value="0" />
    		  <c:forEach items="${extensions.supplierList}" var="supplier" varStatus="vs">
    		  	<c:set var="suppliers" value="${suppliers+1}" />
-	   		    <th width="120" colspan="2" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">
+	   		    <th  colspan="2" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">
 	   		      ${supplier.suppliers.supplierName}
 	   		    </th>
    		  </c:forEach>
-   		  <c:if test="${fn:length(extensions.supplierList)<4}">
+   		  <%-- <c:if test="${fn:length(extensions.supplierList)<4}">
 		        <c:forEach begin="1" end="${4-fn:length(extensions.supplierList)}"  step="1" varStatus="i">
 		            <th width="120" colspan="2" style="border: 1px solid #ddd;padding: 5px 10px;">
 		            </th>
 		         </c:forEach>
-		  </c:if>
+		  </c:if> --%>
    		  </tr>
    		  <tr>
 		      	<c:forEach items="${extensions.supplierList}" var="supplier" varStatus="vs">
 		        	<th style="text-align: center;background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;" >合格</th>
 		        	<th style="text-align: center;background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">不合格</th>
 		        </c:forEach>
-		        <c:if test="${fn:length(extensions.supplierList)<4}">
+		        <%-- <c:if test="${fn:length(extensions.supplierList)<8}">
 		        <c:forEach begin="1" end="${4-fn:length(extensions.supplierList)}"  step="1" varStatus="i">
 		            <th style="text-align: center;background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;" ></th>
 		        	<th style="text-align: center;background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;"></th>
 		         </c:forEach>
-		  		 </c:if>
+		  		 </c:if> --%>
 		      </tr>
    		</thead>
    	  <c:forEach items="${dds}" var="d">
    			<tr  style="box-sizing: border-box; border:1px solid #dddddd; border-radius: 0px !important;">
-   			  <td width="120" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;" colspan="(suppliers+1)*2">
+   			  <td  style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:100%;" colspan="${suppliers*2+1}">
    				<b>${d.name}</b>
    			  </td>
-   			  <c:if test="${fn:length(extensions.supplierList)<4}">
+   			  <%-- <c:if test="${fn:length(extensions.supplierList)<4}">
 		        <c:forEach begin="1" end="${4-fn:length(extensions.supplierList)}"  step="1" varStatus="i">
-		            <td width="120" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;" colspan="(suppliers+1)*2">
+		            <td  style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;" colspan="(suppliers+1)*2">
    			  		</td>
 		         </c:forEach>
-		  	  </c:if>
+		  	  </c:if> --%>
    			</tr>
    			<c:forEach items="${firstAudits}" var="first" varStatus="vs">
 		      	<c:if test="${first.kind == d.id}">
 			      	<tr>
-			      	  <td width="120" style="border: 1px solid #ddd;padding: 5px 10px;">${first.name}</td>
+			      	  <td  style="border: 1px solid #ddd;padding: 5px 10px;width:20%;">${first.content}</td>
 			      	  <c:forEach items="${extensions.supplierList}" var="supplier" varStatus="v">
-			      	  <td width="120" style="border: 1px solid #ddd;padding: 5px 10px;">
+			      	  <td style="border: 1px solid #ddd;padding: 5px 10px;">
 			      	   <c:set value="0" var="isPassNum"/>
 	                   <c:forEach items="${reviewFirstAudits}" var="rfa">
   	  	  	 				<c:if test="${rfa.firstAuditId eq first.id && rfa.supplierId eq supplier.suppliers.id && rfa.isPass==0}">
@@ -121,7 +138,7 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);
   	  	  	 			</c:forEach>
   	  	  	 			${isPassNum}人
 		                </td>
-		                <td width="120" style="border: 1px solid #ddd;padding: 5px 10px;">
+		                <td  style="border: 1px solid #ddd;padding: 5px 10px;">
 		  	  	  	 			<c:set value="0" var="noPassNum"/>
 		  	  	  	 			<c:forEach items="${reviewFirstAudits}" var="rfa">
 		  	  	  	 				<c:if test="${rfa.firstAuditId eq first.id && rfa.supplierId eq supplier.suppliers.id && rfa.isPass==1}">
@@ -131,14 +148,14 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);
 		  	  	  	 			${noPassNum}人
 		  	  	  	 		</td>
 		              </c:forEach>
-		              <c:if test="${fn:length(extensions.supplierList)<4}">
+		              <%-- <c:if test="${fn:length(extensions.supplierList)<4}">
 		                 <c:forEach begin="1" end="${4-fn:length(extensions.supplierList)}"  step="1" varStatus="i">
 		                 <td width="120" style="border: 1px solid #ddd;padding: 5px 10px;">
 		                 </td>
 		                 <td width="120" style="border: 1px solid #ddd;padding: 5px 10px;">
 		                 </td>
 		                 </c:forEach>
-		              </c:if> 
+		              </c:if>  --%>
 			      	</tr>
 		      	</c:if>
             </c:forEach> 
@@ -152,12 +169,12 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);
 			        		<input type="radio" name="checkName${i.index}" value="${st.id},0" ><span class="red">不合格</span>
 			        	</td>
 		        	  </c:forEach>
-		        	  <c:if test="${fn:length(extensions.supplierList)<4}">
+		        	  <%-- <c:if test="${fn:length(extensions.supplierList)<4}">
 		                 <c:forEach begin="1" end="${4-fn:length(extensions.supplierList)}"  step="1" varStatus="i">
 		                 <input type="radio" name="checkName${i.index}" value="${st.id},100" ><span class="green"></span>
 			        		<input type="radio" name="checkName${i.index}" value="${st.id},0" ><span class="red"></span>
 		                 </c:forEach>
-		              </c:if>
+		              </c:if> --%>
         	  </c:if>
         	  <c:if test="${flag == '1' }">
         	  	  <c:forEach items="${extensions.supplierList}" var="st" varStatus="i">
@@ -170,11 +187,11 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);
 		        		</c:if>
 		        	</td>
 	        	  </c:forEach>
-	        	  <c:if test="${fn:length(extensions.supplierList)<4}">
+	        	 <%--  <c:if test="${fn:length(extensions.supplierList)<4}">
 	                 <c:forEach begin="1" end="${4-fn:length(extensions.supplierList)}"  step="1" varStatus="i">
 	                 <td style="text-align: center;" colspan="2"></td>
 	                 </c:forEach>
-	              </c:if> 
+	              </c:if>  --%>
         	  </c:if>
 	  	  </tr>
    	</table>

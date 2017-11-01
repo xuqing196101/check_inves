@@ -10,6 +10,14 @@
     <link href="${pageContext.request.contextPath}/public/easyui/themes/icon.css" media="screen" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
     <script type="text/javascript">
+    	$(function() {
+      	$("input[name='linkman']").each(function(){
+      		if($(this).val() == '已废标'){
+      			$(this).prev().css("color","gray");
+      		}
+      	});
+      });
+      
       function view(id){
         window.location.href = "${pageContext.request.contextPath}/planSupervision/viewPack.html?id="+id+"&planId=${planId}";
       }
@@ -65,6 +73,7 @@
                 <td class="tc w50">${(vs.index+1)}</td>
                 <td class="tl pl20" onclick="view('${obj.id}')">
                   <a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.name}</a>
+                  <input type="hidden" name="linkman" value="${obj.status}"/>
                 </td>
                 <td class="tl pl20" onclick="view('${obj.id}')">${obj.projectNumber}</td>
                 <td class="tc " onclick="view('${obj.id}')">${obj.purchaseDepId}</td>

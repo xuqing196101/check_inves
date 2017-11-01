@@ -126,7 +126,7 @@
               </td>
               <td>
                 <div class="department">
-                  <c:if test="${obj.purchaseCount eq null}">
+                  <c:if test="${obj.isParent=='true'}">
                     ${obj.department}
                   </c:if>
                 </div>
@@ -175,7 +175,7 @@
               </td>
               <td>
                 <div class="purchasetype">
-                  <c:if test="${obj.purchaseCount ne null}">
+                  <c:if test="${obj.isParent!='true'}">
                     <c:forEach items="${kind}" var="kind">
                       <c:if test="${kind.id eq obj.purchaseType}">${kind.name}</c:if>
                     </c:forEach>
@@ -185,9 +185,9 @@
               <c:if test="${org_advice!=2 }">
                 <td>
                   <div class="organization">
-                    <c:if test="${obj.purchaseCount ne null}">
+                    <c:if test="${obj.isParent!='true'}">
                       <c:forEach items="${requires}" var="ss">
-                        <c:if test="${ss.orgId eq obj.organization}">${ss.name}</c:if>
+                        <c:if test="${ss.orgId eq obj.organization}">${ss.shortName}</c:if>
                       </c:forEach>
                     </c:if>
                   </div>
@@ -224,6 +224,14 @@
           </c:forEach>
         </table>
       </div>
+      <c:if test="${org_advice==2&&list[0].reason!=''&&list[0].reason!=null}">
+           <div class="col-md-12 col-xs-12 col-sm-12 p0">
+				     <div class="col-md-12 col-xs-12 col-sm-12 p0"> 退回理由：</div>
+				     <div class="col-md-12 col-xs-12 col-sm-12 p0">
+				         <textarea id="reson" name="reason" maxlength="800" readonly="readonly" class="h80 col-md-12 col-xs-12 col-sm-12" title="不超过800个字">${list[0].reason }</textarea>
+                     </div>
+                  </div>
+        </c:if>
       <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
         <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
       </div>

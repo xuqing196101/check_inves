@@ -14,10 +14,14 @@
 		<result column="PURCHASE_TYPE" property="purchaseType" />
 		<result column="IS_IMPORT" property="isImport" />
 		<result column="IS_END_PRICE" property="isEndPrice" />
+		<result column="PROJECT_STATUS" property="projectStatus" />
+		<result column="OLD_FLOW_ID" property="oldFlowId" />
+		<result column="NEW_FLOW_ID" property="newFlowId" />
+		<result column="EDIT_FLOW_ID" property="editFlowId" />
+		<result column="PACKAGE_NUMBER" property="packageNumber" />
 		<result column="TECHNIQUE_TIME" property="techniqueTime" jdbcType="TIMESTAMP" />
 		<result column="QUALIFICATION_TIME" property="qualificationTime" jdbcType="TIMESTAMP" />
-		<association property="project" column="PROJECT_ID"
-			select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey" />
+		<association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey" />
 	</resultMap>
 
 	<resultMap type="bss.model.ppms.Packages" id="TwoResultMap">
@@ -29,6 +33,11 @@
 		<result column="STATUS" property="status" />
 		<result column="MARK_TERM_TREE" property="markTermTree" />
 		<result column="IS_END_PRICE" property="isEndPrice" />
+		<result column="PROJECT_STATUS" property="projectStatus" />
+		<result column="OLD_FLOW_ID" property="oldFlowId" />
+		<result column="NEW_FLOW_ID" property="newFlowId" />
+		<result column="EDIT_FLOW_ID" property="editFlowId" />
+		<result column="PACKAGE_NUMBER" property="packageNumber" />
 		<association property="project" column="PROJECT_ID"
 			select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey" />
 	</resultMap>
@@ -95,8 +104,8 @@
 
 	<sql id="Base_Column_List">
 		ID, NAME,PROJECT_ID,IS_DELETED,CREATED_AT,
-		UPDATED_AT,STATUS,MARK_TERM_TREE,BID_METHOD_ID,
-		PURCHASE_TYPE,IS_IMPORT,IS_END_PRICE,TECHNIQUE_TIME,QUALIFICATION_TIME
+		UPDATED_AT,STATUS,MARK_TERM_TREE,BID_METHOD_ID,PACKAGE_NUMBER,
+		PURCHASE_TYPE,IS_IMPORT,IS_END_PRICE,TECHNIQUE_TIME,QUALIFICATION_TIME,PROJECT_STATUS,OLD_FLOW_ID,NEW_FLOW_ID,EDIT_FLOW_ID
 	</sql>
 
 	<insert id="insertSelective" parameterType="bss.model.ppms.Packages">
@@ -147,6 +156,18 @@
       <if test="qualificationTime != null">
         QUALIFICATION_TIME,
       </if>
+      <if test="projectStatus != null">
+        PROJECT_STATUS,
+      </if>
+      <if test="oldFlowId != null">
+        OLD_FLOW_ID,
+      </if>
+      <if test="newFlowId != null">
+        NEW_FLOW_ID,
+      </if>
+      <if test="packageNumber != null">
+        PACKAGE_NUMBER,
+      </if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -191,6 +212,18 @@
       <if test="qualificationTime != null">
         #{qualificationTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="projectStatus != null">
+        #{projectStatus},
+      </if>
+      <if test="oldFlowId != null">
+        #{oldFlowId},
+      </if>
+      <if test="newFlowId != null">
+        #{newFlowId},
+      </if>
+      <if test="packageNumber != null">
+        #{packageNumber},
+      </if>
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.Packages">
@@ -229,11 +262,26 @@
 			<if test="isEndPrice != null">
 				IS_END_PRICE = #{isEndPrice},
 			</if>
+			<if test="oldFlowId != null">
+				OLD_FLOW_ID = #{oldFlowId},
+			</if>
+			<if test="newFlowId != null">
+				NEW_FLOW_ID = #{newFlowId},
+			</if>
+			<if test="editFlowId != null">
+				EDIT_FLOW_ID = #{editFlowId},
+			</if>
 			<if test="techniqueTime != null">
         TECHNIQUE_TIME = #{techniqueTime,jdbcType=TIMESTAMP},
       </if>
       <if test="qualificationTime != null">
         QUALIFICATION_TIME = #{qualificationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectStatus != null">
+        PROJECT_STATUS = #{projectStatus},
+      </if>
+      <if test="packageNumber != null">
+        PACKAGE_NUMBER = #{packageNumber},
       </if>
 		</set>
 		where ID = #{id}
@@ -252,6 +300,8 @@
 		IS_IMPORT AS isImport,
 		TECHNIQUE_TIME AS techniqueTime,
 		QUALIFICATION_TIME AS qualificationTime,
+		PROJECT_STATUS AS projectStatus,
+		PACKAGE_NUMBER AS packageNumber,
 		IS_END_PRICE AS isEndPrice
 		FROM
 		T_BSS_PPMS_PACKAGE
@@ -263,6 +313,11 @@
 		<if test="id != null and id !=''">
 			AND ID = #{id}
 		</if>
+		<if test="projectStatus != null and projectStatus !=''">
+			and 
+			  (PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='YZZ') and 
+		    PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='ZJZXTP') or PROJECT_STATUS is null)
+		</if>
 		ORDER BY
 		CREATED_AT ASC
 	</select>
@@ -273,6 +328,11 @@
 		from T_BSS_PPMS_PACKAGE
 		<if test="projectId != null and projectId != '' ">
 			where PROJECT_ID = #{projectId} and IS_DELETED=0
+		</if>
+		<if test="projectStatus != null and projectStatus !=''">
+			and 
+			(PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='YZZ') and 
+		    PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='ZJZXTP') or PROJECT_STATUS is null)
 		</if>
 	</select>
 
@@ -309,6 +369,9 @@
 		<if test="projectId != null and projectId !=''">
 			AND p.PROJECT_ID = #{projectId}
 		</if>
+		<if test="projectStatus != null and projectStatus !=''">
+			AND p.PROJECT_STATUS not in(select id from T_SES_BMS_DICTIONARY_DATA where code='ZJZXTP' or code='YZZ')
+		</if>
 		<if test="listPackagesID != null ">
 			AND p.ID IN 
 			<foreach item="item" index="index" collection="listPackagesID" open="(" separator="," close=")">  
@@ -325,9 +388,10 @@
 		p.ID AS id,
 		p.NAME AS name,
 		p.PROJECT_ID AS projectId,
-		p.STATUS AS
-		status,
+		p.STATUS AS status,
 		p.BID_METHOD_ID as bidMethodId,
+		p.PROJECT_STATUS as projectStatus,
+		p.PACKAGE_NUMBER as packageNumber,
 		b.name as bidMethodName,
 		b.MAX_SCORE as bidMethodMaxScore,
 		b.TYPE_NAME as bidMethodTypeName
@@ -353,9 +417,10 @@
 		ID AS id,
 		NAME AS name,
 		PROJECT_ID AS projectId,
-		STATUS
-		AS status,
+		STATUS AS status,
+		PACKAGE_NUMBER as packageNumber,
 		MARK_TERM_TREE AS markTermTree,
+		PROJECT_STATUS as projectStatus,
 		PURCHASE_TYPE AS
 		purchaseType,
 		IS_IMPORT AS isImport,
@@ -541,6 +606,12 @@
 			<if test="isEndPrice != null">
 				IS_END_PRICE,
 			</if>
+			<if test="projectStatus != null">
+				PROJECT_STATUS,
+			</if>
+			<if test="packageNumber != null">
+				PACKAGE_NUMBER,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -579,6 +650,12 @@
 			<if test="isEndPrice != null">
 				#{isEndPrice},
 			</if>
+			<if test="projectStatus != null">
+				#{projectStatus},
+			</if>
+			<if test="packageNumber != null">
+				#{packageNumber},
+			</if>
 		</trim>
 	</insert>
 
@@ -593,6 +670,8 @@
 		pa.MARK_TERM_TREE AS markTermTree,
 		pa.PURCHASE_TYPE AS purchaseType,
 		pa.IS_IMPORT AS isImport,
+		pa.PROJECT_STATUS AS projectStatus,
+		pa.PACKAGE_NUMBER AS packageNumber,
 		pa.IS_END_PRICE AS isEndPrice
 		FROM
 		T_BSS_PPMS_PACKAGE pa
@@ -614,27 +693,29 @@
 	</select>
 	
 	<!-- 查询包 按照创建时间-->
-	<select id="selectPackageOrderByCreated" parameterType="java.util.Map"
-		resultType="bss.model.ppms.Packages">
+	<select id="selectPackageOrderByCreated" parameterType="java.util.Map" resultType="bss.model.ppms.Packages">
 		SELECT
-		pa.ID AS id,
-		pa.NAME AS name,
-		pa.PROJECT_ID AS project,
-		pr.NAME AS projectName,
-		pa.STATUS AS status,
-		pa.CREATED_AT AS createdAt,
-		pa.MARK_TERM_TREE AS markTermTree,
-		pa.PURCHASE_TYPE AS purchaseType,
-		pa.IS_IMPORT AS isImport,
-		pa.IS_END_PRICE AS isEndPrice
+			*
 		FROM
-		T_BSS_PPMS_PACKAGE pa
-		inner join T_BSS_PPMS_PROJECTS pr
-		on pa.PROJECT_ID = pr.ID
+			(
+		SELECT DISTINCT
+			pa.ID AS id,
+			pa.NAME AS name,
+			pa.PROJECT_ID AS project,
+			pr.NAME AS projectName,
+			pa.STATUS AS status,
+			pa.CREATED_AT AS createdAt,
+			pa.PURCHASE_TYPE AS purchaseType,
+			pa.IS_IMPORT AS isImport,
+			pa.IS_END_PRICE AS isEndPrice
+		FROM
+			T_BSS_PPMS_PACKAGE pa
+		LEFT JOIN T_BSS_PPMS_PROJECTS pr 
+			on pa.PROJECT_ID = pr.ID LEFT JOIN T_BSS_PPMS_BID_METHOD BM ON PA.ID = BM.PACKAGE_ID
 		WHERE
-		nvl(pa.IS_DELETED,0)=0
-		<if test="projectId != null and projectId !=''">
-			AND pr.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectId}), '%')
+			nvl(pa.IS_DELETED,0)=0 AND pr. NAME IS NOT NULL
+		<if test="projectNumber != null and projectNumber !=''">
+			AND pr.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
 		</if>
 		<if test="projectName != null and projectName !=''">
 			AND pr.NAME like CONCAT(CONCAT('%', #{projectName}), '%')
@@ -645,7 +726,79 @@
 		<if test="packageName != null and packageName !=''">
 			AND pa.NAME like CONCAT(CONCAT('%', #{packageName}), '%')
 		</if>
-		ORDER BY
-		pa.CREATED_AT DESC
+		<if test="typeName != null and typeName !=''">
+			AND BM.TYPE_NAME = #{typeName}
+		</if>
+		GROUP BY
+			pa. ID,
+			pa. NAME,
+			pa.PROJECT_ID,
+			pr. NAME,
+			pa.STATUS,
+			pa.CREATED_AT,
+			pa.PURCHASE_TYPE,
+			pa.IS_IMPORT,
+			pa.IS_END_PRICE
+		HAVING
+			(
+				SELECT
+					COUNT (*)
+				FROM
+					T_BSS_PPMS_MARK_TERM
+				WHERE
+					PROJECT_ID = pa.PROJECT_ID
+				AND PACKAGE_ID = PA. ID
+			) > 0
+		ORDER BY pa.CREATED_AT DESC
+		)
+	</select>
+	
+	<select id="selectByPackageFirstAudit" parameterType="java.util.Map"
+		resultType="bss.model.ppms.Packages">
+			select * from(
+			SELECT DISTINCT
+			pa. ID AS ID,
+			pa. NAME AS NAME,
+			pa.PROJECT_ID AS PROJECT,
+			pr. NAME AS projectName,
+			pa.STATUS AS status,
+			pa.CREATED_AT AS createdAt,
+			pa.PURCHASE_TYPE AS purchaseType,
+			pa.IS_IMPORT AS isImport,
+			pa.IS_END_PRICE AS isEndPrice
+		FROM
+			T_BSS_PPMS_PACKAGE pa
+		LEFT JOIN T_BSS_PPMS_PROJECTS pr ON pa.PROJECT_ID = pr. ID
+		LEFT JOIN T_BSS_PPMS_BID_METHOD BM ON PA. ID = BM.PACKAGE_ID
+		WHERE
+			NVL (pa.IS_DELETED, 0) = 0
+		AND pr. NAME IS NOT NULL
+		<if test="projectName != null and projectName !=''">
+					AND pr.NAME like CONCAT(CONCAT('%', #{projectName}), '%')
+		</if>
+		<if test="projectNumber != null and projectNumber !=''">
+					AND pr.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
+		</if>
+		GROUP BY
+			pa. ID,
+			pa. NAME,
+			pa.PROJECT_ID,
+			pr. NAME,
+			pa.STATUS,
+			pa.CREATED_AT,
+			pa.PURCHASE_TYPE,
+			pa.IS_IMPORT,
+			pa.IS_END_PRICE
+		HAVING
+			(
+				SELECT
+					COUNT (*)
+				FROM
+					T_BSS_PRMS_FIRST_AUDIT
+				WHERE
+					PROJECT_ID = pa.PROJECT_ID
+				AND PACKAGEID = PA. ID
+			) > 0
+			)
 	</select>
 </mapper>

@@ -20,38 +20,42 @@
 		PACKAGE_ID,EXPERT_ID,PROJECT_ID,IS_GROUP_LEADER,IS_AUDIT,IS_GATHER,IS_GRADE,IS_GRADE_GATHER,REVIEW_TYPE_ID
 	</sql>
 	<!-- 根据项目id和包id 以及查询关联表集合 -->
-	<select id="selectList" resultMap="BaseResultMap">
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
 		select
-		<include refid="Base_Column_List" />
-		from T_BSS_PRMS_PACKAGE_EXPERT
+		PE.PACKAGE_ID,PE.EXPERT_ID,PE.PROJECT_ID,PE.IS_GROUP_LEADER,
+		PE.IS_AUDIT,PE.IS_GATHER,PE.IS_GRADE,PE.IS_GRADE_GATHER,PE.REVIEW_TYPE_ID
+		from T_BSS_PRMS_PACKAGE_EXPERT PE LEFT JOIN T_BSS_PPMS_PROJECTS PR  ON PR.ID = PE.PROJECT_ID 
 		where 1=1
 		<if test="packageId != null and packageId !=''">
-			AND PACKAGE_ID = #{packageId}
+			AND PE.PACKAGE_ID = #{packageId}
 		</if>
 		<if test="projectId != null and projectId !=''">
-			AND PROJECT_ID = #{projectId}
+			AND PE.PROJECT_ID = #{projectId}
 		</if>
 		<if test="isGroupLeader != null and isGroupLeader !=''">
-			AND IS_GROUP_LEADER = ${isGroupLeader}
+			AND PE.IS_GROUP_LEADER = ${isGroupLeader}
 		</if>
 		<if test="expertId != null and expertId !=''">
-			AND EXPERT_ID = #{expertId}
+			AND PE.EXPERT_ID = #{expertId}
 		</if>
 		<if test="isAudit != null">
-			AND IS_AUDIT = #{isAudit}
+			AND PE.IS_AUDIT = #{isAudit}
 		</if>
 		<if test="isGather != null">
-			AND IS_GATHER = #{isGather}
+			AND PE.IS_GATHER = #{isGather}
 		</if>
 		<if test="isGrade != null">
-			AND IS_GRADE = #{isGrade}
+			AND PE.IS_GRADE = #{isGrade}
 		</if>
 		<if test="isGatherGather != null">
-			AND IS_GRADE_GATHER = #{isGatherGather}
+			AND PE.IS_GRADE_GATHER = #{isGatherGather}
 		</if>
 		<if test="reviewTypeId != null and reviewTypeId != ''">
-			AND REVIEW_TYPE_ID = #{reviewTypeId}
+			AND PE.REVIEW_TYPE_ID = #{reviewTypeId}
 		</if>
+		<if test="date != null">
+      AND TO_CHAR(PR.BID_DATE,'yyyy-mm-dd') =#{date}
+    </if>
 	</select>
 	<!-- 根据包id删除 -->
 	<delete id="deleteByPackageId" parameterType="java.lang.String">
@@ -132,10 +136,10 @@
 			<if test="isGather != null">
 				IS_GATHER,
 			</if>
-			<if test="IS_GRADE != null">
+			<if test="isGrade != null">
 				IS_GRADE,
 			</if>
-			<if test="IS_GRADE_GATHER != null">
+			<if test="isGatherGather != null">
 				IS_GRADE_GATHER,
 			</if>
 			 <if test="reviewTypeId != null">

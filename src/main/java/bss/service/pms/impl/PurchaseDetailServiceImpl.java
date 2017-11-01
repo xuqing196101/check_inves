@@ -3,6 +3,8 @@ package bss.service.pms.impl;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -10,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -445,4 +448,68 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
       }
       return seqNext;
     }
+
+	@Override
+	public List<PurchaseDetail> findUniqueByTask(HashMap<String, Object> map, Integer page) {
+		PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+		List<PurchaseDetail> list = purchaseDetailMapper.findUniqueByTask(map);
+		if (list != null && !list.isEmpty()) {
+			for (PurchaseDetail purchaseDetail : list) {
+          	  	if (purchaseDetail.getPurchaseCount() == null) {
+          	  		purchaseDetail.setPurchaseType(null);
+          	  	} else {
+          	  		if (StringUtils.isNotBlank(purchaseDetail.getPurchaseType())) {
+          	  			DictionaryData findById = DictionaryDataUtil.findById(purchaseDetail.getPurchaseType());
+          	  			if (findById != null) {
+          	  				purchaseDetail.setPurchaseType(findById.getName());
+          	  			}
+          	  		}
+          	  		purchaseDetail.setDepartment(null);
+          	  	}
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public List<PurchaseDetail> findTaskByDetail(String taskId, String orgId) {
+		List<PurchaseDetail> list = new ArrayList<PurchaseDetail>();
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("taskId", taskId);
+		map.put("orgId", orgId);
+		List<PurchaseDetail> findTaskByDetail = purchaseDetailMapper.findTaskByDetail(map);
+		if (findTaskByDetail != null && !findTaskByDetail.isEmpty()) {
+			for (PurchaseDetail purchaseDetail : findTaskByDetail) {
+				HashMap<String, Object> maps = new HashMap<>();
+                maps.put("id", purchaseDetail.getId());
+                List<PurchaseDetail> selectByParent = purchaseDetailMapper.selectByParent(maps);
+                if (selectByParent != null && !selectByParent.isEmpty()) {
+                	list.addAll(selectByParent);
+				}
+			}
+		}
+		removeSame(list);
+		sort(list);
+		return list;
+	}
+
+	private void removeSame(List<PurchaseDetail> list) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            for (int j = list.size() - 1; j > i; j--) {
+                if (list.get(j).getId().equals(list.get(i).getId())) {
+                    list.remove(j);
+                }
+            }
+        }
+    }
+
+	private void sort(List<PurchaseDetail> list) {
+	    Collections.sort(list, new Comparator<PurchaseDetail>(){
+	           @Override
+	           public int compare(PurchaseDetail o1, PurchaseDetail o2) {
+	              Integer i = o1.getIsMaster() - o2.getIsMaster();
+	              return i;
+	           }
+	        });
+	}
 }

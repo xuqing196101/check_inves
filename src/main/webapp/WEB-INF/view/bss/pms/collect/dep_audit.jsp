@@ -515,7 +515,7 @@
 											<%-- <c:if test="${obj.purchaseCount!=null }">  --%>
 												<select class="org" name="listDetail[${vs.index }].organization" onchange="typeChange(this)">
 													<c:forEach items="${org }" var="ss">
-														<option value="${ss.orgId }" <c:if test="${ss.orgId==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
+														<option value="${ss.orgId }" <c:if test="${ss.orgId==obj.organization }">selected="selected" </c:if> >${ss.shortName}</option>
 													</c:forEach>
 												</select>
 										<%--     </c:if> --%>

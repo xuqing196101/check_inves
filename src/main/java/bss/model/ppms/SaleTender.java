@@ -42,7 +42,7 @@ public class SaleTender {
         this.supplierId = supplierId;
     }
 
-
+    private Integer ranking;
     /**
      * <pre>
      * 表字段 : T_BSS_PPMS_SALE_TENDER.ID
@@ -75,6 +75,12 @@ public class SaleTender {
      * </pre>
      */
     private String supplierId;
+    
+    private String supplierName;
+    
+    private String armyBuinessTelephone;
+    
+    private String armyBuinessName;
 
     /**
      * <pre>
@@ -199,6 +205,8 @@ public class SaleTender {
     private List<Date> dataList;
     
     private Integer isEndPrice;
+    
+    private BigDecimal priceScore;//价格评分
     
     public Integer getIsEndPrice() {
         return isEndPrice;
@@ -722,6 +730,56 @@ public class SaleTender {
 
     public void setJzjf(Jzjf jzjf) {
       this.jzjf = jzjf;
+    }
+
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
+
+
+    public String getArmyBuinessTelephone() {
+        return armyBuinessTelephone;
+    }
+
+
+    public void setArmyBuinessTelephone(String armyBuinessTelephone) {
+        this.armyBuinessTelephone = armyBuinessTelephone;
+    }
+
+
+    public String getArmyBuinessName() {
+        return armyBuinessName;
+    }
+
+
+    public void setArmyBuinessName(String armyBuinessName) {
+        this.armyBuinessName = armyBuinessName;
+    }
+
+
+    public BigDecimal getPriceScore() {
+      return priceScore;
+    }
+
+
+    public Integer getRanking() {
+      return ranking;
+    }
+
+
+    public void setRanking(Integer ranking) {
+      this.ranking = ranking;
+    }
+
+
+    public void setPriceScore(BigDecimal priceScore) {
+      this.priceScore = priceScore;
     }
     
 }

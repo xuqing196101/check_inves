@@ -272,12 +272,11 @@ $(function(){
 <!--      </li>  -->
    </ul>
    </div>
-  <div  class="">
-   <div class="" align="center">
+   <div class="clear"></div>
+   <div class="tc mt10">
       <button class="btn btn-windows save"  type="button" onclick="sumbits();">保存</button>
       <button class="btn btn-windows back" type="button" onclick="onback();">返回</button>
 	</div>
-  </div>
   </form>
  </div>
 </body>

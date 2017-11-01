@@ -53,12 +53,13 @@
             shift: 1, //0-6的动画形式，-1不开启
             offset: y,
             shadeClose: false,
-            content: '${pageContext.request.contextPath}/adFirstAudit/editItem.html?id='+id+'&isConfirm=1'
+            content: '${pageContext.request.contextPath}/adFirstAudit/editItem.html?id='+id+'&isConfirm=1'+'&flowDefineId='+flowDefineId
           });
     }
     
     //删除评审项 
     function delItem(id){
+    	var flowDefineId = "${flowDefineId}";
     	layer.confirm('您确定要删除吗?', {title:'提示',offset: '50px',shade:0.01}, function(index){
 	    	$.ajax({   
 	            type: "POST",  
@@ -70,7 +71,7 @@
 	                }else{
 	                	 var packageId = $("#packageId").val();
 	                	 var projectId = $("#projectId").val();
-	                     window.location.href = '${pageContext.request.contextPath}/adIntelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId;
+	                     window.location.href = '${pageContext.request.contextPath}/adIntelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId;
 	                    layer.msg(result.msg,{offset: ['150px']});
 	                    layer.close(index);
 	                }
@@ -87,13 +88,9 @@
         layer.closeAll();
     }
     
-    //返回模板列表
-    function goBack(){
-    	
-    }
-    
     //保存评审项
     function saveItem(){
+    	var flowDefineId = "${flowDefineId}";
     	$.ajax({   
             type: "POST",  
             url: "${pageContext.request.contextPath}/adFirstAudit/savePackageFirstAudit.html",        
@@ -105,7 +102,7 @@
                 }else{
                     var packageId = $("#packageId").val();
                     var projectId = $("#projectId").val();
-                    window.location.href = '${pageContext.request.contextPath}/adIntelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId;
+                    window.location.href = '${pageContext.request.contextPath}/adIntelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId;
                     layer.closeAll();
                     layer.msg(result.msg,{offset: ['150px']});
                 }
@@ -118,6 +115,7 @@
     
     //引入模板内容
     function loadTemplat(projectId, packageId){
+    var flowDefineId = "${flowDefineId}";
       var index = layer.load(1, {
             shade: [0.2,'#BFBFBF'] //0.1透明度的白色背景
           });
@@ -134,7 +132,7 @@
 	                }else{
 	                    var packageId = $("#packageId").val();
 	                    var projectId = $("#projectId").val();
-	                    window.location.href = '${pageContext.request.contextPath}/adIntelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId;
+	                    window.location.href = '${pageContext.request.contextPath}/adIntelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId;
 	                    layer.closeAll();
 	                    layer.msg(result.msg,{offset: ['150px']});
 	                }
@@ -308,27 +306,31 @@
         }
     }
        
-    $(function() {
-    var html = "<option value=''>请选择</option>";
-    $.ajax({
-        url: "${pageContext.request.contextPath}/adFirstAudit/find.do",
-        data: {"type" : "REVIEW_CHECK_ET"},
-        dataType: 'json',
-        success: function(result){
-          $("#fatId").empty();  
-          if (result.success == false && typeof(result.success) != "undefined") {
-            //layer.msg(result.msg,{offset: ['150px']});
-          } else {
-            if (result.length > 0) {
-              for (var i = 0; i < result.length; i++) {
-                html += "<option value='"+result[i].id+"'>"+result[i].name+"</option>"; 
-              }
-            }
-          }
-          $("#fatId").append(html);
-        }
-      });
-  });
+  $(function() {
+		initTem();
+	});
+	
+	function initTem(){
+		var html = "<option value=''>请选择</option>";
+		$.ajax({
+				url: "${pageContext.request.contextPath}/adFirstAudit/find.do",
+				data: {"type" : "REVIEW_CHECK_ET"},
+				dataType: 'json',
+				success: function(result){
+					$("#fatId").empty();	
+					if (result.success == false && typeof(result.success) != "undefined") {
+						//layer.msg(result.msg,{offset: ['150px']});
+					} else {
+						if (result.length > 0) {
+							for (var i = 0; i < result.length; i++) {
+								html += "<option value='"+result[i].id+"'>"+result[i].name+"</option>";	
+							}
+						}
+					}
+					$("#fatId").append(html);
+				}
+			});
+	}
   
   function findTem(){
     var categoryId = $("#cId").val();
@@ -351,6 +353,12 @@
           $("#fatId").append(html);
         }
       });
+  }
+  
+  function clearSearch() {
+		$("#categorySel").val("");
+    $("#fatId option:selected").removeAttr("selected");
+    initTem();
   }
   </script>
 <body>  
@@ -380,9 +388,7 @@
                 </select>
              </li>
              <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" class="btn">确定选择</button>
-             <%-- <div class="pull-right">
-                <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入模板</button>
-             </div> --%>
+             <button type="reset" class="btn" onclick="clearSearch();">重置</button>
           </ul>
           <div class="clear"></div>
        </div>
@@ -397,12 +403,12 @@
             </thead>
             <c:forEach items="${dds}" var="d" varStatus="vs">
                <!-- 如果没有评审项 ，显示空td-->
-               <c:if test="${d.code == 'ECONOMY' && items1.size() == 0}">
+               <c:if test="${d.code eq 'ECONOMY' && items1.size() == 0}">
                  <tr id="${d.id}">
                     <td rowspan="2" class="w150">
                         <input type="hidden" value="2">
                         <span class="fl">${d.name}</span>
-                        <c:if test="${flag != '1' }">
+                        <c:if test="${flag ne '1' }">
                             <a class="addItem item_size" onclick="addItem(this,'${d.id}');" ></a>
                         </c:if>
                     </td>
@@ -412,12 +418,12 @@
                      <td></td>
                  </tr>
                </c:if>
-               <c:if test="${d.code == 'TECHNOLOGY' && items2.size() == 0}">
+               <c:if test="${d.code eq 'TECHNOLOGY' && items2.size() == 0}">
                  <tr id="${d.id}">
                     <td rowspan="2" class="w150">
                         <input type="hidden" value="2">
                         <span class="fl">${d.name}</span>
-                        <c:if test="${flag != '1' }">
+                        <c:if test="${flag ne '1' }">
                             <a class="addItem item_size" onclick="addItem(this,'${d.id}');" ></a>
                         </c:if>
                     </td>
@@ -428,12 +434,12 @@
                  </tr>
                </c:if>
                <!-- 如果有评审项 ，加载符合性评审项-->
-               <c:if test="${d.code == 'ECONOMY' && items1.size() > 0}">
+               <c:if test="${d.code eq 'ECONOMY' && items1.size() > 0}">
                  <tr id="${d.id}">
                     <td rowspan="${items1.size() + 1}" class="w150">
                         <input type="hidden" value="${items1.size() + 1}">
                         <span class="fl">${d.name}</span>
-                        <c:if test="${flag != '1' }">
+                        <c:if test="${flag ne '1' }">
                             <a class="addItem item_size" onclick="addItem(this,'${d.id}');" ></a>
                         </c:if>
                     </td>
@@ -441,9 +447,9 @@
                  <c:forEach items="${items1}" var="i" varStatus="iv">
                  <tr>
                      <td class="w260">
-                         <c:if test="${i.kind == d.id}">
+                         <c:if test="${i.kind eq d.id}">
                              <span class="fl">${i.name}</span>
-                           <c:if test="${flag != '1' }">
+                           <c:if test="${flag ne '1' }">
                               <div class="fr">
 	                           <a href="javascript:void(0);" title="编辑" onclick="editItem(this,'${i.id}');" class="item_size editItem"></a>
 	                           <a href="javascript:void(0);" title="删除" onclick="delItem('${i.id}')" class="item_size deleteItem" ></a>
@@ -452,7 +458,7 @@
                          </c:if>
                      </td>
                      <td>
-                         <c:if test="${i.kind == d.id}">
+                         <c:if test="${i.kind eq d.id}">
                          ${i.content}
                       </c:if>
                      </td>
@@ -460,12 +466,12 @@
                  </c:forEach>
                 </c:if>
                 <!-- 如果有评审项 ，加载资格性评审项-->
-                <c:if test="${d.code == 'TECHNOLOGY' && items2.size() > 0}">
+                <c:if test="${d.code eq 'TECHNOLOGY' && items2.size() > 0}">
                  <tr id="${d.id}">
                     <td rowspan="${items2.size() + 1}" class="w150">
                         <input type="hidden" value="${items2.size() + 1}">
                         <span class="fl">${d.name}</span>
-                        <c:if test="${flag != '1' }">
+                        <c:if test="${flag ne '1' }">
                             <a class="addItem item_size" onclick="addItem(this,'${d.id}');" ></a>
                         </c:if>
                     </td>
@@ -473,9 +479,9 @@
                  <c:forEach items="${items2}" var="i" varStatus="iv">
                  <tr>
                      <td class="w260">
-                         <c:if test="${i.kind == d.id}">
+                         <c:if test="${i.kind eq d.id}">
                              <span class="fl">${i.name}</span>
-                             <c:if test="${flag != '1' }">
+                             <c:if test="${flag ne '1' }">
                              <div class="fr">
                               <a href="javascript:void(0);" title="编辑" onclick="editItem(this,'${i.id}');" class="item_size editItem"></a>
                               <a href="javascript:void(0);" title="删除" onclick="delItem('${i.id}')" class="item_size deleteItem" ></a>
@@ -484,7 +490,7 @@
                          </c:if>
                      </td>
                      <td>
-                         <c:if test="${i.kind == d.id}">
+                         <c:if test="${i.kind eq d.id}">
                             ${i.content}
                          </c:if>
                      </td>
@@ -494,7 +500,7 @@
              </c:forEach>
         </table>
     </div>
-    <c:if test="${flag != '1' }">
+    <c:if test="${flag ne '1' }">
 	    <div class="mt40 tc mb50">
 	    	<button class="btn btn-windows back" onclick="window.location.href='${pageContext.request.contextPath}/adIntelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}'">返回</button>
 	    </div>

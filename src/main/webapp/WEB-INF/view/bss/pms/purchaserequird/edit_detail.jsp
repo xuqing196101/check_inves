@@ -7,7 +7,7 @@
 	<td class="tc  p0"><input type="hidden" id="id${index}"
 		name="list[${index }].id" value="${id }"> <input type="text"
 		id="seq${index}" name="list[${index }].seq" value=""
-		onblur="getSeq(this,${index})" class="m0 border0 w50 tc"> <input
+		onchange="getSeq(this,${index})" class="m0 border0 w50 tc"> <input
 		type="hidden" id="parentId${index}" name="list[${index }].parentId"
 		value=""></td>
 	<td class=" p0">
@@ -18,7 +18,7 @@
 			<div class="department">${orgName}</div>
 	</td>
 	<td>
-	<div class="goodsname">
+	<div class="goodsname" name="hidden">
 	    <input type="hidden" name="ss" value="${obj.id }">
 			<input type="text"  class="m0 border0"
 				name="list[${index }].goodsName" onkeyup="listName(this)"

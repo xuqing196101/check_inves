@@ -31,16 +31,15 @@
             }
           }
         });
-        
-      var value = $('#p').progressbar('getValue');
-      if (value < 100){
-          value += Math.floor(Math.random() * 10);
-          $('#p').progressbar('setValue', value);
-      }
-        
       });
 
-      
+      $(function() {
+      	$("input[name='linkman']").each(function(){
+      		if($(this).val() == '1'){
+      			$(this).prev().css("color","gray");
+      		}
+      	});
+      });
 
       //重置
       function clearSearch() {
@@ -155,6 +154,7 @@
                 <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
                 <td class="tl">
                   <a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.name}</a>
+                  <input type="hidden" name="linkman" value="${obj.linkman}"/>
                 </td>
                 <td class="tl">${obj.projectNumber}</td>
                 <td class="tl">${obj.purchaseDepId}</td>

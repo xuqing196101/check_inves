@@ -116,7 +116,7 @@
 	function showQuoteHistory(projectId, packId, data) {
 		//window.location.href="${pageContext.request.contextPath}/open_bidding/viewChangtotal.html?timestamp=" + data + "&projectId=" + projectId + "&packId=" + packId+ "&flowDefineId=${flowDefineId}";
 		var json = {"timestamp":data};
-		$("#tab-3").load("${pageContext.request.contextPath}/open_bidding/viewChangtotalByPackId.html?projectId=" + projectId + "&packId=" + packId+ "&flowDefineId=${flowDefineId}", json);
+		$("#ifs").attr("src","${pageContext.request.contextPath}/open_bidding/viewChangtotalByPackId.html?projectId=" + projectId + "&packId=" + packId+ "&flowDefineId=${flowDefineId}&timestamp="+data);
 	}
 	
 	function showQuoteHistoryMingxi(projectId, packId, data) {
@@ -139,32 +139,46 @@
 	<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
 		<div>
 			 <c:if test="${vsKey.index == 0}">
-			 	<h2 onclick="ycDiv(this,'${vsKey.index}')" class="count_flow spread hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span></h2>
+			 	<h2 onclick="ycDiv(this,'${vsKey.index}')" class="count_flow spread hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
+			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ'}"><span class="star_red">[该包已终止]</span></c:if>
+			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP'}"><span class="star_red">[该包已转竞谈]</span></c:if>
+			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHZ'}"><span class="star_red">[该包转竞谈审核中]</span></c:if>
+			 	</h2>
 			 </c:if>
 			 <c:if test="${vsKey.index != 0}">
-			 	<h2 onclick="ycDiv(this,'${vsKey.index}')" class="count_flow shrink hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span></h2>
+			 	<h2  onclick="ycDiv(this,'${vsKey.index}')" class="count_flow shrink hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
+			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ'}"><span class="star_red">[该包已终止]</span></c:if>
+			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP'}"><span class="star_red">[该包已转竞谈]</span></c:if>
+			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHZ'}"><span class="star_red">[该包转竞谈审核中]</span></c:if>
+			 	</h2>
 			 </c:if>
         </div>
-        <div class="p0${vsKey.index}">
+        <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'YZZ' && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJZXTP' && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJTSHZ'}">
+        <div  class="p0${vsKey.index}">
 		<table class="table table-bordered table-condensed mt5">
-			<thead>
+			<%-- <thead>
 				<tr>
 					<th class="w50 info">序号</th>
 				  	<th class="info">供应商名称</th>
-				  	<th class="info w100">报价<br/>(单位：万元)</th>
+				  	<th class="info w200">报价(万元)</th>
 				  	<th class="info">交货期限</th>
 				  	<c:if test="${dd.code eq 'JZXTP' || dd.code eq 'DYLY'}">
 				  	<th class="info w100">状态</th>
 					<th class="info">放弃原因</th>
 					</c:if>
 			    </tr>
-			</thead>
+			</thead> --%>
+			<c:forEach items="${packLis}" var="packLis" varStatus="vs">
+	     <c:if test="${packLis.name==fn:substringBefore(treemapKey, '|')}">
+	     <c:set value="${packLis.isEndPrice}" var="isEndPrice"></c:set>
+	     <c:set value="${packLis.isEditFirst}" var="isEditFirst"></c:set>
+	     </c:if>
+	  </c:forEach>
 		<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
 				<c:set value="${count+1 }" var="index"></c:set>
 				<c:set value="${treemapValue.packages}" var="packId"></c:set>
-				<c:set value="${treemapValue.isEndPrice}" var="isEndPrice"></c:set>
 				<c:if test="${not empty treemapValue.total or treemapValue.isRemoved eq '放弃报价' }">
-					<tr>
+					<%-- <tr>
 					    <td class="tc w50">${vs.index+1}${treemapValue.removedReason }</td>
 					    <td class="tl">${treemapValue.suppliers.supplierName}</td>
 						<td class="tr">${treemapValue.total}</td>
@@ -173,12 +187,13 @@
 						<td class="tc">${treemapValue.isRemoved}</td>
 						<td class="tc">${treemapValue.removedReason}</td>
 						</c:if>
-				    </tr>
+				    </tr> --%>
 				</c:if>
 		</c:forEach>
 		<c:if test="${dd.code eq 'JZXTP' || dd.code eq 'DYLY'}">
 	        <c:if test="${isEndPrice !=1 }">
-        		 <button class="btn" onclick = "quoteAgain('${project.id}','${packId}',1)">再次报价</button>
+	        	
+        		 <button class="btn" <c:if test="${isEditFirst == 0 }">disabled="disabled"</c:if> onclick = "quoteAgain('${project.id}','${packId}',1)">再次报价</button>
         		 <span class="ml50">查看历史报价:</span>
 				 <select onchange="showQuoteHistory('${project.id}','${packId}',this.options[this.options.selectedIndex].value)">
 						<c:if test="${empty treemap.value[0].dataList or fn:length(treemap.value[0].dataList) == 1}">
@@ -211,7 +226,11 @@
         	</c:if>
 		 </c:if>
 		</table>
+		<c:if test="${treemap.value[0].dataList[0] ne null}">
+		 <iframe src="${pageContext.request.contextPath}/open_bidding/viewChangtotalByPackId.html?projectId=${project.id}&packId=${packId}&flowDefineId=${flowDefineId}&timestamp=<fmt:formatDate value="${treemap.value[0].dataList[0]}" pattern="YYYY-MM-dd HH:mm:ss"/>&purchaseType=${project.purchaseType}" id="ifs" class="table table-bordered table-condensed mt5" height="380"></iframe>
+		</c:if>
 		</div>
+		</c:if>
 	</c:forEach>
 </c:forEach>
 </div>

@@ -194,6 +194,10 @@
 		var url = '${pageContext.request.contextPath}/packageExpert/checkAuditView.html?packageId='+packageId+'&projectId='+projectId;
 		$("#tab-6").load(url);
 	}
+	function refur(packageId,projectId){
+		layer.msg("刷新成功",{offset: ['100px']});
+		$("#tab-6").load('${pageContext.request.contextPath}/packageExpert/checkAuditView.html?packageId='+packageId+'&projectId='+projectId);
+	}
   </script>
   <body>
 	    <h2 class="list_title">${pack.name}经济技术评审管理</h2>
@@ -207,9 +211,10 @@
 			      <button disabled="disabled" class="btn" id="endId" type="button">结束评审</button>
 				  <button disabled="disabled" class="btn" id="backId" onclick="backScore()" type="button">复核评审</button>
 				  <%-- <button disabled="disabled" class="btn" onclick="expertConsult('${projectId}','${pack.id}')" type="button">专家咨询委员会</button> --%>
-	    	</c:if>
+	    	</c:if> 
 		    <%-- <button class="btn" onclick="openPrint('${projectId}','${pack.id}')" type="button">评审汇总表</button> --%>
 		    <button class="btn" onclick="openDetailPrint('${projectId}','${pack.id}')" type="button">打印评审数据</button>
+		    <button class="btn" onclick="refur('${pack.id}','${projectId}')" type="button">刷新</button>
 	   	</div>
 	   	<input type="hidden" id="packageId" value="${pack.id}">
 	   	<input type="hidden" id="projectId" value="${projectId}">

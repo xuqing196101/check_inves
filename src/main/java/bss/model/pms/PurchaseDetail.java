@@ -107,6 +107,7 @@ public class PurchaseDetail {
   private String recorderMobile;
     
   private Integer advancedStatus;
+  private String isParent;
     
   /**
    * @Fields projectStatus : 0:未被项目立项引用  1：已被立项 2：暂被引用
@@ -545,6 +546,14 @@ public Integer getProjectStatus() {
 
     public void setProgressBar(String progressBar) {
         this.progressBar = progressBar;
+    }
+
+    public String getIsParent() {
+      return isParent;
+    }
+
+    public void setIsParent(String isParent) {
+      this.isParent = isParent;
     }
     
 }
