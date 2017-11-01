@@ -55,57 +55,53 @@
 <body>
 	 <form  method="post" id="form" > 
         <!-- 按钮 -->
-        <div class="fr pr15 mt10">
+        <!-- <div class="fr pr15 mt10"> -->
 	         <!-- <input type="button" class="btn btn-windows output" onclick="exportWord()" value="导出"></input> -->
 	         <!-- <input type="button" class="btn btn-windows git" onclick="pre_view()" value="预览"></input>   -->
-	    </div>
+	    <!-- </div> -->
 	    <input type="hidden" name="article" id="articleId" value="${article.id }">
 	    <input type="hidden" name="projectId" value="${article.projectId }">
-		<ul class="clear col-md-12 col-sm-12 col-xs-12 p0 mb10">
-			<li class="col-md-12 col-sm-12 col-xs-12">
-				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">
-				<div class="star_red">*</div>公告标题：</span>
-				<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-				 	<input type="text" id="name" name="name" readonly="readonly" value="${article.name}">
-			 	</div>
-			 </li>
-			 <li class="col-md-3 col-sm-6 col-xs-12 clear pl0">
-			 	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">
-					<div class="star_red">*</div>发布范围：
-				</span>
-				<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
-		             <label class="fl margin-bottom-0"><input type="radio" disabled="disabled" name="ranges" value="0">内网</label>
-	            	 <label class="ml30 fl"><input type="radio" disabled="disabled" name="ranges" value="1" >内外网</label>
-				</div>
-			 </li>
-			 <li class="col-md-3 col-sm-6 col-xs-12 pl0">
-				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">
-					<div class="star_red">*</div>产品类别：
-				</span>
-				<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">
-			        <input id="categorySel"  type="text" name="categoryName" readonly value="${categoryNames}"  />
-				</div>
-			 </li>
-			 <li class="col-md-12 col-sm-12 col-xs-12 pl0">
-	        	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">
-	        		<div class="star_red">*</div>信息正文：
-	        	</span>
-				 <div class="col-md-12 col-sm-12 col-xs-12 p0">
-             	 	<input type="hidden" id="articleContent" value='${article.content}'>
-             		<script id="editor" name="content" type="text/plain" class="ml125 w900"></script>
-			 	 </div>
-			 </li>
-                <li class="col-md-3 col-sm-6 col-xs-12 mt10">
-                  <span class="fl">公告附件：</span>
-                  <u:show  showId="b" groups="b,d,f,g" delete="false" businessId="${article.id}" sysKey="${sysKey}" typeId="${typeId}"/>
-                </li>
-                
-                <li class="col-md-3 col-sm-6 col-xs-12 mt10">
-                  <span class="fl">单位及保密委员会审核表：</span>
-                  <u:show  showId="fl"  groups="b,d,f,g" delete="false" businessId="${article.id}" sysKey="${sysKey}" typeId="${security}"/>
-                </li>
-             </ul>
-        </div>
+	    
+	    <table class="table table-bordered left_table mb0">
+        <tbody>
+          <tr>
+            <td class="bggrey"><span class="star_red">*</span>公告标题：</td>
+            <td colspan="3">
+              <input type="text" id="name" name="name" readonly="readonly" value="${article.name}">
+            </td>
+          </tr>
+          <tr>
+            <td class="bggrey w120"><span class="star_red">*</span>发布范围：</td>
+            <td>
+              <label class="mb0 ml10 fl h30 lh30"><input type="radio" disabled="disabled" name="ranges" value="0"> 内网</label>
+              <label class="mb0 ml10 fl h30 lh30"><input type="radio" disabled="disabled" name="ranges" value="1" > 内外网</label>
+            </td>
+            <td class="bggrey w190"><span class="star_red">*</span>产品类别：</td>
+            <td>
+              <div class="input-append input_group fn mb0">
+                <input id="categorySel" type="text" name="categoryName" readonly value="${categoryNames}"  />
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="bggrey"><span class="fl lh26">公告附件：</span></td>
+            <td>
+              <u:show showId="b" groups="b,d,f,g" delete="false" businessId="${article.id}" sysKey="${sysKey}" typeId="${typeId}"/>
+            </td>
+            <td class="bggrey"><span class="fl lh26">单位及保密委员会审核表： </span></td>
+            <td>
+              <u:show showId="fl"  groups="b,d,f,g" delete="false" businessId="${article.id}" sysKey="${sysKey}" typeId="${security}"/>
+            </td>
+          </tr>
+          <tr>
+            <td class="bggrey"><span class="star_red">*</span>信息正文：</td>
+            <td colspan="3">
+              <input type="hidden" id="articleContent" value='${article.content}'>
+              <script id="editor" name="content" type="text/plain" class="ml125 w900"></script>
+            </td>
+          </tr>
+        </tbody>
+      </table>
       </form>
 	  <div class="dnone" id="preview">
 	   	<!-- <div class="col-md-12 p30_40 border1 margin-top-20"> -->

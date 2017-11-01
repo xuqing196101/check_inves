@@ -14,11 +14,11 @@
 </script>
 </head>
 <body>
-<div id="showDiv" class="clear">
+<div id="showDiv" class="clear p20">
 	<c:forEach items="${treeMap }" var="treemap" varStatus="vsKey">
 		<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
 			<div class="col-md-12 col-xs-12 col-sm-12 p0">
-			 	<h2  <%-- onclick="ycDiv(this,'${vsKey.index}')"  --%>class="count_flow"><%-- 包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span> --%>
+			 	<h2  <%-- onclick="ycDiv(this,'${vsKey.index}')"  --%>class="count_flow mt0"><%-- 包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span> --%>
 			 	<span>项目预算报价(万元)：${fn:substringAfter(treemapKey, "|")}</span>
 			 	</h2>		 	
 	        </div>

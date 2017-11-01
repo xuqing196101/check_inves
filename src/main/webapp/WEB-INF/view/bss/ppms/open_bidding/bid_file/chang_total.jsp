@@ -228,7 +228,7 @@
         </div>
         <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'YZZ' && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJZXTP' && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJTSHZ'}"> 
         <div class="p0 ${vsKey.index} w100p clear">
-		<table id="tables" class="table table-bordered table-condensed mt5 left_table table_input">
+		<table id="tables" class="table table-bordered table-condensed m0">
 			<thead>
 				<tr>
 					<th class="info w50">序号</th>
@@ -245,18 +245,18 @@
 		<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
 				<tr>
 				    <td class="tc w50">${vs.index+1 }
-			    		<input type="hidden" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}','${flowDefineId}')" />
+			    		<input type="hidden" class="border0 w100p m0" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}','${flowDefineId}')" />
 				    </td>
 				    <td class="tl">${treemapValue.suppliers.supplierName}</td>
 					<td class="tc">
-						<input name="total" onblur="checkTotal(this)" maxlength="16" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"/>
+						<input name="total" class="border0 w100p m0" onblur="checkTotal(this)" maxlength="16" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"/>
 						<%-- <c:forEach items="${selectQuoteList}" var="obj">
 							<c:if test="${obj.supplierId eq treemapValue.suppliers.id}">
 								<input type="hidden" value="${obj.total}"/>
 							</c:if>
 						</c:forEach> --%>
 					</td>
-					<td class="tc"><input type="text" onblur="checkPaymentDate(this)" name="paymentDate"/></td>
+					<td class="tc"><input type="text" class="border0 w100p m0" onblur="checkPaymentDate(this)" name="paymentDate"/></td>
 					<c:if test="${not empty count}">
 					<td class="tc">
 							<select onchange="show(this)">
@@ -274,7 +274,7 @@
 		</c:if>
 	</c:forEach> 
 </c:forEach>
-		<div class="col-md-12 col-sm-12 col-xs-12 tc">
+		<div class="col-md-12 col-sm-12 col-xs-12 tc mt10">
 		    <c:if test="${not empty judgeTreemap}">
 		    	<c:if test="${not empty count}">
 		    	<input class="btn btn-windows save" value="报价完成" type="button" onclick="eachTable(this)">

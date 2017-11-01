@@ -452,34 +452,36 @@
     }
   </script>
   <body>
-      <div id="packageContent" class="packageContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999; ">
-          <ul id="treePackageType" class="ztree" style="margin-top:0;width: 170px;height: 250px;"></ul>
-      </div>
-        <h2 class="list_title" style="margin-bottom: 30px;">专家签到
-            <form enctype="multipart/form-data" id="updateExcel" >
-                <a href="javascript:;" class="file btn fr" id="exportExpertA">导入临时专家</a>
-                <input type="file" class="btn fr" name="excelFile" id="excel_file" style="display: none"/>
-                <input type="hidden" id="_packageId" name="packageId"/>
-                <input type="text" id="packageName" class="title col-md-12 fr w120" placeholder="请先选择包后导入" style="border-color: #2c9fa6"/>
-            </form>
-            <a href="javascript:;" class="btn btn-windows input fr" id="downTemplate">导出模板</a>
-            <button class="btn fr" name="addExp_btn" onclick="addExpert('${vs.index}','${project.id}','${pack.id}');" type="button">添加临时专家</button>
-        </h2>
+        <h2 class="list_title fl m0 h30 lh30">专家签到</h2>
+        <div class="fr f0">
+          <form enctype="multipart/form-data" id="updateExcel" class="fr">
+            <a href="javascript:;" class="file btn fr h30 mb0" id="exportExpertA">导入临时专家</a>
+            <input type="file" class="btn fr" name="excelFile" id="excel_file" style="display: none"/>
+            <input type="hidden" id="_packageId" name="packageId"/>
+            <input type="text" id="packageName" class="title col-md-12 fr w120 mb0 mr10" placeholder="请先选择包后导入" style="border-color: #2c9fa6"/>
+            <div id="packageContent" class="packageContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999; ">
+              <ul id="treePackageType" class="ztree" style="margin-top:0;width: 170px;height: 250px;"></ul>
+            </div>
+          </form>
+          <a href="javascript:;" class="btn btn-windows input fr h30 mb0 mr10" id="downTemplate">导出模板</a>
+          <button class="btn fr h30 mb0" name="addExp_btn" onclick="addExpert('${vs.index}','${project.id}','${pack.id}');" type="button">添加临时专家</button>
+        </div>
+        <div class="clear"></div>
         <input type="hidden" id="reviewTypeTds">
-        <form id="save_sign"  method="post">
+        <form id="save_sign" class="mt10" method="post">
         	<input name="projectId" type="hidden" id="projectId" value="${project.id}">
         	<input name="flowDefineId" type="hidden" value="${flowDefineId}"/>
         	<c:set var="listCount" value="0" />
 	        <c:forEach items="${packageList}" var="pack" varStatus="vs">
 		        <div class="over_hideen">
-					<h2 onclick="ycDiv(this,'${vs.index}')"  <c:if test="${pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJZXTP' || pack.projectStatus eq 'ZJTSHZ'}">class="count_flow hand fl spread"</c:if>class="count_flow shrink hand fl clear" id="package">
+					<h2 onclick="ycDiv(this,'${vs.index}')"  <c:if test="${pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJZXTP' || pack.projectStatus eq 'ZJTSHZ'}">class="count_flow hand fl spread"</c:if>class="count_flow shrink hand fl mt0 clear" id="package">
 					包名:<span class="f15 blue">${pack.name}
 					 <c:if test="${pack.projectStatus eq 'YZZ'}"><span class="star_red">[该包已终止]</span></c:if>
 					 <c:if test="${pack.projectStatus eq 'ZJZXTP'}"><span class="star_red">[该包已转竞谈]</span></c:if>
 					 <c:if test="${pack.projectStatus eq 'ZJTSHZ'}"><span class="star_red">[该包转竞谈审核中]</span></c:if>
 				  </span>
 		          	</h2>
-	          		<div class="fl mt20 ml10">
+	          		<div class="fl ml10">
 		             <button class="btn"  <c:if test="${pack.projectStatus eq'YZZ' || pack.projectStatus eq 'ZJZXTP' || pack.projectStatus eq 'ZJTSHZ'}">disabled="disabled"</c:if>name="addExp_btn" onclick="relate('${pack.id}','${vs.index}','${pack.name}')" type="button">设为组长</button>
 		             <button class="btn" <c:if test="${pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJZXTP' || pack.projectStatus eq 'ZJTSHZ'}">disabled="disabled"</c:if>name="viewExp_btn" onclick="resetPwd('${vs.index}');" type="button">重置密码</button>
 		             <button class="btn" <c:if test="${pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJZXTP' || pack.projectStatus eq 'ZJTSHZ'}">disabled="disabled"</c:if>name="citeExp_btn"  type="button" package-id="${pack.id}">引用临时专家</button>
@@ -644,7 +646,7 @@
         var cityObj = $("#packageName");
         var cityOffset = $("#packageName").offset();
         $("#packageContent").css({
-            left: (cityOffset.left + 16) + "px",
+            left: cityOffset.left + "px",
             top: cityOffset.top + cityObj.outerHeight() + "px"
         }).slideDown("fast");
         $("body").bind("mousedown", onBodyDownPackageType);
