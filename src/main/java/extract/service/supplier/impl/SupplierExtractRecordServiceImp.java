@@ -5,7 +5,6 @@ package extract.service.supplier.impl;
 
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -105,17 +104,24 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 
 	
 	@Override
-	public List<SupplierExtractProjectInfo> getList(int i,User user,SupplierExtractProjectInfo project) {
+	public List<SupplierExtractProjectInfo> getList(int i,User user,SupplierExtractProjectInfo project,Integer dataAccess) {
 		 PageHelper.startPage(i, PropUtil.getIntegerProperty("pageSize"));
-		 
-		 List<SupplierExtractProjectInfo> list = new ArrayList<>();
-		 if("1".equals(user.getTypeName())){
-			project.setProcurementDepId(user.getOrg().getId());
-			list = recordMapper.getList(project);
-		 }else if("4".equals(user.getTypeName())){
-			 project.setProcurementDepId(null);
-			 list = recordMapper.getList(project);
-		 }
+		 if (dataAccess == 1) {
+			//查看所有数据
+			project.setProcurementDepId(null);
+		} else if (dataAccess == 2) {
+			//查看本单位数据
+			String orgId = ""; 
+			if (user.getOrg() != null) {
+				orgId = user.getOrg().getId();
+			} else {
+				orgId = user.getOrgId();
+			}
+			project.setProcurementDepId(orgId);
+		} else if (dataAccess == 3) {
+			//查看本人数据
+		}
+		List<SupplierExtractProjectInfo> list = recordMapper.getList(project);
 		for (SupplierExtractProjectInfo projectInfo : list) {
 			String temp = "";
 			List<ExtractUser> getlistByRid = userMapper.getlistByRid(projectInfo.getId());
