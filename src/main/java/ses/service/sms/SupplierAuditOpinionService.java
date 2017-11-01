@@ -3,6 +3,8 @@ package ses.service.sms;
 import common.utils.JdcgResult;
 import ses.model.sms.SupplierAuditOpinion;
 
+import java.util.Map;
+
 /**
  * <p>SupplierAuditOpinionService </p>
  * <p>Description:供应商审核意见 </p>
@@ -52,7 +54,7 @@ public interface SupplierAuditOpinionService {
 
     /**
      *
-     * Description:
+     * Description:根据供应商第几次审核查询审核意见
      *
      * @author Easong
      * @version 2017/7/13
@@ -61,4 +63,15 @@ public interface SupplierAuditOpinionService {
      * @since JDK1.7
      */
     SupplierAuditOpinion selectByExpertIdAndflagTime(String supplierId, Integer flagTime);
+
+    /**
+     *
+     * Description: 根据供应商第几次审核查询审核意见（Map）
+     *
+     * @author Easong
+     * @version 2017/11/1
+     * @param 
+     * @since JDK1.7
+     */
+	SupplierAuditOpinion selectByExpertIdAndflagTime(Map<String, Object> map);
 }

@@ -1158,7 +1158,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		List<SupplierPublicity> list = supplierMapper.selectSupByPublictyList(supplierPublicityQuery);
 		if(list != null && !list.isEmpty()){
 			// 定义审核意见查询条件
-			Map<String, Object> selectMap = new HashedMap();
+			Map<String, Object> selectMap = new HashMap<>();
 			// 封装供应商类型
 			StringBuffer sb = new StringBuffer(); 
 			for (SupplierPublicity supplierPublicity : list) {
