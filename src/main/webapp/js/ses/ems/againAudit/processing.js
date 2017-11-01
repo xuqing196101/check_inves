@@ -825,3 +825,91 @@ function toggle_list(el) {
     $(el).removeClass('spread');
   }
 }
+
+// 导入历史人员
+function import_history() {
+  var index = layer.open({
+    title: ['导入历史人员'],
+    shade: 0.3, //遮罩透明度
+    type : 1,
+    area : ['700px', '400px'], //宽高
+    content : $('#import_history'),
+    btn: ['确定', '返回'],
+    success: function () {
+      var index_load = layer.load();
+      $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: history_url,
+        data: {},
+        success: function (data) {
+          var list_content = data.object;
+          var str = '';
+          
+          for (var i in list_content) {
+            if (list_content[i] != null) {
+              str += '<tr>'
+                +'<td class="tc break-all"><input type="hidden" value="'+ list_content[i].relName +', '+ list_content[i].orgName +', '+ list_content[i].duties +'"><input type="checkbox" class="select_item"></td>'
+                +'<td class="tc break-all">'+ list_content[i].relName +'</td>'
+                +'<td class="tc break-all">'+ list_content[i].orgName +'</td>'
+                +'<td class="tc break-all">'+ list_content[i].duties +'</td>'
+              +'</tr>';
+            }
+          }
+          
+          $('#history_content').html(str);
+          layer.close(index_load);
+        }
+      });
+    },
+    yes: function() {
+      if ($('#history_content input[type=checkbox]:checked').length <= 2 && $('#history_content input[type=checkbox]:checked').length > 0) {
+        var history_list = [];  // 选中的历史人员
+        var val = [];
+        var empty_tr = 0;
+        
+        $('#history_content input[type=checkbox]:checked').each(function (index) {
+          val.push($(this).siblings('input[type=hidden]').val().split(','));
+        });
+        
+        if ($('#history_content input[type=checkbox]:checked').length == 1) {
+          $('#list_content tr').each(function (index) {
+            if ($(this).find('input[name=relName]').val() == '' && $(this).find('input[name=orgName]').val() == '' && $(this).find('input[name=duties]').val() == '') {
+              $(this).find('input[name=relName]').val(val[0][0]);
+              $(this).find('input[name=orgName]').val(val[0][1]);
+              $(this).find('input[name=duties]').val(val[0][2]);
+              return false;
+            } else {
+              empty_tr++;
+            }
+            
+            if (empty_tr == $('#list_content tr').length) {
+              $('#list_content tr').eq(0).find('input[name=relName]').val(val[0][0]);
+              $('#list_content tr').eq(0).find('input[name=orgName]').val(val[0][1]);
+              $('#list_content tr').eq(0).find('input[name=duties]').val(val[0][2]);
+            }
+          });
+        } else {
+          $('#list_content tr').each(function (index) {
+            $(this).find('input[name=relName]').val(val[index][0]);
+            $(this).find('input[name=orgName]').val(val[index][1]);
+            $(this).find('input[name=duties]').val(val[index][2]);
+          });
+        }
+        
+        layer.close(index);
+      } else if ($('#history_content input[type=checkbox]:checked').length <= 0) {
+        layer.msg('最至少选择一个历史人员', {
+          offset: '100px'
+        });
+      } else {
+        layer.msg('最多选择两个历史人员', {
+          offset: '100px'
+        });
+      }
+    },
+    btn2: function() {
+      layer.close(index);
+    }
+  });
+}
