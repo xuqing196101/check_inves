@@ -288,7 +288,7 @@
      <li class="col-md-3 col-sm-6 col-xs-12 ">
         <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>居民身份证号码：</span>
         <div class="input-append input_group col-sm-12 col-xs-12 p0">
-         <input class="title col-md-12" id="idCardNumber" name="idCardNumber" value="${expert.idCardNumber}" maxlength="18" type="text" onchange="yzCardNumber()">
+         <input class="title col-md-12" id="idCardNumber" name="idCardNumber" value="${expert.idCardNumber}" maxlength="18" type="text">
          <span class="add-on">i</span>
              <div class="cue" id = "error_cardNumber"><sf:errors path="idCardNumber"/>${idCardNumberError}</div>
         </div>
