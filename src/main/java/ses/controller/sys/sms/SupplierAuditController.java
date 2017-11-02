@@ -3886,7 +3886,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		/**
 		 * 审核/复核表的数据
 		 */
-		if("3".equals(tableType) || "0".equals(tableType)){
+		if("3".equals(tableType) || "0".equals(tableType) || "4".equals(tableType)){
 			//企业性质
 			String businessNature = businessNature(supplier.getBusinessNature());
 			dataMap.put("businessNature", businessNature);
@@ -4053,6 +4053,12 @@ public class SupplierAuditController extends BaseSupplierController {
             materialMap = packageTable("近三年财务利润表", content, materialMap, newsList);
             materialMap = packageTable("近三年现金流量表", content, materialMap, newsList);
             materialMap = packageTable("近三年所有者权益变动表（可无）", content, materialMap, newsList);
+
+            // 复核表
+			if("4".equals(tableType)){
+				dataMap.put("newsListInfo",newsList);
+				return WordUtil.createWord(dataMap, "supplierRecheck.ftl", "supplierRecheck", request);
+			}
 
             String matProId = null;
 			//14 质量管理体系认证证书（只有物资生产才有的）
