@@ -239,14 +239,17 @@
             <tr>
                 <td class="tc w30">${vs.count}</td>
                 <td class="tc">${p.name}
-                    <c:if test="${p.projectStatus=='YZZ'}">
+                    <c:if test="${p.projectStatus eq 'YZZ'}">
                        <span class="star_red">[该包已终止]</span>
                     </c:if>
-                    <c:if test="${p.projectStatus=='ZJZXTP'}">
+                    <c:if test="${p.projectStatus eq 'ZJZXTP'}">
                        <span class="star_red">[该包已转竞谈]</span>
                     </c:if>
-                    <c:if test="${p.projectStatus=='ZJTSHZ'}">
+                    <c:if test="${p.projectStatus eq 'ZJTSHZ'}">
                        <span class="star_red">[该包转竞谈审核中]</span>
+                    </c:if>
+                    <c:if test="${p.projectStatus eq 'ZJTSHBTG'}">
+                       <span class="star_red">[该包转竞谈审核不通过]</span>
                     </c:if>
                 </td>
                 <td class="tc">

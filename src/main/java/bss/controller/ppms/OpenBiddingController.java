@@ -847,7 +847,7 @@ public class OpenBiddingController extends BaseSupplierController{
             	  String projectStatus = packages.getProjectStatus();
                 if(projectStatus!=null){
                   DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
-                  if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())&&!"ZJTSHZ".equals(dd.getCode())){
+                  if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())&&!"ZJTSHZ".equals(dd.getCode())&&!"ZJTSHBTG".equals(dd.getCode())){
                 		packages.setProjectStatus(DictionaryDataUtil.getId("ZBGGNZZ"));
                 		packageService.updateByPrimaryKeySelective(packages);
                   }
@@ -873,7 +873,7 @@ public class OpenBiddingController extends BaseSupplierController{
             	  String projectStatus = packages.getProjectStatus();
                 if(projectStatus!=null){
                   DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
-                  if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())&&!"ZJTSHZ".equals(dd.getCode())){
+                  if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())&&!"ZJTSHZ".equals(dd.getCode())&&!"ZJTSHBTG".equals(dd.getCode())){
                 		packages.setProjectStatus(DictionaryDataUtil.getId("NZZBGG"));
                 		packageService.updateByPrimaryKeySelective(packages);
                   }
@@ -909,7 +909,7 @@ public class OpenBiddingController extends BaseSupplierController{
                 	  String projectStatus = packages.getProjectStatus();
                     if(projectStatus!=null){
                       DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
-                      if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())&&!"ZJTSHZ".equals(dd.getCode())){
+                      if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())&&!"ZJTSHZ".equals(dd.getCode())&&!"ZJTSHBTG".equals(dd.getCode())){
                     		packages.setProjectStatus(DictionaryDataUtil.getId("FSBSZ"));
                     		packageService.updateByPrimaryKeySelective(packages);
                       }
@@ -934,7 +934,7 @@ public class OpenBiddingController extends BaseSupplierController{
                 	  String projectStatus = packages.getProjectStatus();
                     if(projectStatus!=null){
                       DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
-                      if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())&&!"ZJTSHZ".equals(dd.getCode())){
+                      if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())&&!"ZJTSHZ".equals(dd.getCode())&&!"ZJTSHBTG".equals(dd.getCode())){
                     		packages.setProjectStatus(DictionaryDataUtil.getId("GYSCQZ"));
                     		packageService.updateByPrimaryKeySelective(packages);
                       }
@@ -964,7 +964,7 @@ public class OpenBiddingController extends BaseSupplierController{
                 	  String projectStatus = packages.getProjectStatus();
                     if(projectStatus!=null){
                       DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
-                      if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())&&!"ZJTSHZ".equals(dd.getCode())){
+                      if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())&&!"ZJTSHZ".equals(dd.getCode())&&!"ZJTSHBTG".equals(dd.getCode())){
                     		packages.setProjectStatus(DictionaryDataUtil.getId("QRZBGYS"));
                     		packageService.updateByPrimaryKeySelective(packages);
                       }
@@ -1172,7 +1172,7 @@ public class OpenBiddingController extends BaseSupplierController{
         	  String projectStatus = packages.getProjectStatus();
         	  if(projectStatus!=null){
         	    DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
-        	    if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())&&!"ZJTSHZ".equals(dd.getCode())){
+        	    if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())&&!"ZJTSHZ".equals(dd.getCode())&&!"ZJTSHBTG".equals(dd.getCode())){
         	      packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
                 packageService.updateByPrimaryKeySelective(packages);
         	    }
@@ -3750,7 +3750,7 @@ public class OpenBiddingController extends BaseSupplierController{
 			if(count<project.getSupplierNumber()){
 				DictionaryData findById = DictionaryDataUtil.findById(packages.getProjectStatus());
 				if(findById != null && StringUtils.isNotBlank(findById.getCode())){
-					if(findById.getCode().equals("YZZ") || findById.getCode().equals("ZJZXTP")|| "ZJTSHZ".equals(findById.getCode())){
+					if(findById.getCode().equals("YZZ") || findById.getCode().equals("ZJZXTP")|| "ZJTSHZ".equals(findById.getCode())||"ZJTSHBTG".equals(findById.getCode())){
 						continue;
 					}
 				}

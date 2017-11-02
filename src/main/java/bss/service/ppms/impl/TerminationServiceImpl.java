@@ -997,6 +997,7 @@ public class TerminationServiceImpl implements TerminationService {
     	
     }else{
       project.setConfirmFile(null);
+      project.setPurchaseNewType(null);
     }
     if("XMLX".equals(currFlowDefineId)){
       

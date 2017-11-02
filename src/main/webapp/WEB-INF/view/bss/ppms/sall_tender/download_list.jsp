@@ -86,15 +86,8 @@
             <tr>
               <td class="tc opinter w50">
               <input  type="radio" name="chkItem_supplier" value="${obj.suppliers.id}" /></td>
-              <td class="tc opinter " title="${obj.suppliers.supplierName}">
-	              <c:choose>
-		             <c:when test="${fn:length(obj.suppliers.supplierName) > 12}">
-		               ${fn:substring(obj.suppliers.supplierName, 0, 10)}......
-		             </c:when>
-		             <c:otherwise>
+              <td class="opinter w " title="${obj.suppliers.supplierName}">
 		               ${obj.suppliers.supplierName}
-		             </c:otherwise>
-	           	  </c:choose>
               </td>
               <td class="tc" title="${obj.packageNames}"> 
 			  	  <span id="packageValue"> 
