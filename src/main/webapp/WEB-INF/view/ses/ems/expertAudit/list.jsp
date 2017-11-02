@@ -475,7 +475,7 @@
       </h2>
       <!-- 表格开始-->
       <div class="col-md-12 pl20 mt10" id="btn_group">
-        <button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button>
+        <button class="btn btn-windows check" type="button" onclick="shenhe();">初审</button>
         <c:if test="${sign == 2 or sign == 3}">
           <a class="btn btn-windows apply" onclick='publish()' type="button">发布</a>
         </c:if>
