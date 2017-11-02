@@ -75,6 +75,7 @@ function create_review_batches() {
                     url: list_url
                   });
                   $('#selected_content').html('');
+                  final_ids = [];
                   layer.close(index);
                 },
                 error: function (data) {
