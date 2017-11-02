@@ -210,6 +210,7 @@ public class SupplierConstants {
 		STATUSMAP_SHENHE.put(Status.RETURN_AUDIT.getValue(), "退回再审核");
 		STATUSMAP_SHENHE.put(Status.PRE_AUDIT_ENDED.getValue(), "预审核结束");
 		STATUSMAP_SHENHE.put(Status.PUBLICITY.getValue(), "公示中");
+		STATUSMAP_SHENHE.put(Status.DISSENT.getValue(), "异议处理");
 		STATUSMAP_SHENHE.put(Status.PENDING_REVIEW.getValue(), "入库（待复核）");
 		STATUSMAP_SHENHE.put(Status.AUDIT_NOT_PASS.getValue(), "审核不通过");
 	}

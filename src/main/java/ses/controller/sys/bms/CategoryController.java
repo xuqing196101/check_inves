@@ -246,60 +246,89 @@ public class CategoryController extends BaseSupplierController {
      */
     @ResponseBody
     @RequestMapping(value="/supplierCreatetree", produces = "application/json;charset=utf-8")
-    public String getSupplierAll(Category category,String param,Integer isCreate,String code){
-       List<CategoryTree> jList=new ArrayList<CategoryTree>();
-    	 //获取字典表中的根数据
-        if(category.getId()==null){
-            category.setId("0");
-            DictionaryData data=new DictionaryData();
-            data.setKind(8);
-            List<DictionaryData> listByPage = dictionaryDataServiceI.listByPage(data, 1);
-            for (DictionaryData dictionaryData : listByPage) {
-                CategoryTree ct=new CategoryTree();
-                ct.setId(dictionaryData.getId());
-                ct.setName(dictionaryData.getName());
-                ct.setIsParent("true");
-                ct.setClassify(dictionaryData.getCode());
+    public String getSupplierAll(Category category, String param,Integer isCreate, String code, String name) {
+        List<CategoryTree> jList = new ArrayList<CategoryTree>();
+        if ((name != null && !"".equals(name))) {
+            try {
+                if (name != null && !"".equals(name)) {
+                    name = java.net.URLDecoder.decode(name, "UTF-8");
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            Map<String, Object> map = new HashMap<>();
+            map.put("name", name);
+            map.put("category", category);
+            List<Category> caList = categoryService.selectAllCateByCond(map);
+            for (Category category2 : caList) {
+                List<Category> cList = categoryService.findTreeByPidIsPublish(category2.getId());
+                CategoryTree ct = new CategoryTree();
+                if (!cList.isEmpty()) {
+                    ct.setIsParent("true");
+                } else {
+                    ct.setIsParent("false");
+                }
+                ct.setId(category2.getId());
+                ct.setName(category2.getName());
+                ct.setpId(category2.getParentId());
+                ct.setKind(category2.getKind());
+                ct.setStatus(category2.getStatus());
                 jList.add(ct);
             }
-            data.setKind(6);
-            listByPage = dictionaryDataServiceI.listByPage(data, 1);
-            for (DictionaryData dictionaryData : listByPage) {
-            	//排除物资
-            	if("FC9528B2E74F4CB2A9E74735A8D6E90A".equals(dictionaryData.getId())){
-            		continue;
-            	}
-                CategoryTree ct=new CategoryTree();
-                ct.setId(dictionaryData.getId());
-                ct.setName(dictionaryData.getName());
-                ct.setIsParent("true");
-                ct.setClassify(dictionaryData.getCode());
-                jList.add(ct);
-            }
-          
             return JSON.toJSONString(jList);
-          }
-          String list="";
-          List<Category> cateList=categoryService.disTreeGoodsData(category.getId());
-          for(Category cate:cateList){
-        	  if (cate.getIsPublish() != 1) {
-        		  List<Category> cList=categoryService.findTreeByPidIsPublish(cate.getId());
-        		  CategoryTree ct=new CategoryTree();
-        		  if(!cList.isEmpty()){
-        			  ct.setIsParent("true");
-        		  }else{
-        			  ct.setIsParent("false");
-        		  }
-        		  ct.setId(cate.getId());
-        		  ct.setName(cate.getName());
-        		  ct.setpId(cate.getParentId());
-        		  ct.setKind(cate.getKind());
-        		  ct.setStatus(cate.getStatus());
-        		  jList.add(ct);
-        	  }
-          }
-         list = JSON.toJSONString(jList);
-         return list;
+        } else {
+            // 获取字典表中的根数据
+            if (category.getId() == null) {
+                category.setId("0");
+                DictionaryData data = new DictionaryData();
+                data.setKind(8);
+                List<DictionaryData> listByPage = dictionaryDataServiceI.listByPage(data, 1);
+                for (DictionaryData dictionaryData : listByPage) {
+                    CategoryTree ct = new CategoryTree();
+                    ct.setId(dictionaryData.getId());
+                    ct.setName(dictionaryData.getName());
+                    ct.setIsParent("true");
+                    ct.setClassify(dictionaryData.getCode());
+                    jList.add(ct);
+                }
+                data.setKind(6);
+                listByPage = dictionaryDataServiceI.listByPage(data, 1);
+                for (DictionaryData dictionaryData : listByPage) {
+                    // 排除物资
+                    if ("FC9528B2E74F4CB2A9E74735A8D6E90A".equals(dictionaryData.getId())) {
+                        continue;
+                    }
+                    CategoryTree ct = new CategoryTree();
+                    ct.setId(dictionaryData.getId());
+                    ct.setName(dictionaryData.getName());
+                    ct.setIsParent("true");
+                    ct.setClassify(dictionaryData.getCode());
+                    jList.add(ct);
+                }
+                return JSON.toJSONString(jList);
+            }
+            String list = "";
+            List<Category> cateList = categoryService.disTreeGoodsData(category.getId());
+            for (Category cate : cateList) {
+                if (cate.getIsPublish() != 1) {
+                    List<Category> cList = categoryService.findTreeByPidIsPublish(cate.getId());
+                    CategoryTree ct = new CategoryTree();
+                    if (!cList.isEmpty()) {
+                        ct.setIsParent("true");
+                    } else {
+                        ct.setIsParent("false");
+                    }
+                    ct.setId(cate.getId());
+                    ct.setName(cate.getName());
+                    ct.setpId(cate.getParentId());
+                    ct.setKind(cate.getKind());
+                    ct.setStatus(cate.getStatus());
+                    jList.add(ct);
+                }
+            }
+            list = JSON.toJSONString(jList);
+            return list;
+        }
     }
     /**
      * 

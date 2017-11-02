@@ -1219,7 +1219,6 @@ public class ExpExtractRecordController extends BaseController {
             model.addAttribute("loginPwdError", "密码至少为6位");
             type = 1;
         }
-
         if (packageId == null || "".equals(packageId)) {
 
             model.addAttribute("packageIdError", "不能为空");
@@ -1231,7 +1230,7 @@ public class ExpExtractRecordController extends BaseController {
             type = 1;
         }*/
 
-        if (expert.getIdCardNumber() != null && !"".equals(expert.getIdCardNumber())) {
+       /* if (expert.getIdCardNumber() != null && !"".equals(expert.getIdCardNumber())) {
             Map<String, Object> map = new HashMap<>();
             map.put("idCardNumber", expert.getIdCardNumber());
             List<Expert> list = expertServices.yzCardNumber(map);
@@ -1240,7 +1239,7 @@ public class ExpExtractRecordController extends BaseController {
                 type = 1;
             }
 
-        }
+        }*/
 
         if (type == 1) {
             model.addAttribute("expert", expert);

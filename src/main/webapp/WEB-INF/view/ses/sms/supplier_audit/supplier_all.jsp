@@ -73,14 +73,14 @@
 					if(id == null) {
 						var size = $(":checkbox:checked").size();
 						if(size == 0) {
-							layer.msg("请选择供应商 !", {
+							layer.msg("请选择供应商！", {
 								offset: '100px',
 							});
 							return;
 						}
 						var id = $(":checkbox:checked").val();
 						if(size > 1){
-							layer.msg("只能选择一项 !", {
+							layer.msg("只能选择一项！", {
 								offset: '100px',
 							});
 							return;
@@ -91,7 +91,7 @@
 					/* var state = $("#"+id+"").text().trim(); */
 					var isExtract = $("#" + id + "_isExtract").text();
 					if(state == "公示中" || state == "审核通过" || state == "退回修改" || state == "审核未通过" || state == "复核通过" || state == "复核未通过" || state == "合格" || state == "不合格") {
-						layer.msg("请选择待审核项 !", {
+						layer.msg("请选择待审核项！", {
 							offset: '100px',
 						});
 						return;
@@ -102,44 +102,156 @@
 					     	offset : '100px',
 					     });
 					     return;
-					 } */ 
+					 } */
+					
+				 	// 校验审核人权限
+					/* if(!validateAuditor(id)){
+						return;
+					} */
+					
+					// 审核人弹出框
 					$.ajax({
-							url: "${pageContext.request.contextPath}/supplierAudit/auditNotReason.do",
-							data: {"supplierId" : id},
-							success: function(result) {
-							
-								if(result == "" || result == null){
-									layer.alert('点击审核项,弹出不通过理由框！', {
-										title: '审核操作说明：',
-										skin: 'layui-layer-molv', //样式类名
-										closeBtn: 0,
-										offset: '100px',
-										shift: 4 //动画类型
-									},
-										function(){
-											$("input[name='supplierId']").val(id);
-											$("#shenhe_form_id").attr("action", "${pageContext.request.contextPath}/supplierAudit/essential.html");
-											$("#shenhe_form_id").submit();
+						url: "${pageContext.request.contextPath}/supplierAudit/ajaxSupplier.do",
+						data: {"supplierId" : id},
+						type: "post",
+						dataType: "json",
+						success: function(result) {
+							if(result && result.status == 1){
+								if($.trim(result.data.auditor) == ""){
+									layer.prompt({
+									  formType: 0,// 0（文本）默认1（密码）2（多行文本）
+									  value: '',
+									  title: '请填写审核人：'
+									}, function(val, index){
+										// 保存审核人
+										var bool = updateAuditor(id, val);
+										if(bool){
+											toAlertAudit(id);
+										}
+									  layer.close(index);
 									});
-									
 								}else{
-									layer.alert (result, {
-											title: '上次未通过审核的原因：',
-											skin: 'layui-layer-molv', //样式类名
-											closeBtn: 0,
-											offset: '100px',
-											shift: 4 //动画类型
-										},
-										function(){
-											$("input[name='supplierId']").val(id);
-											$("#shenhe_form_id").attr("action", "${pageContext.request.contextPath}/supplierAudit/essential.html");
-											$("#shenhe_form_id").submit();
-									});
+									toAlertAudit(id);
 								}
+							}else{
+								layer.msg(result.msg);
 							}
-						});
-					}
+						}
+					});
+					
+				}
 				
+				function toAlertAudit(id){
+					$.ajax({
+						url: "${pageContext.request.contextPath}/supplierAudit/auditNotReason.do",
+						data: {"supplierId" : id},
+						success: function(result) {
+							if(result == "" || result == null){
+								layer.alert('点击审核项，弹出不通过理由框！', {
+									title: '审核操作说明：',
+									skin: 'layui-layer-molv', //样式类名
+									closeBtn: 1,
+									offset: '100px',
+									shift: 4 //动画类型
+								},
+								function(){
+									$("input[name='supplierId']").val(id);
+									$("#shenhe_form_id").attr("action", "${pageContext.request.contextPath}/supplierAudit/essential.html");
+									$("#shenhe_form_id").submit();
+								});
+							}else{
+								layer.alert(result, {
+									title: '上次未通过审核的原因：',
+									skin: 'layui-layer-molv', //样式类名
+									closeBtn: 0,
+									offset: '100px',
+									shift: 4 //动画类型
+								},
+								function(){
+									$("input[name='supplierId']").val(id);
+									$("#shenhe_form_id").attr("action", "${pageContext.request.contextPath}/supplierAudit/essential.html");
+									$("#shenhe_form_id").submit();
+								});
+							}
+						}
+					});
+				}
+				
+				function toEssential(id, sign){
+					// 校验审核人权限
+					/* if(!validateAuditor(id)){
+						return;
+					} */
+					//jumppage('${pageContext.request.contextPath}/supplierAudit/essential.html?supplierId='+id+'&sign='+sign)
+					// 审核人弹出框
+					$.ajax({
+						url: "${pageContext.request.contextPath}/supplierAudit/ajaxSupplier.do",
+						data: {"supplierId" : id},
+						type: "post",
+						dataType: "json",
+						async: false,
+						success: function(result) {
+							if(result && result.status == 1){
+								if($.trim(result.data.auditor) == ""){
+									layer.prompt({
+									  formType: 0,// 0（文本）默认1（密码）2（多行文本）
+									  value: '',
+									  title: '请填写审核人：'
+									}, function(val, index){
+										// 保存审核人
+										var bool = updateAuditor(id, val);
+										if(bool){
+											jumppage('${pageContext.request.contextPath}/supplierAudit/essential.html?supplierId='+id+'&sign='+sign)
+										}
+										layer.close(index);
+									});
+								}else{
+									jumppage('${pageContext.request.contextPath}/supplierAudit/essential.html?supplierId='+id+'&sign='+sign)
+								}
+							}else{
+								layer.msg(result.msg);
+							}
+						}
+					});
+				}
+				
+				function validateAuditor(id){
+					var validateAuditorFlag = true;
+					$.ajax({
+						url: "${pageContext.request.contextPath}/supplierAudit/validateAuditor.do",
+						data: {"supplierId" : id},
+						dataType: "json",
+						async: false,
+						success: function(result) {
+							if(result && result.status == "0"){
+								validateAuditorFlag = false;
+								layer.msg(result.msg, {
+									offset: '100px',
+								});
+							}
+						}
+					});
+					return validateAuditorFlag;
+				}
+				
+				function updateAuditor(id, auditor){
+					var bool = false;
+					$.ajax({
+						url: "${pageContext.request.contextPath}/supplierAudit/updateAuditor.do",
+						data: {"supplierId" : id, "auditor" : auditor},
+						type: "post",
+						dataType: "json",
+						async: false,
+						success: function(result) {
+							if(result && result.status == 1){
+								bool = true;
+							}else{
+								layer.msg(result.msg);
+							}
+						}
+					});
+					return bool;
+				}
 				
 				
 				/* $.ajax({
@@ -183,65 +295,65 @@
 				
 				//发布
 				function publish(){
-			  	var id = $(":checkbox:checked").val();
-			  	var size = $(":checkbox:checked").size();
+				 	var id = $(":checkbox:checked").val();
+				 	var size = $(":checkbox:checked").size();
 					var state = $("#" + id + "").parents("tr").find("td:last").text();//.trim();
 					state = trim(state);
 					if(size == 1){
-			  			if(state != "待审核" && state != "退回再审核" && state != "退回修改" && state != "审核未通过"){
-			  	 			$.ajax({
-			  	 				url:"${pageContext.request.contextPath}/supplierAudit/publish.html",
-			  	 				data:"supplierId=" +id,
-			  	 				type:"post",
-			  	 				datatype:"json",
-			  	 	      	success:function(result){
-			  	 	      		result = eval("(" + result + ")");
-			  	 	      		if(result == "yes"){
-			  	 	      			layer.msg("发布成功!",{offset : '100px'});
-			  	 	      			window.setTimeout(function(){
-					       					$("#form1").submit();
-				       					}, 1000);
-			  	 	      		}else{
-			  	 	      			layer.msg('该供应商已发布过！', {
-							             shift: 6,
-							             offset:'100px'
-							          });
-			  	 	      		}
-			  	 	       	},
-			  	 	       		error: function(){
-			  	 							layer.msg("发布失败！",{offset : '100px'});
-			  	 					}
-			  	 	     });
-			  		}else{
-			  			layer.alert("只有入库供应商才能发布！",{offset : '100px'});
-			     	}
-			  		}else if(size > 1){
-			  			layer.msg("只能选择一项！",{offset : '100px'});
-			  		}else{
-			  			layer.msg("请选择供应商！",{offset : '100px'});
-			  		}
-			  		
-			  	}
+						if(state != "待审核" && state != "退回再审核" && state != "退回修改" && state != "审核未通过"){
+				 			$.ajax({
+								url:"${pageContext.request.contextPath}/supplierAudit/publish.html",
+								data:"supplierId=" +id,
+								type:"post",
+								datatype:"json",
+								success:function(result){
+									result = eval("(" + result + ")");
+									if(result == "yes"){
+										layer.msg("发布成功！",{offset : '100px'});
+										window.setTimeout(function(){
+											$("#form1").submit();
+										}, 1000);
+									}else{
+										layer.msg('该供应商已发布过！', {
+									  	shift: 6,
+									   	offset:'100px'
+								 		});
+									}
+								},
+								error: function(){
+									layer.msg("发布失败！",{offset : '100px'});
+								}
+							});
+						}else{
+							layer.alert("只有入库供应商才能发布！",{offset : '100px'});
+						}
+					}else if(size > 1){
+						layer.msg("只能选择一项！",{offset : '100px'});
+					}else{
+						layer.msg("请选择供应商！",{offset : '100px'});
+					}
 			  	
-			  	//禁用F12键及右键
-		  		function click(e) {
+				}
+			  	
+				//禁用F12键及右键
+				function click(e) {
 					if (document.layers) {
-							if (e.which == 3) {
+						if (e.which == 3) {
 							oncontextmenu='return false';
-							}
 						}
 					}
-					if (document.layers) {
-						document.captureEvents(Event.MOUSEDOWN);
-					}
-					document.onmousedown=click;
-					document.oncontextmenu = new Function("return false;");
-					document.onkeydown =document.onkeyup = document.onkeypress=function(){ 
-						if(window.event.keyCode == 123) { 
-							window.event.returnValue=false;
-							return(false); 
-						} 
-					};
+				}
+				if (document.layers) {
+					document.captureEvents(Event.MOUSEDOWN);
+				}
+				document.onmousedown=click;
+				document.oncontextmenu = new Function("return false;");
+				document.onkeydown =document.onkeyup = document.onkeypress=function(){ 
+					if(window.event.keyCode == 123) { 
+						window.event.returnValue=false;
+						return(false); 
+					} 
+				};
 			  	
 			
 			//下载审核/复核/意见函/考察表
@@ -494,8 +606,8 @@
 								<th class="info">供应商名称</th>
 								<th class="info">供应商类型</th>
 								<th class="info">企业性质</th>
-								<th class="info">提交时间</th>
-								<th class="info">审核时间</th>
+								<th class="info">最新提交时间</th>
+								<th class="info">最新审核时间</th>
 								<th class="info">审核人</th>
 								<th class="info">状态</th>
 							</tr>
@@ -505,20 +617,21 @@
 						<c:forEach items="${result.list }" var="list" varStatus="page">
 							<tr>
 								<td class="tc w30"><input name="id" type="checkbox" value="${list.id}"></td>
-								<td class="tc w50" onclick="shenhe('${list.id }');">${(page.count)+(result.pageNum-1)*(result.pageSize)}</td>
-								<td class="tl"><a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/essential.html?supplierId=${list.id}&sign=${sign}')">${list.supplierName }</a></td>
-								<%-- <td class="tc" onclick="shenhe('${list.id }');">${list.mobile }</td> --%>
-								<td class="tl" onclick="shenhe('${list.id }');">${list.supplierTypeNames}</td>
-								<td class="tc" onclick="shenhe('${list.id }');">${list.businessNature}</td>
-								<td class="tc">
+								<td class="tc w50" ondblclick="shenhe('${list.id }');">${(page.count)+(result.pageNum-1)*(result.pageSize)}</td>
+								<%-- <td class="tl"><a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/essential.html?supplierId=${list.id}&sign=${sign}')">${list.supplierName }</a></td> --%>
+								<td class="tl"><a href="javascript:;" onclick="toEssential('${list.id}','${sign}');">${list.supplierName }</a></td>
+								<%-- <td class="tc" ondblclick="shenhe('${list.id }');">${list.mobile }</td> --%>
+								<td class="tl" ondblclick="shenhe('${list.id }');">${list.supplierTypeNames}</td>
+								<td class="tc" ondblclick="shenhe('${list.id }');">${list.businessNature}</td>
+								<td class="tc" ondblclick="shenhe('${list.id }');">
                   <fmt:formatDate value="${list.submitAt}" pattern="yyyy-MM-dd" />
                 </td>
-                <td class="tc" onclick="shenhe('${list.id }');">
+                <td class="tc" ondblclick="shenhe('${list.id }');">
 									<fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd" />
 								</td>
-								<td class="tc" onclick="shenhe('${list.id }');">
+								<td class="tc" ondblclick="shenhe('${list.id }');">
 								  <c:choose>
-			              <c:when test="${list.auditor ==null or list.auditor == ''}">无</c:when>
+			              <c:when test="${list.auditor == null or list.auditor == ''}">无</c:when>
 			              <c:otherwise>${list.auditor}</c:otherwise>
 			            </c:choose>
 								</td>

@@ -41,27 +41,33 @@ public class SupplierCertProServiceImpl implements SupplierCertProService {
 	@Override
 	public boolean deleteCertProByIds(String ids) {
 		boolean isSuccess = false;
-	    try{
-            if(StringUtils.isNotBlank(ids)){
-                String[] idArray = ids.split(",");
-                int delCount = 0;
-                for(int i=0;i<idArray.length;i++){
-                    if(StringUtils.isNotBlank(idArray[i])){
-                        int key = supplierCertProMapper.deleteByPrimaryKey(idArray[i]);
-                        if(key == 1){
-                            delCount++;
-                        }
-                    }
-                }
-                if(delCount==idArray.length){
-                    isSuccess = true;
-                }
-            }
-        }catch (Exception e){
-	        e.printStackTrace();
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-        }
-        return isSuccess;
+		try {
+			if (StringUtils.isNotBlank(ids)) {
+				String[] idArray = ids.split(",");
+				int delCount = 0;
+				int hasCount = 0;
+				for (int i = 0; i < idArray.length; i++) {
+					String id = idArray[i];
+					if (StringUtils.isNotBlank(id)) {
+						SupplierCertPro certPro = supplierCertProMapper.selectByPrimaryKey(id);
+						if (certPro != null) {
+							int key = supplierCertProMapper.deleteByPrimaryKey(id);
+							if (key == 1) {
+								delCount++;
+							}
+							hasCount++;
+						}
+					}
+				}
+				if (delCount == hasCount) {
+					isSuccess = true;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+		}
+		return isSuccess;
 	}
 	
 	@Override

@@ -18,6 +18,8 @@ $(function () {
     // 获取复选框选择类型
     //var checkVal = $("input:radio[name='selectOption'] :checked").val();
     $("input[name='selectOption']").bind("click", function(){
+        // 无提示暂存审核意见
+        tempSave("noTip");
         // 清空意见内容
         //$("#opinion").val("");
         var selectedVal = $(this).val();
@@ -42,6 +44,25 @@ $(function () {
         // 预审核通过
         getCheckOpinionType(supplierId);
     }
+    // 无提示暂存审核意见
+    var lock = 0;// 对冲突元素加锁
+    $("#oprTempSave,#oprNextStep,input[name='selectOption']").mousedown(function(e){
+        lock = 1;
+    });
+    $("#opinion").focus(function(){
+		$(this).attr("data-oval", $(this).val());
+	}).blur(function(e){
+		//e.relatedTarget
+		if(e){
+			var oldVal = $(this).attr("data-oval"); //获取原值
+			var newVal = $(this).val(); //获取当前值
+			if (newVal && $.trim(newVal) != "" && oldVal != newVal){
+				if(lock == 0){
+					tempSave("noTip");
+				}
+			}
+		}
+	});
 });
 
 /**
@@ -131,15 +152,17 @@ function tempSave(flag){
 	        success:function (data) {
 	            if(flag == 1){
 	                if(data == 500){
-                        layer.alert(data.msg);
+                        layer.msg(data.msg);
                     }else {
                         var action = globalPath + "/supplierAudit/uploadApproveFile.html";
                         $("#form_id").attr("action", action);
                         $("#form_id").submit();
                     }
+	            }else if(flag == "noTip"){
+	            	
 	            }else{
 	                if(data.status == 200){
-	                    layer.alert("暂存成功！");
+	                    layer.msg("暂存成功！");
 	                }
 	            }
 	            // 关闭旋转图标
