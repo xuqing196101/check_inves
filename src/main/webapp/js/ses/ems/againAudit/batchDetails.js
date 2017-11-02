@@ -71,7 +71,7 @@
                 list_content.list[i].status = '公示中';
               } else if (list_content.list[i].status === '-2' && list_content.list[i].isReviewEnd != '1') {
                 list_content.list[i].status = '专家预复审结束';
-                btn = '<button type="button" class="btn" onclick="downloadTable(\''+ list_content.list[i].expertId +'\')">下载复审表</button>';
+                btn = '<button type="button" class="btn" onclick="downloadTable(\''+ list_content.list[i].expertId +'\')">下载专家复审表</button>';
               } else if (list_content.list[i].status === '-2' && list_content.list[i].isReviewEnd == '1') {
             	  list_content.list[i].status = '专家复审结束';
               } else if (list_content.list[i].status === '-1') {
