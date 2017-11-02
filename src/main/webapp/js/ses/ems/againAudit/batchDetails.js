@@ -31,6 +31,7 @@
               +'<button type="button" class="btn btn-windows config" onclick="jump_auditBatch()">审核配置</button>'
               +'<button type="button" class="btn btn-windows apply" onclick="reviewConfirm()">批准</button>'
               +'<button type="button" class="btn btn-windows reset" onclick="javascript: location.reload()">刷新</button>'
+              +'<button type="button" class="btn btn-windows" onclick="downloadReviewTable()">下载专家复审统计表</button>'
             );
           }
             
