@@ -112,16 +112,16 @@
               }
               
               var sum = 0;
-              $('.againAudit_table').find('.select_item').each(function () {
+              $(this).parents('tbody').find('.select_item').each(function () {
                 if ($(this).is(':checked')) {
                   sum++;
                 }
               });
               
-              if (sum === $('.againAudit_table').find('.select_item').length) {
-                $('[name=checkAll]').prop('checked', true);
+              if (sum === $(this).parents('tbody').find('.select_item').length) {
+                $(this).parents('tbody').siblings('thead').find('[name=checkAll]').prop('checked', true);
               } else {
-                $('[name=checkAll]').prop('checked', false);
+                $(this).parents('tbody').siblings('thead').find('[name=checkAll]').prop('checked', false);
               }
             });
           }

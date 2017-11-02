@@ -82,31 +82,63 @@
         <div class="clear"></div>
       </form>
     </div>
+    
+    <div class="pl20 tab-v2">
+      <ul class="nav nav-tabs" id="selected_tab">
+        <li class="active"><a href="#tab_unselected" data-toggle="tab" class="f16">未选</a></li>
+        <li><a href="#tab_selected" data-toggle="tab" class="f16">已选</a></li>
+      </ul>
       
-    <!-- 表格开始-->
-    <div class="col-md-12 pl20 mt10 mb10">
-      <button type="button" class="btn btn-windows add" onclick="create_review_batches()">创建复审批次</button>
-      <button type="button" class="btn btn-windows reverse" onclick="againAudit_reverseSelection()">反选</button>
-    </div>
-
-    <div class="content table_box">
-      <table class="table table-bordered table-condensed table-hover table-striped againAudit_table" id="fixed_columns">
-        <thead>
-          <tr>
-            <th class="w30"><input type="checkbox" name="checkAll" onclick="againAudit_checkAll()"></th>
-            <th class="w50">序号</th>
-            <th class="w100">采购机构</th>
-            <th class="w100">专家姓名</th>
-            <th class="w50">性别</th>
-            <th>专家类型</th>
-            <th class="w80">专家类别</th>
-            <th class="w120">工作单位</th>
-            <th class="w120">专业职称</th>
-            <th class="w120">初审合格时间</th>
-          </tr>
-        </thead>
-        <tbody id="list_content"></tbody>
-      </table>
+      <div class="tab-content p20">
+        <!-- 未选 -->
+        <div class="tab-pane fade in active" id="tab_unselected">
+          <button type="button" class="btn btn-windows reverse m0" onclick="againAudit_reverseSelection('.unselected_table')">反选</button>
+          <button type="button" class="btn btn-windows add mb0 ml5" onclick="addto_selected()">添加到已选分组</button>
+          <table class="table table-bordered table-hover table-striped againAudit_table mb0 mt10 unselected_table" id="fixed_columns">
+            <thead>
+              <tr>
+                <th class="w30"><input type="checkbox" name="checkAll" onclick="checkAll(this)"></th>
+                <th class="w50">序号</th>
+                <th class="w100">采购机构</th>
+                <th class="w100">专家姓名</th>
+                <th class="w50">性别</th>
+                <th>专家类型</th>
+                <th class="w80">专家类别</th>
+                <th class="w120">工作单位</th>
+                <th class="w120">专业职称</th>
+                <th class="w120">初审合格时间</th>
+              </tr>
+            </thead>
+            <tbody id="list_content"></tbody>
+          </table>
+        </div>
+        <!-- End 未选 -->
+        
+        <!-- 已选 -->
+        <div class="tab-pane fade" id="tab_selected">
+          <button type="button" class="btn btn-windows reverse m0" onclick="againAudit_reverseSelection('.selected_table')">反选</button>
+          <button type="button" class="btn btn-windows withdraw mb0 ml5" onclick="remove_selected()">移除已选分组</button>
+          <button type="button" class="btn btn-windows add mb0 ml5" onclick="create_review_batches()">创建复审批次</button>
+          <table class="table table-bordered table-hover table-striped againAudit_table mb0 mt10 selected_table">
+            <thead>
+              <tr>
+                <th class="w30"><input type="checkbox" name="checkAll" onclick="checkAll(this)"></th>
+                <th class="w50">序号</th>
+                <th class="w100">采购机构</th>
+                <th class="w100">专家姓名</th>
+                <th class="w50">性别</th>
+                <th>专家类型</th>
+                <th class="w80">专家类别</th>
+                <th class="w120">工作单位</th>
+                <th class="w120">专业职称</th>
+                <th class="w120">初审合格时间</th>
+              </tr>
+            </thead>
+            <tbody id="selected_content"></tbody>
+          </table>
+        </div>
+        <!-- End 已选 -->
+      </div>
     </div>
       
   </div>
@@ -151,6 +183,7 @@
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/againAuditList.do';  // 列表地址
     var batch_url = '${pageContext.request.contextPath}/expertAgainAudit/createBatch.do';  // 创建复审批次地址
     var select_ids = [];  // 选择的专家id集合
+    var final_ids = [];  // 最终需要创建的id集合
     var is_init = 0;
     
     $(function () {
