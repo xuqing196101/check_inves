@@ -66,6 +66,6 @@
         T1.REAL_NAME AS relName,
         T1.ORG_NAME AS orgName,
         T1.DUTIES AS duties
-		from T_SYS_EMS_EXPERT_REVIEWTEAM T1
+		from T_SYS_EMS_EXPERT_REVIEWTEAM T1 order by CREATED_AT DESC
    </select>
 </mapper>

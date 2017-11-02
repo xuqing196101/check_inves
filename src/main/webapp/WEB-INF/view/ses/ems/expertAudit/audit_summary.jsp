@@ -103,14 +103,14 @@
     
     
       function showDiv(){
-        var s=$('input[name="chkItem"]:checked').eq(0).parent("td").parent("tr").find("td").eq(7).text();
+        var s=$('input[name="chkItem"]:checked').eq(0).parent("td").parent("tr").find("td").eq(6).text();
         var show=true;
         if($('input[name="chkItem"]:checked').size()<=0){
           layer.alert("请选择需要修改状态的信息！", {offset: '100px'});
           return;
         }
         $('input[name="chkItem"]:checked').each(function () {
-         var str=$(this).parent("td").parent("tr").find("td").eq(7).text();
+         var str=$(this).parent("td").parent("tr").find("td").eq(6).text();
          if(s!=str){
            layer.alert("请选择相同状态的审核记录！", {offset: '100px'});
            show=false;
@@ -122,8 +122,8 @@
         }
         if(show){
           $("input[name='updateStatusRadio']").attr("disabled","disabled");
-          $("input[name='updateStatusRadio']").removeAttr('checked');
-          $("input[type='checkbox']").attr("disabled","disabled");
+		  $("input[name='updateStatusRadio']").removeAttr('checked');
+		  $("input[type='checkbox']").attr("disabled","disabled");
           if("有问题"==s||"未修改"==s){
            $("#revokeReturn").attr("disabled",false);
           }

@@ -1,6 +1,6 @@
 // 创建复审批次
 function create_review_batches() {
-  var ids = select_ids.join(',');  // 将获得到的id数组转换成字符串（为后台处理）
+  var ids = final_ids.join(',');  // 将获得到的id数组转换成字符串（为后台处理）
   var batchName_obj = $('[name=batchName]');  // 批次名称
   var batchNumber_obj = $('[name=batchNumber]');  // 批次编号
   
@@ -717,46 +717,48 @@ function againAudit_checkAll() {
 }
 
 //  创建复审批次列表反选操作
-function againAudit_reverseSelection() {
-  var push_list = [];
-  var remove_list = [];
+function againAudit_reverseSelection(table_name) {
+  // var push_list = [];
+  // var remove_list = [];
   var select_num = 0;
   
-  $('.againAudit_table .select_item').each(function () {
-    if (!$(this).is(':checked')) {
-      push_list.push($(this).val());
-      $(this).prop('checked', true);
-      select_num++;
+  if (typeof(table_name) == 'string') {
+    $(table_name).find('.select_item').each(function () {
+      if (!$(this).is(':checked')) {
+        // push_list.push($(this).val());
+        $(this).prop('checked', true);
+        select_num++;
+      } else {
+        // remove_list.push($(this).val());
+        $(this).prop('checked', false);
+      }
+    });
+    
+    // for (var i in remove_list) {
+    //   for (var ii in select_ids) {
+    //     if (select_ids[ii] === remove_list[i]) {
+    //       select_ids.splice(ii, 1);
+    //     }
+    //   }
+    // }
+    // 
+    // for (var iii in push_list) {
+    //   var hassame = 0;
+    //   for (var iiii in select_ids) {
+    //     if (select_ids[iiii] === push_list[iii]) {
+    //       hassame = 1;
+    //     }
+    //   }
+    //   if (hassame === 0) {
+    //     select_ids.push(push_list[iii]);
+    //   }
+    // }
+    
+    if (select_num === $(table_name).find('.select_item').length) {
+      $(table_name).find('[name=checkAll]').prop('checked', true);
     } else {
-      remove_list.push($(this).val());
-      $(this).prop('checked', false);
+      $(table_name).find('[name=checkAll]').prop('checked', false);
     }
-  });
-  
-  for (var i in remove_list) {
-    for (var ii in select_ids) {
-      if (select_ids[ii] === remove_list[i]) {
-        select_ids.splice(ii, 1);
-      }
-    }
-  }
-  
-  for (var iii in push_list) {
-    var hassame = 0;
-    for (var iiii in select_ids) {
-      if (select_ids[iiii] === push_list[iii]) {
-        hassame = 1;
-      }
-    }
-    if (hassame === 0) {
-      select_ids.push(push_list[iii]);
-    }
-  }
-  
-  if (select_num === $('.againAudit_table .select_item').length) {
-    $('[name=checkAll]').prop('checked', true);
-  } else {
-    $('[name=checkAll]').prop('checked', false);
   }
 }
 
@@ -911,4 +913,109 @@ function import_history() {
       layer.close(index);
     }
   });
+}
+
+// 添加到已选分组
+function addto_selected() {
+  if ($('#list_content .select_item:checked').length > 0) {
+    var str = '';
+    $('#list_content tr').each(function () {
+      var has_num = 0;
+      if (!$(this).hasClass('hide')) {
+        if ($(this).find('.select_item').is(':checked')) {
+          for (var i in final_ids) {
+            if ($(this).find('.select_item').val() == final_ids[i]) {
+              has_num = 1;
+              break;
+            }
+          }
+          if (has_num == 0) {
+            final_ids.push($(this).find('.select_item').val());
+          }
+          str += '<tr>'+ $(this).html() +'</tr>';
+          $(this).addClass('hide');
+          $(this).find('.select_item').prop('checked', false);
+        }
+      }
+    });
+    
+    if ($('#list_content tr.hide').length == $('#list_content tr').length) {
+      $('#list_content').siblings('thead').find('[name=checkAll]').prop('checked', false);
+    }
+    
+    $('#selected_content').append(str);
+    $('#selected_tab li').eq(1).find('a').tab('show');
+    
+    // 绑定列表框点击事件，获取选中id集合
+    var select_checkbox = $('.againAudit_table').find('.select_item');
+    if (select_checkbox.length > 0) {
+      select_checkbox.bind('click', function () {
+        var this_val = $(this).val().toString();
+        
+        if ($(this).is(':checked')) {
+          select_ids.push(this_val);
+        } else {
+          for (var i in select_ids) {
+            if (select_ids[i] == this_val) {
+              select_ids.splice(i, 1);
+              break;
+            }
+          }
+        }
+        
+        var sum = 0;
+        $(this).parents('tbody').find('.select_item').each(function () {
+          if ($(this).is(':checked')) {
+            sum++;
+          }
+        });
+        
+        if (sum === $(this).parents('tbody').find('.select_item').length) {
+          $(this).parents('tbody').siblings('thead').find('[name=checkAll]').prop('checked', true);
+        } else {
+          $(this).parents('tbody').siblings('thead').find('[name=checkAll]').prop('checked', false);
+        }
+      });
+    }
+  } else {
+    layer.msg('至少选择一条数据', {
+      offset: '100px'
+    });
+  }
+}
+
+// 移除已选分组
+function remove_selected() {
+  if ($('#selected_content .select_item:checked').length > 0) {
+    var remove_item = [];
+    $('#selected_content tr').each(function () {
+      if ($(this).find('.select_item').is(':checked')) {
+        remove_item.push($(this).find('.select_item').val());
+        $(this).remove();
+      }
+    });
+    
+    for (var i in remove_item) {
+      $('#list_content .select_item').each(function (index) {
+        if ($(this).val() == remove_item[i]) {
+          $(this).parents('tr').removeClass('hide');
+        }
+      });
+      
+      for (var ii in final_ids) {
+        if (remove_item[i] == final_ids[ii]) {
+          final_ids.splice(ii, 1);
+          break;
+        }
+      }
+    }
+    
+    if ($('#selected_content tr').length <= 0) {
+      $('#selected_content').siblings('thead').find('[name=checkAll]').prop('checked', false);
+    }
+  } else {
+    layer.msg('至少选择一条数据', {
+      offset: '100px'
+    });
+  }
 }
