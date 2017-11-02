@@ -224,12 +224,12 @@ function form_reset(){
               <c:if test="${fn:length(obj.reviewAddress) > 7 }">${fn:substring(obj.reviewAddress, 0, 7)}...</c:if>
               <c:if test="${fn:length(obj.reviewAddress) <= 7 }">${obj.reviewAddress }</c:if>
             </td>
-            <td class="tc w90" title="${obj.extractPerson }">
-              <c:if test="${fn:length(obj.extractPerson) > 4 }">${fn:substring(obj.extractPerson, 0, 4)}...</c:if>
-              <c:if test="${fn:length(obj.extractPerson) <= 4 }">${obj.extractPerson }</c:if>
+            <td class="tc w100" title="${obj.extractPerson }">
+              <c:if test="${fn:length(obj.extractPerson) > 5 }">${fn:substring(obj.extractPerson, 0, 5)}...</c:if>
+              <c:if test="${fn:length(obj.extractPerson) <= 5 }">${obj.extractPerson }</c:if>
             </td>
             <td class="tc w150"><!-- reviewTime -->
-              <fmt:formatDate value="${obj.updatedAt }" pattern="yyyy/MM/dd HH:mm:ss" />
+              <fmt:formatDate value="${obj.createdAt }" pattern="yyyy/MM/dd HH:mm:ss" />
             </td>
             <td class="tc w90" id="${obj.id }">
               <c:if test="${obj.status == '0' }">未开始</c:if>

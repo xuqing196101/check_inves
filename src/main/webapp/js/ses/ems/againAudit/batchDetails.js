@@ -47,7 +47,7 @@
             +'    <th class="info">工作单位</th>'
             +'    <th class="info w120">技术职称(职称)</th>'
             +'    <th class="info w60">审核组</th>'
-            +'    <th class="info w80">审核状态</th>'
+            +'    <th class="info w110">审核状态</th>'
             +'    <th class="info w100">操作</th>'
             +'  </tr>'
             +'</thead>'
@@ -69,10 +69,10 @@
               if (list_content.list[i].status === '-3') {
                 list_content.list[i].status = '公示中';
               } else if (list_content.list[i].status === '-2' && list_content.list[i].isReviewEnd != '1') {
-                list_content.list[i].status = '预复审结束';
+                list_content.list[i].status = '专家预复审结束';
                 btn = '<button type="button" class="btn" onclick="downloadTable(\''+ list_content.list[i].expertId +'\')">下载复审表</button>';
               } else if (list_content.list[i].status === '-2' && list_content.list[i].isReviewEnd == '1') {
-            	  list_content.list[i].status = '复审结束';
+            	  list_content.list[i].status = '专家复审结束';
               } else if (list_content.list[i].status === '-1') {
                 list_content.list[i].status = '暂存';
               } else if (list_content.list[i].status === '0') {
@@ -174,24 +174,21 @@
           // $('#btn_group').html('<button type="button" class="btn btn-windows git" onclick="expert_auditBatch(\''+ root_url +'\')">审核</button>'
           //   +'<button type="button" onclick="downloadTable(2)" class="btn btn-windows input">下载复审表</button>');
           
-          $('#btn_group').html('<button type="button" class="btn btn-windows git" onclick="expert_auditBatch(\''+ root_url +'\')">审核</button>'
-            +'<button type="button" class="btn btn-windows reset" onclick="javascript: location.reload()">刷新</button>'
-          );
+          $('#btn_group').html('<button type="button" class="btn btn-windows reset" onclick="javascript: location.reload()">刷新</button>');
           
           $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped break-all againAudit_table">'
             +'<thead>'
             +'  <tr>'
-            +'    <th class="info w30"></th>'
             +'    <th class="info w100">专家编号</th>'
             +'    <th class="info w100">采购机构</th>'
             +'    <th class="info w80">专家姓名</th>'
             +'    <th class="info w50">性别</th>'
-            +'    <th class="info w120">专家类型</th>'
-            +'    <th class="info w80">专家类别</th>'
             +'    <th class="info">工作单位</th>'
             +'    <th class="info w120">技术职称(职称)</th>'
+            +'    <th class="info w120">专家类型</th>'
+            +'    <th class="info w80">专家类别</th>'
             +'    <th class="info w60">审核组</th>'
-            +'    <th class="info w90">审核状态</th>'
+            +'    <th class="info w110">审核状态</th>'
             +'    <th class="info w100">操作</th>'
             +'  </tr>'
             +'</thead>'
@@ -213,12 +210,12 @@
               if (list_content.list.list[i].status === '-3') {
                 list_content.list.list[i].status = '公示中';
               } else if (list_content.list.list[i].status === '-2'&& list_content.list.list[i].isReviewEnd != '1') {
-                list_content.list.list[i].status = '预复审结束';
+                list_content.list.list[i].status = '专家预复审结束';
                 if(list_content.list.list[i].isDownload == '1' && list_content.list.list[i].isReviewEnd != '1'){
-                	btn = '<button type="button" class="btn" onclick="reviewEnd(\''+ list_content.list.list[i].expertId +'\');">复审结束</button>';
+                	btn = '<button type="button" class="btn" onclick="reviewEnd(\''+ list_content.list.list[i].expertId +'\');">专家复审结束</button>';
                 }
               }else if (list_content.list.list[i].status === '-2' && list_content.list.list[i].isReviewEnd == '1') {
-                  list_content.list.list[i].status = '复审结束';
+                  list_content.list.list[i].status = '专家复审结束';
               }else if (list_content.list.list[i].status === '-1') {
                 list_content.list.list[i].status = '暂存';
               } else if (list_content.list.list[i].status === '0') {
@@ -297,16 +294,19 @@
                 list_content.list.list[i].auditAt = '';
               }
               
+              if (list_content.list.list[i].status != "公示中" && list_content.list.list[i].status != "复审合格" && list_content.list.list[i].status != "专家复审结束" && list_content.list.list[i].status != "复审不合格" && list_content.list.list[i].status != "复审退回修改" && list_content.list.list[i].status != "复查合格" && list_content.list.list[i].status != "复查未合格") {
+                btn += '<button type="button" class="btn w100p m0" onclick="expert_auditBatch(\''+ root_url +'\', \''+ list_content.list.list[i].expertId +'\')">复审</button>';
+              }
+              
               $('#list_content').append('<tr><input id="'+ list_content.list.list[i].expertId +'" type="hidden">'
-                +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content.list.list[i].expertId +'" class="select_item"></td>'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].batchDetailsNumber +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].orgName +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].realName +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].gender +'</td>'
-                +'<td class="text-center break-all">'+ list_content.list.list[i].expertsFrom +'</td>'
-                +'<td class="text-center break-all">'+ list_content.list.list[i].expertsTypeId +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].workUnit +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].professTechTitles +'</td>'
+                +'<td class="text-center break-all">'+ list_content.list.list[i].expertsFrom +'</td>'
+                +'<td class="text-center break-all">'+ list_content.list.list[i].expertsTypeId +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].groupName +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].status +'</td>'
                 +'<td class="text-center break-all">'+ btn +'</td>'

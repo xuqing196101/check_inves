@@ -31,14 +31,12 @@ import ses.model.bms.Qualification;
 import ses.model.sms.Supplier;
 import ses.service.bms.CategoryService;
 import ses.util.DictionaryDataUtil;
-import ses.util.PropUtil;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.pagehelper.PageHelper;
 
 import extract.dao.supplier.ExtractConditionRelationMapper;
 import extract.dao.supplier.SupplierExtractConditionMapper;
@@ -130,24 +128,9 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	//类别是4种，每种类别对应多种品目 这里面会有关联关系前台传进来的数据是
 	//
 	//extTypeCategoryMapper.insertSupplierArea(condition);
-    conditionMapper.updateByPrimaryKeySelective(condition);
+    conditionMapper.updateConditionByPrimaryKeySelective(condition);
   }
 
-  /**
-   * @Description:集合查询
-   *
-   * @author Wang Wenshuai
-   * @version 2016年9月28日 上午10:36:20  
-   * @param @param condition
-   * @param @return      
-   * @return List<ExpExtCondition>
-   */
-  public List<SupplierExtractCondition> list(SupplierExtractCondition condition,Integer pageNum){
-    if(pageNum != null && pageNum!=0){
-      PageHelper.startPage(pageNum,PropUtil.getIntegerProperty("pageSize"));
-    }
-    return conditionMapper.list(condition);
-  }
 
   /**
    * @Description:获取单个
@@ -190,11 +173,9 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	 }
 	  
 	this.excludeSupplier(condition);
-	
 	try {
 		String typeCode = condition.getSupplierTypeCode();
 		String code = this.setExtractCondition(typeCode, condition, conType);
-		
 		if(type == 1){
 			if(null == condition.getExtractNum()){
 				map.put("error",code+"ExtractNumError");
@@ -555,11 +536,15 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		String ob = (String)class1.getMethod("get"+code+"OverseasBranch").invoke(conType);
 		String qid = (String)class1.getMethod("get"+code+"QuaId").invoke(conType);
 		//String qname = (String)class1.getMethod("get"+code+"QuaName").invoke(conType);
-		if(null != mu){
-			condition.setIsMulticondition(mu);
-		}
 		if(StringUtils.isNotBlank(cid)){
 			condition.setCategoryId(cid);
+		}
+		if(null != mu){
+			if(2==mu && StringUtils.isNotBlank(cid)){
+				int size = conditionMapper.seleselectChildCate(cid.split(",")).size();
+				condition.setCsize(size);
+			}
+			condition.setIsMulticondition(mu);
 		}
 		//若勾选了父节点
 		if(StringUtils.isNotBlank(pid)){

@@ -314,7 +314,7 @@
                   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><div
                           class="star_red">*</div>所在地区：</span>
                   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                  	<input class="input_group " readonly name="areaName" id="area" onclick="showTree();">
+                  	<input type="text" readonly="readonly"  name="areaName" id="area" onclick="showTree();">
                   	 <span class="add-on">i</span>
                   	  <div class="cue" id="areaNameError"></div>
                   </div>
@@ -800,7 +800,7 @@
           <div class="clear"></div>
 	         <div class="col-xs-12 tc mt20">
 	           <button class="btn bu" onclick="extractVerify();" type="button">人工抽取</button>
-	           <button class="btn bu"  type="button">自动抽取</button><!-- onclick="extractVerify('auto')" -->
+	           <button class="btn bu" onclick="extractVerify('auto')" type="button">自动抽取</button><!-- onclick="extractVerify('auto')" -->
 	           <button class="btn bu"  type="button" onclick="resetCondition(this)">重置</button>
 	         </div>
           </form>

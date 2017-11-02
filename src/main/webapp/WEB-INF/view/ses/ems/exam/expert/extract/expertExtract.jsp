@@ -227,7 +227,7 @@
       <!-- 省 -->
       <ul class="ul_list">
         <form id="condition_form">
-        <input type = "hidden" id = "conditionId" name = "conId">
+        <input type = "hidden" id = "conditionId" name = "conId" value = "${conditionId }">
         <input type="hidden" name="areaName" id="provincesel"/>
         <input type="hidden" name="addressId" id="addressId">
           <li class="col-md-3 col-sm-4 col-xs-12 pl15">

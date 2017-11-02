@@ -22,12 +22,15 @@ import common.annotation.CurrentUser;
 import common.constant.StaticVariables;
 import common.utils.JdcgResult;
 import ses.controller.sys.sms.BaseSupplierController;
+import ses.dao.ems.ExpertReviewTeamMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAgainAuditImg;
 import ses.model.ems.ExpertAgainAuditReviewTeamList;
 import ses.model.ems.ExpertAuditOpinion;
+import ses.model.ems.ExpertBatch;
+import ses.model.ems.ExpertReviewTeam;
 import ses.model.oms.Orgnization;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.TodosService;
@@ -58,6 +61,8 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	private TodosService todosService; //待办
 	@Autowired
 	private ExpertAuditOpinionService expertAuditOpinionService;
+	@Autowired
+	private ExpertReviewTeamMapper expertReviewTeamMapper;
 	/*
 	 * 提交复审
 	 * */
@@ -225,7 +230,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	 * 查询批次
 	 * */
 	@RequestMapping("/findBatch")
-	public void findBatch(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String batchNumber,String batchName, Date createdAt, Integer pageNum){
+	public void findBatch(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,Model model,String batchNumber,String batchName, Date createdAt, Integer pageNum){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		if(user==null){
 			img.setStatus(false);
@@ -250,7 +255,13 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		super.writeJson(response, img);
 	}
 	@RequestMapping("/findBatchList")
-	public String findBatchList(HttpServletRequest request,HttpServletResponse response,Model model){
+	public String findBatchList(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,Model model){
+		if("4".equals(user.getTypeName())){
+			return "/ses/ems/againAudit/list_batch";
+		}else if("6".equals(user.getTypeName())){
+			List<ExpertReviewTeam> team = expertReviewTeamMapper.findExpertReviewTeam(user.getId());
+			return findBatchDailesList(request, response, model, team.get(0).getBatchId());
+		}
 		return "/ses/ems/againAudit/list_batch";
 	};
 	@RequestMapping("/findBatchDetailsList")
@@ -692,7 +703,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
         Pattern p2 = Pattern.compile("[\u4e00-\u9fa5]");
         Matcher matcher = p.matcher(password);
         Matcher matcher2 = p2.matcher(password);
-        if(password.trim().length() < 6 || matcher.find() || matcher2.find()) {
+        if( matcher.find() || matcher2.find()) {
         	img.setStatus(false);
         	img.setMessage("密码不符合规则");
         	super.writeJson(response, img);
@@ -918,4 +929,25 @@ public class ExpertAgainAuditController extends BaseSupplierController {
     	}
     	return jdcgResult;
     }
+    /*
+	 * 获取历史评审专家信息
+	 * */
+	@RequestMapping("selectReviewTeamAll")
+	public void selectReviewTeamAll(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response) {
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		if(user==null){
+			img.setStatus(false);
+			img.setMessage("请登录");
+			super.writeJson(response, img);
+			return;
+		}
+		if(!"4".equals(user.getTypeName())){
+			img.setStatus(false);
+			img.setMessage("您的权限不足");
+			super.writeJson(response, img);
+			return;
+		}
+		img=againAuditService.selectReviewTeamAll();
+		super.writeJson(response, img);
+	}
 }

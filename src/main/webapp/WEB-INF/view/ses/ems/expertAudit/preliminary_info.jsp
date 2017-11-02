@@ -143,8 +143,12 @@
       <div class="content">
         <div class="col-md-12 tab-v2 job-content">
           <%@include file="/WEB-INF/view/ses/ems/expertAudit/common_jump.jsp" %>
-
-          <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
+          <c:if test="${sign eq '1'}">
+            <h2 class="count_flow"><i>1</i>复审汇总信息</h2>
+          </c:if>
+          <c:if test="${sign ne '1'}">
+            <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
+          </c:if>
           <ul class="ul_list count_flow">
             <table class="table table-bordered table-condensed table-hover">
               <thead>
@@ -169,7 +173,7 @@
                     <c:if test="${reasons.suggestType eq 'five'}">承诺书和申请表</c:if>
                   </td>
                   <td class="">${reasons.auditField }</td>
-                  <td class="hand" title="${reasons.auditContent}">
+                  <td class="hand" title="${reasons.catalogCode == null ? reasons.auditContent : reasons.catalogCode}">
                     <c:if test="${fn:length (reasons.auditContent) > 20}">${fn:substring(reasons.auditContent,0,20)}...</c:if>
                     <c:if test="${fn:length (reasons.auditContent) <= 20}">${reasons.auditContent}</c:if>
                   </td>
@@ -178,7 +182,7 @@
                     <c:if test="${fn:length (reasons.auditReason) <= 20}">${reasons.auditReason}</c:if>
                   </td>
                   <!-- 状态 -->
-                   <c:if test="${reasons.auditStatus eq '1'}"><td class="tc">退回修改</td></c:if>
+                   <c:if test="${reasons.auditStatus eq '1'}"><td class="tc">有问题</td></c:if>
                    <c:if test="${reasons.suggestType eq 'six' && reasons.auditStatus eq '2'}"><td class="tc">审核不通过</td></c:if>
                    <c:if test="${reasons.suggestType != 'six' && reasons.auditStatus eq '2'}"><td class="tc">已修改</td></c:if>
                    <c:if test="${reasons.auditStatus eq '3'}"><td class="tc">未修改</td></c:if>
@@ -201,8 +205,10 @@
                     <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '10'}">checked</c:if> value="10">退回修改
                   </c:if>
                   <c:if test="${sign == 2}">
-	                  <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> value="15">初审合格
-	                  <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> value="16">初审不合格
+                  		<c:if test="${auditOpinion.flagAudit eq '15'}">初审合格</c:if>
+                  		<c:if test="${auditOpinion.flagAudit eq '16'}">初审不合格</c:if>
+	                  <%-- <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> value="15">初审合格
+	                  <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> value="16">初审不合格 --%>
                   </c:if>
                 </div>
               </li>
@@ -210,7 +216,8 @@
                 <div id="check_opinion"></div>
               </li>
             <li class="mt10">
-               <textarea id="opinion" readonly="readonly" class="col-md-12 col-xs-12 col-sm-12 h80">${auditOpinion.opinion }</textarea>
+            	${auditOpinion.opinion }
+               <%-- <textarea id="opinion" readonly="readonly" class="col-md-12 col-xs-12 col-sm-12 h80">${auditOpinion.opinion }</textarea> --%>
             </li>
           </ul>
           
@@ -234,7 +241,7 @@
 	            <a class="btn" type="button" onclick="nextStep();">下一步</a>
 	          </c:if>
 	          
-	          <c:if test = "${sign eq '1' && status eq '10'}" >
+	          <c:if test = "${sign eq '1' && (status eq '10' || (reviewUnqualifiedConfirm != 1 and status eq '5'))}" >
               <a class="btn" type="button" onclick="preliminaryConfirmation();">确认</a>
             </c:if>
 	        </div>

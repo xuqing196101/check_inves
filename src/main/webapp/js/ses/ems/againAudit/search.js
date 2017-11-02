@@ -29,7 +29,8 @@ function batchList_search() {
       batchName: batchName,
       createdAt: createdAt
     },
-    url: list_url
+    url: list_url,
+    batch_url: batch_url
   });
 }
 

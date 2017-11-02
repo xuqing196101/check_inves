@@ -804,6 +804,9 @@
     background-image:url(../images/check_back.png);
     background-position: 8px center; 
 }
+.reverse {
+	background-position: -36px -1565px;
+}
 /*add&&delete*/
 .btn.list_btn{
    border-radius: 4px !important;

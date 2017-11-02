@@ -514,7 +514,7 @@ function save_editMembers() {
     });
     
     if (empty_sum === 0) {
-      layer.confirm('保存后无法再次添加，您确定要保存么？', {
+      layer.confirm('您确定要保存么？', {
         btn: ['确定', '取消']
       }, function () {
         $.ajax({
@@ -609,37 +609,37 @@ function checkOnly(el) {
   // }
 }
 
-// 专家批次审核
-function expert_auditBatch(url) {
+// 专家批次复审
+function expert_auditBatch(url, expertId) {
   var batchId = getUrlParam('batchId')
-  if (select_ids.length > 1) {
-    layer.msg('不能多选，请选择一项', {
-      offset: '100px'
-    });
-  } else if (select_ids.length === 0) {
-    layer.msg('请至少选择一项', {
-      offset: '100px'
-    });
-  } else {
-    var ids = select_ids.toString();
-    var state = $("#" + ids + "").parent("tr").find("td").eq(10).text(); //.trim();
-    state = trim(state);
-    if( state =="公示中"  ||state == "复审合格"||state == "复审结束"  || state == "复审不合格"|| state == "复审退回修改" || state == "复查合格" || state == "复查未合格"){
-    	 layer.msg('只能选择未复审完成的专家', {
-    	      offset: '100px'
-    	    });
-    	 return;
-    }
+  // if (select_ids.length > 1) {
+  //   layer.msg('不能多选，请选择一项', {
+  //     offset: '100px'
+  //   });
+  // } else if (select_ids.length === 0) {
+  //   layer.msg('请至少选择一项', {
+  //     offset: '100px'
+  //   });
+  // } else {
+    // var ids = select_ids.toString();
+    // var state = $("#" + ids + "").parent("tr").find("td").eq(10).text(); //.trim();
+    // state = trim(state);
+    // if( state =="公示中"  ||state == "复审合格"||state == "专家复审结束"  || state == "复审不合格"|| state == "复审退回修改" || state == "复查合格" || state == "复查未合格"){
+    // 	 layer.msg('只能选择未复审完成的专家', {
+    // 	      offset: '100px'
+    // 	    });
+    // 	 return;
+    // }
     $.ajax({
       type: 'POST',
       dataType: 'json',
       url: audit_url,
       data: {
-        expertId: ids
+        expertId: expertId
       },
       success: function (data) {
         if (data.status) {
-          window.location.href=url+"/expertAudit/basicInfo.html?expertId="+ids+"&sign=2"+"&batchId=" + batchId;
+          window.location.href=url+"/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2"+"&batchId=" + batchId;
         } else {
           layer.msg(data.message, {
             offset: '100px'
@@ -647,7 +647,7 @@ function expert_auditBatch(url) {
         }
       }
     });
-  }
+  // }
 }
 
 //  全选操作
@@ -716,6 +716,50 @@ function againAudit_checkAll() {
   }
 }
 
+//  创建复审批次列表反选操作
+function againAudit_reverseSelection() {
+  var push_list = [];
+  var remove_list = [];
+  var select_num = 0;
+  
+  $('.againAudit_table .select_item').each(function () {
+    if (!$(this).is(':checked')) {
+      push_list.push($(this).val());
+      $(this).prop('checked', true);
+      select_num++;
+    } else {
+      remove_list.push($(this).val());
+      $(this).prop('checked', false);
+    }
+  });
+  
+  for (var i in remove_list) {
+    for (var ii in select_ids) {
+      if (select_ids[ii] === remove_list[i]) {
+        select_ids.splice(ii, 1);
+      }
+    }
+  }
+  
+  for (var iii in push_list) {
+    var hassame = 0;
+    for (var iiii in select_ids) {
+      if (select_ids[iiii] === push_list[iii]) {
+        hassame = 1;
+      }
+    }
+    if (hassame === 0) {
+      select_ids.push(push_list[iii]);
+    }
+  }
+  
+  if (select_num === $('.againAudit_table .select_item').length) {
+    $('[name=checkAll]').prop('checked', true);
+  } else {
+    $('[name=checkAll]').prop('checked', false);
+  }
+}
+
 // 去除空格
 function Trim(str, is_global) {
   var result;
@@ -780,4 +824,91 @@ function toggle_list(el) {
     $(el).addClass('shrink');
     $(el).removeClass('spread');
   }
+}
+
+// 导入历史人员
+function import_history() {
+  var index = layer.open({
+    title: ['导入历史人员'],
+    shade: 0.3, //遮罩透明度
+    type : 1,
+    area : ['700px', '400px'], //宽高
+    content : $('#import_history'),
+    btn: ['确定', '返回'],
+    success: function () {
+      var index_load = layer.load();
+      $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: history_url,
+        data: {},
+        success: function (data) {
+          var list_content = data.object;
+          var str = '';
+          
+          for (var i in list_content) {
+            if (list_content[i] != null) {
+              str += '<tr>'
+                +'<td class="tc break-all"><input type="hidden" value="'+ list_content[i].relName +', '+ list_content[i].orgName +', '+ list_content[i].duties +'"><input type="checkbox" class="select_item"></td>'
+                +'<td class="tc break-all">'+ list_content[i].relName +'</td>'
+                +'<td class="tc break-all">'+ list_content[i].orgName +'</td>'
+                +'<td class="tc break-all">'+ list_content[i].duties +'</td>'
+              +'</tr>';
+            }
+          }
+          
+          $('#history_content').html(str);
+          layer.close(index_load);
+        }
+      });
+    },
+    yes: function() {
+      if ($('#history_content input[type=checkbox]:checked').length <= 2 && $('#history_content input[type=checkbox]:checked').length > 0) {
+        var val = [];
+        var empty_tr = 0;
+        
+        $('#history_content input[type=checkbox]:checked').each(function (index) {
+          val.push($(this).siblings('input[type=hidden]').val().split(','));
+        });
+        
+        if ($('#history_content input[type=checkbox]:checked').length == 1) {
+          $('#list_content tr').each(function (index) {
+            if ($(this).find('input[name=relName]').val() == '' && $(this).find('input[name=orgName]').val() == '' && $(this).find('input[name=duties]').val() == '') {
+              $(this).find('input[name=relName]').val(val[0][0]);
+              $(this).find('input[name=orgName]').val(val[0][1]);
+              $(this).find('input[name=duties]').val(val[0][2]);
+              return false;
+            } else {
+              empty_tr++;
+            }
+            
+            if (empty_tr == $('#list_content tr').length) {
+              $('#list_content tr').eq(0).find('input[name=relName]').val(val[0][0]);
+              $('#list_content tr').eq(0).find('input[name=orgName]').val(val[0][1]);
+              $('#list_content tr').eq(0).find('input[name=duties]').val(val[0][2]);
+            }
+          });
+        } else {
+          $('#list_content tr').each(function (index) {
+            $(this).find('input[name=relName]').val(val[index][0]);
+            $(this).find('input[name=orgName]').val(val[index][1]);
+            $(this).find('input[name=duties]').val(val[index][2]);
+          });
+        }
+        
+        layer.close(index);
+      } else if ($('#history_content input[type=checkbox]:checked').length <= 0) {
+        layer.msg('最至少选择一个历史人员', {
+          offset: '100px'
+        });
+      } else {
+        layer.msg('最多选择两个历史人员', {
+          offset: '100px'
+        });
+      }
+    },
+    btn2: function() {
+      layer.close(index);
+    }
+  });
 }

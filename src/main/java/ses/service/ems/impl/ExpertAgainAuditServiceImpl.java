@@ -4,9 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -527,28 +529,37 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	public ExpertAgainAuditImg addExpertReviewTeam(String userName,String password,List<Map<String, String>> e) {
 		// TODO Auto-generated method stub
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		List<User> list = userMapper.queryByLoginName(userName);
 		User user = new User();
-		user.setId(WfUtil.createUUID());
-		user.setLoginName(userName);
-		user.setRelName(userName);
-		user.setCreatedAt(new Date());
-		user.setUpdatedAt(new Date());
-		user.setIsDeleted(0);
-		user.setTypeName("6");
-		if(password!=null){
-			//生成15位随机码
-			String randomCode = generateString(15);
-			Md5PasswordEncoder md5 = new Md5PasswordEncoder();     
-			// false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版     
-			md5.setEncodeHashAsBase64(false);     
-			String pwd = md5.encodePassword(password, randomCode);
-			user.setPassword(pwd);
-			user.setRandomCode(randomCode);
+		if(list!=null && list.size()>0){
+			user=list.get(0);
+			expertReviewTeamMapper.deleteGroupreReviewTeam(e.get(0).get("groupId"));
+		}else{
+			user.setId(WfUtil.createUUID());
+			user.setLoginName(userName);
+			user.setRelName(userName);
+			user.setCreatedAt(new Date());
+			user.setUpdatedAt(new Date());
+			user.setIsDeleted(0);
+			user.setTypeName("6");
+			if(password!=null){
+				//生成15位随机码
+				String randomCode = generateString(15);
+				Md5PasswordEncoder md5 = new Md5PasswordEncoder();     
+				// false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版     
+				md5.setEncodeHashAsBase64(false);     
+				String pwd = md5.encodePassword(password, randomCode);
+				user.setPassword(pwd);
+				user.setRandomCode(randomCode);
+			}
+			//user.setTypeId(expertReviewTeam.getId());
+			String ipAddressType = PropUtil.getProperty("ipAddressType");
+			user.setNetType(Integer.valueOf(ipAddressType));
+			userMapper.saveUser(user);
 		}
-		//user.setTypeId(expertReviewTeam.getId());
-		String ipAddressType = PropUtil.getProperty("ipAddressType");
-		user.setNetType(Integer.valueOf(ipAddressType));
-		userMapper.saveUser(user);
+		
+		
+		
 		for (Map<String, String> map : e) {
 			ExpertReviewTeam expertReviewTeam = new ExpertReviewTeam();
 			expertReviewTeam.setGroupId(map.get("groupId"));
@@ -889,6 +900,21 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 			img.setStatus(false);
 			img.setMessage("当前批次剩余待分组专家不足,请手动分配");
 		}
+		return img;
+	}
+
+	@Override
+	public ExpertAgainAuditImg selectReviewTeamAll() {
+		// TODO Auto-generated method stub
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		Set<ExpertReviewTeam> set = new HashSet<ExpertReviewTeam>();
+		List<ExpertReviewTeam> list = expertReviewTeamMapper.selectReviewTeamAll();
+		set.addAll(list);
+		list.clear();
+		list.addAll(set);
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		img.setObject(list);
 		return img;
 	} 
 	

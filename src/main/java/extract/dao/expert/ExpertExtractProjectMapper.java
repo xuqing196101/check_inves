@@ -58,7 +58,7 @@ public interface ExpertExtractProjectMapper {
      * @param 
      * @return
      */
-    int vaProjectCode(@Param("code")String code);
+    int vaProjectCode(@Param("code")String code,@Param("xmProjectId")String xmProjectId);
     
     /**
      * 

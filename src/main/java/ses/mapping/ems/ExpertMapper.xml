@@ -70,6 +70,9 @@
 				<result column="AUDIT_TEMPORARY" property="auditTemporary" />
 				<result column="AUDIT_OPINION_ATTACH" property="auditOpinionAttach" />
 				<result column="IS_REVIEW_END" property="isReviewEnd" />
+				<result column="REVIEW_PEOPLE" property="reviewPeople" />
+				<result column="REVIEW_UNQUALIFIED_CONFIRM" property="reviewUnqualifiedConfirm" />
+				<result column="STORAGE_AT" property="storageAt" />
     </resultMap>
     
     <!-- 统计Analyze关系映射 -->
@@ -118,7 +121,7 @@
         TIME_PROFESSIONAL,
         IS_PUBLISH,IS_ADD_EXPERT,IS_TITLE,TEACH_TITLE, EXTRACT_ORGID, AUDITOR,
         AUDIT_OPINION_ATTACH,
-        IS_REVIEW_END
+        IS_REVIEW_END,REVIEW_PEOPLE,REVIEW_UNQUALIFIED_CONFIRM,STORAGE_AT
     </sql>
     <sql id="Column_List">
         e.ID, e.IS_SUBMIT, e.IS_DO, e.IS_DELETE, e.CREATED_AT,
@@ -289,7 +292,7 @@
     </select>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.String"
-resultMap="BaseResultMap">
+        resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from T_SES_EMS_EXPERT
@@ -859,7 +862,7 @@ resultMap="BaseResultMap">
             <if test="remarks != null">
                 REMARKS = #{remarks,jdbcType=VARCHAR},
             </if>
-            <if test="auditAt != ''">
+            <if test="auditAt != null">
                 AUDIT_AT = #{auditAt,jdbcType=TIMESTAMP},
             </if>
             <if test="isReferenceLftter != null">
@@ -902,6 +905,15 @@ resultMap="BaseResultMap">
                 <if test="isReviewEnd == 0">
                   IS_REVIEW_END = null,
                 </if>
+            </if>
+            <if test="reviewPeople != null and reviewPeople != ''">
+                REVIEW_PEOPLE = #{reviewPeople},
+            </if>
+            <if test="storageAt != null">
+                STORAGE_AT = #{storageAt},
+            </if>
+            <if test="reviewUnqualifiedConfirm != null and reviewUnqualifiedConfirm !=''">
+                REVIEW_UNQUALIFIED_CONFIRM = #{reviewUnqualifiedConfirm},
             </if>
         </set>
         where ID = #{id,jdbcType=VARCHAR}
@@ -2309,7 +2321,7 @@ resultMap="BaseResultMap">
     <if test="addressName != null and addressName !=''">
       and AREA.NAME like CONCAT(CONCAT('%', #{addressName}), '%')
     </if>
-    ORDER BY T1.CREATED_AT DESC
+    ORDER BY DECODE (T1.STATUS,'6','1'),T1.AUDIT_AT DESC NULLS LAST
   </select>
 
 	<!-- 统计注册专家数 -->

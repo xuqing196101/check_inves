@@ -14,7 +14,7 @@
           
           if (list_content.groupStatus === '3') {
             $('#set_password').show();
-            $('#btn_save').hide();
+            // $('#btn_save').hide();
           } else {
             $('#set_password').hide();
           }
@@ -32,23 +32,27 @@
             }
             
             if (typeof(list_content) != 'undefined') {
-              $('#list_content').html('');
+              // $('#list_content').html('');
               for (var i in list_content.list.list) {
-                if (typeof(list_content.list.list[i].relName) === 'undefined') {
-                  list_content.list.list[i].relName = '';
-                }
-                if (typeof(list_content.list.list[i].orgName) === 'undefined') {
-                  list_content.list.list[i].orgName = '';
-                }
-                if (typeof(list_content.list.list[i].duties) === 'undefined') {
-                  list_content.list.list[i].duties = '';
-                }
+                // if (typeof(list_content.list.list[i].relName) === 'undefined') {
+                //   list_content.list.list[i].relName = '';
+                // }
+                // if (typeof(list_content.list.list[i].orgName) === 'undefined') {
+                //   list_content.list.list[i].orgName = '';
+                // }
+                // if (typeof(list_content.list.list[i].duties) === 'undefined') {
+                //   list_content.list.list[i].duties = '';
+                // }
+                // 
+                // $('#list_content').append('<tr>'
+                //   +'<td class="text-center">'+ list_content.list.list[i].relName +'</td>'
+                //   +'<td class="text-center">'+ list_content.list.list[i].orgName +'</td>'
+                //   +'<td class="text-center">'+ list_content.list.list[i].duties +'</td>'
+                // +'</tr>');
                 
-                $('#list_content').append('<tr>'
-                  +'<td class="text-center">'+ list_content.list.list[i].relName +'</td>'
-                  +'<td class="text-center">'+ list_content.list.list[i].orgName +'</td>'
-                  +'<td class="text-center">'+ list_content.list.list[i].duties +'</td>'
-                +'</tr>');
+                $('#list_content tr').eq(i).find('input[type="text"]').eq(0).val(list_content.list.list[i].relName);
+                $('#list_content tr').eq(i).find('input[type="text"]').eq(1).val(list_content.list.list[i].orgName);
+                $('#list_content tr').eq(i).find('input[type="text"]').eq(2).val(list_content.list.list[i].duties);
               }
             }
           }
