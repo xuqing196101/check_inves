@@ -31,7 +31,7 @@
               +'<button type="button" class="btn btn-windows config" onclick="jump_auditBatch()">审核配置</button>'
               +'<button type="button" class="btn btn-windows apply" onclick="reviewConfirm()">批准</button>'
               +'<button type="button" class="btn btn-windows reset" onclick="javascript: location.reload()">刷新</button>'
-              +'<button type="button" class="btn btn-windows" onclick="downloadReviewTable()">下载专家复审统计表</button>'
+              +'<button type="button" class="btn btn-windows input" onclick="downloadReviewTable()">下载专家复审统计表</button>'
             );
           }
             
@@ -174,6 +174,7 @@
         } else if (userType === '6') {
           // $('#btn_group').html('<button type="button" class="btn btn-windows git" onclick="expert_auditBatch(\''+ root_url +'\')">审核</button>'
           //   +'<button type="button" onclick="downloadTable(2)" class="btn btn-windows input">下载复审表</button>');
+          $('#back_btn').remove();
           
           $('#btn_group').html('<button type="button" class="btn btn-windows reset" onclick="javascript: location.reload()">刷新</button>');
           
@@ -213,7 +214,7 @@
               } else if (list_content.list.list[i].status === '-2'&& list_content.list.list[i].isReviewEnd != '1') {
                 list_content.list.list[i].status = '专家预复审结束';
                 if(list_content.list.list[i].isDownload == '1' && list_content.list.list[i].isReviewEnd != '1'){
-                	btn = '<button type="button" class="btn" onclick="reviewEnd(\''+ list_content.list.list[i].expertId +'\');">专家复审结束</button>';
+                	btn = '<button type="button" class="btn mr0 mb5" onclick="reviewEnd(\''+ list_content.list.list[i].expertId +'\');">专家复审结束</button>';
                 }
               }else if (list_content.list.list[i].status === '-2' && list_content.list.list[i].isReviewEnd == '1') {
                   list_content.list.list[i].status = '专家复审结束';

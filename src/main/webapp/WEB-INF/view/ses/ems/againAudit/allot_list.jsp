@@ -51,11 +51,11 @@
         <input type="hidden" name="pageNum" id="pageNum">
         <input type="hidden" name="sign" value="${sign }">
         <ul class="demand_list">
-          <li>
+          <li class="mb10">
             <label class="fl">采购机构：</label>
             <select class="w220" name="orgName"></select>
           </li>
-          <li>
+          <li class="mb10">
             <label class="fl">初审合格时间：</label>
             <span>
               <input id="startTime" name="startTime" class="Wdate w220" type="text" value="" onfocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){startTime.focus();},maxDate:'#F{$dp.$D(\'endTime\')}'})">
@@ -63,18 +63,18 @@
               <input id="endTime" name="endTime" value="" class="Wdate w220" type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'startTime\')}'})">
             </span>
           </li>
-          <li class="mt10">
+          <li>
             <label class="fl">专家类型：</label>
             <select class="w220" name="expertsFrom"></select>
           </li>
-          <li class="mt10 select2-nosearch">
+          <li class="select2-nosearch">
             <label class="fl">专家类别：</label>
             <div class="fl w220">
             <select multiple name="expertsTypeId">
             </select>
             </div>
           </li>
-          <li class="mt10">
+          <li>
             <button type="button" class="btn mb5" onclick="allotList_search()">查询</button>
             <button type="reset" class="btn mb5" id="againAudit_reset">重置</button>
           </li>
