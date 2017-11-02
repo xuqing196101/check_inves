@@ -248,11 +248,11 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
         if(expertExtractCondition.getExpertKindId() != null){
             String[] typeCodes = expertExtractCondition.getExpertKindId().split(",");
             for (String typeCode : typeCodes) {
+            	if(typeCode.length() > 25){
+            		typeCode = DictionaryDataUtil.findById(typeCode) == null ? "" : DictionaryDataUtil.findById(typeCode).getCode();
+            	}
                 if(DictionaryDataUtil.get(typeCode) != null){
                     map.put("expertsTypeId", DictionaryDataUtil.get(typeCode).getId());
-                }
-                if(typeCode.length() > 25){
-                    typeCode = DictionaryDataUtil.findById(typeCode) == null ? "" : DictionaryDataUtil.findById(typeCode).getCode();
                 }
                 //附加产品目录
                 Set<String> expertIds = new HashSet<>();
@@ -445,6 +445,16 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                 }
             } else {
                 exp.setExpertsTypeId("");
+            }
+            
+            StringBuffer professional = new StringBuffer();
+            List<String> professionalList = expertExtractConditionMapper.selProfessionalByExpertId(exp.getId());
+            for (String str : professionalList) {
+            	professional.append(str + "、");
+			}
+            if(professional.length() > 0){
+                String prof = professional.toString().substring(0, professional.length() - 1);
+                exp.setProfessional(prof);
             }
         }
         return expertList;

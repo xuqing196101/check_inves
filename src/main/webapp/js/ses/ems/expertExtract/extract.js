@@ -59,6 +59,9 @@ function functionArea() {
 
 //人工抽取
 function artificial_extracting(isAuto){
+	 if(isAuto == 1){
+		 return;
+	 }
 	//加载菊花图标
 	var ae_load = layer.load();
     getCount();
@@ -346,7 +349,13 @@ function addTr(code,data){
 		count = parseInt(count);
 	}
     var codeCount = parseInt(coUndifined($("#"+code.toLowerCase()+"_i_count").val()));
-    if(vv && count >= codeCount){
+    var bz = 0;
+    $("#"+code+"_result").find("tbody tr").each(function(){
+    	if(!$(this).find("td:eq(7)").html()){
+    		bz++;
+    	}
+    });
+    if(vv && bz >= codeCount){
     	remark = "候补";
     }
     var info = "<tr>" +
@@ -425,7 +434,7 @@ function isJoin(select){
     var flag = true;
     for (var i = 0; i < s.length; i++) {
         if(s[i].value == '0'){
-            flag = false;
+            flag &= false;
         }
     }
     var count = parseInt($("#"+code+"_result_count").text());
@@ -454,9 +463,31 @@ function isJoin(select){
                 saveResult($(select).parents("tr").find("input").first().val(),value,v,code,select);
                 $(select).parent().parent().remove();
                 $("#"+code+"_result_no").text(no + 1);
+                //判断正式专家人数是否足够
+                var llcount = 0;
+                $("#"+code+"_result").find("tbody tr").each(function(){
+                	if(!$(this).find("td:eq(7)").html()){
+                		llcount++;
+                	}
+                });
                 if(flag){
-                    getExpert(code);
-                    //判断是否要显示结束按钮
+                	if(llcount < codeCount){
+                		getExpert(code);
+                    }else{
+                    	var ddflag = true;
+                    	for (var i = 0; i < s.length; i++) {
+                            if(s[i].value == '2'){
+                                ddflag &= false;
+                            }
+                        }
+                    	if(ddflag){
+                    		var ww = parseInt(coUndifined($("#"+id).children("tbody").find("tr").length));
+                            if(ww < codeCount + hb){
+                                getExpert(code);
+                            }
+                    	}
+                    }
+                    //验证如果人数满足条件  就不在追加显示了
                     displayEnd();
                 }else{
                     var i=0;
@@ -474,12 +505,31 @@ function isJoin(select){
             $(select).parents("td").html("能参加");
             $(select).remove();
             $("#"+code+"_result_count").text(count + 1);
+            //判断正式专家人数是否足够
+            var llcount = 0;
+            $("#"+code+"_result").find("tbody tr").each(function(){
+            	if(!$(this).find("td:eq(7)").html()){
+            		llcount++;
+            	}
+            });
             if(flag){
-                //验证如果人数满足条件  就不在追加显示了
-                var ww = parseInt(coUndifined($("#"+id).children("tbody").find("tr").length));
-                if(ww < codeCount + hb){
-                    getExpert(code);
+            	if(llcount < codeCount){
+            		getExpert(code);
+                }else{
+                	var ddflag = true;
+                	for (var i = 0; i < s.length; i++) {
+                        if(s[i].value == '2'){
+                            ddflag &= false;
+                        }
+                    }
+                	if(ddflag){
+                		var ww = parseInt(coUndifined($("#"+id).children("tbody").find("tr").length));
+                        if(ww < codeCount + hb){
+                            getExpert(code);
+                        }
+                	}
                 }
+                //验证如果人数满足条件  就不在追加显示了
                 displayEnd();
             }else{
                 var i=0;
@@ -489,13 +539,40 @@ function isJoin(select){
             }
         }else if(v == "2"){
             saveResult($(select).parents("tr").find("input").first().val(),"",v,code,select);
+            //判断正式专家人数是否足够
+            var llcount = 0;
+            $("#"+code+"_result").find("tbody tr").each(function(){
+            	if(!$(this).find("td:eq(7)").html()){
+            		llcount++;
+            	}
+            });
             if(flag){
-                //验证如果人数满足条件  就不在追加显示了
-                var ww = parseInt(coUndifined($("#"+id).children("tbody").find("tr").length));
-                if(ww < codeCount + hb){
-                    getExpert(code);
+            	if(llcount < codeCount){
+            		getExpert(code);
+                }else{
+                	var ddflag = true;
+                	for (var i = 0; i < s.length; i++) {
+                        if(s[i].value == '2'){
+                            ddflag &= false;
+                        }
+                    }
+                	var hh = 0;
+                	$("#"+code+"_result").find("tbody tr").each(function(){
+                    	if(!$(this).find("td:eq(7)").html()){
+                    		hh++;
+                    	}
+                    });
+                	if(hh > 0){
+                		ddflag = true;
+                	}
+                	if(ddflag){
+                		var ww = parseInt(coUndifined($("#"+id).children("tbody").find("tr").length));
+                        if(ww < codeCount + hb){
+                            getExpert(code);
+                        }
+                	}
                 }
-                //判断是否要显示结束按钮
+                //验证如果人数满足条件  就不在追加显示了
                 displayEnd();
             }else{
                 var i=0;
@@ -531,7 +608,9 @@ function saveResult(expertId,value,join,code,select){
     	isAlternate = 1;
     }
     var las = coUndifined($(select).parent().prev().html());
-    if(las != "候补"){
+    if(las == "候补"){
+    	isAlternate = 1;
+    } else{
     	isAlternate = null;
     }
     var conditionId = $("#conditionId").val();
@@ -756,7 +835,7 @@ function opens(cate) {
         title: "选择条件",
         shadeClose: true,
         shade: 0.01,
-        area: ['430px', '400px'],
+        area: ['440px', '400px'],
         offset: '20px',
         skin: "aabbcc",
         content: globalPath+'/extractExpert/addHeading.do?type='+typeCode+'&&id='+ids+'&&isSatisfy='+isSatisfy, //iframe的url
@@ -1107,7 +1186,7 @@ function extractReset(){
 
 //显示结束按钮
 function displayEnd(){
-	var isExtractAlternate = $("#isExtractAlternate  option:selected").val();
+	var isExtractAlternate = $("#isExtractAlternate option:selected").val();
 	var vv = false;
 	if(isExtractAlternate == "1"){
 		vv = true;

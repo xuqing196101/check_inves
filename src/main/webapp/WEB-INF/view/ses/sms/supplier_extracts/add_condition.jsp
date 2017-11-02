@@ -932,7 +932,7 @@
             }
         });
     }
-    <!--以下代码不确定是否有用-->
+
     function resetQuery() {
         $("#form1").find(":input[type='text']").attr("value", "");
         $("#extCategoryName").val("");

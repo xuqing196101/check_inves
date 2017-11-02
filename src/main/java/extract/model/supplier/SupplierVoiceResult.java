@@ -8,26 +8,26 @@ public class SupplierVoiceResult implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String supplierMobile;
+	private String supplierId;
 	private String feedBackTime;
 	private String join;
 	@Override
 	public String toString() {
-		return "SupplierVoiceResult [supplierMobile=" + supplierMobile
+		return "SupplierVoiceResult [supplierMobile=" + supplierId
 				+ ", feedBackTime=" + feedBackTime + ", join=" + join + "]";
 	}
 	public SupplierVoiceResult(String supplierMobile, String feedBackTime,
 			String join) {
 		super();
-		this.supplierMobile = supplierMobile;
+		this.supplierId = supplierMobile;
 		this.feedBackTime = feedBackTime;
 		this.join = join;
 	}
 	public String getSupplierMobile() {
-		return supplierMobile;
+		return supplierId;
 	}
 	public void setSupplierMobile(String supplierMobile) {
-		this.supplierMobile = supplierMobile;
+		this.supplierId = supplierMobile;
 	}
 	public String getFeedBackTime() {
 		return feedBackTime;

@@ -1096,7 +1096,6 @@
         }
         $("#sunCount").val(sun);
     }
-    <!--以下代码不确定是否有用-->
     //专家类型级联
     function cascade(sl) {
         if ($(sl).val() == 1) {

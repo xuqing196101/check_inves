@@ -31,8 +31,9 @@ public interface AutoExtractSupplierService {
    * @author Jia Chengxiang
    * @dateTime 2017-10-20下午2:45:33
    * @param json
+ * @return 
    */
-  void receiveVoiceResult(String json);
+  String receiveVoiceResult(String json);
 
   /**
    * 点击自动抽取 将项目信息，抽取条件从内网导出

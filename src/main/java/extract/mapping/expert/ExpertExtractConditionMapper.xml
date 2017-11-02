@@ -191,4 +191,15 @@
   <select id="selByProjectId" parameterType="String" resultMap="BaseResultMap">
     SELECT * FROM T_SES_EMS_EXTRACT_CONDITION WHERE PROJECT_ID = #{projectId}
   </select>
+  
+  <!-- 根据专家id查询执业资格 -->
+  <select id="selProfessionalByExpertId" parameterType="String" resultType="String">
+    SELECT 
+      QUALIFCATION_TITLE
+    FROM
+      T_SES_EMS_EXPERT_TITLE 
+    WHERE 
+      EXPERT_ID  = #{expertId}
+  </select>
+  
 </mapper>
