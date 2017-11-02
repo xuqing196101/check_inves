@@ -59,6 +59,9 @@ function functionArea() {
 
 //人工抽取
 function artificial_extracting(isAuto){
+	 if(isAuto == 1){
+		 return;
+	 }
 	//加载菊花图标
 	var ae_load = layer.load();
     getCount();
