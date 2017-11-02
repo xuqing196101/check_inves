@@ -522,18 +522,43 @@ function closelayer(){
 
 // 左侧导航收缩
 function tree_toggle() {
-	if ($('#show_tree_div').hasClass('open')) {
-		$('#show_tree_div').removeClass('open');
+	if ($('.btn_toggle').hasClass('open')) {
+		$('.btn_toggle').removeClass('open');
+		$('.btn_toggle').animate({
+			left: '0'
+		});
 		$('#show_tree_div').animate({
 			left: '-180'
 		});
 	} else {
-		$('#show_tree_div').addClass('open');
+		$('.btn_toggle').addClass('open');
+		$('.btn_toggle').animate({
+			left: '180'
+		});
 		$('#show_tree_div').animate({
 			left: '0'
 		});
 	}
 }
+// 自适应屏幕高度
+function fixed_treeHeight() {
+	var win_height = $(window).height();
+	var tree_height = $('#show_tree_div .btn_list').height() + parseInt($('#show_tree_div').css('top'));
+	
+	if (tree_height > win_height) {
+		$('#show_tree_div').css({
+			height: win_height - parseInt($('#show_tree_div').css('top')) - 10
+		});
+	} else {
+		$('#show_tree_div').css({
+			height: 'auto'
+		});
+	}
+}
+// 品目大小变化重新计算高度
+$(window).resize(function () {
+	fixed_treeHeight();
+});
 // 显示当前环节
 $(function () {
 	var tree_place = $('#show_tree_div #menu li').eq(0).find('a').html();
@@ -554,4 +579,6 @@ $(function () {
 			$("#headline-v2").hide();
 		}
 	});
+	
+	fixed_treeHeight();
 });
