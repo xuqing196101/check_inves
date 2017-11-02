@@ -3443,7 +3443,8 @@ public class PackageExpertController {
         	String yzz = DictionaryDataUtil.getId("YZZ");
         	String zjzxtp = DictionaryDataUtil.getId("ZJZXTP");
         	String zjtshz = DictionaryDataUtil.getId("ZJTSHZ");
-        	if (!packages2.getProjectStatus().equals(yzz) && !packages2.getProjectStatus().equals(zjzxtp) && !packages2.getProjectStatus().equals(zjtshz)) {
+        	String zjtshbtg = DictionaryDataUtil.getId("ZJTSHBTG");
+        	if (!packages2.getProjectStatus().equals(yzz) && !packages2.getProjectStatus().equals(zjzxtp) && !packages2.getProjectStatus().equals(zjtshz) && !packages2.getProjectStatus().equals(zjtshbtg)) {
         		int count = 0;
                 for (int i = 1; i < packageExperts.size(); i++) {
                   PackageExpert packageExpert = packageExperts.get(i);
