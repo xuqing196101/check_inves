@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="extract.dao.common.MobileMapper">
+	
+	<resultMap id="baseMap" type="extract.model.common.Mobile">
+    <id column="MOBILE"  property="MOBILE" />
+    <result column="ID"  property="id" jdbcType="VARCHAR" />
+    <result column="PROVINCE"  property="province" jdbcType="VARCHAR" />
+    <result column="CITY"  property="city" jdbcType="VARCHAR" />
+    <result column="CORP"  property="corp" jdbcType="VARCHAR" />
+    <result column="AREACODE"  property="areacode" jdbcType="VARCHAR" />
+    <result column="POSTCODE"  property="postcode" jdbcType="VARCHAR" />
+  </resultMap>
+	
+	<!-- 根据手机号查询归属地 -->
+  	<select id="findByMobile" resultMap="baseMap" parameterType="String">
+  		SELECT * FROM T_SES_MOBILE WHERE MOBILE = #{mobile}
+	</select>
+	
+</mapper>

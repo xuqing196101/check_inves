@@ -43,6 +43,7 @@ import extract.model.expert.ProjectVoiceResult;
 import extract.service.expert.AutoExtractService;
 import extract.service.expert.ExpertExtractConditionService;
 import extract.util.DateUtils;
+import extract.util.MobileUtils;
 import extract.util.WebServiceUtil;
 
 /**
@@ -89,7 +90,7 @@ public class AutoExtractServiceImpl implements AutoExtractService {
         if(expertExtractProject != null){
 	        for (ExpertResult expertResult : expertList) {
 	            //唯一标识  电话
-	            String mobile = expertResult.getExpertId();
+	            String mobile = MobileUtils.reMobile(expertResult.getExpertId());
 	            List<String> expertIdList = expertExtractProjectMapper.selExppertIdByMobile(mobile);
 	            String expertId = "";
 	            if(expertIdList != null && expertIdList.size() > 0){
@@ -470,7 +471,7 @@ public class AutoExtractServiceImpl implements AutoExtractService {
                     for (int i = 0; i < zs; i++) {
                     	if(reList.size() > i){
 	                        Expert expert = reList.get(i);
-	                        peopleYytz.setMobile(expert.getMobile());
+	                        peopleYytz.setMobile(MobileUtils.getMobile(expert.getMobile()));
 	                        peopleYytz.setUsername(expert.getRelName());
 	                        peopleYytz.setIscandidate("0");
 	                        peoplelist.add(peopleYytz);
@@ -537,7 +538,7 @@ public class AutoExtractServiceImpl implements AutoExtractService {
                     for (int i = zs; i < zs+hb; i++) {
                     	if(reList.size() > i){
 	                        Expert expert = reList.get(i);
-	                        peopleYytz.setMobile(expert.getMobile());
+	                        peopleYytz.setMobile(MobileUtils.getMobile(expert.getMobile()));
 	                        peopleYytz.setUsername(expert.getRelName());
 	                        peopleYytz.setIscandidate("1");
 	                        peoplelist.add(peopleYytz);
