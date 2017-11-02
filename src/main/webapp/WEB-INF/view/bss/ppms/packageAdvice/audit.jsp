@@ -125,21 +125,21 @@
             <table class="table table-bordered m0">
               <tbody>
                 <tr>
-                  <td width="16%" class="info tc">项目预算（万元）：</td>
-                  <td width="16%" class="tc">${advice.budget}</td>
-                  <td width="16%" class="info tc">附件：</td>
-                  <td width="16%" class="tc"><u:show showId="show1_${advice.project.id}" delete="false" businessId="${advice.code}" sysKey="2" typeId="${auditJZXTP}"/></td>
-                  <td width="16%" class="info tc">状态：</td>
+                  <td class="info tc w160">项目预算（万元）：</td>
+                  <td class="tc">${advice.budget}</td>
+                  <td class="info tc w160">附件：</td>
+                  <td class="tc"><u:show showId="show1_${advice.project.id}" delete="false" businessId="${advice.code}" sysKey="2" typeId="${auditJZXTP}"/></td>
+                  <%-- <td width="16%" class="info tc">状态：</td>
                   <td width="16%" class="tc">
                     <c:if test="${advice.status == 1}">待审核</c:if>
 										<c:if test="${advice.status == 2}">审核中</c:if>
 										<c:if test="${advice.status == 3}">审核通过</c:if>
 										<c:if test="${advice.status == 4}">审核不通过</c:if>
-                  </td>
+                  </td> --%>
                 </tr>
                 <tr>
                   <td class="info tc">转竞谈谈判原因：</td>
-                  <td colspan="5" class="no_break">${advice.advice}</td>
+                  <td colspan="3" class="no_break">${advice.advice}</td>
                 </tr>
               </tbody>
             </table>
