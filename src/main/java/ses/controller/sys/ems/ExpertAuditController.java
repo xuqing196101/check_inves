@@ -2190,7 +2190,7 @@ public class ExpertAuditController{
 			expertAuditOpinion.setExpertId(expertId);
 			expertAuditOpinion.setFlagTime(1);
 			expertAuditOpinionService.updateIsDownloadAttch(expertAuditOpinion);
-			String name=expert.getRelName()+"入库复审表.doc";
+			String name=expert.getRelName()+"军队采购评审专家入库专家复审表.doc";
 			downFileName = new String(name.getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
 		}
 		if("3".equals(tableType)){
