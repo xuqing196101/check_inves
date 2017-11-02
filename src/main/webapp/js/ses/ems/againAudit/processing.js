@@ -864,7 +864,6 @@ function import_history() {
     },
     yes: function() {
       if ($('#history_content input[type=checkbox]:checked').length <= 2 && $('#history_content input[type=checkbox]:checked').length > 0) {
-        var history_list = [];  // 选中的历史人员
         var val = [];
         var empty_tr = 0;
         
