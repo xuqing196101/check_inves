@@ -79,6 +79,9 @@
 								<c:if test="${pack.projectStatus eq 'ZJTSHZ'}">
 									<span class="star_red">[转竞谈审核中]</span>
 								</c:if>
+								<c:if test="${pack.projectStatus eq 'ZJTSHBTG'}">
+									<span class="star_red">[转竞谈审核不通过]</span>
+								</c:if>
 							</td>
 	            <td class="tc">
 	              <c:choose>
@@ -90,7 +93,7 @@
 	                  </a>
 	                </c:when>
 	                <c:otherwise>
-	                  <button class="btn btn-windows add" <c:if test="${pack.projectStatus eq 'ZJZXTP' || pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJTSHZ'}">disabled="disabled"</c:if> onclick="confirm('${pack.id}');"  type="button">选择供应商</button>
+	                  <button class="btn btn-windows add" <c:if test="${pack.projectStatus eq 'ZJZXTP' || pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJTSHZ' || pack.projectStatus eq 'ZJTSHBTG'}">disabled="disabled"</c:if> onclick="confirm('${pack.id}');"  type="button">选择供应商</button>
 	                  <c:set value="1" var="values" />
 	                </c:otherwise>
 	              </c:choose>

@@ -35,7 +35,7 @@
 		
 		function noPass(code){
 			var removedReason = layer.prompt({
-		    title : '请填写移除的理由：', 
+		    title : '请填写不通过理由：', 
 		    formType : 2, 
 		    maxlength: 300,
 			},function(text){
