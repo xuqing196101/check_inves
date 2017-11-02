@@ -1,6 +1,7 @@
 package extract.service.supplier.impl;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierExtRelate;
+import ses.util.MobileUtils;
 import synchro.service.SynchRecordService;
 import synchro.util.Constant;
 import synchro.util.FileUtils;
@@ -40,7 +42,6 @@ import extract.service.supplier.SupplierExtractConditionService;
 import extract.service.supplier.SupplierExtractRecordService;
 import extract.service.supplier.SupplierExtractRelateResultService;
 import extract.util.DateUtils;
-import extract.util.MobileUtils;
 import extract.util.WebServiceUtil;
 
 @Service
@@ -83,7 +84,7 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 	 */
 	@Override
 	public Map<String, Object> autoExtract(SupplierExtractCondition condition,
-			SupplierConType conType,String projectInfo) {
+			String projectInfo) {
 		
 		HashMap<String, Object> map = new HashMap<>();
 		
@@ -231,7 +232,7 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 		//解析json
 		try {
 			Map<Object, Class<SupplierVoiceResult>> cMap = new HashMap<Object, Class<SupplierVoiceResult>>();
-		    cMap.put("expertList", SupplierVoiceResult.class);
+		    cMap.put("supplierResult", SupplierVoiceResult.class);
 			json = json.indexOf("＂") != -1 ? json.replace("＂", "\"") : json;
 			projectVoiceResult = (ProjectVoiceResult)JSONObject.toBean(JSONObject.fromObject(json),ProjectVoiceResult.class,cMap);
 		} catch (Exception e) {
@@ -240,7 +241,7 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 		}
 		
 		//获取项目信息,查询抽取数量
-		SupplierExtractProjectInfo projectInfo = recordService.selectByPrimaryKey(projectVoiceResult.getRecordId());
+		SupplierExtractProjectInfo projectInfo = recordService.selectByPrimaryKey(projectVoiceResult.getRecordeId());
 		SupplierExtractCondition condition = conditionMapper.selectByPrimaryKey(projectInfo.getConditionId());
 		
 		HashMap<Object, Object> hashMap = new HashMap<>();
@@ -261,6 +262,7 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 				if(supplier.getJoin().equals("1")){
 					count ++;
 				}
+				supplier.setSupplierId(MobileUtils.reMobile(supplier.getSupplierId()));
 			}
 			
 			//修改供应商参加状态
@@ -268,8 +270,8 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 			//判断参加人数是否满足，不满足再次获取供应商通知
 			int parseInt = Integer.parseInt(ExtractNum);
 			if(count<parseInt){
-				SupplierConType conType = this.selectconType(parseInt-count,condition.getId());
-				Map<String, Object> autoExtract = this.autoExtract(condition, conType,projectInfo.getProjectInto());
+				SupplierExtractCondition selectconType = this.selectconType(parseInt-count,condition);
+				Map<String, Object> autoExtract = this.autoExtract(condition,projectInfo.getProjectInto());
 			}else{
 				//修改项目状态为抽取结束
 			}
@@ -286,22 +288,32 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 	 * @dateTime 2017-10-16下午3:42:44
 	 * @return
 	 */
-	public SupplierConType selectconType(int extractNum,String conditionId) {
+	public SupplierExtractCondition selectconType(int extractNum,SupplierExtractCondition condition) {
 		
-		List<Map<String, String>> conTypeList = contypeMapper.getConTypeList(conditionId);
+		List<Map<String, String>> conTypeList = contypeMapper.getConTypeList(condition.getId());
 		
-		SupplierConType conType = new SupplierConType();
+		//SupplierConType conType = new SupplierConType();
 		for (Map<String, String> map : conTypeList) {
 			try {
-				Class<?> supplierConType = SupplierConType.class;
-				supplierConType.getMethod("set"+map.get("property_name")).invoke(conType, "property_value");
+				Class<?> supplierConType = condition.getClass();
+				//首字母大写
+				String string = map.get("PROPERTY_NAME");
+				char[] charArray = string.toCharArray();
+				charArray[0] -= 32;
+				String valueOf = String.valueOf(charArray);
+				if(map.get("PROPERTY_NAME").equals("extractNum") || map.get("PROPERTY_NAME").equals("isMulticondition")){
+					supplierConType.getMethod("set"+valueOf,Short.class).invoke(condition, Short.parseShort(map.get("PROPERTY_VALUE")));
+				}else{
+					supplierConType.getMethod("set"+valueOf,String.class).invoke(condition, map.get("PROPERTY_VALUE"));
+				}
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		return conType;
+		return condition;
 	}
-	
+
 	/**
 	 * 外网查询待通知项目集合
 	 * <简述> 
@@ -330,7 +342,7 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 					ExtractNum = conditionConTypes.get(0);
 				}
 				
-				SupplierConType conType = selectconType(Integer.parseInt(ExtractNum),condition.getId());
+				condition = selectconType(Integer.parseInt(ExtractNum),condition);
 				
 				//排除供应商
 				conditionService.excludeSupplier(condition);
@@ -338,7 +350,7 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 				String typeCode = condition.getSupplierTypeCode();
 				try {
 					//设置抽取条件
-					String code = conditionService.setExtractCondition(typeCode, condition, conType);
+					conditionService.setExtractCondition2(condition,typeCode);
 					//查询供应商
 					List<Supplier> suppliers = supplierExtRelateMapper.autoExtractSupplierList(condition);
 					//存储自动抽取结果

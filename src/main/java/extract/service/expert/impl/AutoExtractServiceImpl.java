@@ -22,6 +22,7 @@ import ses.model.bms.Area;
 import ses.model.ems.Expert;
 import ses.model.ems.ProjectExtract;
 import ses.util.DictionaryDataUtil;
+import ses.util.MobileUtils;
 
 import com.alibaba.fastjson.JSON;
 
@@ -43,7 +44,6 @@ import extract.model.expert.ProjectVoiceResult;
 import extract.service.expert.AutoExtractService;
 import extract.service.expert.ExpertExtractConditionService;
 import extract.util.DateUtils;
-import extract.util.MobileUtils;
 import extract.util.WebServiceUtil;
 
 /**
@@ -467,9 +467,9 @@ public class AutoExtractServiceImpl implements AutoExtractService {
                 //正式专家
                 int zs = (int)countMap.get(code);
                 if(zs > 0){
-                    PeopleYytz peopleYytz = new PeopleYytz();
                     for (int i = 0; i < zs; i++) {
                     	if(reList.size() > i){
+                    		PeopleYytz peopleYytz = new PeopleYytz();
 	                        Expert expert = reList.get(i);
 	                        peopleYytz.setMobile(MobileUtils.getMobile(expert.getMobile()));
 	                        peopleYytz.setUsername(expert.getRelName());
@@ -534,9 +534,9 @@ public class AutoExtractServiceImpl implements AutoExtractService {
                 //候补专家
                 int hb = hbCountMap.get(code+"_hb") == null ? 0 : (int)hbCountMap.get(code+"_hb");
                 if(hb > 0){
-                    PeopleYytz peopleYytz = new PeopleYytz();
                     for (int i = zs; i < zs+hb; i++) {
                     	if(reList.size() > i){
+                    		PeopleYytz peopleYytz = new PeopleYytz();
 	                        Expert expert = reList.get(i);
 	                        peopleYytz.setMobile(MobileUtils.getMobile(expert.getMobile()));
 	                        peopleYytz.setUsername(expert.getRelName());
@@ -619,6 +619,12 @@ public class AutoExtractServiceImpl implements AutoExtractService {
         	String str = service.putObject(projectYytz, "E");
         	return str;
         } else{
+        	// 修改项目抽取状态
+        	Map<String, Object> projectMap = new HashMap<>();
+            projectMap.put("status", 2);
+            projectMap.put("projectId", expertExtractProject.getId());
+            projectMap.put("updatedAt", new Date());
+            expertExtractProjectMapper.updataStatus(projectMap);
         	return "noData";
         }
     }

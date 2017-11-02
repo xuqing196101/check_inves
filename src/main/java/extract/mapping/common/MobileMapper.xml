@@ -3,7 +3,7 @@
 <mapper namespace="extract.dao.common.MobileMapper">
 	
 	<resultMap id="baseMap" type="extract.model.common.Mobile">
-    <id column="MOBILE"  property="MOBILE" />
+    <id column="MOBILE"  property="mobile" />
     <result column="ID"  property="id" jdbcType="VARCHAR" />
     <result column="PROVINCE"  property="province" jdbcType="VARCHAR" />
     <result column="CITY"  property="city" jdbcType="VARCHAR" />

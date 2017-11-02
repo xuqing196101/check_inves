@@ -768,11 +768,14 @@
 			<if test="statusCount != null">
 				re.STATUS_COUNT = #{statusCount,jdbcType=DECIMAL},
 			</if>
+			<if test="join != null">
+				re.JOIN = #{join,jdbcType=DECIMAL},
+			</if>
 			<if test="reviewType != null">
 				re.REVIEW_TYPE = #{reviewType,jdbcType=VARCHAR},
 			</if>
 		</set>
-		where re.SUPPLIER_CONDITION_ID = #{conditionId,jdbcType=VARCHAR} AND re.RECORD_ID = #{recordId,jdbcType=VARCHAR}
+		where re.CONDITION_ID = #{conditionId,jdbcType=VARCHAR} AND re.RECORD_ID = #{recordId,jdbcType=VARCHAR}
 	</update>
 	
 	<update id="updateRelSupplierJoin" parameterType="extract.model.supplier.SupplierExtractResult">

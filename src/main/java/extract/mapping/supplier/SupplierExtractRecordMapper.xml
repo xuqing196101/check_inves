@@ -58,7 +58,7 @@
  
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
 	SELECT R.*,A.NAME PROVINCE_NAME,AR.NAME CITY_NAME  FROM T_SES_SMS_EXTRACT_RECORD R LEFT JOIN T_SES_BMS_AREA A ON R.SELL_PROVINCE = A.ID LEFT JOIN T_SES_BMS_AREA AR ON R.SELL_ADDRESS = AR.ID 
-  	WHERE R.ID = #{value}
+  	WHERE R.ID = #{id}
   </select>
   
   

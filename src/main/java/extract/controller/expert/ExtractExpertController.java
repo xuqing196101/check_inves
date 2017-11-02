@@ -203,7 +203,7 @@ public class ExtractExpertController {
             //将保存的数据信息同步至外网    便于外网抽取使用
             expertExtractProjectService.exportExpertExtract(expertExtractProject.getId());
             //请求语音接口   （仅测试用）
-            autoExtractService.expertAutoExtract(expertExtractProject.getId());
+            //autoExtractService.expertAutoExtract(expertExtractProject.getId());
             return JSON.toJSONString("OK");
         }
     }

@@ -115,7 +115,7 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 			}
 		}else{
 			for (SupplierVoiceResult supplier : suppliers2) {
-				arrayList.add(new SupplierExtractResult(conditionId,null, recordId, Short.valueOf(supplier.getJoin()), supplierType, null, supplier.getSupplierMobile()));
+				arrayList.add(new SupplierExtractResult(conditionId,null, recordId, Short.valueOf(supplier.getJoin()), supplierType, null, supplier.getSupplierId()));
 			}
 		}
 		

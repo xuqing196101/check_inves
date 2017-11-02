@@ -103,7 +103,7 @@ import extract.service.supplier.SupplierExtractConditionService;
     @ResponseBody
     @RequestMapping("autoExtract")
     public String autoExtract(SupplierExtractCondition condition,SupplierConType conType,String projectInfo){
-    	Map<String, Object> supplierList = autoExtract.autoExtract(condition,conType,projectInfo);
+    	Map<String, Object> supplierList = autoExtract.autoExtract(condition,projectInfo);
     	return JSON.toJSONString(supplierList);
     }
 

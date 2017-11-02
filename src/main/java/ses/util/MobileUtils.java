@@ -1,4 +1,4 @@
-package extract.util;
+package ses.util;
 
 import javax.annotation.PostConstruct;
 
@@ -27,11 +27,11 @@ public class MobileUtils {
     /** 当前地区的区号 **/
     public static final String AREACODE = "0512";//江苏苏州
 
-    public static void setMobileUtils(MobileUtils mobileUtils) {
-        MobileUtils.mobileUtils = mobileUtils;
-    }
+	public void setMobileMapper(MobileMapper mobileMapper) {
+		this.mobileMapper = mobileMapper;
+	}
 
-    @PostConstruct
+	@PostConstruct
     public void init() {
         mobileUtils = this;
         mobileUtils.mobileMapper = this.mobileMapper;
@@ -47,10 +47,13 @@ public class MobileUtils {
      * @return
      */
     public static String getMobile(String mobileNum) {
+    	String num22 = "";
     	if(mobileNum != null && mobileNum.length() > 7){
-    		mobileNum = mobileNum.substring(0, 7);
+    		num22 = mobileNum.substring(0, 7);
+    	}else{
+    		num22 = mobileNum;
     	}
-        Mobile mobile = mobileUtils.mobileMapper.findByMobile(mobileNum);
+        Mobile mobile = mobileUtils.mobileMapper.findByMobile(num22);
         if (mobile != null && AREACODE != null && !mobile.getAreacode().equals(AREACODE)) {
             return "0" + mobileNum;
         }

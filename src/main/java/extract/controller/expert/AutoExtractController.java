@@ -18,6 +18,7 @@ public class AutoExtractController {
     /** 自动抽取 **/
     @Autowired
     private AutoExtractService autoExtractService;
+    
     /**
      * 
      * Description: 专家结果上传

@@ -126,7 +126,7 @@
 				OVERSEAS_BRANCH ,
 			</if>
 			<if test="isDelete != null">
-				PROJECT_ID,
+				IS_DELETE,
 			</if>
 			<if test="projectId != null">
 				PROJECT_ID,
@@ -161,7 +161,7 @@
 				 #{overseasBranch,jdbcType=DECIMAL},
 			</if>
 			<if test="isDelete != null">
-				 #{projectId,jdbcType=VARCHAR},
+				 #{isDelete,jdbcType=VARCHAR},
 			</if>
 			<if test="projectId != null">
 				 #{projectId,jdbcType=VARCHAR},

@@ -11,20 +11,6 @@ public interface AutoExtractSupplierService {
 
 
   /**
-   * 自动抽取
-   * <简述> 
-   *
-   * @author Jia Chengxiang
-   * @dateTime 2017-10-12上午11:21:02
-   * @param condition
-   * @param conType
-   * @param i
-   * @return
-   */
-  Map<String, Object> autoExtract(SupplierExtractCondition condition,
-		  SupplierConType conType, String projectInfo);
-
-  /**
    * 返回通知结果
    * <简述> 
    *
@@ -78,6 +64,9 @@ public interface AutoExtractSupplierService {
    * @param file
    */
   void importSupplierExtract(File file);
+
+  Map<String, Object> autoExtract(SupplierExtractCondition condition,
+		String projectInfo);
 
 
 

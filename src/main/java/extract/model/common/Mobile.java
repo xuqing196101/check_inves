@@ -77,5 +77,8 @@ public class Mobile {
     public void setPostcode(String postcode) {
         this.postcode = postcode;
     }
-    
+
+	public void setAreacode(String areacode) {
+		this.areacode = areacode;
+	}
 }
