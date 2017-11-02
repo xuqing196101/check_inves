@@ -451,8 +451,7 @@
 				<div class="clear"></div>
 				<div class="col-xs-12 tc mt20">
 					<button class="btn bu" onclick="extractVerify();" type="button">人工抽取</button>
-					<button class="btn bu" onclick="extractVerify('auto')"
-						type="button">自动抽取</button>
+					<button class="btn bu" type="button">自动抽取</button>
 					<!-- onclick="extractVerify('auto')" -->
 					<button class="btn bu" type="button" onclick="resetCondition(this)">重置</button>
 				</div>
