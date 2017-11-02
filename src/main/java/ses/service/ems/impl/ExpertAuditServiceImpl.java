@@ -432,10 +432,13 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
      * @return void
      */
 	@Override
-	public boolean temporaryAudit(String expertId,String realName) {
+	public boolean temporaryAudit(String expertId,String realName, Integer sign) {
 		Expert expert = new Expert();
 		expert.setId(expertId);
-		expert.setAuditor(realName);
+		if(sign == 2){
+			//复审人
+			expert.setReviewPeople(realName);
+		}
 		Expert expertInfo = expertMapper.selectByPrimaryKey(expertId);
 		String status = expertInfo.getStatus();
 		if("0".equals(status) || "15".equals(status) || "16".equals(status) || "9".equals(status)){

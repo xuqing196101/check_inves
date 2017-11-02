@@ -150,14 +150,7 @@
           });
           return;
         }
-        /* //抽取之后的才能复核
-        if(isExtract != 1 && state == "待复核") {
-          layer.msg("该专家未抽取 !", {
-            offset: '100px',
-          });
-          return;
-        } */
-        layer.alert('点击审核项,弹出不合格理由框！', {
+/*         layer.alert('点击审核项,弹出不合格理由框！', {
             title: '审核操作说明：',
             skin: 'layui-layer-molv', //样式类名
             closeBtn: 0,
@@ -168,9 +161,69 @@
             $("input[name='expertId']").val(id);
             $("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/basicInfo.html");
             $("#form_id").submit();
-          });
+          }); */
+        
+          
+        $.ajax({
+        	url: "${pageContext.request.contextPath}/expertAudit/findExpertInfo.do?",
+        	data:{"id":id},
+          type:"post",
+          success: function(result){
+        	  var auditor = result.auditor;
+        	  if(auditor != null && auditor != ""){
+        		  $("input[name='expertId']").val(id);
+              $("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/basicInfo.html");
+              $("#form_id").submit();
+        	  }else{
+        		  $("input[name='expId']").val(id);
+        		  layer.open({
+                type: 1,
+                title: '填写审核人:',
+                area: ['270px', '170px'],
+                closeBtn: 1,
+                shade:0.01, //遮罩透明度
+                moveType: 1, //拖拽风格，0是默认，1是传统拖动
+                shift: 1, //0-6的动画形式，-1不开启
+                skin: 'layui-layer-molv', //样式类名
+                offset: '150px',
+                shadeClose: false,
+                content: $("#openDiv"),
+              });
+        	  }
+          }
+        });
       }
-
+      
+      //关闭窗口
+      function cancel(){
+        layer.closeAll();
+      }
+      
+      //保存审核人
+      function saveAuditor(){
+    	  $.ajax({
+    		  url: "${pageContext.request.contextPath}/expertAudit/auditor.do?",
+    		  data : $('#formSaveAuditor').serializeArray(),
+    		  type:"post",
+    		  success: function(result){
+    			  if(result.status == 200){
+    				  layer.msg(result.msg, {offset: '100px',});
+    				  window.setTimeout(function() {
+    					  $("input[name='expertId']").val(result.data);
+	              $("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/basicInfo.html");
+	              $("#form_id").submit();
+              }, 1000);
+    			  }else{
+    				  layer.msg(result.msg, {offset: '100px',});
+    			  }
+    		  },error:function(){
+    			  layer.msg("保存失败!", {offset: '100px',});
+          }
+  		  });
+      }
+      
+      
+      
       function trim(str) { //删除左右两端的空格
         return str.replace(/(^\s*)|(\s*$)/g, "");
       }
@@ -422,7 +475,7 @@
       </h2>
       <!-- 表格开始-->
       <div class="col-md-12 pl20 mt10" id="btn_group">
-        <button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button>
+        <button class="btn btn-windows check" type="button" onclick="shenhe();">初审</button>
         <c:if test="${sign == 2 or sign == 3}">
           <a class="btn btn-windows apply" onclick='publish()' type="button">发布</a>
         </c:if>
@@ -555,6 +608,27 @@
         </table>
         <div id="pagediv" align="right"></div>
       </div>
+    </div>
+    
+    <div id="openDiv" class="dnone layui-layer-wrap" >
+      
+      <form id="formSaveAuditor" method="post" >
+        <div class="drop_window">
+          <input name="expId" type="hidden" />
+			    <input name="sign" type="hidden" value="${sign}"/>
+          <ul class="list-unstyled">
+          <div class="col-md-12 col-sm-12 col-xs-12 pl15">
+            <div class="input-append  col-sm-12 col-xs-12 input_group p0">
+              <input name="auditor" maxlength="10" >
+            </div>
+          </div>
+          </ul> 
+            <div class="tc col-md-12 col-sm-12 col-xs-12 mt10">
+              <input class="btn" id="inputb" name="addr" onclick="saveAuditor();" value="确定" type="button"> 
+              <input class="btn" id="inputa" name="addr" onclick="cancel();" value="取消" type="button"> 
+            </div>
+          </div>
+       </form>
     </div>
   </body>
 

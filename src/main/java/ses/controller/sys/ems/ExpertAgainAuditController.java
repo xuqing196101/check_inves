@@ -20,9 +20,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import common.annotation.CurrentUser;
-import common.constant.StaticVariables;
-import common.utils.JdcgResult;
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.dao.ems.ExpertReviewTeamMapper;
 import ses.model.bms.DictionaryData;
@@ -31,7 +28,6 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExpertAgainAuditImg;
 import ses.model.ems.ExpertAgainAuditReviewTeamList;
 import ses.model.ems.ExpertAuditOpinion;
-import ses.model.ems.ExpertBatch;
 import ses.model.ems.ExpertBatchDetails;
 import ses.model.ems.ExpertReviewTeam;
 import ses.model.oms.Orgnization;
@@ -43,6 +39,10 @@ import ses.service.ems.ExpertService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.WordUtil;
+
+import common.annotation.CurrentUser;
+import common.constant.StaticVariables;
+import common.utils.JdcgResult;
 
 /**
  * <p>Title:ExpertAgainAuditController </p>
@@ -865,7 +865,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		expert.setAuditAt(new Date());
 		
 		//审核人
-		expert.setAuditor(user.getRelName());
+		//expert.setAuditor(user.getRelName());
 		//还原暂存状态
 		expert.setAuditTemporary(0);
 		// 设置修改时间

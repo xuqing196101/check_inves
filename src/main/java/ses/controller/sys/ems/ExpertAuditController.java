@@ -362,15 +362,16 @@ public class ExpertAuditController{
 	 */
 	@RequestMapping("/basicInfo")
 	public String basicInfo(@CurrentUser User user,Expert expert, Model model, Integer pageNum, String expertId, Integer sign, String batchId, String isReviewRevision) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("batchId", batchId);
-		//暂存中
-		temporaryAudit(expertId,user.getRelName());
-		
+		//暂存中和记录审核人
+		if("0".equals(expert.getStatus()) || "4".equals(expert.getStatus()) || "6".equals(expert.getStatus()) || "9".equals(expert.getStatus())){
+			temporaryAudit(expertId,user.getRelName(),sign);
+		}
 		/**
 		 * 退回修改后对比历史记录
 		 */
 		ExpertEngHistory expertEngHistory = new ExpertEngHistory ();
-		expert = expertService.selectByPrimaryKey(expertId);
 		if( expert.getStatus().equals("0") || "9".equals(expert.getStatus())){
 			Map<String,Object> map = new HashMap<String,Object>();
 			map.put("expertId", expertId);
@@ -812,11 +813,6 @@ public class ExpertAuditController{
 		if(user != null) {
 			expertAudit.setAuditUserId(user.getId());
 			expertAudit.setAuditUserName(user.getRelName());
-			//记录审核人
-			Expert expert = new Expert();
-			expert.setId(expertAudit.getExpertId());
-			expert.setAuditor(user.getRelName());
-			expertService.updateByPrimaryKeySelective(expert);
 		}
 		expertAudit.setAuditAt(new Date());
 
@@ -2041,7 +2037,7 @@ public class ExpertAuditController{
 		expert.setAuditAt(new Date());
 		
 		//审核人
-		expert.setAuditor(user.getRelName());
+		//expert.setAuditor(user.getRelName());
 		//还原暂存状态
 		expert.setAuditTemporary(0);
 		// 设置修改时间
@@ -3311,8 +3307,8 @@ public class ExpertAuditController{
 	 */
 	@RequestMapping(value ="/temporaryAudit", produces="text/html;charset=UTF-8")
 	@ResponseBody
-	public String temporaryAudit(String expertId,String realName){
-		boolean temporaryAudit = expertAuditService.temporaryAudit(expertId,realName);
+	public String temporaryAudit(String expertId,String realName,Integer sign){
+		boolean temporaryAudit = expertAuditService.temporaryAudit(expertId,realName, sign);
 		if(temporaryAudit){
 			return JSON.toJSONString("暂存成功");
 		}else{
@@ -3336,7 +3332,7 @@ public class ExpertAuditController{
 		//提交审核，更新状态
 		expert.setAuditAt(new Date());
 		//审核人
-		expert.setAuditor(user.getRelName());
+		//expert.setAuditor(user.getRelName());
 		//还原暂存状态
 		expert.setAuditTemporary(0);
 		// 设置修改时间
@@ -3431,7 +3427,7 @@ public class ExpertAuditController{
         //提交审核，更新状态
         expert.setAuditAt(new Date());
         //审核人
-        expert.setAuditor(user.getRelName());
+        //expert.setAuditor(user.getRelName());
         //还原暂存状态
         expert.setAuditTemporary(0);
         // 设置修改时间
@@ -3538,11 +3534,7 @@ public class ExpertAuditController{
 		    			expertAudit2.setAuditFalg(status);
 		    			expertAudit2.setAuditUserId(user.getId());
 		    			expertAudit2.setAuditUserName(user.getRelName());
-		    			//记录审核人
-		    			Expert expert = new Expert(); 
-		    			expert.setId(expertAudit2.getExpertId());
-		    			expert.setAuditor(user.getRelName());
-		    			expertService.updateByPrimaryKeySelective(expert);
+		    			
 		    			expertAudit2.setAuditAt(new Date());
 		    			expertAuditService.add(expertAudit2);
 				}
@@ -3820,7 +3812,7 @@ public class ExpertAuditController{
         //提交审核，更新状态
         expert.setAuditAt(new Date());
         //审核人
-        expert.setAuditor(user.getRelName());
+        //expert.setAuditor(user.getRelName());
         //还原暂存状态
         expert.setAuditTemporary(0);
         // 设置修改时间
@@ -4104,5 +4096,31 @@ public class ExpertAuditController{
     public Expert findExpertInfo(String id){
     	Expert expertInfo = expertService.selectByPrimaryKey(id);
 		return expertInfo;
+    }
+    
+    /**
+     * 
+     * @param id
+     * @param sign
+     * @return
+     */
+    @RequestMapping(value = "/auditor")
+    @ResponseBody
+    public JdcgResult auditor(String expId,Integer sign,String auditor){
+    	auditor = auditor.trim();
+    	if(sign == 1){
+    		Expert expert = new Expert ();
+    		expert.setAuditor(auditor);
+    		expert.setId(expId);
+    		if(auditor !=null && !"".equals(auditor)){
+    			expertService.updateByPrimaryKeySelective(expert);
+        		return new JdcgResult(200, "保存成功!", expId);
+    		}else{
+    			return new JdcgResult(204, "不能为空!", null);
+    		}
+    		
+    	}else{
+    		return new JdcgResult(503, "保存失败!", null);
+    	}
     }
 }
