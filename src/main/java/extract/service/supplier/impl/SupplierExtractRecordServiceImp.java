@@ -188,20 +188,14 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
        
 //	        Supplier supplier = JSON.parseObject(supplierJson, Supplier.class);
         /** 创建word文件 **/
-        String fileName;
+        String fileName = "";
         if("PROJECT".equals(info.get("typeCode"))){
         	 fileName = WordUtil.createWord(info, "extractSupplierEng.ftl",
         	            name, request);
         }else if(null !=info.get("typeCode") && (info.get("typeCode").toString().split(";").length==1) ){
         	 fileName = WordUtil.createWord(info, "extractSupplierSV.ftl",
         	            name, request);
-        }else{
-        	 fileName = WordUtil.createWord(info, "extractSupplier2.ftl",
-        	            name, request);
         }
-       
-//	        String fileName = WordUtil.createWord(supplier, "test2.ftl",
-//	        		name, request);
         // 下载后的文件名
         String downFileName;
         if("PROJECT".equals(info.get("typeCode"))){
@@ -562,7 +556,6 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 			
 			//建设单位
 			map.put("conCom", "");
-			
 			
 			//供应商资质等级
 			hashMap.put("propertyName","level");

@@ -21,6 +21,7 @@
 		<result column="MOBILE" property="mobile" />
 		<result column="SUPPLIER_NAME" property="supplierName" />
 		<result column="ARMY_BUSINESS_NAME" property="armyBusinessName" />
+		<result column="ARMY_BUSINESS_MOBILE" property="armyBusinessMobile" />
 		<result column="ARMY_BUSINESS_TELEPHONE" property="armyBuinessTelephone" />
 		<!-- 供应商 -->
 		<!-- <association column="SUPPLIER_ID" property="supplier"
@@ -78,6 +79,14 @@
 		PROJECT_ID, UPDATED_AT, CON_TYPE_ID,
 		STATUS_COUNT,REVIEW_TYPE
 	</sql>
+	
+	<sql id="extractResult">
+		 DISTINCT R.JOIN,R.REASON,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_TELEPHONE,S.ARMY_BUSINESS_MOBILE 
+	</sql>
+	<sql id="extractResultAdv">
+		 DISTINCT R.OPERATING_TYPE JOIN,R.REASON,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_TELEPHONE,S.ARMY_BUSINESS_MOBILE 
+	</sql>
+	
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
 		select *
@@ -609,7 +618,7 @@
 	<!-- 详细抽取结果 -->
 	<!-- 0 不能参加，1能参加 -->
 	<select id="getSupplierListByRid" parameterType="map" resultMap="BaseResultMap">
-		SELECT DISTINCT R.JOIN,R.REASON,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_TELEPHONE FROM T_SES_SMS_EXTRACT_RESULT R LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
+		SELECT <include refid="extractResult"></include> FROM T_SES_SMS_EXTRACT_RESULT R LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
 		WHERE R.RECORD_ID = #{recordId} AND R.SUPPLIER_TYPE = #{supplierType}  AND R.JOIN IN (0,1) ORDER BY R.JOIN DESC
 	</select>
 	
@@ -617,7 +626,7 @@
 	<!-- 真实抽取结果 -->
 	<!-- 0 不能参加，1能参加 -->
 	<select id="getSupplierListByRidForRel" parameterType="map" resultMap="BaseResultMap">
-		SELECT DISTINCT R.OPERATING_TYPE JOIN,R.REASON,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_TELEPHONE FROM T_SES_SMS_SUPPLIER_EXT_RELATE R LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
+		SELECT <include refid="extractResultAdv"></include> FROM T_SES_SMS_SUPPLIER_EXT_RELATE R LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
 		WHERE R.RECORD_ID = #{recordId}  <!--AND R.SUPPLIER_TYPE = #{supplierType}  --> AND R.OPERATING_TYPE IN (0,1) ORDER BY R.OPERATING_TYPE DESC
 	</select>
 	
@@ -625,7 +634,7 @@
 	<!-- 预研抽取结果 -->
 	<!-- 0 不能参加，1能参加 -->
 	<select id="getSupplierListByRidForAdv" parameterType="map" resultMap="BaseResultMap">
-		SELECT DISTINCT R.OPERATING_TYPE JOIN,R.REASON,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_TELEPHONE FROM T_SES_SMS_SUPPLIER_EXT_RELATE R LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
+		SELECT<include refid="extractResultAdv"></include> FROM T_SES_SMS_SUPPLIER_EXT_RELATE R LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
 		WHERE R.RECORD_ID = #{recordId} <!-- AND R.SUPPLIER_TYPE = #{supplierType} -->  AND R.OPERATING_TYPE IN (0,1) ORDER BY R.OPERATING_TYPE DESC
 	</select>
 	
