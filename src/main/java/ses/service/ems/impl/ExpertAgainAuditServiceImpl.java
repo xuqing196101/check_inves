@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -907,14 +909,13 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	public ExpertAgainAuditImg selectReviewTeamAll() {
 		// TODO Auto-generated method stub
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
-		Set<ExpertReviewTeam> set = new HashSet<ExpertReviewTeam>();
+		List<ExpertReviewTeam> list2 = new ArrayList<ExpertReviewTeam>();
 		List<ExpertReviewTeam> list = expertReviewTeamMapper.selectReviewTeamAll();
-		set.addAll(list);
-		list.clear();
-		list.addAll(set);
+		Set<ExpertReviewTeam> set = new  LinkedHashSet<ExpertReviewTeam>(list); 
+		list2.addAll(set);
 		img.setStatus(true);
 		img.setMessage("操作成功");
-		img.setObject(list);
+		img.setObject(list2);
 		return img;
 	} 
 	public List<ExpertBatchDetails> findBatchDetailsList(String batchId) {
