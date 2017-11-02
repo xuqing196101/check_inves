@@ -24,8 +24,8 @@ public class MobileUtils {
 
     private static MobileUtils mobileUtils;
     
-    /** 区号 **/
-    public static final String AREACODE = "";
+    /** 当前地区的区号 **/
+    public static final String AREACODE = "0512";//江苏苏州
 
     public static void setMobileUtils(MobileUtils mobileUtils) {
         MobileUtils.mobileUtils = mobileUtils;
@@ -44,7 +44,6 @@ public class MobileUtils {
      * @author zhang shubin
      * @data 2017年11月2日
      * @param mobileNum 需要查询的手机号前7位
-     * @param areaCode 当前地区的区号
      * @return
      */
     public static String getMobile(String mobileNum) {
