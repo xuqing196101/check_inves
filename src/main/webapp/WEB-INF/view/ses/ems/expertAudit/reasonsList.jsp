@@ -509,7 +509,7 @@
   <!--预复审结束-->
 	function preReviewEnd(status){
 	  var expertId = $("input[name='expertId']").val();
-	  var batchId = $("input[name='batchId']").val();
+	  //var batchId = $("input[name='batchId']").val();
      if(status == null){
        var status = $(":radio:checked").val().trim();
        if(status == null){
@@ -553,7 +553,7 @@
            dataType:"json",
            success:function (data) {
          	  if(data.status == 200){
-         		  location.href = "${pageContext.request.contextPath}/expertAgainAudit/findBatchDetailsList.html?batchId=" + batchId;
+         		  location.href = "${pageContext.request.contextPath}/expertAgainAudit/findBatchList.html";
                }
            }
        });
