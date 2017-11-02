@@ -492,10 +492,9 @@ function extractSupplier(code,status) {
     	// 自动抽取
     	$.ajax({
     		type: "POST",
-    		// url:
-			// globalPath+'/SupplierCondition_new/autoExtract.do?projectInfo'+projectType,//测试用
+    		url: globalPath+'/SupplierCondition_new/autoExtract.do?projectInfo'+projectType,//测试用
     		data: formData ,
-    		url: globalPath+'/autoExtract/exportExtractInfo.do?projectInfo'+projectType,// 真实
+    		//url: globalPath+'/autoExtract/exportExtractInfo.do?projectInfo'+projectType,// 真实
     		dataType: "json",
     		async:false,
     		success: function (msg) {

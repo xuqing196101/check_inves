@@ -40,6 +40,7 @@ import extract.service.supplier.SupplierExtractConditionService;
 import extract.service.supplier.SupplierExtractRecordService;
 import extract.service.supplier.SupplierExtractRelateResultService;
 import extract.util.DateUtils;
+import extract.util.MobileUtils;
 import extract.util.WebServiceUtil;
 
 @Service
@@ -93,10 +94,10 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 		String typeCode = condition.getSupplierTypeCode();
 		try {
 			//设置抽取条件
-			String code = conditionService.setExtractCondition(typeCode, condition, conType);
+			conditionService.setExtractCondition2(condition, typeCode);
 			//查询供应商
 			if(null == condition.getExtractNum()){
-				map.put("error",code+"ExtractNumError");
+				map.put("error","extractNumError");
 				return map;
 			}
 			List<Supplier> suppliers = supplierExtRelateMapper.autoExtractSupplierList(condition);
@@ -137,9 +138,9 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 		for (Supplier supplier : suppliers) {
 			PeopleYytz peopleYytz = new PeopleYytz();
 			peopleYytz.setUsername(supplier.getSupplierName());
-			peopleYytz.setMobile("017319170452");
+			peopleYytz.setMobile(MobileUtils.getMobile(supplier.getArmyBuinessTelephone()));
 			peopleYytz.setContactname(supplier.getArmyBusinessName());
-			peopleYytz.setContactmobile("017319170452");
+			peopleYytz.setContactmobile(MobileUtils.getMobile(supplier.getArmyBuinessTelephone()));
 			arrayList.add(peopleYytz);
 		}
 		
@@ -180,12 +181,14 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 	public String callVoiceService2(List<Supplier> suppliers, SupplierExtractProjectInfo projectInfo) {
 		
 		ArrayList<PeopleYytz> arrayList = new ArrayList<>();
+		
+		//正式运行时解开封印
 		for (Supplier supplier : suppliers) {
 			PeopleYytz peopleYytz = new PeopleYytz();
 			peopleYytz.setUsername(supplier.getSupplierName());
-			peopleYytz.setMobile("17319170452");
+			peopleYytz.setMobile(MobileUtils.getMobile(supplier.getArmyBuinessTelephone()));
 			peopleYytz.setContactname(supplier.getArmyBusinessName());
-			peopleYytz.setContactmobile("17319170452");
+			peopleYytz.setContactmobile(MobileUtils.getMobile(supplier.getArmyBuinessTelephone()));
 			arrayList.add(peopleYytz);
 		}
 		
@@ -241,9 +244,8 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 		SupplierExtractCondition condition = conditionMapper.selectByPrimaryKey(projectInfo.getConditionId());
 		
 		HashMap<Object, Object> hashMap = new HashMap<>();
-		String supplierTypeCode = condition.getSupplierTypeCode().toLowerCase();
 		hashMap.put("conditionId", projectInfo.getConditionId());
-		hashMap.put("propertyName", supplierTypeCode+"ExtractNum");
+		hashMap.put("propertyName","extractNum");
 		List<String> conditionConTypes = contypeMapper.getByMap(hashMap);
 		
 		String ExtractNum = null;
