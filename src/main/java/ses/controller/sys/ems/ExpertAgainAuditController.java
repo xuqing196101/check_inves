@@ -1,5 +1,6 @@
 package ses.controller.sys.ems;
 
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +32,7 @@ import ses.model.ems.ExpertAgainAuditImg;
 import ses.model.ems.ExpertAgainAuditReviewTeamList;
 import ses.model.ems.ExpertAuditOpinion;
 import ses.model.ems.ExpertBatch;
+import ses.model.ems.ExpertBatchDetails;
 import ses.model.ems.ExpertReviewTeam;
 import ses.model.oms.Orgnization;
 import ses.service.bms.DictionaryDataServiceI;
@@ -39,6 +42,7 @@ import ses.service.ems.ExpertAuditOpinionService;
 import ses.service.ems.ExpertService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
+import ses.util.WordUtil;
 
 /**
  * <p>Title:ExpertAgainAuditController </p>
@@ -950,4 +954,38 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		img=againAuditService.selectReviewTeamAll();
 		super.writeJson(response, img);
 	}
+	 @RequestMapping("downloadExpertReview")
+	    public ResponseEntity < byte[] > downloadExpertReview(String batchId,
+	        HttpServletRequest request, HttpServletResponse response) throws Exception {
+	        // 根据编号查询专家信息
+	    	List<ExpertBatchDetails> list = againAuditService.findBatchDetailsList(batchId);
+	        // 文件存储地址
+	        String filePath = request.getSession().getServletContext()
+	            .getRealPath("/WEB-INF/upload_file/");
+	        // 文件名称
+	        String fileName = createWordMethod(list, request);
+	        // 下载后的文件名
+	        String downFileName = "专家复审统计表.doc";
+	        if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
+	            //解决IE下文件名乱码
+	            downFileName = URLEncoder.encode(downFileName, "UTF-8");
+	        } else {
+	            //解决非IE下文件名乱码
+	            downFileName = new String(downFileName.getBytes("UTF-8"), "ISO8859-1");
+	        }
+
+	        return expertService.downloadFile(fileName, filePath, downFileName);
+	    }
+	 private String createWordMethod(List<ExpertBatchDetails> list, HttpServletRequest request) throws Exception {
+	      /** 用于组装word页面需要的数据 */
+	      Map<String, Object> dataMap = new HashMap<String, Object>();
+	      dataMap.put("list", list);
+	      // 文件名称
+	        String fileName = new String(("专家复审统计表.doc").getBytes("UTF-8"),
+	            "UTF-8");
+	        /** 生成word 返回文件名 */
+	        String newFileName = WordUtil.createWord(dataMap, "expertReviewTable.ftl",
+	            fileName, request);
+	        return newFileName;
+	 }
 }

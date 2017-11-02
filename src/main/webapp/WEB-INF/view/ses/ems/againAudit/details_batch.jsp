@@ -74,6 +74,9 @@
   <input name="expertId" type="hidden" />
   <input name="tableType" type="hidden" value=""/>
   </form>
+  <form id="form_expertReview" action="${pageContext.request.contextPath}/expertAgainAudit/downloadExpertReview.html" method="post">
+  <input name="batchId" type="hidden" value="${batchId}" />
+  </form>
   <!-- 内容结束 -->
   
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/batchDetails.js"></script>
@@ -129,7 +132,13 @@
     function trim(str) { //删除左右两端的空格
       return str.replace(/(^\s*)|(\s*$)/g, "");
     }
-    
+  //下载
+    function downloadReviewTable() {
+	  			var id="${batchId}";
+     	          $("input[name='batchId']").val(id);
+     	          $("#form_expertReview").attr("action", "${pageContext.request.contextPath}/expertAgainAudit/downloadExpertReview.html");
+     	          $("#form_expertReview").submit();
+    }
     /** 全选全不选 */
     // function selectAll(){
     //    var checklist = document.getElementsByName ("chkItem");

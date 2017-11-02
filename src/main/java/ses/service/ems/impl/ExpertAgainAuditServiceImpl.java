@@ -917,5 +917,55 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		img.setObject(list);
 		return img;
 	} 
-	
+	public List<ExpertBatchDetails> findBatchDetailsList(String batchId) {
+		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
+		expertBatchDetails.setBatchId(batchId);
+		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
+		int i=1;
+		if(list.size()>0){
+			for (ExpertBatchDetails e : list) {
+				e.setCount(i+"");
+				i++;
+				StringBuffer expertType = new StringBuffer();
+	            if(e.getExpertsTypeId() != null) {
+	                for(String typeId: e.getExpertsTypeId().split(",")) {
+	                    DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(typeId);
+	                    if(data != null){
+	                    	if(6 == data.getKind()) {
+	                            expertType.append(data.getName() + "技术、");
+	                        } else {
+	                            expertType.append(data.getName() + "、");
+	                        }
+	                    }
+	                    
+	                }
+	                if(expertType.length() > 0){
+	                	String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+	                	 e.setExpertsTypeId(expertsType);
+	                }
+	            } else {
+	                e.setExpertsTypeId("");
+	            }
+	            
+	          //专家来源
+	      		if(e.getExpertsFrom() != null) {
+	      			DictionaryData expertsFrom = dictionaryDataMapper.selectByPrimaryKey(e.getExpertsFrom());
+	      			e.setExpertsFrom(expertsFrom.getName());
+	      		}
+	      	  //专家复审意见
+	      		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+	      		expertAuditOpinion.setExpertId(e.getExpertId());
+	      		expertAuditOpinion.setFlagTime(1);
+	      		ExpertAuditOpinion opinion = expertAuditOpinionMapper.selectByExpertId(expertAuditOpinion);
+	      		if(opinion!=null){
+	      			e.setAuditTemporary(opinion.getOpinion());
+	      		}else{
+	      			e.setAuditTemporary("");
+	      		}
+	      		
+			}
+		}
+		return list;
+		
+	}
 }
