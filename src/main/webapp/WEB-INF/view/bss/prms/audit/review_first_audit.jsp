@@ -224,8 +224,8 @@
 	  </div>
     </div>
 	<div class="container">
-		<div class="container clear" id="package">
-			<div class="headline-v2">
+		<div class="clear" id="package">
+			<div class="headline-v2 ml0">
 		     <h2>资格性和符合性检查</h2>
 		    </div>
 			<div class="mt10 tc">

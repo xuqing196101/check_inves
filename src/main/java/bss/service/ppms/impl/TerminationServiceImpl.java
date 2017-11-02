@@ -959,6 +959,7 @@ public class TerminationServiceImpl implements TerminationService {
           pg.setUpdatedAt(null);
           pg.setOldFlowId(null);
           if(type!=null){
+            pg.setProjectStatus(oldCurrFlowDefineId);
             pg.setPurchaseType(DictionaryDataUtil.getId("JZXTP"));
           }else{
             pg.setNewFlowId(currFlowDefineId);
@@ -987,7 +988,7 @@ public class TerminationServiceImpl implements TerminationService {
     //project.setBidDate(null);
     //project.setBidAddress(null);
     //project.setStartTime(null);
-    project.setStatus(DictionaryDataUtil.getId("FBWC"));
+    /*project.setStatus(DictionaryDataUtil.getId("FBWC"));*/
     //project.setIsCharge(null);
     if(type!=null){
     	Orgnization orgnization = orgnizationMapper.findOrgByPrimaryKey(project.getPurchaseDepId());
