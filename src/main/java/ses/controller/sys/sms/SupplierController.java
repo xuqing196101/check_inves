@@ -1436,6 +1436,7 @@ public class SupplierController extends BaseSupplierController {
 			}
 		}catch (Exception e){
 			e.printStackTrace();
+            logger.error("保存供应商类型出现问题，具体问题如下：", e);
 		}
 
 		if(type == true && pro == true && server == true && project == true && sale == true) {
