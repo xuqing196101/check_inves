@@ -435,7 +435,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	public boolean temporaryAudit(String expertId,String realName, Integer sign) {
 		Expert expert = new Expert();
 		expert.setId(expertId);
-		if(sign == 2){
+		if(sign !=null && sign == 2){
 			//复审人
 			expert.setReviewPeople(realName);
 		}

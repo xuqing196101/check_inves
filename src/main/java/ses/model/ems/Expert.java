@@ -480,6 +480,8 @@ public class Expert extends ExpertHistory implements Serializable {
     private Date storageAt;  //入库时间
     
     private Integer reviewUnqualifiedConfirm; //复审不合格确认(1:确认)
+    
+    private List<String> expertTypeId;
     /**
      * 专家提交审核时间
      **/
@@ -1168,6 +1170,14 @@ public class Expert extends ExpertHistory implements Serializable {
 
 	public void setReviewUnqualifiedConfirm(Integer reviewUnqualifiedConfirm) {
 		this.reviewUnqualifiedConfirm = reviewUnqualifiedConfirm;
+	}
+
+	public List<String> getExpertTypeId() {
+		return expertTypeId;
+	}
+
+	public void setExpertTypeId(List<String> expertTypeId) {
+		this.expertTypeId = expertTypeId;
 	}
 
 

@@ -241,7 +241,7 @@
 	            <a class="btn" type="button" onclick="nextStep();">下一步</a>
 	          </c:if>
 	          
-	          <c:if test = "${sign eq '1' && (status eq '10' || (reviewUnqualifiedConfirm != 1 and status eq '5'))}" >
+	          <c:if test = "${sign eq '1' && (status eq '10' || (reviewUnqualifiedConfirm != 1 and status eq '5')) && isCheck eq 'no'}" >
               <a class="btn" type="button" onclick="preliminaryConfirmation();">确认</a>
             </c:if>
 	        </div>
@@ -255,6 +255,7 @@
       <input name="status" id="status" value="${status}" type="hidden">
       <input name="batchId" value="${batchId}" type="hidden">
       <input name="isReviewRevision" value="${isReviewRevision}" type="hidden">
+      <input name="isCheck" value="${isCheck}" type="hidden">
     </form>
 
   </body>

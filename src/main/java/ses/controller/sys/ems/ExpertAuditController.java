@@ -361,9 +361,10 @@ public class ExpertAuditController{
 	 * @throws IllegalAccessException 
 	 */
 	@RequestMapping("/basicInfo")
-	public String basicInfo(@CurrentUser User user,Expert expert, Model model, Integer pageNum, String expertId, Integer sign, String batchId, String isReviewRevision) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	public String basicInfo(@CurrentUser User user,Expert expert, Model model, Integer pageNum, String expertId, Integer sign, String batchId, String isReviewRevision, String isCheck) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("batchId", batchId);
+		model.addAttribute("isCheck", isCheck == null? "no" : isCheck);
 		//暂存中和记录审核人
 		if("0".equals(expert.getStatus()) || "4".equals(expert.getStatus()) || "6".equals(expert.getStatus()) || "9".equals(expert.getStatus())){
 			temporaryAudit(expertId,user.getRelName(),sign);
@@ -658,12 +659,8 @@ public class ExpertAuditController{
 		expertAuditOpinion.setFlagTime(1);
 		expertAuditOpinion.setExpertId(expertId);
 		expertAuditOpinion = expertAuditOpinionService.findByExpertId(expertAuditOpinion);
-		if(expertAuditOpinion !=null){
-			model.addAttribute("isReviewRevision", "yes");
-		}else{
-			model.addAttribute("isReviewRevision", "no");
-		}
-
+		model.addAttribute("isReviewRevision", expertAuditOpinion == null ? "no" : "yes");
+		
 		return "ses/ems/expertAudit/basic_info";
 	}
 
@@ -896,12 +893,13 @@ public class ExpertAuditController{
 	 * @return String
 	 */
 	@RequestMapping("/product")
-	public String product(Expert expert, Model model, String expertId, Integer sign, String batchId, String isReviewRevision) {
+	public String product(Expert expert, Model model, String expertId, Integer sign, String batchId, String isReviewRevision, String isCheck) {
 		// 查询审核最终意见,是否有记录（复审退回修改给采购机构，采购机构确认后退回给专家，专家修改完再提交后，《显示专家复审意见标签及意见信息》的标识）
 		model.addAttribute("isReviewRevision", isReviewRevision);
 		//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
 		model.addAttribute("batchId", batchId);
+		model.addAttribute("isCheck", isCheck == null? "no" : isCheck);
 		expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("status", expert.getStatus());
 
@@ -1359,10 +1357,11 @@ public class ExpertAuditController{
 	 * @return String
 	 */
 	@RequestMapping("/expertFile")
-	public String expertFile(Expert expert, Model model, String expertId, Integer sign, String batchId, String isReviewRevision) {
+	public String expertFile(Expert expert, Model model, String expertId, Integer sign, String batchId, String isReviewRevision, String isCheck) {
 		//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
 		model.addAttribute("batchId", batchId);
+		model.addAttribute("isCheck", isCheck == null? "no" : isCheck);
 		// 专家系统key
 		Integer expertKey = Constant.EXPERT_SYS_KEY;
 		model.addAttribute("expertKey", expertKey);
@@ -1493,11 +1492,11 @@ public class ExpertAuditController{
 	 * @return String
 	 */
 	@RequestMapping("/expertType")
-	public String expertType(ExpertAudit expertAudit, Model model, String expertId, Integer sign, String batchId, String isReviewRevision) {
+	public String expertType(ExpertAudit expertAudit, Model model, String expertId, Integer sign, String batchId, String isReviewRevision, String isCheck) {
 		model.addAttribute("batchId", batchId);
 		//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
-		
+		model.addAttribute("isCheck", isCheck == null? "no" : isCheck);
 		Expert expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("expert", expert);
 		
@@ -1780,10 +1779,11 @@ public class ExpertAuditController{
 	 * @return String
 	 */
 	@RequestMapping("/reasonsList")
-	public String reasonsList(ExpertAudit expertAudit, Model model, String expertId, Integer sign, String batchId, String isReviewRevision) {
+	public String reasonsList(ExpertAudit expertAudit, Model model, String expertId, Integer sign, String batchId, String isReviewRevision, String isCheck) {
 		//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
 		model.addAttribute("batchId", batchId);
+		model.addAttribute("isCheck", isCheck == null? "no" : isCheck);
 		//List < ExpertAudit > reasonsList = expertAuditService.getListByExpertId(expertId);
 		expertAudit.setAuditFalg(sign);
 		//复审退回修改，初审时显示的是复审的审核信息
@@ -3356,24 +3356,27 @@ public class ExpertAuditController{
 		return expertAuditService.selectChooseOrNoPassCate(expertPublicity);
 	}
 
+	/**
+	 *
+	 * Description:上传批准审核表
+	 * @author Easong
+	 * @version 2017/7/12
+	 * @param [supplier]
+	 * @param [model]
+	 * @since JDK1.7
+	 */
 	@RequestMapping("/uploadApproveFile")
-	public String uploadApproveFile(Model model, String expertId, Integer sign){
-		/**
-		 *
-		 * Description:上传批准审核表
-		 *
-		 * @author Easong
-		 * @version 2017/7/12
-		 * @param [supplier]
-		 * @param [model]
-		 * @since JDK1.7
-		 */
+	public String uploadApproveFile(Model model, String expertId, Integer sign, String isReviewRevision, String isCheck){
         Expert expert = service.selectByPrimaryKey(expertId);
         // 查询专家
         model.addAttribute("expertId", expertId);
         model.addAttribute("sign", sign);
         model.addAttribute("status", expert.getStatus());
         model.addAttribute("expert", expert);
+        // 查询审核最终意见,是否有记录（复审退回修改给采购机构，采购机构确认后退回给专家，专家修改完再提交后，《显示专家复审意见标签及意见信息》的标识）
+        model.addAttribute("isReviewRevision", isReviewRevision);
+        
+        model.addAttribute("isCheck", isCheck == null? "no" : isCheck);
 		// 设置文件上传项
 		fileUploadItem(model);
 		return "ses/ems/expertAudit/audit_attach_upload";
@@ -3549,11 +3552,12 @@ public class ExpertAuditController{
      *复审时查看的初审信息
      */
     @RequestMapping(value = "/preliminaryInfo")
-    public String preliminaryInfo(Model model, String expertId, Integer sign, String batchId, String isReviewRevision){
+    public String preliminaryInfo(Model model, String expertId, Integer sign, String batchId, String isReviewRevision, String isCheck){
     	//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
 		model.addAttribute("batchId", batchId);
 		model.addAttribute("expertId", expertId);
+		model.addAttribute("isCheck", isCheck == null? "no" : isCheck);
 		ExpertAudit expertAudit = new ExpertAudit();
 		if(sign == 1){
 			expertAudit.setAuditFalg(2);

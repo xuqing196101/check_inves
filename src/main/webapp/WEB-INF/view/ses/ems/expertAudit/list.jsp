@@ -121,7 +121,7 @@
 
     <script type="text/javascript">
         function view(expertId,sign){
-            window.location.href = "${pageContext.request.contextPath}/expertAudit/basicInfo.html?expertId="+expertId+"&sign="+sign;
+            window.location.href = "${pageContext.request.contextPath}/expertAudit/basicInfo.html?expertId="+expertId+"&sign="+sign+"&isCheck=yes";
         }
       //审核
       function shenhe(id) {
