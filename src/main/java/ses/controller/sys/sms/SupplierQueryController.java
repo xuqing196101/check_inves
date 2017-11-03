@@ -2403,14 +2403,14 @@ public class SupplierQueryController extends BaseSupplierController {
 		model.addAttribute("supplierId", supplierAudit.getSupplierId());
         Supplier supplier = supplierService.selectById(supplierAudit.getSupplierId());
         // 查询供应商审核意见
-        // 查询审核意见
+        // 查询初审审核意见
         Map<String, Object> selectMap = new HashMap<>();
         selectMap.put("supplierId",supplierAudit.getSupplierId());
         selectMap.put("flagTime",0);
-        SupplierAuditOpinion supplierAuditOpinion = supplierAuditOpinionService.selectByExpertIdAndflagTime(selectMap);
+        SupplierAuditOpinion supplierAuditOpinionFirst = supplierAuditOpinionService.selectByExpertIdAndflagTime(selectMap);
         // 初始化附件类型回显
         fileUploadItem(model, synchro.util.Constant.SUPPLIER_CHECK_ATTACHMENT);
-        model.addAttribute("supplierAuditOpinion",supplierAuditOpinion);
+        model.addAttribute("supplierAuditOpinionFirst",supplierAuditOpinionFirst);
         model.addAttribute("suppliers", supplier);
         return "/ses/sms/supplier_query/supplierInfo/auditInfo";
 	}

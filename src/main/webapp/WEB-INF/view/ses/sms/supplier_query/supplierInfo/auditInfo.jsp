@@ -116,12 +116,12 @@
                     </c:forEach>
                 </table>
             </div>
-            <c:if test="${supplierAuditOpinion != null}">
-                <h2 class="count_flow"><i>2</i>意见信息</h2>
+            <c:if test="${supplierAuditOpinionFirst != null}">
+                <h2 class="count_flow"><i>2</i>采购机构审核意见</h2>
                 <div class="ul_list">
                     <table class="table table-bordered table-condensed table-hover">
                         <textarea id="opinion" disabled="disabled"
-                                  class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinion.opinion }</textarea>
+                                  class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinionFirst.opinion }</textarea>
                     </table>
                 </div>
                 <h2 class="count_flow"><i>3</i>批准审核表</h2>

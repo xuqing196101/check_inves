@@ -497,22 +497,22 @@
             <tr>
               <th class="info w50"><input type="checkbox" name="checkAll" onclick="checkAll(this)"></th>
               <th class="info w50">序号</th>
-              <th class="info">专家姓名</th>
-              <th class="info">工作单位</th>
+              <th class="info w80">专家姓名</th>
+              <th class="info w80">工作单位</th>
               <th class="info">技术职称(职务)</th>
-              <th class="info">类型</th>
-              <th class="info">类别</th>
-              <th class="info">最新提交时间</th>
-              <th class="info">最新审核时间</th>
-              <th class="info">审核人</th>
-              <th class="info">状态</th>
+              <th class="info w50">类型</th>
+              <th class="info w80">类别</th>
+              <th class="info w80">最新提交时间</th>
+              <th class="info w80">最新审核时间</th>
+              <th class="info w80">审核人</th>
+              <th class="info w80">状态</th>
               
             </tr>
           </thead>
           <c:forEach items="${expertList}" var="expert" varStatus="vs">
             <tr>
-              <td class="tc w50"><input name="id" type="checkbox" value="${expert.id}" class="select_item"></td>
-              <td class="tc w50">${(vs.count)+(result.pageNum-1)*(result.pageSize)}</td>
+              <td class="tc"><input name="id" type="checkbox" value="${expert.id}" class="select_item"></td>
+              <td class="tc">${(vs.count)+(result.pageNum-1)*(result.pageSize)}</td>
               <td class="tl" title="${expert.relName}">
                 <c:if test="${fn:length(expert.relName) >4 }"><a href="javascript:;" onclick="view('${expert.id}',${sign})">${fn:substring(expert.relName,0,4)}...</a></c:if>
                 <c:if test="${fn:length(expert.relName) <=4}"><a href="javascript:;" onclick="view('${expert.id}',${sign})">${expert.relName}</a></c:if>
@@ -522,7 +522,7 @@
                 <c:if test="${fn:length(expert.workUnit) <=8}">${expert.workUnit}</c:if>
               </td>
               <td class="tl" onclick="shenhe('${expert.id}');">${expert.professTechTitles}</td>
-              <td class="tl" onclick="shenhe('${expert.id}');">${expert.expertsFrom}</td>
+              <td class="tc" onclick="shenhe('${expert.id}');">${expert.expertsFrom}</td>
               <td class="tl" onclick="shenhe('${expert.id}');">${expert.expertsTypeId}</td>
               <td class="tc" onclick="shenhe('${expert.id}');">
                 <fmt:formatDate type='date' value='${expert.submitAt }' dateStyle="default" pattern="yyyy-MM-dd" />
@@ -530,7 +530,7 @@
               <td class="tc" onclick="shenhe('${expert.id}');">
                 <fmt:formatDate type='date' value='${expert.auditAt }' dateStyle="default" pattern="yyyy-MM-dd" />
               </td>
-              <td class="" onclick="shenhe('${expert.id}');">
+              <td class="tc" onclick="shenhe('${expert.id}');">
                 <c:choose>
                   <c:when test="${expert.auditor ==null or expert.auditor == ''}">无</c:when>
                   <c:otherwise>${expert.auditor}</c:otherwise>
