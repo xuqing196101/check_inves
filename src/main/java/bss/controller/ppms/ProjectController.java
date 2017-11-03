@@ -3567,11 +3567,18 @@ public class ProjectController extends BaseController {
     	if(StringUtils.isNotBlank(projectId)){
     		Project project = projectService.selectById(projectId);
     		if(project != null){
-    			List<ProjectDetail> viewDetail = detailService.viewDetail(projectId);
-        		//是否有底层明细，没有的话进else
-        		if(viewDetail != null && viewDetail.size() > 0){
-        			return StaticVariables.ORG_TYPE_PURCHASE;
-        		}
+    		  HashMap<String,Object> maps=new HashMap<String, Object>();
+    		  maps.put("parentId", project.getId());
+    		  List<Project> pList=projectService.lists(maps);
+    		  if(pList!=null&&pList.size()>0){
+    		    List<ProjectDetail> viewDetail = detailService.viewDetail(projectId);
+            //是否有底层明细，没有的话进else
+            if(viewDetail != null && viewDetail.size() > 0){
+              return StaticVariables.ORG_TYPE_PURCHASE;
+            }
+    		  }else{
+    		    return StaticVariables.ORG_TYPE_MANAGE;
+    		  }
     		}	
     	}
     	return StaticVariables.ORG_TYPE_MANAGE;
