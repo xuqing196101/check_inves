@@ -1786,7 +1786,7 @@ public class SupplierController extends BaseSupplierController {
 		boolean bool = validateUpload(model, supplier.getId());
 		Supplier supp = supplierService.selectOne(supplier.getId());
 		// 删除审核不通过的品目
-		supplierItemService.deleteItemsBySupplierId(supplier.getId(), (byte)1);
+		//supplierItemService.deleteItemsBySupplierId(supplier.getId(), (byte)1);
         //校验是否在规定时间未提交审核,如时间>0说明不符合规定则注销信息
 //        try {
 //            int validateDay = supplierService.logoutSupplierByDay(supp);
