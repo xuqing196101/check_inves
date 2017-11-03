@@ -2742,9 +2742,14 @@
         <if test="expertsFrom != null and expertsFrom !=''">
         	 AND t1.EXPERTS_FROM = #{expertsFrom}
         </if>
-        <if test="expertsTypeId != null and expertsTypeId !=''">
+        <!-- <if test="expertsTypeId != null and expertsTypeId !=''">
         	 AND t1.EXPERTS_TYPE_ID LIKE CONCAT(CONCAT('%', #{expertsTypeId}), '%')
-        </if>
+        </if> -->
+        <if test="expertTypeId != null and expertTypeId != ''">
+	        <foreach item="typeId" index="index" collection="expertTypeId" open="and(" separator="or" close=")">
+	          t1.EXPERTS_TYPE_ID LIKE CONCAT(CONCAT('%', #{typeId}), '%')
+	        </foreach>
+	      </if>
         <if test="status != null and status !=''">
         	<if test="status == 'trialEnd'">
         	 AND t1.STATUS in ('15','16')

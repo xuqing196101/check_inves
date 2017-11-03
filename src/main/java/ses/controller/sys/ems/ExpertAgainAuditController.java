@@ -3,6 +3,7 @@ package ses.controller.sys.ems;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +40,6 @@ import ses.service.ems.ExpertService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.WordUtil;
-
 import common.annotation.CurrentUser;
 import common.constant.StaticVariables;
 import common.utils.JdcgResult;
@@ -125,6 +125,12 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 				}
 			}
 			expert.setIds(idsList);
+		}
+		
+		if (expert.getExpertsTypeId() != null && !"".equals(expert.getExpertsTypeId())) {
+            List<String> listExpertTypeId = Arrays.asList(expert.getExpertsTypeId().split(","));
+            expert.setExpertTypeId(listExpertTypeId);
+		
 		}
 		List<Expert> expertList = expertService.findExpertAgainAuditList(expert);
 		for (Expert e : expertList) {
