@@ -1319,8 +1319,12 @@
 			var sale = "${sale}";
 			var project = "${project}";
 			var server = "${server}";
+			var typeAudit = "${typeAudit}";
 			if(supplierType == "false"){
 				layer.msg("请选择供应商类型！");
+			}
+			if(typeAudit == "false"){
+				layer.msg("没有审核通过的供应商类型！");
 			}
 			var msg = "";
 			if (pro == "false") {
@@ -3077,12 +3081,12 @@
 			
 			// 控制4大类别的编辑性
 			$("input[type='checkbox'][name='chkItem']").attr('disabled',true);
-			$("input[type='checkbox'][name='chkItem']").each(function(){
+			/* $("input[type='checkbox'][name='chkItem']").each(function(){
 				var typeErrorField = '${typePageField}';
 				if(typeErrorField.indexOf($(this).parent().attr("id")) >= 0){
 					$(this).attr('disabled',false);
 				}
-			});
+			}); */
 			// 控制承揽业务范围：省、直辖市
 			var engPageField = '${engPageField}';
 			$("#areaSelect").attr('disabled',false);

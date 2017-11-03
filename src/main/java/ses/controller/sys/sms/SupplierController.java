@@ -1386,7 +1386,8 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@RequestMapping(value = "perfect_professional",method = RequestMethod.POST)
 	public String perfectProfessional(HttpServletRequest request, Model model, Supplier supplier, String old) throws IOException {
-		Supplier checkSupplier = checkSupplier(supplier.getId());
+		String supplierId = supplier.getId();
+		Supplier checkSupplier = checkSupplier(supplierId);
 		if(checkSupplier == null){
 			return null;
 		}
@@ -1395,11 +1396,25 @@ public class SupplierController extends BaseSupplierController {
 		boolean pro = true;
 		boolean server = true;
 		boolean project = true;
+		boolean typeAudit = true;
 		try{
 			String supplierTypeIds = supplier.getSupplierTypeIds();
 			if(StringUtils.isNotBlank(supplierTypeIds)){
 				String[] str = supplierTypeIds.trim().split(",");
 				if(str != null && str.length > 0){
+					// 四个专业类型全部审核不通过，不让下一步
+					List<String> supplierTypeList = supplierTypeRelateService.findTypeBySupplierId(supplierId);
+					SupplierAudit supplierAudit = new SupplierAudit();
+					supplierAudit.setSupplierId(supplierId);
+					supplierAudit.setAuditType("supplierType_page");
+					int supplierTypeAuditCount = supplierAuditService.countAuditRecords(supplierAudit, new Integer[]{2});
+					if(supplierTypeList == null || supplierTypeList.size() == 0){
+						type = false;
+					}else{
+						if(supplierTypeAuditCount >= supplierTypeList.size()){
+							typeAudit = false;
+						}
+					}
 					for(String s: str) {
 				        if(s.equals("PRODUCT")) {
 				            pro = validatePro(request, supplier.getSupplierMatPro(), model);
@@ -1439,7 +1454,7 @@ public class SupplierController extends BaseSupplierController {
             logger.error("保存供应商类型出现问题，具体问题如下：", e);
 		}
 
-		if(type == true && pro == true && server == true && project == true && sale == true) {
+		if(type == true && pro == true && server == true && project == true && sale == true && typeAudit == true) {
 			model.addAttribute("suppId", supplier.getId());
 			return "redirect:/supplier/items.html";
 		} else {
@@ -1448,6 +1463,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("sale", sale);
 			model.addAttribute("project", project);
 			model.addAttribute("server", server);
+			model.addAttribute("typeAudit", typeAudit);
 			initSupplierTypeConstants(model, supplier);
 			initSupplierTypeAudit(model, checkSupplier);
 			returnSupplierTypeInfo(model, checkSupplier, supplier);
@@ -1473,49 +1489,60 @@ public class SupplierController extends BaseSupplierController {
 		boolean bool = true;
 		if(supplierTypeIds != null && supplierTypeIds.trim().length()!=0){
 			String[] types = supplierTypeIds.split(",");
+			// 如果专业类型审核不通过，则不做校验
 			for(String s:types){
-//				List<SupplierItem> items = supplierItemService.queryBySupplierAndType(supplierId, s);
-				List<SupplierItem> items = supplierItemService.getItemList(supplierId, s, (byte)0, null);
-				if("PRODUCT".equals(s) && (items == null || items.size() == 0)){
-					model.addAttribute("productError", "productError");
-					bool = false;
-					break;
+				SupplierAudit supplierAudit = new SupplierAudit();
+				supplierAudit.setSupplierId(supplierId);
+				supplierAudit.setAuditType("supplierType_page");
+				DictionaryData dd = DictionaryDataUtil.get(s);
+				if(dd != null){
+					supplierAudit.setAuditField(dd.getId());
 				}
-				if("PROJECT".equals(s) && (items == null || items.size() == 0)){
-					model.addAttribute("projectError", "projectError");
-					bool = false;
-					break;
+				int supplierTypeAuditCount = supplierAuditService.countAuditRecords(supplierAudit, new Integer[]{2});
+				if(supplierTypeAuditCount == 0){// 没有审核不通过的记录才做以下校验
+//					List<SupplierItem> items = supplierItemService.queryBySupplierAndType(supplierId, s);
+					List<SupplierItem> items = supplierItemService.getItemList(supplierId, s, (byte)0, null);
+					if("PRODUCT".equals(s) && (items == null || items.size() == 0)){
+						model.addAttribute("productError", "productError");
+						bool = false;
+						break;
+					}
+					if("PROJECT".equals(s) && (items == null || items.size() == 0)){
+						model.addAttribute("projectError", "projectError");
+						bool = false;
+						break;
+					}
+					if("SALES".equals(s) && (items == null || items.size() == 0)){
+						model.addAttribute("sellError", "sellError");
+						bool = false;
+						break;
+					}
+					if("SERVICE".equals(s) && (items == null || items.size() == 0)){
+						model.addAttribute("serverError", "serverError");
+						bool = false;
+						break;
+					}
+					/*if(items!=null&&items.size()<1&&s.equals("PRODUCT")){
+						model.addAttribute("productError", "productError");
+						bool = false;
+						break;
+					}
+					if(items!=null&&items.size()<1&&s.equals("PROJECT")){
+						model.addAttribute("projectError", "projectError");
+						bool = false;
+						break;
+					}
+					if(items!=null&&items.size()<1&&s.equals("SALES")){
+						model.addAttribute("sellError", "sellError");
+						bool = false;
+						break;
+					}
+					if(items!=null&&items.size()<1&&s.equals("SERVICE")){
+						model.addAttribute("serverError", "serverError");
+						bool = false;
+						break;
+					}*/
 				}
-				if("SALES".equals(s) && (items == null || items.size() == 0)){
-					model.addAttribute("sellError", "sellError");
-					bool = false;
-					break;
-				}
-				if("SERVICE".equals(s) && (items == null || items.size() == 0)){
-					model.addAttribute("serverError", "serverError");
-					bool = false;
-					break;
-				}
-				/*if(items!=null&&items.size()<1&&s.equals("PRODUCT")){
-					model.addAttribute("productError", "productError");
-					bool = false;
-					break;
-				}
-				if(items!=null&&items.size()<1&&s.equals("PROJECT")){
-					model.addAttribute("projectError", "projectError");
-					bool = false;
-					break;
-				}
-				if(items!=null&&items.size()<1&&s.equals("SALES")){
-					model.addAttribute("sellError", "sellError");
-					bool = false;
-					break;
-				}
-				if(items!=null&&items.size()<1&&s.equals("SERVICE")){
-					model.addAttribute("serverError", "serverError");
-					bool = false;
-					break;
-				}*/
 			}
 		}
 		if(!bool){
