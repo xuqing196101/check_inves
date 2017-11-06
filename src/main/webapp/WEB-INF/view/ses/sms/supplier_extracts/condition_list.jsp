@@ -199,6 +199,15 @@
 							<span class="add-on">i</span>
 							<div class="cue" id="projectTypeError"></div>
 						</div></li>
+					<li class="col-md-3 col-sm-4 col-xs-12 dnone" id="buildCompany"><span
+						class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span
+							class="buildCompany">*</span>建设单位名称</span>
+						<div
+							class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+							<input  name="buildCompany" type="text"> <span
+								class="add-on">i</span>
+							<div class="cue" id="buildCompanyError"></div>
+						</div></li>
 					<li class="col-md-3 col-sm-4 col-xs-12"><span
 						class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span
 							id="xmss"></span>项目实施地区</span>
@@ -240,12 +249,21 @@
 						</div></li>
 					<li class="col-md-3 col-sm-4 col-xs-12"><span
 						class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span
-							class="star_red">*</span>联系电话</span>
+							class="star_red">*</span>联系座机</span>
 						<div
 							class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input name="contactNum" value="" type="text"> <span
 								class="add-on">i</span>
 							<div class="cue" id="contactNumError"></div>
+						</div></li>
+					<li class="col-md-3 col-sm-4 col-xs-12"><span
+						class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span
+							class="star_red">*</span>联系手机</span>
+						<div
+							class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+							<input name="contactPhone" value="" type="text"> <span
+								class="add-on">i</span>
+							<div class="cue" id="contactPhoneError"></div>
 						</div></li>
 					<li class="col-md-3 col-sm-4 col-xs-12"><span
 						class="col-md-12 col-sm-12 col-xs-12 padding-left-5">其他要求</span>
@@ -385,19 +403,18 @@
 							<div class="cue" id="ExtractNumError">${loginPwdError}</div>
 						</div>
 					</li>
-					<li class="col-md-12 col-sm-12 col-xs-12 dnone"><span
-						class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span
-							class="red">*</span> 限制地区理由:</span>
-						<div
-							class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-							<textarea class="w100p h100 resizen" maxlength="500"
-								name="addressReason" id="areaReson" onkeyup="size(this);"></textarea>
-							<small>字数：500. 剩余：<span id="textCount">500</span>.</small>
-							<div class="textAreafont" id="areaError"></div>
-						</div></li>
+					<li class="col-md-3 col-sm-6 col-xs-12 pl0 dnone projectOwn">
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">承揽业务范围：</span>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<input type="hidden"  name="businessScope"> 
+							<input type="text" readonly="readonly" id="businessScope"> 
+							<span class="add-on">i</span>
+							<div class="cue" id="businessScopeError"></div>
+						</div>
+					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12 pl0">
 						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">
-							<span class="star_red">*</span>所在地区：
+							<span class="star_red">*</span>供应商所在地区：
 						</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="text" readonly="readonly" name="areaName" id="area" onclick="showTree();"> 
@@ -436,8 +453,7 @@
 						</select>
 						<div class="cue">${loginPwdError}</div>
 					</li>
-					<li class="clear"></li>
-					<li class="col-md-3 col-sm-6 col-xs-12 pl0">
+					<li class="col-md-3 col-sm-6 col-xs-12 dnone projectOwn">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">资质信息：</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="hidden" name="quaId" id="quaId">
@@ -446,12 +462,22 @@
 							<div class="cue" id="dCount"></div>
 						</div>
 					</li>
+					<li class="col-md-12 col-sm-12 col-xs-12 dnone">
+						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span
+							class="red">*</span> 限制地区理由:</span>
+						<div
+							class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+							<textarea class="w100p h100 resizen" maxlength="500"
+								name="addressReason" id="areaReson" onkeyup="size(this);"></textarea>
+							<small>字数：500. 剩余：<span id="textCount">500</span>.</small>
+							<div class="textAreafont" id="areaError"></div>
+						</div></li>
 				</ul>
 
 				<div class="clear"></div>
 				<div class="col-xs-12 tc mt20">
-					<button class="btn bu" onclick="extractVerify();" type="button">人工抽取</button>
-					<button class="btn bu" type="button" onclick="extractVerify('auto')">自动抽取</button>
+					<button class="btn bu" onclick="extractVerify(1);" type="button">人工抽取</button>
+					<button class="btn bu" type="button" onclick="extractVerify(0)">自动抽取</button>
 					<!-- onclick="extractVerify('auto')" -->
 					<button class="btn bu" type="button" onclick="resetCondition(this)">重置</button>
 				</div>
@@ -464,8 +490,8 @@
 			</h2>
 			<div class="ul_list">
 				<div align="left" id="countdnone">
-					工程供应商：确认参加的供应商为<span class="f26 red" id="joinCount">0</span>人，确认不参加的有<span
-						class="notJoin">0</span>人
+					工程供应商：确认参加的供应商为<span class="f26 red" id="joinCount">0</span>家，确认不参加的有<span
+						class="notJoin">0</span>家
 				</div>
 				<!-- Begin Content -->
 				<table id="table" class="table table-bordered table-condensed">

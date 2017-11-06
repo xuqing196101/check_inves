@@ -67,6 +67,9 @@ function uuid() {
 function selectArea(obj){
 	var city = "";
 	var provinceId = $(obj).val();
+	var provinceName = obj.selectedOptions[0].innerText;
+	$("[name='businessScope']").val(provinceId);
+	$("#businessScope").val(provinceName);
 	if(provinceId == ''){
 		$(obj).next().empty();
 		$(obj).next().append("<option value=''>选择地区</option>");
@@ -266,6 +269,7 @@ function selectLikeSupplier() {
         	}
         }
     });
+    compareExtractNum();
     return false;
 }
 
@@ -362,6 +366,51 @@ function checkEmpty(){
 	return count+count1+count2+count3;
 }
 
+/**
+ * 实时比较满足条件供应商是否满足抽取人数
+ */
+function compareExtractNum(){
+	var ExtractNum = $("#extractNum").val();
+	if(!ExtractNum){
+		ExtractNum = 0;
+	}
+	var str = /^\d+$/;
+	if(str.test(ExtractNum)){
+		$("#supplierType").find(".cue").html("");
+		if(ExtractNum>parseInt($("#count").html())){
+			$("#ExtractNumError").html("家数不足，无法抽取");
+			$("#count").parents("button").prop("style","background-color: red;");
+		}else{
+			$("#result").find("tbody").empty();
+			$("#count").parents("button").removeAttr("style");
+			$("#ExtractNumError").html("");
+			return true;
+		}
+	}else{
+		$("#ExtractNumError").html("仅能输入正整数");
+		layer.msg("抽取数量仅能输入正整数");
+	}
+}
+
+
+/**
+ * 校验抽取数量
+ */
+function checkExtractNum(){
+	if($("#extractNum").val()){
+		return compareExtractNum();
+	}else{
+		layer.msg("请输入抽取数量，仅能输入正整数");
+		$("#ExtractNumError").html("请输入抽取数量，仅能输入正整数");
+	}
+}
+
+
+/**
+ * 点击抽取，校验抽取条件
+ * @param status
+ * @returns {Boolean}
+ */
 function extractVerify(status) {
 	// 清空错误提示
 	$("#extractUser").find("span").remove();
@@ -375,29 +424,10 @@ function extractVerify(status) {
 		return false;
 	}
 	$("#status").val(1);// 修改状态为抽取中
-	
-	
-	var ExtractNum = $("#extractNum").val();
-
-	var str = /^\d+$/;
-	
-	if(parseInt(ExtractNum)>0 && str.test(ExtractNum)){
-		$("#supplierType").find(".cue").html("");
-		if(ExtractNum>parseInt($("#count").html())){
-			layer.msg("人数不足，无法抽取");
-			$("#ExtractNumError").html("人数不足，无法抽取");
-		}else{
-			$("#result").find("tbody").empty();
-			$("#ExtractNumError").html("");
-			extractSupplier(code,status);
-		}
-	}else{
-		$("#ExtractNumError").html("抽取数量不正确");
-		layer.msg("抽取数量不正确");
+	if(checkExtractNum()){
+		extractSupplier(code,status);
 	}
 	
-	
-    return false;
 }
 
 function extractSupplier(code,status) {
@@ -488,7 +518,7 @@ function extractSupplier(code,status) {
 	}
     
     
-    if(status){
+    if(0==status){
     	// 自动抽取
     	$.ajax({
     		type: "POST",
@@ -515,9 +545,21 @@ function extractSupplier(code,status) {
 		$(this).prop('disabled', true);
 	});
 	// 按钮置灰
-		
 	$(".bu").each(function(){
 		$(this).attr("disabled",true);
+	});
+	
+	//设置抽取状态为抽取中
+	var recordId = $("#recordId").val();
+	$.ajax({
+		type: "POST",
+		url: globalPath+'/SupplierExtracts_new/updateExtractStatus.do',
+		data: {"id":recordId,"status":2,extractTheWay:status} ,
+		dataType: "json",
+		async:false,
+		success: function (msg) {
+			
+		}
 	});
 }
 
@@ -684,9 +726,9 @@ function opens(cate) {
             iframeWin.getChildren(cate);
             if(typeCode == "PROJECT"){
             	initTypeLevelId(null);
+            	emptyQuaInfo();
+            	loadQuaList(null);
             }
-        	emptyQuaInfo();
-        	loadQuaList(null);
             selectLikeSupplier();
         }
         , btn2: function () {
@@ -720,6 +762,17 @@ function opens(cate) {
 		 $("#xmss").html("*");
 		 $("#xmss").addClass("star_red");
 	 }
+	 
+	 if("PROJECT" == typeCode){
+		 $(".projectOwn").removeClass("dnone");
+		 $("#buildCompany").removeClass("dnone");
+		 $(".buildCompany").addClass("star_red");
+		 
+	 }else{
+		 $(".projectOwn").addClass("dnone");
+		 $("#buildCompany").addClass("dnone");
+		 $(".buildCompany").removeClass("star_red");
+	 }
 	 if(null!=typeCode&&''!=typeCode){
 		 $.ajax({
             type: "POST",
@@ -739,7 +792,6 @@ function opens(cate) {
         		for(var i=0;i<data.length;i++){
         			$("#supplierType").append("<option value='"+data[i].code+"'> "+data[i].name+" </option>");
         		}
-        		loadQuaList(null);
         		selectLikeSupplier();
             }
         });
@@ -751,6 +803,7 @@ function opens(cate) {
 	 var typeCode = $(obj).val();
 	 initCategoryAndQua(obj);
 	 initTypeLevelId(typeCode);
+	 selectLikeSupplier();
  }
  
  // 根据初始化 品目 等级div
@@ -998,7 +1051,7 @@ function emptyQuaInfo(){
 // 加载资质信息
 function loadQuaList(nodes){
 	// 获取当前供应商code
-	code = $("#supplierType").val().toLowerCase();
+	var code = $("#supplierType").val().toLowerCase();
 	
 	if(nodes==null){
 		var cateId = $("#categoryIds").val();
@@ -1424,11 +1477,12 @@ function saveResult(objTr, reason,join) {// obj:当前处理完成供应商信�
 function alterEndInfo(obj){
 	
 	var flag = 0;
-	// 存储项目信息
+	var recordId = $("#recordId").val();
+	// 修改抽取状态
 	$.ajax({
 		type: "POST",
-		url: globalPath+"/SupplierExtracts_new/extractOver.do",
-		data:{id:$("#recordId").val(),status:1},
+		url: globalPath+"/SupplierExtracts_new/updateExtractStatus.do",
+		data:{id:recordId,status:1},
 		dataType: "json",
 		async:false,
 		success: function (msg) {
