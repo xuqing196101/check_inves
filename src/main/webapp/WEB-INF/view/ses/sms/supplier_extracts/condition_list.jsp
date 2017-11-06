@@ -542,6 +542,7 @@
 		style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 		<ul id="quaTree" class="ztree" style="margin-top:0;"></ul>
 	</div>
+	<a href="" target="blank" hidden="hidden" id="down"></a>  
 </body>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/js/ses/sms/supplierExtract.js"></script>

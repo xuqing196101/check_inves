@@ -10,9 +10,7 @@ $(function () {
     loadAreaZtree();
     loadSupplierType();
     
-    for ( var i = 0; i < 2; i++) {
-		addPerson($("#eu"));
-	}
+	addPerson($("#eu"));
     addPerson($("#su"));
 });
 
@@ -263,9 +261,13 @@ function selectLikeSupplier() {
         async: false,
         success: function (data) {
         	$("#count").parents("button").prop("style","background-color: red;");
-        	if(null!=data && data.count !=null && parseInt(data.count)!=0){
-        		$("#count").parents("button").removeAttr("style");
+        	if(null!=data && data.count !=null){
+        		if(parseInt(data.count)!=0){
+        			$("#count").parents("button").removeAttr("style");
+        		}
 				$("#count").html(data.count);
+        	}else{
+        		
         	}
         }
     });
@@ -340,7 +342,7 @@ function checkEmpty(){
 		}
 	});
 	
-	if($("#extractUser").find("tr").length<3){
+	if($("#extractUser").find("tr").length<2){
 		count1++;
 	}
 	if($("#supervise").find("tr").length<2){
@@ -1502,14 +1504,33 @@ function alterEndInfo(obj){
 	}
 	
 	var index = layer.alert("完成抽取,打印记录表",function(){
-		window.open(globalPath+"/SupplierExtracts_new/printRecord.html?id="+$("[name='recordId']").val()+"&projectInto="+projectType);
-		$(obj).prop("disabled",true);
-		if(projectType){
-			window.open("","_self").close();
-		}else{
-			window.location.href = globalPath+"/SupplierExtracts_new/projectList.html";
-		}
+		//window.open(globalPath+"/SupplierExtracts_new/printRecord.html?id="+$("[name='recordId']").val()+"&projectInto="+projectType);
+		
+		//window.location.href = globalPath+"/SupplierExtracts_new/printRecord.html?id="+$("[name='recordId']").val()+"&projectInto="+projectType;
+		
+		 try{ 
+            var elemIF = document.createElement("iframe");   
+            elemIF.src = globalPath+"/SupplierExtracts_new/printRecord.html?id="+$("[name='recordId']").val()+"&projectInto="+projectType;   
+            elemIF.style.display = "none";   
+            document.body.appendChild(elemIF);   
+	        }catch(e){ 
+	 
+	    } 
+		setTimeout(function(){
+			$(obj).prop("disabled",true);
+			if(projectType){
+				window.open("","_self").close();
+			}else{
+				window.location.href = globalPath+"/SupplierExtracts_new/projectList.html";
+			}
+		}, 200);
+	        
 		layer.close(index);
+		/*var a = document.getElementById("down");  
+        a.href=globalPath+"/SupplierExtracts_new/printRecord.html?id="+$("[name='recordId']").val()+"&projectInto="+projectType;  
+        a.click();  */
+		
+		
 		// 
 	});
 }

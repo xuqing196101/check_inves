@@ -45,7 +45,7 @@ var personType ;
 			//if(null==index ||''==index || "undefined"== index){
 			//	index=0;
 			//}
-    	var input_count = 0;
+	  var input_count = 0;
       var count = 0;
 			var j = 1;
 			var str = '';
