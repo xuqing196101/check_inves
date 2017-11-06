@@ -84,7 +84,7 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 	@Override
 	public void saveOrUpdateVoiceResult(SupplierExtractCondition condition,
 			List<Supplier> suppliers, List<SupplierVoiceResult> suppliers2,String projectType) {
-		
+		//处理操作对象，将不同结果放在SupplierExtractResult 同一个对象中
 		ArrayList<SupplierExtractResult> setSupplierExtractResult = setSupplierExtractResult(condition, suppliers, suppliers2);
 		if(null == suppliers){
 			//修改状态
@@ -101,6 +101,17 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 		}
 	}
 
+	/**
+	 * 
+	 * <简述>处理修改或添加的操作对象 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-11-2下午8:35:36
+	 * @param condition
+	 * @param suppliers
+	 * @param suppliers2
+	 * @return
+	 */
 	public ArrayList<SupplierExtractResult> setSupplierExtractResult(SupplierExtractCondition condition,
 			List<Supplier> suppliers, List<SupplierVoiceResult> suppliers2) {
 		String recordId = condition.getRecordId();
@@ -122,6 +133,15 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 		return arrayList;
 	}
 	
+	/**
+	 * 修改供应商参加状态
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-11-2下午8:35:56
+	 * @param supplierExtractResult
+	 * @param projectType
+	 */
 	public void updateSupplierJoin(SupplierExtractResult supplierExtractResult,String projectType) {
 		
 		if("advPro".equals(projectType)){

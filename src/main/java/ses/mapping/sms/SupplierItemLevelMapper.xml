@@ -286,4 +286,8 @@
         ORDER BY supplierLevelName
   </select>
   
+  <select id="selectByMapForExport" parameterType="map" resultMap="BaseResultMap">
+  	
+  </select>
+  
 </mapper>

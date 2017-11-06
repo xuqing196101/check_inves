@@ -400,9 +400,7 @@
 		SELECT DISTINCT R.SUPPLIER_ID supplierIds FROM T_SES_SMS_EXTRACT_RESULT R LEFT JOIN T_SES_SMS_EXTRACT_RECORD E ON R.RECORD_ID = E.ID  WHERE E.PROJECT_ID = #{value}
 	</select>
 
-	<!-- 供应商个数 -->
-	<select id="listExtractionExpertCount" parameterType="extract.model.supplier.SupplierExtractCondition" resultType="int">
-		SELECT COUNT(DISTINCT S.ID) FROM T_SES_SMS_SUPPLIER S
+	<sql id="extractSql">
 		<if test="supplierTypeCode !=null and supplierTypeCode !='' ">
 			LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE T ON T.SUPPLIER_ID = S.ID
 			LEFT JOIN T_SES_SMS_SUPPLIER_ITEM I ON I.SUPPLIER_ID = S.ID
@@ -478,9 +476,9 @@
 					HAVING COUNT(A.MAT_ENG_ID) = #{quaSize}
 				)
 			</if>
-			<if test="supplierTypeCode != 'PROJECT'.toString()">
+			<!-- <if test="supplierTypeCode != 'PROJECT'.toString()">
 				AND  QUA.QUA_ID IN  <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
-			</if>
+			</if> -->
 		</if>
 		<!-- 查询等级 -->
 		<if test="levelTypeId !=null and levelTypeId != '' ">
@@ -500,119 +498,37 @@
 		<if test="overseasBranch !=null and overseasBranch != '' ">
 			AND S.OVERSEAS_BRANCH = #{overseasBranch}
 		</if>
+		<if test="businessScope !=null and businessScope != '' and supplierTypeCode == 'PROJECT'.toString()">
+			AND E.BUSINESS_SCOPE LIKE CONCAT(CONCAT('%', #{businessScope}), '%')
+		</if>
 		<if test="supplierIds != null and supplierIds.size>0 ">
 			AND S.ID NOT IN
 			<foreach collection="supplierIds" open="(" item="sid" separator="," close=")">
 				#{sid}	
 			</foreach>
 		</if>
+	</sql>
+
+	<!-- 供应商个数 -->
+	<select id="listExtractionExpertCount" parameterType="extract.model.supplier.SupplierExtractCondition" resultType="int">
+		SELECT COUNT(DISTINCT S.ID) FROM T_SES_SMS_SUPPLIER S
+		<include refid="extractSql"></include>
 	</select>
 	
 	<!-- 供应商抽取集合 -->
-	<select id="listExtractionExpert" parameterType="extract.model.supplier.SupplierExtractCondition"
-		resultMap="findSupplierMap">
+	<select id="listExtractionExpert" parameterType="extract.model.supplier.SupplierExtractCondition" resultMap="findSupplierMap">
 		SELECT SP.* FROM 
 		(SELECT DISTINCT S.ID,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_MOBILE,S.ARMY_BUSINESS_TELEPHONE,T.SUPPLIER_TYPE_ID  FROM T_SES_SMS_SUPPLIER S
-		<if test="supplierTypeCode !=null and supplierTypeCode !='' ">
-			LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE T ON T.SUPPLIER_ID = S.ID
-			LEFT JOIN T_SES_SMS_SUPPLIER_ITEM I ON I.SUPPLIER_ID = S.ID
-			LEFT JOIN T_SES_BMS_CATEGORY_QUA QUA ON I.CATEGORY_ID = QUA.CATEGORY_ID
-			<choose>
-				<when test="supplierTypeCode == 'PROJECT'.toString()">
-					LEFT JOIN T_SES_SMS_SUPPLIER_MAT_ENG E ON E.SUPPLIER_ID = S.ID
-				</when>
-				<otherwise>
-					LEFT JOIN T_SES_SMS_SUPPLIER_ITEM_LEVEL L ON S.ID = L.SUPPLIER_ID
-				</otherwise>
-			</choose>
-		</if>
-		WHERE S.IS_PROVISIONAL = 0 AND S.IS_DELETED = 0 AND S.SUPPLIER_STATUS in ( 1,5,7) 
-		<!-- 查询地址 -->
-		<if test="addressId != null and addressId != '' ">
-			AND S.ADDRESS in 	<foreach collection="addressIds"  open="(" item="index" close=")" separator=",">	#{index}	</foreach>
-		</if>
-		<!-- 查询类型 -->
-		<if test="supplierTypeCode !=null and supplierTypeCode != '' ">
-			<!--  AND I.Supplier_Type_Relate_Id  IN  <foreach collection="supplierTypeCodes" open="(" separator="," item="code" close=")"> #{code} </foreach>  -->
-			 AND T.SUPPLIER_TYPE_ID  IN  <foreach collection="supplierTypeCodes" open="(" separator="," item="code" close=")"> #{code} </foreach> 
-		</if>	 
-		<!-- 查询品目 -->
-		<if test="isMulticondition !=null and isMulticondition != ''">
-			<if test="isMulticondition == 1 and categoryId !=null and categoryId != '' ">
-				 AND I.CATEGORY_ID IN 
-				  (select distinct TEM.id from (
-				  select CATE.* from T_SES_BMS_CATEGORY CATE START WITH  CATE.id in 
-					<foreach collection="categoryIds" open="(" close=")" separator="," index="index" item="item">
-						#{item}
-					</foreach>
-					CONNECT BY PRIOR CATE.id=CATE.PARENT_ID order by level desc ) TEM where TEM.is_publish = 0 and (TEM.is_parent is null or TEM.is_parent = 'false'))
-				 
-				<!--  <foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach> -->
-			</if>
-			<if test="isMulticondition == 2 and categoryId !=null and categoryId != '' ">
-				AND S.ID IN 
-				(SELECT IT.SUPPLIER_ID
-		          FROM T_SES_SMS_SUPPLIER_ITEM IT
-		         inner join (select TEM.id
-		                      from (select CATE.*
-		                              from T_SES_BMS_CATEGORY CATE
-		                             START WITH CATE.id in
-		                                        <foreach collection="categoryIds" open="(" close=")" separator="," index="index" item="item">
-													#{item}
-												</foreach>
-		                            CONNECT BY PRIOR CATE.id = CATE.PARENT_ID
-		                             order by level desc) TEM
-		                     where TEM.is_publish = 0
-		                       and (TEM.is_parent is null or TEM.is_parent = 'false')
-		                     group by TEM.id) ts
-		            on ts.id = IT.Category_Id
-		         GROUP BY IT.SUPPLIER_ID
-		        HAVING COUNT(IT.SUPPLIER_ID) = #{csize})
-			</if>
-		</if>
-		<!-- 查询资质 -->
-		<if test="quaId !=null and quaId != '' ">
-			<if test="supplierTypeCode == 'PROJECT'.toString()">
-				AND  E.ID IN (
-					SELECT A.MAT_ENG_ID FROM T_SES_SMS_SUPPLIER_APTITUTE A 
-					WHERE A.CERT_TYPE IN <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
-					<!-- 等级 -->
-					<if test="levelTypeId !=null and levelTypeId != '' ">
-						AND  A."APTITUTE_ LEVEL" IN  <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
-					</if>
-					GROUP BY A.MAT_ENG_ID
-					HAVING COUNT(A.MAT_ENG_ID) = #{quaSize}
-				)
-			</if>
-			<if test="supplierTypeCode != 'PROJECT'.toString()">
-				AND  QUA.QUA_ID IN  <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
-			</if>
-		</if>
-		<!-- 查询等级 -->
-		<if test="levelTypeId !=null and levelTypeId != '' ">
-			<if test="supplierTypeCode != 'PROJECT'.toString()">
-				AND L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
-			</if>
-		</if>
-		<!-- 保密要求 -->
-		<if test="isHavingConCert !=null and isHavingConCert != '' ">
-			AND S.IS_HAVING_CON_CERT = #{isHavingConCert}
-		</if>
-		<!-- 企业性质 -->
-		<if test="businessNature !=null and businessNature != '' ">
-			AND S.BUSINESS_NATURE = #{businessNature}
-		</if>
-		<!-- 境外分支 -->
-		<if test="overseasBranch !=null and overseasBranch != '' ">
-			AND S.OVERSEAS_BRANCH = #{overseasBranch}
-		</if>
-		<if test="supplierIds != null and supplierIds.size>0 ">
-			AND S.ID NOT IN
-			<foreach collection="supplierIds" open="(" item="sid" separator="," close=")">
-				#{sid}	
-			</foreach>
-		</if>
+		<include refid="extractSql"></include>
 		ORDER BY dbms_random.random) SP WHERE ROWNUM = 1
+	</select>
+	
+	<!-- 自动抽取供应商列表 -->
+	<select id="autoExtractSupplierList" parameterType="extract.model.supplier.SupplierExtractCondition" resultMap="findSupplierMap">
+		SELECT SP.* FROM 
+		(SELECT DISTINCT S.ID,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_MOBILE,S.ARMY_BUSINESS_TELEPHONE,T.SUPPLIER_TYPE_ID  FROM T_SES_SMS_SUPPLIER S
+			<include refid="extractSql"></include>
+		ORDER BY dbms_random.random) SP WHERE ROWNUM &lt;= #{extractNum}
 	</select>
 	
 	<!-- 详细抽取结果 -->
@@ -943,105 +859,6 @@
         SELECT 1 FROM DUAL
 	</insert>
 	
-	<!-- 自动抽取供应商列表 -->
-	<select id="autoExtractSupplierList" parameterType="extract.model.supplier.SupplierExtractCondition" resultMap="findSupplierMap">
-		SELECT SP.* FROM 
-		(SELECT DISTINCT S.ID,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_MOBILE,S.ARMY_BUSINESS_TELEPHONE,T.SUPPLIER_TYPE_ID  FROM T_SES_SMS_SUPPLIER S
-		<if test="supplierTypeCode !=null and supplierTypeCode !='' ">
-			LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE T ON T.SUPPLIER_ID = S.ID
-			LEFT JOIN T_SES_SMS_SUPPLIER_ITEM I ON I.SUPPLIER_ID = S.ID
-			LEFT JOIN T_SES_BMS_CATEGORY_QUA QUA ON I.CATEGORY_ID = QUA.CATEGORY_ID
-			<choose>
-				<when test="supplierTypeCode == 'PROJECT'.toString()">
-					LEFT JOIN T_SES_SMS_SUPPLIER_MAT_ENG E ON E.SUPPLIER_ID = S.ID
-				</when>
-				<otherwise>
-					LEFT JOIN T_SES_SMS_SUPPLIER_ITEM_LEVEL L ON S.ID = L.SUPPLIER_ID
-				</otherwise>
-			</choose>
-		</if>
-		WHERE S.IS_PROVISIONAL = 0 AND S.IS_DELETED = 0 AND S.SUPPLIER_STATUS in ( 1,5,7) 
-		<!-- 查询地址 -->
-		<if test="addressId != null and addressId != '' ">
-			AND S.ADDRESS in 	<foreach collection="addressIds"  open="(" item="index" close=")" separator=",">	#{index}	</foreach>
-		</if>
-		<!-- 查询类型 -->
-		<if test="supplierTypeCode !=null and supplierTypeCode != '' ">
-			<!--  AND I.Supplier_Type_Relate_Id  IN  <foreach collection="supplierTypeCodes" open="(" separator="," item="code" close=")"> #{code} </foreach>  -->
-			 AND T.SUPPLIER_TYPE_ID  IN  <foreach collection="supplierTypeCodes" open="(" separator="," item="code" close=")"> #{code} </foreach> 
-		</if>	 
-			<!-- 查询品目 -->
-		<if test="isMulticondition !=null and isMulticondition != ''">
-			<if test="isMulticondition == 1 and categoryId !=null and categoryId != '' ">
-				 AND I.CATEGORY_ID IN 
-				  (select distinct TEM.id from (
-				  select CATE.* from T_SES_BMS_CATEGORY CATE START WITH  CATE.id in 
-					<foreach collection="categoryIds" open="(" close=")" separator="," index="index" item="item">
-						#{item}
-					</foreach>
-					CONNECT BY PRIOR CATE.id=CATE.PARENT_ID order by level desc ) TEM where TEM.is_publish = 0 and (TEM.is_parent is null or TEM.is_parent = 'false'))
-			</if>
-			<if test="isMulticondition == 2 and categoryId !=null and categoryId != '' ">
-				AND S.ID IN 
-				(SELECT IT.SUPPLIER_ID
-		          FROM T_SES_SMS_SUPPLIER_ITEM IT
-		         inner join (select TEM.id
-		                      from (select CATE.*
-		                              from T_SES_BMS_CATEGORY CATE
-		                             START WITH CATE.id in
-		                                        <foreach collection="categoryIds" open="(" close=")" separator="," index="index" item="item">
-													#{item}
-												</foreach>
-		                            CONNECT BY PRIOR CATE.id = CATE.PARENT_ID
-		                             order by level desc) TEM
-		                     where TEM.is_publish = 0
-		                       and (TEM.is_parent is null or TEM.is_parent = 'false')
-		                     group by TEM.id) ts
-		            on ts.id = IT.Category_Id
-		         GROUP BY IT.SUPPLIER_ID
-		        HAVING COUNT(IT.SUPPLIER_ID) = #{csize})
-			</if>
-		</if>
-		<!-- 查询资质 -->
-		<if test="quaId !=null and quaId != '' ">
-			<if test="supplierTypeCode == 'PROJECT'.toString()">
-				AND  E.ID IN (
-					SELECT A.MAT_ENG_ID FROM T_SES_SMS_SUPPLIER_APTITUTE A 
-					WHERE A.CERT_TYPE IN <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
-					<!-- 等级 -->
-					<if test="levelTypeId !=null and levelTypeId != '' ">
-						AND  A."APTITUTE_ LEVEL" IN  <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
-					</if>
-					GROUP BY A.MAT_ENG_ID
-					HAVING COUNT(A.MAT_ENG_ID) = #{quaSize}
-				)
-			</if>
-			<if test="supplierTypeCode != 'PROJECT'.toString()">
-				AND  QUA.QUA_ID IN  <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
-			</if>
-		</if>
-		<!-- 查询等级 -->
-		<if test="levelTypeId !=null and levelTypeId != '' ">
-			<if test="supplierTypeCode != 'PROJECT'.toString()">
-				AND L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
-			</if>
-		</if>
-		<!-- 企业性质 -->
-		<if test="businessNature !=null and businessNature != '' ">
-			AND S.BUSINESS_NATURE = #{businessNature}
-		</if>
-		<!-- 境外分支 -->
-		<if test="overseasBranch !=null and overseasBranch != '' ">
-			AND S.OVERSEAS_BRANCH = #{overseasBranch}
-		</if>
-		<if test="supplierIds != null and supplierIds.size>0 ">
-			AND S.ID NOT IN
-			<foreach collection="supplierIds" open="(" item="sid" separator="," close=")">
-				#{sid}	
-			</foreach>
-		</if>
-		ORDER BY dbms_random.random) SP WHERE ROWNUM &lt;= #{extractNum}
-	</select>
 	<!-- 支撑系统进入 -->
 	<select id="selectByUpdateDate" parameterType="map" resultMap="BaseResultMap">
 		SELECT * FROM T_SES_SMS_EXTRACT_RESULT WHERE 

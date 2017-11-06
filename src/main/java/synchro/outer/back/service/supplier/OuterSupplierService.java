@@ -82,4 +82,15 @@ public interface OuterSupplierService {
      * @since JDK1.7
      */
     void selectLogoutSupplierOfExport(String startTime, String endTime);
+
+    /**
+     * 
+     * <简述> 查询供应商等级导出
+     *
+     * @author Jia Chengxiang
+     * @dateTime 2017-11-3下午4:34:31
+     * @param startTime
+     * @param endTime
+     */
+	void selectSupplierLevelOfExport(String startTime, String endTime);
 }

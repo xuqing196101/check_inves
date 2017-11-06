@@ -63,7 +63,7 @@ public interface SupplierExtractRecordService {
    * @param user
  * @return 
    */
-  int saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo, User user);
+  int saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo);
   
   /**
    * @Description:插入记录
@@ -110,5 +110,6 @@ public interface SupplierExtractRecordService {
    * @return
    */
   List<SupplierExtractProjectInfo> selectAutoExtractProject();
+
   
 }

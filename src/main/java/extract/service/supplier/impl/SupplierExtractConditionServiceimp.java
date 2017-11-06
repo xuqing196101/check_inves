@@ -853,17 +853,6 @@ public class SupplierExtractConditionServiceimp implements
 						addressId));
 			}
 		}
-		// 供应商类别
-		if (StringUtils.isNotEmpty(condition.getSupplierTypeCode())) {
-			for (String supplierTypeCode : condition.getSupplierTypeCodes()) {
-				list.add(new ExtractConditionRelation(cid, "supplierTypeCode",
-						supplierTypeCode));
-			}
-		}
-		Short mu = condition.getIsMulticondition();
-		if (null != mu) {
-			list.add(new ExtractConditionRelation(cid,"isMulticondition", mu.toString()));
-		}
 		
 		Set<String> hashSet = new HashSet<>();
 		String cids = condition.getCategoryId();
@@ -884,24 +873,23 @@ public class SupplierExtractConditionServiceimp implements
 		String le = condition.getLevelTypeId();
 		if (StringUtils.isNotBlank(le)) {
 			for (String lv : le.split(",")) {
-				list.add(new ExtractConditionRelation(cid, "level",	lv));
+				list.add(new ExtractConditionRelation(cid, "levelTypeId",	lv));
 			}
 		}
 		Short en = condition.getExtractNum();
 		if (null != en) {
-			list.add(new ExtractConditionRelation(cid,"extractNum", en.toString()));
+			list.add(new ExtractConditionRelation(cid,"currentExtractNum", en.toString()));
 		}
-		String ic = condition.getIsHavingConCert();
-		if (StringUtils.isNotBlank(ic)) {
-			list.add(new ExtractConditionRelation(cid, "isHavingConCert", ic));
+		
+		String[] quaIds = condition.getQuaIds();
+		if(null!=quaIds){
+			for (String quaId : quaIds) {
+				list.add(new ExtractConditionRelation(cid, "quaId", quaId));
+			}
 		}
-		String bu = condition.getBusinessNature();
-		if (StringUtils.isNotBlank(bu)) {
-			list.add(new ExtractConditionRelation(cid, "businessNature", StringUtils.isBlank(bu) ? "0": bu));
-		}
-		String ob = condition.getOverseasBranch();
-		if (StringUtils.isNotBlank(ob)) {
-			list.add(new ExtractConditionRelation(cid, "overseasBranch", ob));
+		String businessScope = condition.getBusinessScope();
+		if (StringUtils.isNotBlank(businessScope)) {
+			list.add(new ExtractConditionRelation(cid,"businessScope",businessScope));
 		}
 		if (list.size() > 0) {
 			return extractConditionRelationMapper.insertConditionRelation(list);

@@ -84,6 +84,10 @@ public class SupplierExtractCondition {
 	private int quaSize;
 
 	/**
+	 * 业务承揽范围
+	 */
+	private String businessScope;
+	/**
 	 * <pre>
 	 * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.SUPPLIER_LEVEL
 	 * </pre>
@@ -110,6 +114,11 @@ public class SupplierExtractCondition {
 	@NotEmpty
 	private String areaName;
 
+	/**
+	 * 自动抽取用字段，当前需要抽取的人数，判断是否补抽
+	 */
+	private String currentExtractNum;
+	
 	/**
 	 * 境外分支
 	 */
@@ -679,4 +688,21 @@ public class SupplierExtractCondition {
 		this.parentId = parentId;
 	}
 
+	public String getCurrentExtractNum() {
+		return currentExtractNum;
+	}
+
+	public void setCurrentExtractNum(String currentExtractNum) {
+		this.currentExtractNum = currentExtractNum;
+	}
+
+	public String getBusinessScope() {
+		return businessScope;
+	}
+
+	public void setBusinessScope(String businessScope) {
+		this.businessScope = businessScope;
+	}
+	
+	
 }
