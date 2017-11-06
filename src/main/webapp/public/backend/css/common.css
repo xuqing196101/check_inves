@@ -768,7 +768,7 @@
 }
 
 .bgred {
-  background-color: #EC5757;
+  background-color: #EC5757 !important;
 }
 
 .bggrey {

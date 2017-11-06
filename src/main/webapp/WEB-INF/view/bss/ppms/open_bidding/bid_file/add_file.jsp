@@ -556,7 +556,7 @@
 			<c:if test="${ (project.confirmFile == null || project.confirmFile == 0 || project.confirmFile == 2) && process != 1  }">
 				<div class="" id="audit_file_add">
 					<span class="fl h30 lh30">上传审批文件：</span>
-					<div class="fl lh22">
+					<div class="fl lh22 w200">
 						<u:upload id="a" buttonName="上传彩色扫描件" exts="jpg,jpeg,gif,png,bmp,pdf" multiple="true" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 						<u:show showId="b" groups="b,c,d" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
 					</div>
@@ -612,9 +612,6 @@
 			<script type="text/javascript" src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
 			</c:if>
 			<div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0" id="cgdiv">
-				<!--      confirmFile 未提交(0) 并且 没有原因 就不展示框 or 项目状态==ZBWJYTJ并且是监管部门才展示 
-
--->
 				<c:if test="${process == 1 }">
 					<div class="mt10">
 						<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">采购管理部门意见</span>
