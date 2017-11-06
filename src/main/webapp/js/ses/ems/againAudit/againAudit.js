@@ -118,10 +118,11 @@
                 }
               });
               
+              var checkAll_class = $(this).parents('tbody').siblings('thead').find('[name=checkAll]').attr('class');
               if (sum === $(this).parents('tbody').find('.select_item').length) {
-                $(this).parents('tbody').siblings('thead').find('[name=checkAll]').prop('checked', true);
+                $('.' + checkAll_class).prop('checked', true);
               } else {
-                $(this).parents('tbody').siblings('thead').find('[name=checkAll]').prop('checked', false);
+                $('.' + checkAll_class).prop('checked', false);
               }
             });
           }

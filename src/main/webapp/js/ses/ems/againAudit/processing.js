@@ -653,11 +653,44 @@ function expert_auditBatch(url, expertId) {
 }
 
 //  全选操作
-function checkAll(el) {
+// function checkAll(el) {
+//   var temp_list = [];
+//   
+//   if ($(el).is(':checked')) {
+//     $(el).parents('table').find('.select_item').each(function () {
+//       $(this).prop('checked', true);
+//       temp_list.push($(this).val());
+//     });
+//     
+//     for (var i in temp_list) {
+//       for (var ii in select_ids) {
+//         if (temp_list[i] === select_ids[ii]) {
+//           temp_list.splice(i, 1);
+//         }
+//       }
+//     }
+//     
+//     for (var iii in temp_list) {
+//       select_ids.push(temp_list[iii]);
+//     }
+//   } else {
+//     $(el).parents('table').find('.select_item').each(function () {
+//       $(this).prop('checked', false);
+//       for (var i in select_ids) {
+//         if ($(this).val() === select_ids[i]) {
+//           select_ids.splice(i, 1);
+//         }
+//       }
+//     });
+//   }
+// }
+
+//  全选操作
+function checkAll(el, className) {
   var temp_list = [];
   
   if ($(el).is(':checked')) {
-    $(el).parents('table').find('.select_item').each(function () {
+    $(className).find('.select_item').each(function () {
       $(this).prop('checked', true);
       temp_list.push($(this).val());
     });
@@ -674,7 +707,7 @@ function checkAll(el) {
       select_ids.push(temp_list[iii]);
     }
   } else {
-    $(el).parents('table').find('.select_item').each(function () {
+    $(className).find('.select_item').each(function () {
       $(this).prop('checked', false);
       for (var i in select_ids) {
         if ($(this).val() === select_ids[i]) {
@@ -972,10 +1005,11 @@ function addto_selected() {
           }
         });
         
+        var checkAll_class = $(this).parents('tbody').siblings('thead').find('[name=checkAll]').attr('class');
         if (sum === $(this).parents('tbody').find('.select_item').length) {
-          $(this).parents('tbody').siblings('thead').find('[name=checkAll]').prop('checked', true);
+          $('.' + checkAll_class).prop('checked', true);
         } else {
-          $(this).parents('tbody').siblings('thead').find('[name=checkAll]').prop('checked', false);
+          $('.' + checkAll_class).prop('checked', false);
         }
       });
     }
