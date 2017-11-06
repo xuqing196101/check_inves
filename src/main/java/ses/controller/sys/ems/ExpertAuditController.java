@@ -3570,6 +3570,8 @@ public class ExpertAuditController{
 		model.addAttribute("expertId", expertId);
 		model.addAttribute("isCheck", isCheck == null? "no" : isCheck);
 		ExpertAudit expertAudit = new ExpertAudit();
+		//3查所有
+		expertAudit.setIsDeleted(3);
 		if(sign == 1){
 			expertAudit.setAuditFalg(2);
 		}else if(sign == 2){
