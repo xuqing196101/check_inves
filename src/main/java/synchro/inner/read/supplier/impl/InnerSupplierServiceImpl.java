@@ -484,6 +484,8 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
             if (supp == null) {
                 saveSupplier(supplier);
             } else {
+                // 设置审核人
+                supplier.setAuditor(supp.getAuditor());
                 // 先做删除操作
                 supplierMapper.deleteByPrimaryKey(supplier.getId());
                 // 再做插入操作

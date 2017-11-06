@@ -56,4 +56,16 @@
         T_SYS_EMS_EXPERT_REVIEWTEAM
         where ID = #{id,jdbcType=VARCHAR}
    </delete>
+   <delete id="deleteGroupreReviewTeam" parameterType="java.lang.String">
+   		 delete from
+        T_SYS_EMS_EXPERT_REVIEWTEAM
+        where GROUP_ID = #{groupId,jdbcType=VARCHAR}
+   </delete>
+   <select id="selectReviewTeamAll" resultMap="BaseResultMap">
+   	  select 
+        T1.REAL_NAME AS relName,
+        T1.ORG_NAME AS orgName,
+        T1.DUTIES AS duties
+		from T_SYS_EMS_EXPERT_REVIEWTEAM T1 order by CREATED_AT DESC
+   </select>
 </mapper>

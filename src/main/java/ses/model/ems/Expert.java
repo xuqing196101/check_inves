@@ -474,6 +474,14 @@ public class Expert extends ExpertHistory implements Serializable {
     private String addressName;
     
     private List<String> expertCategoryId;
+    
+    private String reviewPeople; //复审人
+    
+    private Date storageAt;  //入库时间
+    
+    private Integer reviewUnqualifiedConfirm; //复审不合格确认(1:确认)
+    
+    private List<String> expertTypeId;
     /**
      * 专家提交审核时间
      **/
@@ -1139,5 +1147,39 @@ public class Expert extends ExpertHistory implements Serializable {
 	public void setExpertCategoryId(List<String> expertCategoryId) {
 		this.expertCategoryId = expertCategoryId;
 	}
+
+	public String getReviewPeople() {
+		return reviewPeople;
+	}
+
+	public void setReviewPeople(String reviewPeople) {
+		this.reviewPeople = reviewPeople;
+	}
+
+	public Date getStorageAt() {
+		return storageAt;
+	}
+
+	public void setStorageAt(Date storageAt) {
+		this.storageAt = storageAt;
+	}
+
+	public Integer getReviewUnqualifiedConfirm() {
+		return reviewUnqualifiedConfirm;
+	}
+
+	public void setReviewUnqualifiedConfirm(Integer reviewUnqualifiedConfirm) {
+		this.reviewUnqualifiedConfirm = reviewUnqualifiedConfirm;
+	}
+
+	public List<String> getExpertTypeId() {
+		return expertTypeId;
+	}
+
+	public void setExpertTypeId(List<String> expertTypeId) {
+		this.expertTypeId = expertTypeId;
+	}
+
+
     
 }

@@ -1,7 +1,9 @@
 package ses.controller.sys.ems;
 
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,21 +15,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import common.annotation.CurrentUser;
-import common.constant.StaticVariables;
-import common.utils.JdcgResult;
 import ses.controller.sys.sms.BaseSupplierController;
+import ses.dao.ems.ExpertReviewTeamMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAgainAuditImg;
 import ses.model.ems.ExpertAgainAuditReviewTeamList;
 import ses.model.ems.ExpertAuditOpinion;
+import ses.model.ems.ExpertBatchDetails;
+import ses.model.ems.ExpertReviewTeam;
 import ses.model.oms.Orgnization;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.TodosService;
@@ -36,6 +39,10 @@ import ses.service.ems.ExpertAuditOpinionService;
 import ses.service.ems.ExpertService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
+import ses.util.WordUtil;
+import common.annotation.CurrentUser;
+import common.constant.StaticVariables;
+import common.utils.JdcgResult;
 
 /**
  * <p>Title:ExpertAgainAuditController </p>
@@ -58,6 +65,8 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	private TodosService todosService; //待办
 	@Autowired
 	private ExpertAuditOpinionService expertAuditOpinionService;
+	@Autowired
+	private ExpertReviewTeamMapper expertReviewTeamMapper;
 	/*
 	 * 提交复审
 	 * */
@@ -116,6 +125,12 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 				}
 			}
 			expert.setIds(idsList);
+		}
+		
+		if (expert.getExpertsTypeId() != null && !"".equals(expert.getExpertsTypeId())) {
+            List<String> listExpertTypeId = Arrays.asList(expert.getExpertsTypeId().split(","));
+            expert.setExpertTypeId(listExpertTypeId);
+		
 		}
 		List<Expert> expertList = expertService.findExpertAgainAuditList(expert);
 		for (Expert e : expertList) {
@@ -225,7 +240,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	 * 查询批次
 	 * */
 	@RequestMapping("/findBatch")
-	public void findBatch(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String batchNumber,String batchName, Date createdAt, Integer pageNum){
+	public void findBatch(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,Model model,String batchNumber,String batchName, Date createdAt, Integer pageNum){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		if(user==null){
 			img.setStatus(false);
@@ -250,7 +265,13 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		super.writeJson(response, img);
 	}
 	@RequestMapping("/findBatchList")
-	public String findBatchList(HttpServletRequest request,HttpServletResponse response,Model model){
+	public String findBatchList(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,Model model){
+		if("4".equals(user.getTypeName())){
+			return "/ses/ems/againAudit/list_batch";
+		}else if("6".equals(user.getTypeName())){
+			List<ExpertReviewTeam> team = expertReviewTeamMapper.findExpertReviewTeam(user.getId());
+			return findBatchDailesList(request, response, model, team.get(0).getBatchId());
+		}
 		return "/ses/ems/againAudit/list_batch";
 	};
 	@RequestMapping("/findBatchDetailsList")
@@ -692,7 +713,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
         Pattern p2 = Pattern.compile("[\u4e00-\u9fa5]");
         Matcher matcher = p.matcher(password);
         Matcher matcher2 = p2.matcher(password);
-        if(password.trim().length() < 6 || matcher.find() || matcher2.find()) {
+        if( matcher.find() || matcher2.find()) {
         	img.setStatus(false);
         	img.setMessage("密码不符合规则");
         	super.writeJson(response, img);
@@ -850,7 +871,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		expert.setAuditAt(new Date());
 		
 		//审核人
-		expert.setAuditor(user.getRelName());
+		//expert.setAuditor(user.getRelName());
 		//还原暂存状态
 		expert.setAuditTemporary(0);
 		// 设置修改时间
@@ -918,4 +939,59 @@ public class ExpertAgainAuditController extends BaseSupplierController {
     	}
     	return jdcgResult;
     }
+    /*
+	 * 获取历史评审专家信息
+	 * */
+	@RequestMapping("selectReviewTeamAll")
+	public void selectReviewTeamAll(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response) {
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		if(user==null){
+			img.setStatus(false);
+			img.setMessage("请登录");
+			super.writeJson(response, img);
+			return;
+		}
+		if(!"4".equals(user.getTypeName())){
+			img.setStatus(false);
+			img.setMessage("您的权限不足");
+			super.writeJson(response, img);
+			return;
+		}
+		img=againAuditService.selectReviewTeamAll();
+		super.writeJson(response, img);
+	}
+	 @RequestMapping("downloadExpertReview")
+	    public ResponseEntity < byte[] > downloadExpertReview(String batchId,
+	        HttpServletRequest request, HttpServletResponse response) throws Exception {
+	        // 根据编号查询专家信息
+	    	List<ExpertBatchDetails> list = againAuditService.findBatchDetailsList(batchId);
+	        // 文件存储地址
+	        String filePath = request.getSession().getServletContext()
+	            .getRealPath("/WEB-INF/upload_file/");
+	        // 文件名称
+	        String fileName = createWordMethod(list, request);
+	        // 下载后的文件名
+	        String downFileName = "专家复审统计表.doc";
+	        if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
+	            //解决IE下文件名乱码
+	            downFileName = URLEncoder.encode(downFileName, "UTF-8");
+	        } else {
+	            //解决非IE下文件名乱码
+	            downFileName = new String(downFileName.getBytes("UTF-8"), "ISO8859-1");
+	        }
+
+	        return expertService.downloadFile(fileName, filePath, downFileName);
+	    }
+	 private String createWordMethod(List<ExpertBatchDetails> list, HttpServletRequest request) throws Exception {
+	      /** 用于组装word页面需要的数据 */
+	      Map<String, Object> dataMap = new HashMap<String, Object>();
+	      dataMap.put("list", list);
+	      // 文件名称
+	        String fileName = new String(("专家复审统计表.doc").getBytes("UTF-8"),
+	            "UTF-8");
+	        /** 生成word 返回文件名 */
+	        String newFileName = WordUtil.createWord(dataMap, "expertReviewTable.ftl",
+	            fileName, request);
+	        return newFileName;
+	 }
 }

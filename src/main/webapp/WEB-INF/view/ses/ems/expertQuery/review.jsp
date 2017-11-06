@@ -120,6 +120,7 @@
 	                <th class="info">审批字段</th>
 	                <th class="info">审批内容</th>
 	                <th class="info">不合格理由</th>
+	                <th class="info">状态</th>
 	              </tr>
 	            </thead>
 	            <c:forEach items="${auditList }" var="audit" varStatus="vs">
@@ -142,6 +143,16 @@
 	                  <c:if test="${fn:length (audit.auditReason) > 20}">${fn:substring(audit.auditReason,0,20)}...</c:if>
 	                  <c:if test="${fn:length (audit.auditReason) <= 20}">${audit.auditReason}</c:if>
 	                </td>
+	                <!-- 状态 -->
+                  <c:if test="${audit.auditStatus eq '1'}"><td class="tc">退回修改</td></c:if>
+                  <c:if test="${audit.suggestType eq 'six' && reasons.auditStatus eq '2'}"><td class="tc">审核不通过</td></c:if>
+                  <c:if test="${audit.suggestType eq 'seven' && reasons.type eq '1' && reasons.auditFieldId != 'isTitle' && reasons.auditStatus eq '2'}"><td class="tc">审核不通过</td></c:if>
+                  <c:if test="${audit.suggestType != 'six' && reasons.auditStatus eq '2' && !(reasons.suggestType eq 'seven' && reasons.type eq '1' && reasons.auditFieldId != 'isTitle' && reasons.auditStatus eq '2') }"><td class="tc">已修改</td></c:if>
+                  <c:if test="${audit.auditStatus eq '3'}"><td class="tc">未修改</td></c:if>
+                  <c:if test="${audit.auditStatus eq '4'}"><td class="tc">撤销退回</td></c:if>
+                  <c:if test="${audit.auditStatus eq '5'}"><td class="tc">撤销不通过</td></c:if>
+                  <c:if test="${audit.auditStatus eq '6'}"><td class="tc">审核不通过</td></c:if>
+                  <c:if test="${audit.auditStatus eq null}"><td class="tc"></td></c:if>
 	              </tr>
 	            </c:forEach>
 	          </table>

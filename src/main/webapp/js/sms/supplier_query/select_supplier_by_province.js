@@ -49,7 +49,7 @@ function loadZtree() {
     // 加载中的菊花图标
     var loading = layer.load(1);
     // 获取搜索内容
-    var searchName = $("#search").val();
+    var searchName = $.trim($("#search").val());
     // 清除选中内容
     $("#supplierGradeInput").val("");
     var parms = $("#supplierTypeIds").val();

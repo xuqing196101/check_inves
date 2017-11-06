@@ -193,7 +193,7 @@
 	<select id="selectByName" parameterType="java.lang.String" resultType="java.lang.String">
 		 SELECT T.ID 
 		 	FROM T_SES_BMS_AREA T 
-		 	WHERE T.NAME LIKE CONCAT(CONCAT('%',#{name}), '%')
+		 	WHERE T.NAME LIKE CONCAT(CONCAT('%',#{name}), '%') AND T.PARENT_ID = '0'
 	</select>
 	<select id="getTreeForExt" resultMap="resultForExt">
 		    SELECT A.* FROM ( select  id,parent_id,NAME,'true' is_parent,CREATED_AT from T_SES_BMS_AREA where parent_id = '0' AND IS_DELETED = 0

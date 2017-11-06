@@ -103,7 +103,7 @@
 					 $("input[name='updateStatusRadio']").attr("disabled","disabled");
 					 $("input[name='updateStatusRadio']").removeAttr('checked');
 					 $("input[type='checkbox']").attr("disabled","disabled");
-					 if("退回修改"==s||"未修改"==s){
+					 if("有问题"==s||"未修改"==s){
 						$("#revokeReturn").attr("disabled",false);
 					 }
 					 if("审核不通过"==s){
@@ -509,7 +509,7 @@
   <!--预复审结束-->
 	function preReviewEnd(status){
 	  var expertId = $("input[name='expertId']").val();
-	  var batchId = $("input[name='batchId']").val();
+	  //var batchId = $("input[name='batchId']").val();
      if(status == null){
        var status = $(":radio:checked").val().trim();
        if(status == null){
@@ -553,7 +553,7 @@
            dataType:"json",
            success:function (data) {
          	  if(data.status == 200){
-         		  location.href = "${pageContext.request.contextPath}/expertAgainAudit/findBatchDetailsList.html?batchId=" + batchId;
+         		  location.href = "${pageContext.request.contextPath}/expertAgainAudit/findBatchList.html";
                }
            }
        });
@@ -608,7 +608,7 @@
  -->            	<button class="btn btn-windows edit" type="button" onclick="showDiv()" style=" border-bottom-width: -;margin-bottom: 7px;">改状态</button>  
  				</c:if>  
  				<div id="updateStatus" style="display: none">
- 					<input type="radio" id="upd" onclick="updateStatus(1)" name="updateStatusRadio" >退回修改
+ 					<input type="radio" id="upd" onclick="updateStatus(1)" name="updateStatusRadio" >有问题
  					<input type="radio" id="yupd" onclick="updateStatus(2)" name="updateStatusRadio" >已修改
  					<input type="radio" id="nupd" onclick="updateStatus(3)" name="updateStatusRadio" >未修改
  					<input type="radio" id="revokeReturn" onclick="updateStatus(4)" name="updateStatusRadio" >撤销退回
@@ -640,10 +640,10 @@
                                 <c:if test="${reasons.suggestType eq 'five'}">承诺书和申请表</c:if>
                             </td>
                             <td class="text-center">${reasons.auditField }</td>
-                            <td class="hand" title="${reasons.auditContent}">
+                            <td class="hand"  title="${reasons.catalogCode == null ? reasons.auditContent : reasons.catalogCode}">
                                 <c:if test="${fn:length (reasons.auditContent) > 30}">${fn:substring(reasons.auditContent,0,30)}...</c:if>
                                 <c:if test="${fn:length (reasons.auditContent) <= 30}">${reasons.auditContent}</c:if>
-                            </td>
+                            
                             <td class="hand" title="${reasons.auditReason}">
                                 <c:if test="${fn:length (reasons.auditReason) > 20}">${fn:substring(reasons.auditReason,0,20)}...</c:if>
                                 <c:if test="${fn:length (reasons.auditReason) <= 20}">${reasons.auditReason}</c:if>
@@ -653,7 +653,7 @@
                             	<fmt:formatDate value="${reasons.auditAt }" pattern="yyyy-MM-dd HH:mm"/>
                             </td>
                             <!-- 状态 -->
-                            <c:if test="${reasons.auditStatus eq '1'}"><td class="tc">退回修改</td></c:if>
+                            <c:if test="${reasons.auditStatus eq '1'}"><td class="tc">有问题</td></c:if>
                             <c:if test="${reasons.suggestType eq 'six' && reasons.auditStatus eq '2'}"><td class="tc">审核不通过</td></c:if>
                             <c:if test="${reasons.suggestType eq 'seven' && reasons.type eq '1' && reasons.auditFieldId != 'isTitle' && reasons.auditStatus eq '2'}"><td class="tc">审核不通过</td></c:if>
                             <c:if test="${reasons.suggestType != 'six' && reasons.auditStatus eq '2' && !(reasons.suggestType eq 'seven' && reasons.type eq '1' && reasons.auditFieldId != 'isTitle' && reasons.auditStatus eq '2') }"><td class="tc">已修改</td></c:if>
@@ -787,7 +787,7 @@
                     <input type="hidden" name="status" id="status" value="${status}"/>
                     <input name="auditOpinionAttach" id="auditOpinion" type="hidden" />
                     <input name="sign" value="${sign}" type="hidden">
-                    <c:if test="${status eq '0' || (sign eq '1' && status eq '9')}">
+                    <c:if test="${(status eq '0' || (sign eq '1' && status eq '9')) && isCheck eq 'no'}">
                        <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(1);" value="初审合格 " id="tongguo">
                        <input class="btn btn-windows cancel" type="button" onclick="shenhe(2);" value="初审不合格" id="butongguo"> -->
                        <!-- <input class="btn btn-windows end" type="button" onclick="shenhe();" value="初审结束" id="tuihui"> -->
@@ -810,7 +810,7 @@
                        <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(4);" value="复审合格 " id="tongguo">
                         <input class="btn btn-windows cancel" type="button" onclick="shenhe(5);" value="复审不合格" id="tichu"> -->
                         <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui"> -->
-                        <input class="btn btn-windows end"  type="button" onclick="preReviewEnd(-2)" value="预复审结束" id="tongguo">
+                        <input class="btn btn-windows end"  type="button" onclick="preReviewEnd(-2)" value="专家预复审结束" id="tongguo">
                         <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();">暂存</a>
                         <!-- <a id="nextStep" class="btn display-none" type="button" onclick="nextStep();">下一步</a> -->
                     </c:if>
@@ -837,6 +837,7 @@
     <input name="status" id="expertStatus" value="${status}" type="hidden">
     <input name="batchId" value="${batchId}" type="hidden">
     <input name="isReviewRevision" value="${isReviewRevision}" type="hidden">
+    <input name="isCheck" value="${isCheck}" type="hidden">
 </form>
 
 <form id="form_id_word" method="post">

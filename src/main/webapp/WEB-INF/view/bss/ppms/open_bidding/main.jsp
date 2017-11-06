@@ -178,7 +178,7 @@
   	    title: ['提示','border-bottom:1px solid #e5e5e5'],
   	    shade:0.01, //遮罩透明度
 	  		type : 2,
-	  		area : [ '30%', '400px'  ], //宽高
+	  		area : [ '500px', '400px'  ], //宽高
 	  		content : '${pageContext.request.contextPath}/packageAdvice/auditFile.do?pachageIds=' + pachageIds + '&projectId=${project.id}' + '&currHuanjieId='+currHuanjieId+'&type=2',
 			});
   		
@@ -279,8 +279,8 @@
     <!-- 主要内容开始 -->
     <div class="pr mt20 mb40">
       <!-- 左侧导航开始 -->
-      <div class="m_tree_nav open" id="show_tree_div">
-        <div class="btn_toggle" onclick="tree_toggle()"><img src="${pageContext.request.contextPath }/public/backend/images/btn_toggle.png" alt=""></div>
+      <div class="btn_toggle open" onclick="tree_toggle()"><img src="${pageContext.request.contextPath }/public/backend/images/btn_toggle.png" alt=""></div>
+      <div class="m_tree_nav" id="show_tree_div">
         <ul class="btn_list" id="menu">
           <c:forEach items="${fds}" var="fd">
             <!-- 已执行 -->
@@ -396,14 +396,15 @@
       </div>
     </div>
     
-    <div id="openDivPackages" class="dnone layui-layer-wrap">
-    	<p class="tc">以下包的参与供应商数量不足项目要求的最少供应商数量，请选择操作！</p>
-      <div class="drop_window tc" id="openDiv_packages"></div>
-      <div class="tc col-md-12 mt50">
+    <div id="openDivPackages" class="dnone layui-layer-wrap p20">
+    	<div class="tc ">以下包的参与供应商数量不足项目要求的最少供应商数量，请选择操作！</div>
+      <div class="tc mt20" id="openDiv_packages"></div>
+      <div class="tc mt50">
         <input class="btn" id="jzxtp" name="addr" type="button" onclick="upddatejzxtp();" value="转为竞争性谈判"> 
         <input class="btn" id="inputa" name="addr" type="button" onclick="bynSub();" value="终止实施"> 
         <input class="btn" id="inputa" name="addr" type="button" onclick="cancels();" value="继续实施"> 
       </div>
+      <div class="clear"></div>
     </div>
     
     <a id="as" class="dnone" target="open_bidding_main" class="son-menu"></a>

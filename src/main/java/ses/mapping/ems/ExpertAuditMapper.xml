@@ -618,6 +618,9 @@
     <if test="auditFieldName != null">
     	and AUDIT_FIELD_NAME=#{auditFieldName}
     </if>
+    <if test="auditFieldId != '' and auditFieldId != null">
+      and AUDIT_FIELD_ID = #{auditFieldId}
+    </if>
     and AUDIT_STATUS = '3'
   </update>
    <update id="updateToAuditStatus" parameterType="Map">

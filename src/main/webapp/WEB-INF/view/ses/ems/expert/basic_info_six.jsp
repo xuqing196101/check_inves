@@ -163,8 +163,14 @@
         	// 已经通过审核的节点不能修改
         	var expertSt = '${expert.status}';
 					if(expertSt == '3'){// 退回修改的状态
-						layer.msg("此节点已通过审核，不能修改!");
-	        			return false;
+						if(treeNode.checked){
+							layer.msg("此节点已通过审核，不能修改!");
+		        			return false;
+						}else{
+							layer.msg("不可新增参评类别!");
+		        			return false;
+						}
+						
 						/* if($.inArray(treeNode.id, enableNodeList) >= 0){
 							return true;
 						}

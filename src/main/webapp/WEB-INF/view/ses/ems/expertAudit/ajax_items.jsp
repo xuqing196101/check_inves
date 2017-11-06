@@ -12,8 +12,8 @@
 		});
 
 		// 加载完成后关闭layer.load()加载层
-		layer.close(loading);
-		laypage({
+ 		layer.close(loading);
+ 		/*		laypage({
 			cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
             pages: "${result.pages}", //总页数
             skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
@@ -37,7 +37,7 @@
 					$("#tbody_category").load(path);
 				}
 			}
-		});
+		}); */
 	});
 	/** 全选全不选 */
 	function selectAll(){

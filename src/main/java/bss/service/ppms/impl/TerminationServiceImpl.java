@@ -291,6 +291,18 @@ public class TerminationServiceImpl implements TerminationService {
               flowExecuteMapper.insert(flowExecute);
             }
           }
+        }else{
+          FlowExecute temp=new FlowExecute();
+          temp.setFlowDefineId(flw.getId());
+          temp.setProjectId(projectId);
+          List<FlowExecute> findExecuteds = flowExecuteMapper.findExecutedByProjectIdAndFlowId(temp);
+          if(findExecuteds!=null&&findExecuteds.size()>0){
+            FlowExecute flowExecute = findExecuteds.get(0);
+            flowExecute.setId(WfUtil.createUUID());
+            flowExecute.setFlowDefineId(flw.getId());
+            flowExecute.setProjectId(project.getId());
+            flowExecuteMapper.insert(flowExecute);
+          }
         }
         flowDefine(flw,mapId,project,projectId,IsTurnUpMap,firstAuditIdMap,type);
        }
@@ -751,6 +763,16 @@ public class TerminationServiceImpl implements TerminationService {
          uploadDao.insertFile(uf);
        }
     }
+    //审批文件
+    String sp_reason = DictionaryDataUtil.getId("BID_FILE_AUDIT");
+    files = uploadDao.getFiles(tableName, oldProjectId, sp_reason);
+    if (files != null && files.size() > 0){
+      for(UploadFile uf:files){
+        uf.setBusinessId(project.getId());
+        uf.setTableName(tableName);
+        uploadDao.insertFile(uf);
+      }
+   }
     //采购管理部门审核意见附件
     String pc_reason = DictionaryDataUtil.getId("PC_REASON");
     files = uploadDao.getFiles(tableName, oldProjectId, pc_reason);
@@ -959,6 +981,7 @@ public class TerminationServiceImpl implements TerminationService {
           pg.setUpdatedAt(null);
           pg.setOldFlowId(null);
           if(type!=null){
+            pg.setProjectStatus(oldCurrFlowDefineId);
             pg.setPurchaseType(DictionaryDataUtil.getId("JZXTP"));
           }else{
             pg.setNewFlowId(currFlowDefineId);
@@ -987,20 +1010,20 @@ public class TerminationServiceImpl implements TerminationService {
     //project.setBidDate(null);
     //project.setBidAddress(null);
     //project.setStartTime(null);
-    project.setStatus(DictionaryDataUtil.getId("FBWC"));
+    /*project.setStatus(DictionaryDataUtil.getId("FBWC"));*/
     //project.setIsCharge(null);
     if(type!=null){
     	Orgnization orgnization = orgnizationMapper.findOrgByPrimaryKey(project.getPurchaseDepId());
     	project.setSectorOfDemand(orgnization.getName());
     	/*project.setPurchaseType("3CF3C643AE0A4499ADB15473106A7B80");*/
     	project.setPurchaseNewType(DictionaryDataUtil.getId("JZXTP"));
-    	
     }else{
-      project.setConfirmFile(null);
+      project.setPurchaseNewType(null);
     }
     if("XMLX".equals(currFlowDefineId)){
-      
+      project.setConfirmFile(null);
     }else if("XMFB".equals(currFlowDefineId)){
+      project.setConfirmFile(null);
       project.setStatus(DictionaryDataUtil.getId("YJLX"));
       project.setParentId("1");
     }else{

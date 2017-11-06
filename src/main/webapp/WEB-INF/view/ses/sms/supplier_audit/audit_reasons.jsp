@@ -475,7 +475,8 @@
 									</td>
 									<td class="tc">
 										<c:choose>
-											<c:when test="${reasons.returnStatus == 1}">退回修改</c:when>
+											<%-- <c:when test="${reasons.returnStatus == 1}">退回修改</c:when> --%>
+											<c:when test="${reasons.returnStatus == 1}">有问题</c:when>
 											<c:when test="${reasons.returnStatus == 2}">审核不通过</c:when>
 											<c:when test="${reasons.returnStatus == 3}">已修改</c:when>
 											<c:when test="${reasons.returnStatus == 4}">未修改</c:when>
@@ -495,13 +496,13 @@
 											<c:set var="isTypeNotPass_SERVICE" value="1" />
 										</c:if>
 										<!-- 若存在新审核的和已审核未修改的，则表示未通过（产品审核不通过，可以预审核通过） -->
-										<c:if test="${(reasons.returnStatus == 1 || reasons.returnStatus == 4)}">
+										<%-- <c:if test="${(reasons.returnStatus == 1 || reasons.returnStatus == 4)}">
 											<c:set var="isNotPass" value="${isNotPass+1}" />
 											<c:if test="${reasons.auditType == 'mat_pro_page' && isTypeNotPass_PRODUCT == 1}"><c:set var="isNotPass" value="${isNotPass-1}" /></c:if>
 											<c:if test="${reasons.auditType == 'mat_sell_page' && isTypeNotPass_SALES == 1}"><c:set var="isNotPass" value="${isNotPass-1}" /></c:if>
 											<c:if test="${reasons.auditType == 'mat_eng_page' && isTypeNotPass_PROJECT == 1}"><c:set var="isNotPass" value="${isNotPass-1}" /></c:if>
 											<c:if test="${reasons.auditType == 'mat_serve_page' && isTypeNotPass_SERVICE == 1}"><c:set var="isNotPass" value="${isNotPass-1}" /></c:if>
-										</c:if>
+										</c:if> --%>
 									</td>
 								</tr>
 							</c:forEach>
@@ -574,6 +575,7 @@
 							</div>
 							<!-- 审核公示扫描件上传 -->
 							<div id="checkWord" class="display-none">
+								<div class="clear"></div>
 								<h2 class="count_flow"><i>3</i><span class="red">*</span>供应商审核表</h2>
 								<ul class="ul_list">
 									<li class="col-md-6 col-sm-6 col-xs-6">
@@ -613,9 +615,9 @@
 											<%--<input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">--%>
 											<%-- <input class="btn btn-windows cancel"  type="button" onclick="shenhe(3)" value="审核不通过" id="butongguo">--%>
 											<c:if test="${supplierStatus == -2}">
-												<a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();">暂存</a>
+												<a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();" id="oprTempSave">暂存</a>
 											</c:if>
-											<a class="btn" type="button" onclick="nextStep();">下一步</a>
+											<a class="btn" type="button" onclick="nextStep();" id="oprNextStep">下一步</a>
 										</c:if>
 										
 										<c:if test="${supplierStatus == 4}">

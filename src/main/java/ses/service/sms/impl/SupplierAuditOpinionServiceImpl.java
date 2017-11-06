@@ -87,6 +87,20 @@ public class SupplierAuditOpinionServiceImpl implements SupplierAuditOpinionServ
         return JdcgResult.ok();
     }
 
+    /**
+     *
+     * Description:根据供应商第几次审核查询审核意见（Map）
+     *
+     * @author Easong
+     * @version 2017/11/1
+     * @param [map]
+     * @since JDK1.7
+     */
+	@Override
+	public SupplierAuditOpinion selectByExpertIdAndflagTime(Map<String, Object> map) {
+		return supplierAuditOpinionMapper.selectByExpertIdAndflagTime(map);
+	}
+
 	@Override
 	public SupplierAuditOpinion selectByExpertIdAndflagTime(String supplierId, Integer flagTime) {
 		/**

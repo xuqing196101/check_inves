@@ -1341,6 +1341,9 @@
        <!-- <if test="appointMan != null and appointMan != ''">
         and (APPOINT_MAN = #{appointMan} OR APPOINT_MAN IS NULL)
       </if> --> 
+      <if test="userId != null and userId != ''">
+       and principal=#{userId}
+      </if>
       <if test="name != null and name != ''">
        and NAME like CONCAT(CONCAT('%', #{name}), '%')
       </if>
