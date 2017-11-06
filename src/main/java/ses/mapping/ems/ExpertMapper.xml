@@ -199,7 +199,7 @@
         LEFT JOIN T_SES_BMS_AREA AREA ON A.PARENT_ID = AREA.ID
         <if test="expertCategoryId != null and expertCategoryId != ''">
           RIGHT JOIN (
-            select expert_id as expertId from T_SES_EMS_EXPERT_CATEGORY where category_id in 
+            select DISTINCT expert_id as expertId from T_SES_EMS_EXPERT_CATEGORY where category_id in 
             (<foreach collection="expertCategoryId" item="categoryId" index="index"  open="" separator="," close="">
               #{categoryId}
             </foreach>) 
@@ -2269,7 +2269,7 @@
     LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
     <if test="expertCategoryId != null and expertCategoryId != ''">
       RIGHT JOIN (
-        select expert_id as expertId from T_SES_EMS_EXPERT_CATEGORY where category_id in 
+        select DISTINCT expert_id as expertId from T_SES_EMS_EXPERT_CATEGORY where category_id in 
         (<foreach collection="expertCategoryId" item="categoryId" index="index"  open="" separator="," close="">
           #{categoryId}
         </foreach>) 
