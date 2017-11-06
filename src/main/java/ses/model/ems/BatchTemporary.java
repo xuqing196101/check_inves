@@ -18,7 +18,7 @@ public class BatchTemporary {
     /**
      * 性别 M 男  F 女
      */
-    private String gender;
+    private String sex;
     /**
      * 专家类型
      */
@@ -38,6 +38,14 @@ public class BatchTemporary {
     private Date auditAt; 
 	private Date createdAt;
 	private Date updatedAt;
+	private String updateTime;
+	
+	public String getUpdateTime() {
+		return updateTime;
+	}
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
+	}
 	public String getExpertId() {
 		return expertId;
 	}
@@ -62,11 +70,18 @@ public class BatchTemporary {
 	public void setRelName(String relName) {
 		this.relName = relName;
 	}
-	public String getGender() {
-		return gender;
+	
+	public String getId() {
+		return id;
 	}
-	public void setGender(String gender) {
-		this.gender = gender;
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getSex() {
+		return sex;
+	}
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
 	public String getExpertsTypeId() {
 		return expertsTypeId;

@@ -21,7 +21,7 @@
         t1.AUDIT_AT AS auditAt,
         t1.WORK_UNIT AS workUnit,
         t1.PROFESS_TECH_TITLES AS professTechTitles,
-        t2.NAME as gender,
+        t2.NAME as sex,
         org.SHORT_NAME AS orgName
         from
         T_SES_EMS_BATCH_TEMPORARY b1

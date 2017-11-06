@@ -978,6 +978,10 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		List<BatchTemporary> list = batchTemporaryMapper.selectBatchTemporaryAll(expertId);
 		if(list.size()>0){
 			for (BatchTemporary e : list) {
+				SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd");
+				if(e.getAuditAt() !=null){
+					e.setUpdateTime(dateFormater.format(e.getAuditAt()));
+				}
 				StringBuffer expertType = new StringBuffer();
 	            if(e.getExpertsTypeId() != null) {
 	                for(String typeId: e.getExpertsTypeId().split(",")) {
