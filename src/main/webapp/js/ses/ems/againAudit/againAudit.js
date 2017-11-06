@@ -133,11 +133,6 @@
           // 构造分页
           // laypageConstructor();
         }
-      },
-      error: function (data) {
-        layer.msg(data.message, {
-          offset: '100px'
-        });
       }
     };
 

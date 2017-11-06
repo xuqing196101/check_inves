@@ -1078,3 +1078,34 @@ function select_total() {
   var total = $('#selected_content tr').length;
   $('#select_expertTotal').html(total);
 }
+
+// 暂存初始化
+function temporary_init() {
+  var temporary_content = [];
+  var str = '';
+  
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: temporary_url,
+    data: {},
+    success: function (data) {
+      temporary_content = data;
+      for (var i in temporary_content) {
+        str += '<tr>'
+        +'  <td class="text-center"><input name="id" type="checkbox" value="91d91266b5e14e1d87be71b42154bda0" class="select_item"></td>'
+        +'  <td class="text-center">1</td>'
+        +'  <td>CG08</td>'
+        +'  <td>1027ZJ5</td>'
+        +'  <td class="text-center">男</td>'
+        +'  <td>工程技术、服务技术</td>'
+        +'  <td class="text-center">军队</td>'
+        +'  <td>FSFSD</td>'
+        +'  <td>4324324</td>'
+        +'  <td class="text-center">2017-11-03</td>'
+      +'</tr>';
+      }
+      console.log(temporary_content);
+    }
+  });
+}

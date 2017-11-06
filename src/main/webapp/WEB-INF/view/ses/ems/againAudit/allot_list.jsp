@@ -188,6 +188,7 @@
   <script>
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/againAuditList.do';  // 列表地址
     var batch_url = '${pageContext.request.contextPath}/expertAgainAudit/createBatch.do';  // 创建复审批次地址
+    var temporary_url = '${pageContext.request.contextPath}/expertAgainAudit/selectBatchTemporary.do';  // 暂存地址
     var select_ids = [];  // 选择的专家id集合
     var final_ids = [];  // 最终需要创建的id集合
     var is_init = 0;
@@ -197,6 +198,9 @@
       $('#list_content').listConstructor({
         url: list_url
       });
+      
+      // 构建暂存数据
+      temporary_init();
       
       $('#againAudit_reset').on('click', function () {
         $('[name=expertsTypeId]').select2('val', '');
