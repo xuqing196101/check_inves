@@ -6,7 +6,6 @@ package extract.service.supplier.impl;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,7 +92,6 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 
     @Override
     public void update(SupplierExtractProjectInfo extracts) {
-    	extracts.setExtractionTime(new Date());
         recordMapper.saveOrUpdateProjectInfo(extracts);
     }
     
@@ -138,8 +136,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 	 * 修改项目信息
 	 */
 	@Override
-	public int saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo,User user) {
-		projectInfo.setProcurementDepId(user.getOrg().getId());//存储采购机构
+	public int saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo) {
 		return recordMapper.saveOrUpdateProjectInfo(projectInfo);
 	}
 
@@ -214,6 +211,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
         return service.downloadFile(fileName, filePath, downFileName);
 	}
 
+	@SuppressWarnings("unused")
 	private Map<String, Object> selectExtractInfo1(String recordId, String projectInto) {
 		
 		SupplierExtractProjectInfo projectInfo = recordMapper.getProjectInfoById(recordId);
@@ -270,7 +268,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 			map.put("typeCode",projectCode);
 			
 			//建设单位
-			map.put("conCom", "");
+			map.put("buildCompany",projectInfo.getBuildCompany());
 			
 			//类别
 			hashMap.put("propertyName", c+"CategoryId");
@@ -555,7 +553,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 			map.put("typeCode",projectCode);
 			
 			//建设单位
-			map.put("conCom", "");
+			map.put("buildCompany",projectInfo.getBuildCompany());
 			
 			//供应商资质等级
 			hashMap.put("propertyName","level");
@@ -587,7 +585,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 			//保密要求
 			hashMap.put("propertyName","isHavingConCert");
 			List<String> bm = conditionRelationMapper.getByMap(hashMap);
-			if(null !=byMap3 && byMap3.size()>0){
+			if(null !=bm && bm.size()>0){
 				
 				map.put("projectIsHavingConCert",bm.get(0).equals("0")?"无":"有" );
 			}else{
@@ -605,8 +603,12 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 			
 		}else{
 			//供应商类型
-			map.put("typeCode",dictionaryDataMapper.selectByCode(condition.getSupplierTypeCode()).get(0).getName());
 			String supplierTypeCode = condition.getSupplierTypeCode();
+			if("GOODS".equals(supplierTypeCode)){
+				map.put("typeCode","物资生产，物资销售");
+			}else{
+				map.put("typeCode",dictionaryDataMapper.selectByCode(supplierTypeCode).get(0).getName());
+			}
 			
 			//供应商等级
 			hashMap.put("propertyName", "level");
