@@ -233,6 +233,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 			super.writeJson(response, img);
 			return;
 		}
+		againAuditService.deleteByPrimaryKey(user.getTypeId());
 		img = againAuditService.createBatch(batchName, batchNumber, ids);
 		super.writeJson(response, img);
 	}
@@ -993,5 +994,41 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	        String newFileName = WordUtil.createWord(dataMap, "expertReviewTable.ftl",
 	            fileName, request);
 	        return newFileName;
+	 }
+	 @RequestMapping("selectBatchTemporary")
+	 public void selectBatchTemporary(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response) {
+		 ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+			if(user==null){
+				img.setStatus(false);
+				img.setMessage("请登录");
+				super.writeJson(response, img);
+				return;
+			}
+			if(!"4".equals(user.getTypeName())){
+				img.setStatus(false);
+				img.setMessage("您的权限不足");
+				super.writeJson(response, img);
+				return;
+			}
+			img = againAuditService.selectBatchTemporary(user.getTypeId());
+			super.writeJson(response, img);
+	  }
+	 @RequestMapping("addBatchTemporary")
+	 public void addBatchTemporary(@CurrentUser User user,String ids,HttpServletRequest request,HttpServletResponse response) {
+		 ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		 if(user==null){
+			img.setStatus(false);
+			img.setMessage("请登录");
+			super.writeJson(response, img);
+			return;
+		}
+		if(!"4".equals(user.getTypeName())){
+			img.setStatus(false);
+			img.setMessage("您的权限不足");
+			super.writeJson(response, img);
+			return;
+		}
+		img = againAuditService.addBatchTemporary(user.getTypeId(), ids);
+		super.writeJson(response, img);
 	 }
 }

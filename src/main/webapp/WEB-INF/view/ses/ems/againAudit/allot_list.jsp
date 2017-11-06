@@ -41,7 +41,7 @@
   <div class="container">
     <div class="headline-v2"><h2>专家复审分配列表</h2></div>
     
-    <div class="search_detail">
+    <div class="search_detail pb0">
       <form id="form_id" action="${pageContext.request.contextPath}/expertAudit/basicInfo.html" method="post">
         <input name="expertId" type="hidden" />
         <input name="sign" type="hidden" value="${sign }"/>
@@ -63,20 +63,20 @@
               <input id="endTime" name="endTime" value="" class="Wdate w220" type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'startTime\')}'})">
             </span>
           </li>
-          <li>
+          <li class="mb10">
             <label class="fl">专家类型：</label>
             <select class="w220" name="expertsFrom"></select>
           </li>
-          <li class="select2-nosearch">
+          <li class="select2-nosearch mb10">
             <label class="fl">专家类别：</label>
             <div class="fl w220">
             <select multiple name="expertsTypeId">
             </select>
             </div>
           </li>
-          <li>
-            <button type="button" class="btn mb5" onclick="allotList_search()">查询</button>
-            <button type="reset" class="btn mb5" id="againAudit_reset">重置</button>
+          <li class="mb10">
+            <button type="button" class="btn mb0" onclick="allotList_search()">查询</button>
+            <button type="reset" class="btn mb0" id="againAudit_reset">重置</button>
           </li>
         </ul>
         <div class="clear"></div>
@@ -92,12 +92,15 @@
       <div class="tab-content p20">
         <!-- 未选 -->
         <div class="tab-pane fade in active" id="tab_unselected">
-          <button type="button" class="btn btn-windows reverse m0" onclick="againAudit_reverseSelection('.unselected_table')">反选</button>
-          <button type="button" class="btn btn-windows add mb0 ml5" onclick="addto_selected()">添加到已选分组</button>
-          <table class="table table-bordered table-hover table-striped againAudit_table mb0 mt10 unselected_table" id="fixed_columns">
+          <div class="over_hidden">
+            <button type="button" class="btn btn-windows reverse m0" onclick="againAudit_reverseSelection('.unselected_table')">反选</button>
+            <button type="button" class="btn btn-windows add mb0 ml5" onclick="addto_selected()">添加到已选分组</button>
+            <div class="fr h30 lh30">共有 <span id="unselect_expertTotal" class="red"></span> 名专家</div>
+          </div>
+          <table class="table table-bordered table-hover table-striped againAudit_table mb0 mt10 unselected_table fixed_columns">
             <thead>
               <tr>
-                <th class="w30"><input type="checkbox" name="checkAll" onclick="checkAll(this)"></th>
+                <th class="w30"><input type="checkbox" name="checkAll" class="unselected_checkAll" onclick="checkAll(this, '.unselected_table')"></th>
                 <th class="w50">序号</th>
                 <th class="w100">采购机构</th>
                 <th class="w100">专家姓名</th>
@@ -116,13 +119,17 @@
         
         <!-- 已选 -->
         <div class="tab-pane fade" id="tab_selected">
-          <button type="button" class="btn btn-windows reverse m0" onclick="againAudit_reverseSelection('.selected_table')">反选</button>
-          <button type="button" class="btn btn-windows withdraw mb0 ml5" onclick="remove_selected()">移除已选分组</button>
-          <button type="button" class="btn btn-windows add mb0 ml5" onclick="create_review_batches()">创建复审批次</button>
-          <table class="table table-bordered table-hover table-striped againAudit_table mb0 mt10 selected_table">
+          <div class="over_hidden">
+            <button type="button" class="btn btn-windows reverse m0" onclick="againAudit_reverseSelection('.selected_table')">反选</button>
+            <button type="button" class="btn btn-windows withdraw mb0 ml5" onclick="remove_selected()">移除已选分组</button>
+            <button type="button" class="btn btn-windows add mb0 ml5" onclick="create_review_batches()">创建复审批次</button>
+            <button type="button" class="btn btn-windows add mb0 ml5" onclick="againAudit_temporary()">暂存</button>
+            <div class="fr h30 lh30">共有 <span id="select_expertTotal" class="red"></span> 名专家</div>
+          </div>
+          <table class="table table-bordered table-hover table-striped againAudit_table mb0 mt10 selected_table fixed_columns" style="display: none;">
             <thead>
               <tr>
-                <th class="w30"><input type="checkbox" name="checkAll" onclick="checkAll(this)"></th>
+                <th class="w30"><input type="checkbox" name="checkAll" class="selected_checkAll" onclick="checkAll(this, '.selected_table')"></th>
                 <th class="w50">序号</th>
                 <th class="w100">采购机构</th>
                 <th class="w100">专家姓名</th>
@@ -182,6 +189,8 @@
   <script>
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/againAuditList.do';  // 列表地址
     var batch_url = '${pageContext.request.contextPath}/expertAgainAudit/createBatch.do';  // 创建复审批次地址
+    var temporary_init_url = '${pageContext.request.contextPath}/expertAgainAudit/selectBatchTemporary.do';  // 暂存地址
+    var temporary_url = '${pageContext.request.contextPath}/expertAgainAudit/addBatchTemporary.do';  // 暂存地址
     var select_ids = [];  // 选择的专家id集合
     var final_ids = [];  // 最终需要创建的id集合
     var is_init = 0;
@@ -192,43 +201,57 @@
         url: list_url
       });
       
+      // 构建暂存数据
+      temporary_init();
+      
       $('#againAudit_reset').on('click', function () {
         $('[name=expertsTypeId]').select2('val', '');
       });
       
+      $('#selected_tab a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        $($(e.target).attr('href')).find('.fixed_columns').show();
+        $($(e.relatedTarget).attr('href')).find('.fixed_columns').hide();
+      })
+      
       // 表头跟随
       $(window).scroll(function () {
-        var thead_offsetTop = $('#fixed_columns').offset().top;
+        var thead_offsetTop = 0;
         var window_offsetTop = $(window).scrollTop();
-        var table_width = $('#fixed_columns').width();
-        
-        if (window_offsetTop >= thead_offsetTop) {
-          if ($('#fixed_box').length <= 0) {
-            $('body').append('<div id="fixed_box"><table class="table table-bordered table-condensed table-hover table-striped"></table></div>');
-            $('#fixed_box table').html($('#fixed_columns').find('thead').html());
-            if ($('.againAudit_table [name=checkAll]').is(':checked')) {
-              $('#fixed_box [name=checkAll]').prop('checked', true);
-            }
-            $('#fixed_box').css({
-              width: (table_width + 2),
-              position: 'fixed',
-              top: 0,
-              left: '50%',
-              marginLeft: '-' + (table_width / 2 - 9) + 'px'
-            });
-            $('#fixed_box [name=checkAll]').bind('click', function () {
-              if ($(this).is(':checked')) {
-                $('.againAudit_table [name=checkAll]').prop('checked', true);
-                checkAll();
-              } else {
-                $('.againAudit_table [name=checkAll]').prop('checked', false);
-                checkAll();
+        var table_width = 0;
+        $('.fixed_columns').each(function () {
+          if ($(this).css('display') != 'none') {
+            var _this = $(this);
+            table_width = $(this).width();
+            thead_offsetTop = $(this).offset().top;
+            
+            if (window_offsetTop >= thead_offsetTop) {
+              if ($('#fixed_box').length <= 0) {
+                $('body').append('<div id="fixed_box"><table class="table table-bordered table-condensed table-hover table-striped mb0"></table></div>');
+                $('#fixed_box table').html($(this).find('thead').html());
+                if ($(this).find('[name=checkAll]').is(':checked')) {
+                  $('#fixed_box [name=checkAll]').prop('checked', true);
+                }
+                $('#fixed_box').css({
+                  width: (table_width + 2),
+                  position: 'fixed',
+                  top: 0,
+                  left: '50%',
+                  marginLeft: '-' + (table_width / 2 - 9) + 'px'
+                });
+                $('#fixed_box [name=checkAll]').bind('click', function () {
+                  var checkAll_class = $(this).attr('class');
+                  if ($(this).is(':checked')) {
+                    $('.' + checkAll_class).prop('checked', true);
+                  } else {
+                    $('.' + checkAll_class).prop('checked', false);
+                  }
+                });
               }
-            });
+            } else {
+              $('#fixed_box').remove();
+            }
           }
-        } else {
-          $('#fixed_box').remove();
-        }
+        });
       });
     });
   </script>

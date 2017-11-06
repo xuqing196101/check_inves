@@ -74,6 +74,10 @@
 				<result column="REVIEW_UNQUALIFIED_CONFIRM" property="reviewUnqualifiedConfirm" />
 				<result column="STORAGE_AT" property="storageAt" />
     </resultMap>
+
+    <resultMap id="BaseResultMapVO" type="ses.model.ems.ExpertVO" extends="BaseResultMap">
+        <result column="BATCH_DETAILS_NUMBER" jdbcType="VARCHAR" property="batchDetailsNumber" />
+    </resultMap>
     
     <!-- 统计Analyze关系映射 -->
 		<resultMap type="ses.model.bms.AnalyzeBigDecimal" id="baseAnalyze">
@@ -195,7 +199,7 @@
         LEFT JOIN T_SES_BMS_AREA AREA ON A.PARENT_ID = AREA.ID
         <if test="expertCategoryId != null and expertCategoryId != ''">
           RIGHT JOIN (
-            select expert_id as expertId from T_SES_EMS_EXPERT_CATEGORY where category_id in 
+            select DISTINCT expert_id as expertId from T_SES_EMS_EXPERT_CATEGORY where category_id in 
             (<foreach collection="expertCategoryId" item="categoryId" index="index"  open="" separator="," close="">
               #{categoryId}
             </foreach>) 
@@ -2265,7 +2269,7 @@
     LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
     <if test="expertCategoryId != null and expertCategoryId != ''">
       RIGHT JOIN (
-        select expert_id as expertId from T_SES_EMS_EXPERT_CATEGORY where category_id in 
+        select DISTINCT expert_id as expertId from T_SES_EMS_EXPERT_CATEGORY where category_id in 
         (<foreach collection="expertCategoryId" item="categoryId" index="index"  open="" separator="," close="">
           #{categoryId}
         </foreach>) 
@@ -2585,6 +2589,33 @@
           and org.SHORT_NAME like CONCAT(CONCAT('%',#{orgName}),'%')
         </if>
         ORDER BY T1.CREATED_AT DESC
+    </select>
+
+    <!-- 首页查询所有专家-->
+    <select id="selectInStorageExpert" resultMap="BaseResultMapVO">
+        SELECT
+        T.ID,
+        T.REAL_NAME,
+        EBD.BATCH_DETAILS_NUMBER,
+        T.STATUS
+        FROM
+        T_SES_EMS_EXPERT T
+         LEFT JOIN T_SYS_EMS_EXPERT_BATCH_DETAILS EBD
+         ON T.ID = EBD.EXPERT_ID
+        WHERE T.IS_DELETE = 0 AND T.IS_PROVISIONAL = 0
+        <if test="relName != null and relName != ''">
+            AND INSTR(T.REAL_NAME, #{relName}) > 0
+        </if>
+        <if test="size > 0">
+            AND T.STATUS IN
+            <foreach item="item" index="index" collection="statusArray" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="batchDetailsNumber != null and batchDetailsNumber != ''">
+            AND INSTR(EBD.BATCH_DETAILS_NUMBER, #{batchDetailsNumber}) > 0
+        </if>
+        ORDER BY T.AUDIT_AT DESC
     </select>
     
     <!-- 页面异步验证唯一 -->

@@ -118,22 +118,21 @@
                 }
               });
               
+              var checkAll_class = $(this).parents('tbody').siblings('thead').find('[name=checkAll]').attr('class');
               if (sum === $(this).parents('tbody').find('.select_item').length) {
-                $(this).parents('tbody').siblings('thead').find('[name=checkAll]').prop('checked', true);
+                $('.' + checkAll_class).prop('checked', true);
               } else {
-                $(this).parents('tbody').siblings('thead').find('[name=checkAll]').prop('checked', false);
+                $('.' + checkAll_class).prop('checked', false);
               }
             });
           }
           
+          unselect_total();  // 统计未选专家
+          select_total();  // 统计已选专家
+          
           // 构造分页
           // laypageConstructor();
         }
-      },
-      error: function (data) {
-        layer.msg(data.message, {
-          offset: '100px'
-        });
       }
     };
 

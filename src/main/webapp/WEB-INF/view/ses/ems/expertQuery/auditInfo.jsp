@@ -145,7 +145,7 @@
 	                  <c:if test="${fn:length (audit.auditReason) <= 20}">${audit.auditReason}</c:if>
 	                </td>
 	                <!-- 状态 -->
-                  <c:if test="${audit.auditStatus eq '1'}"><td class="tc">退回修改</td></c:if>
+                  <c:if test="${audit.auditStatus eq '1'}"><td class="tc">有问题</td></c:if>
                   <c:if test="${audit.suggestType eq 'six' && reasons.auditStatus eq '2'}"><td class="tc">审核不通过</td></c:if>
                   <c:if test="${audit.suggestType eq 'seven' && reasons.type eq '1' && reasons.auditFieldId != 'isTitle' && reasons.auditStatus eq '2'}"><td class="tc">审核不通过</td></c:if>
                   <c:if test="${audit.suggestType != 'six' && reasons.auditStatus eq '2' && !(reasons.suggestType eq 'seven' && reasons.type eq '1' && reasons.auditFieldId != 'isTitle' && reasons.auditStatus eq '2') }"><td class="tc">已修改</td></c:if>

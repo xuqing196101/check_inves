@@ -653,11 +653,44 @@ function expert_auditBatch(url, expertId) {
 }
 
 //  全选操作
-function checkAll(el) {
+// function checkAll(el) {
+//   var temp_list = [];
+//   
+//   if ($(el).is(':checked')) {
+//     $(el).parents('table').find('.select_item').each(function () {
+//       $(this).prop('checked', true);
+//       temp_list.push($(this).val());
+//     });
+//     
+//     for (var i in temp_list) {
+//       for (var ii in select_ids) {
+//         if (temp_list[i] === select_ids[ii]) {
+//           temp_list.splice(i, 1);
+//         }
+//       }
+//     }
+//     
+//     for (var iii in temp_list) {
+//       select_ids.push(temp_list[iii]);
+//     }
+//   } else {
+//     $(el).parents('table').find('.select_item').each(function () {
+//       $(this).prop('checked', false);
+//       for (var i in select_ids) {
+//         if ($(this).val() === select_ids[i]) {
+//           select_ids.splice(i, 1);
+//         }
+//       }
+//     });
+//   }
+// }
+
+//  全选操作
+function checkAll(el, className) {
   var temp_list = [];
   
   if ($(el).is(':checked')) {
-    $(el).parents('table').find('.select_item').each(function () {
+    $(className).find('.select_item').each(function () {
       $(this).prop('checked', true);
       temp_list.push($(this).val());
     });
@@ -674,7 +707,7 @@ function checkAll(el) {
       select_ids.push(temp_list[iii]);
     }
   } else {
-    $(el).parents('table').find('.select_item').each(function () {
+    $(className).find('.select_item').each(function () {
       $(this).prop('checked', false);
       for (var i in select_ids) {
         if ($(this).val() === select_ids[i]) {
@@ -972,13 +1005,17 @@ function addto_selected() {
           }
         });
         
+        var checkAll_class = $(this).parents('tbody').siblings('thead').find('[name=checkAll]').attr('class');
         if (sum === $(this).parents('tbody').find('.select_item').length) {
-          $(this).parents('tbody').siblings('thead').find('[name=checkAll]').prop('checked', true);
+          $('.' + checkAll_class).prop('checked', true);
         } else {
-          $(this).parents('tbody').siblings('thead').find('[name=checkAll]').prop('checked', false);
+          $('.' + checkAll_class).prop('checked', false);
         }
       });
     }
+    
+    unselect_total();  // 统计未选专家
+    select_total();  // 统计已选专家
   } else {
     layer.msg('至少选择一条数据', {
       offset: '100px'
@@ -1015,9 +1052,122 @@ function remove_selected() {
     if ($('#selected_content tr').length <= 0) {
       $('#selected_content').siblings('thead').find('[name=checkAll]').prop('checked', false);
     }
+    
+    unselect_total();  // 统计未选专家
+    select_total();  // 统计已选专家
   } else {
     layer.msg('至少选择一条数据', {
       offset: '100px'
     });
   }
+}
+
+// 专家总和统计
+function unselect_total() {
+  var total = 0;
+  $('#list_content tr').each(function () {
+    if (!$(this).hasClass('hide')) {
+      total++;
+    }
+  });
+  $('#unselect_expertTotal').html(total);
+}
+
+// 专家总和统计
+function select_total() {
+  var total = $('#selected_content tr').length;
+  $('#select_expertTotal').html(total);
+}
+
+// 暂存初始化
+function temporary_init() {
+  var temporary_content = [];
+  var str = '';
+  
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: temporary_init_url,
+    data: {},
+    success: function (data) {
+      temporary_content = data.object;
+      for (var i in temporary_content) {
+        if (typeof(temporary_content[i].orgName) === 'undefined') {
+          temporary_content[i].orgName = '';
+        }
+        if (typeof(temporary_content[i].relName) === 'undefined') {
+          temporary_content[i].relName = '';
+        }
+        if (typeof(temporary_content[i].sex) === 'undefined') {
+          temporary_content[i].sex = '';
+        }
+        if (typeof(temporary_content[i].workUnit) === 'undefined') {
+          temporary_content[i].workUnit = '';
+        }
+        if (typeof(temporary_content[i].professTechTitles) === 'undefined') {
+          temporary_content[i].professTechTitles = '';
+        }
+        if (typeof(temporary_content[i].updateTime) === 'undefined') {
+          temporary_content[i].updateTime = '';
+        }
+        if (typeof(temporary_content[i].expertsTypeId) === 'undefined') {
+          temporary_content[i].expertsTypeId = '';
+        }
+        if (typeof(temporary_content[i].expertsFrom) === 'undefined') {
+          temporary_content[i].expertsFrom = '';
+        }
+        
+        str += '<tr>'
+            +'  <td class="text-center"><input name="id" type="checkbox" value="'+ temporary_content[i].id +'" class="select_item"></td>'
+            +'  <td class="text-center">'+ (parseInt(i) + 1) +'</td>'
+            +'  <td>'+ temporary_content[i].orgName +'</td>'
+            +'  <td>'+ temporary_content[i].relName +'</td>'
+            +'  <td class="text-center">'+ temporary_content[i].sex +'</td>'
+            +'  <td>'+ temporary_content[i].expertsTypeId +'</td>'
+            +'  <td class="text-center">'+ temporary_content[i].expertsFrom +'</td>'
+            +'  <td>'+ temporary_content[i].workUnit +'</td>'
+            +'  <td>'+ temporary_content[i].professTechTitles +'</td>'
+            +'  <td class="text-center">'+ temporary_content[i].updateTime +'</td>'
+        +'</tr>';
+      }
+      
+      $('#selected_content').html(str);
+      
+      // 处理未选人员
+      $('#list_content tr').each(function () {
+        for (var ii in temporary_content) {
+          if ($(this).find('input[type="checkbox"]').val() == temporary_content[ii].id) {
+            $(this).addClass('hide');
+            break;
+          }
+        }
+      });
+      
+      unselect_total();  // 统计未选专家
+      select_total();  // 统计已选专家
+    }
+  });
+}
+
+// 暂存操作
+function againAudit_temporary() {
+  var ids = [];  // 专家id
+  $('#selected_content tr').each(function () {
+    ids.push($(this).find('input[type="checkbox"]').val());
+  });
+  console.log(ids.join(','));
+  
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: temporary_url,
+    data: {
+      ids: ids.join(',')
+    },
+    success: function (data) {
+      layer.msg(data.message, {
+        offset: '100px'
+      });
+    }
+  });
 }
