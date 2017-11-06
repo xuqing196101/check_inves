@@ -203,14 +203,14 @@ public class SynchImportController {
                     continue;
                 }
                 // 过滤供应商抽取信息  定时任务自动导入导出
-               /* if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO)) {
+                if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO)) {
                 	iter.remove();
                 	continue;
                 }
                 if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_RESULT)) {
                 	iter.remove();
                 	continue;
-                }*/
+                }
                 //过滤军队专家信息
                 if (dd.getCode().equals(Constant.DATE_SYNCH_MILITARY_EXPERT)) {
                     iter.remove();
