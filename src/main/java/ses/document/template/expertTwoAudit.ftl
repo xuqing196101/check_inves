@@ -218,9 +218,7 @@
 							<wx:font wx:val="方正小标宋简体" />
 							<w:sz w:val="44" />
 							<w:sz-cs w:val="44" /></w:rPr>
-						<w:t>军队采购评审专家入库复审表<#if orgName == "cgjg" >（专家）</#if>
-						<#if orgName == "zyfwzx" >（中心）</#if>
-						</w:t>
+						<w:t>军队采购评审专家入库复审表<#if orgName == "cgjg" >（专家）</#if><#if orgName == "zyfwzx" >（中心）</#if></w:t>
 					</w:r>
 				</w:p>
 				<w:p>

@@ -41,7 +41,7 @@
   <div class="container">
     <div class="headline-v2"><h2>专家复审分配列表</h2></div>
     
-    <div class="search_detail">
+    <div class="search_detail pb0">
       <form id="form_id" action="${pageContext.request.contextPath}/expertAudit/basicInfo.html" method="post">
         <input name="expertId" type="hidden" />
         <input name="sign" type="hidden" value="${sign }"/>
@@ -63,20 +63,20 @@
               <input id="endTime" name="endTime" value="" class="Wdate w220" type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'startTime\')}'})">
             </span>
           </li>
-          <li>
+          <li class="mb10">
             <label class="fl">专家类型：</label>
             <select class="w220" name="expertsFrom"></select>
           </li>
-          <li class="select2-nosearch">
+          <li class="select2-nosearch mb10">
             <label class="fl">专家类别：</label>
             <div class="fl w220">
             <select multiple name="expertsTypeId">
             </select>
             </div>
           </li>
-          <li>
-            <button type="button" class="btn mb5" onclick="allotList_search()">查询</button>
-            <button type="reset" class="btn mb5" id="againAudit_reset">重置</button>
+          <li class="mb10">
+            <button type="button" class="btn mb0" onclick="allotList_search()">查询</button>
+            <button type="reset" class="btn mb0" id="againAudit_reset">重置</button>
           </li>
         </ul>
         <div class="clear"></div>
