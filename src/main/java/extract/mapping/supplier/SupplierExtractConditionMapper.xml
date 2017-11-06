@@ -20,6 +20,7 @@
 	<!-- 新条件表返回结果  -->
 	<resultMap id="BaseResultMap" type="extract.model.supplier.SupplierExtractCondition">
 		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="RECORD_ID" jdbcType="VARCHAR" property="recordId" />
 		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
 		<result column="STATUS" jdbcType="DECIMAL" property="status" />
 		<result column="AREA_NAME" jdbcType="VARCHAR" property="areaName" />
@@ -29,6 +30,8 @@
 		<result column="OVERSEAS_BRANCH" jdbcType="DECIMAL" property="overseasBranch" />
 		<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
 		<result column="SUPPLIER_TYPE_CODE" jdbcType="VARCHAR" property="supplierTypeCode" />
+		<result column="EXTRACT_NUM" jdbcType="DECIMAL" property="isMulticondition" />
+		<result column="IS_MULTICONDITION" jdbcType="DECIMAL" property="isMulticondition" />
 	</resultMap>
 
 	<resultMap type="ses.model.bms.CategoryQua" id="quaResult">
@@ -47,20 +50,13 @@
 				property="supplierTypeName" />
 			<result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
 			<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
-			<result column="IS_MULTICONDITION" jdbcType="DECIMAL"
-				property="isMulticondition" />
-		<!-- 	<association property="supplierType" column="SUPPLIER_TYPE_ID"
-				select="ses.dao.bms.DictionaryDataMapper.selectByPrimaryCode"></association> -->
 		</collection>
-		<!-- 关联抽取过的供应商 -->
-		<!-- <collection property="extRelatesList" column="ID"
-			ofType="extract.model.supplier.SupplierExtractResult" select="ses.dao.sms.SupplierExtRelateMapper.getBuyConId" /> -->
 	</resultMap>
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
 		ID, PROJECT_ID, STATUS, AREA_NAME, ADDRESS_REASON, BUSINESS_NATURE,
-		BUSINESS_NATURE, IS_HAVING_CON_CERT,
-		OVERSEAS_BRANCH,CATEGORY_NAME
+		IS_HAVING_CON_CERT,RECORD_ID,SUPPLIER_TYPE_CODE,IS_MULTICONDITION,
+		OVERSEAS_BRANCH,CATEGORY_NAME,EXTRACT_NUM
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -131,6 +127,12 @@
 			<if test="projectId != null">
 				PROJECT_ID,
 			</if>
+			<if test="extractNum != null">
+				EXTRACT_NUM,
+			</if>
+			<if test="isMulticondition != null">
+				IS_MULTICONDITION,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -166,6 +168,12 @@
 			<if test="projectId != null">
 				 #{projectId,jdbcType=VARCHAR},
 			</if>
+			<if test="extractNum != null">
+				 #{extractNum,jdbcType=DECIMAL},
+			</if>
+			<if test="isMulticondition != null">
+				 #{isMulticondition,jdbcType=DECIMAL},
+			</if>
 		</trim>
 	</insert>
 
@@ -198,17 +206,20 @@
 			<if test="overseasBranch != null">
 				OVERSEAS_BRANCH = #{overseasBranch,jdbcType=DECIMAL},
 			</if>
-			<if test="isDelete != null">
-				PROJECT_ID = #{projectId,jdbcType=VARCHAR},
-			</if>
 			<if test="projectId != null and projectId !=''  ">
 				PROJECT_ID = #{projectId,jdbcType=VARCHAR},
 			</if>
-			<!-- <if test="updatedAt != null">
-				UPDATED_AT = #{projectId,jdbcType=DATE},
-			</if> -->
+			<if test="updatedAt != null">
+				UPDATED_AT = #{updatedAt,jdbcType=DATE},
+			</if>
 			<if test="isDelete != null">
 				isDelete = #{isDelete,jdbcType=DECIMAL},
+			</if>
+			<if test="extractNum != null">
+				EXTRACT_NUM = #{extractNum,jdbcType=DECIMAL},
+			</if>
+			<if test="isMulticondition != null">
+				IS_MULTICONDITION = #{isMulticondition,jdbcType=DECIMAL},
 			</if>
 		</set>
 		where

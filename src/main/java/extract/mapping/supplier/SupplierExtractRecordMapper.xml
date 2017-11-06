@@ -34,16 +34,18 @@
     <result column="CONDITION_ID" jdbcType="VARCHAR" property="conditionId" />
     <result column="CONTACT_PERSON" jdbcType="VARCHAR" property="contactPerson" />
     <result column="CONTACT_NUM" jdbcType="VARCHAR" property="contactNum" />
+    <result column="CONTACT_PHONE" jdbcType="VARCHAR" property="contactPhone" />
     <result column="PROVINCE_NAME" jdbcType="VARCHAR" property="provinceName" />
     <result column="CITY_NAME" jdbcType="VARCHAR" property="cityName" />
     <result column="EXTRACT_USER" jdbcType="VARCHAR" property="extractUser" />
+    <result column="BUILD_COMPANY" jdbcType="VARCHAR" property="buildCompany" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
     @mbggenerated
     -->
     ID, PROJECT_NAME, PROCUREMENT_DEP_ID, EXTRACTION_TIME, EXTRACTION_SITES, EXTRACT_THE_WAY, 
-    EXTRACTS_PEOPLE, CREATED_AT, UPDATED_AT, PROJECT_CODE, PROJECT_ID
+    EXTRACTS_PEOPLE, CREATED_AT, UPDATED_AT, PROJECT_CODE, PROJECT_ID,BUILD_COMPANY,CONTACT_PHONE
   </sql>
   
   
@@ -51,7 +53,7 @@
     <!--
     @mbggenerated
     -->
-    E.ID,E.PROJECT_NAME,E.EXTRACTION_TIME,E.PACKAGE_NAME,E.PROJECT_ID,E.PROJECT_CODE,E.STATUS,E.CREATED_AT
+    E.ID,E.PROJECT_NAME,E.EXTRACTION_TIME,E.PACKAGE_NAME,E.PROJECT_ID,E.PROJECT_CODE,E.STATUS,E.CREATED_AT,BUILD_COMPANY,CONTACT_PHONE
    <!--  E.ID,E.CONDITION_ID,E.PROJECT_ID,E.STATUS,E.PROJECT_NAME,E.PROJECT_CODE,E.EXTRACTION_TIME,E.PACKAGE_NAME,E.EXTRACT_THE_WAY,E.EXTRACTS_PEOPLE,E.PURCHASE_TYPE,E.TENDER_AT,D.NAME PURCHASE_TYPE_NAME -->
   </sql>
  
@@ -182,15 +184,40 @@
 	   		<if test="contactNum !=null and contactNum !='' ">
 	   			CONTACT_NUM = #{contactNum,jdbcType=VARCHAR},
 	   		</if>
-	   		<if test="extractTheWay !=null and extractTheWay!='' ">
+	   		<if test="contactPhone !=null and contactNum !='' ">
+	   			CONTACT_PHONE = #{contactPhone,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="extractTheWay !=null ">
 	   			 EXTRACT_THE_WAY = #{extractTheWay,jdbcType=DECIMAL},
 	   		</if>
 	   		<if test="isDelete !=null and isDelete != '' ">
 	   			 IS_DELETE = #{isDelete,jdbcType=DECIMAL},
 	   		</if>
-	   		<if test="extractionSites !=null and extractionSites!= '' ">
+	   		<if test="extractionSites !=null and extractionSites != '' ">
 	   			 EXTRACTION_SITES = #{extractionSites,jdbcType=VARCHAR},
 	   		</if>
+	   		<if test="extractUser !=null and extractUser != '' ">
+	   			 EXTRACT_USER = #{extractUser,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="buildCompany !=null and extractUser != '' ">
+	   			 BUILD_COMPANY = #{buildCompany,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="extractionTime !=null and extractuser != '' ">
+	   			 EXTRACTION_TIME = #{extractionTime,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="packageId !=null and extractuser != '' ">
+	   			 PACKAGE_ID = #{packageId,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="areaName !=null and extractuser != '' ">
+	   			 AREA_NAME = #{areaName,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="tenderAt !=null and extractuser != '' ">
+	   			 TENDER_AT = #{tenderAt,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="projectInto !=null and extractuser != '' ">
+	   			 PROJECT_INTO = #{projectInto,jdbcType=VARCHAR},
+	   		</if>
+	   		
    		</set>
    		WHERE ID = #{id}
    </update> 
@@ -217,7 +244,6 @@
       <if test="packageName != null">
         PACKAGE_NAME,
       </if>
-      
       <if test="procurementDepId != null">
         PROCUREMENT_DEP_ID,
       </if>
@@ -238,6 +264,60 @@
       </if>
       <if test="extractUser != null">
         EXTRACT_USER,
+      </if>
+      <if test="conditionId != null">
+        CONDITION_ID,
+      </if>
+      <if test="buildCompany != null">
+        BUILD_COMPANY,
+      </if>
+      <if test="contactNum != null">
+        CONTACT_NUM,
+      </if>
+      <if test="contactPhone != null">
+        CONTACT_PHONE,
+      </if>
+      <if test="contactPerson != null">
+        CONTACT_PERSON,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="sellSite != null">
+        SELL_SITE,
+      </if>
+      <if test="constructionAddr != null">
+        CONSTRUCTION_ADDR,
+      </if>
+      <if test="sellProvince != null">
+        SELL_PROVINCE,
+      </if>
+      <if test="sellAddress != null">
+        SELL_ADDRESS,
+      </if>
+      <if test="sellBegin != null">
+        SELL_BEGIN,
+      </if>
+      <if test="sellEnd != null">
+        SELL_END,
+      </if>
+      <if test="constructionPro != null">
+        CONSTRUCTION_PRO,
+      </if>
+      <if test="areaName != null">
+        AREA_NAME,
+      </if>
+      <if test="tenderAt != null">
+        TENDER_AT,
+      </if>
+      <if test="purchaseType != null">
+        PURCHASE_TYPE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="packageNumber != null">
+        PACKAGE_NUMBER,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -280,6 +360,60 @@
       </if>
        <if test="extractUser != null">
        	#{extractUser,jdbcType=VARCHAR},
+      </if>
+       <if test="conditionId != null">
+       	#{conditionId,jdbcType=VARCHAR},
+      </if>
+       <if test="buildCompany != null">
+       	#{buildCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="contactNum != null">
+        #{contactNum,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPhone != null">
+        #{contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPerson != null">
+       #{contactPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+       #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="sellSite != null">
+        #{sellSite,jdbcType=VARCHAR},
+      </if>
+      <if test="constructionAddr != null">
+        #{constructionAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="sellProvince != null">
+        #{sellProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="sellAddress != null">
+        #{sellAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="sellBegin != null">
+       #{sellBegin,jdbcType=DATE},
+      </if>
+      <if test="sellEnd != null">
+       #{sellEnd,jdbcType=DATE},
+      </if>
+      <if test="constructionPro != null">
+        #{constructionPro,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null">
+        #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="tenderAt != null">
+        #{tenderAt,jdbcType=DATE},
+      </if>
+      <if test="purchaseType != null">
+       #{purchaseType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+       #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="packageNumber != null">
+        #{packageNumber,jdbcType=VARCHAR},
       </if>
     </trim>
     </insert>

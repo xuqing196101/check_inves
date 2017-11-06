@@ -2,11 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="extract.dao.supplier.ExtractConditionRelationMapper">
 
-	<resultMap type="extract.model.supplier.SupplierConType" id="base_info">
-		<result column="CONDITION_ID" jdbcType="TIMESTAMP" property="createdAt" />
-		<result column="PROPERTY_NAME" jdbcType="DECIMAL" property="isDeleted" />
-		<result column="PROPERTY_VALUE" jdbcType="VARCHAR" property="reason" />
-		<result column="UPDATED_AT" jdbcType="VARCHAR" property="updatedAt" />
+	<resultMap type="extract.model.supplier.ExtractConditionRelation" id="base_info">
+		<result column="CONDITION_ID" jdbcType="TIMESTAMP" property="conditionId" />
+		<result column="PROPERTY_NAME" jdbcType="DECIMAL" property="propertyName" />
+		<result column="PROPERTY_VALUE" jdbcType="VARCHAR" property="propertyValue" />
 	</resultMap>
 
 	<insert id="insertConditionRelation" parameterType="java.util.List">
@@ -27,7 +26,11 @@
 			SELECT PROPERTY_VALUE FROM T_SES_SMS_EXTRACT_CONDITIONS WHERE CONDITION_ID = #{conditionId} AND PROPERTY_NAME = #{propertyName}
 		</select>
 	<!-- 查询详细抽取条件 -->
-		<select id="getConTypeList" parameterType="java.lang.String" resultType="map">
+		<select id="getConTypeList" parameterType="java.lang.String" resultMap="base_info">
 			SELECT PROPERTY_NAME,PROPERTY_VALUE FROM  T_SES_SMS_EXTRACT_CONDITIONS WHERE CONDITION_ID = #{value}
 		</select>
+	<!-- 修改属性值 -->	
+		<update id="updateByMap" parameterType="map" >
+			UPDATE T_SES_SMS_EXTRACT_CONDITIONS SET PROPERTY_VALUE = #{propertyValue} WHERE CONDITION_ID = #{conditionId} AND PROPERTY_NAME = #{propertyName}
+		</update>
 </mapper>
