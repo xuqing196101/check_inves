@@ -26,6 +26,7 @@ import common.service.UploadService;
 
 import bss.controller.base.BaseController;
 import bss.model.ppms.PackageAdvice;
+import bss.model.ppms.Packages;
 import bss.service.ppms.PackageAdviceService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
@@ -166,7 +167,18 @@ public class PackageAdviceController extends BaseController {
 			HashMap<String, Object> map = new HashMap<>();
 			map.put("code", code);
 			List<PackageAdvice> find = service.find(map);
-			service.update(user, find, removedReason, 4);
+			if (find != null && !find.isEmpty()) {
+				service.update(user, find, removedReason, 4);
+				
+				for (PackageAdvice packageAdvice : find) {
+					Packages packages = packageService.selectByPrimaryKeyId(packageAdvice.getPackageId());
+					if (packages != null) {
+						packages.setProjectStatus(DictionaryDataUtil.getId("ZJTSHBTG"));
+						packageService.updateByPrimaryKeySelective(packages);
+					}
+				}
+			}
+			
 			return StaticVariables.SUCCESS;
 		} else {
 			return StaticVariables.FAILED;

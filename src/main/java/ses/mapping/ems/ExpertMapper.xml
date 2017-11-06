@@ -74,6 +74,10 @@
 				<result column="REVIEW_UNQUALIFIED_CONFIRM" property="reviewUnqualifiedConfirm" />
 				<result column="STORAGE_AT" property="storageAt" />
     </resultMap>
+
+    <resultMap id="BaseResultMapVO" type="ses.model.ems.ExpertVO" extends="BaseResultMap">
+        <result column="BATCH_DETAILS_NUMBER" jdbcType="VARCHAR" property="batchDetailsNumber" />
+    </resultMap>
     
     <!-- 统计Analyze关系映射 -->
 		<resultMap type="ses.model.bms.AnalyzeBigDecimal" id="baseAnalyze">
@@ -195,7 +199,7 @@
         LEFT JOIN T_SES_BMS_AREA AREA ON A.PARENT_ID = AREA.ID
         <if test="expertCategoryId != null and expertCategoryId != ''">
           RIGHT JOIN (
-            select expert_id as expertId from T_SES_EMS_EXPERT_CATEGORY where category_id in 
+            select DISTINCT expert_id as expertId from T_SES_EMS_EXPERT_CATEGORY where category_id in 
             (<foreach collection="expertCategoryId" item="categoryId" index="index"  open="" separator="," close="">
               #{categoryId}
             </foreach>) 
@@ -2156,15 +2160,17 @@
         select
         *
         from
-        T_SES_EMS_EXPERT
+        T_SES_EMS_EXPERT t1
+        LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON t1.PURCHASE_DEP_ID = dep.ID
+    	LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
         where 1=1
         <if test="ids != null">
-            <foreach collection="ids" item="id" open="and ID in ("
+            <foreach collection="ids" item="id" open="and t1.ID in ("
                      close=")" separator=",">
                 #{id}
             </foreach>
         </if>
-        ORDER BY CREATED_AT DESC
+        ORDER BY org.POSITION ASC,t1.AUDIT_AT ASC
     </select>
     
     
@@ -2265,7 +2271,7 @@
     LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
     <if test="expertCategoryId != null and expertCategoryId != ''">
       RIGHT JOIN (
-        select expert_id as expertId from T_SES_EMS_EXPERT_CATEGORY where category_id in 
+        select DISTINCT expert_id as expertId from T_SES_EMS_EXPERT_CATEGORY where category_id in 
         (<foreach collection="expertCategoryId" item="categoryId" index="index"  open="" separator="," close="">
           #{categoryId}
         </foreach>) 
@@ -2586,6 +2592,33 @@
         </if>
         ORDER BY T1.CREATED_AT DESC
     </select>
+
+    <!-- 首页查询所有专家-->
+    <select id="selectInStorageExpert" resultMap="BaseResultMapVO">
+        SELECT
+        T.ID,
+        T.REAL_NAME,
+        EBD.BATCH_DETAILS_NUMBER,
+        T.STATUS
+        FROM
+        T_SES_EMS_EXPERT T
+         LEFT JOIN T_SYS_EMS_EXPERT_BATCH_DETAILS EBD
+         ON T.ID = EBD.EXPERT_ID
+        WHERE T.IS_DELETE = 0 AND T.IS_PROVISIONAL = 0
+        <if test="relName != null and relName != ''">
+            AND INSTR(T.REAL_NAME, #{relName}) > 0
+        </if>
+        <if test="size > 0">
+            AND T.STATUS IN
+            <foreach item="item" index="index" collection="statusArray" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="batchDetailsNumber != null and batchDetailsNumber != ''">
+            AND INSTR(EBD.BATCH_DETAILS_NUMBER, #{batchDetailsNumber}) > 0
+        </if>
+        ORDER BY T.AUDIT_AT DESC
+    </select>
     
     <!-- 页面异步验证唯一 -->
      <select id="yzCardNumber" resultMap="BaseResultMap">
@@ -2744,9 +2777,14 @@
         <if test="expertsFrom != null and expertsFrom !=''">
         	 AND t1.EXPERTS_FROM = #{expertsFrom}
         </if>
-        <if test="expertsTypeId != null and expertsTypeId !=''">
+        <!-- <if test="expertsTypeId != null and expertsTypeId !=''">
         	 AND t1.EXPERTS_TYPE_ID LIKE CONCAT(CONCAT('%', #{expertsTypeId}), '%')
-        </if>
+        </if> -->
+        <if test="expertTypeId != null and expertTypeId != ''">
+	        <foreach item="typeId" index="index" collection="expertTypeId" open="and(" separator="or" close=")">
+	          t1.EXPERTS_TYPE_ID LIKE CONCAT(CONCAT('%', #{typeId}), '%')
+	        </foreach>
+	      </if>
         <if test="status != null and status !=''">
         	<if test="status == 'trialEnd'">
         	 AND t1.STATUS in ('15','16')

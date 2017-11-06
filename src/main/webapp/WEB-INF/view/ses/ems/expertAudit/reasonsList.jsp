@@ -509,7 +509,7 @@
   <!--预复审结束-->
 	function preReviewEnd(status){
 	  var expertId = $("input[name='expertId']").val();
-	  var batchId = $("input[name='batchId']").val();
+	  //var batchId = $("input[name='batchId']").val();
      if(status == null){
        var status = $(":radio:checked").val().trim();
        if(status == null){
@@ -553,7 +553,7 @@
            dataType:"json",
            success:function (data) {
          	  if(data.status == 200){
-         		  location.href = "${pageContext.request.contextPath}/expertAgainAudit/findBatchDetailsList.html?batchId=" + batchId;
+         		  location.href = "${pageContext.request.contextPath}/expertAgainAudit/findBatchList.html";
                }
            }
        });
@@ -787,7 +787,7 @@
                     <input type="hidden" name="status" id="status" value="${status}"/>
                     <input name="auditOpinionAttach" id="auditOpinion" type="hidden" />
                     <input name="sign" value="${sign}" type="hidden">
-                    <c:if test="${status eq '0' || (sign eq '1' && status eq '9')}">
+                    <c:if test="${(status eq '0' || (sign eq '1' && status eq '9')) && isCheck eq 'no'}">
                        <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(1);" value="初审合格 " id="tongguo">
                        <input class="btn btn-windows cancel" type="button" onclick="shenhe(2);" value="初审不合格" id="butongguo"> -->
                        <!-- <input class="btn btn-windows end" type="button" onclick="shenhe();" value="初审结束" id="tuihui"> -->
@@ -837,6 +837,7 @@
     <input name="status" id="expertStatus" value="${status}" type="hidden">
     <input name="batchId" value="${batchId}" type="hidden">
     <input name="isReviewRevision" value="${isReviewRevision}" type="hidden">
+    <input name="isCheck" value="${isCheck}" type="hidden">
 </form>
 
 <form id="form_id_word" method="post">

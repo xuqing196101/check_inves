@@ -1,7 +1,8 @@
-<%@ page language="java" import="ses.constants.SupplierConstants" pageEncoding="utf-8" %>
+<%@ page language="java" pageEncoding="utf-8" %>
 <%@ page import="org.apache.commons.lang3.math.NumberUtils" %>
 <%String nav_flag = request.getParameter("nav_flag");%>
-<%Integer supplierStatus = NumberUtils.toInt(request.getParameter("supplierStatus"));%>
+<%--<%Supplier supplierStatus = NumberUtils.toInt(request.getParameter("suppliers"));%>--%>
+<%Integer sign = NumberUtils.toInt(request.getParameter("sign"));%>
 <ul class="nav nav-tabs bgwhite">
     <li <%="1".equals(nav_flag) ? "class=\"active\"" : "" %>>
         <a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18" onclick="tijiao('essential');">基本信息</a>
@@ -27,13 +28,16 @@
     <li id="template_upload_nav" <%="8".equals(nav_flag) ? "class=\"active\"" : "" %>>
         <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('table');">承诺书/申请表</a>
     </li>
-    <%
+    <%--<%
         if (SupplierConstants.Status.PENDING_REVIEW.getValue() != supplierStatus
                 && SupplierConstants.Status.REVIEW_PASSED.getValue() != supplierStatus
                 && SupplierConstants.Status.REVIEW_NOT_PASS.getValue() != supplierStatus
                 && SupplierConstants.Status.PRE_INVESTIGATE_ENDED.getValue() != supplierStatus
                 && SupplierConstants.Status.INVESTIGATE_PASSED.getValue() != supplierStatus
                 && SupplierConstants.Status.INVESTIGATE_NOT_PASS.getValue() != supplierStatus) {
+    %>--%>
+    <%
+        if (sign!=2) {
     %>
     <li id="auditInfo_nav" <%="9".equals(nav_flag) ? "class=\"active\"" : "" %>>
         <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('audit');">审核信息</a>

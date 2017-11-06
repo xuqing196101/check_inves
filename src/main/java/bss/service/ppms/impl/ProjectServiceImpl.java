@@ -646,7 +646,8 @@ public class ProjectServiceImpl implements ProjectService {
 			for (Packages packages : findByIds) {
 				if (!StringUtils.equals(packages.getProjectStatus(), DictionaryDataUtil.getId("ZJZXTP")) &&
 						!StringUtils.equals(packages.getProjectStatus(), DictionaryDataUtil.getId("YZZ")) && 
-						!StringUtils.equals(packages.getProjectStatus(), DictionaryDataUtil.getId("ZJTSHZ"))) {
+						!StringUtils.equals(packages.getProjectStatus(), DictionaryDataUtil.getId("ZJTSHZ")) &&
+						!StringUtils.equals(packages.getProjectStatus(), DictionaryDataUtil.getId("ZJTSHBTG"))) {
 					packages.setProjectStatus(status);
 					packageMapper.updateByPrimaryKeySelective(packages);
 				}

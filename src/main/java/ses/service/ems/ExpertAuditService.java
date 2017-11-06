@@ -245,7 +245,7 @@ public interface ExpertAuditService {
      * @param @param expert      
      * @return void
      */
-    boolean temporaryAudit (String expertId,String realName);
+    boolean temporaryAudit (String expertId,String realName, Integer sign);
     /**
      * 
      * Description:修改公示状态

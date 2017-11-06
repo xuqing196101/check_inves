@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.BatchTemporaryMapper">
+  <resultMap id="BaseResultMap" type="ses.model.ems.BatchTemporary">
+    <id column="EXPERT_ID" property="experId" />
+    <result column="BATCH_EXPERT_ID" property="batchExpertId" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    EXPERT_ID,BATCH_EXPERT_ID,CREATED_AT,UPDATED_AT
+  </sql>
+  
+  <select id="selectBatchTemporaryAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT 
+		t1.ID AS id,
+        t1.REAL_NAME AS relName,
+        t1.EXPERTS_FROM AS expertsFrom,
+        t1.EXPERTS_TYPE_ID AS expertsTypeId,
+        t1.AUDIT_AT AS auditAt,
+        t1.WORK_UNIT AS workUnit,
+        t1.PROFESS_TECH_TITLES AS professTechTitles,
+        t2.NAME as sex,
+        org.SHORT_NAME AS orgName
+        from
+        T_SES_EMS_BATCH_TEMPORARY b1
+        LEFT JOIN T_SES_EMS_EXPERT t1 ON b1.BATCH_EXPERT_ID = t1.ID
+        LEFT JOIN T_SES_BMS_DICTIONARY_DATA t2 ON t1.GENDER = t2.ID
+        LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON t1.PURCHASE_DEP_ID = dep.ID
+    	LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
+    	<!-- where b1.EXPERT_ID =#{id} -->
+  </select>
+  <insert id="addBatchTemporary" parameterType="ses.model.ems.BatchTemporary">
+  	insert into T_SES_EMS_BATCH_TEMPORARY 
+  	(EXPERT_ID,BATCH_EXPERT_ID,CREATED_AT,UPDATED_AT)
+  	values (#{expertId},#{batchExpertId}, #{createdAt}, #{updatedAt})
+  </insert>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_EMS_BATCH_TEMPORARY
+    <!-- where EXPERT_ID = #{id} -->
+  </delete>
+</mapper>

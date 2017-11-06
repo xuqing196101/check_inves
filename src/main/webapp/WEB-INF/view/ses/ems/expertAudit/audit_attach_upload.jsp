@@ -95,6 +95,8 @@ $(function(){
                 <input name="expertId" value="${expertId}" type="hidden">
                 <input name="sign" value="${sign}" type="hidden">
                 <input name="status" id="expertStatus" value="${status}" type="hidden">
+                <input name="isReviewRevision" value="${isReviewRevision}" type="hidden">
+                <input name="isCheck" value="${isCheck}" type="hidden">
             </form>
             <form id="form_shenhe" action="${pageContext.request.contextPath}/expertAudit/updateStatus.html">
                 <input name="id" value="${expertId}" type="hidden">

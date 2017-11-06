@@ -141,7 +141,7 @@
 													$('#openDiv_packages', window.parent.document).empty();
 													for(var i=0;i<split.length;i++){
 														var split2=split[i].split(",");
-														html+='<div class=" mt10 fl ml10"><input type="checkbox" value="'+split2[0]+'" name="packagesId" />'+split2[1]+'</div>';
+														html+='<label class="mr10 hand m_inline"><input type="checkbox" value="'+split2[0]+'" name="packagesId" /> '+split2[1]+'</label>';
 													}
 													$("#openDiv_packages", window.parent.document).append(html);
 													indexLayer = parent.layer.open({
@@ -150,7 +150,7 @@
 													  	    title: ['提示','border-bottom:1px solid #e5e5e5'],
 													  	    shade:0.01, //遮罩透明度
 														  		type : 1,
-														  		area : [ '30%', '200px'  ], //宽高
+														  		area : [ '30%' ], //宽高
 														  		cancel : function () {
 														  			$.ajax({
 																		url: "${pageContext.request.contextPath}/open_bidding/isTurnUp.html?type=delete&projectId=" + projectId,

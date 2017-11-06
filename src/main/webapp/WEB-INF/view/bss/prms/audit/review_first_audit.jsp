@@ -85,7 +85,7 @@
 	    });
   }
   //全部合格
-  function addAll(obj,supplierId,flag){
+  function addAll(obj,supplierId,flag,index){
 	  var projectId="${extension.projectId }";
 	  var packageId="${extension.packageId }";
 	  //获取供应商id 和状态
@@ -98,14 +98,27 @@
 	    	data:{'projectId':projectId,'packageId':packageId,'supplierId':supplierId,'flag':flag},
 	    	type:'post',
 	    	success:function(obj){
-	    		window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toAudit.html?projectId="+projectId+"&packageId="+packageId;
+	    		/* $("#table").find("tr").each(function(){
+	    			 if($(this).children()[index]!='undefined'){
+	    				 $($(this).children()[index]).find("input[type='radio']").each(function(){
+	    					 if($(this).val().split(",")[2]=="0"){
+	    						 $(this).attr("checked","checked");
+	    					 }else{
+	    						 $(this).removeAttr("checked");
+	    					 }
+	    				 })
+	    			 }
+	    			
+	    		});
+	    		layer.msg('审核成功'); */
+	    		window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toAudit.html?projectId="+projectId+"&packageId="+packageId; 
 	    	},
 	    	error:function(){}
 	    	
 	    });
   }
   //全部不合格
-  function addNotAll(obj,supplierId,flag){
+  function addNotAll(obj,supplierId,flag,index){
 	  var projectId="${extension.projectId }";
 	  var packageId="${extension.packageId }";
 	  //获取供应商id 和状态
@@ -119,7 +132,20 @@
 	    	data:{'projectId':projectId,'packageId':packageId,'supplierId':supplierId,'flag':flag,'rejectReason':text},
 	    	type:'post',
 	    	success:function(obj){
-	    		window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toAudit.html?projectId="+projectId+"&packageId="+packageId;
+	    		/* $("#table").find("tr").each(function(){
+	    			 if($(this).children()[index]!='undefined'){
+	    				 $($(this).children()[index]).find("input[type='radio']").each(function(){
+	    					 if($(this).val().split(",")[2]=="1"){
+	    						 $(this).attr("checked","checked");
+	    					 }else{
+	    						 $(this).removeAttr("checked");
+	    					 }
+	    				 })
+	    			 }
+	    			
+	    		});
+	    		layer.msg('审核成功'); */
+	    		 window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toAudit.html?projectId="+projectId+"&packageId="+packageId; 
 	    	},
 	    	error:function(){}
 	    	
@@ -198,8 +224,8 @@
 	  </div>
     </div>
 	<div class="container">
-		<div class="container clear" id="package">
-			<div class="headline-v2">
+		<div class="clear" id="package">
+			<div class="headline-v2 ml0">
 		     <h2>资格性和符合性检查</h2>
 		    </div>
 			<div class="mt10 tc">
@@ -264,8 +290,8 @@
 		 	              <c:forEach items="${extension.supplierList }" var="supplier" varStatus="vs">
 			 	            <c:if test="${fn:contains(supplier.packages,extension.packageId)}">
 				 	            <td class="tc space_nowrap">
-				 	            	<input type="button" class="btn" onclick="addAll(this,'${supplier.suppliers.id  }',0);" name="${vs.index}" value="全合格">
-				 	            	<input type="button" class="btn" onclick="addNotAll(this,'${supplier.suppliers.id  }',1);" name="${vs.index}" value="全不合格">
+				 	            	<input type="button" class="btn" onclick="addAll(this,'${supplier.suppliers.id  }',0,'${vs.index+1}');" name="${vs.index}" value="全合格">
+				 	            	<input type="button" class="btn" onclick="addNotAll(this,'${supplier.suppliers.id  }',1,'${vs.index+1}');" name="${vs.index}" value="全不合格">
 <%-- 				 	            	<input type="radio"  onclick="addAll(this);" name="${vs.index}" value="${supplier.suppliers.id  },0">全部合格&nbsp;
 				 	            	<input type="radio" onclick="addNotAll(this);" name="${vs.index}" value="${supplier.suppliers.id  },1">全部不合格  --%>
 				 	            </td>

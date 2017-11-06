@@ -1,6 +1,6 @@
 // 创建复审批次
 function create_review_batches() {
-  var ids = select_ids.join(',');  // 将获得到的id数组转换成字符串（为后台处理）
+  var ids = final_ids.join(',');  // 将获得到的id数组转换成字符串（为后台处理）
   var batchName_obj = $('[name=batchName]');  // 批次名称
   var batchNumber_obj = $('[name=batchNumber]');  // 批次编号
   
@@ -74,6 +74,8 @@ function create_review_batches() {
                   $('#list_content').listConstructor({
                     url: list_url
                   });
+                  $('#selected_content').html('');
+                  final_ids = [];
                   layer.close(index);
                 },
                 error: function (data) {
@@ -651,11 +653,44 @@ function expert_auditBatch(url, expertId) {
 }
 
 //  全选操作
-function checkAll(el) {
+// function checkAll(el) {
+//   var temp_list = [];
+//   
+//   if ($(el).is(':checked')) {
+//     $(el).parents('table').find('.select_item').each(function () {
+//       $(this).prop('checked', true);
+//       temp_list.push($(this).val());
+//     });
+//     
+//     for (var i in temp_list) {
+//       for (var ii in select_ids) {
+//         if (temp_list[i] === select_ids[ii]) {
+//           temp_list.splice(i, 1);
+//         }
+//       }
+//     }
+//     
+//     for (var iii in temp_list) {
+//       select_ids.push(temp_list[iii]);
+//     }
+//   } else {
+//     $(el).parents('table').find('.select_item').each(function () {
+//       $(this).prop('checked', false);
+//       for (var i in select_ids) {
+//         if ($(this).val() === select_ids[i]) {
+//           select_ids.splice(i, 1);
+//         }
+//       }
+//     });
+//   }
+// }
+
+//  全选操作
+function checkAll(el, className) {
   var temp_list = [];
   
   if ($(el).is(':checked')) {
-    $(el).parents('table').find('.select_item').each(function () {
+    $(className).find('.select_item').each(function () {
       $(this).prop('checked', true);
       temp_list.push($(this).val());
     });
@@ -672,7 +707,7 @@ function checkAll(el) {
       select_ids.push(temp_list[iii]);
     }
   } else {
-    $(el).parents('table').find('.select_item').each(function () {
+    $(className).find('.select_item').each(function () {
       $(this).prop('checked', false);
       for (var i in select_ids) {
         if ($(this).val() === select_ids[i]) {
@@ -717,46 +752,48 @@ function againAudit_checkAll() {
 }
 
 //  创建复审批次列表反选操作
-function againAudit_reverseSelection() {
-  var push_list = [];
-  var remove_list = [];
+function againAudit_reverseSelection(table_name) {
+  // var push_list = [];
+  // var remove_list = [];
   var select_num = 0;
   
-  $('.againAudit_table .select_item').each(function () {
-    if (!$(this).is(':checked')) {
-      push_list.push($(this).val());
-      $(this).prop('checked', true);
-      select_num++;
+  if (typeof(table_name) == 'string') {
+    $(table_name).find('.select_item').each(function () {
+      if (!$(this).is(':checked')) {
+        // push_list.push($(this).val());
+        $(this).prop('checked', true);
+        select_num++;
+      } else {
+        // remove_list.push($(this).val());
+        $(this).prop('checked', false);
+      }
+    });
+    
+    // for (var i in remove_list) {
+    //   for (var ii in select_ids) {
+    //     if (select_ids[ii] === remove_list[i]) {
+    //       select_ids.splice(ii, 1);
+    //     }
+    //   }
+    // }
+    // 
+    // for (var iii in push_list) {
+    //   var hassame = 0;
+    //   for (var iiii in select_ids) {
+    //     if (select_ids[iiii] === push_list[iii]) {
+    //       hassame = 1;
+    //     }
+    //   }
+    //   if (hassame === 0) {
+    //     select_ids.push(push_list[iii]);
+    //   }
+    // }
+    
+    if (select_num === $(table_name).find('.select_item').length) {
+      $(table_name).find('[name=checkAll]').prop('checked', true);
     } else {
-      remove_list.push($(this).val());
-      $(this).prop('checked', false);
+      $(table_name).find('[name=checkAll]').prop('checked', false);
     }
-  });
-  
-  for (var i in remove_list) {
-    for (var ii in select_ids) {
-      if (select_ids[ii] === remove_list[i]) {
-        select_ids.splice(ii, 1);
-      }
-    }
-  }
-  
-  for (var iii in push_list) {
-    var hassame = 0;
-    for (var iiii in select_ids) {
-      if (select_ids[iiii] === push_list[iii]) {
-        hassame = 1;
-      }
-    }
-    if (hassame === 0) {
-      select_ids.push(push_list[iii]);
-    }
-  }
-  
-  if (select_num === $('.againAudit_table .select_item').length) {
-    $('[name=checkAll]').prop('checked', true);
-  } else {
-    $('[name=checkAll]').prop('checked', false);
   }
 }
 
@@ -909,6 +946,217 @@ function import_history() {
     },
     btn2: function() {
       layer.close(index);
+    }
+  });
+}
+
+// 添加到已选分组
+function addto_selected() {
+  if ($('#list_content .select_item:checked').length > 0) {
+    var str = '';
+    $('#list_content tr').each(function () {
+      var has_num = 0;
+      if (!$(this).hasClass('hide')) {
+        if ($(this).find('.select_item').is(':checked')) {
+          for (var i in final_ids) {
+            if ($(this).find('.select_item').val() == final_ids[i]) {
+              has_num = 1;
+              break;
+            }
+          }
+          if (has_num == 0) {
+            final_ids.push($(this).find('.select_item').val());
+          }
+          str += '<tr>'+ $(this).html() +'</tr>';
+          $(this).addClass('hide');
+          $(this).find('.select_item').prop('checked', false);
+        }
+      }
+    });
+    
+    if ($('#list_content tr.hide').length == $('#list_content tr').length) {
+      $('#list_content').siblings('thead').find('[name=checkAll]').prop('checked', false);
+    }
+    
+    $('#selected_content').append(str);
+    $('#selected_tab li').eq(1).find('a').tab('show');
+    
+    // 绑定列表框点击事件，获取选中id集合
+    var select_checkbox = $('.againAudit_table').find('.select_item');
+    if (select_checkbox.length > 0) {
+      select_checkbox.bind('click', function () {
+        var this_val = $(this).val().toString();
+        
+        if ($(this).is(':checked')) {
+          select_ids.push(this_val);
+        } else {
+          for (var i in select_ids) {
+            if (select_ids[i] == this_val) {
+              select_ids.splice(i, 1);
+              break;
+            }
+          }
+        }
+        
+        var sum = 0;
+        $(this).parents('tbody').find('.select_item').each(function () {
+          if ($(this).is(':checked')) {
+            sum++;
+          }
+        });
+        
+        var checkAll_class = $(this).parents('tbody').siblings('thead').find('[name=checkAll]').attr('class');
+        if (sum === $(this).parents('tbody').find('.select_item').length) {
+          $('.' + checkAll_class).prop('checked', true);
+        } else {
+          $('.' + checkAll_class).prop('checked', false);
+        }
+      });
+    }
+    
+    unselect_total();  // 统计未选专家
+    select_total();  // 统计已选专家
+  } else {
+    layer.msg('至少选择一条数据', {
+      offset: '100px'
+    });
+  }
+}
+
+// 移除已选分组
+function remove_selected() {
+  if ($('#selected_content .select_item:checked').length > 0) {
+    var remove_item = [];
+    $('#selected_content tr').each(function () {
+      if ($(this).find('.select_item').is(':checked')) {
+        remove_item.push($(this).find('.select_item').val());
+        $(this).remove();
+      }
+    });
+    
+    for (var i in remove_item) {
+      $('#list_content .select_item').each(function (index) {
+        if ($(this).val() == remove_item[i]) {
+          $(this).parents('tr').removeClass('hide');
+        }
+      });
+      
+      for (var ii in final_ids) {
+        if (remove_item[i] == final_ids[ii]) {
+          final_ids.splice(ii, 1);
+          break;
+        }
+      }
+    }
+    
+    if ($('#selected_content tr').length <= 0) {
+      $('#selected_content').siblings('thead').find('[name=checkAll]').prop('checked', false);
+    }
+    
+    unselect_total();  // 统计未选专家
+    select_total();  // 统计已选专家
+  } else {
+    layer.msg('至少选择一条数据', {
+      offset: '100px'
+    });
+  }
+}
+
+// 专家总和统计
+function unselect_total() {
+  var total = 0;
+  $('#list_content tr').each(function () {
+    if (!$(this).hasClass('hide')) {
+      total++;
+    }
+  });
+  $('#unselect_expertTotal').html(total);
+}
+
+// 专家总和统计
+function select_total() {
+  var total = $('#selected_content tr').length;
+  $('#select_expertTotal').html(total);
+}
+
+// 暂存初始化
+function temporary_init() {
+  var temporary_content = [];
+  var str = '';
+  
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: temporary_init_url,
+    data: {},
+    success: function (data) {
+      temporary_content = data.object;
+      for (var i in temporary_content) {
+        if (typeof(temporary_content[i].orgName) === 'undefined') {
+          temporary_content[i].orgName = '';
+        }
+        if (typeof(temporary_content[i].relName) === 'undefined') {
+          temporary_content[i].relName = '';
+        }
+        if (typeof(temporary_content[i].sex) === 'undefined') {
+          temporary_content[i].sex = '';
+        }
+        if (typeof(temporary_content[i].workUnit) === 'undefined') {
+          temporary_content[i].workUnit = '';
+        }
+        if (typeof(temporary_content[i].professTechTitles) === 'undefined') {
+          temporary_content[i].professTechTitles = '';
+        }
+        if (typeof(temporary_content[i].updateTime) === 'undefined') {
+          temporary_content[i].updateTime = '';
+        }
+        if (typeof(temporary_content[i].expertsTypeId) === 'undefined') {
+          temporary_content[i].expertsTypeId = '';
+        }
+        if (typeof(temporary_content[i].expertsFrom) === 'undefined') {
+          temporary_content[i].expertsFrom = '';
+        }
+        
+        str += '<tr>'
+            +'  <td class="text-center"><input name="id" type="checkbox" value="'+ temporary_content[i].id +'" class="select_item"></td>'
+            +'  <td class="text-center">'+ (parseInt(i) + 1) +'</td>'
+            +'  <td>'+ temporary_content[i].orgName +'</td>'
+            +'  <td>'+ temporary_content[i].relName +'</td>'
+            +'  <td class="text-center">'+ temporary_content[i].sex +'</td>'
+            +'  <td>'+ temporary_content[i].expertsTypeId +'</td>'
+            +'  <td class="text-center">'+ temporary_content[i].expertsFrom +'</td>'
+            +'  <td>'+ temporary_content[i].workUnit +'</td>'
+            +'  <td>'+ temporary_content[i].professTechTitles +'</td>'
+            +'  <td class="text-center">'+ temporary_content[i].updateTime +'</td>'
+        +'</tr>';
+      }
+      
+      $('#selected_content').html(str);
+      
+      unselect_total();  // 统计未选专家
+      select_total();  // 统计已选专家
+    }
+  });
+}
+
+// 暂存操作
+function againAudit_temporary() {
+  var ids = [];  // 专家id
+  $('#selected_content tr').each(function () {
+    ids.push($(this).find('input[type="checkbox"]').val());
+  });
+  
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: temporary_url,
+    data: {
+      ids: ids.join(',')
+    },
+    success: function (data) {
+      layer.msg(data.message, {
+        offset: '100px'
+      });
     }
   });
 }

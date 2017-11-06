@@ -1319,8 +1319,12 @@
 			var sale = "${sale}";
 			var project = "${project}";
 			var server = "${server}";
+			var typeAudit = "${typeAudit}";
 			if(supplierType == "false"){
 				layer.msg("请选择供应商类型！");
+			}
+			if(typeAudit == "false"){
+				layer.msg("没有审核通过的供应商类型！");
 			}
 			var msg = "";
 			if (pro == "false") {
@@ -2396,7 +2400,7 @@
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w150">
-															 		<input type="text" class="border0" maxlength="30"  
+															 		<input type="text" class="border0" maxlength="150"
 																 		<c:if test="${!fn:contains(engPageField,engQua.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																		name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].code"
 																		value="${engQua.code}" />
@@ -2927,7 +2931,7 @@
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w150">
-															 		<input type="text" class="border0" maxlength="30"  
+															 		<input type="text" class="border0" maxlength="150"
 																 		<c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																		name="supplierMatSe.listSupplierCertSes[${certSeNumber}].code"
 																		value="${certSe.code}" />
@@ -3077,12 +3081,12 @@
 			
 			// 控制4大类别的编辑性
 			$("input[type='checkbox'][name='chkItem']").attr('disabled',true);
-			$("input[type='checkbox'][name='chkItem']").each(function(){
+			/* $("input[type='checkbox'][name='chkItem']").each(function(){
 				var typeErrorField = '${typePageField}';
 				if(typeErrorField.indexOf($(this).parent().attr("id")) >= 0){
 					$(this).attr('disabled',false);
 				}
-			});
+			}); */
 			// 控制承揽业务范围：省、直辖市
 			var engPageField = '${engPageField}';
 			$("#areaSelect").attr('disabled',false);

@@ -143,6 +143,7 @@
 			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ'}"><span class="star_red">[该包已终止]</span></c:if>
 			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP'}"><span class="star_red">[该包已转竞谈]</span></c:if>
 			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHZ'}"><span class="star_red">[该包转竞谈审核中]</span></c:if>
+			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHBTG'}"><span class="star_red">[该包转竞谈审核不通过]</span></c:if>
 			 	</h2>
 			 </c:if>
 			 <c:if test="${vsKey.index != 0}">
@@ -150,10 +151,14 @@
 			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ'}"><span class="star_red">[该包已终止]</span></c:if>
 			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP'}"><span class="star_red">[该包已转竞谈]</span></c:if>
 			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHZ'}"><span class="star_red">[该包转竞谈审核中]</span></c:if>
+			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHBTG'}"><span class="star_red">[该包转竞谈审核不通过]</span></c:if>
 			 	</h2>
 			 </c:if>
         </div>
-        <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'YZZ' && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJZXTP' && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJTSHZ'}">
+        <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'YZZ'
+         && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJZXTP'
+          && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJTSHZ'
+          && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJTSHBTG'}">
         <div  class="p0${vsKey.index}">
 		<table class="table table-bordered table-condensed mt5">
 			<%-- <thead>

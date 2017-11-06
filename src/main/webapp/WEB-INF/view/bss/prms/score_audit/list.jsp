@@ -141,6 +141,10 @@
 		                <span class="star_red">[转竞谈审核中]</span>
 		                <c:set value="true" var="flg"></c:set>
 		              </c:if>
+		              <c:if test="${pa.projectStatus eq 'ZJTSHBTG'}">
+		                <span class="star_red">[转竞谈审核不通过]</span>
+		                <c:set value="true" var="flg"></c:set>
+		              </c:if>
 		            </c:if>
 		         </c:forEach>
 		        </td>

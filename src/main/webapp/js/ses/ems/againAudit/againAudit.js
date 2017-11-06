@@ -112,28 +112,45 @@
               }
               
               var sum = 0;
-              $('.againAudit_table').find('.select_item').each(function () {
+              $(this).parents('tbody').find('.select_item').each(function () {
                 if ($(this).is(':checked')) {
                   sum++;
                 }
               });
               
-              if (sum === $('.againAudit_table').find('.select_item').length) {
-                $('[name=checkAll]').prop('checked', true);
+              var checkAll_class = $(this).parents('tbody').siblings('thead').find('[name=checkAll]').attr('class');
+              if (sum === $(this).parents('tbody').find('.select_item').length) {
+                $('.' + checkAll_class).prop('checked', true);
               } else {
-                $('[name=checkAll]').prop('checked', false);
+                $('.' + checkAll_class).prop('checked', false);
               }
             });
           }
           
+          // 处理未选人员
+          $('#list_content tr').each(function () {
+            var _this = $(this);
+            $('#selected_content tr').each(function () {
+              if (_this.find('input[type="checkbox"]').val() == $(this).find('input[type="checkbox"]').val()) {
+                _this.addClass('hide');
+                return false;
+              }
+            });
+          });
+          
+          // 添加暂存数据到创建列表
+          if ($('#selected_content tr').length > 0) {
+            $('#selected_content tr').each(function () {
+              final_ids.push($(this).find('input[type="checkbox"]').val());
+            });
+          }
+          
+          unselect_total();  // 统计未选专家
+          select_total();  // 统计已选专家
+          
           // 构造分页
           // laypageConstructor();
         }
-      },
-      error: function (data) {
-        layer.msg(data.message, {
-          offset: '100px'
-        });
       }
     };
 

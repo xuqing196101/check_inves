@@ -3,6 +3,7 @@ package ses.controller.sys.ems;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,9 +21,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import common.annotation.CurrentUser;
-import common.constant.StaticVariables;
-import common.utils.JdcgResult;
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.dao.ems.ExpertReviewTeamMapper;
 import ses.model.bms.DictionaryData;
@@ -31,7 +29,6 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExpertAgainAuditImg;
 import ses.model.ems.ExpertAgainAuditReviewTeamList;
 import ses.model.ems.ExpertAuditOpinion;
-import ses.model.ems.ExpertBatch;
 import ses.model.ems.ExpertBatchDetails;
 import ses.model.ems.ExpertReviewTeam;
 import ses.model.oms.Orgnization;
@@ -43,6 +40,9 @@ import ses.service.ems.ExpertService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.WordUtil;
+import common.annotation.CurrentUser;
+import common.constant.StaticVariables;
+import common.utils.JdcgResult;
 
 /**
  * <p>Title:ExpertAgainAuditController </p>
@@ -125,6 +125,12 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 				}
 			}
 			expert.setIds(idsList);
+		}
+		
+		if (expert.getExpertsTypeId() != null && !"".equals(expert.getExpertsTypeId())) {
+            List<String> listExpertTypeId = Arrays.asList(expert.getExpertsTypeId().split(","));
+            expert.setExpertTypeId(listExpertTypeId);
+		
 		}
 		List<Expert> expertList = expertService.findExpertAgainAuditList(expert);
 		for (Expert e : expertList) {
@@ -227,6 +233,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 			super.writeJson(response, img);
 			return;
 		}
+		againAuditService.deleteByPrimaryKey(user.getTypeId());
 		img = againAuditService.createBatch(batchName, batchNumber, ids);
 		super.writeJson(response, img);
 	}
@@ -865,7 +872,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		expert.setAuditAt(new Date());
 		
 		//审核人
-		expert.setAuditor(user.getRelName());
+		//expert.setAuditor(user.getRelName());
 		//还原暂存状态
 		expert.setAuditTemporary(0);
 		// 设置修改时间
@@ -987,5 +994,41 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	        String newFileName = WordUtil.createWord(dataMap, "expertReviewTable.ftl",
 	            fileName, request);
 	        return newFileName;
+	 }
+	 @RequestMapping("selectBatchTemporary")
+	 public void selectBatchTemporary(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response) {
+		 ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+			if(user==null){
+				img.setStatus(false);
+				img.setMessage("请登录");
+				super.writeJson(response, img);
+				return;
+			}
+			if(!"4".equals(user.getTypeName())){
+				img.setStatus(false);
+				img.setMessage("您的权限不足");
+				super.writeJson(response, img);
+				return;
+			}
+			img = againAuditService.selectBatchTemporary(user.getTypeId());
+			super.writeJson(response, img);
+	  }
+	 @RequestMapping("addBatchTemporary")
+	 public void addBatchTemporary(@CurrentUser User user,String ids,HttpServletRequest request,HttpServletResponse response) {
+		 ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		 if(user==null){
+			img.setStatus(false);
+			img.setMessage("请登录");
+			super.writeJson(response, img);
+			return;
+		}
+		if(!"4".equals(user.getTypeName())){
+			img.setStatus(false);
+			img.setMessage("您的权限不足");
+			super.writeJson(response, img);
+			return;
+		}
+		img = againAuditService.addBatchTemporary(user.getTypeId(), ids);
+		super.writeJson(response, img);
 	 }
 }
