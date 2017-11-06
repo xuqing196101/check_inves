@@ -2,6 +2,8 @@ package bss.model.sstps;
 
 import java.util.List;
 
+import bss.model.ppms.ProjectAdvice;
+
 public class TrialPriceBean {
    private List<AccessoriesCon> listAcc;
    private List<OutproductCon> listOutPro;
@@ -14,6 +16,16 @@ public class TrialPriceBean {
    private List<YearPlan> listYear;
    private List<ProductQuota> listPro;
    
+   private List<ProjectAdvice> projectAdviceList;
+   
+
+public List<ProjectAdvice> getProjectAdviceList() {
+    return projectAdviceList;
+  }
+
+  public void setProjectAdviceList(List<ProjectAdvice> projectAdviceList) {
+    this.projectAdviceList = projectAdviceList;
+  }
 
 public List<ProductQuota> getListPro() {
 	return listPro;

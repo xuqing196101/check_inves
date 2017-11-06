@@ -995,7 +995,7 @@ public class TerminationServiceImpl implements TerminationService {
             pg.setPurchaseType(DictionaryDataUtil.getId("JZXTP"));
           }else{
             pg.setNewFlowId(currFlowDefineId);
-            pg.setProjectStatus(null);
+            pg.setProjectStatus(oldCurrFlowDefineId);
           }
           pg.setTechniqueTime(null);
           pg.setQualificationTime(null);

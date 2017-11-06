@@ -9,16 +9,17 @@
     <result column="CONTENT" jdbcType="VARCHAR" property="content" />
     <result column="TYPE_ID" jdbcType="VARCHAR" property="typeId" />
     <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="SEQ" property="seq" />
     <association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey" />
   </resultMap>
   
   <sql id="Base_Column_List">
-    ID, CREATE_USER, CREATE_AT, CONTENT, TYPE_ID, IS_DELETE, PROJECT_ID
+    ID, CREATE_USER, CREATE_AT, CONTENT, TYPE_ID, IS_DELETE, PROJECT_ID,SEQ
   </sql>
   
   <!-- 查询条件 -->
   <sql id="Example_Where_Clause">
-  	WHERE 1=1
+  	WHERE 1=1 and IS_DELETE=0 
     <trim suffixOverrides=",">
       <if test="id != null and id != ''">
         AND pa.ID = #{id} 
@@ -55,6 +56,7 @@
     <include refid="Base_Column_List" />
     FROM T_BSS_PPMS_PROJECTS_ADVICE pa
     <include refid="Example_Where_Clause"/>
+     order by seq
   </select>
   
   <!-- 3.插入数据 -->
@@ -82,6 +84,9 @@
       <if test="projectId != null">
         PROJECT_ID,
       </if>
+      <if test="seq != null">
+        SEQ,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -105,6 +110,9 @@
       <if test="projectId != null">
         #{projectId,jdbcType=VARCHAR},
       </if>
+      <if test="seq != null">
+        #{seq},
+      </if>
     </trim>
   </insert>
   
@@ -112,26 +120,11 @@
   <update id="update" parameterType="bss.model.ppms.ProjectAdvice">
     update T_BSS_PPMS_PROJECTS_ADVICE
     <set>
-      <if test="createUser != null">
-        CREATE_USER = #{createUser,jdbcType=VARCHAR},
-      </if>
-      <if test="createAt != null">
-        CREATE_AT = #{createAt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="content != null">
-        CONTENT = #{content},
-      </if>
-      <if test="typeId != null">
-        TYPE_ID = #{typeId,jdbcType=VARCHAR},
-      </if>
       <if test="isDelete != null">
         IS_DELETE = #{isDelete},
       </if>
-      <if test="projectId != null">
-        PROJECT_ID = #{projectId,jdbcType=VARCHAR},
-      </if>
     </set>
-    where ID = #{id,jdbcType=VARCHAR}
+    where PROJECT_ID = #{projectId,jdbcType=VARCHAR}
   </update>
   
 </mapper>

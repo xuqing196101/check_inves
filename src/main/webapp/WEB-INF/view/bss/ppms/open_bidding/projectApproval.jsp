@@ -53,15 +53,15 @@
 				<tr>
 					<td> <span class="star_red">*</span>报批说明：</td>
 					<td class="w200">
-						<u:upload id="c" buttonName="上传彩色扫描件" exts="jpg,jpeg,gif,png,bmp,pdf" multiple="true" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeApproval}" auto="true" />
-						<u:show showId="f" groups="b,c,d" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeApproval}" />
+						<u:upload id="c"  buttonName="上传彩色扫描件" exts="jpg,jpeg,gif,png,bmp,pdf" multiple="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeApproval}" auto="true" />
+						<u:show showId="f"  businessId="${project.id}" sysKey="${sysKey}" typeId="${typeApproval}" />
 					</td>
 				</tr>
 				<tr class="h50">
 					<td><span class="star_red">*</span>审批单：</td>
 					<td class="w200">
-						<u:upload id="a" buttonName="上传彩色扫描件" exts="jpg,jpeg,gif,png,bmp,pdf" multiple="true" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-						<u:show showId="b" groups="b,c,d" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
+						<u:upload id="a" buttonName="上传彩色扫描件" exts="jpg,jpeg,gif,png,bmp,pdf" multiple="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+						<u:show showId="b"  businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
 					</td>
 				</tr>
 			</c:if>
@@ -69,13 +69,13 @@
 				<tr>
 					<td>报批说明：</td>
 					<td class="w200">
-						<u:show showId="f" groups="b,c,d" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeApproval}" />
+						<u:show showId="f" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeApproval}" />
 					</td>
 				</tr>
 				<tr class="h50">
 					<td>审批单：</td>
 					<td class="w200">
-						<u:show showId="b" groups="b,c,d" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
+						<u:show showId="b"  delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
 					</td>
 				</tr>
 			</c:if>

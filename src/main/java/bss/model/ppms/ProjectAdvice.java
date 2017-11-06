@@ -19,8 +19,20 @@ public class ProjectAdvice {
 	private Integer isDelete;
 	
 	private Project project;
+	
+	private Integer seq;
 
-	public String getId() {
+	
+	
+	public Integer getSeq() {
+    return seq;
+  }
+
+  public void setSeq(Integer seq) {
+    this.seq = seq;
+  }
+
+  public String getId() {
 		return id;
 	}
 

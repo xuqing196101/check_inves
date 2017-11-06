@@ -13,7 +13,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -66,6 +65,7 @@ import bss.model.ppms.Negotiation;
 import bss.model.ppms.NegotiationReport;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
+import bss.model.ppms.ProjectAdvice;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.Reason;
 import bss.model.ppms.SaleTender;
@@ -80,6 +80,7 @@ import bss.service.ppms.MarkTermService;
 import bss.service.ppms.NegotiationReportService;
 import bss.service.ppms.NegotiationService;
 import bss.service.ppms.PackageService;
+import bss.service.ppms.ProjectAdviceService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
@@ -190,6 +191,9 @@ public class OpenBiddingController extends BaseSupplierController{
 
   @Autowired
   private PurchaseOrgnizationServiceI purchaseOrgnizationServiceI;
+  
+  @Autowired
+  private ProjectAdviceService adviceService;
 
   /**
    * 推送待办
@@ -253,6 +257,8 @@ public class OpenBiddingController extends BaseSupplierController{
   private UserServiceI userService;
   @Autowired
   private MarkTermService markTermService;
+  
+  
   /**
    * @Fields jsonData : ajax返回数据封装类
    */
@@ -302,6 +308,16 @@ public class OpenBiddingController extends BaseSupplierController{
     if (process != null && process == 1) {
       //审核页面不用校验是否完成
     } else {
+    //判断报批说明
+      List<UploadFile> approvalList = uploadService.getFilesOther(id, DictionaryDataUtil.getId("BID_FILE_APPROVAL"), Constant.TENDER_SYS_KEY+"");
+      // 判断审批文件
+      List<UploadFile> fileAuditList = uploadService.getFilesOther(id, DictionaryDataUtil.getId("BID_FILE_AUDIT"), Constant.TENDER_SYS_KEY+"");
+      if(approvalList==null||approvalList.size()==0){
+        return "redirect:/open_bidding/projectApproval.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg=1";
+      }
+      if(fileAuditList==null||fileAuditList.size()==0){
+        return "redirect:/open_bidding/projectApproval.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg=2";
+      }
       for (Packages p : packages) {
         //判断各包符合性审查项是否编辑完成
         FirstAudit firstAudit = new FirstAudit();
@@ -423,22 +439,35 @@ public class OpenBiddingController extends BaseSupplierController{
       }
       model.addAttribute("fileId", "0");
     }*/
-    //判断报批说明
-    List<UploadFile> approvalList = uploadService.getFilesOther(project.getId(), DictionaryDataUtil.getId("BID_FILE_APPROVAL"), Constant.TENDER_SYS_KEY+"");
-    // 判断审批文件
-    List<UploadFile> fileAuditList = uploadService.getFilesOther(project.getId(), DictionaryDataUtil.getId("BID_FILE_AUDIT"), Constant.TENDER_SYS_KEY+"");
-    if(approvalList==null||approvalList.size()==0){
-      return "redirect:/open_bidding/projectApproval.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg=1";
-    }
-    if(fileAuditList==null||fileAuditList.size()==0){
-      return "redirect:/open_bidding/projectApproval.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg=2";
-    }
+    
+    
+    
     model.addAttribute("flowDefineId", flowDefineId);
     model.addAttribute("project", project);
-    String jsonReason = project.getAuditReason();
+    /*String jsonReason = project.getAuditReason();
     if (jsonReason != null && !"".equals(jsonReason)) {
         model.addAttribute("reasons", JSON.parseObject(jsonReason, Reason.class));
+    }*/
+    HashMap<String, Object> hashMap=new HashMap<String, Object>();
+    hashMap.put("prijectId", project.getId());
+    List<ProjectAdvice> findByList = adviceService.findByList(hashMap);
+    Map<String, Object> map2=new HashMap<String, Object>();
+    for(ProjectAdvice pa:findByList){
+      if(pa.getTypeId().equals(DictionaryDataUtil.getId("PC_REASON"))){
+        map2.put("pcId", pa);
+      }
+      if(pa.getTypeId().equals(DictionaryDataUtil.getId("CAUSE_REASON"))){
+        map2.put("causeId", pa);
+       }
+      if(pa.getTypeId().equals(DictionaryDataUtil.getId("FINANCE_REASON"))){
+        map2.put("financeId", pa);
+      }
+      if(pa.getTypeId().equals(DictionaryDataUtil.getId("FINAL_OPINION"))){
+        map2.put("finalId", pa);
+      }
     }
+    model.addAttribute("MapPa",map2);
+    
     model.addAttribute("pStatus",DictionaryDataUtil.findById(project.getStatus()).getCode());
     model.addAttribute("ope", "add");
     model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
@@ -446,16 +475,21 @@ public class OpenBiddingController extends BaseSupplierController{
     model.addAttribute("typeId", DictionaryDataUtil.getId("BID_FILE_AUDIT"));
     //采购管理部门审核意见附件
     model.addAttribute("pcTypeId", DictionaryDataUtil.getId("PC_REASON"));
+    model.addAttribute("pcId",WfUtil.createUUID());
     //事业部门审核意见附件
     model.addAttribute("causeTypeId", DictionaryDataUtil.getId("CAUSE_REASON"));
+    model.addAttribute("causeId", WfUtil.createUUID());
     //财务部门审核意见附件
     model.addAttribute("financeTypeId", DictionaryDataUtil.getId("FINANCE_REASON"));
+    model.addAttribute("financeId",  WfUtil.createUUID());
     //最终意见
     model.addAttribute("finalTypeId", DictionaryDataUtil.getId("FINAL_OPINION"));
+    model.addAttribute("finalId",WfUtil.createUUID());
     //报批说明
     model.addAttribute("typeApproval", DictionaryDataUtil.getId("BID_FILE_APPROVAL"));
     
     model.addAttribute("projectTypeId", typeId);
+    
     return "bss/ppms/open_bidding/bid_file/add_file";
   }
 
@@ -1162,7 +1196,6 @@ public class OpenBiddingController extends BaseSupplierController{
       //删除 ,表中数据假删除
       uploadService.updateFileOther(files.get(0).getId(), Constant.TENDER_SYS_KEY+"");
       result = uploadService.saveOnlineFile(req, projectId, typeId, Constant.TENDER_SYS_KEY+"");
-   
       //flag：1，招标文件为提交状态
       if ("1".equals(flag)) {
         //
@@ -1173,6 +1206,10 @@ public class OpenBiddingController extends BaseSupplierController{
         //修改项目状态
         project.setStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
         projectService.update(project);
+        ProjectAdvice advice=new ProjectAdvice();
+        advice.setProjectId(project.getId());
+        advice.setIsDelete(1);
+        adviceService.update(advice);
         //推送待办
         push(user,project.getId());
         //该环节设置为执行中状态
@@ -1217,6 +1254,10 @@ public class OpenBiddingController extends BaseSupplierController{
         //修改项目状态
         project.setStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
         projectService.update(project);
+        ProjectAdvice advice=new ProjectAdvice();
+        advice.setProjectId(project.getId());
+        advice.setIsDelete(1);
+        adviceService.update(advice);
         //推待办
         push(user,project.getId());
         //该环节设置为执行中状态
