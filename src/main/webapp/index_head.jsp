@@ -861,28 +861,17 @@
                                 <c:forEach items="${expertList}" var="item" begin="0" end="5" step="1" varStatus="status" >
                                     <tr>
                                         <td>${item.relName }</td>
-                                        <td class="tc"></td>
-                                        <td class="tc"> <c:choose>
-                                            <%-- <c:when test="${item.status == 0}">
-                                                      未审核
-                                            </c:when>
-                                             <c:when test="${item.status == 1}">
-                                                初审通过
-                                             </c:when>
-                                             <c:when test="${item.status == 2}">
-                                                    初审未通过
-                                                </c:when>
-                                                <c:when test="${item.status == 3}">
-                                                    退回修改
-                                               </c:when>
-                                                <c:when test="${item.status == 4}">
-                                                     待复审
-                                               </c:when> --%>
-                                            <c:when test="${item.status eq '4' or item.status == '6' or item.status == '8'}">
+                                        <td class="tc">${item.batchDetailsNumber }</td>
+                                        <td class="tc">
+                                          <c:choose>
+                                            <c:when test="${'6' eq item.status}">
                                                 复审通过
                                             </c:when>
-                                            <c:when test="${item.status eq '7'}">
-                                                复查通过
+                                            <c:when test="${'7' eq item.status}">
+                                                复查合格
+                                            </c:when>
+                                            <c:when test="${'8' eq item.status}">
+                                                复查不合格
                                             </c:when>
                                             <c:otherwise>
                                             </c:otherwise>
