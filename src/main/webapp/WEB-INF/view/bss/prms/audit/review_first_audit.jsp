@@ -44,10 +44,10 @@
    }
 
   //不合格的弹框
-   function isPass(obj,position,index){
-	  layer.prompt({title: '请填写理由！',offset: '100px', formType: 2,cancel:function(){$(obj).attr("checked",false);}}, function(text){
+   function isPass(obj1,position,index){
+	  layer.prompt({title: '请填写理由！',offset: '100px', formType: 2,cancel:function(){$(obj1).attr("checked",false);}}, function(text){
 	    layer.msg('您的理由为：'+ text);
-	    var value = $(obj).val();
+	    var value = $(obj1).val();
 	    var ids = new Array();
 	    var ids= value.split(",");
 	    var projectId="${extension.projectId}";
@@ -57,8 +57,8 @@
 	    	data:{'projectId':projectId,'packageId':packageId,'firstAuditId':ids[0],'supplierId':ids[1],'isPass':ids[2],'rejectReason':text},
 	    	type:'post',
 	    	success:function(obj){
-	    		layer.msg('审核成功',{offset: '100px'});
-	    		$("#notPassReason_"+position+"_"+index).removeAttr("class");
+	    		$(obj1).next().removeAttr("class");
+	    		layer.msg('审核成功');
 	    	},
 	    	error:function(){}
 	    	
@@ -67,8 +67,8 @@
 	  });
 	}
   //合格
-  function pass(obj,position,index){
-	  var value = $(obj).val();
+  function pass(obj1,position,index){
+	  var value = $(obj1).val();
 	    var ids = new Array();
 	    var ids= value.split(",");
 	    var projectId="${extension.projectId }";
@@ -78,8 +78,8 @@
 	    	data:{'projectId':projectId,'packageId':packageId,'firstAuditId':ids[0],'supplierId':ids[1],'isPass':ids[2]},
 	    	type:'post',
 	    	success:function(obj){
-	    		//layer.msg('审核成功');
-	    		$("#notPassReason_"+position+"_"+index).attr("class","dnone");
+	    		$(obj1).next().next().attr("class","dnone");
+	    		layer.msg('审核成功');
 	    	},
 	    	error:function(){}
 	    });
@@ -98,20 +98,21 @@
 	    	data:{'projectId':projectId,'packageId':packageId,'supplierId':supplierId,'flag':flag},
 	    	type:'post',
 	    	success:function(obj){
-	    		/* $("#table").find("tr").each(function(){
+	    		$("#table").find("tr").each(function(){
 	    			 if($(this).children()[index]!='undefined'){
 	    				 $($(this).children()[index]).find("input[type='radio']").each(function(){
 	    					 if($(this).val().split(",")[2]=="0"){
-	    						 $(this).attr("checked","checked");
+	    						 $(this).prop("checked",true);
 	    					 }else{
 	    						 $(this).removeAttr("checked");
+	    						 $(this).next().attr("class","dnone");
 	    					 }
 	    				 })
 	    			 }
 	    			
 	    		});
-	    		layer.msg('审核成功'); */
-	    		window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toAudit.html?projectId="+projectId+"&packageId="+packageId; 
+	    		layer.msg('审核成功');
+	    		/* window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toAudit.html?projectId="+projectId+"&packageId="+packageId; */ 
 	    	},
 	    	error:function(){}
 	    	
@@ -132,11 +133,12 @@
 	    	data:{'projectId':projectId,'packageId':packageId,'supplierId':supplierId,'flag':flag,'rejectReason':text},
 	    	type:'post',
 	    	success:function(obj){
-	    		/* $("#table").find("tr").each(function(){
+	    		$("#table").find("tr").each(function(){
 	    			 if($(this).children()[index]!='undefined'){
 	    				 $($(this).children()[index]).find("input[type='radio']").each(function(){
 	    					 if($(this).val().split(",")[2]=="1"){
-	    						 $(this).attr("checked","checked");
+	    						 $(this).prop("checked",true);
+	    						 $(this).next().removeAttr("class","dnone");
 	    					 }else{
 	    						 $(this).removeAttr("checked");
 	    					 }
@@ -144,8 +146,8 @@
 	    			 }
 	    			
 	    		});
-	    		layer.msg('审核成功'); */
-	    		 window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toAudit.html?projectId="+projectId+"&packageId="+packageId; 
+	    		layer.msg('审核成功');
+	    		 /* window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toAudit.html?projectId="+projectId+"&packageId="+packageId; */ 
 	    	},
 	    	error:function(){}
 	    	
@@ -274,7 +276,7 @@
 			   		                  		<a id="notPassReason_${v.index}_${vs.index}" name="notPassReason" href="javascript:void(0);" onclick="reason('${first.id}','${supplier.suppliers.id }','${sessionScope.loginUser.typeId}');">查看理由</a>
 										</c:if>
 		   		                      </c:forEach>
-		   		                      <a id="notPassReason_${v.index}_${vs.index}" name="notPassReason" class="dnone" href="javascript:void(0);" onclick="reason('${first.id}','${supplier.suppliers.id }','${sessionScope.loginUser.typeId}');">查看理由</a>
+		   		                      <a id="notPassReason_${v.index}_${vs.index}_1" name="notPassReason" class="dnone" href="javascript:void(0);" onclick="reason('${first.id}','${supplier.suppliers.id }','${sessionScope.loginUser.typeId}');">查看理由</a>
 			   		                </td>
 		   		                </c:if>
 		   		              </c:forEach>

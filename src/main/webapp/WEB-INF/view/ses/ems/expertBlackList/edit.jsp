@@ -108,8 +108,7 @@
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
             <input class="input_group" readonly="readonly" name="storageTime"
               required="required" type="text"
-              value="<fmt:formatDate value="${expert.storageTime}" pattern='yyyy-MM-dd'/>"
-              onclick='WdatePicker()'>
+              value="<fmt:formatDate value="${expert.storageTime}" pattern='yyyy-MM-dd'/>">
             <div class="cue">${err_storageTime }</div>
           </div></li>
         <li class="col-md-12 col-sm-12 col-xs-12">

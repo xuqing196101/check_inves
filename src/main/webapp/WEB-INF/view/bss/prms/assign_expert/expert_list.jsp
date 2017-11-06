@@ -462,8 +462,8 @@
             <div id="packageContent" class="packageContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999; ">
               <ul id="treePackageType" class="ztree" style="margin-top:0;width: 170px;height: 250px;"></ul>
             </div>
+            <a href="javascript:;" class="btn btn-windows input fr h30 mb0 mr10" id="downTemplate">导出模板</a>
           </form>
-          <a href="javascript:;" class="btn btn-windows input fr h30 mb0 mr10" id="downTemplate">导出模板</a>
           <button class="btn fr h30 mb0" name="addExp_btn" onclick="addExpert('${vs.index}','${project.id}','${pack.id}');" type="button">添加临时专家</button>
         </div>
         <div class="clear"></div>

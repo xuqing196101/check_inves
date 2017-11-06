@@ -63,9 +63,11 @@
      $("input[name='id']").click(function(index) {
       var id = $(this).val();
       var relName = $(this).parents("tr").find("td").eq(2).text();
+      var storageAt = $(this).parents("tr").find("td").eq(3).text();
        $("input[name='expertId']").val(id);
        $("#relName_name_input_id").val(id);
-      $("#relName_name_input_id").val(relName);
+       $("#relName_name_input_id").val(relName);
+       $("#storageTime").val(storageAt);
     });
   });
   
@@ -79,9 +81,11 @@
       return;
     }
     var id = $("#relName_id_input_id").val();
-	var expertName = $("#relName_name_input_id").val();
-	parent.document.getElementById("expert_id").value=id;  
+	  var expertName = $("#relName_name_input_id").val();
+	  var storageTime = $("#storageTime").val();
+	  parent.document.getElementById("expert_id").value=id;  
     parent.document.getElementById("expert_name").value=expertName;
+    parent.document.getElementById("storageTime").value=storageTime;
     parent.layer.closeAll();
   }
   //查询
@@ -126,6 +130,7 @@
 							      <th class="info w50">选择</th>
 							      <th class="info w50">序号</th>
 							      <th class="info">专家姓名</th>
+							      <th class="info">入库时间</th>
                   </tr>
                 </thead>
                 <c:forEach items="${expertAll }" var="e" varStatus="vs">
@@ -133,6 +138,7 @@
 							      <td class="tc w30"><input name="id" type="radio" value="${e.id}"></td>
 							      <td  class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
 							      <td  class="tc">${e.relName}</td>
+							      <td  class="tc"><fmt:formatDate value="${e.storageAt}" pattern='yyyy-MM-dd'/></td>
 	                </tr>
                 </c:forEach>
               </table>
@@ -146,6 +152,7 @@
       <form target="_parent" id="check_form_id" action="${pageContext.request.contextPath}/expertBlacklist/addBlacklist.html" method="post">
         <input id="relName_id_input_id" type="hidden" name="expertId" />
         <input id="relName_name_input_id" type="hidden" name="relName" />
+        <input id="storageTime" type="hidden" name="storageTime" />
       </form>
     </div>
 </body>

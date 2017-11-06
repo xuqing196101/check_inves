@@ -2694,8 +2694,7 @@
         T.AUDIT_AT &lt;= to_date(#{endTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
     </select>
     
-        <select id="findExpertByBlacklist" resultMap="BaseResultMap"
-            parameterType="ses.model.ems.Expert">
+        <select id="findExpertByBlacklist" resultMap="BaseResultMap" parameterType="ses.model.ems.Expert">
         SELECT
         *
         FROM
@@ -2705,8 +2704,7 @@
             AND REAL_NAME like CONCAT(CONCAT('%', #{relName}), '%')
         </if>
         <if test="ids != null">
-            <foreach collection="ids" item="id" open="and ID not in ("
-                     close=")" separator=",">
+            <foreach collection="ids" item="id" open="and ID not in (" close=")" separator=",">
                 #{id}
             </foreach>
         </if>
