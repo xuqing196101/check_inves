@@ -1498,7 +1498,7 @@ public class SupplierController extends BaseSupplierController {
 				if(dd != null){
 					supplierAudit.setAuditField(dd.getId());
 				}
-				int supplierTypeAuditCount = supplierAuditService.countAuditRecords(supplierAudit, new Integer[]{2});
+				int supplierTypeAuditCount = supplierAuditService.countAuditRecords(supplierAudit, new Integer[]{0,2});
 				if(supplierTypeAuditCount == 0){// 没有审核不通过的记录才做以下校验
 //					List<SupplierItem> items = supplierItemService.queryBySupplierAndType(supplierId, s);
 					List<SupplierItem> items = supplierItemService.getItemList(supplierId, s, (byte)0, null);
