@@ -1087,25 +1087,61 @@ function temporary_init() {
   $.ajax({
     type: 'POST',
     dataType: 'json',
-    url: temporary_url,
+    url: temporary_init_url,
     data: {},
     success: function (data) {
       temporary_content = data;
       for (var i in temporary_content) {
         str += '<tr>'
-        +'  <td class="text-center"><input name="id" type="checkbox" value="91d91266b5e14e1d87be71b42154bda0" class="select_item"></td>'
-        +'  <td class="text-center">1</td>'
-        +'  <td>CG08</td>'
-        +'  <td>1027ZJ5</td>'
-        +'  <td class="text-center">男</td>'
-        +'  <td>工程技术、服务技术</td>'
-        +'  <td class="text-center">军队</td>'
-        +'  <td>FSFSD</td>'
-        +'  <td>4324324</td>'
-        +'  <td class="text-center">2017-11-03</td>'
-      +'</tr>';
+            +'  <td class="text-center"><input name="id" type="checkbox" value="91d91266b5e14e1d87be71b42154bda0" class="select_item"></td>'
+            +'  <td class="text-center">1</td>'
+            +'  <td>CG08</td>'
+            +'  <td>1027ZJ5</td>'
+            +'  <td class="text-center">男</td>'
+            +'  <td>工程技术、服务技术</td>'
+            +'  <td class="text-center">军队</td>'
+            +'  <td>FSFSD</td>'
+            +'  <td>4324324</td>'
+            +'  <td class="text-center">2017-11-03</td>'
+        +'</tr>';
       }
-      console.log(temporary_content);
+      
+      $('#selected_content').html(str);
+      
+      // 处理未选人员
+      $('#list_content tr').each(function () {
+        for (var ii in temporary_content) {
+          if ($(this).find('input[type="checkbox"]').val() == temporary_content[ii]) {
+            $(this).addClass('hide');
+            break;
+          }
+        }
+      });
+      
+      unselect_total();  // 统计未选专家
+      select_total();  // 统计已选专家
+    }
+  });
+}
+
+// 暂存操作
+function againAudit_temporary() {
+  var ids = [];  // 专家id
+  $('#selected_content tr').each(function () {
+    ids.push($(this).find('input[type="checkbox"]').val());
+  });
+  
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: temporary_url,
+    data: {
+      ids: ids.join(',')
+    },
+    success: function (data) {
+      layer.msg(data.message, {
+        offset: '100px'
+      });
     }
   });
 }
