@@ -495,16 +495,16 @@
         <table class="table table-bordered table-condensed table-hover table-striped hand againAudit_table">
           <thead>
             <tr>
-              <th class="info w50"><input type="checkbox" name="checkAll" onclick="checkAll(this)"></th>
-              <th class="info w50">序号</th>
-              <th class="info w80">专家姓名</th>
-              <th class="info w80">工作单位</th>
-              <th class="info">技术职称(职务)</th>
-              <th class="info w50">类型</th>
-              <th class="info w80">类别</th>
-              <th class="info w80">最新提交时间</th>
-              <th class="info w80">最新审核时间</th>
-              <th class="info w80">审核人</th>
+              <th class="info w20"><input type="checkbox" name="checkAll" onclick="checkAll(this)"></th>
+              <th class="info w40">序号</th>
+              <th class="info w50">专家姓名</th>
+              <th class="info w90">工作单位</th>
+              <th class="info w100">技术职称(职务)</th>
+              <th class="info w30">类型</th>
+              <th class="info w50">类别</th>
+              <th class="info w60">最新提交时间</th>
+              <th class="info w60">最新审核时间</th>
+              <th class="info w70">审核人</th>
               <th class="info w80">状态</th>
               
             </tr>
@@ -517,13 +517,19 @@
                 <c:if test="${fn:length(expert.relName) >4 }"><a href="javascript:;" onclick="view('${expert.id}',${sign})">${fn:substring(expert.relName,0,4)}...</a></c:if>
                 <c:if test="${fn:length(expert.relName) <=4}"><a href="javascript:;" onclick="view('${expert.id}',${sign})">${expert.relName}</a></c:if>
               </td>
-               <td class="tl" onclick="shenhe('${expert.id}');" title="${expert.workUnit }">
+              <td class="tl" onclick="shenhe('${expert.id}');" title="${expert.workUnit }">
                 <c:if test="${fn:length(expert.workUnit) >8}">${fn:substring(expert.workUnit,0,8)}...</c:if>
                 <c:if test="${fn:length(expert.workUnit) <=8}">${expert.workUnit}</c:if>
               </td>
-              <td class="tl" onclick="shenhe('${expert.id}');">${expert.professTechTitles}</td>
+              <td class="tl" onclick="shenhe('${expert.id}');" title="${expert.professTechTitles }">
+                <c:if test="${fn:length(expert.professTechTitles) >11}">${fn:substring(expert.professTechTitles,0,11)}...</c:if>
+                <c:if test="${fn:length(expert.professTechTitles) <=11}">${expert.professTechTitles}</c:if>
+              </td>
               <td class="tc" onclick="shenhe('${expert.id}');">${expert.expertsFrom}</td>
-              <td class="tl" onclick="shenhe('${expert.id}');">${expert.expertsTypeId}</td>
+              <td class="hand" title="${expert.expertsTypeId}">
+                <c:if test="${fn:length (expert.expertsTypeId) > 4}">${fn:substring(expert.expertsTypeId,0,4)}...</c:if>
+                <c:if test="${fn:length (expert.expertsTypeId) <= 4}">${expert.expertsTypeId}</c:if>
+              </td>
               <td class="tc" onclick="shenhe('${expert.id}');">
                 <fmt:formatDate type='date' value='${expert.submitAt }' dateStyle="default" pattern="yyyy-MM-dd" />
               </td>
