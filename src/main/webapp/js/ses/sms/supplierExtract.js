@@ -139,7 +139,7 @@ function addPerson(obj){
 		index=0;
 	}
 	var id = uuid();// 生成id
-	var tr = "<tr class='inp'><td class='tc'><input type='checkbox' name='list["+req+"].id'  value='"+id+"'><input type='hidden' name='list["+req+"].id'  value='"+id+"'></td><td class='tc'> "+(parseInt(index)+1)+" </td><td class='tc'> <input type='text' name='list["+req+"].name' maxlength='5'> </td><td class='tc'> <input type='text' class='w100p' name='list["+req+"].compary' ></td><td class='tc'> <input type='text' name='list["+req+"].duty'></td><td class='tc'> <input type='text' name='list["+req+"].rank'></td></tr>";
+	var tr = "<tr class='inp'><td class='tc'><input type='checkbox' name='list["+req+"].id' value='"+id+"'><input type='hidden' name='list["+req+"].id' value='"+id+"'></td><td class='tc'> "+(parseInt(index)+1)+" </td><td class='tc'> <input type='text' name='list["+req+"].name' maxlength='5' class='w100p'> </td><td class='tc'> <input type='text' class='w100p' name='list["+req+"].compary' ></td><td class='tc'> <input type='text' name='list["+req+"].duty' class='w100p'></td><td class='tc'> <input type='text' name='list["+req+"].rank' class='w100p'></td></tr>";
 	$(obj).parents("form").find("tbody").append(tr);
 }
 

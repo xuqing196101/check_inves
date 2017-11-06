@@ -301,8 +301,7 @@
 				<table class="table table-bordered table-condensed table_input mt10">
 					<thead>
 						<tr>
-							<th class="info"><input type="checkbox"
-								onclick="checkAll(this)"></th>
+							<th class="info"><input type="checkbox" onclick="checkAll(this)"></th>
 							<th class="info">序号</th>
 							<th class="info" width="15%">姓名</th>
 							<th class="info" width="40%">单位</th>
@@ -368,8 +367,8 @@
 						当前满足<span id="count">0</span>家
 					</button>
 				</h2>
-				<ul class="ul_list m0" style="background-color: #fbfbfb">
-					<li class="col-md-3 col-sm-6 col-xs-12 category">
+				<ul class="ul_list m0 pl5" style="background-color: #fbfbfb">
+					<li class="col-md-3 col-sm-6 col-xs-12 pl10 category">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">产品类别：</span>
 						<!--  满足多个条件 -->
 						<input type="hidden" name="isMulticondition" value="1" id="isSatisfy" class="isSatisfy"> <input type="hidden" name="categoryId" id="categoryIds" class="categoryId">
@@ -403,7 +402,7 @@
 							<div class="cue" id="ExtractNumError">${loginPwdError}</div>
 						</div>
 					</li>
-					<li class="col-md-3 col-sm-6 col-xs-12 pl0 dnone projectOwn">
+					<li class="col-md-3 col-sm-6 col-xs-12 dnone projectOwn">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">承揽业务范围：</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="hidden"  name="businessScope"> 
