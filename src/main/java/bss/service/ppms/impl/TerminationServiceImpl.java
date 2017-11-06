@@ -773,6 +773,16 @@ public class TerminationServiceImpl implements TerminationService {
         uploadDao.insertFile(uf);
       }
    }
+    //报批说明
+    String bp_reason = DictionaryDataUtil.getId("BID_FILE_APPROVAL");
+    files = uploadDao.getFiles(tableName, oldProjectId, bp_reason);
+    if (files != null && files.size() > 0){
+      for(UploadFile uf:files){
+        uf.setBusinessId(project.getId());
+        uf.setTableName(tableName);
+        uploadDao.insertFile(uf);
+      }
+   }
     //采购管理部门审核意见附件
     String pc_reason = DictionaryDataUtil.getId("PC_REASON");
     files = uploadDao.getFiles(tableName, oldProjectId, pc_reason);

@@ -77,9 +77,7 @@
         var projectId = $("#projectId").val();
         var packageId = $("#packageId").val();
         var flowDefineId = "${flowDefineId}";
-        var name = encodeURI(obj);
-		name = encodeURI(name);
-    	window.location.href="${pageContext.request.contextPath}/intelligentScore/gettreebody.html?projectId="+projectId+"&packageId="+packageId+"&id="+kindId+"&name="+name+"&addStatus="+status+"&flowDefineId="+flowDefineId;
+    	window.location.href="${pageContext.request.contextPath}/intelligentScore/gettreebody.html?projectId="+projectId+"&packageId="+packageId+"&id="+kindId+"&name="+obj+"&addStatus="+status+"&flowDefineId="+flowDefineId;
     }
     
     
@@ -464,7 +462,7 @@
 	                 	</td>
 	                 	<td></td>
                 </tr> --%>
-                 ${str}
+                <c:out value="${str}" escapeXml="false"/>  
         </table>
         <div class="tr col-md-12 col-sm-12 col-xs-12">
           <div ><b>总分:</b><span class="red f16" id="totalScore"></span></div>
