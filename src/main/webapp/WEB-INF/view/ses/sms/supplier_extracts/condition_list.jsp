@@ -412,7 +412,7 @@
 							<div class="cue" id="businessScopeError"></div>
 						</div>
 					</li>
-					<li class="col-md-3 col-sm-6 col-xs-12 pl0">
+					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">
 							<span class="star_red">*</span>供应商所在地区：
 						</span>
@@ -435,23 +435,27 @@
 					</li>		
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">保密要求：</span>
-						<select name="isHavingConCert" class="w100p"
-							onchange="selectLikeSupplier()">
-							<option value="">不限</option>
-							<option value="0">无</option>
-							<option value="1">有</option>
-						</select>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<select name="isHavingConCert" class="w100p"
+								onchange="selectLikeSupplier()">
+								<option value="">不限</option>
+								<option value="0">无</option>
+								<option value="1">有</option>
+							</select>
+						</div>
 						<div class="cue">${loginPwdError}</div>
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">境外分支机构：</span>
-						<select name="overseasBranch" class="w100p"
-							onchange="selectLikeSupplier()">
-							<option value="">不限</option>
-							<option value="1">有</option>
-							<option value="0">无</option>
-						</select>
-						<div class="cue">${loginPwdError}</div>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<select name="overseasBranch" class="w100p"
+								onchange="selectLikeSupplier()">
+								<option value="">不限</option>
+								<option value="1">有</option>
+								<option value="0">无</option>
+							</select>
+							<div class="cue">${loginPwdError}</div>
+						</div>
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12 dnone projectOwn">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">资质信息：</span>
