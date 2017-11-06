@@ -127,6 +127,17 @@
             });
           }
           
+          // 处理未选人员
+          $('#list_content tr').each(function () {
+            var _this = $(this);
+            $('#selected_content tr').each(function () {
+              if (_this.find('input[type="checkbox"]').val() == $(this).find('input[type="checkbox"]').val()) {
+                _this.addClass('hide');
+                return false;
+              }
+            });
+          });
+          
           unselect_total();  // 统计未选专家
           select_total();  // 统计已选专家
           

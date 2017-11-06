@@ -1133,16 +1133,6 @@ function temporary_init() {
       
       $('#selected_content').html(str);
       
-      // 处理未选人员
-      $('#list_content tr').each(function () {
-        for (var ii in temporary_content) {
-          if ($(this).find('input[type="checkbox"]').val() == temporary_content[ii].id) {
-            $(this).addClass('hide');
-            break;
-          }
-        }
-      });
-      
       unselect_total();  // 统计未选专家
       select_total();  // 统计已选专家
     }
@@ -1155,7 +1145,6 @@ function againAudit_temporary() {
   $('#selected_content tr').each(function () {
     ids.push($(this).find('input[type="checkbox"]').val());
   });
-  console.log(ids.join(','));
   
   $.ajax({
     type: 'POST',
