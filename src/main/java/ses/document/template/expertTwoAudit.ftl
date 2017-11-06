@@ -6,16 +6,16 @@
 			<o:Author>YH</o:Author>
 			<o:LastAuthor>YH</o:LastAuthor>
 			<o:Revision>2</o:Revision>
-			<o:TotalTime>0</o:TotalTime>
-			<o:Created>2017-10-30T02:52:00Z</o:Created>
-			<o:LastSaved>2017-10-30T02:52:00Z</o:LastSaved>
+			<o:TotalTime>1</o:TotalTime>
+			<o:Created>2017-11-03T09:39:00Z</o:Created>
+			<o:LastSaved>2017-11-03T09:39:00Z</o:LastSaved>
 			<o:Pages>1</o:Pages>
-			<o:Words>63</o:Words>
-			<o:Characters>360</o:Characters>
+			<o:Words>62</o:Words>
+			<o:Characters>357</o:Characters>
 			<o:Company>XXX</o:Company>
-			<o:Lines>3</o:Lines>
+			<o:Lines>2</o:Lines>
 			<o:Paragraphs>1</o:Paragraphs>
-			<o:CharactersWithSpaces>422</o:CharactersWithSpaces>
+			<o:CharactersWithSpaces>418</o:CharactersWithSpaces>
 			<o:Version>11.5604</o:Version>
 		</o:DocumentProperties>
 		<w:fonts>
@@ -63,7 +63,7 @@
 			<w:style w:type="paragraph" w:default="on" w:styleId="a">
 				<w:name w:val="Normal" />
 				<wx:uiName wx:val="正文" />
-				<w:rsid w:val="00D13A89" />
+				<w:rsid w:val="00947758" />
 				<w:pPr>
 					<w:widowControl w:val="off" />
 					<w:jc w:val="both" /></w:pPr>
@@ -99,31 +99,12 @@
 				<wx:uiName wx:val="无列表" />
 				<w:semiHidden/></w:style>
 			<w:style w:type="paragraph" w:styleId="a3">
-				<w:name w:val="header" />
-				<wx:uiName wx:val="页眉" />
-				<w:basedOn w:val="a" />
-				<w:rsid w:val="00A94A1D" />
-				<w:pPr>
-					<w:pStyle w:val="a3" />
-					<w:pBdr>
-						<w:bottom w:val="single" w:sz="6" wx:bdrwidth="15" w:space="1" w:color="auto" /></w:pBdr>
-					<w:tabs>
-						<w:tab w:val="center" w:pos="4153" />
-						<w:tab w:val="right" w:pos="8306" /></w:tabs>
-					<w:snapToGrid w:val="off" />
-					<w:jc w:val="center" /></w:pPr>
-				<w:rPr>
-					<wx:font wx:val="Times New Roman" />
-					<w:sz w:val="18" />
-					<w:sz-cs w:val="18" /></w:rPr>
-			</w:style>
-			<w:style w:type="paragraph" w:styleId="a4">
 				<w:name w:val="footer" />
 				<wx:uiName wx:val="页脚" />
 				<w:basedOn w:val="a" />
-				<w:rsid w:val="00A94A1D" />
+				<w:rsid w:val="00AE79DB" />
 				<w:pPr>
-					<w:pStyle w:val="a4" />
+					<w:pStyle w:val="a3" />
 					<w:tabs>
 						<w:tab w:val="center" w:pos="4153" />
 						<w:tab w:val="right" w:pos="8306" /></w:tabs>
@@ -134,26 +115,14 @@
 					<w:sz w:val="18" />
 					<w:sz-cs w:val="18" /></w:rPr>
 			</w:style>
-			<w:style w:type="character" w:styleId="a5">
+			<w:style w:type="character" w:styleId="a4">
 				<w:name w:val="page number" />
 				<wx:uiName wx:val="页码" />
 				<w:basedOn w:val="a0" />
-				<w:rsid w:val="00A94A1D" /></w:style>
+				<w:rsid w:val="00AE79DB" /></w:style>
 		</w:styles>
 		<w:divs>
-			<w:div w:id="891425650">
-				<w:bodyDiv w:val="on" />
-				<w:marLeft w:val="0" />
-				<w:marRight w:val="0" />
-				<w:marTop w:val="0" />
-				<w:marBottom w:val="0" />
-				<w:divBdr>
-					<w:top w:val="none" w:sz="0" wx:bdrwidth="0" w:space="0" w:color="auto" />
-					<w:left w:val="none" w:sz="0" wx:bdrwidth="0" w:space="0" w:color="auto" />
-					<w:bottom w:val="none" w:sz="0" wx:bdrwidth="0" w:space="0" w:color="auto" />
-					<w:right w:val="none" w:sz="0" wx:bdrwidth="0" w:space="0" w:color="auto" /></w:divBdr>
-			</w:div>
-			<w:div w:id="1199273947">
+			<w:div w:id="839389671">
 				<w:bodyDiv w:val="on" />
 				<w:marLeft w:val="0" />
 				<w:marRight w:val="0" />
@@ -249,7 +218,9 @@
 							<wx:font wx:val="方正小标宋简体" />
 							<w:sz w:val="44" />
 							<w:sz-cs w:val="44" /></w:rPr>
-						<w:t>军队采购评审专家入库<#if orgName == "cgjg" >专家</#if>复审表</w:t>
+						<w:t>军队采购评审专家入库复审表<#if orgName == "cgjg" >（专家）</#if>
+						<#if orgName == "zyfwzx" >（中心）</#if>
+						</w:t>
 					</w:r>
 				</w:p>
 				<w:p>
@@ -313,7 +284,7 @@
 						<w:gridCol w:w="1373" /></w:tblGrid>
 					<w:tr>
 						<w:trPr>
-							<w:trHeight w:val="736" /></w:trPr>
+							<w:trHeight w:val="751" /></w:trPr>
 						<w:tc>
 							<w:tcPr>
 								<w:tcW w:w="1035" w:type="dxa" />
@@ -482,7 +453,7 @@
 					</w:tr>
 					<w:tr>
 						<w:trPr>
-							<w:trHeight w:val="736" /></w:trPr>
+							<w:trHeight w:val="751" /></w:trPr>
 						<w:tc>
 							<w:tcPr>
 								<w:tcW w:w="1035" w:type="dxa" />
@@ -651,7 +622,7 @@
 					</w:tr>
 					<w:tr>
 						<w:trPr>
-							<w:trHeight w:val="640" /></w:trPr>
+							<w:trHeight w:val="653" /></w:trPr>
 						<w:tc>
 							<w:tcPr>
 								<w:tcW w:w="1035" w:type="dxa" />
@@ -820,7 +791,7 @@
 					</w:tr>
 					<w:tr>
 						<w:trPr>
-							<w:trHeight w:val="640" /></w:trPr>
+							<w:trHeight w:val="653" /></w:trPr>
 						<w:tc>
 							<w:tcPr>
 								<w:tcW w:w="5211" w:type="dxa" />
@@ -878,7 +849,7 @@
 					</w:tr>
 					<w:tr>
 						<w:trPr>
-							<w:trHeight w:val="640" /></w:trPr>
+							<w:trHeight w:val="653" /></w:trPr>
 						<w:tc>
 							<w:tcPr>
 								<w:tcW w:w="5211" w:type="dxa" />
@@ -940,7 +911,7 @@
 					<#list categoryList as category >
 					<w:tr>
 						<w:trPr>
-							<w:trHeight w:val="640" /></w:trPr>
+							<w:trHeight w:val="653" /></w:trPr>
 						<w:tc>
 							<w:tcPr>
 								<w:tcW w:w="5211" w:type="dxa" />
@@ -1002,7 +973,7 @@
 					</#list>
 					<w:tr>
 						<w:trPr>
-							<w:trHeight w:val="640" /></w:trPr>
+							<w:trHeight w:val="653" /></w:trPr>
 						<w:tc>
 							<w:tcPr>
 								<w:tcW w:w="2088" w:type="dxa" />
@@ -1062,7 +1033,7 @@
 					<#if orgName != "zyfwzx" >
 					<w:tr>
 						<w:trPr>
-							<w:trHeight w:val="640" /></w:trPr>
+							<w:trHeight w:val="653" /></w:trPr>
 						<w:tc>
 							<w:tcPr>
 								<w:tcW w:w="8402" w:type="dxa" />
@@ -1093,7 +1064,7 @@
 					</w:tr>
 					<w:tr>
 						<w:trPr>
-							<w:trHeight w:val="640" /></w:trPr>
+							<w:trHeight w:val="653" /></w:trPr>
 						<w:tc>
 							<w:tcPr>
 								<w:tcW w:w="1422" w:type="dxa" />
@@ -1204,7 +1175,7 @@
 					<#list expertList as ex >
 					<w:tr>
 						<w:trPr>
-							<w:trHeight w:val="640" /></w:trPr>
+							<w:trHeight w:val="653" /></w:trPr>
 						<w:tc>
 							<w:tcPr>
 								<w:tcW w:w="1422" w:type="dxa" />
@@ -1217,7 +1188,7 @@
 								<w:vAlign w:val="center" /></w:tcPr>
 							<w:p>
 								<w:pPr>
-									<w:jc w:val="left" />
+									<w:jc w:val="center" />
 									<w:rPr>
 										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
 										<wx:font wx:val="宋体" />
@@ -1275,7 +1246,7 @@
 								<w:vAlign w:val="center" /></w:tcPr>
 							<w:p>
 								<w:pPr>
-									<w:jc w:val="left" />
+									<w:jc w:val="center" />
 									<w:rPr>
 										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
 										<wx:font wx:val="宋体" />
@@ -1316,7 +1287,7 @@
 				</w:tbl>
 				<w:p>
 					<w:pPr>
-						<w:ind w:left="4620" w:first-line="420" />
+						<w:ind w:left="5460" w:first-line="420" />
 						<w:jc w:val="left" />
 						<w:rPr>
 							<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
@@ -1341,53 +1312,80 @@
 					</w:r>
 				</w:p>
 				<w:sectPr>
-					<w:hdr w:type="odd">
+					<w:ftr w:type="even">
 						<wx:pBdrGroup>
-							<wx:borders>
-								<wx:bottom wx:val="solid" wx:bdrwidth="15" wx:space="1" wx:color="auto" /></wx:borders>
+							<wx:apo>
+								<wx:jc wx:val="center" /></wx:apo>
 							<w:p>
 								<w:pPr>
 									<w:pStyle w:val="a3" />
-									<w:jc w:val="both" />
+									<w:framePr w:wrap="around" w:vanchor="text" w:hanchor="margin" w:x-align="center" w:y="1" />
 									<w:rPr>
-										<w:rFonts w:hint="fareast" /></w:rPr>
+										<w:rStyle w:val="a4" /></w:rPr>
 								</w:pPr>
+								<w:r>
+									<w:rPr>
+										<w:rStyle w:val="a4" /></w:rPr>
+									<w:fldChar w:fldCharType="begin" /></w:r>
+								<w:r>
+									<w:rPr>
+										<w:rStyle w:val="a4" /></w:rPr>
+									<w:instrText>PAGE </w:instrText>
+								</w:r>
+								<w:r>
+									<w:rPr>
+										<w:rStyle w:val="a4" /></w:rPr>
+									<w:fldChar w:fldCharType="end" /></w:r>
 							</w:p>
 						</wx:pBdrGroup>
-					</w:hdr>
-					<w:ftr w:type="odd">
 						<w:p>
 							<w:pPr>
-								<w:pStyle w:val="a4" />
-								<w:jc w:val="center" /></w:pPr>
-							<w:r>
-								<w:rPr>
-									<w:rStyle w:val="a5" /></w:rPr>
-								<w:fldChar w:fldCharType="begin" /></w:r>
-							<w:r>
-								<w:rPr>
-									<w:rStyle w:val="a5" /></w:rPr>
-								<w:instrText> PAGE </w:instrText>
-							</w:r>
-							<w:r>
-								<w:rPr>
-									<w:rStyle w:val="a5" /></w:rPr>
-								<w:fldChar w:fldCharType="separate" /></w:r>
-							<w:r>
-								<w:rPr>
-									<w:rStyle w:val="a5" />
-									<w:noProof/></w:rPr>
-								<w:t>1</w:t>
-							</w:r>
-							<w:r>
-								<w:rPr>
-									<w:rStyle w:val="a5" /></w:rPr>
-								<w:fldChar w:fldCharType="end" /></w:r>
+								<w:pStyle w:val="a3" /></w:pPr>
+						</w:p>
+					</w:ftr>
+					<w:ftr w:type="odd">
+						<wx:pBdrGroup>
+							<wx:apo>
+								<wx:jc wx:val="center" /></wx:apo>
+							<w:p>
+								<w:pPr>
+									<w:pStyle w:val="a3" />
+									<w:framePr w:wrap="around" w:vanchor="text" w:hanchor="margin" w:x-align="center" w:y="1" />
+									<w:rPr>
+										<w:rStyle w:val="a4" /></w:rPr>
+								</w:pPr>
+								<w:r>
+									<w:rPr>
+										<w:rStyle w:val="a4" /></w:rPr>
+									<w:fldChar w:fldCharType="begin" /></w:r>
+								<w:r>
+									<w:rPr>
+										<w:rStyle w:val="a4" /></w:rPr>
+									<w:instrText>PAGE </w:instrText>
+								</w:r>
+								<w:r>
+									<w:rPr>
+										<w:rStyle w:val="a4" /></w:rPr>
+									<w:fldChar w:fldCharType="separate" /></w:r>
+								<w:r>
+									<w:rPr>
+										<w:rStyle w:val="a4" />
+										<w:noProof/></w:rPr>
+									<w:t>1</w:t>
+								</w:r>
+								<w:r>
+									<w:rPr>
+										<w:rStyle w:val="a4" /></w:rPr>
+									<w:fldChar w:fldCharType="end" /></w:r>
+							</w:p>
+						</wx:pBdrGroup>
+						<w:p>
+							<w:pPr>
+								<w:pStyle w:val="a3" /></w:pPr>
 						</w:p>
 					</w:ftr>
 					<w:pgSz w:w="11906" w:h="16838" />
 					<w:pgMar w:top="1440" w:right="1800" w:bottom="1440" w:left="1800" w:header="851" w:footer="992" w:gutter="0" />
-					<w:pgNumType w:start="1" />
 					<w:cols w:space="425" />
 					<w:docGrid w:type="lines" w:line-pitch="312" /></w:sectPr>
 			</wx:sect>
