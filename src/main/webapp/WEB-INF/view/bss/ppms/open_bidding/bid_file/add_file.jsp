@@ -546,7 +546,7 @@
 			<c:if test="${ (project.confirmFile == null || project.confirmFile == 0 || project.confirmFile == 2) && process != 1  }">
 				<div class="" id="audit_file_add">
 					<span class="fl h30 lh30">上传审批文件：</span>
-					<div class="fl lh22">
+					<div class="fl lh22 w200">
 						<u:upload id="a" buttonName="上传彩色扫描件" exts="jpg,jpeg,gif,png,bmp,pdf" multiple="true" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 						<u:show showId="b" groups="b,c,d" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
 					</div>
@@ -560,7 +560,7 @@
 			</div>
 
 			<c:if test="${project.confirmFile == 1 || project.confirmFile == 3 || project.confirmFile == 4 || process == 1 }">
-				<div class="clear">
+				<div class="clear w200">
 					<span class="fl">审批文件：</span>
 					<u:show showId="c" groups="b,c,d" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
 				</div>
