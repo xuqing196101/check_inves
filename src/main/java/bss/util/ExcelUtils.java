@@ -82,6 +82,7 @@ public class ExcelUtils {
     public ExcelUtils(HttpServletResponse response, String fileName, String sheetName) {
         this.response = response;
         this.sheetName = sheetName;
+        this.fileName = fileName;
         workbook = new HSSFWorkbook();
     }
 
@@ -285,7 +286,9 @@ public class ExcelUtils {
             titleStyle = (HSSFCellStyle) setColor(titleStyle, titleBackColor, (short) 10);
             //--设置样式结束
             for (int i = 0; i < titleName.length; i++) {
-                sheet.setColumnWidth(i, titleSize[i] * 256); //设置宽度
+                if(titleSize != null){
+                    sheet.setColumnWidth(i, titleSize[i] * 256); //设置宽度
+                }
                 Cell cell = titleNameRow.createCell(i);
                 cell.setCellStyle(titleStyle);
                 cell.setCellValue(titleName[i].toString());
@@ -296,15 +299,26 @@ public class ExcelUtils {
                 sheet.setAutoFilter(c);
             }
             //通过反射获取数据并写入到excel中
+            // 定义序号
+            int orderNum = 0;
             if (dataList != null && dataList.size() > 0) {
                 //设置样式
                 titleStyle = (HSSFCellStyle) setFontAndBorder(titleStyle, contentFontType, (short) contentFontSize);
                 if (titleColumn.length > 0) {
                     for (int rowIndex = 1; rowIndex <= dataList.size(); rowIndex++) {
+                        orderNum += 1;
                         Object obj = dataList.get(rowIndex - 1); //获得该对象
                         Class clsss = obj.getClass(); //获得该对对象的class实例
                         Row dataRow = workbook.getSheet(sheetName).createRow(rowIndex);
                         for (int columnIndex = 0; columnIndex < titleColumn.length; columnIndex++) {
+                            Cell cell = dataRow.createCell(columnIndex);
+                            if(columnIndex == 0){
+                                // 设置第一列为序号并且居中
+                                titleStyle = (HSSFCellStyle)setAlignment(titleStyle);
+                                cell.setCellValue(orderNum);
+                                cell.setCellStyle(titleStyle);
+                                continue;
+                            }
                             String title = titleColumn[columnIndex].toString().trim();
                             if (!"".equals(title)) { //字段不为空
                                 //使首字母大写
@@ -315,15 +329,14 @@ public class ExcelUtils {
                                 //获取返回类型
                                 String returnType = method.getReturnType().getName();
                                 String data = method.invoke(obj) == null ? "" : method.invoke(obj).toString();
-                                Cell cell = dataRow.createCell(columnIndex);
                                 if (data != null && !"".equals(data)) {
-                                    if ("int".equals(returnType) || "Integer".equals(returnType)) {
+                                    if ("int".equals(returnType) || "java.lang.Integer".equals(returnType)) {
                                         cell.setCellValue(Integer.parseInt(data));
-                                    } else if ("long".equals(returnType) || "Long".equals(returnType)) {
+                                    } else if ("long".equals(returnType) || "java.lang.Long".equals(returnType)) {
                                         cell.setCellValue(Long.parseLong(data));
-                                    } else if ("float".equals(returnType) || "Float".equals(returnType)) {
+                                    } else if ("float".equals(returnType) || "java.lang.Float".equals(returnType)) {
                                         cell.setCellValue(floatDecimalFormat.format(Float.parseFloat(data)));
-                                    } else if ("double".equals(returnType) || "Double".equals(returnType)) {
+                                    } else if ("double".equals(returnType) || "java.lang.Double".equals(returnType)) {
                                         cell.setCellValue(doubleDecimalFormat.format(Double.parseDouble(data)));
                                     } else {
                                         cell.setCellValue(data);
@@ -332,7 +345,7 @@ public class ExcelUtils {
                             } else { //字段为空 检查该列是否是公式
                                 if (colFormula != null) {
                                     String sixBuf = colFormula[columnIndex].replace("@", (rowIndex + 1) + "");
-                                    Cell cell = dataRow.createCell(columnIndex);
+                                    cell = dataRow.createCell(columnIndex);
                                     cell.setCellFormula(sixBuf.toString());
                                 }
                             }
@@ -341,6 +354,7 @@ public class ExcelUtils {
                 }
             }
             workbook.write(out);
+            out.flush();
         } catch (Exception e) {
             log.error("生成excel错误：", e);
             e.printStackTrace();
@@ -400,6 +414,19 @@ public class ExcelUtils {
         style.setBorderLeft(CellStyle.BORDER_THIN);//左边框
         style.setBorderTop(CellStyle.BORDER_THIN);//上边框
         style.setBorderRight(CellStyle.BORDER_THIN);//右边框
+        return style;
+    }
+
+    /**
+     * Description: 设置字体并加外边框
+     *
+     * @param style 样式
+     * @author Easong
+     * @version 2017/11/6
+     * @since JDK1.7
+     */
+    public CellStyle setAlignment(CellStyle style) {
+        style.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 居中
         return style;
     }
 

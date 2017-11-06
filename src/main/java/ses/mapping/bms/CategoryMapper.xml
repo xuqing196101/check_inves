@@ -803,4 +803,16 @@
             </if>)
  		   CONNECT BY PRIOR T.PARENT_ID = T.ID
 	</select>
+
+	<!--查询品目根据多个ID-->
+	<select id="selectMoreCategoryByIds" parameterType="map" resultType="string">
+		SELECT T.NAME
+		FROM T_SES_BMS_CATEGORY T WHERE IS_PUBLISH = 0 AND IS_DELETED = 0
+        <if test="categorys != null and categorys.size() > 0">
+            AND T.ID IN
+            <foreach item="category" collection="categorys" open="(" separator="," close=")">
+               #{category}
+            </foreach>
+        </if>
+	</select>
 </mapper>

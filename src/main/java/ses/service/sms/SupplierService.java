@@ -1,12 +1,5 @@
 package ses.service.sms;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import ses.formbean.ContractBean;
 import ses.formbean.QualificationBean;
 import ses.formbean.SupplierItemCategoryBean;
@@ -15,7 +8,13 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
-import ses.model.sms.supplierExport;
+
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 /**
  * @Title: SupplierInfoService
  * @Description: Supplier 接口
@@ -573,4 +572,17 @@ public interface SupplierService {
 	 * @return
 	 */
 	public List<Supplier> querySupplierListByNoCate(Supplier supplier, Integer page);
+
+	/**
+	 *
+	 * Description: 
+	 *
+	 * @author Easong
+	 * @version 2017/11/6
+	 * @param 
+	 * @since JDK1.7
+	 */
+	List<Supplier> querySupplierbytypeAndCategoryIds(String flag, Supplier supplier);
+
+
 }

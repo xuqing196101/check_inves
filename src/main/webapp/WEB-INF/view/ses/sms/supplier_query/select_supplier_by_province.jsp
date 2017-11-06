@@ -31,6 +31,14 @@
 						}
 					}
 				});
+
+				// 绑定结果导出事件
+				$("#export_result").click(function(){
+                    loading = layer.load(1);
+                    // 获取查询条件
+                    window.location.href = globalPath + "/supplierQuery/exportExcel.html"
+                    layer.close(loading);
+				});
 			});
 
 			function fanhui() {
@@ -574,6 +582,7 @@
               <c:choose>
 								<c:when test="${sign == 1 }">
 								 		<a href="${pageContext.request.contextPath}/supplierQuery/highmaps.html" class="btn">切换到地图</a>
+								 		<a href="javascript:;" class="btn" id="export_result">将结果导出Excel</a>
 								</c:when>
 								<c:otherwise>
 										<button class="btn btn-windows back" type="button" onclick="location.href='${pageContext.request.contextPath}/supplierQuery/highmaps.html'">返回</button>
