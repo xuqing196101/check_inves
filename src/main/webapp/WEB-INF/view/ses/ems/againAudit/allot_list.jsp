@@ -123,6 +123,7 @@
             <button type="button" class="btn btn-windows reverse m0" onclick="againAudit_reverseSelection('.selected_table')">反选</button>
             <button type="button" class="btn btn-windows withdraw mb0 ml5" onclick="remove_selected()">移除已选分组</button>
             <button type="button" class="btn btn-windows add mb0 ml5" onclick="create_review_batches()">创建复审批次</button>
+            <button type="button" class="btn btn-windows add mb0 ml5" onclick="againAudit_temporary()">暂存</button>
             <div class="fr h30 lh30">共有 <span id="select_expertTotal" class="red"></span> 名专家</div>
           </div>
           <table class="table table-bordered table-hover table-striped againAudit_table mb0 mt10 selected_table fixed_columns" style="display: none;">
@@ -188,7 +189,8 @@
   <script>
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/againAuditList.do';  // 列表地址
     var batch_url = '${pageContext.request.contextPath}/expertAgainAudit/createBatch.do';  // 创建复审批次地址
-    var temporary_url = '${pageContext.request.contextPath}/expertAgainAudit/selectBatchTemporary.do';  // 暂存地址
+    var temporary_init_url = '${pageContext.request.contextPath}/expertAgainAudit/selectBatchTemporary.do';  // 暂存地址
+    var temporary_url = '${pageContext.request.contextPath}/expertAgainAudit/addBatchTemporary.do';  // 暂存地址
     var select_ids = [];  // 选择的专家id集合
     var final_ids = [];  // 最终需要创建的id集合
     var is_init = 0;
