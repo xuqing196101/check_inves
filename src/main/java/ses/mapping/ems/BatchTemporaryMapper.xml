@@ -31,11 +31,11 @@
     	LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
     	where b1.EXPERT_ID =#{id}
   </select>
-  <insetr id="addBatchTemporary" parameterType="ses.model.ems.BatchTemporary">
+  <insert id="addBatchTemporary" parameterType="ses.model.ems.BatchTemporary">
   	insert into T_SES_EMS_BATCH_TEMPORARY 
   	(EXPERT_ID,BATCH_EXPERT_ID,CREATED_AT,UPDATED_AT)
   	values (#{expertId},#{batchExpertId}, #{createdAt}, #{updatedAt})
-  </insetr>
+  </insert>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_SES_EMS_BATCH_TEMPORARY
     where EXPERT_ID = #{id}
