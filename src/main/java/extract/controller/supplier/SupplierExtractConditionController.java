@@ -44,7 +44,7 @@ import extract.service.supplier.SupplierExtractConditionService;
     private SupplierExtractConditionService conditionService;
     
     @Autowired
-    private AutoExtractSupplierService autoExtract;
+    private AutoExtractSupplierService autoExtractSupplierService;
 
     @Autowired
     private CategoryService categoryService;
@@ -103,7 +103,7 @@ import extract.service.supplier.SupplierExtractConditionService;
     @ResponseBody
     @RequestMapping("autoExtract")
     public String autoExtract(SupplierExtractCondition condition,SupplierConType conType,String projectInfo){
-    	Map<String, Object> supplierList = autoExtract.autoExtract(condition,projectInfo);
+    	Map<String, Object> supplierList = autoExtractSupplierService.autoExtract(condition,projectInfo);
     	return JSON.toJSONString(supplierList);
     }
 
