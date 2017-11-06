@@ -603,7 +603,7 @@
   	</if>
   	<if test="auditFalg != '' and auditFalg != null">
       <if test="auditFalg == 1">
-        and AUDIT_FALG != 2 and AUDIT_FALG != 3
+        and AUDIT_FALG != 3
       </if>
       <if test="auditFalg != 1">
         and AUDIT_FALG = #{auditFalg}
