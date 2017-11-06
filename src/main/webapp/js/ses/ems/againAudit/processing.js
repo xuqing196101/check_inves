@@ -1090,19 +1090,44 @@ function temporary_init() {
     url: temporary_init_url,
     data: {},
     success: function (data) {
-      temporary_content = data;
+      temporary_content = data.object;
       for (var i in temporary_content) {
+        if (typeof(temporary_content[i].orgName) === 'undefined') {
+          temporary_content[i].orgName = '';
+        }
+        if (typeof(temporary_content[i].relName) === 'undefined') {
+          temporary_content[i].relName = '';
+        }
+        if (typeof(temporary_content[i].sex) === 'undefined') {
+          temporary_content[i].sex = '';
+        }
+        if (typeof(temporary_content[i].workUnit) === 'undefined') {
+          temporary_content[i].workUnit = '';
+        }
+        if (typeof(temporary_content[i].professTechTitles) === 'undefined') {
+          temporary_content[i].professTechTitles = '';
+        }
+        if (typeof(temporary_content[i].updateTime) === 'undefined') {
+          temporary_content[i].updateTime = '';
+        }
+        if (typeof(temporary_content[i].expertsTypeId) === 'undefined') {
+          temporary_content[i].expertsTypeId = '';
+        }
+        if (typeof(temporary_content[i].expertsFrom) === 'undefined') {
+          temporary_content[i].expertsFrom = '';
+        }
+        
         str += '<tr>'
-            +'  <td class="text-center"><input name="id" type="checkbox" value="91d91266b5e14e1d87be71b42154bda0" class="select_item"></td>'
-            +'  <td class="text-center">1</td>'
-            +'  <td>CG08</td>'
-            +'  <td>1027ZJ5</td>'
-            +'  <td class="text-center">男</td>'
-            +'  <td>工程技术、服务技术</td>'
-            +'  <td class="text-center">军队</td>'
-            +'  <td>FSFSD</td>'
-            +'  <td>4324324</td>'
-            +'  <td class="text-center">2017-11-03</td>'
+            +'  <td class="text-center"><input name="id" type="checkbox" value="'+ temporary_content[i].id +'" class="select_item"></td>'
+            +'  <td class="text-center">'+ (parseInt(i) + 1) +'</td>'
+            +'  <td>'+ temporary_content[i].orgName +'</td>'
+            +'  <td>'+ temporary_content[i].relName +'</td>'
+            +'  <td class="text-center">'+ temporary_content[i].sex +'</td>'
+            +'  <td>'+ temporary_content[i].expertsTypeId +'</td>'
+            +'  <td class="text-center">'+ temporary_content[i].expertsFrom +'</td>'
+            +'  <td>'+ temporary_content[i].workUnit +'</td>'
+            +'  <td>'+ temporary_content[i].professTechTitles +'</td>'
+            +'  <td class="text-center">'+ temporary_content[i].updateTime +'</td>'
         +'</tr>';
       }
       
@@ -1111,7 +1136,7 @@ function temporary_init() {
       // 处理未选人员
       $('#list_content tr').each(function () {
         for (var ii in temporary_content) {
-          if ($(this).find('input[type="checkbox"]').val() == temporary_content[ii]) {
+          if ($(this).find('input[type="checkbox"]').val() == temporary_content[ii].id) {
             $(this).addClass('hide');
             break;
           }
@@ -1130,6 +1155,7 @@ function againAudit_temporary() {
   $('#selected_content tr').each(function () {
     ids.push($(this).find('input[type="checkbox"]').val());
   });
+  console.log(ids.join(','));
   
   $.ajax({
     type: 'POST',
