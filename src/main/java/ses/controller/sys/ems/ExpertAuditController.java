@@ -2449,10 +2449,6 @@ public class ExpertAuditController{
         	for(String typeId : expertTypeId){
         		if(typeId.equals(engInfoId)){
         			//顺序查询出所有的参评类别
-        			if(typeId.equals(goodsProjectId)){
-        				//如果为工程经济就转换成工程id
-        				typeId = engCodeId;
-        			}
         			List<SupplierCateTree> clist = expertCategoryService.findExpertCatrgory(expert.getId(), typeId);
         			for (SupplierCateTree sct : clist) {
         				Map<String, Object> map = new HashMap<>();

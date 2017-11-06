@@ -618,7 +618,7 @@
 											<w:sz-cs w:val="20" /></w:rPr>
 									</w:pPr>
 									<w:r>
-										<w:t>${expert.professTechTitles}</w:t>
+										<w:t>${expert.professTechTitles!}</w:t>
 									</w:r>
 								</w:p>
 							</w:tc>
