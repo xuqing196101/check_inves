@@ -76,6 +76,7 @@ public class ExpertBlackListController extends BaseSupplierController{
 		String expertId = expertBlackList.getExpertId();
 		model.addAttribute("relName", relName);
 		model.addAttribute("expertId", expertId);
+		model.addAttribute("storageTime", expertBlackList.getStorageTime());
 		
 		//文件
 		model.addAttribute("typeId", DictionaryDataUtil.getId("EXPERT_BLACK_LIST"));
@@ -105,10 +106,10 @@ public class ExpertBlackListController extends BaseSupplierController{
 		if (expertBlackList.getStorageTime() == null) {
 			model.addAttribute("err_storageTime", "不能为空！");
 			error = "error";
-		}else if(expertBlackList.getStorageTime().getTime() > new Date().getTime()){
+		}/*else if(expertBlackList.getStorageTime().getTime() > new Date().getTime()){
 			model.addAttribute("err_storageTime", "请选择正确的时间！");
 			error = "error";
-		}
+		}*/
 		if (expertBlackList.getPunishDate() == null || expertBlackList.getPunishDate().equals("")) {
 			model.addAttribute("err_punishDate", "请选择！");
 			error = "error";
@@ -121,10 +122,10 @@ public class ExpertBlackListController extends BaseSupplierController{
 		if (expertBlackList.getDateOfPunishment() == null) {
 			model.addAttribute("err_dateOfPunishment", "不能为空！");
 			error = "error";
-		}else if(expertBlackList.getDateOfPunishment().getTime() > new Date().getTime()){
+		}/*else if(expertBlackList.getDateOfPunishment().getTime() > new Date().getTime()){
 			model.addAttribute("err_dateOfPunishment", "请选择正确的时间！");
 			error = "error";
-		}
+		}*/
 		if (expertBlackList.getReason() == null || expertBlackList.getReason().equals("")) {
 			model.addAttribute("err_reason", "不能为空！");
 			error = "error";
