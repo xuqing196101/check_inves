@@ -21,6 +21,7 @@ import com.github.pagehelper.PageInfo;
 
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.bms.UserMapper;
+import ses.dao.ems.BatchTemporaryMapper;
 import ses.dao.ems.ExpertAuditOpinionMapper;
 import ses.dao.ems.ExpertBatchDetailsMapper;
 import ses.dao.ems.ExpertBatchMapper;
@@ -30,6 +31,7 @@ import ses.dao.ems.ExpertReviewTeamMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.RoleUser;
 import ses.model.bms.User;
+import ses.model.ems.BatchTemporary;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAgainAuditImg;
 import ses.model.ems.ExpertAuditOpinion;
@@ -66,6 +68,8 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	private UserMapper userMapper;
 	@Autowired
 	private ExpertAuditOpinionMapper expertAuditOpinionMapper;
+	@Autowired
+	private BatchTemporaryMapper batchTemporaryMapper;
 	public static final String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	@Override
 	public ExpertAgainAuditImg addAgainAudit(String ids) {
@@ -968,5 +972,64 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		}
 		return list;
 		
+	}
+	public ExpertAgainAuditImg selectBatchTemporary(String expertId) {
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		List<BatchTemporary> list = batchTemporaryMapper.selectBatchTemporaryAll(expertId);
+		if(list.size()>0){
+			for (BatchTemporary e : list) {
+				StringBuffer expertType = new StringBuffer();
+	            if(e.getExpertsTypeId() != null) {
+	                for(String typeId: e.getExpertsTypeId().split(",")) {
+	                    DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(typeId);
+	                    if(data != null){
+	                    	if(6 == data.getKind()) {
+	                            expertType.append(data.getName() + "技术、");
+	                        } else {
+	                            expertType.append(data.getName() + "、");
+	                        }
+	                    }
+	                    
+	                }
+	                if(expertType.length() > 0){
+	                	String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+	                	 e.setExpertsTypeId(expertsType);
+	                }
+	            } else {
+	                e.setExpertsTypeId("");
+	            }
+	            
+	          //专家来源
+	      		if(e.getExpertsFrom() != null) {
+	      			DictionaryData expertsFrom = dictionaryDataMapper.selectByPrimaryKey(e.getExpertsFrom());
+	      			e.setExpertsFrom(expertsFrom.getName());
+	      		}
+			}
+		}
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		img.setObject(list);
+		return img;
+	}
+	public ExpertAgainAuditImg addBatchTemporary(String expertId,String ids) {
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		batchTemporaryMapper.deleteByPrimaryKey(expertId);
+		if(ids!=null){
+			String[] split = ids.split(",");
+			for (String string : split) {
+				BatchTemporary t = new BatchTemporary();
+				t.setExpertId(expertId);
+				t.setBatchExpertId(string);
+				t.setCreatedAt(new Date());
+				t.setUpdatedAt(new Date());
+				batchTemporaryMapper.addBatchTemporary(t);
+			}
+		}
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		return img;
+	}
+	public void deleteByPrimaryKey(String expertId) {
+		batchTemporaryMapper.deleteByPrimaryKey(expertId);
 	}
 }

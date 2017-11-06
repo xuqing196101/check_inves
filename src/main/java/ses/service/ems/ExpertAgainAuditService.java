@@ -33,4 +33,7 @@ public interface ExpertAgainAuditService {
 	ExpertAgainAuditImg automaticGrouping(String batchId,int count);
 	ExpertAgainAuditImg selectReviewTeamAll();
 	List<ExpertBatchDetails> findBatchDetailsList(String batchId);
+	void deleteByPrimaryKey(String expertId);
+	ExpertAgainAuditImg addBatchTemporary(String expertId,String ids);
+	ExpertAgainAuditImg selectBatchTemporary(String expertId);
 }
