@@ -138,6 +138,13 @@
             });
           });
           
+          // 添加暂存数据到创建列表
+          if ($('#selected_content tr').length > 0) {
+            $('#selected_content tr').each(function () {
+              final_ids.push($(this).find('input[type="checkbox"]').val());
+            });
+          }
+          
           unselect_total();  // 统计未选专家
           select_total();  // 统计已选专家
           
