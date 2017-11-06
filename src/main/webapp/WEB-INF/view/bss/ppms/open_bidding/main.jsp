@@ -370,7 +370,7 @@
         <div class="mt5 mb5 tc">
           <%-- <button class="btn btn-windows delete" onclick="abandoned('${project.id}');" type="button">废标</button> --%>
           <button class="btn btn-windows back" onclick="back();" type="button">返回列表</button>
-          <button class="btn btn-windows back" onclick="termination('${project.id}');" type="button">终止</button>
+          <button class="btn btn-windows end bgred" onclick="termination('${project.id}');" type="button">终止</button>
         </div>
         </div>
         
