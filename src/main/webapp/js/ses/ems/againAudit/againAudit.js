@@ -127,6 +127,9 @@
             });
           }
           
+          unselect_total();  // 统计未选专家
+          select_total();  // 统计已选专家
+          
           // 构造分页
           // laypageConstructor();
         }

@@ -1013,6 +1013,9 @@ function addto_selected() {
         }
       });
     }
+    
+    unselect_total();  // 统计未选专家
+    select_total();  // 统计已选专家
   } else {
     layer.msg('至少选择一条数据', {
       offset: '100px'
@@ -1049,9 +1052,29 @@ function remove_selected() {
     if ($('#selected_content tr').length <= 0) {
       $('#selected_content').siblings('thead').find('[name=checkAll]').prop('checked', false);
     }
+    
+    unselect_total();  // 统计未选专家
+    select_total();  // 统计已选专家
   } else {
     layer.msg('至少选择一条数据', {
       offset: '100px'
     });
   }
+}
+
+// 专家总和统计
+function unselect_total() {
+  var total = 0;
+  $('#list_content tr').each(function () {
+    if (!$(this).hasClass('hide')) {
+      total++;
+    }
+  });
+  $('#unselect_expertTotal').html(total);
+}
+
+// 专家总和统计
+function select_total() {
+  var total = $('#selected_content tr').length;
+  $('#select_expertTotal').html(total);
 }

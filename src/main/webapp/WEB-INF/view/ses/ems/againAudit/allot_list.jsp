@@ -92,8 +92,11 @@
       <div class="tab-content p20">
         <!-- 未选 -->
         <div class="tab-pane fade in active" id="tab_unselected">
-          <button type="button" class="btn btn-windows reverse m0" onclick="againAudit_reverseSelection('.unselected_table')">反选</button>
-          <button type="button" class="btn btn-windows add mb0 ml5" onclick="addto_selected()">添加到已选分组</button>
+          <div class="over_hidden">
+            <button type="button" class="btn btn-windows reverse m0" onclick="againAudit_reverseSelection('.unselected_table')">反选</button>
+            <button type="button" class="btn btn-windows add mb0 ml5" onclick="addto_selected()">添加到已选分组</button>
+            <div class="fr h30 lh30">共有 <span id="unselect_expertTotal" class="red"></span> 名专家</div>
+          </div>
           <table class="table table-bordered table-hover table-striped againAudit_table mb0 mt10 unselected_table fixed_columns">
             <thead>
               <tr>
@@ -116,9 +119,12 @@
         
         <!-- 已选 -->
         <div class="tab-pane fade" id="tab_selected">
-          <button type="button" class="btn btn-windows reverse m0" onclick="againAudit_reverseSelection('.selected_table')">反选</button>
-          <button type="button" class="btn btn-windows withdraw mb0 ml5" onclick="remove_selected()">移除已选分组</button>
-          <button type="button" class="btn btn-windows add mb0 ml5" onclick="create_review_batches()">创建复审批次</button>
+          <div class="over_hidden">
+            <button type="button" class="btn btn-windows reverse m0" onclick="againAudit_reverseSelection('.selected_table')">反选</button>
+            <button type="button" class="btn btn-windows withdraw mb0 ml5" onclick="remove_selected()">移除已选分组</button>
+            <button type="button" class="btn btn-windows add mb0 ml5" onclick="create_review_batches()">创建复审批次</button>
+            <div class="fr h30 lh30">共有 <span id="select_expertTotal" class="red"></span> 名专家</div>
+          </div>
           <table class="table table-bordered table-hover table-striped againAudit_table mb0 mt10 selected_table fixed_columns" style="display: none;">
             <thead>
               <tr>
