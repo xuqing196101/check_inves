@@ -2160,15 +2160,17 @@
         select
         *
         from
-        T_SES_EMS_EXPERT
+        T_SES_EMS_EXPERT t1
+        LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON t1.PURCHASE_DEP_ID = dep.ID
+    	LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
         where 1=1
         <if test="ids != null">
-            <foreach collection="ids" item="id" open="and ID in ("
+            <foreach collection="ids" item="id" open="and t1.ID in ("
                      close=")" separator=",">
                 #{id}
             </foreach>
         </if>
-        ORDER BY CREATED_AT DESC
+        ORDER BY org.POSITION ASC,t1.AUDIT_AT ASC
     </select>
     
     
