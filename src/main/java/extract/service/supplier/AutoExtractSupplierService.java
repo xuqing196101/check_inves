@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.Date;
 import java.util.Map;
 
-import extract.model.supplier.SupplierConType;
 import extract.model.supplier.SupplierExtractCondition;
 
 public interface AutoExtractSupplierService {
@@ -30,7 +29,7 @@ public interface AutoExtractSupplierService {
    * @return
    */
   Map<String, Object> exportExtractInfo(SupplierExtractCondition condition,
-		  SupplierConType conType, String projectInfo);
+		 String projectInfo);
 
   
   /**
@@ -67,6 +66,8 @@ public interface AutoExtractSupplierService {
 
   Map<String, Object> autoExtract(SupplierExtractCondition condition,
 		String projectInfo);
+
+  void selectAutoExtractProject();
 
 
 
