@@ -196,9 +196,14 @@
 		   <a  href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}">02、经济和技术评审细则</a>
 		   <i></i>
 		 </li>
+		 
+		  <li>
+		   <a  href="${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${projectId}&flowDefineId=${flowDefineId}">03、报批说明、审批单</a>
+		   <i></i>
+		 </li>
 		 <li>
 		   <a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${projectId}&flowDefineId=${flowDefineId}" >
-		     03、采购文件
+		     04、采购文件
 		     <%-- <c:if test="${project.dictionary.code eq 'GKZB' }">
 		     03、采购文件
 		     </c:if>
@@ -218,7 +223,7 @@
 		   <i></i>
 		 </li>
 		 <li>
-		   <a  href="${pageContext.request.contextPath}/Auditbidding/viewAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}">04、审核意见</a>
+		   <a  href="${pageContext.request.contextPath}/Auditbidding/viewAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}">05、审核意见</a>
 		 </li>
 	   </ul>
 	 </div>

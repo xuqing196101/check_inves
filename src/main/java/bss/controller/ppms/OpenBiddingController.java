@@ -423,6 +423,16 @@ public class OpenBiddingController extends BaseSupplierController{
       }
       model.addAttribute("fileId", "0");
     }*/
+    //判断报批说明
+    List<UploadFile> approvalList = uploadService.getFilesOther(project.getId(), DictionaryDataUtil.getId("BID_FILE_APPROVAL"), Constant.TENDER_SYS_KEY+"");
+    // 判断审批文件
+    List<UploadFile> fileAuditList = uploadService.getFilesOther(project.getId(), DictionaryDataUtil.getId("BID_FILE_AUDIT"), Constant.TENDER_SYS_KEY+"");
+    if(approvalList==null||approvalList.size()==0){
+      return "redirect:/open_bidding/projectApproval.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg=1";
+    }
+    if(fileAuditList==null||fileAuditList.size()==0){
+      return "redirect:/open_bidding/projectApproval.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg=2";
+    }
     model.addAttribute("flowDefineId", flowDefineId);
     model.addAttribute("project", project);
     String jsonReason = project.getAuditReason();
@@ -432,6 +442,7 @@ public class OpenBiddingController extends BaseSupplierController{
     model.addAttribute("pStatus",DictionaryDataUtil.findById(project.getStatus()).getCode());
     model.addAttribute("ope", "add");
     model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+    //审批单
     model.addAttribute("typeId", DictionaryDataUtil.getId("BID_FILE_AUDIT"));
     //采购管理部门审核意见附件
     model.addAttribute("pcTypeId", DictionaryDataUtil.getId("PC_REASON"));
@@ -441,6 +452,10 @@ public class OpenBiddingController extends BaseSupplierController{
     model.addAttribute("financeTypeId", DictionaryDataUtil.getId("FINANCE_REASON"));
     //最终意见
     model.addAttribute("finalTypeId", DictionaryDataUtil.getId("FINAL_OPINION"));
+    //报批说明
+    model.addAttribute("typeApproval", DictionaryDataUtil.getId("BID_FILE_APPROVAL"));
+    
+    model.addAttribute("projectTypeId", typeId);
     return "bss/ppms/open_bidding/bid_file/add_file";
   }
 
@@ -3779,4 +3794,18 @@ public class OpenBiddingController extends BaseSupplierController{
 		  this.writeJson(response, jsonObj);
 	  }
   }
+  
+  @RequestMapping("/projectApproval")
+  public String projectApprovalPage(@CurrentUser User currLoginUser,Model model, String projectId ,String flowDefineId,String msg){
+    Project project = projectService.selectById(projectId);
+    model.addAttribute("project",project);
+    model.addAttribute("projectId",projectId);
+    model.addAttribute("flowDefineId",flowDefineId);
+    model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+    model.addAttribute("typeId", DictionaryDataUtil.getId("BID_FILE_AUDIT"));
+    model.addAttribute("typeApproval", DictionaryDataUtil.getId("BID_FILE_APPROVAL"));
+    model.addAttribute("msg", msg);
+    return "bss/ppms/open_bidding/projectApproval";
+  }
+  
 }
