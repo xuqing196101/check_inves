@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.ems.ExpertAuditOpinionMapper;
+import ses.dao.ems.ExpertMapper;
+import ses.model.ems.Expert;
 import ses.model.ems.ExpertAuditOpinion;
 import ses.service.ems.ExpertAuditOpinionService;
 
@@ -24,6 +26,9 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 	@Autowired 
 	private ExpertAuditOpinionMapper mapper;
 	
+	@Autowired
+	private ExpertMapper expertMapper;
+	
 	@Override
 	public void insertSelective(ExpertAuditOpinion expertAuditOpinion) {
 		// 拼接审核意见  例如:同意....+ HelloWorld
@@ -35,6 +40,15 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 			}
 		}
 		mapper.insertSelective(expertAuditOpinion);
+		Integer flagAudit = expertAuditOpinion.getFlagAudit();
+		//修改专家状态
+		if(flagAudit != null && flagAudit == 15 || flagAudit == 16){
+			Expert expert = new Expert();
+			expert.setId(expertAuditOpinion.getExpertId());
+			expert.setUpdatedAt(new Date());
+			expert.setStatus(flagAudit.toString());
+			expertMapper.updateByPrimaryKeySelective(expert);
+		}
 		
 	}
 
