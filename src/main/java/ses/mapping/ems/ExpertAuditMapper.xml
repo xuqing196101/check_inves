@@ -356,6 +356,7 @@
           #{item}
         </foreach>
     </if>
+    ORDER BY DECODE (SUGGEST_TYPE,'one','1','seven','2','six','3','five','4'),AUDIT_AT ASC
   </select>
   
   
