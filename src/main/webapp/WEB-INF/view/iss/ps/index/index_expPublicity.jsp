@@ -54,8 +54,8 @@
      </form>
         <div class="report_list_box">
             <div class="report_list_title">
-          	  <div class="col-xs-12 w10p f16 tc">专家名称</div>
-          	  <div class="col-xs-12 w10p f16 tc">专家编号</div>
+          	  <div class="col-xs-12 w8p f16 tc">专家名称</div>
+          	  <div class="col-xs-12 w12p f16 tc">专家编号</div>
               <div class="col-xs-12 w22p f16">类别</div>
               <div class="col-xs-12 w10p f16 tc">初审单位</div>
               <div class="col-xs-12 w30p f16 tc">审核结果</div>
