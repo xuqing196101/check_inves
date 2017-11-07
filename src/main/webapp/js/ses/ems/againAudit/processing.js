@@ -581,6 +581,10 @@ function checkOnly(el) {
 // 专家批次复审
 function expert_auditBatch(url, expertId) {
   var batchId = getUrlParam('batchId');
+  var curWwwPath = window.document.location.href;
+  var pathName = window.document.location.pathname;
+  var pos = curWwwPath.indexOf(pathName);
+  var localhostPaht = curWwwPath.substring(0, pos);
   
   $.ajax({
     type: 'POST',
@@ -591,7 +595,7 @@ function expert_auditBatch(url, expertId) {
     },
     success: function (data) {
       if (data.status) {
-        window.location.href=url+"/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2"+"&batchId=" + batchId;
+        window.open(localhostPaht + url + "/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2"+"&batchId=" + batchId);
       } else {
         layer.msg(data.message, {
           offset: '100px'
