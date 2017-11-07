@@ -190,7 +190,6 @@
             //退回
             if (status == 3) {
                 updateStepNumber("one");
-                zhancun(3);
             }
             if (status == 2 || status == 3 || status == 5  || status == 8) {
                 //询问框
@@ -200,6 +199,7 @@
                     shift: 4,
                     btn: ['确认', '取消']
                 }, function () {
+                	  zhancun();
                     if (status == 3) {
                     	$("#status").val(status);
                       $("#form_shenhe").submit();
@@ -475,9 +475,6 @@
 				var expertId = $("input[name='expertId']").val();
 				var sign = $("input[name='sign']").val();
         var radio = $(":radio:checked").val();
-        if(status !=null && status == 3){
-        	radio = 3;
-        }
         var isDownLoadAttch = $("#isDownLoadAttch").val();
         if(sign == 1){
             flagTime = 0;
@@ -487,7 +484,6 @@
             data: {"opinion": opinion, "expertId": expertId,"flagTime":flagTime,"flagAudit":radio,"isDownLoadAttch":isDownLoadAttch},
             type: "POST",
             success: function () {
-            	if(status ==null){
 	            	//修改专家状态为审核中
 	            	$.ajax({
 	                 url: "${pageContext.request.contextPath}/expertAudit/temporaryAudit.do",
@@ -499,7 +495,6 @@
 	                     layer.msg("暂存失败", {offset: ['100px']});
 	                 }
 	              });
-            	}
             }
         });
     }
