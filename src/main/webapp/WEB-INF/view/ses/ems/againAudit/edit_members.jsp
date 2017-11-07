@@ -47,7 +47,7 @@
       <input type="text" class="form-control m0" name="loginName" placeholder="请输入用户名" onblur="checkOnly(this)">
       <button type="button" class="btn btn-windows setPwd" onclick="set_password()" id="set_password">设置密码</button>
       <span id="pwd_msg" class="red"></span>
-      <button type="button" class="btn btn-windows import" onclick="import_history()">导入</button>
+      <button type="button" class="btn btn-windows import" onclick="import_history()">引用历史人员信息</button>
     </div>
     
     <div class="content table_box">
