@@ -193,6 +193,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
 		expertBatchDetails.setBatchId(batchId);
 		expertBatchDetails.setStatus(status);
+		//expertBatchDetails.setSort("1");
 		Map<String,Object> map = new HashMap<String,Object>();
 		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
 		if(list.size()>0){
