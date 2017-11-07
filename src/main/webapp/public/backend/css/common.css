@@ -1122,3 +1122,4 @@ text-align:center;
 .select2-noborder .select2-container .select2-choice .select2-arrow {
 	border: 1px solid #aaa !important;
 }
+.position_fixed{position: fixed; bottom: 0; left: 0; width: 100%; background: #FFF;}

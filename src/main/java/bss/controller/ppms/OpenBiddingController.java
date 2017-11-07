@@ -3848,5 +3848,25 @@ public class OpenBiddingController extends BaseSupplierController{
     model.addAttribute("msg", msg);
     return "bss/ppms/open_bidding/projectApproval";
   }
-  
+  @RequestMapping("/projectView")
+  public String projectViewPage(@CurrentUser User currLoginUser,Model model, String projectId ,String flowDefineId){
+    HashMap<String, Object> map=new HashMap<String, Object>();
+    map.put("projectId", projectId);
+    List<Packages> packs = packageService.selectByProjectKey(map);
+    for (Packages packages2 : packs) {
+      FirstAudit firstAudit = new FirstAudit();
+      firstAudit.setPackageId(packages2.getId());
+      List<FirstAudit> fas = auditService.findBykind(firstAudit);
+      //是否维护符合性审查项
+      if (fas == null || fas.size() <= 0) {
+        packages2.setIsEditFirst(0);
+      } else {
+        packages2.setIsEditFirst(1);
+      }
+    }
+    model.addAttribute("packs",packs);
+    model.addAttribute("projectId",projectId);
+    model.addAttribute("flowDefineId",flowDefineId);
+    return "bss/ppms/open_bidding/project_view";
+  }
 }

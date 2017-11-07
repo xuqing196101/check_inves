@@ -221,7 +221,11 @@
 			通过|退回
 			*/
 			function updateAudit(status) {
-				var finalreason = $("#finalreason").val();
+				var text = $("#ii_disFileId").find("a");
+				if(text.length<=0){
+					layer.alert("请先上传最终意见附件");
+					return false;
+				}
 				if($.trim($("#finalreason").val()) =="") {
 					layer.alert("最终意见不能为空");
 					return false;
@@ -442,14 +446,18 @@
 						   <a  href="${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${project.id}&flowDefineId=${flowDefineId}">03、报批说明、审批单</a>
 						   <i></i>
 						 </li>
+						 <li>
+						   <a  href="${pageContext.request.contextPath}/open_bidding/projectView.html?projectId=${project.id}&flowDefineId=${flowDefineId}">04、评审项预览</a>
+						   <i></i>
+						 </li>
 						<li class="active">
 							<a href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${project.id}&flowDefineId=${flowDefineId}">
-								04、采购文件
+								05、采购文件
 							</a>
 							<i></i>
 						</li>
 						<li>
-							<a href="${pageContext.request.contextPath}/Auditbidding/viewAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}">05、审核意见</a>
+							<a href="${pageContext.request.contextPath}/Auditbidding/viewAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}">06、审核意见</a>
 						</li>
 					</c:if>
 					<c:if test="${ope == 'view' }">
@@ -465,18 +473,22 @@
 							   <a  href="${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${project.id}&flowDefineId=${flowDefineId}">03、报批说明、审批单</a>
 							   <i></i>
 							 </li>
-											<li class="active">
+							 <li>
+						   <a  href="${pageContext.request.contextPath}/open_bidding/projectView.html?projectId=${project.id}&flowDefineId=${flowDefineId}">04、评审项预览</a>
+						   <i></i>
+						 </li>
+							<li class="active">
 							<a href="${pageContext.request.contextPath}/open_bidding/bidFileView.html?id=${project.id}&flowDefineId=${flowDefineId }">
-								04、采购文件
+								05、采购文件
 							</a>
 							<i></i>
 						</li>
 						<li>
 							<c:if test="${project.confirmFile == 0 || project.confirmFile==null}">
-								<a onclick="confirmOk(this,'${projectId}','${flowDefineId }');" id="queren">05、确认</a>
+								<a onclick="confirmOk(this,'${projectId}','${flowDefineId }');" id="queren">06、确认</a>
 							</c:if>
 							<c:if test="${project.confirmFile == 1 }">
-								<a>05、已确认</a>
+								<a>06、已确认</a>
 							</c:if>
 						</li>
 					</c:if>

@@ -398,7 +398,7 @@
 	      <tbody>
 	        <tr>
 	          <td class="bggrey"><span class="star_red">*</span>公告标题：</td>
-	          <td colspan="3">
+	          <td>
 	            <c:if test="${article.name == null && noticeType == 'purchase'}">
 	            <input type="text" id="name" name="name" value="${project.name}采购公告(${project.projectNumber})" class="m0 border0">
 	            </c:if>
@@ -409,6 +409,15 @@
 	            <input type="text" id="name" name="name" value="${article.name}" class="mb0 border0">
 	            </c:if>
 	          </td>
+	          <td class="bggrey w190">审核状态：
+	            </td>
+		          <td class="red">
+		          <c:if test="${article.status eq null}">未提交</c:if>
+		          <c:if test="${article.status==0}">暂存</c:if>
+		          <c:if test="${article.status==1}">待审核</c:if>
+		          <c:if test="${article.status==2}">已发布</c:if>
+		          <c:if test="${article.status==3}">已退回</c:if>
+		          </td>
 	        </tr>
 	        <tr>
 	          <td class="bggrey w120"><span class="star_red">*</span>发布范围：</td>

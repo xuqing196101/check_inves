@@ -149,8 +149,12 @@
 		   <a  href="${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${projectId}&flowDefineId=${flowDefineId}">03、报批说明、审批单</a>
 		   <i></i>
 		 </li>
+		 <li>
+						   <a  href="${pageContext.request.contextPath}/open_bidding/projectView.html?projectId=${projectId}&flowDefineId=${flowDefineId}">04、评审项预览</a>
+						   <i></i>
+						 </li>
 			<li><a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${projectId}&flowDefineId=${flowDefineId}" >
-			     04、采购文件
+			     05、采购文件
 		         <%-- <c:if test="${project.dictionary.code eq 'GKZB' }">
 			     03、采购文件
 			     </c:if>
@@ -170,7 +174,7 @@
 			  <i></i>
 			 </li>
 			 <li>
-			   <a  href="${pageContext.request.contextPath}/Auditbidding/viewAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}">05、审核意见</a>
+			   <a  href="${pageContext.request.contextPath}/Auditbidding/viewAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}">06、审核意见</a>
 			 </li>
 			</c:if>
 			<c:if test="${ope == 'view' }">
@@ -190,9 +194,13 @@
 		   <a  href="${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${projectId}&flowDefineId=${flowDefineId}">03、报批说明、审批单</a>
 		   <i></i>
 		 </li>
+		 <li>
+						   <a  href="${pageContext.request.contextPath}/open_bidding/projectView.html?projectId=${projectId}&flowDefineId=${flowDefineId}">04、评审项预览</a>
+						   <i></i>
+						 </li>
 			 <li>
 			   <a  href="${pageContext.request.contextPath}/open_bidding/bidFileView.html?id=${projectId}&flowDefineId=${flowDefineId }" >
-			     04、采购文件
+			     05、采购文件
 		         <%-- <c:if test="${project.dictionary.code eq 'GKZB' }">
 			     03、采购文件
 			     </c:if>
@@ -212,8 +220,8 @@
 			   <i></i>
 			 </li>
 			 <li>
-			    <c:if test="${project.confirmFile == 0 || project.confirmFile==null}"><a onclick="confirmOk(this,'${projectId}','${flowDefineId }');" id="queren">05、确认</a></c:if>
-			    <c:if test="${project.confirmFile == 1 }"><a>05、已确认</a></c:if>
+			    <c:if test="${project.confirmFile == 0 || project.confirmFile==null}"><a onclick="confirmOk(this,'${projectId}','${flowDefineId }');" id="queren">06、确认</a></c:if>
+			    <c:if test="${project.confirmFile == 1 }"><a>06、已确认</a></c:if>
 			 </li>
 	   	 	</c:if>
 		</ul>

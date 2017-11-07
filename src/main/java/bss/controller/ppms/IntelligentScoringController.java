@@ -62,8 +62,12 @@ import bss.service.prms.FirstAuditTemplatService;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
+import common.constant.Constant;
 import common.constant.StaticVariables;
+import common.model.UploadFile;
+import common.service.UploadService;
 /**
  * 
  * 版权：(C) 版权所有 
@@ -101,7 +105,104 @@ public class IntelligentScoringController extends BaseController{
 	
 	@Autowired
 	private FlowMangeService flowMangeService;
+	@Autowired
+	private UploadService serviceUploadService;
 	
+	
+	
+	@RequestMapping("/viewPackageModel")
+  public String viewPackageModel(Model model,String packId,String projectId,Integer page){
+	  page=page==null?1:page;
+	  if(page==1){
+	    List<DictionaryData> dds = DictionaryDataUtil.findScore(22);
+	    //符合性审查项
+	    FirstAudit firstAudit1 = new FirstAudit();
+	    firstAudit1.setKind(DictionaryDataUtil.getId("COMPLIANCE"));
+	    firstAudit1.setPackageId(packId);
+	    firstAudit1.setIsConfirm((short)0);
+	    List<FirstAudit> items3 = service.findBykind(firstAudit1);
+	    //资格性审查项
+	    FirstAudit firstAudit2 = new FirstAudit();
+	    firstAudit2.setKind(DictionaryDataUtil.getId("QUALIFICATION"));
+	    firstAudit2.setPackageId(packId);
+	    firstAudit2.setIsConfirm((short)0);
+	    List<FirstAudit> items4 = service.findBykind(firstAudit2);
+	    HashMap<String, Object> map = new HashMap<String, Object>();
+	    map.put("id", packId);
+	    List<Packages> packages = packageService.findPackageById(map);
+	      if (packages != null) {
+	        model.addAttribute("packages", packages.get(0));
+	      }
+	      model.addAttribute("dds_zg", dds);
+	      model.addAttribute("items1_zg", items3);
+	      model.addAttribute("items2_zg", items4);
+	  }else if(page==2){
+	  //获取该包的评分办法
+	    String methodCode = bidMethodService.getMethod(projectId, packId);
+	    if (methodCode != null && !"".equals(methodCode)) {
+	        if ("PBFF_JZJF".equals(methodCode) || "PBFF_ZDJF".equals(methodCode)) {
+	          //基准价法和最低价法
+	          List<DictionaryData> dds = DictionaryDataUtil.find(23);
+	          //经济审查项
+	          FirstAudit firstAudit1 = new FirstAudit();
+	          firstAudit1.setKind(DictionaryDataUtil.getId("ECONOMY"));
+	          firstAudit1.setPackageId(packId);
+	          firstAudit1.setIsConfirm((short)1);
+	          List<FirstAudit> items1 = service.findBykind(firstAudit1);
+	          //技术审查项
+	          FirstAudit firstAudit2 = new FirstAudit();
+	          firstAudit2.setKind(DictionaryDataUtil.getId("TECHNOLOGY"));
+	          firstAudit2.setPackageId(packId);
+	          firstAudit2.setIsConfirm((short)1);
+	          List<FirstAudit> items2 = service.findBykind(firstAudit2);
+	          HashMap<String, Object> map = new HashMap<String, Object>();
+	          map.put("id", packId);
+	          List<Packages> packages = packageService.findPackageById(map);
+	          if (packages != null) {
+	            model.addAttribute("packages", packages.get(0));
+	          }
+	          /*HashMap<String, Object> map2 = new HashMap<String, Object>();
+	          map2.put("kind", DictionaryDataUtil.getId("REVIEW_CHECK_ET"));
+	          //获取经济技术评审模版
+	          List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);*/
+	          model.addAttribute("dds_jz", dds);
+	          model.addAttribute("items1_jz", items1);
+	          model.addAttribute("items2_jz", items2);
+	          model.addAttribute("methodCode", methodCode);
+	        }else if ("OPEN_ZHPFF".equals(methodCode)) {
+	          //综合评分法 
+	          //显示经济技术 和子节点  子节点的子节点就是模型
+	          List<DictionaryData> ddList = DictionaryDataUtil.find(23);
+	          String str ="";
+	          for (DictionaryData dictionaryData : ddList) {
+	            str += getShowTable(dictionaryData.getId(), dictionaryData.getName(), projectId, packId);
+	          }
+	          //页面需要显示包
+	          HashMap<String, Object> condition = new HashMap<String, Object>();
+	          condition.put("id", packId);
+	          List<Packages> packages = packageService.findPackageById(condition);
+	          if (packages != null && packages.size() > 0) {
+	            model.addAttribute("packages", packages.get(0));
+	          }
+	          model.addAttribute("ddList_zh", ddList);
+	          model.addAttribute("str_zh", str);
+	          model.addAttribute("methodCode", methodCode);
+	      }
+	    }
+	  }else if(page==3){
+	    //报批说明
+	    List<UploadFile> approvalFile = serviceUploadService.getFilesOther(projectId, DictionaryDataUtil.getId("BID_FILE_APPROVAL"), Constant.TENDER_SYS_KEY+"");
+	    model.addAttribute("approvalFile", approvalFile);
+	  }else if(page==4){
+	    //审批单
+	    List<UploadFile> bidFile = serviceUploadService.getFilesOther(projectId, DictionaryDataUtil.getId("BID_FILE_AUDIT"), Constant.TENDER_SYS_KEY+"");
+	    model.addAttribute("bidFile", bidFile);
+	  }
+  	   model.addAttribute("packageId", packId);
+       model.addAttribute("projectId", projectId);
+	     model.addAttribute("page", page);
+      return "bss/prms/first_audit/edit_package_view";
+  }
 	@RequestMapping(value = "checkScore")
 	@ResponseBody
 	public Integer checkScore(String standScore, String maxScore, String projectId, String packageId, String id, String checked){
@@ -2286,4 +2387,5 @@ class SortByParam implements Comparator {
 		}
 		return 0;
 	}
+	
 }
