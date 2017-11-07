@@ -878,3 +878,14 @@ function select_total() {
   $('#select_expertTotal').html($('#selected_content tr').length);
   $('#unselect_expertTotal').html(parseInt($('#list_content tr').length) - parseInt($('#list_content tr.hide').length));
 }
+
+// 未选序号排序
+function unselected_sort() {
+  var sort = 1;
+  $('#list_content tr').each(function () {
+    if (!$(this).hasClass('hide')) {
+      $(this).find('td').eq(1).html(sort);
+      sort++;
+    }
+  });
+}
