@@ -431,6 +431,8 @@
 .ml50 {
   margin-left: 50px; }
 
+.p10 { padding: 10px !important; }
+
 .pt0 {
   padding-top: 0px!important; }
   
@@ -481,6 +483,7 @@
 .pr100{
   padding-right: 100px;
 }
+.p20_15 { padding: 20px 15px !important; }
 .p10_25 {
   padding: 10px 25px!important; }
   
@@ -547,6 +550,8 @@
 
 .ml20 {
   margin-left: 20px!important; }
+
+.ml34 { margin-left: 34px !important; }
 
 .ml30 {
   margin-left: 30px; }
@@ -865,12 +870,24 @@ border:1px solid #eeeeee;
   line-height: 60px;
 }
 
-.lh23 {
-  line-height: 23px;
+.lh18 {
+  line-height: 18px;
+}
+
+.lh20 {
+  line-height: 20px;
 }
 
 .lh22 {
   line-height: 22px;
+}
+
+.lh23 {
+  line-height: 23px;
+}
+
+.lh25 {
+  line-height: 25px;
 }
 
 .lh26 {
@@ -1123,3 +1140,32 @@ text-align:center;
 	border: 1px solid #aaa !important;
 }
 .position_fixed{position: fixed; bottom: 0; left: 0; width: 100%; background: #FFF;}
+.m_uploadFiles > div {
+  float: none;
+  display: inline-block;
+  vertical-align: middle;
+}
+.m_uploadFiles .uploadFiles li {
+  height: 16px;
+  line-height: 16px;
+  margin-left: 10px;
+}
+.m_uploadFiles .uploadFiles li:first-child {
+  margin-left: 5px;
+}
+.m_uploadFiles .uploadFiles li a {
+  font-size: 14px;
+  padding-left: 18px;
+}
+.m_uploadFiles .uploadFiles li.file_view {
+  background: url(../images/m_view.png) no-repeat center;
+}
+.m_uploadFiles .uploadFiles li.file_load {
+  background: url(../images/m_download.png) no-repeat center;
+}
+.m_uploadFiles .uploadFiles li.file_delete {
+  background: url(../images/m_delete.png) no-repeat center;
+}
+.m_uploadFiles .webuploader-pick {
+  font-size: 14px;
+}
