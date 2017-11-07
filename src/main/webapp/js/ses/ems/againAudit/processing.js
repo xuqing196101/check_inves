@@ -106,7 +106,7 @@ function create_review_batches() {
     ids.push($(this).val());
   });
   
-  if (ids === '') {
+  if (ids.length <= 0) {
     layer.msg('请至少选择一名专家', {
       offset: '100px'
     });
