@@ -1901,16 +1901,16 @@ public class ExpertAuditController{
 				if("PROJECT".equals(data.getCode())||"GOODS_PROJECT".equals(data.getCode())){
 					Map<String,Object> map2 = new HashMap<String,Object>();
 					 map2.put("expertId", expertId);
-				     map2.put("typeId", DictionaryDataUtil.getId("PROJECT"));
+				    // map2.put("typeId", DictionaryDataUtil.getId("PROJECT"));
 				     map2.put("type", "six");
-					int passCount = expertCategoryService.selectPassCount(map2);
-					if(passCount<=0){
+					//int passCount = expertCategoryService.selectPassCount(map2);
+				/*	if(passCount<=0){
 						model.addAttribute("qualified", false);
 						model.addAttribute("message", "当前专家有目录下无通过产品");
 						break;
-					}
+					}*/
 					map2.put("typeId", DictionaryDataUtil.getId("ENG_INFO_ID"));
-					passCount= expertCategoryService.selectPassCount(map2);
+					int passCount= expertCategoryService.selectPassCount(map2);
 					if(passCount<=0){
 						model.addAttribute("qualified", false);
 						model.addAttribute("message", "当前专家有目录下无通过产品");
