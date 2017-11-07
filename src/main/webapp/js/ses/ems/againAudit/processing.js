@@ -437,13 +437,6 @@ function set_password() {
         });
         password2.val('').focus();
         return false;
-      } else if (password.val().length < 6) {
-        layer.msg('请输入大于6位的密码！', {
-          offset: '100px'
-        });
-        password.val('').focus();
-        password2.val('');
-        return false;
       } else {
         $.ajax({
           type: 'POST',
