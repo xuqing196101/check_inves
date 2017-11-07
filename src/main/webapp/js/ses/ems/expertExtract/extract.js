@@ -47,7 +47,7 @@ function functionArea() {
         async : false,
         success : function(response) {
             $("#city").empty();
-            $("#city").append("<option value='0'>选择地区</option>");
+            $("#city").append("<option value='0'>全部</option>");
             $.each(response, function(i, result) {
                 $("#city").append("<option value='" + result.id + "'>" + result.name + "</option>");
             });
@@ -179,8 +179,7 @@ function validationIsNull(code){
     }
     //评审地点
     var province = $("#province option:selected").val();
-    var city = $("#city option:selected").val();
-    if(province == '0' || city == '0'){
+    if(province == '0'){
         $("#err_aaa").html("请选择评审地点");
         flag = false;
         layer.msg("请完善项目信息");

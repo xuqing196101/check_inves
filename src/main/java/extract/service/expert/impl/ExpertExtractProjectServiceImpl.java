@@ -224,9 +224,15 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
                 if(reviewProvince != null && reviewAddress != null){
                     Area area1 = areaMapper.selectById(reviewProvince);
                     Area area2 = areaMapper.selectById(reviewAddress);
-                    if(area1 != null && area2 != null){
-                        expertExtractProject.setReviewAddress(area1.getName() + "/" + area2.getName());
+                    StringBuffer address = new StringBuffer();
+                    if(area1 != null){
+                    	address.append(area1.getName());
                     }
+                    if(area1 != null && area2 != null){
+                    	address.append("/");
+                    	address.append(area2.getName());
+                    }
+                    expertExtractProject.setReviewAddress(address.toString());
                 }
                 User user = userMapper.queryById(expertExtractProject.getCreaterId() == null ? "" : expertExtractProject.getCreaterId());
                 //抽取人员
