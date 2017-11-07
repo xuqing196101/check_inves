@@ -1,6 +1,34 @@
 package ses.controller.sys.bms;
 
 
+import com.alibaba.fastjson.JSON;
+import common.annotation.CurrentUser;
+import common.bean.ResBean;
+import common.constant.Constant;
+import common.constant.StaticVariables;
+import net.sf.json.JSONSerializer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import ses.controller.sys.sms.BaseSupplierController;
+import ses.model.bms.Category;
+import ses.model.bms.CategoryTree;
+import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
+import ses.model.sms.SupplierTypeTree;
+import ses.service.bms.CategoryAttachmentService;
+import ses.service.bms.CategoryService;
+import ses.service.bms.DictionaryDataServiceI;
+import ses.service.ems.ExpertService;
+import ses.util.DictionaryDataUtil;
+import ses.util.PropUtil;
+import ses.util.WfUtil;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -13,41 +41,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-
-
-
-import com.alibaba.fastjson.JSON;
-
-import common.annotation.CurrentUser;
-import common.bean.ResBean;
-import common.constant.Constant;
-import common.constant.StaticVariables;
-import net.sf.json.JSONSerializer;
-import ses.controller.sys.sms.BaseSupplierController;
-import ses.model.bms.Category;
-import ses.model.bms.CategoryTree;
-import ses.model.bms.DictionaryData;
-import ses.model.bms.User;
-import ses.model.sms.SupplierTypeTree;
-import ses.service.bms.CategoryAttachmentService;
-import ses.service.bms.CategoryService;
-import ses.service.bms.DictionaryDataServiceI;
-import ses.service.ems.ExpertService;
-import ses.util.DictionaryDataUtil;
-import ses.util.EncodingTool;
-import ses.util.PropUtil;
-import ses.util.WfUtil;
 
 /**
  * 
@@ -253,60 +246,89 @@ public class CategoryController extends BaseSupplierController {
      */
     @ResponseBody
     @RequestMapping(value="/supplierCreatetree", produces = "application/json;charset=utf-8")
-    public String getSupplierAll(Category category,String param,Integer isCreate,String code){
-       List<CategoryTree> jList=new ArrayList<CategoryTree>();
-    	 //获取字典表中的根数据
-        if(category.getId()==null){
-            category.setId("0");
-            DictionaryData data=new DictionaryData();
-            data.setKind(8);
-            List<DictionaryData> listByPage = dictionaryDataServiceI.listByPage(data, 1);
-            for (DictionaryData dictionaryData : listByPage) {
-                CategoryTree ct=new CategoryTree();
-                ct.setId(dictionaryData.getId());
-                ct.setName(dictionaryData.getName());
-                ct.setIsParent("true");
-                ct.setClassify(dictionaryData.getCode());
+    public String getSupplierAll(Category category, String param,Integer isCreate, String code, String name) {
+        List<CategoryTree> jList = new ArrayList<CategoryTree>();
+        if ((name != null && !"".equals(name))) {
+            try {
+                if (name != null && !"".equals(name)) {
+                    name = java.net.URLDecoder.decode(name, "UTF-8");
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            Map<String, Object> map = new HashMap<>();
+            map.put("name", name);
+            map.put("category", category);
+            List<Category> caList = categoryService.selectAllCateByCond(map);
+            for (Category category2 : caList) {
+                List<Category> cList = categoryService.findTreeByPidIsPublish(category2.getId());
+                CategoryTree ct = new CategoryTree();
+                if (!cList.isEmpty()) {
+                    ct.setIsParent("true");
+                } else {
+                    ct.setIsParent("false");
+                }
+                ct.setId(category2.getId());
+                ct.setName(category2.getName());
+                ct.setpId(category2.getParentId());
+                ct.setKind(category2.getKind());
+                ct.setStatus(category2.getStatus());
                 jList.add(ct);
             }
-            data.setKind(6);
-            listByPage = dictionaryDataServiceI.listByPage(data, 1);
-            for (DictionaryData dictionaryData : listByPage) {
-            	//排除物资
-            	if("FC9528B2E74F4CB2A9E74735A8D6E90A".equals(dictionaryData.getId())){
-            		continue;
-            	}
-                CategoryTree ct=new CategoryTree();
-                ct.setId(dictionaryData.getId());
-                ct.setName(dictionaryData.getName());
-                ct.setIsParent("true");
-                ct.setClassify(dictionaryData.getCode());
-                jList.add(ct);
-            }
-          
             return JSON.toJSONString(jList);
-          }
-          String list="";
-          List<Category> cateList=categoryService.disTreeGoodsData(category.getId());
-          for(Category cate:cateList){
-        	  if (cate.getIsPublish() != 1) {
-        		  List<Category> cList=categoryService.findTreeByPidIsPublish(cate.getId());
-        		  CategoryTree ct=new CategoryTree();
-        		  if(!cList.isEmpty()){
-        			  ct.setIsParent("true");
-        		  }else{
-        			  ct.setIsParent("false");
-        		  }
-        		  ct.setId(cate.getId());
-        		  ct.setName(cate.getName());
-        		  ct.setpId(cate.getParentId());
-        		  ct.setKind(cate.getKind());
-        		  ct.setStatus(cate.getStatus());
-        		  jList.add(ct);
-        	  }
-          }
-         list = JSON.toJSONString(jList);
-         return list;
+        } else {
+            // 获取字典表中的根数据
+            if (category.getId() == null) {
+                category.setId("0");
+                DictionaryData data = new DictionaryData();
+                data.setKind(8);
+                List<DictionaryData> listByPage = dictionaryDataServiceI.listByPage(data, 1);
+                for (DictionaryData dictionaryData : listByPage) {
+                    CategoryTree ct = new CategoryTree();
+                    ct.setId(dictionaryData.getId());
+                    ct.setName(dictionaryData.getName());
+                    ct.setIsParent("true");
+                    ct.setClassify(dictionaryData.getCode());
+                    jList.add(ct);
+                }
+                data.setKind(6);
+                listByPage = dictionaryDataServiceI.listByPage(data, 1);
+                for (DictionaryData dictionaryData : listByPage) {
+                    // 排除物资
+                    if ("FC9528B2E74F4CB2A9E74735A8D6E90A".equals(dictionaryData.getId())) {
+                        continue;
+                    }
+                    CategoryTree ct = new CategoryTree();
+                    ct.setId(dictionaryData.getId());
+                    ct.setName(dictionaryData.getName());
+                    ct.setIsParent("true");
+                    ct.setClassify(dictionaryData.getCode());
+                    jList.add(ct);
+                }
+                return JSON.toJSONString(jList);
+            }
+            String list = "";
+            List<Category> cateList = categoryService.disTreeGoodsData(category.getId());
+            for (Category cate : cateList) {
+                if (cate.getIsPublish() != 1) {
+                    List<Category> cList = categoryService.findTreeByPidIsPublish(cate.getId());
+                    CategoryTree ct = new CategoryTree();
+                    if (!cList.isEmpty()) {
+                        ct.setIsParent("true");
+                    } else {
+                        ct.setIsParent("false");
+                    }
+                    ct.setId(cate.getId());
+                    ct.setName(cate.getName());
+                    ct.setpId(cate.getParentId());
+                    ct.setKind(cate.getKind());
+                    ct.setStatus(cate.getStatus());
+                    jList.add(ct);
+                }
+            }
+            list = JSON.toJSONString(jList);
+            return list;
+        }
     }
     /**
      * 
@@ -721,6 +743,24 @@ public class CategoryController extends BaseSupplierController {
     @ResponseBody
     public List<DictionaryData> getEngLevelByCid(String categoryId){
     	return categoryService.getEngAptitudeLevelByCategoryId(categoryId);
+    }
+
+    /**
+     *
+     * Description:
+     *
+     * @author Easong
+     * @version 2017/10/24
+     * @param
+     * @since JDK1.7
+     */
+    @RequestMapping("/selectAllCateByCond")
+    @ResponseBody
+    public List<Category> selectAllCateByCond(Category category, String name){
+        Map<String, Object> map = new HashMap<>();
+        map.put("name",name);
+        map.put("category", category);
+        return categoryService.selectAllCateByCond(map);
     }
     
     

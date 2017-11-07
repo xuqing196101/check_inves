@@ -63,6 +63,31 @@
       	</if>
       	
    </select> 
+   <select id="findScoreMethodByPackageId" parameterType="bss.model.ppms.BidMethod" resultType="bss.model.ppms.BidMethod">
+     SELECT
+   			mt.id as id,
+   			mt.NAME as name,
+   			mt.TYPE_NAME as typeName,
+   			mt.MAX_SCORE as maxScore,
+   			mt.IS_DELETED as isDeleted,
+   			mt.CREATED_AT as createdAt,
+   			mt.UPDATED_AT as updatedAt,
+   			mt.PROJECT_ID as projectId,
+   			mt.FLOATING_RATIO as floatingRatio,
+   			mt.PACKAGE_ID as packageId,
+   			mt.REMARK as remark,
+   			mt.REMAIN_SCORE as remainScore,
+   			mt.business,
+   			mt.valid
+   		FROM
+   		T_BSS_PPMS_BID_METHOD mt where 1=1
+   		<if test="packageId != null">
+        	and mt.PACKAGE_ID = #{packageId}
+      	</if>
+      	<if test="projectId != null">
+        	and mt.PROJECT_ID = #{projectId}
+      	</if>
+   </select>
   <insert id="saveBidMethod" parameterType="bss.model.ppms.BidMethod">
      <selectKey keyProperty="id" resultType="String" order="BEFORE">
         select sys_guid() from dual

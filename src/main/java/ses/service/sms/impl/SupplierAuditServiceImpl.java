@@ -1127,6 +1127,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	            if(nowDateString.equals(afterDateString)){
 	                // 审核通过，自动入库
 	                supplier.setStatus(1);
+	                // 设置更新时间
+	                supplier.setUpdatedAt(new Date());
 	                // 修改
 	                supplierMapper.updateStatus(supplier);
 	            }
@@ -1156,7 +1158,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		List<SupplierPublicity> list = supplierMapper.selectSupByPublictyList(supplierPublicityQuery);
 		if(list != null && !list.isEmpty()){
 			// 定义审核意见查询条件
-			Map<String, Object> selectMap = new HashedMap();
+			Map<String, Object> selectMap = new HashMap<>();
 			// 封装供应商类型
 			StringBuffer sb = new StringBuffer(); 
 			for (SupplierPublicity supplierPublicity : list) {
@@ -1638,7 +1640,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
         return JdcgResult.ok();
     }
     
-    private JdcgResult getTypeAndItemNotPass(String supplierId){
+    @Override
+    public JdcgResult getTypeAndItemNotPass(String supplierId){
     	// 审核汇总记录中：
 		
 		// 有退回修改/未修改的记录，最终状态不通过（排除供应商类型/产品类别下的退回修改/未修改记录）
@@ -1657,7 +1660,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		supplierTypeAudit.setAuditType("supplierType_page");
 		List<SupplierAudit> supplierTypeAuditList = this.getAuditRecords(supplierTypeAudit, new Integer[]{2});
 		List<String> supplierTypeList = supplierTypeRelateService.findTypeBySupplierId(supplierId);
-		if(supplierTypeList != null){
+		if(supplierTypeList != null && supplierTypeList.size() > 0){
 			for(String supplierType : supplierTypeList){
 				DictionaryData dd = DictionaryDataUtil.get(supplierType);
 				if(supplierTypeAuditList != null){
@@ -1674,16 +1677,21 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 				supplierItemAudit.setSupplierId(supplierId);
 				supplierItemAudit.setAuditType(getAuditType(supplierType));
 				List<SupplierAudit> supplierItemAuditList = this.getAuditRecords(supplierItemAudit, new Integer[]{2});
-				if(itemList != null){
+				if(itemList != null && itemList.size() > 0){
 					for(SupplierItem item : itemList){
-						for(SupplierAudit audit : supplierItemAuditList){
-							if(audit.getAuditField() != null && audit.getAuditField().equals(item.getCategoryId())){
-								itemNotPassCount++;
-								break;
+						if(supplierItemAuditList != null){
+							for(SupplierAudit audit : supplierItemAuditList){
+								if(audit.getAuditField() != null && audit.getAuditField().equals(item.getCategoryId())){
+									itemNotPassCount++;
+									break;
+								}
 							}
 						}
 					}
-					if(itemList.size() <= itemNotPassCount){
+					// 判断该类型是否审核
+					supplierTypeAudit.setAuditField(dd.getId());
+					int countSupplierTypeAudit = this.countAuditRecords(supplierTypeAudit, new Integer[]{2});
+					if(itemList.size() <= itemNotPassCount && countSupplierTypeAudit == 0){
 						//isAllItemNotPass = 1;
 						String typeName = getSupplierTypeName(supplierType);
 						return JdcgResult.build(2, typeName + "类型下没有产品，请把" + typeName + "类型审核不通过！", supplierType);
@@ -2522,8 +2530,9 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		SupplierAudit supplierAudit = new SupplierAudit();
 		supplierAudit.setSupplierId(supplierId);
 		int auditCount = this.countAuditRecords(supplierAudit, new Integer[]{0,1,4});
+		JdcgResult result = getTypeAndItemNotPass(supplierId);
 		if("0".equals(flag)){// 预审核不通过
-			if(auditCount == 0){
+			if(auditCount == 0 && (result != null && result.getStatus() == 0)){
 				return JdcgResult.build(500, "没有预审核不通过项！");
 			}
 		}
@@ -2533,9 +2542,9 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 //			auditCount = this.countAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
 			if(auditCount > 0){
 //				return JdcgResult.build(500, "基本、财务、股东信息中有不通过项！");
-				return JdcgResult.build(500, "还有退回修改/未修改的记录！");
+				//暂时去掉基本信息退回修改/未修改的校验
+				//return JdcgResult.build(500, "还有退回修改/未修改的记录！");
 			}
-			JdcgResult result = getTypeAndItemNotPass(supplierId);
 			if(result != null && result.getStatus() != 0){
 				return result;
 			}

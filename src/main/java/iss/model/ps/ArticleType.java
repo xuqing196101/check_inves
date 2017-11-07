@@ -14,6 +14,11 @@ import ses.model.bms.User;
  *@date 2016-9-7下午6:24:23
  */
 public class ArticleType implements Serializable{
+  
+  public ArticleType(){}
+  public ArticleType(String id){
+    this.id=id;
+  }
 	
 	/**
      * @Fields id : 主键

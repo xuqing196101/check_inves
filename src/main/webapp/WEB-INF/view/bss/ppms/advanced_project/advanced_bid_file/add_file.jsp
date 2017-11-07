@@ -107,7 +107,7 @@
 	            success:function(result){
 	              if(result == 'SUCCESS'){
 	                if(process != null && process == 1){
-	                  window.location.href = "${pageContext.request.contextPath}/AdAuditbidding/list.html";   
+	                  window.location.href = "${pageContext.request.contextPath}/Auditbidding/list.html";   
 	                }
 	                   $("#cgspan").addClass("dnone");
 	                    $("#cgdiv").addClass("dnone");
@@ -412,11 +412,15 @@ function getTaskTime(strDate) {
           	</c:if>
             <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">最终意见</span>
             <c:if test="${project.confirmFile != 1}">
-            	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb20" disabled="disabled"  id="finalreason" maxlength="2000" name="finalReason" title="不超过2000个字">${reasons.finalReason}</textarea>
-            </c:if>
-            <c:if test="${project.confirmFile == 1}">
-	            <textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb20"  id="finalreason" maxlength="2000" name="finalReason" title="不超过2000个字">${reasons.finalReason}</textarea>
-            </c:if>
+							<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb20" disabled="disabled" id="finalreason" maxlength="2000" name="finalReason" title="不超过2000个字">${reasons.finalReason}</textarea>
+							<span class="fl">最终意见附件：</span>
+							<u:show delete="false" showId="ff" businessId="${project.id}" sysKey="${sysKey}" typeId="${finalTypeId}" />
+						</c:if>
+						<c:if test="${project.confirmFile == 1}">
+							<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb20" id="finalreason" maxlength="2000" onkeyup="lengthStr('4',this)" name="finalReason" title="不超过2000个字">${reasons.finalReason}</textarea>
+						  <span class="fl">最终意见附件：</span>
+						  <u:upload id="kk"  exts=".jpg,.png" multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${finalTypeId}" auto="true" />
+						</c:if>
           </div>
          <div class="clear tc mt50">
          	<c:if test="${exist == true && project.confirmFile == 1}">

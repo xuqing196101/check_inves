@@ -14,7 +14,12 @@
 <jsp:include page="../../common.jsp"></jsp:include>	
 <script type="text/javascript">
 	function backUp(){
-		$("#tab-6").load("${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId=${packageId}&projectId=${projectId}");
+	  var type = "${type}";
+	  if(type){
+	     $("#tab-6").load("${pageContext.request.contextPath}/adPackageExpert/detailedReview.html?packageId=${packageId}&projectId=${projectId}");
+	  } else {
+	     $("#tab-6").load("${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId=${packageId}&projectId=${projectId}");
+	  }
 	}
 </script>
   <!-- 锁表头js -->

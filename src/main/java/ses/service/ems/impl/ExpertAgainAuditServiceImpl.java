@@ -4,9 +4,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -17,6 +21,7 @@ import com.github.pagehelper.PageInfo;
 
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.bms.UserMapper;
+import ses.dao.ems.BatchTemporaryMapper;
 import ses.dao.ems.ExpertAuditOpinionMapper;
 import ses.dao.ems.ExpertBatchDetailsMapper;
 import ses.dao.ems.ExpertBatchMapper;
@@ -26,6 +31,7 @@ import ses.dao.ems.ExpertReviewTeamMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.RoleUser;
 import ses.model.bms.User;
+import ses.model.ems.BatchTemporary;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAgainAuditImg;
 import ses.model.ems.ExpertAuditOpinion;
@@ -62,6 +68,8 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	private UserMapper userMapper;
 	@Autowired
 	private ExpertAuditOpinionMapper expertAuditOpinionMapper;
+	@Autowired
+	private BatchTemporaryMapper batchTemporaryMapper;
 	public static final String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	@Override
 	public ExpertAgainAuditImg addAgainAudit(String ids) {
@@ -185,6 +193,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
 		expertBatchDetails.setBatchId(batchId);
 		expertBatchDetails.setStatus(status);
+		//expertBatchDetails.setSort("1");
 		Map<String,Object> map = new HashMap<String,Object>();
 		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
 		if(list.size()>0){
@@ -527,28 +536,37 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	public ExpertAgainAuditImg addExpertReviewTeam(String userName,String password,List<Map<String, String>> e) {
 		// TODO Auto-generated method stub
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		List<User> list = userMapper.queryByLoginName(userName);
 		User user = new User();
-		user.setId(WfUtil.createUUID());
-		user.setLoginName(userName);
-		user.setRelName(userName);
-		user.setCreatedAt(new Date());
-		user.setUpdatedAt(new Date());
-		user.setIsDeleted(0);
-		user.setTypeName("6");
-		if(password!=null){
-			//生成15位随机码
-			String randomCode = generateString(15);
-			Md5PasswordEncoder md5 = new Md5PasswordEncoder();     
-			// false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版     
-			md5.setEncodeHashAsBase64(false);     
-			String pwd = md5.encodePassword(password, randomCode);
-			user.setPassword(pwd);
-			user.setRandomCode(randomCode);
+		if(list!=null && list.size()>0){
+			user=list.get(0);
+			expertReviewTeamMapper.deleteGroupreReviewTeam(e.get(0).get("groupId"));
+		}else{
+			user.setId(WfUtil.createUUID());
+			user.setLoginName(userName);
+			user.setRelName(userName);
+			user.setCreatedAt(new Date());
+			user.setUpdatedAt(new Date());
+			user.setIsDeleted(0);
+			user.setTypeName("6");
+			if(password!=null){
+				//生成15位随机码
+				String randomCode = generateString(15);
+				Md5PasswordEncoder md5 = new Md5PasswordEncoder();     
+				// false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版     
+				md5.setEncodeHashAsBase64(false);     
+				String pwd = md5.encodePassword(password, randomCode);
+				user.setPassword(pwd);
+				user.setRandomCode(randomCode);
+			}
+			//user.setTypeId(expertReviewTeam.getId());
+			String ipAddressType = PropUtil.getProperty("ipAddressType");
+			user.setNetType(Integer.valueOf(ipAddressType));
+			userMapper.saveUser(user);
 		}
-		//user.setTypeId(expertReviewTeam.getId());
-		String ipAddressType = PropUtil.getProperty("ipAddressType");
-		user.setNetType(Integer.valueOf(ipAddressType));
-		userMapper.saveUser(user);
+		
+		
+		
 		for (Map<String, String> map : e) {
 			ExpertReviewTeam expertReviewTeam = new ExpertReviewTeam();
 			expertReviewTeam.setGroupId(map.get("groupId"));
@@ -890,6 +908,144 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 			img.setMessage("当前批次剩余待分组专家不足,请手动分配");
 		}
 		return img;
+	}
+
+	@Override
+	public ExpertAgainAuditImg selectReviewTeamAll() {
+		// TODO Auto-generated method stub
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		List<ExpertReviewTeam> list2 = new ArrayList<ExpertReviewTeam>();
+		List<ExpertReviewTeam> list = expertReviewTeamMapper.selectReviewTeamAll();
+		Set<ExpertReviewTeam> set = new  LinkedHashSet<ExpertReviewTeam>(list); 
+		list2.addAll(set);
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		img.setObject(list2);
+		return img;
 	} 
-	
+	public List<ExpertBatchDetails> findBatchDetailsList(String batchId) {
+		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
+		expertBatchDetails.setBatchId(batchId);
+		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
+		int i=1;
+		if(list.size()>0){
+			for (ExpertBatchDetails e : list) {
+				e.setCount(i+"");
+				i++;
+				StringBuffer expertType = new StringBuffer();
+	            if(e.getExpertsTypeId() != null) {
+	                for(String typeId: e.getExpertsTypeId().split(",")) {
+	                    DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(typeId);
+	                    if(data != null){
+	                    	if(6 == data.getKind()) {
+	                            expertType.append(data.getName() + "技术、");
+	                        } else {
+	                            expertType.append(data.getName() + "、");
+	                        }
+	                    }
+	                    
+	                }
+	                if(expertType.length() > 0){
+	                	String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+	                	 e.setExpertsTypeId(expertsType);
+	                }
+	            } else {
+	                e.setExpertsTypeId("");
+	            }
+	            
+	          //专家来源
+	      		if(e.getExpertsFrom() != null) {
+	      			DictionaryData expertsFrom = dictionaryDataMapper.selectByPrimaryKey(e.getExpertsFrom());
+	      			e.setExpertsFrom(expertsFrom.getName());
+	      		}
+	      	  //专家复审意见
+	      		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+	      		expertAuditOpinion.setExpertId(e.getExpertId());
+	      		expertAuditOpinion.setFlagTime(1);
+	      		ExpertAuditOpinion opinion = expertAuditOpinionMapper.selectByExpertId(expertAuditOpinion);
+	      		if(opinion!=null){
+	      			e.setAuditTemporary(opinion.getOpinion());
+	      		}else{
+	      			e.setAuditTemporary("");
+	      		}
+	      		
+			}
+		}
+		return list;
+		
+	}
+	public ExpertAgainAuditImg selectBatchTemporary(Expert expert) {
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		List<BatchTemporary> list = batchTemporaryMapper.selectBatchTemporaryAll(expert);
+		if(list.size()>0){
+			for (BatchTemporary e : list) {
+				SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd");
+				if(e.getAuditAt() !=null){
+					e.setUpdateTime(dateFormater.format(e.getAuditAt()));
+				}
+				StringBuffer expertType = new StringBuffer();
+	            if(e.getExpertsTypeId() != null) {
+	                for(String typeId: e.getExpertsTypeId().split(",")) {
+	                    DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(typeId);
+	                    if(data != null){
+	                    	if(6 == data.getKind()) {
+	                            expertType.append(data.getName() + "技术、");
+	                        } else {
+	                            expertType.append(data.getName() + "、");
+	                        }
+	                    }
+	                    
+	                }
+	                if(expertType.length() > 0){
+	                	String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+	                	 e.setExpertsTypeId(expertsType);
+	                }
+	            } else {
+	                e.setExpertsTypeId("");
+	            }
+	            
+	          //专家来源
+	      		if(e.getExpertsFrom() != null) {
+	      			DictionaryData expertsFrom = dictionaryDataMapper.selectByPrimaryKey(e.getExpertsFrom());
+	      			e.setExpertsFrom(expertsFrom.getName());
+	      		}
+			}
+		}
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		img.setObject(list);
+		return img;
+	}
+	public ExpertAgainAuditImg addBatchTemporary(String expertId,String ids) {
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		if(ids!=null){
+			String[] split = ids.split(",");
+			for (String string : split) {
+				BatchTemporary t = new BatchTemporary();
+				t.setExpertId(expertId);
+				t.setBatchExpertId(string);
+				t.setCreatedAt(new Date());
+				t.setUpdatedAt(new Date());
+				batchTemporaryMapper.addBatchTemporary(t);
+			}
+		}
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		return img;
+	}
+	public void deleteByPrimaryKey() {
+		batchTemporaryMapper.deleteByPrimaryKey();
+	}
+	public ExpertAgainAuditImg deleteBatchTemporary(String ids) {
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		if(ids!=null){
+			String[] split = ids.split(",");
+			for (String string : split) {
+				batchTemporaryMapper.deleteBatchTemporary(string);
+			}
+		}
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		return img;
+	}
 }

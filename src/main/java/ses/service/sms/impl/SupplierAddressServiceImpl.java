@@ -79,30 +79,36 @@ public class SupplierAddressServiceImpl implements SupplierAddressService {
 
     @Override
     @Transactional
-    public boolean deleteAddressByIds(String ids) {
-	    boolean isSuccess = false;
-	    try{
-            if(StringUtils.isNotBlank(ids)){
-                String[] idArray = ids.split(",");
-                int delCount = 0;
-                for(int i=0;i<idArray.length;i++){
-                    if(StringUtils.isNotBlank(idArray[i])){
-                        int key = supplierAddressMapper.deleteByPrimaryKey(idArray[i]);
-                        if(key == 1){
-                            delCount++;
-                        }
-                    }
-                }
-                if(delCount==idArray.length){
-                    isSuccess = true;
-                }
-            }
-        }catch (Exception e){
-	        e.printStackTrace();
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-        }
-        return isSuccess;
-    }
+	public boolean deleteAddressByIds(String ids) {
+		boolean isSuccess = false;
+		try {
+			if (StringUtils.isNotBlank(ids)) {
+				String[] idArray = ids.split(",");
+				int delCount = 0;
+				int hasCount = 0;
+				for (int i = 0; i < idArray.length; i++) {
+					String id = idArray[i];
+					if (StringUtils.isNotBlank(id)) {
+						SupplierAddress addr = supplierAddressMapper.selectByPrimaryKey(id);
+						if (addr != null) {
+							int key = supplierAddressMapper.deleteByPrimaryKey(id);
+							if (key == 1) {
+								delCount++;
+							}
+							hasCount++;
+						}
+					}
+				}
+				if (delCount == hasCount) {
+					isSuccess = true;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+		}
+		return isSuccess;
+	}
 
     
     /**

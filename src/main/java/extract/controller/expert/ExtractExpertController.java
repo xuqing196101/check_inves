@@ -133,6 +133,8 @@ public class ExtractExpertController {
             //生成项目信息主键id
             String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
             model.addAttribute("projectId",uuid);
+            String uuid22 = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+            model.addAttribute("conditionId",uuid22);
             //专家类型
             List<DictionaryData> expertTypeList = DictionaryDataUtil.find(12);
             model.addAttribute("expertTypeList",expertTypeList);
@@ -182,13 +184,14 @@ public class ExtractExpertController {
      */
     @RequestMapping("/saveProjectInfo")
     @ResponseBody
-    public String saveProjectInfo(@CurrentUser User user,ExpertExtractProject expertExtractProject,ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception{
+    public String saveProjectInfo(@CurrentUser User user,String conId,ExpertExtractProject expertExtractProject,ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception{
         //保存项目基本信息
         expertExtractProjectService.save(expertExtractProject,user);
+        expertExtractCondition.setId(conId);
         //查询抽取结果信息
         Map<String, Object> result = expertExtractConditionService.findExpertByExtract(expertExtractProject,expertExtractCondition,expertExtractCateInfo);
         //保存抽取条件
-        ExpertExtractCondition condition = expertExtractConditionService.save(expertExtractCondition,expertExtractCateInfo);
+        ExpertExtractCondition condition = expertExtractConditionService.save(expertExtractProject.getId(),expertExtractCondition,expertExtractCateInfo);
         result.put("conditionId", condition.getId());
         Short isAuto = expertExtractProject.getIsAuto();
         if(isAuto == 0){
@@ -564,8 +567,8 @@ public class ExtractExpertController {
      */
     @ResponseBody
     @RequestMapping("/vaProjectCode")
-    public String vaProjectCode(String code){
-        return expertExtractProjectService.vaProjectCode(code);
+    public String vaProjectCode(String code,String xmProjectId){
+        return expertExtractProjectService.vaProjectCode(code,xmProjectId);
     }
     
     /**

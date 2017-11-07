@@ -2179,13 +2179,9 @@ public class PurchaseContractController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("/toCreateFormalContract")
-    public String toCreateFormalContract(PurchaseContract purCon, HttpServletRequest request,
-                                         Model model)
-        throws Exception {
+    public String toCreateFormalContract(PurchaseContract purCon, Model model) throws Exception {
         Boolean flag = true;
         String url = "";
-        String fga = request.getParameter("fga");
-        String fra = request.getParameter("fra");
         if (purCon.getApprovalNumber() == null || purCon.getApprovalNumber().equals("")) {
             flag = false;
             model.addAttribute("ERR_approvalNumber", "合同批准文号不可为空");
@@ -2199,6 +2195,9 @@ public class PurchaseContractController extends BaseSupplierController {
             model.addAttribute("ERR_formalReviewedAt", "正式合同报批时间不可为空");
         }
         if (purCon.getFormalGitAt() != null && purCon.getFormalReviewedAt() != null) {
+        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+        	String fga = sdf.format(purCon.getFormalGitAt());
+        	String fra = sdf.format(purCon.getFormalReviewedAt());
             Date formalGitAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(fga);
             Date formalRAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(fra);
             purCon.setFormalGitAt(formalGitAt);
@@ -2209,6 +2208,11 @@ public class PurchaseContractController extends BaseSupplierController {
                 model.addAttribute("ERR_formalReviewedAt", "报批时间不能早于提报时间");
             }
         }
+        List<UploadFile> upLoad = uploadService.getFilesOther(purCon.getId(), DictionaryDataUtil.getId("CONTRACT_APPROVE_ATTACH"), Constant.TENDER_SYS_KEY+"");
+        if (upLoad.isEmpty()) {
+        	flag = false;
+            model.addAttribute("ERR_formalUpload", "附件不能为空");
+		}
         if (flag) {
             purCon.setUpdatedAt(new Date());
             purCon.setFormalAt(new Date());
@@ -2217,14 +2221,8 @@ public class PurchaseContractController extends BaseSupplierController {
             appraisalContractService.insertPurchaseContract(pur);
             url = "redirect:selectDraftContract.html";
         } else {
-            model.addAttribute("attachuuid", purCon.getId());
-            DictionaryData dd = new DictionaryData();
-            dd.setCode("CONTRACT_APPROVE_ATTACH");
-            List<DictionaryData> datas = dictionaryDataServiceI.find(dd);
-            request.getSession().setAttribute("attachsysKey", Constant.TENDER_SYS_KEY);
-            if (datas.size() > 0) {
-                model.addAttribute("attachtypeId", datas.get(0).getId());
-            }
+            model.addAttribute("id", purCon.getId());
+            model.addAttribute("attachtypeId",  DictionaryDataUtil.getId("CONTRACT_APPROVE_ATTACH"));
             model.addAttribute("purCon", purCon);
             url = "bss/cs/purchaseContract/toFormalContract";
         }
@@ -2492,18 +2490,9 @@ public class PurchaseContractController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("/toFormalContract")
-    public String toFormalContract(HttpServletRequest request, Model model)
-        throws Exception {
-        String id = request.getParameter("id");
+    public String toFormalContract(String id, Model model) {
         model.addAttribute("id", id);
-        model.addAttribute("attachuuid", id);
-        DictionaryData dd = new DictionaryData();
-        dd.setCode("CONTRACT_APPROVE_ATTACH");
-        List<DictionaryData> datas = dictionaryDataServiceI.find(dd);
-        request.getSession().setAttribute("attachsysKey", Constant.TENDER_SYS_KEY);
-        if (datas.size() > 0) {
-            model.addAttribute("attachtypeId", datas.get(0).getId());
-        }
+        model.addAttribute("attachtypeId", DictionaryDataUtil.getId("CONTRACT_APPROVE_ATTACH"));
         return "bss/cs/purchaseContract/toFormalContract";
     }
 

@@ -159,7 +159,7 @@ public class PurchaseRequiredController extends BaseController {
 		if (page == null) {
 			page = StaticVariables.DEFAULT_PAGE;
 		}
-		List<Role> roles = user.getRoles();
+		/*List<Role> roles = user.getRoles();
 		boolean bool = false;
 		if (roles != null && roles.size() > 0) {
 			for (Role r : roles) {
@@ -168,9 +168,9 @@ public class PurchaseRequiredController extends BaseController {
 				}
 			}
 		}
-		if (bool != true) {
+		if (bool != true) {*/
 			purchaseRequired.setUserId(user.getId());
-		}
+		/*}*/
 		List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired, page);
 		model.addAttribute("info", new PageInfo<PurchaseRequired>(list));
 		model.addAttribute("inf", purchaseRequired);
@@ -206,6 +206,14 @@ public class PurchaseRequiredController extends BaseController {
 		PurchaseRequired p = new PurchaseRequired();
 		p.setUniqueId(planNo.trim());
 		List<PurchaseRequired> list = purchaseRequiredService.queryUnique(p);
+		for(PurchaseRequired pr:list){
+		  HashMap<String, Object> map=new HashMap<String, Object>();
+		  map.put("id",pr.getId());
+		  List<PurchaseRequired> prs = purchaseRequiredService.selectByParentId(map);
+		  if(prs!=null&&!prs.isEmpty()&&prs.size()>1){
+		    pr.setIsParent("true");
+		  }
+		}
 		model.addAttribute("kind", DictionaryDataUtil.find(5));// 获取数据字典数据
 		model.addAttribute("list", list);
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -372,9 +380,9 @@ public class PurchaseRequiredController extends BaseController {
 		if (!list.get(0).getSeq().matches("[\u4E00-\u9FA5]")) {
 			return "3";
 		}
-		if (list.get(0).getSeq().matches("[\u4E00-\u9FA5]") && list.get(0).getPurchaseCount() != null) {
+		/*if (list.get(0).getSeq().matches("[\u4E00-\u9FA5]") && list.get(0).getPurchaseCount() != null) {
 			return "4";
-		}
+		}*/
 		// if(!list.get(0).getSeq().matches("[\u4E00-\u9FA5]")){
 		// return "3";
 		// }
@@ -442,12 +450,18 @@ public class PurchaseRequiredController extends BaseController {
 				}
 				p.setId(id);// 注释
 				count++;
-				PurchaseRequired pr = list.get(i + 1);
-				if (pr != null) {
-					if (!isContainChinese(pr.getSeq())) {
-						errMsg = String.valueOf(i + 4) + "行，节点错误";
-						break;
-					}
+				if(list.size()>i + 1){
+  				PurchaseRequired pr = list.get(i + 1);
+  				if (pr != null) {
+  					if (!isContainChinese(pr.getSeq())) {
+  						errMsg = String.valueOf(i + 4) + "行，节点错误";
+  						break;
+  					}else{
+  					  if(pr.getSeq()!=null&&pr.getSeq().startsWith("（")){
+  					    p.setIsParent("true");
+  					  }
+  					}
+  				}
 				}
 				continue;
 			}
@@ -462,13 +476,21 @@ public class PurchaseRequiredController extends BaseController {
 				}
 				p.setId(pid);
 				count++;
-				PurchaseRequired pr = list.get(i + 1);
-				if (pr != null) {
-					if (!pr.getSeq().equals("1") && !isContainChinese(p.getSeq())) {
-						errMsg = String.valueOf(i + 4) + "行，节点错误";
-						break;
-					}
+				
+				if(list.size()>i + 1){
+				  PurchaseRequired pr = list.get(i + 1);
+				  if (pr != null) {
+	          if (!isContainChinese(pr.getSeq())&&!isInteger(pr.getSeq())) {
+	            errMsg = String.valueOf(i + 4) + "行，节点错误";
+	            break;
+	          }else{
+	             if(isInteger(pr.getSeq())){
+	               p.setIsParent("true");
+	             }
+	          }
+	        }
 				}
+				
 				continue;
 			}
 
@@ -483,6 +505,22 @@ public class PurchaseRequiredController extends BaseController {
 				}
 				p.setId(cid);
 				count++;
+				
+				if(list.size()>i + 1){
+          PurchaseRequired pr = list.get(i + 1);
+          if (pr != null) {
+            if (!isInteger(pr.getSeq()) && !isContainIntger(pr.getSeq())&&!isContainChinese(pr.getSeq())) {
+              errMsg = String.valueOf(i + 4) + "行，节点错误";
+              break;
+            }else{
+              if(isContainIntger(pr.getSeq())){
+                p.setIsParent("true");
+              }
+            }
+          }
+        }
+				
+				
 				continue;
 			}
 
@@ -497,6 +535,19 @@ public class PurchaseRequiredController extends BaseController {
 				}
 				p.setId(ccid);
 				count++;
+				if(list.size()>i + 1){
+          PurchaseRequired pr = list.get(i + 1);
+          if (pr != null) {
+            if (!isInteger(pr.getSeq()) && !isContainIntger(pr.getSeq())&&!isContainChinese(pr.getSeq())&&!isEng(pr.getSeq())) {
+              errMsg = String.valueOf(i + 4) + "行，节点错误";
+              break;
+            }else{
+              if(isEng(pr.getSeq())){
+                p.setIsParent("true");
+              }
+            }
+          }
+        }
 				continue;
 			}
 			// 五级节点
@@ -508,8 +559,21 @@ public class PurchaseRequiredController extends BaseController {
 					cccid = UUID.randomUUID().toString().replaceAll("-", "");// 重新给顶级id赋值
 				}
 				p.setId(cccid);
-				
 				count++;
+				if(list.size()>i + 1){
+          PurchaseRequired pr = list.get(i + 1);
+          if (pr != null) {
+            
+            if (!isInteger(pr.getSeq()) && !isContainIntger(pr.getSeq())&&!isContainChinese(pr.getSeq())&&!isEng(pr.getSeq())&&!isContainEng(pr.getSeq())) {
+              errMsg = String.valueOf(i + 4) + "行，节点错误";
+              break;
+            }else{
+              if(isContainEng(pr.getSeq())){
+                p.setIsParent("true");
+              }
+            }
+          }
+        }
 				continue;
 			} else {
 				p.setId(ccccid);
@@ -684,7 +748,7 @@ public class PurchaseRequiredController extends BaseController {
 
 		List<PurchaseRequired> list = purchaseRequiredService.getUnique(planNo);
 
-		String filedisplay = "明细.xls";
+		String filedisplay = list.get(0).getPlanName()+".xls";
 		response.addHeader("Content-Disposition",
 				"attachment;filename=" + new String(filedisplay.getBytes("gb2312"), "iso8859-1"));
 		HSSFWorkbook workbook = new HSSFWorkbook();
@@ -904,6 +968,7 @@ public class PurchaseRequiredController extends BaseController {
 		}
 		PageInfo<PurchaseOrg> list = new PageInfo<PurchaseOrg>(manages);
 		model.addAttribute("list", list);
+		model.addAttribute("name", name);
 		model.addAttribute("uniqueId", planNo);
 		return "bss/pms/purchaserequird/add_purchase_org";
 	}
@@ -1150,6 +1215,23 @@ public class PurchaseRequiredController extends BaseController {
 		}
 		return bool;
 	}
+	
+	public boolean isContainEng(String str) {
+    boolean bool = true;
+    if(str.startsWith("（")&&str.endsWith("）")){
+      str=str.substring(1, str.length()-1);
+      String eng = "abcdefghijklmnopqrstuvwxyz";
+       String s= String.valueOf(str.toCharArray()[0]);
+      if (eng.contains(s)) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+    }else{
+      bool = false;
+    }
+    return bool;
+  }
 
 	public String randomPlano() {
 		String str[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",

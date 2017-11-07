@@ -89,7 +89,12 @@
       // 返回
       function back(){
         var id = $("#id").val();
-        window.location.href = "${pageContext.request.contextPath}/project/deleted.html?id="+id;
+        var ix = "${ix}";
+        if(ix){
+        	window.history.go(-1);
+        } else {
+        	window.location.href = "${pageContext.request.contextPath}/project/deleted.html?id="+id;
+        }
       }
       
       //获取采购明细
@@ -101,25 +106,25 @@
       }
 
       
-      var flag = true;
-      function verify(ele) {
-        var projectNumber = $(ele).val();
+       function verify() {
+      	var bool = true;
+        var projectNumber = $("#projectNumber").val();
         $.ajax({
           url: "${pageContext.request.contextPath}/project/verify.html",
           type: "post",
-          data: "projectNumber=" + projectNumber,
-          dataType: "json",
+          data: {"projectNumber" : projectNumber},
+          dataType: "text",
+          async: false,
           success: function(data) {
-            var datas = eval("(" + data + ")");
-            if(datas == false) {
-              $("#sps").html("项目编号已存在").css('color', 'red');
-              flag = false;
-            } else {
-              $("#sps").html("");
-              flag = true;
-            }
+          		if(data == "false"){
+          			$("#sps").html("项目编号已存在").css('color', 'red');
+          			bool = false;
+          		} else {
+          			$("#sps").html("");
+          		}
           },
         });
+        return bool;
       }
 
       function nextStep() {
@@ -133,10 +138,7 @@
         chkItems = $.trim(chkItems);
         name = $.trim(name);
         projectNumber = $.trim(projectNumber);
-        if(flag == false){
-          //$("#sps").html("项目编号已存在").css('color', 'red');
-          $("#projectNumber").focus();
-        }else if(name == "") {
+        if(name == "") {
           layer.tips("项目名称不允许为空", "#name");
           $("#name").focus();
         } else if(projectNumber == "") {
@@ -145,30 +147,69 @@
         }else if(!chkItems){
           layer.alert("请选择明细");
         } else {
-          $.ajax({
-          url: "${pageContext.request.contextPath}/project/verifyType.html",
-          type: "post",
-          data: "chkItems=" + ids,
-          dataType: "json",
-          success: function(data) {
-            var datas = eval("(" + data + ")");
-            if(datas == false) {
-              layer.alert("采购方式不一样，请重新选择！");
-            } else {
-              layer.open({
-                    type: 2, //page层
-                    area: ['800px', '500px'],
-                    title: '请上传项目批文',
-                    shade: 0.01, //遮罩透明度
-                    moveType: 1, //拖拽风格，0是默认，1是传统拖动
-                    shift: 1, //0-6的动画形式，-1不开启
-                    shadeClose: true,
-                    content: '${pageContext.request.contextPath}/project/nextStep.html?id=${id}'+ '&name=' + name + '&projectNumber=' + projectNumber+'&checkId='+ids,
-               });
-            }
-          },
-        });
-		      
+        	var bool = verify();
+        	if(bool){
+        		var nameTr=document.getElementsByName("attr");
+        	   var checkName=[];
+        	   for(var i=0;i<nameTr.length;i++){
+	        	     checkName.push($(nameTr[i]).children()[9]);
+        	   }
+        	   for(var i=0;i<checkName.length;i++){
+        	      if(i != 0){
+        	        if($(checkName[i]).text()!=$(checkName[i-1]).text()){
+        	           layer.msg("采购方式不一样");
+        	           return false;
+        	        }
+        	      }
+        	   }
+        		layer.open({
+	             type: 2, //page层
+	             area: ['800px', '500px'],
+	             title: '请上传项目批文',
+	             shade: 0.01, //遮罩透明度
+	             moveType: 1, //拖拽风格，0是默认，1是传统拖动
+	             shift: 1, //0-6的动画形式，-1不开启
+	             shadeClose: true,
+	             content: '${pageContext.request.contextPath}/project/nextStep.html?id=${id}'+ '&name=' + name + '&projectNumber=' + projectNumber+'&checkId='+ids,
+	          });
+        	} else {
+        		$("#sps").html("项目编号已存在").css('color', 'red');
+        		$("#projectNumber").focus();
+        	}
+        }
+      }
+      
+      function hold(){
+      	var id = $("#id").val();
+      	var name = $("#name").val();
+        var projectNumber = $("#projectNumber").val();
+        var chkItems = $("input[name='chkItems']").val();
+        chkItems = $.trim(chkItems);
+        name = $.trim(name);
+        projectNumber = $.trim(projectNumber);
+        if(name == "") {
+          layer.tips("项目名称不允许为空", "#name");
+          $("#name").focus();
+        } else if(projectNumber == "") {
+          layer.tips("项目编号不允许为空", "#projectNumber");
+          $("#projectNumber").focus();
+        }else if(!chkItems){
+          layer.alert("请选择明细");
+        } else {
+        	$.ajax({
+	          url: "${pageContext.request.contextPath}/project/hold.html",
+	          type: "post",
+	          data: {"id" : id},
+	          dataType: "text",
+	          async: false,
+	          success: function(data) {
+	          		if(data == "ok"){
+	          			layer.msg("暂存成功");
+	          		} else {
+	          			layer.msg("暂存失败");
+	          		}
+	          },
+	        });
         }
       }
       
@@ -237,7 +278,7 @@
             </li>
           </ul>
         </div>
-        <div>
+        <div class="padding-top-10 clear">
           <h2 class="count_flow"><i>2</i>选择采购明细</h2>
           <!-- 项目戳开始 -->
 				<h2 class="search_detail ml0">
@@ -248,10 +289,11 @@
 					    	<input type="hidden" name="page" id="page">
 								<span><input type="text" name="planName" id="planName" value="${planName}" /></span>
 								<input type="hidden" id="id" class="input_group" name="id" value="${id}" />
+								<input type="hidden" name="ix" value="${ix}" />
 					  	</li>
 			        <li>
 			          <label class="fl">采购管理部门：</label>
-			          <span><input type="text" name="orgName" id="orgName" value="${orgName }"/></span>
+			          <span><input type="text" name="orgName" id="orgName" value="${orgName}"/></span>
 			        </li>
 			        <li>
 			          <label class="fl">采购任务文号：</label>
@@ -309,7 +351,7 @@
                 <table id="table" class="table table-bordered table-condensed lockout">
                   <thead>
                     <tr class="space_nowrap">
-                      <th>操作</th>
+                      <th class="choose">操作</th>
                       <th class="info seq">序号</th>
                       <th class="info department">需求部门</th>
                       <th class="info goodsname">物资类别<br/>及名称</th>
@@ -327,7 +369,7 @@
                     </tr>
                   </thead>
                   <c:forEach items="${lists}" var="obj" varStatus="vs">
-                    <tr class="pointer">
+                    <tr class="pointer" <c:if test="${obj.price ne null && obj.purchaseCount ne null}">name="attr"</c:if>>
                       <td>
                        <div class="choose">
                         <input type="hidden" name="pId_${obj.parentId}" value="${obj.parentId}"/>
@@ -362,7 +404,7 @@
                             </c:when>
                             <c:otherwise>
                               <c:forEach items="${kind}" var="kind">
-			                    <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+			                    <c:if test="${kind.id eq obj.purchaseType}">${kind.name}</c:if>
 			                  </c:forEach>
                             </c:otherwise>
                          </c:choose>
@@ -387,6 +429,9 @@
           </div>
         </div>
         <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
+        	<c:if test="${ix eq null}">
+        		<button class="btn" onclick="hold()" type="button">暂存</button>
+        	</c:if>
           <button class="btn" onclick="nextStep()" type="button">确定</button>
           <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
         </div>

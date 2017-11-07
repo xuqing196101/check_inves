@@ -233,4 +233,23 @@
        AND SCORE_MODEL_ID != #{scoreModelId,jdbcType=VARCHAR}
       </if>
   </select>
+  
+  <select id="selectByScore" parameterType="bss.model.prms.ext.ExpertSuppScore" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PRMS_EXPERT_SCORE
+    where 1=1
+    <if test="expertId != null and expertId != ''">
+       AND EXPERT_ID = #{expertId,jdbcType=VARCHAR}
+      </if>
+      <if test="projectId != null and projectId != ''">
+       AND PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+      </if>
+      <if test="packageId != null and packageId != ''">
+       AND PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
+      </if>
+      <if test="scoreModelId != null and scoreModelId != ''">
+       AND SCORE_MODEL_ID = #{scoreModelId,jdbcType=VARCHAR}
+      </if>
+      </select>
 </mapper>

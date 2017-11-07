@@ -192,4 +192,17 @@ public interface SaleTenderMapper {
      * @return
      */
     List<SaleTender> findPackageBySupplierIdProjectId(@Param("supplierId")String supplierId,@Param("projectId")String projectId);
+    
+    /**
+     * 
+     *〈根据预研项目ID和包ID查询供应商〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param map
+     * @return
+     */
+    List<SaleTender> getAdPackegeSuppliers(HashMap<String, Object> map);
+    
+    
+    List<SaleTender> findByProject(SaleTender record);
 }

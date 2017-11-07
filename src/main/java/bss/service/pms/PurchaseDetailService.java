@@ -339,4 +339,28 @@ public interface PurchaseDetailService {
      * @param uniqueId
      */
     public void updatePurchaseDetailByPlanId(CollectPlan collectPlan,String uniqueId);
+    
+    /**
+     * 
+    * @Title: findUniqueByTask
+    * @author FengTian 
+    * @date 2017-10-18 上午10:28:10  
+    * @Description: 根据任务获取本采购机构下面的明细 
+    * @param @param map
+    * @param @return      
+    * @return List<PurchaseDetail>
+     */
+    List<PurchaseDetail> findUniqueByTask(HashMap<String, Object> map, Integer page);
+    
+    /**
+     * 
+    * @Title: findTaskByDetail
+    * @author FengTian 
+    * @date 2017-10-18 下午3:06:20  
+    * @Description: 任务调整获取本采购机构下面的明细  
+    * @param @param map
+    * @param @return      
+    * @return List<PurchaseDetail>
+     */
+    List<PurchaseDetail> findTaskByDetail(String taskId, String orgId);
 }

@@ -151,13 +151,25 @@ public interface ProjectService {
     
     /**
      * 
-     *〈管理机构登录〉
+     *〈立项管理机构登录〉
      *〈详细描述〉
      * @author Administrator
      * @param map
      * @return
      */
     List<Project> selectByOrg(HashMap<String,Object> map);
+    
+    /**
+     * 
+    * @Title: selectByOrgnization
+    * @author FengTian 
+    * @date 2017-5-31 下午2:55:55  
+    * @Description: 实施管理部门登录 
+    * @param @param map
+    * @param @return      
+    * @return List<Project>
+     */
+    List<Project> selectByOrgnization(HashMap<String,Object> map);
     
     /**
      * 

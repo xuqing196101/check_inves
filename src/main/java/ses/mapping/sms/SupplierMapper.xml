@@ -91,6 +91,7 @@
 		<result column="ORGNAME" property="orgName" />
 		<result column="AUDITOR" property="auditor" />
 		<result column="AUDIT_TEMPORARY" property="auditTemporary" />
+		<result column="AUDIT_OPINION_ATTACH" property="auditOpinionAttach" />
     <association property="area" column="ADDRESS" select="ses.dao.bms.AreaMapper.selectById"/>
 	</resultMap>
 
@@ -133,7 +134,7 @@
 		BUSINESS_CERT,DETAIL_ADDRESS,ARMY_BUSINESS_NAME,ARMY_BUSINESS_FAX,ARMY_BUSINESS_MOBILE,
 		ARMY_BUSINESS_TELEPHONE,ARMY_BUSINESS_EMAIL,AUDIT_DATE,ARMY_BUSINESS_ADDRESS,CONCAT_PROVINCE,CONCAT_CITY,ARMY_BUSINESS_PROVINCE,
 		ARMY_BUSINESS_CITY,IS_PROVISIONAL,DESCRIPTION,LEVEL_SCORE_PRODUCT,LEVEL_SCORE_SALES,LEVEL_SCORE_SERVICE,IS_ILLEGAL,PURCHASE_EXPERIENCE,
-		IS_HAVING_CON_CERT, BUSINESS_NATURE, IS_PUBLISH, EXTRACT_ORGID, IS_DELETED, AUDITOR, AUDIT_TEMPORARY
+		IS_HAVING_CON_CERT, BUSINESS_NATURE, IS_PUBLISH, EXTRACT_ORGID, IS_DELETED, AUDITOR, AUDIT_TEMPORARY,AUDIT_OPINION_ATTACH
 	</sql>
 	<!--查询每个供应商所对应的所有类型 作者SBW -->
 	<select id="selectSupplierTypes" parameterType="ses.model.sms.Supplier"
@@ -486,6 +487,15 @@
 			<if test="isProvisional != null">
 				IS_PROVISIONAL,
 			</if>
+			<if test="auditor != null">
+                AUDITOR,
+			</if>
+			<if test="auditTemporary != null">
+                AUDIT_TEMPORARY,
+			</if>
+			<if test="auditOpinionAttach != null">
+                AUDIT_OPINION_ATTACH,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -709,6 +719,15 @@
 			<if test="isProvisional != null">
 				#{isProvisional},
 			</if>
+            <if test="auditor != null">
+                #{auditor},
+            </if>
+            <if test="auditTemporary != null">
+                #{auditTemporary},
+            </if>
+            <if test="auditOpinionAttach != null">
+                #{auditOpinionAttach},
+            </if>
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.Supplier">
@@ -942,10 +961,39 @@
             <if test="isDeleted != null">
                 IS_DELETED=#{isDeleted},
             </if>
+            <if test="auditor != null">
+                AUDITOR=#{auditor},
+            </if>
+            <if test="auditTemporary != null">
+                AUDIT_TEMPORARY=#{auditTemporary},
+            </if>
+            <if test="auditOpinionAttach != null">
+                AUDIT_OPINION_ATTACH=#{auditOpinionAttach},
+            </if>
 		</set>
 		where ID = #{id}
 	</update>
-	<update id="updateByPrimaryKey" parameterType="ses.model.sms.Supplier">
+    <!--退回修改导入外网字段-->
+    <update id="updateByPrimaryKeySelectiveOfBack" parameterType="ses.model.sms.Supplier">
+        update T_SES_SMS_SUPPLIER
+        <set>
+            <if test="auditDate != null">
+                AUDIT_DATE = #{auditDate},
+            </if>
+            <if test="status != null">
+                SUPPLIER_STATUS = #{status},
+            </if>
+            <if test="auditor != null">
+                AUDITOR=#{auditor},
+            </if>
+            <if test="auditTemporary != null">
+                AUDIT_TEMPORARY=#{auditTemporary},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="ses.model.sms.Supplier">
 		update
 		T_SES_SMS_SUPPLIER
 		set LOGIN_NAME = #{loginName},
@@ -1144,13 +1192,26 @@
 	</sql>
 
 	<!-- 发售标书中登记库内的供应商 -->
-	<select id="selectSaleTenderSupplier" parameterType="java.lang.String"
-    resultMap="supplierMap">
+	<select id="selectSaleTenderSupplier" parameterType="ses.model.sms.Supplier"
+    resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from T_SES_SMS_SUPPLIER where  (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS = 8)
+		from T_SES_SMS_SUPPLIER where IS_DELETED=0 and (((SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS = 7) and IS_PROVISIONAL = '0') or (SUPPLIER_STATUS=5 and IS_PROVISIONAL = '1'))
 		<if test="supplierName != null and supplierName !=''">
 			and SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
+		</if>
+		<if test="isProvisional != null">
+		  <if test="isProvisional == 1">
+		     and IS_PROVISIONAL=#{isProvisional}
+		  </if> 
+			<if test="isProvisional == 2">
+		     and SUPPLIER_STATUS=1
+		     and IS_PROVISIONAL='0'
+		  </if> 
+		  <if test="isProvisional !=1 and isProvisional !=2 ">
+		     and SUPPLIER_STATUS=#{isProvisional}
+		     and IS_PROVISIONAL='0'
+		  </if>
 		</if>
 		<if test="stsupplierIds != null">
 			<foreach collection="stsupplierIds" item="id" open="and ID not in ("
@@ -1191,7 +1252,7 @@
        supplier.*
      FROM
       (SELECT
-        T1. ID,
+        T1.ID,
         T1.SUPPLIER_NAME,
         T1.MOBILE,
         T1.BUSINESS_NATURE,
@@ -1294,16 +1355,36 @@
           ID,
           wm_concat (DISTINCT(SUPPLIER_TYPE_ID)) AS typeId
         FROM
-          (SELECT
-             t1.ID,
-             t3.SUPPLIER_TYPE_ID
-           FROM
-             T_SES_SMS_SUPPLIER t1
-             LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE t3 ON t1. ID = t3.SUPPLIER_ID)
-           GROUP BY
-             ID
-      ) t1
-    LEFT JOIN T_SES_SMS_SUPPLIER t2 ON t1.ID = t2.ID 
+          (<choose>
+			  <when test="queryCategory != null and queryCategory != ''">
+				  SELECT DISTINCT T1.ID, T3.SUPPLIER_TYPE_ID
+				    FROM T_SES_SMS_SUPPLIER T1
+				    LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE T3
+				     ON T1. ID = T3.SUPPLIER_ID
+				    LEFT JOIN T_SES_SMS_SUPPLIER_ITEM ITEM
+				     ON T3.SUPPLIER_ID = ITEM.SUPPLIER_ID
+				    LEFT JOIN T_SES_SMS_SUPPLIER_ITEM_LEVEL SL
+				      ON ITEM.SUPPLIER_ID = SL.SUPPLIER_ID
+				      AND ITEM.SUPPLIER_TYPE_RELATE_ID = SL.SUPPLIER_TYPE_ID
+				      AND ITEM.CATEGORY_ID = SL.CATEGORY_ID
+				    WHERE INSTR(#{supplierTypeIds}, ITEM.SUPPLIER_TYPE_RELATE_ID) > 0 AND ITEM.CATEGORY_ID = #{queryCategory}
+                    <!--供应商等级查询条件-->
+                    <if test="supplierLevel != null and supplierLevel != ''">
+                        AND SL.SUPPLIER_LEVEL = #{supplierLevel}
+						AND SL.SUPPLIER_TYPE_ID = #{supplierTypeIds}
+                    </if>
+                    )
+			  </when>
+			  <when test="queryCategory == null or queryCategory == ''">
+				  SELECT
+				    t1.ID,t3.SUPPLIER_TYPE_ID
+				  FROM
+				    T_SES_SMS_SUPPLIER t1
+				    LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE t3 ON t1. ID = t3.SUPPLIER_ID)
+			  </when>
+		   </choose>
+           GROUP BY ID) t1
+    LEFT JOIN T_SES_SMS_SUPPLIER t2 ON t1.ID = t2.ID
     LEFT JOIN T_SES_BMS_AREA T3 ON t2.ADDRESS = T3.ID
     LEFT JOIN T_SES_BMS_AREA T4 ON T3.PARENT_ID = T4.ID
     LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON t2.PROCUREMENT_DEP_ID = dep.ID
@@ -1498,34 +1579,34 @@
 	</select>
 
 	<!-- 根据供应商Id更新状态 -->
-	<update id="updateStatus" parameterType="ses.model.sms.Supplier">
-		update
-		T_SES_SMS_SUPPLIER
-		<set>
-			<if test="status != null">
-				SUPPLIER_STATUS = #{status},
-			</if>
-			<if test="auditDate != ''">
-				AUDIT_DATE=#{auditDate,jdbcType=TIMESTAMP},
-			</if>
-			<if test="updatedAt != null">
-				UPDATED_AT=#{updatedAt},
-			</if>
-			<if test="isPublish != null">
-				IS_PUBLISH=#{isPublish},
-			</if>
-			<if test="auditor !=null">
-        AUDITOR =#{auditor},
-      </if>
-      <if test="auditTemporary !=null">
-        AUDIT_TEMPORARY =#{auditTemporary},
-      </if>
-      <if test="auditOpinionAttach !=null">
-        AUDIT_OPINION_ATTACH =#{auditOpinionAttach}
-      </if>
-		</set>
-		where ID = #{id}
-	</update>
+    <update id="updateStatus" parameterType="ses.model.sms.Supplier">
+        update
+        T_SES_SMS_SUPPLIER
+        <set>
+            <if test="status != null">
+                SUPPLIER_STATUS = #{status},
+            </if>
+            <if test="auditDate != null">
+                AUDIT_DATE = #{auditDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedAt != null">
+                UPDATED_AT = #{updatedAt},
+            </if>
+            <if test="isPublish != null">
+                IS_PUBLISH = #{isPublish},
+            </if>
+            <if test="auditor !=null">
+                AUDITOR = #{auditor},
+            </if>
+            <if test="auditTemporary !=null">
+                AUDIT_TEMPORARY = #{auditTemporary},
+            </if>
+            <if test="auditOpinionAttach !=null">
+                AUDIT_OPINION_ATTACH = #{auditOpinionAttach}
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
 
 	<update id="updateSupplierInspectListById" parameterType="ses.model.sms.Supplier">
 		update
@@ -1850,7 +1931,7 @@
 		  SUPPLIER_STATUS = #{status},AUDIT_DATE=#{auditDate}
 		where ID = #{id}
 	</update>
-	
+
 	<!-- 根据创建日期查询已提交的供应商 -->
 	<select id="tempExportSupplier" resultMap="BaseResultMap">
 		SELECT
@@ -1946,24 +2027,24 @@
 	select f.* from (
 	select  
 	 o.id as id,o.name as name,o.short_name as shortName,d.id as depId,o.position,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id) as  TJSH,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=10) as YYCL,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=0) as DSH,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=9) as THZSH,
-  (select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and AUDIT_TEMPORARY=1) as SHZ,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=2) as THXG,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=-2) as YSHJS,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=3) as SHBTG,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=-3) as GSZ,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=1) as RKDFH,
-  (select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and AUDIT_TEMPORARY=2) as FHZ,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=-4) as YFHJS,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=6) as FHBHG,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=5) as FHHGDKC,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and AUDIT_TEMPORARY=3) as KCZ,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=-5) as YKCJS,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=8) as KCBHG,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=7) as KCHG
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and IS_DELETED = 0 AND IS_PROVISIONAL=0) as  TJSH,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=10 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as YYCL,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=0 and IS_DELETED = 0 and AUDIT_TEMPORARY=0 AND IS_PROVISIONAL=0) as DSH,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=9 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as THZSH,
+    (select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and AUDIT_TEMPORARY=1 and SUPPLIER_STATUS=9 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as SHZ,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=2 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as THXG,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=-2 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as YSHJS,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=3 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as SHBTG,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=-3 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as GSZ,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=1 and IS_DELETED = 0 and AUDIT_TEMPORARY=0 AND IS_PROVISIONAL=0) as RKDFH,
+    (select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and AUDIT_TEMPORARY=2 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as FHZ,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=-4 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as YFHJS,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=6 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as FHBHG,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=5 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as FHHGDKC,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and AUDIT_TEMPORARY=3 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as KCZ,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=-5 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as YKCJS,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=8 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as KCBHG,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=7 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as KCHG
  from 
 	 T_SES_OMS_ORG o inner join T_SES_OMS_PURCHASE_DEP d  on o.id =d.org_id LEFT JOIN T_SES_SMS_SUPPLIER s
 	 on o.id=s.PROCUREMENT_DEP_ID where 1=1
@@ -1978,26 +2059,26 @@
 	select f.*  from (
 	select  
 	 o.id as id,o.name as name,o.short_name as shortName,d.id as depId,o.position,
-	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id) as  TJCS,
-	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=0) as DCS,
-	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=9) as THZCS,
-	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=18) as YYCL,
-	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and AUDIT_TEMPORARY=1) as CSZ,
-	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=3) as CSTHXG,
-	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and (STATUS=15 or STATUS=16)) as YCSJS,
-	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=2) as CSBHG,
-	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=1) as CSHG,
-	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=4) as FSYFP,
-	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and AUDIT_TEMPORARY=2) as FSZ,
-	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=-2) as YFSJS,
-	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=10) as FSTHXG,
-	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=5) as FSBHG,
-	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=-3) as GSZ,
-	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=6) as RKDFC,
-	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and AUDIT_TEMPORARY=3) as FCZ,
-	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=17) as ZLBQ,
-	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=8) as FCBHG,
-  (select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=7) as FCHG 
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and IS_DELETE = 0 ) as  TJCS,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=0 and IS_DELETE = 0 and AUDIT_TEMPORARY=0 AND IS_PROVISIONAL=0) as DCS,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=9 and IS_DELETE = 0 and AUDIT_TEMPORARY=0 AND IS_PROVISIONAL=0) as THZCS,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=18 and IS_DELETE = 0 AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as YYCL,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and AUDIT_TEMPORARY=1 and STATUS=0 and IS_DELETE = 0  AND IS_PROVISIONAL=0) as CSZ,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=3 and IS_DELETE = 0  AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as CSTHXG,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and (STATUS=15 or STATUS=16) and IS_DELETE = 0 AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as YCSJS,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=2 and IS_DELETE = 0 AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as CSBHG,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=1 and IS_DELETE = 0 AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as CSHG,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=4 and IS_DELETE = 0 AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as FSYFP,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and AUDIT_TEMPORARY=2 and IS_DELETE = 0 AND IS_PROVISIONAL=0) as FSZ,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=-2 and IS_DELETE = 0 AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as YFSJS,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=10 and IS_DELETE = 0 AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as FSTHXG,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=5 and IS_DELETE = 0 AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as FSBHG,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=-3 and IS_DELETE = 0 AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as GSZ,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=6 and IS_DELETE = 0 AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as RKDFC,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and AUDIT_TEMPORARY=3 and STATUS=6 and IS_DELETE = 0 AND IS_PROVISIONAL=0) as FCZ,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=17 and IS_DELETE = 0 AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as ZLBQ,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=8 and IS_DELETE = 0 AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as FCBHG,
+  (select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=7 and IS_DELETE = 0 AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as FCHG 
 	from 
 	 T_SES_OMS_ORG o inner join T_SES_OMS_PURCHASE_DEP d  on o.id =d.org_id LEFT JOIN T_SES_EMS_EXPERT s
 	 on o.id=s.PURCHASE_DEP_ID where 1=1

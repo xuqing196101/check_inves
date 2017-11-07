@@ -429,7 +429,7 @@
 		<if test="isCreateContract !=null and isCreateContract !='' ">
 			AND CP.IS_CREATE_CONTRACT=#{isCreateContract}
 		</if>
-		ORDER BY CP.IS_CREATE_CONTRACT
+		ORDER BY CP.IS_CREATE_CONTRACT asc,CP.CREATED_AT desc
 	</select>
 	<!-- 关联包 -->
 	<select id="getByCheckPass" parameterType="java.lang.String"

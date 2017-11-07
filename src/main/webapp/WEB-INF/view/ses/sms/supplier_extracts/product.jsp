@@ -279,22 +279,22 @@
   //获取选中子节点id
   function getChildren(cate){
   	var typeCode = $(cate).attr("typeCode");
-      var Obj=$.fn.zTree.getZTreeObj("ztree");  
-       var nodes=Obj.getCheckedNodes(true);  
-       var ids  = "";
-       var names = "";
-       var parentId = "";
-       var parentName="";
-       for(var i=0;i<nodes.length;i++){ 
-           if(!nodes[i].isParent){
+    var Obj=$.fn.zTree.getZTreeObj("ztree");  
+    var nodes=Obj.getCheckedNodes(true);  
+    var ids  = "";
+    var names = "";
+    var parentId = "";
+    var parentName="";
+    for(var i=0;i<nodes.length;i++){ 
+         if(!nodes[i].isParent){
           //获取选中节点的值  
-          	 ids+=nodes[i].id+","; 
-          	 names+=nodes[i].name+",";
-           }else{
-           		parentId += nodes[i].id+",";
-           		parentName+=nodes[i].name+",";
-           }
-       } 
+         	ids+=nodes[i].id+","; 
+            names+=nodes[i].name+",";
+         }else{
+       		parentId += nodes[i].id+",";
+       		parentName+=nodes[i].name+",";
+         }
+     } 
         //是否满足
        var issatisfy=$('input[name="radio"]:checked ').val();
        var cname = parentName+names;
@@ -321,6 +321,10 @@
   	layer.alert("您选择的是与关系");
   }
   
+  function resetSerch(){
+  	$("#cateName").val("");
+  	$("#cateCode").val("");
+  }
   
   
   
@@ -349,9 +353,10 @@
 			</div>
 			<div>
 				品目名称：<input type="text" id="cateName" class="mr3 empty w125">
-        品目编码：<input type="text" id="cateCode" class="mr3 empty w125"><br/>
+     		         品目编码：<input type="text" id="cateCode" class="mr3 empty w125"><br/>
 				<div class="tc">
 				  <input type="button" class="btn" onclick="loadZtree('true')" value="搜索">
+				  <input type="button" class="btn" onclick="resetSerch()" value="重置">
 				</div>
         <div class="clear"></div>
 			</div>

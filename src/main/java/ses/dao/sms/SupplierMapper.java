@@ -683,4 +683,14 @@ public interface SupplierMapper {
 	 */
 	List<Supplier> selectSupplierListByNoCate(Supplier supplier);
 
+	/**
+	 *
+	 * Description: 退回修改导出
+	 *
+	 * @author Easong
+	 * @version 2017/10/26
+	 * @param
+	 * @since JDK1.7
+	 */
+    int updateByPrimaryKeySelectiveOfBack(Supplier record);
 }

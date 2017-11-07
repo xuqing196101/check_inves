@@ -80,16 +80,16 @@
 	        });
 	        var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).find("input").val();
 	        status = $.trim(status);
+	        var name = $("input[name='chkItem']:checked").parents("tr").find("td").eq(2).text();
+	        name = $.trim(name);
+	        var projectNumber = $("input[name='chkItem']:checked").parents("tr").find("td").eq(3).text();
+	        projectNumber = $.trim(projectNumber);
 	        if(id.length == 1) {
-          window.location.href = '${pageContext.request.contextPath}/project/edit.html?id=' + id;
-          /* if(status == "YLX_DFB" || status == "YFB_DSS") {
-            
-          }else{
-            layer.alert("实施中的项目不能修改", {
-              offset: ['222px', '730px'],
-              shade: 0.01,
-            });
-          } */
+	        	if(status == "XMZC"){
+	        		window.location.href = '${pageContext.request.contextPath}/project/add.html?id=' + id + '&name=' + name + '&projectNumber=' + projectNumber + '&ix=1';
+	        	} else {
+	        		layer.msg("只有暂存的项目可以修改!");
+	        	}
           } else if(id.length > 1) {
 	          layer.alert("只能选择一个", {
 	            offset: ['222px', '730px'],
@@ -102,7 +102,7 @@
 	          });
 	        }
         }else{
-          layer.msg("只有当前采购机构的才能立项!");
+          layer.msg("只有当前采购机构的才能修改!");
         }
        
       }
@@ -204,12 +204,12 @@
                 <input type="checkbox" id="checkAll" onclick="selectAll()" />
               </th>
               <th class="w50">序号</th>
-              <th width="25%">项目名称</th>
-              <th width="15%">项目编号</th>
-              <th width="10%">采购方式</th>
-              <th width="15%">创建时间</th>
-              <th width="15%">项目状态</th>
-              <th>项目负责人</th>
+              <th>项目名称</th>
+              <th class="w180">项目编号</th>
+              <th class="w100">采购方式</th>
+              <th class="w120">创建时间</th>
+              <th class="w180">项目状态</th>
+              <th class="w90">项目负责人</th>
             </tr>
           </thead>
           <tbody id="tbody_id">
@@ -220,23 +220,23 @@
                 </td>
                 <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
                 <td class="tl" onclick="view('${obj.id}')">${obj.name}</td>
-                <td class="tl" onclick="view('${obj.id}')">${obj.projectNumber}</td>
+                <td class="tc" onclick="view('${obj.id}')">${obj.projectNumber}</td>
                 <td class="tc " onclick="view('${obj.id}')">
                   <c:forEach items="${kind}" var="kind">
-                    <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                    <c:if test="${kind.id eq obj.purchaseType}">${kind.name}</c:if>
                   </c:forEach>
                 </td>
                 <td class="tc" onclick="view('${obj.id}')">
                   <fmt:formatDate type='date' value='${obj.createAt}' pattern=" yyyy-MM-dd HH:mm:ss " />
                 </td>
-                <td>
+                <td class="tc">
                   <c:forEach items="${status}" var="status">
-                    <c:if test="${status.id == obj.status}">${status.name}
+                    <c:if test="${status.id eq obj.status}">${status.name}
                     <input type="hidden" value="${status.code}"/>
                     </c:if>
                   </c:forEach>
                 </td>
-                <td class="tl" onclick="view('${obj.id}')">${obj.projectContractor}</td>
+                <td class="tc" onclick="view('${obj.id}')">${obj.projectContractor}</td>
               </tr>
             </c:forEach>
           </tbody>

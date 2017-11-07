@@ -224,4 +224,5 @@ public interface PackageMapper {
      * @return
      */
     List<Packages> selectPackageOrderByCreated(HashMap<String, Object> map);
+    List<Packages> selectByPackageFirstAudit(HashMap<String, Object> map);
 }

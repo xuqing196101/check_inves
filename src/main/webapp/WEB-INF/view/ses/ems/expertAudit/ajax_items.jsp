@@ -12,8 +12,8 @@
 		});
 
 		// 加载完成后关闭layer.load()加载层
-		layer.close(loading);
-		laypage({
+ 		layer.close(loading);
+ 		/*		laypage({
 			cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
             pages: "${result.pages}", //总页数
             skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
@@ -37,7 +37,7 @@
 					$("#tbody_category").load(path);
 				}
 			}
-		});
+		}); */
 	});
 	/** 全选全不选 */
 	function selectAll(){
@@ -112,7 +112,10 @@
 		    <td class="tl pl20" name="itemtd${item.itemsId}" <c:if test="${fn:contains(conditionStr,item.itemsId)}"> style="border-color: #FF0000"</c:if> >${item.secondNode}</td>
 		    <td class="tl pl20" name="itemtd${item.itemsId}" <c:if test="${fn:contains(conditionStr,item.itemsId)}"> style="border-color: #FF0000"</c:if> >${item.thirdNode}</td>
 		    <c:if test="${sign == 2}">
-		      <td>${item.auditReason}</td>
+		      <td>
+		        <c:if test="${item.auditReason != null}">不通过，${item.auditReason}。</c:if>
+		        <c:if test="${item.auditReason == null}">通过</c:if>
+		      </td>
 		    </c:if>
 		    <c:if test="${fn:contains(conditionStr,item.itemsId)}"><input type="hidden" name="del${item.itemsId}" value="${item.itemsId}"/></c:if>
 		    <input type="hidden" name="del${item.itemsId}" value=""/>

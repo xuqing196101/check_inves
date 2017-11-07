@@ -76,7 +76,21 @@ public interface AdvancedProjectMapper {
      */
     List<AdvancedProject> selectByOrg(HashMap<String, Object> map);
     
+    List<AdvancedProject> findByPackage(HashMap<String, Object> map);
+    
     List<AdvancedProject> verifyByProject(AdvancedProject advancedProject);
     
     List<AdvancedProject> selectProjectByAll(AdvancedProject project);
+    
+    /**
+     * 
+    * @Title: selectByAudit
+    * @author FengTian 
+    * @date 2017-9-12 下午3:40:24  
+    * @Description: 采购文件审核 
+    * @param @param map
+    * @param @return      
+    * @return List<AdvancedProject>
+     */
+    List<AdvancedProject> selectByAudit(HashMap<String, Object> map);
 }

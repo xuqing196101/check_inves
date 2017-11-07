@@ -23,6 +23,7 @@
     <result column="REVIEW_ADDRESS" property="reviewAddress" jdbcType="VARCHAR" />
     <result column="IS_AUTO" property="isAuto" jdbcType="DECIMAL" />
     <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="CREATER_ID" property="createrId" jdbcType="VARCHAR" />
     <result column="PROCUREMENT_DEP_ID" property="procurementDepId" jdbcType="VARCHAR" />
     <result column="REVIEW_SITE" property="reviewSite" jdbcType="VARCHAR" />
   </resultMap>
@@ -31,7 +32,7 @@
     REVIEW_PROVINCE,
     PROJECT_TYPE, EXTRACT_ADDRESS, CONTACT_PERSON, CONTACT_NUM, REMARK, IS_DELETED,
     CREATED_AT,
-    UPDATED_AT, PROJECT_ID, PACKAGE_ID, REVIEW_DAYS, REVIEW_ADDRESS, IS_AUTO,STATUS,PROCUREMENT_DEP_ID,REVIEW_SITE
+    UPDATED_AT, PROJECT_ID, PACKAGE_ID, REVIEW_DAYS, REVIEW_ADDRESS, IS_AUTO,STATUS,PROCUREMENT_DEP_ID,REVIEW_SITE,CREATER_ID
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
@@ -50,7 +51,7 @@
       CONTACT_PERSON, CONTACT_NUM, REMARK,
       IS_DELETED, CREATED_AT, UPDATED_AT,
       PROJECT_ID, PACKAGE_ID, REVIEW_DAYS,
-      REVIEW_ADDRESS, IS_AUTO,STATUS,PROCUREMENT_DEP_ID,REVIEW_SITE)
+      REVIEW_ADDRESS, IS_AUTO,STATUS,PROCUREMENT_DEP_ID,REVIEW_SITE,CREATER_ID)
     values (#{id,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR},
       #{code,jdbcType=VARCHAR},
       #{purchaseWay,jdbcType=VARCHAR}, #{packageName,jdbcType=VARCHAR}, #{reviewTime,jdbcType=TIMESTAMP},
@@ -61,7 +62,7 @@
       #{updatedAt,jdbcType=TIMESTAMP},
       #{projectId,jdbcType=VARCHAR}, #{packageId,jdbcType=VARCHAR}, #{reviewDays,jdbcType=VARCHAR},
       #{reviewAddress,jdbcType=VARCHAR}, #{isAuto,jdbcType=DECIMAL},#{status,jdbcType=VARCHAR},#{procurementDepId,jdbcType=VARCHAR},
-      #{reviewSite,jdbcType=VARCHAR}
+      #{reviewSite,jdbcType=VARCHAR},#{createrId,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="extract.model.expert.ExpertExtractProject">
@@ -136,6 +137,9 @@
       <if test="reviewSite != null">
         REVIEW_SITE,
       </if>
+      <if test="createrId != null">
+        CREATER_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -206,6 +210,9 @@
       </if>
       <if test="reviewSite != null">
         #{reviewSite,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -278,6 +285,9 @@
       <if test="reviewSite != null">
         REVIEW_SITE = #{reviewSite,jdbcType=VARCHAR},
       </if>
+      <if test="createrId != null">
+        CREATER_ID = #{createrId,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -304,7 +314,8 @@
       IS_AUTO = #{isAuto,jdbcType=DECIMAL},
       STATUS = #{status,jdbcType=VARCHAR},
       PROCUREMENT_DEP_ID = #{procurementDepId,jdbcType=VARCHAR},
-      REVIEW_SITE = #{reviewSite,jdbcType=VARCHAR}
+      REVIEW_SITE = #{reviewSite,jdbcType=VARCHAR},
+      CREATER_ID = #{createrId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   
@@ -341,6 +352,9 @@
   <!-- 验证项目编号唯一 -->
   <select id="vaProjectCode" parameterType="String" resultType="Integer">
     SELECT COUNT(ID) FROM T_SES_EMS_PROJECT_EXTRACT_INFO WHERE IS_DELETED = 0 AND CODE = #{code}
+    <if test="xmProjectId != null and xmProjectId != ''">
+          AND PROJECT_ID  &lt;&gt; #{xmProjectId}
+    </if>
   </select>
   
   <!-- 修改项目抽取状态 -->
@@ -374,7 +388,7 @@
     select
     ID, PROJECT_NAME, REVIEW_TIME,
     REVIEW_PROVINCE,REVIEW_SITE, REVIEW_ADDRESS, CONTACT_PERSON, CONTACT_NUM, IS_DELETED,
-    CREATED_AT,UPDATED_AT, REVIEW_DAYS, IS_AUTO,STATUS,PROCUREMENT_DEP_ID
+    CREATED_AT,UPDATED_AT, REVIEW_DAYS, IS_AUTO,STATUS,PROCUREMENT_DEP_ID,CREATER_ID
     from T_SES_EMS_PROJECT_EXTRACT_INFO
     where ID = #{id,jdbcType=VARCHAR}
   </select>

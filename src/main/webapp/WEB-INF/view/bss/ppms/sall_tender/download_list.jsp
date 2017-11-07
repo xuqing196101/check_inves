@@ -13,7 +13,7 @@
     <meta name="author" content="">
    
     <script type="text/javascript">
-    	$(function() {
+    	/* $(function() {
 	  		//获取查看或操作权限
 	       	var isOperate = $('#isOperate', window.parent.document).val();
 	       	if(isOperate == 0) {
@@ -21,7 +21,7 @@
 					$(this).hide();
 	            }); 
 			}
-	    });
+	    }); */
 	    
 	  function download(path){
 	     window.location.href = "${pageContext.request.contextPath}/open_bidding/downloadFile.html?filePath="+path;
@@ -49,20 +49,21 @@
       }
       // 封装弹出 处理文档
        function openDocuments() {
-		var packagesID=$('[name="chkItem_supplier"]:checked').val();
+		    var packagesID=$('[name="chkItem_supplier"]:checked').val();
         var projectId = $("#projectId").val();
-		layer.open({
+        /* location.href='${pageContext.request.contextPath}/saleTender/processingDocuments.html?projectId='+projectId+'&suppliersID='+packagesID; */  
+		  layer.open({
 			  type: 2, //page层
 			  area: ['200px', '50px'],
 			  title: '等待文档生成中',
-			  closeBtn: 0,
+			  closeBtn: 1,
 			  shade:0.01, //遮罩透明度
 			  moveType: 0, //拖拽风格，0是默认，1是传统拖动
 			  shift: 1, //0-6的动画形式，-1不开启
 			  offset: '160px',
 			  shadeClose: true,
 			  content: '${pageContext.request.contextPath}/saleTender/processingDocuments.html?projectId='+projectId+'&suppliersID='+packagesID
-			});
+			});  
 	}
     </script>
   </head>
@@ -85,15 +86,8 @@
             <tr>
               <td class="tc opinter w50">
               <input  type="radio" name="chkItem_supplier" value="${obj.suppliers.id}" /></td>
-              <td class="tc opinter " title="${obj.suppliers.supplierName}">
-	              <c:choose>
-		             <c:when test="${fn:length(obj.suppliers.supplierName) > 12}">
-		               ${fn:substring(obj.suppliers.supplierName, 0, 10)}......
-		             </c:when>
-		             <c:otherwise>
+              <td class="opinter w " title="${obj.suppliers.supplierName}">
 		               ${obj.suppliers.supplierName}
-		             </c:otherwise>
-	           	  </c:choose>
               </td>
               <td class="tc" title="${obj.packageNames}"> 
 			  	  <span id="packageValue"> 

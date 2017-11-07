@@ -81,7 +81,7 @@ public interface ExpertExtractProjectService {
      * @param 
      * @return
      */
-    String vaProjectCode(String code);
+    String vaProjectCode(String code,String xmProjectId);
     
     /**
      * 

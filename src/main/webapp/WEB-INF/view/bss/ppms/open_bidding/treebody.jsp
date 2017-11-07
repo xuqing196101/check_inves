@@ -468,7 +468,9 @@ function judge(index) {
 	}
 	function gerneratorOne(){
 		var judgeContent = $("#judgeContent").val();
+		judgeContent = $.trim(judgeContent);
 		var standardScore = $("#standardScore").val();
+		standardScore = $.trim(standardScore);
 		//var judgeNumber = $("#judgeNumber").val();
 		var str = judgeContent  + " "+"是"+standardScore+"分 "+"否0分";
 		$("#easyUnderstandContent1").text(str);
@@ -712,6 +714,10 @@ function judge(index) {
 		}
 		if (checkScore > 0) {
 			layer.msg("区间不成立,请重新录入");
+			return;
+		}
+		if($("#model").val()==""){
+			layer.msg("请选择模型");
 			return;
 		}
 	    var standScore = $("#standardScore").val();

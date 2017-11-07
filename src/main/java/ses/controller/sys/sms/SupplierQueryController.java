@@ -4,7 +4,6 @@ import bss.formbean.Maps;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
-import common.model.UploadFile;
 import common.service.UploadService;
 import common.utils.JdcgResult;
 import dss.model.rids.SupplierAnalyzeVo;
@@ -28,13 +27,13 @@ import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
+import ses.model.sms.SupplierAuditOpinion;
 import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
-import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierEdit;
 import ses.model.sms.SupplierEngQua;
 import ses.model.sms.SupplierFinance;
@@ -47,7 +46,6 @@ import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierPorjectQua;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
-import ses.model.sms.SupplierTypeRelate;
 import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
@@ -57,6 +55,7 @@ import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurChaseDepOrgService;
 import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierAptituteService;
+import ses.service.sms.SupplierAuditOpinionService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierCertEngService;
@@ -199,7 +198,11 @@ public class SupplierQueryController extends BaseSupplierController {
 	
 	@Autowired
 	private OrgnizationServiceI orgnizationServiceI;
-	
+
+	// 审核意见Service
+    @Autowired
+	private SupplierAuditOpinionService supplierAuditOpinionService;
+
     /**
      *〈简述〉供应商查询
      *〈详细描述〉按照各种条件来查询供应商信息
@@ -329,7 +332,12 @@ public class SupplierQueryController extends BaseSupplierController {
             List<String> listSupplierTypeIds = Arrays.asList(supplierTypeIds.split(","));
             sup.setItemType(listSupplierTypeIds);
         }
-        
+
+        // 物资生产品目ID截取
+        if(sup.getQueryCategory() != null && sup.getQueryCategory().contains(ses.util.Constant.UNDERLINE_PRODUCT)){
+            sup.setQueryCategory(sup.getQueryCategory().substring(0,sup.getQueryCategory().indexOf(ses.util.Constant.UNDERLINE_PRODUCT)));
+        }
+
         //地区
         List < Area > privnce = areaService.findRootArea();
         model.addAttribute("privnce", privnce);
@@ -751,7 +759,28 @@ public class SupplierQueryController extends BaseSupplierController {
         request.setAttribute("person",person);
         return "ses/sms/supplier_query/supplierInfo/financial";
     }
-    
+
+    /**
+     *
+     * @Title: fileUploadItem
+     * @Description: 获取文件上传配置
+     * @author Easong
+     * @param @param model 设定文件
+     * @return void 返回类型
+     * @throws
+     */
+    public void fileUploadItem(Model model, String code) {
+        // 供应商系统key文件上传key
+        Integer sysKey = Constant.SUPPLIER_SYS_KEY;
+        // 定义文件上传类型
+        DictionaryData dictionaryData = DictionaryDataUtil
+                .get(code);
+        if (dictionaryData != null) {
+            model.addAttribute("typeId", dictionaryData.getId());
+        }
+        model.addAttribute("sysKey", sysKey);
+    }
+
     /**
      *〈简述〉股东信息
      *〈详细描述〉
@@ -1862,10 +1891,12 @@ public class SupplierQueryController extends BaseSupplierController {
 		if(StringUtils.isBlank(supplierId)){
 			return "ses/sms/supplier_query/supplierInfo/template_upload";
 		}
-		model.addAttribute("person",person);
+        Supplier supplier = supplierService.selectById(supplierId);
+        model.addAttribute("person",person);
 		model.addAttribute("supplierId",supplierId);
 		model.addAttribute("judge",judge);
 		model.addAttribute("sign",sign);
+		model.addAttribute("suppliers",supplier);
 		return "ses/sms/supplier_query/supplierInfo/template_upload";
 	}
     
@@ -2005,7 +2036,7 @@ public class SupplierQueryController extends BaseSupplierController {
  	}
        
     @RequestMapping("supplierType")
-   	public String supplierType(HttpServletRequest request, Supplier supplierQuery,Integer person, Integer judge, Integer sign, SupplierMatSell supplierMatSell, SupplierMatPro supplierMatPro, SupplierMatEng supplierMatEng, SupplierMatServe supplierMatSe, String supplierId, Integer supplierStatus, String reqType) {
+   	public String supplierType(Model model, HttpServletRequest request, Supplier supplierQuery,Integer person, Integer judge, Integer sign, SupplierMatSell supplierMatSell, SupplierMatPro supplierMatPro, SupplierMatEng supplierMatEng, SupplierMatServe supplierMatSe, String supplierId, Integer supplierStatus, String reqType) {
     	// 获取查询条件
     	// 获取地址
     	String addressCond = supplierQuery.getAddress();
@@ -2023,6 +2054,7 @@ public class SupplierQueryController extends BaseSupplierController {
    		request.setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
    		
 		Supplier supplier = supplierService.get(supplierId, 2);
+        model.addAttribute("suppliers", supplier);
 		if(supplier != null){
 			supplierStatus = supplier.getStatus();
 			/**
@@ -2369,7 +2401,18 @@ public class SupplierQueryController extends BaseSupplierController {
 		model.addAttribute("judge", judge);
 		model.addAttribute("person", person);
 		model.addAttribute("supplierId", supplierAudit.getSupplierId());
-		return "/ses/sms/supplier_query/supplierInfo/auditInfo";
+        Supplier supplier = supplierService.selectById(supplierAudit.getSupplierId());
+        // 查询供应商审核意见
+        // 查询初审审核意见
+        Map<String, Object> selectMap = new HashMap<>();
+        selectMap.put("supplierId",supplierAudit.getSupplierId());
+        selectMap.put("flagTime",0);
+        SupplierAuditOpinion supplierAuditOpinionFirst = supplierAuditOpinionService.selectByExpertIdAndflagTime(selectMap);
+        // 初始化附件类型回显
+        fileUploadItem(model, synchro.util.Constant.SUPPLIER_CHECK_ATTACHMENT);
+        model.addAttribute("supplierAuditOpinionFirst",supplierAuditOpinionFirst);
+        model.addAttribute("suppliers", supplier);
+        return "/ses/sms/supplier_query/supplierInfo/auditInfo";
 	}
     
     /**

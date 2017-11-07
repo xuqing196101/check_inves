@@ -35,6 +35,14 @@
 
 <body>
   	<div class="col-md-12 p0">
+  	<h2 class="list_title">
+             审核结果：
+	 <c:if test="${project.confirmFile == 0}">采购文件未提交</c:if>
+	 <c:if test="${project.confirmFile == 1}">暂无审核结果</c:if>
+	 <c:if test="${project.confirmFile == 2}">审核退回</c:if>
+	 <c:if test="${project.confirmFile == 3}">审核通过</c:if>
+	 <c:if test="${project.confirmFile == 4}">修改报备</c:if>
+	 </h2>
 	   <ul class="flow_step">
 		     <li>
 			   <a  href="${pageContext.request.contextPath}/adFirstAudit/toAdd.html?projectId=${project.id}&flowDefineId=${flowDefineId}" >01、资格性和符合性审查</a>
@@ -55,14 +63,6 @@
 			 </li>
 		</ul>
 	 </div>
-     <h2 class="list_title">
-             审核结果：
-	 <c:if test="${project.confirmFile == 0}">采购文件未提交</c:if>
-	 <c:if test="${project.confirmFile == 1}">暂无审核结果</c:if>
-	 <c:if test="${project.confirmFile == 2}">审核退回</c:if>
-	 <c:if test="${project.confirmFile == 3}">审核通过</c:if>
-	 <c:if test="${project.confirmFile == 4}">修改报备</c:if>
-	 </h2>
 	<h2 onclick="ycDiv(this,'1')" class="count_flow spread hand">采购管理部门意见</h2>
 	<div class="p01 container ">${reasons.pcReason}
 		<div class="clear mt10">
@@ -86,5 +86,9 @@
 	</div>
 	<h2 onclick="ycDiv(this,'4')" class="count_flow spread hand">最终意见</h2>
 	<div class="p04 container">${reasons.finalReason}</div>
+	<div class="clear mt10">
+			<span class="fl"><b>最终意见附件:</b></span>
+		    <u:show  showId="kk" delete="flase" businessId="${project.id}" sysKey="${sysKey}" typeId="${finalTypeId}"/>
+	</div>
 </body>
 </html>

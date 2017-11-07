@@ -97,7 +97,8 @@ $("input[name='chkItem']").click(function () {
 $(".footerDiv > .back").click(function () {
     var projectId = $("input[name='projectId']").val();
     $.ajaxSetup({cache:false});
-    var path = globalPath + '/packageExpert/auditManage.html?projectId='+projectId;
+    /*var path = globalPath + '/packageExpert/auditManage.html?projectId='+projectId;*/
+    var path = globalPath + '/packageExpert/assignedExpert.html?projectId='+projectId;
     $("#tab-1").load(path);
 })
 /**保存按钮*/
@@ -117,7 +118,7 @@ $(".footerDiv > .save").click(function () {
                 if(data.isSuccess){
                     if(data.messageCode==20){
                         layer.alert("引用临时专家保存成功",{offset: '50px', shade:0.01, time:500});
-                        var path  = globalPath + "/packageExpert/auditManage.html?projectId="+projectId
+                        var path  = globalPath + "/packageExpert/assignedExpert.html?projectId="+projectId
                         $("#tab-1").load(path);
                     }else{
                         layer.alert("服务器异常",{offset: '50px', shade:0.01});

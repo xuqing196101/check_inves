@@ -87,7 +87,7 @@ public class AdvancedProject {
     
     private Date demandFromTime; //需求计划提报时间
     
-    private Integer IsRehearse; //是否预研
+    private Integer isRehearse; //是否预研
     
     private Date createAt; //创建时间
     
@@ -130,6 +130,8 @@ public class AdvancedProject {
     private String appointMan; // 立项人
     
     private String isCharge; //采购文件是否收费  0：是 ，1：否
+    
+    private String parentId; //父子节点
     
     
     public AdvancedProject(String id) {
@@ -447,14 +449,14 @@ public class AdvancedProject {
     }
     
     public Integer getIsRehearse() {
-        return IsRehearse;
-    }
+		return isRehearse;
+	}
 
-    public void setIsRehearse(Integer isRehearse) {
-        IsRehearse = isRehearse;
-    }
+	public void setIsRehearse(Integer isRehearse) {
+		this.isRehearse = isRehearse;
+	}
 
-    public Date getCreateAt() {
+	public Date getCreateAt() {
         return createAt;
     }
 
@@ -620,6 +622,14 @@ public class AdvancedProject {
 
     public void setIsCharge(String isCharge) {
         this.isCharge = isCharge;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
     
 

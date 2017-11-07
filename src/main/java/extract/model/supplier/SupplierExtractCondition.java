@@ -5,436 +5,348 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class SupplierExtractCondition {
 
-	
-   private SupplierConType supplierConType;
+	private SupplierConType supplierConType;
 
-   private String recordId;
-   
-   /**
-    * 保密要求
-    */
-   private String isHavingConCert;
-  
-   /**
-    * 企业性质
-    */
-   private String businessNature;
-   
-   /**
-    * 工程资质
-    */
+	private String recordId;
 
-   private String[] quaIds;
-   
-   private String quaId;
-   
-   
-    /**
-     * 关联供应商
-     */
-    private List<SupplierExtractResult> extRelatesList;
+	/**
+	 * 保密要求
+	 */
+	private String isHavingConCert;
 
-    private List<String> supplierIds;
+	/**
+	 * 企业性质
+	 */
+	private String businessNature;
 
-    /**
-     * <pre>
-     * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.ID
-     * </pre>
-     */
-    private String id;
+	/**
+	 * 工程资质
+	 */
 
-    /**
-     * <pre>
-     * 项目id
-     * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.PROJECT_ID
-     * </pre>
-     */
-    private String projectId;
+	private String[] quaIds;
 
-    /**
-     * <pre>
-     * 状态1待抽取 2.已抽取
-     * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.STATUS
-     * </pre>
-     */
-    private Short status;
-    
-    /**
-     * <pre>
-     * 抽取数量
-     * 表字段 : 
-     * </pre>
-     */
-    @NotNull
-    private Short extractNum;
+	private String quaId;
 
-    /**
-     * <pre>
-     * 供应商所在地区
-     * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.ADDRESS
-     * </pre>
-     */
-    private String address;
+	/**
+	 * 排除供应商
+	 */
+	private List<String> supplierIds;
+	/**
+	 * <pre>
+	 * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.ID
+	 * </pre>
+	 */
+	private String id;
 
-    /**
-     * <pre>
-     * 供应商类型
-     * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.EXPERTS_TYPE_ID
-     * </pre>
-     */
-    private String expertsTypeId;
+	/**
+	 * <pre>
+	 * 项目id
+	 * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.PROJECT_ID
+	 * </pre>
+	 */
+	private String projectId;
 
-    /**
-     * <pre>
-     * 开标时间
-     * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.TENDER_TIME
-     * </pre>
-     */
-    private Date tenderTime;
+	/**
+	 * <pre>
+	 * 状态1待抽取 2.已抽取
+	 * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.STATUS
+	 * </pre>
+	 */
+	private Short status;
 
-    /**
-     * <pre>
-     * 响应时间
-     * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.RESPONSE TIME
-     * </pre>
-     */
-    private String responseTime;
+	/**
+	 * <pre>
+	 * 抽取数量
+	 * 表字段 :
+	 * </pre>
+	 */
+	@NotNull
+	private Short extractNum;
 
+	/**
+	 * <pre>
+	 * 供应商所在地区
+	 * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.ADDRESS
+	 * </pre>
+	 */
+	private String address;
 
-    /**
-     * <pre>
-     * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.SUPPLIER_LEVEL
-     * </pre>
-     */
-    private String supplierLevel;
+	/**
+	 * 品目同时满足时 sql查询用
+	 */
+	private int csize;
 
-    private String[] supplierTypeCodes;
-    
-    /**
-     * <pre>
-     * 抽取地点
-     * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.ADDRESS_ID
-     * </pre>
-     */
-    private String extractAddress;
-    
-    /**
-     * 一级省市
-     */
-    private String province;
-    
-    private String[] provinces;
+	private int quaSize;
 
-    @NotEmpty
-    private String areaName;
-    
-    /**
-     * 境外分支
-     */
-    private String overseasBranch;
-    /**
-     * 创建时间
-     */
-    private Date createdAt;
-    
-    /**
-     * 限制地区理由
-     */
-    private String addressReason;
-    
-    
-    /**
-     * 抽取供应商类型code
-     */
-    private String supplierTypeCode;
-    
-    /**
-     * 品目
-     */
-    private String categoryName;
-    
-    /**
-     * 品目id
-     */
-    private String categoryId;
-    
-    /**
-     * 品目是否同时满足  1 or   2 and
-     */
-    private short isMulticondition;
-    
-    /**
-     * 品目id数组形式
-     */
-    private String[] categoryIds;
-    
-    /**
-     * 地址id
-     */
-    private String addressId;
-    
-    
-    /**
-     * 抽取级别id
-     */
-    private String levelTypeId;
-    
-    
-    /**
-     * 抽取等级id 数组形式
-     */
+	/**
+	 * <pre>
+	 * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.SUPPLIER_LEVEL
+	 * </pre>
+	 */
+	private String supplierLevel;
+
+	private String[] supplierTypeCodes;
+
+	/**
+	 * <pre>
+	 * 抽取地点
+	 * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.ADDRESS_ID
+	 * </pre>
+	 */
+	private String extractAddress;
+
+	/**
+	 * 一级省市
+	 */
+	private String province;
+
+	private String[] provinces;
+
+	@NotEmpty
+	private String areaName;
+
+	/**
+	 * 境外分支
+	 */
+	private String overseasBranch;
+	/**
+	 * 创建时间
+	 */
+	private Date createdAt;
+
+	/**
+	 * 限制地区理由
+	 */
+	private String addressReason;
+
+	/**
+	 * 抽取供应商类型code
+	 */
+	private String supplierTypeCode;
+
+	/**
+	 * 品目
+	 */
+	private String categoryName;
+
+	/**
+	 * 品目id
+	 */
+	private String categoryId;
+
+	/**
+	 * 品目父节点id
+	 */
+	private String parentId;
+
+	/**
+	 * 品目是否同时满足 1 or 2 and
+	 */
+	private Short isMulticondition;
+
+	/**
+	 * 品目id数组形式
+	 */
+	private String[] categoryIds;
+
+	/**
+	 * 地址id
+	 */
+	private String addressId;
+
+	private Short isDelete;
+
+	/**
+	 * 抽取级别id
+	 */
+	private String levelTypeId;
+
+	/**
+	 * 抽取等级id 数组形式
+	 */
 	private String[] levelTypeIds;
-    
-    /**
-     * 数组形式地址信息
-     */
-    private String[] addressIds;
-    
-    
-    private String quaType;
-    
-    /**
-     * <pre>
-     * 抽取地点
-     * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.ADDRESS_ID
-     * </pre>
-     */
-    private String[] addressSplit;
 
-    /**
-     * <pre>
-     * 获取：null
-     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.ID
-     * </pre>
-     *
-     * @return T_SES_SMS_SUPPLIE_CONDITION.ID：null
-     */
-    public String getId() {
-        return id;
-    }
+	/**
+	 * 数组形式地址信息
+	 */
+	private String[] addressIds;
 
-    /**
-     * <pre>
-     * 设置：null
-     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.ID
-     * </pre>
-     *
-     * @param id
-     *            T_SES_SMS_SUPPLIE_CONDITION.ID：null
-     */
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
+	/**
+	 * 资质类型
+	 */
+	private String quaType;
 
-    /**
-     * <pre>
-     * 获取：项目id
-     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.PROJECT_ID
-     * </pre>
-     *
-     * @return T_SES_SMS_SUPPLIE_CONDITION.PROJECT_ID：项目id
-     */
-    public String getProjectId() {
-        return projectId;
-    }
+	private Date updatedAt;
 
-    /**
-     * <pre>
-     * 设置：项目id
-     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.PROJECT_ID
-     * </pre>
-     *
-     * @param projectId
-     *            T_SES_SMS_SUPPLIE_CONDITION.PROJECT_ID：项目id
-     */
-    public void setProjectId(String projectId) {
-        this.projectId = projectId == null ? null : projectId.trim();
-    }
+	/**
+	 * <pre>
+	 * 抽取地点
+	 * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.ADDRESS_ID
+	 * </pre>
+	 */
+	private String[] addressSplit;
 
-    /**
-     * <pre>
-     * 获取：状态1待抽取 2.已抽取
-     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.STATUS
-     * </pre>
-     *
-     * @return T_SES_SMS_SUPPLIE_CONDITION.STATUS：状态1待抽取 2.已抽取
-     */
-    public Short getStatus() {
-        return status;
-    }
+	/**
+	 * <pre>
+	 * 获取：null
+	 * 表字段：T_SES_SMS_SUPPLIE_CONDITION.ID
+	 * </pre>
+	 * 
+	 * @return T_SES_SMS_SUPPLIE_CONDITION.ID：null
+	 */
+	public String getId() {
+		return id;
+	}
 
-    /**
-     * <pre>
-     * 设置：状态1待抽取 2.已抽取
-     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.STATUS
-     * </pre>
-     *
-     * @param status
-     *            T_SES_SMS_SUPPLIE_CONDITION.STATUS：状态1待抽取 2.已抽取
-     */
-    public void setStatus(Short status) {
-        this.status = status;
-    }
+	/**
+	 * <pre>
+	 * 设置：null
+	 * 表字段：T_SES_SMS_SUPPLIE_CONDITION.ID
+	 * </pre>
+	 * 
+	 * @param id
+	 *            T_SES_SMS_SUPPLIE_CONDITION.ID：null
+	 */
+	public void setId(String id) {
+		this.id = id == null ? null : id.trim();
+	}
 
-    /**
-     * <pre>
-     * 获取：供应商所在地区
-     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.ADDRESS
-     * </pre>
-     *
-     * @return T_SES_SMS_SUPPLIE_CONDITION.ADDRESS：供应商所在地区
-     */
-    public String getAddress() {
-        return address;
-    }
+	/**
+	 * <pre>
+	 * 获取：项目id
+	 * 表字段：T_SES_SMS_SUPPLIE_CONDITION.PROJECT_ID
+	 * </pre>
+	 * 
+	 * @return T_SES_SMS_SUPPLIE_CONDITION.PROJECT_ID：项目id
+	 */
+	public String getProjectId() {
+		return projectId;
+	}
 
-    /**
-     * <pre>
-     * 设置：供应商所在地区
-     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.ADDRESS
-     * </pre>
-     *
-     * @param address
-     *            T_SES_SMS_SUPPLIE_CONDITION.ADDRESS：供应商所在地区
-     */
-    public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
-    }
+	/**
+	 * <pre>
+	 * 设置：项目id
+	 * 表字段：T_SES_SMS_SUPPLIE_CONDITION.PROJECT_ID
+	 * </pre>
+	 * 
+	 * @param projectId
+	 *            T_SES_SMS_SUPPLIE_CONDITION.PROJECT_ID：项目id
+	 */
+	public void setProjectId(String projectId) {
+		this.projectId = projectId == null ? null : projectId.trim();
+	}
 
-    /**
-     * <pre>
-     * 获取：专家类型
-     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.EXPERTS_TYPE_ID
-     * </pre>
-     *
-     * @return T_SES_SMS_SUPPLIE_CONDITION.EXPERTS_TYPE_ID：专家类型
-     */
-    public String getExpertsTypeId() {
-        return expertsTypeId;
-    }
+	/**
+	 * <pre>
+	 * 获取：状态1待抽取 2.已抽取
+	 * 表字段：T_SES_SMS_SUPPLIE_CONDITION.STATUS
+	 * </pre>
+	 * 
+	 * @return T_SES_SMS_SUPPLIE_CONDITION.STATUS：状态1待抽取 2.已抽取
+	 */
+	public Short getStatus() {
+		return status;
+	}
 
-    /**
-     * <pre>
-     * 设置：专家类型
-     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.EXPERTS_TYPE_ID
-     * </pre>
-     *
-     * @param expertsTypeId
-     *            T_SES_SMS_SUPPLIE_CONDITION.EXPERTS_TYPE_ID：专家类型
-     */
-    public void setExpertsTypeId(String expertsTypeId) {
-        this.expertsTypeId = expertsTypeId == null ? null : expertsTypeId.trim();
-    }
+	/**
+	 * <pre>
+	 * 设置：状态1待抽取 2.已抽取
+	 * 表字段：T_SES_SMS_SUPPLIE_CONDITION.STATUS
+	 * </pre>
+	 * 
+	 * @param status
+	 *            T_SES_SMS_SUPPLIE_CONDITION.STATUS：状态1待抽取 2.已抽取
+	 */
+	public void setStatus(Short status) {
+		this.status = status;
+	}
 
-    /**
-     * <pre>
-     * 获取：开标时间
-     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.TENDER_TIME
-     * </pre>
-     *
-     * @return T_SES_SMS_SUPPLIE_CONDITION.TENDER_TIME：开标时间
-     */
-    public Date getTenderTime() {
-        return tenderTime;
-    }
+	/**
+	 * <pre>
+	 * 获取：供应商所在地区
+	 * 表字段：T_SES_SMS_SUPPLIE_CONDITION.ADDRESS
+	 * </pre>
+	 * 
+	 * @return T_SES_SMS_SUPPLIE_CONDITION.ADDRESS：供应商所在地区
+	 */
+	public String getAddress() {
+		return address;
+	}
 
-    /**
-     * <pre>
-     * 设置：开标时间
-     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.TENDER_TIME
-     * </pre>
-     *
-     * @param tenderTime
-     *            T_SES_SMS_SUPPLIE_CONDITION.TENDER_TIME：开标时间
-     */
-    public void setTenderTime(Date tenderTime) {
-        this.tenderTime = tenderTime;
-    }
+	/**
+	 * <pre>
+	 * 设置：供应商所在地区
+	 * 表字段：T_SES_SMS_SUPPLIE_CONDITION.ADDRESS
+	 * </pre>
+	 * 
+	 * @param address
+	 *            T_SES_SMS_SUPPLIE_CONDITION.ADDRESS：供应商所在地区
+	 */
+	public void setAddress(String address) {
+		this.address = address == null ? null : address.trim();
+	}
 
-    /**
-     * <pre>
-     * 获取：响应时间
-     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.RESPONSE TIME
-     * </pre>
-     *
-     * @return T_SES_SMS_SUPPLIE_CONDITION.RESPONSE TIME：响应时间
-     */
-    public String getResponseTime() {
-        return responseTime;
-    }
+	/**
+	 * <pre>
+	 * 获取：null
+	 * 表字段：T_SES_SMS_SUPPLIE_CONDITION.SUPPLIET_FROM
+	 * </pre>
+	 * 
+	 * @return T_SES_SMS_SUPPLIE_CONDITION.SUPPLIET_FROM：null
+	 */
+	public String getSupplierLevel() {
+		return supplierLevel;
+	}
 
-    /**
-     * <pre>
-     * 设置：响应时间
-     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.RESPONSE TIME
-     * </pre>
-     *
-     * @param responseTime
-     *            T_SES_SMS_SUPPLIE_CONDITION.RESPONSE TIME：响应时间
-     */
-    public void setResponseTime(String responseTime) {
-        this.responseTime = responseTime == null ? null : responseTime.trim();
-    }
+	/**
+	 * <pre>
+	 * 设置：null
+	 * 表字段：T_SES_SMS_SUPPLIE_CONDITION.SUPPLIET_FROM
+	 * </pre>
+	 * 
+	 * @param supplietFrom
+	 *            T_SES_SMS_SUPPLIE_CONDITION.SUPPLIET_FROM：null
+	 */
+	public void setSupplierLevel(String supplierLevel) {
+		this.supplierLevel = supplierLevel == null ? null : supplierLevel
+				.trim();
+	}
 
+	private String expertsFrom;
 
+	public String getExpertsFrom() {
+		return expertsFrom;
+	}
 
-    /**
-     * <pre>
-     * 获取：null
-     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.SUPPLIET_FROM
-     * </pre>
-     *
-     * @return T_SES_SMS_SUPPLIE_CONDITION.SUPPLIET_FROM：null
-     */
-    public String getSupplierLevel() {
-        return supplierLevel;
-    }
+	public void setExpertsFrom(String expertsFrom) {
+		this.expertsFrom = expertsFrom;
+	}
 
-    /**
-     * <pre>
-     * 设置：null
-     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.SUPPLIET_FROM
-     * </pre>
-     *
-     * @param supplietFrom
-     *            T_SES_SMS_SUPPLIE_CONDITION.SUPPLIET_FROM：null
-     */
-    public void setSupplierLevel(String supplierLevel) {
-        this.supplierLevel = supplierLevel == null ? null : supplierLevel.trim();
-    }
+	public SupplierExtractCondition() {
+		super();
+	}
 
-  
-
-    private String expertsFrom;
-
-    public String getExpertsFrom() {
-        return expertsFrom;
-    }
-
-    public void setExpertsFrom(String expertsFrom) {
-        this.expertsFrom = expertsFrom;
-    }
-
- 
-    public SupplierExtractCondition() {
-        super();
-    }
-   
-    
-    /**
-     * 
-     * @param supplierTypeCode 抽取类型
-     * @param isMulticondition 品目同时满足还是只满足一个
-     * @param categoryId 品目id
-     * @param levelTypeId 等级
-     * @param extractNum 抽取数量
-     */
-    public SupplierExtractCondition(String supplierTypeCode, Short isMulticondition,
-			String categoryId, String levelTypeId,Short extractNum) {
+	/**
+	 * 
+	 * @param supplierTypeCode
+	 *            抽取类型
+	 * @param isMulticondition
+	 *            品目同时满足还是只满足一个
+	 * @param categoryId
+	 *            品目id
+	 * @param levelTypeId
+	 *            等级
+	 * @param extractNum
+	 *            抽取数量
+	 */
+	public SupplierExtractCondition(String supplierTypeCode,
+			Short isMulticondition, String categoryId, String levelTypeId,
+			Short extractNum) {
 		super();
 		this.supplierTypeCode = supplierTypeCode;
 		this.isMulticondition = isMulticondition;
@@ -444,137 +356,128 @@ public class SupplierExtractCondition {
 	}
 
 	public SupplierExtractCondition(String id, String s) {
-        super();
-        this.id = id;
-    }
+		super();
+		this.id = id;
+	}
 
+	public SupplierExtractCondition(String id, Short status) {
+		super();
+		this.id = id;
+		this.status = status;
+	}
 
-    public SupplierExtractCondition(String id, Short status) {
-        super();
-        this.id = id;
-        this.status = status;
-    }
+	public SupplierExtractCondition(String projectId) {
+		super();
+		this.projectId = projectId;
+	}
 
+	/**
+	 * @return Returns the addressSplit.
+	 */
+	public String[] getAddressSplit() {
+		return addressSplit;
+	}
 
-    public SupplierExtractCondition(String projectId) {
-        super();
-        this.projectId = projectId;
-    }
+	/**
+	 * @param addressSplit
+	 *            The addressSplit to set.
+	 */
+	public void setAddressSplit(String[] addressSplit) {
+		this.addressSplit = addressSplit;
+	}
 
-    /**
-     * @return Returns the extRelatesList.
-     */
-    public List<SupplierExtractResult> getExtRelatesList() {
-        return extRelatesList;
-    }
+	/**
+	 * @return Returns the createdAt.
+	 */
+	public Date getCreatedAt() {
+		return createdAt;
+	}
 
-    /**
-     * @param extRelatesList The extRelatesList to set.
-     */
-    public void setExtRelatesList(List<SupplierExtractResult> extRelatesList) {
-        this.extRelatesList = extRelatesList;
-    }
+	/**
+	 * @param createdAt
+	 *            The createdAt to set.
+	 */
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
 
-    /**
-     * @return Returns the addressSplit.
-     */
-    public String[] getAddressSplit() {
-        return addressSplit;
-    }
+	/**
+	 * @return Returns the addressReason.
+	 */
+	public String getAddressReason() {
+		return addressReason;
+	}
 
-    /**
-     * @param addressSplit The addressSplit to set.
-     */
-    public void setAddressSplit(String[] addressSplit) {
-        this.addressSplit = addressSplit;
-    }
+	/**
+	 * @param addressReason
+	 *            The addressReason to set.
+	 */
+	public void setAddressReason(String addressReason) {
+		this.addressReason = addressReason;
+	}
 
-    /**
-     * @return Returns the createdAt.
-     */
-    public Date getCreatedAt() {
-      return createdAt;
-    }
+	/**
+	 * @return Returns the categoryName.
+	 */
+	public String getCategoryName() {
+		return categoryName;
+	}
 
-    /**
-     * @param createdAt The createdAt to set.
-     */
-    public void setCreatedAt(Date createdAt) {
-      this.createdAt = createdAt;
-    }
+	/**
+	 * @param categoryName
+	 *            The categoryName to set.
+	 */
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
 
-    /**
-     * @return Returns the addressReason.
-     */
-    public String getAddressReason() {
-      return addressReason;
-    }
+	/**
+	 * @return Returns the categoryId.
+	 */
+	public String getCategoryId() {
+		return categoryId;
+	}
 
-    /**
-     * @param addressReason The addressReason to set.
-     */
-    public void setAddressReason(String addressReason) {
-      this.addressReason = addressReason;
-    }
+	/**
+	 * @param categoryId
+	 *            The categoryId to set.
+	 */
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
+	}
 
-    /**
-     * @return Returns the categoryName.
-     */
-    public String getCategoryName() {
-      return categoryName;
-    }
+	/**
+	 * @return Returns the extractAddress.
+	 */
+	public String getExtractAddress() {
+		return extractAddress;
+	}
 
-    /**
-     * @param categoryName The categoryName to set.
-     */
-    public void setCategoryName(String categoryName) {
-      this.categoryName = categoryName;
-    }
+	/**
+	 * @param extractAddress
+	 *            The extractAddress to set.
+	 */
+	public void setExtractAddress(String extractAddress) {
+		this.extractAddress = extractAddress;
+	}
 
-    /**
-     * @return Returns the categoryId.
-     */
-    public String getCategoryId() {
-      return categoryId;
-    }
+	/**
+	 * @return Returns the addressId.
+	 */
+	public String getAddressId() {
+		return addressId;
+	}
 
-    /**
-     * @param categoryId The categoryId to set.
-     */
-    public void setCategoryId(String categoryId) {
-      this.categoryId = categoryId;
-    }
-
-    /**
-     * @return Returns the extractAddress.
-     */
-    public String getExtractAddress() {
-      return extractAddress;
-    }
-
-    /**
-     * @param extractAddress The extractAddress to set.
-     */
-    public void setExtractAddress(String extractAddress) {
-      this.extractAddress = extractAddress;
-    }
-
-    /**
-     * @return Returns the addressId.
-     */
-    public String getAddressId() {
-      return addressId;
-    }
-
-    /**
-     * @param addressId The addressId to set.
-     */
-    public void setAddressId(String addressId) {
-      this.addressId = addressId;
-    }
+	/**
+	 * @param addressId
+	 *            The addressId to set.
+	 */
+	public void setAddressId(String addressId) {
+		this.addressId = addressId;
+	}
 
 	public String[] getAddressIds() {
-		return addressId.split(",");
+		return StringUtils.isNotBlank(addressId) ? addressId.split(",") : null;
 	}
 
 	public void setAddressIds(String[] addressIds) {
@@ -590,20 +493,19 @@ public class SupplierExtractCondition {
 	}
 
 	public String[] getCategoryIds() {
-		return categoryId.split(",");
+		return StringUtils.isNotBlank(categoryId) ? categoryId.split(",")
+				: null;
 	}
 
 	public void setCategoryIds(String[] categoryIds) {
 		this.categoryIds = categoryIds;
 	}
 
-	
-
-	public short getIsMulticondition() {
+	public Short getIsMulticondition() {
 		return isMulticondition;
 	}
 
-	public void setIsMulticondition(short isMulticondition) {
+	public void setIsMulticondition(Short isMulticondition) {
 		this.isMulticondition = isMulticondition;
 	}
 
@@ -616,7 +518,8 @@ public class SupplierExtractCondition {
 	}
 
 	public String[] getLevelTypeIds() {
-		return levelTypeId.split(",");
+		return StringUtils.isNotBlank(levelTypeId) ? levelTypeId.split(",")
+				: null;
 	}
 
 	public void setLevelTypeIds(String[] levelTypeIds) {
@@ -656,7 +559,7 @@ public class SupplierExtractCondition {
 	}
 
 	public String[] getProvinces() {
-		return province.split(",");
+		return StringUtils.isNotBlank(province) ? province.split(",") : null;
 	}
 
 	public void setProvinces(String[] provinces) {
@@ -664,7 +567,8 @@ public class SupplierExtractCondition {
 	}
 
 	public String[] getSupplierTypeCodes() {
-		return supplierTypeCode.split(",");
+		return StringUtils.isNotBlank(supplierTypeCode) ? supplierTypeCode
+				.split(",") : null;
 	}
 
 	public void setSupplierTypeCodes(String[] supplierTypeCodes) {
@@ -686,7 +590,6 @@ public class SupplierExtractCondition {
 	public void setAreaName(String areaName) {
 		this.areaName = areaName;
 	}
-
 
 	public String getIsHavingConCert() {
 		return isHavingConCert;
@@ -713,7 +616,7 @@ public class SupplierExtractCondition {
 	}
 
 	public String[] getQuaIds() {
-		return quaId.split(",");
+		return StringUtils.isNotBlank(quaId) ? quaId.split(",") : null;
 	}
 
 	public void setQuaIds(String[] quaIds) {
@@ -727,18 +630,53 @@ public class SupplierExtractCondition {
 	public void setQuaId(String quaId) {
 		this.quaId = quaId;
 	}
-	
-	public int getCsize(){
-		return this.getCategoryIds().length;
-	}
 
-	public void setQuaType(String string) {
-		
+	public void setQuaType(String quaType) {
+		this.quaType = quaType;
 	}
 
 	public String getQuaType() {
 		return quaType;
 	}
-	
-	
+
+	public Short getIsDelete() {
+		return isDelete;
+	}
+
+	public void setIsDelete(Short isDelete) {
+		this.isDelete = isDelete;
+	}
+
+	public Date getUpdatedAt() {
+		return this.updatedAt == null ? new Date() : this.updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public int getQuaSize() {
+		return StringUtils.isBlank(quaId) ? quaSize : quaId.split(",").length;
+	}
+
+	public void setQuaSize(int quaSize) {
+		this.quaSize = quaSize;
+	}
+
+	public void setCsize(int size) {
+		this.csize = size;
+	}
+
+	public int getCsize() {
+		return this.csize;
+	}
+
+	public String getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
+
 }

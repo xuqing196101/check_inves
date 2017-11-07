@@ -168,7 +168,7 @@ public class ExtractSupplierController extends BaseController {
     		String recordId = WfUtil.createUUID();
     		eRecord.setId(recordId);
     		eRecord.setProcurementDepId(user.getOrg().getId());
-    		
+    		eRecord.setExtractUser(user.getId());
     		expExtractRecordService.insertProjectInfo(eRecord);
     		
     		if("advPro".equals(eRecord.getProjectInto())){
@@ -415,9 +415,17 @@ public class ExtractSupplierController extends BaseController {
      * @dateTime 2017-10-13下午3:44:17
      * @return
      */
-    @RequestMapping("/supplierExtractResult")
-    public void receiveVoiceResult(String json) {
-    	autoExtract.receiveVoiceResult(json);
+    @RequestMapping(value="/supplierExtractResult",produces="application/json; charset=utf-8")
+    @ResponseBody
+    public String receiveVoiceResult(String json) {
+    	String result = "";
+    	if(StringUtils.isNotBlank(json)){
+    		result = autoExtract.receiveVoiceResult(json);
+    		result = StringUtils.isNotBlank(result)?result:"service error";
+    	}else{
+    		result = "receive success,but json is null";
+    	}
+    	return JSON.toJSONString(result);
  	}
     
 	

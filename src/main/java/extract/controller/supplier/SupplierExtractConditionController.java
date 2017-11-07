@@ -83,7 +83,8 @@ import extract.service.supplier.SupplierExtractConditionService;
     @ResponseBody
     @RequestMapping("selectLikeSupplier")
     public String selectLikeSupplier(SupplierExtractCondition condition,SupplierConType conType){
-    	Map<String, Object> supplierList = conditionService.selectLikeSupplier(condition,conType,1);
+    	//Map<String, Object> supplierList = conditionService.selectLikeSupplier(condition,conType,1);
+    	Map<String, Object> supplierList = conditionService.selectLikeSupplier2(condition,1);
     	return JSON.toJSONString(supplierList);
     }
     

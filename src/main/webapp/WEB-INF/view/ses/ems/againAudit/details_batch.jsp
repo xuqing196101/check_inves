@@ -66,7 +66,7 @@
     </div>
     
     <div class="mt20 pl20 text-center">
-      <button type="button" class="btn btn-windows back" onclick="location='${pageContext.request.contextPath}/expertAgainAudit/findBatchList.html'">返回</button>
+      <button type="button" id="back_btn" class="btn btn-windows back" onclick="location='${pageContext.request.contextPath}/expertAgainAudit/findBatchList.html'">返回</button>
     </div>
       
   </div>
@@ -74,41 +74,57 @@
   <input name="expertId" type="hidden" />
   <input name="tableType" type="hidden" value=""/>
   </form>
+  <form id="form_expertReview" action="${pageContext.request.contextPath}/expertAgainAudit/downloadExpertReview.html" method="post">
+  <input name="batchId" type="hidden" value="${batchId}" />
+  </form>
   <!-- 内容结束 -->
   
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/batchDetails.js"></script>
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
   <script>
+  	var batchId='${batchId}';
     var root_url = '${pageContext.request.contextPath}';  // 根目录地址
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/findBatchDetails.do';  // 列表地址
     var audit_url = '${pageContext.request.contextPath}/expertAgainAudit/checkGroupStatus.do';  // 校验地址
-    var jump_auditBatch_url = '${pageContext.request.contextPath}/expertAgainAudit/groupBatch.html?batchId='+getUrlParam('batchId');
+    var jump_auditBatch_url = '${pageContext.request.contextPath}/expertAgainAudit/groupBatch.html?batchId='+batchId;
     var select_ids = [];  // 选择的专家id集合
     
     $(function () {
       $('#table_content').listConstructor({
         url: list_url,
         data: {
-          batchId: getUrlParam('batchId')
+          batchId: batchId
         }
       });
     });
     
     // 跳转批次审核
     function jump_auditBatch() {
-      window.location.href = '${pageContext.request.contextPath}/expertAgainAudit/auditBatch.html?batchId='+getUrlParam('batchId');
+      window.location.href = '${pageContext.request.contextPath}/expertAgainAudit/auditBatch.html?batchId='+batchId;
     }
     //下载
     function downloadTable(id) {
         var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
         state = trim(state);
-        if(state =="预复审结束" || state =="公示中" || state == "复审预合格" ||state == "复审合格" || state == "复审不合格"|| state == "复审退回修改" || state == "复查合格" || state == "复查未合格") {
-          $("input[name='tableType']").val('2');
-          $("input[name='expertId']").val(id);
-          $("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/download.html");
-          $("#form_id").submit();
+        if(state =="专家预复审结束") {
+        	$.ajax({
+        		url: "${pageContext.request.contextPath}/expertAudit/findExpertInfo.do",
+        	  data:{"id":id},
+        	  type: "post",
+        	  success: function(data){
+        		  if(data.isReviewEnd != 1){
+        			  $("input[name='tableType']").val('2');
+     	          $("input[name='expertId']").val(id);
+     	          $("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/download.html");
+     	          $("#form_id").submit();
+        		  }else {
+     	          layer.msg("该专家已复审结束，请刷新页面 !", {offset: '100px',});
+        		  }
+        	  }
+        	});
+          
         } else {
-          layer.msg("请选择审核过的专家 !", {
+          layer.msg("请选择预复审结束的专家 !", {
             offset: '100px',
           });
         }
@@ -116,7 +132,13 @@
     function trim(str) { //删除左右两端的空格
       return str.replace(/(^\s*)|(\s*$)/g, "");
     }
-    
+  //下载
+    function downloadReviewTable() {
+	  			var id="${batchId}";
+     	          $("input[name='batchId']").val(id);
+     	          $("#form_expertReview").attr("action", "${pageContext.request.contextPath}/expertAgainAudit/downloadExpertReview.html");
+     	          $("#form_expertReview").submit();
+    }
     /** 全选全不选 */
     // function selectAll(){
     //    var checklist = document.getElementsByName ("chkItem");
@@ -171,14 +193,14 @@
       });
     }
     
-    //复审确认（资源服务中心）
+    //复审批准（资源服务中心）
     function reviewConfirm(){
     	var ids = [];
     	$('input[type="checkbox"]:checked').each(function() {
         var id = $(this).val();
        	var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
         state = trim(state);
-        if(state !="" && state == "复审结束"){
+        if(state !="" && state == "专家复审结束"){
         	ids.push(id);
         }
       });

@@ -713,11 +713,25 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
 		Map<String, Object> map=new HashMap<String,Object>();
 		List<Supplier> list = supplierMapper.getByTime(startTime, endTime, null);
 		List<SupplierAuditFormBean> supplierAudits=new LinkedList<SupplierAuditFormBean>();
+		Supplier supplier = null;
 		for(Supplier s:list){
 			SupplierAuditFormBean saf=new SupplierAuditFormBean();
-			saf.setSupplierId(s.getId());
+            supplier = new Supplier();
+			/*saf.setSupplierId(s.getId());
 			saf.setStatus(s.getStatus());
-			saf.setAuditDate(s.getAuditDate());
+			saf.setAuditDate(s.getAuditDate());*/
+			// 供应商ID
+			supplier.setId(s.getId());
+            supplier.setStatus(s.getStatus());
+            // 审核时间
+            supplier.setAuditDate(s.getAuditDate());
+            // 审核人
+            supplier.setAuditor(s.getAuditor());
+            // 审核中状态
+            supplier.setAuditTemporary(s.getAuditTemporary());
+            // 将供应商基本信息导出
+            saf.setSupplier(supplier);
+
 			saf.setUser(getUser(s.getId()));
 			map.put("supplierId", s.getId());
 			List<SupplierAudit> sa = supplierAuditMapper.findByMap(map);
@@ -870,11 +884,25 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
         selectMap.put("status", -3);
         List<Supplier> list = supplierMapper.selectSupByPublictyOfExport(selectMap);
         List<SupplierAuditFormBean> supplierAudits=new LinkedList<>();
+        Supplier supplier = null;
         for(Supplier s:list){
             SupplierAuditFormBean saf = new SupplierAuditFormBean();
-            saf.setSupplierId(s.getId());
-            saf.setStatus(s.getStatus());
-            saf.setAuditDate(s.getAuditDate());
+            supplier = new Supplier();
+			/*saf.setSupplierId(s.getId());
+			saf.setStatus(s.getStatus());
+			saf.setAuditDate(s.getAuditDate());*/
+            // 供应商ID
+            supplier.setId(s.getId());
+            supplier.setStatus(s.getStatus());
+            // 审核时间
+            supplier.setAuditDate(s.getAuditDate());
+            // 审核人
+            supplier.setAuditor(s.getAuditor());
+            // 审核中状态
+            supplier.setAuditTemporary(s.getAuditTemporary());
+            // 将供应商基本信息导出
+            saf.setSupplier(supplier);
+
             saf.setUser(getUser(s.getId()));
             map.put("supplierId", s.getId());
             List<SupplierAudit> sa = supplierAuditMapper.findByMap(map);

@@ -1,6 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE HTML>
 
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
@@ -37,7 +36,8 @@
 	    oRect = obj.getBoundingClientRect();  
 	    x=oRect.left - 150;  
 	    y=oRect.top - 150;  
-		var allTable = document.getElementsByTagName("table");
+		/* var allTable = document.getElementsByTagName("table"); */
+		var allTable = document.getElementsByName("tables");
 		var priceStr = "";
 		var count = 0;
 		var i = 0;
@@ -52,7 +52,7 @@
 				var isGiveUp = $(allTable[i].rows).eq(j).find("td").eq("4").find("select").val();
 				var reg = /^\d+\.?\d*$/;
 			    if (isGiveUp == "2" && auditReason == "") {
-					layer.msg("必须填写放弃原因",{offset: ['25%', '25%']});
+					layer.msg("必须填写放弃原因");
 					return;
 				}
 				if (isGiveUp == "" || isGiveUp == undefined) {
@@ -132,56 +132,118 @@
 		for (var i = 1; i < 20; i++) {
 			$(".p0" + i).addClass("hide");
 		};
+		var ix = "${ix}";
+		if(ix){
+			$("h2").each(function() {
+				$(this).removeClass("count_flow");
+				$(this).addClass("counts_flow");
+			});
+			$(".f14").each(function() {
+				$(this).removeClass("f14");
+				$(this).addClass("f25");
+			});
+			$(".star_red").each(function() {
+				$(this).addClass("f25");
+			});
+			
+			$("th").each(function() {
+				$(this).addClass("f25");
+			});
+			$("td").each(function() {
+				$(this).addClass("f25");
+			});
+			$("#jscb").addClass("f16");
+		}
 	});
 	
 	function show(ob){
 		var index=ob.selectedIndex;
 		var i = ob.options[index].value;
 		var val = $(ob).parent().next().find('input').val();
-		if(i == 2){
+		/* if(i == 1){
+			var aa = $(ob).parent().prev().prev().find('input[type=hidden]').val();
+			$(ob).parent().prev().prev().find('input[type=text]').val(aa);
+		} else */
+		if (i == 2){
 			layer.prompt({title: '放弃原因', formType: 2, value : val ,shade: 0}, function(pass, index){
 				  layer.close(index);
 				  $(ob).parent().next().find('input').val(pass);
 				});
+		} else {
+			$(ob).parent().prev().prev().find('input[type=text]').val("");
 		}
 	}
-	function checkTotal(){
-		var total = $("input[name='total']").val();
-		if(total == 0){
-			 layer.msg("总价不合法,请重新输入")	
-			 $("input[name='total']").val("")
+	function checkTotal(obj){
+		var total = $(obj).val();
+		total = total.trim();
+		if(total){
+			if(total == '0'){
+				layer.msg("总价不合法,请重新输入");
+			}
+		} else {
+			layer.msg("总价不能为空");
 		}
 	}
-	function checkPaymentDate(){
-        var paymentDate = $("input[name='paymentDate']").val();
-        if($.trim(paymentDate) == ""){
-        	layer.msg("交货期限不合法,请重新输入")   
-            $("input[name='paymentDate']").val("")
+	function checkPaymentDate(obj){
+        var paymentDate = $(obj).val();
+        paymentDate = $.trim(paymentDate);
+        if(paymentDate == ""){
+        	layer.msg("交货期限不合法,请重新输入");
         }
     }
 </script>
 </head>
 <body>
 <div id="showDiv" class="clear">
+<c:if test="${not empty ix}">
+<div class="col-md-12 col-sm-12 col-xs-12 p0 tr">
+<button class="btn mt10 f16" onclick="javascript:window.close()">关闭窗口</button>
+</div>
+</c:if>
 <c:if test="${not empty count}">
 <h2 class="tc">第${count + 1}轮报价</h2>
+<!-- <p class="red">如果本次报价供应商不进行报价，总价为上次报价的金额</p> -->
 </c:if>
 <c:forEach items="${treeMap }" var="treemap" varStatus="vsKey">
 	<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
 		<div class="col-md-12 col-sm-12 col-xs-12 p0">
 			 	<c:if test="${vsKey.index ==0 }">
-				 	<h2  onclick="ycDiv(this,'${vsKey.index}')" class="count_flow spread hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
+				 	<h2  onclick="ycDiv(this,'${vsKey.index}')" 
+				 	<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ' || 
+				 	mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP' ||
+				 	 mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHZ' || 
+				 	 mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHBTG'
+				 	 }">
+				 	class="count_flow hand fl spread" </c:if>class="count_flow spread hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ'}"><span class="star_red">[该包已终止]</span></c:if> 
+				 	<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP'}"><span class="star_red">[该包已转竞谈]</span></c:if>
+				 <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHZ'}"><span class="star_red">[该包转竞谈审核中]</span></c:if>
+				  <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHBTG'}"><span class="star_red">[该包转竞谈审核不通过]</span></c:if>
+				  </span>
 				 	<span>项目预算报价(万元)：${fn:substringAfter(treemapKey, "|")}</span>
 				 	</h2>
 			 	</c:if>
 			 	<c:if test="${vsKey.index != 0 }">
-				 	<h2  onclick="ycDiv(this,'${vsKey.index}')" class="count_flow shrink hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
+				 	<h2  onclick="ycDiv(this,'${vsKey.index}')" 
+				 	<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ' ||
+				 	 mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP' ||
+				 	  mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHZ' || 
+				 	  mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHBTG'
+				 	  }">
+				 	class="count_flow hand fl spread" </c:if>class="count_flow shrink hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ'}"><span class="star_red">[该包已终止]</span></c:if>
+				 	 <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP'}"><span class="star_red">[该包已转竞谈]</span></c:if>
+				 	 <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHZ'}"><span class="star_red">[该包转竞谈审核中]</span></c:if>
+				 	 <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHBTG'}"><span class="star_red">[该包转竞谈审核不通过]</span></c:if>
+				 	 </span>
 				 	<span>项目预算报价(万元)：${fn:substringAfter(treemapKey, "|")}</span>
 				 	</h2>
 			 	</c:if>
         </div>
+        <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'YZZ'
+         && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJZXTP'
+          && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJTSHZ'
+          && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJTSHBTG'}"> 
         <div class="p0 ${vsKey.index} w100p clear">
-		<table class="table table-bordered table-condensed mt5 left_table table_input">
+		<table id="" name="tables" class="table table-bordered table-condensed m0">
 			<thead>
 				<tr>
 					<th class="info w50">序号</th>
@@ -198,15 +260,23 @@
 		<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
 				<tr>
 				    <td class="tc w50">${vs.index+1 }
-			    		<input type="hidden" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}','${flowDefineId}')" />
+			    		<input type="hidden" class="border0 w100p m0" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}','${flowDefineId}')" />
 				    </td>
 				    <td class="tl">${treemapValue.suppliers.supplierName}</td>
-					<td class="tc"><input name="total" onblur="checkTotal()" maxlength="16" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"/></td>
-					<td class="tc"><input type="text" onblur="checkPaymentDate()" name="paymentDate"/></td>
+					<td class="tc">
+						<input name="total" class="border0 w100p m0" onblur="checkTotal(this)" maxlength="16" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"/>
+						<%-- <c:forEach items="${selectQuoteList}" var="obj">
+							<c:if test="${obj.supplierId eq treemapValue.suppliers.id}">
+								<input type="hidden" value="${obj.total}"/>
+							</c:if>
+						</c:forEach> --%>
+					</td>
+					<td class="tc"><input type="text" class="border0 w100p m0" onblur="checkPaymentDate(this)" name="paymentDate"/></td>
 					<c:if test="${not empty count}">
 					<td class="tc">
 							<select onchange="show(this)">
 								<option value="">请选择</option>
+								<!-- <option value="1">放弃本轮报价</option> -->
 								<option value="2">放弃报价</option>
 							</select>
 					</td>
@@ -216,16 +286,17 @@
 		</c:forEach>
 		</table>
 		</div>
-	</c:forEach>
+		</c:if>
+	</c:forEach> 
 </c:forEach>
-		<div class="col-md-12 col-sm-12 col-xs-12 tc">
+		<div class="col-md-12 col-sm-12 col-xs-12 tc mt10">
 		    <c:if test="${not empty judgeTreemap}">
 		    	<c:if test="${not empty count}">
 		    	<input class="btn btn-windows save" value="报价完成" type="button" onclick="eachTable(this)">
 		    	<input class="btn btn-windows reset" value="返回" type="button" onclick="back()">
 		    	</c:if>
 		    	<c:if test="${empty count}">
-		    	<input class="btn btn-windows save" value="结束唱标" type="button" onclick="eachTable(this)">
+		    	<input class="btn btn-windows save" id="jscb" value="结束唱标" type="button" onclick="eachTable(this)">
 		    	</c:if>
 		    </c:if>
 		    <c:if test="${empty judgeTreemap}">

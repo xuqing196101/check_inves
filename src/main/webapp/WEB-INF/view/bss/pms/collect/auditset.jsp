@@ -325,10 +325,10 @@
         }
         tabhtml += '<tr class="tc pointer tempPersonList">';
         tabhtml += '<td class="w30"><input type="checkbox" name="chkItem" alt="" value=""><input type="hidden" class="tempPersonIndex" value="' + ind + '"></td>';
-        tabhtml += '<td><input class="m0 border0 w100p" name="auditPersons[' + i + '].name" type="text" value=""><div class="clear red names" id="name' + ind + '"></div></td>';
+        tabhtml += '<td ><input class="m0 border0 w100p" name="auditPersons[' + i + '].name" type="text" value=""><div class="clear red names" id="name' + ind + '"></div></td>';
         tabhtml += '<td><input class="m0 border0 w100p" name="auditPersons[' + i + '].mobile" type="text" maxlength="18" onkeyup="this.value=this.value.replace(/[^0-9]/g,' + "''" + ')" value=""><div class="clear red phones" id="phone' + ind + '"></div></td>';
-        tabhtml += '<td><input class="m0 border0 w100p" name="auditPersons[' + i + '].duty" type="text" value=""><div class="clear red duties" id="duty' + ind + '"></div></td>';
-        tabhtml += '<td><input class="m0 border0 w100p" name="auditPersons[' + i + '].unitName" type="text" value=""><div class="clear red unitNames" id="unitName' + ind + '"></div></td>';
+        tabhtml += '<td class="pl20"><input class="m0 border0 w100p" name="auditPersons[' + i + '].duty" type="text" value=""><div class="clear red duties" id="duty' + ind + '"></div></td>';
+        tabhtml += '<td class="pl20"><input class="m0 border0 w100p" name="auditPersons[' + i + '].unitName" type="text" value=""><div class="clear red unitNames" id="unitName' + ind + '"></div></td>';
         tabhtml += '</tr>';
         if(isTable == 0) {
           $("#userList tbody").append(tabhtml);
@@ -556,7 +556,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>审核人员性质</span>
               <div class="input-append input_group col-sm-12 col-md-12 col-xs-12 p0">
-                <input id="audit_nature" type="text" class="input_group" name="name" value="${staff }" maxlength="10" placeholder="最大长度10个字符" onkeyup="checkLen();" />
+                <input id="audit_nature" type="text" class="input_group" name="name" value="${staff }" maxlength="10" onkeyup="checkLen();" />
                 <span class="add-on">i</span>
                 <div class="cue" id="auditNatureErr"></div>
               </div>
@@ -606,8 +606,8 @@
             <c:if test="${kind.id == obj.auditRound}">${kind.name}</c:if>
           </c:forEach>
         </td> --%>
-                      <td class="tc w120">${obj.name }</td>
-                      <td class="tc w120">${obj.mobile }</td>
+                      <td class="tl w120">${obj.name }</td>
+                      <td class="tl w120 ">${obj.mobile }</td>
                       <td class="tl pl20" width="30%">${obj.duty }</td>
                       <td class="tl pl20">${obj.unitName }</td>
                        <%--  <td>${obj.auditStaff }</td> --%>

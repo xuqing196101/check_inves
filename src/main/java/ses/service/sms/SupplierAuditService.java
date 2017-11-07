@@ -596,5 +596,12 @@ public interface SupplierAuditService {
 	 * @since JDK1.7
 	 */
 	List<SupplierAudit> selectBySupIdAndType(Map<String, Object> map);
+	
+	/**
+	 * 获取类型和品目不通过的结果
+	 * @param supplierId
+	 * @return
+	 */
+	JdcgResult getTypeAndItemNotPass(String supplierId);
 
 }

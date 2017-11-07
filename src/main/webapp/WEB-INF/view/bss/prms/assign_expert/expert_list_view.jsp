@@ -121,19 +121,26 @@
         <h2 class="list_title">专家名单</h2>
         <c:forEach items="${packages}" var="pack" varStatus="vs">
         <div class="over_hideen">
-			<h2 onclick="ycDiv(this,'${vs.index}')" class="count_flow shrink hand fl clear" id="package">包名:<span class="f15 blue">${pack.name}</span>
+			<h2 onclick="ycDiv(this,'${vs.index}')" 
+			<c:if test="${pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJZXTP' || pack.projectStatus eq 'ZJTSHZ' || pack.projectStatus eq 'ZJTSHBTG'}">class="count_flow hand fl spread"</c:if>class="count_flow shrink hand fl clear" id="package">包名:<span class="f15 blue">${pack.name}</span>
+			<c:if test="${pack.projectStatus eq 'YZZ'}"><span class="star_red">[该包已终止]</span></c:if>
+			<c:if test="${pack.projectStatus eq 'ZJZXTP'}"><span class="star_red">[该包已转竞谈]</span></c:if>
+			<c:if test="${pack.projectStatus eq 'ZJTSHZ'}"><span class="star_red">[该包转竞谈审核中]</span></c:if>
+			<c:if test="${pack.projectStatus eq 'ZJTSHBTG'}"><span class="star_red">[该包转竞谈审核不通过]</span></c:if>
           	</h2>
        		<div class="fl mt20 ml10">
-             <button class="btn" onclick="resetPwd('${vs.index}');" type="button">重置密码</button>
+             <button class="btn"  <c:if test="${pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJZXTP' || pack.projectStatus eq 'ZJTSHZ' || pack.projectStatus eq 'ZJTSHBTG'}">disabled="disabled"</c:if>onclick="resetPwd('${vs.index}');" type="button">重置密码</button>
            	</div>
         </div>
+        <c:if test="${pack.projectStatus ne 'YZZ' || pack.projectStatus ne 'ZJZXTP' || pack.projectStatus ne 'ZJTSHZ' || pack.projectStatus ne 'ZJTSHBTG'}">
        	<div class="p0${vs.index} hide">
         	<table class="table table-bordered table-condensed table-hover table-striped mt5 space_nowrap">
 	            <thead>
 	              <tr>
 	                <th class="info w50"><input id="checkAllExpert${vs.index}" type="checkbox" onclick="selectAll('${vs.index}')" /></th>
 	                <th class="info w50">序号</th>
-	                <th class="info">专家姓名</th>
+	                <th class="info">用户名</th>
+	                <th class="info w70">专家姓名</th>
 	                <th class="info">专家类别</th>
 	                <th class="info">是否组长</th>
 	                <th class="info">是否到场</th>
@@ -145,13 +152,16 @@
             	<tbody>
             		<c:set var="count" value="0"/>
             		<c:forEach items="${expertSigneds}" var="packageExpert" varStatus="v">
-            		<c:if test="${pack.id == packageExpert.packageId}">
+            		<c:if test="${pack.id eq packageExpert.packageId}">
             		<c:set var="count" value="${count+1}"/>
             		<tr>
             			<td class="tc opinter w50">
             				<input type="checkbox" value="${packageExpert.expert.id}" name="chkItemExpert${vs.index}" onclick="check('${vs.index}')">
 						</td>
             			<td class="tc">${count}</td>
+            			<td>
+		            				${packageExpert.expertId}
+		            			</td>
             			<td>
             				${packageExpert.expert.relName}
             			</td>
@@ -182,6 +192,7 @@
             	</tbody>
            	</table>
            </div>
+           </c:if>
        </c:forEach>
   </body>
 </html>

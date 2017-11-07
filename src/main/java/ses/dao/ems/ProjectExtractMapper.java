@@ -144,7 +144,12 @@ public interface ProjectExtractMapper {
     void updateProjectByExpertId(Map<String, Object> map);
     
     /**
-     * 
+     * 获取所有的专家
+     * @param id
+     * @return
+     */
+    List<ProjectExtract> getById(String id);
+     /* 
      *〈简述〉根据项目ID关联查询抽取专家
      *〈详细描述〉
      * @author FengTian

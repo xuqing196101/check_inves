@@ -195,16 +195,27 @@
               <td class="tc w120" onclick="view('${obj.id}')">
                 <fmt:formatDate value="${obj.createdAt }" />
               </td>
-              <td class="tl w120" onclick="view('${obj.id}')">
-                <c:if test="${obj.status eq '1'}">待审核设置</c:if>
-                <c:if test="${obj.status eq '2'}">已下达</c:if>
-                <c:if test="${obj.status eq '3'}">第一轮审核</c:if>
-                <c:if test="${obj.status eq '4'}">第二轮审核人员设置</c:if>
-                <c:if test="${obj.status eq '5'}">第二轮审核</c:if>
-                <c:if test="${obj.status eq '6'}">第三轮审核人员设置</c:if>
-                <c:if test="${obj.status eq '7'}">第三轮审核</c:if>
-                <c:if test="${obj.status eq '8'}">审核结束</c:if>
-                <c:if test="${obj.status eq '12'}">直接下达</c:if>
+              <td class="tl" onclick="view('${obj.id}')">
+                <input type="hidden" value="${obj.status}" />
+                <c:if test="${obj.status=='1'&&obj.auditTurn != 2&&obj.auditTurn != 1&&obj.auditTurn != 3 }">审核轮次设置</c:if>
+                <c:if test="${obj.status=='1'&&(obj.auditTurn == 2||obj.auditTurn == 1||obj.auditTurn == 3) }">第一轮审核人员设置</c:if>
+                <c:if test="${(obj.status == 2 || obj.status == 12  ) && obj.auditTurn == null}">已直接下达</c:if>
+                <%--    <c:if test="${obj.status == 2}">
+                    已直接下达
+                </c:if> --%>
+                <c:if test="${(obj.status == 2 || obj.status == 12  )  && obj.auditTurn == 1}">审核结束</c:if>
+                <c:if test="${obj.status==3 }">第一轮审核</c:if>
+                <c:if test="${obj.status == 12 && obj.auditTurn == 2}">审核结束</c:if>
+                <c:if test="${obj.status == 2 && obj.auditTurn == 2}">审核结束</c:if>
+                <c:if test="${obj.status == 2 && obj.auditTurn == 3}">审核结束</c:if>
+                <c:if test="${obj.status == 12 && obj.auditTurn == 3}">审核结束</c:if>
+                <%--    <c:if test="${obj.status == 2 && obj.auditTurn == null}">
+                    第三轮审核
+                </c:if> --%>
+                <c:if test="${obj.status==4 }">第二轮审核人员设置</c:if>
+                <c:if test="${obj.status==5 }">第二轮审核</c:if>
+                <c:if test="${obj.status=='6' }">第三轮审核人员设置</c:if>
+                <c:if test="${obj.status=='7' }">第三轮审核</c:if>
               </td>
             </tr>
           </c:forEach>

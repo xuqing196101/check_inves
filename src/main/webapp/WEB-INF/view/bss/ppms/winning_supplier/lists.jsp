@@ -149,7 +149,7 @@
           <div class="col-md-12 col-xs-12 col-sm-12 mt10 p0">
             <c:if test="${ error ne null || error eq 'ERROR' }">
 		          <div class="col-md-12 col-xs-12 col-sm-12 mt10 p0">
-		            <button class="btn " onclick="finish();" type="button">执行完成</button>
+		            <!-- <button class="btn " onclick="finish();" type="button">执行完成</button> -->
 		            <button class="btn " onclick="qued();" type="button">确定</button>
 		          </div>
 		        </c:if>
@@ -172,7 +172,8 @@
                 <td class="tc w30">
                   <input type="checkbox" value="${pack.id }" name="chkItem" onclick="check()">
                 </td>
-                <td class="tc">${pack.name }</td>
+                <td class="tc">${pack.name }
+                </td>
                 <c:if test="${fn:length(pack.listCheckPasses) != 0}">
                   <c:forEach items="${pack.listCheckPasses}" var="list">
                     <td class="tc">

@@ -180,7 +180,7 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
    * @see ses.service.sms.SupplierExtUserServicel#downLoadBiddingDoc()
    */
   @Override
-  public String downLoadBiddingDoc(HttpServletRequest request,String projectId,int type,String suppliersID) throws Exception {
+  public String downLoadBiddingDoc(HttpServletRequest request,String projectId,int type,String suppliersID,Object...param) throws Exception {
     Map<String, Object> datamap = new HashMap<>();
     //经济评审
     List<MarkTerm> listScoreEconomy = new ArrayList<MarkTerm>();
@@ -388,7 +388,7 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
 	    	      }
 	    		 
 	    	  }else{
-	    		  str = "biddingdocument_package1.ftl,biddingdocument_package2.ftl";
+	    		  str = "biddingdocument_package1.ftl";
 	    	  }
 	        break;
 	      case "XJCG":// 询价文件
@@ -400,7 +400,7 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
 	            }
 	    		  
 	    	  }else{
-	    		  str = "InquiryDocument_package1.ftl,InquiryDocument_package2.ftl";
+	    		  str = "InquiryDocument_package1.ftl";
 	    	  }
 	        break;
 	      case "JZXTP":// 谈判文件
@@ -411,7 +411,7 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
 	                str="Adjzxtp.ftl";
 	            }
 	    	  }else{
-	    		  str = "biddingdocument_package1.ftl,biddingdocument_package2.ftl";
+	    		  str = "biddingdocument_package1.ftl";
 	    	  }
 	        break;
 	      case "DYLY":// 单一来源
@@ -426,7 +426,7 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
 	            }
 	    		  
 	    	  }else{
-	    		  str = "biddingdocument_package1.ftl,biddingdocument_package2.ftl";
+	    		  str = "biddingdocument_package1.ftl";
 	    	  }
 	        break;
 

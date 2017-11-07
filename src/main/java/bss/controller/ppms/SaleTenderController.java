@@ -169,7 +169,7 @@ public class SaleTenderController {
         Packages packages = list.get(i);
         Supplier supplier=new Supplier();
         if(supplierName!=null){
-          supplier.setSupplierName("%"+supplierName+"%");
+          supplier.setSupplierName(supplierName);
         }
         if(armyBuinessTelephone!=null){
           supplier.setArmyBuinessTelephone(armyBuinessTelephone);
@@ -184,6 +184,10 @@ public class SaleTenderController {
         List<SaleTender> saleTenderList = saleTenderService.getPackegeSupplier(saleTender);
         //	if(saleTenderList.size()>0){
         packages.setSaleTenderList(saleTenderList);
+        DictionaryData dat = DictionaryDataUtil.findById(packages.getProjectStatus());
+        if(dat!=null){
+          packages.setProjectStatus(dat.getCode());
+        }
         lists.add(packages);
         //    }
       }
@@ -191,7 +195,6 @@ public class SaleTenderController {
     }
     DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
     model.addAttribute("status", findById.getCode());
-    model.addAttribute("kind", DictionaryDataUtil.find(5));
     model.addAttribute("packageList", lists);
     model.addAttribute("project", project);
     model.addAttribute("supplierName",supplierName);
@@ -302,6 +305,7 @@ public class SaleTenderController {
   model.addAttribute("packId", packId);
   model.addAttribute("projectId", projectId);
   model.addAttribute("supplierName", supplier.getSupplierName());
+  model.addAttribute("isProvisional", supplier.getIsProvisional());
   model.addAttribute("ix", ix);
   model.addAttribute("selectValue", selectValue);
   return "bss/ppms/sall_tender/suppliers_list";
@@ -609,11 +613,11 @@ public void downloads(HttpServletRequest request, HttpServletResponse response, 
 * @throws IOException 
 */
 @RequestMapping("/processingDocuments")
-@ResponseBody
 public String processingDocuments(Model model,HttpServletRequest request, HttpServletResponse response,String projectId,String suppliersID) throws Exception{
 	//判断是否上传招标文件
     String typeId = DictionaryDataUtil.getId("PROJECT_BID");
     Project project = projectService.selectById(projectId);
+    Supplier supplier = supplierService.selectById(suppliersID);
 	List<UploadFile> files = uploadService.getFilesOther(projectId, typeId, Constant.TENDER_SYS_KEY+"");
 	if (files != null && files.size() > 0 ){
 	//调用生成word模板传人 标识0 表示 只是生成 拆包部分模板
@@ -625,6 +629,7 @@ public String processingDocuments(Model model,HttpServletRequest request, HttpSe
     System.out.println(files.get(0).getId()+"  files.get(0).getId()");
       model.addAttribute("fileId", files.get(0).getId());
       model.addAttribute("project", project);
+      model.addAttribute("supplier", supplier);
       return  "bss/ppms/sall_tender/before_download";
 	}else{
 		//model.addAttribute("filePath", "0");

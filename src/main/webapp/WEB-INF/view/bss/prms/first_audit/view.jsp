@@ -122,27 +122,193 @@
 		html += "</tr>";
 		$("#content").append(html);
 	}); */
-	
+	  var pack_id="";
+  	function bynSub(packageId,projectId,flowDefineId){
+  		pack_id=packageId;
+  		$.ajax({
+			url:"${pageContext.request.contextPath}/termination/flowDefineId.do",
+			data:{"currFlowDefineId":flowDefineId},
+			type:"post",
+			dataType:"json",
+	   	success:function(data){
+	   		$("#openDiv_checkFlw").empty();
+	   		var html='<div class="tl">';
+	   		if(data!=null){
+	   			html+='<div class=" mt10 ml40"><input type="radio" name="flw" value="XMLX"/>项目立项</div>';
+	   			html+='<div class=" mt10 ml40"><input type="radio" name="flw" value="XMFB"/>项目分包</div>';
+	   			for(var i=0;i<data.length;i++){
+	   				if(i>=2){
+	   					html+='<div class=" mt10 ml40"><input type="radio" name="flw" value="'+data[i].id+'"/>'+data[i].name+'</div>';
+	   				}
+	   			}
+	   		}
+	   		html+='</div>';
+	   		$("#openDiv_checkFlw").append(html);
+	   		openDetailFlw();
+	   	 }
+  		});
+  	}
+	var indexFlw;
+  	function openDetailFlw(){
+  		indexFlw =  layer.open({
+  	    shift: 1, //0-6的动画形式，-1不开启
+  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+  	    title: ['终止环节','border-bottom:1px solid #e5e5e5'],
+  	    shade:0.01, //遮罩透明度
+	  		type : 1,
+	  		area : [ '20%', '400px'  ], //宽高
+	  		content : $('#openDivFlw'),
+	  	  });
+      }
+  	function cancelFlw(){
+		  layer.close(indexFlw);
+	  }
+  	function bynSubFlw(){
+  		var val=[];
+  		$('input[type="radio"]:checked').each(function(){ 
+  			val.push($(this).val()); 
+  		});
+  		if(val.length==0){
+  			layer.alert("请选择终止流程");
+  			return false;
+  		}
+  		$.ajax({
+			url:"${pageContext.request.contextPath}/termination/ter_package.do",
+			data:{"packagesId":pack_id,"projectId":'${projectId}',"currFlowDefineId":val.join(','),"oldCurrFlowDefineId":'${flowDefineId}'},
+			type:"post",
+			dataType:"json",
+	   	success:function(data){
+	   		if(data=="ok"){
+	   			layer.alert("终止成功");
+	   			layer.close(indexFlw);
+	   			}
+	   		}
+  		});
+  	}
 	//结束符合性审查
 	function isFirstGather(projectId, packageId,flowDefineId){
-		$.ajax({
-			url: "${pageContext.request.contextPath}/packageExpert/isFirstGather.do",
-			data: {"projectId": projectId, "packageId": packageId, "flowDefineId":flowDefineId},
-			dataType:'json',
-			success:function(result){
-			    	if(!result.success){
-                    	layer.msg(result.msg,{offset: ['150px']});
-			    	}else{
-			    		layer.msg("符合性检查结束",{offset: ['150px']});
-			    		$("#tab-5").load("${pageContext.request.contextPath}/packageExpert/toFirstAudit.html?projectId="+projectId+"&flowDefineId="+flowDefineId);
-			    	}
-                },
-            error: function(result){
-                layer.msg("符合性检查结束失败",{offset: ['222px']});
-            }
-		});
+		var count=0;
+		var supplierNumber=0;
+		if("${purcahseCode}" != "JZXTP"){
+			supplierNumber='${supplierNumber}';
+		}
+		$('#tabId tr:last td').each(function(){ 
+  			var s=$(this).find('div').text();
+  			if(s=='合格'){
+  				count++;
+  			}
+  		});
+		if(count<supplierNumber){
+			layer.open({
+		  	    shift: 1, //0-6的动画形式，-1不开启
+		  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+		  	    title: ['提示','border-bottom:1px solid #e5e5e5'],
+		  	    shade:0.01, //遮罩透明度
+			  		type : 1,
+			  		area : [ '40%', '200px'  ], //宽高
+			  		content : $('#openDivjc'),
+			});
+		}else{
+			$.ajax({
+				url: "${pageContext.request.contextPath}/packageExpert/isFirstGather.do",
+				data: {"projectId": projectId, "packageId": packageId, "flowDefineId":flowDefineId},
+				dataType:'json',
+				success:function(result){
+				    	if(!result.success){
+	                    	layer.msg(result.msg,{offset: ['150px']});
+				    	}else{
+				    		layer.msg("符合性检查结束",{offset: ['150px']});
+				    		$("#tab-5").load("${pageContext.request.contextPath}/packageExpert/toFirstAudit.html?projectId="+projectId+"&flowDefineId="+flowDefineId);
+				    	}
+	                },
+	            error: function(result){
+	                layer.msg("符合性检查结束失败",{offset: ['222px']});
+	            }
+			});
+		}
 	}
+	//转为竞争性谈判
+	var indexAudit;
+	function updateJZ(projectId, packageId,flowDefineId){
+		$.ajax({
+				url: "${pageContext.request.contextPath}/packageExpert/isFirstGather.do",
+				data: {"projectId": projectId, "packageId": packageId, "flowDefineId":flowDefineId},
+				dataType:'json',
+				success:function(result){
+		    	if(!result.success){
+	           layer.msg(result.msg);
+		    	}else{
+		    		indexAudit = layer.open({
+			  	    shift: 1, //0-6的动画形式，-1不开启
+			  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+			  	    title: ['提示','border-bottom:1px solid #e5e5e5'],
+			  	    shade:0.01, //遮罩透明度
+				  		type : 2,
+				  		area : [ '30%', '400px'  ], //宽高
+				  		content : '${pageContext.request.contextPath}/packageAdvice/auditFile.do?pachageIds=' + packageId + '&projectId=' + projectId + '&currHuanjieId='+flowDefineId+'&type=2',
+						});
+		    	}
+       },
+     	 error: function(result){
+         layer.msg("符合性检查结束失败",{offset: ['222px']});
+     		}
+			});
+		
 	
+		/* $.ajax({
+			url:"${pageContext.request.contextPath}/open_bidding/transformationJZXTP.do",
+			data:{"packageIds":packageId,
+				  "projectId":projectId,
+				  "currentFlowDefineId":flowDefineId
+				 },
+			type:"post",
+			dataType:"json",
+	   		success:function(data){
+	   		//layer.close(index);
+	   		//$("#alertId").val(data.status);
+	   		if(data.status=="ok"){
+	   			layer.msg('转为竞争性谈判');
+	   			$.ajax({
+	   				url: "${pageContext.request.contextPath}/packageExpert/isFirstGather.do",
+	   				data: {"projectId": projectId, "packageId": packageId, "flowDefineId":flowDefineId},
+	   				dataType:'json',
+	   				success:function(result){
+	   				    	if(!result.success){
+	   	                    	layer.msg(result.msg,{offset: ['150px']});
+	   				    	}else{
+	   				    		layer.msg("符合性检查结束",{offset: ['150px']});
+	   				    		$("#tab-5").load("${pageContext.request.contextPath}/packageExpert/toFirstAudit.html?projectId="+projectId+"&flowDefineId="+flowDefineId);
+	   				    	}
+	   	                },
+	   	            error: function(result){
+	   	                layer.msg("符合性检查结束失败",{offset: ['222px']});
+	   	            }
+	   			});
+	   			} else if (data.status=="failed"){
+	   				layer.msg("不能转为竞争性谈判");
+	   			}
+	   		}
+  		}); */
+	}
+	//继续实施
+	function continueSs(projectId, packageId,flowDefineId){
+		$.ajax({
+				url: "${pageContext.request.contextPath}/packageExpert/isFirstGather.do",
+				data: {"projectId": projectId, "packageId": packageId, "flowDefineId":flowDefineId},
+				dataType:'json',
+				success:function(result){
+				    	if(!result.success){
+	                    	layer.msg(result.msg,{offset: ['150px']});
+				    	}else{
+				    		layer.msg("符合性检查结束",{offset: ['150px']});
+				    		$("#tab-5").load("${pageContext.request.contextPath}/packageExpert/toFirstAudit.html?projectId="+projectId+"&flowDefineId="+flowDefineId);
+				    	}
+	                },
+	            error: function(result){
+	                layer.msg("符合性检查结束失败",{offset: ['222px']});
+	            }
+			});
+	}
 	//退回复核
 	function sendBack(projectId,packageId,flowDefineId){
 		var ids =[]; 
@@ -234,6 +400,10 @@
 	function openDetailPrint(projectId,packageId){
 		window.open("${pageContext.request.contextPath}/packageExpert/openAllPrint.html?packageId="+packageId+"&projectId="+projectId, "打印所有检查表");
 	}
+	function refur(projectId,packageId,flowDefineId){
+		layer.msg("刷新成功",{offset: ['100px']});
+		$("#tab-5").load("${pageContext.request.contextPath}/packageExpert/firstAuditView.html?packageId="+packageId+"&projectId="+projectId+"&flowDefineId="+flowDefineId);
+	}
   </script>
   <body>
 	    <h2 class="list_title">${pack.name}符合性审查查看</h2>
@@ -254,6 +424,7 @@
 	    	</c:if>
 		    <button class="btn" onclick="openPrint('${projectId}','${pack.id}')" type="button">检查汇总表</button>
 		    <button class="btn" onclick="openDetailPrint('${projectId}','${pack.id}')" type="button">打印检查数据</button>
+		    <button class="btn" onclick="refur('${projectId}','${pack.id}','${flowDefineId}');" type="button">刷新</button>
 	   	</div>
 	   	<input type="hidden" id="projectId" value="${projectId}">
 	   	<input type="hidden" id="flowDefineId" value="${flowDefineId}">
@@ -302,8 +473,8 @@
 	      	 	<c:forEach items="${supplierList}" var="supplier" varStatus="vs">
 	      	 		<td class="tc">
 	      	 			<c:if test="${supplier.isFirstPass == 0}"><div class='red'>不合格</div></c:if>
-	      	 			<c:if test="${supplier.isFirstPass == 1}">合格</c:if>
-	      	 			<c:if test="${supplier.isFirstPass == null}">暂无</c:if>
+	      	 			<c:if test="${supplier.isFirstPass == 1}"><div>合格</div></c:if>
+	      	 			<c:if test="${supplier.isFirstPass == null}"><div>暂无</div></c:if>
 	      	 		</td>
 	      	 	</c:forEach>
 	      	 </tr>
@@ -320,7 +491,23 @@
   		<div class="clear col-md-12 pl20 mt10 tc">
 		    <button class="btn btn-windows back" onclick="goBack();" type="button">返回</button>
 	   	</div>
-	   	
+	   	<div id="openDivFlw" class="dnone layui-layer-wrap">
+        <div class="drop_window tc" id="openDiv_checkFlw">
+         
+        </div>
+        <div class="tc  col-md-12 mt350">
+          <input class="btn"  id = "inputbFLw" name="addr"  type="button" onclick="bynSubFlw();" value="确定"> 
+	      <input class="btn"  id = "inputaFlw" name="addr"  type="button" onclick="cancelFlw();" value="取消"> 
+        </div>
+    </div>
+	  <div id="openDivjc" class="dnone layui-layer-wrap">
+       <h4> ${pack.name} 供应商数量不满足项目要求最少供应商数量,请选择！</h4>
+        <div class="tc  col-md-12 mt50">
+          <input class="btn"  id = "inputb" name="addr"  type="button" onclick="updateJZ('${projectId}','${pack.id}','${flowDefineId}');" value="转为竞争性谈判"> 
+	      <input class="btn"  id = "inputa" name="addr"  type="button" onclick="bynSub('${pack.id}','${projectId}','${flowDefineId}');" value="终止实施"> 
+	      <input class="btn"  id = "inputa" name="addr"  type="button" onclick="continueSs('${projectId}','${pack.id}','${flowDefineId}');" value="继续实施"> 
+        </div>
+    </div>
 	   <script type="text/javascript">
 		function resize_table_width() {
 	        $('.m_resize_table_width').each(function () {

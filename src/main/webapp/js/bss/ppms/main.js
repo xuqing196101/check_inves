@@ -308,17 +308,18 @@ function normalImg(x) {
 	$(x).removeClass("btmfix");
 	$(x).addClass("btmfixs");
 }
-
+var indexLayer;
 //提交当前环节
 function submitcurr() {
 	var projectId = $("#projectId").val();
 	var currFlowDefineId = $("#currHuanjieId").val();
 	var currUpdateUserId = $("#currPrincipal").val();
-	layer.confirm('您确定已经完成当前环节操作吗?', {
+	var layerobj=layer.confirm('您确定已经完成当前环节操作吗?', {
 		title: '提示',
 		offset: '222px',
 		shade: 0.01
 	}, function(index) {
+		layer.close(layerobj);
 		//校验当前环节是否完成
 		$.ajax({
 			url: globalPath+"/open_bidding/isSubmit.html",
@@ -329,24 +330,42 @@ function submitcurr() {
 			type: "post",
 			dataType: "json", //返回格式为json
 			success: function(data) {
-				if(data.success) {
-					//提交当前环节
+				if(data.flowType=="GYSQD"){
 					$.ajax({
-						url: globalPath+"/open_bidding/submitHuanjie.html",
+						url: globalPath+"/open_bidding/checkSupplierNumber.html",
 						data: {
-							"currFlowDefineId": currFlowDefineId,
 							"projectId": projectId
 						},
 						type: "post",
 						dataType: "json",
 						success: function(data2) {
-							if(data2.success) {
-								jumpLoad(data2.url, projectId, currFlowDefineId);
-								$("#"+currFlowDefineId+"_exe").removeClass("executed");
-								$("#"+currFlowDefineId+"_exe").addClass("executed");
-								layer.msg("提交成功", {
-									offset: '100px'
-								});
+							if(data2.rules != null){
+								var split=data2.rules.split(";");
+								var html="";
+								$("#openDiv_packages").empty();
+								for(var i=0;i<split.length;i++){
+									var split2=split[i].split(",");
+									html+='<div class=" mt10 fl ml10"><input type="checkbox" value="'+split2[0]+'" name="packagesId" />'+split2[1]+'</div>';
+								}
+								$("#openDiv_packages").append(html);
+								fflog=false;
+								/*indexLayer =  layer.open({
+								  	    shift: 1, //0-6的动画形式，-1不开启
+								  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+								  	    title: ['提示','border-bottom:1px solid #e5e5e5'],
+								  	    shade:0.01, //遮罩透明度
+									  		type : 1,
+									  		area : [ '30%', '200px'  ], //宽高
+									  		content : $('#openDivPackages'),
+								});*/
+								submitFlw(data,currFlowDefineId,projectId);
+							}else{
+								if(data2.status == "failed"){
+									$("#jzxtp").hide();
+									submitFlw(data,currFlowDefineId,projectId);
+								} else {
+									submitFlw(data,currFlowDefineId,projectId);
+								}
 								
 							}
 						},
@@ -356,61 +375,26 @@ function submitcurr() {
 							});
 						}
 					});
-				} else {
-					if(data.flowType == "XMFB") {
-						//如果是项目分包环节
-						layer.confirm(data.msg, {
-							shade: 0.01,
-							btn: ['确定', '取消']
-						}, function() {
-							$.ajax({
-								url: globalPath+"/project/savePackage.html",
-								data: {
-									"projectId": projectId
-								},
-								type: "post",
-								dataType: "json",
-								success: function(data) {
-									if(data == "1") {
-										$.ajax({
-											url: globalPath+"/open_bidding/submitHuanjie.html",
-											data: {
-												"currFlowDefineId": currFlowDefineId,
-												"projectId": projectId
-											},
-											type: "post",
-											dataType: "json",
-											success: function(data2) {
-												if(data2.success) {
-													layer.msg("提交成功", {
-														offset: '100px'
-													});
-													jumpLoad(data2.url, projectId, currFlowDefineId);
-												}
-											},
-											error: function() {
-												layer.msg("提交失败", {
-													offset: '100px'
-												});
-											}
-										});
-									}
-								},
-								error: function() {
-									layer.msg("提交失败", {
-										offset: '100px'
-									});
-								}
-							});
-						}, function() {
-							/*var index = parent.layer.getFrameIndex(window.name);
-							parent.layer.close(index);*/
-						});
-					} else if(data.flowTypes == "KBCB" || data.flowTypes == "XMXX"){
-						layer.alert(data.msgs, {
-							offset: '100px'
-						});
+				}/*else if (data.flowType =="NZCGGG" || data.flowType == "NZZBGS"){
+					var noticeType = null;
+					if(data.flowType =="NZCGGG"){
+						noticeType = "purchase";
+					} else {
+						noticeType = "win";
 					}
+					//查询公告是否完成
+					var bool = ifNotice(projectId, noticeType);
+					if(!bool){
+						document.getElementById("open_bidding_iframe").contentWindow.publish();
+						var categoryId = $("#open_bidding_iframe").contents().find("#cId").val();
+						if(categoryId){
+							submitFlw(data,currFlowDefineId,projectId);
+						}
+					} else {
+						submitFlw(data,currFlowDefineId,projectId);
+					}
+				}*/ else {
+					submitFlw(data,currFlowDefineId,projectId);
 				}
 			},
 			error: function() {
@@ -421,3 +405,180 @@ function submitcurr() {
 		});
 	});
 }
+
+/*function ifNotice(projectId, noticeType){
+	var bool = true;
+	$.ajax({
+		url: globalPath+"/open_bidding/ifNotice.html",
+		data: {
+			"projectId": projectId,
+			"noticeType" : noticeType
+		},
+		type: "post",
+		async: false,
+		dataType: "text",
+		success: function(data) {
+			if(data != "ok"){
+				bool = false;
+			}
+		},
+		error: function() {
+			layer.msg("提交失败", {
+				offset: '100px'
+			});
+		}
+	});
+	return bool;
+}*/
+
+function submitFlw(data,currFlowDefineId,projectId){
+	if(data.success) {
+		//提交当前环节
+		$.ajax({
+			url: globalPath+"/open_bidding/submitHuanjie.html",
+			data: {
+				"currFlowDefineId": currFlowDefineId,
+				"projectId": projectId
+			},
+			type: "post",
+			dataType: "json",
+			success: function(data2) {
+				if(data2.success) {
+					jumpLoad(data2.url, projectId, currFlowDefineId);
+					$("#"+currFlowDefineId+"_exe").removeClass("executed");
+					$("#"+currFlowDefineId+"_exe").addClass("executed");
+					layer.msg("提交成功", {
+						offset: '100px'
+					});
+					
+				}
+			},
+			error: function() {
+				layer.msg("提交失败", {
+					offset: '100px'
+				});
+			}
+		});
+	} else {
+		if(data.flowType == "XMFB") {
+			//如果是项目分包环节
+			layer.confirm(data.msg, {
+				shade: 0.01,
+				btn: ['确定', '取消']
+			}, function() {
+				$.ajax({
+					url: globalPath+"/project/savePackage.html",
+					data: {
+						"projectId": projectId
+					},
+					type: "post",
+					dataType: "json",
+					success: function(data) {
+						if(data == "1") {
+							$.ajax({
+								url: globalPath+"/open_bidding/submitHuanjie.html",
+								data: {
+									"currFlowDefineId": currFlowDefineId,
+									"projectId": projectId
+								},
+								type: "post",
+								dataType: "json",
+								success: function(data2) {
+									if(data2.success) {
+										layer.msg("提交成功", {
+											offset: '100px'
+										});
+										jumpLoad(data2.url, projectId, currFlowDefineId);
+									}
+								},
+								error: function() {
+									layer.msg("提交失败", {
+										offset: '100px'
+									});
+								}
+							});
+						}
+					},
+					error: function() {
+						layer.msg("提交失败", {
+							offset: '100px'
+						});
+					}
+				});
+			}, function() {
+				/*var index = parent.layer.getFrameIndex(window.name);
+				parent.layer.close(index);*/
+			});
+		} else if(data.flowTypes == "KBCB" || data.flowTypes == "XMXX"||data.flowTypes == "NZCGWJ"){
+			layer.alert(data.msgs, {
+				offset: '100px'
+			});
+		}
+	}
+}
+function closelayer(){
+	layer.close(indexLayer);
+}
+
+// 左侧导航收缩
+function tree_toggle() {
+	if ($('.btn_toggle').hasClass('open')) {
+		$('.btn_toggle').removeClass('open');
+		$('.btn_toggle').animate({
+			left: '0'
+		});
+		$('#show_tree_div').animate({
+			left: '-180'
+		});
+	} else {
+		$('.btn_toggle').addClass('open');
+		$('.btn_toggle').animate({
+			left: '180'
+		});
+		$('#show_tree_div').animate({
+			left: '0'
+		});
+	}
+}
+// 自适应屏幕高度
+function fixed_treeHeight() {
+	var win_height = $(window).height();
+	var tree_height = $('#show_tree_div .btn_list').height() + parseInt($('#show_tree_div').css('top'));
+	
+	if (tree_height > win_height) {
+		$('#show_tree_div').css({
+			height: win_height - parseInt($('#show_tree_div').css('top')) - 10
+		});
+	} else {
+		$('#show_tree_div').css({
+			height: 'auto'
+		});
+	}
+}
+// 品目大小变化重新计算高度
+$(window).resize(function () {
+	fixed_treeHeight();
+});
+// 显示当前环节
+$(function () {
+	var tree_place = $('#show_tree_div #menu li').eq(0).find('a').html();
+	$('#tree_place').html(tree_place);
+	if(tree_place=="项目信息"){
+		$("#updateLinkId").hide();
+		$("#headline-v2").hide();
+	}
+	$('#show_tree_div #menu li').bind('click', function () {
+		tree_place = $(this).find('a').html();
+		$('#tree_place').html(tree_place);
+		if(tree_place!="项目信息"){
+			$("#updateLinkId").show();
+			$("#headline-v2").show();
+		}
+		if(tree_place=="项目信息"){
+			$("#updateLinkId").hide();
+			$("#headline-v2").hide();
+		}
+	});
+	
+	fixed_treeHeight();
+});

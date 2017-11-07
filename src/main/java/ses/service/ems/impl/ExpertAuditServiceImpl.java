@@ -432,10 +432,13 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
      * @return void
      */
 	@Override
-	public boolean temporaryAudit(String expertId,String realName) {
+	public boolean temporaryAudit(String expertId,String realName, Integer sign) {
 		Expert expert = new Expert();
 		expert.setId(expertId);
-		expert.setAuditor(realName);
+		if(sign !=null && sign == 2){
+			//复审人
+			expert.setReviewPeople(realName);
+		}
 		Expert expertInfo = expertMapper.selectByPrimaryKey(expertId);
 		String status = expertInfo.getStatus();
 		if("0".equals(status) || "15".equals(status) || "16".equals(status) || "9".equals(status)){
@@ -503,6 +506,9 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	            if(nowDateString.equals(afterDateString)){
 	                // 审核通过，自动入库
 	            	expert.setStatus("6");
+	            	expert.setUpdatedAt(new Date());
+	            	//入库时间
+	            	expert.setStorageAt(new Date());
 	                // 修改
 	            	expertMapper.updateByPrimaryKeySelective(expert);
 	            }
@@ -557,7 +563,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 					expertPublicity.setExpertsTypeId("");
 				}
 				// 查询选择和未通过的产品小类
-				selectChooseOrNoPassCateOfDB(expertPublicity);
+				//selectChooseOrNoPassCateOfDB(expertPublicity);
 				// 查询审核意见
                 ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
                 expertAuditOpinion.setExpertId(expertPublicity.getId());
@@ -573,7 +579,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
                 expertBatchDetails = new ExpertBatchDetails();
                 expertBatchDetails.setExpertId(expertPublicity.getId());
                 ExpertBatchDetails expertBatchDetails1 = expertBatchDetailsMapper.findExpertBatchDetails(expertBatchDetails);
-                expertPublicity.setExpertNum(expertBatchDetails1.getCount());
+                expertPublicity.setExpertNum(expertBatchDetails1.getBatchDetailsNumber());
             }
 		}
 		return list;
@@ -632,11 +638,11 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
         map.put("expertId",expertId);
         map.put("auditFalg",auditFalg);
         
-        map.put("regType", Constant.EXPERT_BASIC_INFO_ITEM_FLAG);
+        //map.put("regType", Constant.EXPERT_BASIC_INFO_ITEM_FLAG);
         Integer count;
         // 定义选择类型数量
         Integer selectCount;
-        count = expertAuditMapper.selectRegExpCateCount(map);
+        /*count = expertAuditMapper.selectRegExpCateCount(map);
         if(count != null && count > 0){
         	ExpertAudit expertAudit = new ExpertAudit();
         	expertAudit.setExpertId(expertId);
@@ -657,7 +663,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	        	}
         	}
             return JdcgResult.build(500, "基本信息中有"+name+"项");
-        }
+        }*/
 
         // 判断专家类型和产品类别分别不能有全不通过项
         // 获取专家选择品目的类型

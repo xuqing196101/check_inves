@@ -402,7 +402,6 @@
 			<choose>
 				<when test="supplierTypeCode == 'PROJECT'.toString()">
 					LEFT JOIN T_SES_SMS_SUPPLIER_MAT_ENG E ON E.SUPPLIER_ID = S.ID
-					LEFT JOIN T_SES_SMS_SUPPLIER_APTITUTE A ON A.MAT_ENG_ID = E.ID
 				</when>
 				<otherwise>
 					LEFT JOIN T_SES_SMS_SUPPLIER_ITEM_LEVEL L ON S.ID = L.SUPPLIER_ID
@@ -435,30 +434,40 @@
 				
 					<!--  <foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach> -->
 			</if>
-			
-			
 			<if test="isMulticondition == 2 and categoryId !=null and categoryId != '' ">
-				AND S.ID IN (SELECT  IT.SUPPLIER_ID FROM T_SES_SMS_SUPPLIER_ITEM IT WHERE IT.CATEGORY_ID IN 
-				
-				 (select distinct TEM.id from (
-				  select CATE.* from T_SES_BMS_CATEGORY CATE START WITH  CATE.id in 
-					<foreach collection="categoryIds" open="(" close=")" separator="," index="index" item="item">
-						#{item}
-					</foreach>
-					CONNECT BY PRIOR CATE.id=CATE.PARENT_ID order by level desc ) TEM where TEM.is_publish = 0 and (TEM.is_parent is null or TEM.is_parent = 'false'))
-				
-				<!-- <foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach> -->
-				 GROUP BY IT.SUPPLIER_ID  HAVING COUNT(1) = #{csize})
-				<!--  AND
-				 <trim prefix="(" suffixOverrides="AND" suffix=")">
-				 	 <foreach collection="categoryIds" item="cid" > I.CATEGORY_ID = #{cid} AND </foreach>
-				 </trim> -->
+				AND S.ID IN 
+				(SELECT IT.SUPPLIER_ID
+		          FROM T_SES_SMS_SUPPLIER_ITEM IT
+		         inner join (select TEM.id
+		                      from (select CATE.*
+		                              from T_SES_BMS_CATEGORY CATE
+		                             START WITH CATE.id in
+		                                        <foreach collection="categoryIds" open="(" close=")" separator="," index="index" item="item">
+													#{item}
+												</foreach>
+		                            CONNECT BY PRIOR CATE.id = CATE.PARENT_ID
+		                             order by level desc) TEM
+		                     where TEM.is_publish = 0
+		                       and (TEM.is_parent is null or TEM.is_parent = 'false')
+		                     group by TEM.id) ts
+		            on ts.id = IT.Category_Id
+		         GROUP BY IT.SUPPLIER_ID
+		        HAVING COUNT(IT.SUPPLIER_ID) = #{csize})
 			</if>
 		</if>
 		<!-- 查询资质 -->
 		<if test="quaId !=null and quaId != '' ">
 			<if test="supplierTypeCode == 'PROJECT'.toString()">
-				AND  A.CERT_TYPE IN  <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
+				AND  E.ID IN (
+					SELECT A.MAT_ENG_ID FROM T_SES_SMS_SUPPLIER_APTITUTE A 
+					WHERE A.CERT_TYPE IN <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
+					<!-- 等级 -->
+					<if test="levelTypeId !=null and levelTypeId != '' ">
+						AND  A."APTITUTE_ LEVEL" IN  <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
+					</if>
+					GROUP BY A.MAT_ENG_ID
+					HAVING COUNT(A.MAT_ENG_ID) = #{quaSize}
+				)
 			</if>
 			<if test="supplierTypeCode != 'PROJECT'.toString()">
 				AND  QUA.QUA_ID IN  <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
@@ -466,14 +475,9 @@
 		</if>
 		<!-- 查询等级 -->
 		<if test="levelTypeId !=null and levelTypeId != '' ">
-			<choose>
-				<when test="supplierTypeCode == 'PROJECT'.toString()">
-					AND  A."APTITUTE_ LEVEL" IN  <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
-				</when>
-				<otherwise>
-					AND L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
-				</otherwise>
-			</choose>
+			<if test="supplierTypeCode != 'PROJECT'.toString()">
+				AND L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
+			</if>
 		</if>
 		<!-- 保密要求 -->
 		<if test="isHavingConCert !=null and isHavingConCert != '' ">
@@ -494,6 +498,7 @@
 			</foreach>
 		</if>
 	</select>
+	
 	<!-- 供应商抽取集合 -->
 	<select id="listExtractionExpert" parameterType="extract.model.supplier.SupplierExtractCondition"
 		resultMap="findSupplierMap">
@@ -506,7 +511,6 @@
 			<choose>
 				<when test="supplierTypeCode == 'PROJECT'.toString()">
 					LEFT JOIN T_SES_SMS_SUPPLIER_MAT_ENG E ON E.SUPPLIER_ID = S.ID
-					LEFT JOIN T_SES_SMS_SUPPLIER_APTITUTE A ON A.MAT_ENG_ID = E.ID
 				</when>
 				<otherwise>
 					LEFT JOIN T_SES_SMS_SUPPLIER_ITEM_LEVEL L ON S.ID = L.SUPPLIER_ID
@@ -537,27 +541,39 @@
 				<!--  <foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach> -->
 			</if>
 			<if test="isMulticondition == 2 and categoryId !=null and categoryId != '' ">
-				AND S.ID IN (SELECT  I.SUPPLIER_ID FROM T_SES_SMS_SUPPLIER_ITEM I WHERE I.CATEGORY_ID IN 
-				
-				 (select distinct TEM.id from (
-				  select CATE.* from T_SES_BMS_CATEGORY CATE START WITH  CATE.id in 
-					<foreach collection="categoryIds" open="(" close=")" separator="," index="index" item="item">
-						#{item}
-					</foreach>
-					CONNECT BY PRIOR CATE.id=CATE.PARENT_ID order by level desc ) TEM where TEM.is_publish = 0 and (TEM.is_parent is null or TEM.is_parent = 'false'))
-				
-				<!-- <foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach> -->
-				 GROUP BY I.SUPPLIER_ID  HAVING COUNT(1) = #{csize})
-				<!--  AND
-				 <trim prefix="(" suffixOverrides="AND" suffix=")">
-				 	 <foreach collection="categoryIds" item="cid" > I.CATEGORY_ID = #{cid} AND </foreach>
-				 </trim> -->
+				AND S.ID IN 
+				(SELECT IT.SUPPLIER_ID
+		          FROM T_SES_SMS_SUPPLIER_ITEM IT
+		         inner join (select TEM.id
+		                      from (select CATE.*
+		                              from T_SES_BMS_CATEGORY CATE
+		                             START WITH CATE.id in
+		                                        <foreach collection="categoryIds" open="(" close=")" separator="," index="index" item="item">
+													#{item}
+												</foreach>
+		                            CONNECT BY PRIOR CATE.id = CATE.PARENT_ID
+		                             order by level desc) TEM
+		                     where TEM.is_publish = 0
+		                       and (TEM.is_parent is null or TEM.is_parent = 'false')
+		                     group by TEM.id) ts
+		            on ts.id = IT.Category_Id
+		         GROUP BY IT.SUPPLIER_ID
+		        HAVING COUNT(IT.SUPPLIER_ID) = #{csize})
 			</if>
 		</if>
 		<!-- 查询资质 -->
 		<if test="quaId !=null and quaId != '' ">
 			<if test="supplierTypeCode == 'PROJECT'.toString()">
-				AND  A.CERT_TYPE IN  <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
+				AND  E.ID IN (
+					SELECT A.MAT_ENG_ID FROM T_SES_SMS_SUPPLIER_APTITUTE A 
+					WHERE A.CERT_TYPE IN <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
+					<!-- 等级 -->
+					<if test="levelTypeId !=null and levelTypeId != '' ">
+						AND  A."APTITUTE_ LEVEL" IN  <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
+					</if>
+					GROUP BY A.MAT_ENG_ID
+					HAVING COUNT(A.MAT_ENG_ID) = #{quaSize}
+				)
 			</if>
 			<if test="supplierTypeCode != 'PROJECT'.toString()">
 				AND  QUA.QUA_ID IN  <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
@@ -565,14 +581,9 @@
 		</if>
 		<!-- 查询等级 -->
 		<if test="levelTypeId !=null and levelTypeId != '' ">
-			<choose>
-				<when test="supplierTypeCode == 'PROJECT'.toString()">
-					AND  A."APTITUTE_ LEVEL" IN  <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
-				</when>
-				<otherwise>
-					AND L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
-				</otherwise>
-			</choose>
+			<if test="supplierTypeCode != 'PROJECT'.toString()">
+				AND L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
+			</if>
 		</if>
 		<!-- 保密要求 -->
 		<if test="isHavingConCert !=null and isHavingConCert != '' ">
@@ -931,7 +942,6 @@
 			<choose>
 				<when test="supplierTypeCode == 'PROJECT'.toString()">
 					LEFT JOIN T_SES_SMS_SUPPLIER_MAT_ENG E ON E.SUPPLIER_ID = S.ID
-					LEFT JOIN T_SES_SMS_SUPPLIER_APTITUTE A ON A.MAT_ENG_ID = E.ID
 				</when>
 				<otherwise>
 					LEFT JOIN T_SES_SMS_SUPPLIER_ITEM_LEVEL L ON S.ID = L.SUPPLIER_ID
@@ -948,7 +958,7 @@
 			<!--  AND I.Supplier_Type_Relate_Id  IN  <foreach collection="supplierTypeCodes" open="(" separator="," item="code" close=")"> #{code} </foreach>  -->
 			 AND T.SUPPLIER_TYPE_ID  IN  <foreach collection="supplierTypeCodes" open="(" separator="," item="code" close=")"> #{code} </foreach> 
 		</if>	 
-		<!-- 查询品目 -->
+			<!-- 查询品目 -->
 		<if test="isMulticondition !=null and isMulticondition != ''">
 			<if test="isMulticondition == 1 and categoryId !=null and categoryId != '' ">
 				 AND I.CATEGORY_ID IN 
@@ -962,27 +972,39 @@
 				<!--  <foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach> -->
 			</if>
 			<if test="isMulticondition == 2 and categoryId !=null and categoryId != '' ">
-				AND S.ID IN (SELECT  I.SUPPLIER_ID FROM T_SES_SMS_SUPPLIER_ITEM I WHERE I.CATEGORY_ID IN 
-				
-				 (select distinct TEM.id from (
-				  select CATE.* from T_SES_BMS_CATEGORY CATE START WITH  CATE.id in 
-					<foreach collection="categoryIds" open="(" close=")" separator="," index="index" item="item">
-						#{item}
-					</foreach>
-					CONNECT BY PRIOR CATE.id=CATE.PARENT_ID order by level desc ) TEM where TEM.is_publish = 0 and (TEM.is_parent is null or TEM.is_parent = 'false'))
-				
-				<!-- <foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach> -->
-				 GROUP BY I.SUPPLIER_ID  HAVING COUNT(1) = #{csize})
-				<!--  AND
-				 <trim prefix="(" suffixOverrides="AND" suffix=")">
-				 	 <foreach collection="categoryIds" item="cid" > I.CATEGORY_ID = #{cid} AND </foreach>
-				 </trim> -->
+				AND S.ID IN 
+				(SELECT IT.SUPPLIER_ID
+		          FROM T_SES_SMS_SUPPLIER_ITEM IT
+		         inner join (select TEM.id
+		                      from (select CATE.*
+		                              from T_SES_BMS_CATEGORY CATE
+		                             START WITH CATE.id in
+		                                        <foreach collection="categoryIds" open="(" close=")" separator="," index="index" item="item">
+													#{item}
+												</foreach>
+		                            CONNECT BY PRIOR CATE.id = CATE.PARENT_ID
+		                             order by level desc) TEM
+		                     where TEM.is_publish = 0
+		                       and (TEM.is_parent is null or TEM.is_parent = 'false')
+		                     group by TEM.id) ts
+		            on ts.id = IT.Category_Id
+		         GROUP BY IT.SUPPLIER_ID
+		        HAVING COUNT(IT.SUPPLIER_ID) = #{csize})
 			</if>
 		</if>
 		<!-- 查询资质 -->
 		<if test="quaId !=null and quaId != '' ">
 			<if test="supplierTypeCode == 'PROJECT'.toString()">
-				AND  A.CERT_TYPE IN  <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
+				AND  E.ID IN (
+					SELECT A.MAT_ENG_ID FROM T_SES_SMS_SUPPLIER_APTITUTE A 
+					WHERE A.CERT_TYPE IN <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
+					<!-- 等级 -->
+					<if test="levelTypeId !=null and levelTypeId != '' ">
+						AND  A."APTITUTE_ LEVEL" IN  <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
+					</if>
+					GROUP BY A.MAT_ENG_ID
+					HAVING COUNT(A.MAT_ENG_ID) = #{quaSize}
+				)
 			</if>
 			<if test="supplierTypeCode != 'PROJECT'.toString()">
 				AND  QUA.QUA_ID IN  <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
@@ -990,18 +1012,9 @@
 		</if>
 		<!-- 查询等级 -->
 		<if test="levelTypeId !=null and levelTypeId != '' ">
-			<choose>
-				<when test="supplierTypeCode == 'PROJECT'.toString()">
-					AND  A."APTITUTE_ LEVEL" IN  <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
-				</when>
-				<otherwise>
-					AND L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
-				</otherwise>
-			</choose>
-		</if>
-		<!-- 保密要求 -->
-		<if test="isHavingConCert !=null and isHavingConCert != '' ">
-			AND S.IS_HAVING_CON_CERT = #{isHavingConCert}
+			<if test="supplierTypeCode != 'PROJECT'.toString()">
+				AND L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
+			</if>
 		</if>
 		<!-- 企业性质 -->
 		<if test="businessNature !=null and businessNature != '' ">

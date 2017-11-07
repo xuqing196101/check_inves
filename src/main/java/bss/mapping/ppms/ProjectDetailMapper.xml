@@ -439,7 +439,7 @@
 				T_BSS_PPMS_PROJECTS_DETAIL
 			WHERE PACKAGE_ID = #{packageId}
     </select>
-    <select id="selectByPackageId" parameterType="java.lang.Object" resultType="bss.model.ppms.ProjectDetail">
+    <select id="selectByPackageId" parameterType="java.lang.Object" resultMap="BaseResultMap">
     	SELECT
 				<include refid="Base_Column_List" />
 			FROM
@@ -545,6 +545,15 @@
 				    u.ID = #{id}
 				) 
     </select>
+    <select id="selectByPackageRecursively" parameterType="java.lang.String" resultMap="BaseResultMap">
+      select * from T_BSS_PPMS_PROJECTS_DETAIL 
+         START with PACKAGE_ID=#{packageId} 
+         CONNECT by PRIOR PARENT_ID=REQUIRED_ID
+    </select>
     
-    
+    <select id="selectByRequiredIdTree"  parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from T_BSS_PPMS_PROJECTS_DETAIL
+        start with REQUIRED_ID = #{requiredId} 
+        connect by prior PARENT_ID = REQUIRED_ID ORDER BY CREATED_AT 
+    </select>
 </mapper>

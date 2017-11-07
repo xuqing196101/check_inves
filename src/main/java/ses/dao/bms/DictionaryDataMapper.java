@@ -1,5 +1,6 @@
 package ses.dao.bms;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,6 +72,18 @@ public interface DictionaryDataMapper {
     
     
     DictionaryData queryByName(@Param("name")String name);
+    
+    /**
+     * 
+    * @Title: viewFlows
+    * @author FengTian 
+    * @date 2017-7-13 下午2:21:54  
+    * @Description: 监督根据code获取对应的流程 
+    * @param @param map
+    * @param @return      
+    * @return List<DictionaryData>
+     */
+    List<DictionaryData> viewFlows(HashMap<String, Object> map);
 
 	DictionaryDataUtil selectByPrimaryCode(String supplierTypeCode);
 	

@@ -141,7 +141,7 @@
 									type: "post",
 									data: {
 										"auditType": "mat_pro_page",
-										"auditFieldName": "生产-资质证书",
+										"auditFieldName": "物资生产-资质证书",
 										"auditContent": auditContent,
 										"suggest": text,
 										"supplierId": supplierId,
@@ -224,7 +224,6 @@
 			      	}
 						});
         }
-			}
 
 			//销售
 			function reasonSale(id, str) {
@@ -250,7 +249,7 @@
 								type: "post",
 								data: {
 									"auditType": "mat_sell_page",
-									"auditFieldName": "销售-资质证书",
+									"auditFieldName": "物资销售-资质证书",
 									"auditContent": auditContent,
 									"suggest": text,
 									"supplierId": supplierId,
@@ -276,14 +275,12 @@
 							$("#" + id + "_show").removeClass('hidden');
 							$("#" + id + "_show1").removeClass('hidden');
 							$("#" + id + "_show2").removeClass('hidden');
-
 							layer.close(index);
 							}else{
 			      			layer.msg('不能为空！', {offset:'100px'});
 			      	}
 					});
         }
-			}
 
 			function reasonSale1(obj) {
 				var supplierStatus= $("input[name='supplierStatus']").val();
@@ -337,7 +334,6 @@
 			      	}
 					});
         }
-			}
 
 			//工程
 			function reasonEngineering(id, auditFieldName, str) {
@@ -556,7 +552,6 @@
 			      	}
 						});
         }
-			}
 
 			//服务
 			function reasonService1(obj) {

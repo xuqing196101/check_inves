@@ -1197,7 +1197,7 @@ public class ExpExtractRecordController extends BaseController {
                 model.addAttribute("loginNameError", "用户名已存在");
             }
         }
-        if (StringUtils.isEmpty(mobile)) {
+        /*if (StringUtils.isEmpty(mobile)) {
             model.addAttribute("mobile", "不能为空");
         } else {
             Map<String, Object> map = new HashMap<>();
@@ -1206,7 +1206,7 @@ public class ExpExtractRecordController extends BaseController {
             if (list != null && list.size() != 0) {
                 model.addAttribute("mobile", "联系电话已存在");
             }
-        }
+        }*/
         if (loginPwd == null || "".equals(loginPwd)) {
             model.addAttribute("loginPwdError", "不能为空");
             /*
@@ -1219,19 +1219,18 @@ public class ExpExtractRecordController extends BaseController {
             model.addAttribute("loginPwdError", "密码至少为6位");
             type = 1;
         }
-
         if (packageId == null || "".equals(packageId)) {
 
             model.addAttribute("packageIdError", "不能为空");
             type = 1;
         }
-        String validateIdCard = validateIdCard(expert.getIdCardNumber());
-        if (!"success".equals(validateIdCard)) {
-            model.addAttribute("idCardNumberError", validateIdCard);
+        /*String validateIdCard = validateIdCard(expert.getIdCardNumber());*/
+        /*if (expert.getIdCardNumber() == null || "".equals(expert.getIdCardNumber())) {
+            model.addAttribute("idCardNumberError", "不能为空");
             type = 1;
-        }
+        }*/
 
-        if (expert.getIdCardNumber() != null && !"".equals(expert.getIdCardNumber())) {
+       /* if (expert.getIdCardNumber() != null && !"".equals(expert.getIdCardNumber())) {
             Map<String, Object> map = new HashMap<>();
             map.put("idCardNumber", expert.getIdCardNumber());
             List<Expert> list = expertServices.yzCardNumber(map);
@@ -1240,7 +1239,7 @@ public class ExpExtractRecordController extends BaseController {
                 type = 1;
             }
 
-        }
+        }*/
 
         if (type == 1) {
             model.addAttribute("expert", expert);
@@ -1654,6 +1653,7 @@ public class ExpExtractRecordController extends BaseController {
         }
         if (StringUtils.isEmpty(mobile)) {
             model.addAttribute("mobile", "不能为空");
+            type = 1;
         } else {
             Map<String, Object> map = new HashMap<>();
             map.put("mobile", mobile);
@@ -1661,6 +1661,7 @@ public class ExpExtractRecordController extends BaseController {
             List<Expert> list = expertServices.yzCardNumber(map);
             if (list != null && list.size() != 0) {
                 model.addAttribute("mobile", "联系电话已存在");
+                type = 1;
             }
         }
         if (packageId == null || "".equals(packageId)) {

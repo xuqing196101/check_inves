@@ -6,10 +6,15 @@
     <result column="PROJECT_ID"  property="projectId" />
   </resultMap>
   
-    <insert id="insert" parameterType="bss.model.ppms.ProjectTask">
+  <insert id="insert" parameterType="bss.model.ppms.ProjectTask">
     insert into T_BSS_PPMS_PROJECT_TASK (TASK_ID, PROJECT_ID)
     values (#{taskId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR})
   </insert>
+  
+  <delete id="deleteByProjectId" parameterType="java.lang.String">
+    delete from T_BSS_PPMS_PROJECT_TASK
+    where PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+  </delete>
   
   <insert id="insertSelective" parameterType="bss.model.ppms.ProjectTask">
     insert into T_BSS_PPMS_PROJECT_TASK

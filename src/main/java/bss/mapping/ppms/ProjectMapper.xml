@@ -37,7 +37,7 @@
     <result column="APPROVAL_TIME" property="approvalTime"/>
     <result column="REPLY_TIME" property="replyTime"/>
     <result column="DEMAND_FROM_TIME" property="demandFromTime"/>
-    <result column="IS_REHEARSE" property="IsRehearse"/>
+    <result column="IS_REHEARSE" property="isRehearse"/>
     <result column="CREATED_AT" property="createAt"/>
     <result column="START_TIME" property="startTime"/>
     <result column="NOTICE_NEWS_TIME" property="noticeNewsTime"/>
@@ -57,6 +57,9 @@
     <result column="PURCHASE_DEP_ID" property="purchaseDepId"/>
     <result column="APPOINT_MAN" property="appointMan"/>
     <result column="IS_CHARGE" property="isCharge"/>
+    <result column="PARENT_ID" property="parentId"/>
+    <result column="RELATION_ID" property="relationId"/>
+    <result column="PURCHASE_NEW_TYPE" property="purchaseNewType"/>
     <association property="dealSupplier" column="DEAL_SUPPLIER" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
     <association property="purchaseDep" column="PURCHASE_DEP_ID" select="ses.dao.oms.PurchaseDepMapper.findByOrgId"/>
     <association property="dictionary" column="PURCHASE_TYPE" select="ses.dao.bms.DictionaryDataMapper.selectByPrimaryKey"/>
@@ -130,7 +133,7 @@
     AMOUNT,DEAL_SUPPLIER,PURCHASE_DEP_NAME,EXECUTE_STATUS,IS_ENTRANCE,APPROVAL_TIME,REPLY_TIME,
     DEMAND_FROM_TIME,IS_REHEARSE,CREATED_AT,START_TIME,NOTICE_NEWS_TIME,APP_TIME,SIGN_UP_TIME,
     APPLY_DEADLINE,NOTICE_TIME,END_TIME,SIGNING_TIME,ACCEPTANCE_TIME,MAINTENANCE_TIME,IS_IMPORT,
-    IS_PROVISIONAL,PLAN_TYPE,CONFIRM_FILE,AUDIT_REASON,APPOINT_MAN,IS_CHARGE
+    IS_PROVISIONAL,PLAN_TYPE,CONFIRM_FILE,AUDIT_REASON,APPOINT_MAN,IS_CHARGE,PARENT_ID,RELATION_ID,PURCHASE_NEW_TYPE
   </sql>
   
   <sql id="Example_Where_Clause">
@@ -322,7 +325,7 @@
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_PROJECTS
-    where 1=1 and IS_REHEARSE = 0 and IS_PROVISIONAL=0
+    where 1=1 and IS_REHEARSE = 0 and IS_PROVISIONAL=0 AND STATUS != '4'
      <if test="name != null and name != ''">
        and NAME = #{name}
       </if>
@@ -477,7 +480,7 @@
       <if test="demandFromTime != null">
         DEMAND_FROM_TIME,
       </if>
-      <if test="IsRehearse != null">
+      <if test="isRehearse != null">
         IS_REHEARSE,
       </if>
       <if test="createAt != null">
@@ -533,6 +536,15 @@
       </if>
       <if test="isCharge != null">
         IS_CHARGE,
+      </if>
+      <if test="parentId != null">
+        PARENT_ID,
+      </if>
+       <if test="relationId != null">
+        RELATION_ID,
+      </if>
+      <if test="purchaseNewType != null">
+        PURCHASE_NEW_TYPE,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -647,8 +659,8 @@
       <if test="demandFromTime != null">
         #{demandFromTime},
       </if>
-      <if test="IsRehearse != null">
-        #{IsRehearse},
+      <if test="isRehearse != null">
+        #{isRehearse},
       </if>
       <if test="createAt != null">
         #{createAt},
@@ -703,6 +715,15 @@
       </if>
       <if test="isCharge != null">
         #{isCharge},
+      </if>
+      <if test="parentId != null">
+        #{parentId},
+      </if>
+      <if test="relationId != null">
+        #{relationId},
+      </if>
+      <if test="purchaseNewType != null">
+        #{purchaseNewType},
       </if>
     </trim>
   </insert>
@@ -817,8 +838,8 @@
       <if test="demandFromTime != null">
         DEMAND_FROM_TIME = #{demandFromTime},
       </if>
-      <if test="IsRehearse != null">
-        IS_REHEARSE = #{IsRehearse},
+      <if test="isRehearse != null">
+        IS_REHEARSE = #{isRehearse},
       </if>
       <if test="createAt != null">
         CREATED_AT = #{createAt},
@@ -873,6 +894,12 @@
       </if>
       <if test="isCharge != null">
         IS_CHARGE = #{isCharge},
+      </if>
+      <if test="parentId != null">
+        PARENT_ID = #{parentId},
+      </if>
+      <if test="purchaseNewType != null">
+        PURCHASE_NEW_TYPE=#{purchaseNewType},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -1064,7 +1091,7 @@
       <if test="demandFromTime != null">
         DEMAND_FROM_TIME,
       </if>
-      <if test="IsRehearse != null">
+      <if test="isRehearse != null">
         IS_REHEARSE,
       </if>
       <if test="createAt != null">
@@ -1120,6 +1147,9 @@
       </if>
       <if test="isCharge != null">
         IS_CHARGE,
+      </if>
+      <if test="parentId != null">
+        PARENT_ID,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -1234,8 +1264,8 @@
       <if test="demandFromTime != null">
         #{demandFromTime},
       </if>
-      <if test="IsRehearse != null">
-        #{IsRehearse},
+      <if test="isRehearse != null">
+        #{isRehearse},
       </if>
       <if test="createAt != null">
         #{createAt},
@@ -1291,22 +1321,29 @@
       <if test="isCharge != null">
         #{isCharge},
       </if>
+      <if test="parentId != null">
+        #{parentId},
+      </if>
     </trim>
   </insert>
     
+   <!-- 立项采购机构登录 -->
    <select id="selectProjectsByConition" parameterType="java.util.Map" resultMap="BaseResultMap">
       SELECT
       <include refid="Base_Column_List" />
       FROM
-        T_BSS_PPMS_PROJECTS
+        T_BSS_PPMS_PROJECTS s
       WHERE 1=1 and IS_REHEARSE = 0 and STATUS != '4'
-      
+      and (PARENT_ID = '1' OR PARENT_ID IS NULL)
       <if test="purchaseDepId != null and purchaseDepId != ''">
         and  PURCHASE_DEP_ID = #{purchaseDepId}
       </if>
        <!-- <if test="appointMan != null and appointMan != ''">
         and (APPOINT_MAN = #{appointMan} OR APPOINT_MAN IS NULL)
       </if> --> 
+      <if test="userId != null and userId != ''">
+       and principal=#{userId}
+      </if>
       <if test="name != null and name != ''">
        and NAME like CONCAT(CONCAT('%', #{name}), '%')
       </if>
@@ -1316,14 +1353,22 @@
       <if test="status != null and status != ''">
        and STATUS = #{status}
       </if>
+      <if test="statusAll != null and statusAll != ''">
+       and EXISTS (SELECT ID FROM T_SES_BMS_DICTIONARY_DATA dd WHERE dd.IS_DELETED = 0 AND dd.KIND = 2 AND dd.code != 'YJLX' and s.STATUS=dd.id)
+      </if>
+      <if test="hold != null and hold != ''">
+       and EXISTS (SELECT ID FROM T_SES_BMS_DICTIONARY_DATA dd WHERE dd.IS_DELETED = 0 AND dd.KIND = 2 AND dd.code != 'XMZC' and s.STATUS=dd.id)
+      </if>
       <if test="purchaseType != null and purchaseType != ''">
        and PURCHASE_TYPE = #{purchaseType}
       </if>
-      
+      <if test="parentId != null and parentId != ''">
+       and PARENT_ID = #{parentId}
+      </if>
       ORDER BY CREATED_AT DESC
   </select> 
   
-  <!-- 管理部门登录 -->
+  <!-- 立项管理部门登录 -->
   <select id="selectByOrg" parameterType="java.util.Map" resultMap="BaseResultMap">
       SELECT
       p.*
@@ -1344,7 +1389,7 @@
 		      </if>
 	      )
       )
-       and IS_REHEARSE = 0
+       and IS_REHEARSE = 0 and (PARENT_ID = '1' OR PARENT_ID IS NULL)
       <!-- <if test="principal != null and principal != ''">
         and (p.PRINCIPAL = #{principal} OR p.PRINCIPAL IS NULL) 
       </if>  -->
@@ -1357,10 +1402,48 @@
       <if test="status != null and status != ''">
        and p.STATUS = #{status}
       </if>
+      <if test="parentId != null and parentId != ''">
+       AND p.PARENT_ID = #{parentId}
+      </if>
       ORDER BY p.CREATED_AT DESC
   </select> 
   
-  <!-- 采购机构登录 -->
+  <!-- 实施需求部门登录 -->
+   <!-- <select id="selectByDemand" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT p.* FROM (
+				    SELECT
+				  d.PROJECT_ID
+				FROM
+				  T_BSS_PPMS_PROJECTS_DETAIL d
+				WHERE d.DEPARTMENT IN (
+				  SELECT
+				    o. NAME
+				  FROM
+				    T_SES_OMS_ORG o
+				  LEFT JOIN T_SES_BMS_USER u ON o. ID = u .ORG_ID
+				  WHERE
+				    <if test="userId != null and userId != ''">
+               u.ID = #{userId}
+            </if>
+				) GROUP BY d.PROJECT_ID
+				) p LEFT JOIN T_BSS_PPMS_PROJECTS ps ON p.PROJECT_ID = ps.ID
+			AND p.IS_REHEARSE = 0 and (p.PARENT_ID != '1' OR p.PARENT_ID IS NULL)
+      <if test="name != null and name != ''">
+       and NAME like CONCAT(CONCAT('%', #{name}), '%')
+      </if>
+       <if test="projectNumber != null and projectNumber != ''">
+       and PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
+      </if>
+      <if test="status != null and status != ''">
+       AND p.STATUS = #{status}
+      </if>
+      <if test="parentId != null and parentId != ''">
+       AND p.PARENT_ID = #{parentId}
+      </if>
+      ORDER BY p.CREATED_AT DESC
+   </select> -->
+   
+   <!-- 实施采购机构登录 -->
   <select id="selectByConition" parameterType="java.util.Map" resultMap="BaseResultMap">
       SELECT
       p.*
@@ -1379,7 +1462,7 @@
       <if test="principal != null and principal != ''">
         OR (p.PRINCIPAL = #{principal}) 
       </if>
-      ) AND p.IS_REHEARSE = 0
+      ) AND p.IS_REHEARSE = 0 AND (p.PARENT_ID != '1' OR p.PARENT_ID IS NULL) AND STATUS != '4'
       <if test="purchaseDepId != null and purchaseDepId != ''">
         AND  p.PURCHASE_DEP_ID = #{purchaseDepId}
       </if>
@@ -1392,9 +1475,38 @@
       <if test="status != null and status != ''">
        AND p.STATUS = #{status}
       </if>
+      <if test="parentId != null and parentId != ''">
+       AND p.PARENT_ID = #{parentId}
+      </if>
       ORDER BY p.CREATED_AT DESC
   </select> 
   
+  <!-- 立项管理部门登录 -->
+  <!-- <select id="selectByOrgnization" parameterType="java.util.Map" resultMap="BaseResultMap">
+      SELECT
+      p.*
+      FROM
+        T_BSS_PPMS_PROJECTS p
+      WHERE 
+      p.ID IN 
+      (SELECT pt.PROJECT_ID FROM T_BSS_PPMS_PROJECT_TASK pt
+        WHERE
+	      pt.TASK_ID IN (
+	        SELECT
+	          t . ID
+	        FROM
+	          T_BSS_PPMS_TASK t
+	        WHERE
+	        <if test="orgId != null and orgId != ''">
+		         t.ORG_ID = #{orgId}
+		      </if>
+	      )
+      )
+       and IS_REHEARSE = 0 and (PARENT_ID ！= '1' OR PARENT_ID IS NULL)
+      <if test="principal != null and principal != ''">
+        and (p.PRINCIPAL = #{principal} OR p.PRINCIPAL IS NULL) 
+      </if> 
+      </select> -->
   <select id="selectByList" parameterType="java.util.Map" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -1412,8 +1524,11 @@
       <if test="purchaseType != null and purchaseType != ''">
        and PURCHASE_TYPE = #{purchaseType}
       </if>
+      <if test="parentId != null and parentId != ''">
+       AND PARENT_ID = #{parentId}
+      </if>
       ORDER BY CREATED_AT DESC
-  </select>
+  </select> 
   
   <!-- 资源管理查看已经完成的项目 -->
   <select id="selectByProject" parameterType="java.util.Map" resultMap="BaseResultMap">
@@ -1463,7 +1578,7 @@
   </select>
   
   <!-- 需求部门登录 -->
-   <select id="selectByDemand" parameterType="java.util.Map" resultMap="BaseResultMap">
+   <!-- <select id="selectByDemand" parameterType="java.util.Map" resultMap="BaseResultMap">
         SELECT p.* FROM (
 				    SELECT
 				  d.PROJECT_ID
@@ -1488,13 +1603,15 @@
        AND p.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
       </if>
       <if test="status != null and status != ''">
-       AND p.STATUS = #{status}
+       AND STATUS = #{status}
       </if>
-      ORDER BY p.CREATED_AT DESC
-           
-   </select>
+      <if test="parentId != null and parentId != ''">
+       AND PARENT_ID = #{parentId}
+      </if>
+      ORDER BY CREATED_AT DESC
+  </select> -->
   
-    <update id="updatePurchaseDep" parameterType="bss.model.ppms.Project">
+  <update id="updatePurchaseDep" parameterType="bss.model.ppms.Project">
     	update T_BSS_PPMS_PROJECTS
     	<set>
       	<if test="purchaseDepId != null">
@@ -1553,5 +1670,4 @@
 			    ON P.ID = T.PROJECT_ID
 			 WHERE P.PURCHASE_TYPE = #{dictId}
    </select>
-	 
 </mapper>
