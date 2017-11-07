@@ -156,6 +156,9 @@ function create_review_batches() {
                   $('#list_content').listConstructor({
                     url: list_url
                   });
+                  $('#selected_content').listConstructor_t({
+                    url: temporary_init_url
+                  });
                   select_ids = [];
                   unselect_ids = [];
                   layer.close(index);
@@ -581,6 +584,10 @@ function checkOnly(el) {
 // 专家批次复审
 function expert_auditBatch(url, expertId) {
   var batchId = getUrlParam('batchId');
+  var curWwwPath = window.document.location.href;
+  var pathName = window.document.location.pathname;
+  var pos = curWwwPath.indexOf(pathName);
+  var localhostPaht = curWwwPath.substring(0, pos);
   
   $.ajax({
     type: 'POST',
@@ -591,7 +598,7 @@ function expert_auditBatch(url, expertId) {
     },
     success: function (data) {
       if (data.status) {
-        window.location.href=url+"/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2"+"&batchId=" + batchId;
+        window.open(localhostPaht + url + "/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2"+"&batchId=" + batchId);
       } else {
         layer.msg(data.message, {
           offset: '100px'
@@ -870,4 +877,15 @@ function remove_selected() {
 function select_total() {
   $('#select_expertTotal').html($('#selected_content tr').length);
   $('#unselect_expertTotal').html(parseInt($('#list_content tr').length) - parseInt($('#list_content tr.hide').length));
+}
+
+// 未选序号排序
+function unselected_sort() {
+  var sort = 1;
+  $('#list_content tr').each(function () {
+    if (!$(this).hasClass('hide')) {
+      $(this).find('td').eq(1).html(sort);
+      sort++;
+    }
+  });
 }

@@ -129,6 +129,7 @@
           }
           
           select_total();  // 统计专家人数总数
+          unselected_sort();  // 未选序号重新排序
         }
       }
     };
