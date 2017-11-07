@@ -94,9 +94,6 @@ function againAudit_checkAll(el, id) {
       }
     });
   }
-  
-  console.log('select_ids='+select_ids);
-  console.log('unselect_ids='+unselect_ids);
 }
 
 // 创建复审批次
@@ -159,8 +156,8 @@ function create_review_batches() {
                   $('#list_content').listConstructor({
                     url: list_url
                   });
-                  $('#selected_content').html('');
-                  final_ids = [];
+                  select_ids = [];
+                  unselect_ids = [];
                   layer.close(index);
                 },
                 error: function (data) {
@@ -652,9 +649,6 @@ function againAudit_reverseSelection(id) {
       }
     });
     
-    console.log('select_ids='+select_ids);
-    console.log('unselect_ids='+unselect_ids);
-    
     if (select_num === $('#' + id + ' .select_item').length) {
       $('#' + id).siblings('thead').find('[name=checkAll]').prop('checked', true);
     } else {
@@ -965,9 +959,6 @@ function temporary_init() {
               }
             }
           }
-          
-          console.log('select_ids='+select_ids);
-          console.log('unselect_ids='+unselect_ids);
           
           sum = $(this).parents('tbody').find('.select_item:checked').length;
           show_nums = parseInt($(this).parents('tbody').find('.select_item').length) - parseInt($(this).parents('tr.hide').length);  // 显示出来的数据条数

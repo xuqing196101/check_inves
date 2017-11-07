@@ -118,9 +118,6 @@
                 }
               }
               
-              console.log('select_ids='+select_ids);
-              console.log('unselect_ids='+unselect_ids);
-              
               sum = $(this).parents('tbody').find('.select_item:checked').length;
               show_nums = parseInt($(this).parents('tbody').find('.select_item').length) - parseInt($(this).parents('tr.hide').length);  // 显示出来的数据条数
               if (sum === show_nums) {
