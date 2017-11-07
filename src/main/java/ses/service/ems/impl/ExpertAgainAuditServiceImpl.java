@@ -974,9 +974,9 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		return list;
 		
 	}
-	public ExpertAgainAuditImg selectBatchTemporary(String expertId) {
+	public ExpertAgainAuditImg selectBatchTemporary(Expert expert) {
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
-		List<BatchTemporary> list = batchTemporaryMapper.selectBatchTemporaryAll(expertId);
+		List<BatchTemporary> list = batchTemporaryMapper.selectBatchTemporaryAll(expert);
 		if(list.size()>0){
 			for (BatchTemporary e : list) {
 				SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd");
@@ -1018,7 +1018,6 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	}
 	public ExpertAgainAuditImg addBatchTemporary(String expertId,String ids) {
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
-		batchTemporaryMapper.deleteByPrimaryKey(expertId);
 		if(ids!=null){
 			String[] split = ids.split(",");
 			for (String string : split) {
@@ -1034,7 +1033,19 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		img.setMessage("操作成功");
 		return img;
 	}
-	public void deleteByPrimaryKey(String expertId) {
-		batchTemporaryMapper.deleteByPrimaryKey(expertId);
+	public void deleteByPrimaryKey() {
+		batchTemporaryMapper.deleteByPrimaryKey();
+	}
+	public ExpertAgainAuditImg deleteBatchTemporary(String ids) {
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		if(ids!=null){
+			String[] split = ids.split(",");
+			for (String string : split) {
+				batchTemporaryMapper.deleteBatchTemporary(string);
+			}
+		}
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		return img;
 	}
 }

@@ -198,4 +198,14 @@ public interface ExpertCategoryMapper {
 
 
     List<ExpertCategory> selectCategoryListByCategoryId(ExpertCategory expertCategory);
+    
+    /**
+     * 
+     * Description: 根据typeId查询专家品目子节点
+     * 
+     * @data 2017年11月6日
+     * @param 
+     * @return
+     */
+    List<SupplierCateTree> findPointsByTypeId(@Param("typeId")String typeId, @Param("expertId")String expertId);
 }

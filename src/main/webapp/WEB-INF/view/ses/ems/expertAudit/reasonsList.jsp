@@ -720,7 +720,7 @@
             <c:if test="${ sign == 2 }">
               <div class="clear"></div>
               <div id="opinionDiv">
-                  <h2 class="count_flow mt0"><i>1</i><span class="red">*</span>复审意见</h2>
+                  <h2 class="count_flow mt0"><i>1</i><span class="red">*</span>专家复审意见</h2>
                   <ul class="ul_list">
                       <li>
                           <div class="select_check" id="selectOptionId">

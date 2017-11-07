@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 
+import ses.model.ems.Expert;
 import ses.model.ems.ExpertAgainAuditImg;
 import ses.model.ems.ExpertBatchDetails;
 
@@ -33,7 +34,8 @@ public interface ExpertAgainAuditService {
 	ExpertAgainAuditImg automaticGrouping(String batchId,int count);
 	ExpertAgainAuditImg selectReviewTeamAll();
 	List<ExpertBatchDetails> findBatchDetailsList(String batchId);
-	void deleteByPrimaryKey(String expertId);
+	void deleteByPrimaryKey();
 	ExpertAgainAuditImg addBatchTemporary(String expertId,String ids);
-	ExpertAgainAuditImg selectBatchTemporary(String expertId);
+	ExpertAgainAuditImg selectBatchTemporary(Expert expert);
+	ExpertAgainAuditImg deleteBatchTemporary(String ids);
 }

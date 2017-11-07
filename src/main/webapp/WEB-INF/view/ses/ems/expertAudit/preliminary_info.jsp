@@ -51,7 +51,7 @@
       function check_opinion() {
         var status = $(":radio:checked").val();
         var expertId = "${expertId}";
-        
+        var opinion = '${auditOpinion.opinion}';
         var itemType;
         var item
         if(status == 15){
@@ -64,7 +64,15 @@
           item = "复审合格，选择了";
         }
         
-        if(status != null && typeof(status) != "undefined") {
+        //复审退回
+        if(status == '10'){
+            $("#check_opinion").html("退回修改。" + opinion);
+        }
+        
+        if(status == '5'){
+            $("#check_opinion").html("复审不合格。" + opinion);
+        }
+        if(status != null && typeof(status) != "undefined" && (status == 15 || status == -3)) {
           $.ajax({
             url: "${pageContext.request.contextPath}/expertAudit/findCategoryCount.do",
             data: {
@@ -75,23 +83,12 @@
             dataType: "json",
             success: function(data) {
             	//初审
-              if(status == 15 || status == -3) {
                 if(data.all == 0 && data.pass == 0){
                   $("#check_opinion").html(itemType);
                 }else{
-                  $("#check_opinion").html(item + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
+                  $("#check_opinion").html(item + data.all + "个参评类别，通过了" + data.pass + "个参评类别。" + opinion);
                 }
-              }
-            	
-            	//复审退回
-              if(status == '10'){
-                  $("#check_opinion").html("退回修改。");
-              }
-            	
-              if(status == '5'){
-                  $("#check_opinion").html("复审不合格。");
-              }
-            }
+             }
           });
         }
       }
@@ -198,27 +195,26 @@
           <h2 class="count_flow mt0"><i>2</i>最终意见</h2>
           <ul class="ul_list">
              <li>
+               <div id="check_opinion"></div>
+             </li>
+            
+             <li>
                <div class="select_check">
                  <c:if test="${sign == 1}">
-                    <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '-3'}">checked</c:if> value="-3">复审合格
-                    <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '5'}">checked</c:if> value="5">复审不合格
-                    <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '10'}">checked</c:if> value="10">退回修改
+                    <%-- <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '-3'}">checked</c:if> value="-3">复审合格 --%>
+                    <input class="hidden" type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '5'}">checked</c:if> value="5">
+                    <input class="hidden" type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '10'}">checked</c:if> value="10">
                   </c:if>
                   <c:if test="${sign == 2}">
-                  		<c:if test="${auditOpinion.flagAudit eq '15'}">初审合格</c:if>
-                  		<c:if test="${auditOpinion.flagAudit eq '16'}">初审不合格</c:if>
-	                  <%-- <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> value="15">初审合格
-	                  <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> value="16">初审不合格 --%>
+	                  <input class="hidden" type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> value="15">
+	                  <input class="hidden" type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> value="16">
                   </c:if>
                 </div>
               </li>
-              <li>
-                <div id="check_opinion"></div>
-              </li>
-            <li class="mt10">
-            	${auditOpinion.opinion }
-               <%-- <textarea id="opinion" readonly="readonly" class="col-md-12 col-xs-12 col-sm-12 h80">${auditOpinion.opinion }</textarea> --%>
-            </li>
+             <%--  <li class="mt10">
+              ${auditOpinion.opinion }
+               <textarea id="opinion" readonly="readonly" class="col-md-12 col-xs-12 col-sm-12 h80">${auditOpinion.opinion }</textarea>
+              </li> --%>
           </ul>
           
           <c:if test="${sign == 2}">

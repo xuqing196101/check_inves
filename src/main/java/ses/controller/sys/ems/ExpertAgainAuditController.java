@@ -233,7 +233,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 			super.writeJson(response, img);
 			return;
 		}
-		againAuditService.deleteByPrimaryKey(user.getTypeId());
+		againAuditService.deleteByPrimaryKey();
 		img = againAuditService.createBatch(batchName, batchNumber, ids);
 		super.writeJson(response, img);
 	}
@@ -996,7 +996,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	        return newFileName;
 	 }
 	 @RequestMapping("selectBatchTemporary")
-	 public void selectBatchTemporary(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response) {
+	 public void selectBatchTemporary(@CurrentUser User user,Expert expert,HttpServletRequest request,HttpServletResponse response) {
 		 ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 			if(user==null){
 				img.setStatus(false);
@@ -1010,7 +1010,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 				super.writeJson(response, img);
 				return;
 			}
-			img = againAuditService.selectBatchTemporary(user.getTypeId());
+			img = againAuditService.selectBatchTemporary(expert);
 			super.writeJson(response, img);
 	  }
 	 @RequestMapping("addBatchTemporary")
@@ -1029,6 +1029,30 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 			return;
 		}
 		img = againAuditService.addBatchTemporary(user.getTypeId(), ids);
+		super.writeJson(response, img);
+	 }
+	 @RequestMapping("deleteBatchTemporary")
+	 public void deleteBatchTemporary(@CurrentUser User user,String ids,HttpServletRequest request,HttpServletResponse response){
+		 ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		 if(user==null){
+			img.setStatus(false);
+			img.setMessage("请登录");
+			super.writeJson(response, img);
+			return;
+		}
+		if(!"4".equals(user.getTypeName())){
+			img.setStatus(false);
+			img.setMessage("您的权限不足");
+			super.writeJson(response, img);
+			return;
+		}
+		if(ids == null){
+			img.setStatus(false);
+			img.setMessage("请至少选择一项");
+			super.writeJson(response, img);
+			return;
+		}
+		img=againAuditService.deleteBatchTemporary(ids);
 		super.writeJson(response, img);
 	 }
 }
