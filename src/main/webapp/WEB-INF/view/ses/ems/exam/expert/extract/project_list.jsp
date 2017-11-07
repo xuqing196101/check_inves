@@ -180,7 +180,7 @@ function form_reset(){
     <div class="col-md-12 pl20 mt10">
       <button class="btn" onclick="download();">下载抽取记录表</button>
     </div>
-    <div class="container table_box">
+    <div class="table_box">
       <table class="table table-striped table-bordered table-hover">
         <thead>
           <tr>
