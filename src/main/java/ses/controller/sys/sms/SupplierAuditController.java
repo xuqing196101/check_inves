@@ -475,13 +475,18 @@ public class SupplierAuditController extends BaseSupplierController {
 			supplierAudit.setAuditType("basic_page");
 //			List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 			List < SupplierAudit > reasonsList = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
-			StringBuffer passedField = new StringBuffer();
-			if(!reasonsList.isEmpty()){
+			StringBuffer auditField = new StringBuffer();
+			StringBuffer unableField = new StringBuffer();
+			if(reasonsList != null && !reasonsList.isEmpty()){
 				for(SupplierAudit a : reasonsList){
-					passedField.append(a.getAuditField() + ",");
+					auditField.append(a.getAuditField() + ",");
+					if(a.getIsDeleted() != null && a.getIsDeleted() == 1){
+						unableField.append(a.getAuditField() + ",");
+					}
 				}
 			}
-			request.setAttribute("passedField", passedField);
+			request.setAttribute("auditField", auditField);
+			request.setAttribute("unableField", unableField);
 		}
 		return "ses/sms/supplier_audit/essential";
 	}
@@ -553,13 +558,18 @@ public class SupplierAuditController extends BaseSupplierController {
 			supplierAudit.setAuditType("basic_page");
 //			List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 			List < SupplierAudit > reasonsList = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
-			StringBuffer passedField = new StringBuffer();
-			if(!reasonsList.isEmpty()){
+			StringBuffer auditField = new StringBuffer();
+			StringBuffer unableField = new StringBuffer();
+			if(reasonsList != null && !reasonsList.isEmpty()){
 				for(SupplierAudit a : reasonsList){
-					passedField.append(a.getAuditField() + ",");
+					auditField.append(a.getAuditField() + ",");
+					if(a.getIsDeleted() != null && a.getIsDeleted() == 1){
+						unableField.append(a.getAuditField() + ",");
+					}
 				}
 			}
-			request.setAttribute("passedField", passedField);
+			request.setAttribute("auditField", auditField);
+			request.setAttribute("unableField", unableField);
 		}
 		
 		/**
@@ -637,13 +647,18 @@ public class SupplierAuditController extends BaseSupplierController {
 			supplierAudit.setAuditType("basic_page");
 //			List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 			List < SupplierAudit > reasonsList = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
-			StringBuffer passedField = new StringBuffer();
-			if(!reasonsList.isEmpty()){
+			StringBuffer auditField = new StringBuffer();
+			StringBuffer unableField = new StringBuffer();
+			if(reasonsList != null && !reasonsList.isEmpty()){
 				for(SupplierAudit a : reasonsList){
-					passedField.append(a.getAuditField() + ",");
+					auditField.append(a.getAuditField() + ",");
+					if(a.getIsDeleted() != null && a.getIsDeleted() == 1){
+						unableField.append(a.getAuditField() + ",");
+					}
 				}
 			}
-			request.setAttribute("passedField", passedField);
+			request.setAttribute("auditField", auditField);
+			request.setAttribute("unableField", unableField);
 		}
 		return "ses/sms/supplier_audit/shareholder";
 	}
@@ -1084,61 +1099,86 @@ public class SupplierAuditController extends BaseSupplierController {
 			supplierAudit.setAuditType("supplierType_page");
 //			auditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 			auditList = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
-			StringBuffer passedTypeField = new StringBuffer();
-			if(!auditList.isEmpty()){
+			StringBuffer auditTypeField = new StringBuffer();
+			StringBuffer unableTypeField = new StringBuffer();
+			if(auditList != null && !auditList.isEmpty()){
 				for(SupplierAudit a : auditList){
-					passedTypeField.append(a.getAuditField() + ",");
+					auditTypeField.append(a.getAuditField() + ",");
+					if(a.getIsDeleted() != null && a.getIsDeleted() == 1){
+						unableTypeField.append(a.getAuditField() + ",");
+					}
 				}
-				request.setAttribute("passedTypeField", passedTypeField);
 			}
+			request.setAttribute("auditTypeField", auditTypeField);
+			request.setAttribute("unableTypeField", unableTypeField);
 			
 			//物资生产==============================
 			supplierAudit.setAuditType("mat_pro_page");
 //			auditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 			auditList = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
-			StringBuffer passedProField = new StringBuffer();
-			if(!auditList.isEmpty()){
+			StringBuffer auditProField = new StringBuffer();
+			StringBuffer unableProField = new StringBuffer();
+			if(auditList != null && !auditList.isEmpty()){
 				for(SupplierAudit a : auditList){
-					passedProField.append(a.getAuditField() + ",");
+					auditProField.append(a.getAuditField() + ",");
+					if(a.getIsDeleted() != null && a.getIsDeleted() == 1){
+						unableProField.append(a.getAuditField() + ",");
+					}
 				}
 			}
-			request.setAttribute("passedProField", passedProField);
+			request.setAttribute("auditProField", auditProField);
+			request.setAttribute("unableProField", unableProField);
 			
 			//物资销售==============================
 			supplierAudit.setAuditType("mat_sell_page");
 //			auditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 			auditList = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
-			StringBuffer passedSellField = new StringBuffer();
-			if(!auditList.isEmpty()){
+			StringBuffer auditSellField = new StringBuffer();
+			StringBuffer unableSellField = new StringBuffer();
+			if(auditList != null && !auditList.isEmpty()){
 				for(SupplierAudit a : auditList){
-					passedSellField.append(a.getAuditField() + ",");
+					auditSellField.append(a.getAuditField() + ",");
+					if(a.getIsDeleted() != null && a.getIsDeleted() == 1){
+						unableSellField.append(a.getAuditField() + ",");
+					}
 				}
 			}
-			request.setAttribute("passedSellField", passedSellField);
+			request.setAttribute("auditSellField", auditSellField);
+			request.setAttribute("unableSellField", unableSellField);
 			
 			//工程==============================
 			supplierAudit.setAuditType("mat_eng_page");
 //			auditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 			auditList = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
-			StringBuffer passedEngField = new StringBuffer();
-			if(!auditList.isEmpty()){
+			StringBuffer auditEngField = new StringBuffer();
+			StringBuffer unableEngField = new StringBuffer();
+			if(auditList != null && !auditList.isEmpty()){
 				for(SupplierAudit a : auditList){
-					passedEngField.append(a.getAuditField() + ",");
+					auditEngField.append(a.getAuditField() + ",");
+					if(a.getIsDeleted() != null && a.getIsDeleted() == 1){
+						unableEngField.append(a.getAuditField() + ",");
+					}
 				}
 			}
-			request.setAttribute("passedEngField", passedEngField);
+			request.setAttribute("auditEngField", auditEngField);
+			request.setAttribute("unableEngField", unableEngField);
 			
 			//服务==============================
 			supplierAudit.setAuditType("mat_serve_page");
 //			auditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 			auditList = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
-			StringBuffer passedServeField = new StringBuffer();
-			if(!auditList.isEmpty()){
+			StringBuffer auditServeField = new StringBuffer();
+			StringBuffer unableServeField = new StringBuffer();
+			if(auditList != null && !auditList.isEmpty()){
 				for(SupplierAudit a : auditList){
-					passedServeField.append(a.getAuditField() + ",");
+					auditServeField.append(a.getAuditField() + ",");
+					if(a.getIsDeleted() != null && a.getIsDeleted() == 1){
+						unableServeField.append(a.getAuditField() + ",");
+					}
 				}
 			}
-			request.setAttribute("passedServeField", passedServeField);
+			request.setAttribute("auditServeField", auditServeField);
+			request.setAttribute("unableServeField", unableServeField);
 		}
 		
 		/**
@@ -1293,34 +1333,24 @@ public class SupplierAuditController extends BaseSupplierController {
 			return new JdcgResult(501, "对不起，您没有审核权限！", null);
 		}*/
 		
-		supplierAudit.setStatus(supplier.getStatus());
-		supplierAudit.setCreatedAt(new Date());
-		supplierAudit.setUserId(supplier.getProcurementDepId());
-		supplierAudit.setUserId(user.getId());
-
-		String suggest=supplierAudit.getSuggest().trim();
-		if(suggest.length()>900){
+		String suggest = supplierAudit.getSuggest().trim();
+		if(suggest.length() > 900){
 			return new JdcgResult(504, "审核内容长度过长", null);
 		}
 		// 唯一检验
 		// 退回修改/审核不通过/未修改 的记录不能再次审核
-		String auditField = supplierAudit.getAuditField();
-		String auditType = supplierAudit.getAuditType();
-		String auditFieldName = supplierAudit.getAuditFieldName();
-		String auditContent = supplierAudit.getAuditContent();
-		supplierAudit.setSupplierId(supplierId);
-		supplierAudit.setAuditField(auditField);
-		supplierAudit.setAuditType(auditType);
-		supplierAudit.setAuditFieldName(auditFieldName);
-		supplierAudit.setAuditContent(auditContent);
-		int auditCount = supplierAuditService.countAuditRecords(supplierAudit, new Integer[]{1,2,4});
+		//int auditCount = supplierAuditService.countAuditRecords(supplierAudit, new Integer[]{1,2,4});
+		supplierAudit.setIsDeleted(1);// 历史审核记录
+		int auditCount = supplierAuditService.countAuditRecords(supplierAudit, new Integer[]{0,2,4});
 		if(auditCount == 0) {
-			// 设置默认退回状态
-			if(auditType != null && (auditType.startsWith("items_") || auditType.equals("supplierType_page"))){
-				supplierAudit.setReturnStatus(2);
-			}else{
-				supplierAudit.setReturnStatus(1);
+			supplierAudit.setIsDeleted(0);
+			List<SupplierAudit> auditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2});
+			if(auditList != null && auditList.size() > 0){
+				supplierAudit.setId(auditList.get(0).getId());
 			}
+			supplierAudit.setStatus(supplier.getStatus());
+			supplierAudit.setCreatedAt(new Date());
+			supplierAudit.setUserId(user.getId());
 			int i=supplierAuditService.auditReasons(supplierAudit);
 			if(i>0){
 				// 审核完后更新审核人/审核状态
@@ -1367,6 +1397,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			audit.setAuditType(supplierAuditList.get(0).getAuditType());
 			audit.setSupplierId(supplierAuditList.get(0).getSupplierId());
 //			List<SupplierAudit> alist=supplierAuditService.findByTypeId(audit);
+			audit.setIsDeleted(1);
 			List<SupplierAudit> alist=supplierAuditService.getAuditRecords(audit, new Integer[]{0,2});
 			alist.retainAll(supplierAuditList);
 			if(null != alist && !alist.isEmpty()){
@@ -1374,18 +1405,16 @@ public class SupplierAuditController extends BaseSupplierController {
 			}else{
 				Date date = new Date();
 				for (SupplierAudit audit2 : supplierAuditList) {
+					audit2.setIsDeleted(0);
+					List<SupplierAudit> auditList = supplierAuditService.getAuditRecords(audit2, new Integer[]{0,2});
+					if(auditList != null && auditList.size() > 0){
+						audit2.setId(auditList.get(0).getId());
+					}
 					audit2.setStatus(supplier.getStatus());
 					audit2.setCreatedAt(date);
 					audit2.setUserId(user.getId());
-					// 设置默认退回状态
-					if(audit2.getAuditType() != null && audit2.getAuditType().startsWith("items_")){
-						audit2.setReturnStatus(2);
-					}else{
-						audit2.setReturnStatus(1);
-					}
 				}
-				
-				int i=supplierAuditService.insertAudit(supplierAuditList);
+				int i=supplierAuditService.saveAudit(supplierAuditList);
 				if(i>0){
 					// 审核完后更新审核人/审核状态
 					updateSupplierAuditStatus(user, supplier);
@@ -1611,7 +1640,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		Date nowDate = new Date();
 		updateSupplier.setUpdatedAt(nowDate);
 		updateSupplier.setAuditDate(nowDate);
-		if(persistentSupplier.getAuditor() == null){
+		if(StringUtils.isBlank(persistentSupplier.getAuditor())){
 			// 审核人
 			updateSupplier.setAuditor(user.getRelName());
 			// 审核时间
@@ -1632,7 +1661,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		
 		// 持久化供应商信息
-		supplier = persistentSupplier;
+		supplier = supplierService.selectById(supplierId);
 		
 		//记录最终意见
 		if(supplier != null && supplier.getStatus() != -2){
@@ -1941,13 +1970,18 @@ public class SupplierAuditController extends BaseSupplierController {
 			supplierAudit.setAuditType("download_page");
 //			List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 			List < SupplierAudit > reasonsList = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
-			StringBuffer passedField = new StringBuffer();
-			if(!reasonsList.isEmpty()){
+			StringBuffer auditField = new StringBuffer();
+			StringBuffer unableField = new StringBuffer();
+			if(reasonsList != null && !reasonsList.isEmpty()){
 				for(SupplierAudit a : reasonsList){
-					passedField.append(a.getAuditField() + ",");
+					auditField.append(a.getAuditField() + ",");
+					if(a.getIsDeleted() != null && a.getIsDeleted() == 1){
+						unableField.append(a.getAuditField() + ",");
+					}
 				}
 			}
-			request.setAttribute("passedField", passedField);
+			request.setAttribute("auditField", auditField);
+			request.setAttribute("unableField", unableField);
 		}
 		
 		/**
@@ -4946,6 +4980,41 @@ public class SupplierAuditController extends BaseSupplierController {
 	}
 	
 	/**
+	 * 撤销审核记录（单条）
+	 * @param supplierAudit
+	 * @return
+	 */
+	@RequestMapping("/cancelAudit")
+	@ResponseBody
+	public JdcgResult cancelAudit(SupplierAudit supplierAudit){
+		User user = (User) request.getSession().getAttribute("loginUser");
+		if(user == null){
+			return new JdcgResult(501, "登录超时", null);
+		}
+		supplierAudit.setIsDeleted(0);
+		List<SupplierAudit> auditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2});
+		if(auditList != null && auditList.size() > 0){
+			supplierAudit.setId(auditList.get(0).getId());
+		}
+		int result = 0;
+		int status = 0;
+		String auditType = supplierAudit.getAuditType();
+		if("supplierType_page".equals(auditType) || auditType.startsWith("items_")){
+			status = 6;
+		}else{
+			status = 5;
+		}
+		supplierAudit.setReturnStatus(status);
+		supplierAudit.setUpdatedAt(new Date());
+		result = supplierAuditService.updateByIdSelective(supplierAudit);
+		if(result > 0){
+			return new JdcgResult(500, "撤销成功", null);
+		}else{
+			return new JdcgResult(502, "撤销失败", null);
+		}
+	}
+	
+	/**
 	 * 校验审核人
 	 * @param supplierId
 	 * @return
@@ -5006,6 +5075,28 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		Supplier supplier = supplierService.selectById(supplierId);
 		return new JdcgResult(1, "OK", supplier);
+	}
+	
+	
+	@RequestMapping("/ajaxOldAudit")
+	@ResponseBody
+	public JdcgResult ajaxOldAudit(SupplierAudit supplierAudit){
+		// 获取登录用户
+		Object loginUserSession = request.getSession().getAttribute("loginUser");
+		if(loginUserSession == null){
+			return new JdcgResult(-1, "对不起，您没有登录或登录失效！", null);
+		}
+		supplierAudit.setIsDeleted(1);
+		int count = supplierAuditService.countAuditRecords(supplierAudit, new Integer[]{0,2,4});
+		if(count > 0){
+			return new JdcgResult(0, "该条信息已审核过并退回过！", null);
+		}
+		supplierAudit.setIsDeleted(0);
+		List<SupplierAudit> auditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2});
+		if(auditList != null && auditList.size() > 0){
+			return new JdcgResult(1, "OK", auditList.get(0));
+		}
+		return null;
 	}
 	
 	/**

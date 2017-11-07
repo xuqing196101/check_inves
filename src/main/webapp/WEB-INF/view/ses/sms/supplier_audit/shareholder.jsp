@@ -17,13 +17,48 @@
 		<script type="text/javascript">
 		  //默认不显示叉
 		  $(function() {
-              // 导航栏选中
-              $("#reverse_of_three").attr("class","active");
-              $("#reverse_of_three").removeAttr("onclick");
-              $("td").each(function() {
-              $(this).find("a").eq(0).hide();
+        // 导航栏选中
+        $("#reverse_of_three").attr("class","active");
+        $("#reverse_of_three").removeAttr("onclick");
+        $("td").each(function() {
+        $(this).find("a").eq(0).hide();
 		  });
 		});
+		
+		// 获取旧的审核记录
+    function getOldAudit(auditData){
+    	var result = null;
+    	$.ajax({
+        url: "${pageContext.request.contextPath}/supplierAudit/ajaxOldAudit.do",
+        type: "post",
+        dataType: "json",
+        data: auditData,
+        async: false,
+        success: function(data){
+          result = data;
+        }
+      });
+      return result;
+    }
+    
+    // 撤销审核记录
+    function cancelAudit(auditData){
+    	var bool = false;
+    	$.ajax({
+        url: "${pageContext.request.contextPath}/supplierAudit/cancelAudit.do",
+        type: "post",
+        dataType: "json",
+        data: auditData,
+        async: false,
+        success: function(result){
+          if(result && result.status == 500){
+          	bool = true;
+          	layer.msg('撤销成功！');
+          }
+        }
+      });
+      return bool;
+    }
 
 		function reason(id, str){
 		  /* var offset = "";
@@ -37,47 +72,86 @@
 		  } else {
 		      offset = "200px";
 		  } */
-		  var supplierStatus= $("input[name='supplierStatus']").val();
+		  var supplierStatus = $("input[name='supplierStatus']").val();
       var sign = $("input[name='sign']").val();
       //只有审核的状态能审核
       if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 			  var supplierId=$("#supplierId").val();
 			  var auditContent=str + "股东信息"; //审批的字段内容
-			  var index = layer.prompt({
-			    title: '请填写不通过的理由：',
-			    formType: 2,
-			    offset: '100px',
-			    maxlength: '100'
-			    },
-			    function(text){
-			    	var text = trim(text);
-					  if(text != null && text !=""){
-					    $.ajax({
-					      url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
-					      type:"post",
-					      data: {"auditType":"basic_page","auditFieldName":"股东信息","auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
-					      dataType:"json",
-					      success:function(result){
-                  if(result.status == "503"){
-                     layer.msg('该条信息已审核过！', {             
-                       shift: 6, //动画类型
-                       offset:'100px'
-                    });
-                  }
-                }
-					      });
-					        $("#"+id+"_hidden").hide();
-						      $("#"+id+"_show").show();
-						       layer.close(index);
-						    }else{
-			      		layer.msg('不能为空！', {offset:'100px'});
-			      	}
-			    });
-			  }
+			  var auditData = {
+        		"supplierId": supplierId,
+            "auditType": "basic_page",
+            "auditField": id,
+            "auditFieldName": "股东信息",
+            "auditContent": auditContent
+        };
+        // 判断：新审核/可再次审核/不可再次审核
+        // 获取旧的审核记录
+        var result = getOldAudit(auditData);
+        if(result && result.status == 0){
+        	layer.msg('该条信息已审核过并退回过！');
+     			return;
+        }
+        var defaultVal = "";
+        var options = {
+					title: '请填写不通过的理由：',
+					value: defaultVal,
+					formType: 2, 
+					offset: '100px',
+					maxlength: '100'
+				};
+        if(result && result.status == 1 && result.data){
+        	defaultVal = result.data.suggest;
+        	options.value = defaultVal;
+        	options.btn = ['确定','撤销','取消'];
+        	options.btn2 = function(index){
+        		var bool = cancelAudit(auditData);
+        		if(bool){
+        			var icon = "<img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'/>";
+               $("#" + id + "_hidden").html("").append(icon);
+        		}
+        	};
+        	options.btn3 = function(index){layer.close(index);};
+        }
+				layer.prompt(options, function(value, index, elem){
+		 			var text = trim(value);
+				  if(text != null && text !=""){
+				  	auditData.suggest = text;
+				    $.ajax({
+				      url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
+				      type: "post",
+				      //data: {"auditType":"basic_page","auditFieldName":"股东信息","auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
+				      data: auditData,
+				      dataType: "json",
+				      success: function(result){
+                 if(result.status == "503"){
+                   layer.msg('该条信息已审核并退回过！', {
+                     shift: 6, //动画类型
+                     offset:'100px'
+                   });
+                 }
+                 if(result.status == "500"){
+                   layer.msg('审核成功！', {
+                     shift: 6, //动画类型
+                     offset:'100px'
+                   });
+                   var icon = "<img src='${pageContext.request.contextPath}/public/backend/images/light_icon_2.png'/>";
+		              $("#" + id + "_hidden").html("").append(icon);
+					        /* $("#"+id+"_hidden").hide();
+						      $("#"+id+"_show").show(); */
+                 }
+            		}
+			      });
+						layer.close(index);
+			    }else{
+	      		layer.msg('不能为空！', {offset:'100px'});
+	      	}
+		    });
 		  }
+	  }
 
 		//下一步
-	    function nextStep(url){
+    function nextStep(url){
 		  /*$("#form_id").attr("action",url);*/
 		  var action = "${pageContext.request.contextPath}/supplierAudit/supplierType.html";
 		  $("#form_id").attr("action",action);
@@ -92,41 +166,41 @@
 		}
 
 		// 提示修改之前的信息
-			function showContent(field, id) {
-				var supplierId = $("#supplierId").val();
-				var showId = field + "_" +id;
-				$.ajax({
-					url: "${pageContext.request.contextPath}/supplierAudit/showModify.do",
-					data: {"supplierId":supplierId, "beforeField":field, "modifyType":"shareholder_page", "relationId":id},
-					async: false,
-					success: function(result) {
-						layer.tips("修改前:" + result, "#" + showId,
-						{
-							tips: 3
-						});
-					}
-				});
-			}
+		function showContent(field, id) {
+			var supplierId = $("#supplierId").val();
+			var showId = field + "_" +id;
+			$.ajax({
+				url: "${pageContext.request.contextPath}/supplierAudit/showModify.do",
+				data: {"supplierId":supplierId, "beforeField":field, "modifyType":"shareholder_page", "relationId":id},
+				async: false,
+				success: function(result) {
+					layer.tips("修改前:" + result, "#" + showId,
+					{
+						tips: 3
+					});
+				}
+			});
+		}
 
-		  //删除左右两端的空格
-			function trim(str){
-				return str.replace(/(^\s*)|(\s*$)/g, "");
-			}
+	  //删除左右两端的空格
+		function trim(str){
+			return str.replace(/(^\s*)|(\s*$)/g, "");
+		}
 			
-			//暂存
-        function zhancun(){
-          var supplierId = $("#supplierId").val();
-          $.ajax({
-            url: "${pageContext.request.contextPath}/supplierAudit/temporaryAudit.do",
-            dataType: "json",
-            data:{supplierId : supplierId},
-            success : function (result) {
-                layer.msg(result, {offset : [ '100px' ]});
-            },error : function(){
-              layer.msg("暂存失败", {offset : [ '100px' ]});
-            }
-          });
+		//暂存
+    function zhancun(){
+      var supplierId = $("#supplierId").val();
+      $.ajax({
+        url: "${pageContext.request.contextPath}/supplierAudit/temporaryAudit.do",
+        dataType: "json",
+        data: {supplierId : supplierId},
+        success: function (result) {
+          layer.msg(result, {offset : [ '100px' ]});
+        },error: function(){
+          layer.msg("暂存失败", {offset : [ '100px' ]});
         }
+      });
+    }
     </script>
 
 		<script type="text/javascript">
@@ -250,13 +324,26 @@
 		              <td class="tc" id="identity_${s.id }" <c:if test="${fn:contains(field,s.id.concat('_identity'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('identity','${s.id}');"</c:if>>${s.identity}</td>
 		              <td class="tc" id="shares_${s.id }" <c:if test="${fn:contains(field,s.id.concat('_shares'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('shares','${s.id}');"</c:if>>${s.shares}</td>
 		              <td class="tc" id="proportion_${s.id }" <c:if test="${fn:contains(field,s.id.concat('_proportion'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('proportion','${s.id}');"</c:if>>${s.proportion}</td>
-		              <td class="tc w50" >
-		                <a id="${s.id}_show"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-		                <p onclick="reason('${s.id}','${s.name}');" id="${s.id}_hidden" class="editItem"><c:if test="${!fn:contains(passedField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if><c:if test="${!fn:contains(passedField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
-
-		              	<c:if test="${fn:contains(passedField,s.id)}">
-		              		<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+		              <td class="tc w50">
+	                	<%-- <a id="${s.id}_show"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a> --%>
+		                <c:if test="${!fn:contains(unableField,s.id)}">
+		                	<p onclick="reason('${s.id}','${s.name}');" id="${s.id}_hidden" class="editItem">
+		                		<%-- <c:if test="${!fn:contains(passedField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if>
+		                		<c:if test="${!fn:contains(passedField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if> --%>
+		                		<c:if test="${!fn:contains(auditField,s.id)}">
+	                        <img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'/>
+	                      </c:if>
+	                      <c:if test="${fn:contains(auditField,s.id)}">
+	                        <img src='${pageContext.request.contextPath}/public/backend/images/light_icon_2.png'/>
+	                      </c:if>
+		                	</p>
 		              	</c:if>
+		              	<%-- <c:if test="${fn:contains(auditField,s.id)}">
+		              		<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+		              	</c:if> --%>
+		              	<c:if test="${fn:contains(unableField,s.id)}">
+                      <img src='${pageContext.request.contextPath}/public/backend/images/sc.png' onclick="javascript:layer.msg('该条信息已审核并退回过！');"/>
+                    </c:if>
 		              </td>
 	              </tr>
 	            </c:forEach>
