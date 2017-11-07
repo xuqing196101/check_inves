@@ -376,4 +376,25 @@
             </foreach>
 	    </if>
     </select>
+    
+    <!-- 根据typeId查询专家品目节点 -->
+    <select id="findPointsByTypeId" resultMap="expertCategoryMap">
+		SELECT DISTINCT ID,PARENT_ID,NAME,CODE
+		 FROM 
+			<if test=" 'FC9528B2E74F4CB2A9ASD789123AS7D'.equals(typeId)">
+				T_SES_BMS_ENG_CATEGORY
+			</if>
+			<if test=" !'FC9528B2E74F4CB2A9ASD789123AS7D'.equals(typeId)">
+				T_SES_BMS_CATEGORY
+			</if>
+		WHERE IS_DELETED = 0 START WITH ID in (
+			SELECT CATEGORY_ID FROM T_SES_EMS_EXPERT_CATEGORY WHERE LEVELS = 1
+			<if test="typeId != null">
+				AND TYPE_ID = #{typeId}
+			</if>
+			<if test="expertId != null">
+				AND EXPERT_ID = #{expertId}
+			</if>
+		) CONNECT BY PRIOR PARENT_ID = ID ORDER BY CODE
+    </select>
 </mapper>

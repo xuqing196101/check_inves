@@ -2366,7 +2366,7 @@ public class ExpertAuditController{
                 	supplierCateTree.setRootNodeCode(typeId);
                 	itemsListAll.add(supplierCateTree);
                 	//顺序查询出所有的参评类别
-                	List<SupplierCateTree> clist = expertCategoryService.findExpertCatrgory(expert.getId(), typeId);
+                	List<SupplierCateTree> clist = expertCategoryService.findPointsByTypeId(typeId, expert.getId());
                 	for (SupplierCateTree sct : clist) {
                 		Map<String, Object> map = new HashMap<>();
         				map.put("categoryId", sct.getItemsId());
@@ -2410,7 +2410,7 @@ public class ExpertAuditController{
         				//如果为工程经济就转换成工程id
         				typeId = engCodeId;
         			}
-        			List<SupplierCateTree> clist = expertCategoryService.findExpertCatrgory(expert.getId(), typeId);
+        			List<SupplierCateTree> clist = expertCategoryService.findPointsByTypeId(typeId, expert.getId());
         			for (SupplierCateTree sct : clist) {
         				Map<String, Object> map = new HashMap<>();
         				map.put("categoryId", sct.getItemsId());
@@ -2449,7 +2449,7 @@ public class ExpertAuditController{
         	for(String typeId : expertTypeId){
         		if(typeId.equals(engInfoId)){
         			//顺序查询出所有的参评类别
-        			List<SupplierCateTree> clist = expertCategoryService.findExpertCatrgory(expert.getId(), typeId);
+        			List<SupplierCateTree> clist = expertCategoryService.findPointsByTypeId(typeId, expert.getId());
         			for (SupplierCateTree sct : clist) {
         				Map<String, Object> map = new HashMap<>();
         				map.put("categoryId", sct.getItemsId());
@@ -2491,7 +2491,7 @@ public class ExpertAuditController{
                 	supplierCateTree.setRootNodeCode(typeId);
                 	itemsListAll.add(supplierCateTree);
                 	//顺序查询出所有的参评类别
-                	List<SupplierCateTree> clist = expertCategoryService.findExpertCatrgory(expert.getId(), typeId);
+                	List<SupplierCateTree> clist = expertCategoryService.findPointsByTypeId(typeId, expert.getId());
                 	for (SupplierCateTree sct : clist) {
                 		Map<String, Object> map = new HashMap<>();
         				map.put("categoryId", sct.getItemsId());
@@ -2730,9 +2730,17 @@ public class ExpertAuditController{
 	            			String reason = audit.getAuditReason();
 	            			expertAudit1.setAuditReason("不通过。原因：" + reason);
 	        			}
-	        			list4.add(false);
+	        			if(sctCount == 2){
+	        				list3.add(false);
+	        			}else if(sctCount == 3){
+	        				list4.add(false);
+	        			}
 	        		}else{
-	        			list4.add(true);
+	        			if(sctCount == 2){
+	        				list3.add(true);
+	        			}else if(sctCount == 3){
+	        				list4.add(true);
+	        			}
 	        			expertAudit1.setAuditField(cateTree.getRootNode());
 	        			expertAudit1.setAuditReason("通过。");
 	        		}

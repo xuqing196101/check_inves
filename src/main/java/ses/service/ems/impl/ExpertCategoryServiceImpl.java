@@ -1,10 +1,12 @@
 package ses.service.ems.impl;
 
 import com.github.pagehelper.PageHelper;
+
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.ems.ExpertCategoryMapper;
 import ses.model.bms.Category;
@@ -346,6 +348,11 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 	public List<ExpertCategory> selectCategoryListByCategoryId(ExpertCategory expertCategory) {
 		// TODO Auto-generated method stub
 		return mapper.selectCategoryListByCategoryId(expertCategory);
+	}
+
+	@Override
+	public List<SupplierCateTree> findPointsByTypeId(String typeId, String expertId) {
+		return mapper.findPointsByTypeId(typeId, expertId);
 	}
 }
  
