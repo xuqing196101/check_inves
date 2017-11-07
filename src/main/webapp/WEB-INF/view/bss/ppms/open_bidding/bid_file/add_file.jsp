@@ -499,20 +499,39 @@
 		<c:if test="${process != 1 && ope == 'add' }">
 		<form id="MyFile" method="post" class="h800 mt10">
 		</c:if>
-			<c:if test="${process == 1 }">
-			    <div class="fl w200 mt10">
-					<span class="fl">报批说明：</span>
+		
+		<c:if test="${process == 1 }">
+		<div class="bggrey p20_15 mt10">
+			<div class="count_flow m0"><i>1</i><span class="fw">报批说明、审批单</span></div>
+			<div class="fl mt10 ml34">
+				<span class="m_inline f14 lh20">报批说明：</span>
+				<div class="m_inline m_uploadFiles f0">
 					<u:show showId="g" groups="b,c,d" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeApproval}" />
 				</div>
-				<div class=" fl w200 mt10">
-					<span class="fl">审批单：</span>
+				<div class="clear"></div>
+			</div>
+			<div class="fl mt10 ml20">
+				<span class="m_inline f14 lh20">审批单：</span>
+				<div class="m_inline m_uploadFiles f0">
 					<u:show showId="h" groups="b,c,d" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
-				</div> 
-				<div class=" fl w200 mt10">
-					<span class="fl">采购文件：</span>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="bggrey p20_15 mt10">
+			<div class="count_flow m0"><i>2</i><span class="fw">采购文件</span></div>
+			<div class="fl mt10 ml34">
+				<span class="m_inline f14 lh20">采购文件：</span>
+				<div class="m_inline m_uploadFiles f0">
 					<u:show showId="j" groups="b,c,d" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${projectTypeId}" />
 				</div>
-			</c:if> 
+				<div class="clear"></div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		</c:if>
 			
 			<!-- 按钮 -->
 			<div class="mt5 mb5 fr" id="handle">
@@ -533,77 +552,136 @@
 			<c:if test="${process != 1 && ope == 'add' }">
 			<script type="text/javascript" src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
 			</c:if>
-			<div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0" id="cgdiv">
+			<div class="clear" id="cgdiv">
 				<c:if test="${process == 1 }">
 					<div class="mt10">
 					<c:if test="${project.confirmFile != 1}">
-						    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">采购管理部门意见</span>
-							<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10" disabled="disabled" id="pcReason" maxlength="2000" name="pcReason" title="不超过2000个字">${MapPa['pcId'].content}</textarea>
-							<span class="fl">采购管理部门审核意见附件：</span>
-							<u:show delete="false" showId="r" businessId="${MapPa['pcId'].id}" sysKey="${sysKey}" typeId="${pcTypeId}" />
-						
-						    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">事业部门意见</span>
-							<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10" disabled="disabled" id="causereason" maxlength="2000" name="causeReason" title="不超过2000个字">${MapPa['causeId'].content}</textarea>
-							<span class="fl">事业部门审核意见附件：</span>
-							<u:show delete="false" showId="y" businessId="${MapPa['causeId'].id}" sysKey="${sysKey}" typeId="${causeTypeId}" />
-						    
-						    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">财务部门意见</span>
-							<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10" disabled="disabled" id="financereason" maxlength="2000" name="financeReason" title="不超过2000个字">${MapPa['financeId'].content}</textarea>
-							<span class="fl">财务部门审核意见附件：</span>
-							<u:show delete="false" showId="o" businessId="${MapPa['financeId'].id}" sysKey="${sysKey}" typeId="${financeTypeId}" />
-						
-						    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">最终意见</span>
-							<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb20" disabled="disabled" id="finalreason" maxlength="2000" name="finalReason" title="不超过2000个字">${MapPa['finalId'].content}</textarea>
-							<span class="fl">最终意见附件：</span>
-							<u:show delete="false" showId="ff" businessId="${MapPa['finalId'].id}" sysKey="${sysKey}" typeId="${finalTypeId}" />
-						</c:if>
-						<c:if test="${project.confirmFile == 1}">
-						<form  id="form1">
-						    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">采购管理部门意见</span>
-							<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10" onkeyup="lengthStr('1',this)" id="pcReason" maxlength="2000" name="projectAdviceList[0].content" title="不超过2000个字">${reasons.pcReason}</textarea>
-							<input type="hidden" name="projectAdviceList[0].typeId" value="${pcTypeId}"/>
-							<input type="hidden" name="projectAdviceList[0].id" value="${pcId}"/>
-							<input type="hidden" name="projectAdviceList[0].seq" value="1"/>
-							<div><span class="fl">采购管理部门审核意见附件：</span>
-							<u:upload id="r" multiple="true" exts=".jpg,.png" businessId="${pcId}" sysKey="${sysKey}" typeId="${pcTypeId}" auto="true" />
-							<u:show showId="t" businessId="${pcId}" sysKey="${sysKey}" typeId="${pcTypeId}" /></div>
-							<div class="fl mlp60">当前已经输入<span class="red" id="in1"></span>字，还可以输入<span class="red" id="into1"></span>字</div>
+						<div class="bggrey p20_15 mt10">
+							<div class="count_flow m0"><i>3</i><span class="fw">部门意见</span></div>
+							
+							<div class="mt20 fw f14" id="cgspan">采购管理部门意见</div>
+							<div class="mt10">
+								<textarea class="w100p h80 resizen" disabled="disabled" id="pcReason" maxlength="2000" name="pcReason" title="不超过2000个字">${MapPa['pcId'].content}</textarea>
+								<div class="m_uploadFiles mt10">
+									<span class="m_inline f14 lh16">采购管理部门审核意见附件：</span>
+									<div class="m_inline m_uploadFiles f0">
+										<u:show delete="false" showId="r" businessId="${MapPa['pcId'].id}" sysKey="${sysKey}" typeId="${pcTypeId}" />
+									</div>
+								</div>
+							</div>
+
+							<div class="mt20 fw f14" id="cgspan">事业部门意见</div>
+							<div class="mt10">
+								<textarea class="w100p h80 resizen" disabled="disabled" id="causereason" maxlength="2000" name="causeReason" title="不超过2000个字">${MapPa['causeId'].content}</textarea>
+								<div class="m_uploadFiles mt10">
+									<span class="m_inline f14 lh16">事业部门审核意见附件：</span>
+									<div class="m_inline m_uploadFiles f0">
+										<u:show delete="false" showId="y" businessId="${MapPa['causeId'].id}" sysKey="${sysKey}" typeId="${causeTypeId}" />
+									</div>
+								</div>
+							</div>
+
+							<div class="mt20 fw f14" id="cgspan">财务部门意见</div>
+							<div class="mt10">
+								<textarea class="w100p h80 resizen" disabled="disabled" id="financereason" maxlength="2000" name="financeReason" title="不超过2000个字">${MapPa['financeId'].content}</textarea>
+								<div class="m_uploadFiles mt10">
+									<span class="m_inline f14 lh16">财务部门审核意见附件：</span>
+									<div class="m_inline m_uploadFiles f0">
+										<u:show delete="false" showId="o" businessId="${MapPa['financeId'].id}" sysKey="${sysKey}" typeId="${financeTypeId}" />
+									</div>
+								</div>
+							</div>
+
+							<div class="mt20 fw f14" id="cgspan">最终意见</div>
+							<div class="mt10">
+								<textarea class="w100p h80 resizen" disabled="disabled" id="finalreason" maxlength="2000" name="finalReason" title="不超过2000个字">${MapPa['finalId'].content}</textarea>
+								<div class="m_uploadFiles mt10">
+									<span class="m_inline f14 lh16">最终意见附件：</span>
+									<div class="m_inline m_uploadFiles f0">
+										<u:show delete="false" showId="ff" businessId="${MapPa['finalId'].id}" sysKey="${sysKey}" typeId="${finalTypeId}" />
+									</div>
+								</div>
+							</div>
+							
 							<div class="clear"></div>
-						
-							<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">事业部门意见</span>
-							<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10" id="causereason" onkeyup="lengthStr('2',this)" maxlength="2000" name="projectAdviceList[1].content" title="不超过2000个字">${reasons.causeReason}</textarea>
-							<input type="hidden" name="projectAdviceList[1].typeId" value="${causeTypeId}"/>
-							<input type="hidden" name="projectAdviceList[1].id" value="${causeId}"/>
-							<input type="hidden" name="projectAdviceList[1].seq" value="2"/>
-							<div><span class="fl">事业部门审核意见附件：</span>
-							<u:upload id="u" multiple="true" exts=".jpg,.png" businessId="${causeId}" sysKey="${sysKey}" typeId="${causeTypeId}" auto="true" />
-							<u:show showId="i" businessId="${causeId}" sysKey="${sysKey}" typeId="${causeTypeId}" /></div>
-							<div class="fl mlp62">当前已经输入<span class="red" id="in2"></span>字，还可以输入<span class="red" id="into2"></span>字</div>
-							<div class="clear"></div>
-						
-						
-						    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">财务部门意见</span>
-							<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10" onkeyup="lengthStr('3',this)" id="financereason" maxlength="2000" name="projectAdviceList[2].content" title="不超过2000个字">${reasons.financeReason}</textarea>
-							<input type="hidden" name="projectAdviceList[2].typeId" value="${financeTypeId}"/>
-							<input type="hidden" name="projectAdviceList[2].id" value="${financeId}"/>
-							<input type="hidden" name="projectAdviceList[2].seq" value="3"/>
-							<div><span class="fl">财务部门审核意见附件：</span>
-							<u:upload id="p"  exts=".jpg,.png" multiple="true"  businessId="${financeId}"  sysKey="${sysKey}" typeId="${financeTypeId}" auto="true" />
-							<u:show showId="s" businessId="${financeId}" sysKey="${sysKey}" typeId="${financeTypeId}" /></div>
-							<div class="fl mlp62">当前已经输入<span class="red" id="in3"></span>字，还可以输入<span class="red" id="into3"></span>字</div>
-						    <div class="clear"></div>
-						
-						    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan"><span class="red">*</span>最终意见</span>
-							<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb20" id="finalreason" maxlength="2000" onkeyup="lengthStr('4',this)" name="projectAdviceList[3].content" title="不超过2000个字">${reasons.finalReason}</textarea>
-							<input type="hidden" name="projectAdviceList[3].typeId" value="${finalTypeId}"/>
-							<input type="hidden" name="projectAdviceList[3].id" value="${finalId}"/>
-							<input type="hidden" name="projectAdviceList[3].seq" value="4"/>
-							<span class="fl"><span class="red">*</span>最终意见附件：</span>
-							<u:upload id="kk"  exts=".jpg,.png" multiple="true"  businessId="${finalId}"  sysKey="${sysKey}" typeId="${finalTypeId}" auto="true" />
-							<u:show  showId="ii" businessId="${finalId}" sysKey="${sysKey}" typeId="${finalTypeId}" />
-							<div class="mlp81">当前已经输入<span class="red" id="in4"></span>字，还可以输入<span class="red" id="into4"></span>字</div>
-						  </form>
-						</c:if>
+						</div>
+					</c:if>
+					
+					<c:if test="${project.confirmFile == 1}">
+						<form id="form1">
+							<div class="bggrey p20_15 mt10">
+								<div class="count_flow m0"><i>3</i><span class="fw">部门意见</span></div>
+								
+								<div class="mt20 fw f14" id="cgspan">采购管理部门意见</div>
+								<div class="mt10">
+									<textarea class="w100p h80 resizen" onkeyup="lengthStr('1',this)" id="pcReason" maxlength="2000" name="projectAdviceList[0].content" title="不超过2000个字">${reasons.pcReason}</textarea>
+									<input type="hidden" name="projectAdviceList[0].typeId" value="${pcTypeId}"/>
+									<input type="hidden" name="projectAdviceList[0].id" value="${pcId}"/>
+									<input type="hidden" name="projectAdviceList[0].seq" value="1"/>
+									<div class="fl f0 mt10">
+										<span class="m_inline f14 lh16">采购管理部门审核意见附件：</span>
+										<div class="m_inline m_uploadFiles">
+											<u:upload id="r" multiple="true" exts=".jpg,.png" businessId="${pcId}" sysKey="${sysKey}" typeId="${pcTypeId}" auto="true" />
+											<u:show showId="t" businessId="${pcId}" sysKey="${sysKey}" typeId="${pcTypeId}" />
+										</div>
+									</div>
+									<div class="fr mt10">当前已经输入<span class="red" id="in1"></span>字，还可以输入<span class="red" id="into1"></span>字</div>
+									<div class="clear"></div>
+								</div>
+								
+								<div class="mt20 fw f14" id="cgspan">事业部门意见</div>
+								<div class="mt10">
+									<textarea class="w100p h80 resizen" id="causereason" onkeyup="lengthStr('2',this)" maxlength="2000" name="projectAdviceList[1].content" title="不超过2000个字">${reasons.causeReason}</textarea>
+									<input type="hidden" name="projectAdviceList[1].typeId" value="${causeTypeId}"/>
+									<input type="hidden" name="projectAdviceList[1].id" value="${causeId}"/>
+									<input type="hidden" name="projectAdviceList[1].seq" value="2"/>
+									<div class="fl f0 mt10">
+										<span class="m_inline f14 lh16">事业部门审核意见附件：</span>
+										<div class="m_inline m_uploadFiles">
+											<u:upload id="u" multiple="true" exts=".jpg,.png" businessId="${causeId}" sysKey="${sysKey}" typeId="${causeTypeId}" auto="true" />
+											<u:show showId="i" businessId="${causeId}" sysKey="${sysKey}" typeId="${causeTypeId}" />
+										</div>
+									</div>
+									<div class="fr mt10">当前已经输入<span class="red" id="in2"></span>字，还可以输入<span class="red" id="into2"></span>字</div>
+									<div class="clear"></div>
+								</div>
+								
+								<div class="mt20 fw f14" id="cgspan">财务部门意见</div>
+								<div class="mt10">
+									<textarea class="w100p h80 resizen" onkeyup="lengthStr('3',this)" id="financereason" maxlength="2000" name="projectAdviceList[2].content" title="不超过2000个字">${reasons.financeReason}</textarea>
+									<input type="hidden" name="projectAdviceList[2].typeId" value="${financeTypeId}"/>
+									<input type="hidden" name="projectAdviceList[2].id" value="${financeId}"/>
+									<input type="hidden" name="projectAdviceList[2].seq" value="3"/>
+									<div class="fl f0 mt10">
+										<span class="m_inline f14 lh16">财务部门审核意见附件：</span>
+										<div class="m_inline m_uploadFiles">
+											<u:upload id="p"  exts=".jpg,.png" multiple="true"  businessId="${financeId}"  sysKey="${sysKey}" typeId="${financeTypeId}" auto="true" />
+											<u:show showId="s" businessId="${financeId}" sysKey="${sysKey}" typeId="${financeTypeId}" />
+										</div>
+									</div>
+									<div class="fr mt10">当前已经输入<span class="red" id="in3"></span>字，还可以输入<span class="red" id="into3"></span>字</div>
+									<div class="clear"></div>
+								</div>
+								
+								<div class="mt20 fw f14" id="cgspan"><span class="red">*</span>最终意见</div>
+								<div class="mt10">
+									<textarea class="w100p h80 resizen" id="finalreason" maxlength="2000" onkeyup="lengthStr('4',this)" name="projectAdviceList[3].content" title="不超过2000个字">${reasons.finalReason}</textarea>
+									<input type="hidden" name="projectAdviceList[3].typeId" value="${finalTypeId}"/>
+									<input type="hidden" name="projectAdviceList[3].id" value="${finalId}"/>
+									<input type="hidden" name="projectAdviceList[3].seq" value="4"/>
+									<div class="fl f0 mt10">
+										<span class="m_inline f14 lh16"><span class="red">*</span>最终意见附件：</span>
+										<div class="m_inline m_uploadFiles">
+											<u:upload id="kk" exts=".jpg,.png" multiple="true" businessId="${finalId}" sysKey="${sysKey}" typeId="${finalTypeId}" auto="true" />
+											<u:show showId="ii" businessId="${finalId}" sysKey="${sysKey}" typeId="${finalTypeId}" />
+										</div>
+									</div>
+									<div class="fr mt10">当前已经输入<span class="red" id="in4"></span>字，还可以输入<span class="red" id="into4"></span>字</div>
+									<div class="clear"></div>
+								</div>
+							</div>
+						</form>
+					</c:if>
 						
 					</div>
 					<div class="clear tc mt50">
