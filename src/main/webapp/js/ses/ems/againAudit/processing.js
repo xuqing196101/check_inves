@@ -525,12 +525,15 @@ function save_editMembers() {
         empty_sum = 1;
         return false;
       }
-      list[index] = {'groupId': '', 'relName': '', 'orgName': '', 'duties': ''};
+      list[index] = {'index': '', 'groupId': '', 'relName': '', 'orgName': '', 'duties': ''};
+      list[index].index = index;
       list[index].groupId = getUrlParam('groupId');
       list[index].relName = relName;
       list[index].orgName = orgName;
       list[index].duties = duties;
     });
+    
+    console.log(list);
     
     if (empty_sum === 0) {
       layer.confirm('您确定要保存么？', {
@@ -598,7 +601,12 @@ function expert_auditBatch(url, expertId) {
     },
     success: function (data) {
       if (data.status) {
-        window.open(localhostPaht + url + "/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2"+"&batchId=" + batchId);
+        var form = document.createElement('form');
+        form.action = localhostPaht + url + "/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2"+"&batchId=" + batchId;
+        form.target = '_blank';
+        form.method = 'POST';
+        document.body.appendChild(form);
+        form.submit();
       } else {
         layer.msg(data.message, {
           offset: '100px'
