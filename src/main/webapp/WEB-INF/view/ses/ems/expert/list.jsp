@@ -653,7 +653,7 @@
           <thead>
             <tr>
               <!-- <th class="info w50">选择</th> -->
-              <th class="info w50">序号</th>
+              <th class="info w40">序号</th>
               <th class="info">采购机构</th>
               <th class="info">姓名</th>
               <!-- <th class="info">用户名</th> -->
@@ -674,7 +674,7 @@
           <c:forEach items="${result.list }" var="e" varStatus="vs">
             <tr class="pointer">
               <%-- <td class="tc w30"><input type="radio" name="check" id="checked" alt="" value="${e.id }"></td> --%>
-              <td class="tc w50" class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
+              <td class="tc" class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
               <td class="">${e.orgName }</td>
               <td>
                 <c:choose>

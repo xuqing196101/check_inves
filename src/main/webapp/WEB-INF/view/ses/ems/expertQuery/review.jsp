@@ -145,9 +145,9 @@
 	                </td>
 	                <!-- 状态 -->
                   <c:if test="${audit.auditStatus eq '1'}"><td class="tc">有问题</td></c:if>
-                  <c:if test="${audit.suggestType eq 'six' && reasons.auditStatus eq '2'}"><td class="tc">审核不通过</td></c:if>
-                  <c:if test="${audit.suggestType eq 'seven' && reasons.type eq '1' && reasons.auditFieldId != 'isTitle' && reasons.auditStatus eq '2'}"><td class="tc">审核不通过</td></c:if>
-                  <c:if test="${audit.suggestType != 'six' && reasons.auditStatus eq '2' && !(reasons.suggestType eq 'seven' && reasons.type eq '1' && reasons.auditFieldId != 'isTitle' && reasons.auditStatus eq '2') }"><td class="tc">已修改</td></c:if>
+                  <c:if test="${audit.suggestType eq 'six' && audit.auditStatus eq '2'}"><td class="tc">审核不通过</td></c:if>
+                  <c:if test="${audit.suggestType eq 'seven' && audit.type eq '1' && audit.auditFieldId != 'isTitle' && audit.auditStatus eq '2'}"><td class="tc">审核不通过</td></c:if>
+                  <c:if test="${audit.suggestType != 'six' && audit.auditStatus eq '2' && !(audit.suggestType eq 'seven' && audit.type eq '1' && audit.auditFieldId != 'isTitle' && audit.auditStatus eq '2') }"><td class="tc">已修改</td></c:if>
                   <c:if test="${audit.auditStatus eq '3'}"><td class="tc">未修改</td></c:if>
                   <c:if test="${audit.auditStatus eq '4'}"><td class="tc">撤销退回</td></c:if>
                   <c:if test="${audit.auditStatus eq '5'}"><td class="tc">撤销不通过</td></c:if>

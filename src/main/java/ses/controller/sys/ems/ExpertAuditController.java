@@ -2361,7 +2361,7 @@ public class ExpertAuditController{
             	if(typeId.equals(DictionaryDataUtil.getId("GOODS"))){
             		num ++;
             		SupplierCateTree supplierCateTree = new SupplierCateTree();
-                	supplierCateTree.setRootNode(toChinese(num)+"、物资");
+                	supplierCateTree.setRootNode(toChinese(num)+"、物资技术");
                 	supplierCateTree.setItemsId(typeId);
                 	supplierCateTree.setRootNodeCode(typeId);
                 	itemsListAll.add(supplierCateTree);
@@ -2394,12 +2394,30 @@ public class ExpertAuditController{
             	}
             }
         }
-        
+        //物资服务经济
+        if(expertTypeId != null && expertTypeId.size() > 0){
+        	for(String typeId : expertTypeId){
+        		if(typeId.equals(DictionaryDataUtil.getId("GOODS_SERVER"))){
+            		num ++;
+            		//服务
+            		SupplierCateTree supplierCateTree = new SupplierCateTree();
+                	supplierCateTree.setRootNode(toChinese(num)+"、物资服务经济");
+                	supplierCateTree.setItemsId(typeId);
+                	supplierCateTree.setRootNodeCode(typeId);
+                	itemsListAll.add(supplierCateTree);
+                	//物资服务经济是没有产品的  所以不需要查询产品类别
+            	}
+        	}
+        }
         //工程专业属性
         if(expertTypeId.contains(engInfoId)){
         	num ++;
         	SupplierCateTree supplierCateTree = new SupplierCateTree();
-        	supplierCateTree.setRootNode(toChinese(num)+"、工程");
+        	if(expertTypeId.contains(goodsProjectId)){
+        		supplierCateTree.setRootNode(toChinese(num)+"、工程经济");
+        	}else{
+        		supplierCateTree.setRootNode(toChinese(num)+"、工程技术");
+        	}
         	supplierCateTree.setItemsId(DictionaryDataUtil.getId("PROJECT"));
         	supplierCateTree.setRootNodeCode(DictionaryDataUtil.getId("PROJECT"));
         	itemsListAll.add(supplierCateTree);
@@ -2516,21 +2534,6 @@ public class ExpertAuditController{
         			}
                 	firstNode = 0;
                 	itemsListAll.addAll(clist);
-            	}
-        	}
-        }
-        //物资服务经济
-        if(expertTypeId != null && expertTypeId.size() > 0){
-        	for(String typeId : expertTypeId){
-        		if(typeId.equals(DictionaryDataUtil.getId("GOODS_SERVER"))){
-            		num ++;
-            		//服务
-            		SupplierCateTree supplierCateTree = new SupplierCateTree();
-                	supplierCateTree.setRootNode(toChinese(num)+"、物资服务经济");
-                	supplierCateTree.setItemsId(typeId);
-                	supplierCateTree.setRootNodeCode(typeId);
-                	itemsListAll.add(supplierCateTree);
-                	//物资服务经济是没有产品的  所以不需要查询产品类别
             	}
         	}
         }
@@ -2753,6 +2756,21 @@ public class ExpertAuditController{
     	for (int j = categoryList.size()-1; j >= 0; j--) {
 			categoryList22.add(categoryList.get(j));
 		}
+    	//工程专业审核意见优先
+    	String gcAudit = "";
+    	for (ExpertAudit expertAudit : categoryList22) {
+			if(expertAudit.getAuditField() != null && expertAudit.getAuditField().contains("、工程专业")){
+				gcAudit = expertAudit.getAuditReason();
+			}
+		}
+    	for (ExpertAudit expertAudit : categoryList22) {
+			if(expertAudit.getAuditField() != null && expertAudit.getAuditField().contains("、工程技术")){
+				expertAudit.setAuditReason(gcAudit);
+			}
+			if(expertAudit.getAuditField() != null && expertAudit.getAuditField().contains("、工程经济")){
+				expertAudit.setAuditReason(gcAudit);
+			}
+		}
     	
     	/**
     	 * 比较附件那些通过审核(初审和复查才有附件信息)
@@ -2853,6 +2871,13 @@ public class ExpertAuditController{
 		expertAudit2.setAuditStatus(null);
 		expertAudit2.setStatusQuery("notPass");
     	List < ExpertAudit > basicFileList = expertAuditService.selectbyAuditType(expertAudit2);
+		expertAudit2.setExpertId(expert.getId());
+		expertAudit2.setSuggestType("five");
+		expertAudit2.setAuditFalg(auditFalg);
+		expertAudit2.setStatusQuery("notPass");
+		if(expertAuditService.selectbyAuditType(expertAudit2) != null && expertAuditService.selectbyAuditType(expertAudit2).size() > 0){
+			basicFileList.addAll(expertAuditService.selectbyAuditType(expertAudit2));
+		}
 		StringBuffer buff = new StringBuffer();
 		for(ExpertAudit a : basicFileList){
 			buff.append(a.getAuditField() + ",");
@@ -3593,6 +3618,14 @@ public class ExpertAuditController{
 			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
 			expertAudit.setAuditFalg(1);
 			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
+			
+			/*
+			 * 查修改过的产品目录
+			 */
+			expertAudit.setSuggestType("six");
+			expertAudit.setAuditStatus("2");
+			expertAudit.setStatusQuery(null);
+			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
 		}else if(expertAudit.getAuditFalg()==2){
 			expertAudit.setAuditFalg(2);
 			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
@@ -3845,7 +3878,9 @@ public class ExpertAuditController{
         expert.setUpdatedAt(new Date());
         expertService.updateByPrimaryKeySelective(expert);
 
-        //expert = expertService.selectByPrimaryKey(expertId);
+        
+        
+        expert = expertService.selectByPrimaryKey(expertId);
         String status = expert.getStatus();
 
         /**

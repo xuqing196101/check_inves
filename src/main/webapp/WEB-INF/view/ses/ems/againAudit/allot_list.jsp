@@ -97,7 +97,7 @@
             <button type="button" class="btn btn-windows add mb0 ml5" onclick="addto_selected()">添加到已选分组</button>
             <div class="fr h30 lh30">共有 <span id="unselect_expertTotal" class="red"></span> 名专家</div>
           </div>
-          <table class="table table-bordered table-hover mb0 mt10 againAudit_table unselected_table fixed_columns">
+          <table class="table table-bordered table-hover mb0 mt10 againAudit_table fixed_columns">
             <thead>
               <tr>
                 <th class="w30"><input type="checkbox" name="checkAll" class="unselected_checkAll" onclick="againAudit_checkAll(this, 'list_content')"></th>
@@ -125,7 +125,7 @@
             <button type="button" class="btn btn-windows add mb0 ml5" onclick="create_review_batches()">创建复审批次</button>
             <div class="fr h30 lh30">共有 <span id="select_expertTotal" class="red"></span> 名专家</div>
           </div>
-          <table class="table table-bordered table-hover mb0 mt10 againAudit_table selected_table fixed_columns" style="display: none;">
+          <table class="table table-bordered table-hover mb0 mt10 againAudit_table fixed_columns" style="display: none;">
             <thead>
               <tr>
                 <th class="w30"><input type="checkbox" name="checkAll" class="selected_checkAll" onclick="againAudit_checkAll(this, 'selected_content')"></th>
@@ -183,6 +183,7 @@
   <!-- End 弹出框 -->
   
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/againAudit.js"></script>
+  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/againAudit_t.js"></script>
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/search.js"></script>
   <script>
@@ -191,6 +192,7 @@
     var temporary_init_url = '${pageContext.request.contextPath}/expertAgainAudit/selectBatchTemporary.do';  // 已选分组初始化地址
     var temporary_url = '${pageContext.request.contextPath}/expertAgainAudit/addBatchTemporary.do';  // 添加到已选分组地址
     var remove_temporary_url = '${pageContext.request.contextPath}/expertAgainAudit/deleteBatchTemporary.do';  // 移除已选分组地址
+    var search_temporary_url = '${pageContext.request.contextPath}/expertAgainAudit/selectBatchTemporary.do';  // 复审已选分组查询地址
     var select_ids = [];  // 已选的专家id集合
     var unselect_ids = [];  // 未选的专家id集合
     var is_init = 0;
@@ -202,7 +204,9 @@
       });
       
       // 构建暂存数据
-      temporary_init();
+      $('#selected_content').listConstructor_t({
+        url: temporary_init_url
+      });
       
       // 重置操作
       $('#againAudit_reset').on('click', function () {
