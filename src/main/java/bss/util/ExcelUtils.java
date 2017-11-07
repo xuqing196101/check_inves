@@ -1,18 +1,19 @@
 package bss.util;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
-import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.hssf.usermodel.HSSFPalette;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.net.URLEncoder;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,11 +40,12 @@ public class ExcelUtils {
     // 定义日志记录
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
-    public static final String OFFICE_EXCEL_2003_POSTFIX = "xls";
-    public static final String OFFICE_EXCEL_2010_POSTFIX = "xlsx";
+    public static final String OFFICE_EXCEL_2003_POSTFIX = ".xls";
+    public static final String OFFICE_EXCEL_2007_POSTFIX = ".xlsx";
     public static final String EMPTY = "";
     public static final String POINT = ".";
     public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     HttpServletResponse response;
     // 文件名
@@ -71,19 +74,24 @@ public class ExcelUtils {
     private String colFormula[] = null;
     DecimalFormat floatDecimalFormat = new DecimalFormat(floatDecimal);
     DecimalFormat doubleDecimalFormat = new DecimalFormat(doubleDecimal);
-    private HSSFWorkbook workbook = null;
+    private SXSSFWorkbook workbook = null;
 
-    public ExcelUtils(String fileDir, String sheetName) {
+    // 内存中缓存记录行数
+    private int size;
+
+    public ExcelUtils(String fileDir, String sheetName, Integer size) {
         this.fileDir = fileDir;
         this.sheetName = sheetName;
-        workbook = new HSSFWorkbook();
+        this.size = size;
+        workbook = new SXSSFWorkbook(size);
     }
 
-    public ExcelUtils(HttpServletResponse response, String fileName, String sheetName) {
+    public ExcelUtils(HttpServletResponse response, String fileName, String sheetName, Integer size) {
         this.response = response;
         this.sheetName = sheetName;
         this.fileName = fileName;
-        workbook = new HSSFWorkbook();
+        this.size = size;
+        workbook = new SXSSFWorkbook(size);
     }
 
     /**
@@ -273,7 +281,7 @@ public class ExcelUtils {
             } else {
                 //否则，直接写到输出流中
                 out = response.getOutputStream();
-                fileName = fileName + ".xls";
+                fileName = fileName + OFFICE_EXCEL_2007_POSTFIX;
                 response.setContentType("application/x-msdownload");
                 response.setHeader("Content-Disposition", "attachment; filename="
                         + URLEncoder.encode(fileName, "UTF-8"));
@@ -281,9 +289,11 @@ public class ExcelUtils {
             //写入excel的表头
             Row titleNameRow = workbook.getSheet(sheetName).createRow(0);
             //--设置样式开始
-            HSSFCellStyle titleStyle = workbook.createCellStyle();
-            titleStyle = (HSSFCellStyle) setFontAndBorder(titleStyle, titleFontType, (short) titleFontSize);
-            titleStyle = (HSSFCellStyle) setColor(titleStyle, titleBackColor, (short) 10);
+            CellStyle titleStyle = workbook.createCellStyle();
+            // 单元格样式
+            CellStyle cellStyle = null;
+            titleStyle = setFontAndBorder(titleStyle, titleFontType, titleFontSize);
+            //titleStyle = setColor(titleStyle, titleBackColor, (short) 10);
             //--设置样式结束
             for (int i = 0; i < titleName.length; i++) {
                 if(titleSize != null){
@@ -295,15 +305,16 @@ public class ExcelUtils {
             }
             //为表头添加自动筛选
             if (!"".equals(address)) {
-                CellRangeAddress c = (CellRangeAddress) CellRangeAddress.valueOf(address);
+                CellRangeAddress c = CellRangeAddress.valueOf(address);
                 sheet.setAutoFilter(c);
             }
             //通过反射获取数据并写入到excel中
             // 定义序号
             int orderNum = 0;
             if (dataList != null && dataList.size() > 0) {
+                //每当行数达到设置的值就刷新数据到硬盘,以清理内存
                 //设置样式
-                titleStyle = (HSSFCellStyle) setFontAndBorder(titleStyle, contentFontType, (short) contentFontSize);
+                titleStyle = setFontAndBorder(titleStyle, contentFontType, contentFontSize);
                 if (titleColumn.length > 0) {
                     for (int rowIndex = 1; rowIndex <= dataList.size(); rowIndex++) {
                         orderNum += 1;
@@ -314,7 +325,7 @@ public class ExcelUtils {
                             Cell cell = dataRow.createCell(columnIndex);
                             if(columnIndex == 0){
                                 // 设置第一列为序号并且居中
-                                titleStyle = (HSSFCellStyle)setAlignment(titleStyle);
+                                titleStyle = setAlignment(titleStyle);
                                 cell.setCellValue(orderNum);
                                 cell.setCellStyle(titleStyle);
                                 continue;
@@ -328,18 +339,22 @@ public class ExcelUtils {
                                 Method method = clsss.getDeclaredMethod(methodName);
                                 //获取返回类型
                                 String returnType = method.getReturnType().getName();
-                                String data = method.invoke(obj) == null ? "" : method.invoke(obj).toString();
+                                Object data = method.invoke(obj) == null ? "" : method.invoke(obj);
                                 if (data != null && !"".equals(data)) {
-                                    if ("int".equals(returnType) || "java.lang.Integer".equals(returnType)) {
-                                        cell.setCellValue(Integer.parseInt(data));
+                                    if("java.util.Date".equals(returnType)){
+                                        cell.setCellValue((Date) data);
+                                        cellStyle = setFormatDate();
+                                        cell.setCellStyle(cellStyle);
+                                    } else if ("int".equals(returnType) || "java.lang.Integer".equals(returnType)) {
+                                        cell.setCellValue(Integer.parseInt(data.toString()));
                                     } else if ("long".equals(returnType) || "java.lang.Long".equals(returnType)) {
-                                        cell.setCellValue(Long.parseLong(data));
+                                        cell.setCellValue(Long.parseLong(data.toString()));
                                     } else if ("float".equals(returnType) || "java.lang.Float".equals(returnType)) {
-                                        cell.setCellValue(floatDecimalFormat.format(Float.parseFloat(data)));
+                                        cell.setCellValue(floatDecimalFormat.format(Float.parseFloat(data.toString())));
                                     } else if ("double".equals(returnType) || "java.lang.Double".equals(returnType)) {
-                                        cell.setCellValue(doubleDecimalFormat.format(Double.parseDouble(data)));
+                                        cell.setCellValue(doubleDecimalFormat.format(Double.parseDouble(data.toString())));
                                     } else {
-                                        cell.setCellValue(data);
+                                        cell.setCellValue(data.toString());
                                     }
                                 }
                             } else { //字段为空 检查该列是否是公式
@@ -349,6 +364,10 @@ public class ExcelUtils {
                                     cell.setCellFormula(sixBuf.toString());
                                 }
                             }
+                        }
+                        // 每当行数达到设置的值就刷新数据到硬盘,以清理内存
+                        if(rowIndex % size == 0){
+                            ((SXSSFSheet)sheet).flushRows();
                         }
                     }
                 }
@@ -386,9 +405,9 @@ public class ExcelUtils {
             int g = Integer.parseInt((color.substring(2, 4)), 16);
             int b = Integer.parseInt((color.substring(4, 6)), 16);
             //自定义cell颜色
-            HSSFPalette palette = workbook.getCustomPalette();
+            /*HSSFPalette palette = workbook.getCustomPalette();
             palette.setColorAtIndex((short) index, (byte) r, (byte) g, (byte) b);
-            style.setFillPattern(CellStyle.SOLID_FOREGROUND);
+            style.setFillPattern(CellStyle.SOLID_FOREGROUND);*/
             style.setFillForegroundColor(index);
         }
         return style;
@@ -405,7 +424,7 @@ public class ExcelUtils {
      * @since JDK1.7
      */
     public CellStyle setFontAndBorder(CellStyle style, String fontName, short size) {
-        HSSFFont font = workbook.createFont();
+        Font font = workbook.createFont();
         font.setFontHeightInPoints(size);
         font.setFontName(fontName);
         font.setBold(true);
@@ -426,8 +445,23 @@ public class ExcelUtils {
      * @since JDK1.7
      */
     public CellStyle setAlignment(CellStyle style) {
-        style.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 居中
+        style.setAlignment(XSSFCellStyle.ALIGN_CENTER); // 居中
         return style;
+    }
+
+    /**
+     * Description: 日期转换
+     *
+     * @param style 样式
+     * @author Easong
+     * @version 2017/11/6
+     * @since JDK1.7
+     */
+    public CellStyle setFormatDate() {
+        CellStyle titleStyle = workbook.createCellStyle();
+        DataFormat format = workbook.createDataFormat();
+        titleStyle.setDataFormat(format.getFormat("yyyy/MM/dd HH:mm:ss"));
+        return titleStyle;
     }
 
     /**

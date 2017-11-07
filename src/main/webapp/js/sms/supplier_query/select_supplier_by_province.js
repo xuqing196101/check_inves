@@ -28,7 +28,7 @@ $(function () {
                 reader.onload = function (e) {
                     // 转换完成，创建一个a标签用于下载
                     var a = document.createElement('a');
-                    a.download = '供应商信息.xls';
+                    a.download = '供应商信息.xlsx';
                     a.href = e.target.result;
                     $("body").append(a);    // 修复firefox中无法触发click
                     a.click();

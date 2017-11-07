@@ -94,7 +94,6 @@ import ses.util.WfUtil;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -2242,7 +2241,6 @@ public class SupplierServiceImpl implements SupplierService {
               // 状态
               sup.setStatusString(SupplierConstants.STATUSMAP.get(sup.getStatus()));
               // 入库时间
-              DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
               if (SupplierConstants.Status.PENDING_REVIEW.getValue() != sup.getStatus()
                       && SupplierConstants.Status.REVIEW_PASSED.getValue() != sup.getStatus()
                       && SupplierConstants.Status.REVIEW_NOT_PASS.getValue() != sup.getStatus()
@@ -2250,10 +2248,6 @@ public class SupplierServiceImpl implements SupplierService {
                       && SupplierConstants.Status.INVESTIGATE_PASSED.getValue() != sup.getStatus()
                       && SupplierConstants.Status.INVESTIGATE_NOT_PASS.getValue() != sup.getStatus()) {
                   sup.setAuditDate(null);
-              } else {
-                  if (sup.getAuditDate() != null) {
-                      sup.setAuditDateString(df.format(sup.getAuditDate()));
-                  }
               }
           }
       }
