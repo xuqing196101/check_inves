@@ -3600,6 +3600,14 @@ public class ExpertAuditController{
 			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
 			expertAudit.setAuditFalg(1);
 			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
+			
+			/*
+			 * 查修改过的产品目录
+			 */
+			expertAudit.setSuggestType("six");
+			expertAudit.setAuditStatus("2");
+			expertAudit.setStatusQuery(null);
+			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
 		}else if(expertAudit.getAuditFalg()==2){
 			expertAudit.setAuditFalg(2);
 			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
