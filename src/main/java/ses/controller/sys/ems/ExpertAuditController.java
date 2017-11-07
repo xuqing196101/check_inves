@@ -3852,7 +3852,9 @@ public class ExpertAuditController{
         expert.setUpdatedAt(new Date());
         expertService.updateByPrimaryKeySelective(expert);
 
-        //expert = expertService.selectByPrimaryKey(expertId);
+        
+        
+        expert = expertService.selectByPrimaryKey(expertId);
         String status = expert.getStatus();
 
         /**
