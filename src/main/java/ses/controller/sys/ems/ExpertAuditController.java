@@ -1884,7 +1884,7 @@ public class ExpertAuditController{
 			audit.setSuggestType("seven");
 			audit.setType("1");
 			audit.setStatusQuery("notPass");
-			List<ExpertAudit> list = expertAuditService.getListByExpert(expertAudit);
+			List<ExpertAudit> list = expertAuditService.getListByExpert(audit);
 			
 			for (String string : split) {
 				boolean s=false;
