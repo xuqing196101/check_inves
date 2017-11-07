@@ -1,13 +1,11 @@
 package ses.service.sms.impl;
 
 import com.github.pagehelper.PageHelper;
-
 import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
 import common.utils.DateUtils;
 import common.utils.ListSortUtil;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
-
 import ses.constants.SupplierConstants;
 import ses.dao.bms.AreaMapper;
 import ses.dao.bms.CategoryMapper;
@@ -101,6 +98,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -2099,63 +2097,100 @@ public class SupplierServiceImpl implements SupplierService {
    */
   @Override
   public List<Supplier> querySupplierbytypeAndCategoryIds(String flag, Supplier supplier) {
-      List<Supplier> suppliers = supplierMapper.querySupplierbytypeAndCategoryIds(supplier);
+      // 封装供应商类型查询条件
+      String supplierTypeIds = supplier.getSupplierTypeIds();
+      if(StringUtils.isNotEmpty(supplierTypeIds)){
+          List<String> listSupplierTypeIds = Arrays.asList(supplierTypeIds.split(","));
+          supplier.setItemType(listSupplierTypeIds);
+      }
+      List<Supplier> suppliers = null;
+      // 供应商状态区分状态
+      Integer supplierStatus = supplier.getStatus();
+      if(supplierStatus != null){
+          switch (supplierStatus) {
+              case 100:// 审核中
+                  supplier.setAuditTemporary(1);
+                  supplier.setStatus(null);
+                  break;
+              case 200:// 复核中
+                  supplier.setAuditTemporary(2);
+                  supplier.setStatus(null);
+                  break;
+              case 300:// 考察中
+                  supplier.setAuditTemporary(3);
+                  supplier.setStatus(null);
+                  break;
+              default:
+                  supplier.setAuditTemporary(0);
+                  break;
+          }
+          if(supplierStatus == 400){// 无产品供应商
+              supplier.setStatus(null);
+              supplier.setAuditTemporary(null);
+              suppliers = supplierMapper.selectSupplierListByNoCate(supplier);
+          }else{
+              suppliers = supplierMapper.querySupplierbytypeAndCategoryIds(supplier);
+          }
+      }else{
+          suppliers = supplierMapper.querySupplierbytypeAndCategoryIds(supplier);
+      }
+
       Map<String, Object> param = new HashMap<>();
-      if(suppliers != null && !suppliers.isEmpty()){
-          for (Supplier sup : suppliers){
+      if (suppliers != null && !suppliers.isEmpty()) {
+          for (Supplier sup : suppliers) {
               // 企业性质
-              if(sup.getBusinessNature() !=null ){
+              if (sup.getBusinessNature() != null) {
                   DictionaryData dict = DictionaryDataUtil.findById(sup.getBusinessNature());
-                  if(dict != null){
+                  if (dict != null) {
                       sup.setBusinessNature(dict.getName());
                   }
               }
-
               // 供应商类型和产品类别
               // 根据供应商ID查询供应商类型
               List<String> supplierTypes = supplierTypeRelateMapper.findTypeBySupplierId(sup.getId());
-              StringBuffer supTypeSB = new StringBuffer();
-              StringBuffer supCategrySB = new StringBuffer();
-              StringBuffer supCategrySB2 = new StringBuffer();
-              StringBuffer areasSb = new StringBuffer();
-              String product = "物资生产";
-              String sales = "物资销售";
-              String project = "工程";
-              String server = "服务";
-              if(supplierTypes != null){
-                  for (String supType : supplierTypes){
+              // 定义数据封装对象
+              StringBuffer supTypeSB = new StringBuffer(); // 供应商类型
+              StringBuffer supCategrySB = new StringBuffer(); // 供应商品目（小类）-分类型
+              StringBuffer supCategrySB2 = new StringBuffer(); // // 供应商品目（小类）
+              StringBuffer areasSb = new StringBuffer(); // 供应商地址
+              String product = Constant.SUPPLIER_PRODUCT_NAME;
+              String sales = Constant.SUPPLIER_SALES_NAME;
+              String project = Constant.SUPPLIER_PROJECT_NAME;
+              String server = Constant.SUPPLIER_SERVICE_NAME;
+              if (supplierTypes != null) {
+                  for (String supType : supplierTypes) {
                       param.put("supplierId", sup.getId());
                       param.put("type", supType);
                       // 物资生产
-                      if(Constant.SUPPLIER_PRODUCT.equals(supType)){
+                      if (Constant.SUPPLIER_PRODUCT.equals(supType)) {
                           supTypeSB.append(product).append("、");
-                          supCategrySB.append(product).append(":");
+                          supCategrySB.append(product).append("：");
                       }
                       // 物资销售
-                      if(Constant.SUPPLIER_SALES.equals(supType)){
+                      if (Constant.SUPPLIER_SALES.equals(supType)) {
                           supTypeSB.append(sales).append("、");
-                          supCategrySB.append(sales).append(":");
+                          supCategrySB.append(sales).append("：");
                       }
                       // 工程
-                      if(Constant.SUPPLIER_PROJECT.equals(supType)){
+                      if (Constant.SUPPLIER_PROJECT.equals(supType)) {
                           supTypeSB.append(project).append("、");
-                          supCategrySB.append(project).append(":");
+                          supCategrySB.append(project).append("：");
                       }
                       // 服务
-                      if(Constant.SUPPLIER_SERVICE.equals(supType)){
+                      if (Constant.SUPPLIER_SERVICE.equals(supType)) {
                           supTypeSB.append(server).append("、");
-                          supCategrySB.append(server).append(":");
+                          supCategrySB.append(server).append("：");
                       }
-
-                      if(Constant.SUPPLIER_SALES.equals(supType)){
+                      // 查询该类型下通过的产品类别
+                      if (Constant.SUPPLIER_SALES.equals(supType)) {
                           param.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
-                      }else {
+                      } else {
                           param.put("items_product_page", ses.util.Constant.ITEMS_PRODUCT_PAGE);
                       }
                       // 查询该某类型下的所通过的子节点
                       List<String> list = new ArrayList<>();
                       List<SupplierItem> supplierItems = supplierItemMapper.selectPassItemByCond(param);
-                      if(supplierItems != null && !supplierItems.isEmpty()) {
+                      if (supplierItems != null && !supplierItems.isEmpty()) {
                           for (SupplierItem supplierItem : supplierItems) {
                               list.add(supplierItem.getCategoryId());
                           }
@@ -2163,23 +2198,24 @@ public class SupplierServiceImpl implements SupplierService {
                       // 查询节点名称
                       param.clear();
                       param.put("categorys", list);
-                      if(!list.isEmpty()){
+                      if (!list.isEmpty()) {
                           List<String> strings = categoryMapper.selectMoreCategoryByIds(param);
-                          if(strings != null && !strings.isEmpty()){
-                              for (String cateName : strings){
+                          if (strings != null && !strings.isEmpty()) {
+                              for (String cateName : strings) {
                                   supCategrySB.append(cateName).append("、");
                               }
                           }
-                      }else {
+                      } else {
                           supCategrySB.append("无产品").append("、");
                       }
                       String substring = supCategrySB.substring(0, supCategrySB.lastIndexOf("、"));
                       supCategrySB.delete(0, supCategrySB.length());
                       supCategrySB2.append(substring + " ");
                   }
-                  if(supTypeSB.length() > 0){
+                  if (supTypeSB.length() > 0) {
+                      // 设置供应商类型
                       sup.setSupplierType(supTypeSB.substring(0, supTypeSB.lastIndexOf("、")));
-                  }else {
+                  } else {
                       sup.setSupplierType(null);
                   }
                   sup.setSupplierItemIds(supCategrySB2.toString());
@@ -2190,17 +2226,17 @@ public class SupplierServiceImpl implements SupplierService {
               String contactAddress = sup.getContactAddress();
               // 通过address获取省级加市级地址
               String addressId = sup.getAddress();
-              if(StringUtils.isNotEmpty(addressId)){
+              if (StringUtils.isNotEmpty(addressId)) {
                   param.clear();
                   param.put("id", addressId);
                   List<Area> areas = areaMapper.selectOfHierarchical(param);
-                  if(areas != null && !areas.isEmpty()){
-                      for (Area area : areas){
+                  if (areas != null && !areas.isEmpty()) {
+                      for (Area area : areas) {
                           areasSb.append(area.getName()).append(" ");
                       }
                   }
                   sup.setAddress(areasSb.append(contactAddress).toString());
-              }else {
+              } else {
                   sup.setAddress(contactAddress);
               }
               // 状态
@@ -2212,10 +2248,10 @@ public class SupplierServiceImpl implements SupplierService {
                       && SupplierConstants.Status.REVIEW_NOT_PASS.getValue() != sup.getStatus()
                       && SupplierConstants.Status.PRE_INVESTIGATE_ENDED.getValue() != sup.getStatus()
                       && SupplierConstants.Status.INVESTIGATE_PASSED.getValue() != sup.getStatus()
-                      && SupplierConstants.Status.INVESTIGATE_NOT_PASS.getValue() != sup.getStatus()){
+                      && SupplierConstants.Status.INVESTIGATE_NOT_PASS.getValue() != sup.getStatus()) {
                   sup.setAuditDate(null);
-              }else {
-                  if(sup.getAuditDate() != null){
+              } else {
+                  if (sup.getAuditDate() != null) {
                       sup.setAuditDateString(df.format(sup.getAuditDate()));
                   }
               }

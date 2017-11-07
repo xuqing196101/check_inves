@@ -2440,10 +2440,13 @@ public class SupplierQueryController extends BaseSupplierController {
      * @author Easong
      * @version 2017/11/6
      * @param [judge, sign, supplier]
+     *                judge: 5：入库供应商
+     *                sign: 菜单标识：1、全部供应商 2、入库供应商
+     *                supplier: 供应商实体
      * @since JDK1.7
      */
     @RequestMapping("/exportExcel")
-    public void exportExcel(HttpServletResponse httpServletResponse, Integer judge, Integer sign, Supplier supplier){
+    public void exportExcel(HttpServletResponse httpServletResponse, Supplier supplier){
         ExcelUtils excelUtils = new ExcelUtils(httpServletResponse, "供应商信息", "sheet1");
         //ExcelUtils excelUtils = new ExcelUtils("./test.xls", "sheet1");
         List<Supplier> dataList = supplierService.querySupplierbytypeAndCategoryIds(null, supplier);
@@ -2451,7 +2454,7 @@ public class SupplierQueryController extends BaseSupplierController {
                 "address", "contactName", "mobile", "contactMobile", "statusString", "supplierItemIds", "auditDateString"};
         String titleName[] = {"序号", "供应商名称", "企业性质", "供应商类型", "住所地址", "军品联系人",
                 "联系手机", "联系固话", "状态", "产品类别", "入库时间"};
-        int titleSize[] = {5, 15, 10, 30, 20, 13, 13, 13, 13, 30, 13};
+        int titleSize[] = {5, 40, 10, 30, 42, 13, 13, 13, 17, 70, 19};
         excelUtils.wirteExcel(titleColumn, titleName, titleSize, dataList);
     }
 }

@@ -1,6 +1,49 @@
 /**
  * Created by yggc-easong on 2017/10/24.
  */
+$(function () {
+    // 页面加载完毕绑定结果导出事件
+    $("#export_result").click(function () {
+        // 禁用点击按钮
+        $("#export_result").attr("disabled", true);
+        var exportExcelCond = $("#exportExcelCond").serialize();
+        // 加载等待框
+        loading = layer.load(1);
+        // 禁用下载按钮
+        var url = globalPath + "/supplierQuery/exportExcel.do";
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', url, true);        // 也可以使用POST方式，根据接口
+        //设定Content-Type头信息，模拟HTTP POST方法发送一个表单，这样服务器才会知道如何处理上传的内容
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+        xhr.responseType = "blob";    // 返回类型blob
+        // 定义请求完成的处理函数，请求前也可以增加加载框/禁用下载按钮逻辑
+        xhr.onload = function () {
+            // 请求完成
+            if (this.status === 200) {
+                // 返回200
+                var blob = this.response;
+                var reader = new FileReader();
+                reader.readAsDataURL(blob);    // 转换为base64，可以直接放入a表情href
+                reader.onload = function (e) {
+                    // 转换完成，创建一个a标签用于下载
+                    var a = document.createElement('a');
+                    a.download = '供应商信息.xls';
+                    a.href = e.target.result;
+                    $("body").append(a);    // 修复firefox中无法触发click
+                    a.click();
+                    $(a).remove();
+                    // 关闭等待框
+                    layer.close(loading);
+                }
+            }
+            // 开启按钮
+            $("#export_result").attr("disabled", false);
+        };
+        // 发送ajax请求
+        xhr.send(exportExcelCond);
+    });
+});
+
 /**
  * 初始化供应商品目树
  */
@@ -35,11 +78,6 @@ var treeSetting = {
         }
     }
 };
-
-$(function () {
-    // 初始化树
-    // initZtree();
-})
 
 /**
  * 搜索树

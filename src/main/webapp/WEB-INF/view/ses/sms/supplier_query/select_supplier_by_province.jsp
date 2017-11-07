@@ -31,15 +31,9 @@
 						}
 					}
 				});
-
-				// 绑定结果导出事件
-				$("#export_result").click(function(){
-                    loading = layer.load(1);
-                    // 获取查询条件
-                    window.location.href = globalPath + "/supplierQuery/exportExcel.html"
-                    layer.close(loading);
-				});
 			});
+
+
 
 			function fanhui() {
 				window.location.href = "${pageContext.request.contextPath}/supplierQuery/highmaps.html";
@@ -457,6 +451,19 @@
 				<h2>供应商信息</h2>
 			</div>
 			<h2 class="search_detail">
+                <!--下载Excel查询条件表单-->
+                <form id="exportExcelCond">
+                    <input type="hidden" name="supplierName" value="${supplier.supplierName}"/>
+                    <input type="hidden" name="businessNature" value="${supplier.businessNature}"/>
+                    <input type="hidden" name="supplierTypeIds" value="${supplierTypeIds}"/>
+                    <input type="hidden" name="status" value="${supplier.status}"/>
+                    <input type="hidden" name="isProvisional" value="${supplier.isProvisional}"/>
+                    <input type="hidden" name="creditCode" value="${supplier.creditCode}"/>
+                    <input type="hidden" name="orgName" value="${supplier.orgName}"/>
+                    <input type="hidden" name="address" value="${supplier.address}"/>
+                    <input type="hidden" name="queryCategory" value="${supplier.queryCategory }"/>
+                    <input type="hidden" name="sign" value="${sign}"/>
+                </form>
 	      <form id="form1" action="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?sign=${sign}" method="post" class="mb0">
 	      	<c:if test="${sign != 1 }">
 	      		<input type="hidden" name="address" value="${address }">
