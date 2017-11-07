@@ -3589,6 +3589,7 @@ public class ExpertAuditController{
 		List < ExpertAudit > reasonsList = new ArrayList<>();
 		if(expertAudit.getAuditFalg()==1){
 			expertAudit.setAuditFalg(666);//666为兼容老数据
+			expertAudit.setStatusQuery("notPass");
 			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
 			expertAudit.setAuditFalg(1);
 			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
@@ -3973,6 +3974,7 @@ public class ExpertAuditController{
 		ExpertAudit expertAudit = new ExpertAudit();
 		expertAudit.setExpertId(expertId);
 		expertAudit.setAuditFalg(2);
+		expertAudit.setStatusQuery("notPass");
 		List<ExpertAudit> reasonsList = expertAuditService.getListByExpert(expertAudit);
 		Map<String,Integer> map = new HashMap<String,Integer>();
 		map.put("GOODS", 0);
