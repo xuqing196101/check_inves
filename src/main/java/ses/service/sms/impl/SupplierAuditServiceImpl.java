@@ -931,14 +931,14 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 					    if(3==type){
 				    	//封装 物资销售 记录 资质文件
 					    	qualification.setAuditCount(countData(cateTree.getItemsId(), supplierItem.getId()+"_"+categoryQua.getQuaId(), ses.util.Constant.APTITUDE_SALES_PAGE));
-						 }else if(2==type){
+					    }else if(2==type){
 						   	//封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
 						    qualification.setAuditCount(countData(cateTree.getItemsId(), supplierItem.getId()+"_"+categoryQua.getQuaId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE));
-						  }else if(1==type){
+					    }else if(1==type){
 						   	//封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
-						   qualification.setAuditCount(countData(cateTree.getItemsId(), supplierItem.getId()+"_"+categoryQua.getQuaId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE));
-						 }
-						   list.add(qualification);
+					    	qualification.setAuditCount(countData(cateTree.getItemsId(), supplierItem.getId()+"_"+categoryQua.getQuaId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE));
+					    }
+				    	list.add(qualification);
 					}
 				}
 			}
@@ -1883,8 +1883,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		audit.setSupplierId(supplierId);
 		audit.setAuditField(auditField);
 		audit.setAuditType(auditType);
-		//audit.setIsDeleted(1);
-		return countAuditRecords(audit, new Integer[]{0,2});
+		return countAuditRecords(audit, SupplierConstants.AUDIT_RETURN_STATUS);
 	}
 	@Override
 	public SupplierCateTree countEngCategoyrId(SupplierCateTree cateTree, String supplierId) {

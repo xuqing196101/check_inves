@@ -229,4 +229,11 @@ public interface SupplierItemMapper {
 	 * @return
 	 */
 	List<Supplier> findFinaSupplierByCategouryAndType(Supplier supplier);
+
+	/**
+	 * 根据供应商id更新品目
+	 * @param supplierId
+	 * @return
+	 */
+	int updateBySupplierId(@Param("item")SupplierItem item, @Param("supplierId")String supplierId);
 }

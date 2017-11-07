@@ -1,5 +1,5 @@
 $(function(){
-	var tablerId=$("#tablerId").val();
+	/*var tablerId=$("#tablerId").val();
 	var ind = parseInt($("#ids").val());
 	ind=ind+1;
 	var auditCount;
@@ -20,8 +20,44 @@ $(function(){
 		$("#"+tablerId+" #qualifications"+ind+"",window.parent.document).css('border-color', '#FF0000');
 		$("#show_td").attr('src', globalPath+'/public/backend/images/sc.png');
 		$("#count").val(auditCount);
-	}
+	}*/
 });
+
+//获取旧的审核记录
+function getOldAudit(auditData) {
+	var result = null;
+	$.ajax({
+		url : globalPath+"/supplierAudit/ajaxOldAudit.do",
+		type : "post",
+		dataType : "json",
+		data : auditData,
+		async : false,
+		success : function(data) {
+			result = data;
+		}
+	});
+	return result;
+}
+
+// 撤销审核记录
+function cancelAudit(auditData) {
+	var bool = false;
+	$.ajax({
+		url : globalPath+"/supplierAudit/cancelAudit.do",
+		type : "post",
+		dataType : "json",
+		data : auditData,
+		async : false,
+		success : function(result) {
+			if (result && result.status == 500) {
+				bool = true;
+				layer.msg('撤销成功！');
+			}
+		}
+	});
+	return bool;
+}
+
 //审核资质不通过理由
 function reasonProject(ind, auditField, auditFieldName, certType) {
 	var supplierId = $("#supplierId").val();
@@ -31,10 +67,10 @@ function reasonProject(ind, auditField, auditFieldName, certType) {
 	var auditContent=content(tablerId,ind,certType);
 	var audits;
 	var type="";
-	if(auditCount!=null && auditCount !='' && auditCount>'0' ){
+	/*if(auditCount!=null && auditCount !='' && auditCount>'0' ){
 		layer.msg('已审核', {offset:'100px'});
 		return;
-	}
+	}*/
 	var auditType;
 	switch (tablerId) {
 	case 'content_1'://物资生产
@@ -65,14 +101,48 @@ function reasonProject(ind, auditField, auditFieldName, certType) {
 		return;
 	}
 	
-	var index = layer.prompt({
+    var auditData = {
+		"supplierId": supplierId,
+        "auditType": auditType,
+        "auditField": auditField,
+        "auditFieldName": auditFieldName,
+        "auditContent": auditContent
+    };
+    // 判断：新审核/可再次审核/不可再次审核
+    // 获取旧的审核记录
+    var result = getOldAudit(auditData);
+    if(result && result.status == 0){
+    	layer.msg('该条信息已审核过并退回过！');
+		return;
+    }
+    var defaultVal = "";
+    var options = {
 		title: '请填写不通过的理由：',
-		formType: 2,
-		offset: '30px',
-		maxlength: '100',
-	}, function(text) {
-	  if(text != null && text !=""){
-		    if($.trim(text).length>900){
+		value: defaultVal,
+		formType: 2, 
+		offset: '100px',
+		maxlength: '100'
+	};
+	if (result && result.status == 1 && result.data) {
+		defaultVal = result.data.suggest;
+		options.value = defaultVal;
+		options.btn = [ '确定', '撤销', '取消' ];
+		options.btn2 = function(index) {
+			var bool = cancelAudit(auditData);
+			if (bool) {
+				$("#show_td").attr('src', globalPath+'/public/backend/images/light_icon.png');
+				$("#count").val('0');
+			}
+		};
+		options.btn3 = function(index) {
+			layer.close(index);
+		};
+	}
+	layer.prompt(options, function(value, index, elem){
+ 		var text = $.trim(value);
+ 		if(text != null && text !=""){
+ 			auditData.suggest = text;
+		    if(text.length>900){
 		    	layer.msg('审核理由内容太长', {offset:'100px'});
 		    	return;
 		    }
@@ -80,7 +150,8 @@ function reasonProject(ind, auditField, auditFieldName, certType) {
 			$.ajax({
 				url: globalPath+"/supplierAudit/auditReasons.do",
 				type: "post",
-				data: "&auditFieldName=" + auditFieldName + "&suggest=" + text + "&supplierId=" + supplierId + "&auditType="+auditType+"&auditContent=" + auditContent + "&auditField=" + auditField,
+				//data: "&auditFieldName=" + auditFieldName + "&suggest=" + text + "&supplierId=" + supplierId + "&auditType="+auditType+"&auditContent=" + auditContent + "&auditField=" + auditField,
+				data: auditData,
 				dataType: "json",
 				success: function(result) {
 					if(result.status==500){
@@ -114,7 +185,8 @@ function reasonProject(ind, auditField, auditFieldName, certType) {
 								});
 								}
 					   });
-						$("#show_td").attr('src', globalPath+'/public/backend/images/sc.png');
+						//$("#show_td").attr('src', globalPath+'/public/backend/images/sc.png');
+						$("#show_td").attr('src', globalPath+'/public/backend/images/light_icon_2.png');
 						$("#count").val('1');
 					}else{
 						layer.msg(result.msg, {
