@@ -153,18 +153,29 @@
       <if test="supplierTypeId != null" >
         SUPPLIER_TYPE_ID = #{supplierTypeId,jdbcType=VARCHAR},
       </if>
-       
     </set>
     where SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR} 
     and SUPPLIER_TYPE_ID=#{supplierTypeId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierItemLevel" >
     update T_SES_SMS_SUPPLIER_ITEM_LEVEL
-    set SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
-      SUPPLIER_LEVEL = #{supplierLevel,jdbcType=VARCHAR},
-      CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
-      SUPPLIER_TYPE_ID = #{supplierTypeId,jdbcType=VARCHAR},
+    <set >
+      <if test="supplierId != null" >
+        SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierLevel != null" >
+        SUPPLIER_LEVEL = #{supplierLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="supplierTypeId != null" >
+        SUPPLIER_TYPE_ID = #{supplierTypeId,jdbcType=VARCHAR},
+      </if>
+    </set>
      where ID = #{id,jdbcType=VARCHAR}
   </update>
   
@@ -287,7 +298,30 @@
   </select>
   
   <select id="selectByMapForExport" parameterType="map" resultMap="BaseResultMap">
-  	
+	SELECT * FROM T_SES_SMS_SUPPLIER_ITEM_LEVEL 
+ 	<where>
+	  <if test="supplierId != null" >
+        SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierLevel != null" >
+        AND SUPPLIER_LEVEL = #{supplierLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        AND CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        AND CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="supplierTypeId != null" >
+        AND SUPPLIER_TYPE_ID = #{supplierTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null and startTime != ''">
+        AND E.CREATED_AT &gt;= to_date(#{startTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
+      </if>
+      <if test="endTime != null and endTime != ''">
+        AND E.CREATED_AT  &lt;= to_date(#{endTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
+      </if>
+	</where> 
   </select>
   
 </mapper>

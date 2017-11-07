@@ -891,6 +891,13 @@ public class SupplierExtractConditionServiceimp implements
 		if (StringUtils.isNotBlank(businessScope)) {
 			list.add(new ExtractConditionRelation(cid,"businessScope",businessScope));
 		}
+		
+		if(condition.getSupplierTypeCode().equals("GOODS") && StringUtils.isNotBlank(condition.getSalesLevelTypeId())){
+			for (String sl : condition.getSalesLevelTypeIds()) {
+				list.add(new ExtractConditionRelation(cid, "salesLevelTypeId", sl));
+			}
+		}
+		
 		if (list.size() > 0) {
 			return extractConditionRelationMapper.insertConditionRelation(list);
 		}

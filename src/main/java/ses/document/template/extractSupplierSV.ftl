@@ -183,46 +183,38 @@
                                 </w:p>
                             </w:tc>
                             <w:tc>
-                                <w:tcPr>
-                                    <w:tcW w:w="2950" w:type="dxa" />
-                                    <w:gridSpan w:val="3" />
-                                    <w:vAlign w:val="center" />
-                                </w:tcPr>
-                                <w:p>
-                                    <w:pPr>
-                                        <w:tabs>
-                                            <w:tab w:val="left" w:pos="646" />
-                                            <w:tab w:val="center" w:pos="1430" />
-                                        </w:tabs>
-                                        <w:jc w:val="left" />
-                                        <w:rPr>
-                                            <w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman" />
-                                            <w:kern w:val="0" />
-                                            <w:sz w:val="20" />
-                                            <w:szCs w:val="20" />
-                                        </w:rPr>
-                                    </w:pPr>
-                                    <w:r>
-                                        <w:rPr>
-                                            <w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman" />
-                                            <w:kern w:val="0" />
-                                            <w:sz w:val="20" />
-                                            <w:szCs w:val="20" />
-                                            <w:lang w:eastAsia="zh-CN" />
-                                        </w:rPr>
-                                        <w:tab />
-                                    </w:r>
-                                    <w:r>
-                                        <w:rPr>
-                                            <w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman" />
-                                            <w:kern w:val="0" />
-                                            <w:sz w:val="20" />
-                                            <w:szCs w:val="20" />
-                                        </w:rPr>
-                                        <w:t>${construction!}</w:t>
-                                    </w:r>
-                                </w:p>
-                            </w:tc>
+								<w:tcPr>
+								  <w:tcW w:w="2950" w:type="dxa"/>
+								  <w:gridSpan w:val="3"/>
+								  <w:vAlign w:val="center"/>
+								</w:tcPr>
+								<w:p>
+								  <w:pPr>
+									<w:tabs>
+									  <w:tab w:val="center" w:pos="646"/>
+									  <w:tab w:val="center" w:pos="1430"/>
+									</w:tabs>
+									<w:jc w:val="center"/>
+									<w:rPr>
+									  <w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman"/>
+									  <w:kern w:val="0"/>
+									  <w:sz w:val="20"/>
+									  <w:szCs w:val="20"/>
+									</w:rPr>
+								  </w:pPr>
+								  <w:bookmarkStart w:id="0" w:name="_GoBack"/>
+								  <w:bookmarkEnd w:id="0"/>
+								  <w:r>
+									<w:rPr>
+									  <w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman"/>
+									  <w:kern w:val="0"/>
+									  <w:sz w:val="20"/>
+									  <w:szCs w:val="20"/>
+									</w:rPr>
+									<w:t>${construction!}</w:t>
+								  </w:r>
+								</w:p>
+							</w:tc>
                         </w:tr>
                         <w:tr>
                             <w:tblPrEx>

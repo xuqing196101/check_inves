@@ -70,5 +70,17 @@ public interface AutoExtractSupplierService {
   void selectAutoExtractProject();
 
 
+  /**
+   * 
+   * <简述> 内网导出项目信息
+   *
+   * @author Jia Chengxiang
+   * @dateTime 2017-11-6下午12:13:32
+   * @return
+   */
+  Map<String, Object> exportExtractProjectInfo(String start, String end,
+		Date synchDate);
+
+
 
 }

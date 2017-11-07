@@ -111,5 +111,16 @@ public interface SupplierExtractRecordService {
    */
   List<SupplierExtractProjectInfo> selectAutoExtractProject();
 
-  
+  /**
+   * 
+   * <简述>导出抽取记录，用于更新内网抽取状态 
+   *
+   * @author Jia Chengxiang
+ * @param end 
+ * @param start 
+   * @dateTime 2017-11-6下午12:45:21
+   * @return
+   */
+  List<SupplierExtractProjectInfo> selectRecordForExport(String start, String end);
+
 }

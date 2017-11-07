@@ -397,7 +397,7 @@
 	</select>
 	<!-- 查询本项目已经抽取到的供应商 -->
 	<select id="selectSupplierIdListByProjectId" parameterType="java.lang.String" resultType="java.lang.String">
-		SELECT DISTINCT R.SUPPLIER_ID supplierIds FROM T_SES_SMS_EXTRACT_RESULT R LEFT JOIN T_SES_SMS_EXTRACT_RECORD E ON R.RECORD_ID = E.ID  WHERE E.PROJECT_ID = #{value}
+		SELECT DISTINCT R.SUPPLIER_ID supplierIds FROM T_SES_SMS_EXTRACT_RESULT R LEFT JOIN T_SES_SMS_EXTRACT_RECORD E ON R.RECORD_ID = E.ID  WHERE E.RECORD_ID = #{value}
 	</select>
 
 	<sql id="extractSql">
@@ -417,15 +417,11 @@
 		</if>
 		WHERE S.IS_PROVISIONAL = 0 AND S.IS_DELETED = 0 AND S.SUPPLIER_STATUS in ( 1,5,7) 
 		<!-- 查询地址 -->
-		<!-- <if test="province != null and province != '' ">
-			AND S.ADDRESS in (SELECT AREA.ID from T_SES_BMS_AREA AREA WHERE AREA.PARENT_ID IN	<foreach collection="provinces"  open="(" item="index" close=")" separator=",">	#{index}	</foreach>)
-		</if> -->
 		<if test="addressId != null and addressId != '' ">
 			AND S.ADDRESS in 	<foreach collection="addressIds"  open="(" item="index" close=")" separator=",">	#{index}	</foreach>
 		</if>
 		<!-- 查询类型 -->
 		<if test="supplierTypeCode !=null and supplierTypeCode != '' ">
-			<!--  AND I.Supplier_Type_Relate_Id  IN  <foreach collection="supplierTypeCodes" open="(" separator="," item="code" close=")"> #{code} </foreach>  -->
 			 AND T.SUPPLIER_TYPE_ID  IN  <foreach collection="supplierTypeCodes" open="(" separator="," item="code" close=")"> #{code} </foreach> 
 		</if>	 
 		<!-- 查询品目 -->
@@ -438,8 +434,6 @@
 						#{item}
 					</foreach>
 					CONNECT BY PRIOR CATE.id=CATE.PARENT_ID order by level desc ) TEM where TEM.is_publish = 0 and (TEM.is_parent is null or TEM.is_parent = 'false'))
-				
-					<!--  <foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach> -->
 			</if>
 			<if test="isMulticondition == 2 and categoryId !=null and categoryId != '' ">
 				AND S.ID IN 
@@ -476,15 +470,25 @@
 					HAVING COUNT(A.MAT_ENG_ID) = #{quaSize}
 				)
 			</if>
-			<!-- <if test="supplierTypeCode != 'PROJECT'.toString()">
-				AND  QUA.QUA_ID IN  <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
-			</if> -->
 		</if>
 		<!-- 查询等级 -->
-		<if test="levelTypeId !=null and levelTypeId != '' ">
-			<if test="supplierTypeCode != 'PROJECT'.toString()">
+		<if test="supplierTypeCode != 'PROJECT'.toString() and supplierTypeCodes.length &lt; 2">
+			<if test="levelTypeId !=null and levelTypeId != '' ">
+				AND L.SUPPLIER_TYPE_ID = #{supplierTypeCode}
 				AND L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
 			</if>
+		</if>
+		<if test="supplierTypeCodes.length == 2">
+				AND ( L.SUPPLIER_TYPE_ID = 'PRODUCT'
+			<if test="levelTypeId !=null and levelTypeId != '' ">
+				AND  L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
+			</if>
+			OR
+			<if test="salesLevelTypeId !=null and salesLevelTypeId != '' ">
+				 L.SUPPLIER_LEVEL IN <foreach collection="salesLevelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
+				 AND 
+			</if>
+				L.SUPPLIER_TYPE_ID ='SALES')
 		</if>
 		<!-- 保密要求 -->
 		<if test="isHavingConCert !=null and isHavingConCert != '' ">

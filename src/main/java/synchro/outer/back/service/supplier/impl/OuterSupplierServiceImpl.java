@@ -978,14 +978,13 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     	Map<String, Object> map = new HashedMap();
     	map.put("startTime", startTime);
     	map.put("endTime", endTime);
-    	map.put("isDeleted", 1);
     	
     	List<SupplierItemLevel> levels = supplierItemLevelMapper.selectByMapForExport(map);
     	
     	// 将查询的数据封装
     	//将数据写入文件
     	if (!levels.isEmpty()) {
-    		FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_SYNCH_LOGOUT_SUPPLIER_FILENAME, 31), JSON.toJSONString(levels, SerializerFeature.WriteMapNullValue));
+    		FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_LEVEL_FILENAME, 37), JSON.toJSONString(levels, SerializerFeature.WriteMapNullValue));
     	}
     	recordService.synchBidding(null, new Integer(levels.size()).toString(), synchro.util.Constant.SYNCH_LOGOUT_SUPPLIER, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.EXPORT_SYNCH_LOGOUT_SUPPLIER);
     }

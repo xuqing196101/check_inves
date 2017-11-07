@@ -10,8 +10,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class SupplierExtractCondition {
 
-	private SupplierConType supplierConType;
-
 	private String recordId;
 
 	/**
@@ -81,6 +79,8 @@ public class SupplierExtractCondition {
 	 */
 	private int csize;
 
+	
+	
 	private int quaSize;
 
 	/**
@@ -199,6 +199,12 @@ public class SupplierExtractCondition {
 	 * </pre>
 	 */
 	private String[] addressSplit;
+	
+	/**
+	 * 抽取类别GOODS时，使用
+	 */
+	private String salesLevelTypeId;
+	private String[] salesLevelTypeIds;
 
 	/**
 	 * <pre>
@@ -584,14 +590,6 @@ public class SupplierExtractCondition {
 		this.supplierTypeCodes = supplierTypeCodes;
 	}
 
-	public SupplierConType getSupplierConType() {
-		return supplierConType;
-	}
-
-	public void setSupplierConType(SupplierConType supplierConType) {
-		this.supplierConType = supplierConType;
-	}
-
 	public String getAreaName() {
 		return areaName;
 	}
@@ -702,6 +700,22 @@ public class SupplierExtractCondition {
 
 	public void setBusinessScope(String businessScope) {
 		this.businessScope = businessScope;
+	}
+
+	public String getSalesLevelTypeId() {
+		return salesLevelTypeId;
+	}
+
+	public void setSalesLevelTypeId(String salesLevelTypeId) {
+		this.salesLevelTypeId = salesLevelTypeId;
+	}
+
+	public String[] getSalesLevelTypeIds() {
+		return StringUtils.isNotBlank(salesLevelTypeId)?salesLevelTypeId.split(","):null;
+	}
+
+	public void setSalesLevelTypeIds(String[] salesLevelTypeIds) {
+		this.salesLevelTypeIds = salesLevelTypeIds;
 	}
 	
 	

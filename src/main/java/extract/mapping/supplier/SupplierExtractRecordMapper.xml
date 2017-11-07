@@ -98,12 +98,18 @@
     <!--
     @mbggenerated
     -->
-    SELECT <include refid="project_info"/>  from T_SES_SMS_EXTRACT_RECORD E  WHERE E.EXTRACT_THE_WAY = '1'  AND E.IS_DELETE = '0' 
+    SELECT <include refid="project_info"/>  from T_SES_SMS_EXTRACT_RECORD E  WHERE E.IS_DELETE = '0' 
+   	  <if test="extractTheWay != null and extractTheWay != ''">
+    	AND E.EXTRACT_THE_WAY = #{extractTheWay}  
+      </if>
    	  <if test="procurementDepId != null and procurementDepId != ''">
     	AND E.PROCUREMENT_DEP_ID = #{procurementDepId}  
       </if>
    	  <if test="projectName != null and projectName != ''">
         AND E.PROJECT_NAME like CONCAT(CONCAT('%', #{projectName}), '%')
+      </if>
+   	  <if test="status != null and status != ''">
+        AND E.STATUS IN (#{status})
       </if>
       <if test="projectCode != null and projectCode != ''">
         AND E.PROJECT_CODE like CONCAT(CONCAT('%', #{projectCode}), '%')

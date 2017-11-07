@@ -30,7 +30,7 @@
 		<result column="OVERSEAS_BRANCH" jdbcType="DECIMAL" property="overseasBranch" />
 		<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
 		<result column="SUPPLIER_TYPE_CODE" jdbcType="VARCHAR" property="supplierTypeCode" />
-		<result column="EXTRACT_NUM" jdbcType="DECIMAL" property="isMulticondition" />
+		<result column="EXTRACT_NUM" jdbcType="DECIMAL" property="extractNum" />
 		<result column="IS_MULTICONDITION" jdbcType="DECIMAL" property="isMulticondition" />
 	</resultMap>
 

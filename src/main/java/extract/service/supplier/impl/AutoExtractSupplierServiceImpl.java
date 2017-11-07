@@ -115,7 +115,11 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 				}
 			}
 			if(suppliers.size()<condition.getExtractNum()){
-				//TODO 返回供应商数量不满足抽取
+				//修改项目状态为不满足条件
+				SupplierExtractProjectInfo projectInfo = new SupplierExtractProjectInfo();
+				projectInfo.setStatus((short)1);
+				projectInfo.setId(condition.getRecordId());
+				recordService.update(projectInfo);
 			}
 			
 		} catch (Exception e) {
@@ -286,8 +290,8 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 				this.autoExtract(condition,projectInfo.getProjectInto());
 			}else{
 				//修改项目状态为抽取结束
-				//TODO
-				
+				projectInfo.setStatus((short)1);
+				recordService.update(projectInfo);
 			}
 		}
 		return "service error";
@@ -377,7 +381,9 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 						resultService.saveOrUpdateVoiceResult(condition,suppliers,null,projectInfo.getProjectInto());
 						callVoiceService2(suppliers,projectInfo);
 					}else{
-						//TODO 人数不满足
+						//修改项目状态为不满足条件
+						projectInfo.setStatus((short)1);
+						recordService.update(projectInfo);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -387,14 +393,6 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 	}
 
 
-	 /**
-	   * 点击自动抽取 将项目信息，抽取条件从内网导出
-	   * <简述> 
-	   *
-	   * @author Jia Chengxiang
-	   * @dateTime 2017-10-20下午6:09:19
-	   * @return
-	   */
 	@Override
 	public Map<String, Object> exportExtractInfo(
 			SupplierExtractCondition condition,String projectInto) {
@@ -523,4 +521,24 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
         synchRecordService.synchBidding(new Date(), sum + "",Constant.DATE_SYNCH_SUPPLIER_EXTRACT_RESULT, Constant.OPER_TYPE_EXPORT,Constant.SUPPLIER_EXTRACT_RESULT_COMMIT);
     }
     
+	 /**
+	   * 抽取记录导出（项目信息）
+	   * <简述> 
+	   *
+	   * @author Jia Chengxiang
+	   * @dateTime 2017-10-20下午6:09:19
+	   * @return
+	   */
+	@Override
+	public Map<String, Object> exportExtractProjectInfo(String start, String end, Date synchDate) {
+		//查询项目信息
+		List<SupplierExtractProjectInfo> projectInfos  = recordService.selectRecordForExport(start,end);
+		if(projectInfos.size()>0){
+			//生成json 并保存
+			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_EXTRACT_PROJECT_PATH_FILENAME, 35),JSON.toJSONString(projectInfos));
+		}
+		synchRecordService.synchBidding(new Date(), "1", Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO, Constant.OPER_TYPE_EXPORT, Constant.SUPPLIER_EXTRACT_COMMIT);
+		return null;
+	}
+	
 }

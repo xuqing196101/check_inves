@@ -395,6 +395,13 @@
 							<div class="cue" id="dCount"></div>
 						</div>
 					</li>
+					<li class="col-md-3 col-sm-6 col-xs-12 level">
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">销售类供应商等级：</span>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<input type="text" readonly id="salesLevel" name="salesLevelTypeId" value="${listCon.supplierLevel == null? '':listCon.supplierLevel}" onclick="showLevel(this);" /> <span class="add-on">i</span>
+							<div class="cue" id="dCount"></div>
+						</div>
+					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
@@ -480,7 +487,7 @@
 				<div class="clear"></div>
 				<div class="col-xs-12 tc mt20">
 					<button class="btn bu" onclick="extractVerify(1);" type="button">人工抽取</button>
-					<button class="btn bu" type="button" onclick="extractVerify(0)">自动抽取</button>
+					<button class="btn bu" type="button" >自动抽取</button>
 					<!-- onclick="extractVerify('auto')" -->
 					<button class="btn bu" type="button" onclick="resetCondition(this)">重置</button>
 				</div>
@@ -535,6 +542,12 @@
 	<div id="levelContent" class="levelTypeContent"
 		style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 		<ul id="levelTree" class="ztree" style="margin-top:0;"></ul>
+	</div>
+
+	<!-- 等级树 -->
+	<div id="salesLevelContent" class="levelTypeContent"
+		style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+		<ul id="salesLevelTree" class="ztree" style="margin-top:0;"></ul>
 	</div>
 
 	<!-- 资质树 -->
