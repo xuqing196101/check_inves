@@ -226,7 +226,7 @@
 								<%-- <c:forEach items="${address }" var="add">
                                 <option value="${add.id }">${add.name }</option>
                        		 </c:forEach> --%>
-							</select> <span class="add-on">i</span>
+							</select> 
 							<div class="cue" id="constructionProError"></div>
 						</div></li>
 					<li class="col-md-3 col-sm-4 col-xs-12"><span
