@@ -2447,14 +2447,14 @@ public class SupplierQueryController extends BaseSupplierController {
      */
     @RequestMapping("/exportExcel")
     public void exportExcel(HttpServletResponse httpServletResponse, Supplier supplier){
-        ExcelUtils excelUtils = new ExcelUtils(httpServletResponse, "供应商信息", "sheet1");
+        ExcelUtils excelUtils = new ExcelUtils(httpServletResponse, "供应商信息", "sheet1", 500);
         //ExcelUtils excelUtils = new ExcelUtils("./test.xls", "sheet1");
         List<Supplier> dataList = supplierService.querySupplierbytypeAndCategoryIds(null, supplier);
         String titleColumn[] = {"orderNum", "supplierName", "businessNature", "supplierType",
-                "address", "contactName", "mobile", "contactMobile", "statusString", "supplierItemIds", "auditDateString"};
+                "address", "contactName", "mobile", "contactMobile", "statusString", "supplierItemIds", "auditDate"};
         String titleName[] = {"序号", "供应商名称", "企业性质", "供应商类型", "住所地址", "军品联系人",
                 "联系手机", "联系固话", "状态", "产品类别", "入库时间"};
-        int titleSize[] = {5, 40, 10, 30, 42, 13, 13, 13, 17, 70, 19};
+        int titleSize[] = {5, 40, 10, 35, 42, 13, 13, 13, 20, 70, 22};
         excelUtils.wirteExcel(titleColumn, titleName, titleSize, dataList);
     }
 }
