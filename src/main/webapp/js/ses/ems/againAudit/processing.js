@@ -525,15 +525,13 @@ function save_editMembers() {
         empty_sum = 1;
         return false;
       }
-      list[index] = {'index': '', 'groupId': '', 'relName': '', 'orgName': '', 'duties': ''};
-      list[index].index = index;
+      list[index] = {'indexNum': '', 'groupId': '', 'relName': '', 'orgName': '', 'duties': ''};
+      list[index].indexNum = index;
       list[index].groupId = getUrlParam('groupId');
       list[index].relName = relName;
       list[index].orgName = orgName;
       list[index].duties = duties;
     });
-    
-    console.log(list);
     
     if (empty_sum === 0) {
       layer.confirm('您确定要保存么？', {
