@@ -93,22 +93,22 @@
         <!-- 未选 -->
         <div class="tab-pane fade in active" id="tab_unselected">
           <div class="over_hidden">
-            <button type="button" class="btn btn-windows reverse m0" onclick="againAudit_reverseSelection('.unselected_table')">反选</button>
+            <button type="button" class="btn btn-windows reverse m0" onclick="againAudit_reverseSelection('list_content')">反选</button>
             <button type="button" class="btn btn-windows add mb0 ml5" onclick="addto_selected()">添加到已选分组</button>
             <div class="fr h30 lh30">共有 <span id="unselect_expertTotal" class="red"></span> 名专家</div>
           </div>
-          <table class="table table-bordered table-hover table-striped againAudit_table mb0 mt10 unselected_table fixed_columns">
+          <table class="table table-bordered table-hover mb0 mt10 againAudit_table fixed_columns">
             <thead>
               <tr>
-                <th class="w30"><input type="checkbox" name="checkAll" class="unselected_checkAll" onclick="checkAll(this, '.unselected_table')"></th>
+                <th class="w30"><input type="checkbox" name="checkAll" class="unselected_checkAll" onclick="againAudit_checkAll(this, 'list_content')"></th>
                 <th class="w50">序号</th>
                 <th class="w100">采购机构</th>
-                <th class="w100">专家姓名</th>
+                <th class="w140">专家姓名</th>
                 <th class="w50">性别</th>
                 <th>专家类型</th>
                 <th class="w80">专家类别</th>
-                <th class="w120">工作单位</th>
-                <th class="w120">专业职称</th>
+                <th class="w180">工作单位</th>
+                <th class="w140">专业职称</th>
                 <th class="w120">初审合格时间</th>
               </tr>
             </thead>
@@ -120,24 +120,23 @@
         <!-- 已选 -->
         <div class="tab-pane fade" id="tab_selected">
           <div class="over_hidden">
-            <button type="button" class="btn btn-windows reverse m0" onclick="againAudit_reverseSelection('.selected_table')">反选</button>
+            <button type="button" class="btn btn-windows reverse m0" onclick="againAudit_reverseSelection('selected_content')">反选</button>
             <button type="button" class="btn btn-windows withdraw mb0 ml5" onclick="remove_selected()">移除已选分组</button>
             <button type="button" class="btn btn-windows add mb0 ml5" onclick="create_review_batches()">创建复审批次</button>
-            <button type="button" class="btn btn-windows add mb0 ml5" onclick="againAudit_temporary()">暂存</button>
             <div class="fr h30 lh30">共有 <span id="select_expertTotal" class="red"></span> 名专家</div>
           </div>
-          <table class="table table-bordered table-hover table-striped againAudit_table mb0 mt10 selected_table fixed_columns" style="display: none;">
+          <table class="table table-bordered table-hover mb0 mt10 againAudit_table fixed_columns" style="display: none;">
             <thead>
               <tr>
-                <th class="w30"><input type="checkbox" name="checkAll" class="selected_checkAll" onclick="checkAll(this, '.selected_table')"></th>
+                <th class="w30"><input type="checkbox" name="checkAll" class="selected_checkAll" onclick="againAudit_checkAll(this, 'selected_content')"></th>
                 <th class="w50">序号</th>
                 <th class="w100">采购机构</th>
-                <th class="w100">专家姓名</th>
+                <th class="w140">专家姓名</th>
                 <th class="w50">性别</th>
                 <th>专家类型</th>
                 <th class="w80">专家类别</th>
-                <th class="w120">工作单位</th>
-                <th class="w120">专业职称</th>
+                <th class="w180">工作单位</th>
+                <th class="w140">专业职称</th>
                 <th class="w120">初审合格时间</th>
               </tr>
             </thead>
@@ -184,15 +183,18 @@
   <!-- End 弹出框 -->
   
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/againAudit.js"></script>
+  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/againAudit_t.js"></script>
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/search.js"></script>
   <script>
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/againAuditList.do';  // 列表地址
     var batch_url = '${pageContext.request.contextPath}/expertAgainAudit/createBatch.do';  // 创建复审批次地址
-    var temporary_init_url = '${pageContext.request.contextPath}/expertAgainAudit/selectBatchTemporary.do';  // 暂存地址
-    var temporary_url = '${pageContext.request.contextPath}/expertAgainAudit/addBatchTemporary.do';  // 暂存地址
-    var select_ids = [];  // 选择的专家id集合
-    var final_ids = [];  // 最终需要创建的id集合
+    var temporary_init_url = '${pageContext.request.contextPath}/expertAgainAudit/selectBatchTemporary.do';  // 已选分组初始化地址
+    var temporary_url = '${pageContext.request.contextPath}/expertAgainAudit/addBatchTemporary.do';  // 添加到已选分组地址
+    var remove_temporary_url = '${pageContext.request.contextPath}/expertAgainAudit/deleteBatchTemporary.do';  // 移除已选分组地址
+    var search_temporary_url = '${pageContext.request.contextPath}/expertAgainAudit/selectBatchTemporary.do';  // 复审已选分组查询地址
+    var select_ids = [];  // 已选的专家id集合
+    var unselect_ids = [];  // 未选的专家id集合
     var is_init = 0;
     
     $(function () {
@@ -202,8 +204,11 @@
       });
       
       // 构建暂存数据
-      temporary_init();
+      $('#selected_content').listConstructor_t({
+        url: temporary_init_url
+      });
       
+      // 重置操作
       $('#againAudit_reset').on('click', function () {
         $('[name=expertsTypeId]').select2('val', '');
       });

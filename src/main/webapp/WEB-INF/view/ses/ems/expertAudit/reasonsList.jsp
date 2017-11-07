@@ -190,7 +190,6 @@
             //退回
             if (status == 3) {
                 updateStepNumber("one");
-                zhancun(3);
             }
             if (status == 2 || status == 3 || status == 5  || status == 8) {
                 //询问框
@@ -200,6 +199,7 @@
                     shift: 4,
                     btn: ['确认', '取消']
                 }, function () {
+                	  zhancun();
                     if (status == 3) {
                     	$("#status").val(status);
                       $("#form_shenhe").submit();
@@ -475,9 +475,6 @@
 				var expertId = $("input[name='expertId']").val();
 				var sign = $("input[name='sign']").val();
         var radio = $(":radio:checked").val();
-        if(status !=null && status == 3){
-        	radio = 3;
-        }
         var isDownLoadAttch = $("#isDownLoadAttch").val();
         if(sign == 1){
             flagTime = 0;
@@ -487,7 +484,6 @@
             data: {"opinion": opinion, "expertId": expertId,"flagTime":flagTime,"flagAudit":radio,"isDownLoadAttch":isDownLoadAttch},
             type: "POST",
             success: function () {
-            	if(status ==null){
 	            	//修改专家状态为审核中
 	            	$.ajax({
 	                 url: "${pageContext.request.contextPath}/expertAudit/temporaryAudit.do",
@@ -499,7 +495,6 @@
 	                     layer.msg("暂存失败", {offset: ['100px']});
 	                 }
 	              });
-            	}
             }
         });
     }
@@ -603,9 +598,9 @@
             <c:if test="${sign == 1 || sign == 3}">
             <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
             <ul class="ul_list count_flow">
-              <c:if test="${status == 0 || status == 9 || status == 15 || status == 16 || status == 10 || status == -2 || (sign ==3 && status ==6) || status == 4}">
-<!--                 <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">撤销</button>
- -->            	<button class="btn btn-windows edit" type="button" onclick="showDiv()" style=" border-bottom-width: -;margin-bottom: 7px;">改状态</button>  
+        <c:if test="${isCheck eq 'no' && (status == 0 || status == 9 || status == 15 || status == 16 || status == 10 || status == -2 || (sign ==3 && status ==6) || status == 4)}">
+              <!--<button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">撤销</button>-->            	
+              <button class="btn btn-windows edit" type="button" onclick="showDiv()" style=" border-bottom-width: -;margin-bottom: 7px;">改状态</button>  
  				</c:if>  
  				<div id="updateStatus" style="display: none">
  					<input type="radio" id="upd" onclick="updateStatus(1)" name="updateStatusRadio" >有问题
@@ -720,7 +715,7 @@
             <c:if test="${ sign == 2 }">
               <div class="clear"></div>
               <div id="opinionDiv">
-                  <h2 class="count_flow mt0"><i>1</i><span class="red">*</span>复审意见</h2>
+                  <h2 class="count_flow mt0"><i>1</i><span class="red">*</span>专家复审意见</h2>
                   <ul class="ul_list">
                       <li>
                           <div class="select_check" id="selectOptionId">
@@ -797,7 +792,9 @@
 										  <a id="nextStep" class="btn display-none" type="button" onclick="yuNext();">下一步</a>
                     </c:if>
                     <c:if test = "${status == '15' || status == '16'}" >
-                    	<a id="tempSave" class="btn" onclick="zhancun();">暂存</a>
+                      <c:if test="${isCheck eq 'no'}">
+                        <a id="tempSave" class="btn" onclick="zhancun();">暂存</a>
+                      </c:if>
                     	<a id="nextStep" class="btn" type="button" onclick="yuNext();">下一步</a>
                     </c:if>
                     <c:if test = "${status == '1' || status == '2' && sign eq '1'}" >

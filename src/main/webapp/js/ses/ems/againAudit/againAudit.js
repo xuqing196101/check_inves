@@ -77,31 +77,38 @@
             +'</tr>');
           }
           
-          // 勾选翻页之前选中的项
-          var allchecked = 0;
-          for (var i in select_ids) {
-            $('.select_item').each(function () {
-              if ($(this).val() === select_ids[i]) {
-                allchecked++;
-                $(this).prop('checked', true);
+          // 处理未选数据
+          $('#list_content tr').each(function () {
+            var _this = $(this);
+            $('#selected_content tr').each(function () {
+              if (_this.find('input[type="checkbox"]').val() == $(this).find('input[type="checkbox"]').val()) {
+                _this.find('.select_item').prop('checked', false);
+                _this.addClass('hide');
                 return false;
               }
             });
-            if (allchecked === $('.select_item').length) {
-              $('[name=checkAll]').prop('checked', true);
-            } else {
-              $('[name=checkAll]').prop('checked', false);
-            }
-          }
+          });
           
           // 绑定列表框点击事件，获取选中id集合
-          var select_checkbox = $('.againAudit_table').find('.select_item');
+          var select_checkbox = $('#list_content').find('.select_item');
+          var sum = 0;
+          var show_nums = 0;
+          
           if (select_checkbox.length > 0) {
             select_checkbox.bind('click', function () {
               var this_val = $(this).val().toString();
+              var is_has = 0;
               
-              if ($(this).is(':checked')) {
-                select_ids.push(this_val);
+              if ($(this).is(':checked') && !$(this).parents('tr').hasClass('hide')) {
+                for (var i in select_ids) {
+                  if (select_ids[i] == this_val) {
+                    is_has = 1;
+                    break;
+                  }
+                }
+                if (is_has == 0) {
+                  select_ids.push(this_val);
+                }
               } else {
                 for (var i in select_ids) {
                   if (select_ids[i] == this_val) {
@@ -111,45 +118,17 @@
                 }
               }
               
-              var sum = 0;
-              $(this).parents('tbody').find('.select_item').each(function () {
-                if ($(this).is(':checked')) {
-                  sum++;
-                }
-              });
-              
-              var checkAll_class = $(this).parents('tbody').siblings('thead').find('[name=checkAll]').attr('class');
-              if (sum === $(this).parents('tbody').find('.select_item').length) {
-                $('.' + checkAll_class).prop('checked', true);
+              sum = $(this).parents('tbody').find('.select_item:checked').length;
+              show_nums = parseInt($(this).parents('tbody').find('.select_item').length) - parseInt($(this).parents('tr.hide').length);  // 显示出来的数据条数
+              if (sum === show_nums) {
+                $('.unselected_checkAll').prop('checked', true);
               } else {
-                $('.' + checkAll_class).prop('checked', false);
+                $('.unselected_checkAll').prop('checked', false);
               }
             });
           }
           
-          // 处理未选人员
-          $('#list_content tr').each(function () {
-            var _this = $(this);
-            $('#selected_content tr').each(function () {
-              if (_this.find('input[type="checkbox"]').val() == $(this).find('input[type="checkbox"]').val()) {
-                _this.addClass('hide');
-                return false;
-              }
-            });
-          });
-          
-          // 添加暂存数据到创建列表
-          if ($('#selected_content tr').length > 0) {
-            $('#selected_content tr').each(function () {
-              final_ids.push($(this).find('input[type="checkbox"]').val());
-            });
-          }
-          
-          unselect_total();  // 统计未选专家
-          select_total();  // 统计已选专家
-          
-          // 构造分页
-          // laypageConstructor();
+          select_total();  // 统计专家人数总数
         }
       }
     };
@@ -169,36 +148,6 @@
         });
       });
     }
-    
-    // 分页
-//    function laypageConstructor() {
-//      laypage({
-//        cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-//        pages: list_content.pages, //总页数
-//        skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-//        skip: true, //是否开启跳页
-//        total: list_content.total,
-//        startRow: list_content.startRow,
-//        endRow: list_content.endRow,
-//        groups: list_content.pages >= 3 ? 3 : list_content.pages, //连续显示分页数
-//        curr: function() { //合格url获取当前页，也可以同上（pages）方式获取
-//          return list_content.pageNum;
-//        }(),
-//        jump: function(e, first) { //触发分页后的回调
-//          if(!first) { //一定要加此判断，否则初始时会无限刷新
-//            $("#pageNum").val(e.curr);
-//            opts.data.pageNum = e.curr;
-//            $.ajax({
-//              type: opts.type,
-//              dataType: opts.dataType,
-//              url: opts.url,
-//              data: opts.data,
-//              success: opts.success
-//            });
-//          }
-//        }
-//      });
-//    }
 
     return start();
   }

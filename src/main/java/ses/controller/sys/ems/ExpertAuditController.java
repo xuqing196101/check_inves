@@ -1901,16 +1901,16 @@ public class ExpertAuditController{
 				if("PROJECT".equals(data.getCode())||"GOODS_PROJECT".equals(data.getCode())){
 					Map<String,Object> map2 = new HashMap<String,Object>();
 					 map2.put("expertId", expertId);
-				     map2.put("typeId", DictionaryDataUtil.getId("PROJECT"));
+				    // map2.put("typeId", DictionaryDataUtil.getId("PROJECT"));
 				     map2.put("type", "six");
-					int passCount = expertCategoryService.selectPassCount(map2);
-					if(passCount<=0){
+					//int passCount = expertCategoryService.selectPassCount(map2);
+				/*	if(passCount<=0){
 						model.addAttribute("qualified", false);
 						model.addAttribute("message", "当前专家有目录下无通过产品");
 						break;
-					}
+					}*/
 					map2.put("typeId", DictionaryDataUtil.getId("ENG_INFO_ID"));
-					passCount= expertCategoryService.selectPassCount(map2);
+					int passCount= expertCategoryService.selectPassCount(map2);
 					if(passCount<=0){
 						model.addAttribute("qualified", false);
 						model.addAttribute("message", "当前专家有目录下无通过产品");
@@ -2366,7 +2366,7 @@ public class ExpertAuditController{
                 	supplierCateTree.setRootNodeCode(typeId);
                 	itemsListAll.add(supplierCateTree);
                 	//顺序查询出所有的参评类别
-                	List<SupplierCateTree> clist = expertCategoryService.findExpertCatrgory(expert.getId(), typeId);
+                	List<SupplierCateTree> clist = expertCategoryService.findPointsByTypeId(typeId, expert.getId());
                 	for (SupplierCateTree sct : clist) {
                 		Map<String, Object> map = new HashMap<>();
         				map.put("categoryId", sct.getItemsId());
@@ -2410,7 +2410,7 @@ public class ExpertAuditController{
         				//如果为工程经济就转换成工程id
         				typeId = engCodeId;
         			}
-        			List<SupplierCateTree> clist = expertCategoryService.findExpertCatrgory(expert.getId(), typeId);
+        			List<SupplierCateTree> clist = expertCategoryService.findPointsByTypeId(typeId, expert.getId());
         			for (SupplierCateTree sct : clist) {
         				Map<String, Object> map = new HashMap<>();
         				map.put("categoryId", sct.getItemsId());
@@ -2449,7 +2449,7 @@ public class ExpertAuditController{
         	for(String typeId : expertTypeId){
         		if(typeId.equals(engInfoId)){
         			//顺序查询出所有的参评类别
-        			List<SupplierCateTree> clist = expertCategoryService.findExpertCatrgory(expert.getId(), typeId);
+        			List<SupplierCateTree> clist = expertCategoryService.findPointsByTypeId(typeId, expert.getId());
         			for (SupplierCateTree sct : clist) {
         				Map<String, Object> map = new HashMap<>();
         				map.put("categoryId", sct.getItemsId());
@@ -2491,7 +2491,7 @@ public class ExpertAuditController{
                 	supplierCateTree.setRootNodeCode(typeId);
                 	itemsListAll.add(supplierCateTree);
                 	//顺序查询出所有的参评类别
-                	List<SupplierCateTree> clist = expertCategoryService.findExpertCatrgory(expert.getId(), typeId);
+                	List<SupplierCateTree> clist = expertCategoryService.findPointsByTypeId(typeId, expert.getId());
                 	for (SupplierCateTree sct : clist) {
                 		Map<String, Object> map = new HashMap<>();
         				map.put("categoryId", sct.getItemsId());
@@ -2730,9 +2730,17 @@ public class ExpertAuditController{
 	            			String reason = audit.getAuditReason();
 	            			expertAudit1.setAuditReason("不通过。原因：" + reason);
 	        			}
-	        			list4.add(false);
+	        			if(sctCount == 2){
+	        				list3.add(false);
+	        			}else if(sctCount == 3){
+	        				list4.add(false);
+	        			}
 	        		}else{
-	        			list4.add(true);
+	        			if(sctCount == 2){
+	        				list3.add(true);
+	        			}else if(sctCount == 3){
+	        				list4.add(true);
+	        			}
 	        			expertAudit1.setAuditField(cateTree.getRootNode());
 	        			expertAudit1.setAuditReason("通过。");
 	        		}
@@ -2845,6 +2853,13 @@ public class ExpertAuditController{
 		expertAudit2.setAuditStatus(null);
 		expertAudit2.setStatusQuery("notPass");
     	List < ExpertAudit > basicFileList = expertAuditService.selectbyAuditType(expertAudit2);
+		expertAudit2.setExpertId(expert.getId());
+		expertAudit2.setSuggestType("five");
+		expertAudit2.setAuditFalg(auditFalg);
+		expertAudit2.setStatusQuery("notPass");
+		if(expertAuditService.selectbyAuditType(expertAudit2) != null && expertAuditService.selectbyAuditType(expertAudit2).size() > 0){
+			basicFileList.addAll(expertAuditService.selectbyAuditType(expertAudit2));
+		}
 		StringBuffer buff = new StringBuffer();
 		for(ExpertAudit a : basicFileList){
 			buff.append(a.getAuditField() + ",");
@@ -3581,6 +3596,7 @@ public class ExpertAuditController{
 		List < ExpertAudit > reasonsList = new ArrayList<>();
 		if(expertAudit.getAuditFalg()==1){
 			expertAudit.setAuditFalg(666);//666为兼容老数据
+			expertAudit.setStatusQuery("notPass");
 			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
 			expertAudit.setAuditFalg(1);
 			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
@@ -3965,6 +3981,7 @@ public class ExpertAuditController{
 		ExpertAudit expertAudit = new ExpertAudit();
 		expertAudit.setExpertId(expertId);
 		expertAudit.setAuditFalg(2);
+		expertAudit.setStatusQuery("notPass");
 		List<ExpertAudit> reasonsList = expertAuditService.getListByExpert(expertAudit);
 		Map<String,Integer> map = new HashMap<String,Integer>();
 		map.put("GOODS", 0);

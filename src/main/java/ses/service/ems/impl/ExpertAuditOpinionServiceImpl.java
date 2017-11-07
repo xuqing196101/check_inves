@@ -81,10 +81,12 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 	@Override
 	public ExpertAuditOpinion selectByExpertId(ExpertAuditOpinion expertAuditOpinion) {
         expertAuditOpinion = mapper.selectByExpertId(expertAuditOpinion);
-        //  获取意见切割字符串
-        if(expertAuditOpinion != null && StringUtils.isNotEmpty(expertAuditOpinion.getOpinion())){
-            int indexOf = expertAuditOpinion.getOpinion().indexOf("。");
-            expertAuditOpinion.setOpinion(expertAuditOpinion.getOpinion().substring(indexOf + 1));
+        if(expertAuditOpinion != null && expertAuditOpinion.getFlagTime() != null && expertAuditOpinion.getFlagTime() == 1){
+        	//  获取意见切割字符串
+        	if(expertAuditOpinion != null && StringUtils.isNotEmpty(expertAuditOpinion.getOpinion())){
+        		int indexOf = expertAuditOpinion.getOpinion().indexOf("。");
+        		expertAuditOpinion.setOpinion(expertAuditOpinion.getOpinion().substring(indexOf + 1));
+        	}
         }
 		return expertAuditOpinion;
 	}
