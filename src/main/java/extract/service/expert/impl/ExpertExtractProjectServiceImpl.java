@@ -298,6 +298,9 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
             map.put("ProcurementDep",findOrgByPrimaryKey.getName());
         }
         
+        //建设单位名称
+        map.put("constructionName", projectInfo.getConstructionName());
+        
         //抽取地点
         map.put("construction", projectInfo.getExtractAddress());
         
