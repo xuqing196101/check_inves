@@ -8,6 +8,7 @@
         <result column="GROUP_ID" jdbcType="VARCHAR" property="groupId" />
         <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
         <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+        <result column="INDEX_NUM" jdbcType="VARCHAR" property="indexNum" />
     </resultMap>
     <sql id="Base_List">
     	ID,USER_ID,BATCH_ID,GROUP_ID,CREATED_AT,UPDATED_AT
@@ -38,18 +39,19 @@
         T1.ORG_NAME AS orgName,
         T1.DUTIES AS duties,
         T2.PASSWORD AS passWord,
-        T2.IS_DELETED AS isDeleted
+        T2.IS_DELETED AS isDeleted,
+        T1.INDEX_NUM AS indexNum
 		from T_SYS_EMS_EXPERT_REVIEWTEAM T1,T_SES_BMS_USER T2 where T1.USER_ID=T2.ID
 		<if test="groupId != null and groupId !=''">
             AND T1.GROUP_ID=#{groupId}
         </if>
-		ORDER BY CREATED_AT ASC
+		ORDER BY T1.INDEX_NUM ASC
     </select>
     <insert id="insert" parameterType="ses.model.ems.ExpertReviewTeam">
         insert into T_SYS_EMS_EXPERT_REVIEWTEAM
-        (ID,USER_ID,BATCH_ID,GROUP_ID,CREATED_AT,UPDATED_AT,REAL_NAME,ORG_NAME,DUTIES)
+        (ID,USER_ID,BATCH_ID,GROUP_ID,CREATED_AT,UPDATED_AT,REAL_NAME,ORG_NAME,DUTIES,INDEX_NUM)
         values
-        (#{id}, #{userId},#{batchId},#{groupId}, #{createdAt}, #{updatedAt},#{relName},#{orgName},#{duties})
+        (#{id}, #{userId},#{batchId},#{groupId}, #{createdAt}, #{updatedAt},#{relName},#{orgName},#{duties},#{indexNum})
     </insert>
    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
    		 delete from

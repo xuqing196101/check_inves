@@ -574,6 +574,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 			expertReviewTeam.setRelName(map.get("relName"));
 			expertReviewTeam.setOrgName(map.get("orgName"));
 			expertReviewTeam.setDuties(map.get("duties"));
+			expertReviewTeam.setIndexNum(map.get("indexNum"));
 			expertReviewTeam.setId(WfUtil.createUUID());
 			
 			ExpertGroup expertGroup = new ExpertGroup();
