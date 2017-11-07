@@ -116,7 +116,7 @@ function create_review_batches() {
       dataType: 'json',
       url: list_url,
       data: {
-        batchIds: ids.join(',')
+        batchIds: ids
       },
       success: function (data) {
         var index = layer.open({
@@ -143,7 +143,7 @@ function create_review_batches() {
                 dataType: 'json',
                 url: batch_url,
                 data: {
-                  ids: ids,
+                  ids: ids.join(','),
                   batchName: batchName_obj.val(),
                   batchNumber: batchNumber_obj.val()
                 },
