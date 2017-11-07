@@ -2853,6 +2853,13 @@ public class ExpertAuditController{
 		expertAudit2.setAuditStatus(null);
 		expertAudit2.setStatusQuery("notPass");
     	List < ExpertAudit > basicFileList = expertAuditService.selectbyAuditType(expertAudit2);
+		expertAudit2.setExpertId(expert.getId());
+		expertAudit2.setSuggestType("five");
+		expertAudit2.setAuditFalg(auditFalg);
+		expertAudit2.setStatusQuery("notPass");
+		if(expertAuditService.selectbyAuditType(expertAudit2) != null && expertAuditService.selectbyAuditType(expertAudit2).size() > 0){
+			basicFileList.addAll(expertAuditService.selectbyAuditType(expertAudit2));
+		}
 		StringBuffer buff = new StringBuffer();
 		for(ExpertAudit a : basicFileList){
 			buff.append(a.getAuditField() + ",");
