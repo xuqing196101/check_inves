@@ -84,7 +84,7 @@
           <li class="col-md-3 col-sm-4 col-xs-12">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span> 评审时间:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <input class="col-md-12 col-sm-12 col-xs-6 p0" value="<fmt:formatDate value='${reviewTime }' pattern='yyyy-MM-dd HH:mm:ss' />" name = "reviewTime" id = "reviewTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'%y-%M-{%d+1}'});" pattern='yyyy-MM-dd HH:mm:ss' type="text" readonly="readonly">
+              <input class="col-md-12 col-sm-12 col-xs-6 p0" onchange="getCount()" value="<fmt:formatDate value='${reviewTime }' pattern='yyyy-MM-dd HH:mm:ss' />" name = "reviewTime" id = "reviewTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'%y-%M-{%d+1}'});" pattern='yyyy-MM-dd HH:mm:ss' type="text" readonly="readonly">
               <div class="cue" id="err_reviewTime"></div>
             </div>
           </li>
@@ -137,7 +137,7 @@
           <li class="col-md-3 col-sm-4 col-xs-12 ">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 评审天数:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <select class="col-md-12 col-sm-12 col-xs-12 p0" name="reviewDays" id="reviewDays">
+              <select class="col-md-12 col-sm-12 col-xs-12 p0" name="reviewDays" id="reviewDays" onchange="getCount()">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
