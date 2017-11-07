@@ -399,8 +399,8 @@
 					  <th class="info"  width="140">联系电话</th>
 					  <th class="info">状态</th>
 					  <th class="info"  width="">角色</th>
-					  <th class="info w50">权限</th>
-					  <!-- <th class="info w80">数据权限</th> -->
+					  <th class="info w80">数据查看权限</th>
+					  <th class="info w50">菜单权限</th>
 					</tr>
 		      </thead>
 		      <tbody>
@@ -466,12 +466,14 @@
 			        	</c:forEach>
 			        		<input type="hidden" id="role_code" value="${roleCode}">
 					  </td>
+					 <td class="tc">
+					 	<c:if test="${user.dataAccess == 1}">所有</c:if>
+					 	<c:if test="${user.dataAccess == 2}">本单位</c:if>
+					 	<c:if test="${user.dataAccess == 3}">本人</c:if>
+					  </td>
 					  <td class="tc">
 					  	<a href="#" onclick="viewPermission('${user.id}');">查看</a>
 					  </td>
-					 <%--   <td class="tc">
-					  	<a href="#" onclick="dataViewPermission('${user.id}');">查看</a>
-					  </td> --%>
 					</tr>
 				</c:forEach>
 				</c:if>
