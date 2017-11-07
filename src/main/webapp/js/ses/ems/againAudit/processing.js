@@ -821,7 +821,9 @@ function addto_selected() {
     },
     success: function (data) {
       // 重新初始化已选分组数据
-      temporary_init();
+      $('#selected_content').listConstructor_t({
+        url: temporary_init_url
+      });
       
       // 重新加载未选数据
       $('#list_content').listConstructor({
@@ -851,7 +853,9 @@ function remove_selected() {
     },
     success: function (data) {
       // 重新初始化已选分组数据
-      temporary_init();
+      $('#selected_content').listConstructor_t({
+        url: temporary_init_url
+      });
       $('.selected_checkAll').prop('checked', false);
       select_ids = [];
       unselect_ids = [];
@@ -873,104 +877,4 @@ function remove_selected() {
 function select_total() {
   $('#select_expertTotal').html($('#selected_content tr').length);
   $('#unselect_expertTotal').html(parseInt($('#list_content tr').length) - parseInt($('#list_content tr.hide').length));
-}
-
-// 暂存初始化
-function temporary_init() {
-  var temporary_content = [];
-  var str = '';
-  
-  $.ajax({
-    type: 'POST',
-    dataType: 'json',
-    url: temporary_init_url,
-    data: {},
-    success: function (data) {
-      temporary_content = data.object;
-      unselect_ids = [];
-      
-      for (var i in temporary_content) {
-        if (typeof(temporary_content[i].orgName) === 'undefined') {
-          temporary_content[i].orgName = '';
-        }
-        if (typeof(temporary_content[i].relName) === 'undefined') {
-          temporary_content[i].relName = '';
-        }
-        if (typeof(temporary_content[i].sex) === 'undefined') {
-          temporary_content[i].sex = '';
-        }
-        if (typeof(temporary_content[i].workUnit) === 'undefined') {
-          temporary_content[i].workUnit = '';
-        }
-        if (typeof(temporary_content[i].professTechTitles) === 'undefined') {
-          temporary_content[i].professTechTitles = '';
-        }
-        if (typeof(temporary_content[i].updateTime) === 'undefined') {
-          temporary_content[i].updateTime = '';
-        }
-        if (typeof(temporary_content[i].expertsTypeId) === 'undefined') {
-          temporary_content[i].expertsTypeId = '';
-        }
-        if (typeof(temporary_content[i].expertsFrom) === 'undefined') {
-          temporary_content[i].expertsFrom = '';
-        }
-        
-        str += '<tr>'
-            +'  <td class="text-center"><input name="id" type="checkbox" value="'+ temporary_content[i].id +'" class="select_item"></td>'
-            +'  <td class="text-center">'+ (parseInt(i) + 1) +'</td>'
-            +'  <td>'+ temporary_content[i].orgName +'</td>'
-            +'  <td>'+ temporary_content[i].relName +'</td>'
-            +'  <td class="text-center">'+ temporary_content[i].sex +'</td>'
-            +'  <td>'+ temporary_content[i].expertsTypeId +'</td>'
-            +'  <td class="text-center">'+ temporary_content[i].expertsFrom +'</td>'
-            +'  <td>'+ temporary_content[i].workUnit +'</td>'
-            +'  <td>'+ temporary_content[i].professTechTitles +'</td>'
-            +'  <td class="text-center">'+ temporary_content[i].updateTime +'</td>'
-        +'</tr>';
-      }
-      
-      $('#selected_content').html(str);
-      
-      // 绑定列表框点击事件，获取选中id集合
-      var select_checkbox = $('#selected_content').find('.select_item');
-      var sum = 0;
-      var show_nums = 0;
-      
-      if (select_checkbox.length > 0) {
-        select_checkbox.bind('click', function () {
-          var this_val = $(this).val().toString();
-          var is_has = 0;
-          
-          if ($(this).is(':checked')) {
-            for (var i in unselect_ids) {
-              if (unselect_ids[i] == this_val) {
-                is_has = 1;
-                break;
-              }
-            }
-            if (is_has == 0) {
-              unselect_ids.push(this_val);
-            }
-          } else {
-            for (var i in unselect_ids) {
-              if (unselect_ids[i] == this_val) {
-                unselect_ids.splice(i, 1);
-                break;
-              }
-            }
-          }
-          
-          sum = $(this).parents('tbody').find('.select_item:checked').length;
-          show_nums = parseInt($(this).parents('tbody').find('.select_item').length) - parseInt($(this).parents('tr.hide').length);  // 显示出来的数据条数
-          if (sum === show_nums) {
-            $('.selected_checkAll').prop('checked', true);
-          } else {
-            $('.selected_checkAll').prop('checked', false);
-          }
-        });
-      }
-      
-      select_total();  // 统计专家人数总数
-    }
-  });
 }
