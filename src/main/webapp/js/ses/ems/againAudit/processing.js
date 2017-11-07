@@ -156,6 +156,9 @@ function create_review_batches() {
                   $('#list_content').listConstructor({
                     url: list_url
                   });
+                  $('#selected_content').listConstructor_t({
+                    url: temporary_init_url
+                  });
                   select_ids = [];
                   unselect_ids = [];
                   layer.close(index);
