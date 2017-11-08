@@ -3628,6 +3628,7 @@ public class ExpertAuditController{
 			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
 		}else if(expertAudit.getAuditFalg()==2){
 			expertAudit.setAuditFalg(2);
+			expertAudit.setStatusQuery("notPass");
 			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
 		}
 		Map<String,Integer> map = new HashMap<String,Integer>();
