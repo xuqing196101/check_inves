@@ -1037,7 +1037,10 @@ public class TerminationServiceImpl implements TerminationService {
       project.setStatus(DictionaryDataUtil.getId("YJLX"));
       project.setParentId("1");
     }else{
-      
+      FlowDefine flowDefine = flowDefineMapper.get(currFlowDefineId);
+      if(flowDefine!=null&&flowDefine.getCode().equals("XMXX")){
+          project.setConfirmFile(null);
+      }
     }
     return project;
   }
