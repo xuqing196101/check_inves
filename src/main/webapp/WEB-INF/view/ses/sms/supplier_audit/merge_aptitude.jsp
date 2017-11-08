@@ -45,7 +45,7 @@
 			<div class="col-md-12 tab-v2 job-content">
 				<%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%>
 				<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab count_flow ">
-                    </ul>
+				</ul>
 				<div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_1">
 				<div class="mb10">
 				  <c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">

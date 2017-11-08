@@ -115,7 +115,7 @@ function reasonProject(ind,auditField, auditFieldName,inds,quaId,quaName) {
 		title: '请填写不通过的理由：',
 		value: defaultVal,
 		formType: 2, 
-		offset: '100px',
+		//offset: '100px',
 		maxlength: '100'
 	};
 	if (result && result.status == 1 && result.data) {
