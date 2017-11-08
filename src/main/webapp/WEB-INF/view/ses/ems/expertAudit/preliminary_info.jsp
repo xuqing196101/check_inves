@@ -143,8 +143,8 @@
           <c:if test="${sign eq '1'}">
             <h2 class="count_flow"><i>1</i>复审汇总信息</h2>
           </c:if>
-          <c:if test="${sign ne '1'}">
-            <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
+          <c:if test="${sign eq '2'}">
+            <h2 class="count_flow"><i>1</i>初审汇总信息</h2>
           </c:if>
           <ul class="ul_list count_flow">
             <table class="table table-bordered table-condensed table-hover">
@@ -192,7 +192,13 @@
             </table>
           </ul>
           
-          <h2 class="count_flow mt0"><i>2</i>最终意见</h2>
+          
+          <c:if test="${sign eq 1}">
+            <h2 class="count_flow mt0"><i>2</i>复审最终意见</h2>
+          </c:if>
+          <c:if test="${sign eq 2}">
+            <h2 class="count_flow mt0"><i>2</i>初审最终意见</h2>
+          </c:if>
           <ul class="ul_list">
              <li>
                <div id="check_opinion"></div>
