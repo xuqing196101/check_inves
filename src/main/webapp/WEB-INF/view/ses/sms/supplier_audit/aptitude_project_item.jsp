@@ -73,9 +73,21 @@
 												sysKey="${sysKey}" delete="false" />
 										</div>
 									</td>
-									 <td class="tc info"  onclick="reasonProject('${ids }','${cate.supplierItemId}','${cate.itemsName }','${cate.supplierAptitute.certType}')">
-                                      <a href="javascript:void(0);"><img id="show_td" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></a>
-                                    </td>
+                  <c:if test="${!fn:contains(unableField,cate.supplierItemId)}">
+                  	<td class="tc info" onclick="reasonProject('${ids }','${cate.supplierItemId}','${cate.itemsName }','${cate.supplierAptitute.certType}')">
+                  		<c:if test="${!fn:contains(auditField,cate.supplierItemId)}">
+                  			<a href="javascript:void(0);"><img id="show_td" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></a>
+                  		</c:if>
+                  		<c:if test="${fn:contains(auditField,cate.supplierItemId)}">
+                  			<a href="javascript:void(0);"><img id="show_td" src='${pageContext.request.contextPath}/public/backend/images/light_icon_2.png'></a>
+                  		</c:if>
+	                  </td>
+                  </c:if>
+                  <c:if test="${fn:contains(unableField,cate.supplierItemId)}">
+                  	<td class="tc info" onclick="javascript:layer.msg('该条信息已审核并退回过！');">
+	                    <a href="javascript:void(0);"><img id="show_td" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+	                  </td>
+                  </c:if>
 								</tr>
 							</c:forEach>
 						</tbody>

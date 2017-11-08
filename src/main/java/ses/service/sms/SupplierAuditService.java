@@ -604,4 +604,18 @@ public interface SupplierAuditService {
 	 */
 	JdcgResult getTypeAndItemNotPass(String supplierId);
 
+	/**
+	 * 批量保存审核记录
+	 * @param supplierAuditList
+	 * @return
+	 */
+	int saveAudit(List<SupplierAudit> supplierAuditList);
+
+	/**
+	 * 根据id更新审核记录
+	 * @param supplierAudit
+	 * @return
+	 */
+	int updateByIdSelective(SupplierAudit supplierAudit);
+
 }

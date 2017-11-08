@@ -429,6 +429,7 @@ Supplier implements Serializable {
 	 * </pre>
 	 */
 	private Integer status;
+	private String statusString;
 
 	/**
 	 * <pre>
@@ -667,6 +668,7 @@ Supplier implements Serializable {
 	private String armyBuinessAddress;
 	
 	private Date auditDate;
+	private String auditDateString;
 	
 	private List<SupplierAddress> addressList=new ArrayList<SupplierAddress>();
 	
@@ -2087,4 +2089,20 @@ Supplier implements Serializable {
     public void setQueryCategoryName(String queryCategoryName) {
         this.queryCategoryName = queryCategoryName;
     }
+
+	public String getStatusString() {
+		return statusString;
+	}
+
+	public void setStatusString(String statusString) {
+		this.statusString = statusString;
+	}
+
+	public String getAuditDateString() {
+		return auditDateString;
+	}
+
+	public void setAuditDateString(String auditDateString) {
+		this.auditDateString = auditDateString;
+	}
 }

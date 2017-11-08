@@ -201,9 +201,9 @@
 			<if test="isReturned != null">
 				IS_RETURNED = #{isReturned},
 			</if>
-            <if test="isDeleted != null">
-                IS_DELETED = #{isDeleted},
-            </if>
+			<if test="isDeleted != null">
+				IS_DELETED = #{isDeleted},
+			</if>
 		</set>
 		where ID = #{id}
 	</update>
@@ -606,5 +606,15 @@
 		AND s.IS_PROVISIONAL = '0'
 		AND s.IS_DELETED = 0
 	</select>
+	
+	<update id="updateBySupplierId">
+		update T_SES_SMS_SUPPLIER_ITEM
+		<set>
+			<if test="item.isReturned != null">
+				IS_RETURNED = #{item.isReturned}
+			</if>
+		</set>
+		where SUPPLIER_ID = #{supplierId}
+	</update>
 
 </mapper>

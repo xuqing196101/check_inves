@@ -1402,15 +1402,22 @@ public class SupplierController extends BaseSupplierController {
 			if(StringUtils.isNotBlank(supplierTypeIds)){
 				String[] str = supplierTypeIds.trim().split(",");
 				if(str != null && str.length > 0){
-					// 四个专业类型全部审核不通过，不让下一步
+					// 所选专业类型全部审核不通过，不让下一步
 					List<String> supplierTypeList = supplierTypeRelateService.findTypeBySupplierId(supplierId);
-					SupplierAudit supplierAudit = new SupplierAudit();
-					supplierAudit.setSupplierId(supplierId);
-					supplierAudit.setAuditType("supplierType_page");
-					int supplierTypeAuditCount = supplierAuditService.countAuditRecords(supplierAudit, new Integer[]{2});
 					if(supplierTypeList == null || supplierTypeList.size() == 0){
 						type = false;
 					}else{
+						int supplierTypeAuditCount = 0;
+						for(String supplierType : supplierTypeList){
+							SupplierAudit supplierAudit = new SupplierAudit();
+							supplierAudit.setSupplierId(supplierId);
+							supplierAudit.setAuditType("supplierType_page");
+							DictionaryData dd = DictionaryDataUtil.get(supplierType);
+							if(dd != null){
+								supplierAudit.setAuditField(dd.getId());
+							}
+							supplierTypeAuditCount += supplierAuditService.countAuditRecords(supplierAudit, new Integer[]{0,2});
+						}
 						if(supplierTypeAuditCount >= supplierTypeList.size()){
 							typeAudit = false;
 						}
@@ -1498,7 +1505,7 @@ public class SupplierController extends BaseSupplierController {
 				if(dd != null){
 					supplierAudit.setAuditField(dd.getId());
 				}
-				int supplierTypeAuditCount = supplierAuditService.countAuditRecords(supplierAudit, new Integer[]{2});
+				int supplierTypeAuditCount = supplierAuditService.countAuditRecords(supplierAudit, new Integer[]{0,2});
 				if(supplierTypeAuditCount == 0){// 没有审核不通过的记录才做以下校验
 //					List<SupplierItem> items = supplierItemService.queryBySupplierAndType(supplierId, s);
 					List<SupplierItem> items = supplierItemService.getItemList(supplierId, s, (byte)0, null);

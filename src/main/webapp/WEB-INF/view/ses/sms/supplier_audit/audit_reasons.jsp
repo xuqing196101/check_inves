@@ -9,6 +9,11 @@
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">
+	<style type="text/css">
+		.label-inline{
+			display: inline;
+		}
+	</style>
 	<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script>
 	<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/audit_reasons.js"></script>
     <script type="text/javascript">
@@ -411,12 +416,12 @@
 						  <!-- <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">撤销</button> -->
 						  <button class="btn btn-windows edit" type="button" onclick="toUpdateStatus();" style=" border-bottom-width: -;margin-bottom: 7px;">改状态</button>
 						  <div class="select_check" id="auditStatusRadio" style="display: none;">
-						  	<input type="radio" name="auditStatus" value="1" onclick="updateStatus(1)">退回修改
-						  	<!-- <input type="radio" name="auditStatus" value="2">审核不通过 -->
-								<input type="radio" name="auditStatus" value="3" onclick="updateStatus(3)">已修改
-								<input type="radio" name="auditStatus" value="4" onclick="updateStatus(4)">未修改
-								<input type="radio" name="auditStatus" value="5" onclick="updateStatus(5)">撤销退回
-								<input type="radio" name="auditStatus" value="6" onclick="updateStatus(6)">撤销不通过
+						  	<input type="radio" name="auditStatus" value="1" onclick="updateStatus(1)" id="st1"><label class="label-inline" for="st1">退回修改</label>
+						  	<!-- <input type="radio" name="auditStatus" value="2" onclick="updateStatus(1)" id="st2"><label class="label-inline" for="st2">审核不通过</label> -->
+								<input type="radio" name="auditStatus" value="3" onclick="updateStatus(3)" id="st3"><label class="label-inline" for="st3">已修改</label>
+								<input type="radio" name="auditStatus" value="4" onclick="updateStatus(4)" id="st4"><label class="label-inline" for="st4">未修改</label>
+								<input type="radio" name="auditStatus" value="5" onclick="updateStatus(5)" id="st5"><label class="label-inline" for="st5">撤销退回</label>
+								<input type="radio" name="auditStatus" value="6" onclick="updateStatus(6)" id="st6"><label class="label-inline" for="st6">撤销不通过</label>
 							</div>
 						</c:if>
 						<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
@@ -496,13 +501,13 @@
 											<c:set var="isTypeNotPass_SERVICE" value="1" />
 										</c:if>
 										<!-- 若存在新审核的和已审核未修改的，则表示未通过（产品审核不通过，可以预审核通过） -->
-										<%-- <c:if test="${(reasons.returnStatus == 1 || reasons.returnStatus == 4)}">
+										<c:if test="${(reasons.returnStatus == 1 || reasons.returnStatus == 4)}">
 											<c:set var="isNotPass" value="${isNotPass+1}" />
 											<c:if test="${reasons.auditType == 'mat_pro_page' && isTypeNotPass_PRODUCT == 1}"><c:set var="isNotPass" value="${isNotPass-1}" /></c:if>
 											<c:if test="${reasons.auditType == 'mat_sell_page' && isTypeNotPass_SALES == 1}"><c:set var="isNotPass" value="${isNotPass-1}" /></c:if>
 											<c:if test="${reasons.auditType == 'mat_eng_page' && isTypeNotPass_PROJECT == 1}"><c:set var="isNotPass" value="${isNotPass-1}" /></c:if>
 											<c:if test="${reasons.auditType == 'mat_serve_page' && isTypeNotPass_SERVICE == 1}"><c:set var="isNotPass" value="${isNotPass-1}" /></c:if>
-										</c:if> --%>
+										</c:if>
 									</td>
 								</tr>
 							</c:forEach>
@@ -540,20 +545,26 @@
 										<div class="select_check" id="selectOptionId">
 											<c:choose>
 												<c:when test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus == -2 or supplierStatus == 1 or (sign == 3 and supplierStatus == 5)}">
-													<!-- <input type="radio" name="selectOption" value="1">预审核通过
-													<input type="radio" name="selectOption" value="0">预审核不通过 -->
 													<c:if test="${isNotPass == 0 and isAllTypeNotPass == 0 and isAllItemNotPass == 0}">
-														<input type="radio" name="selectOption" value="1">预审核通过
-														<input type="radio" disabled="disabled" name="selectOption" value="0" title="没有预审核不通过的项">预审核不通过
+														<input type="radio" name="selectOption" value="1" id="pass"><label class="label-inline" for="pass">预审核通过</label>
+														<input type="radio" disabled="disabled" name="selectOption" value="0" title="没有预审核不通过的项"><label class="label-inline">预审核不通过</label>
 													</c:if>
-													<c:if test="${isNotPass >= 1 or isAllTypeNotPass == 1 or isAllItemNotPass == 1}">
-														<input type="radio" disabled="disabled" name="selectOption" value="1" title="还有预审核未通过的项">预审核通过
-														<input type="radio" name="selectOption" value="0">预审核不通过
+													<%-- <c:if test="${isNotPass >= 1 or isAllTypeNotPass == 1 or isAllItemNotPass == 1}">
+														<input type="radio" disabled="disabled" name="selectOption" value="1" title="还有预审核未通过的项"><label class="label-inline">预审核通过</label>
+														<input type="radio" name="selectOption" value="0" id="notpass"><label class="label-inline" for="notpass">预审核不通过</label>
+													</c:if> --%>
+													<c:if test="${isAllTypeNotPass == 1 or isAllItemNotPass == 1}">
+														<input type="radio" disabled="disabled" name="selectOption" value="1" title="还有预审核未通过的项"><label class="label-inline">预审核通过</label>
+														<input type="radio" name="selectOption" value="0" id="notpass"><label class="label-inline" for="notpass">预审核不通过</label>
+													</c:if>
+													<c:if test="${isNotPass >= 1 and isAllTypeNotPass == 0 and isAllItemNotPass == 0}">
+														<input type="radio" name="selectOption" value="1" id="pass"><label class="label-inline" for="pass">预审核通过</label>
+														<input type="radio" name="selectOption" value="0" id="notpass"><label class="label-inline" for="notpass">预审核不通过</label>
 													</c:if>
 												</c:when>
 												<c:otherwise>
-													<input type="radio" disabled="disabled" name="selectOption" value="1">预审核通过
-													<input type="radio" disabled="disabled" name="selectOption" value="0">预审核不通过
+													<input type="radio" disabled="disabled" name="selectOption" value="1"><label class="label-inline">预审核通过</label>
+													<input type="radio" disabled="disabled" name="selectOption" value="0"><label class="label-inline">预审核不通过</label>
 												</c:otherwise>
 											</c:choose>
 										</div>

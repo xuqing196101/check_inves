@@ -19,30 +19,46 @@
     <input id="tablerId"  type="hidden" value="${tablerId}">
       <c:choose>
       <c:when test="${not empty beanList }">
-       <table class="table table-bordered m_table_fixed_border">
-         <tbody>
-         <c:forEach items="${beanList }" var="obj" varStatus="vs">
-         <tr><%-- <td class="tc info">${obj.categoryName}</td>  --%>
-         <td class="tc info">
-         <c:forEach items="${obj.list }" var="qua" varStatus="vss">
-            <div class="tc info fl w400">
-            
-            <span class="tc info fl" <c:if test="${fn:contains(fileModifyField,qua.flag)}">style="border: 1px solid #FF8C00;"</c:if>>
-            <input id="count${qua.id}"  type="hidden" value="${qua.auditCount}">
-            <div class="m_inline" onclick="reasonProject('${ids }','${obj.categoryId }','${obj.categoryName }','${vss.index + 1}','${qua.id}','${qua.name}')"><a href="javascript:void(0);"><img id="show_td${qua.id}" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></a>&nbsp;&nbsp;${qua.name}</div>
-            <div class="m_inline"><u:show showId="showfile${qua.flag}" delete="false" businessId="${qua.flag}" sysKey="${sysKey}" typeId="${typeId }"/></div>
-            </span>
-            </div>
-            </c:forEach>
-            </td>
-             <%-- td class="tc info"  onclick="reasonProject('${ids }','${obj.categoryId }','${obj.categoryName }','${vs.index + 1}')">
-               <a href="javascript:void(0);"><img id="show_td" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></a>
-             </td> --%>
-          </tr>
-          </c:forEach>
-         </tbody>
-       </table>
-       </c:when>
+      	<table class="table table-bordered m_table_fixed_border">
+        	<tbody>
+						<c:forEach items="${beanList }" var="obj" varStatus="vs">
+							<tr><%-- <td class="tc info">${obj.categoryName}</td>  --%>
+								<td class="tc info">
+									<c:forEach items="${obj.list }" var="qua" varStatus="vss">
+										<div class="tc info fl w400">
+											<span class="tc info fl" <c:if test="${fn:contains(fileModifyField,qua.flag)}">style="border: 1px solid #FF8C00;"</c:if>>
+									  		<input id="count${qua.id}"  type="hidden" value="${qua.auditCount}">
+									  		<%-- <div class="m_inline" onclick="reasonProject('${ids }','${obj.categoryId }','${obj.categoryName }','${vss.index + 1}','${qua.id}','${qua.name}')">
+									  			<a href="javascript:void(0);"><img id="show_td${qua.id}" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></a>&nbsp;&nbsp;${qua.name}
+									  		</div> --%>
+									  		<c:if test="${!fn:contains(unableField,obj.categoryId.concat('_').concat(qua.id))}">
+                          <div class="m_inline" onclick="reasonProject('${ids }','${obj.categoryId }','${obj.categoryName }','${vss.index + 1}','${qua.id}','${qua.name}')">
+										  			<c:if test="${!fn:contains(auditField,obj.categoryId.concat('_').concat(qua.id))}">
+										  				<a href="javascript:void(0);"><img id="show_td${qua.id}" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></a>&nbsp;&nbsp;${qua.name}
+										  			</c:if>
+										  			<c:if test="${fn:contains(auditField,obj.categoryId.concat('_').concat(qua.id))}">
+										  				<a href="javascript:void(0);"><img id="show_td${qua.id}" src='${pageContext.request.contextPath}/public/backend/images/light_icon_2.png'></a>&nbsp;&nbsp;${qua.name}
+										  			</c:if>
+										  		</div>
+                        </c:if>
+									  		<c:if test="${fn:contains(unableField,obj.categoryId.concat('_').concat(qua.id))}">
+                          <div class="m_inline" onclick="javascript:layer.msg('该条信息已审核并退回过！');">
+										  			<a href="javascript:void(0);"><img id="show_td${qua.id}" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>&nbsp;&nbsp;${qua.name}
+										  		</div>
+                        </c:if>
+									  		<div class="m_inline"><u:show showId="showfile${qua.flag}" delete="false" businessId="${qua.flag}" sysKey="${sysKey}" typeId="${typeId }"/></div>
+										 	</span>
+										</div>
+							   	</c:forEach>
+							  </td>
+						    <%-- td class="tc info"  onclick="reasonProject('${ids }','${obj.categoryId }','${obj.categoryName }','${vs.index + 1}')">
+						      <a href="javascript:void(0);"><img id="show_td" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></a>
+						    </td> --%>
+							 </tr>
+						 </c:forEach>
+						</tbody>
+     			</table>
+       	</c:when>
         <c:otherwise>
          <span class="tc info fl w200">没有数据</span>
         </c:otherwise>

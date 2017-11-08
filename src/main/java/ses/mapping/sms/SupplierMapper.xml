@@ -1348,7 +1348,10 @@
       t2.IS_PROVISIONAL,
       t2.CREDIT_CODE,
       t2.CONTACT_NAME,
+      t2.CONTACT_ADDRESS,
+      t2.ADDRESS,
       t2.MOBILE,
+	  t2.CONTACT_MOBILE,
       org.SHORT_NAME AS orgName
     FROM
       (SELECT
@@ -2293,7 +2296,10 @@
       t2.IS_PROVISIONAL,
       t2.CREDIT_CODE,
       t2.CONTACT_NAME,
+	  t2.CONTACT_ADDRESS,
+	  t2.ADDRESS,
       t2.MOBILE,
+	  t2.CONTACT_MOBILE,
       org.SHORT_NAME AS orgName
     FROM
       (SELECT

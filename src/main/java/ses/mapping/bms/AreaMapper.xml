@@ -199,4 +199,14 @@
 		    SELECT A.* FROM ( select  id,parent_id,NAME,'true' is_parent,CREATED_AT from T_SES_BMS_AREA where parent_id = '0' AND IS_DELETED = 0
 		    union all select id,parent_id,NAME,'false',CREATED_AT IS_PARENT from T_SES_BMS_AREA  where IS_DELETED = 0 AND parent_id in (select id from T_SES_BMS_AREA where parent_id = '0') ) A ORDER BY A.CREATED_AT ASC 
 	</select>
+
+  <!--级联查询地区-->
+  <select id="selectOfHierarchical" parameterType="map" resultMap="BaseResultMap">
+       SELECT T.ID, T.NAME
+        FROM T_SES_BMS_AREA T
+        WHERE T.IS_DELETED = 0
+        START WITH ID = #{id}
+        CONNECT BY PRIOR T.PARENT_ID = T.ID
+        ORDER BY T.CREATED_AT
+  </select>
 </mapper>
