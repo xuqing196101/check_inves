@@ -337,7 +337,7 @@
           	options.btn3 = function(index){layer.close(index);};
           }
 					layer.prompt(options, function(value, index, elem){
-				 		var text = trim(value);
+						var text = trim(value);
 						if(text != null && text !=""){
 							auditData.suggest = text;
 							$.ajax({
@@ -346,28 +346,29 @@
 								data: auditData,
 								dataType: "json",
 								success: function(result){
-                   if(result.status == "503"){
-                     layer.msg('该条信息已审核过并退回过！', {             
-                       shift: 6, //动画类型
-                       offset:'100px'
-                     });
-                   }
-                   if(result.status == "500"){
-                     layer.msg('审核成功！', {
-                       shift: 6, //动画类型
-                       offset:'100px'
-                     });
-                     //$(obj).after(html);
-             				$("#" + obj.id + "").css('border-color', '#FF0000'); //边框变红色
-                   }
-                 }
+									if(result.status == "503"){
+										layer.msg('该条信息已审核过并退回过！', {             
+										  shift: 6, //动画类型
+										  offset:'100px'
+										});
+									}
+									if(result.status == "500"){
+										layer.msg('审核成功！', {
+									    shift: 6, //动画类型
+									    offset:'100px'
+									  });
+									  //$(obj).after(html);
+										$("#" + obj.id + "").css('border-color', '#FF0000'); //边框变红色
+									}
+								}
 							});
 							layer.close(index);
 						}else{
-      				layer.msg('不能为空！', {offset:'100px'});
-	      		}
+							layer.msg('不能为空！', {offset:'100px'});
+						}
 					});
-        }
+				}
+			}
 
 			//销售
 			function reasonSale(id, str) {
@@ -456,10 +457,11 @@
 
 							layer.close(index);
 						}else{
-	      			layer.msg('不能为空！', {offset:'100px'});
-		      	}
+							layer.msg('不能为空！', {offset:'100px'});
+						}
 					});
-        }
+				}
+			}
 
 			function reasonSale1(obj) {
 				var supplierStatus= $("input[name='supplierStatus']").val();
@@ -509,10 +511,11 @@
 							$("#"+appear+"").css('border-color','#FF0000'); //边框变红色
 							layer.close(index);
 						}else{
-	      			layer.msg('不能为空！', {offset:'100px'});
-		      	}
+							layer.msg('不能为空！', {offset:'100px'});
+						}
 					});
-        }
+				}
+			}
 
 			//工程
 			function reasonEngineering(id, auditFieldName, str) {
@@ -868,10 +871,11 @@
 							});
 							layer.close(index);
 						}else{
-	      			layer.msg('不能为空！', {offset:'100px'});
-		      	}
+							layer.msg('不能为空！', {offset:'100px'});
+						}
 					});
-        }
+				}
+			}
 
 			//服务
 			function reasonService1(obj) {
