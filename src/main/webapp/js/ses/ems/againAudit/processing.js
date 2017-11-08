@@ -585,6 +585,7 @@ function checkOnly(el) {
 // 专家批次复审
 function expert_auditBatch(url, expertId) {
   var batchId = getUrlParam('batchId');
+  var win = window.open();
   
   $.ajax({
     type: 'POST',
@@ -595,7 +596,7 @@ function expert_auditBatch(url, expertId) {
     },
     success: function (data) {
       if (data.status) {
-        jumppage(url + "/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2"+"&batchId=" + batchId);
+        win.location = url + "/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2"+"&batchId=" + batchId;
       } else {
         layer.msg(data.message, {
           offset: '100px'
