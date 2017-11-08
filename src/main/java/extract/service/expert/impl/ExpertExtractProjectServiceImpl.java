@@ -414,6 +414,13 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
             if(expertExtractResult.getExpertCode() != null){
                 String typeName = DictionaryDataUtil.get(expertExtractResult.getExpertCode()) == null ? "" : DictionaryDataUtil.get(expertExtractResult.getExpertCode()).getName();
                 expertExtractResult.setExpertCode(typeName);
+                StringBuffer pro = new StringBuffer();
+                List<String> list = expertExtractConditionMapper.selProfessionalByExpertId(expertExtractResult.getExpertId() == null ? "" : expertExtractResult.getExpertId());
+                for (String str : list) {
+                	pro.append(str+"、");
+				}
+                String profi = pro.toString();
+                expertExtractResult.setProfessional(profi.length() > 1 ? profi.substring(0,profi.length() - 1) : profi);
             }
         }
         List<ExpertExtractResult> backList = resultMapper.getBackExpertListByrecordId(id);
@@ -421,6 +428,13 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
             if(expertExtractResult.getExpertCode() != null){
                 String typeName = DictionaryDataUtil.get(expertExtractResult.getExpertCode()) == null ? "" : DictionaryDataUtil.get(expertExtractResult.getExpertCode()).getName();
                 expertExtractResult.setExpertCode(typeName);
+                StringBuffer pro = new StringBuffer();
+                List<String> list = expertExtractConditionMapper.selProfessionalByExpertId(expertExtractResult.getExpertId() == null ? "" : expertExtractResult.getExpertId());
+                for (String str : list) {
+                	pro.append(str+"、");
+				}
+                String profi = pro.toString();
+                expertExtractResult.setProfessional(profi.length() > 1 ? profi.substring(0,profi.length() - 1) : profi);
             }
         }
         map.put("result", resultList);

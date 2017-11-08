@@ -86,6 +86,8 @@ public class AutoExtractServiceImpl implements AutoExtractService {
         ProjectVoiceResult projectVoiceResult = (ProjectVoiceResult)JSONObject.toBean(JSONObject.fromObject(result),ProjectVoiceResult.class,cMap);
         List<ExpertResult> expertList = projectVoiceResult.getExpertResult();
         //查询抽取的项目信息 
+        //标识回传的专家是否为请假的
+        boolean qjflag = false;
         ExpertExtractProject expertExtractProject = expertExtractProjectMapper.selectByPrimaryKey(projectVoiceResult.getRecordeId());
         if(expertExtractProject != null){
 	        for (ExpertResult expertResult : expertList) {
@@ -115,6 +117,7 @@ public class AutoExtractServiceImpl implements AutoExtractService {
 	                expertExtractResultMapper.updateByProjectIdandExpertId(expertExtractResult);
 	            }else if(expertResult.getJoin() == 8){
 	                //请假   如果专家请假   删除这个专家
+	            	qjflag = true;
 	                expertExtractResult.setIsJoin((short)3);
 	                expertExtractResult.setIsDeleted((short)1);
 	                expertExtractResultMapper.updateByProjectIdandExpertId(expertExtractResult);
@@ -278,7 +281,7 @@ public class AutoExtractServiceImpl implements AutoExtractService {
 	                }
 	            }
 	        }
-	        if(flag){
+	        if(flag && !qjflag){
 	            //不需要继续抽取  将项目状态改成抽取完成
 	            Map<String, Object> projectMap = new HashMap<>();
 	            projectMap.put("status", 2);
