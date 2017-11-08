@@ -941,7 +941,7 @@
 	                   <input name="name" id="name" value="${scoreModel.name}" type="text">
 	                </div>
                   </li>
-                  <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15 hide">
+                  <li id="biaoshi" class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15 hide">
                     <div class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>是否标识(评审计算价格得分的唯一标识) ：</div>
 	                <div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
 	                     <select id="check" name="ischeck">
