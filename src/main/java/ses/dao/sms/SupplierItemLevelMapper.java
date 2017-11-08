@@ -94,4 +94,20 @@ public interface SupplierItemLevelMapper {
 	 * @return
 	 */
 	List<SupplierItemLevel> selectProjectSupplierByCategory(@Param("categoryId")String categoryId, @Param("supplierTypeRelateId")String supplierTypeRelateId , @Param("armyBusinessName")String armyBusinessName, @Param("supplierName")String supplierName, @Param("supplierLevel")String supplierLevel);
+	
+	/**
+	 *〈简述〉//如果是大于或等于五级的品目，就查其父级四级目录的等级
+	 *〈详细描述〉
+	 * @author Ye Maolin
+	 * @param categoryIds
+	 * @param supplierType
+	 * @param armyBusinessName
+	 * @param supplierName
+	 * @param supplierLevelName
+	 * @param clickCategoryId
+	 * @return
+	 */
+	List<SupplierItemLevel> selectFourCategoryLevelOutfour(@Param("categoryId")String categoryIds,
+			@Param("supplierTypeRelateId")String supplierType, @Param("armyBusinessName")String armyBusinessName, @Param("supplierName")String supplierName,
+			@Param("supplierLevel")String supplierLevelName, @Param("clickCategoryId")String clickCategoryId);
 }
