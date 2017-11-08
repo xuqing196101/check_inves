@@ -80,7 +80,7 @@
 <body>
   <input  class="btn btn-windows check" type="button" value="不通过" onclick="batchSelection();">
   <c:if test="${sign == 2 || sign == 1}">
-    <input  class="btn btn-windows delete" type="button" value="撤销" onclick="revokeCategoryAudit();">
+    <input  class="btn btn-windows edit" type="button" value="修改" onclick="revokeCategoryAudit();">
   </c:if>
   <table class="table table-bordered table-hover m_table_fixed_border">
     <tr>
