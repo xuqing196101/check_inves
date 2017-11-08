@@ -63,6 +63,8 @@ public class SupplierExtractResult extends SupplierExtRelate {
 	
 	private String supplierName;
 	
+	private String supplierLevel;
+	
 	//联系人姓名
 	private String contactName;
 	
@@ -266,4 +268,13 @@ public class SupplierExtractResult extends SupplierExtRelate {
 		this.level = level;
 	}
 
+	public String getSupplierLevel() {
+		return supplierLevel;
+	}
+
+	public void setSupplierLevel(String supplierLevel) {
+		this.supplierLevel = supplierLevel;
+	}
+
+	
 }

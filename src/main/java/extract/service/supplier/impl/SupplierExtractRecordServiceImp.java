@@ -40,6 +40,7 @@ import extract.dao.supplier.SupplierExtractRelateResultMapper;
 import extract.model.common.ExtractUser;
 import extract.model.supplier.SupplierExtractCondition;
 import extract.model.supplier.SupplierExtractProjectInfo;
+import extract.model.supplier.SupplierExtractResult;
 import extract.service.supplier.SupplierExtractRecordService;
 
 /**
@@ -79,7 +80,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
     private ExtractConditionRelationMapper conditionRelationMapper;
     
     @Autowired
-    private SupplierExtractRelateResultMapper conMapper;
+    private SupplierExtractRelateResultMapper resultMapper;
     
     @Autowired
     private ExtractUserMapper userMapper;
@@ -326,11 +327,11 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 			hashMap2.put("recordId", recordId);
 			hashMap2.put("supplierType",projectCode);
 			if("relPro".equals(projectInto)){
-				map.put("result", conMapper.getSupplierListByRidForRel(hashMap2));
+				map.put("result", resultMapper.getSupplierListByRidForRel(hashMap2));
 			}else if("advPro".equals(projectInto)){
-				map.put("result", conMapper.getSupplierListByRidForAdv(hashMap2));
+				map.put("result", resultMapper.getSupplierListByRidForAdv(hashMap2));
 			}else{
-				map.put("result", conMapper.getSupplierListByRid(hashMap2));
+				map.put("result", resultMapper.getSupplierListByRid(hashMap2));
 			}
 			
 			//保密要求
@@ -407,7 +408,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 					HashMap<String,String> hashMap2 = new HashMap<>();
 					hashMap2.put("recordId", recordId);
 					hashMap2.put("supplierType",typeCode);
-					map.put(c+"Result", conMapper.getSupplierListByRid(hashMap2));
+					map.put(c+"Result", resultMapper.getSupplierListByRid(hashMap2));
 				}	
 				
 			}else{
@@ -464,19 +465,19 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 				hashMap2.put("recordId", recordId);
 				hashMap2.put("supplierType",supplierTypeCode);
 				if("relPro".equals(projectInto)){
-					map.put("result", conMapper.getSupplierListByRidForRel(hashMap2));
+					map.put("result", resultMapper.getSupplierListByRidForRel(hashMap2));
 				}else if("advPro".equals(projectInto)){
-					map.put("result", conMapper.getSupplierListByRidForAdv(hashMap2));
+					map.put("result", resultMapper.getSupplierListByRidForAdv(hashMap2));
 				}else{
-					map.put("result", conMapper.getSupplierListByRid(hashMap2));
+					map.put("result", resultMapper.getSupplierListByRid(hashMap2));
 				}
 
 				
 				/*HashMap<String,String> hashMap2 = new HashMap<>();
 				hashMap2.put("recordId", recordId);
 				hashMap2.put("supplierType",supplierTypeCode);
-				//List<SupplierExtractResult> supplierListByRid = conMapper.getSupplierListByRid(hashMap2);
-				map.put("result", conMapper.getSupplierListByRid(hashMap2));*/
+				//List<SupplierExtractResult> supplierListByRid = resultMapper.getSupplierListByRid(hashMap2);
+				map.put("result", resultMapper.getSupplierListByRid(hashMap2));*/
 			}
 		}
 		
@@ -586,11 +587,11 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 			hashMap2.put("recordId", recordId);
 			hashMap2.put("supplierType",projectCode);
 			if("relPro".equals(projectInto)){
-				map.put("result", conMapper.getSupplierListByRidForRel(hashMap2));
+				map.put("result", resultMapper.getSupplierListByRidForRel(hashMap2));
 			}else if("advPro".equals(projectInto)){
-				map.put("result", conMapper.getSupplierListByRidForAdv(hashMap2));
+				map.put("result", resultMapper.getSupplierListByRidForAdv(hashMap2));
 			}else{
-				map.put("result", conMapper.getSupplierListByRid(hashMap2));
+				map.put("result", resultMapper.getSupplierListByRid(hashMap2));
 			}
 			
 			//保密要求
@@ -610,35 +611,67 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 			String supplierTypeCode = condition.getSupplierTypeCode();
 			if("GOODS".equals(supplierTypeCode)){
 				map.put("typeCode","物资生产，物资销售");
+				
+				//生产供应商等级
+				hashMap.put("propertyName", "levelTypeId");
+				List<String> byMap = conditionRelationMapper.getByMap(hashMap);
+				String productLevel = "物资生产：";
+				if(null!=byMap && byMap.size()>0){
+					for (String string : byMap) {
+						productLevel +=(string + ",");
+					}
+					productLevel = productLevel.substring(0,productLevel.lastIndexOf(","));
+				}else{
+					productLevel +="不限等级";
+				}
+				//销售供应商等级
+				hashMap.put("propertyName", "salesLevelTypeId");
+				List<String> sales = conditionRelationMapper.getByMap(hashMap);
+				String salesLevel = "物资销售：";
+				if(null!=sales && sales.size()>0){
+					for (String string : sales) {
+						salesLevel +=(string + ",");
+					}
+					salesLevel = salesLevel.substring(0,salesLevel.lastIndexOf(","));
+				}else{
+					salesLevel +="不限等级";
+				}
+				
+				
+				map.put("level",productLevel+"  "+salesLevel);
+				
 			}else{
 				map.put("typeCode",dictionaryDataMapper.selectByCode(supplierTypeCode).get(0).getName());
+				
+				//供应商等级
+				hashMap.put("propertyName", "levelTypeId");
+				List<String> byMap = conditionRelationMapper.getByMap(hashMap);
+				temp = "";
+				if(null!=byMap && byMap.size()>0){
+					for (String string : byMap) {
+						temp +=(string + ",");
+					}
+					temp = temp.substring(0,temp.lastIndexOf(","));
+				}else{
+					temp ="不限等级";
+				}
+				map.put("level",temp);
 			}
 			
-			//供应商等级
-			hashMap.put("propertyName", "levelTypeId");
-			List<String> byMap = conditionRelationMapper.getByMap(hashMap);
-			temp = "";
-			if(null!=byMap && byMap.size()>0){
-				for (String string : byMap) {
-					temp +=(string + ",");
-				}
-				temp = temp.substring(0,temp.lastIndexOf(","));
-			}else{
-				temp ="不限等级";
-			}
-			map.put("level",temp);
 			
 			//抽取结果
 			HashMap<String,String> hashMap2 = new HashMap<>();
 			hashMap2.put("recordId", recordId);
 			hashMap2.put("supplierType",supplierTypeCode);
+			List<SupplierExtractResult> supplierList = null ;
 			if("relPro".equals(projectInto)){
-				map.put("result", conMapper.getSupplierListByRidForRel(hashMap2));
+				supplierList = resultMapper.getSupplierListByRidForRel(hashMap2);
 			}else if("advPro".equals(projectInto)){
-				map.put("result", conMapper.getSupplierListByRidForAdv(hashMap2));
+				supplierList = resultMapper.getSupplierListByRidForAdv(hashMap2);
 			}else{
-				map.put("result", conMapper.getSupplierListByRid(hashMap2));
+				supplierList = resultMapper.getSupplierListByRid(hashMap2);
 			}
+			map.put("result",supplierList );
 		}
 		
 		return map;

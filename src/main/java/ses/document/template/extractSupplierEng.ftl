@@ -1447,7 +1447,7 @@
                       <w:sz w:val="20"/>
                       <w:szCs w:val="20"/>
                     </w:rPr>
-                    <w:t>${tree.level!}</w:t>
+                    <w:t>${tree.supplierLevel!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>

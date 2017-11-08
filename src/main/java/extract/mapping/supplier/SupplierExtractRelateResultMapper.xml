@@ -14,6 +14,7 @@
 		<result column="RECORD_ID" jdbcType="VARCHAR" property="recordId" />
 		<result column="SUPPLIER_TYPE" jdbcType="VARCHAR" property="supplierType" />
 		
+		<result column="SUPPLIER_LEVEL" jdbcType="VARCHAR" property="supplierLevel" />
 		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
 		<result column="UPDATED_AT" jdbcType="VARCHAR" property="updatedAt" />
 		<result column="CON_TYPE_ID" jdbcType="VARCHAR" property="conTypeId" />
@@ -34,6 +35,7 @@
 		<result column="SUPPLIER_TYPE_ID" property="supplierTypeId" />
 		<result column="BUSINESS_TYPE" property="businessType" />
 		<result column="BUSINESS_CERT" property="businessCert" />
+		<result column="SUPPLIER_LEVEL" property="supplierLevel" />
 		<result column="CONTACT_NAME" property="contactName" />
 		<result column="CONTACT_TELEPHONE" property="contactTelephone" />
 		<result column="CONTACT_MOBILE" property="contactMobile" />
@@ -81,10 +83,10 @@
 	</sql>
 	
 	<sql id="extractResult">
-		 DISTINCT R.JOIN,R.REASON,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_TELEPHONE,S.ARMY_BUSINESS_MOBILE 
+		 DISTINCT R.JOIN,R.REASON,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_TELEPHONE,S.ARMY_BUSINESS_MOBILE,R.SUPPLIER_LEVEL
 	</sql>
 	<sql id="extractResultAdv">
-		 DISTINCT R.OPERATING_TYPE JOIN,R.REASON,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_TELEPHONE,S.ARMY_BUSINESS_MOBILE 
+		 DISTINCT R.OPERATING_TYPE JOIN,R.REASON,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_TELEPHONE,S.ARMY_BUSINESS_MOBILE,R.SUPPLIER_LEVEL
 	</sql>
 	
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
@@ -127,7 +129,10 @@
 				SUPPLIER_TYPE,
 			</if>
 			<if test="recordId != null">
-				RECORD_ID
+				RECORD_ID,
+			</if>
+			<if test="supplierLevel != null">
+				SUPPLIER_LEVEL,
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -153,12 +158,13 @@
 				#{supplierType,jdbcType=VARCHAR},
 			</if>
 			<if test="recordId != null">
-				#{recordId,jdbcType=VARCHAR}
+				#{recordId,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierLevel != null">
+				#{supplierLevel,jdbcType=VARCHAR},
 			</if>
 		</trim>
         </foreach>
-        SELECT 1 FROM DUAL
-	
 	</insert>
 	
 	<insert id="insertSelective" parameterType="extract.model.supplier.SupplierExtractResult">
@@ -186,7 +192,10 @@
 				SUPPLIER_TYPE,
 			</if>
 			<if test="recordId != null">
-				RECORD_ID
+				RECORD_ID,
+			</if>
+			<if test="supplierLevel != null">
+				SUPPLIER_LEVEL,
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -212,7 +221,10 @@
 				#{supplierType,jdbcType=VARCHAR},
 			</if>
 			<if test="recordId != null">
-				#{recordId,jdbcType=VARCHAR}
+				#{recordId,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierLevel != null">
+				#{supplierLevel,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -256,32 +268,10 @@
 			<if test="reviewType != null">
 				REVIEW_TYPE = #{reviewType,jdbcType=VARCHAR},
 			</if>
+			<if test="supplierLevel != null">
+				SUPPLIER_LEVEL = #{supplierLevel,jdbcType=VARCHAR},
+			</if>
 		</set>
-		where ID = #{id,jdbcType=VARCHAR}
-	</update>
-	<update id="updateByPrimaryKey" parameterType="extract.model.supplier.SupplierExtractResult">
-		
-		update T_SES_SMS_EXTRACT_RESULT
-		set SUPPLIER_ID =
-		#{supplierId,jdbcType=VARCHAR},
-		SUPPLIER_CONDITION_ID =
-		#{supplierConditionId,jdbcType=VARCHAR},
-		CREATED_AT =
-		#{createdAt,jdbcType=TIMESTAMP},
-		OPERATING_TYPE =
-		#{operatingType,jdbcType=DECIMAL},
-		IS_DELETED =
-		#{isDeleted,jdbcType=DECIMAL},
-		REASON = #{reason,jdbcType=VARCHAR},
-		PROJECT_ID = #{projectId,jdbcType=VARCHAR},
-		UPDATED_AT =
-		#{updatedAt,jdbcType=VARCHAR},
-		CON_TYPE_ID =
-		#{conTypeId,jdbcType=VARCHAR},
-		STATUS_COUNT =
-		#{statusCount,jdbcType=DECIMAL},
-		REVIEW_TYPE =
-		#{reviewType,jdbcType=VARCHAR},
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 
@@ -360,37 +350,7 @@
 		AND
 		PROJECT_ID=#{projectId}
 	</select>
-	<insert id="insertList" parameterType="java.util.List">
-		INSERT INTO T_SES_SMS_EXTRACT_RESULT
-		(SUPPLIER_ID,SUPPLIER_CONDITION_ID,PROJECT_ID,CON_TYPE_ID)
-		<foreach collection="list" item="item" index="index"
-			separator="union" close=")" open="(">
-			select
-			#{item.supplierId,jdbcType=VARCHAR},
-			#{item.supplierConditionId,jdbcType=VARCHAR},
-			#{item.projectId,jdbcType=VARCHAR},
-			#{item.conTypeId,jdbcType=VARCHAR}
-			from dual
-		</foreach>
-	</insert>
 
-
-	<select id="selectSupplierType" parameterType="java.lang.String"
-		resultMap="BaseMap">
-		SELECT
-		wm_concat(t1.SUPPLIER_TYPE_ID) as
-		SUPPLIER_TYPE_ID,t1.SUPPLIER_ID
-		FROM
-		T_SES_SMS_SUPPLIER_TYPE_RELATE t1
-		INNER JOIN
-		T_SES_SMS_EXTRACT_RESULT t2 ON t1.SUPPLIER_ID =
-		T2.SUPPLIER_ID
-		WHERE T2.SUPPLIER_CONDITION_ID =#{conditionId}
-		GROUP BY
-		t1.SUPPLIER_ID
-	</select>
-	
-	
 	<!-- 查询已经抽取到的供应商 -->
 	<select id="selectSupplierIdListByRecordId" parameterType="java.lang.String" resultType="java.lang.String">
 		SELECT SUPPLIER_ID supplierIds FROM T_SES_SMS_EXTRACT_RESULT WHERE RECORD_ID = #{value}
@@ -472,14 +432,20 @@
 			</if>
 		</if>
 		<!-- 查询等级 -->
-		<if test="supplierTypeCode != 'PROJECT'.toString() and supplierTypeCodes.length &lt; 2">
+		<if test="supplierTypeCode != 'PROJECT'.toString() and supplierTypeCodes.length == 1">
+			<if test="null != supplierItemId">
+				AND L.CATEGORY_ID  IN <foreach collection="supplierItemId" item="sid" open="(" close=")" separator=","> #{sid}  </foreach>
+			</if>
+			AND L.SUPPLIER_TYPE_ID = #{supplierTypeCode}
 			<if test="levelTypeId !=null and levelTypeId != '' ">
-				AND L.SUPPLIER_TYPE_ID = #{supplierTypeCode}
 				AND L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
 			</if>
 		</if>
 		<if test="supplierTypeCodes.length == 2">
+			<if test="null != supplierItemId">
+				AND L.CATEGORY_ID  IN <foreach collection="supplierItemId" item="sid" open="(" close=")" separator=","> #{sid}  </foreach>
 				AND ( L.SUPPLIER_TYPE_ID = 'PRODUCT'
+			</if>
 			<if test="levelTypeId !=null and levelTypeId != '' ">
 				AND  L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
 			</if>
@@ -609,6 +575,9 @@
 			<if test="t.projectType != null">
 				REVIEW_TYPE,
 			</if>
+			<if test="t.supplierLevel != null">
+				SUPPLIER_LEVEL,
+			</if>
 
 		</trim>
        <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -651,9 +620,11 @@
 			<if test="t.projectType != null">
 				#{t.projectType,jdbcType=VARCHAR},
 			</if>
+			<if test="t.supplierLevel != null">
+				#{t.supplierLevel,jdbcType=VARCHAR},
+			</if>
 		</trim>
         </foreach>
-        SELECT 1 FROM DUAL
 	</insert>
 	
 	<update id="updateSupplierJoin" parameterType="extract.model.supplier.SupplierExtractResult">
@@ -819,6 +790,9 @@
 			<if test="t.projectType != null">
 				REVIEW_TYPE,
 			</if>
+			<if test="t.supplierLevel != null">
+				SUPPLIER_LEVEL,
+			</if>
 
 		</trim>
        <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -858,9 +832,11 @@
 			<if test="t.projectType != null">
 				#{t.projectType,jdbcType=VARCHAR},
 			</if>
+			<if test="t.supplierLevel != null">
+				#{t.supplierLevel,jdbcType=VARCHAR},
+			</if>
 		</trim>
         </foreach>
-        SELECT 1 FROM DUAL
 	</insert>
 	
 	<!-- 支撑系统进入 -->
@@ -921,6 +897,9 @@
 			<if test="recordId != null">
 				RECORD_ID,
 			</if>
+			<if test="supplierLevel != null">
+				SUPPLIER_LEVEL,
+			</if>
 
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -962,6 +941,9 @@
 			</if>
 			<if test="recordId != null">
 				#{recordId,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierLevel != null">
+				#{SUPPLIER_LEVEL,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -1005,6 +987,9 @@
 			</if>
 			<if test="recordId != null">
 				RECORD_ID = #{recordId,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierLevel != null">
+				SUPPLIER_LEVEL = #{supplierLevel,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}

@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="extract.dao.supplier.SupplierExtractConditionMapper">
-	<!-- <resultMap id="BaseResultMap" type="extract.model.supplier.SupplierExtractCondition">
-		@mbggenerated
-		<id column="ID" jdbcType="VARCHAR" property="id" />
-		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
-		<result column="STATUS" jdbcType="DECIMAL" property="status" />
-		<result column="ADDRESS" jdbcType="VARCHAR" property="address" />
-		<result column="EXPERTS_TYPE_ID" jdbcType="VARCHAR" property="expertsTypeId" />
-		<result column="TENDER_TIME" property="tenderTime" jdbcType="TIMESTAMP" />
-		<result column="RESPONSE_TIME" jdbcType="VARCHAR" property="responseTime" />
-		<result column="SUPPLIER_LEVEL" jdbcType="VARCHAR" property="supplierLevel" />
-		<result column="EXTRACT_ADDRESS" jdbcType="VARCHAR" property="extractAddress" />
-		<result column="ADDRESS_REASON" jdbcType="VARCHAR" property="addressReason" />
-		<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
-		<result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
-		<result column="ADDRESS_ID" jdbcType="VARCHAR" property="addressId" />
-	</resultMap> -->
 	<!-- 新条件表返回结果  -->
 	<resultMap id="BaseResultMap" type="extract.model.supplier.SupplierExtractCondition">
 		<id column="ID" jdbcType="VARCHAR" property="id" />
@@ -52,6 +36,15 @@
 			<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
 		</collection>
 	</resultMap>
+	  <resultMap id="supplierLevelResult" type="ses.model.sms.SupplierItemLevel" >
+	    <id column="ID" property="id" jdbcType="VARCHAR" />
+	    <result column="SUPPLIER_ID" property="supplierId" jdbcType="VARCHAR" />
+	    <result column="SUPPLIER_LEVEL" property="supplierLevel" jdbcType="VARCHAR" />
+	    <result column="CATEGORY_ID" property="categoryId" jdbcType="VARCHAR" />
+	    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+	    <result column="SUPPLIER_TYPE_ID" property="supplierTypeId" jdbcType="VARCHAR" />
+	  </resultMap>
+	
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
 		ID, PROJECT_ID, STATUS, AREA_NAME, ADDRESS_REASON, BUSINESS_NATURE,
@@ -281,7 +274,7 @@
 	</select>
 	
 	<!-- 遍历品目末节点 -->
-	<select id="seleselectChildCate" parameterType="java.util.List" resultType="java.lang.String">
+	<select id="selectChildCate" parameterType="java.util.List" resultType="java.lang.String">
 		select distinct s.id from ( select t.*,level from T_SES_BMS_CATEGORY t START WITH  T.id in 
 		<foreach collection="array" open="(" close=")" separator="," index="index" item="item">
 			#{item}
@@ -294,5 +287,50 @@
 		<foreach collection="array" open="(" close=")" separator="," index="index" item="item">
 			#{item}
 		</foreach>
+	</select>
+	
+	<select id="selectCateLevelToUp" parameterType="map" resultMap="supplierLevelResult">
+		SELECT * FROM  T_SES_BMS_CATEGORY CATE  
+		LEFT JOIN T_SES_SMS_SUPPLIER_ITEM_LEVEL L ON CATE.ID = L.CATEGORY_ID
+		WHERE CATE.SUPPLIER_REGISTER_LEVEL = 4 
+		AND L.SUPPLIER_TYPE_ID IN 
+		<foreach collection="supplierTypeId" index="index" item="it" open="(" close=")" separator=",">
+			#{it}
+		</foreach>
+		
+		<if test="categoryIds != null">
+			START WITH CATE.ID in 
+			<foreach collection="categoryIds" index="index" item="it" open="(" close=")" separator=",">
+				#{it}
+			</foreach>
+			CONNECT BY PRIOR CATE.PARENT_ID = CATE.ID
+		</if>
+	</select>
+	
+	<select id="selectCateLevelToDown" parameterType="map" resultMap="supplierLevelResult">
+		SELECT * FROM  T_SES_BMS_CATEGORY CATE  
+		LEFT JOIN T_SES_SMS_SUPPLIER_ITEM_LEVEL L ON CATE.ID = L.CATEGORY_ID
+		WHERE CATE.SUPPLIER_REGISTER_LEVEL = 4 
+		AND L.SUPPLIER_TYPE_ID IN 
+		<foreach collection="supplierTypeId" index="index" item="it" open="(" close=")" separator=",">
+			#{it}
+		</foreach>
+		
+		<if test="categoryIds == null">
+			START WITH CATE.ID in 
+			<foreach collection="categoryIds" index="index" item="it" open="(" close=")" separator=",">
+				#{it}
+			</foreach>
+			CONNECT BY PRIOR CATE.ID = CATE.PARENT_ID
+		</if>
+	</select>
+	<select id="selectQuaLevelBySupplierIdAndQuaId" parameterType="map" resultType="java.lang.String">
+		SELECT A."APTITUTE_ LEVEL" FROM T_SES_SMS_SUPPLIER_APTITUTE A LEFT JOIN T_SES_SMS_SUPPLIER_MAT_ENG E ON E.ID = A.MAT_ENG_ID WHERE E.SUPPLIER_ID = #{supplierId} 
+		<if test="qids != null">
+			AND A.CERT_TYPE IN 
+			<foreach collection="quaId" index="index" item="it" open="(" close=")" separator=",">
+				#{it}
+			</foreach>
+		</if>
 	</select>
 </mapper>

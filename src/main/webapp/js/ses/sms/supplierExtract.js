@@ -659,7 +659,7 @@ function appendTd(num,obj,result){
 	if(data[i].armyBusinessName){
 		armyBusinessName = data[i].armyBusinessName;
 	}
-	var tex = "<tr class='cursor' typeCode='"+$("#supplierType").val()+"' sid='"+data[i].id+"' index='"+i+"'>" +
+	var tex = "<tr class='cursor' typeCode='"+$("#supplierType").val()+"' sid='"+data[i].id+"' index='"+i+"' level='"+data[i].supplierLevel+"'>" +
    	 "<td  >"+(parseInt(num)+1)+"</td>" +
 	 "<td   >"+data[i].supplierName+"</td>" +
      "<td  >"+typeName+"</td>" +
@@ -1377,7 +1377,7 @@ function onCheckLevel(obj) {
 	var levelTypeObj = $("#"+input);
 	levelTypeObj.val(v);
 	levelTypeObj.attr("title", v);
-	$(levelTypeObj).parents("li").find("[name='levelTypeId']").val(rid);
+	$(levelTypeObj).parents("li").find("[name='"+input+"TypeId']").val(rid);
 }
 
 // 工程资质被选中后
@@ -1489,20 +1489,23 @@ function saveResult(objTr, reason,join) {// obj:当前处理完成供应商信�
 	var conditionId = $("#conditionId").val();
 	var recordId = $("#recordId").val();
 	var packageId = $("#packageId").val();
+	var level = objTr.attr("level");
 	var sid = objTr.attr("sid");
 	$.ajax({
         type: "POST",
         url: globalPath+"/SupplierExtracts_new/saveResult.do",
-        data: {reason: reason, conditionId: conditionId,supplierId:sid,supplierType:supplierType,join:join,recordId:recordId,projectType:projectType,packageId:packageId},
+        data: {reason: reason, conditionId: conditionId,supplierId:sid,supplierType:supplierType,join:join,recordId:recordId,projectType:projectType,packageId:packageId,supplierLevel:level},
         dataType: "json",
         async:false,
-        success: function () {
+        success: function (msg) {
+        	if(msg==0){
+        		layer.msg("抽取结果保存异常，请重新抽取");
+        	}
         	successCount++;
         }
 	});
 	
 	// 追加到项目实施页面
-	
 	if(projectType && join==1){
 		var parentsTr = $(objTr).clone();
 		$(parentsTr).find("td:last").remove();

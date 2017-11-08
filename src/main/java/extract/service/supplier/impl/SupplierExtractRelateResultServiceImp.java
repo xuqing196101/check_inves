@@ -46,7 +46,7 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
    * 存储结果
    */
 	@Override
-	public void saveResult(SupplierExtractResult supplierExtRelate,String projectType) {
+	public int saveResult(SupplierExtractResult supplierExtRelate,String projectType) {
 		
 		ArrayList<SupplierExtractResult> arrayList = new ArrayList<>();
 		String[] packageIds = supplierExtRelate.getPackageIds();
@@ -65,22 +65,18 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 		}
 		//预研项目
 		if("advPro".equals(projectType) && arrayList.size()>0){
-			supplierExtRelateMapper.insertAdv(arrayList);
-			return;
+			return supplierExtRelateMapper.insertAdv(arrayList);
 		//真实项目
 		}else if("relPro".equals(projectType)&& arrayList.size()>0){
-			supplierExtRelateMapper.insertRel(arrayList);
-			return;
+			return supplierExtRelateMapper.insertRel(arrayList);
 		//支撑系统入口	
 		}else if(StringUtils.isBlank(projectType)){
 			supplierExtRelate.setId(UUIDUtils.getUUID32());
-			supplierExtRelateMapper.insertSelective(supplierExtRelate);
-			return;
+			return supplierExtRelateMapper.insertSelective(supplierExtRelate);
 		}
-		
+		return 0;
 	}
 
-	
 	@Override
 	public void saveOrUpdateVoiceResult(SupplierExtractCondition condition,
 			List<Supplier> suppliers, List<SupplierVoiceResult> suppliers2,String projectType) {

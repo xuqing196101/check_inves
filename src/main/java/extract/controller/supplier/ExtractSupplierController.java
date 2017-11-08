@@ -117,11 +117,13 @@ public class ExtractSupplierController extends BaseController {
     		
     		//采购方式
             List<DictionaryData> purchaseWayList = new ArrayList<>();
-            DictionaryData dictionaryData = DictionaryDataUtil.get("XJCG");
-            dictionaryData.setName("询价");
-            purchaseWayList.add(dictionaryData);
+            purchaseWayList.add(DictionaryDataUtil.get("GKZB"));
             purchaseWayList.add(DictionaryDataUtil.get("YQZB"));
             purchaseWayList.add(DictionaryDataUtil.get("JZXTP"));
+        	DictionaryData xj = DictionaryDataUtil.get("XJCG");
+        	xj.setName("询价");
+        	purchaseWayList.add(xj);
+        	purchaseWayList.add(DictionaryDataUtil.get("DYLY"));
             model.addAttribute("purchaseTypeList",purchaseWayList);
             model.addAttribute("startTime",startTime);
             model.addAttribute("endTime",endTime);
@@ -258,12 +260,12 @@ public class ExtractSupplierController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("/saveResult")
-    public Object saveResult(Model model,SupplierExtractResult supplierExtRelate,String projectType){
+    public String saveResult(Model model,SupplierExtractResult supplierExtRelate,String projectType){
     	
     	//保存抽取记录  供应商id  记录id 条件id  结果id 是否参加 不参加理由 供应商类型代码
     	//supplierExtRelate.setId(UUIDUtils.getUUID32());
-    	extRelateService.saveResult(supplierExtRelate,projectType);
-		return null;
+    	int saveResult = extRelateService.saveResult(supplierExtRelate,projectType);
+    	return JSON.toJSONString(saveResult);
     }
 
 
@@ -425,7 +427,4 @@ public class ExtractSupplierController extends BaseController {
     	return JSON.toJSONString(saveOrUpdateProjectInfo);
     }
     
-    
-    
-	
 }

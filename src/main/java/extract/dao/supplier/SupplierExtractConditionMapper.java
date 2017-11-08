@@ -8,6 +8,7 @@ import java.util.Set;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryQua;
 import ses.model.bms.DictionaryData;
+import ses.model.sms.SupplierItemLevel;
 import extract.model.supplier.Qua;
 import extract.model.supplier.SupplierExtractCondition;
 
@@ -71,7 +72,7 @@ public interface SupplierExtractConditionMapper {
 
 	List<Category> checkParentCate(String cid);
 
-	Set<String> seleselectChildCate(String[] split);
+	Set<String> selectChildCate(String[] split);
 	
 	/**
 	 * 
@@ -83,5 +84,40 @@ public interface SupplierExtractConditionMapper {
 	 * @return 
 	 */
 	List<CategoryQua> verifyQua(String quaId);
+
+
+	/**
+	 * 
+	 * <简述>获取4级父节点供应商等级
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-11-7下午8:21:50
+	 * @param map
+	 * @return
+	 */
+	List<SupplierItemLevel> selectCateLevelToUp(Map<String, Object> map);
+
+	/**
+	 * 
+	 * <简述>获取4级子节点供应商等级
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-11-7下午8:42:31
+	 * @param map
+	 * @return
+	 */
+	List<SupplierItemLevel> selectCateLevelToDown(Map<String, Object> map);
+
+
+	/**
+	 * 查询供应商工程资质等级
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-11-8下午2:53:30
+	 * @param map
+	 * @return 
+	 */
+	List<String> selectQuaLevelBySupplierIdAndQuaId(Map<String, Object> map);
 
 }
