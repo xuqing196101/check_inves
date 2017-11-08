@@ -524,6 +524,13 @@ public class ExpertAuditController{
 					    falg = true;
 					}  
 					if(falg){
+						
+						//政治面貌：
+						if("getPoliticsStatus".equals(method)){
+							DictionaryData DictionaryData = dictionaryDataServiceI.getDictionaryData((String)param);
+							map.put("auditContent", DictionaryData.getName());
+						}
+
 						expertAuditService.updateDoAuditStatus(map);
 					}
 				}
