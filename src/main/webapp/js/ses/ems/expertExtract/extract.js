@@ -263,8 +263,8 @@ function validationIsNull(code){
             flag = false;
         }else if(parseInt(v) > parseInt($("#"+strs[i]+"_count").text())){
             flag = false;
-            $("#err_"+strs[i].toLowerCase()+"_i_count").html("当前符合条件人数不足");
-            layer.msg("人数不足，无法抽取");
+            $("#err_"+strs[i].toLowerCase()+"_i_count").html("当前符合条件家数不足");
+            layer.msg("家数不足，无法抽取");
         }else{
             num += parseInt(coUndifined(v));
             $("#err_"+strs[i].toLowerCase()+"_i_count").html("");
