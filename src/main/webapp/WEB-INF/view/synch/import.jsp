@@ -84,21 +84,23 @@
 		  </div>
 		</li> --%>
 		
-		<li class="col-md-12 col-sm-12 col-xs-12 pl15">
-		  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>同步类型</span>
-		  <div>
-			<c:forEach  items="${dataTypeList}" var="type">
-			  <input type="checkbox" name="dataType" value="${type.code}"/> ${type.name}
-			</c:forEach> 
-			<c:if test="${authType ==  '4'}">
-				<input type="checkbox" name="dataType" value="inner_out"/> 供应商退回修改导入外网
-				<%--<input type="checkbox" name="dataType" value="outter_in"/> 供应商退回修改导入内网--%>
-				<input type="checkbox" name="dataType" value="temp_in"/> 临时供应商退回修改导入内网
-				<input type="checkbox" name="dataType" value="expert_out"/> 专家退回修改导出外网
-				<input type="checkbox" name="dataType" value="expert_again_inner"/> 专家退回修改导入内网
+		<li class="w100p">
+		  <span class="block"><span class="star_red">*</span>同步类型</span>
+		  <div class="m_inputGroup_wrapper mt10">
+		  <div class="m_inputGroup">
+				<c:forEach  items="${dataTypeList}" var="type">
+			  <label class="hand"><input type="checkbox" name="dataType" value="${type.code}"/><span>${type.name}</span></label>
+				</c:forEach>
 				
-				<input type="checkbox" name="dataType" value="img_inner"/> 供应商，专家图片导入
-			</c:if>
+				<c:if test="${authType ==  '4'}">
+				<label class="hand"><input type="checkbox" name="dataType" value="inner_out"/><span>供应商退回修改导入外网</span></label>
+				<%--<input type="checkbox" name="dataType" value="outter_in"/> 供应商退回修改导入内网--%>
+				<label class="hand"><input type="checkbox" name="dataType" value="temp_in"/><span>临时供应商退回修改导入内网</span></label>
+				<label class="hand"><input type="checkbox" name="dataType" value="expert_out"/><span>专家退回修改导出外网</span></label>
+				<label class="hand"><input type="checkbox" name="dataType" value="expert_again_inner"/><span>专家退回修改导入内网</span></label>
+				<label class="hand"><input type="checkbox" name="dataType" value="img_inner"/><span>供应商，专家图片导入</span></label>
+				</c:if>
+			</div>
 		  </div>
 		</li>
 		
