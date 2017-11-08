@@ -1,20 +1,16 @@
 package ses.controller.sys.ems;
 
-import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
+import bss.formbean.Maps;
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.StringUtil;
+import common.constant.Constant;
+import dss.model.rids.ExpertAnalyzeVo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
@@ -24,8 +20,6 @@ import ses.model.ems.ExpertAuditOpinion;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertTitle;
 import ses.model.oms.Orgnization;
-import ses.model.oms.PurchaseDep;
-import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCateTree;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
@@ -41,13 +35,16 @@ import ses.service.oms.PurChaseDepOrgService;
 import ses.service.sms.SupplierEditService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
-import bss.formbean.Maps;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
-
-import common.constant.Constant;
-import dss.model.rids.ExpertAnalyzeVo;
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>Title:ExpertQuery </p>
@@ -408,7 +405,7 @@ public class ExpertQueryController {
 	 * @return
 	 */
 	@RequestMapping("/getCategories")
-	public String getCategories(String expertId, String typeId, Model model, Integer pageNum) {
+	public String getCategories(String expertId, String typeId, Model model, String flags, Integer pageNum) {
 		String code = DictionaryDataUtil.findById(typeId).getCode();
         String flag = null;
         if (code != null && code.equals("GOODS_PROJECT")) {
@@ -472,6 +469,11 @@ public class ExpertQueryController {
         model.addAttribute("resultpageNum", pageNum);
         model.addAttribute("resultStartRow", (list == null ? 0 : 1));
         model.addAttribute("resultEndRow", new PageInfo < > (items).getEndRow()+1);
+        // 首页公示显示专家小类详情
+        if(StringUtils.isNotEmpty(flags)){
+           return "iss/ps/index/index_expPublicity_item_ajax";
+        }
+
         return "ses/ems/expertQuery/ajax_items";
 	}
 	
