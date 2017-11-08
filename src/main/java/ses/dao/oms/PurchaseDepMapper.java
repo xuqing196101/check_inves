@@ -80,7 +80,7 @@ public interface PurchaseDepMapper {
 	 * 查询全部机构
 	 * @return
 	 */
-	List<PurchaseDep> findAllOrg();
+	List<PurchaseDep> findAllOrg(Map<String, Object> map);
 
 	/**
 	 *

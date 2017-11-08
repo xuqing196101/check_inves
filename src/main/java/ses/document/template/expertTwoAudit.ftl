@@ -1310,6 +1310,24 @@
 					</w:r>
 				</w:p>
 				<w:sectPr>
+					<w:hdr w:type="odd">
+						<wx:pBdrGroup>
+							<wx:borders>
+								<wx:bottom wx:val="solid" wx:bdrwidth="15" wx:space="1" wx:color="auto" /></wx:borders>
+							<w:p>
+								<w:pPr>
+									<w:pStyle w:val="a5" />
+									<w:jc w:val="right" /></w:pPr>
+								<w:r>
+									<w:rPr>
+										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
+										<wx:font wx:val="宋体" />
+									</w:rPr>
+									<w:t>${expertNum}</w:t>
+								</w:r>
+							</w:p>
+						</wx:pBdrGroup>
+					</w:hdr>
 					<w:ftr w:type="even">
 						<wx:pBdrGroup>
 							<wx:apo>
