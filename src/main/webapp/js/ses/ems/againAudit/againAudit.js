@@ -126,6 +126,8 @@
                 $('.unselected_checkAll').prop('checked', false);
               }
             });
+          } else {
+            $('.unselected_checkAll').prop('checked', false);
           }
           
           select_total();  // 统计专家人数总数
