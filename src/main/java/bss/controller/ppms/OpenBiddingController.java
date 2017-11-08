@@ -1852,48 +1852,48 @@ public class OpenBiddingController extends BaseSupplierController{
 
 
   @RequestMapping("/changbiao")
-  public String chooseChangBiaoType(String projectId, String flowDefineId, Model model) {
-      Project project = projectService.selectById(projectId);
-      
-      //开标时间
-      long bidDate = 0;
-      if (project.getBidDate() != null) {
-          bidDate = project.getBidDate().getTime();
-      }
-      long nowDate = new Date().getTime();
-      long date = bidDate - nowDate;
-      model.addAttribute("date", date);
-      model.addAttribute("project", project);
-      model.addAttribute("flowDefineId", flowDefineId);
-
-      if (date < 0) {
-          //去saletender查出项目对应的所有的包
-          List<Packages> packList = saleTenderService.getPackageIds(projectId);
-          if (packList != null && packList.size() > 0) {
-              SaleTender condition = new SaleTender();
-              condition.setProjectId(projectId);
-              condition.setPackages(packList.get(0).getId());
-              condition.setStatusBid(NUMBER_TWO);
-              condition.setStatusBond(NUMBER_TWO);
-              condition.setIsTurnUp(0);
-              List<SaleTender> stList = saleTenderService.find(condition);
-              if (stList != null && stList.size() > 0) {
-                  Quote quote = new Quote();
-                  quote.setProjectId(projectId);
-                  quote.setPackageId(packList.get(0).getId());
-                  quote.setSupplierId(stList.get(0).getSupplierId());
-                  List<Quote> allQuote = supplierQuoteService.getAllQuote(quote, 1);
-                  if (allQuote != null && allQuote.size() > 0) {
-                      if (allQuote.get(0).getQuotePrice() == null) {
-                          return "redirect:changtotal.html?projectId=" + projectId + "&flowDefineId=" + flowDefineId;
-                      } else {
-                          return "redirect:changmingxi.html?projectId=" + projectId + "&flowDefineId=" + flowDefineId;
-                      }
-                  }
-              }
-          }
-      }
-      return "bss/ppms/open_bidding/bid_file/cb";
+  public String chooseChangBiaoType(String projectId, String flowDefineId, Model model) {Project project = projectService.selectById(projectId);
+	  if (project != null && project.getBidDate() != null) {
+		  //开标时间
+	      long bidDate = 0;
+	      bidDate = project.getBidDate().getTime();
+	      
+	      long nowDate = new Date().getTime();
+	      long date = bidDate - nowDate;
+	      model.addAttribute("date", date);
+	      if (date < 0) {
+	          //去saletender查出项目对应的所有的包
+	          List<Packages> packList = saleTenderService.getPackageIds(projectId);
+	          if (packList != null && packList.size() > 0) {
+	              SaleTender condition = new SaleTender();
+	              condition.setProjectId(projectId);
+	              condition.setPackages(packList.get(0).getId());
+	              condition.setStatusBid(NUMBER_TWO);
+	              condition.setStatusBond(NUMBER_TWO);
+	              condition.setIsTurnUp(0);
+	              List<SaleTender> stList = saleTenderService.find(condition);
+	              if (stList != null && stList.size() > 0) {
+	                  Quote quote = new Quote();
+	                  quote.setProjectId(projectId);
+	                  quote.setPackageId(packList.get(0).getId());
+	                  quote.setSupplierId(stList.get(0).getSupplierId());
+	                  List<Quote> allQuote = supplierQuoteService.getAllQuote(quote, 1);
+	                  if (allQuote != null && allQuote.size() > 0) {
+	                      if (allQuote.get(0).getQuotePrice() == null) {
+	                          return "redirect:changtotal.html?projectId=" + projectId + "&flowDefineId=" + flowDefineId;
+	                      } else {  
+	                          return "redirect:changmingxi.html?projectId=" + projectId + "&flowDefineId=" + flowDefineId;
+	                      }
+	                  }
+	              }
+	          }
+	      }
+	  } else {
+		  model.addAttribute("bidDate", 0);
+	  }
+	  model.addAttribute("project", project);
+	  model.addAttribute("flowDefineId", flowDefineId);
+	  return "bss/ppms/open_bidding/bid_file/cb";
   }
 
   @RequestMapping("/openNewWidow")

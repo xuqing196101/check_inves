@@ -161,14 +161,15 @@ public class ProjectSupervisionController {
                     }
                 }
                 
-                DictionaryData findById = DictionaryDataUtil.findById(list.get(i).getStatus());
-                if("YJFB".equals(findById.getCode())){
+                /*DictionaryData findById = DictionaryDataUtil.findById(list.get(i).getStatus());
+                if("YZZ".equals(findById.getCode())){
                 	list.get(i).setLinkman("1");
-                }
+                }*/
             }
             model.addAttribute("info", new PageInfo<Project>(list));
             model.addAttribute("kind", DictionaryDataUtil.find(5));// 获取数据字典数据
-            model.addAttribute("status", DictionaryDataUtil.find(2));// 获取数据字典数据
+            //model.addAttribute("status", DictionaryDataUtil.find(2));// 获取数据字典数据
+            model.addAttribute("yzz", DictionaryDataUtil.getId("YZZ"));
             model.addAttribute("project", project);
         }
         return "sums/ss/projectSupervision/list";

@@ -926,7 +926,7 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 			dictionaryData.setUpdatedAt(packages.getCreatedAt());
 			dictionaryData.setDescription(project.getId());
 		} else if ("CGLC_CGWJBB".equals(code)){
-			dictionaryData.setUpdatedAt(project.getApprovalTime());
+			dictionaryData.setUpdatedAt(project.getReplyTime());
 			dictionaryData.setDescription(project.getId());
 		} else if ("CGLC_CGGGFB".equals(code)){
 			Article article = new Article();
@@ -1224,26 +1224,31 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 	                }
 	                list.add(supervision);
 				} else if (data != null && project.getId().equals(data.getDescription()) && "CGLC_KB".equals(data.getCode()) && data.getUpdatedAt() != null) {
-					Supervision supervision = new Supervision();
-					HashMap<String, Object> map = new HashMap<>();
-					map.put("1投标记录", "25%");
-					map.put("2开标一览表", "35%");
-					map.put("3开标人", "20%");
-					map.put("4开标时间", "20%");
-					List<Map.Entry<String, Object>> lists = sorts(map);
-					supervision.setMap(lists);
-					supervision.setName(data.getName());
-					supervision.setPackages(packages);
-					supervision.setProject(project);
-					//获取开标的操作人
-		            FlowDefine define = new FlowDefine();
-		            define.setPurchaseTypeId(project.getPurchaseType());
-		            define.setCode("KBCB");
-		            FlowExecute flowExecute = operator(define, project.getId());
-		            if(flowExecute != null){
-		            	supervision.setFlowExecute(flowExecute);
-		            }
-		            list.add(supervision);
+					SaleTender saleTender = new SaleTender();
+		            saleTender.setPackages(packages.getId());
+					List<SaleTender> packegeSupplier = saleTenderMapper.getPackegeSupplier(saleTender);
+					if (packegeSupplier != null && !packegeSupplier.isEmpty()) {
+						Supervision supervision = new Supervision();
+						HashMap<String, Object> map = new HashMap<>();
+						map.put("1投标记录", "25%");
+						map.put("2开标一览表", "35%");
+						map.put("3开标人", "20%");
+						map.put("4开标时间", "20%");
+						List<Map.Entry<String, Object>> lists = sorts(map);
+						supervision.setMap(lists);
+						supervision.setName(data.getName());
+						supervision.setPackages(packages);
+						supervision.setProject(project);
+						//获取开标的操作人
+			            FlowDefine define = new FlowDefine();
+			            define.setPurchaseTypeId(project.getPurchaseType());
+			            define.setCode("KBCB");
+			            FlowExecute flowExecute = operator(define, project.getId());
+			            if(flowExecute != null){
+			            	supervision.setFlowExecute(flowExecute);
+			            }
+			            list.add(supervision);
+					}
 				} else if (data != null && project.getId().equals(data.getDescription()) && "CGLC_CGXMPS".equals(data.getCode()) && data.getUpdatedAt() != null) {
 					Supervision supervision = new Supervision();
 					HashMap<String, Object> map = new HashMap<>();
