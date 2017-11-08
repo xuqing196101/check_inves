@@ -579,7 +579,11 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
                 expertBatchDetails = new ExpertBatchDetails();
                 expertBatchDetails.setExpertId(expertPublicity.getId());
                 ExpertBatchDetails expertBatchDetails1 = expertBatchDetailsMapper.findExpertBatchDetails(expertBatchDetails);
-                expertPublicity.setExpertNum(expertBatchDetails1.getBatchDetailsNumber());
+                if(expertBatchDetails1 != null){
+                    expertPublicity.setExpertNum(expertBatchDetails1.getBatchDetailsNumber());
+                } else {
+                    expertPublicity.setExpertNum("");
+                }
             }
 		}
 		return list;

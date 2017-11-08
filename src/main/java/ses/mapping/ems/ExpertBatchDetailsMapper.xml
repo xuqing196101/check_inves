@@ -96,4 +96,9 @@
    <select id="selGroupIdByExpertId" parameterType="String" resultType="String">
      SELECT GROUP_ID FROM T_SYS_EMS_EXPERT_BATCH_DETAILS WHERE EXPERT_ID = #{expertId} ORDER BY CREATED_AT DESC
    </select>
+
+    <!--根据专家ID删除批次-->
+    <delete id="deleteByExpertId" parameterType="String">
+       DELETE FROM T_SYS_EMS_EXPERT_BATCH_DETAILS WHERE EXPERT_ID = #{expertId}
+    </delete>
 </mapper>
