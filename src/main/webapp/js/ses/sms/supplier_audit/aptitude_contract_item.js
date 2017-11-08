@@ -142,6 +142,7 @@ function reasonProject(ind,auditField, auditFieldName,ids) {
 			if (bool) {
 				$("#td1"+ids+"").css('border-color', '');
 				$("#show_td"+ids+"").attr('src', globalPath+'/public/backend/images/light_icon.png');
+				flushData();
 			}
 		};
 		options.btn3 = function(index) {
@@ -169,7 +170,7 @@ function reasonProject(ind,auditField, auditFieldName,ids) {
 							offset: '100px',
 						});    
 						//销售合同资质 要求
-						$("input[name='"+tablerId+"itemsCheckboxName']",window.parent.document).each(function(){
+						/*$("input[name='"+tablerId+"itemsCheckboxName']",window.parent.document).each(function(){
 							var index=$(this).val();
 							var firstNodeId=$("#"+tablerId+" #firstNodeId"+index+"",window.parent.document).val();
 							var secondNodeId=$("#"+tablerId+" #secondNodeId"+index+"",window.parent.document).val();
@@ -197,12 +198,13 @@ function reasonProject(ind,auditField, auditFieldName,ids) {
 									}
 								});
 							}
-						});
+						});*/
 						
 						$("#td1"+ids+"").css('border-color', '#FF0000');
 						//$("#show_td"+ids+"").attr('src', globalPath+'/public/backend/images/sc.png');
 						$("#show_td"+ids+"").attr('src', globalPath+'/public/backend/images/light_icon_2.png');
 						$("#count"+ids+"").val('1');
+						flushData();
 					}else{
 						layer.msg(result.msg, {
 							shift: 6, //动画类型
@@ -252,4 +254,11 @@ function showData(index){
 		break;
 	}
 	return rut;
+}
+
+function flushData(){
+	var typeId = window.parent.$("#supplierType").val();
+	var tablerId = window.parent.$("#tablerId").val();
+	var pageNum = window.parent.$("#pageNum").val();
+	window.parent.findData(typeId,tablerId,pageNum);
 }

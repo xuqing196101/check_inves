@@ -132,6 +132,7 @@ function reasonProject(ind,auditField, auditFieldName,inds,quaId,quaName) {
 					$("#show_td").attr('src', globalPath+'/public/backend/images/light_icon.png');
 					$("#count").val('0');
 				}
+				flushData();
 			}
 		};
 		options.btn3 = function(index) {
@@ -161,7 +162,7 @@ function reasonProject(ind,auditField, auditFieldName,inds,quaId,quaName) {
 						});    
 						
 						//专业资质 要求
-						$("input[name='"+tablerId+"itemsCheckboxName']",window.parent.document).each(function(){
+						/*$("input[name='"+tablerId+"itemsCheckboxName']",window.parent.document).each(function(){
 							var index=$(this).val();
 							var firstNodeId=$("#"+tablerId+" #firstNodeId"+index+"",window.parent.document).val();
 							var secondNodeId=$("#"+tablerId+" #secondNodeId"+index+"",window.parent.document).val();
@@ -187,7 +188,7 @@ function reasonProject(ind,auditField, auditFieldName,inds,quaId,quaName) {
 									}
 								});
 							}
-						});
+						});*/
 						if(quaId){
 							//$("#show_td"+quaId+"").attr('src', globalPath+'/public/backend/images/sc.png');
 							$("#show_td"+quaId+"").attr('src', globalPath+'/public/backend/images/light_icon_2.png');
@@ -197,6 +198,7 @@ function reasonProject(ind,auditField, auditFieldName,inds,quaId,quaName) {
 							$("#show_td").attr('src', globalPath+'/public/backend/images/light_icon_2.png');
 							$("#count").val('1');
 						}
+						flushData();
 					}else{
 						layer.msg(result.msg, {
 							shift: 6, //动画类型
@@ -210,4 +212,11 @@ function reasonProject(ind,auditField, auditFieldName,inds,quaId,quaName) {
   		layer.msg('不能为空！', {offset:'100px'});
   	};
 	});
+}
+
+function flushData(){
+	var typeId = window.parent.$("#supplierType").val();
+	var tablerId = window.parent.$("#tablerId").val();
+	var pageNum = window.parent.$("#pageNum").val();
+	window.parent.findData(typeId,tablerId,pageNum);
 }

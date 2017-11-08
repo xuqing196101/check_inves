@@ -101,6 +101,7 @@ function findData(type,tablerId,pageNum) {
 		shade : [ 0.1, '#fff' ],
 		offset : [ '40%', '50%' ]
 	});
+	$("#tablerId").val(tablerId);
 	$("[name=supplierType]").val(type);
 	$("#pageNum").val(pageNum);
 	$.ajax({

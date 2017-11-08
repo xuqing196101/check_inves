@@ -158,11 +158,12 @@
 	</div>
 	<form id="form_id" action="" method="post">
 		<input id="supplierId" name="supplierId" value="${supplierId}" type="hidden"> 
-		<input id="pageNum" name="pageNum" value="1" type="hidden"> 
+		<input id="pageNum" name="pageNum" value="1" type="hidden">
 		<input name="supplierStatus" id="status" value="${supplierStatus}" type="hidden">
 		<input type="hidden" id="supplierTypes" value="${supplierTypes}">
-		<input type="hidden" name="supplierType" >
+		<input type="hidden" name="supplierType" id="supplierType">
 		<input type="hidden" name="sign" value="${sign}">
+		<input type="hidden" id="tablerId">
 	</form>
 </body>
 
