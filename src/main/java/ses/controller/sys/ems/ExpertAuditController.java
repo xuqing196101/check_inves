@@ -961,7 +961,7 @@ public class ExpertAuditController{
 	 * @return
 	 */
 	@RequestMapping("/getCategories")
-	public String getCategories(String expertId, String typeId, Model model, Integer pageNum, String flags , Integer sign, String batchId) {
+	public String getCategories(String expertId, String typeId, Model model, Integer pageNum, Integer sign, String batchId) {
 		model.addAttribute("sign", sign);
 		model.addAttribute("batchId", batchId);
 		String code = DictionaryDataUtil.findById(typeId).getCode();
@@ -974,13 +974,8 @@ public class ExpertAuditController{
             flag = "ENG_INFO";
         }
         // 查询已选中的节点信息(所有子节点)
-        List<ExpertCategory> items = null;
-        if(StringUtils.isEmpty(flags)){
-            items = expertCategoryService.getListByExpertId(expertId, typeId);
-        }else {
-            items = expertCategoryService.selectPassCateByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
-        }
-        
+        List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId);
+
         /*
          //排除不通过项
          if(sign != null && sign == 2){
@@ -1085,11 +1080,6 @@ public class ExpertAuditController{
 			conditionStr.append(expertAudit2.getAuditFieldId() + ",");
 		}
 		model.addAttribute("conditionStr", conditionStr);
-		// 首页公示显示专家小类详情
-		if(StringUtils.isNotEmpty(flags)){
-			return "iss/ps/index/index_expPublicity_item_ajax";
-		}
-
         return "ses/ems/expertAudit/ajax_items";
 	}
 	

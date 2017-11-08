@@ -138,7 +138,7 @@
 			<mvc:exclude-mapping path="/expert/validateAuditTime.*" />
 			<mvc:exclude-mapping path="/expert/*.*" />
       		<mvc:exclude-mapping path="/user/ajaxIdNumber.*" />
-      		<mvc:exclude-mapping path="/expertAudit/getCategories.do" />
+      		<mvc:exclude-mapping path="/expertQuery/getCategories.do" />
 
 <!-- 			供应商注册 -->
 			<mvc:exclude-mapping path="/supplier/*.*" /> 
