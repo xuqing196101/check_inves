@@ -522,7 +522,18 @@ public class ExpertAuditController{
 						SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 					    map.put("auditContent",sdf.format(time));
 					    falg = true;
-					}  
+					    
+					    //非必填项的字段
+					} else if (param == null){
+						if("getAtDuty".equals(method)){
+							map.put("auditFiled", "现任职务");
+							falg = true;
+						}else if("getAcademicAchievement" .equals(method)){
+							map.put("auditFiled", "专业学术成果");
+							falg = true;
+						}
+						 editFields.add(method);
+					}
 					if(falg){
 						
 						//政治面貌：
@@ -791,7 +802,12 @@ public class ExpertAuditController{
 					map.put(getMethod.getName(), o1.toString());
 				}
 				if((o1 == null && o2 != null) || o1 != null && o2 == null) {
-					map.put(getMethod.getName(), o1.toString());
+					if(o1 !=null){
+						map.put(getMethod.getName(), o1.toString());
+					}else{
+						map.put(getMethod.getName(), "空值");
+					}
+					
 				}
 			}
 		} catch(Exception e) {
