@@ -209,7 +209,7 @@ public class OuterExpertServiceImpl implements OuterExpertService {
         map.put("endTime", endTime);
         map.put("status", -3);
         List<Expert> expertList = expertMapper.selectExpByPublictyOfExport(map);
-        List<Expert> experts = new ArrayList<Expert>();
+        List<Expert> experts = new ArrayList<>();
         if(null != expertList && !expertList.isEmpty()){
             for (Expert expert : expertList) {
                 //专家审核记录表
