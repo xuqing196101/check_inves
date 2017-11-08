@@ -3564,25 +3564,30 @@ public class ProjectController extends BaseController {
     @RequestMapping("/ifSubPackage")
     @ResponseBody
     public String ifSubPackage(String projectId){
-    	if(StringUtils.isNotBlank(projectId)){
-    		Project project = projectService.selectById(projectId);
-    		if(project != null){
-    		  HashMap<String,Object> maps=new HashMap<String, Object>();
-    		  maps.put("parentId", project.getId());
-    		  List<Project> pList=projectService.lists(maps);
-    		  if(pList!=null&&pList.size()>0){
-    		    List<ProjectDetail> viewDetail = detailService.viewDetail(projectId);
+      if(StringUtils.isNotBlank(projectId)){
+        Project project = projectService.selectById(projectId);
+        if(project != null){
+          List<ProjectDetail> viewDetail = detailService.viewDetail(projectId);
             //是否有底层明细，没有的话进else
             if(viewDetail != null && viewDetail.size() > 0){
               return StaticVariables.ORG_TYPE_PURCHASE;
-            }
-    		  }else{
-    		    return StaticVariables.ORG_TYPE_MANAGE;
-    		  }
-    		}	
-    	}
-    	return StaticVariables.ORG_TYPE_MANAGE;
+            }else{
+                return StaticVariables.ORG_TYPE_MANAGE;
+              }
+            /*HashMap<String,Object> maps=new HashMap<String, Object>();
+            maps.put("parentId", project.getId());
+            List<Project> pList=projectService.lists(maps);
+            if(pList!=null&&pList.size()>0){
+              List<ProjectDetail> viewDetail = detailService.viewDetail(projectId);
+              //是否有底层明细，没有的话进else
+              if(viewDetail != null && viewDetail.size() > 0){
+                return StaticVariables.ORG_TYPE_PURCHASE;
+              }*/
+        } 
+      }
+      return StaticVariables.ORG_TYPE_MANAGE;
     }
+
     
     @RequestMapping("/hold")
     @ResponseBody
