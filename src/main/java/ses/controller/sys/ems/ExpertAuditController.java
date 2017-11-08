@@ -522,7 +522,18 @@ public class ExpertAuditController{
 						SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 					    map.put("auditContent",sdf.format(time));
 					    falg = true;
-					}  
+					    
+					    //非必填项的字段
+					} else if (param == null){
+						if("getAtDuty".equals(method)){
+							map.put("auditFiled", "现任职务");
+							falg = true;
+						}else if("getAcademicAchievement" .equals(method)){
+							map.put("auditFiled", "专业学术成果");
+							falg = true;
+						}
+						 editFields.add(method);
+					}
 					if(falg){
 						
 						//政治面貌：
@@ -791,7 +802,12 @@ public class ExpertAuditController{
 					map.put(getMethod.getName(), o1.toString());
 				}
 				if((o1 == null && o2 != null) || o1 != null && o2 == null) {
-					map.put(getMethod.getName(), o1.toString());
+					if(o1 !=null){
+						map.put(getMethod.getName(), o1.toString());
+					}else{
+						map.put(getMethod.getName(), "空值");
+					}
+					
 				}
 			}
 		} catch(Exception e) {
@@ -841,10 +857,48 @@ public class ExpertAuditController{
 		if(same) {
 			expertAuditService.add(expertAudit);
 		} else {
+			ExpertAudit audit = expertAuditService.findByExpertAuditObj(expertAudit);
+			audit.setAuditReason(expertAudit.getAuditReason());
+			expertAuditService.updateByAuditReason(audit);
 			String msg = "{\"msg\":\"fail\"}";
 			writeJson(response, msg);
 		}
 
+	}
+	@RequestMapping("/selectAuditReasons")
+	public void selectAuditReasons(ExpertAudit expertAudit, Model model, HttpServletResponse response, HttpServletRequest request) {
+		User user = (User) request.getSession().getAttribute("loginUser");
+		if(user != null) {
+			expertAudit.setAuditUserId(user.getId());
+			expertAudit.setAuditUserName(user.getRelName());
+		}
+		expertAudit.setAuditAt(new Date());
+		ExpertAudit audit = expertAuditService.findByExpertAuditObj(expertAudit);
+		String msg = "{\"msg\":\"\"}";
+		if( audit != null ){
+			msg = "{\"msg\":\""+audit.getAuditReason()+"\"}";
+		}
+		
+		writeJson(response, msg);
+	}
+	@RequestMapping("/updateAuditReasons")
+	public void updateAuditReasons(ExpertAudit expertAudit, Model model, HttpServletResponse response, HttpServletRequest request) {
+		User user = (User) request.getSession().getAttribute("loginUser");
+		if(user != null) {
+			expertAudit.setAuditUserId(user.getId());
+			expertAudit.setAuditUserName(user.getRelName());
+		}
+		expertAudit.setAuditAt(new Date());
+		ExpertAudit audit = expertAuditService.findByExpertAuditObj(expertAudit);
+		if(audit!=null){
+			expertAuditService.updateAuditStatus(audit.getId(), "4");
+			String msg = "{\"msg\":\"true\"}";
+			writeJson(response, msg);
+		}else{
+			String msg = "{\"msg\":\"false\"}";
+			writeJson(response, msg);
+		}
+		
 	}
 
 	/**
@@ -3988,7 +4042,17 @@ public class ExpertAuditController{
 			return new JdcgResult(504, "撤销失败", null);
 		}
     }
-    
+    @RequestMapping("/selectCategoryAudit")
+    @ResponseBody
+    public JdcgResult selectCategoryAudit (String expertId, String[] categoryIds, Integer sign){
+		return expertAuditService.selectCategoryAudit(expertId, categoryIds, sign);
+    }
+    @RequestMapping("/updateCategoryAudit")
+    @ResponseBody
+    public void updateCategoryAudit (String expertId, String categoryIds, Integer sign,String auditReason){
+    	String[] split = categoryIds.split(",");
+    	expertAuditService.updateCategoryAudit(expertId, split, sign,auditReason);
+    }
     
     
     /**

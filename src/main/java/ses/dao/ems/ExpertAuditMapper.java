@@ -196,4 +196,6 @@ public interface ExpertAuditMapper {
     void updateDoAuditStatus(Map<String, Object> map);
     void updateToAuditStatus(Map<String, Object> map);
     void updateExpertTypeAuditStatus(ExpertAudit e);
+    ExpertAudit findByExpertAuditObj(ExpertAudit expertAudit);
+    void updateByAuditReason(ExpertAudit expertAudit);
 }

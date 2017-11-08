@@ -74,37 +74,79 @@
                     auditField = auditField.replace("从事", "").trim();
                 }
             });
-            var index = layer.prompt({
-                    title: '请填写不通过的理由：',
-                    formType: 2,
-                    offset: '100px',
-                    maxlength: '50'
-                },
-                function (text) {
-                    var text = trim(text);
-                    if (text != null && text != "") {
-                        $.ajax({
-                          url: "${pageContext.request.contextPath}/expertAudit/auditReasons.html",
-                          type: "post",
-                          dataType: "json",
-                          data: "suggestType=one" + "&auditContent=" + auditContent + "&auditReason=" + text + "&expertId=" + expertId + "&auditField=" + auditField + "&auditFalg=" + sign,
-                          success: function (result) {
-                              result = eval("(" + result + ")");
-                              if (result.msg == "fail") {
-                                  layer.msg('该条信息已审核过！', {
-                                      shift: 6, //动画类型
-                                      offset: '100px'
-                                  });
+            var auditReason="";
+            $.ajax({
+                url: "${pageContext.request.contextPath}/expertAudit/selectAuditReasons.html",
+                type: "post",
+                dataType: "json",
+                data: "suggestType=one" + "&auditContent=" + auditContent +"&expertId=" + expertId + "&auditField=" + auditField + "&auditFalg=" + sign,
+                success: function (result) {
+                    result = eval("(" + result + ")");
+                    auditReason=result.msg;
+                    var index = layer.prompt({
+                        title: '请填写不通过的理由：',
+                        formType: 2,
+                        offset: '100px',
+                        maxlength: '50',
+                        value:auditReason,
+                        btn:['确认','撤销','取消'],
+                        btn3:function(){
+					    	layer.close(index);
+		                },
+		                btn2:function(){
+		                	 $.ajax({
+		                         url: "${pageContext.request.contextPath}/expertAudit/updateAuditReasons.html",
+		                         type: "post",
+		                         dataType: "json",
+		                         async:false,
+		                         data: "suggestType=one" + "&auditContent=" + auditContent +"&expertId=" + expertId + "&auditField=" + auditField + "&auditFalg=" + sign,
+		                         success: function (result) {
+		                        	 result = eval("(" + result + ")");
+		                        	 if(result.msg=="true"){
+		                        		 layer.msg('撤销成功', {
+	                                         shift: 4, //动画类型
+	                                         offset: '100px'
+	                                     });
+		                        		 $("#" + obj.id + "").css('border-color', '');
+		                        		 $(obj).next("div.abolish").remove();
+		                        	 }else{
+		                        		 layer.msg('当前记录未被审核无法执行撤销操作', {
+	                                         shift: 6, //动画类型
+	                                         offset: '100px'
+	                                     }); 
+		                        	 }
+		                         	}
+		                         });
+		                },
+                    },
+                    function (text) {
+                        var text = trim(text);
+                        if (text != null && text != "") {
+                            $.ajax({
+                              url: "${pageContext.request.contextPath}/expertAudit/auditReasons.html",
+                              type: "post",
+                              dataType: "json",
+                              data: "suggestType=one" + "&auditContent=" + auditContent + "&auditReason=" + text + "&expertId=" + expertId + "&auditField=" + auditField + "&auditFalg=" + sign,
+                              success: function (result) {
+                                  result = eval("(" + result + ")");
+                                  if (result.msg == "fail") {
+                                      layer.msg('审核理由修改成功', {
+                                          shift: 4, //动画类型
+                                          offset: '100px'
+                                      });
+                                  }
                               }
-                          }
-                      });
-                      $("#" + obj.id + "").css('border-color', '#FF0000');
-                      $(obj).after(html);
-                      layer.close(index);
-                  } else {
-                      layer.msg('不能为空！', {offset: '100px'});
-                  }
-              });
+                          });
+                          $("#" + obj.id + "").css('border-color', '#FF0000');
+                          $(obj).after(html);
+                          layer.close(index);
+                      } else {
+                          layer.msg('不能为空！', {offset: '100px'});
+                      }
+                  });
+                }
+            });
+            
           }
         }
 
@@ -122,36 +164,78 @@
                 auditField = $(this).parents("li").find("span").text().replace("：", "");
             });
             var auditContent = auditField + "附件信息";
-            var index = layer.prompt({
-                    title: '请填写不通过的理由：',
-                    formType: 2,
-                    offset: '100px',
-                    maxlength: '50'
-                },
-                function (text) {
-                    var text = trim(text);
-                    if (text != null && text != "") {
-                        $.ajax({
-                            url: "${pageContext.request.contextPath}/expertAudit/auditReasons.html",
-                            type: "post",
-                            dataType: "json",
-                            data: "suggestType=one" + "&auditContent=" + auditContent + "&auditReason=" + text + "&expertId=" + expertId + "&auditField=" + auditField + "&auditFalg=" + sign,
-                            success: function (result) {
-                                result = eval("(" + result + ")");
-                                if (result.msg == "fail") {
-                                    layer.msg('该条信息已审核过！', {
-                                        shift: 6, //动画类型
-                                        offset: '100px'
-                                    });
+            var auditReason="";
+            $.ajax({
+                url: "${pageContext.request.contextPath}/expertAudit/selectAuditReasons.html",
+                type: "post",
+                dataType: "json",
+                data: "suggestType=one" + "&auditContent=" + auditContent + "&expertId=" + expertId + "&auditField=" + auditField + "&auditFalg=" + sign,
+                success: function (result) {
+                    result = eval("(" + result + ")");
+                    auditReason=result.msg;
+                    var index = layer.prompt({
+                        title: '请填写不通过的理由：',
+                        formType: 2,
+                        offset: '100px',
+                        maxlength: '50',
+                        value:auditReason,
+                        btn:['确认','撤销','取消'],
+                        btn3:function(){
+    				    	layer.close(index);
+    	                },
+    	                btn2:function(){
+    	                	 $.ajax({
+    	                         url: "${pageContext.request.contextPath}/expertAudit/updateAuditReasons.html",
+    	                         type: "post",
+    	                         dataType: "json",
+    	                         async:false,
+    	                         data: "suggestType=one" + "&auditContent=" + auditContent + "&expertId=" + expertId + "&auditField=" + auditField + "&auditFalg=" + sign,
+    	                         success: function (result) {
+    	                        	 result = eval("(" + result + ")");
+    	                        	 if(result.msg=="true"){
+    	                        		 $("#" + showId + "").css('visibility', 'hidden');
+    	                        		 layer.msg('撤销成功', {
+                                             shift: 4, //动画类型
+                                             offset: '100px'
+                                         });
+    	                        		 
+    	                        	 }else{
+    	                        		 layer.msg('当前记录未被审核无法执行撤销操作', {
+                                             shift: 6, //动画类型
+                                             offset: '100px'
+                                         }); 
+    	                        	 }
+    	                         	}
+    	                         });
+    	                },
+                    },
+                    function (text) {
+                        var text = trim(text);
+                        if (text != null && text != "") {
+                            $.ajax({
+                                url: "${pageContext.request.contextPath}/expertAudit/auditReasons.html",
+                                type: "post",
+                                dataType: "json",
+                                data: "suggestType=one" + "&auditContent=" + auditContent + "&auditReason=" + text + "&expertId=" + expertId + "&auditField=" + auditField + "&auditFalg=" + sign,
+                                success: function (result) {
+                                    result = eval("(" + result + ")");
+                                    if (result.msg == "fail") {
+                                    	layer.msg('审核理由修改成功', {
+                                            shift: 4, //动画类型
+                                            offset: '100px'
+                                        });
+                                    }
                                 }
-                            }
-                        });
-                        $("#" + showId + "").css('visibility', 'visible');
-                        layer.close(index);
-                    } else {
-                        layer.msg('不能为空！', {offset: '100px'});
-                    }
-                });
+                            });
+                            $("#" + showId + "").css('visibility', 'visible');  
+                            layer.close(index);
+                        } else {
+                            layer.msg('不能为空！', {offset: '100px'});
+                        }
+                    });
+                }
+             });
+            
            }
         }
 

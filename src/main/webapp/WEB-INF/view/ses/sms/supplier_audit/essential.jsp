@@ -682,6 +682,7 @@
                 </li>
             </ul>
 
+            <div class="clear"></div>
             <h2 class="count_flow"><i>2</i>营业执照</h2>
             <ul class="ul_list">
                 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -809,7 +810,8 @@
                     </div>
                 </li>
             </ul>
-
+  
+            <div class="clear"></div>
             <h2 class="count_flow"><i>3</i>法定代表人信息</h2>
             <ul class="ul_list">
                 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -903,7 +905,8 @@
                     </div>
                 </li>
             </ul>
-
+            
+            <div class="clear"></div>
             <h2 class="count_flow"><i>4</i>地址信息</h2>
             <ul class="ul_list hand">
                 <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">住所邮编：</span>
@@ -1048,6 +1051,7 @@
                 </table>
             </ul>
 
+            <div class="clear"></div>
             <h2 class="count_flow"><i>5</i>资质资信</h2>
             <ul class="ul_list hand">
                 <li class="col-md-3 col-sm-6 col-xs-12 pl15 h70">
@@ -1199,6 +1203,7 @@
                 </c:if>
             </ul>
 
+            <div class="clear"></div>
             <h2 class="count_flow"><i>6</i>注册联系人</h2>
             <ul class="ul_list">
                 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -1301,6 +1306,7 @@
                 </li>
             </ul>
 
+            <div class="clear"></div>
             <h2 class="count_flow"><i>7</i>本单位军队业务联系人</h2>
             <ul class="ul_list">
                 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -1404,6 +1410,7 @@
                 </li>
             </ul>
 
+            <div class="clear"></div>
             <h2 class="count_flow"><i>8</i>境外分支</h2>
             <ul class="ul_list">
                 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -1486,6 +1493,7 @@
                 </c:forEach>
             </ul>
 
+            <div class="clear"></div>
             <h2 class="count_flow"><i>9</i>售后服务机构</h2>
             <ul class="ul_list">
 
@@ -1543,6 +1551,8 @@
                     </tbody>
                 </table>
             </ul>
+            
+            <div class="clear"></div>
             <h2 class="count_flow"><i>10</i>参加政府或军队采购经历</h2>
             <ul class="ul_list">
                 <li class="col-md-12 col-sm-12 col-xs-12">
@@ -1560,6 +1570,8 @@
                     </div>
                 </li>
             </ul>
+            
+            <div class="clear"></div>
             <h2 class="count_flow"><i>11</i>公司简介</h2>
             <ul class="ul_list">
                 <li class="col-md-12 col-sm-12 col-xs-12">

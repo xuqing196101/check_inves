@@ -342,4 +342,9 @@ public interface ExpertAuditService {
     void updateDoAuditStatus(Map<String, Object> map);
     void updateToAuditStatus(Map<String, Object> map);
     void updateExpertTypeAuditStatus(ExpertAudit e);
+    ExpertAudit findByExpertAuditObj(ExpertAudit expertAudit);
+    void updateByAuditReason(ExpertAudit expertAudit);
+    JdcgResult selectCategoryAudit (String expertId, String[] categoryIds, Integer sign);
+    JdcgResult updateCategoryAudit (String expertId, String[] categoryIds, Integer sign,String auditReason);
+    void updateAuditStatus(String id,String auditStatus);
 }

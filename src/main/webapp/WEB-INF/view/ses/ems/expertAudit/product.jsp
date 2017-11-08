@@ -430,22 +430,64 @@
 	         });
 	        if(categoryIds.length > 0){
 	        	if(falg){
+	        		var auditReason="";
 	        		$.ajax({
-	              url: "${pageContext.request.contextPath}/expertAudit/revokeCategoryAudit.do",
-	              type: "post",
-	              traditional:true,
-	              data:{"expertId" : expertId, "categoryIds" : categoryIds, "sign" : sign},
-	              success : function(result){
-	                layer.msg(result.msg, {offset : [ '100px' ]});
-	                if(result.status == 500){
-	                  window.setTimeout(function () {
-	                    var action = "${pageContext.request.contextPath}/expertAudit/product.html";
-	                    $("#form_id").attr("action", action);
-	                    $("#form_id").submit();
-	                  }, 1000);
-	                }
-	              }
-	            });
+	  	              url: "${pageContext.request.contextPath}/expertAudit/selectCategoryAudit.do",
+	  	              type: "post",
+	  	              traditional:true,
+	  	              data:{"expertId" : expertId, "categoryIds" : categoryIds, "sign" : sign},
+	  	              success : function(result){
+	  	            	auditReason=result.msg;
+	  	            	 var index = layer.prompt({
+							    title : '请修改不通过的理由：', 
+							    formType : 2, 
+							    offset : '100px',
+							    maxlength : '50',
+							    value:auditReason,
+							    btn:['确认','撤销','取消'],
+							    btn3:function(){
+							    	layer.close(index);
+				                },
+				                btn2:function(){
+				                	$.ajax({
+				      	              url: "${pageContext.request.contextPath}/expertAudit/revokeCategoryAudit.do",
+				      	              type: "post",
+				      	              traditional:true,
+				      	              data:{"expertId" : expertId, "categoryIds" : categoryIds, "sign" : sign},
+				      	              success : function(result){
+				      	                layer.msg(result.msg, {offset : [ '100px' ]});
+				      	                if(result.status == 500){
+				      	                  window.setTimeout(function () {
+				      	                    var action = "${pageContext.request.contextPath}/expertAudit/product.html";
+				      	                    $("#form_id").attr("action", action);
+				      	                    $("#form_id").submit();
+				      	                  }, 1000);
+				      	                }
+				      	              }
+				      	            });
+				                }
+								},function(text){
+									  if(text != null && text !=""){
+										    $.ajax({
+										      url:"${pageContext.request.contextPath}/expertAudit/updateCategoryAudit.html",
+										      type:"post",
+										      data:{"expertId" : expertId, "categoryIds" : categoryIds+"", "sign" : sign,"auditReason":text},
+										      success:function(){
+										           layer.msg('审核理由修改成功', {	            
+										             shift: 4, //动画类型
+										             offset:'100px'
+										          });
+										      }
+										    });
+									      layer.close(index);
+								      }else{
+								      	layer.msg('不能为空！', {offset:'100px'});
+								      }
+								    });
+			           }
+			         });
+	  	             
+	        		
 	        	}else{
 	            layer.msg("请选择复审过的", {offset : [ '100px' ]});
 	          }
