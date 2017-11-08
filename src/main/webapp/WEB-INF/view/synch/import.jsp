@@ -69,7 +69,7 @@
     <input type="hidden" id="operType" name="operType" value="${operType}"/>
 	
 	<h2 class="count_flow"><i>1</i>导入设置</h2>
-      <ul class="ul_list">
+      <ul class="ul_list p20">
       <%--   <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 		  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>开始时间</span>
 		  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -104,10 +104,10 @@
 		  </div>
 		</li>
 		
-		 <div class="clear mt10 tc">
-		  <button class="btn" onclick="synchImport();">导入</button>
-	    </div>
-      </ul>
+		<div class="clear mt20 tc">
+		  <button class="btn w200 m0 h40" onclick="synchImport();">导入</button>
+	  </div>
+    </ul>
       
     
     <div class="padding-top-10 clear" id="relaDeptId">

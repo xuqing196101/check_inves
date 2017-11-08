@@ -192,7 +192,7 @@
   width: 92%; }
   
 .w100p {
-  width: 100%; }
+  width: 100% !imortant; }
 
 /*高度*/
 .h15 {
@@ -1130,18 +1130,21 @@ text-align:center;
   overflow: hidden;
 }
 .m_inputGroup {
-  margin-top: -10px;
+  margin-top: -15px;
   margin-left: -20px;
   font-size: 0px;
   line-height: normal;
 }
 .m_inputGroup label {
-  margin-top: 10px;
+  margin-top: 15px;
   margin-left: 20px;
   display: inline-block;
   vertical-align: middle;
   font-size: 0px;
   line-height: normal;
+  width: 200px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .m_inputGroup label span, .m_inputGroup label input[type="checkbox"] {
 	font-size: 14px;
@@ -1151,4 +1154,10 @@ text-align:center;
 }
 .m_inputGroup label span {
 	margin-left: 5px;
+}
+/* 盒子样式s1 */
+.m_boxS1 {
+	border: dashed 1px #d6cccc;
+	padding: 20px;
+	background-color: #FFF;
 }
