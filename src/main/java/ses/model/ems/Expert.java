@@ -171,6 +171,8 @@ public class Expert extends ExpertHistory implements Serializable {
 
     private ExpertAuditOpinion expertAuditOpinion;
 
+    private ExpertBatchDetails expertBatchDetails;
+
     /**
      * 专家附件表
      **/
@@ -1180,6 +1182,11 @@ public class Expert extends ExpertHistory implements Serializable {
 		this.expertTypeId = expertTypeId;
 	}
 
+    public ExpertBatchDetails getExpertBatchDetails() {
+        return expertBatchDetails;
+    }
 
-    
+    public void setExpertBatchDetails(ExpertBatchDetails expertBatchDetails) {
+        this.expertBatchDetails = expertBatchDetails;
+    }
 }

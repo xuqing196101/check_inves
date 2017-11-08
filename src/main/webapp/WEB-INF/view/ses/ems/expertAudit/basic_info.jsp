@@ -675,7 +675,8 @@
                         </div>
                     </li>
                 </ul>
-
+                
+                <div class="clear"></div>
                 <h2 class="count_flow"><i>3</i>推荐信</h2>
                 <ul class="ul_list">
 
@@ -710,7 +711,9 @@
                         </li>
                     </c:if>
                 </ul>
+                
                 <!-- 主要工作经历-->
+                <div class="clear"></div>
                 <h2 class="count_flow"><i>4</i>主要工作经历</h2>
                 <ul class="ul_list">
                     <li class="col-md-12 col-sm-12 col-xs-12">
@@ -723,6 +726,8 @@
                         </div>
                     </li>
                 </ul>
+                
+                <div class="clear"></div>
                 <h2 class="count_flow"><i>5</i>获奖证书(限国家科技进步三等或军队科技进步二等以上奖项)</h2>
                 <ul class="ul_list">
                     <li class="col-md-3 col-sm-6 col-xs-12">
@@ -734,7 +739,7 @@
                 </ul>
 
                 <!-- 专业学术成果 -->
-
+                <div class="clear"></div>
                 <h2 class="count_flow"><i>6</i>专业学术成果</h2>
                 <ul class="ul_list">
                     <li class="col-md-12 col-sm-12 col-xs-12">
@@ -749,7 +754,7 @@
                 </ul>
 
                 <!-- 主要工作经历-->
-
+                <div class="clear"></div>
                 <h2 class="count_flow"><i>7</i>参加军队地方采购评审情况</h2>
                 <ul class="ul_list">
                     <li class="col-md-12 col-sm-12 col-xs-12">
@@ -764,7 +769,7 @@
                 </ul>
 
                 <!-- 主要工作经历-->
-
+                <div class="clear"></div>
                 <h2 class="count_flow"><i>8</i>需要申请回避的情况</h2>
                 <ul class="ul_list">
                     <li class="col-md-12 col-sm-12 col-xs-12">
