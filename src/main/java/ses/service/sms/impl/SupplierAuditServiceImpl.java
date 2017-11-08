@@ -79,6 +79,7 @@ import ses.util.PropertiesUtil;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -274,6 +275,11 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	
 	@Override
 	public List<Supplier> querySupplierbytypeAndCategoryIds(Supplier supplier,Integer page) {
+        String queryCategory = supplier.getQueryCategory();
+        if(StringUtils.isNotEmpty(queryCategory)){
+            List<String> strings = Arrays.asList(queryCategory.split(","));
+            supplier.setQueryCategorys(strings);
+        }
 		/*SupplierStars sstart = new SupplierStars();
 		sstart.setStatus(1);
         List<SupplierStars> listSs = supplierStarsMapper.findSupplierStars(sstart);

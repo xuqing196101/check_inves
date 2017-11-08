@@ -730,6 +730,7 @@ Supplier implements Serializable {
 
     // 查询条件品目ID
     private String queryCategory;
+    private List<String> queryCategorys;
     // 查询条件品目名称
     private String queryCategoryName;
 
@@ -2104,5 +2105,13 @@ Supplier implements Serializable {
 
 	public void setAuditDateString(String auditDateString) {
 		this.auditDateString = auditDateString;
+	}
+
+	public List<String> getQueryCategorys() {
+		return queryCategorys;
+	}
+
+	public void setQueryCategorys(List<String> queryCategorys) {
+		this.queryCategorys = queryCategorys;
 	}
 }

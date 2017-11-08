@@ -2102,6 +2102,12 @@ public class SupplierServiceImpl implements SupplierService {
           List<String> listSupplierTypeIds = Arrays.asList(supplierTypeIds.split(","));
           supplier.setItemType(listSupplierTypeIds);
       }
+      // 封装品目查询条件
+      String queryCategory = supplier.getQueryCategory();
+      if(StringUtils.isNotEmpty(queryCategory)){
+          List<String> strings = Arrays.asList(queryCategory.split(","));
+          supplier.setQueryCategorys(strings);
+      }
       List<Supplier> suppliers = null;
       // 供应商状态区分状态
       Integer supplierStatus = supplier.getStatus();

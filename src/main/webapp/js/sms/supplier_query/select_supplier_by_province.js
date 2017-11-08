@@ -56,18 +56,19 @@ var treeSetting = {
         dataType: "json",
         type: "post",
     },
-    /*check: {
-     enable: true,
-     chkboxType: {
-     "Y": "s",
-     "N": "s"
-     }
-     },*/
+    check: {
+        enable: true,
+        chkboxType: {
+            "Y": "s",
+            "N": "s"
+        }
+    },
     callback: {
         // 点击复选框按钮触发事件
-        //onCheck: zTreeOnCheck
+        onCheck: zTreeOnCheck,
         // 点击节点触发事件
-        onClick: zTreeOnClick
+        // onClick: zTreeOnClick
+        onAsyncSuccess: setDisabledNode
     },
     data: {
         simpleData: {
@@ -108,6 +109,7 @@ function loadZtree() {
                 zNodes = data;
                 zTreeObj = $.fn.zTree.init($("#supplierGradeTree"), treeSetting, zNodes);
                 zTreeObj.expandAll(true);//全部展开
+                setDisabledNode();
             }
             // 禁用选节点
             //设置禁用的复选框节点
@@ -121,10 +123,13 @@ function loadZtree() {
 /**
  * 禁用节点
  */
-function setDisabledNode() {
+function setDisabledNode(event, treeId, treeNode) {
     var treeObj = $.fn.zTree.getZTreeObj("supplierGradeTree");
-    var disabledNode = treeObj.getNodeByParam("level", 0);
-    treeObj.setChkDisabled(disabledNode, true);
+    var disabledNode = treeObj.getNodesByParam("level", 0);
+    // 设置多个
+    $(disabledNode).each(function (index, ele) {
+        treeObj.setChkDisabled(ele, true);
+    })
 }
 
 /**
@@ -134,18 +139,20 @@ function setDisabledNode() {
  * @param treeNode
  */
 function zTreeOnCheck(event, treeId, treeNode) {
+    // 如果父节点为根节点则提示不可选择根节点
+    if (treeNode.parentId == "0") {
+        layer.msg("不可选择根节点");
+        return;
+    }
     var zTree = $.fn.zTree.getZTreeObj("supplierGradeTree"), nodes = zTree.getCheckedNodes(true), names = "", ids = "";
-    console.log(nodes);
     for (var i = 0; i < nodes.length; i++) {
-        alert(nodes[i].name);
         names += nodes[i].name + ",";
         ids += nodes[i].id + ",";
     }
     if (names.length > 0) names = names.substring(0, names.length - 1);
     if (ids.length > 0) ids = ids.substring(0, ids.length - 1);
-    alert(names);
     $("#supplierGradeInput").val(names);
-    //$("#supplierTypeIds").val(rid);
+    $("#supplierGradeInputVal").val(ids);
 };
 
 /**
