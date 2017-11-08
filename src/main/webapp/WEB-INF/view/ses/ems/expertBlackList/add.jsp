@@ -119,7 +119,7 @@
 	          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12" ><div class="star_red">*</div>批准文件:</span>
 	          <%-- <input class="span3" type="file" name="attachmentCertFile"/>
 	          <span class=" red">${err_attachmentCert}</span> --%>
-	          <u:upload id="id_up"  businessId="${uuid}" sysKey="${expertKey}" typeId="${typeId}" auto="true"/> 
+	          <u:upload id="id_up" multiple="true"  businessId="${uuid}" sysKey="${expertKey}" typeId="${typeId}" auto="true"/> 
           	<u:show showId="id_show" groups="a,b,c"  businessId="${uuid}" sysKey="${expertKey}" typeId="${typeId}" />
 	      	<span class=" red" id = "error_file">  ${err_attachmentCert }</span>
 	      	</li>
