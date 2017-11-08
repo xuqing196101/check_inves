@@ -525,7 +525,8 @@ function save_editMembers() {
         empty_sum = 1;
         return false;
       }
-      list[index] = {'groupId': '', 'relName': '', 'orgName': '', 'duties': ''};
+      list[index] = {'indexNum': '', 'groupId': '', 'relName': '', 'orgName': '', 'duties': ''};
+      list[index].indexNum = index;
       list[index].groupId = getUrlParam('groupId');
       list[index].relName = relName;
       list[index].orgName = orgName;
@@ -584,10 +585,7 @@ function checkOnly(el) {
 // 专家批次复审
 function expert_auditBatch(url, expertId) {
   var batchId = getUrlParam('batchId');
-  var curWwwPath = window.document.location.href;
-  var pathName = window.document.location.pathname;
-  var pos = curWwwPath.indexOf(pathName);
-  var localhostPaht = curWwwPath.substring(0, pos);
+  var win = window.open();
   
   $.ajax({
     type: 'POST',
@@ -598,7 +596,7 @@ function expert_auditBatch(url, expertId) {
     },
     success: function (data) {
       if (data.status) {
-        window.open(localhostPaht + url + "/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2"+"&batchId=" + batchId);
+        win.location = url + "/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2"+"&batchId=" + batchId;
       } else {
         layer.msg(data.message, {
           offset: '100px'

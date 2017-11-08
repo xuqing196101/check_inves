@@ -425,4 +425,14 @@ public interface CategoryMapper {
 	 * @since JDK1.7
 	 */
 	List<Category> selectAllCateByCond(Map<String, Object> map);
+	/**
+	 *
+	 * Description: 
+	 *
+	 * @author Easong
+	 * @version 2017/11/6
+	 * @param 
+	 * @since JDK1.7
+	 */
+	List<String> selectMoreCategoryByIds(Map<String, Object> map);
 }

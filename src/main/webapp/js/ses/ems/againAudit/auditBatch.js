@@ -33,9 +33,9 @@
                 if (list_content[i].expertList[ii].status === '-3') {
                   list_content[i].expertList[ii].status = '公示中';
                 } else if (list_content[i].expertList[ii].status === '-2' && list_content[i].expertList[ii].isReviewEnd == '1') {
-                  list_content[i].expertList[ii].status = '复审结束';
+                  list_content[i].expertList[ii].status = '<span class="red">专家复审结束</span>';
                 } else if (list_content[i].expertList[ii].status === '-2') {
-                  list_content[i].expertList[ii].status = '预复审结束';
+                  list_content[i].expertList[ii].status = '<span class="green">专家预复审结束</span>';
                 } else if (list_content[i].expertList[ii].status === '-1') {
                   list_content[i].expertList[ii].status = '暂存';
                 } else if (list_content[i].expertList[ii].status === '0') {

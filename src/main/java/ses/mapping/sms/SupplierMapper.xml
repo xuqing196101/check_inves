@@ -1348,7 +1348,10 @@
       t2.IS_PROVISIONAL,
       t2.CREDIT_CODE,
       t2.CONTACT_NAME,
+      t2.CONTACT_ADDRESS,
+      t2.ADDRESS,
       t2.MOBILE,
+	  t2.CONTACT_MOBILE,
       org.SHORT_NAME AS orgName
     FROM
       (SELECT
@@ -1367,8 +1370,12 @@
 				      ON ITEM.SUPPLIER_ID = SL.SUPPLIER_ID
 				      AND ITEM.SUPPLIER_TYPE_RELATE_ID = SL.SUPPLIER_TYPE_ID
 				      AND ITEM.CATEGORY_ID = SL.CATEGORY_ID
-				    WHERE INSTR(#{supplierTypeIds}, ITEM.SUPPLIER_TYPE_RELATE_ID) > 0 AND ITEM.CATEGORY_ID = #{queryCategory}
-                    <!--供应商等级查询条件-->
+				    WHERE INSTR(#{supplierTypeIds}, ITEM.SUPPLIER_TYPE_RELATE_ID) > 0
+                     AND ITEM.CATEGORY_ID IN
+                     <foreach collection="queryCategorys" item="categoryId" index="index"  open="(" separator="," close=")">
+                       #{categoryId}
+                     </foreach>
+                  <!--供应商等级查询条件-->
                     <if test="supplierLevel != null and supplierLevel != ''">
                         AND SL.SUPPLIER_LEVEL = #{supplierLevel}
 						AND SL.SUPPLIER_TYPE_ID = #{supplierTypeIds}
@@ -2293,7 +2300,10 @@
       t2.IS_PROVISIONAL,
       t2.CREDIT_CODE,
       t2.CONTACT_NAME,
+	  t2.CONTACT_ADDRESS,
+	  t2.ADDRESS,
       t2.MOBILE,
+	  t2.CONTACT_MOBILE,
       org.SHORT_NAME AS orgName
     FROM
       (SELECT

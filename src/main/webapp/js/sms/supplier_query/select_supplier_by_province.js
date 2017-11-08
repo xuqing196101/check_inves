@@ -1,6 +1,49 @@
 /**
  * Created by yggc-easong on 2017/10/24.
  */
+
+$(function () {
+    // 页面加载完毕绑定结果导出事件
+    $("#export_result").click(function () {
+        // 禁用点击按钮
+        $("#export_result").attr("disabled", true);
+        var exportExcelCond = $("#exportExcelCond").serialize();
+        // 加载等待框
+        loading = layer.load(1);
+        // 禁用下载按钮
+        var url = globalPath + "/supplierQuery/exportExcel.do";
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', url, true);        // 也可以使用POST方式，根据接口
+        //设定Content-Type头信息，模拟HTTP POST方法发送一个表单，这样服务器才会知道如何处理上传的内容
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+        xhr.responseType = "blob";    // 返回类型blob
+        // 定义请求完成的处理函数，请求前也可以增加加载框/禁用下载按钮逻辑
+        xhr.onload = function () {
+            // 请求完成
+            if (this.status === 200) {
+                // 返回200
+                var blob = this.response;
+                var reader = new FileReader();
+                reader.readAsDataURL(blob);    // 转换为base64，可以直接放入a表情href
+                reader.onload = function (e) {
+                    // 转换完成，创建一个a标签用于下载
+                    var a = document.createElement('a');
+                    a.download = '供应商信息.xlsx';
+                    a.href = e.target.result;
+                    $("body").append(a);    // 修复firefox中无法触发click
+                    a.click();
+                    $(a).remove();
+                    // 关闭等待框
+                    layer.close(loading);
+                }
+            }
+            // 开启按钮
+            $("#export_result").attr("disabled", false);
+        };
+        // 发送ajax请求
+        xhr.send(exportExcelCond);
+    });
+});
 /**
  * 初始化供应商品目树
  */
@@ -13,33 +56,29 @@ var treeSetting = {
         dataType: "json",
         type: "post",
     },
-    /*check: {
+    check: {
         enable: true,
         chkboxType: {
             "Y": "s",
             "N": "s"
         }
-    },*/
+    },
     callback: {
         // 点击复选框按钮触发事件
-        //onCheck: zTreeOnCheck
+        onCheck: zTreeOnCheck,
         // 点击节点触发事件
-        onClick: zTreeOnClick
+        // onClick: zTreeOnClick
+        onAsyncSuccess: setDisabledNode
     },
     data: {
         simpleData: {
             enable: true,
             idKey: "id",
             pIdKey: "parentId",
-            rootPId:"0"
+            rootPId: "0"
         }
     }
 };
-
-$(function () {
-    // 初始化树
-    // initZtree();
-})
 
 /**
  * 搜索树
@@ -53,7 +92,7 @@ function loadZtree() {
     // 清除选中内容
     $("#supplierGradeInput").val("");
     var parms = $("#supplierTypeIds").val();
-    treeSetting.async.otherParam= ["code", parms];
+    treeSetting.async.otherParam = ["code", parms];
     $.ajax({
         url: globalPath + "/category/selectAllCateByCond.do",
         data: {
@@ -70,6 +109,7 @@ function loadZtree() {
                 zNodes = data;
                 zTreeObj = $.fn.zTree.init($("#supplierGradeTree"), treeSetting, zNodes);
                 zTreeObj.expandAll(true);//全部展开
+                setDisabledNode();
             }
             // 禁用选节点
             //设置禁用的复选框节点
@@ -83,10 +123,13 @@ function loadZtree() {
 /**
  * 禁用节点
  */
-function setDisabledNode(){
+function setDisabledNode(event, treeId, treeNode) {
     var treeObj = $.fn.zTree.getZTreeObj("supplierGradeTree");
-    var disabledNode = treeObj.getNodeByParam("level", 0);
-    treeObj.setChkDisabled(disabledNode, true);
+    var disabledNode = treeObj.getNodesByParam("level", 0);
+    // 设置多个
+    $(disabledNode).each(function (index, ele) {
+        treeObj.setChkDisabled(ele, true);
+    })
 }
 
 /**
@@ -96,18 +139,20 @@ function setDisabledNode(){
  * @param treeNode
  */
 function zTreeOnCheck(event, treeId, treeNode) {
-    var zTree = $.fn.zTree.getZTreeObj("supplierGradeTree"), nodes = zTree.getCheckedNodes(true), names="", ids="";
-    console.log(nodes);
-    for(var i = 0; i < nodes.length; i++) {
-        alert(nodes[i].name);
+    // 如果父节点为根节点则提示不可选择根节点
+    if (treeNode.parentId == "0") {
+        layer.msg("不可选择根节点");
+        return;
+    }
+    var zTree = $.fn.zTree.getZTreeObj("supplierGradeTree"), nodes = zTree.getCheckedNodes(true), names = "", ids = "";
+    for (var i = 0; i < nodes.length; i++) {
         names += nodes[i].name + ",";
         ids += nodes[i].id + ",";
     }
-    if(names.length > 0) names = names.substring(0, names.length - 1);
-    if(ids.length > 0) ids = ids.substring(0, ids.length - 1);
-    alert(names);
+    if (names.length > 0) names = names.substring(0, names.length - 1);
+    if (ids.length > 0) ids = ids.substring(0, ids.length - 1);
     $("#supplierGradeInput").val(names);
-    //$("#supplierTypeIds").val(rid);
+    $("#supplierGradeInputVal").val(ids);
 };
 
 /**
@@ -118,9 +163,9 @@ function zTreeOnCheck(event, treeId, treeNode) {
  * @param treeId :对应 zTree 的 treeId，便于用户操控
  * @param treeNode :被点击的节点 JSON 数据对象
  */
-function zTreeOnClick(event, treeId, treeNode){
+function zTreeOnClick(event, treeId, treeNode) {
     // 如果父节点为根节点则提示不可选择根节点
-    if(treeNode.parentId == "0"){
+    if (treeNode.parentId == "0") {
         layer.msg("不可选择根节点");
         return;
     }
@@ -143,25 +188,25 @@ function zTreeOnClick(event, treeId, treeNode){
  * @returns {*}
  */
 //获取当前节点的根节点(treeNode为当前节点)
-function getCurrentRoot(treeNode){
-    if(treeNode.getParentNode() != null){
+function getCurrentRoot(treeNode) {
+    if (treeNode.getParentNode() != null) {
         var parentNode = treeNode.getParentNode();
         return getCurrentRoot(parentNode);
-    }else{
+    } else {
         return treeNode.id;
     }
 }
 
 function initZtree(parm) {
     var parms = $("#supplierTypeIds").val();
-    if(parms == ''){
+    if (parms == '') {
         layer.msg("请先选择供应商类型");
         return;
     }
-    treeSetting.async.otherParam= ["code", parms];
+    treeSetting.async.otherParam = ["code", parms];
     // 初始化树
     zTreeObj = $.fn.zTree.init($("#supplierGradeTree"), treeSetting);
-    if(parm){
+    if (parm) {
         // 加载下拉框菜单
         var cityObj = $("#supplierGradeInput");
         var cityOffset = $("#supplierGradeInput").offset();

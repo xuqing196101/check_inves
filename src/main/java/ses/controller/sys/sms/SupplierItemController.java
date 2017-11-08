@@ -16,6 +16,7 @@ import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
+import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierItem;
@@ -72,8 +73,10 @@ public class SupplierItemController extends BaseController {
 	 */
 	@RequestMapping("/getCategories")
 	public String getCategoryList(SupplierItem supplierItem, Model model, Integer pageNum) {
+		String supplierId = supplierItem.getSupplierId();
+		String supplierTypeRelateId = supplierItem.getSupplierTypeRelateId();
 		// 查询已选中的节点信息
-		List < SupplierItem > listSupplierItems = supplierItemService.findCategoryList(supplierItem.getSupplierId(), supplierItem.getSupplierTypeRelateId(), pageNum == null ? 1 : pageNum);
+		List < SupplierItem > listSupplierItems = supplierItemService.findCategoryList(supplierId, supplierTypeRelateId, pageNum == null ? 1 : pageNum);
 		List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
 		for(SupplierItem item: listSupplierItems) {
 			String categoryId = item.getCategoryId();
@@ -92,38 +95,53 @@ public class SupplierItemController extends BaseController {
 			cate.setThirdNode(cate.getThirdNode() == null ? "" : cate.getThirdNode());
 			cate.setFourthNode(cate.getFourthNode() == null ? "" : cate.getFourthNode());
 			String typeName = "";
-			if(supplierItem.getSupplierTypeRelateId().equals("PRODUCT")) {
+			if(ses.util.Constant.SUPPLIER_PRODUCT.equals(supplierTypeRelateId)){
 				typeName = "生产";
-			} else if(supplierItem.getSupplierTypeRelateId().equals("SALES")) {
+			}else if(ses.util.Constant.SUPPLIER_SALES.equals(supplierTypeRelateId)){
 				typeName = "销售";
 			}
 			cate.setRootNode(cate.getRootNode() + typeName);
 		}
-		model.addAttribute("supplierId", supplierItem.getSupplierId());
-		model.addAttribute("supplierTypeRelateId", supplierItem.getSupplierTypeRelateId());
-		model.addAttribute("currSupplier", supplierService.selectById(supplierItem.getSupplierId()));
+		
+		Supplier currSupplier = supplierService.selectById(supplierId);
+		
+		model.addAttribute("supplierId", supplierId);
+		model.addAttribute("supplierTypeRelateId", supplierTypeRelateId);
+		model.addAttribute("currSupplier", currSupplier);
 		model.addAttribute("result", new PageInfo < > (listSupplierItems));
 		model.addAttribute("itemsList", allTreeList);
 
-		// 不通过字段的名字
-		SupplierAudit s = new SupplierAudit();
-		s.setSupplierId(supplierItem.getSupplierId());
-		//s.setAuditType("items_page");
-		s.setAuditType(ses.util.Constant.ITEMS_PRODUCT_PAGE);
-		if(ses.util.Constant.SUPPLIER_PRODUCT.equals(supplierItem.getSupplierTypeRelateId())){
+		if(currSupplier != null && currSupplier.getStatus() != null && currSupplier.getStatus() == 2){
+			// 不通过字段的名字
+			SupplierAudit s = new SupplierAudit();
+			s.setSupplierId(supplierId);
+			//s.setAuditType("items_page");
 			s.setAuditType(ses.util.Constant.ITEMS_PRODUCT_PAGE);
-		}
-		if(ses.util.Constant.SUPPLIER_SALES.equals(supplierItem.getSupplierTypeRelateId())){
-			s.setAuditType(ses.util.Constant.ITEMS_SALES_PAGE);
-		}
-		List < SupplierAudit > auditLists = supplierAuditService.getAuditRecords(s, SupplierConstants.AUDIT_RETURN_STATUS);
+			if(ses.util.Constant.SUPPLIER_PRODUCT.equals(supplierTypeRelateId)){
+				s.setAuditType(ses.util.Constant.ITEMS_PRODUCT_PAGE);
+			}
+			if(ses.util.Constant.SUPPLIER_SALES.equals(supplierTypeRelateId)){
+				s.setAuditType(ses.util.Constant.ITEMS_SALES_PAGE);
+			}
+			List < SupplierAudit > auditLists = supplierAuditService.getAuditRecords(s, SupplierConstants.AUDIT_RETURN_STATUS);
 
-		StringBuffer errorField = new StringBuffer();
-		for(SupplierAudit audit: auditLists) {
-			errorField.append(audit.getAuditField() + ",");
+			StringBuffer errorField = new StringBuffer();
+			for(SupplierAudit audit: auditLists) {
+				errorField.append(audit.getAuditField() + ",");
+			}
+			// 判断该类型是否审核通过
+			s.setAuditType("supplierType_page");
+			DictionaryData dd = DictionaryDataUtil.get(supplierTypeRelateId);
+			if(dd != null){
+				s.setAuditField(dd.getId());
+			}
+			int supplierTypeAuditCount = supplierAuditService.countAuditRecords(s, new Integer[]{0,2});
+			if(supplierTypeAuditCount > 0){
+				model.addAttribute("isSupplierTypeAudited", true);
+			}
+			model.addAttribute("audit", errorField);
+			model.addAttribute("auditType", s.getAuditType());
 		}
-		model.addAttribute("audit", errorField);
-		model.addAttribute("auditType", s.getAuditType());
 
 		return "ses/sms/supplier_register/ajax_items";
 	}

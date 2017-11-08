@@ -296,7 +296,7 @@
                 list_content.list.list[i].auditAt = '';
               }
               
-              if (list_content.list.list[i].status != "公示中" && list_content.list.list[i].status != "复审合格" && list_content.list.list[i].status != "专家复审结束" && list_content.list.list[i].status != "复审不合格" && list_content.list.list[i].status != "复审退回修改" && list_content.list.list[i].status != "复查合格" && list_content.list.list[i].status != "复查未合格") {
+              if (list_content.list.list[i].status != "公示中" && list_content.list.list[i].status != "复审合格" && list_content.list.list[i].status != "<span class=\"red\">专家复审结束</span>" && list_content.list.list[i].status != "复审不合格" && list_content.list.list[i].status != "复审退回修改" && list_content.list.list[i].status != "复查合格" && list_content.list.list[i].status != "复查未合格") {
                 btn = '<button type="button" class="btn w100p mr0 mb5" onclick="expert_auditBatch(\''+ root_url +'\', \''+ list_content.list.list[i].expertId +'\')">复审</button>' + btn;
               }
               

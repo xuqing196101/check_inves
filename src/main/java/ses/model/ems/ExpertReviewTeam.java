@@ -33,6 +33,17 @@ public class ExpertReviewTeam {
      */
     private Integer isDeleted;
     
+    /**
+     * 顺序标识
+     */
+    private String indexNum;
+    
+	public String getIndexNum() {
+		return indexNum;
+	}
+	public void setIndexNum(String indexNum) {
+		this.indexNum = indexNum;
+	}
 	public Integer getIsDeleted() {
 		return isDeleted;
 	}
