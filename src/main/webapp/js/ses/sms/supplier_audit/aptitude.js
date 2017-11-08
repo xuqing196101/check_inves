@@ -476,7 +476,7 @@ function showFrame(tablerId,ind,title,cateTree,flng,id,secondNode,secondNodeId){
 		}
 		layer.open({
 		  type: 2, // page层
-		  area: ['880px', '330px'],
+		  area: ['880px', '380px'],
 		  title: title,
 		  closeBtn: 1,
 		  shade: 0.01, // 遮罩透明度
