@@ -111,7 +111,7 @@ public class AutoExtractServiceImpl implements AutoExtractService {
 	                //确认参加
 	                expertExtractResult.setIsJoin((short)1);
 	                expertExtractResultMapper.updateByProjectIdandExpertId(expertExtractResult);
-	            }else if(expertResult.getJoin() == 2){
+	            }else if(expertResult.getJoin() == 2 || expertResult.getJoin() == 4){
 	                //拒绝参加
 	                expertExtractResult.setIsJoin((short)3);
 	                expertExtractResultMapper.updateByProjectIdandExpertId(expertExtractResult);

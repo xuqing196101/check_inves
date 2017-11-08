@@ -224,7 +224,7 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
         //区域要求
         Set<String> areaNames = new HashSet<>();
         if(!("0").equals(expertExtractCondition.getAreaName())){
-            if(!"".equals(expertExtractCondition.getAddressId())){
+            if(expertExtractCondition.getAddressId() != null && !"".equals(expertExtractCondition.getAddressId())){
                 String[] cids = expertExtractCondition.getAddressId().split(",");
                 for (String str : cids) {
                     areaNames.add(str);

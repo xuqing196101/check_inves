@@ -130,6 +130,7 @@ function artificial_extracting(isAuto){
         },
         error: function () {
             layer.msg("操作失败", {offset: '100px'});
+            layer.close(ae_load);
         }
     });
 }
@@ -314,7 +315,7 @@ function validationIsNull(code){
             count2++;
         }
     });
-    if($("#extractUser").find("tr").length<3){
+    if($("#extractUser").find("tr").length<2){
         count1++;
     }
     if($("#supervise").find("tr").length<2){
