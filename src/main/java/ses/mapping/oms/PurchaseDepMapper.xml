@@ -1095,15 +1095,18 @@
 	</select>
 	
 	<!-- 全部机构 -->
-	<select id="findAllOrg" resultType="ses.model.oms.PurchaseDep">
+	<select id="findAllOrg" resultType="ses.model.oms.PurchaseDep" parameterType="map">
 	  SELECT
 		  ORG.SHORT_NAME AS name,
-		  DEP. ID
+		  DEP.ID
 		FROM
-		  T_SES_OMS_PURCHASE_DEP dep,
-		  T_SES_OMS_ORG org
+		  T_SES_OMS_PURCHASE_DEP DEP,
+		  T_SES_OMS_ORG ORG
 		WHERE
 		  DEP.ORG_ID = ORG. ID
+		  <if test="isAuditSupplier != null and isAuditSupplier != ''">
+			  AND DEP.IS_AUDIT_SUPPLIER = #{isAuditSupplier}
+		  </if>
 		ORDER BY ORG.POSITION
 	</select>
 
