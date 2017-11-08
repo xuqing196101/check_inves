@@ -841,10 +841,48 @@ public class ExpertAuditController{
 		if(same) {
 			expertAuditService.add(expertAudit);
 		} else {
+			ExpertAudit audit = expertAuditService.findByExpertAuditObj(expertAudit);
+			audit.setAuditReason(expertAudit.getAuditReason());
+			expertAuditService.updateByAuditReason(audit);
 			String msg = "{\"msg\":\"fail\"}";
 			writeJson(response, msg);
 		}
 
+	}
+	@RequestMapping("/selectAuditReasons")
+	public void selectAuditReasons(ExpertAudit expertAudit, Model model, HttpServletResponse response, HttpServletRequest request) {
+		User user = (User) request.getSession().getAttribute("loginUser");
+		if(user != null) {
+			expertAudit.setAuditUserId(user.getId());
+			expertAudit.setAuditUserName(user.getRelName());
+		}
+		expertAudit.setAuditAt(new Date());
+		ExpertAudit audit = expertAuditService.findByExpertAuditObj(expertAudit);
+		String msg = "{\"msg\":\"\"}";
+		if( audit != null ){
+			msg = "{\"msg\":\""+audit.getAuditReason()+"\"}";
+		}
+		
+		writeJson(response, msg);
+	}
+	@RequestMapping("/updateAuditReasons")
+	public void updateAuditReasons(ExpertAudit expertAudit, Model model, HttpServletResponse response, HttpServletRequest request) {
+		User user = (User) request.getSession().getAttribute("loginUser");
+		if(user != null) {
+			expertAudit.setAuditUserId(user.getId());
+			expertAudit.setAuditUserName(user.getRelName());
+		}
+		expertAudit.setAuditAt(new Date());
+		ExpertAudit audit = expertAuditService.findByExpertAuditObj(expertAudit);
+		if(audit!=null){
+			expertAuditService.updateAuditStatus(audit.getId(), "4");
+			String msg = "{\"msg\":\"true\"}";
+			writeJson(response, msg);
+		}else{
+			String msg = "{\"msg\":\"false\"}";
+			writeJson(response, msg);
+		}
+		
 	}
 
 	/**
@@ -3988,7 +4026,17 @@ public class ExpertAuditController{
 			return new JdcgResult(504, "撤销失败", null);
 		}
     }
-    
+    @RequestMapping("/selectCategoryAudit")
+    @ResponseBody
+    public JdcgResult selectCategoryAudit (String expertId, String[] categoryIds, Integer sign){
+		return expertAuditService.selectCategoryAudit(expertId, categoryIds, sign);
+    }
+    @RequestMapping("/updateCategoryAudit")
+    @ResponseBody
+    public void updateCategoryAudit (String expertId, String categoryIds, Integer sign,String auditReason){
+    	String[] split = categoryIds.split(",");
+    	expertAuditService.updateCategoryAudit(expertId, split, sign,auditReason);
+    }
     
     
     /**
