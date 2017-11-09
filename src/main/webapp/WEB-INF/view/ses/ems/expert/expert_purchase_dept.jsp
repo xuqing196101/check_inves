@@ -47,11 +47,11 @@
 				</li>
 				<li>
 					<span class="mfi_tit">联系人：</span>
-					<span class="mfi_info">${expert.relName}</span>
+					<span class="mfi_info">${expert.contactName}</span>
 				</li>
 				<li>
 					<span class="mfi_tit">联系电话：</span>
-					<span class="mfi_info">${expert.mobile}</span>
+					<span class="mfi_info">${expert.contactMobile}</span>
 				</li>
 			</ul>
 		<!-- 右上角漂浮窗 -->

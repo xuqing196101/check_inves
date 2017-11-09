@@ -298,7 +298,7 @@
     <select id="selectByPrimaryKey" parameterType="java.lang.String"
         resultMap="BaseResultMap">
         select
-        t1.*,t3.SHORT_NAME AS orgName
+        t1.*,t3.SHORT_NAME AS orgName,t3.CONTACT_NAME AS contactName,t3.CONTACT_MOBILE AS contactMobile
         from T_SES_EMS_EXPERT t1
         LEFT JOIN T_SES_OMS_PURCHASE_DEP t2 ON t1.PURCHASE_DEP_ID = t2.ID
     	LEFT JOIN T_SES_OMS_ORG t3 ON t3.ID = t2.ORG_ID
