@@ -58,41 +58,6 @@
             	$(this).attr("title", $(this).val());
             });
         });
-        
-        // 获取旧的审核记录
-        function getOldAudit(auditData){
-        	var result = null;
-        	$.ajax({
-            url: "${pageContext.request.contextPath}/supplierAudit/ajaxOldAudit.do",
-            type: "post",
-            dataType: "json",
-            data: auditData,
-            async: false,
-            success: function(data){
-              result = data;
-            }
-          });
-          return result;
-        }
-        
-        // 撤销审核记录
-	      function cancelAudit(auditData){
-	      	var bool = false;
-	      	$.ajax({
-	          url: "${pageContext.request.contextPath}/supplierAudit/cancelAudit.do",
-	          type: "post",
-	          dataType: "json",
-	          data: auditData,
-	          async: false,
-	          success: function(result){
-	            if(result && result.status == 500){
-	            	bool = true;
-	            	layer.msg('撤销成功！');
-	            }
-	          }
-	        });
-	        return bool;
-	      }
 
         //审核input框
         function reason(obj) {
@@ -154,28 +119,36 @@
 					 		var text = trim(value);
               if (text != null && text != "") {
              		auditData.suggest = text;
-                 $.ajax({
-                   url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
-                   type: "post",
-                   dataType: "json",
-                   data: auditData,
-                   success: function(result){
-                     if(result.status == "503"){
-                       layer.msg('该条信息已审核过并退回过！', {             
-                         shift: 6, //动画类型
-                         offset:'100px'
-                       });
-                     }
-                     if(result.status == "500"){
-                       layer.msg('审核成功！', {             
-                         shift: 6, //动画类型
-                         offset:'100px'
-                       });
-                       //$(obj).after(html);
-               				$("#" + obj.id + "").css('border-color', '#FF0000'); //边框变红色
-                     }
-                   }
-                 });
+                $.ajax({
+                  url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
+                  type: "post",
+                  dataType: "json",
+                  data: auditData,
+                  success: function(result){
+                    if(result.status == "503"){
+                      layer.msg('该条信息已审核过并退回过！', {             
+                        shift: 6, //动画类型
+                        offset:'100px'
+                      });
+                    }
+                    if(result.status == "500"){
+                      if(result.data == "add"){
+                        layer.msg('审核成功！', {             
+                        	shift: 6, //动画类型
+                        	offset:'100px'
+                       	});
+                       	//$(obj).after(html);
+             				   	$("#" + obj.id + "").css('border-color', '#FF0000'); //边框变红色
+                      }
+                      if(result.data == "update"){
+	                 			layer.msg('修改理由成功！', {
+	                        shift: 6, //动画类型
+	                        offset:'100px'
+	                      });
+                 	   	}
+                    }
+                  }
+                });
                 layer.close(index);
               } else {
                 layer.msg('不能为空！', {offset: '100px'});
@@ -300,12 +273,20 @@
                       });
                     }
                     if(result.status == "500"){
-                      layer.msg('审核成功！', {             
-                        shift: 6, //动画类型
-                        offset:'100px'
-                      });
-                      //$(ele).parents("li").find("p").show(); //显示叉
-              				$(ele).css('border', '1px solid #FF0000'); //添加红边框
+                    	if(result.data == "add"){
+                    		layer.msg('审核成功！', {
+	                        shift: 6, //动画类型
+	                        offset:'100px'
+	                      });
+	                      //$(ele).parents("li").find("p").show(); //显示叉
+	              				$(ele).css('border', '1px solid #FF0000'); //添加红边框
+                    	}
+                    	if(result.data == "update"){
+                    		layer.msg('修改理由成功！', {
+	                        shift: 6, //动画类型
+	                        offset:'100px'
+	                      });
+                    	}
                     }
                   }
                 });
@@ -386,14 +367,22 @@
                       });
                     }
                     if(result.status == "500"){
-                      layer.msg('审核成功！', {
-                        shift: 6, //动画类型
-                        offset:'100px'
-                      });
-                      var icon = "<img src='${pageContext.request.contextPath}/public/backend/images/light_icon_2.png'/>";
-		                  $("#" + id + "_hidden").html("").append(icon);
-		                  /* $("#" + id + "_hidden").hide();
-		                  $("#" + id + "_show").show(); */
+                    	if(result.data == "add"){
+                    		layer.msg('审核成功！', {
+	                        shift: 6, //动画类型
+	                        offset:'100px'
+	                      });
+	                      var icon = "<img src='${pageContext.request.contextPath}/public/backend/images/light_icon_2.png'/>";
+			                  $("#" + id + "_hidden").html("").append(icon);
+			                  /* $("#" + id + "_hidden").hide();
+			                  $("#" + id + "_show").show(); */
+                    	}
+                    	if(result.data == "update"){
+                    		layer.msg('修改理由成功！', {
+	                        shift: 6, //动画类型
+	                        offset:'100px'
+	                      });
+                    	}
                     }
                   }
                 });

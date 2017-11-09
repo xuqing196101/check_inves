@@ -1349,10 +1349,12 @@ public class SupplierAuditController extends BaseSupplierController {
 		supplierAudit.setIsDeleted(1);// 历史审核记录
 		int auditCount = supplierAuditService.countAuditRecords(supplierAudit, new Integer[]{0,2,4});
 		if(auditCount == 0) {
+			String auditFlag = "add";
 			supplierAudit.setIsDeleted(0);
 			List<SupplierAudit> auditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2});
 			if(auditList != null && auditList.size() > 0){
 				supplierAudit.setId(auditList.get(0).getId());
+				auditFlag = "update";
 			}
 			supplierAudit.setStatus(supplier.getStatus());
 			supplierAudit.setCreatedAt(new Date());
@@ -1361,7 +1363,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			if(i>0){
 				// 审核完后更新审核人/审核状态
 				updateSupplierAuditStatus(user, supplier);
-				return new JdcgResult(500, "审核成功", null);
+				return new JdcgResult(500, "审核成功", auditFlag);
 			}else{
 				return new JdcgResult(502, "审核失败", null);
 			}

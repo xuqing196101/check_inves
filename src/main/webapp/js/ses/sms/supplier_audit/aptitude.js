@@ -339,7 +339,7 @@ function onCategory(tablerId,wzType){// ,ind,secondNode,secondNodeId,wzType
 		auditType='items_product_page';
 		break;
 	}
-	var count=isAudit(tablerId,wzType);
+	var count=isAudited(tablerId,wzType);
 	/*
 	 * //非 选择框 审核 单选 if(is==0){ if(count==0){
 	 * auditContent=contentParent(tablerId,ind,'目录信息');
@@ -356,7 +356,7 @@ function onCategory(tablerId,wzType){// ,ind,secondNode,secondNodeId,wzType
 	/* } */
 }
 // 判断 是否是已审核 目录
-function isAudit(tablerId,wzType){
+function isAudited(tablerId,wzType){
 	var showin=0;
 	var auditType;
 	var temp=0;

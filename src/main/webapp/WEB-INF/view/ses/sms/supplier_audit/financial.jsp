@@ -25,41 +25,6 @@
 					$(this).find("p").hide();
 				});
 			});
-			
-			// 获取旧的审核记录
-      function getOldAudit(auditData){
-      	var result = null;
-      	$.ajax({
-          url: "${pageContext.request.contextPath}/supplierAudit/ajaxOldAudit.do",
-          type: "post",
-          dataType: "json",
-          data: auditData,
-          async: false,
-          success: function(data){
-            result = data;
-          }
-        });
-        return result;
-      }
-      
-      // 撤销审核记录
-	    function cancelAudit(auditData){
-	    	var bool = false;
-	    	$.ajax({
-	        url: "${pageContext.request.contextPath}/supplierAudit/cancelAudit.do",
-	        type: "post",
-	        dataType: "json",
-	        data: auditData,
-	        async: false,
-	        success: function(result){
-	          if(result && result.status == 500){
-	          	bool = true;
-	          	layer.msg('撤销成功！');
-	          }
-	        }
-	      });
-	      return bool;
-	    }
 
 			function reason(id, auditFieldName, year) {
 				/* var offset = "";
@@ -136,20 +101,28 @@
 					          });
 					        }
 					        if(result.status == "500"){
-					          layer.msg('审核成功！', {
-					            shift: 6, //动画类型
-					            offset:'100px'
-					          });
-					          var icon = "<img src='${pageContext.request.contextPath}/public/backend/images/light_icon_2.png'/>";
-					       		$("#" + id + "_hidden").html("").append(icon);
-										/* if(auditFieldName == "财务信息"){
-											$("#" + id + "_hidden").hide();
-											$("#" + id + "_show").show();
-										} 
-										if(auditFieldName == "财务附件"){
-											$("#" + id + "_hidden").hide();
-											$("#" + id + "_show").show();
-										} */
+					        	if(result.data == "add"){
+					        		layer.msg('审核成功！', {
+						            shift: 6, //动画类型
+						            offset:'100px'
+						          });
+						          var icon = "<img src='${pageContext.request.contextPath}/public/backend/images/light_icon_2.png'/>";
+						       		$("#" + id + "_hidden").html("").append(icon);
+											/* if(auditFieldName == "财务信息"){
+												$("#" + id + "_hidden").hide();
+												$("#" + id + "_show").show();
+											} 
+											if(auditFieldName == "财务附件"){
+												$("#" + id + "_hidden").hide();
+												$("#" + id + "_show").show();
+											} */
+					        	}
+					        	if(result.data == "update"){
+                   		layer.msg('修改理由成功！', {
+                        shift: 6, //动画类型
+                        offset:'100px'
+                      });
+                   	}
 					        }
 					      }
 							});
