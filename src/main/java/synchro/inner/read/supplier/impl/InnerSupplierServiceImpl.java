@@ -537,7 +537,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     /**
      * Description:供应商退回修改导入外网
      *
-     * @param [file：文件, flag：标识]
+     * @param file：文件, flag：标识 区分公示和退回修改
      * @author Easong
      * @version 2017/9/30
      * @since JDK1.7
@@ -563,9 +563,6 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                 if (not == null) {
                     supplierAuditNotMapper.insertAcitive(sa);
                 }
-                if (not != null) {
-//					  supplierAuditNotMapper
-                }
             }
             List<SupplierAudit> supplierAudits = sb.getSupplierAudits();
             if(sb.getSupplier() != null){
@@ -584,8 +581,6 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                 SupplierModify smf = supplierModifyMapper.selectById(sm.getId());
                 if (smf == null) {
                     supplierModifyMapper.add(sm);
-                } else {
-//					  supplierModifyMapper.
                 }
             }
             List<SupplierHistory> historys = sb.getSupplierHistory();
@@ -593,8 +588,6 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                 SupplierHistory history = supplierHistoryMapper.queryById(sh.getId());
                 if (history == null) {
                     supplierHistoryMapper.inserActive(sh);
-                } else {
-//					  supplierHistoryMapper.u
                 }
             }
             List<SupplierSignature> signatures = sb.getSupplierSignature();
@@ -602,8 +595,6 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                 SupplierSignature singature = supplierSignatureMapper.queryById(ss.getId());
                 if (singature == null) {
                     supplierSignatureMapper.insertActive(ss);
-                } else {
-//					  supplierSignatureMapper.
                 }
             }
             if ("publicity".equals(flag)) {
@@ -626,12 +617,12 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                 }
             }
         }
-        //
+        // 公示信息导入（外网）
         if ("publicity".equals(flag)) {
             synchRecordService.synchBidding(null, new Integer(list.size()).toString(), synchro.util.Constant.SYNCH_PUBLICITY_SUPPLIER, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.IMPORT_SYNCH_PUBLICITY_SUPPLIER);
+        } else{
+            synchRecordService.synchBidding(null, new Integer(list.size()).toString(), synchro.util.Constant.DATA_TYPE_SUPPLIER_CODE, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.NEW_COMMIT_SUPPLIER_IMPORT);
         }
-
-
     }
 
 
@@ -960,8 +951,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
      *
      * @author Easong
      * @version 2017/10/16
-     * @param startTime
-     * @param endTime
+     * @param file
      * @since JDK1.7
      */
     @Override
