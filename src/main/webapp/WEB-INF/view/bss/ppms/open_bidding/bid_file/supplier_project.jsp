@@ -278,19 +278,19 @@
 				<table class="table table-bordered table-condensed table-hover table-striped">
 					<thead>
 						<tr>
-							<th class="w50 info">序号</th>
-							<th class="info">供应商名称</th>
-							<th class="info">关联的包名</th>
-							<th class="info">是否到场</th>
-							<th class="info">投标文件</th>
+							<th class="w50">序号</th>
+							<th>供应商名称</th>
+							<th>关联的包名</th>
+							<th class="w120">是否到场</th>
+							<th class="w180">投标文件</th>
 						</tr>
 					</thead>
 					<c:forEach items="${supplierList}" var="list" varStatus="vs">
 						<c:if test="${not empty list.packageName}">
 							<tr>
 							<td class="tc">${vs.index+1}</td>
-							<td class="tl w300">${list.supplierName}</td>
-							<td class="tl">${list.packageName }</td>
+							<td class="tl">${list.supplierName}</td>
+							<td class="tc">${list.packageName }</td>
 							<td class="tc">
 								<c:if test="${empty list.isturnUp}">
 									<select onchange="yincUpload(this)" name="select" id="select_${(vs.index+1)}_${list.id}">
