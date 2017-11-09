@@ -576,4 +576,12 @@ public interface ExpertService {
      * @return
      */
     List<Expert> findStorage (Expert expert);
+    
+    /**
+     * 无分页
+     * @param expert
+     * @return
+     */
+    List<Expert> findExpertNoPag (Expert expert);
+    
 }

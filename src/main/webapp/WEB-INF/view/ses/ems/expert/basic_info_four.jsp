@@ -5,6 +5,9 @@
 
 	<head>
 		<%@ include file="/reg_head.jsp"%>
+		<c:if test="${expert.status == 3}">
+			<%@ include file="/WEB-INF/view/ses/ems/expert/expert_purchase_dept.jsp"%>
+		</c:if>
 		<title>评审专家注册</title>
 		<script src="${pageContext.request.contextPath}/js/ems/expert/validate_expert_basic_info.js"></script>
 		<script src="${pageContext.request.contextPath}/js/ems/expert/validate_regester.js"></script>
