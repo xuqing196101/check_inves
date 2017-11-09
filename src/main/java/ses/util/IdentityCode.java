@@ -111,7 +111,7 @@ public class IdentityCode {
 		this.code = str1;
 		for (int i = 0; i < codeCount; i++) {
 			String strRand = str1.substring(i, i + 1);
-			g.setColor(getRandColor(1, 255));
+			g.setColor(getRandColor(1, 100));
 			// g.drawString(a,x,y);
 			// a为要画出来的东西，x和y表示要画的东西最左侧字符的基线位于此图形上下文坐标系的 (x, y) 位置处
 			g.drawString(strRand, i * fontWidth + 3, codeY);
