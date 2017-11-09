@@ -1,4 +1,28 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ page import="org.apache.commons.lang3.math.NumberUtils"%>
+<%@ page import="ses.constants.SupplierConstants"%>
+<%@ page import="ses.model.bms.User" %>
+<% 
+	String ipAddressType = SupplierConstants.IP_ADDRESS_TYPE;
+	String ipInner = SupplierConstants.IP_INNER;
+	String ipOuter = SupplierConstants.IP_OUTER;
+	int status = NumberUtils.toInt(request.getParameter("supplierStatus"), 0);
+	String account = ((User)session.getAttribute(SupplierConstants.KEY_SESSION_LOGIN_USER)).getLoginName();
+	boolean isAudit = SupplierConstants.isAudit(account, status);
+	boolean isStatusToAudit = SupplierConstants.isStatusToAudit(status);
+	
+	request.setAttribute("isAudit", isAudit);
+	request.setAttribute("isStatusToAudit", isStatusToAudit);
+	request.setAttribute("ipAddressType", ipAddressType);
+	request.setAttribute("ipInner", ipInner);
+	request.setAttribute("ipOuter", ipOuter);
+%>
+<%-- <c:set var="isAudit" value="<%=isAudit %>"/>
+<c:set var="isStatusToAudit" value="<%=isStatusToAudit %>"/>
+<c:set var="ipAddressType" value="<%=ipAddressType %>"/>
+<c:set var="ipInner" value="<%=ipInner %>"/>
+<c:set var="ipOuter" value="<%=ipOuter %>"/> --%>
+
 <ul class="flow_step">
     <li id="reverse_of_one"  onclick="jump('essential')">
         <a aria-expanded="false" href="#tab-1">基本信息</a>
@@ -68,5 +92,52 @@
     <li id="reverse_of_eight" onclick="jump('uploadApproveFile')" class="display-none">
         <a aria-expanded="false" href="#tab-4">上传批准审核表</a>
     </li>
-
 </ul>
+
+<script type="text/javascript">
+	var isAudit = <%=isAudit %>;
+	//以前的判断
+	//if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+</script>
+<script type="text/javascript">
+
+	// 删除左右两端的空格
+	function trim(str) {
+		return str.replace(/(^\s*)|(\s*$)/g, "");
+	}
+
+	// 获取旧的审核记录
+	function getOldAudit(auditData) {
+		var result = null;
+		$.ajax({
+			url : "${pageContext.request.contextPath}/supplierAudit/ajaxOldAudit.do",
+			type : "post",
+			dataType : "json",
+			data : auditData,
+			async : false,
+			success : function(data) {
+				result = data;
+			}
+		});
+		return result;
+	}
+
+	// 撤销审核记录
+	function cancelAudit(auditData) {
+		var bool = false;
+		$.ajax({
+			url : "${pageContext.request.contextPath}/supplierAudit/cancelAudit.do",
+			type : "post",
+			dataType : "json",
+			data : auditData,
+			async : false,
+			success : function(result) {
+				if (result && result.status == 500) {
+					bool = true;
+					layer.msg('撤销成功！');
+				}
+			}
+		});
+		return bool;
+	}
+</script>

@@ -86,11 +86,17 @@
 							return;
 						}
 					}
-					var state = $("#" + id + "").parents("tr").find("td:last").text();//.trim();
+					/* var state = $("#" + id + "").parents("tr").find("td:last").text();//.trim();
 					state = trim(state);
-					/* var state = $("#"+id+"").text().trim(); */
 					var isExtract = $("#" + id + "_isExtract").text();
 					if(state == "公示中" || state == "审核通过" || state == "退回修改" || state == "审核未通过" || state == "复核通过" || state == "复核未通过" || state == "合格" || state == "不合格") {
+						layer.msg("请选择待审核项！", {
+							offset: '100px',
+						});
+						return;
+					} */
+				 	var state = $("#" + id + "").attr("sts");
+					if(state != 0 && state != 9 && state != 1 && state != 5 && '${isAccountToAudit}' != '1'){
 						layer.msg("请选择待审核项！", {
 							offset: '100px',
 						});
@@ -639,7 +645,7 @@
 									<c:if test="${list.isPublish == 1 }"><span class="label rounded-2x label-u">已发布</span></c:if>
 									<c:if test="${list.isPublish == 0 }"><span class="label rounded-2x label-dark">未发布</span></c:if>
 								</td> --%>
-								<td class="tc" id="${list.id}" onclick="shenhe('${list.id }');">
+								<td class="tc" id="${list.id}" onclick="shenhe('${list.id }');" sts="${list.status}">
 									<%-- <c:if test="${list.status == 0 and list.auditTemporary != 1}"><span class="label rounded-2x label-u">待审核</span></c:if>
 									<c:if test="${list.status == 9 and list.auditTemporary != 1}"><span class="label rounded-2x label-dark">退回再审核</span></c:if>
 									<c:if test="${(list.status == 0 or list.status == 9) and list.auditTemporary == 1}"><span class="label rounded-2x label-u">审核中</span></c:if>
