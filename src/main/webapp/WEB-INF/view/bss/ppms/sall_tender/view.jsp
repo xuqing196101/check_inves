@@ -300,19 +300,19 @@
 					<table class="table table-bordered table-condensed table-hover table-striped mt5">
 						<thead>
 							<tr>
-								<th class="info w50">选择</th>
-								<th class="info w50">序号</th>
-								<th class="info ">供应商名称</th>
-								<th class="info w150">军队业务联系人姓名</th>
-								<th class="info w150">军队业务联系人电话</th>
-								<th class="info w150">发售日期</th>
-								<th class="info w100">标书费状态</th>
+								<th class="w50">选择</th>
+								<th class="w50">序号</th>
+								<th>供应商名称</th>
+								<th class="w150">军队业务联系人姓名</th>
+								<th class="w140">军队业务联系人电话</th>
+								<th class="w100">发售日期</th>
+								<th class="w100">标书费状态</th>
 							</tr>
 						</thead>
 						<tbody>
 							<c:forEach items="${pack.saleTenderList}" var="obj" varStatus="vs">
 								<tr>
-									<td class="tc opinter w50"><input type="checkbox" id="${obj.id}" name="chkItem_${index}" value="${obj.id}" /></td>
+									<td class="tc opinter"><input type="checkbox" id="${obj.id}" name="chkItem_${index}" value="${obj.id}" /></td>
 									<td class="tc opinter " >${vs.index+1 }</td>
 									<td class="tl opinter " title="${obj.suppliers.supplierName}">
 										<c:choose>
@@ -324,18 +324,18 @@
 											</c:otherwise>
 										</c:choose>
 									</td>
-									<td class="tc opinter w200">
+									<td class="tc opinter">
 										${obj.suppliers.armyBusinessName}
 										<input type="hidden" value="${obj.suppliers.id }" id="supplierId" />
 										<input type="hidden" value="${obj.suppliers.isProvisional }" id="isProvisional" />
 									</td>
 
-									<td class="tc opinter w200">${obj.suppliers.armyBuinessTelephone}</td>
+									<td class="tc opinter">${obj.suppliers.armyBuinessTelephone}</td>
 
-									<td class="tc opinter w200">
+									<td class="tc opinter">
 										<fmt:formatDate value='${obj.createdAt}' pattern='yyyy-MM-dd' />
 									</td>
-									<td class="tc opinter w100">
+									<td class="tc opinter">
 										<c:if test="${project.isCharge=='1'}">
 											免费
 										</c:if>
