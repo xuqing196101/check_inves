@@ -14,16 +14,17 @@
     <result column="STATUS" property="status" />
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="ADUIT_TIME" jdbcType="TIMESTAMP" property="aduitTime" />
+    <result column="IS_DELETED" property="isDeleted" />
     <association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey" />
   </resultMap>
   
   <sql id="Base_Column_List">
-    ID, PROJECT_ID, PACKAGE_ID, CREATED_AT, TYPE, FLOW_DEFINE_ID, ADVICE, ADUIT_TIME, USER_ID, STATUS, CODE, REASON
+    ID, PROJECT_ID, PACKAGE_ID, CREATED_AT, TYPE, FLOW_DEFINE_ID, ADVICE, ADUIT_TIME, USER_ID, STATUS, CODE, REASON, IS_DELETED
   </sql>
   
   <!-- 查询条件 -->
   <sql id="Example_Where_Clause">
-  	WHERE 1=1
+  	WHERE 1=1 AND pa.IS_DELETED = 0
     <trim suffixOverrides=",">
       <if test="id != null and id != ''">
         AND pa.ID = #{id} 
@@ -117,6 +118,9 @@
       <if test="reason != null">
         REASON,
       </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -154,6 +158,9 @@
       </if>
       <if test="reason != null">
         #{reason},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
       </if>
     </trim>
   </insert>
@@ -195,6 +202,9 @@
       <if test="createdAt != null">
         CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -221,7 +231,7 @@
 					AND	PO.ORG_ID = #{orgId,jdbcType=VARCHAR}
 				</if>
 			
-		) and pa.TYPE = 2
+		) and pa.TYPE = 2 AND pa.IS_DELETED = 0
 		<if test="name != null">
      and PS.NAME like CONCAT(CONCAT('%', #{name}), '%')
     </if>

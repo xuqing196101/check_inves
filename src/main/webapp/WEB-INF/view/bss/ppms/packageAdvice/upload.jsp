@@ -21,7 +21,7 @@
  		if(advice){
  			$.ajax({
 	 			url:"${pageContext.request.contextPath}/packageAdvice/saveAudit.do",
-	 			tpye:"post",
+	 			type:"post",
 	 			dataType:"text",
 	 			async: false,
 	 			data:{

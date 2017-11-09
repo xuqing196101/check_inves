@@ -29,5 +29,7 @@ public interface PackageAdviceService {
 	void update(User user, List<PackageAdvice> find, String removedReason, Integer status);
 
 	BigDecimal selectbudget(String code);
+
+	void recheck(String packageIds);
 	
 }

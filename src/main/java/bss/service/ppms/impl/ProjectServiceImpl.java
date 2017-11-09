@@ -366,6 +366,18 @@ public class ProjectServiceImpl implements ProjectService {
 	          jsonObj.put("isEnd", true);
 	      }
 	      
+	      HashMap<String, Object> hashMap = new HashMap<>();
+	      hashMap.put("projectId", projectId);
+	      List<Packages> findByID = packageMapper.findByID(hashMap);
+	      if (findByID != null && !findByID.isEmpty()) {
+	    	  String string = DictionaryDataUtil.getId("ZJTSHBTG");
+	    	  for (Packages packages : findByID) {
+	    		  if (StringUtils.isNotBlank(packages.getProjectStatus()) && string.equals(packages.getProjectStatus())) {
+	    			  jsonObj.put("isZJT", true);
+	    			  break;
+	    		  }
+	    	  }
+	      }
 	      
 	      List<PurchaseInfo> purchaseInfo = new ArrayList<>();
          //获取当前项目所属机构人员

@@ -973,11 +973,21 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
             	dictionaryData.setDescription(project.getId());
             }
 		} else if ("CGLC_GYSQD".equals(code)){
-			dictionaryData.setUpdatedAt(project.getBidDate());
-			dictionaryData.setDescription(project.getId());
+			SaleTender saleTender = new SaleTender();
+            saleTender.setPackages(packages.getId());
+			List<SaleTender> packegeSupplier = saleTenderMapper.getPackegeSupplier(saleTender);
+			if (packegeSupplier != null && !packegeSupplier.isEmpty()) {
+				dictionaryData.setUpdatedAt(project.getBidDate());
+				dictionaryData.setDescription(project.getId());
+			}
 		} else if ("CGLC_KB".equals(code)){
-			dictionaryData.setUpdatedAt(project.getBidDate());
-			dictionaryData.setDescription(project.getId());
+			SaleTender saleTender = new SaleTender();
+            saleTender.setPackages(packages.getId());
+			List<SaleTender> packegeSupplier = saleTenderMapper.getPackegeSupplier(saleTender);
+			if (packegeSupplier != null && !packegeSupplier.isEmpty()) {
+				dictionaryData.setUpdatedAt(project.getBidDate());
+				dictionaryData.setDescription(project.getId());
+			}
 		} else if ("CGLC_CGXMPS".equals(code)){
             if(packages.getQualificationTime() != null){
             	dictionaryData.setUpdatedAt(packages.getQualificationTime());

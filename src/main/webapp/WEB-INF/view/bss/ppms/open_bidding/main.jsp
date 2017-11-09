@@ -254,6 +254,77 @@
 	});
 	}
 	
+	var indexRecheck;
+	function dnoneZJT(id){
+		$.ajax({
+			url: "${pageContext.request.contextPath}/open_bidding/dnoneZJT.html",
+			data: {
+				"projectId": id
+			},
+			type: "post",
+			async: false,
+			dataType: "json",
+			success: function(data) {
+					if(data.rules != null){
+						var split = data.rules.split(";");
+						var html="";
+						$("#openDiv_recheck").empty();
+						for(var i=0;i<split.length;i++){
+							var split2=split[i].split(",");
+							html+='<div class=" mt10 fl ml10"><input type="checkbox" value="'+split2[0]+'" name="packIds" />'+split2[1]+'</div>';
+						}
+						$("#openDiv_recheck").append(html);
+						
+						indexRecheck = layer.open({
+						  	    shift: 1, //0-6的动画形式，-1不开启
+						  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+						  	    title: ['提示','border-bottom:1px solid #e5e5e5'],
+						  	    shade:0.01, //遮罩透明度
+							  		type : 1,
+							  		area : [ '30%', '200px'  ], //宽高
+							  		content : $('#openDivRecheck'),
+						});
+					}else {
+						layer.msg("提交失败");
+					}
+			}
+		});
+	}
+	
+	function jzxtpRecheck(){
+		var id = [];
+	 	$('input[name="packIds"]:checked').each(function() {
+      id.push($(this).val());
+    });
+    id.join(",");
+    indexAudit = layer.open({
+  	    shift: 1, //0-6的动画形式，-1不开启
+  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+  	    title: ['提示','border-bottom:1px solid #e5e5e5'],
+  	    shade:0.01, //遮罩透明度
+	  		type : 2,
+	  		area : [ '30%', '400px'  ], //宽高
+	  		content : '${pageContext.request.contextPath}/packageAdvice/auditFile.do?pachageIds=' + id + '&projectId=${project.id}' + '&currHuanjieId='+$("#currHuanjieId").val() + '&type=2',
+			});
+    /* $.ajax({
+			url: "${pageContext.request.contextPath}/packageAdvice/recheck.html",
+			data: {
+				"packageIds": id.join(",")
+			},
+			type: "post",
+			async: false,
+			dataType: "text",
+			success: function(data) {
+				if(data == "ok"){
+					layer.msg("提交成功");
+					layer.close(indexRecheck);
+				} else {
+					layer.msg("提交失败");
+				}
+			}
+		}); */
+	}
+	
 	function cancels(){
   		saveSumitFlow($("#currHuanjieId").val(),"${project.id}");
   		layer.closeAll();
@@ -371,6 +442,7 @@
           <%-- <button class="btn btn-windows delete" onclick="abandoned('${project.id}');" type="button">废标</button> --%>
           <button class="btn btn-windows back" onclick="back();" type="button">返回列表</button>
           <button class="btn btn-windows end bgred" onclick="termination('${project.id}');" type="button">终止</button>
+          <button class="btn btn-windows end bgred dnone" id="dnoneZJT" onclick="dnoneZJT('${project.id}');" type="button">转竞谈</button>
         </div>
         </div>
         
@@ -403,6 +475,15 @@
         <input class="btn" id="jzxtp" name="addr" type="button" onclick="upddatejzxtp();" value="转为竞争性谈判"> 
         <input class="btn" id="inputa" name="addr" type="button" onclick="bynSub();" value="终止实施"> 
         <input class="btn" id="inputa" name="addr" type="button" onclick="cancels();" value="继续实施"> 
+      </div>
+      <div class="clear"></div>
+    </div>
+    
+    <div id="openDivRecheck" class="dnone layui-layer-wrap p20">
+    	<div class="tc ">请选择要转竞谈复审的包！</div>
+      <div class="tc mt20" id="openDiv_recheck"></div>
+      <div class="tc mt50">
+        <input class="btn" id="jzxtpRecheck" name="jzxtpRecheck" type="button" onclick="jzxtpRecheck();" value="竞争性谈判审核"> 
       </div>
       <div class="clear"></div>
     </div>

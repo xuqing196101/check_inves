@@ -119,6 +119,18 @@ public class PackageAdviceController extends BaseController {
 		return StaticVariables.FAILED;
 	}
 	
+	/**
+	 * 
+	* @Title: audit
+	* @author FengTian 
+	* @date 2017-11-7 上午10:40:40  
+	* @Description: 去审核页面 
+	* @param @param code
+	* @param @param status
+	* @param @param model
+	* @param @return      
+	* @return String
+	 */
 	@RequestMapping("/audit")
 	public String audit(String code, String status, Model model){
 		if (StringUtils.isNotBlank(code)) {
@@ -134,51 +146,76 @@ public class PackageAdviceController extends BaseController {
 		return "bss/ppms/packageAdvice/audit";
 	}
 	
+	/**
+	 * 
+	* @Title: pass
+	* @author FengTian 
+	* @date 2017-11-7 上午10:40:27  
+	* @Description: 审核通过 
+	* @param @param user
+	* @param @param code
+	* @param @param projectId
+	* @param @return      
+	* @return String
+	 */
 	@RequestMapping("/pass")
 	@ResponseBody
-	public String pass(@CurrentUser User user, String code, String projectId){
-		if (StringUtils.isNotBlank(projectId) && StringUtils.isNotBlank(code)) {
-			HashMap<String, Object> map = new HashMap<>();
-			map.put("code", code);
-			List<PackageAdvice> find = service.find(map);
-			if (find != null && !find.isEmpty()) {
-				List<String> packId = new ArrayList<String>();
-				String currentFlowDefineId = null;
-				for (PackageAdvice advice : find) {
-					packId.add(advice.getPackageId());
-					currentFlowDefineId = advice.getFlowDefineId();
+	public String pass(@CurrentUser User user, String code, String projectId, String packId){
+		if (StringUtils.isNotBlank(projectId) && StringUtils.isNotBlank(code) && StringUtils.isNotBlank(packId)) {
+			String[] packIds = packId.split(StaticVariables.COMMA_SPLLIT);
+			String currentFlowDefineId = null;
+			for (String string : packIds) {
+				HashMap<String, Object> map = new HashMap<>();
+				map.put("code", code);
+				map.put("packageId", string);
+				List<PackageAdvice> find = service.find(map);
+				if (find != null && !find.isEmpty()) {
+					for (PackageAdvice advice : find) {
+						currentFlowDefineId = advice.getFlowDefineId();
+					}
+					service.update(user, find, null, 3);
 				}
-				if (packId != null && !packId.isEmpty() && currentFlowDefineId != null) {
-					String packageIds = StringUtils.join(packId, StaticVariables.COMMA_SPLLIT);
-					terminationService.updateTermination(packageIds, projectId, currentFlowDefineId, currentFlowDefineId, "JZXTP");
-				}
-				service.update(user, find, null, 3);
 			}
-			return StaticVariables.SUCCESS;
-		} else {
-			return StaticVariables.FAILED;
+			if (currentFlowDefineId != null) {
+				//terminationService.updateTermination(packId, projectId, currentFlowDefineId, currentFlowDefineId, "JZXTP");
+				return StaticVariables.SUCCESS;
+			}
 		}
+		return StaticVariables.FAILED;
 	}
 	
+	/**
+	 * 
+	* @Title: noPass
+	* @author FengTian 
+	* @date 2017-11-7 上午10:40:18  
+	* @Description: 审核不通过 
+	* @param @param user
+	* @param @param code
+	* @param @param projectId
+	* @param @param removedReason
+	* @param @return      
+	* @return String
+	 */
 	@RequestMapping(value="/noPass",produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String noPass(@CurrentUser User user, String code, String projectId, String removedReason){
-		if (StringUtils.isNotBlank(projectId) && StringUtils.isNotBlank(code) && StringUtils.isNotBlank(removedReason)) {
-			HashMap<String, Object> map = new HashMap<>();
-			map.put("code", code);
-			List<PackageAdvice> find = service.find(map);
-			if (find != null && !find.isEmpty()) {
-				service.update(user, find, removedReason, 4);
-				
-				for (PackageAdvice packageAdvice : find) {
-					Packages packages = packageService.selectByPrimaryKeyId(packageAdvice.getPackageId());
-					if (packages != null) {
-						packages.setProjectStatus(DictionaryDataUtil.getId("ZJTSHBTG"));
-						packageService.updateByPrimaryKeySelective(packages);
-					}
+	public String noPass(@CurrentUser User user, String code, String projectId, String removedReason, String packId){
+		if (StringUtils.isNotBlank(projectId) && StringUtils.isNotBlank(code) && StringUtils.isNotBlank(removedReason) && StringUtils.isNotBlank(packId)) {
+			String[] packIds = packId.split(StaticVariables.COMMA_SPLLIT);
+			for (String string : packIds) {
+				HashMap<String, Object> map = new HashMap<>();
+				map.put("code", code);
+				map.put("packageId", string);
+				List<PackageAdvice> find = service.find(map);
+				if (find != null && !find.isEmpty()) {
+					service.update(user, find, removedReason, 4);
+				}
+				Packages packages = packageService.selectByPrimaryKeyId(string);
+				if (packages != null) {
+					packages.setProjectStatus(DictionaryDataUtil.getId("ZJTSHBTG"));
+					packageService.updateByPrimaryKeySelective(packages);
 				}
 			}
-			
 			return StaticVariables.SUCCESS;
 		} else {
 			return StaticVariables.FAILED;
@@ -195,5 +232,16 @@ public class PackageAdviceController extends BaseController {
 		model.addAttribute("currHuanjieId", currHuanjieId);
 		model.addAttribute("type", type);
 		return "bss/ppms/packageAdvice/upload";
+	}
+	
+	@RequestMapping("/recheck")
+	@ResponseBody
+	public String recheck(String packageIds){
+		if (StringUtils.isNotBlank(packageIds)) {
+			service.recheck(packageIds);
+			return StaticVariables.SUCCESS;
+		} else {
+			return StaticVariables.FAILED;
+		}
 	}
 }

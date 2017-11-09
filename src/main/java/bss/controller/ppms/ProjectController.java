@@ -1451,6 +1451,13 @@ public class ProjectController extends BaseController {
                 project.setPurchaseDepId(orgnization.getName());
                 project.setPurchaseType(findById.getName());
                 
+                if (StringUtils.isNotBlank(project.getPurchaseNewType())) {
+                	DictionaryData data = DictionaryDataUtil.findById(project.getPurchaseNewType());
+                	if (data != null) {
+                		project.setPurchaseNewType(data.getName());
+					}
+				}
+                
                 //获取任务的受领时间
                 HashMap<String, Object> map = new HashMap<>();
                 if(StringUtils.isNotBlank(project.getParentId()) && !"1".equals(project.getParentId())){
@@ -1541,27 +1548,6 @@ public class ProjectController extends BaseController {
                 }
                 
                 
-                //如果项目状态为开标唱标，就不让他保存
-                Project project2 = projectService.selectById(projectId);
-                FlowDefine flowDefine = new FlowDefine();
-                flowDefine.setCode("GYSQD");
-                flowDefine.setPurchaseTypeId(project2.getPurchaseType());
-                List<FlowDefine> defines = flowMangeService.find(flowDefine);
-                String erro = null;
-                if(defines != null && defines.size() > 0){
-                    FlowExecute flowExecute = new FlowExecute();
-                    flowExecute.setFlowDefineId(defines.get(0).getId());
-                    flowExecute.setProjectId(project2.getId());
-                    flowExecute.setStep(defines.get(0).getStep());
-                    List<FlowExecute> executes = flowMangeService.findFlowExecute(flowExecute);
-                    for (FlowExecute flowExecute2 : executes) {
-                        if(flowExecute2.getStatus() == 3 ){
-                            erro = "1";
-                            break;
-                        }
-                    }
-                }
-                model.addAttribute("erro", erro);
                 model.addAttribute("findById", findById);
                 model.addAttribute("project", project);
             }
@@ -3564,28 +3550,28 @@ public class ProjectController extends BaseController {
     @RequestMapping("/ifSubPackage")
     @ResponseBody
     public String ifSubPackage(String projectId){
-      if(StringUtils.isNotBlank(projectId)){
-        Project project = projectService.selectById(projectId);
-        if(project != null){
-          List<ProjectDetail> viewDetail = detailService.viewDetail(projectId);
-            //是否有底层明细，没有的话进else
-            if(viewDetail != null && viewDetail.size() > 0){
-              return StaticVariables.ORG_TYPE_PURCHASE;
-            }else{
-                return StaticVariables.ORG_TYPE_MANAGE;
-              }
-            /*HashMap<String,Object> maps=new HashMap<String, Object>();
-            maps.put("parentId", project.getId());
-            List<Project> pList=projectService.lists(maps);
-            if(pList!=null&&pList.size()>0){
-              List<ProjectDetail> viewDetail = detailService.viewDetail(projectId);
-              //是否有底层明细，没有的话进else
-              if(viewDetail != null && viewDetail.size() > 0){
-                return StaticVariables.ORG_TYPE_PURCHASE;
-              }*/
-        } 
-      }
-      return StaticVariables.ORG_TYPE_MANAGE;
+    	if(StringUtils.isNotBlank(projectId)){
+    		Project project = projectService.selectById(projectId);
+    		if(project != null){
+    			List<ProjectDetail> viewDetail = detailService.viewDetail(projectId);
+    			//是否有底层明细，没有的话进else
+    			if(viewDetail != null && viewDetail.size() > 0){
+    				return StaticVariables.ORG_TYPE_PURCHASE;
+    			}else{
+    				return StaticVariables.ORG_TYPE_MANAGE;
+    			}
+	            /*HashMap<String,Object> maps=new HashMap<String, Object>();
+	            maps.put("parentId", project.getId());
+	            List<Project> pList=projectService.lists(maps);
+	            if(pList!=null&&pList.size()>0){
+	              List<ProjectDetail> viewDetail = detailService.viewDetail(projectId);
+	              //是否有底层明细，没有的话进else
+	              if(viewDetail != null && viewDetail.size() > 0){
+	                return StaticVariables.ORG_TYPE_PURCHASE;
+	              }*/
+    		} 
+    	}
+    	return StaticVariables.ORG_TYPE_MANAGE;
     }
 
     @RequestMapping("/hold")

@@ -3836,6 +3836,29 @@ public class OpenBiddingController extends BaseSupplierController{
 	  }
   }
   
+  @RequestMapping("/dnoneZJT")
+  public void dnoneZJT(HttpServletResponse response, String projectId){
+	  if (StringUtils.isNotBlank(projectId)) {
+		  JSONObject jsonObj = new JSONObject();
+		  HashMap<String, Object> map = new HashMap<>();
+		  map.put("projectId", projectId);
+		  List<Packages> findByID = packageService.findByID(map);
+		  if (findByID != null && !findByID.isEmpty()) {
+			  StringBuffer buffer = new StringBuffer();
+			  String id = DictionaryDataUtil.getId("ZJTSHBTG");
+			  for (Packages packages : findByID) {
+				  if (StringUtils.isNotBlank(packages.getProjectStatus()) && id.equals(packages.getProjectStatus())) {
+					  buffer.append(packages.getId()+","+packages.getName()+";");
+				  }
+			  }
+			  if(buffer != null && buffer.length()>0){
+				  jsonObj.put("rules", buffer.toString().substring(0,buffer.toString().length()-1));
+			  }
+		  }
+		  this.writeJson(response, jsonObj);
+	  }
+  }
+  
   @RequestMapping("/projectApproval")
   public String projectApprovalPage(@CurrentUser User currLoginUser,Model model, String projectId ,String flowDefineId,String msg){
     Project project = projectService.selectById(projectId);

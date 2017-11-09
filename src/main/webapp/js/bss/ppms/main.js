@@ -78,6 +78,9 @@ $(function() {
 					$("#nextHaunjie").hide();
 					$("#updateOperateId").hide();
 				}
+				if(data.isZJT){
+					$("#dnoneZJT").removeClass("dnone");
+				}
 			}
 		}
 	});
