@@ -26,7 +26,7 @@ public class IdentityCode {
 	/** 验证码个数 */
 	private int codeCount = 4;
 	/** 验证码干扰线数 */
-	private int lineCount = 20;
+	private int lineCount = 10;
 	/** 验证码 */
 	private String code = null;
 	/** 验证码图片Buffer */
@@ -78,7 +78,7 @@ public class IdentityCode {
 		Graphics g = buffImg.getGraphics();
 		// Graphics2D g = buffImg.createGraphics();
 		/** 设置背景颜色 */
-		g.setColor(getRandColor(200, 250));
+		g.setColor(getRandColor(230, 250));
 		g.fillRect(0, 0, width, height);
 
 		/** 设置字体 */
