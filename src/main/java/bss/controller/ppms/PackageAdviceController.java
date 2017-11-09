@@ -177,7 +177,7 @@ public class PackageAdviceController extends BaseController {
 				}
 			}
 			if (currentFlowDefineId != null) {
-				//terminationService.updateTermination(packId, projectId, currentFlowDefineId, currentFlowDefineId, "JZXTP");
+				terminationService.updateTermination(packId, projectId, currentFlowDefineId, currentFlowDefineId, "JZXTP");
 				return StaticVariables.SUCCESS;
 			}
 		}
