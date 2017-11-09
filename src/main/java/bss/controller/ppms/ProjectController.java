@@ -1461,31 +1461,9 @@ public class ProjectController extends BaseController {
                 }
                 
                 //获取需求提报时间
-                HashMap<String, Object> map1 = new HashMap<String, Object>();
-                map1.put("id", projectId);
-                List<ProjectDetail> details = detailService.selectById(map1);
-                HashSet<String> set = new HashSet<>();
-                if(details != null && details.size() > 0){
-                    for (ProjectDetail projectDetail : details) {
-                        PurchaseDetail detail = purchaseDetailService.queryById(projectDetail.getRequiredId());
-                        set.add(detail.getFileId());
-                    }
-                }
-                List<PurchaseRequired> requireds = new ArrayList<PurchaseRequired>();
-                for (String string : set) {
-                    HashMap<String, Object> st = new HashMap<>();
-                    st.put("fileId", string);
-                    List<PurchaseRequired> byMap = purchaseRequiredService.getByMap(st);
-                    for (PurchaseRequired purchaseRequired : byMap) {
-                        if("1".equals(purchaseRequired.getParentId())){
-                            requireds.add(purchaseRequired);
-                            break;
-                        }
-                    }
-                }
-                if(requireds != null && requireds.size() > 0){
-                    sortDated(requireds);
-                    model.addAttribute("auditDate", requireds.get(requireds.size()-1).getCreatedAt());
+                List<PurchaseRequired> selectByCreatedAt = purchaseRequiredService.selectByCreatedAt(projectId);
+                if(selectByCreatedAt != null && selectByCreatedAt.size() > 0){
+                    model.addAttribute("auditDate", selectByCreatedAt.get(0).getCreatedAt());
                 }
                 
                 //查看项目分包信息，没有进else
@@ -1501,11 +1479,13 @@ public class ProjectController extends BaseController {
                     }
                     model.addAttribute("packageList", packages);
                 }else{
-                    HashMap<String, Object> mapNew = new HashMap<>();
+                	HashMap<String, Object> map1 = new HashMap<String, Object>();
+                    map1.put("id", projectId);
                     List<ProjectDetail> detail = detailService.selectById(map1);
                     List<ProjectDetail> details2 = new ArrayList<ProjectDetail>();
                     if(detail != null && detail.size() > 0){
                         for (ProjectDetail projectDetail : detail) {
+                        	HashMap<String, Object> mapNew = new HashMap<>();
                             mapNew.put("id",projectDetail.getRequiredId());
                             mapNew.put("projectId", projectId);
                             List<ProjectDetail> listNews = detailService.selectByParentId(mapNew);
