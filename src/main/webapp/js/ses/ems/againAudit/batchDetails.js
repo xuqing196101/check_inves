@@ -300,7 +300,8 @@
                 btn = '<button type="button" class="btn w100p mr0 mb5" onclick="expert_auditBatch(\''+ root_url +'\', \''+ list_content.list.list[i].expertId +'\')">复审</button>' + btn;
               }
               
-              $('#list_content').append('<tr><input id="'+ list_content.list.list[i].expertId +'" type="hidden">'
+              $('#list_content').append('<tr>'
+                +'<input type="hidden" name="expertId" value="'+ list_content.list.list[i].expertId +'">'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].batchDetailsNumber +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].orgName +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].realName +'</td>'

@@ -51,7 +51,6 @@
     <!-- 表格开始-->
    
     <div class="col-md-12 pl20 pr0 mt10 mb10" id="btn_group">
-      
       <div class="fr pic_upload">
         <div class="fl h30 lh30">上传批准复审表：</div>
         <u:upload id="pic_checkword" businessId="${batchId}" sysKey="3" typeId="da6ab7e73b8d464d8d8d46013dd70e43" buttonName="上传彩色扫描件" auto="true" multiple="true"/>
@@ -82,7 +81,7 @@
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/batchDetails.js"></script>
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
   <script>
-  	var batchId='${batchId}';
+  	var batchId = '${batchId}';
     var root_url = '${pageContext.request.contextPath}';  // 根目录地址
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/findBatchDetails.do';  // 列表地址
     var audit_url = '${pageContext.request.contextPath}/expertAgainAudit/checkGroupStatus.do';  // 校验地址
@@ -95,6 +94,16 @@
         data: {
           batchId: batchId
         }
+      });
+      
+      var position = '';
+      $('#list_content tr').each(function () {
+        if (getUrlParam('expertId') == $(this).find('input[name="expertId"]').val()) {
+          position = $(this).offset().top;
+        }
+      });
+      $('html, body').animate({
+        scrollTop: position
       });
     });
     

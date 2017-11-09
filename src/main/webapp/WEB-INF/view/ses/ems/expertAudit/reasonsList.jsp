@@ -499,62 +499,6 @@
         });
     }
 </script>
-
-<script type="text/javascript">
-  <!--预复审结束-->
-	function preReviewEnd(status){
-	  var expertId = $("input[name='expertId']").val();
-	  //var batchId = $("input[name='batchId']").val();
-     if(status == null){
-       var status = $(":radio:checked").val().trim();
-       if(status == null){
-         layer.msg("请选择意见", {offset: '100px'});
-         return true;
-       }
-     }
-     $("#status").val(status);
-     
-      //校验
-     var flag = vartifyAuditCount();
-     if(flag){
-         return;
-     }
-     
-      $.ajax({
-            url: "${pageContext.request.contextPath}/expertAudit/updateStatusOfPublictity.do",
-            data: $("#form_shenhe").serialize(),
-            success: function (data) {
-              if(data.status == 200){
-                  $("#expertStatus").val(data.data);
-              }
-            }
-       });
-       // 获取审核意见
-       var opinion  = $("#opinion").val();
-       // 获取选择radio类型
-       var selectOption = $("input[name='selectOption']:checked").val();
-       // 将审核意见表单赋值
-       $("#opinionId").val(opinion);
-       $("#flagTime").val(1);
-       $("#flagAudit").val(selectOption);
-        // 审核意见通过。。
-        var cate_result = $("#cate_result").html();
-        $("#cateResult").val(cate_result);
-       $.ajax({
-           url:globalPath + "/expertAudit/saveAuditOpinion.do",
-           type: "POST",
-           async :false,
-           data:$("#opinionForm").serialize(),
-           dataType:"json",
-           success:function (data) {
-         	  if(data.status == 200){
-         		  location.href = "${pageContext.request.contextPath}/expertAgainAudit/findBatchList.html";
-               }
-           }
-       });
-	}
-
-</script>
 </head>
 
 <body>
@@ -844,5 +788,88 @@
   <input name="tableType" type="hidden" value=""/>
 </form>
 <input id="isGoodsServer" type="hidden" value="${isGoodsServer}"/>
+
+  <script>
+    $(function () {
+      $('#expert_position').val(getUrlParam('position'));
+    });
+    
+    // 预复审结束
+    function preReviewEnd(status) {
+      var expertId = $("input[name='expertId']").val();
+      //var batchId = $("input[name='batchId']").val();
+      if(status == null){
+        var status = $(":radio:checked").val().trim();
+        if(status == null){
+          layer.msg("请选择意见", {offset: '100px'});
+          return true;
+        }
+      }
+      
+      $("#status").val(status);
+       
+      //校验
+      var flag = vartifyAuditCount();
+      if(flag) {
+        return;
+      }
+       
+      $.ajax({
+        url: "${pageContext.request.contextPath}/expertAudit/updateStatusOfPublictity.do",
+        data: $("#form_shenhe").serialize(),
+        success: function (data) {
+          if(data.status == 200){
+            $("#expertStatus").val(data.data);
+          }
+        }
+      });
+      // 获取审核意见
+      var opinion = $("#opinion").val();
+      // 获取选择radio类型
+      var selectOption = $("input[name='selectOption']:checked").val();
+      // 将审核意见表单赋值
+      $("#opinionId").val(opinion);
+      $("#flagTime").val(1);
+      $("#flagAudit").val(selectOption);
+      // 审核意见通过。。
+      var cate_result = $("#cate_result").html();
+      $("#cateResult").val(cate_result);
+      $.ajax({
+        url:globalPath + "/expertAudit/saveAuditOpinion.do",
+        type: "POST",
+        async :false,
+        data:$("#opinionForm").serialize(),
+        dataType:"json",
+        success:function (data) {
+          if(data.status == 200) {
+            // location.href = "${pageContext.request.contextPath}/expertAgainAudit/findBatchList.html";
+            refresh_parent();
+          }
+        }
+      });
+    }
+    
+    function refresh_parent() {
+      window.opener.location.href = changeURLArg(window.opener.location.href, 'expertId', $("input[name='expertId']").val());
+      window.close();
+    }
+    
+    function changeURLArg(url,arg,arg_val){ 
+      var pattern = arg+'=([^&]*)';
+      var replaceText = arg+'='+arg_val;
+      if(url.match(pattern)) {
+        var tmp = '/('+ arg+'=)([^&]*)/gi';
+        tmp = url.replace(eval(tmp),replaceText);
+        return tmp;
+      } else {
+        if(url.match('[\?]')) {
+          return url+'&'+replaceText;
+        } else {
+          return url+'?'+replaceText;
+        }
+      }
+      return url+'\n'+arg+'\n'+arg_val;
+    }
+  </script>
 </body>
 </html>
