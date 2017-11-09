@@ -100,7 +100,7 @@ public class PackageAdviceController extends BaseController {
 	
 	@RequestMapping("/saveAudit")
 	@ResponseBody
-	public String saveAudit(String projectId, String packageIds, String advice, String flowDefineId, String auditCode, String type) {
+	public String saveAudit(@CurrentUser User user, String projectId, String packageIds, String advice, String flowDefineId, String auditCode, String type) {
 		if (StringUtils.isNotBlank(projectId) && StringUtils.isNotBlank(packageIds) && StringUtils.isNotBlank(type)
 				&& StringUtils.isNotBlank(flowDefineId) && StringUtils.isNotBlank(auditCode)) {
 			if (StringUtils.isNotBlank(advice)) {
@@ -110,7 +110,7 @@ public class PackageAdviceController extends BaseController {
 				} else {
 					return ERRO_FILE;
 				}*/
-				service.savaAudit(projectId, packageIds, advice, flowDefineId, auditCode, type);
+				service.savaAudit(projectId, packageIds, advice, flowDefineId, auditCode, type, user.getId());
 				return StaticVariables.SUCCESS;
 			} else {
 				return ERRO_ADVICE;

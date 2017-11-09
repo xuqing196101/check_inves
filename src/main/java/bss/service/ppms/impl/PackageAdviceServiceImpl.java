@@ -85,7 +85,7 @@ public class PackageAdviceServiceImpl implements PackageAdviceService {
 	private static final Integer ZJZXTP = 2;
 	
 	@Override
-	public void savaAudit(String projectId, String packageIds, String advice, String flowDefineId, String auditCode, String type) {
+	public void savaAudit(String projectId, String packageIds, String advice, String flowDefineId, String auditCode, String type, String userId) {
 		String[] packageId = packageIds.split(StaticVariables.COMMA_SPLLIT);
 		if (packageId.length > 0) {
 			PackageAdvice packageAdvice = null; 
@@ -114,6 +114,7 @@ public class PackageAdviceServiceImpl implements PackageAdviceService {
 				packageAdvice.setCode(auditCode);
 				packageAdvice.setCreatedAt(new Date());
 				packageAdvice.setIsDeleted(0);
+				packageAdvice.setProposer(userId);
 				mapper.insert(packageAdvice);
 				
 				if ("2".equals(type)) {
