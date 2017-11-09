@@ -90,7 +90,7 @@ function selectArea(obj){
 	}
 	if(provinceId == ''){
 		$(obj).next().empty();
-		$(obj).next().append("<option value=''>选择地区</option>");
+		$(obj).next().append("<option value='0'>全部</option>");
         return;
 	}
 	$.ajax({
@@ -100,7 +100,7 @@ function selectArea(obj){
         dataType: "json",
         success: function (data) {
         	$(obj).next().empty();
-        	$(obj).next().append("<option value=''>选择地区</option>");
+        	$(obj).next().append("<option value='0'>全部</option>");
         	for(var i=0;i<data.length;i++){
         		city += "<option value="+data[i].id+">"+data[i].name+"</option>";
         	}
@@ -298,13 +298,13 @@ function selectLikeSupplier() {
 function checkEmptyAndspace(ele,count){
 	if(!ele.value){
 		count++;
-		$(ele).parents("li").find(".cue").html("不能为空");
+		$(ele).parents("li").find("#"+ele.name+"Error").html("不能为空");
 	}else{
 		if(ele.value.split(" ").length>1 && $(ele).attr("id")!="sellBegin" && $(ele).attr("id")!="sellEnd"){
-			$(ele).parents("li").find(".cue").html("不能包含空格");
+			$(ele).parents("li").find("#"+ele.name+"Error").html("不能包含空格");
 			count ++ ;
 		}else{
-			$(ele).parents("li").find(".cue").html("");
+			$(ele).parents("li").find("#"+ele.name+"Error").html("");
 		}
 	}
 	return count;
@@ -318,7 +318,7 @@ function checkEmpty(){
 	var count = 0;
 	$(".star_red").each(function(){
 		$($(this).parents("li").find("input")).each(function(index, ele){
-			$(ele).parents("li").find(".cue").html("");
+			$(ele).parents("li").find("#"+ele.name+"Error").html("");
 			count = checkEmptyAndspace(ele,count);
 		});
 		
