@@ -22,11 +22,9 @@
 <meta name="author" content="">
 <script type="text/javascript">
     var key;
-    var zTreeObj = "";
-    var zNodes = "";
-    var categoryId="";
-    var tempCate = new Array();
-    var tempParent= new Array();
+    var zTreeObj;
+    var zNodes;
+    var categoryId;
     $(function() {
       
       categoryId = sessionStorage.getItem("categoryId");
@@ -111,14 +109,13 @@
           .bind("propertychange", searchNode)
           .bind("input", searchNode);
       }
-      
+    
     //选中时回调
     function checkNode(event,treeId,treeNode){
     	var treeObj=$.fn.zTree.getZTreeObj("ztree");
-    	//当前节点取消选中，递归取消父节点选中状态
 		dischecked(treeNode,treeObj);
+		
 		if(treeNode.checked){
-			//子节点全部选中，父节点选中
 			checkAllChildCheckParent(treeNode,treeObj);
 		}
     }
@@ -211,6 +208,8 @@
     	return	flag;
  	}   
     
+    
+    
 //选中父节点，勾选子节点
   function ajaxDataFilter(treeId, parentNode, responseData){
 	if(typeof(parentNode)!="undefined"){
@@ -276,87 +275,43 @@
       };
     }
 
-  var temp = new Array();
+  
   //获取选中子节点id
   function getChildren(cate){
   	var typeCode = $(cate).attr("typeCode");
     var Obj=$.fn.zTree.getZTreeObj("ztree");  
     var nodes=Obj.getCheckedNodes(true);  
-    var cateName = new Array();
-    var cateId = new Array();
-    
+    var ids  = "";
+    var names = "";
+    var parentId = "";
+    var parentName="";
     for(var i=0;i<nodes.length;i++){ 
-	    //判断当前节点不存在存在于temp集合 就添加到cate集合中
-	    if(!contains(temp,nodes[i].id)){
-	    	cateId.push(nodes[i].id);
-	    	cateName.push(nodes[i].name);
-	    	//若是父节点查询当前的节点的所有子节点
-	    	temp.push(nodes[i].id);
-	    	if(nodes[i].isParent){
-	    		//递归其全部子节点
-	    		selectAllChildNode(nodes[i]);
-	    	}
-	    }
+         if(!nodes[i].isParent){
+          //获取选中节点的值  
+         	ids+=nodes[i].id+","; 
+            names+=nodes[i].name+",";
+         }else{
+       		parentId += nodes[i].id+",";
+       		parentName+=nodes[i].name+",";
+         }
      } 
         //是否满足
        var issatisfy=$('input[name="radio"]:checked ').val();
+       var cname = parentName+names;
        if("PROJECT"!=typeCode){
-           $(cate).parents("li").find(".parentId").val(cateId.toString());
+           $(cate).parents("li").find(".categoryId").val(ids.substring(0,ids.lastIndexOf(",")));
+           $(cate).parents("li").find(".parentId").val(parentId.substring(0,parentId.lastIndexOf(",")));
        }else{
        		var ppid = modifParentOrChild(nodes);
        		$(cate).parents("li").find(".categoryId").val(ppid.substring(0,ppid.lastIndexOf(",")));
        }
            $(cate).parents("li").find(".isSatisfy").val(issatisfy);
-           $(cate).val(cateName.toString());/* 将选中目录名称显示在输入框中 */
+           $(cate).val(cname.substring(0,cname.lastIndexOf(",")));/* 将选中目录名称显示在输入框中 */
+           
+           
        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
        parent.layer.close(index);
-  } 
-  
-  //判断数组中是否包含此元素
-  function contains (arr,val) {
-    for (i in arr) {
-      if (arr[i] == val) 
-      return true;
-    }
-    return false;
-  }
-  
-  //递归处理选中数据，去除以选中父节点的子节点id
-   function excludeChildId(ids){
- 		if(ids.length>0){
- 			for ( var int = 0; int < ids.length; int++) {
-				var id = ids[int];
-				//获取当前id的全部子节点集合
-				
-				//
-			}
- 		}
-   }
-  
-  //递归子节点
-  function selectAllChildNode(node){
-  	var childNode = node.children;
-  	if(childNode && childNode.length>0){
-	  	for(var i=0;i<childNode.length;i++){
-	  	if(childNode[i].checked){
-		  	temp.push(childNode[i].id);
-		  		if(childNode[i].isParent){
-		  			selectAllChildNode(childNode[i]);
-		  		}
-		  	}
-	  	}
-  	}
-  }
-   //删除数组中元素
-  function removeByValue(arr, val) {
-  	for(var i=0; i<arr.length; i++) {
-      if(arr[i] == val) {
-     	arr.splice(i, 1);
-     	break;
-      }
-  	}
-  }
-  
+  }     
   function resetQuery(){
 	  alert("sds");
 //       $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("10");
