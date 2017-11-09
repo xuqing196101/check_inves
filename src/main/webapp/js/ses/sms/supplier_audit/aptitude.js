@@ -101,6 +101,7 @@ function findData(type,tablerId,pageNum) {
 		shade : [ 0.1, '#fff' ],
 		offset : [ '40%', '50%' ]
 	});
+	$("#tablerId").val(tablerId);
 	$("[name=supplierType]").val(type);
 	$("#pageNum").val(pageNum);
 	$.ajax({
@@ -476,7 +477,7 @@ function showFrame(tablerId,ind,title,cateTree,flng,id,secondNode,secondNodeId){
 		}
 		layer.open({
 		  type: 2, // page层
-		  area: ['880px', '330px'],
+		  area: ['880px', '380px'],
 		  title: title,
 		  closeBtn: 1,
 		  shade: 0.01, // 遮罩透明度

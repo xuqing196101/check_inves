@@ -192,7 +192,7 @@
   width: 92%; }
   
 .w100p {
-  width: 100%; }
+  width: 100% !imortant; }
 
 /*高度*/
 .h15 {
@@ -1124,4 +1124,40 @@ text-align:center;
 }
 .select2-noborder .select2-container .select2-choice .select2-arrow {
 	border: 1px solid #aaa !important;
+}
+/* 一堆多选框放一起 */
+.m_inputGroup_wrapper {
+  overflow: hidden;
+}
+.m_inputGroup {
+  margin-top: -15px;
+  margin-left: -20px;
+  font-size: 0px;
+  line-height: normal;
+}
+.m_inputGroup label {
+  margin-top: 15px;
+  margin-left: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 0px;
+  line-height: normal;
+  width: 200px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.m_inputGroup label span, .m_inputGroup label input[type="checkbox"] {
+	font-size: 14px;
+  line-height: 14px;
+	display: inline-block;
+  vertical-align: middle;
+}
+.m_inputGroup label span {
+	margin-left: 5px;
+}
+/* 盒子样式s1 */
+.m_boxS1 {
+	border: dashed 1px #d6cccc;
+	padding: 20px;
+	background-color: #FFF;
 }

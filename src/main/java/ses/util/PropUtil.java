@@ -40,11 +40,11 @@ public class PropUtil {
 			logger.error("初始化 Properties 失败");
 		} finally{
 			try {
-				if (inputStream != null) {
-					inputStream.close();
-				}
 				if (streamReader != null) {
 					streamReader.close();
+				}
+				if (inputStream != null) {
+					inputStream.close();
 				}
 			} catch (IOException e) {
 				e.printStackTrace();

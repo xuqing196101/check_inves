@@ -965,12 +965,13 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	    public ResponseEntity < byte[] > downloadExpertReview(String batchId,
 	        HttpServletRequest request, HttpServletResponse response) throws Exception {
 	        // 根据编号查询专家信息
+	    	String name = againAuditService.getbatchName(batchId);
 	    	List<ExpertBatchDetails> list = againAuditService.findBatchDetailsList(batchId);
 	        // 文件存储地址
 	        String filePath = request.getSession().getServletContext()
 	            .getRealPath("/WEB-INF/upload_file/");
 	        // 文件名称
-	        String fileName = createWordMethod(list, request);
+	        String fileName = createWordMethod(list,name, request);
 	        // 下载后的文件名
 	        String downFileName = "专家复审统计表.doc";
 	        if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
@@ -983,9 +984,10 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 
 	        return expertService.downloadFile(fileName, filePath, downFileName);
 	    }
-	 private String createWordMethod(List<ExpertBatchDetails> list, HttpServletRequest request) throws Exception {
+	 private String createWordMethod(List<ExpertBatchDetails> list,String batch, HttpServletRequest request) throws Exception {
 	      /** 用于组装word页面需要的数据 */
 	      Map<String, Object> dataMap = new HashMap<String, Object>();
+	      dataMap.put("batch", batch);
 	      dataMap.put("list", list);
 	      // 文件名称
 	        String fileName = new String(("专家复审统计表.doc").getBytes("UTF-8"),

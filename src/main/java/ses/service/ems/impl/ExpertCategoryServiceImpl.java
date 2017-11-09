@@ -232,7 +232,7 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 	@Override
 	public List<String> selectCateByExpertId(String expertId) {
         // 定义查询条件
-		Map<String, Object> map = new HashedMap();
+		Map<String, Object> map = new HashMap<>();
 		map.put("expertId", expertId);
 		map.put("type", "seven");
 		// 复审不通过的专家类型 2:复审
@@ -255,11 +255,20 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 	 */
     @Override
     public List<ExpertCategory> selectPassCateByExpertId(String expertId, String typeId, Integer pageNum) {
+        // 查询数据词典区别工程专业和工程
+        DictionaryData dictionaryData = DictionaryDataUtil.get("ENG_INFO_ID");
+        String tabName = null;
+        if (dictionaryData != null && dictionaryData.getId().equals(typeId)) {
+            tabName = "T_SES_BMS_ENG_CATEGORY";
+        } else {
+            tabName = "T_SES_BMS_CATEGORY";
+        }
         if (pageNum != null) {
             PageHelper.startPage(pageNum, PropUtil.getIntegerProperty("pageSizeArticle"));
         }
-	    // 定义查询条件
-        Map map = new HashedMap();
+        // 定义查询条件
+        Map<String, Object> map = new HashMap<>();
+        map.put("tabName", tabName);
         map.put("expertId", expertId);
         map.put("typeId", typeId);
         map.put("type", "six");

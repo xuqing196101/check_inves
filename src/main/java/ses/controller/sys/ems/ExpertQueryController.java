@@ -426,6 +426,7 @@ public class ExpertQueryController {
         /*List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);*/
         //只查询审核通过的
         List<ExpertCategory> items = expertCategoryService.selectPassCateByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
+
         List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
         int count=0;
         for (ExpertCategory expertCategory : items) {

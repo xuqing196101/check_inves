@@ -61,7 +61,10 @@ public List<PurchaseDep> getDep() {
 	 */
 	@Override
 	public List<PurchaseDep> findAllOrg() {
-		return purchaseDepMapper.findAllOrg();
+	    Map<String, Object> map = new HashMap<>();
+	    // 设置是否具有审核专家和供应商权限 1：有 0：无
+	    map.put("isAuditSupplier", 1);
+		return purchaseDepMapper.findAllOrg(map);
 	}
 
 	/**

@@ -38,4 +38,5 @@ public interface ExpertAgainAuditService {
 	ExpertAgainAuditImg addBatchTemporary(String expertId,String ids);
 	ExpertAgainAuditImg selectBatchTemporary(Expert expert);
 	ExpertAgainAuditImg deleteBatchTemporary(String ids);
+	String getbatchName(String batchId);
 }

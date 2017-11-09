@@ -51,7 +51,7 @@ public class SupplierItemLevelServiceImpl implements SupplierItemLevelServer {
 	private CategoryMapper categoryMapper;
 
 	@Override
-	public List<SupplierItemLevel> findSupplierItemLevel(SupplierItemLevel supplier, Integer page, String categoryIds) {
+	public List<SupplierItemLevel> findSupplierItemLevel(SupplierItemLevel supplier, Integer page, String categoryIds, String clickCategoryId, String nodeLevel) {
 		List<SupplierItemLevel> rutlist=new ArrayList<SupplierItemLevel>();
 		if(StringUtils.isBlank(supplier.getSupplierTypeId())){
 		 	return rutlist;
@@ -133,7 +133,13 @@ public class SupplierItemLevelServiceImpl implements SupplierItemLevelServer {
 	        */
 	        return supplierItemLevels;
 	    }else{
-	    	return supplierItemLevelMapper.selectByCategoryId(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(), supplier.getSupplierLevelName());
+	    	Integer nLevel = Integer.parseInt(nodeLevel);
+	    	if (nLevel != null && nLevel >= 4) {
+	    		//如果是大于或等于五级的品目，就查其父级四级目录的等级
+				return supplierItemLevelMapper.selectFourCategoryLevelOutfour(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(), supplier.getSupplierLevelName(), clickCategoryId);
+			} else {
+				return supplierItemLevelMapper.selectByCategoryId(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(), supplier.getSupplierLevelName());
+			}
 	    }
 	}
 

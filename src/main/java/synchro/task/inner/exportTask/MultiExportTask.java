@@ -1,15 +1,14 @@
 package synchro.task.inner.exportTask;
 
+import bss.service.ob.OBProductService;
+import bss.service.ob.OBProjectServer;
+import bss.service.ob.OBSupplierService;
+import common.constant.StaticVariables;
 import iss.service.ps.DataDownloadService;
 import iss.service.ps.TemplateDownloadService;
-
-import java.io.File;
-import java.util.Date;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import ses.service.bms.CategoryParameterService;
 import ses.service.bms.CategoryService;
 import ses.service.bms.QualificationService;
@@ -23,11 +22,9 @@ import synchro.util.Constant;
 import synchro.util.DateUtils;
 import synchro.util.FileUtils;
 import synchro.util.MultiTaskUril;
-import bss.service.ob.OBProductService;
-import bss.service.ob.OBProjectServer;
-import bss.service.ob.OBSupplierService;
 
-import common.constant.StaticVariables;
+import java.io.File;
+import java.util.Date;
 
 /***
  * 定时处理多个内网需要导出的数据
@@ -211,13 +208,21 @@ public class MultiExportTask {
             }
             
             /**
-			 *
-			 * Description: 专家公示自动导出数据
-			 *
-			 * @author Easong
-			 * @version 2017/9/11
-			 * @since JDK1.7
-			 */
+             *
+             * Description: 专家公示自动导出数据
+             *
+             * @author Easong
+             * @version 2017/9/11
+             * @since JDK1.7
+
+             */
+            startTime = MultiTaskUril.getSynchDate(Constant.SYNCH_PUBLICITY_EXPERT,recordService);
+            if(StringUtils.isNotBlank(startTime)){
+                startTime = DateUtils.getCalcelDate(startTime);
+                String endTime = DateUtils.getCurrentTime();
+                //专家公示导出数据
+                outerExpertService.selectExpByPublictyOfExport(startTime, endTime);
+            }
 
             /**
              * 供应商注销导出和导入数据
