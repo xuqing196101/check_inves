@@ -926,13 +926,29 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	public ExpertAgainAuditImg selectReviewTeamAll() {
 		// TODO Auto-generated method stub
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
-		List<ExpertReviewTeam> list2 = new ArrayList<ExpertReviewTeam>();
+		List<ExpertReviewTeam> listTemp = new ArrayList<ExpertReviewTeam>();
 		List<ExpertReviewTeam> list = expertReviewTeamMapper.selectReviewTeamAll();
-		Set<ExpertReviewTeam> set = new  LinkedHashSet<ExpertReviewTeam>(list); 
-		list2.addAll(set);
+		 for(int i=0;i<list.size();i++){
+			 	if(list.get(i)!=null){
+			 		boolean s=true;
+				    if(listTemp.size()>0){
+				    	for (ExpertReviewTeam e : listTemp) {
+				    		if(e!=null){
+				    			if(e.toString().equals(list.get(i).toString())){  
+					                s=false;
+					                break;
+					            }
+				    		}
+						}
+				    }
+				 	if(s){
+				 		listTemp.add(list.get(i));  
+				 	}
+			 	}
+	        }  
 		img.setStatus(true);
 		img.setMessage("操作成功");
-		img.setObject(list2);
+		img.setObject(listTemp);
 		return img;
 	} 
 	public List<ExpertBatchDetails> findBatchDetailsList(String batchId) {

@@ -175,9 +175,7 @@
                 },
                 dataType: "json",
                 success: function(response) {
-                    layer.msg("不通过理由:" + response.auditReason, {
-                        offset: ['400px', '730px']
-                    });
+                    layer.msg("不通过理由:" + response.auditReason);
                 }
             });
         }
