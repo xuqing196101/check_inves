@@ -43,6 +43,9 @@
         //还原select下拉列表只需要这一句
       $("#operationType option:selected").removeAttr("selected");
     }
+   function goBack(){
+	   window.location.href = "${pageContext.request.contextPath}/expertBlacklist/blacklist.html";
+   }
 </script>
 </head>
 	<body>
@@ -129,7 +132,7 @@
 			   	<div id="pagediv" align="right"></div>
 			   	<div class="margin-bottom-0 categories">
             <div class="col-md-12 add_regist tc">
-              <a class="btn btn-windows back" onclick="location.href='javascript:history.go(-1);'">返回</a>
+              <a class="btn btn-windows back" onclick="goBack();">返回</a>
             </div>
           </div>
 	      </div>

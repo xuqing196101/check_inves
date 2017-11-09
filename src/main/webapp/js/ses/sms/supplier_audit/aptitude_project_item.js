@@ -120,7 +120,7 @@ function reasonProject(ind, auditField, auditFieldName, certType) {
 		title: '请填写不通过的理由：',
 		value: defaultVal,
 		formType: 2, 
-		offset: '100px',
+		//offset: '100px',
 		maxlength: '100'
 	};
 	if (result && result.status == 1 && result.data) {
@@ -132,6 +132,7 @@ function reasonProject(ind, auditField, auditFieldName, certType) {
 			if (bool) {
 				$("#show_td").attr('src', globalPath+'/public/backend/images/light_icon.png');
 				$("#count").val('0');
+				flushData();
 			}
 		};
 		options.btn3 = function(index) {
@@ -160,17 +161,17 @@ function reasonProject(ind, auditField, auditFieldName, certType) {
 							offset: '100px',
 						});    
 						
-						var aptitudeId=$("#"+tablerId+" #aptitudeId"+ind+"",window.parent.document).val();
+						/*var aptitudeId=$("#"+tablerId+" #aptitudeId"+ind+"",window.parent.document).val();
 						//工程 只有专业资质 要求
-						 $("input[name='"+tablerId+"itemsCheckboxName']",window.parent.document).each(function(){ 
-								var index=$(this).val();
-								var firstNodeId=$("#"+tablerId+" #firstNodeId"+index+"",window.parent.document).val();
-								var secondNodeId=$("#"+tablerId+" #secondNodeId"+index+"",window.parent.document).val();
-								var thirdNodeId=$("#"+tablerId+" #thirdNodeId"+index+"",window.parent.document).val();
-								var fourthNodeId=$("#"+tablerId+" #fourthNodeId"+index+"",window.parent.document).val();
-								if(aptitudeId){
-									var slip=aptitudeId.split(',');
-									$(slip).each(function(inde,value){
+						$("input[name='"+tablerId+"itemsCheckboxName']",window.parent.document).each(function(){
+							var index=$(this).val();
+							var firstNodeId=$("#"+tablerId+" #firstNodeId"+index+"",window.parent.document).val();
+							var secondNodeId=$("#"+tablerId+" #secondNodeId"+index+"",window.parent.document).val();
+							var thirdNodeId=$("#"+tablerId+" #thirdNodeId"+index+"",window.parent.document).val();
+							var fourthNodeId=$("#"+tablerId+" #fourthNodeId"+index+"",window.parent.document).val();
+							if(aptitudeId){
+								var slip=aptitudeId.split(',');
+								$(slip).each(function(inde,value){
 									//判断 资质关联id 是否包含
 									if($("input[id$='NodeId"+index+"'][value*='"+value+"']",window.parent.document).val()){
 										$("#"+tablerId+" #qualifications"+index+"",window.parent.document).css('border-color', '#FF0000');
@@ -183,11 +184,12 @@ function reasonProject(ind, auditField, auditFieldName, certType) {
 										}
 									}
 								});
-								}
-					   });
+							}
+					 	});*/
 						//$("#show_td").attr('src', globalPath+'/public/backend/images/sc.png');
 						$("#show_td").attr('src', globalPath+'/public/backend/images/light_icon_2.png');
 						$("#count").val('1');
+						flushData();
 					}else{
 						layer.msg(result.msg, {
 							shift: 6, //动画类型
@@ -216,4 +218,11 @@ function isCompare(field, targetId) {
             });
         }
     });
+}
+
+function flushData(){
+	var typeId = window.parent.$("#supplierType").val();
+	var tablerId = window.parent.$("#tablerId").val();
+	var pageNum = window.parent.$("#pageNum").val();
+	window.parent.findData(typeId,tablerId,pageNum);
 }

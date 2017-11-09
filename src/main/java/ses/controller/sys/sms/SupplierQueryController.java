@@ -492,10 +492,10 @@ public class SupplierQueryController extends BaseSupplierController {
      */
     @RequestMapping("/ajaxSupplierData")
     @ResponseBody
-    public JdcgResult ajaxSupplierData(SupplierItemLevel supplier, Integer page, String categoryIds) {
+    public JdcgResult ajaxSupplierData(SupplierItemLevel supplier, Integer page, String categoryIds, String clickCategoryId, String nodeLevel) {
     	JdcgResult result=null;
     	//if (StringUtils.isNotBlank(categoryIds)) {
-        List<SupplierItemLevel>  listSupplier = supplierItemLevelServer.findSupplierItemLevel(supplier, page, categoryIds);
+        List<SupplierItemLevel>  listSupplier = supplierItemLevelServer.findSupplierItemLevel(supplier, page, categoryIds, clickCategoryId, nodeLevel);
         if(listSupplier != null && !listSupplier.isEmpty()){
         	result=new JdcgResult(500, "请求成功", new PageInfo<>(listSupplier));
         }else{
