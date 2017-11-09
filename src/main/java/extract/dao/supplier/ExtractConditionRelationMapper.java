@@ -2,7 +2,6 @@ package extract.dao.supplier;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import extract.model.supplier.ExtractConditionRelation;
 
@@ -14,6 +13,8 @@ public interface ExtractConditionRelationMapper {
 
 	List<String> getByMap(HashMap<Object, Object> hashMap);
 
-	List<Map<String, String>> getConTypeList(String conditionId);
+	List<ExtractConditionRelation> getConTypeList(String conditionId);
+
+	void updateByMap(HashMap<Object, Object> hashMap);
 
 }

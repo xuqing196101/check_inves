@@ -269,8 +269,8 @@ public class FileUtils {
     /** 供应商抽取详细条件信息数据名称 **/
     public final static String SUPPLIER_EXTRACT_CONTYPE_PATH_FILENAME="_m_supplier_extract_contype.dat";
     
-    /** 供应商抽取目录 路径 35 **/
-    public final static String SUPPLIER_EXTRACT_PATH = PropUtil.getProperty("file.supplier_extract.system.path");
+    /** 供应商抽取信息目录 路径 35 **/
+    public final static String SUPPLIER_EXTRACT_PATH = PropUtil.getProperty("file.supplier_extract_info.system.path");
     
     /** 供应商抽取结果信息数据名称 **/
     public final static String SUPPLIER_EXTRACT_RESULT_PATH_FILENAME="_m_supplier_extract_result.dat";
@@ -279,6 +279,12 @@ public class FileUtils {
     
     /** 供应商抽取结果目录 路径 36 **/
     public final static String SUPPLIER_EXTRACT_RESULT_PATH = PropUtil.getProperty("file.supplier_extract_result.system.path");
+    
+    
+    /** 供应商等级数据名称 **/
+    public final static String SUPPLIER_LEVEL_FILENAME="_m_supplier_level.dat";
+    /** 供应商等级目录 路径 37 **/
+    public final static String SUPPLIER_LEVEL_PATH = PropUtil.getProperty("file.supplier_level.system.path");
     
     
     /**
@@ -883,6 +889,7 @@ public class FileUtils {
           case 34:  filePath=MILITARY_EXPERT_PATH;break;
           case 35:  filePath=SUPPLIER_EXTRACT_PATH;break;
           case 36:  filePath=SUPPLIER_EXTRACT_RESULT_PATH;break;
+          case 37:  filePath=SUPPLIER_LEVEL_PATH;break;
         }
         return filePath;
     }

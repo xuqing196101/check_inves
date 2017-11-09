@@ -224,9 +224,15 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
                 if(reviewProvince != null && reviewAddress != null){
                     Area area1 = areaMapper.selectById(reviewProvince);
                     Area area2 = areaMapper.selectById(reviewAddress);
-                    if(area1 != null && area2 != null){
-                        expertExtractProject.setReviewAddress(area1.getName() + "/" + area2.getName());
+                    StringBuffer address = new StringBuffer();
+                    if(area1 != null){
+                    	address.append(area1.getName());
                     }
+                    if(area1 != null && area2 != null){
+                    	address.append("/");
+                    	address.append(area2.getName());
+                    }
+                    expertExtractProject.setReviewAddress(address.toString());
                 }
                 User user = userMapper.queryById(expertExtractProject.getCreaterId() == null ? "" : expertExtractProject.getCreaterId());
                 //抽取人员
@@ -297,6 +303,9 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
             if(null!=findOrgByPrimaryKey);
             map.put("ProcurementDep",findOrgByPrimaryKey.getName());
         }
+        
+        //建设单位名称
+        map.put("constructionName", projectInfo.getConstructionName());
         
         //抽取地点
         map.put("construction", projectInfo.getExtractAddress());
@@ -405,6 +414,13 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
             if(expertExtractResult.getExpertCode() != null){
                 String typeName = DictionaryDataUtil.get(expertExtractResult.getExpertCode()) == null ? "" : DictionaryDataUtil.get(expertExtractResult.getExpertCode()).getName();
                 expertExtractResult.setExpertCode(typeName);
+                StringBuffer pro = new StringBuffer();
+                List<String> list = expertExtractConditionMapper.selProfessionalByExpertId(expertExtractResult.getExpertId() == null ? "" : expertExtractResult.getExpertId());
+                for (String str : list) {
+                	pro.append(str+"、");
+				}
+                String profi = pro.toString();
+                expertExtractResult.setProfessional(profi.length() > 1 ? profi.substring(0,profi.length() - 1) : profi);
             }
         }
         List<ExpertExtractResult> backList = resultMapper.getBackExpertListByrecordId(id);
@@ -412,6 +428,13 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
             if(expertExtractResult.getExpertCode() != null){
                 String typeName = DictionaryDataUtil.get(expertExtractResult.getExpertCode()) == null ? "" : DictionaryDataUtil.get(expertExtractResult.getExpertCode()).getName();
                 expertExtractResult.setExpertCode(typeName);
+                StringBuffer pro = new StringBuffer();
+                List<String> list = expertExtractConditionMapper.selProfessionalByExpertId(expertExtractResult.getExpertId() == null ? "" : expertExtractResult.getExpertId());
+                for (String str : list) {
+                	pro.append(str+"、");
+				}
+                String profi = pro.toString();
+                expertExtractResult.setProfessional(profi.length() > 1 ? profi.substring(0,profi.length() - 1) : profi);
             }
         }
         map.put("result", resultList);

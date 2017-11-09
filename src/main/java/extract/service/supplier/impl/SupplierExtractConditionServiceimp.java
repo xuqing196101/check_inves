@@ -29,6 +29,7 @@ import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierItemLevel;
 import ses.service.bms.CategoryService;
 import ses.util.DictionaryDataUtil;
 import bss.model.ppms.Packages;
@@ -174,7 +175,7 @@ public class SupplierExtractConditionServiceimp implements
 			// String code = this.setExtractCondition(typeCode,condition,conType);
 			String code = typeCode.toLowerCase();
 			
-			this.setExtractCondition2(condition,typeCode);
+			List<SupplierItemLevel> setExtractCondition2 = this.setExtractCondition2(condition,typeCode);
 			
 			if (type == 1) {
 				if (null == condition.getExtractNum()) {
@@ -182,9 +183,87 @@ public class SupplierExtractConditionServiceimp implements
 					return map;
 				}
 				List<Supplier> selectAllExpert = supplierExtRelateMapper.listExtractionExpert(condition);
-
+				
+				start:
 				for (Supplier supplier : selectAllExpert) {
 					supplier.setSupplierType(dictionaryDataMapper.selectByCode(supplier.getSupplierTypeId()).get(0).getName());
+					for (SupplierItemLevel supplierLevel : setExtractCondition2) {
+						if(supplier.getId().equals(supplierLevel.getSupplierId()) && (!condition.getSupplierTypeCode().equals("PROJECT"))){
+							if(condition.getSupplierTypeCodes().length<2){
+								if(null!=condition.getLevelTypeIds()){
+									for (String level : condition.getLevelTypeIds()) {
+										if(supplierLevel.getSupplierLevel().equals(level)){
+											supplier.setSupplierLevel(level);
+											break start ;
+										}
+									}
+								}else if(supplierLevel.getSupplierId().equals(supplier.getId())){
+									supplier.setSupplierLevel(supplierLevel.getSupplierLevel());
+									break start ;
+								}
+							}else if(condition.getSupplierTypeCodes().length==2){
+								if(null!=condition.getLevelTypeIds()){
+									for (String level : condition.getLevelTypeIds()) {
+										if(supplierLevel.getSupplierLevel().equals(level) &&  supplierLevel.getSupplierTypeId().equals("PRODUCT") ){
+											supplier.setSupplierLevel(level);
+											break start ;
+										}
+									}
+								}else if(null!=condition.getSalesLevelTypeIds()){
+									for(String level : condition.getSalesLevelTypeIds()){
+										if(supplierLevel.getSupplierLevel().equals(level) &&  supplierLevel.getSupplierTypeId().equals("SALES") ){
+											supplier.setSupplierLevel(level);
+											break start ;
+										}
+									}
+								}else if(supplierLevel.getSupplierId().equals(supplier.getId())){
+									supplier.setSupplierLevel(supplierLevel.getSupplierLevel());
+									break start ;
+								}
+							}
+						}
+					}
+					
+					if(condition.getSupplierTypeCode().equals("PROJECT")){
+						String[] quaIds = condition.getQuaIds();
+						String[] levelTypeIds = condition.getLevelTypeIds();
+						List<String> selectQuaLevelBySupplierId = selectQuaLevelBySupplierId(supplier.getId(),quaIds);
+						//设置初值，未选择品目，资质，资质等级
+						if(null!=selectQuaLevelBySupplierId && selectQuaLevelBySupplierId.size()>0){
+							supplier.setSupplierLevel(selectQuaLevelBySupplierId.get(0));
+						}
+						//查询当前供应商资质等级
+						//选择了品目
+						if(null != condition.getCategoryIds()){
+							if(null != quaIds){
+								//选择了资质
+								if(null!=levelTypeIds){
+									//选择资质等级
+										for (String level : levelTypeIds) {
+											for (String quaLevel : selectQuaLevelBySupplierId) {
+												if(level.equals(quaLevel)){
+													supplier.setSupplierLevel(level);
+													break start;
+												}
+											}
+										}
+								}
+							}else{
+								//选择品目，未选择资质
+								List<Qua> quaByCid = getQuaByCid(condition.getCategoryId(), "project", null);
+								if(null!=quaByCid && quaByCid.size()>0){
+									String[] qids = new String[quaByCid.size()];
+									for (int i = 0; i < qids.length; i++) {
+										qids[i] = quaByCid.get(i).getId();
+									}
+									List<String> selectQuaLevel2 = selectQuaLevelBySupplierId(supplier.getId(),qids);
+									if(null!=selectQuaLevel2&& selectQuaLevel2.size()>0){
+										supplier.setSupplierLevel(selectQuaLevel2.get(0));
+									}
+								}
+							}
+						}
+					}
 				}
 
 				list.put(typeCode, selectAllExpert);
@@ -220,13 +299,15 @@ public class SupplierExtractConditionServiceimp implements
 		}
 		
 		this.excludeSupplier(condition);
+		
 		try {
 			String typeCode = condition.getSupplierTypeCode();
 			// 原处理抽取条件方法
 			// String code = this.setExtractCondition(typeCode,condition,conType);
 			String code = typeCode.toLowerCase();
 			
-			this.setExtractCondition2(condition,typeCode);
+			//品目，等级，供应商类型，供应商id关联关系
+			List<SupplierItemLevel> setExtractCondition2 = this.setExtractCondition2(condition,typeCode);
 			
 			if (type == 1) {
 				if (null == condition.getExtractNum()) {
@@ -235,10 +316,108 @@ public class SupplierExtractConditionServiceimp implements
 				}
 				List<Supplier> selectAllExpert = supplierExtRelateMapper.listExtractionExpert(condition);
 				
-				for (Supplier supplier : selectAllExpert) {
-					supplier.setSupplierType(dictionaryDataMapper.selectByCode(supplier.getSupplierTypeId()).get(0).getName());
+				//查询当前抽取到供应商的类型
+				first:
+					for (Supplier supplier : selectAllExpert) {
+						
+						if(condition.getSupplierTypeCode().equals("PROJECT")){
+							String[] quaIds = condition.getQuaIds();
+							String[] levelTypeIds = condition.getLevelTypeIds();
+							List<String> selectQuaLevelBySupplierId = selectQuaLevelBySupplierId(supplier.getId(),quaIds);
+							//设置初值，未选择品目，资质，资质等级
+							if(null!=selectQuaLevelBySupplierId && selectQuaLevelBySupplierId.size()>0){
+								supplier.setSupplierLevel(selectQuaLevelBySupplierId.get(0));
+							}
+							//查询当前供应商资质等级
+							//选择了品目
+							if(null != condition.getCategoryIds()){
+								if(null != quaIds){
+									//选择了资质
+									if(null!=levelTypeIds){
+										//选择资质等级
+											for (String level : levelTypeIds) {
+												for (String quaLevel : selectQuaLevelBySupplierId) {
+													if(level.equals(quaLevel)){
+														supplier.setSupplierLevel(level);
+														break first;
+													}
+												}
+											}
+									}
+								}else{
+									//选择品目，未选择资质
+									List<Qua> quaByCid = getQuaByCid(condition.getCategoryId(), "project", null);
+									if(null!=quaByCid && quaByCid.size()>0){
+										String[] qids = new String[quaByCid.size()];
+										for (int i = 0; i < qids.length; i++) {
+											qids[i] = quaByCid.get(i).getId();
+										}
+										List<String> selectQuaLevel2 = selectQuaLevelBySupplierId(supplier.getId(),qids);
+										if(null!=selectQuaLevel2&& selectQuaLevel2.size()>0){
+											supplier.setSupplierLevel(selectQuaLevel2.get(0));
+										}
+									}
+								}
+							}
+						}else{
+						
+							for (SupplierItemLevel supplierLevel : setExtractCondition2) {
+								//找出同一个供应商id 
+								if(supplier.getId().equals(supplierLevel.getSupplierId())){
+									//非物资，非工程
+									if(condition.getSupplierTypeCodes().length<2){
+										if(null!=condition.getLevelTypeIds()){
+											//选择了等级约束
+											for (String level : condition.getLevelTypeIds()) {
+												if(supplierLevel.getSupplierLevel().equals(level)){
+													//查询满足条件的记录
+													supplier.setSupplierLevel(level);
+													break first ;
+												}
+											}
+										}else{
+											//并无等级约束
+											supplier.setSupplierLevel(supplierLevel.getSupplierLevel());
+											break first ;
+										}
+									}else if(condition.getSupplierTypeCodes().length==2){
+										//物资类型
+										if(null!=condition.getLevelTypeIds()){
+											supplier.setSupplierTypeId("PRODUCT");
+											//选择了生产等级
+											for (String level : condition.getLevelTypeIds()) {
+												if(supplierLevel.getSupplierLevel().equals(level) &&  supplierLevel.getSupplierTypeId().equals("PRODUCT") ){
+													supplier.setSupplierLevel(level);
+													break first ;
+												}
+											}
+										}else if(supplierLevel.getSupplierTypeId().equals("PRODUCT")){
+											supplier.setSupplierLevel(supplierLevel.getSupplierLevel());
+											break first ;
+										}
+										if(null!=condition.getSalesLevelTypeIds()){
+											supplier.setSupplierTypeId("SALES");
+											//选择了销售等级
+											for(String level : condition.getSalesLevelTypeIds()){
+												if(supplierLevel.getSupplierLevel().equals(level) &&  supplierLevel.getSupplierTypeId().equals("SALES") ){
+													supplier.setSupplierLevel(level);
+													break first ;
+												}
+											}
+										}else if(supplierLevel.getSupplierTypeId().equals("SALES")){
+											supplier.setSupplierLevel(supplierLevel.getSupplierLevel());
+											break first ;
+										}
+									}
+								}
+							}
+						}
+					}
+				selectAllExpert.get(0).setSupplierType(dictionaryDataMapper.selectByCode(selectAllExpert.get(0).getSupplierTypeId()).get(0).getName());
+				if("PROJECT".equals(condition.getSupplierTypeCode())){
+					String supplierLevel = selectAllExpert.get(0).getSupplierLevel();
+					selectAllExpert.get(0).setSupplierLevel(StringUtils.isNotBlank(supplierLevel)?dictionaryDataMapper.selectByPrimaryKey(supplierLevel).getName():"");
 				}
-				
 				map.put("list", selectAllExpert);
 			} else {
 				map.put("count", supplierExtRelateMapper.listExtractionExpertCount(condition));
@@ -249,8 +428,18 @@ public class SupplierExtractConditionServiceimp implements
 		return map;
 	}
 
+	/**
+	 * 遍历末节点
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-11-7下午6:46:02
+	 * @param pid
+	 * @param cid
+	 * @return
+	 */
 	private Set<String> selectChild(String pid, String cid) {
-		Set<String> cateSet = conditionMapper.seleselectChildCate(pid
+		Set<String> cateSet = conditionMapper.selectChildCate(pid
 				.split(","));
 		if (StringUtils.isNotBlank(cid)) {
 			cateSet.addAll(Arrays.asList(cid.split(",")));
@@ -621,7 +810,7 @@ public class SupplierExtractConditionServiceimp implements
 		}
 		if (null != mu) {
 			if (2 == mu && StringUtils.isNotBlank(cid)) {
-				int size = conditionMapper.seleselectChildCate(cid.split(","))
+				int size = conditionMapper.selectChildCate(cid.split(","))
 						.size();
 				condition.setCsize(size);
 			}
@@ -682,7 +871,7 @@ public class SupplierExtractConditionServiceimp implements
 	}
 
 	@Override
-	public void setExtractCondition2(SupplierExtractCondition condition,String typeCode) {
+	public List<SupplierItemLevel> setExtractCondition2(SupplierExtractCondition condition,String typeCode) {
 		
 		//处理产品类目
 		String cid = condition.getCategoryId();
@@ -693,10 +882,10 @@ public class SupplierExtractConditionServiceimp implements
 			Set<String> cate = new HashSet<>();
 			//查询所有的末级节点
 			if(StringUtils.isNotBlank(cid)){
-				cate.addAll(conditionMapper.seleselectChildCate(cid.split(",")));
+				cate.addAll(conditionMapper.selectChildCate(cid.split(",")));
 			}
 			if(StringUtils.isNotBlank(pid)){
-				cate.addAll(conditionMapper.seleselectChildCate(pid.split(",")));
+				cate.addAll(conditionMapper.selectChildCate(pid.split(",")));
 			}
 			condition.setCsize(cate.size());
 		}
@@ -733,6 +922,10 @@ public class SupplierExtractConditionServiceimp implements
 		if ("GOODS".equals(typeCode)) {
 			condition.setSupplierTypeCode("PRODUCT,SALES");
 		}
+		
+		//处理查询等级品目
+		return selectCateOfLevel4(condition);
+		
 	}
 	
 	@Override
@@ -853,17 +1046,6 @@ public class SupplierExtractConditionServiceimp implements
 						addressId));
 			}
 		}
-		// 供应商类别
-		if (StringUtils.isNotEmpty(condition.getSupplierTypeCode())) {
-			for (String supplierTypeCode : condition.getSupplierTypeCodes()) {
-				list.add(new ExtractConditionRelation(cid, "supplierTypeCode",
-						supplierTypeCode));
-			}
-		}
-		Short mu = condition.getIsMulticondition();
-		if (null != mu) {
-			list.add(new ExtractConditionRelation(cid,"isMulticondition", mu.toString()));
-		}
 		
 		Set<String> hashSet = new HashSet<>();
 		String cids = condition.getCategoryId();
@@ -884,29 +1066,96 @@ public class SupplierExtractConditionServiceimp implements
 		String le = condition.getLevelTypeId();
 		if (StringUtils.isNotBlank(le)) {
 			for (String lv : le.split(",")) {
-				list.add(new ExtractConditionRelation(cid, "level",	lv));
+				list.add(new ExtractConditionRelation(cid, "levelTypeId",	lv));
 			}
 		}
 		Short en = condition.getExtractNum();
 		if (null != en) {
-			list.add(new ExtractConditionRelation(cid,"extractNum", en.toString()));
+			list.add(new ExtractConditionRelation(cid,"currentExtractNum", en.toString()));
 		}
-		String ic = condition.getIsHavingConCert();
-		if (StringUtils.isNotBlank(ic)) {
-			list.add(new ExtractConditionRelation(cid, "isHavingConCert", ic));
+		
+		String[] quaIds = condition.getQuaIds();
+		if(null!=quaIds){
+			for (String quaId : quaIds) {
+				list.add(new ExtractConditionRelation(cid, "quaId", quaId));
+			}
 		}
-		String bu = condition.getBusinessNature();
-		if (StringUtils.isNotBlank(bu)) {
-			list.add(new ExtractConditionRelation(cid, "businessNature", StringUtils.isBlank(bu) ? "0": bu));
+		String businessScope = condition.getBusinessScope();
+		if (StringUtils.isNotBlank(businessScope)) {
+			list.add(new ExtractConditionRelation(cid,"businessScope",businessScope));
 		}
-		String ob = condition.getOverseasBranch();
-		if (StringUtils.isNotBlank(ob)) {
-			list.add(new ExtractConditionRelation(cid, "overseasBranch", ob));
+		
+		if(condition.getSupplierTypeCode().equals("GOODS") && StringUtils.isNotBlank(condition.getSalesLevelTypeId())){
+			for (String sl : condition.getSalesLevelTypeIds()) {
+				list.add(new ExtractConditionRelation(cid, "salesLevelTypeId", sl));
+			}
 		}
+		
 		if (list.size() > 0) {
 			return extractConditionRelationMapper.insertConditionRelation(list);
 		}
 		return 0;
 	}
-
+	
+	/**
+	 * 
+	 * <简述> 查询四级节点供应商等级
+	 *
+	 * @author Jia Chengxiang
+	 * @return 
+	 * @dateTime 2017-11-7下午6:51:45
+	 * @return
+	 */
+	public List<SupplierItemLevel> selectCateOfLevel4(SupplierExtractCondition condition) {
+		String[] categoryIds = condition.getCategoryIds();
+		Map<String, Object> map = new HashMap<>();
+		List<SupplierItemLevel> selectCateLevel = new ArrayList<>();
+		Set<String> supplierItemId = new HashSet<>();
+		
+		map.put("supplierTypeId",condition.getSupplierTypeCodes());
+		map.put("categoryIds", categoryIds);
+		String[] levelTypeIds = condition.getLevelTypeIds();
+		String[] salesLevelTypeIds = condition.getSalesLevelTypeIds();
+		if(condition.getSupplierTypeCodes().length>1){
+			
+		}
+		if(null!=categoryIds){
+			//cateId 数组查询4级品目
+			selectCateLevel.addAll(conditionMapper.selectCateLevelToUp(map));
+			selectCateLevel.addAll(conditionMapper.selectCateLevelToDown(map));
+		}else{
+			selectCateLevel.addAll(conditionMapper.selectCateLevelToUp(map));
+		}
+		
+		//遍历结果，去除不满足条件的数据
+		if(null != selectCateLevel && selectCateLevel.size()>0){
+			
+			for (SupplierItemLevel supplierItemLevel : selectCateLevel) {
+				supplierItemId.add(supplierItemLevel.getCategoryId());
+			}
+		}
+		
+		//将四级品目存存进条件
+		List<String> supplierItemIds = new ArrayList<>();
+		supplierItemIds.addAll(supplierItemId);
+		condition.setSupplierItemId(supplierItemIds);
+		return selectCateLevel;
+	}
+	
+	/**
+	 * 
+	 * <简述>查询工程等级 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-11-8下午8:01:27
+	 * @param supplierId
+	 * @param qids
+	 * @return
+	 */
+	public List<String> selectQuaLevelBySupplierId(String supplierId,String[] qids) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("supplierId", supplierId);
+		map.put("qids", qids);
+		return conditionMapper.selectQuaLevelBySupplierIdAndQuaId(map);
+	}
 }

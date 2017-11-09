@@ -23,11 +23,12 @@ public class SupplierVoiceResult implements Serializable {
 		this.feedBackTime = feedBackTime;
 		this.join = join;
 	}
-	public String getSupplierMobile() {
+
+	public String getSupplierId() {
 		return supplierId;
 	}
-	public void setSupplierMobile(String supplierMobile) {
-		this.supplierId = supplierMobile;
+	public void setSupplierId(String supplierId) {
+		this.supplierId = supplierId;
 	}
 	public String getFeedBackTime() {
 		return feedBackTime;

@@ -199,6 +199,15 @@
 							<span class="add-on">i</span>
 							<div class="cue" id="projectTypeError"></div>
 						</div></li>
+					<li class="col-md-3 col-sm-4 col-xs-12 dnone" id="buildCompany"><span
+						class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span
+							class="buildCompany">*</span>建设单位名称</span>
+						<div
+							class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+							<input  name="buildCompany" type="text"> <span
+								class="add-on">i</span>
+							<div class="cue" id="buildCompanyError"></div>
+						</div></li>
 					<li class="col-md-3 col-sm-4 col-xs-12"><span
 						class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span
 							id="xmss"></span>项目实施地区</span>
@@ -217,7 +226,7 @@
 								<%-- <c:forEach items="${address }" var="add">
                                 <option value="${add.id }">${add.name }</option>
                        		 </c:forEach> --%>
-							</select> <span class="add-on">i</span>
+							</select> 
 							<div class="cue" id="constructionProError"></div>
 						</div></li>
 					<li class="col-md-3 col-sm-4 col-xs-12"><span
@@ -240,12 +249,21 @@
 						</div></li>
 					<li class="col-md-3 col-sm-4 col-xs-12"><span
 						class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span
-							class="star_red">*</span>联系电话</span>
+							class="star_red">*</span>联系座机</span>
 						<div
 							class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input name="contactNum" value="" type="text"> <span
 								class="add-on">i</span>
 							<div class="cue" id="contactNumError"></div>
+						</div></li>
+					<li class="col-md-3 col-sm-4 col-xs-12"><span
+						class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span
+							class="star_red">*</span>联系手机</span>
+						<div
+							class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+							<input name="contactPhone" value="" type="text"> <span
+								class="add-on">i</span>
+							<div class="cue" id="contactPhoneError"></div>
 						</div></li>
 					<li class="col-md-3 col-sm-4 col-xs-12"><span
 						class="col-md-12 col-sm-12 col-xs-12 padding-left-5">其他要求</span>
@@ -283,8 +301,7 @@
 				<table class="table table-bordered table-condensed table_input mt10">
 					<thead>
 						<tr>
-							<th class="info"><input type="checkbox"
-								onclick="checkAll(this)"></th>
+							<th class="info"><input type="checkbox" onclick="checkAll(this)"></th>
 							<th class="info">序号</th>
 							<th class="info" width="15%">姓名</th>
 							<th class="info" width="40%">单位</th>
@@ -350,8 +367,8 @@
 						当前满足<span id="count">0</span>家
 					</button>
 				</h2>
-				<ul class="ul_list m0" style="background-color: #fbfbfb">
-					<li class="col-md-3 col-sm-6 col-xs-12 category">
+				<ul class="ul_list m0 pl5" style="background-color: #fbfbfb">
+					<li class="col-md-3 col-sm-6 col-xs-12 pl10 category">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">产品类别：</span>
 						<!--  满足多个条件 -->
 						<input type="hidden" name="isMulticondition" value="1" id="isSatisfy" class="isSatisfy"> <input type="hidden" name="categoryId" id="categoryIds" class="categoryId">
@@ -378,6 +395,14 @@
 							<div class="cue" id="dCount"></div>
 						</div>
 					</li>
+					<li class="col-md-3 col-sm-6 col-xs-12 level">
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">销售类供应商等级：</span>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<input type="hidden" name="salesLevelTypeId"> 
+							<input type="text" readonly id="salesLevel" value="${listCon.supplierLevel == null? '':listCon.supplierLevel}" onclick="showLevel(this);" /> <span class="add-on">i</span>
+							<div class="cue" id="dCount"></div>
+						</div>
+					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
@@ -385,19 +410,18 @@
 							<div class="cue" id="ExtractNumError">${loginPwdError}</div>
 						</div>
 					</li>
-					<li class="col-md-12 col-sm-12 col-xs-12 dnone"><span
-						class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span
-							class="red">*</span> 限制地区理由:</span>
-						<div
-							class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-							<textarea class="w100p h100 resizen" maxlength="500"
-								name="addressReason" id="areaReson" onkeyup="size(this);"></textarea>
-							<small>字数：500. 剩余：<span id="textCount">500</span>.</small>
-							<div class="textAreafont" id="areaError"></div>
-						</div></li>
-					<li class="col-md-3 col-sm-6 col-xs-12 pl0">
+					<li class="col-md-3 col-sm-6 col-xs-12 dnone projectOwn">
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">承揽业务范围：</span>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<input type="hidden"  name="businessScope"> 
+							<input type="text" readonly="readonly" id="businessScope"> 
+							<span class="add-on">i</span>
+							<div class="cue" id="businessScopeError"></div>
+						</div>
+					</li>
+					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">
-							<span class="star_red">*</span>所在地区：
+							<span class="star_red">*</span>供应商所在地区：
 						</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="text" readonly="readonly" name="areaName" id="area" onclick="showTree();"> 
@@ -418,26 +442,29 @@
 					</li>		
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">保密要求：</span>
-						<select name="isHavingConCert" class="w100p"
-							onchange="selectLikeSupplier()">
-							<option value="">不限</option>
-							<option value="0">无</option>
-							<option value="1">有</option>
-						</select>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<select name="isHavingConCert" class="w100p"
+								onchange="selectLikeSupplier()">
+								<option value="">不限</option>
+								<option value="0">无</option>
+								<option value="1">有</option>
+							</select>
+						</div>
 						<div class="cue">${loginPwdError}</div>
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">境外分支机构：</span>
-						<select name="overseasBranch" class="w100p"
-							onchange="selectLikeSupplier()">
-							<option value="">不限</option>
-							<option value="1">有</option>
-							<option value="0">无</option>
-						</select>
-						<div class="cue">${loginPwdError}</div>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<select name="overseasBranch" class="w100p"
+								onchange="selectLikeSupplier()">
+								<option value="">不限</option>
+								<option value="1">有</option>
+								<option value="0">无</option>
+							</select>
+							<div class="cue">${loginPwdError}</div>
+						</div>
 					</li>
-					<li class="clear"></li>
-					<li class="col-md-3 col-sm-6 col-xs-12 pl0">
+					<li class="col-md-3 col-sm-6 col-xs-12 dnone projectOwn">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">资质信息：</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="hidden" name="quaId" id="quaId">
@@ -446,12 +473,22 @@
 							<div class="cue" id="dCount"></div>
 						</div>
 					</li>
+					<li class="col-md-12 col-sm-12 col-xs-12 dnone">
+						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span
+							class="red">*</span> 限制地区理由:</span>
+						<div
+							class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+							<textarea class="w100p h100 resizen" maxlength="500"
+								name="addressReason" id="areaReson" onkeyup="size(this);"></textarea>
+							<small>字数：500. 剩余：<span id="textCount">500</span>.</small>
+							<div class="textAreafont" id="areaError"></div>
+						</div></li>
 				</ul>
 
 				<div class="clear"></div>
 				<div class="col-xs-12 tc mt20">
-					<button class="btn bu" onclick="extractVerify();" type="button">人工抽取</button>
-					<button class="btn bu" type="button">自动抽取</button>
+					<button class="btn bu" onclick="extractVerify(1);" type="button">人工抽取</button>
+					<button class="btn bu" type="button" >自动抽取</button>
 					<!-- onclick="extractVerify('auto')" -->
 					<button class="btn bu" type="button" onclick="resetCondition(this)">重置</button>
 				</div>
@@ -464,8 +501,8 @@
 			</h2>
 			<div class="ul_list">
 				<div align="left" id="countdnone">
-					工程供应商：确认参加的供应商为<span class="f26 red" id="joinCount">0</span>人，确认不参加的有<span
-						class="notJoin">0</span>人
+					工程供应商：确认参加的供应商为<span class="f26 red" id="joinCount">0</span>家，确认不参加的有<span
+						class="notJoin">0</span>家
 				</div>
 				<!-- Begin Content -->
 				<table id="table" class="table table-bordered table-condensed">
@@ -508,11 +545,18 @@
 		<ul id="levelTree" class="ztree" style="margin-top:0;"></ul>
 	</div>
 
+	<!-- 等级树 -->
+	<div id="salesLevelContent" class="levelTypeContent"
+		style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+		<ul id="salesLevelTree" class="ztree" style="margin-top:0;"></ul>
+	</div>
+
 	<!-- 资质树 -->
 	<div id="quaContent" class="levelTypeContent"
 		style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 		<ul id="quaTree" class="ztree" style="margin-top:0;"></ul>
 	</div>
+	<a href="" target="blank" hidden="hidden" id="down"></a>  
 </body>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/js/ses/sms/supplierExtract.js"></script>

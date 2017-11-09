@@ -2,6 +2,8 @@ package extract.dao.supplier;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import extract.model.supplier.SupplierExtractProjectInfo;
 
 public interface SupplierExtractRecordMapper {
@@ -12,7 +14,7 @@ public interface SupplierExtractRecordMapper {
      *
      * @param id
      */
-    SupplierExtractProjectInfo selectByPrimaryKey(String id);
+    SupplierExtractProjectInfo selectByPrimaryKey(@Param("id") String id);
 
     
     /**

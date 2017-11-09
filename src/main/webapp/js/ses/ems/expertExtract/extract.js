@@ -6,9 +6,7 @@ $(function() {
     loadExpertKind();
 
     //加载审核人员
-    for ( var i = 0; i < 2; i++) {
-        addPerson($("#eu"));
-    }
+    addPerson($("#eu"));
     addPerson($("#su"));
 });
 
@@ -49,7 +47,7 @@ function functionArea() {
         async : false,
         success : function(response) {
             $("#city").empty();
-            $("#city").append("<option value='0'>选择地区</option>");
+            $("#city").append("<option value='0'>全部</option>");
             $.each(response, function(i, result) {
                 $("#city").append("<option value='" + result.id + "'>" + result.name + "</option>");
             });
@@ -59,9 +57,9 @@ function functionArea() {
 
 //人工抽取
 function artificial_extracting(isAuto){
-	 if(isAuto == 1){
-		 return;
-	 }
+	if(isAuto == 1){
+		return;
+	}
 	//加载菊花图标
 	var ae_load = layer.load();
     getCount();
@@ -132,6 +130,7 @@ function artificial_extracting(isAuto){
         },
         error: function () {
             layer.msg("操作失败", {offset: '100px'});
+            layer.close(ae_load);
         }
     });
 }
@@ -167,10 +166,21 @@ function validationIsNull(code){
     }else{
         $("#err_reviewTime").html("");
     }
+    //建设单位名称
+    var nn = $("#projectType option:selected").text();
+    if(nn != null && nn == "工程"){
+    	var constructionName = $("#constructionName").val();
+    	if(constructionName == null || constructionName == ""){
+            $("#err_constructionName").html("建设单位名称不能为空");
+            flag = false;
+            layer.msg("请完善项目信息");
+    	}else{
+    		$("#err_constructionName").html("");
+    	}
+    }
     //评审地点
     var province = $("#province option:selected").val();
-    var city = $("#city option:selected").val();
-    if(province == '0' || city == '0'){
+    if(province == '0'){
         $("#err_aaa").html("请选择评审地点");
         flag = false;
         layer.msg("请完善项目信息");
@@ -220,11 +230,20 @@ function validationIsNull(code){
     //联系电话
     var contactNum = $("#contactNum").val();
     if(contactNum == null || contactNum == ""){
-        $("#err_contactNum").html("联系电话不能为空");
+        $("#err_contactNum").html("联系手机不能为空");
         flag = false;
         layer.msg("请完善项目信息");
     }else{
         $("#err_contactNum").html("");
+    }
+    //联系固话
+    var landline = $("#landline").val();
+    if(landline == null || landline == ""){
+        $("#err_landline").html("联系固话不能为空");
+        flag = false;
+        layer.msg("请完善项目信息");
+    }else{
+        $("#err_landline").html("");
     }
     //每个品目的人数
     var strs = new Array(); //定义一数组 
@@ -232,7 +251,7 @@ function validationIsNull(code){
     var num = 0;
     for(var i=0; i<strs.length; i++){
         if($("#"+strs[i]+"_count").text() == 0){
-            layer.msg("人数不足，无法抽取");
+            layer.msg("家数不足，无法抽取");
             flag = false;
         }
         var v = $("#"+strs[i].toLowerCase()+"_i_count").val();
@@ -244,8 +263,8 @@ function validationIsNull(code){
             flag = false;
         }else if(parseInt(v) > parseInt($("#"+strs[i]+"_count").text())){
             flag = false;
-            $("#err_"+strs[i].toLowerCase()+"_i_count").html("当前符合条件人数不足");
-            layer.msg("人数不足，无法抽取");
+            $("#err_"+strs[i].toLowerCase()+"_i_count").html("当前符合条件家数不足");
+            layer.msg("家数不足，无法抽取");
         }else{
             num += parseInt(coUndifined(v));
             $("#err_"+strs[i].toLowerCase()+"_i_count").html("");
@@ -296,7 +315,7 @@ function validationIsNull(code){
             count2++;
         }
     });
-    if($("#extractUser").find("tr").length<3){
+    if($("#extractUser").find("tr").length<2){
         count1++;
     }
     if($("#supervise").find("tr").length<2){
@@ -694,6 +713,15 @@ function coUndifined(v){
 
 //加载专家类别
 function loadExpertKind(){
+	//工程要显示建设单位名称
+    var nn = $("#projectType option:selected").text();
+    if(nn != null && nn == "工程"){
+    	$("#jsdw").removeClass("display-none");
+    }else{
+    	$("#constructionName").val("");
+    	$("#err_constructionName").html("");
+    	$("#jsdw").addClass("display-none");
+    }
     var id = $("#projectType option:selected").val();
     $.ajax({
         url : globalPath + "/extractExpert/loadExpertKind.do",

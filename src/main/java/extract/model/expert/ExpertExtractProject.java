@@ -140,7 +140,33 @@ public class ExpertExtractProject {
      */
     private String createrId;
     
-    public String getCreaterId() {
+    /**
+     * 建设单位名称
+     */
+    private String constructionName;
+    
+    /**
+     * 联系固话
+     */
+    private String landline;
+    
+    public String getConstructionName() {
+		return constructionName;
+	}
+
+	public void setConstructionName(String constructionName) {
+		this.constructionName = constructionName;
+	}
+
+	public String getLandline() {
+		return landline;
+	}
+
+	public void setLandline(String landline) {
+		this.landline = landline;
+	}
+
+	public String getCreaterId() {
 		return createrId;
 	}
 

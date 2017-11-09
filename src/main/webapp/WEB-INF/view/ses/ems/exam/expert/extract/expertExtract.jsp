@@ -84,7 +84,7 @@
           <li class="col-md-3 col-sm-4 col-xs-12">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span> 评审时间:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <input class="col-md-12 col-sm-12 col-xs-6 p0" value="<fmt:formatDate value='${reviewTime }' pattern='yyyy-MM-dd HH:mm:ss' />" name = "reviewTime" id = "reviewTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'%y-%M-{%d+1}'});" pattern='yyyy-MM-dd HH:mm:ss' type="text" readonly="readonly">
+              <input class="col-md-12 col-sm-12 col-xs-6 p0" onchange="getCount()" value="<fmt:formatDate value='${reviewTime }' pattern='yyyy-MM-dd HH:mm:ss' />" name = "reviewTime" id = "reviewTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'%y-%M-{%d+1}'});" pattern='yyyy-MM-dd HH:mm:ss' type="text" readonly="readonly">
               <div class="cue" id="err_reviewTime"></div>
             </div>
           </li>
@@ -120,6 +120,13 @@
               </select>
             </div>
           </li>
+          <li class="col-md-3 col-sm-4 col-xs-12 display-none" id="jsdw">
+            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 建设单位名称:</span>
+            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+              <input class="span5" type="text" id="constructionName" name="constructionName" value="${constructionName }"> <span class="add-on">i</span>
+              <div class="cue" id="err_constructionName"></div>
+            </div>
+          </li>
           <li class="col-md-3 col-sm-4 col-xs-12 ">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 抽取地址:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -130,7 +137,7 @@
           <li class="col-md-3 col-sm-4 col-xs-12 ">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 评审天数:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <select class="col-md-12 col-sm-12 col-xs-12 p0" name="reviewDays" id="reviewDays">
+              <select class="col-md-12 col-sm-12 col-xs-12 p0" name="reviewDays" id="reviewDays" onchange="getCount()">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -147,7 +154,15 @@
             </div>
           </li>
           <li class="col-md-3 col-sm-4 col-xs-12 ">
-            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 联系电话:</span>
+            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 联系固话:</span>
+            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+              <input class="span5" type="text" id="landline" name="landline" value="${landline }"> 
+              <span class="add-on">i</span>
+              <div class="cue" id="err_landline"></div>
+            </div>
+          </li>
+          <li class="col-md-3 col-sm-4 col-xs-12 ">
+            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 联系手机:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
               <input class="span5" type="text" id="contactNum" name="contactNum" value="${contactNum }"> 
               <span class="add-on">i</span>
@@ -231,7 +246,7 @@
         <input type="hidden" name="areaName" id="provincesel"/>
         <input type="hidden" name="addressId" id="addressId">
           <li class="col-md-3 col-sm-4 col-xs-12 pl15">
-            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 区域要求:</span>
+            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 专家所在地区:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
               <input class="span5" type="text" readonly id="area" onclick="showTree();"> <span class="add-on">i</span>
               <div class="cue" id="err_provincesel"></div>
@@ -292,7 +307,7 @@
         <div class="col-md-12 clear mt20 pt20 borderTS1 display-none" id="PROJECT">
           <form id="PROJECT_form">
             <!-- <input class="span5" type="hidden" name="cateCode" value="PROJECT"> -->
-            <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="PROJECT_count">0</span>人</button></div>
+            <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="PROJECT_count">0</span>家</button></div>
             <ul class="col-xs-10 p0">
               <li class="col-md-3 col-sm-4 col-xs-12 pl15 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 工程技术人数:</span>
@@ -340,7 +355,7 @@
         <!-- 工程经济 -->
         <div class="col-md-12 clear mt20 pt20 borderTS1 display-none" id="GOODS_PROJECT">
           <form id="GOODS_PROJECT_form">
-            <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="GOODS_PROJECT_count">0</span>人</button></div>
+            <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="GOODS_PROJECT_count">0</span>家</button></div>
             <ul class="col-xs-10 p0">
               <li class="col-md-3 col-sm-4 col-xs-12 pl15 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 工程经济人数:</span>
@@ -389,7 +404,7 @@
         <div class="col-md-12 clear mt20 pt20 borderTS1 display-none" id="GOODS">
           <form id="GOODS_form">
             <!-- <input class="span5" type="hidden" name="cateCode" value="GOODS"> -->
-            <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="GOODS_count">0</span>人</button></div>
+            <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="GOODS_count">0</span>家</button></div>
             <ul class="col-xs-10 p0">
               <li class="col-md-3 col-sm-4 col-xs-12 pl15 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 物资技术人数:</span>
@@ -418,44 +433,11 @@
             <div class="clear"></div>
           </form>
         </div>
-        <!-- 物资服务经济 -->
-        <div class="col-md-12 clear mt20 pt20 borderTS1 display-none" id="GOODS_SERVER">
-          <form id="GOODS_SERVER_form">
-            <!-- <input class="span5" type="hidden" name="cateCode" value="GOODS_SERVER"> -->
-            <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="GOODS_SERVER_count">0</span>人</button></div>
-            <ul class="col-xs-10 p0">
-              <li class="col-md-3 col-sm-4 col-xs-12 pl15 list-style">
-                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 物资服务经济人数:</span>
-                <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                  <input class="span5" type="text" name="goods_server_i_count" id="goods_server_i_count" typeCode="GOODS_SERVER" onchange="vaCount(this)" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"> <span class="add-on">i</span>
-                  <div class="cue" id="err_goods_server_i_count"></div>
-                </div>
-              </li>
-              <!-- <li class="col-md-3 col-sm-4 col-xs-12 list-style">
-                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 产品类别:</span>
-                <input type="hidden" name="goods_server_isSatisfy" class="isSatisfy">
-                <input type="hidden" name="goods_server_type" class="categoryId">
-                <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                  <input class="span5" type="text" readonly onclick="opens(this);" typeCode="GOODS_SERVER" name=""> <span class="add-on">i</span>
-                  <div class="cue" id=""></div>
-                </div>
-              </li> -->
-              <li class="col-md-3 col-sm-4 col-xs-12 list-style">
-                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 技术职称:</span>
-                <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                  <input class="span5" type="text" name="goods_server_technical" onchange="getCount()" typeCode="GOODS_SERVER"> <span class="add-on">i</span>
-                  <div class="cue" id=""></div>
-                </div>
-              </li>
-            </ul>
-            <div class="clear"></div>
-          </form>
-        </div>
         <!-- 服务 -->
         <div class="col-md-12 clear mt20 pt20 borderTS1 display-none" id="SERVICE">
           <form id="SERVICE_form">
             <!-- <input class="span5" type="hidden" name="cateCode" value="SERVICE"> -->
-            <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="SERVICE_count">0</span>人</button></div>
+            <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="SERVICE_count">0</span>家</button></div>
             <ul class="col-xs-10 p0">
               <li class="col-md-3 col-sm-4 col-xs-12 pl15 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 服务技术人数:</span>
@@ -477,6 +459,39 @@
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 技术职称:</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                   <input class="span5" type="text" name="service_technical" onchange="getCount()" typeCode="SERVICE"> <span class="add-on">i</span>
+                  <div class="cue" id=""></div>
+                </div>
+              </li>
+            </ul>
+            <div class="clear"></div>
+          </form>
+        </div>
+        <!-- 物资服务经济 -->
+        <div class="col-md-12 clear mt20 pt20 borderTS1 display-none" id="GOODS_SERVER">
+          <form id="GOODS_SERVER_form">
+            <!-- <input class="span5" type="hidden" name="cateCode" value="GOODS_SERVER"> -->
+            <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="GOODS_SERVER_count">0</span>家</button></div>
+            <ul class="col-xs-10 p0">
+              <li class="col-md-3 col-sm-4 col-xs-12 pl15 list-style">
+                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 物资服务经济人数:</span>
+                <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                  <input class="span5" type="text" name="goods_server_i_count" id="goods_server_i_count" typeCode="GOODS_SERVER" onchange="vaCount(this)" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"> <span class="add-on">i</span>
+                  <div class="cue" id="err_goods_server_i_count"></div>
+                </div>
+              </li>
+              <!-- <li class="col-md-3 col-sm-4 col-xs-12 list-style">
+                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 产品类别:</span>
+                <input type="hidden" name="goods_server_isSatisfy" class="isSatisfy">
+                <input type="hidden" name="goods_server_type" class="categoryId">
+                <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                  <input class="span5" type="text" readonly onclick="opens(this);" typeCode="GOODS_SERVER" name=""> <span class="add-on">i</span>
+                  <div class="cue" id=""></div>
+                </div>
+              </li> -->
+              <li class="col-md-3 col-sm-4 col-xs-12 list-style">
+                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 技术职称:</span>
+                <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                  <input class="span5" type="text" name="goods_server_technical" onchange="getCount()" typeCode="GOODS_SERVER"> <span class="add-on">i</span>
                   <div class="cue" id=""></div>
                 </div>
               </li>

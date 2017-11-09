@@ -86,8 +86,9 @@ public interface SupplierExtractRelateResultMapper {
 	 * @author Jia Chengxiang
 	 * @dateTime 2017-10-24下午8:39:40
 	 * @param arrayList
+	 * @return 
 	 */
-	void insertAdv(ArrayList<SupplierExtractResult> arrayList);
+	int insertAdv(ArrayList<SupplierExtractResult> arrayList);
 	
 	/**
 	 * 批量添加
@@ -96,8 +97,9 @@ public interface SupplierExtractRelateResultMapper {
 	 * @author Jia Chengxiang
 	 * @dateTime 2017-10-24下午8:39:48
 	 * @param arrayList
+	 * @return 
 	 */
-	void insertRel(ArrayList<SupplierExtractResult> arrayList);
+	int insertRel(ArrayList<SupplierExtractResult> arrayList);
 	
 	/**
 	 * 自动抽取的获取供应商列表

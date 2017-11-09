@@ -57,8 +57,18 @@ public class SupplierExtractProjectInfo {
 
    /* @Pattern(regexp="^1[34578]\\d{9}$",message="格式不正确")
     @Length(min=11,max=11,message="格式不正确")*/
+    
+    /**
+     * 联系座机
+     */
     @NotNull
     private String contactNum;
+    
+    /**
+     * 联系手机
+     */
+    @NotNull
+    private String contactPhone;
     
     @Length(max=50)
     private String remark ;
@@ -124,6 +134,11 @@ public class SupplierExtractProjectInfo {
     private String provinceName;
     
     private String cityName;
+    
+    /**
+     * 建设单位
+     */
+    private String buildCompany;
     /**
      * <pre>
      * 创建时间格式年月日时分秒
@@ -642,4 +657,25 @@ public class SupplierExtractProjectInfo {
 		this.cityName = cityName;
 	}
 
+
+	public String getBuildCompany() {
+		return buildCompany;
+	}
+
+
+	public void setBuildCompany(String buildCompany) {
+		this.buildCompany = buildCompany;
+	}
+
+
+	public String getContactPhone() {
+		return contactPhone;
+	}
+
+
+	public void setContactPhone(String contactPhone) {
+		this.contactPhone = contactPhone;
+	}
+
+	
 }

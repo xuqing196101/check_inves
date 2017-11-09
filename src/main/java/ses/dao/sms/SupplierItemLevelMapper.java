@@ -1,6 +1,7 @@
 package ses.dao.sms;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -73,6 +74,7 @@ public interface SupplierItemLevelMapper {
 	/**
      * Description:根据 工程品目 查询其所有等级
      * 
+     * 
      * @author Ye MaoLin
      * @version 2017-10-18
      * @param categoryIds
@@ -94,4 +96,16 @@ public interface SupplierItemLevelMapper {
 	 * @return
 	 */
 	List<SupplierItemLevel> selectProjectSupplierByCategory(@Param("categoryId")String categoryId, @Param("supplierTypeRelateId")String supplierTypeRelateId , @Param("armyBusinessName")String armyBusinessName, @Param("supplierName")String supplierName, @Param("supplierLevel")String supplierLevel);
+	
+	
+	/**
+	 * 
+	 * <简述>根据map查询 要导出的信息
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-11-3下午4:58:49
+	 * @param map
+	 * @return
+	 */
+	List<SupplierItemLevel> selectByMapForExport(Map<String, Object> map);
 }

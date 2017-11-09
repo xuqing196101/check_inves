@@ -1,5 +1,6 @@
 package extract.controller.expert;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,8 +25,8 @@ import ses.util.DictionaryDataUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-
 import common.annotation.CurrentUser;
+
 import extract.model.expert.ExpertExtractProject;
 import extract.service.expert.ExpertExtractProjectService;
 
@@ -63,15 +64,20 @@ public class ExtractExpertRecordController {
             PageInfo<ExpertExtractProject> info = new PageInfo<>(list);
             model.addAttribute("info", info);
             // 采购方式
-            List<DictionaryData> purchaseWayList = DictionaryDataUtil.find(5);
-            if (purchaseWayList != null && purchaseWayList.size() > 0) {
-                for (DictionaryData dictionaryData : purchaseWayList) {
-                    if ("XJCG".equals(dictionaryData.getCode())) {
-                        dictionaryData.setName("询价");
-                    }
-                }
-            }
-            model.addAttribute("purchaseWayList", purchaseWayList);
+            List<DictionaryData> purchaseWayList = new ArrayList<DictionaryData>();
+            //公开招标
+            purchaseWayList.add(DictionaryDataUtil.get("GKZB"));
+            //邀请招标
+            purchaseWayList.add(DictionaryDataUtil.get("YQZB"));
+            //竞争性谈判
+            purchaseWayList.add(DictionaryDataUtil.get("JZXTP"));
+            //询价
+            DictionaryData dictionaryData = DictionaryDataUtil.get("XJCG");
+            dictionaryData.setName("询价");
+            purchaseWayList.add(dictionaryData);
+            //单一来源
+            purchaseWayList.add(DictionaryDataUtil.get("DYLY"));
+            model.addAttribute("purchaseWayList",purchaseWayList);
             model.addAttribute("project", expertExtractProject);
             model.addAttribute("startTime", startTime);
             model.addAttribute("endTime", endTime);

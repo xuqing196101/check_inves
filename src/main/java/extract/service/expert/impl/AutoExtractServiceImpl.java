@@ -22,6 +22,7 @@ import ses.model.bms.Area;
 import ses.model.ems.Expert;
 import ses.model.ems.ProjectExtract;
 import ses.util.DictionaryDataUtil;
+import ses.util.MobileUtils;
 
 import com.alibaba.fastjson.JSON;
 
@@ -85,11 +86,13 @@ public class AutoExtractServiceImpl implements AutoExtractService {
         ProjectVoiceResult projectVoiceResult = (ProjectVoiceResult)JSONObject.toBean(JSONObject.fromObject(result),ProjectVoiceResult.class,cMap);
         List<ExpertResult> expertList = projectVoiceResult.getExpertResult();
         //查询抽取的项目信息 
+        //标识回传的专家是否为请假的
+        boolean qjflag = false;
         ExpertExtractProject expertExtractProject = expertExtractProjectMapper.selectByPrimaryKey(projectVoiceResult.getRecordeId());
         if(expertExtractProject != null){
 	        for (ExpertResult expertResult : expertList) {
 	            //唯一标识  电话
-	            String mobile = expertResult.getExpertId();
+	            String mobile = MobileUtils.reMobile(expertResult.getExpertId());
 	            List<String> expertIdList = expertExtractProjectMapper.selExppertIdByMobile(mobile);
 	            String expertId = "";
 	            if(expertIdList != null && expertIdList.size() > 0){
@@ -108,12 +111,13 @@ public class AutoExtractServiceImpl implements AutoExtractService {
 	                //确认参加
 	                expertExtractResult.setIsJoin((short)1);
 	                expertExtractResultMapper.updateByProjectIdandExpertId(expertExtractResult);
-	            }else if(expertResult.getJoin() == 2){
+	            }else if(expertResult.getJoin() == 2 || expertResult.getJoin() == 4){
 	                //拒绝参加
 	                expertExtractResult.setIsJoin((short)3);
 	                expertExtractResultMapper.updateByProjectIdandExpertId(expertExtractResult);
 	            }else if(expertResult.getJoin() == 8){
 	                //请假   如果专家请假   删除这个专家
+	            	qjflag = true;
 	                expertExtractResult.setIsJoin((short)3);
 	                expertExtractResult.setIsDeleted((short)1);
 	                expertExtractResultMapper.updateByProjectIdandExpertId(expertExtractResult);
@@ -277,7 +281,7 @@ public class AutoExtractServiceImpl implements AutoExtractService {
 	                }
 	            }
 	        }
-	        if(flag){
+	        if(flag && !qjflag){
 	            //不需要继续抽取  将项目状态改成抽取完成
 	            Map<String, Object> projectMap = new HashMap<>();
 	            projectMap.put("status", 2);
@@ -466,11 +470,11 @@ public class AutoExtractServiceImpl implements AutoExtractService {
                 //正式专家
                 int zs = (int)countMap.get(code);
                 if(zs > 0){
-                    PeopleYytz peopleYytz = new PeopleYytz();
                     for (int i = 0; i < zs; i++) {
                     	if(reList.size() > i){
+                    		PeopleYytz peopleYytz = new PeopleYytz();
 	                        Expert expert = reList.get(i);
-	                        peopleYytz.setMobile(expert.getMobile());
+	                        peopleYytz.setMobile(MobileUtils.getMobile(expert.getMobile()));
 	                        peopleYytz.setUsername(expert.getRelName());
 	                        peopleYytz.setIscandidate("0");
 	                        peoplelist.add(peopleYytz);
@@ -533,11 +537,11 @@ public class AutoExtractServiceImpl implements AutoExtractService {
                 //候补专家
                 int hb = hbCountMap.get(code+"_hb") == null ? 0 : (int)hbCountMap.get(code+"_hb");
                 if(hb > 0){
-                    PeopleYytz peopleYytz = new PeopleYytz();
                     for (int i = zs; i < zs+hb; i++) {
                     	if(reList.size() > i){
+                    		PeopleYytz peopleYytz = new PeopleYytz();
 	                        Expert expert = reList.get(i);
-	                        peopleYytz.setMobile(expert.getMobile());
+	                        peopleYytz.setMobile(MobileUtils.getMobile(expert.getMobile()));
 	                        peopleYytz.setUsername(expert.getRelName());
 	                        peopleYytz.setIscandidate("1");
 	                        peoplelist.add(peopleYytz);
@@ -618,6 +622,12 @@ public class AutoExtractServiceImpl implements AutoExtractService {
         	String str = service.putObject(projectYytz, "E");
         	return str;
         } else{
+        	// 修改项目抽取状态
+        	Map<String, Object> projectMap = new HashMap<>();
+            projectMap.put("status", 2);
+            projectMap.put("projectId", expertExtractProject.getId());
+            projectMap.put("updatedAt", new Date());
+            expertExtractProjectMapper.updataStatus(projectMap);
         	return "noData";
         }
     }

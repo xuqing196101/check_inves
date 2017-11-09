@@ -81,7 +81,7 @@
                 async : false,
                 type : "POST",
                 success : function(data) {
-                   if(data == "-1"){
+                   if(data == "1"){
                 	   flag = true;
                    }else{
                 	   flag = false;
@@ -180,7 +180,7 @@ function form_reset(){
     <div class="col-md-12 pl20 mt10">
       <button class="btn" onclick="download();">下载抽取记录表</button>
     </div>
-    <div class="container table_box">
+    <div class="table_box">
       <table class="table table-striped table-bordered table-hover">
         <thead>
           <tr>

@@ -26,13 +26,16 @@
     <result column="CREATER_ID" property="createrId" jdbcType="VARCHAR" />
     <result column="PROCUREMENT_DEP_ID" property="procurementDepId" jdbcType="VARCHAR" />
     <result column="REVIEW_SITE" property="reviewSite" jdbcType="VARCHAR" />
+    <result column="CONSTRUCTION_NAME" property="constructionName" jdbcType="VARCHAR" />
+    <result column="LANDLINE" property="landline" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, PROJECT_NAME, CODE, PURCHASE_WAY, PACKAGE_NAME, REVIEW_TIME,
     REVIEW_PROVINCE,
     PROJECT_TYPE, EXTRACT_ADDRESS, CONTACT_PERSON, CONTACT_NUM, REMARK, IS_DELETED,
     CREATED_AT,
-    UPDATED_AT, PROJECT_ID, PACKAGE_ID, REVIEW_DAYS, REVIEW_ADDRESS, IS_AUTO,STATUS,PROCUREMENT_DEP_ID,REVIEW_SITE,CREATER_ID
+    UPDATED_AT, PROJECT_ID, PACKAGE_ID, REVIEW_DAYS, REVIEW_ADDRESS, IS_AUTO,STATUS,PROCUREMENT_DEP_ID,REVIEW_SITE,CREATER_ID,
+    CONSTRUCTION_NAME,LANDLINE
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
@@ -51,7 +54,7 @@
       CONTACT_PERSON, CONTACT_NUM, REMARK,
       IS_DELETED, CREATED_AT, UPDATED_AT,
       PROJECT_ID, PACKAGE_ID, REVIEW_DAYS,
-      REVIEW_ADDRESS, IS_AUTO,STATUS,PROCUREMENT_DEP_ID,REVIEW_SITE,CREATER_ID)
+      REVIEW_ADDRESS, IS_AUTO,STATUS,PROCUREMENT_DEP_ID,REVIEW_SITE,CREATER_ID,CONSTRUCTION_NAME,LANDLINE)
     values (#{id,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR},
       #{code,jdbcType=VARCHAR},
       #{purchaseWay,jdbcType=VARCHAR}, #{packageName,jdbcType=VARCHAR}, #{reviewTime,jdbcType=TIMESTAMP},
@@ -62,7 +65,7 @@
       #{updatedAt,jdbcType=TIMESTAMP},
       #{projectId,jdbcType=VARCHAR}, #{packageId,jdbcType=VARCHAR}, #{reviewDays,jdbcType=VARCHAR},
       #{reviewAddress,jdbcType=VARCHAR}, #{isAuto,jdbcType=DECIMAL},#{status,jdbcType=VARCHAR},#{procurementDepId,jdbcType=VARCHAR},
-      #{reviewSite,jdbcType=VARCHAR},#{createrId,jdbcType=VARCHAR}
+      #{reviewSite,jdbcType=VARCHAR},#{createrId,jdbcType=VARCHAR},#{constructionName,jdbcType=VARCHAR},#{landline,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="extract.model.expert.ExpertExtractProject">
@@ -140,6 +143,12 @@
       <if test="createrId != null">
         CREATER_ID,
       </if>
+      <if test="constructionName != null">
+        CONSTRUCTION_NAME,
+      </if>
+      <if test="landline != null">
+        LANDLINE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -213,6 +222,12 @@
       </if>
       <if test="createrId != null">
         #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="constructionName != null">
+        #{constructionName,jdbcType=VARCHAR},
+      </if>
+      <if test="landline != null">
+        #{landline,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -288,6 +303,12 @@
       <if test="createrId != null">
         CREATER_ID = #{createrId,jdbcType=VARCHAR},
       </if>
+      <if test="constructionName != null">
+        CONSTRUCTION_NAME = #{constructionName,jdbcType=VARCHAR},
+      </if>
+      <if test="landline != null">
+        LANDLINE = #{landline,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -315,7 +336,9 @@
       STATUS = #{status,jdbcType=VARCHAR},
       PROCUREMENT_DEP_ID = #{procurementDepId,jdbcType=VARCHAR},
       REVIEW_SITE = #{reviewSite,jdbcType=VARCHAR},
-      CREATER_ID = #{createrId,jdbcType=VARCHAR}
+      CREATER_ID = #{createrId,jdbcType=VARCHAR},
+      CONSTRUCTION_NAME = #{constructionName,jdbcType=VARCHAR},
+      LANDLINE = #{landline,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   

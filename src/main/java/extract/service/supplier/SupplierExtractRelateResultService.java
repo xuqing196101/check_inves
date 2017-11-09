@@ -21,7 +21,7 @@ import extract.model.supplier.SupplierVoiceResult;
 	 */
   public interface SupplierExtractRelateResultService {
 
-  void saveResult(SupplierExtractResult supplierExtRelate, String projectType);
+  int saveResult(SupplierExtractResult supplierExtRelate, String projectType);
 
   void saveOrUpdateVoiceResult(SupplierExtractCondition condition,
 		List<Supplier> suppliers, List<SupplierVoiceResult> suppliers2,

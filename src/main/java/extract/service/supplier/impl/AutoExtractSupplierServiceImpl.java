@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierExtRelate;
+import ses.util.MobileUtils;
 import synchro.service.SynchRecordService;
 import synchro.util.Constant;
 import synchro.util.FileUtils;
@@ -29,8 +30,8 @@ import extract.autoVoiceExtract.ProjectYytz;
 import extract.dao.supplier.ExtractConditionRelationMapper;
 import extract.dao.supplier.SupplierExtractConditionMapper;
 import extract.dao.supplier.SupplierExtractRelateResultMapper;
+import extract.model.supplier.ExtractConditionRelation;
 import extract.model.supplier.ProjectVoiceResult;
-import extract.model.supplier.SupplierConType;
 import extract.model.supplier.SupplierExtractCondition;
 import extract.model.supplier.SupplierExtractProjectInfo;
 import extract.model.supplier.SupplierExtractResult;
@@ -43,7 +44,7 @@ import extract.util.DateUtils;
 import extract.util.WebServiceUtil;
 
 @Service
-public class AutoExtractServiceImpl implements AutoExtractSupplierService {
+public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierService {
 
 	  ObjectMapper mapper = new ObjectMapper();
 	  
@@ -75,14 +76,12 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
       @Autowired
       private SynchRecordService  synchRecordService;
 	
-      @Autowired
-      private SupplierExtractRelateResultMapper supplierExtractRelateResultMapper;//真实、预研结果项目存储
 	/**
-	 * 自动抽取
+	 * 自动抽取()
 	 */
 	@Override
 	public Map<String, Object> autoExtract(SupplierExtractCondition condition,
-			SupplierConType conType,String projectInfo) {
+			String projectInto) {
 		
 		HashMap<String, Object> map = new HashMap<>();
 		
@@ -93,19 +92,34 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 		String typeCode = condition.getSupplierTypeCode();
 		try {
 			//设置抽取条件
-			String code = conditionService.setExtractCondition(typeCode, condition, conType);
-			//查询供应商
+			conditionService.setExtractCondition2(condition, typeCode);
+			//查询当前应抽取人数
 			if(null == condition.getExtractNum()){
-				map.put("error",code+"ExtractNumError");
+				map.put("error","extractNumError");
 				return map;
 			}
+			//查询供应商
 			List<Supplier> suppliers = supplierExtRelateMapper.autoExtractSupplierList(condition);
-			//存储自动抽取结果
-			resultService.saveOrUpdateVoiceResult(condition,suppliers,null,projectInfo);
-			
-			String status = callVoiceService(suppliers,condition.getRecordId());
-			if("500".equals(status)|| StringUtils.isBlank(status)){
-				map.put("error", "语音接口调用异常");
+			if(suppliers.size()>0){
+				
+				//存储自动抽取结果
+				resultService.saveOrUpdateVoiceResult(condition,suppliers,null,projectInto);
+				//查询项目信息
+				SupplierExtractProjectInfo projectInfo = recordService.selectByPrimaryKey(condition.getRecordId());
+				
+				//调用语音接口
+				String status = callVoiceService2(suppliers,projectInfo);
+				
+				if("500".equals(status)|| StringUtils.isBlank(status)){
+					map.put("error", "语音接口调用异常");
+				}
+			}
+			if(suppliers.size()<condition.getExtractNum()){
+				//修改项目状态为不满足条件
+				SupplierExtractProjectInfo projectInfo = new SupplierExtractProjectInfo();
+				projectInfo.setStatus((short)1);
+				projectInfo.setId(condition.getRecordId());
+				recordService.update(projectInfo);
 			}
 			
 		} catch (Exception e) {
@@ -137,9 +151,9 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 		for (Supplier supplier : suppliers) {
 			PeopleYytz peopleYytz = new PeopleYytz();
 			peopleYytz.setUsername(supplier.getSupplierName());
-			peopleYytz.setMobile("017319170452");
+			peopleYytz.setMobile(MobileUtils.getMobile(supplier.getArmyBuinessTelephone()));
 			peopleYytz.setContactname(supplier.getArmyBusinessName());
-			peopleYytz.setContactmobile("017319170452");
+			peopleYytz.setContactmobile(MobileUtils.getMobile(supplier.getArmyBuinessTelephone()));
 			arrayList.add(peopleYytz);
 		}
 		
@@ -180,12 +194,13 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 	public String callVoiceService2(List<Supplier> suppliers, SupplierExtractProjectInfo projectInfo) {
 		
 		ArrayList<PeopleYytz> arrayList = new ArrayList<>();
+		
 		for (Supplier supplier : suppliers) {
 			PeopleYytz peopleYytz = new PeopleYytz();
 			peopleYytz.setUsername(supplier.getSupplierName());
-			peopleYytz.setMobile("17319170452");
+			peopleYytz.setMobile(MobileUtils.getMobile(supplier.getArmyBuinessTelephone()));
 			peopleYytz.setContactname(supplier.getArmyBusinessName());
-			peopleYytz.setContactmobile("17319170452");
+			peopleYytz.setContactmobile(MobileUtils.getMobile(supplier.getArmyBuinessTelephone()));
 			arrayList.add(peopleYytz);
 		}
 		
@@ -228,7 +243,7 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 		//解析json
 		try {
 			Map<Object, Class<SupplierVoiceResult>> cMap = new HashMap<Object, Class<SupplierVoiceResult>>();
-		    cMap.put("expertList", SupplierVoiceResult.class);
+		    cMap.put("supplierResult", SupplierVoiceResult.class);
 			json = json.indexOf("＂") != -1 ? json.replace("＂", "\"") : json;
 			projectVoiceResult = (ProjectVoiceResult)JSONObject.toBean(JSONObject.fromObject(json),ProjectVoiceResult.class,cMap);
 		} catch (Exception e) {
@@ -237,39 +252,46 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 		}
 		
 		//获取项目信息,查询抽取数量
-		SupplierExtractProjectInfo projectInfo = recordService.selectByPrimaryKey(projectVoiceResult.getRecordId());
+		SupplierExtractProjectInfo projectInfo = recordService.selectByPrimaryKey(projectVoiceResult.getRecordeId());
 		SupplierExtractCondition condition = conditionMapper.selectByPrimaryKey(projectInfo.getConditionId());
 		
 		HashMap<Object, Object> hashMap = new HashMap<>();
-		String supplierTypeCode = condition.getSupplierTypeCode().toLowerCase();
 		hashMap.put("conditionId", projectInfo.getConditionId());
-		hashMap.put("propertyName", supplierTypeCode+"ExtractNum");
-		List<String> conditionConTypes = contypeMapper.getByMap(hashMap);
+		hashMap.put("propertyName","currentExtractNum");
+		List<String> currentExtractNum = contypeMapper.getByMap(hashMap);
 		
 		String ExtractNum = null;
-		if(conditionConTypes.size()>0){
-			ExtractNum = conditionConTypes.get(0);
+		if(currentExtractNum.size()>0){
+			ExtractNum = currentExtractNum.get(0);
 		}
 		
 		if(null != projectVoiceResult){
 			//获取参加状态,持久化
 			List<SupplierVoiceResult> suppliersResult = projectVoiceResult.getSupplierResult();
-			int count = 0;
+			Short count = 0;
 			for (SupplierVoiceResult supplier : suppliersResult) {
 				if(supplier.getJoin().equals("1")){
 					count ++;
 				}
+				supplier.setSupplierId(MobileUtils.reMobile(supplier.getSupplierId()));
 			}
 			
 			//修改供应商参加状态
 			resultService.saveOrUpdateVoiceResult(condition, null,suppliersResult,projectInfo.getProjectInto());
 			//判断参加人数是否满足，不满足再次获取供应商通知
-			int parseInt = Integer.parseInt(ExtractNum);
-			if(count<parseInt){
-				SupplierConType conType = this.selectconType(parseInt-count,condition.getId());
-				Map<String, Object> autoExtract = this.autoExtract(condition, conType,projectInfo.getProjectInto());
+			Short parseShort = Short.parseShort(ExtractNum);
+			if(count<parseShort){
+				Short supplement = (short) (parseShort-count);
+				condition.setExtractNum((short) (parseShort-count));
+				//将需要再次抽取的数量写入进数据库，便于下次进行判断
+				hashMap.put("propertyValue", supplement.toString());
+				contypeMapper.updateByMap(hashMap);
+				condition = this.selectconType(condition);
+				this.autoExtract(condition,projectInfo.getProjectInto());
 			}else{
 				//修改项目状态为抽取结束
+				projectInfo.setStatus((short)1);
+				recordService.update(projectInfo);
 			}
 		}
 		return "service error";
@@ -284,21 +306,35 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 	 * @dateTime 2017-10-16下午3:42:44
 	 * @return
 	 */
-	public SupplierConType selectconType(int extractNum,String conditionId) {
+	public SupplierExtractCondition selectconType(SupplierExtractCondition condition) {
 		
-		List<Map<String, String>> conTypeList = contypeMapper.getConTypeList(conditionId);
+		List<ExtractConditionRelation> conTypeList = contypeMapper.getConTypeList(condition.getId());
 		
-		SupplierConType conType = new SupplierConType();
-		for (Map<String, String> map : conTypeList) {
+		//SupplierConType conType = new SupplierConType();
+		Class<?> conditionClass = condition.getClass();
+		for (ExtractConditionRelation map : conTypeList) {
+			
 			try {
-				Class<?> supplierConType = SupplierConType.class;
-				supplierConType.getMethod("set"+map.get("property_name")).invoke(conType, "property_value");
+				
+				//首字母大写
+				String string = map.getPropertyName();
+				char[] charArray = string.toCharArray();
+				charArray[0] -= 32;
+				String valueOf = String.valueOf(charArray);
+				Object invoke = conditionClass.getMethod("get"+valueOf).invoke(condition);
+				if(null == invoke){
+					conditionClass.getMethod("set"+valueOf,String.class).invoke(condition, map.getPropertyValue());
+				}else{
+					conditionClass.getMethod("set"+valueOf,String.class).invoke(condition, invoke+","+map.getPropertyValue());
+				}
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		return conType;
+		return condition;
 	}
+
 	
 	/**
 	 * 外网查询待通知项目集合
@@ -308,6 +344,7 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 	 * @dateTime 2017-10-19下午7:09:34
 	 * @return
 	 */
+	@Override
 	public void selectAutoExtractProject() {
 		
 		List<SupplierExtractProjectInfo> projectInfos = recordService.selectAutoExtractProject();
@@ -318,9 +355,8 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 				
 
 				HashMap<Object, Object> hashMap = new HashMap<>();
-				String supplierTypeCode = condition.getSupplierTypeCode().toLowerCase();
 				hashMap.put("conditionId", projectInfo.getConditionId());
-				hashMap.put("propertyName", supplierTypeCode+"ExtractNum");
+				hashMap.put("propertyName", "currentExtractNum");
 				List<String> conditionConTypes = contypeMapper.getByMap(hashMap);
 				
 				String ExtractNum = null;
@@ -328,7 +364,8 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 					ExtractNum = conditionConTypes.get(0);
 				}
 				
-				SupplierConType conType = selectconType(Integer.parseInt(ExtractNum),condition.getId());
+				condition.setExtractNum(Short.parseShort(ExtractNum));
+				condition = selectconType(condition);
 				
 				//排除供应商
 				conditionService.excludeSupplier(condition);
@@ -336,14 +373,18 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 				String typeCode = condition.getSupplierTypeCode();
 				try {
 					//设置抽取条件
-					String code = conditionService.setExtractCondition(typeCode, condition, conType);
+					conditionService.setExtractCondition2(condition,typeCode);
 					//查询供应商
 					List<Supplier> suppliers = supplierExtRelateMapper.autoExtractSupplierList(condition);
-					//存储自动抽取结果
-					resultService.saveOrUpdateVoiceResult(condition,suppliers,null,projectInfo.getProjectInto());
-					
-					String status = callVoiceService2(suppliers,projectInfo);
-					
+					if(suppliers.size()>0){
+						//存储自动抽取结果
+						resultService.saveOrUpdateVoiceResult(condition,suppliers,null,projectInfo.getProjectInto());
+						callVoiceService2(suppliers,projectInfo);
+					}else{
+						//修改项目状态为不满足条件
+						projectInfo.setStatus((short)1);
+						recordService.update(projectInfo);
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -352,18 +393,9 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 	}
 
 
-	 /**
-	   * 点击自动抽取 将项目信息，抽取条件从内网导出
-	   * <简述> 
-	   *
-	   * @author Jia Chengxiang
-	   * @dateTime 2017-10-20下午6:09:19
-	   * @return
-	   */
 	@Override
 	public Map<String, Object> exportExtractInfo(
-			SupplierExtractCondition condition, SupplierConType conType,
-			String projectInto) {
+			SupplierExtractCondition condition,String projectInto) {
 		ArrayList<SupplierExtractProjectInfo> projectInfos = new ArrayList<>();
 		ArrayList<SupplierExtractCondition> conditions = new ArrayList<>();
 		conditions.add(condition);
@@ -371,6 +403,8 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 		SupplierExtractProjectInfo projectInfo = recordService.selectByPrimaryKey(condition.getRecordId());
 		projectInfos.add(projectInfo);
 		if(null!=projectInfo){
+			projectInfo.setStatus((short)2);
+			projectInfo.setExtractTheWay((short)0);
 			 //生成json 并保存
             FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_EXTRACT_PROJECT_PATH_FILENAME, 35),JSON.toJSONString(projectInfos));
 		}
@@ -385,6 +419,9 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 		return null;
 	}
 	
+	/**
+	 * 外网导入抽取信息抽取条件
+	 */
 	@Override
 	public void  importSupplierExtract(File file) {
 	   int num = 0;
@@ -415,14 +452,14 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
                     }else{
                     	conditionMapper.insertSelective(condition);
                     }
-                    if(null!=condition.getSupplierConType()){
-                    	conditionService.saveContype(condition, condition.getSupplierConType());
-                    }
+                    conditionService.saveContype2(condition);
                 }
             }
         }
         synchRecordService.synchBidding(new Date(), num+"", Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO, Constant.OPER_TYPE_IMPORT, Constant.SUPPLIER_EXTRACT_COMMIT_IMPORT);
+        //selectAutoExtractProject();
 	}
+	
 	
 	 /**
      * 供应商抽取结果导入
@@ -483,4 +520,25 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
         }
         synchRecordService.synchBidding(new Date(), sum + "",Constant.DATE_SYNCH_SUPPLIER_EXTRACT_RESULT, Constant.OPER_TYPE_EXPORT,Constant.SUPPLIER_EXTRACT_RESULT_COMMIT);
     }
+    
+	 /**
+	   * 抽取记录导出（项目信息）
+	   * <简述> 
+	   *
+	   * @author Jia Chengxiang
+	   * @dateTime 2017-10-20下午6:09:19
+	   * @return
+	   */
+	@Override
+	public Map<String, Object> exportExtractProjectInfo(String start, String end, Date synchDate) {
+		//查询项目信息
+		List<SupplierExtractProjectInfo> projectInfos  = recordService.selectRecordForExport(start,end);
+		if(projectInfos.size()>0){
+			//生成json 并保存
+			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_EXTRACT_PROJECT_PATH_FILENAME, 35),JSON.toJSONString(projectInfos));
+		}
+		synchRecordService.synchBidding(new Date(), "1", Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO, Constant.OPER_TYPE_EXPORT, Constant.SUPPLIER_EXTRACT_COMMIT);
+		return null;
+	}
+	
 }

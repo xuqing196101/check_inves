@@ -6,7 +6,6 @@ package extract.service.supplier.impl;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +40,7 @@ import extract.dao.supplier.SupplierExtractRelateResultMapper;
 import extract.model.common.ExtractUser;
 import extract.model.supplier.SupplierExtractCondition;
 import extract.model.supplier.SupplierExtractProjectInfo;
+import extract.model.supplier.SupplierExtractResult;
 import extract.service.supplier.SupplierExtractRecordService;
 
 /**
@@ -80,7 +80,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
     private ExtractConditionRelationMapper conditionRelationMapper;
     
     @Autowired
-    private SupplierExtractRelateResultMapper conMapper;
+    private SupplierExtractRelateResultMapper resultMapper;
     
     @Autowired
     private ExtractUserMapper userMapper;
@@ -93,7 +93,6 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 
     @Override
     public void update(SupplierExtractProjectInfo extracts) {
-    	extracts.setExtractionTime(new Date());
         recordMapper.saveOrUpdateProjectInfo(extracts);
     }
     
@@ -138,8 +137,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 	 * 修改项目信息
 	 */
 	@Override
-	public int saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo,User user) {
-		projectInfo.setProcurementDepId(user.getOrg().getId());//存储采购机构
+	public int saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo) {
 		return recordMapper.saveOrUpdateProjectInfo(projectInfo);
 	}
 
@@ -188,20 +186,14 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
        
 //	        Supplier supplier = JSON.parseObject(supplierJson, Supplier.class);
         /** 创建word文件 **/
-        String fileName;
+        String fileName = "";
         if("PROJECT".equals(info.get("typeCode"))){
         	 fileName = WordUtil.createWord(info, "extractSupplierEng.ftl",
         	            name, request);
         }else if(null !=info.get("typeCode") && (info.get("typeCode").toString().split(";").length==1) ){
         	 fileName = WordUtil.createWord(info, "extractSupplierSV.ftl",
         	            name, request);
-        }else{
-        	 fileName = WordUtil.createWord(info, "extractSupplier2.ftl",
-        	            name, request);
         }
-       
-//	        String fileName = WordUtil.createWord(supplier, "test2.ftl",
-//	        		name, request);
         // 下载后的文件名
         String downFileName;
         if("PROJECT".equals(info.get("typeCode"))){
@@ -220,6 +212,17 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
         return service.downloadFile(fileName, filePath, downFileName);
 	}
 
+	/**
+	 * 
+	 * <简述>需求变更前代码未优化时下载记录表查询信息方法 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-11-6下午6:17:32
+	 * @param recordId
+	 * @param projectInto
+	 * @return
+	 */
+	@SuppressWarnings("unused")
 	private Map<String, Object> selectExtractInfo1(String recordId, String projectInto) {
 		
 		SupplierExtractProjectInfo projectInfo = recordMapper.getProjectInfoById(recordId);
@@ -276,7 +279,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 			map.put("typeCode",projectCode);
 			
 			//建设单位
-			map.put("conCom", "");
+			map.put("buildCompany",projectInfo.getBuildCompany());
 			
 			//类别
 			hashMap.put("propertyName", c+"CategoryId");
@@ -324,11 +327,11 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 			hashMap2.put("recordId", recordId);
 			hashMap2.put("supplierType",projectCode);
 			if("relPro".equals(projectInto)){
-				map.put("result", conMapper.getSupplierListByRidForRel(hashMap2));
+				map.put("result", resultMapper.getSupplierListByRidForRel(hashMap2));
 			}else if("advPro".equals(projectInto)){
-				map.put("result", conMapper.getSupplierListByRidForAdv(hashMap2));
+				map.put("result", resultMapper.getSupplierListByRidForAdv(hashMap2));
 			}else{
-				map.put("result", conMapper.getSupplierListByRid(hashMap2));
+				map.put("result", resultMapper.getSupplierListByRid(hashMap2));
 			}
 			
 			//保密要求
@@ -405,7 +408,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 					HashMap<String,String> hashMap2 = new HashMap<>();
 					hashMap2.put("recordId", recordId);
 					hashMap2.put("supplierType",typeCode);
-					map.put(c+"Result", conMapper.getSupplierListByRid(hashMap2));
+					map.put(c+"Result", resultMapper.getSupplierListByRid(hashMap2));
 				}	
 				
 			}else{
@@ -462,26 +465,35 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 				hashMap2.put("recordId", recordId);
 				hashMap2.put("supplierType",supplierTypeCode);
 				if("relPro".equals(projectInto)){
-					map.put("result", conMapper.getSupplierListByRidForRel(hashMap2));
+					map.put("result", resultMapper.getSupplierListByRidForRel(hashMap2));
 				}else if("advPro".equals(projectInto)){
-					map.put("result", conMapper.getSupplierListByRidForAdv(hashMap2));
+					map.put("result", resultMapper.getSupplierListByRidForAdv(hashMap2));
 				}else{
-					map.put("result", conMapper.getSupplierListByRid(hashMap2));
+					map.put("result", resultMapper.getSupplierListByRid(hashMap2));
 				}
 
 				
 				/*HashMap<String,String> hashMap2 = new HashMap<>();
 				hashMap2.put("recordId", recordId);
 				hashMap2.put("supplierType",supplierTypeCode);
-				//List<SupplierExtractResult> supplierListByRid = conMapper.getSupplierListByRid(hashMap2);
-				map.put("result", conMapper.getSupplierListByRid(hashMap2));*/
+				//List<SupplierExtractResult> supplierListByRid = resultMapper.getSupplierListByRid(hashMap2);
+				map.put("result", resultMapper.getSupplierListByRid(hashMap2));*/
 			}
 		}
 		
 		return map;
 	}
 	
-	
+	/**
+	 * 
+	 * <简述>11-3日需求变更后，代码优化查询抽取信息 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-11-6下午6:18:27
+	 * @param recordId
+	 * @param projectInto
+	 * @return
+	 */
 	private Map<String, Object> selectExtractInfo(String recordId, String projectInto) {
 		
 		SupplierExtractProjectInfo projectInfo = recordMapper.getProjectInfoById(recordId);
@@ -546,26 +558,17 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 		map.put("category", temp);
 		
 		//供应商数量
-		hashMap.put("propertyName", "extractNum");
-		List<String> byMap3 = conditionRelationMapper.getByMap(hashMap);
-		if(null !=byMap3 && byMap3.size()>0){
-			
-			map.put("extractNum",byMap3.get(0) );
-		}else{
-			
-			map.put("extractNum", "0");
-		}
+		map.put("extractNum",condition.getExtractNum());
 		
 		if("PROJECT".equals(projectCode)){
 			//供应商类型
 			map.put("typeCode",projectCode);
 			
 			//建设单位
-			map.put("conCom", "");
-			
+			map.put("buildCompany",projectInfo.getBuildCompany());
 			
 			//供应商资质等级
-			hashMap.put("propertyName","level");
+			hashMap.put("propertyName","levelTypeId");
 			List<String> byMap = conditionRelationMapper.getByMap(hashMap);
 			if(null!=byMap && byMap.size()>0){
 				List<String> list3 = conditionMapper.getLevelByList(byMap);
@@ -584,62 +587,91 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 			hashMap2.put("recordId", recordId);
 			hashMap2.put("supplierType",projectCode);
 			if("relPro".equals(projectInto)){
-				map.put("result", conMapper.getSupplierListByRidForRel(hashMap2));
+				map.put("result", resultMapper.getSupplierListByRidForRel(hashMap2));
 			}else if("advPro".equals(projectInto)){
-				map.put("result", conMapper.getSupplierListByRidForAdv(hashMap2));
+				map.put("result", resultMapper.getSupplierListByRidForAdv(hashMap2));
 			}else{
-				map.put("result", conMapper.getSupplierListByRid(hashMap2));
+				map.put("result", resultMapper.getSupplierListByRid(hashMap2));
 			}
 			
 			//保密要求
-			hashMap.put("propertyName","isHavingConCert");
-			List<String> bm = conditionRelationMapper.getByMap(hashMap);
-			if(null !=byMap3 && byMap3.size()>0){
-				
-				map.put("projectIsHavingConCert",bm.get(0).equals("0")?"无":"有" );
+			String isHavingConCert = condition.getIsHavingConCert();
+			if(StringUtils.isNotBlank(isHavingConCert)){
+				map.put("projectIsHavingConCert",isHavingConCert.equals("0")?"无":"有" );
 			}else{
-				map.put("projectIsHavingConCert", "不限");
+				map.put("projectIsHavingConCert","不限");
 			}
 			
 			//企业性质
-			hashMap.put("propertyName", "businessNature");
-			List<String> byMap5 = conditionRelationMapper.getByMap(hashMap);
-			if(null !=byMap5 && byMap5.size()>0){
-				map.put("projectBusinessNature",byMap5.get(0).equals("0")?"不限":(dictionaryDataMapper.selectByPrimaryKey(byMap5.get(0)).getName()));
-			}else{
-				map.put("projectBusinessNature", "不限");
-			}
+			String businessNature = condition.getBusinessNature();
+			map.put("projectBusinessNature",StringUtils.isBlank(businessNature)?"不限":(dictionaryDataMapper.selectByPrimaryKey(businessNature).getName()));
 			
 		}else{
 			//供应商类型
-			map.put("typeCode",dictionaryDataMapper.selectByCode(condition.getSupplierTypeCode()).get(0).getName());
 			String supplierTypeCode = condition.getSupplierTypeCode();
-			
-			//供应商等级
-			hashMap.put("propertyName", "level");
-			List<String> byMap = conditionRelationMapper.getByMap(hashMap);
-			temp = "";
-			if(null!=byMap && byMap.size()>0){
-				for (String string : byMap) {
-					temp +=(string + ",");
+			if("GOODS".equals(supplierTypeCode)){
+				map.put("typeCode","物资生产，物资销售");
+				
+				//生产供应商等级
+				hashMap.put("propertyName", "levelTypeId");
+				List<String> byMap = conditionRelationMapper.getByMap(hashMap);
+				String productLevel = "物资生产：";
+				if(null!=byMap && byMap.size()>0){
+					for (String string : byMap) {
+						productLevel +=(string + ",");
+					}
+					productLevel = productLevel.substring(0,productLevel.lastIndexOf(","));
+				}else{
+					productLevel +="不限等级";
 				}
-				temp = temp.substring(0,temp.lastIndexOf(","));
+				//销售供应商等级
+				hashMap.put("propertyName", "salesLevelTypeId");
+				List<String> sales = conditionRelationMapper.getByMap(hashMap);
+				String salesLevel = "物资销售：";
+				if(null!=sales && sales.size()>0){
+					for (String string : sales) {
+						salesLevel +=(string + ",");
+					}
+					salesLevel = salesLevel.substring(0,salesLevel.lastIndexOf(","));
+				}else{
+					salesLevel +="不限等级";
+				}
+				
+				
+				map.put("level",productLevel+"  "+salesLevel);
+				
 			}else{
-				temp ="不限等级";
+				map.put("typeCode",dictionaryDataMapper.selectByCode(supplierTypeCode).get(0).getName());
+				
+				//供应商等级
+				hashMap.put("propertyName", "levelTypeId");
+				List<String> byMap = conditionRelationMapper.getByMap(hashMap);
+				temp = "";
+				if(null!=byMap && byMap.size()>0){
+					for (String string : byMap) {
+						temp +=(string + ",");
+					}
+					temp = temp.substring(0,temp.lastIndexOf(","));
+				}else{
+					temp ="不限等级";
+				}
+				map.put("level",temp);
 			}
-			map.put("level",temp);
+			
 			
 			//抽取结果
 			HashMap<String,String> hashMap2 = new HashMap<>();
 			hashMap2.put("recordId", recordId);
 			hashMap2.put("supplierType",supplierTypeCode);
+			List<SupplierExtractResult> supplierList = null ;
 			if("relPro".equals(projectInto)){
-				map.put("result", conMapper.getSupplierListByRidForRel(hashMap2));
+				supplierList = resultMapper.getSupplierListByRidForRel(hashMap2);
 			}else if("advPro".equals(projectInto)){
-				map.put("result", conMapper.getSupplierListByRidForAdv(hashMap2));
+				supplierList = resultMapper.getSupplierListByRidForAdv(hashMap2);
 			}else{
-				map.put("result", conMapper.getSupplierListByRid(hashMap2));
+				supplierList = resultMapper.getSupplierListByRid(hashMap2);
 			}
+			map.put("result",supplierList );
 		}
 		
 		return map;
@@ -662,6 +694,16 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 		
 		List<SupplierExtractProjectInfo> projectInfos = recordMapper.selectAutoExtractProject();
 		return projectInfos;
+	}
+
+
+	@Override
+	public List<SupplierExtractProjectInfo> selectRecordForExport(String start, String end) {
+		SupplierExtractProjectInfo p = new SupplierExtractProjectInfo();
+		p.setExtractTheWay((short)0);
+		p.setStartTime(start);
+		p.setEndTime(end);
+		return  recordMapper.getListByMap(p);
 	}
 
 }

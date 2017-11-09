@@ -59,7 +59,11 @@ public class SupplierExtractResult extends SupplierExtRelate {
 	
 	private String[] packageIds;
 	
+	private String level;
+	
 	private String supplierName;
+	
+	private String supplierLevel;
 	
 	//联系人姓名
 	private String contactName;
@@ -69,6 +73,9 @@ public class SupplierExtractResult extends SupplierExtRelate {
 	
 	//联系人姓名
 	private String armyBusinessName;
+	
+	//联系人固定电话
+	private String armyBusinessMobile;
 	
 	//联系人电话
 	private String armyBuinessTelephone;
@@ -245,9 +252,29 @@ public class SupplierExtractResult extends SupplierExtRelate {
 		this.armyBuinessTelephone = armyBuinessTelephone;
 	}
 
+	public String getArmyBusinessMobile() {
+		return armyBusinessMobile;
+	}
 
-	
-  
-	
+	public void setArmyBusinessMobile(String armyBusinessMobile) {
+		this.armyBusinessMobile = armyBusinessMobile;
+	}
+
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
+	}
+
+	public String getSupplierLevel() {
+		return supplierLevel;
+	}
+
+	public void setSupplierLevel(String supplierLevel) {
+		this.supplierLevel = supplierLevel;
+	}
+
 	
 }

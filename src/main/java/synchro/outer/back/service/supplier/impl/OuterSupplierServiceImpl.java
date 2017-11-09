@@ -1,16 +1,18 @@
 package synchro.outer.back.service.supplier.impl;
 
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import common.constant.Constant;
-import common.dao.FileUploadMapper;
-import common.model.UploadFile;
-import common.service.UploadService;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
@@ -24,6 +26,7 @@ import ses.dao.sms.SupplierCertSellMapper;
 import ses.dao.sms.SupplierCertServeMapper;
 import ses.dao.sms.SupplierEngQuaMapper;
 import ses.dao.sms.SupplierHistoryMapper;
+import ses.dao.sms.SupplierItemLevelMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierModifyMapper;
 import ses.dao.sms.SupplierRegPersonMapper;
@@ -50,6 +53,7 @@ import ses.model.sms.SupplierEngQua;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierHistory;
 import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierItemLevel;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
@@ -75,12 +79,12 @@ import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import common.constant.Constant;
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
+import common.service.UploadService;
 
 /**
  * 
@@ -218,6 +222,9 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     @Autowired
     private SupplierAuditOpinionMapper supplierAuditOpinionMapper;
 
+    @Autowired
+    private SupplierItemLevelMapper supplierItemLevelMapper;
+    
     /**
      * 
      * @see synchro.outer.back.service.supplier.OuterSupplierService#exportCommitSupplier(java.lang.String, java.lang.String, java.util.Date)
@@ -954,5 +961,34 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
         }
         recordService.synchBidding(null, new Integer(users.size()).toString(), synchro.util.Constant.SYNCH_LOGOUT_SUPPLIER, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.EXPORT_SYNCH_LOGOUT_SUPPLIER);
     }
+    
+    
+    /**
+     * Description:查询注销供应商导出
+     *
+     * @param startTime
+     * @param endTime
+     * @author Easong
+     * @version 2017/10/16
+     * @since JDK1.7
+     */
+    @Override
+    public void selectSupplierLevelOfExport(String startTime, String endTime) {
+    	// 查询注销供应商
+    	Map<String, Object> map = new HashedMap();
+    	map.put("startTime", startTime);
+    	map.put("endTime", endTime);
+    	
+    	List<SupplierItemLevel> levels = supplierItemLevelMapper.selectByMapForExport(map);
+    	
+    	// 将查询的数据封装
+    	//将数据写入文件
+    	if (!levels.isEmpty()) {
+    		FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_LEVEL_FILENAME, 37), JSON.toJSONString(levels, SerializerFeature.WriteMapNullValue));
+    	}
+    	recordService.synchBidding(null, new Integer(levels.size()).toString(), synchro.util.Constant.SYNCH_LOGOUT_SUPPLIER, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.EXPORT_SYNCH_LOGOUT_SUPPLIER);
+    }
 
+    
+    
 }

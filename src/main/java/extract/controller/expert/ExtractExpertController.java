@@ -118,14 +118,19 @@ public class ExtractExpertController {
         if(null != user && ("1".equals(user.getTypeName()))){
             authType = user.getTypeName();
             //采购方式
-            List<DictionaryData> purchaseWayList = DictionaryDataUtil.find(5);
-            if(purchaseWayList != null && purchaseWayList.size() > 0){
-                 for (DictionaryData dictionaryData : purchaseWayList) {
-                     if("XJCG".equals(dictionaryData.getCode())){
-                         dictionaryData.setName("询价");
-                     }
-                 }
-            }
+            List<DictionaryData> purchaseWayList = new ArrayList<DictionaryData>();
+            //公开招标
+            purchaseWayList.add(DictionaryDataUtil.get("GKZB"));
+            //邀请招标
+            purchaseWayList.add(DictionaryDataUtil.get("YQZB"));
+            //竞争性谈判
+            purchaseWayList.add(DictionaryDataUtil.get("JZXTP"));
+            //询价
+            DictionaryData dictionaryData = DictionaryDataUtil.get("XJCG");
+            dictionaryData.setName("询价");
+            purchaseWayList.add(dictionaryData);
+            //单一来源
+            purchaseWayList.add(DictionaryDataUtil.get("DYLY"));
             model.addAttribute("purchaseWayList",purchaseWayList);
             //项目类型
             List<DictionaryData> projectTypeList = DictionaryDataUtil.find(6);
