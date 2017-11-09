@@ -71,6 +71,17 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	@Autowired
 	private BatchTemporaryMapper batchTemporaryMapper;
 	public static final String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	public String getbatchName(String batchId) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("batchId", batchId);
+		List<ExpertBatch> list = expertBatchMapper.getAllExpertBatch(map);
+		String name="";
+		if(list.size()>0){
+			name=list.get(0).getBatchName();
+		}
+		return name;
+		
+	}
 	@Override
 	public ExpertAgainAuditImg addAgainAudit(String ids) {
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
