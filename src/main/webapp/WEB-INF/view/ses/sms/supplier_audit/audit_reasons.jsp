@@ -380,7 +380,10 @@
 		<div class="container container_box">
 			<div class="content">
 				<div class="col-md-12 tab-v2 job-content">
-					<%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%>
+					<%-- <%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%> --%>
+          <jsp:include page="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp">
+          	<jsp:param value="${supplierStatus }" name="supplierStatus"/>
+          </jsp:include>
 					<form id="form_id" action="" method="post">
 					  <input name="supplierId" value="${supplierId}" type="hidden">
 						<input name="supplierStatus" id="supplierStatus" value="${supplierStatus}" type="hidden">
@@ -412,7 +415,7 @@
 					</c:if> --%>
 					<h2 class="count_flow"><i>1</i>审核汇总信息</h2>
 					<div class="ul_list count_flow">
-						<c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus == -2 or supplierStatus == 1 or (sign == 3 and supplierStatus == 5)}">
+						<c:if test="${isAudit}">
 						  <!-- <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">撤销</button> -->
 						  <button class="btn btn-windows edit" type="button" onclick="toUpdateStatus();" style=" border-bottom-width: -;margin-bottom: 7px;">改状态</button>
 						  <div class="select_check" id="auditStatusRadio" style="display: none;">
@@ -544,7 +547,7 @@
 									<li>
 										<div class="select_check" id="selectOptionId">
 											<c:choose>
-												<c:when test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus == -2 or supplierStatus == 1 or (sign == 3 and supplierStatus == 5)}">
+												<c:when test="${isStatusToAudit}">
 													<c:if test="${isNotPass == 0 and isAllTypeNotPass == 0 and isAllItemNotPass == 0}">
 														<input type="radio" name="selectOption" value="1" id="pass"><label class="label-inline" for="pass">预审核通过</label>
 														<input type="radio" disabled="disabled" name="selectOption" value="0" title="没有预审核不通过的项"><label class="label-inline">预审核不通过</label>
@@ -572,7 +575,7 @@
 									<li><span type="text" name="cate_result" id="cate_result"></span></li>
 									<li class="mt10">
 										<c:choose>
-											<c:when test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus == -2 or supplierStatus == 1 or (sign == 3 and supplierStatus == 5)}">
+											<c:when test="${isStatusToAudit}">
 												<textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinion.opinion }</textarea>
 											</c:when>
 											<c:otherwise>
@@ -611,7 +614,7 @@
 									<div class="col-md-12 add_regist tc">
 										<a class="btn"  type="button" onclick="lastStep();">上一步</a>
 										<!-- <a class="btn"  type="button" onclick="lastStep();">上一步</a> -->
-										<c:if test="${supplierStatus == 0 or supplierStatus == 9}">
+										<c:if test="${supplierStatus == 0 or supplierStatus == 9 and ipAddressType == ipInner}">
 											<input  class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">
 											<span id="tongguoSpan"><input class="btn btn-windows end"  type="button" onclick="shenhe(-2)" value="预审核结束" id="tongguo"></span>
 											<%--<span class="display-none" id="publicity"><input class="btn btn-windows apply" type="button" onclick="shenhe(-3);" value="公示 "></span>--%>
@@ -619,23 +622,23 @@
 											<a id="nextStep" class="btn display-none" type="button" onclick="nextStep();">下一步</a>
 											<%--<input class="btn btn-windows cancel"  type="button" onclick="shenhe(3)" value="审核不通过" id="butongguo">--%>
 										</c:if>
-										<c:if test="${supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 3 || (supplierStatus == 1 && sign == 1)}">
+										<c:if test="${supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 3 || (supplierStatus == 1 && sign == 1) and ipAddressType == ipInner}">
 											<%--<c:if test="${supplierStatus == -2}">
 												<span id="publicity"><input class="btn btn-windows apply" type="button" onclick="shenhe(-3);" value="公示 "></span>
 											</c:if>--%>
 											<%--<input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">--%>
 											<%-- <input class="btn btn-windows cancel"  type="button" onclick="shenhe(3)" value="审核不通过" id="butongguo">--%>
-											<c:if test="${supplierStatus == -2}">
+											<c:if test="${supplierStatus == -2 and ipAddressType == ipInner}">
 												<a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();" id="oprTempSave">暂存</a>
 											</c:if>
 											<a class="btn" type="button" onclick="nextStep();" id="oprNextStep">下一步</a>
 										</c:if>
 										
-										<c:if test="${supplierStatus == 4}">
+										<c:if test="${supplierStatus == 4 and ipAddressType == ipInner}">
 											<input class="btn btn-windows passed"  type="button" onclick="shenhe(5)" value="复核通过 " id="tongguo">
 											<input class="btn btn-windows cancel"  type="button" onclick="shenhe(6)" value="复核不通过" id="butongguo">
 										</c:if>
-										<c:if test="${supplierStatus == 5 && sign == 3}">
+										<c:if test="${supplierStatus == 5 && sign == 3 and ipAddressType == ipInner}">
 											<input class="btn btn-windows git"  type="button" onclick="shenhe(7)" value="合格 " id="hege">
 											<input class="btn btn-windows cancel"  type="button" onclick="shenhe(8)" value="不合格" id="buhege">
 										</c:if>
