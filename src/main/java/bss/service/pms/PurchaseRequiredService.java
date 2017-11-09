@@ -382,4 +382,16 @@ public interface PurchaseRequiredService {
 	 * @param list
 	 */
 	void deletedList(String unqueId);
+	
+	/**
+     * 
+    * @Title: selectByCreatedAt
+    * @author FengTian 
+    * @date 2017-11-9 下午2:43:13  
+    * @Description: 根据项目ID查询需求编报时间 
+    * @param @param projectId
+    * @param @return      
+    * @return List<PurchaseRequired>
+     */
+    List<PurchaseRequired> selectByCreatedAt(String projectId);
 }

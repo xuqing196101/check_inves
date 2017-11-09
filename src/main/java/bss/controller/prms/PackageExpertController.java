@@ -460,18 +460,14 @@ public class PackageExpertController {
                 if(StringUtils.isNotBlank(methodCode) && methodCode.equals("OPEN_ZHPFF")){
                     mapPackageMeth.put(ps.getName(), methodCode);
                     Map<String, Object> mapSearch1 = new HashMap<String, Object>(); 
-                    mapSearch1.put("projectId", pack.getProjectId());
-                    mapSearch1.put("packageId", pack.getId());
+                    mapSearch1.put("projectId", ps.getProjectId());
+                    mapSearch1.put("packageId", ps.getId());
                     List<PackageExpert> expList = packageExpertService.selectList(mapSearch1);
                     //判断是否结束评审
                     if (expList != null && expList.size() > 0) {
                       Short isEnd = expList.get(0).getIsGatherGather();
                       mapPackageZhpf.put(pack.getName(), isEnd);
                       
-                      Short isGather = expList.get(0).getIsGather();
-                      if (isGather == 0) {
-                    	  pack.setIsEditFirst(0);
-                      }
                     }
                 }
                 condition1.setProjectId(projectId);
@@ -496,7 +492,16 @@ public class PackageExpertController {
                 List<Date> listDate1 = supplierQuoteService.selectQuoteCount(quote3);
                 Collections.reverse(listDate1);
                 List<Quote> listQuotebyPackage1 = new ArrayList<Quote>();
-                if (listDate1 != null && listDate1.size() > 1) {
+                if (listDate1 == null || listDate1.isEmpty()) {
+                	Map<String, Object> mapSearch1 = new HashMap<String, Object>(); 
+                    mapSearch1.put("projectId", ps.getProjectId());
+                    mapSearch1.put("packageId", ps.getId());
+                    List<PackageExpert> expList = packageExpertService.selectList(mapSearch1);
+                	Short isGather = expList.get(0).getIsGather();
+                    if (isGather == 0) {
+                  	  pack.setIsEditFirst(0);
+                    }
+				} else if (listDate1 != null && listDate1.size() > 1) {
                     //给第二次报价的数据查到
                     if ("JZXTP".equals(dictionaryData.getCode()) || "DYLY".equals(dictionaryData.getCode())) {
                         quote2.setProjectId(projectId);
@@ -514,7 +519,7 @@ public class PackageExpertController {
                         }
                         pack.setQuotes(map2);
                     }
-                } 
+                }
                 
                 
                 for (SaleTender saleTender : stList) {

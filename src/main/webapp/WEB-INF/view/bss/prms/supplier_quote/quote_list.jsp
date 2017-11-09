@@ -198,7 +198,7 @@
 		<c:if test="${dd.code eq 'JZXTP' || dd.code eq 'DYLY'}">
 	        <c:if test="${isEndPrice !=1 }">
 	        	
-        		 <button class="btn" <c:if test="${isEditFirst eq null || isEditFirst == 0 }">disabled="disabled"</c:if> onclick = "quoteAgain('${project.id}','${packId}',1)">再次报价</button>
+        		 <button class="btn" <c:if test="${isEditFirst == 0 }">disabled="disabled"</c:if> onclick = "quoteAgain('${project.id}','${packId}',1)">再次报价</button>
         		 <span class="ml50">查看历史报价:</span>
 				 <select onchange="showQuoteHistory('${project.id}','${packId}',this.options[this.options.selectedIndex].value)">
 						<c:if test="${empty treemap.value[0].dataList or fn:length(treemap.value[0].dataList) == 1}">

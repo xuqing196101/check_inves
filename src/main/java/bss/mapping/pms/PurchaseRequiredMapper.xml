@@ -1220,5 +1220,25 @@
 		      T_BSS_PMS_PURCHASE_REQUIRED r START WITH r. ID =#{id} CONNECT BY PRIOR r. ID = r.PARENT_ID
 		  ) T ORDER BY T.IS_MASTER
 	</select>
+	
+	<select id="selectByCreatedAt" parameterType="java.lang.String" resultMap="PurchaseRequired_Map">
+		SELECT CREATED_AT FROM T_BSS_PMS_PURCHASE_REQUIRED WHERE id IN (SELECT
+			(
+				SELECT
+					RR. id
+				FROM
+					T_BSS_PMS_PURCHASE_REQUIRED rr
+				WHERE
+					RR.FILE_ID = req.FILE_ID
+				AND RR.IS_MASTER = 1
+			) AS id
+		FROM
+			T_BSS_PMS_PURCHASE_REQUIRED req
+		LEFT JOIN T_BSS_PPMS_PROJECTS_DETAIL pd ON REQ."ID" = PD.REQUIRED_ID
+		WHERE
+			PD.PROJECT_ID =#{projectId}
+		GROUP BY
+			REQ.FILE_ID) ORDER BY CREATED_AT ASC
+	</select>
 
 </mapper>
