@@ -711,6 +711,8 @@
           </div>
           <div class="tab-pane fade " id="tab-3">
           <div class="row mt10">
+            <div class="col-sm-2 col-xs-4 mb10"><button class="btn btn-windows input m0 w100p" type="button" onclick="bidRegister('${project.id}','16')">编报说明</button></div>
+            <div class="col-sm-2 col-xs-4 mb10"><button class="btn btn-windows input m0 w100p" type="button" onclick="bidRegister('${project.id}','17')">审批单</button></div>
             <div class="col-sm-2 col-xs-4 mb10"><button class="btn btn-windows input m0 w100p" type="button" onclick="bidRegister('${project.id}','1')">投标登记表</button></div>
             <div class="col-sm-2 col-xs-4 mb10"><button class="btn btn-windows input m0 w100p" type="button" onclick="bidRegister('${project.id}','2')">开标记录</button></div>
             <div class="col-sm-2 col-xs-4 mb10"><button class="btn btn-windows input m0 w100p" type="button" onclick="bidRegister('${project.id}','3')">有效监标词</button></div>

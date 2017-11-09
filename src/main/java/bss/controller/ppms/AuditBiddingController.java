@@ -351,7 +351,7 @@ public class AuditBiddingController extends BaseController {
         model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
         model.addAttribute("type", type); //从监管系统跳转过来的
         HashMap<String, Object> hashMap=new HashMap<String, Object>();
-        hashMap.put("prijectId", project.getId());
+        hashMap.put("projectId", project.getId());
         List<ProjectAdvice> findByList = adviceService.findByList(hashMap);
         Map<String, Object> map2=new HashMap<String, Object>();
         for(ProjectAdvice pa:findByList){

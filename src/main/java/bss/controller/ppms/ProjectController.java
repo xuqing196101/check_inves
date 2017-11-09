@@ -2358,6 +2358,12 @@ public class ProjectController extends BaseController {
          if("15".equals(type)){
              downFileName = new String("劳务发放登记表.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
          }
+         if("16".equals(type)){
+           downFileName = new String("采购文件编报说明.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
+         }
+         if("17".equals(type)){
+           downFileName = new String("采购文件审批单.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
+       }
         return projectService.downloadFile(fileName, filePath, downFileName);
      }
      
@@ -2460,6 +2466,16 @@ public class ProjectController extends BaseController {
              /** 生成word 返回文件名 */
              newFileName = WordUtil.createWord(dataMap, "issueRegistration.ftl", fileName, request);
          }
+         if("16".equals(type)){
+           String fileName = new String(("采购文件编报说明.doc").getBytes("UTF-8"), "UTF-8");
+           /** 生成word 返回文件名 */
+           newFileName = WordUtil.createWord(dataMap, "compilationReport.ftl", fileName, request);
+       }
+         if("17".equals(type)){
+           String fileName = new String(("采购文件审批单.doc").getBytes("UTF-8"), "UTF-8");
+           /** 生成word 返回文件名 */
+           newFileName = WordUtil.createWord(dataMap, "approvalForm.ftl", fileName, request);
+       }
          return newFileName;
      }
      

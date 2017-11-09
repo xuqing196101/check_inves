@@ -62,7 +62,7 @@
 			    <c:forEach items="${packs}" var="pack" varStatus="v">
 			    <tr>
 					<td class="tc w30">${v.index+1 }</td>
-					<td class="tc">${pack.name}
+					<td class="tc" width="60%">${pack.name}
 					</td>
 					<td class="tc">
 					    <c:if test="${pack.isEditFirst==1 }">

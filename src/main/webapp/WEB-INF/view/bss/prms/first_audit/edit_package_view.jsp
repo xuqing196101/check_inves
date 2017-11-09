@@ -230,7 +230,7 @@
        <h2 class="list_title"><span class="f16 b">审批单</span></h2>
        <div id="img4" class="tc"></div>
     </div>
-	    <div class="mt40 tc mb50 position_fixed" >
+	    <div class="mt80 tc mb50 position_fixed" >
 	        <c:if test="${page==1}">
 	          <button class="btn btn-windows back" disabled="disabled" >上一页</button>
 	          <button class="btn btn-windows back" onclick="window.location.href='${pageContext.request.contextPath}/intelligentScore/viewPackageModel.html?packId=${packageId}&projectId=${projectId}&page=${page+1}'">下一页</button>

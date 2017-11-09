@@ -15,7 +15,9 @@
 				layer.alert("请先上传审批文件",{offset: '50px'});
 			}
 		 });
-		
+		 function bidRegister(id,type) {
+		        window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
+		      }
 		</script>
 	</head>
 
@@ -71,13 +73,17 @@
 			</c:if>
 			<c:if test="${project.confirmFile == 1 || project.confirmFile == 3 || project.confirmFile == 4 }">
 				<tr>
+				    
 					<td>报批说明：</td>
+					<td class="w100"><button class="btn btn-windows input m0 w50p" type="button" onclick="bidRegister('${project.id}','16')">模板下载</button></td>
 					<td class="w200">
 						<u:show showId="f" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeApproval}" />
 					</td>
 				</tr>
 				<tr class="h50">
+				    
 					<td>审批单：</td>
+					<td ><button class="btn btn-windows input m0 w50p" type="button" onclick="bidRegister('${project.id}','17')"> 模板下载</button></td>
 					<td class="w200">
 						<u:show showId="b"  delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
 					</td>
