@@ -550,6 +550,8 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
             if (user != null) {
                 User user2 = userMapper.queryById(user.getId());
                 if (user2 != null) {
+                    // 不导入密码，防止覆盖供应商新重置的密码
+                    user.setPassword(null);
                     userMapper.updateByPrimaryKeySelective(user);
                 }
             }
