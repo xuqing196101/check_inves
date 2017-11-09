@@ -6,6 +6,8 @@
 		<input type="hidden" name="categoryIds" id="categoryIds" />
 		<input type="hidden" name="supplierTypeId" id="supplierTypeId" />
 		<input type="hidden" name="itemTypeName" id="itemTypeName" />
+		<input type="hidden" name="clickCategoryId" id="clickCategoryId">
+		<input type="hidden" name="nodeLevel" id="nodeLevel">
 		<ul class="demand_list">
 			<li><label class="fl">供应商名称：</label>
 			 <input	id="supplierName" name="supplierName" type="text">

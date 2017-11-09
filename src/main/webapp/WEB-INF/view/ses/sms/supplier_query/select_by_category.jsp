@@ -81,9 +81,17 @@
             }
            return tempnode;
         }
+            var fourNode;
 			function zTreeOnClick(event, treeId, treeNode){
 					var name = treeNode.name;
 					var categoryIds = treeNode.id;
+					$("#clickCategoryId").val(categoryIds);
+					$("#nodeLevel").val(treeNode.level);
+					if (treeNode.level >= 4) {
+						//如果是大于或等于五级的品目，就查其父级四级目录的等级
+						getFourNode(treeNode);
+						categoryIds = fourNode.id;
+					}
 					var tempnode= getroot();
 					if(tempnode){
 						if (treeNode.level !=3 && tempnode.name != "工程") {
@@ -91,7 +99,7 @@
 						} else if (treeNode.level ==3 && tempnode.name != "工程") {
 							$("#selectSupplierType").show();
 						} else if (tempnode.name == "工程") {
-							//如果是工程类别，获取该品目的所有等级
+							//如果是工程类别，获取该品目的所有等级作为搜索条件
 							$.ajax({
 								type : "POST",
 								url : globalPath + "/supplierQuery/ajaxCategoryLevels.do",
@@ -133,8 +141,16 @@
 						findSupplier();
 					}
 			}
-
-
+			
+			//获取父级四级节点
+			function getFourNode(node){
+				if (node.level >= 4) {
+					getFourNode(node.getParentNode());
+				} else {
+					fourNode = node;
+				}
+			}
+			
 			function focusKey(e) {
 				if(key.hasClass("empty")) {
 					key.removeClass("empty");

@@ -129,7 +129,7 @@
         <li class="col-md-3 col-sm-6 col-xs-12 pl15" onclick = "clearErrorMsg()">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>批准文件:</span> 
           <%-- <input class="span5" type="file" name="attachmentCertFile"/><a onclick="downloadFile('${expert.attachmentCert}')" style="cursor:pointer" id="attachmentCert">${expert.attachmentCert}</a> --%>
-          <u:upload id="id_up" businessId="${expert.id}"
+          <u:upload id="id_up" multiple="true" businessId="${expert.id}"
             sysKey="${expertKey}" typeId="${expertDictionaryData.id}"
             auto="true" /> <u:show showId="id_show" businessId="${expert.id}"
             sysKey="${expertKey}" typeId="${expertDictionaryData.id}" /> <span

@@ -43,9 +43,9 @@
   <input type="hidden" id="operType" name="operType" value="${operType}"/>
   <div>
     <h2 class="count_flow"><i>1</i>导出设置</h2>
-    <ul class="ul_list">
-      <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>开始时间</span>
+    <ul class="ul_list p20">
+      <li class="col-md-3 col-sm-6 col-xs-12 pl0">
+        <span class="block"><span class="star_red">*</span>开始时间</span>
         <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
           <input class="input_group Wdate mb0 w220" id="startTime" name="startTime" type="text" value="${startTime}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
         </div>
@@ -57,42 +57,36 @@
           <input class="input_group Wdate mb0 w220" id="endTime" name="endTime" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
         </div>
       </li>
+      
+      <li class="clear"></li>
 
-      <li class="col-md-12 col-sm-12 col-xs-12 pl15">
-        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>同步类型</span>
-        <div>
+      <li class="w100p">
+        <span class="block"><span class="star_red">*</span>同步类型</span>
+        <div class="m_inputGroup_wrapper mt10">
+        <div class="m_inputGroup">
           <c:forEach items="${dataTypeList}" var="type">
-            <div class="dataType">
-              <input type="checkbox" name="dataType" value="${type.code}"/> ${type.name}
-            </div>
+            <label class="hand"><input type="checkbox" name="dataType" value="${type.code}"/><span>${type.name}</span></label>
           </c:forEach>
           <c:if test="${authType ==  '4'}">
-	          <div class="dataType">
-	            <input type="checkbox" name="dataType" value="inner_out"/> 供应商退回修改导出外网
-	          </div>
-	          <div class="dataType">
-	            <input type="checkbox" name="dataType" value="temp_out"/> 临时供应商导出外网
-	          </div>
-	          <div class="dataType">
-	            <input type="checkbox" name="dataType" value="expert_out"/> 专家退回修改导出外网
-	          </div>
-	          <div class="dataType">
-	            <input type="checkbox" name="dataType" value="img_out"/> 供应商，专家图片导出
-	          </div>
+	          <label class="hand"><input type="checkbox" name="dataType" value="inner_out"/><span>供应商退回修改导出外网</span></label>
+	          <label class="hand"><input type="checkbox" name="dataType" value="temp_out"/><span>临时供应商导出外网</span></label>
+	          <label class="hand"><input type="checkbox" name="dataType" value="expert_out"/><span>专家退回修改导出外网</span></label>
+	          <label class="hand"><input type="checkbox" name="dataType" value="img_out"/><span>供应商，专家图片导出</span></label>
           </c:if>
+        </div>
         </div>
       </li>
 
-      <div class="clear mt10 tc">
-        <button class="btn" onclick="yzExport();">导出</button>
-      </div>
+      <li class="w100p mt20 tc">
+        <button class="btn w200 h40" onclick="yzExport();">导出</button>
+      </li>
     </ul>
   </div>
 
   <div class="padding-top-10 clear" id="relaDeptId">
     <h2 class="count_flow"><i>2</i>导出日志</h2>
-    <ul class="ul_list">
-      <div class="search_detail ml0">
+    <ul class="m_boxS1">
+      <div class="search_detail ml0 mt0">
         <ul class="demand_list">
           <li>
             <label class="fl">类型：</label>
@@ -118,7 +112,7 @@
       </div>
 
       <div class="content pt10">
-        <table class="table table-bordered table-condensed table-hover table-striped" id="dataTable">
+        <table class="table table-bordered table-condensed table-hover table-striped mb0" id="dataTable">
           <thead>
           <tr>
             <th class="info w50">序号</th>
@@ -131,7 +125,8 @@
         </table>
       </div>
     </ul>
-    <div id="pagediv" align="right"></div>
+    <div class="clear"></div>
+    <div id="pagediv" class="text-right mt10"></div>
   </div>
 </div>
 </body>
