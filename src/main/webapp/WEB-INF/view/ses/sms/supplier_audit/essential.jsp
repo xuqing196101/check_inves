@@ -99,7 +99,7 @@
 	       	var supplierStatus = $("input[name='supplierStatus']").val();
 	        var sign = $("input[name='sign']").val();
 	       	//只有审核的状态能审核
-	       	if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+	       	if(isAudit){
 	       		if(obj && $(obj).parent().children("a.abolish").length > 0){
 	        		layer.msg('该条信息已审核过并退回过！');
 	        		return;
@@ -240,7 +240,7 @@
        	  var supplierStatus = $("input[name='supplierStatus']").val();
           var sign = $("input[name='sign']").val();
            //只有审核的状态能审核
-          if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+          if(isAudit){
           	if(ele && $(ele).parent().children("img.abolish_img").length > 0){
 	        		layer.msg('该条信息已审核过并退回过！');
 	        		return;
@@ -565,7 +565,10 @@
 <div class="container container_box">
     <div class=" content height-350">
         <div class="col-md-12 tab-v2 job-content">
-            <%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%>
+            <%-- <%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%> --%>
+            <jsp:include page="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp">
+            	<jsp:param value="${suppliers.status }" name="supplierStatus"/>
+            </jsp:include>
             <form id="form_id" action="${pageContext.request.contextPath}/supplierAudit/financial.html" method="post">
                 <input name="supplierId" id="id" value="${suppliers.id }" type="hidden">
                 <input id="status" name="supplierStatus" value="${suppliers.status }" type="hidden">
@@ -1590,7 +1593,7 @@
         </div>
 
         <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
-          <c:if test="${suppliers.status == -2 or suppliers.status == 0 or suppliers.status == 9 or suppliers.status ==4 or (sign ==3 and suppliers.status ==5)}">
+          <c:if test="${isStatusToAudit}">
             <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
           </c:if>
           <a class="btn" type="button" onclick="nextStep();">下一步</a>

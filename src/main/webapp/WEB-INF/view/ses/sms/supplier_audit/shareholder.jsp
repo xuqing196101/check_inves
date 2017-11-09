@@ -75,7 +75,7 @@
 		  var supplierStatus = $("input[name='supplierStatus']").val();
       var sign = $("input[name='sign']").val();
       //只有审核的状态能审核
-      if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+      if(isAudit){
 			  var supplierId=$("#supplierId").val();
 			  var auditContent=str + "股东信息"; //审批的字段内容
 			  var auditData = {
@@ -287,8 +287,10 @@
     <div class="container container_box">
       <div class="content height-350">
         <div class="col-md-12 tab-v2 job-content">
-            <%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%>
-
+          <%-- <%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%> --%>
+          <jsp:include page="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp">
+          	<jsp:param value="${supplierStatus }" name="supplierStatus"/>
+          </jsp:include>
         <form id="form_id" action="" method="post" >
             <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
             <input id="status" name="supplierStatus" value="${supplierStatus}" type="hidden">
@@ -352,7 +354,7 @@
         <div class="col-sm-12 col-xs-12 col-md-12 add_regist tc">
           
           <a class="btn"  type="button" onclick="lastStep();">上一步</a>
-          <c:if test="${supplierStatus == -2 or supplierStatus == 0 or supplierStatus == 9 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+          <c:if test="${isStatusToAudit}">
             <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
           </c:if>
           <%--<a class="btn"  type="button" onclick="nextStep('${url}');">下一步</a>--%>
