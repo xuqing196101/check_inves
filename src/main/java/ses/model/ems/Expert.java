@@ -484,6 +484,11 @@ public class Expert extends ExpertHistory implements Serializable {
     private Integer reviewUnqualifiedConfirm; //复审不合格确认(1:确认)
     
     private List<String> expertTypeId;
+    
+    
+    private String contactMobile;
+    
+    private String  contactName;
     /**
      * 专家提交审核时间
      **/
@@ -1189,4 +1194,22 @@ public class Expert extends ExpertHistory implements Serializable {
     public void setExpertBatchDetails(ExpertBatchDetails expertBatchDetails) {
         this.expertBatchDetails = expertBatchDetails;
     }
+
+	public String getContactMobile() {
+		return contactMobile;
+	}
+
+	public void setContactMobile(String contactMobile) {
+		this.contactMobile = contactMobile;
+	}
+
+	public String getContactName() {
+		return contactName;
+	}
+
+	public void setContactName(String contactName) {
+		this.contactName = contactName;
+	}
+    
+    
 }

@@ -1055,19 +1055,23 @@ public class ExpertAuditController{
                 count++;
                 if (!DictionaryDataUtil.findById(expertCategory.getTypeId()).getCode().equals("ENG_INFO_ID")) {
                     Category data = categoryService.findById(expertCategory.getCategoryId());
-                    List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
-                    if (findPublishTree.size() == 0) {
-                        expertItems.add(expertCategory);
-                    } else if (data != null && data.getCode().length() == 7) {
-                        expertItems.add(expertCategory);
+                    if(data.getCode().length()<9){
+                    	 List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
+                         if (findPublishTree.size() == 0) {
+                             expertItems.add(expertCategory);
+                         } else if (data != null && data.getCode().length() == 7) {
+                             expertItems.add(expertCategory);
+                         }
                     }
                 } else {
                     Category data = engCategoryService.findById(expertCategory.getCategoryId());
-                    List<Category> findPublishTree = engCategoryService.findPublishTree(expertCategory.getCategoryId(), null);
-                    if (findPublishTree.size() == 0) {
-                        expertItems.add(expertCategory);
-                    } else if (data != null && data.getCode().length() == 7) {
-                        expertItems.add(expertCategory);
+                    if(data.getCode().length()<9){
+                    	  List<Category> findPublishTree = engCategoryService.findPublishTree(expertCategory.getCategoryId(), null);
+                          if (findPublishTree.size() == 0) {
+                              expertItems.add(expertCategory);
+                          } else if (data != null && data.getCode().length() == 7) {
+                              expertItems.add(expertCategory);
+                          }
                     }
                 }
             }
