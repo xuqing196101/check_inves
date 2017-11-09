@@ -328,7 +328,7 @@
 		SELECT A."APTITUTE_ LEVEL" FROM T_SES_SMS_SUPPLIER_APTITUTE A LEFT JOIN T_SES_SMS_SUPPLIER_MAT_ENG E ON E.ID = A.MAT_ENG_ID WHERE E.SUPPLIER_ID = #{supplierId} 
 		<if test="qids != null">
 			AND A.CERT_TYPE IN 
-			<foreach collection="quaId" index="index" item="it" open="(" close=")" separator=",">
+			<foreach collection="qids" index="index" item="it" open="(" close=")" separator=",">
 				#{it}
 			</foreach>
 		</if>

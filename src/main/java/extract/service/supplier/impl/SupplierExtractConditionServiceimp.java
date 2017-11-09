@@ -414,6 +414,10 @@ public class SupplierExtractConditionServiceimp implements
 						}
 					}
 				selectAllExpert.get(0).setSupplierType(dictionaryDataMapper.selectByCode(selectAllExpert.get(0).getSupplierTypeId()).get(0).getName());
+				if("PROJECT".equals(condition.getSupplierTypeCode())){
+					String supplierLevel = selectAllExpert.get(0).getSupplierLevel();
+					selectAllExpert.get(0).setSupplierLevel(StringUtils.isNotBlank(supplierLevel)?dictionaryDataMapper.selectByPrimaryKey(supplierLevel).getName():"");
+				}
 				map.put("list", selectAllExpert);
 			} else {
 				map.put("count", supplierExtRelateMapper.listExtractionExpertCount(condition));
@@ -1149,12 +1153,9 @@ public class SupplierExtractConditionServiceimp implements
 	 * @return
 	 */
 	public List<String> selectQuaLevelBySupplierId(String supplierId,String[] qids) {
-		if(null!=qids){
-			Map<String, Object> map = new HashMap<>();
-			map.put("supplierId", supplierId);
-			map.put("qids", qids);
-			return conditionMapper.selectQuaLevelBySupplierIdAndQuaId(map);
-		}
-		return null;
+		Map<String, Object> map = new HashMap<>();
+		map.put("supplierId", supplierId);
+		map.put("qids", qids);
+		return conditionMapper.selectQuaLevelBySupplierIdAndQuaId(map);
 	}
 }

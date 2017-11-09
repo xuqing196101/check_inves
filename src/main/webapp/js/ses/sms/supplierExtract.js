@@ -84,6 +84,10 @@ function selectArea(obj){
 	var provinceName = obj.selectedOptions[0].innerText;
 	$("[name='businessScope']").val(provinceId);
 	$("#businessScope").val(provinceName);
+	var typeCode = $("#projectType").val();
+	if("PROJECT" == typeCode && obj.id == "constructionPro"){
+		selectLikeSupplier();
+	}
 	if(provinceId == ''){
 		$(obj).next().empty();
 		$(obj).next().append("<option value=''>选择地区</option>");
