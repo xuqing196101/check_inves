@@ -25,8 +25,8 @@
     var zTreeObj = "";
     var zNodes = "";
     var categoryId="";
-    var tempCate = new Array();
-    var tempParent= new Array();
+    var temp = new Array();
+    var isCheckParent = true;
     $(function() {
       
       categoryId = sessionStorage.getItem("categoryId");
@@ -74,6 +74,7 @@
 			loading = layer.load(1);
 			var cateName = $("#cateName").val();
 			var cateCode = $("#cateCode").val();
+			isCheckParent = !obj;
 			$.ajax({
 				url: "${pageContext.request.contextPath}/SupplierCondition_new/searchCate.do",
 				type:"post",
@@ -102,6 +103,7 @@
 				}
 			});
         }else{
+       		isCheckParent = !obj;
 	        zTreeObj = $.fn.zTree.init($("#ztree"), setting, zNodes);
         }
         
@@ -117,7 +119,7 @@
     	var treeObj=$.fn.zTree.getZTreeObj("ztree");
     	//当前节点取消选中，递归取消父节点选中状态
 		dischecked(treeNode,treeObj);
-		if(treeNode.checked){
+		if(treeNode.checked && isCheckParent){
 			//子节点全部选中，父节点选中
 			checkAllChildCheckParent(treeNode,treeObj);
 		}
@@ -242,30 +244,6 @@
       searchNode(e);
     }
 
-	//搜索
-     function searchNode(e) {
-      var zTree = $.fn.zTree.getZTreeObj("ztree");
-      var value = $.trim(key.get(0).value);
-      var keyType = "name";
-      if(key.hasClass("empty")) {
-        value = "";
-      }
-      if(lastValue === value) return;
-      lastValue = value;
-      if(value === "") return;
-      updateNodes(false);
-      nodeList = zTree.getNodesByParamFuzzy(keyType, value);
-      updateNodes(true);
-    }
-
-    function updateNodes(highlight) {
-      var zTree = $.fn.zTree.getZTreeObj("ztree");
-      for(var i = 0, l = nodeList.length; i < l; i++) {
-        nodeList[i].highlight = highlight;
-        zTree.updateNode(nodeList[i]);
-      }
-    }
-
     function getFontCss(treeId, treeNode) {
       return(!!treeNode.highlight) ? {
         color: "#A60000",
@@ -276,7 +254,7 @@
       };
     }
 
-  var temp = new Array();
+  
   //获取选中子节点id
   function getChildren(cate){
   	var typeCode = $(cate).attr("typeCode");
@@ -321,19 +299,7 @@
     return false;
   }
   
-  //递归处理选中数据，去除以选中父节点的子节点id
-   function excludeChildId(ids){
- 		if(ids.length>0){
- 			for ( var int = 0; int < ids.length; int++) {
-				var id = ids[int];
-				//获取当前id的全部子节点集合
-				
-				//
-			}
- 		}
-   }
-  
-  //递归子节点
+  //递归子节点,存储进临时数组
   function selectAllChildNode(node){
   	var childNode = node.children;
   	if(childNode && childNode.length>0){
