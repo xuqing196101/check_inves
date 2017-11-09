@@ -422,6 +422,7 @@
               <h2 onclick="ycDiv(this,'${1}')" class="count_flow spread hand mt0 mb10">基本信息</h2>
               <input type="hidden" name="id" id="id" value="${project.id}" />
               <input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId}" />
+              <input type="hidden" name="status" id="status" value="${project.status}" />
               <div class="p0${1}">
                 <table class="table table-bordered left_table mb0">
                   <tbody>
@@ -627,7 +628,7 @@
                 </table>
               </c:if>
               <c:if test="${packageList != null}">
-                <c:forEach items="${packageList }" var="pack" varStatus="p">
+                <c:forEach items="${packageList}" var="pack" varStatus="p">
                   <div class="col-md-12 col-sm-6 col-xs-12 p0">
                     <span onclick="ycDiv1(this,'${p.index}')" class="count_flow hand  shrink"></span>
                     <span class="f16 b">包名：</span>
