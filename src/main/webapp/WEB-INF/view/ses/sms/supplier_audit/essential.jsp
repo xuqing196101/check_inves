@@ -58,48 +58,13 @@
             	$(this).attr("title", $(this).val());
             });
         });
-        
-        // 获取旧的审核记录
-        function getOldAudit(auditData){
-        	var result = null;
-        	$.ajax({
-            url: "${pageContext.request.contextPath}/supplierAudit/ajaxOldAudit.do",
-            type: "post",
-            dataType: "json",
-            data: auditData,
-            async: false,
-            success: function(data){
-              result = data;
-            }
-          });
-          return result;
-        }
-        
-        // 撤销审核记录
-	      function cancelAudit(auditData){
-	      	var bool = false;
-	      	$.ajax({
-	          url: "${pageContext.request.contextPath}/supplierAudit/cancelAudit.do",
-	          type: "post",
-	          dataType: "json",
-	          data: auditData,
-	          async: false,
-	          success: function(result){
-	            if(result && result.status == 500){
-	            	bool = true;
-	            	layer.msg('撤销成功！');
-	            }
-	          }
-	        });
-	        return bool;
-	      }
 
         //审核input框
         function reason(obj) {
 	       	var supplierStatus = $("input[name='supplierStatus']").val();
 	        var sign = $("input[name='sign']").val();
 	       	//只有审核的状态能审核
-	       	if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+	       	if(isAudit){
 	       		if(obj && $(obj).parent().children("a.abolish").length > 0){
 	        		layer.msg('该条信息已审核过并退回过！');
 	        		return;
@@ -154,28 +119,36 @@
 					 		var text = trim(value);
               if (text != null && text != "") {
              		auditData.suggest = text;
-                 $.ajax({
-                   url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
-                   type: "post",
-                   dataType: "json",
-                   data: auditData,
-                   success: function(result){
-                     if(result.status == "503"){
-                       layer.msg('该条信息已审核过并退回过！', {             
-                         shift: 6, //动画类型
-                         offset:'100px'
-                       });
-                     }
-                     if(result.status == "500"){
-                       layer.msg('审核成功！', {             
-                         shift: 6, //动画类型
-                         offset:'100px'
-                       });
-                       //$(obj).after(html);
-               				$("#" + obj.id + "").css('border-color', '#FF0000'); //边框变红色
-                     }
-                   }
-                 });
+                $.ajax({
+                  url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
+                  type: "post",
+                  dataType: "json",
+                  data: auditData,
+                  success: function(result){
+                    if(result.status == "503"){
+                      layer.msg('该条信息已审核过并退回过！', {             
+                        shift: 6, //动画类型
+                        offset:'100px'
+                      });
+                    }
+                    if(result.status == "500"){
+                      if(result.data == "add"){
+                        layer.msg('审核成功！', {             
+                        	shift: 6, //动画类型
+                        	offset:'100px'
+                       	});
+                       	//$(obj).after(html);
+             				   	$("#" + obj.id + "").css('border-color', '#FF0000'); //边框变红色
+                      }
+                      if(result.data == "update"){
+	                 			layer.msg('修改理由成功！', {
+	                        shift: 6, //动画类型
+	                        offset:'100px'
+	                      });
+                 	   	}
+                    }
+                  }
+                });
                 layer.close(index);
               } else {
                 layer.msg('不能为空！', {offset: '100px'});
@@ -240,7 +213,7 @@
        	  var supplierStatus = $("input[name='supplierStatus']").val();
           var sign = $("input[name='sign']").val();
            //只有审核的状态能审核
-          if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+          if(isAudit){
           	if(ele && $(ele).parent().children("img.abolish_img").length > 0){
 	        		layer.msg('该条信息已审核过并退回过！');
 	        		return;
@@ -300,12 +273,20 @@
                       });
                     }
                     if(result.status == "500"){
-                      layer.msg('审核成功！', {             
-                        shift: 6, //动画类型
-                        offset:'100px'
-                      });
-                      //$(ele).parents("li").find("p").show(); //显示叉
-              				$(ele).css('border', '1px solid #FF0000'); //添加红边框
+                    	if(result.data == "add"){
+                    		layer.msg('审核成功！', {
+	                        shift: 6, //动画类型
+	                        offset:'100px'
+	                      });
+	                      //$(ele).parents("li").find("p").show(); //显示叉
+	              				$(ele).css('border', '1px solid #FF0000'); //添加红边框
+                    	}
+                    	if(result.data == "update"){
+                    		layer.msg('修改理由成功！', {
+	                        shift: 6, //动画类型
+	                        offset:'100px'
+	                      });
+                    	}
                     }
                   }
                 });
@@ -386,14 +367,22 @@
                       });
                     }
                     if(result.status == "500"){
-                      layer.msg('审核成功！', {
-                        shift: 6, //动画类型
-                        offset:'100px'
-                      });
-                      var icon = "<img src='${pageContext.request.contextPath}/public/backend/images/light_icon_2.png'/>";
-		                  $("#" + id + "_hidden").html("").append(icon);
-		                  /* $("#" + id + "_hidden").hide();
-		                  $("#" + id + "_show").show(); */
+                    	if(result.data == "add"){
+                    		layer.msg('审核成功！', {
+	                        shift: 6, //动画类型
+	                        offset:'100px'
+	                      });
+	                      var icon = "<img src='${pageContext.request.contextPath}/public/backend/images/light_icon_2.png'/>";
+			                  $("#" + id + "_hidden").html("").append(icon);
+			                  /* $("#" + id + "_hidden").hide();
+			                  $("#" + id + "_show").show(); */
+                    	}
+                    	if(result.data == "update"){
+                    		layer.msg('修改理由成功！', {
+	                        shift: 6, //动画类型
+	                        offset:'100px'
+	                      });
+                    	}
                     }
                   }
                 });
@@ -565,7 +554,10 @@
 <div class="container container_box">
     <div class=" content height-350">
         <div class="col-md-12 tab-v2 job-content">
-            <%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%>
+            <%-- <%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%> --%>
+            <jsp:include page="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp">
+            	<jsp:param value="${suppliers.status }" name="supplierStatus"/>
+            </jsp:include>
             <form id="form_id" action="${pageContext.request.contextPath}/supplierAudit/financial.html" method="post">
                 <input name="supplierId" id="id" value="${suppliers.id }" type="hidden">
                 <input id="status" name="supplierStatus" value="${suppliers.status }" type="hidden">
@@ -1590,7 +1582,7 @@
         </div>
 
         <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
-          <c:if test="${suppliers.status == -2 or suppliers.status == 0 or suppliers.status == 9 or suppliers.status ==4 or (sign ==3 and suppliers.status ==5)}">
+          <c:if test="${isStatusToAudit}">
             <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
           </c:if>
           <a class="btn" type="button" onclick="nextStep();">下一步</a>

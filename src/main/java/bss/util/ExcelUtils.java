@@ -31,9 +31,11 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @param
- * @author zhangxq
+ * Description: Excel表格操作工具
+ *
  * @author Easong
+ * @author zhangxq
+ * @version 2017/11/9
  * @since JDK1.7
  */
 public class ExcelUtils {
@@ -72,6 +74,21 @@ public class ExcelUtils {
     private String doubleDecimal = ".00";
     //设置列的公式
     private String colFormula[] = null;
+    // 设置冻结操作
+    /*
+        1:colSplit
+        拆分单元格的列（Excel中row的标号）
+        2:rowSplit
+        拆分单元格的行（Excel中row的标号）
+        leftmostColumn
+        3:右边区域可见的左边列数（Excel中column的标号）
+        topRow
+        4:下面区域可见的首行（Excel中column的标号）
+    */
+    private Integer[] freezePane;
+    // 是否设置冻结模式
+    private boolean isFreezePane = false;
+
     DecimalFormat floatDecimalFormat = new DecimalFormat(floatDecimal);
     DecimalFormat doubleDecimalFormat = new DecimalFormat(doubleDecimal);
     private SXSSFWorkbook workbook = null;
@@ -92,6 +109,22 @@ public class ExcelUtils {
         this.fileName = fileName;
         this.size = size;
         workbook = new SXSSFWorkbook(size);
+    }
+
+    public Integer[] getFreezePane() {
+        return freezePane;
+    }
+
+    public void setFreezePane(Integer[] freezePane) {
+        this.freezePane = freezePane;
+    }
+
+    public boolean isFreezePane() {
+        return isFreezePane;
+    }
+
+    public void setFreezePane(boolean freezePane) {
+        isFreezePane = freezePane;
     }
 
     /**
@@ -266,6 +299,21 @@ public class ExcelUtils {
     public void wirteExcel(String titleColumn[], String titleName[], int titleSize[], List<?> dataList) {
         //添加Worksheet（不添加sheet时生成的xls文件打开时会报错)
         Sheet sheet = workbook.createSheet(this.sheetName);
+        // 设置Excel密码保护
+        // sheet.protectSheet("xxx");
+        /*冻结行操作
+            colSplit
+            拆分单元格的列（Excel中row的标号）
+            rowSplit
+            拆分单元格的行（Excel中row的标号）
+            leftmostColumn
+            右边区域可见的左边列数（Excel中column的标号）
+            topRow
+            下面区域可见的首行（Excel中column的标号）
+         */
+        if (isFreezePane && freezePane != null) {
+            sheet.createFreezePane(freezePane[0], freezePane[1], freezePane[2], freezePane[3]);
+        }
         //新建文件
         OutputStream out = null;
         try {
@@ -296,7 +344,7 @@ public class ExcelUtils {
             //titleStyle = setColor(titleStyle, titleBackColor, (short) 10);
             //--设置样式结束
             for (int i = 0; i < titleName.length; i++) {
-                if(titleSize != null){
+                if (titleSize != null) {
                     sheet.setColumnWidth(i, titleSize[i] * 256); //设置宽度
                 }
                 Cell cell = titleNameRow.createCell(i);
@@ -316,6 +364,7 @@ public class ExcelUtils {
                 //设置样式
                 titleStyle = setFontAndBorder(titleStyle, contentFontType, contentFontSize);
                 if (titleColumn.length > 0) {
+                    cellStyle = workbook.createCellStyle();
                     for (int rowIndex = 1; rowIndex <= dataList.size(); rowIndex++) {
                         orderNum += 1;
                         Object obj = dataList.get(rowIndex - 1); //获得该对象
@@ -323,7 +372,7 @@ public class ExcelUtils {
                         Row dataRow = workbook.getSheet(sheetName).createRow(rowIndex);
                         for (int columnIndex = 0; columnIndex < titleColumn.length; columnIndex++) {
                             Cell cell = dataRow.createCell(columnIndex);
-                            if(columnIndex == 0){
+                            if (columnIndex == 0) {
                                 // 设置第一列为序号并且居中
                                 titleStyle = setAlignment(titleStyle);
                                 cell.setCellValue(orderNum);
@@ -340,23 +389,8 @@ public class ExcelUtils {
                                 //获取返回类型
                                 String returnType = method.getReturnType().getName();
                                 Object data = method.invoke(obj) == null ? "" : method.invoke(obj);
-                                if (data != null && !"".equals(data)) {
-                                    if("java.util.Date".equals(returnType)){
-                                        cell.setCellValue((Date) data);
-                                        cellStyle = setFormatDate();
-                                        cell.setCellStyle(cellStyle);
-                                    } else if ("int".equals(returnType) || "java.lang.Integer".equals(returnType)) {
-                                        cell.setCellValue(Integer.parseInt(data.toString()));
-                                    } else if ("long".equals(returnType) || "java.lang.Long".equals(returnType)) {
-                                        cell.setCellValue(Long.parseLong(data.toString()));
-                                    } else if ("float".equals(returnType) || "java.lang.Float".equals(returnType)) {
-                                        cell.setCellValue(floatDecimalFormat.format(Float.parseFloat(data.toString())));
-                                    } else if ("double".equals(returnType) || "java.lang.Double".equals(returnType)) {
-                                        cell.setCellValue(doubleDecimalFormat.format(Double.parseDouble(data.toString())));
-                                    } else {
-                                        cell.setCellValue(data.toString());
-                                    }
-                                }
+                                // 写入单元格数据
+                                packageData(cellStyle, data, cell, returnType, title);
                             } else { //字段为空 检查该列是否是公式
                                 if (colFormula != null) {
                                     String sixBuf = colFormula[columnIndex].replace("@", (rowIndex + 1) + "");
@@ -366,8 +400,8 @@ public class ExcelUtils {
                             }
                         }
                         // 每当行数达到设置的值就刷新数据到硬盘,以清理内存
-                        if(rowIndex % size == 0){
-                            ((SXSSFSheet)sheet).flushRows();
+                        if (rowIndex % size == 0) {
+                            ((SXSSFSheet) sheet).flushRows();
                         }
                     }
                 }
@@ -385,6 +419,43 @@ public class ExcelUtils {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    /**
+     * Description:
+     *
+     * @param [cellStyle, data, cell, returnType, title]
+     *                    cellStyle: 单元格样式对象
+     *                    data: 单元格数据
+     *                    cell: 单元格对象
+     *                    returnType: 字段返回值类型
+     *                    title: 字段值
+     * @author Easong
+     * @version 2017/11/9
+     * @since JDK1.7
+     */
+    public void packageData(CellStyle cellStyle, Object data, Cell cell, String returnType, String title) {
+        // 设置自动换行
+        // cellStyle.setWrapText(true);
+        if (data != null && !"".equals(data)) {
+            if ("java.util.Date".equals(returnType)) {
+                cell.setCellValue((Date) data);
+                cell.setCellStyle(setFormatDate(cellStyle));
+            } else if ("int".equals(returnType) || "java.lang.Integer".equals(returnType)) {
+                cell.setCellValue(Integer.parseInt(data.toString()));
+            } else if ("long".equals(returnType) || "java.lang.Long".equals(returnType)) {
+                cell.setCellValue(Long.parseLong(data.toString()));
+            } else if ("float".equals(returnType) || "java.lang.Float".equals(returnType)) {
+                cell.setCellValue(floatDecimalFormat.format(Float.parseFloat(data.toString())));
+            } else if ("double".equals(returnType) || "java.lang.Double".equals(returnType)) {
+                cell.setCellValue(doubleDecimalFormat.format(Double.parseDouble(data.toString())));
+            } else {
+                cell.setCellValue(data.toString());
+            }
+        } else if ("auditDate".equals(title)) {
+            // 防止为空时前一个单元格内容占用后一个单元格
+            cell.setCellValue("");
         }
     }
 
@@ -457,11 +528,10 @@ public class ExcelUtils {
      * @version 2017/11/6
      * @since JDK1.7
      */
-    public CellStyle setFormatDate() {
-        CellStyle titleStyle = workbook.createCellStyle();
+    public CellStyle setFormatDate(CellStyle cellStyle) {
         DataFormat format = workbook.createDataFormat();
-        titleStyle.setDataFormat(format.getFormat("yyyy/MM/dd HH:mm:ss"));
-        return titleStyle;
+        cellStyle.setDataFormat(format.getFormat("yyyy/MM/dd HH:mm:ss"));
+        return cellStyle;
     }
 
     /**

@@ -121,4 +121,19 @@ public class TestImport {
         String synchExport = PropUtil.getProperty("file.sync.base") + PropUtil.getProperty("file.sync.export") + "/" + src;
         FileUtil.copyFolder(supplierPath, synchExport);
     }
+
+    /**
+     *
+     * Description: 测试供应商退回导入
+     *
+     * @author Easong
+     * @version 2017/11/9
+     * @param []
+     * @since JDK1.7
+     */
+    @Test
+    public void testSupplierBackImport() {
+        //　调用新提交供应商退回修改导入方法
+        innerSupplierService.importInner(null, null);
+    }
 }
