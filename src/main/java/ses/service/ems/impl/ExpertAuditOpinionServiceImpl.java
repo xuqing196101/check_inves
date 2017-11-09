@@ -189,4 +189,10 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
         expertAuditOpinion = mapper.selectByExpertId(expertAuditOpinion);
 		return expertAuditOpinion;
 	}
+
+	@Override
+	public void updata(ExpertAuditOpinion expertAuditOpinion) {
+		 mapper.updateByPrimaryKeySelective(expertAuditOpinion);
+		
+	}
 }
