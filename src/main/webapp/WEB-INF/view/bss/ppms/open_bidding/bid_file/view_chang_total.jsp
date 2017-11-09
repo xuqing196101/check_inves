@@ -86,7 +86,7 @@
 				 	 </span>
 				 	<span>项目预算报价(万元)：${fn:substringAfter(treemapKey, "|")}</span>
 				 	</h2>
-				 	<div class="fl mt20 ml10">
+				 	<div class="fl mt20">
 					 	<button class="btn" onclick="printCon('${projectId}','${vsKey.index}')"  <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')]=='YZZ'}"> disabled="disabled"</c:if>>投标报价一览表</button>
 				 	</div>
 			 	</c:if>
