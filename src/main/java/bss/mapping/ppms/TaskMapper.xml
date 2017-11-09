@@ -43,6 +43,15 @@
     where ID = #{id,jdbcType=VARCHAR}
   </select>
   
+  <select id="selectByProjectTask" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    	tt.*
+    FROM
+			T_BSS_PPMS_TASK tt LEFT JOIN T_BSS_PPMS_PROJECT_TASK ts ON TT.ID = TS.TASK_ID
+		WHERE
+			ts.PROJECT_ID = #{projectId,jdbcType=VARCHAR} ORDER BY TT.ACCEPT_TIME ASC
+  </select>
+  
   <select id="selectByCollectId" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

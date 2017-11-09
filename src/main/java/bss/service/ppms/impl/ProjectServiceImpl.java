@@ -1089,5 +1089,11 @@ public class ProjectServiceImpl implements ProjectService {
         }
       }
       
-    } 
+    }
+
+	@Override
+	public Project newSelectById(String id) {
+		
+		return projectMapper.newSelectById(id);
+	} 
   }

@@ -90,6 +90,11 @@ public class PackageAdvice {
 	 * 假删除
 	 */
 	private Integer isDeleted;
+	
+	/**
+	 * 申请人
+	 */
+	private String proposer;
 
 	public String getId() {
 		return id;
@@ -225,6 +230,14 @@ public class PackageAdvice {
 
 	public void setIsDeleted(Integer isDeleted) {
 		this.isDeleted = isDeleted;
+	}
+
+	public String getProposer() {
+		return proposer;
+	}
+
+	public void setProposer(String proposer) {
+		this.proposer = proposer;
 	}
 	
 }

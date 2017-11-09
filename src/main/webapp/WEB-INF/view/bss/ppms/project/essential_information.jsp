@@ -68,7 +68,7 @@
             var projectNumber = $("#projectNumber").val();//项目编号
             var name = $("#name").val();//项目名称
             var supplierNumber = $("#supplierNumber").val();//供应商人数
-            var purchaseType = "${findById.code}";//采购方式
+            var purchaseType = "${project.purchaseType}";//采购方式
             deadline = $("#deadline").val();//投标截止时间
             bidAddress = $.trim(bidAddress);
             projectNumber = $.trim(projectNumber);
@@ -422,7 +422,6 @@
               <h2 onclick="ycDiv(this,'${1}')" class="count_flow spread hand mt0 mb10">基本信息</h2>
               <input type="hidden" name="id" id="id" value="${project.id}" />
               <input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId}" />
-              <input type="hidden" name="status" id="status" value="${project.status}" />
               <div class="p0${1}">
                 <table class="table table-bordered left_table mb0">
                   <tbody>
@@ -455,10 +454,10 @@
                       <td class="bggrey">采购方式:</td>
                       <td>
                       	<c:if test="${project.purchaseNewType ne '' && project.purchaseNewType ne null }">
-				                  <input name="purchaseType" class="m0 border0" id="purchaseType" value="${project.purchaseType}转${project.purchaseNewType}" type="text" disabled="disabled"/>
+				                  <input name="purchaseType" class="m0 border0" id="purchaseType" value="${purchaseTypeName}转${project.purchaseNewType}" type="text" disabled="disabled"/>
 				                </c:if>
 				                <c:if test="${project.purchaseNewType eq null }">
-				                	<input name="purchaseType" class="m0 border0" id="purchaseType" value="${project.purchaseType}" type="text" disabled="disabled"/>
+				                	<input name="purchaseType" class="m0 border0" id="purchaseType" value="${purchaseTypeName}" type="text" disabled="disabled"/>
 				                </c:if>
                       </td>
                       <td class="bggrey"><span class="red star_red">*</span>采购文件收费:</td>

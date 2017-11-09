@@ -1434,7 +1434,9 @@ public class ProjectController extends BaseController {
     @RequestMapping("/mplement")
     public String starts(@CurrentUser User user,String projectId, String flowDefineId, Model model, Integer page) {
         if(StringUtils.isNotBlank(projectId)){
-            Project project = projectService.selectById(projectId);
+            Project project = projectService.newSelectById(projectId);
+            DictionaryData data = DictionaryDataUtil.get(project.getPurchaseType());
+            model.addAttribute("purchaseTypeName", data.getName());
             HashMap<String, Object> adviceMap=new HashMap<String, Object>();
             adviceMap.put("projectId", project.getId());
             List<PackageAdvice> packAdvice = adviceService.find(adviceMap);
@@ -1442,43 +1444,20 @@ public class ProjectController extends BaseController {
             model.addAttribute("ZZFJ_FJ", DictionaryDataUtil.getId("ZZFJ"));
             model.addAttribute("packAdvice", packAdvice);
             if(project != null && StringUtils.isNotBlank(project.getPrincipal())){
-                String purchaseType = DictionaryDataUtil.getId("DYLY");
-                if(project.getPurchaseType().equals(purchaseType)){
+                if(project.getPurchaseType().equals("DYLY")){
                     project.setSupplierNumber(1);//单一来源的项目，最少供应商人数默认一人；
                 }
-                DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
-                Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
-                project.setPurchaseDepId(orgnization.getName());
-                project.setPurchaseType(findById.getName());
-                
-                if (StringUtils.isNotBlank(project.getPurchaseNewType())) {
-                	DictionaryData data = DictionaryDataUtil.findById(project.getPurchaseNewType());
-                	if (data != null) {
-                		project.setPurchaseNewType(data.getName());
-					}
-				}
                 
                 //获取任务的受领时间
-                HashMap<String, Object> map = new HashMap<>();
+                String projectIds = null;
                 if(StringUtils.isNotBlank(project.getParentId()) && !"1".equals(project.getParentId())){
-                	map.put("projectId", project.getParentId());
+                	projectIds = project.getParentId();
                 } else {
-                	map.put("projectId", project.getId());
+                	projectIds = project.getId();
                 }
-                List<ProjectTask> tasks = projectTaskService.queryByNo(map);
-                List<Task> listTask = new ArrayList<Task>();
-                if(tasks != null && tasks.size() > 0){
-                    for (ProjectTask projectTask : tasks) {
-                        Task task = taskservice.selectById(projectTask.getTaskId());
-                        if(task != null && task.getAcceptTime() != null){
-                            listTask.add(task);
-                        }
-                    }
-                }
-                if(listTask != null && listTask.size() > 0){
-                    sortDate(listTask);//将时间进行排序
-                    Task task = taskservice.selectById(listTask.get(listTask.size() - 1).getId());
-                    model.addAttribute("task", task);
+                List<Task> selectByProjectTask = taskservice.selectByProjectTask(projectIds);
+                if(selectByProjectTask != null && selectByProjectTask.size() > 0){
+                	model.addAttribute("task", selectByProjectTask.get(0));
                 }
                 
                 //获取需求提报时间
@@ -1546,9 +1525,6 @@ public class ProjectController extends BaseController {
                 if(uploadFiles != null && uploadFiles.size() > 0){
                     model.addAttribute("uploadFiles", uploadFiles);
                 }
-                
-                
-                model.addAttribute("findById", findById);
                 model.addAttribute("project", project);
             }
         }
