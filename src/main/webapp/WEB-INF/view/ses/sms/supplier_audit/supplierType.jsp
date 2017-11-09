@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+
 <!DOCTYPE HTML>
 <html>
   <head>
@@ -78,52 +79,12 @@
 				}
 			});
 			
-			 //删除左右两端的空格
-			function trim(str){ 
-				return str.replace(/(^\s*)|(\s*$)/g, "");
-			}
-			
-      // 获取旧的审核记录
-      function getOldAudit(auditData){
-      	var result = null;
-      	$.ajax({
-          url: "${pageContext.request.contextPath}/supplierAudit/ajaxOldAudit.do",
-          type: "post",
-          dataType: "json",
-          data: auditData,
-          async: false,
-          success: function(data){
-            result = data;
-          }
-        });
-        return result;
-      }
-      
-      // 撤销审核记录
-      function cancelAudit(auditData){
-      	var bool = false;
-      	$.ajax({
-          url: "${pageContext.request.contextPath}/supplierAudit/cancelAudit.do",
-          type: "post",
-          dataType: "json",
-          data: auditData,
-          async: false,
-          success: function(result){
-            if(result && result.status == 500){
-            	bool = true;
-            	layer.msg('撤销成功！');
-            }
-          }
-        });
-        return bool;
-      }
-			
 			//供应商类型复选框
 			function reasonType(obj,auditField,auditFieldName){
 				var supplierStatus = $("input[name='supplierStatus']").val();
 				var sign = $("input[name='sign']").val();
        	//只有审核的状态能审核
-				if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+				if(isAudit){
 					if(obj && $(obj).parent().children("img.abolish_img").length > 0){
         		layer.msg('该条信息已审核过并退回过！');
         		return;
@@ -204,7 +165,7 @@
 				var supplierStatus = $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
-        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+        if(isAudit){
 					var supplierId = $("#supplierId").val();
 					var auditContent = "证书名称为：";
 					if(str){
@@ -285,7 +246,7 @@
 				var supplierStatus= $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
-        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+        if(isAudit){
         	if(obj && $(obj).parent().children("a.abolish").length > 0){
         		layer.msg('该条信息已审核过并退回过！');
         		return;
@@ -375,7 +336,7 @@
 				var supplierStatus = $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
-        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+        if(isAudit){
 					var supplierId = $("#supplierId").val();
 					var auditContent = "证书名称为：";
 					if(str){
@@ -467,7 +428,7 @@
 				var supplierStatus= $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
-        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+        if(isAudit){
 					var supplierId = $("#supplierId").val();
 					var appear = obj.id;
 					var auditField = obj.id.replace("_sale", "").trim();
@@ -522,7 +483,7 @@
 				var supplierStatus = $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
-        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+        if(isAudit){
 	        var supplierId = $("#supplierId").val();
 					//auditFieldName = auditFieldName.replace("信息", "");
 					var auditContent = "";
@@ -629,7 +590,7 @@
 				var supplierStatus= $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
-        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+        if(isAudit){
         	if(obj && $(obj).parent().children("a.abolish").length > 0){
         		layer.msg('该条信息已审核过并退回过！');
         		return;
@@ -719,7 +680,7 @@
 				var supplierStatus= $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
-        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+        if(isAudit){
         	if(ele && $(ele).parent().children("img.abolish_img_file").length > 0){
         		layer.msg('该条信息已审核过并退回过！');
         		return;
@@ -800,7 +761,7 @@
 				var supplierStatus = $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
-        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+        if(isAudit){
 					var supplierId = $("#supplierId").val();
 					var auditContent = "证书名称为：";
 					if(str){
@@ -882,7 +843,7 @@
 				var supplierStatus= $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
-        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+        if(isAudit){
 					var supplierId = $("#supplierId").val();
 					var appear = obj.id;
 					var auditField = obj.id.replace("_service", "").trim();
@@ -1099,7 +1060,10 @@
 		<div class="container container_box">
 			<div class="content">
 				<div class="col-md-12 col-sm-12 col-xs-12 tab-v2 job-content">
-					<%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%>
+					<%-- <%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%> --%>
+          <jsp:include page="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp">
+          	<jsp:param value="${supplierStatus }" name="supplierStatus"/>
+          </jsp:include>
 					<!-- 供应商类型信息头 -->
 					<ul class="ul_list count_flow">
 						<li>
@@ -1969,7 +1933,7 @@
 
 							<div class="col-md-12 col-sm-12 col-xs-12 add_regist tc mt20">
 								<a class="btn" type="button" onclick="lastStep();">上一步</a>
-								<c:if test="${supplierStatus == -2 or supplierStatus == 0 or supplierStatus == 9 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+								<c:if test="${isStatusToAudit}">
 			            <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
 			          </c:if>
 								<a class="btn" type="button" onclick="nextStep();">下一步</a>

@@ -269,7 +269,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("essential")
-	public String essentialInformation(HttpServletRequest request, Supplier supplier, String supplierId, Integer sign) {
+	public String essentialInformation(@CurrentUser User user, HttpServletRequest request, Supplier supplier, String supplierId, Integer sign) {
 		
 		supplier = supplierService.get(supplierId, 1);
 		
@@ -278,8 +278,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(loginUserSession == null){
 			return null;
 		}
-		/*User user = (User) loginUserSession;
-		if(supplier.getAuditor() != null && !supplier.getAuditor().equals(user.getRelName())){
+		/*if(supplier.getAuditor() != null && !supplier.getAuditor().equals(user.getRelName())){
 			return null;
 		}*/
 		
@@ -396,7 +395,8 @@ public class SupplierAuditController extends BaseSupplierController {
 		 * 查出修改前的信息
 		 */
 		Integer supplierStatus = supplier.getStatus();
-		if(SupplierConstants.isStatusToAudit(supplierStatus)){
+		String loginName = user.getLoginName();
+		if(SupplierConstants.isAudit(loginName, supplierStatus)){
 			//地址信息
 			supplierModify.setListType(1);
 			supplierModify.setRelationId(null);
@@ -470,7 +470,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 
 		//回显未通过字段
-		if(SupplierConstants.isStatusToAudit(supplierStatus)){
+		if(SupplierConstants.isAudit(loginName, supplierStatus)){
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("basic_page");
@@ -501,7 +501,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("financial")
-	public String financialInformation(HttpServletRequest request, String supplierId, Integer supplierStatus, Integer sign) {
+	public String financialInformation(@CurrentUser User user, HttpServletRequest request, String supplierId, Integer supplierStatus, Integer sign) {
 		request.setAttribute("supplierId", supplierId);
 		request.setAttribute("supplierStatus", supplierStatus);
 		request.setAttribute("sign", sign);
@@ -538,8 +538,9 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		
+		String loginName = user.getLoginName();
 		//查出财务修改前的信息
-		if(SupplierConstants.isStatusToAudit(supplierStatus)){
+		if(SupplierConstants.isAudit(loginName, supplierStatus)){
 			SupplierModify supplierModify = new SupplierModify();
 			supplierModify.setSupplierId(supplierId);
 			supplierModify.setModifyType("finance_page");
@@ -553,7 +554,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		
 		//回显未通过字段
-		if(SupplierConstants.isStatusToAudit(supplierStatus)){
+		if(SupplierConstants.isAudit(loginName, supplierStatus)){
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("basic_page");
@@ -576,7 +577,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		/**
 		 * 退回修改后的附件
 		 */
-		if(SupplierConstants.isStatusToAudit(supplierStatus)){
+		if(SupplierConstants.isAudit(loginName, supplierStatus)){
 			SupplierModify supplierFileModify = new SupplierModify();
 			supplierFileModify.setSupplierId(supplierId);
 			supplierFileModify.setModifyType("file");
@@ -601,7 +602,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("shareholder")
-	public String shareholderInformation(HttpServletRequest request, SupplierStockholder supplierStockholder, Integer supplierStatus, Integer sign) {
+	public String shareholderInformation(@CurrentUser User user, HttpServletRequest request, SupplierStockholder supplierStockholder, Integer supplierStatus, Integer sign) {
 		String supplierId = supplierStockholder.getSupplierId();
 		request.setAttribute("supplierId", supplierId);
 		request.setAttribute("supplierStatus", supplierStatus);
@@ -610,10 +611,12 @@ public class SupplierAuditController extends BaseSupplierController {
 		List < SupplierStockholder > list = supplierAuditService.ShareholderBySupplierId(supplierId);
 		request.setAttribute("shareholder", list);
 		
+		String loginName = user.getLoginName();
+		
 		/**
 		 * 查出股东修改前的信息
 		 */
-		if(SupplierConstants.isStatusToAudit(supplierStatus)) {
+		if(SupplierConstants.isAudit(loginName, supplierStatus)){
 			SupplierModify supplierModify = new SupplierModify();
 			supplierModify.setSupplierId(supplierId);
 			supplierModify.setModifyType("shareholder_page");
@@ -642,7 +645,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("url", url);*/
 		
 		//回显未通过字段
-		if(SupplierConstants.isStatusToAudit(supplierStatus)){
+		if(SupplierConstants.isAudit(loginName, supplierStatus)){
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("basic_page");
@@ -914,7 +917,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return
 	 */
 	@RequestMapping("supplierType")
-	public String supplierType(HttpServletRequest request, SupplierMatSell supplierMatSell, SupplierMatPro supplierMatPro, SupplierMatEng supplierMatEng, SupplierMatServe supplierMatSe, String supplierId, Integer supplierStatus, Integer sign) {
+	public String supplierType(@CurrentUser User user, HttpServletRequest request, SupplierMatSell supplierMatSell, SupplierMatPro supplierMatPro, SupplierMatEng supplierMatEng, SupplierMatServe supplierMatSe, String supplierId, Integer supplierStatus, Integer sign) {
 		request.setAttribute("supplierId", supplierId);
 		request.setAttribute("supplierStatus", supplierStatus);
 		request.setAttribute("sign", sign);
@@ -1088,10 +1091,12 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 		}
 		
+		String loginName = user.getLoginName();
+		
 		/**
 		 * 审核内容
 		 */
-		if(SupplierConstants.isStatusToAudit(supplierStatus)) {
+		if(SupplierConstants.isAudit(loginName, supplierStatus)){
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
 			List<SupplierAudit> auditList = null;
@@ -1185,7 +1190,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		/**
 		 * 退回修改的内容
 		 */
-		if(SupplierConstants.isStatusToAudit(supplierStatus)) {
+		if(SupplierConstants.isAudit(loginName, supplierStatus)){
 			SupplierModify supplierModify = new SupplierModify();
 			supplierModify.setSupplierId(supplierId);
 			List<SupplierModify> modifyList = null;
@@ -1486,7 +1491,10 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(StringUtils.isBlank(supplier.getAuditor())){
 			updateSupplier.setAuditor(user.getRelName());
 		}
-		return supplierAuditService.updateStatus(updateSupplier);
+		if(SupplierConstants.isStatusToAudit(status)){
+			return supplierAuditService.updateStatus(updateSupplier);
+		}
+		return 0;
 	}
 	/*private int updateSupplierAuditStatus(User user, Supplier supplier){
 		if(StringUtils.isBlank(supplier.getAuditor())){
@@ -1951,7 +1959,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("applicationForm")
-	public String applicationForm(HttpServletRequest request, SupplierAudit supplierAudit, Supplier supplier, Integer supplierStatus, Integer sign) throws IOException {
+	public String applicationForm(@CurrentUser User user, HttpServletRequest request, SupplierAudit supplierAudit, Supplier supplier, Integer supplierStatus, Integer sign) throws IOException {
 		request.setAttribute("sign", sign);
 		
 		String supplierId = supplierAudit.getSupplierId();
@@ -1965,8 +1973,10 @@ public class SupplierAuditController extends BaseSupplierController {
 		
 		request.setAttribute("supplierStatus", supplierStatus);
 		
+		String loginName = user.getLoginName();
+		
 		//回显未通过字段
-		if(supplierStatus == -3 || supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 1 || supplierStatus == 5 || supplierStatus == 9){
+		if(SupplierConstants.isAudit(loginName, supplierStatus)){
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("download_page");
 //			List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
@@ -1988,7 +1998,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		/**
 		 * 退回修改后的附件
 		 */
-		if(supplierStatus != null && (supplierStatus == 0 || supplierStatus == 9)) {
+		if(SupplierConstants.isAudit(loginName, supplierStatus)){
 			SupplierModify supplierFileModify= new SupplierModify();
 			supplierFileModify.setSupplierId(supplierId);
 			supplierFileModify.setModifyType("file");
@@ -2451,6 +2461,33 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 		}
 		
+		//回显
+		request.setAttribute("supplierName", supplier.getSupplierName());
+		request.setAttribute("state", state);
+		request.setAttribute("businessNature", supplier.getBusinessNature());
+		request.setAttribute("auditDate", supplier.getAuditDate());
+		request.setAttribute("addressName", supplier.getAddressName());
+		//审核、复核、实地考察的标识
+		request.setAttribute("sign", supplier.getSign());
+		request.getSession().setAttribute("signs", supplier.getSign());
+		
+		if(user != null && SupplierConstants.isAccountToAudit(user.getLoginName())){
+			request.setAttribute("isAccountToAudit", 1);
+			supplier.setProcurementDepId(null);
+			supplier.setExtractOrgid(null);
+			if("GET".equals(request.getMethod()) && state != null && state == 0){
+				state = 2;
+				request.setAttribute("state", state);
+				supplier.setStatus(2);
+			}
+			if(state != null && state != 2){// 只返回退回修改的数据
+				request.setAttribute("result", new PageInfo < Supplier > ());
+				return "ses/sms/supplier_audit/supplier_all";
+			}else{
+				supplier.setStatus(2);
+			}
+		}
+		
 		//查询列表
 		List < Supplier > supplierList = supplierAuditService.getAuditSupplierList(supplier, page);
 		
@@ -2471,7 +2508,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		PageInfo < Supplier > pageInfo = new PageInfo < Supplier > (supplierList);
 		request.setAttribute("result", getSupplierType(pageInfo));
 
-		//回显
+		/*//回显
 		request.setAttribute("supplierName", supplier.getSupplierName());
 		request.setAttribute("state", state);
 		request.setAttribute("businessNature", supplier.getBusinessNature());
@@ -2479,7 +2516,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("addressName", supplier.getAddressName());
 		//审核、复核、实地考察的标识
 		request.setAttribute("sign", supplier.getSign());
-		request.getSession().setAttribute("signs", supplier.getSign());
+		request.getSession().setAttribute("signs", supplier.getSign());*/
 
 		return "ses/sms/supplier_audit/supplier_all";
 	}
