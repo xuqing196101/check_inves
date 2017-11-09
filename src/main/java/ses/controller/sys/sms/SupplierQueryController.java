@@ -2446,8 +2446,11 @@ public class SupplierQueryController extends BaseSupplierController {
      * @since JDK1.7
      */
     @RequestMapping("/exportExcel")
-    public void exportExcel(HttpServletResponse httpServletResponse, Supplier supplier){
+    public void exportExcel(HttpServletResponse httpServletResponse, Supplier supplier) {
         ExcelUtils excelUtils = new ExcelUtils(httpServletResponse, "供应商信息", "sheet1", 500);
+        // 设置冻结行
+        excelUtils.setFreezePane(true);
+        excelUtils.setFreezePane(new Integer[]{0, 1, 0, 1});
         //ExcelUtils excelUtils = new ExcelUtils("./test.xls", "sheet1");
         List<Supplier> dataList = supplierService.querySupplierbytypeAndCategoryIds(null, supplier);
         String titleColumn[] = {"orderNum", "supplierName", "businessNature", "supplierType",
