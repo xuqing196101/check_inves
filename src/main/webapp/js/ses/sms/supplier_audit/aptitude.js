@@ -458,10 +458,10 @@ function showFrame(tablerId,ind,title,cateTree,flng,id,secondNode,secondNodeId){
 		layer.msg("此产品目录已经审核不通过！");
 		return;
 	}
-	var supplierStatus= $("input[name='supplierStatus']").val();
+	var supplierStatus = $("input[name='supplierStatus']").val();
     var sign = $("input[name='sign']").val();
-	    // 只有审核的状态能审核
-	    if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+    // 只有审核的状态能审核
+    if(isAudit){
 		var supplierId=$("#supplierId").val();
 		var content;
 		var auditType;
@@ -539,10 +539,10 @@ function checkML(tablerId,wzType){
 }
 // 目录 审核不通过理由 物资 生产
 function reasonProjectMulti(tablerId,auditType,auditContent,wzType) {// ,ind,aType,wzType
-	var supplierStatus= $("input[name='supplierStatus']").val();
+	var supplierStatus = $("input[name='supplierStatus']").val();
     var sign = $("input[name='sign']").val();
     // 只有审核的状态能审核
-    if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+    if(isAudit){
 	
 		var supplierId = $("#supplierId").val();
 		var auditCount=checkML(tablerId,wzType);
@@ -634,10 +634,10 @@ function changStyle(tablerId,wzType){
 }
 // 目录 审核不通过理由 非选择框 单选
 function reasonProjectRadio(tablerId,ind,auditField, auditFieldName,type,auditContent,wzType) {
-	var supplierStatus= $("input[name='supplierStatus']").val();
+	var supplierStatus = $("input[name='supplierStatus']").val();
     var sign = $("input[name='sign']").val();
     // 只有审核的状态能审核
-    if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+    if(isAudit){
 	
 		var supplierId = $("#supplierId").val();
 		var auditType;
@@ -804,22 +804,29 @@ function doAuditContractMuti(tablerId,supplierTypeId) {
 				layer.close(index);
 			}else{
 				layer.msg('不能为空！', {offset:'100px'});
-			};
+			}
 		});
     }
 }
 // 暂存
 function zhancun(){
-  var supplierId = $("#supplierId").val();
-  $.ajax({
-    url: globalPath+"/supplierAudit/temporaryAudit.do",
-    dataType: "json",
-    data:{supplierId : supplierId},
-    success : function (result) {
-    	layer.msg(result, {offset : [ '100px' ]});
-    },error : function(){
-    	layer.msg("暂存失败", {offset : [ '100px' ]});
-    }
-  });
+	var supplierId = $("#supplierId").val();
+	$.ajax({
+		url: globalPath+"/supplierAudit/temporaryAudit.do",
+		dataType: "json",
+		data: {supplierId : supplierId},
+		success : function (result) {
+			layer.msg(result, {offset : [ '100px' ]});
+		},error : function(){
+			layer.msg("暂存失败", {offset : [ '100px' ]});
+		}
+	});
 }
 
+// 刷新数据
+function flushData(){
+	var typeId = $("#supplierType").val();
+	var tablerId = $("#tablerId").val();
+	var pageNum = $("#pageNum").val();
+	findData(typeId,tablerId,pageNum);
+}
