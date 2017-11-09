@@ -74,37 +74,55 @@
 		</ul>
 	 </div>
 	 </c:if>
-	 <div>
-	 <div class="pt80">
-	<h2 onclick="ycDiv(this,'1')" class="count_flow spread hand mt120">采购管理部门意见</h2>
-	<div class="p01 p0_40 clearfix">${MapPa['pcId'].content}
-		<div class="clear mt10">
-			<span class="fl"><b>采购管理部门审核意见附件:</b></span>
-		    <u:show  showId="e" delete="flase" businessId="${MapPa['pcId'].id}" sysKey="${sysKey}" typeId="${pcTypeId}"/>
-		</div>
-	</div>
-	<h2 onclick="ycDiv(this,'2')" class="count_flow spread hand">事业部门意见</h2>
-	<div class="p02 p0_40 clearfix">${MapPa['causeId'].content}
-		<div class="clear mt10">
-			<span class="fl"><b>事业部门审核意见附件:</b></span>
-		    <u:show delete="flase"  showId="y" businessId="${MapPa['causeId'].id}" sysKey="${sysKey}" typeId="${causeTypeId}"/>
-		</div>
-	</div>
-	<h2 onclick="ycDiv(this,'3')" class="count_flow spread hand">财务部门意见</h2>
-	<div class="p03 p0_40 clearfix">${MapPa['financeId'].content}
-		<div class="clear mt10">
-			<span class="fl"><b>财务部门审核意见附件:</b></span>
-		    <u:show  showId="o" delete="flase" businessId="${MapPa['financeId'].id}" sysKey="${sysKey}" typeId="${financeTypeId}"/>
-		</div>
-	</div>
-	<h2 onclick="ycDiv(this,'4')" class="count_flow spread hand">最终意见</h2>
-	<div class="p04 p0_40 clearfix">${MapPa['finalId'].content}
-	<div class="clear mt10">
-			<span class="fl"><b>最终意见附件:</b></span>
-		    <u:show  showId="kk" delete="flase" businessId="${MapPa['finalId'].id}" sysKey="${sysKey}" typeId="${finalTypeId}"/>
-	</div>
-	</div>
-	</div>
+	 
+	 <div class="clear"></div>
+	 <div class="bggrey p20_15 mt20">
+	   <div class="fw f14" id="cgspan">采购管理部门意见</div>
+     <div class="mt10">
+       <textarea class="w100p h80 resizen" disabled="disabled">${MapPa['pcId'].content}</textarea>
+       <div class="m_uploadFiles mt10">
+         <span class="m_inline f14 lh16">采购管理部门审核意见附件：</span>
+         <div class="m_inline m_uploadFiles f0">
+           <u:show showId="e" delete="flase" businessId="${MapPa['pcId'].id}" sysKey="${sysKey}" typeId="${pcTypeId}"/>
+         </div>
+       </div>
+     </div>
+     
+     <div class="mt20 fw f14" id="cgspan">事业部门意见</div>
+     <div class="mt10">
+       <textarea class="w100p h80 resizen" disabled="disabled">${MapPa['causeId'].content}</textarea>
+       <div class="m_uploadFiles mt10">
+         <span class="m_inline f14 lh16">事业部门审核意见附件：</span>
+         <div class="m_inline m_uploadFiles f0">
+           <u:show delete="flase" showId="y" businessId="${MapPa['causeId'].id}" sysKey="${sysKey}" typeId="${causeTypeId}"/>
+         </div>
+       </div>
+     </div>
+
+     <div class="mt20 fw f14" id="cgspan">财务部门意见</div>
+     <div class="mt10">
+       <textarea class="w100p h80 resizen" disabled="disabled">${MapPa['financeId'].content}</textarea>
+       <div class="m_uploadFiles mt10">
+         <span class="m_inline f14 lh16">财务部门审核意见附件：</span>
+         <div class="m_inline m_uploadFiles f0">
+           <u:show showId="o" delete="flase" businessId="${MapPa['financeId'].id}" sysKey="${sysKey}" typeId="${financeTypeId}"/>
+         </div>
+       </div>
+     </div>
+
+     <div class="mt20 fw f14" id="cgspan">最终意见</div>
+     <div class="mt10">
+       <textarea class="w100p h80 resizen" disabled="disabled">${MapPa['finalId'].content}</textarea>
+       <div class="m_uploadFiles mt10">
+         <span class="m_inline f14 lh16">最终意见附件：</span>
+         <div class="m_inline m_uploadFiles f0">
+           <u:show showId="kk" delete="flase" businessId="${MapPa['finalId'].id}" sysKey="${sysKey}" typeId="${finalTypeId}"/>
+         </div>
+       </div>
+     </div>
+     
+     <div class="clear"></div>
+	 </div>
 	</div>
 </body>
 </html>
