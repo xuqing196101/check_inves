@@ -573,7 +573,7 @@
       <if test="telephone != null and telephone != ''">
         TELEPHONE = #{telephone,jdbcType=VARCHAR},
       </if>
-      <if test="email != ''">
+      <if test="email != null and email != ''">
         EMAIL = #{email,jdbcType=VARCHAR},
       </if>
       <if test="org != null">
@@ -582,7 +582,7 @@
       <if test="typeName == 3 and org == null">
         ORG_ID = null,
       </if>
-      <if test="duties != ''">
+      <if test="duties != null and duties != ''">
         DUTIES = #{duties,jdbcType=VARCHAR},
       </if>
       <if test="typeName != null">
