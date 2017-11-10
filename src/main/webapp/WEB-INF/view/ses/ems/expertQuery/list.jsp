@@ -61,7 +61,7 @@
           async: {
             autoParam: ["id"],
             enable: true,
-            url: "${pageContext.request.contextPath}/category/createtree.do",
+            url: "${pageContext.request.contextPath}/expertQuery/createtree.do",
             otherParam: {
               categoryIds: "${categoryIds}",
             },

@@ -10,6 +10,8 @@ import ses.dao.bms.UserMapper;
 import ses.dao.ems.ExpertAuditFileModifyMapper;
 import ses.dao.ems.ExpertAuditMapper;
 import ses.dao.ems.ExpertAuditOpinionMapper;
+import ses.dao.ems.ExpertBatchDetailsMapper;
+import ses.dao.ems.ExpertCategoryMapper;
 import ses.dao.ems.ExpertEngHistoryMapper;
 import ses.dao.ems.ExpertEngModifyMapper;
 import ses.dao.ems.ExpertMapper;
@@ -21,6 +23,7 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
 import ses.model.ems.ExpertAuditOpinion;
+import ses.model.ems.ExpertBatchDetails;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertEngHistory;
 import ses.model.ems.ExpertHistory;
@@ -88,6 +91,10 @@ public class InnerExpertServiceImpl implements InnerExpertService {
 
     @Autowired
     private ExpertAuditOpinionMapper expertAuditOpinionMapper;
+    @Autowired
+    private ExpertBatchDetailsMapper expertBatchDetailsMapper;
+    @Autowired
+    private ExpertCategoryMapper expertCategoryMapper;
     /**
      * 
      * @see synchro.inner.read.expert.InnerExpertService#readNewExpertInfo(java.io.File)
@@ -242,14 +249,8 @@ public class InnerExpertServiceImpl implements InnerExpertService {
                 if (expertAudits != null && !expertAudits.isEmpty()) {
                     // 清空外网审核记录表
                     expertAuditMapper.deleteByExpertId(expert.getId());
-                    ExpertAudit audit;
                     for (ExpertAudit expertAudit : expertAudits) {
-                        audit = expertAuditMapper.selectByPrimaryKey(expertAudit.getId());
-                        if (audit != null) {
-                            expertAuditMapper.insertActive(expertAudit);
-                        } else {
-                            expertAuditMapper.updateByPrimaryKeySelective(expertAudit);
-                        }
+                        expertAuditMapper.insertActive(expertAudit);
                     }
                 }
 
@@ -258,10 +259,22 @@ public class InnerExpertServiceImpl implements InnerExpertService {
                     // 将军地专家选择小类插入到数据库中
                     List<ExpertCategory> expertCategoryList = expert.getExpertCategory();
                     if (expertCategoryList != null && !expertCategoryList.isEmpty()) {
+                        // 删除选择
+                        expertCategoryMapper.deleteByExpertId(expert.getId());
+                        // 再插入
                         for (ExpertCategory expertCategory : expertCategoryList) {
-                            expertCategoryService.insertSelective(expertCategory);
+                            expertCategoryMapper.insertSelective(expertCategory);
                         }
                     }
+                }
+
+                // 保存批次编号
+                ExpertBatchDetails expertBatchDetails = expert.getExpertBatchDetails();
+                if(expertBatchDetails != null){
+                    // 先删除
+                    expertBatchDetailsMapper.deleteByExpertId(expert.getId());
+                    // 后插入
+                    expertBatchDetailsMapper.insert(expertBatchDetails);
                 }
 
                 // 保存专家审核意见数据

@@ -33,6 +33,8 @@
 				});
 			});
 
+
+
 			function fanhui() {
 				window.location.href = "${pageContext.request.contextPath}/supplierQuery/highmaps.html";
 			}
@@ -449,6 +451,19 @@
 				<h2>供应商信息</h2>
 			</div>
 			<h2 class="search_detail">
+                <!--下载Excel查询条件表单-->
+                <form id="exportExcelCond">
+                    <input type="hidden" name="supplierName" value="${supplier.supplierName}"/>
+                    <input type="hidden" name="businessNature" value="${supplier.businessNature}"/>
+                    <input type="hidden" name="supplierTypeIds" value="${supplierTypeIds}"/>
+                    <input type="hidden" name="status" value="${supplier.status}"/>
+                    <input type="hidden" name="isProvisional" value="${supplier.isProvisional}"/>
+                    <input type="hidden" name="creditCode" value="${supplier.creditCode}"/>
+                    <input type="hidden" name="orgName" value="${supplier.orgName}"/>
+                    <input type="hidden" name="address" value="${supplier.address}"/>
+                    <input type="hidden" name="queryCategory" value="${supplier.queryCategory }"/>
+                    <input type="hidden" name="sign" value="${sign}"/>
+                </form>
 	      <form id="form1" action="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?sign=${sign}" method="post" class="mb0">
 	      	<c:if test="${sign != 1 }">
 	      		<input type="hidden" name="address" value="${address }">
@@ -574,6 +589,7 @@
               <c:choose>
 								<c:when test="${sign == 1 }">
 								 		<a href="${pageContext.request.contextPath}/supplierQuery/highmaps.html" class="btn">切换到地图</a>
+								 		<a href="javascript:;" class="btn" id="export_result">将结果导出Excel</a>
 								</c:when>
 								<c:otherwise>
 										<button class="btn btn-windows back" type="button" onclick="location.href='${pageContext.request.contextPath}/supplierQuery/highmaps.html'">返回</button>

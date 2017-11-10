@@ -91,7 +91,8 @@
 		    <td class="tl pl20" data-id="${item.itemsId}" data-catId="${item.categoryId}">${item.fourthNode}</td>
 		    <c:if test="${currSupplier.status==2}">
 		    	<td class="tl pl20" id="${item.itemsId}">
-			    	<c:if test="${!fn:contains(audit,item.categoryId)}">审核通过</c:if>
+			    	<c:if test="${!fn:contains(audit,item.categoryId) and isSupplierTypeAudited != 'true'}">审核通过</c:if>
+			    	<c:if test="${isSupplierTypeAudited == 'true'}">审核不通过</c:if>
 			    	<c:if test="${fn:contains(audit,item.categoryId)}">
 			    		<script type="text/javascript">
 			    			function onloadErrorMsg(_this, auditField, auditType){

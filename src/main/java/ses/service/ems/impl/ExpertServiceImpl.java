@@ -1,20 +1,15 @@
 package ses.service.ems.impl;
 
-import java.io.File;
-import java.lang.reflect.InvocationTargetException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
+import bss.dao.ppms.ProjectMapper;
+import bss.dao.prms.PackageExpertMapper;
+import bss.model.ppms.Packages;
+import bss.model.ppms.Project;
+import bss.model.ppms.ext.ProjectExt;
+import bss.model.prms.PackageExpert;
 import bss.util.EncryptUtil;
-
+import com.github.pagehelper.PageHelper;
+import common.constant.StaticVariables;
+import common.dao.FileUploadMapper;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -29,7 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
-
 import ses.dao.bms.AreaMapper;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.DictionaryDataMapper;
@@ -37,32 +31,52 @@ import ses.dao.bms.EngCategoryMapper;
 import ses.dao.bms.RoleMapper;
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
-import ses.dao.ems.*;
+import ses.dao.ems.ExpertAttachmentMapper;
+import ses.dao.ems.ExpertAuditMapper;
+import ses.dao.ems.ExpertBlackListMapper;
+import ses.dao.ems.ExpertCategoryMapper;
+import ses.dao.ems.ExpertMapper;
+import ses.dao.ems.ExpertTitleMapper;
+import ses.dao.ems.ProjectExtractMapper;
 import ses.dao.sms.DeleteLogMapper;
-import ses.model.bms.*;
-import ses.model.ems.*;
+import ses.model.bms.Area;
+import ses.model.bms.Category;
+import ses.model.bms.DictionaryData;
+import ses.model.bms.Role;
+import ses.model.bms.Todos;
+import ses.model.bms.User;
+import ses.model.bms.Userrole;
+import ses.model.ems.ExpExtCondition;
+import ses.model.ems.Expert;
+import ses.model.ems.ExpertAttachment;
+import ses.model.ems.ExpertAudit;
+import ses.model.ems.ExpertCategory;
+import ses.model.ems.ExpertHistory;
+import ses.model.ems.ExpertPictureType;
+import ses.model.ems.ExpertVO;
+import ses.model.ems.ProjectExtract;
 import ses.model.sms.DeleteLog;
-import ses.model.sms.Supplier;
 import ses.service.bms.RoleServiceI;
 import ses.service.ems.ExpExtractRecordService;
-import ses.service.ems.ExpertAttachmentService;
 import ses.service.ems.ExpertService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.ValidateUtils;
 import ses.util.WfUtil;
-import bss.dao.ppms.ProjectMapper;
-import bss.dao.prms.PackageExpertMapper;
-import bss.model.ppms.Packages;
-import bss.model.ppms.Project;
-import bss.model.ppms.ext.ProjectExt;
-import bss.model.prms.PackageExpert;
 
-import com.github.pagehelper.PageHelper;
-
-import common.constant.StaticVariables;
-import common.dao.FileUploadMapper;
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 
 @Service("expertService")
@@ -1553,10 +1567,10 @@ public class ExpertServiceImpl implements ExpertService {
 	 * 首页专家名录查询
 	 */
 	@Override
-	public List<Expert> selectIndexExpert(Integer pageNum,Map<String, Object> map) {
+	public List<ExpertVO> selectIndexExpert(Integer pageNum,Map<String, Object> map) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
-		return mapper.selectIndexExpert(map);
+		return mapper.selectInStorageExpert(map);
 	}
 
 	@Override
@@ -1620,6 +1634,38 @@ public class ExpertServiceImpl implements ExpertService {
 	public List<Expert> findStorage(Expert expert) {
 		
 		return mapper.selectRuKuExpert(expert);
+	}
+	
+	
+	/**
+     * 无分页
+     * @param expert
+     * @return
+     */
+	@Override
+	public List<Expert> findExpertNoPag(Expert expert) {
+		//搜索待初审，待复审，待复查状态。
+		if("0".equals(expert.getStatus()) || "4".equals(expert.getStatus()) ||"6".equals(expert.getStatus())){
+			expert.setAuditTemporary(0);
+		}
+		
+		//搜索初审中状态
+		if("firstInstance".equals(expert.getStatus())){
+			expert.setStatus("0");
+			expert.setAuditTemporary(1);
+		}
+		//搜索复审中状态
+		if("review".equals(expert.getStatus())){
+			expert.setStatus("4");
+			expert.setAuditTemporary(2);
+		}
+		//搜索复查中状态
+		if("reviewLook".equals(expert.getStatus())){
+			expert.setStatus("6");
+			expert.setAuditTemporary(3);
+		}
+		
+		return mapper.selectAllExpert(expert);
 	}
 }
 

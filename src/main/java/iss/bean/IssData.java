@@ -2,8 +2,8 @@ package iss.bean;
 
 import iss.model.ps.Article;
 import iss.service.ps.ArticleService;
-import ses.model.ems.Expert;
 import ses.model.ems.ExpertPublicity;
+import ses.model.ems.ExpertVO;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierPublicity;
 import ses.service.ems.ExpertAuditService;
@@ -27,17 +27,15 @@ import java.util.Map;
 public class IssData {
 
 	// 专家名录
-	public static List<Expert> getExpertList() {
-		Expert expert=new Expert();
+	public static List<ExpertVO> getExpertList() {
 		ExpertService expertService=SpringBeanUtil.getBean(ExpertService.class);
 		 //只显示公开的
 		//expert.setIsPublish(1);
         Map<String, Object> expertMap = new HashMap<>();
-        int statusArray[] = {4,6,7,8};
+        int statusArray[] = {6,7,8};
         expertMap.put("size", statusArray.length);
         expertMap.put("statusArray", statusArray);
-        expertMap.put("flag", 1);
-        List<Expert> expertList = expertService.selectIndexExpert(1, expertMap);
+        List<ExpertVO> expertList = expertService.selectIndexExpert(1, expertMap);
         return expertList;
 	}
 	

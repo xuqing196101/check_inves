@@ -8,16 +8,30 @@ function allotList_search() {
   if (expertsTypeId != null) {
     expertsTypeId = expertsTypeId.join(',');
   }
-  $('#list_content').listConstructor({
-    data: {
-      orgName: orgName,
-      expertsFrom: expertsFrom,
-      expertsTypeId: expertsTypeId,
-      startTime: startTime,
-      endTime: endTime
-    },
-    url: list_url
-  });
+  
+  if ($('#list_content').parents('table').css('display') != 'none') {
+    $('#list_content').listConstructor({
+      data: {
+        orgName: orgName,
+        expertsFrom: expertsFrom,
+        expertsTypeId: expertsTypeId,
+        startTime: startTime,
+        endTime: endTime
+      },
+      url: list_url
+    });
+  } else {
+    $('#selected_content').listConstructor_t({
+      data: {
+        orgName: orgName,
+        expertsFrom: expertsFrom,
+        expertsTypeId: expertsTypeId,
+        startTime: startTime,
+        endTime: endTime
+      },
+      url: search_temporary_url
+    });
+  }
 }
 
 // 搜索

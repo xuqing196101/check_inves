@@ -228,7 +228,7 @@
 		          <input type="radio" id="revokeReturn" onclick="updateStatus(4)" name="updateStatusRadio" >撤销退回
 		          <input type="radio" id="revokeNotpass" onclick="updateStatus(5)" name="updateStatusRadio">撤销不通过
 		         </div>
-            <table class="table table-bordered table-condensed table-hover">
+            <table class="table table-bordered table-condensed table-hover" id="fixed_table">
               <thead>
               <tr>
                 <th class="info w30"><input type="checkbox" onclick="selectAll();" id="checkAll"></th>
@@ -297,7 +297,32 @@
       <input name="status" id="status" value="${status}" type="hidden">
       <input name="batchId" value="${batchId}" type="hidden">
     </form>
+    
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.css">
+    <script src="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.js"></script>
+    <script>
+      // 锁表头
+      $('#fixed_table').m_fixedTable({
+        fixedNumber: 0
+      });
+      
+      // 判断全选按钮是否选中
+      var checkbox_sum = $('#fixed_table tbody input[type="checkbox"]').length; // 多选总和
+      $('#fixed_table tbody input[type="checkbox"]').bind('click', function () {
+        var checked_sum = 0; // 未选数量
+        $('#fixed_table tbody input[type="checkbox"]').each(function () {
+          if ($(this).is(':checked')) {
+            checked_sum++;
+          }
+        });
+        
+        if (checked_sum == checkbox_sum) {
+          $('#checkAll').prop('checked', true);
+        } else {
+          $('#checkAll').prop('checked', false);
+        }
+      });
+    </script>
 
   </body>
-
 </html>

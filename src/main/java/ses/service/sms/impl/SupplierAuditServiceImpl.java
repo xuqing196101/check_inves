@@ -79,6 +79,7 @@ import ses.util.PropertiesUtil;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -274,6 +275,11 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	
 	@Override
 	public List<Supplier> querySupplierbytypeAndCategoryIds(Supplier supplier,Integer page) {
+        String queryCategory = supplier.getQueryCategory();
+        if(StringUtils.isNotEmpty(queryCategory)){
+            List<String> strings = Arrays.asList(queryCategory.split(","));
+            supplier.setQueryCategorys(strings);
+        }
 		/*SupplierStars sstart = new SupplierStars();
 		sstart.setStatus(1);
         List<SupplierStars> listSs = supplierStarsMapper.findSupplierStars(sstart);
@@ -427,8 +433,17 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 */
 	@Override
 	public int auditReasons(SupplierAudit supplierAudit) {
+		if(supplierAudit != null && supplierAudit.getId() != null){
+			return supplierAuditMapper.updateByIdSelective(supplierAudit);
+		}
+		// 设置默认退回状态
+		String auditType = supplierAudit.getAuditType();
+		if(auditType != null && (auditType.startsWith("items_") || auditType.equals("supplierType_page"))){
+			supplierAudit.setReturnStatus(2);
+		}else{
+			supplierAudit.setReturnStatus(1);
+		}
 		return supplierAuditMapper.insertSelective(supplierAudit);
-		
 	}
 
 	/**
@@ -922,14 +937,14 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 					    if(3==type){
 				    	//封装 物资销售 记录 资质文件
 					    	qualification.setAuditCount(countData(cateTree.getItemsId(), supplierItem.getId()+"_"+categoryQua.getQuaId(), ses.util.Constant.APTITUDE_SALES_PAGE));
-						 }else if(2==type){
+					    }else if(2==type){
 						   	//封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
 						    qualification.setAuditCount(countData(cateTree.getItemsId(), supplierItem.getId()+"_"+categoryQua.getQuaId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE));
-						  }else if(1==type){
+					    }else if(1==type){
 						   	//封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
-						   qualification.setAuditCount(countData(cateTree.getItemsId(), supplierItem.getId()+"_"+categoryQua.getQuaId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE));
-						 }
-						   list.add(qualification);
+					    	qualification.setAuditCount(countData(cateTree.getItemsId(), supplierItem.getId()+"_"+categoryQua.getQuaId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE));
+					    }
+				    	list.add(qualification);
 					}
 				}
 			}
@@ -1147,12 +1162,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 */
 	@Override
 	public List<SupplierPublicity> selectSupByPublictyList(Map<String, Object> map) {
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		if(map.get("flag") != null && ("app").equals(map.get("flag"))){
-			PageHelper.startPage((Integer) (map.get("page")),10);
-		} else {
-			PageHelper.startPage((Integer) (map.get("page")),Integer.parseInt(config.getString("pageSize")));
-		}
+	    // 设置分页
+        PageHelper.startPage((Integer) (map.get("page")), PropUtil.getIntegerProperty("pageSize"));
 		// 查询公示供应商列表
 		SupplierPublicity supplierPublicityQuery = (SupplierPublicity) map.get("supplierPublicity");
 		List<SupplierPublicity> list = supplierMapper.selectSupByPublictyList(supplierPublicityQuery);
@@ -1869,7 +1880,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 * @param auditType
 	 * @return
 	 */
-	private Integer countData(String supplierId, String auditField,String auditType ){
+	private Integer countData(String supplierId, String auditField, String auditType){
 		SupplierAudit audit=new SupplierAudit();
 		audit.setSupplierId(supplierId);
 		audit.setAuditField(auditField);
@@ -1886,7 +1897,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
         if(certEng != null && !certEng.isEmpty()) {
 		  rut=rut+uploadService.countFileByBusinessId(certEng.get(0).getId(), type_id, common.constant.Constant.SUPPLIER_SYS_KEY);
         }*/
-        List<SupplierItem> itemsList=getProject(cateTree, 4,supplierId);
+        List<SupplierItem> itemsList=getProject(cateTree, 4, supplierId);
 		//--工程 审核字段存储：目录末级节点ID关联的SupplierItem的ID
 		if(null!=itemsList && !itemsList.isEmpty()){
 			for (SupplierItem supplierItem : itemsList) {
@@ -2101,10 +2112,10 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	}
 
 	@Override
-	public int insertAudit(List<SupplierAudit> supplierAudit) {
+	public int insertAudit(List<SupplierAudit> supplierAuditList) {
 		int i=0;
-		for (SupplierAudit supplierAudit2 : supplierAudit) {
-			i=i+supplierAuditMapper.insertSelective(supplierAudit2);
+		for (SupplierAudit supplierAudit : supplierAuditList) {
+			i=i+supplierAuditMapper.insertSelective(supplierAudit);
 		}
 		return i;
 	}
@@ -2209,7 +2220,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 							}
 						}
 					}
-					if(auditType.startsWith("items_")){// 品目
+					if(auditType.startsWith("items_") || "supplierType_page".equals(auditType)){// 品目/类型
 						// 更新状态
 						SupplierAudit supplierAuditUpdate = new SupplierAudit();
 						supplierAuditUpdate.setId(audit.getId());
@@ -2567,5 +2578,30 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		// 封装查询map集合
 		map.put("auditType", ses.util.Constant.SUPPLIER_CATE_INFO_ITEM_FLAG);
 		return supplierAuditMapper.selectBySupIdAndType(map);
+	}
+
+	@Override
+	public int saveAudit(List<SupplierAudit> supplierAuditList) {
+		int i=0;
+		for (SupplierAudit supplierAudit : supplierAuditList) {
+			if(supplierAudit != null && supplierAudit.getId() != null){
+				//更新时间？
+				i=i+supplierAuditMapper.updateByIdSelective(supplierAudit); 
+			}else{
+				// 设置默认退回状态
+				if(supplierAudit.getAuditType() != null && supplierAudit.getAuditType().startsWith("items_")){
+					supplierAudit.setReturnStatus(2);
+				}else{
+					supplierAudit.setReturnStatus(1);
+				}
+				i=i+supplierAuditMapper.insertSelective(supplierAudit);
+			}
+		}
+		return i;
+	}
+
+	@Override
+	public int updateByIdSelective(SupplierAudit supplierAudit) {
+		return supplierAuditMapper.updateByIdSelective(supplierAudit);
 	}
 }

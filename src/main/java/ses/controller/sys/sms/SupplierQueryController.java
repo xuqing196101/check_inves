@@ -1,6 +1,7 @@
 package ses.controller.sys.sms;
 
 import bss.formbean.Maps;
+import bss.util.ExcelUtils;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
@@ -491,10 +492,10 @@ public class SupplierQueryController extends BaseSupplierController {
      */
     @RequestMapping("/ajaxSupplierData")
     @ResponseBody
-    public JdcgResult ajaxSupplierData(SupplierItemLevel supplier, Integer page, String categoryIds) {
+    public JdcgResult ajaxSupplierData(SupplierItemLevel supplier, Integer page, String categoryIds, String clickCategoryId, String nodeLevel) {
     	JdcgResult result=null;
     	//if (StringUtils.isNotBlank(categoryIds)) {
-        List<SupplierItemLevel>  listSupplier = supplierItemLevelServer.findSupplierItemLevel(supplier, page, categoryIds);
+        List<SupplierItemLevel>  listSupplier = supplierItemLevelServer.findSupplierItemLevel(supplier, page, categoryIds, clickCategoryId, nodeLevel);
         if(listSupplier != null && !listSupplier.isEmpty()){
         	result=new JdcgResult(500, "请求成功", new PageInfo<>(listSupplier));
         }else{
@@ -2430,5 +2431,33 @@ public class SupplierQueryController extends BaseSupplierController {
     	List<DictionaryData> dds = supplierItemLevelServer.ajaxProjectCategoryLevels(categoryId);
         result=new JdcgResult(500, "请求成功", dds);
         return result;
+    }
+
+    /**
+     *
+     * Description: 将全部查询或者入库查询的供应商导出Excel
+     *
+     * @author Easong
+     * @version 2017/11/6
+     * @param [judge, sign, supplier]
+     *                judge: 5：入库供应商
+     *                sign: 菜单标识：1、全部供应商 2、入库供应商
+     *                supplier: 供应商实体
+     * @since JDK1.7
+     */
+    @RequestMapping("/exportExcel")
+    public void exportExcel(HttpServletResponse httpServletResponse, Supplier supplier) {
+        ExcelUtils excelUtils = new ExcelUtils(httpServletResponse, "供应商信息", "sheet1", 500);
+        // 设置冻结行
+        excelUtils.setFreezePane(true);
+        excelUtils.setFreezePane(new Integer[]{0, 1, 0, 1});
+        //ExcelUtils excelUtils = new ExcelUtils("./test.xls", "sheet1");
+        List<Supplier> dataList = supplierService.querySupplierbytypeAndCategoryIds(null, supplier);
+        String titleColumn[] = {"orderNum", "supplierName", "businessNature", "supplierType",
+                "address", "contactName", "mobile", "contactMobile", "statusString", "supplierItemIds", "auditDate"};
+        String titleName[] = {"序号", "供应商名称", "企业性质", "供应商类型", "住所地址", "军品联系人",
+                "联系手机", "联系固话", "状态", "产品类别", "入库时间"};
+        int titleSize[] = {5, 40, 10, 35, 42, 13, 13, 13, 20, 70, 22};
+        excelUtils.wirteExcel(titleColumn, titleName, titleSize, dataList);
     }
 }

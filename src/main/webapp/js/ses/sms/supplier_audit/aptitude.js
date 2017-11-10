@@ -101,6 +101,7 @@ function findData(type,tablerId,pageNum) {
 		shade : [ 0.1, '#fff' ],
 		offset : [ '40%', '50%' ]
 	});
+	$("#tablerId").val(tablerId);
 	$("[name=supplierType]").val(type);
 	$("#pageNum").val(pageNum);
 	$.ajax({
@@ -338,7 +339,7 @@ function onCategory(tablerId,wzType){// ,ind,secondNode,secondNodeId,wzType
 		auditType='items_product_page';
 		break;
 	}
-	var count=isAudit(tablerId,wzType);
+	var count=isAudited(tablerId,wzType);
 	/*
 	 * //非 选择框 审核 单选 if(is==0){ if(count==0){
 	 * auditContent=contentParent(tablerId,ind,'目录信息');
@@ -355,7 +356,7 @@ function onCategory(tablerId,wzType){// ,ind,secondNode,secondNodeId,wzType
 	/* } */
 }
 // 判断 是否是已审核 目录
-function isAudit(tablerId,wzType){
+function isAudited(tablerId,wzType){
 	var showin=0;
 	var auditType;
 	var temp=0;
@@ -457,10 +458,10 @@ function showFrame(tablerId,ind,title,cateTree,flng,id,secondNode,secondNodeId){
 		layer.msg("此产品目录已经审核不通过！");
 		return;
 	}
-	var supplierStatus= $("input[name='supplierStatus']").val();
+	var supplierStatus = $("input[name='supplierStatus']").val();
     var sign = $("input[name='sign']").val();
-	    // 只有审核的状态能审核
-	    if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+    // 只有审核的状态能审核
+    if(isAudit){
 		var supplierId=$("#supplierId").val();
 		var content;
 		var auditType;
@@ -476,10 +477,10 @@ function showFrame(tablerId,ind,title,cateTree,flng,id,secondNode,secondNodeId){
 		}
 		layer.open({
 		  type: 2, // page层
-		  area: ['880px', '330px'],
+		  area: ['880px', '380px'],
 		  title: title,
 		  closeBtn: 1,
-		  shade:0.01, // 遮罩透明度
+		  shade: 0.01, // 遮罩透明度
 		  moveType: 1, // 拖拽风格，0是默认，1是传统拖动
 		  shift: 1, // 0-6的动画形式，-1不开启
 		  offset: '60px',
@@ -538,10 +539,10 @@ function checkML(tablerId,wzType){
 }
 // 目录 审核不通过理由 物资 生产
 function reasonProjectMulti(tablerId,auditType,auditContent,wzType) {// ,ind,aType,wzType
-	var supplierStatus= $("input[name='supplierStatus']").val();
+	var supplierStatus = $("input[name='supplierStatus']").val();
     var sign = $("input[name='sign']").val();
     // 只有审核的状态能审核
-    if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+    if(isAudit){
 	
 		var supplierId = $("#supplierId").val();
 		var auditCount=checkML(tablerId,wzType);
@@ -633,10 +634,10 @@ function changStyle(tablerId,wzType){
 }
 // 目录 审核不通过理由 非选择框 单选
 function reasonProjectRadio(tablerId,ind,auditField, auditFieldName,type,auditContent,wzType) {
-	var supplierStatus= $("input[name='supplierStatus']").val();
+	var supplierStatus = $("input[name='supplierStatus']").val();
     var sign = $("input[name='sign']").val();
     // 只有审核的状态能审核
-    if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+    if(isAudit){
 	
 		var supplierId = $("#supplierId").val();
 		var auditType;
@@ -803,22 +804,29 @@ function doAuditContractMuti(tablerId,supplierTypeId) {
 				layer.close(index);
 			}else{
 				layer.msg('不能为空！', {offset:'100px'});
-			};
+			}
 		});
     }
 }
 // 暂存
 function zhancun(){
-  var supplierId = $("#supplierId").val();
-  $.ajax({
-    url: globalPath+"/supplierAudit/temporaryAudit.do",
-    dataType: "json",
-    data:{supplierId : supplierId},
-    success : function (result) {
-    	layer.msg(result, {offset : [ '100px' ]});
-    },error : function(){
-    	layer.msg("暂存失败", {offset : [ '100px' ]});
-    }
-  });
+	var supplierId = $("#supplierId").val();
+	$.ajax({
+		url: globalPath+"/supplierAudit/temporaryAudit.do",
+		dataType: "json",
+		data: {supplierId : supplierId},
+		success : function (result) {
+			layer.msg(result, {offset : [ '100px' ]});
+		},error : function(){
+			layer.msg("暂存失败", {offset : [ '100px' ]});
+		}
+	});
 }
 
+// 刷新数据
+function flushData(){
+	var typeId = $("#supplierType").val();
+	var tablerId = $("#tablerId").val();
+	var pageNum = $("#pageNum").val();
+	findData(typeId,tablerId,pageNum);
+}

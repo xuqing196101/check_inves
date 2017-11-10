@@ -111,7 +111,7 @@ $(function(){
                                 <input class="btn btn-windows cancel" type="button" id="auditNoPass" value="复审不合格" />--%>
                                 <input class="btn btn-windows end" type="button" id="auditOver" value="复审结束" />
                             </c:if>
-                            <c:if test="${status == 15 || status == 16}">
+                            <c:if test="${isCheck eq 'no' && (status == 15 || status == 16)}">
                                 <input class="btn btn-windows end" type="button" value = "初审结束" onclick = "chuAuditEnd()"/>
                             </c:if>
                         </div>

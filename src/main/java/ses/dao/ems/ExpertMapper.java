@@ -7,6 +7,7 @@ import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertHistory;
 import ses.model.ems.ExpertPublicity;
+import ses.model.ems.ExpertVO;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -349,7 +350,7 @@ public interface ExpertMapper {
      * @return
      */
     List<Expert> selectIndexExpert(Map<String, Object> map);
-    
+
     /**
      * 
      * Description: 页面异步验证身份证号唯一
@@ -433,4 +434,15 @@ public interface ExpertMapper {
      * @return
      */
     List<Expert> findMilitaryExpert(@Param("start")String start, @Param("end")String end, @Param("expertsFrom")String expertsFrom);
+
+    /**
+     *
+     * Description: 查询入库专家名录
+     *
+     * @author Easong
+     * @version 2017/11/6
+     * @param 
+     * @since JDK1.7
+     */
+    List<ExpertVO> selectInStorageExpert(Map<String, Object> map);
 }

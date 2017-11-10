@@ -1,5 +1,5 @@
 $(function(){
-	var count1=$("#count1").val();
+	/*var count1=$("#count1").val();
 	var count2=$("#count2").val();
 	var count3=$("#count3").val();
 	var count4=$("#count4").val();
@@ -29,121 +29,167 @@ $(function(){
 	if(parseInt(count6)>0){
 		$("#td16").css('border-color', '#FF0000');
 		$("#show_td6").attr('src', globalPath+'/public/backend/images/sc.png');
-	}
+	}*/
 });
-//审核 销售合同不通过理由
+  
+// 审核 销售合同不通过理由
 function reasonProject(ind,auditField, auditFieldName,ids) {
-	var businessId=$("#fileId"+ids+"").val();
-	auditField=auditField+"_"+businessId;
-	var supplierId = $("#supplierId").val();
-	var auditCount = $("#count"+ids+"").val();
-	ind=parseInt(ind)+1;
-	var tablerId=$("#tablerId").val();
-	//var auditContent=content(tablerId,ind,'销售合同_'+showData(ids));
-	var auditContent=content(tablerId,ind,showData(ids));
-	var audits;
-	var auditType;
-	if(auditCount!=null && auditCount !='' && auditCount>'0' ){
-		layer.msg('已审核', {offset:'100px'});
-		return;
-	}
-	switch (tablerId) {
-	case 'content_1'://物资生产
-		auditFieldName='物资-生产销售合同';
-		auditType="contract_product_page";
-		audits = $("#"+tablerId+" #isItemsProductPageAudit"+ind+"",window.parent.document).val();
-		break;
-	case 'content_3'://工程
-		auditFieldName='工程-销售合同';
-		auditType="contract_product_page";
-		audits = $("#"+tablerId+" #isItemsProductPageAudit"+ind+"",window.parent.document).val();
-		break;
-	case 'content_4'://服务
-		auditType="contract_product_page";
-		auditFieldName='服务-销售合同';
-		audits = $("#"+tablerId+" #isItemsProductPageAudit"+ind+"",window.parent.document).val();
-		break;
-	case 'content_2'://物资销售
-		auditType="contract_sales_page";
-		audits = $("#"+tablerId+" #isItemsSalesPageAudit"+ind+"",window.parent.document).val();
-		auditFieldName='物资-销售合同';
-		break;
-	}
-	if(audits!=null && audits !='' && audits>'0' ){
-		layer.msg('产品目录审核不通过,该销售合同不可审核', {offset:'100px'});
-		return;
-	}
-	var contractId=$("#"+tablerId+" #contractId"+ind+"",window.parent.document).val();
-	var index = layer.prompt({
-		title: '请填写不通过的理由：',
-		formType: 2,
-		offset: '30px',
-		maxlength: '100',
-	}, function(text) {
-		var text = $.trim(text);
-		if(text != null && text != ""){
-			if(text.length>900){
-				layer.msg('审核理由内容太长', {offset:'100px'});
-				return;
-			}
-			$.ajax({
-				url: globalPath+"/supplierAudit/auditReasons.do",
-				type: "post",
-				data: "&auditFieldName=" + auditFieldName + "&suggest=" + text + "&supplierId=" + supplierId + "&auditType="+auditType+"&auditContent=" + auditContent + "&auditField=" + auditField,
-				dataType: "json",
-				success: function(result) {
-					if(result.status==500){
-						layer.msg(result.msg, {
-							shift: 6, //动画类型
-							offset: '100px',
-						});    
-						//销售合同资质 要求
-						$("input[name='"+tablerId+"itemsCheckboxName']",window.parent.document).each(function(){
-							var index=$(this).val();
-							var firstNodeId=$("#"+tablerId+" #firstNodeId"+index+"",window.parent.document).val();
-							var secondNodeId=$("#"+tablerId+" #secondNodeId"+index+"",window.parent.document).val();
-							var thirdNodeId=$("#"+tablerId+" #thirdNodeId"+index+"",window.parent.document).val();
-							var fourthNodeId=$("#"+tablerId+" #fourthNodeId"+index+"",window.parent.document).val();
-							//判断 资质关联id 是否包含
-							if(contractId){
-								contractId=$.trim(contractId);
-								var slip=contractId.split(',');
-								$(slip).each(function(inde,value){
-									//以下id结束的 标签比较
-									var v=$("input[id$='NodeId"+index+"'][value*='"+value+"']",window.parent.document).val();
-									if(v){
-										//资质文件
-										$("#"+tablerId+" #contract"+index+"",window.parent.document).css('border-color', '#FF0000');
-										if('contract_product_page'==auditType){
-										//物资生产   服务
-											var old=$("#"+tablerId+" #isContractProductPageAudit"+ind+"",window.parent.document).val();
-											$("#"+tablerId+" #isContractProductPageAudit"+ind+"",window.parent.document).val(parseInt(old)+1);
-										}else{
-										//物资销售
-											var old=$("#"+tablerId+" #isContractSalesPageAudit"+ind+"",window.parent.document).val();;
-											$("#"+tablerId+" #isContractSalesPageAudit"+ind+"",window.parent.document).val(parseInt(old)+1);
-										}
-									}
-								});
-							}
-						});
-						
-						$("#td1"+ids+"").css('border-color', '#FF0000');
-						$("#show_td"+ids+"").attr('src', globalPath+'/public/backend/images/sc.png');
-						$("#count"+ids+"").val('1');
-					}else{
-						layer.msg(result.msg, {
-							shift: 6, //动画类型
-							offset: '100px',
-						});
-					}
-				}
-			});
-			layer.close(index);
-		}else{
-			layer.msg('不能为空！', {offset:'100px'});
+	var supplierStatus = $("input[name='supplierStatus']").val();
+    var sign = $("input[name='sign']").val();
+    // 只有审核的状态能审核
+    if(window.parent.isAudit){
+		var businessId=$("#fileId"+ids+"").val();
+		auditField=auditField+"_"+businessId;
+		var supplierId = $("#supplierId").val();
+		var auditCount = $("#count"+ids+"").val();
+		ind=parseInt(ind)+1;
+		var tablerId=$("#tablerId").val();
+		//var auditContent=content(tablerId,ind,'销售合同_'+showData(ids));
+		var auditContent=content(tablerId,ind,showData(ids));
+		var audits;
+		var auditType;
+		/*if(auditCount!=null && auditCount !='' && auditCount>'0' ){
+			layer.msg('已审核', {offset:'100px'});
+			return;
+		}*/
+		switch (tablerId) {
+		case 'content_1'://物资生产
+			auditFieldName='物资-生产销售合同';
+			auditType="contract_product_page";
+			audits = $("#"+tablerId+" #isItemsProductPageAudit"+ind+"",window.parent.document).val();
+			break;
+		case 'content_3'://工程
+			auditFieldName='工程-销售合同';
+			auditType="contract_product_page";
+			audits = $("#"+tablerId+" #isItemsProductPageAudit"+ind+"",window.parent.document).val();
+			break;
+		case 'content_4'://服务
+			auditType="contract_product_page";
+			auditFieldName='服务-销售合同';
+			audits = $("#"+tablerId+" #isItemsProductPageAudit"+ind+"",window.parent.document).val();
+			break;
+		case 'content_2'://物资销售
+			auditType="contract_sales_page";
+			audits = $("#"+tablerId+" #isItemsSalesPageAudit"+ind+"",window.parent.document).val();
+			auditFieldName='物资-销售合同';
+			break;
+		}
+		if(audits!=null && audits !='' && audits>'0' ){
+			layer.msg('产品目录审核不通过,该销售合同不可审核', {offset:'100px'});
+			return;
+		}
+		var contractId=$("#"+tablerId+" #contractId"+ind+"",window.parent.document).val();
+		
+	    var auditData = {
+			"supplierId": supplierId,
+	        "auditType": auditType,
+	        "auditField": auditField,
+	        "auditFieldName": auditFieldName,
+	        "auditContent": auditContent
+	    };
+	    // 判断：新审核/可再次审核/不可再次审核
+	    // 获取旧的审核记录
+	    var result = window.parent.getOldAudit(auditData);
+	    if(result && result.status == 0){
+	    	layer.msg('该条信息已审核过并退回过！');
+			return;
+	    }
+	    var defaultVal = "";
+	    var options = {
+			title: '请填写不通过的理由：',
+			value: defaultVal,
+			formType: 2, 
+			//offset: '100px',
+			maxlength: '100'
 		};
-	});
+		if (result && result.status == 1 && result.data) {
+			defaultVal = result.data.suggest;
+			options.value = defaultVal;
+			options.btn = [ '确定', '撤销', '取消' ];
+			options.btn2 = function(index) {
+				var bool = window.parent.cancelAudit(auditData);
+				if (bool) {
+					$("#td1"+ids+"").css('border-color', '');
+					$("#show_td"+ids+"").attr('src', globalPath+'/public/backend/images/light_icon.png');
+					// 刷新父页面数据
+					window.parent.flushData();
+				}
+			};
+			options.btn3 = function(index) {
+				layer.close(index);
+			};
+		}
+		layer.prompt(options, function(value, index, elem){
+	 		var text = $.trim(value);
+	 		if (text != null && text != "") {
+	     		auditData.suggest = text;
+				if(text.length>900){
+					layer.msg('审核理由内容太长', {offset:'100px'});
+					return;
+				}
+				$.ajax({
+					url: globalPath+"/supplierAudit/auditReasons.do",
+					type: "post",
+					//data: "&auditFieldName=" + auditFieldName + "&suggest=" + text + "&supplierId=" + supplierId + "&auditType="+auditType+"&auditContent=" + auditContent + "&auditField=" + auditField,
+					data: auditData,
+					dataType: "json",
+					success: function(result) {
+						if(result.status==500){
+							layer.msg(result.msg, {
+								shift: 6, //动画类型
+								offset: '100px',
+							});    
+							//销售合同资质 要求
+							/*$("input[name='"+tablerId+"itemsCheckboxName']",window.parent.document).each(function(){
+								var index=$(this).val();
+								var firstNodeId=$("#"+tablerId+" #firstNodeId"+index+"",window.parent.document).val();
+								var secondNodeId=$("#"+tablerId+" #secondNodeId"+index+"",window.parent.document).val();
+								var thirdNodeId=$("#"+tablerId+" #thirdNodeId"+index+"",window.parent.document).val();
+								var fourthNodeId=$("#"+tablerId+" #fourthNodeId"+index+"",window.parent.document).val();
+								//判断 资质关联id 是否包含
+								if(contractId){
+									contractId=$.trim(contractId);
+									var slip=contractId.split(',');
+									$(slip).each(function(inde,value){
+										//以下id结束的 标签比较
+										var v=$("input[id$='NodeId"+index+"'][value*='"+value+"']",window.parent.document).val();
+										if(v){
+											//资质文件
+											$("#"+tablerId+" #contract"+index+"",window.parent.document).css('border-color', '#FF0000');
+											if('contract_product_page'==auditType){
+											//物资生产   服务
+												var old=$("#"+tablerId+" #isContractProductPageAudit"+ind+"",window.parent.document).val();
+												$("#"+tablerId+" #isContractProductPageAudit"+ind+"",window.parent.document).val(parseInt(old)+1);
+											}else{
+											//物资销售
+												var old=$("#"+tablerId+" #isContractSalesPageAudit"+ind+"",window.parent.document).val();;
+												$("#"+tablerId+" #isContractSalesPageAudit"+ind+"",window.parent.document).val(parseInt(old)+1);
+											}
+										}
+									});
+								}
+							});*/
+							
+							$("#td1"+ids+"").css('border-color', '#FF0000');
+							//$("#show_td"+ids+"").attr('src', globalPath+'/public/backend/images/sc.png');
+							$("#show_td"+ids+"").attr('src', globalPath+'/public/backend/images/light_icon_2.png');
+							$("#count"+ids+"").val('1');
+							// 刷新父页面数据
+							window.parent.flushData();
+						}else{
+							layer.msg(result.msg, {
+								shift: 6, //动画类型
+								offset: '100px',
+							});
+						}
+					}
+				});
+				layer.close(index);
+			}else{
+				layer.msg('不能为空！', {offset:'100px'});
+			}
+		});
+    }
 }
 function showData(index){
 	var rut;

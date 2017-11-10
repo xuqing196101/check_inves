@@ -6,17 +6,23 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.Area;
 import ses.model.bms.Category;
+import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
@@ -24,8 +30,6 @@ import ses.model.ems.ExpertAuditOpinion;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertTitle;
 import ses.model.oms.Orgnization;
-import ses.model.oms.PurchaseDep;
-import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCateTree;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
@@ -45,8 +49,8 @@ import bss.formbean.Maps;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-
 import common.constant.Constant;
+
 import dss.model.rids.ExpertAnalyzeVo;
 
 /**
@@ -408,7 +412,7 @@ public class ExpertQueryController {
 	 * @return
 	 */
 	@RequestMapping("/getCategories")
-	public String getCategories(String expertId, String typeId, Model model, Integer pageNum) {
+	public String getCategories(String expertId, String typeId, Model model, String flags, Integer pageNum) {
 		String code = DictionaryDataUtil.findById(typeId).getCode();
         String flag = null;
         if (code != null && code.equals("GOODS_PROJECT")) {
@@ -422,6 +426,7 @@ public class ExpertQueryController {
         /*List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);*/
         //只查询审核通过的
         List<ExpertCategory> items = expertCategoryService.selectPassCateByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
+
         List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
         int count=0;
         for (ExpertCategory expertCategory : items) {
@@ -472,6 +477,11 @@ public class ExpertQueryController {
         model.addAttribute("resultpageNum", pageNum);
         model.addAttribute("resultStartRow", (list == null ? 0 : 1));
         model.addAttribute("resultEndRow", new PageInfo < > (items).getEndRow()+1);
+        // 首页公示显示专家小类详情
+        if(StringUtils.isNotEmpty(flags)){
+           return "iss/ps/index/index_expPublicity_item_ajax";
+        }
+
         return "ses/ems/expertQuery/ajax_items";
 	}
 	
@@ -1004,4 +1014,145 @@ public class ExpertQueryController {
         model.addAttribute("expertFromList", expertFromList);
 		return "ses/ems/expertQuery/expert_storage_map";
 	}
+	
+	
+	 /**
+     * 
+     * @Title: createtree
+     * @date 2016-7-18 下午4:27:01
+     * @Description:查询采购目的所有信息转换成json
+     * @param @return
+     * @return String
+     */
+    @ResponseBody
+    @RequestMapping(value="/createtree", produces = "application/json;charset=utf-8")
+    public String getAll(Category category,String param,Integer isCreate,String code){
+      List<CategoryTree> jList=new ArrayList<CategoryTree>();
+      String name="";
+      if((param!=null&&!"".equals(param))||(code!=null&&!"".equals(code))||isCreate!=null){
+      try {
+        if(param!=null&&!"".equals(param)){
+          name=java.net.URLDecoder.decode(param, "UTF-8");
+        } 
+      } catch (UnsupportedEncodingException e) {
+        e.printStackTrace();
+      }
+      //查询所有匹配的数据
+      category.setId("0");
+          DictionaryData data=new DictionaryData();
+          data.setKind(6);
+          List<DictionaryData> listByPage = dictionaryDataServiceI.listByPage(data, 1);
+          for (DictionaryData dictionaryData : listByPage) {
+              CategoryTree ct=new CategoryTree();
+              ct.setId(dictionaryData.getId());
+              ct.setName(dictionaryData.getName());
+              ct.setIsParent("true");
+              ct.setClassify(dictionaryData.getCode());
+              jList.add(ct);
+          }
+      List < Category > categoryList = categoryService.searchByNameAndCode(name.trim(),code,isCreate);
+      List < Category > cateList = new ArrayList < Category > ();
+      Set<Category> set=new HashSet<Category>();
+      for(int i=0;i<categoryList.size();i++){
+        Category catego = categoryList.get(i);
+        List<Category> cList=categoryService.findTreeByPid(catego.getId());
+        if(cList==null||cList.size()<=0){
+          cateList.add(catego);
+        }
+      }
+      for(int i=0;i<cateList.size();i++){
+        HashMap<String,Object> map=new HashMap<String, Object>();
+        map.put("id", cateList.get(i).getId());
+        List<Category> catego = categoryService.findCategoryByParentNode(map);
+        for(int j=0;j<catego.size();j++){
+          set.add(catego.get(j));
+        }
+      }
+      Iterator<Category> it = set.iterator();  
+      while(it.hasNext()){
+        Category cate = it.next();
+        List<Category> cList=categoryService.findTreeByPid(cate.getId());
+              CategoryTree ct=new CategoryTree();
+              if(!cList.isEmpty()){
+                  ct.setIsParent("true");
+              }else{
+                  ct.setIsParent("false");
+              }
+              ct.setId(cate.getId());
+              ct.setName(cate.getName());
+              ct.setParentId(cate.getParentId());
+              ct.setKind(cate.getKind());
+              ct.setStatus(cate.getStatus());
+              jList.add(ct);
+      }
+        
+        return JSON.toJSONString(jList);
+      }else{
+         //获取字典表中的根数据
+            if(category.getId()==null){
+                category.setId("0");
+                DictionaryData data=new DictionaryData();
+                data.setKind(6);
+                List<DictionaryData> listByPage = dictionaryDataServiceI.listByPage(data, 1);
+                for (DictionaryData dictionaryData : listByPage) {
+                    CategoryTree ct=new CategoryTree();
+                    ct.setId(dictionaryData.getId());
+                    ct.setName(dictionaryData.getName());
+                    ct.setIsParent("true");
+                    ct.setClassify(dictionaryData.getCode());
+                    jList.add(ct);
+                }
+                
+                
+                //工程专业
+                DictionaryData dictionaryData = DictionaryDataUtil.get("ENG_INFO_ID");
+                CategoryTree ct=new CategoryTree();
+                ct.setId(dictionaryData.getId());
+                ct.setName(dictionaryData.getName() + "专业");
+                ct.setIsParent("true");
+                ct.setClassify(dictionaryData.getCode());
+                jList.add(ct);
+                
+                return JSON.toJSONString(jList);
+            }
+            String list="";
+            List<Category> cateList=categoryService.findTreeByPid(category.getId());
+              for(Category cate:cateList){
+                  List<Category> cList=categoryService.findTreeByPid(cate.getId());
+                  CategoryTree ct=new CategoryTree();
+                  if(!cList.isEmpty()){
+                      ct.setIsParent("true");
+                  }else{
+                      ct.setIsParent("false");
+                  }
+                  ct.setId(cate.getId());
+                  ct.setName(cate.getName());
+                  ct.setpId(cate.getParentId());
+                  ct.setKind(cate.getKind());
+                  ct.setStatus(cate.getStatus());
+                  jList.add(ct);
+              }
+
+              //工程专业
+              List<Category> engCateList=engCategoryService.findTreeByPid(category.getId());
+              for(Category cate:engCateList){
+                  List<Category> cList=engCategoryService.findTreeByPid(cate.getId());
+                  CategoryTree ct=new CategoryTree();
+                  if(!cList.isEmpty()){
+                      ct.setIsParent("true");
+                  }else{
+                      ct.setIsParent("false");
+                  }
+                  ct.setId(cate.getId());
+                  ct.setName(cate.getName());
+                  ct.setpId(cate.getParentId());
+                  ct.setKind(cate.getKind());
+                  ct.setStatus(cate.getStatus());
+                  jList.add(ct);
+              }
+              
+            list = JSON.toJSONString(jList);
+            return list;
+      		}
+      }
 }

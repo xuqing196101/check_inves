@@ -68,9 +68,11 @@ public interface SupplierItemLevelServer {
 	 * @param supplier
 	 * @param page
 	 * @param categoryIds
+	 * @param nodeLevel 
+	 * @param clickCategoryId 
 	 * @return
 	 */
-	List<SupplierItemLevel> findSupplierItemLevel(SupplierItemLevel supplier, Integer page, String categoryIds);
+	List<SupplierItemLevel> findSupplierItemLevel(SupplierItemLevel supplier, Integer page, String categoryIds, String clickCategoryId, String nodeLevel);
 	
 	/**
      * 全部供应商查询，等级查询 

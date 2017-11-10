@@ -190,7 +190,6 @@
             //退回
             if (status == 3) {
                 updateStepNumber("one");
-                zhancun(3);
             }
             if (status == 2 || status == 3 || status == 5  || status == 8) {
                 //询问框
@@ -200,6 +199,7 @@
                     shift: 4,
                     btn: ['确认', '取消']
                 }, function () {
+                	  zhancun();
                     if (status == 3) {
                     	$("#status").val(status);
                       $("#form_shenhe").submit();
@@ -475,9 +475,6 @@
 				var expertId = $("input[name='expertId']").val();
 				var sign = $("input[name='sign']").val();
         var radio = $(":radio:checked").val();
-        if(status !=null && status == 3){
-        	radio = 3;
-        }
         var isDownLoadAttch = $("#isDownLoadAttch").val();
         if(sign == 1){
             flagTime = 0;
@@ -487,7 +484,6 @@
             data: {"opinion": opinion, "expertId": expertId,"flagTime":flagTime,"flagAudit":radio,"isDownLoadAttch":isDownLoadAttch},
             type: "POST",
             success: function () {
-            	if(status ==null){
 	            	//修改专家状态为审核中
 	            	$.ajax({
 	                 url: "${pageContext.request.contextPath}/expertAudit/temporaryAudit.do",
@@ -499,66 +495,9 @@
 	                     layer.msg("暂存失败", {offset: ['100px']});
 	                 }
 	              });
-            	}
             }
         });
     }
-</script>
-
-<script type="text/javascript">
-  <!--预复审结束-->
-	function preReviewEnd(status){
-	  var expertId = $("input[name='expertId']").val();
-	  //var batchId = $("input[name='batchId']").val();
-     if(status == null){
-       var status = $(":radio:checked").val().trim();
-       if(status == null){
-         layer.msg("请选择意见", {offset: '100px'});
-         return true;
-       }
-     }
-     $("#status").val(status);
-     
-      //校验
-     var flag = vartifyAuditCount();
-     if(flag){
-         return;
-     }
-     
-      $.ajax({
-            url: "${pageContext.request.contextPath}/expertAudit/updateStatusOfPublictity.do",
-            data: $("#form_shenhe").serialize(),
-            success: function (data) {
-              if(data.status == 200){
-                  $("#expertStatus").val(data.data);
-              }
-            }
-       });
-       // 获取审核意见
-       var opinion  = $("#opinion").val();
-       // 获取选择radio类型
-       var selectOption = $("input[name='selectOption']:checked").val();
-       // 将审核意见表单赋值
-       $("#opinionId").val(opinion);
-       $("#flagTime").val(1);
-       $("#flagAudit").val(selectOption);
-        // 审核意见通过。。
-        var cate_result = $("#cate_result").html();
-        $("#cateResult").val(cate_result);
-       $.ajax({
-           url:globalPath + "/expertAudit/saveAuditOpinion.do",
-           type: "POST",
-           async :false,
-           data:$("#opinionForm").serialize(),
-           dataType:"json",
-           success:function (data) {
-         	  if(data.status == 200){
-         		  location.href = "${pageContext.request.contextPath}/expertAgainAudit/findBatchList.html";
-               }
-           }
-       });
-	}
-
 </script>
 </head>
 
@@ -603,9 +542,9 @@
             <c:if test="${sign == 1 || sign == 3}">
             <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
             <ul class="ul_list count_flow">
-              <c:if test="${status == 0 || status == 9 || status == 15 || status == 16 || status == 10 || status == -2 || (sign ==3 && status ==6) || status == 4}">
-<!--                 <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">撤销</button>
- -->            	<button class="btn btn-windows edit" type="button" onclick="showDiv()" style=" border-bottom-width: -;margin-bottom: 7px;">改状态</button>  
+        <c:if test="${isCheck eq 'no' && (status == 0 || status == 9 || status == 15 || status == 16  || status == -2 || (sign ==3 && status ==6) || status == 4)}">
+              <!--<button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">撤销</button>-->            	
+              <button class="btn btn-windows edit" type="button" onclick="showDiv()" style=" border-bottom-width: -;margin-bottom: 7px;">改状态</button>  
  				</c:if>  
  				<div id="updateStatus" style="display: none">
  					<input type="radio" id="upd" onclick="updateStatus(1)" name="updateStatusRadio" >有问题
@@ -720,7 +659,7 @@
             <c:if test="${ sign == 2 }">
               <div class="clear"></div>
               <div id="opinionDiv">
-                  <h2 class="count_flow mt0"><i>1</i><span class="red">*</span>复审意见</h2>
+                  <h2 class="count_flow mt0"><i>1</i><span class="red">*</span>专家复审意见</h2>
                   <ul class="ul_list">
                       <li>
                           <div class="select_check" id="selectOptionId">
@@ -797,7 +736,9 @@
 										  <a id="nextStep" class="btn display-none" type="button" onclick="yuNext();">下一步</a>
                     </c:if>
                     <c:if test = "${status == '15' || status == '16'}" >
-                    	<a id="tempSave" class="btn" onclick="zhancun();">暂存</a>
+                      <c:if test="${isCheck eq 'no'}">
+                        <a id="tempSave" class="btn" onclick="zhancun();">暂存</a>
+                      </c:if>
                     	<a id="nextStep" class="btn" type="button" onclick="yuNext();">下一步</a>
                     </c:if>
                     <c:if test = "${status == '1' || status == '2' && sign eq '1'}" >
@@ -847,5 +788,88 @@
   <input name="tableType" type="hidden" value=""/>
 </form>
 <input id="isGoodsServer" type="hidden" value="${isGoodsServer}"/>
+
+  <script>
+    $(function () {
+      $('#expert_position').val(getUrlParam('position'));
+    });
+    
+    // 预复审结束
+    function preReviewEnd(status) {
+      var expertId = $("input[name='expertId']").val();
+      //var batchId = $("input[name='batchId']").val();
+      if(status == null){
+        var status = $(":radio:checked").val().trim();
+        if(status == null){
+          layer.msg("请选择意见", {offset: '100px'});
+          return true;
+        }
+      }
+      
+      $("#status").val(status);
+       
+      //校验
+      var flag = vartifyAuditCount();
+      if(flag) {
+        return;
+      }
+       
+      $.ajax({
+        url: "${pageContext.request.contextPath}/expertAudit/updateStatusOfPublictity.do",
+        data: $("#form_shenhe").serialize(),
+        success: function (data) {
+          if(data.status == 200){
+            $("#expertStatus").val(data.data);
+          }
+        }
+      });
+      // 获取审核意见
+      var opinion = $("#opinion").val();
+      // 获取选择radio类型
+      var selectOption = $("input[name='selectOption']:checked").val();
+      // 将审核意见表单赋值
+      $("#opinionId").val(opinion);
+      $("#flagTime").val(1);
+      $("#flagAudit").val(selectOption);
+      // 审核意见通过。。
+      var cate_result = $("#cate_result").html();
+      $("#cateResult").val(cate_result);
+      $.ajax({
+        url:globalPath + "/expertAudit/saveAuditOpinion.do",
+        type: "POST",
+        async :false,
+        data:$("#opinionForm").serialize(),
+        dataType:"json",
+        success:function (data) {
+          if(data.status == 200) {
+            // location.href = "${pageContext.request.contextPath}/expertAgainAudit/findBatchList.html";
+            refresh_parent();
+          }
+        }
+      });
+    }
+    
+    function refresh_parent() {
+      window.opener.location.href = changeURLArg(window.opener.location.href, 'expertId', $("input[name='expertId']").val());
+      window.close();
+    }
+    
+    function changeURLArg(url,arg,arg_val){ 
+      var pattern = arg+'=([^&]*)';
+      var replaceText = arg+'='+arg_val;
+      if(url.match(pattern)) {
+        var tmp = '/('+ arg+'=)([^&]*)/gi';
+        tmp = url.replace(eval(tmp),replaceText);
+        return tmp;
+      } else {
+        if(url.match('[\?]')) {
+          return url+'&'+replaceText;
+        } else {
+          return url+'?'+replaceText;
+        }
+      }
+      return url+'\n'+arg+'\n'+arg_val;
+    }
+  </script>
 </body>
 </html>

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.ems.ExpertAuditOpinionMapper;
+import ses.dao.ems.ExpertMapper;
+import ses.model.ems.Expert;
 import ses.model.ems.ExpertAuditOpinion;
 import ses.service.ems.ExpertAuditOpinionService;
 
@@ -24,6 +26,9 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 	@Autowired 
 	private ExpertAuditOpinionMapper mapper;
 	
+	@Autowired
+	private ExpertMapper expertMapper;
+	
 	@Override
 	public void insertSelective(ExpertAuditOpinion expertAuditOpinion) {
 		// 拼接审核意见  例如:同意....+ HelloWorld
@@ -35,6 +40,15 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 			}
 		}
 		mapper.insertSelective(expertAuditOpinion);
+		Integer flagAudit = expertAuditOpinion.getFlagAudit();
+		//修改专家状态
+		if(flagAudit != null && flagAudit == 15 || flagAudit == 16){
+			Expert expert = new Expert();
+			expert.setId(expertAuditOpinion.getExpertId());
+			expert.setUpdatedAt(new Date());
+			expert.setStatus(flagAudit.toString());
+			expertMapper.updateByPrimaryKeySelective(expert);
+		}
 		
 	}
 
@@ -67,10 +81,12 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 	@Override
 	public ExpertAuditOpinion selectByExpertId(ExpertAuditOpinion expertAuditOpinion) {
         expertAuditOpinion = mapper.selectByExpertId(expertAuditOpinion);
-        //  获取意见切割字符串
-        if(expertAuditOpinion != null && StringUtils.isNotEmpty(expertAuditOpinion.getOpinion())){
-            int indexOf = expertAuditOpinion.getOpinion().indexOf("。");
-            expertAuditOpinion.setOpinion(expertAuditOpinion.getOpinion().substring(indexOf + 1));
+        if(expertAuditOpinion != null && expertAuditOpinion.getFlagTime() != null && expertAuditOpinion.getFlagTime() == 1){
+        	//  获取意见切割字符串
+        	if(expertAuditOpinion != null && StringUtils.isNotEmpty(expertAuditOpinion.getOpinion())){
+        		int indexOf = expertAuditOpinion.getOpinion().indexOf("。");
+        		expertAuditOpinion.setOpinion(expertAuditOpinion.getOpinion().substring(indexOf + 1));
+        	}
         }
 		return expertAuditOpinion;
 	}
@@ -172,5 +188,11 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 	public ExpertAuditOpinion findByExpertId(ExpertAuditOpinion expertAuditOpinion) {
         expertAuditOpinion = mapper.selectByExpertId(expertAuditOpinion);
 		return expertAuditOpinion;
+	}
+
+	@Override
+	public void updata(ExpertAuditOpinion expertAuditOpinion) {
+		 mapper.updateByPrimaryKeySelective(expertAuditOpinion);
+		
 	}
 }

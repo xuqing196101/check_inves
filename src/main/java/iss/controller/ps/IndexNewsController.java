@@ -45,6 +45,7 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExpertBlackList;
 import ses.model.ems.ExpertBlackListVO;
 import ses.model.ems.ExpertPublicity;
+import ses.model.ems.ExpertVO;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierBlacklist;
@@ -2112,7 +2113,7 @@ public class IndexNewsController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/selectsumByDirectory")
-	public String selectsumByDirectory(Model model,Integer page,HttpServletRequest request) throws Exception{
+	public String selectsumByDirectory(String batchDetailsNumber, Model model,Integer page,HttpServletRequest request) throws Exception{
 		String act=request.getParameter("act");
 		//供应商名录
 		if("0".equals(act)){
@@ -2143,37 +2144,35 @@ public class IndexNewsController extends BaseSupplierController{
 	        return "iss/ps/index/sumByPubSupplier";
 		}
 		else {//专家名录 ：1
-			Expert expert=new Expert();
 			Map<String, Object> expertMap = new HashMap<>();
 			//处理查询参数
 			String relName=RequestTool.getParam(request,"relName","");
 			if(!"".equals(relName)){
-				expert.setRelName(relName);
 				expertMap.put("relName", relName);
 				model.addAttribute("relName", relName );
+			}
+			// 专家编号
+			if(StringUtils.isNotEmpty(batchDetailsNumber)){
+				expertMap.put("batchDetailsNumber", batchDetailsNumber);
+				model.addAttribute("batchDetailsNumber", batchDetailsNumber);
 			}
 			String status=RequestTool.getParam(request,"status","");
 			if(!"".equals(status)){
 				String [] statusArray= status.split(","); 
 				expertMap.put("statusArray", statusArray);
 				expertMap.put("size", statusArray.length);
-				expert.setStatus(status);
 				model.addAttribute("status", status );
 			}else {
-                int statusArray[] = {4,6,7,8};
+                int statusArray[] = {6,7,8};
                 expertMap.put("size", statusArray.length);
                 expertMap.put("statusArray", statusArray);
             }
-			
-			ExpertService expertService=SpringBeanUtil.getBean(ExpertService.class);
             //只显示公开的
 			//expert.setIsPublish(1);
 			//expertMap.put("isPublish", 1);
-			expertMap.put("flag", 1);
-
 			//分页
-	        List<Expert> list = expertService.selectIndexExpert(page == null ? 1 : page, expertMap);
-	        model.addAttribute("list",  new PageInfo<Expert>(list));
+	        List<ExpertVO> list = expertService.selectIndexExpert(page == null ? 1 : page, expertMap);
+	        model.addAttribute("list",  new PageInfo<>(list));
 	        return "iss/ps/index/sumByPubExpert";
 		}
 	}

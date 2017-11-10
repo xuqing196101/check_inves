@@ -233,6 +233,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 			super.writeJson(response, img);
 			return;
 		}
+		againAuditService.deleteByPrimaryKey();
 		img = againAuditService.createBatch(batchName, batchNumber, ids);
 		super.writeJson(response, img);
 	}
@@ -881,6 +882,27 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		expertService.updateByPrimaryKeySelective(expert);
 		againAuditService.handleExpertReviewTeam(expertId);
 		
+		
+		/**
+		 * 存新意见
+		 */
+		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+		expertAuditOpinion.setExpertId(expertId);
+		expertAuditOpinion.setFlagTime(1);
+		ExpertAuditOpinion  e = expertAuditOpinionService.selectByExpertId(expertAuditOpinion, null);
+		
+		if(e.getFlagAudit() !=null && (e.getFlagAudit() == -3  || e.getFlagAudit()== 5)){
+			String opinion = e.getOpinion();
+			if(opinion !=null && !"".equals(opinion)){
+				String newOpinion = opinion.substring(1);
+				
+				ExpertAuditOpinion updataAuditOpinion = new ExpertAuditOpinion();
+				updataAuditOpinion.setId(e.getId());
+				updataAuditOpinion.setOpinion(newOpinion);
+				expertAuditOpinionService.updata(updataAuditOpinion);
+			}
+		}
+		
 		return new JdcgResult(200);
 	}
 	
@@ -964,12 +986,13 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	    public ResponseEntity < byte[] > downloadExpertReview(String batchId,
 	        HttpServletRequest request, HttpServletResponse response) throws Exception {
 	        // 根据编号查询专家信息
+	    	String name = againAuditService.getbatchName(batchId);
 	    	List<ExpertBatchDetails> list = againAuditService.findBatchDetailsList(batchId);
 	        // 文件存储地址
 	        String filePath = request.getSession().getServletContext()
 	            .getRealPath("/WEB-INF/upload_file/");
 	        // 文件名称
-	        String fileName = createWordMethod(list, request);
+	        String fileName = createWordMethod(list,name, request);
 	        // 下载后的文件名
 	        String downFileName = "专家复审统计表.doc";
 	        if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
@@ -982,9 +1005,10 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 
 	        return expertService.downloadFile(fileName, filePath, downFileName);
 	    }
-	 private String createWordMethod(List<ExpertBatchDetails> list, HttpServletRequest request) throws Exception {
+	 private String createWordMethod(List<ExpertBatchDetails> list,String batch, HttpServletRequest request) throws Exception {
 	      /** 用于组装word页面需要的数据 */
 	      Map<String, Object> dataMap = new HashMap<String, Object>();
+	      dataMap.put("batch", batch);
 	      dataMap.put("list", list);
 	      // 文件名称
 	        String fileName = new String(("专家复审统计表.doc").getBytes("UTF-8"),
@@ -993,5 +1017,65 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	        String newFileName = WordUtil.createWord(dataMap, "expertReviewTable.ftl",
 	            fileName, request);
 	        return newFileName;
+	 }
+	 @RequestMapping("selectBatchTemporary")
+	 public void selectBatchTemporary(@CurrentUser User user,Expert expert,HttpServletRequest request,HttpServletResponse response) {
+		 ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+			if(user==null){
+				img.setStatus(false);
+				img.setMessage("请登录");
+				super.writeJson(response, img);
+				return;
+			}
+			if(!"4".equals(user.getTypeName())){
+				img.setStatus(false);
+				img.setMessage("您的权限不足");
+				super.writeJson(response, img);
+				return;
+			}
+			img = againAuditService.selectBatchTemporary(expert);
+			super.writeJson(response, img);
+	  }
+	 @RequestMapping("addBatchTemporary")
+	 public void addBatchTemporary(@CurrentUser User user,String ids,HttpServletRequest request,HttpServletResponse response) {
+		 ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		 if(user==null){
+			img.setStatus(false);
+			img.setMessage("请登录");
+			super.writeJson(response, img);
+			return;
+		}
+		if(!"4".equals(user.getTypeName())){
+			img.setStatus(false);
+			img.setMessage("您的权限不足");
+			super.writeJson(response, img);
+			return;
+		}
+		img = againAuditService.addBatchTemporary(user.getTypeId(), ids);
+		super.writeJson(response, img);
+	 }
+	 @RequestMapping("deleteBatchTemporary")
+	 public void deleteBatchTemporary(@CurrentUser User user,String ids,HttpServletRequest request,HttpServletResponse response){
+		 ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		 if(user==null){
+			img.setStatus(false);
+			img.setMessage("请登录");
+			super.writeJson(response, img);
+			return;
+		}
+		if(!"4".equals(user.getTypeName())){
+			img.setStatus(false);
+			img.setMessage("您的权限不足");
+			super.writeJson(response, img);
+			return;
+		}
+		if(ids == null){
+			img.setStatus(false);
+			img.setMessage("请至少选择一项");
+			super.writeJson(response, img);
+			return;
+		}
+		img=againAuditService.deleteBatchTemporary(ids);
+		super.writeJson(response, img);
 	 }
 }

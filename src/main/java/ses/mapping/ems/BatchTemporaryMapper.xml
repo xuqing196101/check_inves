@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.BatchTemporaryMapper">
+  <resultMap id="BaseResultMap" type="ses.model.ems.BatchTemporary">
+    <id column="EXPERT_ID" property="experId" />
+    <result column="BATCH_EXPERT_ID" property="batchExpertId" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    EXPERT_ID,BATCH_EXPERT_ID,CREATED_AT,UPDATED_AT
+  </sql>
+  
+  <select id="selectBatchTemporaryAll" parameterType="ses.model.ems.Expert" resultMap="BaseResultMap">
+    SELECT 
+		t1.ID AS id,
+        t1.REAL_NAME AS relName,
+        t1.EXPERTS_FROM AS expertsFrom,
+        t1.EXPERTS_TYPE_ID AS expertsTypeId,
+        t1.AUDIT_AT AS auditAt,
+        t1.WORK_UNIT AS workUnit,
+        t1.PROFESS_TECH_TITLES AS professTechTitles,
+        t2.NAME as sex,
+        org.SHORT_NAME AS orgName
+        from
+        T_SES_EMS_BATCH_TEMPORARY b1
+        LEFT JOIN T_SES_EMS_EXPERT t1 ON b1.BATCH_EXPERT_ID = t1.ID
+        LEFT JOIN T_SES_BMS_DICTIONARY_DATA t2 ON t1.GENDER = t2.ID
+        LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON t1.PURCHASE_DEP_ID = dep.ID
+    	LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID 
+    	WHERE 1=1
+        <if test="relName != null and relName !=''">
+            AND t1.REAL_NAME LIKE CONCAT(CONCAT('%', #{relName}), '%')
+        </if>
+        <if test="orgName != null and orgName !=''">
+            AND org.SHORT_NAME LIKE CONCAT(CONCAT('%', #{orgName}), '%')
+        </if>
+        <if test="expertsFrom != null and expertsFrom !=''">
+        	 AND t1.EXPERTS_FROM = #{expertsFrom}
+        </if>
+        <if test="expertTypeId != null and expertTypeId != ''">
+	        <foreach item="typeId" index="index" collection="expertTypeId" open="and(" separator="or" close=")">
+	          t1.EXPERTS_TYPE_ID LIKE CONCAT(CONCAT('%', #{typeId}), '%')
+	        </foreach>
+	      </if>
+        <if test="status != null and status !=''">
+        	<if test="status == 'trialEnd'">
+        	 AND t1.STATUS in ('15','16')
+        	</if>
+        	<if test="status != 'trialEnd'">
+            AND t1.STATUS = #{status}
+            </if>
+        </if>
+        <if test="updatedAt !=null and updatedAt != ''">
+        	AND TO_CHAR(t1.UPDATED_AT,'YY-MM-DD') = TO_CHAR(#{updatedAt},'YY-MM-DD')
+        </if> 
+        <if test="auditTemporary != null">
+            AND t1.AUDIT_TEMPORARY = #{auditTemporary}
+        </if>
+        <if test="auditAt !=null and auditAt!=''">
+        	AND TO_CHAR(t1.AUDIT_AT,'YY-MM-DD') = TO_CHAR(#{auditAt},'YY-MM-DD')
+        </if>
+       <if test="startTime !=null and startTime!=''">
+        	AND TO_CHAR(t1.AUDIT_AT,'YY-MM-DD') &gt;= TO_CHAR(#{startTime},'YY-MM-DD')
+        </if>
+        <if test="endTime != null and endTime != ''">
+        	AND TO_CHAR(t1.AUDIT_AT,'YY-MM-DD') &lt;= TO_CHAR(#{endTime},'YY-MM-DD')
+        </if>
+       <if test="ids != null">
+            <foreach collection="ids" item="id" open="and t1.ID in ("
+                     close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
+    	ORDER BY org.POSITION ASC,t1.AUDIT_AT ASC
+  </select>
+  <insert id="addBatchTemporary" parameterType="ses.model.ems.BatchTemporary">
+  	insert into T_SES_EMS_BATCH_TEMPORARY 
+  	(EXPERT_ID,BATCH_EXPERT_ID,CREATED_AT,UPDATED_AT)
+  	values (#{expertId},#{batchExpertId}, #{createdAt}, #{updatedAt})
+  </insert>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_EMS_BATCH_TEMPORARY
+  </delete>
+  <delete id="deleteBatchTemporary" parameterType="java.lang.String">
+    delete from T_SES_EMS_BATCH_TEMPORARY WHERE BATCH_EXPERT_ID = #{batchExpertId}
+  </delete>
+</mapper>

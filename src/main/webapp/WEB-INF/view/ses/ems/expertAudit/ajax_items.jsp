@@ -79,9 +79,9 @@
 </head>
 <body>
   <input  class="btn btn-windows check" type="button" value="不通过" onclick="batchSelection();">
-  <%-- <c:if test="${sign == 2}">
-    <input  class="btn btn-windows delete" type="button" value="撤销" onclick="revokeCategoryAudit();">
-  </c:if> --%>
+  <c:if test="${sign == 2 || sign == 1}">
+    <input  class="btn btn-windows edit" type="button" value="更新审核" onclick="revokeCategoryAudit();">
+  </c:if>
   <table class="table table-bordered table-hover m_table_fixed_border">
     <tr>
       <td class="w50 text-center"><input type="checkbox" id="checkAll" onclick="selectAll()"/></td>
@@ -112,7 +112,10 @@
 		    <td class="tl pl20" name="itemtd${item.itemsId}" <c:if test="${fn:contains(conditionStr,item.itemsId)}"> style="border-color: #FF0000"</c:if> >${item.secondNode}</td>
 		    <td class="tl pl20" name="itemtd${item.itemsId}" <c:if test="${fn:contains(conditionStr,item.itemsId)}"> style="border-color: #FF0000"</c:if> >${item.thirdNode}</td>
 		    <c:if test="${sign == 2}">
-		      <td>${item.auditReason}</td>
+		      <td>
+		        <c:if test="${item.auditReason != null}">不通过，${item.auditReason}。</c:if>
+		        <c:if test="${item.auditReason == null}">通过</c:if>
+		      </td>
 		    </c:if>
 		    <c:if test="${fn:contains(conditionStr,item.itemsId)}"><input type="hidden" name="del${item.itemsId}" value="${item.itemsId}"/></c:if>
 		    <input type="hidden" name="del${item.itemsId}" value=""/>

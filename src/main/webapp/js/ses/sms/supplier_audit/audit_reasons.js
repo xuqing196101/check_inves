@@ -45,7 +45,6 @@ $(function () {
         getCheckOpinionType(supplierId);
     }
     // 无提示暂存审核意见
-    var lock = 0;// 对冲突元素加锁
     $("#oprTempSave,#oprNextStep,input[name='selectOption']").mousedown(function(e){
         lock = 1;
     });
@@ -57,6 +56,11 @@ $(function () {
 			var oldVal = $(this).attr("data-oval"); //获取原值
 			var newVal = $(this).val(); //获取当前值
 			if (newVal && $.trim(newVal) != "" && oldVal != newVal){
+				var checkVal = $("input:radio[name='selectOption']:checked").val();
+				if(checkVal == undefined){
+				    layer.msg("请选择审核意见项！");
+				    return;
+				}
 				if(lock == 0){
 					tempSave("noTip");
 				}
@@ -106,6 +110,7 @@ function nextStep() {
 /**
  * 审核汇总暂存
  */
+var lock = 0;// 对冲突元素加锁
 function tempSave(flag){
 	if(flag == 'nextStep'){
 		$("#form_id").attr("action", globalPath + "/supplierAudit/uploadApproveFile.html");
@@ -159,7 +164,7 @@ function tempSave(flag){
                         $("#form_id").submit();
                     }
 	            }else if(flag == "noTip"){
-	            	
+	                lock = 0;// 释放锁
 	            }else{
 	                if(data.status == 200){
 	                    layer.msg("暂存成功！");

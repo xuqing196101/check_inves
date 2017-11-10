@@ -169,4 +169,6 @@ public interface ExpertCategoryService {
      */
     List<ExpertCategory> findPassCateByExpertId(Map<String,Object> map);
     List<ExpertCategory> selectCategoryListByCategoryId(ExpertCategory expertCategory);
+    
+    List<SupplierCateTree> findPointsByTypeId(String typeId, String expertId);
 }

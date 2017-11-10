@@ -522,8 +522,26 @@ public class ExpertAuditController{
 						SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 					    map.put("auditContent",sdf.format(time));
 					    falg = true;
-					}  
+					    
+					    //非必填项的字段
+					} else if (param == null){
+						if("getAtDuty".equals(method)){
+							map.put("auditFiled", "现任职务");
+							falg = true;
+						}else if("getAcademicAchievement" .equals(method)){
+							map.put("auditFiled", "专业学术成果");
+							falg = true;
+						}
+						 editFields.add(method);
+					}
 					if(falg){
+						
+						//政治面貌：
+						if("getPoliticsStatus".equals(method)){
+							DictionaryData DictionaryData = dictionaryDataServiceI.getDictionaryData((String)param);
+							map.put("auditContent", DictionaryData.getName());
+						}
+
 						expertAuditService.updateDoAuditStatus(map);
 					}
 				}
@@ -784,7 +802,12 @@ public class ExpertAuditController{
 					map.put(getMethod.getName(), o1.toString());
 				}
 				if((o1 == null && o2 != null) || o1 != null && o2 == null) {
-					map.put(getMethod.getName(), o1.toString());
+					if(o1 !=null){
+						map.put(getMethod.getName(), o1.toString());
+					}else{
+						map.put(getMethod.getName(), "空值");
+					}
+					
 				}
 			}
 		} catch(Exception e) {
@@ -834,10 +857,48 @@ public class ExpertAuditController{
 		if(same) {
 			expertAuditService.add(expertAudit);
 		} else {
+			ExpertAudit audit = expertAuditService.findByExpertAuditObj(expertAudit);
+			audit.setAuditReason(expertAudit.getAuditReason());
+			expertAuditService.updateByAuditReason(audit);
 			String msg = "{\"msg\":\"fail\"}";
 			writeJson(response, msg);
 		}
 
+	}
+	@RequestMapping("/selectAuditReasons")
+	public void selectAuditReasons(ExpertAudit expertAudit, Model model, HttpServletResponse response, HttpServletRequest request) {
+		User user = (User) request.getSession().getAttribute("loginUser");
+		if(user != null) {
+			expertAudit.setAuditUserId(user.getId());
+			expertAudit.setAuditUserName(user.getRelName());
+		}
+		expertAudit.setAuditAt(new Date());
+		ExpertAudit audit = expertAuditService.findByExpertAuditObj(expertAudit);
+		String msg = "{\"msg\":\"\"}";
+		if( audit != null ){
+			msg = "{\"msg\":\""+audit.getAuditReason()+"\"}";
+		}
+		
+		writeJson(response, msg);
+	}
+	@RequestMapping("/updateAuditReasons")
+	public void updateAuditReasons(ExpertAudit expertAudit, Model model, HttpServletResponse response, HttpServletRequest request) {
+		User user = (User) request.getSession().getAttribute("loginUser");
+		if(user != null) {
+			expertAudit.setAuditUserId(user.getId());
+			expertAudit.setAuditUserName(user.getRelName());
+		}
+		expertAudit.setAuditAt(new Date());
+		ExpertAudit audit = expertAuditService.findByExpertAuditObj(expertAudit);
+		if(audit!=null){
+			expertAuditService.updateAuditStatus(audit.getId(), "4");
+			String msg = "{\"msg\":\"true\"}";
+			writeJson(response, msg);
+		}else{
+			String msg = "{\"msg\":\"false\"}";
+			writeJson(response, msg);
+		}
+		
 	}
 
 	/**
@@ -961,7 +1022,7 @@ public class ExpertAuditController{
 	 * @return
 	 */
 	@RequestMapping("/getCategories")
-	public String getCategories(String expertId, String typeId, Model model, Integer pageNum, String flags , Integer sign, String batchId) {
+	public String getCategories(String expertId, String typeId, Model model, Integer pageNum, Integer sign, String batchId) {
 		model.addAttribute("sign", sign);
 		model.addAttribute("batchId", batchId);
 		String code = DictionaryDataUtil.findById(typeId).getCode();
@@ -974,13 +1035,8 @@ public class ExpertAuditController{
             flag = "ENG_INFO";
         }
         // 查询已选中的节点信息(所有子节点)
-        List<ExpertCategory> items = null;
-        if(StringUtils.isEmpty(flags)){
-            items = expertCategoryService.getListByExpertId(expertId, typeId);
-        }else {
-            items = expertCategoryService.selectPassCateByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
-        }
-        
+        List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId);
+
         /*
          //排除不通过项
          if(sign != null && sign == 2){
@@ -999,19 +1055,23 @@ public class ExpertAuditController{
                 count++;
                 if (!DictionaryDataUtil.findById(expertCategory.getTypeId()).getCode().equals("ENG_INFO_ID")) {
                     Category data = categoryService.findById(expertCategory.getCategoryId());
-                    List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
-                    if (findPublishTree.size() == 0) {
-                        expertItems.add(expertCategory);
-                    } else if (data != null && data.getCode().length() == 7) {
-                        expertItems.add(expertCategory);
+                    if(data.getCode().length()<9){
+                    	 List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
+                         if (findPublishTree.size() == 0) {
+                             expertItems.add(expertCategory);
+                         } else if (data != null && data.getCode().length() == 7) {
+                             expertItems.add(expertCategory);
+                         }
                     }
                 } else {
                     Category data = engCategoryService.findById(expertCategory.getCategoryId());
-                    List<Category> findPublishTree = engCategoryService.findPublishTree(expertCategory.getCategoryId(), null);
-                    if (findPublishTree.size() == 0) {
-                        expertItems.add(expertCategory);
-                    } else if (data != null && data.getCode().length() == 7) {
-                        expertItems.add(expertCategory);
+                    if(data.getCode().length()<9){
+                    	  List<Category> findPublishTree = engCategoryService.findPublishTree(expertCategory.getCategoryId(), null);
+                          if (findPublishTree.size() == 0) {
+                              expertItems.add(expertCategory);
+                          } else if (data != null && data.getCode().length() == 7) {
+                              expertItems.add(expertCategory);
+                          }
                     }
                 }
             }
@@ -1085,11 +1145,6 @@ public class ExpertAuditController{
 			conditionStr.append(expertAudit2.getAuditFieldId() + ",");
 		}
 		model.addAttribute("conditionStr", conditionStr);
-		// 首页公示显示专家小类详情
-		if(StringUtils.isNotEmpty(flags)){
-			return "iss/ps/index/index_expPublicity_item_ajax";
-		}
-
         return "ses/ems/expertAudit/ajax_items";
 	}
 	
@@ -1884,7 +1939,7 @@ public class ExpertAuditController{
 			audit.setSuggestType("seven");
 			audit.setType("1");
 			audit.setStatusQuery("notPass");
-			List<ExpertAudit> list = expertAuditService.getListByExpert(expertAudit);
+			List<ExpertAudit> list = expertAuditService.getListByExpert(audit);
 			
 			for (String string : split) {
 				boolean s=false;
@@ -1901,16 +1956,16 @@ public class ExpertAuditController{
 				if("PROJECT".equals(data.getCode())||"GOODS_PROJECT".equals(data.getCode())){
 					Map<String,Object> map2 = new HashMap<String,Object>();
 					 map2.put("expertId", expertId);
-				     map2.put("typeId", DictionaryDataUtil.getId("PROJECT"));
+				    // map2.put("typeId", DictionaryDataUtil.getId("PROJECT"));
 				     map2.put("type", "six");
-					int passCount = expertCategoryService.selectPassCount(map2);
-					if(passCount<=0){
+					//int passCount = expertCategoryService.selectPassCount(map2);
+				/*	if(passCount<=0){
 						model.addAttribute("qualified", false);
 						model.addAttribute("message", "当前专家有目录下无通过产品");
 						break;
-					}
+					}*/
 					map2.put("typeId", DictionaryDataUtil.getId("ENG_INFO_ID"));
-					passCount= expertCategoryService.selectPassCount(map2);
+					int passCount= expertCategoryService.selectPassCount(map2);
 					if(passCount<=0){
 						model.addAttribute("qualified", false);
 						model.addAttribute("message", "当前专家有目录下无通过产品");
@@ -2361,12 +2416,12 @@ public class ExpertAuditController{
             	if(typeId.equals(DictionaryDataUtil.getId("GOODS"))){
             		num ++;
             		SupplierCateTree supplierCateTree = new SupplierCateTree();
-                	supplierCateTree.setRootNode(toChinese(num)+"、物资");
+                	supplierCateTree.setRootNode(toChinese(num)+"、物资技术");
                 	supplierCateTree.setItemsId(typeId);
                 	supplierCateTree.setRootNodeCode(typeId);
                 	itemsListAll.add(supplierCateTree);
                 	//顺序查询出所有的参评类别
-                	List<SupplierCateTree> clist = expertCategoryService.findExpertCatrgory(expert.getId(), typeId);
+                	List<SupplierCateTree> clist = expertCategoryService.findPointsByTypeId(typeId, expert.getId());
                 	for (SupplierCateTree sct : clist) {
                 		Map<String, Object> map = new HashMap<>();
         				map.put("categoryId", sct.getItemsId());
@@ -2394,23 +2449,41 @@ public class ExpertAuditController{
             	}
             }
         }
-        
+        //物资服务经济
+        if(expertTypeId != null && expertTypeId.size() > 0){
+        	for(String typeId : expertTypeId){
+        		if(typeId.equals(DictionaryDataUtil.getId("GOODS_SERVER"))){
+            		num ++;
+            		//服务
+            		SupplierCateTree supplierCateTree = new SupplierCateTree();
+                	supplierCateTree.setRootNode(toChinese(num)+"、物资服务经济");
+                	supplierCateTree.setItemsId(typeId);
+                	supplierCateTree.setRootNodeCode(typeId);
+                	itemsListAll.add(supplierCateTree);
+                	//物资服务经济是没有产品的  所以不需要查询产品类别
+            	}
+        	}
+        }
         //工程专业属性
         if(expertTypeId.contains(engInfoId)){
         	num ++;
         	SupplierCateTree supplierCateTree = new SupplierCateTree();
-        	supplierCateTree.setRootNode(toChinese(num)+"、工程");
+        	if(expertTypeId.contains(goodsProjectId)){
+        		supplierCateTree.setRootNode(toChinese(num)+"、工程经济");
+        	}else{
+        		supplierCateTree.setRootNode(toChinese(num)+"、工程技术");
+        	}
         	supplierCateTree.setItemsId(DictionaryDataUtil.getId("PROJECT"));
         	supplierCateTree.setRootNodeCode(DictionaryDataUtil.getId("PROJECT"));
         	itemsListAll.add(supplierCateTree);
         	for(String typeId : expertTypeId){
-        		if(!typeId.equals(DictionaryDataUtil.getId("SERVICE")) && !typeId.equals(DictionaryDataUtil.getId("GOODS")) && !typeId.equals(engInfoId)){
+        		if(typeId.equals(engCodeId) || typeId.equals(goodsProjectId)){
         			//顺序查询出所有的参评类别
         			if(typeId.equals(goodsProjectId)){
         				//如果为工程经济就转换成工程id
         				typeId = engCodeId;
         			}
-        			List<SupplierCateTree> clist = expertCategoryService.findExpertCatrgory(expert.getId(), typeId);
+        			List<SupplierCateTree> clist = expertCategoryService.findPointsByTypeId(typeId, expert.getId());
         			for (SupplierCateTree sct : clist) {
         				Map<String, Object> map = new HashMap<>();
         				map.put("categoryId", sct.getItemsId());
@@ -2447,13 +2520,9 @@ public class ExpertAuditController{
         	supplierCateTree.setRootNodeCode(DictionaryDataUtil.getId("PROJECT"));
         	itemsListAll.add(supplierCateTree);
         	for(String typeId : expertTypeId){
-        		if(!typeId.equals(DictionaryDataUtil.getId("SERVICE")) && !typeId.equals(DictionaryDataUtil.getId("GOODS")) && !typeId.equals(goodsProjectId) &&!typeId.equals(engCodeId)){
+        		if(typeId.equals(engInfoId)){
         			//顺序查询出所有的参评类别
-        			if(typeId.equals(goodsProjectId)){
-        				//如果为工程经济就转换成工程id
-        				typeId = engCodeId;
-        			}
-        			List<SupplierCateTree> clist = expertCategoryService.findExpertCatrgory(expert.getId(), typeId);
+        			List<SupplierCateTree> clist = expertCategoryService.findPointsByTypeId(typeId, expert.getId());
         			for (SupplierCateTree sct : clist) {
         				Map<String, Object> map = new HashMap<>();
         				map.put("categoryId", sct.getItemsId());
@@ -2495,7 +2564,7 @@ public class ExpertAuditController{
                 	supplierCateTree.setRootNodeCode(typeId);
                 	itemsListAll.add(supplierCateTree);
                 	//顺序查询出所有的参评类别
-                	List<SupplierCateTree> clist = expertCategoryService.findExpertCatrgory(expert.getId(), typeId);
+                	List<SupplierCateTree> clist = expertCategoryService.findPointsByTypeId(typeId, expert.getId());
                 	for (SupplierCateTree sct : clist) {
                 		Map<String, Object> map = new HashMap<>();
         				map.put("categoryId", sct.getItemsId());
@@ -2719,9 +2788,17 @@ public class ExpertAuditController{
 	            			String reason = audit.getAuditReason();
 	            			expertAudit1.setAuditReason("不通过。原因：" + reason);
 	        			}
-	        			list4.add(false);
+	        			if(sctCount == 2){
+	        				list3.add(false);
+	        			}else if(sctCount == 3){
+	        				list4.add(false);
+	        			}
 	        		}else{
-	        			list4.add(true);
+	        			if(sctCount == 2){
+	        				list3.add(true);
+	        			}else if(sctCount == 3){
+	        				list4.add(true);
+	        			}
 	        			expertAudit1.setAuditField(cateTree.getRootNode());
 	        			expertAudit1.setAuditReason("通过。");
 	        		}
@@ -2733,6 +2810,21 @@ public class ExpertAuditController{
     	List < ExpertAudit > categoryList22 = new ArrayList<ExpertAudit>();
     	for (int j = categoryList.size()-1; j >= 0; j--) {
 			categoryList22.add(categoryList.get(j));
+		}
+    	//工程专业审核意见优先
+    	String gcAudit = "";
+    	for (ExpertAudit expertAudit : categoryList22) {
+			if(expertAudit.getAuditField() != null && expertAudit.getAuditField().contains("、工程专业")){
+				gcAudit = expertAudit.getAuditReason();
+			}
+		}
+    	for (ExpertAudit expertAudit : categoryList22) {
+			if(expertAudit.getAuditField() != null && expertAudit.getAuditField().contains("、工程技术")){
+				expertAudit.setAuditReason(gcAudit);
+			}
+			if(expertAudit.getAuditField() != null && expertAudit.getAuditField().contains("、工程经济")){
+				expertAudit.setAuditReason(gcAudit);
+			}
 		}
     	
     	/**
@@ -2834,6 +2926,13 @@ public class ExpertAuditController{
 		expertAudit2.setAuditStatus(null);
 		expertAudit2.setStatusQuery("notPass");
     	List < ExpertAudit > basicFileList = expertAuditService.selectbyAuditType(expertAudit2);
+		expertAudit2.setExpertId(expert.getId());
+		expertAudit2.setSuggestType("five");
+		expertAudit2.setAuditFalg(auditFalg);
+		expertAudit2.setStatusQuery("notPass");
+		if(expertAuditService.selectbyAuditType(expertAudit2) != null && expertAuditService.selectbyAuditType(expertAudit2).size() > 0){
+			basicFileList.addAll(expertAuditService.selectbyAuditType(expertAudit2));
+		}
 		StringBuffer buff = new StringBuffer();
 		for(ExpertAudit a : basicFileList){
 			buff.append(a.getAuditField() + ",");
@@ -3559,6 +3658,8 @@ public class ExpertAuditController{
 		model.addAttribute("expertId", expertId);
 		model.addAttribute("isCheck", isCheck == null? "no" : isCheck);
 		ExpertAudit expertAudit = new ExpertAudit();
+		//3查所有
+		expertAudit.setIsDeleted(3);
 		if(sign == 1){
 			expertAudit.setAuditFalg(2);
 		}else if(sign == 2){
@@ -3568,11 +3669,21 @@ public class ExpertAuditController{
 		List < ExpertAudit > reasonsList = new ArrayList<>();
 		if(expertAudit.getAuditFalg()==1){
 			expertAudit.setAuditFalg(666);//666为兼容老数据
+			expertAudit.setStatusQuery("notPass");
 			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
 			expertAudit.setAuditFalg(1);
 			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
+			
+			/*
+			 * 查修改过的产品目录
+			 */
+			expertAudit.setSuggestType("six");
+			expertAudit.setAuditStatus("2");
+			expertAudit.setStatusQuery(null);
+			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
 		}else if(expertAudit.getAuditFalg()==2){
 			expertAudit.setAuditFalg(2);
+			expertAudit.setStatusQuery("notPass");
 			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
 		}
 		Map<String,Integer> map = new HashMap<String,Integer>();
@@ -3823,7 +3934,9 @@ public class ExpertAuditController{
         expert.setUpdatedAt(new Date());
         expertService.updateByPrimaryKeySelective(expert);
 
-        //expert = expertService.selectByPrimaryKey(expertId);
+        
+        
+        expert = expertService.selectByPrimaryKey(expertId);
         String status = expert.getStatus();
 
         /**
@@ -3933,7 +4046,17 @@ public class ExpertAuditController{
 			return new JdcgResult(504, "撤销失败", null);
 		}
     }
-    
+    @RequestMapping("/selectCategoryAudit")
+    @ResponseBody
+    public JdcgResult selectCategoryAudit (String expertId, String[] categoryIds, Integer sign){
+		return expertAuditService.selectCategoryAudit(expertId, categoryIds, sign);
+    }
+    @RequestMapping("/updateCategoryAudit")
+    @ResponseBody
+    public void updateCategoryAudit (String expertId, String categoryIds, Integer sign,String auditReason){
+    	String[] split = categoryIds.split(",");
+    	expertAuditService.updateCategoryAudit(expertId, split, sign,auditReason);
+    }
     
     
     /**
@@ -3952,6 +4075,7 @@ public class ExpertAuditController{
 		ExpertAudit expertAudit = new ExpertAudit();
 		expertAudit.setExpertId(expertId);
 		expertAudit.setAuditFalg(2);
+		expertAudit.setStatusQuery("notPass");
 		List<ExpertAudit> reasonsList = expertAuditService.getListByExpert(expertAudit);
 		Map<String,Integer> map = new HashMap<String,Integer>();
 		map.put("GOODS", 0);

@@ -763,7 +763,6 @@ public class CategoryController extends BaseSupplierController {
         return categoryService.selectAllCateByCond(map);
     }
     
-    
     /**
      * 根据工程品目ID 查询工程资质
      * @author Jia chegnxiang
@@ -773,6 +772,5 @@ public class CategoryController extends BaseSupplierController {
     public List<DictionaryData> getQuaByCid(String categoryId){
     	return categoryService.getQuaByCid(categoryId);
     }
-    
     
 }
