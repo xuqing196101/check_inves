@@ -165,6 +165,11 @@ public class SaleTender {
     private String isRemoved;
     
     /**
+     * 移除类型 0：经济技术评审后移除
+     */
+    private Integer removeType;
+    
+    /**
      * 移除理由
      */
     private String removedReason;
@@ -781,5 +786,15 @@ public class SaleTender {
     public void setPriceScore(BigDecimal priceScore) {
       this.priceScore = priceScore;
     }
+
+
+	public Integer getRemoveType() {
+		return removeType;
+	}
+
+
+	public void setRemoveType(Integer removeType) {
+		this.removeType = removeType;
+	}
     
 }

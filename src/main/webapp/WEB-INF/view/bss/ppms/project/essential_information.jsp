@@ -412,9 +412,11 @@
           <li class="">
             <a aria-expanded="false" href="#tab-5" data-toggle="tab" class="f18">附件上传</a>
           </li>
+          <c:if test="${packAdvice ne null}">
           <li class="">
             <a aria-expanded="false" href="#tab-6" data-toggle="tab" class="f18">转竞谈审核原因和附件</a>
           </li>
+          </c:if>
         </ul>
         <div class="tab-content">
           <div class="tab-pane fade active in" id="tab-1">
@@ -765,28 +767,39 @@
               <tbody id="loadUpload"></tbody>
             </table>
           </div>
+          <c:if test="${packAdvice ne null}">
           <div class="tab-pane fade " id="tab-6">
           	<table class="table table-bordered left_table mb0">
               <tbody>
-              	<tr>
-                  <td class="bggrey" width="15%">终止审核附件:</td>
-                  <td width="35%">
-                  <div class="h30 lh30">
-                    <c:forEach items="${packAdvice}" var="pd" varStatus="v">
-                       <u:show showId="upload_ids${v.index+1}"  delete="false" businessId="${pd.code}" sysKey="2" typeId="${ZZFJ_FJ}" />
-                    </c:forEach>
-                    </div>
-                  </td>
-                  <td class="bggrey" width="15%">转竞谈审核附件:</td>
-                  <td width="35%">
-                  <c:forEach items="${packAdvice}" var="pd" varStatus="v" >
-                       <u:show showId="upload_id${v.index+1}"  delete="false" businessId="${pd.code}" sysKey="2" typeId="${ZJTFJ_FJ}" />
-                  </c:forEach>
-                  </td>
-                </tr>
+              	<c:forEach items="${packAdvice}" var="pd" varStatus="v">
+              		<tr>
+                  	<td class="bggrey" width="15%">
+                  		<c:if test="${pd.type == 1}">终止</c:if><c:if test="${pd.type == 2}">转竞谈</c:if>审核附件:
+                  	</td>
+                  	<td width="35%">
+                  		<div class="h30 lh30">
+                  			<c:if test="${pd.type == 1}">
+                       		<u:show showId="upload_ids${v.index+1}"  delete="false" businessId="${pd.code}" sysKey="2" typeId="${ZZFJ_FJ}" />
+                    		</c:if>
+                    		<c:if test="${pd.type == 2}">
+                       		<u:show showId="upload_ids${v.index+1}"  delete="false" businessId="${pd.code}" sysKey="2" typeId="${ZJTFJ_FJ}" />
+                    		</c:if>
+                    	</div>
+                  	</td>
+                  	<td class="bggrey" width="15%">
+                  		<c:if test="${pd.type == 1}">终止</c:if><c:if test="${pd.type == 2}">转竞谈</c:if>审核不通过原因:
+                  	</td>
+                  	<td width="35%">
+                  		<div class="h30 lh30">
+                  			<input type="text" class="m0 border0" readonly="readonly" value="${pd.reason}"/>
+                    	</div>
+                  	</td>
+                	</tr>
+                </c:forEach>
               </tbody> 
             </table>
           </div>
+          </c:if>
         </div>
       </div>
     </div>

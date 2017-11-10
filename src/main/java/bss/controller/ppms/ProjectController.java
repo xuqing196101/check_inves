@@ -1440,9 +1440,12 @@ public class ProjectController extends BaseController {
             HashMap<String, Object> adviceMap=new HashMap<String, Object>();
             adviceMap.put("projectId", project.getId());
             List<PackageAdvice> packAdvice = adviceService.find(adviceMap);
-            model.addAttribute("ZJTFJ_FJ", DictionaryDataUtil.getId("ZJTFJ"));
-            model.addAttribute("ZZFJ_FJ", DictionaryDataUtil.getId("ZZFJ"));
-            model.addAttribute("packAdvice", packAdvice);
+            if (packAdvice != null && !packAdvice.isEmpty()) {
+            	model.addAttribute("ZJTFJ_FJ", DictionaryDataUtil.getId("ZJTFJ"));
+                model.addAttribute("ZZFJ_FJ", DictionaryDataUtil.getId("ZZFJ"));
+                model.addAttribute("packAdvice", packAdvice);
+			}
+            
             if(project != null && StringUtils.isNotBlank(project.getPrincipal())){
                 if(project.getPurchaseType().equals("DYLY")){
                     project.setSupplierNumber(1);//单一来源的项目，最少供应商人数默认一人；

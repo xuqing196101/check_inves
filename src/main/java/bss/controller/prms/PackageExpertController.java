@@ -497,10 +497,12 @@ public class PackageExpertController {
                     mapSearch1.put("projectId", ps.getProjectId());
                     mapSearch1.put("packageId", ps.getId());
                     List<PackageExpert> expList = packageExpertService.selectList(mapSearch1);
-                	Short isGather = expList.get(0).getIsGather();
-                    if (isGather == 0) {
-                  	  pack.setIsEditFirst(0);
-                    }
+                    if (expList != null && !expList.isEmpty()) {
+                    	Short isGather = expList.get(0).getIsGather();
+                        if (isGather == 0) {
+                      	  pack.setIsEditFirst(0);
+                        }
+					}
 				} else if (listDate1 != null && listDate1.size() > 1) {
                     //给第二次报价的数据查到
                     if ("JZXTP".equals(dictionaryData.getCode()) || "DYLY".equals(dictionaryData.getCode())) {
@@ -3404,6 +3406,62 @@ public class PackageExpertController {
     }
     
     /**
+     * 
+    * @Title: removeSupplier
+    * @author FengTian 
+    * @date 2017-11-10 上午9:56:47  
+    * @Description: 价格分析 
+    * @param @param projectId
+    * @param @param model
+    * @param @param flowDefineId
+    * @param @return      
+    * @return String
+     */
+    @RequestMapping("/removeSupplier")
+    public String removeSupplier (String projectId, Model model,String flowDefineId) {
+    	if (StringUtils.isNotBlank(projectId)) {
+    		HashMap<String, Object> map2 = new HashMap<String, Object>();
+            map2 .put("projectId", projectId);
+            List<Packages> findPackageById = packageService.findPackageById(map2);
+            if (findPackageById != null && !findPackageById.isEmpty()) {
+            	SaleTender saleTender = null;
+				for (Packages packages : findPackageById) {
+					packages.setStatus(null);
+					saleTender = new SaleTender();
+					saleTender.setPackages(packages.getId());
+					saleTender.setIsTurnUp(0);
+					List<SaleTender> supplierList = saleTenderService.findByCon(saleTender);
+		            if (supplierList != null && !supplierList.isEmpty()) {
+		            	for (SaleTender sale : supplierList) {
+		            		HashMap<String, Object> map = new HashMap<>();
+		                    map.put("packageId", packages.getId());
+		                    List<PackageExpert> list = packageExpertService.selectList(map);
+		                    for (PackageExpert packageExpert : list) {
+		                        if (packageExpert.getIsGatherGather() == 1) {
+		                            sale.setIsFinish(1);
+		                        }
+		                    }
+		                }
+		            	packages.setSaleTenderList(supplierList);
+					}
+		            Map<String, Object> map = new HashMap<String, Object>();
+		            map.put("projectId", projectId);
+		            map.put("packageId", packages.getId());
+		            //查询该包有没有评审进度数据
+		            List<ReviewProgress> rplist = reviewProgressService.selectByMap(map);
+		            if (rplist != null && !rplist.isEmpty()) {
+		            	packages.setStatus(Integer.valueOf(rplist.get(0).getAuditStatus()));
+					}
+				}
+				model.addAttribute("list", findPackageById);
+			}
+    		model.addAttribute("flowDefineId", flowDefineId);
+			model.addAttribute("projectId", projectId);
+		}
+        return "bss/prms/rank/remove_supplier";
+    }
+    
+    /**
      *〈简述〉
      * 移除供应商
      *〈详细描述〉
@@ -3414,11 +3472,14 @@ public class PackageExpertController {
      */
     @ResponseBody
     @RequestMapping("/removeSaleTender")
-    public void removeSaleTender (String packageId, String supplierId, String projectId, String removedReason) {
+    public void removeSaleTender (String packageId, String supplierId, String projectId, String removedReason, Integer removeType) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("supplierId", supplierId);
         map.put("packageId", packageId);
         map.put("removedReason", removedReason);
+        if (removeType != null) {
+        	map.put("removeType", removeType);
+		}
         saleTenderService.removeSaleTender(map);
     }
     
@@ -3449,7 +3510,7 @@ public class PackageExpertController {
         	String zjzxtp = DictionaryDataUtil.getId("ZJZXTP");
         	String zjtshz = DictionaryDataUtil.getId("ZJTSHZ");
         	String zjtshbtg = DictionaryDataUtil.getId("ZJTSHBTG");
-        	if (!packages2.getProjectStatus().equals(yzz) && !packages2.getProjectStatus().equals(zjzxtp) && !packages2.getProjectStatus().equals(zjtshz) && !packages2.getProjectStatus().equals(zjtshbtg)) {
+        	if (StringUtils.isNotBlank(packages2.getProjectStatus()) && !packages2.getProjectStatus().equals(yzz) && !packages2.getProjectStatus().equals(zjzxtp) && !packages2.getProjectStatus().equals(zjtshz) && !packages2.getProjectStatus().equals(zjtshbtg)) {
         		int count = 0;
                 for (int i = 1; i < packageExperts.size(); i++) {
                   PackageExpert packageExpert = packageExperts.get(i);

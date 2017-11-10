@@ -868,13 +868,13 @@ public class PackageExpertServiceImpl implements PackageExpertService {
           }
         });   
         for (SaleTender obj : finalSupplier) {
-          System.out.println(obj.getEconomicScore()+"--"+obj.getTechnologyScore());
+          System.out.println(obj.getEconomicScore()+"++"+obj.getTechnologyScore());
         }
       }
       //最低价法
       if ("PBFF_ZDJF".equals(aduitMethodCode)) {
         for (SaleTender obj : finalSupplier) {
-          System.out.println(obj.getEconomicScore()+"--"+obj.getTechnologyScore());
+          System.out.println(obj.getEconomicScore()+"++===="+obj.getTechnologyScore());
         }
         //根据供应商的最新报价排名
         Collections.sort(finalSupplier,new Comparator<SaleTender>(){
