@@ -1171,7 +1171,7 @@
         SELECT
         <include refid="Base_Column_List_Alias"/>
         FROM T_SES_BMS_USER U
-        LEFT JOIN T_SES_SMS_SUPPLIER T
+        INNER JOIN T_SES_SMS_SUPPLIER T
         ON U.TYPE_ID = T.ID
         WHERE U.IS_DELETED = #{isDeleted}
         AND U.UPDATED_AT &gt;=

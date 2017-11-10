@@ -2451,6 +2451,8 @@ public class SupplierQueryController extends BaseSupplierController {
         // 设置冻结行
         excelUtils.setFreezePane(true);
         excelUtils.setFreezePane(new Integer[]{0, 1, 0, 1});
+        // 设置序号列
+        excelUtils.setOrder(true);
         //ExcelUtils excelUtils = new ExcelUtils("./test.xls", "sheet1");
         List<Supplier> dataList = supplierService.querySupplierbytypeAndCategoryIds(null, supplier);
         String titleColumn[] = {"orderNum", "supplierName", "businessNature", "supplierType",

@@ -88,6 +88,8 @@ public class ExcelUtils {
     private Integer[] freezePane;
     // 是否设置冻结模式
     private boolean isFreezePane = false;
+    // 是否设置序号列
+    private boolean isOrder = false;
 
     DecimalFormat floatDecimalFormat = new DecimalFormat(floatDecimal);
     DecimalFormat doubleDecimalFormat = new DecimalFormat(doubleDecimal);
@@ -125,6 +127,14 @@ public class ExcelUtils {
 
     public void setFreezePane(boolean freezePane) {
         isFreezePane = freezePane;
+    }
+
+    public boolean isOrder() {
+        return isOrder;
+    }
+
+    public void setOrder(boolean order) {
+        isOrder = order;
     }
 
     /**
@@ -372,7 +382,7 @@ public class ExcelUtils {
                         Row dataRow = workbook.getSheet(sheetName).createRow(rowIndex);
                         for (int columnIndex = 0; columnIndex < titleColumn.length; columnIndex++) {
                             Cell cell = dataRow.createCell(columnIndex);
-                            if (columnIndex == 0) {
+                            if (isOrder && columnIndex == 0) {
                                 // 设置第一列为序号并且居中
                                 titleStyle = setAlignment(titleStyle);
                                 cell.setCellValue(orderNum);
@@ -438,6 +448,7 @@ public class ExcelUtils {
     public void packageData(CellStyle cellStyle, Object data, Cell cell, String returnType, String title) {
         // 设置自动换行
         // cellStyle.setWrapText(true);
+        // cell.setCellStyle(cellStyle);
         if (data != null && !"".equals(data)) {
             if ("java.util.Date".equals(returnType)) {
                 cell.setCellValue((Date) data);
