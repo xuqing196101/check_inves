@@ -84,9 +84,7 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
 <body>
 
 <div style="width:100%;margin:auto;" class = "Section1">
-    <div style="display: block;background: #fff;padding: 1px 10px;margin: 10px 0 10px 20px;border-left: 4px solid #2c9fa6;">
-   		<h2>检查数据</h2>
-   	</div>
+    
    	<div align="center" style="margin-top: 10px!important;text-align: center;">
    		<h2>${project.name}--${pack.name}</h2>
    	</div>

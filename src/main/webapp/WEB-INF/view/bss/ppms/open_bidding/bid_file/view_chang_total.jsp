@@ -79,14 +79,14 @@
 				 	  mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP' ||
 				 	   mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHZ' ||
 				 	   mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHBTG'}">
-				 	class="count_flow hand fl shrink" </c:if>class="count_flow shrink hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ'}"><span class="star_red">[该包已终止]</span></c:if>
+				 	class="count_flow hand fl shrink" </c:if> class="count_flow shrink fl hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ'}"><span class="star_red">[该包已终止]</span></c:if>
 				 	 <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP'}"><span class="star_red">[该包已转竞谈]</span></c:if>
 				 	 <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHZ'}"><span class="star_red">[该包转竞谈审核中]</span></c:if>
 				 	 <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHBTG'}"><span class="star_red">[该包转竞谈审核不通过]</span></c:if>
 				 	 </span>
 				 	<span>项目预算报价(万元)：${fn:substringAfter(treemapKey, "|")}</span>
 				 	</h2>
-				 	<div class="fl mt20">
+				 	<div class="fl mt20 ml10">
 					 	<button class="btn" onclick="printCon('${projectId}','${vsKey.index}')"  <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')]=='YZZ'}"> disabled="disabled"</c:if>>投标报价一览表</button>
 				 	</div>
 			 	</c:if>

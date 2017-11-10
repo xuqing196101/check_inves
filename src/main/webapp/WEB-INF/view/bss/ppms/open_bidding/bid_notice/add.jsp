@@ -291,6 +291,7 @@
 				    	if(!data.success){
 	                        layer.msg(data.message,{offset: ['220px']});
 	                    }else{
+	                    	$("#red").text("暂存")
 					    	//$("#is_saveNotice").val("isok");
 					        layer.msg(data.message,{offset: '222px'});
 	                    }
@@ -411,7 +412,7 @@
 	          </td>
 	          <td class="bggrey w190">审核状态：
 	            </td>
-		          <td class="red">
+		          <td class="red" id="red">
 		          <c:if test="${article.status eq null}">未提交</c:if>
 		          <c:if test="${article.status==0}">暂存</c:if>
 		          <c:if test="${article.status==1}">待审核</c:if>

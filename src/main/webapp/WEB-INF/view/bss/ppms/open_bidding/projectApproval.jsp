@@ -58,6 +58,7 @@
 			<c:if test="${project.confirmFile == null || project.confirmFile == 0 || project.confirmFile == 2}">
 				<tr>
 					<td> <span class="star_red">*</span>报批说明：</td>
+					<td class="w100"><button class="btn btn-windows input m0 w50p" type="button" onclick="bidRegister('${project.id}','16')">模板下载</button></td>
 					<td class="w200">
 						<u:upload id="c"  buttonName="上传彩色扫描件" exts="jpg,jpeg,gif,png,bmp,pdf" multiple="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeApproval}" auto="true" />
 						<u:show showId="f"  businessId="${project.id}" sysKey="${sysKey}" typeId="${typeApproval}" />
@@ -65,6 +66,7 @@
 				</tr>
 				<tr class="h50">
 					<td><span class="star_red">*</span>审批单：</td>
+					<td ><button class="btn btn-windows input m0 w50p" type="button" onclick="bidRegister('${project.id}','17')"> 模板下载</button></td>
 					<td class="w200">
 						<u:upload id="a" buttonName="上传彩色扫描件" exts="jpg,jpeg,gif,png,bmp,pdf" multiple="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 						<u:show showId="b"  businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
@@ -75,7 +77,6 @@
 				<tr>
 				    
 					<td>报批说明：</td>
-					<td class="w100"><button class="btn btn-windows input m0 w50p" type="button" onclick="bidRegister('${project.id}','16')">模板下载</button></td>
 					<td class="w200">
 						<u:show showId="f" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeApproval}" />
 					</td>
@@ -83,7 +84,6 @@
 				<tr class="h50">
 				    
 					<td>审批单：</td>
-					<td ><button class="btn btn-windows input m0 w50p" type="button" onclick="bidRegister('${project.id}','17')"> 模板下载</button></td>
 					<td class="w200">
 						<u:show showId="b"  delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
 					</td>

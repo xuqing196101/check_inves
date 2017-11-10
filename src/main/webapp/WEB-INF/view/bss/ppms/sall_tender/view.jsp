@@ -316,8 +316,8 @@
 									<td class="tc opinter " >${vs.index+1 }</td>
 									<td class="tl opinter " title="${obj.suppliers.supplierName}">
 										<c:choose>
-											<c:when test="${fn:length(obj.suppliers.supplierName) > 12}">
-												${fn:substring(obj.suppliers.supplierName, 0, 10)}......
+											<c:when test="${fn:length(obj.suppliers.supplierName) > 30}">
+												${fn:substring(obj.suppliers.supplierName, 0, 29)}......
 											</c:when>
 											<c:otherwise>
 												${obj.suppliers.supplierName}
