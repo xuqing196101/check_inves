@@ -609,12 +609,12 @@
             <c:if test="${sign == 1 or sign == 3}">
               <div class="clear"></div>
               <h2 class="count_flow mt0"><i>2</i>最终意见</h2>
-              <ul class="ul_list">
+              <ul class="ul_list"</ul>
                  <c:if test="${sign == 1 }">
                    <li>
                    <div class="select_check">
-                      <input type="radio"  id="qualified" <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> name="selectShenhe" value="15" onclick = "check_opinion()"><c:if test="${sign == 1 && status ne '10'}">预</c:if>初审合格
-                      <input type="radio" id = "noQualified" <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> name="selectShenhe" value="16" onclick = "check_opinion()"><c:if test="${sign == 1 && status ne '10'}">预</c:if>初审不合格
+                      <input type="radio"  id="qualified" <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> name="selectShenhe" value="15" onclick = "check_opinion()" <c:if test="${isCheck eq 'yes'}">disabled="disabled"</c:if>><c:if test="${sign == 1 && status ne '10'}">预</c:if>初审合格
+                      <input type="radio" id = "noQualified" <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> name="selectShenhe" value="16" onclick = "check_opinion()" <c:if test="${isCheck eq 'yes'}">disabled="disabled"</c:if>><c:if test="${sign == 1 && status ne '10'}">预</c:if>初审不合格
                     </div>
                   </li>
                   <li>
@@ -622,7 +622,7 @@
                  </li>
                  </c:if>
                   <li class="mt10">
-                     <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${auditOpinion.opinion }</textarea>
+                     <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80" <c:if test="${isCheck eq 'yes'}">disabled="disabled"</c:if>>${auditOpinion.opinion }</textarea>
                   </li>
                 </ul>
                 <div class="clear"></div>
