@@ -744,6 +744,7 @@ function import_history() {
             if (list_content[i] != null) {
               str += '<tr>'
                 +'<td class="tc break-all"><input type="hidden" value="'+ list_content[i].relName +', '+ list_content[i].orgName +', '+ list_content[i].duties +'"><input type="checkbox" class="select_item"></td>'
+                +'<td class="tc break-all">'+ (parseInt(i) + 1) +'</td>'
                 +'<td class="tc break-all">'+ list_content[i].relName +'</td>'
                 +'<td class="tc break-all">'+ list_content[i].orgName +'</td>'
                 +'<td class="tc break-all">'+ list_content[i].duties +'</td>'
