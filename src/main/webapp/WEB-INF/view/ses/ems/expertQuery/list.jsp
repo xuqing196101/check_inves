@@ -197,6 +197,14 @@
 
       }
     </script>
+    <script type="text/javascript">
+    function exportExcel(){
+    	$("#formSearch").attr("action", "${pageContext.request.contextPath}/expertQuery/exportExcel.html?flag=2");
+        $("#formSearch").submit();
+        //还原地址
+        $("#formSearch").attr("action", "${pageContext.request.contextPath}/expert/findAllExpert.html");
+    }
+    </script>
   </head>
 
   <body>
@@ -323,6 +331,7 @@
        <c:if test="${flag != 1 }">
 	       <input class="btn mt1" onclick="checkMap();" value="切换到地图" type="reset">
        </c:if>
+       <input class="btn mt1" onclick="exportExcel();" value="导出" type="reset">
      </div>
      <div class="clear"></div>
     </form>

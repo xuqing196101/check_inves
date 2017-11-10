@@ -485,6 +485,7 @@ public class Expert extends ExpertHistory implements Serializable {
     
     private List<String> expertTypeId;
     
+    private String items;
     
     private String contactMobile;
     
@@ -1209,6 +1210,14 @@ public class Expert extends ExpertHistory implements Serializable {
 
 	public void setContactName(String contactName) {
 		this.contactName = contactName;
+	}
+
+	public String getItems() {
+		return items;
+	}
+
+	public void setItems(String items) {
+		this.items = items;
 	}
     
     

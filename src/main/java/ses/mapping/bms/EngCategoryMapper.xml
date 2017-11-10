@@ -505,4 +505,21 @@
 		 FROM T_SES_BMS_ENG_CATEGORY t WHERE  t.IS_DELETED = 0 START WITH 
          t.parent_id=#{pId} CONNECT BY PRIOR t.ID=t.parent_id  order by t.code )s where s.l &lt; 5
     </select>
+    
+  	<!-- 专家查询-查询导出专家所需数据-->
+    <select id="selectExportExcelData" parameterType="map" resultMap="CateMap">
+		SELECT
+			t1.*
+		FROM
+			 T_SES_BMS_ENG_CATEGORY T1
+		LEFT JOIN T_SES_EMS_EXPERT_CATEGORY T2 ON T1.ID = T2.CATEGORY_ID
+		WHERE
+			T2.EXPERT_ID = #{expertId}
+		<if test="levels != null">
+			AND T2.LEVELS = #{levels}
+		</if>
+		<if test="auditStatus != null">
+			AND T2.AUDIT_STATUS = #{auditStatus}
+		</if>
+	</select>
 </mapper>

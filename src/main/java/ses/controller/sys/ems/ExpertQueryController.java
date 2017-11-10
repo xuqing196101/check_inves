@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +32,7 @@ import ses.model.ems.ExpertAuditOpinion;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertTitle;
 import ses.model.oms.Orgnization;
+import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCateTree;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
@@ -46,6 +49,7 @@ import ses.service.sms.SupplierEditService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import bss.formbean.Maps;
+import bss.util.ExcelUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
@@ -1155,4 +1159,24 @@ public class ExpertQueryController {
             return list;
       		}
       }
+    
+    /**
+     * 导出excel
+     * @param httpServletResponse
+     * @param expert
+     * @param expertTypeIds
+     * @param expertType
+     * @param categoryIds
+     * @param categoryNames
+     * @param flag（1：全部查询，2：入库查询）
+     */
+    @RequestMapping(value = "/exportExcel")
+    public void exportExcel(HttpServletResponse httpServletResponse, Expert expert, String expertTypeIds, String expertType, String categoryIds, String categoryNames, Integer flag){
+    	List<Expert> dataList = service.exportExcel(expert, expertTypeIds, expertType, categoryIds, flag);
+        ExcelUtils excelUtils = new ExcelUtils(httpServletResponse, "评审专家信息", "sheet1", 500);
+        String titleColumn[] = {"orderNum", "relName", "address", "expertsFrom", "expertsTypeId", "atDuty", "mobile", "telephone", "storageAt", "items"};
+        String titleName[] = {"序号", "专家姓名", "地区", "专家类型", "专家类别","职称（职务）", "联系手机", "联系固话", "入库时间", "参评类别"};
+        int titleSize[] = {5, 20, 15, 10, 40, 25, 15, 15, 20, 15, 800};
+        excelUtils.wirteExcel(titleColumn, titleName, titleSize, dataList);
+    }
 }

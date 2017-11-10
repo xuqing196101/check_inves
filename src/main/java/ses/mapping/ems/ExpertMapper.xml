@@ -187,6 +187,9 @@
         T1.COVER_NOTE,
         T1.WORK_UNIT,
         T1.AUDIT_TEMPORARY,
+        T1.TELEPHONE,
+        T1.STORAGE_AT,
+        T1.AT_DUTY,
         T2.LOGIN_NAME AS loginName,
         org.SHORT_NAME AS orgName,
         AREA.NAME AS ADDRESS
