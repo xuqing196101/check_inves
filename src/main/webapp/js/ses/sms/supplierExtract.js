@@ -402,7 +402,7 @@ function compareExtractNum(){
 		if(ExtractNum>parseInt($("#count").html())){
 			$("#ExtractNumError").html("家数不足，无法抽取");
 			$("#count").parents("button").prop("style","background-color: red;");
-		}else{
+		}else if($("#count").html()!="0"){
 			$("#result").find("tbody").empty();
 			$("#count").parents("button").removeAttr("style");
 			$("#ExtractNumError").html("");
