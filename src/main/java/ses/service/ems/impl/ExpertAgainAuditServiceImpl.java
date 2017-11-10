@@ -2,6 +2,7 @@ package ses.service.ems.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -1004,6 +1005,11 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	}
 	public ExpertAgainAuditImg selectBatchTemporary(Expert expert) {
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		if (expert.getExpertsTypeId() != null && !"".equals(expert.getExpertsTypeId())) {
+            List<String> listExpertTypeId = Arrays.asList(expert.getExpertsTypeId().split(","));
+            expert.setExpertTypeId(listExpertTypeId);
+		
+		}
 		List<BatchTemporary> list = batchTemporaryMapper.selectBatchTemporaryAll(expert);
 		if(list.size()>0){
 			for (BatchTemporary e : list) {

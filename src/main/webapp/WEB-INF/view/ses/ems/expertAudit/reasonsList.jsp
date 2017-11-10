@@ -790,10 +790,6 @@
 <input id="isGoodsServer" type="hidden" value="${isGoodsServer}"/>
 
   <script>
-    $(function () {
-      $('#expert_position').val(getUrlParam('position'));
-    });
-    
     // 预复审结束
     function preReviewEnd(status) {
       var expertId = $("input[name='expertId']").val();
@@ -850,8 +846,9 @@
     }
     
     function refresh_parent() {
-      window.opener.location.href = changeURLArg(window.opener.location.href, 'expertId', $("input[name='expertId']").val());
-      window.close();
+    	window.opener.index_load(true);
+   		window.opener.location.href = changeURLArg(window.opener.location.href, 'expertId', $("input[name='expertId']").val());
+   	  window.close();
     }
     
     function changeURLArg(url,arg,arg_val){ 
