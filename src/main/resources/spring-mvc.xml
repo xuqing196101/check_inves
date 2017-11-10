@@ -197,6 +197,9 @@
 			<mvc:exclude-mapping path="/expertExtracts/extractResult.*" />
 			<!-- 过滤抽取语音接口返回状态 -->
 			<mvc:exclude-mapping path="/index/solrSearch1.*" />
+			
+			<!-- 过滤短信上行接口请求路径 -->
+			<mvc:exclude-mapping path="/sms/*.*" />
 			<bean class="ses.interceptor.MyInterceptor"></bean>
 			
 		</mvc:interceptor>
