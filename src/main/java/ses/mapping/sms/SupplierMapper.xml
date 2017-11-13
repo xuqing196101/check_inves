@@ -1335,7 +1335,6 @@
 	<!--  -->
 	<select id="querySupplierbytypeAndCategoryIds" parameterType="ses.model.sms.Supplier" resultMap="findSupplierMap">
     SELECT
-      "NVL" (T4.NAME, T3.NAME) AS NAME,
       t1.typeId,
       t2.ID,
       t2.SUPPLIER_NAME,
@@ -1349,10 +1348,13 @@
       t2.CREDIT_CODE,
       t2.CONTACT_NAME,
       t2.CONTACT_ADDRESS,
-      t2.ADDRESS,
       t2.MOBILE,
 	  t2.CONTACT_MOBILE,
-      org.SHORT_NAME AS orgName
+      org.SHORT_NAME AS orgName,
+      <!--省-->
+      T3.PARENT_ID AS ADDRESS,
+      <!--区-->
+      T3.NAME
     FROM
       (SELECT
           ID,
@@ -1393,7 +1395,7 @@
            GROUP BY ID) t1
     LEFT JOIN T_SES_SMS_SUPPLIER t2 ON t1.ID = t2.ID
     LEFT JOIN T_SES_BMS_AREA T3 ON t2.ADDRESS = T3.ID
-    LEFT JOIN T_SES_BMS_AREA T4 ON T3.PARENT_ID = T4.ID
+    <!--LEFT JOIN T_SES_BMS_AREA T4 ON T3.PARENT_ID = T4.ID-->
     LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON t2.PROCUREMENT_DEP_ID = dep.ID
     LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
     WHERE
@@ -1455,7 +1457,7 @@
 	      and IS_PROVISIONAL = '0'
 	    </if>
 	    <if test="address != null and address !=''">
-	      and t4.NAME like CONCAT(CONCAT('%', #{address}), '%')
+	      AND T3.PARENT_ID = #{address}
 	    </if>
 	    <if test="loginName != null and loginName !=''">
 	      and LOGIN_NAME like CONCAT(CONCAT('%', #{loginName}), '%')
@@ -1472,7 +1474,7 @@
 	    <!-- <if test="judge == null and judge != 5">
 	      ORDER BY CREATED_AT DESC NULLS LAST
 	    </if> -->
-      ORDER BY AUDIT_DATE  DESC NULLS LAST
+      ORDER BY SUBMIT_AT, AUDIT_DATE  DESC NULLS LAST
   </select>
 
 	<select id="findSupplierbyCategoryId" parameterType="ses.model.sms.Supplier"	resultMap="findSupplierMap">
@@ -2405,6 +2407,6 @@
 	    <!-- <if test="judge == null and judge != 5">
 	      ORDER BY CREATED_AT DESC NULLS LAST
 	    </if> -->
-      ORDER BY AUDIT_DATE  DESC NULLS LAST
+      ORDER BY SUBMIT_AT, AUDIT_DATE  DESC NULLS LAST
     </select>
 </mapper>

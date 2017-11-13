@@ -36,6 +36,7 @@ import ses.dao.sms.SupplierStarsMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
+import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryQua;
 import ses.model.bms.DictionaryData;
@@ -309,7 +310,19 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
             PropertiesUtil config = new PropertiesUtil("config.properties");
             PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
         }
-		List<Supplier> listSupplier=supplierMapper.querySupplierbytypeAndCategoryIds(supplier);
+		List<Supplier> listSupplier = supplierMapper.querySupplierbytypeAndCategoryIds(supplier);
+        // 封装地区
+        StringBuffer sb = new StringBuffer();
+        Area area = null;
+        if(listSupplier != null && !listSupplier.isEmpty()){
+        	for (Supplier sup : listSupplier){
+                area = sup.getArea();
+                if(area != null){
+                    sup.setName(sb.append(area.getName()).append(" ").append(sup.getName()).toString());
+                    sb.delete(0, sb.length());
+                }
+			}
+		}
 		/*SupplierStars supplierStars = new SupplierStars();
 		supplierStars.setStatus(1);
 		List<SupplierStars> listSupplierStars = supplierStarsMapper.findSupplierStars(supplierStars);

@@ -77,6 +77,8 @@
 						optionScore[i].selected = true;
 					}
 				}
+				// 回显地区
+                $("#address").val('${supplier.address}');
 			});
 		</script>
 		<script type="text/javascript">
@@ -569,7 +571,7 @@
                 <select name="address" id="address" class="w220">
                   <option value=''>全部</option>
                   <c:forEach items="${privnce}" var="list">
-                    <option <c:if test="${supplier.address eq list.name }">selected</c:if> value="${list.name }">${list.name }</option>
+                    <option value="${list.id}">${list.name }</option>
                   </c:forEach>
                 </select>
               </li>
@@ -618,9 +620,10 @@
 							<th class="info" width="7%">企业性质</th>
 							<th class="info" width="15%">供应商类型</th>
 							<th class="info w90">注册日期</th>
-							<th class="info w90">提交日期</th>
-							<th class="info w90">审核日期</th>
-							<th class="info" width="8%">供应商状态</th>
+							<th class="info w90">最新提交日期</th>
+							<th class="info w90">最新审核日期</th>
+							<th class="info w90">入库日期</th>
+							<th class="info" width="8%">状态</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -659,6 +662,9 @@
                     <td class="tc">
                         <fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd"/>
                     </td>
+					<td class="tc">
+
+					</td>
                     <td class="tc">
                             <%-- <c:if test="${list.status==5 and list.isProvisional == 1}"><span class="label rounded-2x label-dark">临时</span></c:if>
                             <c:if test="${list.status==-1 }"><span class="label rounded-2x label-dark">暂存</span></c:if>

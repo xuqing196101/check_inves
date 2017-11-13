@@ -73,6 +73,7 @@ import ses.service.sms.SupplierTypeService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
+import ses.util.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -305,31 +306,11 @@ public class SupplierQueryController extends BaseSupplierController {
      */
     @RequestMapping("/findSupplierByPriovince")
     public String findSupplierByPriovince(Integer judge, Integer sign, Supplier sup, Integer page, Model model, String supplierTypeIds, String supplierType, String categoryNames, String categoryIds, String reqType) throws UnsupportedEncodingException{
-        /*if (judge != null) {
-            sup.setStatus(judge);
-        }*/
-    	if(sup.getAddress() != null){
-    		model.addAttribute("address", sup.getAddress());
-            String address = supplierEditService.getProvince(sup.getAddress());
-            if ("".equals(address)) {
-                String addressName = URLDecoder.decode(sup.getAddress(), "UTF-8");
-                if (addressName.length() > NUMBER_TWO) {
-                    sup.setAddress(addressName.substring(0, NUMBER_THREE).replace(",", ""));
-                    model.addAttribute("address", sup.getAddress());
-                } else {
-                    sup.setAddress(addressName.substring(0, NUMBER_TWO).replace(",", ""));
-                    model.addAttribute("address", sup.getAddress());
-                }
-            } else {
-                sup.setAddress(address);
-            }
-    	}
-        
-        if (categoryIds != null && !"".equals(categoryIds)) {
+        if (StringUtils.isNotEmpty(categoryIds)) {
             List<String> listCategoryIds = Arrays.asList(categoryIds.split(","));
             sup.setItem(listCategoryIds);
         }
-        if (supplierTypeIds != null && !"".equals(supplierTypeIds)) {
+        if (StringUtils.isNotEmpty(supplierTypeIds)) {
             List<String> listSupplierTypeIds = Arrays.asList(supplierTypeIds.split(","));
             sup.setItemType(listSupplierTypeIds);
         }
