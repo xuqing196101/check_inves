@@ -42,12 +42,14 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 		mapper.insertSelective(expertAuditOpinion);
 		Integer flagAudit = expertAuditOpinion.getFlagAudit();
 		//修改专家状态
-		if(flagAudit != null && flagAudit == 15 || flagAudit == 16){
-			Expert expert = new Expert();
-			expert.setId(expertAuditOpinion.getExpertId());
-			expert.setUpdatedAt(new Date());
-			expert.setStatus(flagAudit.toString());
-			expertMapper.updateByPrimaryKeySelective(expert);
+		if(flagAudit != null){
+			if(flagAudit == 15 || flagAudit == 16){
+				Expert expert = new Expert();
+				expert.setId(expertAuditOpinion.getExpertId());
+				expert.setUpdatedAt(new Date());
+				expert.setStatus(flagAudit.toString());
+				expertMapper.updateByPrimaryKeySelective(expert);
+			}
 		}
 		
 	}
