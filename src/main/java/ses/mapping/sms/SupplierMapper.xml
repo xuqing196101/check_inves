@@ -108,6 +108,13 @@
 		<id column="ID" property="id" />
 		<result column="AUDIT_DATE" property="auditDate" jdbcType="TIMESTAMP" />
 	</resultMap>
+
+    <!-- 统计Analyze关系映射 -->
+    <resultMap type="ses.model.bms.AnalyzeBigDecimal" id="baseAnalyze">
+        <result column="COL_NAME" property="name"/>
+        <result column="COL_VALUE" property="value"/>
+        <result column="COL_ID" property="id"/>
+    </resultMap>
 	
 	<!-- 供应商公示列表查询 -->
   <resultMap id="supplierOfPublicityMapList" type="ses.model.sms.SupplierPublicity" extends="BaseResultMap">
@@ -1465,8 +1472,9 @@
 	    <if test="judge == 5">
 	      <!-- and (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS =6 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS =8)
 	      and IS_PROVISIONAL = '0' -->
-	      and (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS = -4 or SUPPLIER_STATUS = -5)
-	      and IS_PROVISIONAL = '0'
+	      AND (SUPPLIER_STATUS = 1 OR SUPPLIER_STATUS = -4 OR SUPPLIER_STATUS = 5 OR SUPPLIER_STATUS = 6 OR SUPPLIER_STATUS = -5
+            OR SUPPLIER_STATUS = 7 OR SUPPLIER_STATUS = 8)
+	      AND IS_PROVISIONAL = '0'
 	    </if>
 	    <if test="address != null and address !=''">
 	      AND T3.PARENT_ID = #{address}
@@ -2421,6 +2429,31 @@
         WHERE AUDIT_DATE <![CDATA[<]]> #{date}
         AND (SUPPLIER_STATUS ='3' or  SUPPLIER_STATUS ='6' or SUPPLIER_STATUS ='8')
         AND IS_DELETED = 0
+    </select>
+
+    <!-- 查询地区下所对应的供应商 -->
+    <select id="selectSuppliersByArea" resultMap="baseAnalyze">
+        SELECT REPLACE(SUBSTR(P.NAME, 0, 3), '省', '') AS COL_NAME,
+		       COUNT(T.ID) AS COL_VALUE,
+		       P.AREAID AS COL_ID
+		  FROM (SELECT A.ID, AREA.NAME, AREA.ID AS AREAID
+		          FROM T_SES_BMS_AREA AREA
+		          LEFT JOIN T_SES_BMS_AREA A
+		            ON AREA.ID = A.PARENT_ID
+		         WHERE AREA.PARENT_ID = '0') P
+		  LEFT JOIN (SELECT T.ADDRESS, T.ID
+		               FROM T_SES_SMS_SUPPLIER T
+		              WHERE T.IS_PROVISIONAL = '0'
+		                AND T.IS_DELETED = 0
+		                <if test="supplierStatusList != null and supplierStatusList.size() > 0">
+                            AND T.SUPPLIER_STATUS IN
+                            <foreach collection="supplierStatusList" item="supplierStatus" open="(" close=")" separator=",">
+                                #{supplierStatus}
+                            </foreach>
+                        </if>
+		                ) T
+		    ON P.ID = T.ADDRESS
+		 GROUP BY P.NAME, P.AREAID
     </select>
     
 </mapper>

@@ -2298,27 +2298,7 @@ public class SupplierQueryController extends BaseSupplierController {
 	public String readOnlyList(Integer judge, Integer sign, Supplier sup,
 			Integer page, Model model, String supplierTypeIds,
 			String supplierType, String categoryNames, String categoryIds,
-			SupplierAnalyzeVo supplierAnalyzeVo) throws UnsupportedEncodingException {
-		if (sup.getAddress() != null) {
-			model.addAttribute("address", sup.getAddress());
-			String address = supplierEditService.getProvince(sup.getAddress());
-			if ("".equals(address)) {
-				String addressName = URLDecoder.decode(sup.getAddress(),
-						"UTF-8");
-				if (addressName.length() > NUMBER_TWO) {
-					sup.setAddress(addressName.substring(0, NUMBER_THREE)
-							.replace(",", ""));
-					model.addAttribute("address", sup.getAddress());
-				} else {
-					sup.setAddress(addressName.substring(0, NUMBER_TWO)
-							.replace(",", ""));
-					model.addAttribute("address", sup.getAddress());
-				}
-			} else {
-				sup.setAddress(address);
-			}
-		}
-
+			SupplierAnalyzeVo supplierAnalyzeVo) {
 		if (categoryIds != null && !"".equals(categoryIds)) {
 			List<String> listCategoryIds = Arrays
 					.asList(categoryIds.split(","));
