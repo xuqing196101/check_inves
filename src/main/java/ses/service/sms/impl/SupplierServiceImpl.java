@@ -2240,9 +2240,9 @@ public class SupplierServiceImpl implements SupplierService {
                           areasSb.append(area.getName()).append(" ");
                       }
                   }
-                  sup.setAddress(areasSb.append(contactAddress).toString());
+                  sup.setAddress(areasSb.append(contactAddress == null? "" : contactAddress).toString());
               } else {
-                  sup.setAddress(contactAddress);
+                  sup.setAddress(contactAddress == null? "" : contactAddress);
               }
               // 状态
               sup.setStatusString(SupplierConstants.STATUSMAP.get(sup.getStatus()));
