@@ -668,7 +668,9 @@
                         <fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd"/>
                     </td>
                     <td class="tc">
-										
+                        <c:if test="${!empty list.instorageAt}">
+                            <fmt:formatDate value="${list.instorageAt }" pattern="yyyy-MM-dd"/>
+                        </c:if>
                     </td>
                     <td class="tc">
                             <%-- <c:if test="${list.status==5 and list.isProvisional == 1}"><span class="label rounded-2x label-dark">临时</span></c:if>

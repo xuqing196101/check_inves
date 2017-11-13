@@ -1759,6 +1759,9 @@
             <if test="auditOpinionAttach !=null">
                 AUDIT_OPINION_ATTACH = #{auditOpinionAttach}
             </if>
+            <if test="instorageAt !=null">
+                INSTORAGE_AT = #{instorageAt}
+            </if>
         </set>
         where ID = #{id}
     </update>

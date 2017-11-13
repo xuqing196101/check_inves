@@ -671,9 +671,11 @@
 								</td>
 							<%--<td class="">${list.contactName }</td>
 								<td class="tc">${list.mobile }</td>--%>
-								<td class="tc">
-
-								</td>
+                                <td class="tc">
+                                    <c:if test="${!empty list.instorageAt}">
+                                        <fmt:formatDate value="${ list.instorageAt }" pattern="yyyy-MM-dd"/>
+                                    </c:if>
+                                </td>
 								<td class="tc">
 									<%-- <c:if test="${list.status==1 }"><span class="label rounded-2x label-u">审核通过</span></c:if>
 									<c:if test="${list.status==4 }"><span class="label rounded-2x label-dark">待复核</span></c:if>

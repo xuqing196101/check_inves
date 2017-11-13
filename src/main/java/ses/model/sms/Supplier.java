@@ -1,21 +1,21 @@
 package ses.model.sms;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-
+import bss.model.ppms.AdvancedDetail;
+import bss.model.ppms.ProjectDetail;
+import common.model.UploadFile;
 import ses.model.bms.Area;
 import ses.model.bms.CategoryParameter;
 import ses.model.bms.RoleUser;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.util.MyAnnotation;
-import bss.model.ppms.AdvancedDetail;
-import bss.model.ppms.ProjectDetail;
-import common.model.UploadFile;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @Title: Supplier
@@ -2117,4 +2117,12 @@ Supplier implements Serializable {
 	public void setQueryCategorys(List<String> queryCategorys) {
 		this.queryCategorys = queryCategorys;
 	}
+
+    public Date getInstorageAt() {
+        return instorageAt;
+    }
+
+    public void setInstorageAt(Date instorageAt) {
+        this.instorageAt = instorageAt;
+    }
 }
