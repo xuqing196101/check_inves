@@ -847,6 +847,9 @@ Supplier implements Serializable {
     
     /**审核意见附件**/
 	private String auditOpinionAttach;
+
+	/**供应商入库时间**/
+	private Date instorageAt;
 	
     public String getAuditOpinionAttach() {
 		return auditOpinionAttach;

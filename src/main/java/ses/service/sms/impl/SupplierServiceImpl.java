@@ -2083,7 +2083,20 @@ public class SupplierServiceImpl implements SupplierService {
             PropertiesUtil config = new PropertiesUtil("config.properties");
             PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
         }
-		return supplierMapper.selectSupplierListByNoCate(supplier);
+        List<Supplier> listSupplier = supplierMapper.selectSupplierListByNoCate(supplier);
+        // 封装地区
+        StringBuffer sb = new StringBuffer();
+        Area area = null;
+        if(listSupplier != null && !listSupplier.isEmpty()){
+            for (Supplier sup : listSupplier){
+                area = sup.getArea();
+                if(area != null){
+                    sup.setName(sb.append(area.getName()).append(" ").append(sup.getName()).toString());
+                    sb.delete(0, sb.length());
+                }
+            }
+        }
+		return listSupplier;
 	}
 
   /**
