@@ -284,14 +284,20 @@ public class SupplierAuditController extends BaseSupplierController {
 		
 		request.setAttribute("sign", sign);
 		
+		Integer supplierStatus = supplier.getStatus();
+		String loginName = user.getLoginName();
+		
 		SupplierModify supplierModify = new SupplierModify();
 		supplierModify.setSupplierId(supplierId);
-		//先删除对比的旧数据
-		supplierModifyService.deleteByType(supplierModify);
-		// 插入对比后的数据
-		supplierModifyService.insertModifyRecord(supplierModify);
-		// 更新审核记录状态
-		supplierAuditService.updateReturnStatus(supplierId);
+		
+		if(SupplierConstants.isStatusToAudit(supplierStatus)){
+			//先删除对比的旧数据
+			supplierModifyService.deleteByType(supplierModify);
+			// 插入对比后的数据
+			supplierModifyService.insertModifyRecord(supplierModify);
+			// 更新审核记录状态
+			supplierAuditService.updateReturnStatus(supplierId);
+		}
 		
 		//文件
 		request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
@@ -336,16 +342,16 @@ public class SupplierAuditController extends BaseSupplierController {
 		/**
 		 * 查询地址
 		 */
-		List < Area > privnce = areaService.findRootArea();
-		request.setAttribute("privnce", privnce);
+		List < Area > province = areaService.findRootArea();
+		request.setAttribute("province", province);
 		Area area = new Area();
 		//地址信息里地址
 		area = areaService.listById(supplier.getAddress());
 		String sonAddress = area.getName();
 		request.setAttribute("sonAddress", sonAddress);
-		for(int i = 0; i < privnce.size(); i++) {
-			if(area.getParentId().equals(privnce.get(i).getId())) {
-				String parentAddress = privnce.get(i).getName();
+		for(int i = 0; i < province.size(); i++) {
+			if(area.getParentId().equals(province.get(i).getId())) {
+				String parentAddress = province.get(i).getName();
 				request.setAttribute("parentAddress", parentAddress);
 			}
 		}
@@ -354,9 +360,9 @@ public class SupplierAuditController extends BaseSupplierController {
 		area = areaService.listById(supplier.getConcatCity());
 		String sonConcatProvince = area.getName();
 		request.setAttribute("sonConcatProvince", sonConcatProvince);
-		for(int i = 0; i < privnce.size(); i++) {
-			if(area.getParentId().equals(privnce.get(i).getId())) {
-				String parentConcatProvince = privnce.get(i).getName();
+		for(int i = 0; i < province.size(); i++) {
+			if(area.getParentId().equals(province.get(i).getId())) {
+				String parentConcatProvince = province.get(i).getName();
 				request.setAttribute("parentConcatProvince", parentConcatProvince);
 			}
 		}
@@ -365,9 +371,9 @@ public class SupplierAuditController extends BaseSupplierController {
 		area = areaService.listById(supplier.getArmyBuinessCity());
 		String sonArmyBuinessProvince = area.getName();
 		request.setAttribute("sonArmyBuinessProvince", sonArmyBuinessProvince);
-		for(int i = 0; i < privnce.size(); i++) {
-			if(privnce.get(i).getId() !=null && area.getParentId().equals(privnce.get(i).getId())) {
-				String parentArmyBuinessProvince = privnce.get(i).getName();
+		for(int i = 0; i < province.size(); i++) {
+			if(province.get(i).getId() !=null && area.getParentId().equals(province.get(i).getId())) {
+				String parentArmyBuinessProvince = province.get(i).getName();
 				request.setAttribute("parentArmyBuinessProvince", parentArmyBuinessProvince);
 			}
 		}
@@ -376,7 +382,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		List < SupplierAddress > supplierAddress = supplierAddressService.queryBySupplierId(supplierId);
 //		List < SupplierAddress > supplierAddress = supplier.getAddressList();
 		if(!supplierAddress.isEmpty() && supplierAddress.size() > 0 ){
-			for(Area a: privnce) {
+			for(Area a: province) {
 				for(SupplierAddress s: supplierAddress) {
 					if(a.getId().equals(s.getParentId())) {
 						s.setParentName(a.getName());
@@ -394,8 +400,6 @@ public class SupplierAuditController extends BaseSupplierController {
 		/**
 		 * 查出修改前的信息
 		 */
-		Integer supplierStatus = supplier.getStatus();
-		String loginName = user.getLoginName();
 		if(SupplierConstants.isAudit(loginName, supplierStatus)){
 			//地址信息
 			supplierModify.setListType(1);
@@ -445,7 +449,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			/**
 			 * 基本信息退回修改后的附件
 			 */
-			SupplierModify supplierFileModify= new SupplierModify();
+			SupplierModify supplierFileModify = new SupplierModify();
 			supplierFileModify.setSupplierId(supplierId);
 			supplierFileModify.setModifyType("file");
 			StringBuffer fileModifyField = new StringBuffer();
@@ -1411,12 +1415,14 @@ public class SupplierAuditController extends BaseSupplierController {
 			if(null != alist && !alist.isEmpty()){
 				return new JdcgResult(503, "选择中存在已审核，不可重复审核", null);
 			}else{
+				String auditFlag = "add";
 				Date date = new Date();
 				for (SupplierAudit audit2 : supplierAuditList) {
 					audit2.setIsDeleted(0);
 					List<SupplierAudit> auditList = supplierAuditService.getAuditRecords(audit2, new Integer[]{0,2});
 					if(auditList != null && auditList.size() > 0){
 						audit2.setId(auditList.get(0).getId());
+						auditFlag = "update";
 					}
 					audit2.setStatus(supplier.getStatus());
 					audit2.setCreatedAt(date);
@@ -1426,7 +1432,7 @@ public class SupplierAuditController extends BaseSupplierController {
 				if(i>0){
 					// 审核完后更新审核人/审核状态
 					updateSupplierAuditStatus(user, supplier);
-					return new JdcgResult(500, "审核成功", null);
+					return new JdcgResult(500, "审核成功", auditFlag);
 				}else{
 					return new JdcgResult(502, "审核失败", null);
 				}

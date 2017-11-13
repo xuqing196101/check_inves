@@ -1,12 +1,18 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
 <%@ page import="ses.constants.SupplierConstants" %>
+<%@ page import="ses.model.bms.User" %>
+<% 
+	String account = ((User)session.getAttribute(SupplierConstants.KEY_SESSION_LOGIN_USER)).getLoginName();
+	boolean isAccountToAudit = SupplierConstants.isAccountToAudit(account);
+%>
+<c:set var="isAccountToAudit" value="<%=isAccountToAudit %>" />
 
 <!DOCTYPE HTML >
 <html>
 	<head>
 		<%@ include file="../../../common.jsp"%>
-        <script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/supplier_query/select_supplier_by_province.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/supplier_query/select_supplier_by_province.js"></script>
 		<script type="text/javascript">
 			$(function() {
 				laypage({
@@ -32,8 +38,6 @@
 					}
 				});
 			});
-
-
 
 			function fanhui() {
 				window.location.href = "${pageContext.request.contextPath}/supplierQuery/highmaps.html";
@@ -621,6 +625,7 @@
 							<th class="info w90">提交日期</th>
 							<th class="info w90">审核日期</th>
 							<th class="info" width="8%">供应商状态</th>
+							<c:if test="${isAccountToAudit}"><th class="info" width="5%">操作</th></c:if>
 						</tr>
 					</thead>
 					<tbody>
@@ -633,7 +638,7 @@
                     <td class="tl">${list.orgName}</td>
                     <td class="hand" title="${list.supplierName}">
                         <c:choose>
-                            <c:when test="${list.status ==5 and list.isProvisional == 1 }">
+                            <c:when test="${list.status == 5 and list.isProvisional == 1 }">
                                 <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierQuery/temporarySupplier.html?supplierId=${list.id}&sign=${sign}')">
                                     <c:if test="${fn:length (list.supplierName) > 15}">${fn:substring(list.supplierName,0,15)}...</c:if>
                                     <c:if test="${fn:length (list.supplierName) <= 15}">${list.supplierName}</c:if>
@@ -699,9 +704,8 @@
                             <c:if test="${list.status!=5 }"><span class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if> --%>
 
                         <c:set var="label_color" value="label-dark"/>
-                        <c:if test="${list.status==5 || list.status==7 }"><c:set var="label_color"
-                                                                                 value="label-u"/></c:if>
-                        <c:if test="${list.status==5 and list.isProvisional == 1}"><span
+                        <c:if test="${list.status == 5 || list.status == 7}"><c:set var="label_color" value="label-u"/></c:if>
+                        <c:if test="${list.status == 5 and list.isProvisional == 1}"><span
                                 class="label rounded-2x label-dark">临时</span></c:if>
                         <c:if test="${list.status == 0 and list.auditTemporary != 1}"><span
                                 class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if>
@@ -717,9 +721,24 @@
                                 class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if>
                         <c:if test="${list.status == 5 and list.auditTemporary == 3 and list.isProvisional != 1}"><span
                                 class="label rounded-2x ${label_color}">${supplierAuditTemporaryStatusMap[list.auditTemporary]}</span></c:if>
-                        <c:if test="${list.status != 0 && list.status != 9 && list.status != 1 && list.status != 5 }"><span
+                        <c:if test="${list.status != 0 && list.status != 9 && list.status != 1 && list.status != 5}"><span
                                 class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if>
                     </td>
+                    <c:if test="${isAccountToAudit and list.status == 2}">
+                    	<td class="tc">
+                    		<a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/essential.html?supplierId=${list.id}&sign=${sign}')">标记</a>
+                    	</td>
+                    </c:if>
+                    <c:if test="${isAccountToAudit and list.status != 2}">
+                    	<td class="tc">
+                    		<c:if test="${list.status == 5 and list.isProvisional == 1}">
+                    			<a href="javascript:jumppage('${pageContext.request.contextPath}/supplierQuery/temporarySupplier.html?supplierId=${list.id}&sign=${sign}')">查看</a>
+                    		</c:if>
+                    		<c:if test="${list.isProvisional != 1}">
+                    			<a href="javascript:jumppage('${pageContext.request.contextPath}/supplierQuery/essential.html?supplierId=${list.id}&sign=${sign}')">查看</a>
+                    		</c:if>
+                    	</td>
+                    </c:if>
                 </tr>
 						</c:forEach>
 					</tbody>

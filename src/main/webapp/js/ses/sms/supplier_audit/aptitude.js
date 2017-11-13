@@ -360,7 +360,7 @@ function isAudited(tablerId,wzType){
 	var showin=0;
 	var auditType;
 	var temp=0;
-	$("input[name='"+tablerId+"itemsCheckboxName']:checked").each(function(){ 
+	$("input[name='"+tablerId+"itemsCheckboxName']:checked").each(function(){
 		var ind=$(this).val();
 	switch (wzType) {
 	case 'PRODUCT':
