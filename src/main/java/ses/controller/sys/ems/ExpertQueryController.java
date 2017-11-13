@@ -1172,8 +1172,8 @@ public class ExpertQueryController {
      */
     @RequestMapping(value = "/exportExcel")
     public void exportExcel(HttpServletResponse httpServletResponse, Expert expert, String expertTypeIds, String expertType, String categoryIds, String categoryNames, Integer flag){
-    	List<Expert> dataList = service.exportExcel(expert, expertTypeIds, expertType, categoryIds, flag);
         ExcelUtils excelUtils = new ExcelUtils(httpServletResponse, "评审专家信息", "sheet1", 500);
+        List<Expert> dataList = service.exportExcel(expert, expertTypeIds, expertType, categoryIds, flag);
         String titleColumn[] = {"orderNum", "relName", "address", "expertsFrom", "expertsTypeId", "atDuty", "mobile", "telephone", "storageAt", "items"};
         String titleName[] = {"序号", "专家姓名", "地区", "专家类型", "专家类别","职称（职务）", "联系手机", "联系固话", "入库时间", "参评类别"};
         int titleSize[] = {5, 20, 15, 10, 40, 25, 15, 15, 20, 15, 800};

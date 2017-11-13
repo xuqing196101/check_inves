@@ -609,7 +609,7 @@
             <c:if test="${sign == 1 or sign == 3}">
               <div class="clear"></div>
               <h2 class="count_flow mt0"><i>2</i>最终意见</h2>
-              <ul class="ul_list"</ul>
+              <ul class="ul_list">
                  <c:if test="${sign == 1 }">
                    <li>
                    <div class="select_check">

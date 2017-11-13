@@ -1711,13 +1711,15 @@ public class ExpertServiceImpl implements ExpertService {
       			DictionaryData expertsFrom = dictionaryDataMapper.selectByPrimaryKey(exp.getExpertsFrom());
       			exp.setExpertsFrom(expertsFrom.getName());
       		}
-      		
-      		
-      		/**
-      		 * 拼接品目
-      		 */
+
+        }
+		
+		/**
+  		 * 拼接品目
+  		 */
+		for(Expert e: expertList) {
       		Map<String,Object> map = new HashMap<String, Object>();
-    		map.put("expertId", exp.getId());
+    		map.put("expertId", e.getId());
     		map.put("levels", 1);
     		
 			List<Category> itemsList = new ArrayList<Category>();
@@ -1737,9 +1739,9 @@ public class ExpertServiceImpl implements ExpertService {
     		
     		if(buf!=null && buf.length()>1){
     			String items = buf.toString().substring(0, buf.length()-1);
-    			exp.setItems(items);
+    			e.setItems(items);
     		}
-        }
+		}
 		
 		return expertList;
 	}

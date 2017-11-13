@@ -463,13 +463,14 @@
               <th class="info">姓名</th>
               <!-- <th class="info">用户名</th> -->
               <th class="info w40">性别</th>
-              <th class="info">身份证号</th>
-              <th class="info">类别</th>
+              <th class="info w130">专业职称（职务）</th>
+              <!-- <th class="info">身份证号</th> -->
               <th class="info">类型</th>
+              <th class="info">类别</th>
               <!-- <th class="info">毕业院校及专业</th> -->
               <th class="info w90">注册日期</th>
-              <th class="info w90">提交日期</th>
-              <th class="info w90">审核日期</th>
+              <th class="info w100">最新提交日期</th>
+              <th class="info w100">最新审核日期</th>
               <th class="info">手机</th>
               <!-- <th class="info">积分</th> -->
               <th class="info">地区</th>
@@ -493,12 +494,13 @@
               </td>
               <%-- <td class="tl pl20" >${e.loginName}</td> --%>
               <td class="tc">${e.gender}</td>
-              <td class="tc">${e.idCardNumber}</td>
+              <td class="tc">${e.atDuty}</td>
+              <%-- <td class="tc">${e.idCardNumber}</td> --%>
+              <td class="tc">${e.expertsFrom }</td>
               <td class="hand" title="${e.expertsTypeId}">
                 <c:if test="${fn:length (e.expertsTypeId) > 4}">${fn:substring(e.expertsTypeId,0,4)}...</c:if>
                 <c:if test="${fn:length (e.expertsTypeId) <= 4}">${e.expertsTypeId}</c:if>
               </td>
-              <td class="tc">${e.expertsFrom }</td>
               <%-- <td class="tl">${e.graduateSchool }</td> --%>
               <td class="tc">
                 <fmt:formatDate value="${e.createdAt }" pattern="yyyy-MM-dd" />
