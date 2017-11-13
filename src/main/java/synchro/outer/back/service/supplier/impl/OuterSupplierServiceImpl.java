@@ -1,6 +1,7 @@
 package synchro.outer.back.service.supplier.impl;
 
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -964,7 +965,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     
     
     /**
-     * Description:查询注销供应商导出
+     * Description:查询供应商等级导出
      *
      * @param startTime
      * @param endTime
@@ -975,7 +976,8 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     @Override
     public void selectSupplierLevelOfExport(String startTime, String endTime) {
     	// 查询注销供应商
-    	Map<String, Object> map = new HashedMap();
+    	@SuppressWarnings("unchecked")
+		Map<String, Object> map = new HashedMap();
     	map.put("startTime", startTime);
     	map.put("endTime", endTime);
     	
@@ -986,8 +988,32 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     	if (!levels.isEmpty()) {
     		FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_LEVEL_FILENAME, 37), JSON.toJSONString(levels, SerializerFeature.WriteMapNullValue));
     	}
-    	recordService.synchBidding(null, new Integer(levels.size()).toString(), synchro.util.Constant.SYNCH_LOGOUT_SUPPLIER, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.EXPORT_SYNCH_LOGOUT_SUPPLIER);
+    	recordService.synchBidding(null, new Integer(levels.size()).toString(), synchro.util.Constant.DATE_SYNCH_SUPPLIER_LEVEL, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.SUPPLIER_LEVEL_COMMIT);
     }
+
+    /**
+     * 导入供应商等级
+     */
+	@Override
+	public void importSupplierLevel(File file) {
+		int num = 0;
+        for (File file2 : file.listFiles()) {
+            // 抽取结果信息
+            if (file2.getName().contains(FileUtils.SUPPLIER_LEVEL_FILENAME)) {
+                List<SupplierItemLevel> levelList = FileUtils.getBeans(file2, SupplierItemLevel.class);
+                num += levelList == null ? 0 : levelList.size();
+                for (SupplierItemLevel level : levelList) {
+                	SupplierItemLevel selectById = supplierItemLevelMapper.selectById(level.getId());
+                    if(selectById != null){
+                    	supplierItemLevelMapper.updateByPrimaryKey(level);
+                    }else{
+                    	supplierItemLevelMapper.insert(level);
+                    }
+                }
+            }
+        }
+        recordService.synchBidding(new Date(), num+"", synchro.util.Constant.DATE_SYNCH_SUPPLIER_LEVEL, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.SUPPLIER_LEVEL_COMMIT_IMPORT);
+	}
 
     
     

@@ -132,7 +132,6 @@
       <if test="supplierTypeId != null" >
         #{supplierTypeId,jdbcType=VARCHAR},
       </if>
-      
     </trim>
   </insert>
   <update id="updateByPrimaryKeyBySupplierIdTypeID" parameterType="ses.model.sms.SupplierItemLevel" >
@@ -316,10 +315,10 @@
         AND SUPPLIER_TYPE_ID = #{supplierTypeId,jdbcType=VARCHAR},
       </if>
       <if test="startTime != null and startTime != ''">
-        AND E.CREATED_AT &gt;= to_date(#{startTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
+        AND CREATED_AT &gt;= to_date(#{startTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
       </if>
       <if test="endTime != null and endTime != ''">
-        AND E.CREATED_AT  &lt;= to_date(#{endTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
+        AND CREATED_AT  &lt;= to_date(#{endTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
       </if>
 	</where> 
   </select>
@@ -368,5 +367,8 @@
         AND ll.SUPPLIER_LEVEL = #{supplierLevel}
     </if>
     ORDER BY decode(ll.SUPPLIER_LEVEL, '一级', 1, '二级', 2, '三级', 3, '四级', 4, '五级', 5, '六级', 6, '七级', 7, '八级', 8)
+  </select>
+  <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	SELECT <include refid="Base_Column_List"/> FROM T_SES_SMS_SUPPLIER_ITEM_LEVEL WHERE ID = #{id}
   </select>
 </mapper>

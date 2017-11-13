@@ -20,6 +20,41 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
+</head>
+<body>
+	<!-- 修改订列表开始-->
+	<div class="container margin-top-30">
+		<form action="${pageContext.request.contextPath}/SupplierExtracts_new/listSupplier.do"
+			method="post" id="form1">
+			<div>
+				<ul class="list-unstyled list-flow p0_20">
+					<li class="col-md-6  p0 ">
+						<div class="fl mr10">
+							<input type="radio" name="radio" checked="checked"
+								value="1" class="fl" />
+							<div class="ml5 fl">满足某一产品条件即可</div>
+						</div>
+						<div class="fl mr10">
+							<input type="radio" name="radio"  value="2" class="fl"/>
+							<div class="ml5 fl">同时满足多个产品条件</div>
+						</div>
+					</li>
+				</ul>
+				<br />
+			</div>
+			<div>
+				品目名称：<input type="text" id="cateName" class="mr3 empty w125">
+     		         品目编码：<input type="text" id="cateCode" class="mr3 empty w125"><br/>
+				<div class="tc">
+				  <input type="button" class="btn" onclick="loadZtree('true')" value="搜索">
+				  <input type="button" class="btn" onclick="resetSerch()" value="重置">
+				</div>
+        <div class="clear"></div>
+			</div>
+			<div id="ztree" class="ztree margin-left-13"></div>
+		</form>
+	</div>
+</body>
 <script type="text/javascript">
     var key;
     var zTreeObj = "";
@@ -107,11 +142,6 @@
 	        zTreeObj = $.fn.zTree.init($("#ztree"), setting, zNodes);
         }
         
-        key = $("#key");
-        key.bind("focus", focusKey)
-          .bind("blur", blurKey)
-          .bind("propertychange", searchNode)
-          .bind("input", searchNode);
       }
       
     //选中时回调
@@ -239,10 +269,6 @@
       nodeList = [],
       fontCss = {};
 
-    function clickRadio(e) {
-      lastValue = "";
-      searchNode(e);
-    }
 
     function getFontCss(treeId, treeNode) {
       return(!!treeNode.highlight) ? {
@@ -340,39 +366,5 @@
   
   
 </script>
-</head>
-<body>
-	<!-- 修改订列表开始-->
-	<div class="container margin-top-30">
-		<form action="${pageContext.request.contextPath}/SupplierExtracts_new/listSupplier.do"
-			method="post" id="form1">
-			<div>
-				<ul class="list-unstyled list-flow p0_20">
-					<li class="col-md-6  p0 ">
-						<div class="fl mr10">
-							<input type="radio" name="radio" checked="checked"
-								value="1" class="fl" />
-							<div class="ml5 fl">满足某一产品条件即可</div>
-						</div>
-						<div class="fl mr10">
-							<input type="radio" name="radio"  value="2" class="fl"/>
-							<div class="ml5 fl">同时满足多个产品条件</div>
-						</div>
-					</li>
-				</ul>
-				<br />
-			</div>
-			<div>
-				品目名称：<input type="text" id="cateName" class="mr3 empty w125">
-     		         品目编码：<input type="text" id="cateCode" class="mr3 empty w125"><br/>
-				<div class="tc">
-				  <input type="button" class="btn" onclick="loadZtree('true')" value="搜索">
-				  <input type="button" class="btn" onclick="resetSerch()" value="重置">
-				</div>
-        <div class="clear"></div>
-			</div>
-			<div id="ztree" class="ztree margin-left-13"></div>
-		</form>
-	</div>
-</body>
+
 </html>
