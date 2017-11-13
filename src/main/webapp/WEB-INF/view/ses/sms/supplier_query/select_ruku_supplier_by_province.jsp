@@ -360,7 +360,7 @@
 			<div class="headline-v2">
 				<h2>供应商信息</h2>
 			</div>
-			<h2 class="search_detail">
+			<h2 class="search_detail p20">
 				<!--下载Excel查询条件表单-->
 				<form id="exportExcelCond">
 					<input type="hidden" name="supplierName" value="${supplier.supplierName}"/>
@@ -385,128 +385,212 @@
 		      	<input type="hidden" name="address" value="${address }">
 		      </c:if>
 		      <input type="hidden" name="sign" value="${sign }">
-		      <ul class="demand_list">
-		      	<li>
-            	<label class="fl">供应商名称：</label><span><input id="supplierName" class="w220" name="supplierName" value="${supplier.supplierName }" type="text"></span>
-            </li>
-            <%-- <li>
-		          <label class="fl">用户名：</label><span><input class="w220" id="loginName" name="loginName" value="${supplier.loginName }" type="text"></span>
-		        </li> --%>
-            <li>
-              <label class="fl">联系人：</label><span><input id="contactName" class="w220" name="contactName" value="${supplier.contactName }" type="text"></span>
-            </li>
-            <%-- <li>
-							<label class="fl">手机号：</label>
-							<input id="mobile" class="w220" name="mobile" value="${supplier.mobile }" type="text">
-						</li> --%>
-						<li>
-            	<label class="fl">企业性质：</label>
-	            <select name="businessNature" id="businessNature" class="w220">
-	              <option value=''>全部</option>
-	              <c:forEach items="${businessNature}" var="list">
-	              	<option <c:if test="${supplier.businessNature eq list.id }">selected</c:if> value="${list.id }">${list.name }</option>
-	              </c:forEach>
-	            </select>
-	          </li>  
-            <li>
-              <label class="fl">供应商类型：</label><span><input id="supplierType" type="text" name="supplierType"  readonly value="${supplierType }" onclick="showSupplierType();" class="w220"/>
-              <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" /></span>
-            </li>
-            <%-- <li>
-              <label class="fl">品目：</label><span><input id="category" type="text" name="categoryNames" value="${categoryNames }" readonly onclick="showCategory();" class="w220"/>
-              <input type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds }"   /></span>
-            </li> --%>
-            <!-- <li>
-	            <label class="fl">供应商级别:</label>
-	            <span>
-	            <select name="score" class="w220">
-	              <option  selected="selected" value=''>-请选择-</option>
-	              <option  value="1">一级</option>
-	              <option  value="2">二级</option>
-	              <option  value="3">三级</option>
-	              <option  value="4">四级</option>
-	              <option  value="5">五级</option>
-	            </select>
-	            </span>
-		         </li> -->
-		         <li>
-							<label class="fl">供应商状态：</label>
-							<select id="status" name="status" class="w220">
-								<option value=''>全部</option>
-								<!-- <option value="1">审核通过</option>
-								<option value="4">待复核</option>
-								<option value="5">复核通过</option>
-								<option value="6">复核未通过</option>
-								<option value="7">考察合格</option>
-								<option value="8">考察不合格</option> -->
-								<c:forEach items="<%=SupplierConstants.STATUSMAP_RUKU %>" var="item">
-									<option value="${item.key}">${item.value}</option>
-								</c:forEach>
-							</select>
-						 </li>
-             <%-- <li>
-            	<label class="fl">临时供应商：</label>
-	            <select name="isProvisional" id="isProvisional" class="w220">
-	              <option value=''>全部</option>
-	              <option value='1' <c:if test="${supplier.isProvisional eq '1' }">selected</c:if>>是</option>
-	              <option value='0' <c:if test="${supplier.isProvisional eq '0' }">selected</c:if>>否</option>
-	            </select>
-	         	 </li> --%>
-         		 <li>
-	          	<label class="fl">审核日期：</label><span><input id="startAuditDate" name="startAuditDate" class="Wdate w110 fl" type="text"  value='<fmt:formatDate value="${supplier.startAuditDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('startAuditDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'startAuditDate\')}'})"/>
-	            <span class="f14">至</span>
-	            <input id="endAuditDate" name="endAuditDate" value='<fmt:formatDate value="${supplier.endAuditDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100 fl" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'endAuditDate\')}'})"/>
-	            </span>
-	          </li>
-	          <li>
-              <label class="fl">采购机构：</label>
-              <select name="orgName" id="orgName" class="w220">
-                <option value=''>全部</option>
-                <c:forEach items="${allOrg}" var="org">
-                  <c:if test="${org.isAuditSupplier == 1}">
-                    <option value="${org.shortName}" <c:if test="${supplier.orgName eq org.shortName}">selected</c:if>>${org.shortName}</option>
-                  </c:if>
-                </c:forEach>
-              </select>
-            </li>
-	          <c:if test ="${sign == 2 }">
-              <li>
-                <label class="fl">地区：</label>
-                <select name="address" id="address" class="w220">
-                  <option value=''>全部</option>
-                  <c:forEach items="${privnce}" var="list">
-                    <option <c:if test="${supplier.address eq list.name }">selected</c:if> value="${list.name }">${list.name }</option>
-                  </c:forEach>
-                </select>
-              </li>
-				  <li>
-					  <label class="fl">供应商品目：</label><span><input  class="w220" name="queryCategoryName" id="supplierGradeInput" class="span2 mt5" type="text" name=""  readonly value="${supplier.queryCategoryName }" onclick="initZtree(true);" />
-						<input type="hidden" name="queryCategory" id="supplierGradeInputVal" value="${supplier.queryCategory}"/></span>
-				  </li>
-				  <li id="supplierLevelLi" class="display-none">
-					  <label class="fl">供应商等级：</label>
-					  <select name="supplierLevel" id="supplierLevel" class="w220">
-						  <option selected="selected" value=''>全部</option>
-						  <option value="一级">一级</option>
-						  <option value="二级">二级</option>
-						  <option value="三级">三级</option>
-						  <option value="四级">四级</option>
-						  <option value="五级">五级</option>
-						  <option value="六级">六级</option>
-						  <option value="七级">七级</option>
-						  <option value="八级">八级</option>
-					  </select>
-				  </li>
-            </c:if>
-		       </ul>
-		       <div class="col-md-12 clear tc mt10">
+					<div class="row mauto_n5 f14">
+						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
+							<div class="row mauto_n5">
+								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="供应商名称">供应商名称：</div>
+								<div class="col-md-9 col-xs-7 pauto_5">
+									<input id="supplierName" class="w100p mb0" name="supplierName" value="${supplier.supplierName }" type="text">
+								</div>
+							</div>
+						</div>
+						
+						<%-- <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
+							<div class="row mauto_n5">
+								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl">用户名：</div>
+								<div class="col-md-9 col-xs-7 pauto_5">
+									<input id="loginName" class="w100p" name="loginName" value="${supplier.loginName }" type="text">
+								</div>
+							</div>
+						</div> --%>
+						
+						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
+							<div class="row mauto_n5">
+								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="联系人">联系人：</div>
+								<div class="col-md-9 col-xs-7 pauto_5">
+									<input id="contactName" class="w100p mb0" name="contactName" value="${supplier.contactName }" type="text">
+								</div>
+							</div>
+						</div>
+						
+						<%-- <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
+							<div class="row mauto_n5">
+								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl">手机号：</div>
+								<div class="col-md-9 col-xs-7 pauto_5">
+									<input id="mobile" class="w100p" name="mobile" value="${supplier.mobile }" type="text">
+								</div>
+							</div>
+						</div> --%>
+						
+						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
+							<div class="row mauto_n5">
+								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="企业性质">企业性质：</div>
+								<div class="col-md-9 col-xs-7 pauto_5">
+									<select name="businessNature" id="businessNature" class="w100p mb0">
+			              <option value=''>全部</option>
+			              <c:forEach items="${businessNature}" var="list">
+			              	<option <c:if test="${supplier.businessNature eq list.id }">selected</c:if> value="${list.id }">${list.name }</option>
+			              </c:forEach>
+			            </select>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
+							<div class="row mauto_n5">
+								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="供应商类型">供应商类型：</div>
+								<div class="col-md-9 col-xs-7 pauto_5">
+									<input id="supplierType" class="w100p mb0" name="supplierType" readonly value="${supplierType }" onclick="showSupplierType();" type="text">
+									<input type="hidden" name="supplierTypeIds" id="supplierTypeIds" value="${supplierTypeIds }">
+								</div>
+							</div>
+						</div>
+						
+						<%-- <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
+							<div class="row mauto_n5">
+								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="品目">品目：</div>
+								<div class="col-md-9 col-xs-7 pauto_5">
+									<input id="category" class="w100p mb0" name="categoryNames" value="${categoryNames }" readonly onclick="showCategory();" type="text">
+		              <input type="hidden" name="categoryIds" id="categoryIds" value="${categoryIds }">
+								</div>
+							</div>
+						</div> --%>
+						
+						<%-- <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
+							<div class="row mauto_n5">
+								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="供应商级别">供应商级别：</div>
+								<div class="col-md-9 col-xs-7 pauto_5">
+									<select name="score" class="w100p mb0">
+			              <option selected="selected" value=''>-请选择-</option>
+			              <option value="1">一级</option>
+			              <option value="2">二级</option>
+			              <option value="3">三级</option>
+			              <option value="4">四级</option>
+			              <option value="5">五级</option>
+			            </select>
+								</div>
+							</div>
+						</div> --%>
+						
+						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
+							<div class="row mauto_n5">
+								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="供应商状态">供应商状态：</div>
+								<div class="col-md-9 col-xs-7 pauto_5">
+									<select id="status" name="status" class="w100p mb0">
+										<option value=''>全部</option>
+										<!-- <option value="1">审核通过</option>
+										<option value="4">待复核</option>
+										<option value="5">复核通过</option>
+										<option value="6">复核未通过</option>
+										<option value="7">考察合格</option>
+										<option value="8">考察不合格</option> -->
+										<c:forEach items="<%=SupplierConstants.STATUSMAP_RUKU %>" var="item">
+											<option value="${item.key}">${item.value}</option>
+										</c:forEach>
+									</select>
+								</div>
+							</div>
+						</div>
+						
+						<%-- <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
+							<div class="row mauto_n5">
+								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="临时供应商">临时供应商：</div>
+								<div class="col-md-9 col-xs-7 pauto_5">
+									<select name="isProvisional" id="isProvisional" class="w100p mb0">
+			              <option value=''>全部</option>
+			              <option value='1' <c:if test="${supplier.isProvisional eq '1' }">selected</c:if>>是</option>
+			              <option value='0' <c:if test="${supplier.isProvisional eq '0' }">selected</c:if>>否</option>
+			            </select>
+								</div>
+							</div>
+						</div> --%>
+						
+						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
+							<div class="row mauto_n5">
+								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="审核日期">审核日期：</div>
+								<div class="col-md-9 col-xs-7 pauto_5">
+									<div class="row mauto_n5">
+										<div class="col-xs-5 pauto_5">
+											<input id="startAuditDate" name="startAuditDate" class="Wdate w100p mb0" type="text"  value='<fmt:formatDate value="${supplier.startAuditDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('startAuditDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'startAuditDate\')}'})">
+										</div>
+				            <div class="col-xs-2 pauto_5 tc">至</div>
+										<div class="col-xs-5 pauto_5">
+											<input id="endAuditDate" name="endAuditDate" value='<fmt:formatDate value="${supplier.endAuditDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100p mb0" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'endAuditDate\')}'})">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
+							<div class="row mauto_n5">
+								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="采购机构">采购机构：</div>
+								<div class="col-md-9 col-xs-7 pauto_5">
+									<select name="orgName" id="orgName" class="w100p mb0">
+		                <option value=''>全部</option>
+		                <c:forEach items="${allOrg}" var="org">
+		                  <c:if test="${org.isAuditSupplier == 1}">
+		                    <option value="${org.shortName}" <c:if test="${supplier.orgName eq org.shortName}">selected</c:if>>${org.shortName}</option>
+		                  </c:if>
+		                </c:forEach>
+		              </select>
+								</div>
+							</div>
+						</div>
+						
+						<c:if test ="${sign == 2 }">
+						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
+							<div class="row mauto_n5">
+								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="地区">地区：</div>
+								<div class="col-md-9 col-xs-7 pauto_5">
+									<select name="address" id="address" class="w100p mb0">
+	                  <option value=''>全部</option>
+	                  <c:forEach items="${privnce}" var="list">
+	                    <option <c:if test="${supplier.address eq list.name }">selected</c:if> value="${list.name }">${list.name }</option>
+	                  </c:forEach>
+	                </select>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
+							<div class="row mauto_n5">
+								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="供应商品目">供应商品目：</div>
+								<div class="col-md-9 col-xs-7 pauto_5">
+									<input class="span2 w100p mb0" name="queryCategoryName" id="supplierGradeInput" type="text" name="" readonly value="${supplier.queryCategoryName }" onclick="initZtree(true);">
+									<input type="hidden" name="queryCategory" id="supplierGradeInputVal" value="${supplier.queryCategory}">
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10 hide" id="supplierLevelLi">
+							<div class="row mauto_n5">
+								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="供应商等级">供应商等级：</div>
+								<div class="col-md-9 col-xs-7 pauto_5">
+									<select name="supplierLevel" id="supplierLevel" class="w100p mb0">
+									  <option selected="selected" value=''>全部</option>
+									  <option value="一级">一级</option>
+									  <option value="二级">二级</option>
+									  <option value="三级">三级</option>
+									  <option value="四级">四级</option>
+									  <option value="五级">五级</option>
+									  <option value="六级">六级</option>
+									  <option value="七级">七级</option>
+									  <option value="八级">八级</option>
+								  </select>
+								</div>
+							</div>
+						</div>
+						</c:if>
+					</div>
+		       <div class="clear tc mt10">
 	           <button type="button" onclick="submit()" class="btn">查询</button>
 	           <button type="button" class="btn" onclick="chongzhi()">重置</button>
 	           <c:if test="${ empty reqType }">
 		           <c:choose>
 						 			<c:when test="${sign == 2 }">
-                                        <button class="btn" type="button" onclick="fanhui();">切换到地图</button>
-                                        <a href="javascript:;" class="btn" id="export_result">将结果导出Excel</a>
+	                                      <button class="btn" type="button" onclick="fanhui();">切换到地图</button>
+	                                      <a href="javascript:;" class="btn" id="export_result">将结果导出Excel</a>
 						 			</c:when>
 						 			<c:otherwise>
 						 					<button class="btn btn-windows back" type="button" onclick="fanhui();">返回</button>
@@ -516,8 +600,8 @@
 	           <c:if test="${ not empty reqType }">
 	           	<a class="btn btn-windows reset" onclick="history.go(-1)">返回</a>
 	           </c:if> 
-           </div>
-           <div class="clear"></div>
+	         </div>
+	         <div class="clear"></div>
 		     </form>
 		   </h2>
 
