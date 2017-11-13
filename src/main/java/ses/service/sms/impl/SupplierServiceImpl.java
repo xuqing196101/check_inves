@@ -2268,15 +2268,6 @@ public class SupplierServiceImpl implements SupplierService {
               }
               // 状态
               sup.setStatusString(SupplierConstants.STATUSMAP.get(sup.getStatus()));
-              // 入库时间
-              if (SupplierConstants.Status.PENDING_REVIEW.getValue() != sup.getStatus()
-                      && SupplierConstants.Status.REVIEW_PASSED.getValue() != sup.getStatus()
-                      && SupplierConstants.Status.REVIEW_NOT_PASS.getValue() != sup.getStatus()
-                      && SupplierConstants.Status.PRE_INVESTIGATE_ENDED.getValue() != sup.getStatus()
-                      && SupplierConstants.Status.INVESTIGATE_PASSED.getValue() != sup.getStatus()
-                      && SupplierConstants.Status.INVESTIGATE_NOT_PASS.getValue() != sup.getStatus()) {
-                  sup.setAuditDate(null);
-              }
               // 清空数据封装
               supTypeSB.delete(0, supTypeSB.length());
               supCategrySB2.delete(0, supCategrySB2.length());
