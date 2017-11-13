@@ -1960,7 +1960,6 @@ table.lockout .extrafile{
 		.m_table_fixed_border {
 			border-collapse: inherit;
 		}
-		.p20 { padding: 20px !important; }
 		.m_inline { display: inline-block; vertical-align: middle; }
 		.m_upload_file .wuexample, .m_upload_file .m_uploadFiles {
 			float: none !important;
