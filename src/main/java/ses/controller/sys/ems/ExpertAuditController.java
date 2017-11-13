@@ -3693,7 +3693,7 @@ public class ExpertAuditController{
 			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
 			
 			/*
-			 * 查修改过的产品目录
+			 * 查修改过的产品目录（已修改）
 			 */
 			expertAudit.setSuggestType("six");
 			expertAudit.setAuditStatus("2");
@@ -3702,6 +3702,13 @@ public class ExpertAuditController{
 		}else if(expertAudit.getAuditFalg()==2){
 			expertAudit.setAuditFalg(2);
 			expertAudit.setStatusQuery("notPass");
+			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
+			/*
+			 * 查不通过产品目录（已修改）
+			 */
+			expertAudit.setSuggestType("six");
+			expertAudit.setAuditStatus("2");
+			expertAudit.setStatusQuery(null);
 			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
 		}
 		Map<String,Integer> map = new HashMap<String,Integer>();

@@ -86,7 +86,7 @@
     	</if>
      </if>
      <if test="auditStatus!=null">
-	    AND t1.AUDIT_STATUS ='2'
+	    AND t1.AUDIT_STATUS = #{auditStatus}
 	   </if>
      ORDER BY 
      	DECODE (t1.SUGGEST_TYPE,'one','1','seven','2','six','3','five','4'),
