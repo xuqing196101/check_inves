@@ -52,6 +52,7 @@ import ses.model.sms.DeleteLog;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
+import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierAuditOpinion;
 import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierCateTree;
@@ -2082,7 +2083,20 @@ public class SupplierServiceImpl implements SupplierService {
             PropertiesUtil config = new PropertiesUtil("config.properties");
             PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
         }
-		return supplierMapper.selectSupplierListByNoCate(supplier);
+        List<Supplier> listSupplier = supplierMapper.selectSupplierListByNoCate(supplier);
+        // 封装地区
+        StringBuffer sb = new StringBuffer();
+        Area area = null;
+        if(listSupplier != null && !listSupplier.isEmpty()){
+            for (Supplier sup : listSupplier){
+                area = sup.getArea();
+                if(area != null){
+                    sup.setName(sb.append(area.getName()).append(" ").append(sup.getName()).toString());
+                    sb.delete(0, sb.length());
+                }
+            }
+        }
+		return listSupplier;
 	}
 
   /**
@@ -2139,9 +2153,21 @@ public class SupplierServiceImpl implements SupplierService {
       }else{
           suppliers = supplierMapper.querySupplierbytypeAndCategoryIds(supplier);
       }
-
-      Map<String, Object> param = new HashMap<>();
       if (suppliers != null && !suppliers.isEmpty()) {
+          Map<String, Object> param = new HashMap<>();
+          // 定义数据封装对象
+          StringBuffer supTypeSB = new StringBuffer(); // 供应商类型
+          StringBuffer supCategrySB = new StringBuffer(); // 供应商品目（小类）-分类型
+          StringBuffer supCategrySB2 = new StringBuffer(); // // 供应商品目（小类）
+          StringBuffer areasSb = new StringBuffer(); // 供应商地址
+          String product = Constant.SUPPLIER_PRODUCT_NAME;
+          String sales = Constant.SUPPLIER_SALES_NAME;
+          String project = Constant.SUPPLIER_PROJECT_NAME;
+          String server = Constant.SUPPLIER_SERVICE_NAME;
+          List<SupplierAudit> supNoPassType = null;
+          List<String> supplierTypes = null;
+          List<String> list = null;
+          Area area = null;
           for (Supplier sup : suppliers) {
               // 企业性质
               if (sup.getBusinessNature() != null) {
@@ -2152,17 +2178,22 @@ public class SupplierServiceImpl implements SupplierService {
               }
               // 供应商类型和产品类别
               // 根据供应商ID查询供应商类型
-              List<String> supplierTypes = supplierTypeRelateMapper.findTypeBySupplierId(sup.getId());
-              // 定义数据封装对象
-              StringBuffer supTypeSB = new StringBuffer(); // 供应商类型
-              StringBuffer supCategrySB = new StringBuffer(); // 供应商品目（小类）-分类型
-              StringBuffer supCategrySB2 = new StringBuffer(); // // 供应商品目（小类）
-              StringBuffer areasSb = new StringBuffer(); // 供应商地址
-              String product = Constant.SUPPLIER_PRODUCT_NAME;
-              String sales = Constant.SUPPLIER_SALES_NAME;
-              String project = Constant.SUPPLIER_PROJECT_NAME;
-              String server = Constant.SUPPLIER_SERVICE_NAME;
-              if (supplierTypes != null) {
+              supplierTypes = supplierTypeRelateMapper.findTypeBySupplierId(sup.getId());
+              // 查询供应商审核不通过类型
+              param.put("supplierId", sup.getId());
+              param.put("auditType", ses.util.Constant.SUPPLIER_CATE_INFO_ITEM_FLAG);
+              supNoPassType = supplierAuditMapper.selectBySupIdAndType(param);
+              list = new ArrayList<>();
+              if (supNoPassType != null && !supNoPassType.isEmpty()) {
+                  for (SupplierAudit supAudit : supNoPassType) {
+                      list.add(supAudit.getType());
+                  }
+                  // 排除审核不通过的类型
+                  supplierTypes.removeAll(list);
+              }
+              param.clear();
+
+              if (supplierTypes != null && !supplierTypes.isEmpty()) {
                   for (String supType : supplierTypes) {
                       param.put("supplierId", sup.getId());
                       param.put("type", supType);
@@ -2193,7 +2224,7 @@ public class SupplierServiceImpl implements SupplierService {
                           param.put("items_product_page", ses.util.Constant.ITEMS_PRODUCT_PAGE);
                       }
                       // 查询该某类型下的所通过的子节点
-                      List<String> list = new ArrayList<>();
+                      list = new ArrayList<>();
                       List<SupplierItem> supplierItems = supplierItemMapper.selectPassItemByCond(param);
                       if (supplierItems != null && !supplierItems.isEmpty()) {
                           for (SupplierItem supplierItem : supplierItems) {
@@ -2214,8 +2245,8 @@ public class SupplierServiceImpl implements SupplierService {
                           supCategrySB.append("无产品").append("、");
                       }
                       String substring = supCategrySB.substring(0, supCategrySB.lastIndexOf("、"));
-                      supCategrySB.delete(0, supCategrySB.length());
                       supCategrySB2.append(substring + " ");
+                      supCategrySB.delete(0, supCategrySB.length());
                   }
                   if (supTypeSB.length() > 0) {
                       // 设置供应商类型
@@ -2230,19 +2261,10 @@ public class SupplierServiceImpl implements SupplierService {
               // 注册详细地址信息
               String contactAddress = sup.getContactAddress();
               // 通过address获取省级加市级地址
-              String addressId = sup.getAddress();
-              if (StringUtils.isNotEmpty(addressId)) {
-                  param.clear();
-                  param.put("id", addressId);
-                  List<Area> areas = areaMapper.selectOfHierarchical(param);
-                  if (areas != null && !areas.isEmpty()) {
-                      for (Area area : areas) {
-                          areasSb.append(area.getName()).append(" ");
-                      }
-                  }
-                  sup.setAddress(areasSb.append(contactAddress == null? "" : contactAddress).toString());
-              } else {
-                  sup.setAddress(contactAddress == null? "" : contactAddress);
+              area = sup.getArea();
+              if (area != null) {
+                  sup.setAddress(areasSb.append(area.getName()).append(" ").append(sup.getName())
+                          .append(" ").append(contactAddress == null ? "" : contactAddress).toString());
               }
               // 状态
               sup.setStatusString(SupplierConstants.STATUSMAP.get(sup.getStatus()));
@@ -2255,6 +2277,10 @@ public class SupplierServiceImpl implements SupplierService {
                       && SupplierConstants.Status.INVESTIGATE_NOT_PASS.getValue() != sup.getStatus()) {
                   sup.setAuditDate(null);
               }
+              // 清空数据封装
+              supTypeSB.delete(0, supTypeSB.length());
+              supCategrySB2.delete(0, supCategrySB2.length());
+              areasSb.delete(0, areasSb.length());
           }
       }
       return suppliers;

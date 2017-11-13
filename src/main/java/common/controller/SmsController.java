@@ -1,5 +1,12 @@
 package common.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.URLDecoder;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,6 +37,9 @@ public class SmsController {
      * 其他  网关内部状态
      */
 
+    /**
+     * API文档地址   http://bcp.pro-group.cn:7002/Docs/#!easycloud-smsapi.md
+     */
 
     /**
      * 
@@ -37,7 +47,7 @@ public class SmsController {
      * 
      * @data 2017年11月9日
      * 
-     * @param MsgId  提交短信时平台返回的MsgId,参见4.1
+     * @param MsgId  提交短信时平台返回的MsgId
      * @param Mobile  单一的手机号码
      * @param RptTime  格式YYYYMMDDhhmmss
      * @param Stat  状态报告值
@@ -50,7 +60,6 @@ public class SmsController {
     @ResponseBody
     public String statusReport(String IUser, String IPass, String MsgId, String Mobile, String RptTime, String Stat){
         //此处仅供测试请求地址使用  具体的业务逻辑后续补加
-        System.out.println("IUser"+ IUser + "++IPass" + IPass + "++MsgId:" + MsgId + "++Mobile:" + Mobile + "++RptTime:" + RptTime + "++Stat:" + Stat);
         return "0";
     }
 
@@ -68,12 +77,23 @@ public class SmsController {
      * @param IPass  客户端的密码(非必传)
      * 
      * @return 0  代表收到。否则服务端会再次推送。
+     * @throws IOException 
      */
     @RequestMapping("/uplinkSms")
-    @ResponseBody
-    public String uplinkSms(String IUser, String IPass, String MsgId, String Mobile, String MsgCont, String MoTime){
+    public void uplinkSms(String IUser, String IPass, String MsgId, String Mobile, String MoTime, HttpServletRequest request, HttpServletResponse response) throws IOException{
+        PrintWriter out = null;
+        try {
+            out = response.getWriter();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //短信内容编码处理
+        String MsgCont =new String(request.getParameter("MsgCont").getBytes("ISO-8859-1"), "GBK");
+        MsgCont = URLDecoder.decode(MsgCont,"GBK");
         //此处仅供测试请求地址使用  具体的业务逻辑后续补加
-        System.out.println("IUser"+ IUser + "++IPass" + IPass + "++MsgId:" + MsgId + "++Mobile:" + Mobile + "++MsgCont:" + MsgCont + "++MoTime:" + MoTime);
-        return "0";
+        out.print("0");
+        if(out != null){
+            out.close();
+        }
     }
 }
