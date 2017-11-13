@@ -54,6 +54,7 @@
 				  <c:if test="${isAudit}">
             <button class="btn btn-windows cancel" type="button" onclick="auditCategory('content_1');">不通过</button>
             <button class="btn btn-windows cancel" type="button" onclick="auditContract('content_1');">退回合同</button>
+            <button class="btn btn-windows edit" type="button" onclick="updateAudit('content_1');">更新审核</button>
           </c:if>
         </div>
 					<table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_1">
@@ -79,6 +80,7 @@
 				  <c:if test="${isAudit}">
             <button class="btn btn-windows cancel" type="button" onclick="auditCategory('content_2');">不通过</button>
             <button class="btn btn-windows cancel" type="button" onclick="auditContract('content_2');">退回合同</button>
+            <button class="btn btn-windows edit" type="button" onclick="updateAudit('content_2');">更新审核</button>
           </c:if>
                 </div>
                     <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_2">
@@ -104,6 +106,7 @@
                 <div class="mb10">
                   <c:if test="${isAudit}">
                     <button class="btn btn-windows cancel" type="button" onclick="auditCategory('content_3');">不通过</button>
+                    <button class="btn btn-windows edit" type="button" onclick="updateAudit('content_3');">更新审核</button>
                   </c:if>
                 </div>
                     <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_3">
@@ -128,6 +131,7 @@
                    <c:if test="${isAudit}">
                      <button class="btn btn-windows cancel" type="button" onclick="auditCategory('content_4');">不通过</button>
                      <button class="btn btn-windows cancel" type="button" onclick="auditContract('content_4');">退回合同</button>
+                     <button class="btn btn-windows edit" type="button" onclick="updateAudit('content_4');">更新审核</button>
                    </c:if>
                 </div>
                     <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_4">

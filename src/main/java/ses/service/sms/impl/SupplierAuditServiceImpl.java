@@ -989,6 +989,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		cateTree.setIsItemsProductPageAudit(countData(supplierId, cateTree.getItemsId(), ses.util.Constant.ITEMS_PRODUCT_PAGE));
 		//封装 目录 物资销售 是否有审核记录数据   审核字段存储：目录末级节点ID
 		cateTree.setIsItemsSalesPageAudit(countData(supplierId, cateTree.getItemsId(), ses.util.Constant.ITEMS_SALES_PAGE));
+		cateTree.setAuditIsDeleted(countDataIsDeleted(supplierId, cateTree.getItemsId(), cateTree.getAuditType()));// 设置是否历史审核记录
 
 		//资质文件：物资生产/物资销售/服务  审核字段存储：目录三级节点ID关联的SupplierItem的ID
 		//--工程 审核字段存储：目录末级节点ID关联的SupplierItem的ID
@@ -1902,6 +1903,14 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		audit.setSupplierId(supplierId);
 		audit.setAuditField(auditField);
 		audit.setAuditType(auditType);
+		return countAuditRecords(audit, SupplierConstants.AUDIT_RETURN_STATUS);
+	}
+	private Integer countDataIsDeleted(String supplierId, String auditField, String auditType){
+		SupplierAudit audit=new SupplierAudit();
+		audit.setSupplierId(supplierId);
+		audit.setAuditField(auditField);
+		audit.setAuditType(auditType);
+		audit.setIsDeleted(1);
 		return countAuditRecords(audit, SupplierConstants.AUDIT_RETURN_STATUS);
 	}
 	@Override
