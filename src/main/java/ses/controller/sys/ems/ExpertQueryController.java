@@ -836,37 +836,14 @@ public class ExpertQueryController {
 	@RequestMapping(value = "/auditInfo")
 	public String auditInfo(Model model, String expertId, Integer sign, String reqType, String status){
 		Map<String,Object> map = new HashMap<String,Object>();
-		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
 		
 		map.put("expertId", expertId);
-		//初审的意见
-		/*if("0".equals(status) || "1".equals(status) || "2".equals(status) || "3".equals(status) || "9".equals(status) || "11".equals(status) 
-				|| "14".equals(status) || "15".equals(status) || "16".equals(status)){
-			map.put("isDeleted", 0);
-			map.put("auditFalg", 1);
-			
-			expertAuditOpinion.setFlagTime(0);
-		}
-		
-		//复审
-		if("-3".equals(status) || "-2".equals(status) || "4".equals(status) || "5".equals(status)  || "10".equals(status)){
-			map.put("isDeleted", 0);
-			map.put("auditFalg", 2);
-			
-			expertAuditOpinion.setFlagTime(1);
-		}
-		
-		//复查
-		if("6".equals(status) || "7".equals(status) || "8".equals(status) || "17".equals(status) || "19".equals(status)){
-			map.put("isDeleted", 0);
-			map.put("auditFalg", 3);
-			
-			expertAuditOpinion.setFlagTime(2);
-		}*/
-		
-		//map.put("isDeleted", 0);
 		map.put("auditFalg", 1);
 		
+		//查询 有问题，未修改，审核不通过的状态
+		map.put("statusQuery", "statusQuery");
+		
+		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
 		expertAuditOpinion.setFlagTime(0);
 		
 		//审核记录
@@ -911,6 +888,8 @@ public class ExpertQueryController {
 		
 		map.put("expertId", expertId);
 		map.put("auditFalg", 2);
+		//查询 有问题，未修改，审核不通过的状态
+		map.put("statusQuery", "statusQuery");
 			
 		expertAuditOpinion.setFlagTime(1);
 		//审核记录
