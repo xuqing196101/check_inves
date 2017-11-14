@@ -36,7 +36,10 @@
 <div class="container container_box">
     <div class="content">
         <div class="col-md-12 tab-v2 job-content">
-            <%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp" %>
+            <%-- <%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%> --%>
+            <jsp:include page="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp">
+            	<jsp:param value="${supplierStatus }" name="supplierStatus"/>
+            </jsp:include>
             <!-- 审核公示扫描件上传 -->
             <div>
                 <h2 class="count_flow"><i>1</i>供应商审批表</h2>

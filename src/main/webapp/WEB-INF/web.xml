@@ -24,7 +24,7 @@
 	<filter>
 		<description>字符集过滤器</description>
 		<filter-name>encodingFilter</filter-name>
-		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<filter-class>common.filter.Encoding</filter-class>
 		<init-param>
 			<description>字符集编码</description>
 			<param-name>encoding</param-name>

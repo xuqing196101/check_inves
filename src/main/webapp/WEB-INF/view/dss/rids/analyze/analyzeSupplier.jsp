@@ -117,7 +117,7 @@
             myChart.setOption(option);
             myChart.hideLoading();
             myChart.on('click', function (params) {
-                window.location.href = "${pageContext.request.contextPath}/supplierQuery/readOnlyList.html?reqType=analyze&address=" + params.name + "&judge=5&sign=2";
+                window.location.href = "${pageContext.request.contextPath}/supplierQuery/readOnlyList.html?reqType=analyze&address=" + params.data.id + "&judge=5&sign=2";
             });
 
         });

@@ -65,7 +65,17 @@ public interface PurchaseResourceAnalyzeService {
 	 * @version 2017年5月27日
 	 * @return
 	 */
-	public List<AnalyzeBigDecimal> selectExpertsByArea();
+	 List<AnalyzeBigDecimal> selectExpertsByArea();
+
+	/**
+	 *
+	 * Description: 查询地区下所对应的供应商
+	 *
+	 * @author Easong
+	 * @version 2017年11月13日
+	 * @return
+	 */
+	List<AnalyzeBigDecimal> selectSuppliersByArea();
 	
 	/**
 	 * 
