@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +32,7 @@ import ses.model.ems.ExpertAuditOpinion;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertTitle;
 import ses.model.oms.Orgnization;
+import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCateTree;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
@@ -46,6 +49,7 @@ import ses.service.sms.SupplierEditService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import bss.formbean.Maps;
+import bss.util.ExcelUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
@@ -832,37 +836,14 @@ public class ExpertQueryController {
 	@RequestMapping(value = "/auditInfo")
 	public String auditInfo(Model model, String expertId, Integer sign, String reqType, String status){
 		Map<String,Object> map = new HashMap<String,Object>();
-		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
 		
 		map.put("expertId", expertId);
-		//初审的意见
-		/*if("0".equals(status) || "1".equals(status) || "2".equals(status) || "3".equals(status) || "9".equals(status) || "11".equals(status) 
-				|| "14".equals(status) || "15".equals(status) || "16".equals(status)){
-			map.put("isDeleted", 0);
-			map.put("auditFalg", 1);
-			
-			expertAuditOpinion.setFlagTime(0);
-		}
-		
-		//复审
-		if("-3".equals(status) || "-2".equals(status) || "4".equals(status) || "5".equals(status)  || "10".equals(status)){
-			map.put("isDeleted", 0);
-			map.put("auditFalg", 2);
-			
-			expertAuditOpinion.setFlagTime(1);
-		}
-		
-		//复查
-		if("6".equals(status) || "7".equals(status) || "8".equals(status) || "17".equals(status) || "19".equals(status)){
-			map.put("isDeleted", 0);
-			map.put("auditFalg", 3);
-			
-			expertAuditOpinion.setFlagTime(2);
-		}*/
-		
-		//map.put("isDeleted", 0);
 		map.put("auditFalg", 1);
 		
+		//查询 有问题，未修改，审核不通过的状态
+		map.put("statusQuery", "statusQuery");
+		
+		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
 		expertAuditOpinion.setFlagTime(0);
 		
 		//审核记录
@@ -907,6 +888,8 @@ public class ExpertQueryController {
 		
 		map.put("expertId", expertId);
 		map.put("auditFalg", 2);
+		//查询 有问题，未修改，审核不通过的状态
+		map.put("statusQuery", "statusQuery");
 			
 		expertAuditOpinion.setFlagTime(1);
 		//审核记录
@@ -1155,4 +1138,24 @@ public class ExpertQueryController {
             return list;
       		}
       }
+    
+    /**
+     * 导出excel
+     * @param httpServletResponse
+     * @param expert
+     * @param expertTypeIds
+     * @param expertType
+     * @param categoryIds
+     * @param categoryNames
+     * @param flag（1：全部查询，2：入库查询）
+     */
+    @RequestMapping(value = "/exportExcel")
+    public void exportExcel(HttpServletResponse httpServletResponse, Expert expert, String expertTypeIds, String expertType, String categoryIds, String categoryNames, Integer flag){
+        ExcelUtils excelUtils = new ExcelUtils(httpServletResponse, "评审专家信息", "sheet1", 500);
+        List<Expert> dataList = service.exportExcel(expert, expertTypeIds, expertType, categoryIds, flag);
+        String titleColumn[] = {"orderNum", "relName", "address", "expertsFrom", "expertsTypeId", "atDuty", "mobile", "telephone", "storageAt", "items"};
+        String titleName[] = {"序号", "专家姓名", "地区", "专家类型", "专家类别","职称（职务）", "联系手机", "联系固话", "入库时间", "参评类别"};
+        int titleSize[] = {5, 20, 15, 10, 40, 25, 15, 15, 20, 15, 800};
+        excelUtils.wirteExcel(titleColumn, titleName, titleSize, dataList);
+    }
 }

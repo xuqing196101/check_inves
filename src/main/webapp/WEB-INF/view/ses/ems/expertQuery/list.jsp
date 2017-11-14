@@ -197,6 +197,14 @@
 
       }
     </script>
+    <script type="text/javascript">
+    function exportExcel(){
+    	$("#formSearch").attr("action", "${pageContext.request.contextPath}/expertQuery/exportExcel.html?flag=2");
+        $("#formSearch").submit();
+        //还原地址
+        $("#formSearch").attr("action", "${pageContext.request.contextPath}/expert/findAllExpert.html");
+    }
+    </script>
   </head>
 
   <body>
@@ -323,6 +331,7 @@
        <c:if test="${flag != 1 }">
 	       <input class="btn mt1" onclick="checkMap();" value="切换到地图" type="reset">
        </c:if>
+       <input class="btn mt1" onclick="exportExcel();" value="导出" type="reset">
      </div>
      <div class="clear"></div>
     </form>
@@ -332,35 +341,40 @@
           <thead>
             <tr>
               <th class="info w50">序号</th>
-              <th class="info">采购机构</th>
-              <th class="info">专家姓名</th>
-              <th class="info">身份证号</th>
+              <th class="info w80">专家编号</th>
+              <th class="info w100">采购机构</th>
+              <th class="info">姓名</th>
+              <!-- <th class="info">身份证号</th> -->
               <th class="info w40">性别</th>
-              <th class="info">类别</th>
-              <th class="info">专家类型</th>
+              <th class="info w130">专业职称（职务）</th>
+              <th class="info w50">类型</th>
+              <th class="info w80">类别</th>
               <!-- <th class="info">毕业院校及专业</th> -->
               <th class="info w90">注册日期</th>
-              <th class="info w90">提交日期</th>
-              <th class="info w90">审核日期</th>
-              <th class="info">手机</th>
-              <th class="info">地区</th>
-              <th class="info">专家状态</th>
+              <th class="info w100">最新提交日期</th>
+              <th class="info w100">最新审核日期</th>
+              <!-- <th class="info">手机</th>
+              <th class="info">地区</th> -->
+              <th class="info W100">入库日期</th>
+              <th class="info w100">状态</th>
             </tr>
           </thead>
           <c:forEach items="${result.list }" var="e" varStatus="vs">
             <tr class="pointer">
               <td class="tc w50" class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
+              <td class="tl">${e.batchDetailsNumber}</td>
               <td class="tl">${e.orgName}</td>
               <td class="tl">
                 <a href="javascript:jumppage('${pageContext.request.contextPath}/expertQuery/view.html?expertId=${e.id}&sign=2')">${e.relName}</a>
               </td>
-              <td class="tc">${e.idCardNumber}</td>
+              <%-- <td class="tc">${e.idCardNumber}</td> --%>
               <td class="tc">${e.gender}</td>
+              <td class="tc">${e.atDuty}</td>
+              <td class="tc">${e.expertsFrom }</td>
               <td class="hand" title="${e.expertsTypeId}">
                 <c:if test="${fn:length (e.expertsTypeId) > 4}">${fn:substring(e.expertsTypeId,0,4)}...</c:if>
                 <c:if test="${fn:length (e.expertsTypeId) <= 4}">${e.expertsTypeId}</c:if>
               </td>
-              <td class="tc">${e.expertsFrom }</td>
               <%-- <td class="tl">${e.graduateSchool }</td> --%>
               <td class="tc">
                 <fmt:formatDate value="${e.createdAt }" pattern="yyyy-MM-dd" />
@@ -371,8 +385,9 @@
               <td class="tc">
                 <fmt:formatDate value="${e.auditAt }" pattern="yyyy-MM-dd" />
               </td>
-              <td class="tc">${e.mobile }</td>
-              <td class="tc">${e.address }</td>
+              <%-- <td class="tc">${e.mobile }</td>
+              <td class="tc">${e.address }</td> --%>
+              <td class="tc"><fmt:formatDate value="${e.storageAt }" pattern="yyyy-MM-dd" /></td>
               <td class="tc" id="${e.id}">
                 <c:if test="${e.status eq '6' and e.auditTemporary != 3}">
                   <span class="label rounded-2x label-u">入库(待复查)</span>

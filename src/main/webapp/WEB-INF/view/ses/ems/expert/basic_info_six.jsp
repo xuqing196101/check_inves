@@ -510,20 +510,20 @@
                   <c:set value="${liCount+1}" var="liCount" />
                   <c:set value="${jjCount+1}" var="jjCount" />
                   <li id="li_id_${vs.index + 1}" class="active" onclick="showDivTree(this);">
-                    <a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">物资产品类别信息</a>
+                    <a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">物资参评类别信息</a>
                   </li>
                 </c:if>
                 
                 <c:if test="${cate.code eq 'PROJECT' }">
                     <li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
-                      <a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程产品类别信息</a>
+                      <a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程参评类别信息</a>
                     </li>
                     <c:set value="${liCount+1}" var="liCount" />
                 </c:if>
                 <c:if test="${liCount == 0}">
                      <c:if test="${cate.code eq 'GOODS_PROJECT' }">
                       <li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
-                        <a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程产品类别信息</a>
+                        <a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程参评类别信息</a>
                       </li>
                       <c:set value="${liCount+1}" var="liCount" />
                   </c:if>
@@ -546,7 +546,7 @@
                 
                 <c:if test="${cate.code eq 'SERVICE'}">
                   <li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
-                    <a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="f18">服务产品类别信息</a>
+                    <a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="f18">服务参评类别信息</a>
                   </li>
                   <c:set value="${liCount+1}" var="liCount" />
                 </c:if>
