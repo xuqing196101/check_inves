@@ -525,19 +525,19 @@
 				<table id="tb1" class="table table-bordered table-condensed table-hover table-striped">
 					<thead>
 						<tr>
-							<th class="info w50">序号</th>
-							<th class="info w170">供应商名称</th>
+							<th class="w50">序号</th>
+							<th>供应商名称</th>
 							<!-- <th class="info">用户名</th> -->
-							<th class="info w80">联系人</th>
-							<th class="info w100">手机号</th>
-							<th class="info w90">注册日期</th>
-							<th class="info w90">提交日期</th>
-							<th class="info w90">审核日期</th>
-							<th class="info w80">地区</th>
-							<th class="info w80">供应商类型</th>
-							<th class="info w70">企业性质</th>
-							<th class="info w100">采购机构</th>
-							<th class="info w100">供应商状态</th>
+							<th class="w100">联系人</th>
+							<th class="w100">手机号</th>
+							<th class="w90">注册日期</th>
+							<th class="w90">提交日期</th>
+							<th class="w90">审核日期</th>
+							<th class="w80">地区</th>
+							<th class="w120">供应商类型</th>
+							<th class="w70">企业性质</th>
+							<th class="w100">采购机构</th>
+							<th class="w100">供应商状态</th>
 <!--
 							<th class="info" width="15%">供应商名称</th>
 							<th class="info">用户名</th>
@@ -560,14 +560,14 @@
 						<c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
 							<tr>
 								<td class="tc">${(vs.count)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
-								<td class="hand" title="${list.supplierName}">
-									<a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/supplierQuery/essential.html?judge=5&supplierId=${list.id}&sign=${sign}')">
-										<c:if test="${fn:length (list.supplierName) > 11}">${fn:substring(list.supplierName,0,11)}...</c:if>
-	                  <c:if test="${fn:length (list.supplierName) <= 11}">${list.supplierName}</c:if>
+								<td title="${list.supplierName}">
+									<a href="javascript:void(0);" class="block" onclick="jumppage('${pageContext.request.contextPath}/supplierQuery/essential.html?judge=5&supplierId=${list.id}&sign=${sign}')">
+										<c:if test="${fn:length (list.supplierName) > 20}">${fn:substring(list.supplierName,0,20)}...</c:if>
+	                  <c:if test="${fn:length (list.supplierName) <= 20}">${list.supplierName}</c:if>
 								  </a>
 								</td>
 								<%-- <td class="">${list.loginName }</td> --%>
-								<td class="">${list.contactName }</td>
+								<td class="tc">${list.contactName }</td>
 								<td class="tc">${list.mobile }</td>
 								<td class="tc">
                   <fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd" />
@@ -578,13 +578,13 @@
 								<td class="tc">
 									<fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd" />
 								</td>
-								<td class="">${list.name }</td>							
-								<td class="hand" title="${list.supplierType}">
-								  <c:if test="${fn:length (list.supplierType) > 4}">${fn:substring(list.supplierType,0,4)}...</c:if>
+								<td class="tc">${list.name }</td>
+								<td class="tc" title="${list.supplierType}">
+                  <c:if test="${fn:length (list.supplierType) > 4}">${fn:substring(list.supplierType,0,4)}...</c:if>
                   <c:if test="${fn:length (list.supplierType) <= 4}">${list.supplierType}</c:if>
-								</td>
+                </td>
 								<td class="tc">${list.businessNature}</td>
-								<td class="hand" title="${list.orgName}">
+								<td class="tc" title="${list.orgName}">
 								  <c:if test="${fn:length (list.orgName) > 10}">${fn:substring(list.orgName,0,10)}...</c:if>
                   <c:if test="${fn:length (list.orgName) <= 10}">${list.orgName}</c:if>
 								</td>

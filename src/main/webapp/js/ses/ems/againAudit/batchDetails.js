@@ -367,7 +367,7 @@
           });
         }
         
-        layer.close(index_load);
+        index_load(false);
         
         // 构造分页
         // laypageConstructor();

@@ -613,8 +613,8 @@
                  <c:if test="${sign == 1 }">
                    <li>
                    <div class="select_check">
-                      <input type="radio"  id="qualified" <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> name="selectShenhe" value="15" onclick = "check_opinion()"><c:if test="${sign == 1 && status ne '10'}">预</c:if>初审合格
-                      <input type="radio" id = "noQualified" <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> name="selectShenhe" value="16" onclick = "check_opinion()"><c:if test="${sign == 1 && status ne '10'}">预</c:if>初审不合格
+                      <input type="radio"  id="qualified" <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> name="selectShenhe" value="15" onclick = "check_opinion()" <c:if test="${isCheck eq 'yes'}">disabled="disabled"</c:if>><c:if test="${sign == 1 && status ne '10'}">预</c:if>初审合格
+                      <input type="radio" id = "noQualified" <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> name="selectShenhe" value="16" onclick = "check_opinion()" <c:if test="${isCheck eq 'yes'}">disabled="disabled"</c:if>><c:if test="${sign == 1 && status ne '10'}">预</c:if>初审不合格
                     </div>
                   </li>
                   <li>
@@ -622,7 +622,7 @@
                  </li>
                  </c:if>
                   <li class="mt10">
-                     <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${auditOpinion.opinion }</textarea>
+                     <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80" <c:if test="${isCheck eq 'yes'}">disabled="disabled"</c:if>>${auditOpinion.opinion }</textarea>
                   </li>
                 </ul>
                 <div class="clear"></div>
@@ -790,10 +790,6 @@
 <input id="isGoodsServer" type="hidden" value="${isGoodsServer}"/>
 
   <script>
-    $(function () {
-      $('#expert_position').val(getUrlParam('position'));
-    });
-    
     // 预复审结束
     function preReviewEnd(status) {
       var expertId = $("input[name='expertId']").val();
@@ -850,8 +846,9 @@
     }
     
     function refresh_parent() {
-      window.opener.location.href = changeURLArg(window.opener.location.href, 'expertId', $("input[name='expertId']").val());
-      window.close();
+    	window.opener.index_load(true);
+   		window.opener.location.href = changeURLArg(window.opener.location.href, 'expertId', $("input[name='expertId']").val());
+   	  window.close();
     }
     
     function changeURLArg(url,arg,arg_val){ 
