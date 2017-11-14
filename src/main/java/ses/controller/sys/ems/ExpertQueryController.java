@@ -427,7 +427,8 @@ public class ExpertQueryController {
         // 查询已选中的节点信息(所有子节点)
         /*List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);*/
         //只查询审核通过的
-        List<ExpertCategory> items = expertCategoryService.selectPassCateByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
+       /* List<ExpertCategory> items = expertCategoryService.selectPassCateByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);*/
+        List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId);
 
         List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
         int count=0;
@@ -474,11 +475,11 @@ public class ExpertQueryController {
         model.addAttribute("itemsList", allTreeList);
         List<ExpertCategory> list = expertCategoryService.getListCount(expertId, typeId, "1");//设置level为1是为了过滤掉父节点,只统计子节点个数
         
-        model.addAttribute("resultPages", (list == null ? 0 : this.totalPages(list)));
+        /*model.addAttribute("resultPages", (list == null ? 0 : this.totalPages(list)));
         model.addAttribute("resultTotal", (list == null ? 0 : list.size()));
         model.addAttribute("resultpageNum", pageNum);
         model.addAttribute("resultStartRow", (list == null ? 0 : 1));
-        model.addAttribute("resultEndRow", new PageInfo < > (items).getEndRow()+1);
+        model.addAttribute("resultEndRow", new PageInfo < > (items).getEndRow()+1);*/
         // 首页公示显示专家小类详情
         if(StringUtils.isNotEmpty(flags)){
            return "iss/ps/index/index_expPublicity_item_ajax";
