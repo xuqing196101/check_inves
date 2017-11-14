@@ -382,7 +382,7 @@
 				from
 				T_SES_SMS_SUPPLIER_ITEM
 				where CATEGORY_ID = #{categoryId}  
-				and  SUPPLIER_ID = #{supplierId} 
+				and SUPPLIER_ID = #{supplierId} 
 				and SUPPLIER_TYPE_RELATE_ID = #{type}
 				and IS_RETURNED != 1
 				and IS_DELETED != 1
@@ -564,7 +564,8 @@
           WHERE T.SUPPLIER_ID = #{supplierId}) R
 		LEFT JOIN T_SES_SMS_SUPPLIER_ITEM T
 		ON R.SUPPLIER_TYPE_ID = T.SUPPLIER_TYPE_RELATE_ID
-		WHERE T.NODE_LEVEL = 3
+		WHERE T.IS_DELETED = 0
+		AND T.NODE_LEVEL = 3
 		<if test="supplierId != null and supplierId != ''">
 			AND T.SUPPLIER_ID = #{supplierId}
 		</if>

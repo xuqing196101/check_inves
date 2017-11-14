@@ -207,12 +207,12 @@
 										// 保存审核人
 										var bool = updateAuditor(id, val);
 										if(bool){
-											jumppage('${pageContext.request.contextPath}/supplierAudit/essential.html?supplierId='+id+'&sign='+sign)
+											jumppage('${pageContext.request.contextPath}/supplierAudit/essential.html?supplierId='+id+'&sign='+sign);
 										}
 										layer.close(index);
 									});
 								}else{
-									jumppage('${pageContext.request.contextPath}/supplierAudit/essential.html?supplierId='+id+'&sign='+sign)
+									jumppage('${pageContext.request.contextPath}/supplierAudit/essential.html?supplierId='+id+'&sign='+sign);
 								}
 							}else{
 								layer.msg(result.msg);

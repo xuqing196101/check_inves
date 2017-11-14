@@ -142,12 +142,20 @@
                     });
                   }
                   if(result.status == "500"){
-                    layer.msg('审核成功！', {
-                      shift: 6, //动画类型
-                      offset:'100px'
-                    });
-                    //$("#"+appear+"").css('visibility', 'visible');
-                    $(obj).css('border', '1px solid #FF0000'); //添加红边框
+                  	if(result.data == "add"){
+                  		layer.msg('审核成功！', {
+	                      shift: 6, //动画类型
+	                      offset:'100px'
+	                    });
+	                    //$("#"+appear+"").css('visibility', 'visible');
+	                    $(obj).css('border', '1px solid #FF0000'); //添加红边框
+                  	}
+                  	if(result.data == "update"){
+                   		layer.msg('修改理由成功！', {
+                        shift: 6, //动画类型
+                        offset:'100px'
+                      });
+                   	}
                   }
 								}
 						 	});
@@ -223,14 +231,22 @@
                    	});
                   }
                   if(result.status == "500"){
-                    layer.msg('审核成功！', {
-                      shift: 6, //动画类型
-                      offset:'100px'
-                    });
-                    var icon = "<img src='${pageContext.request.contextPath}/public/backend/images/light_icon_2.png'/>";
-                  	$("#" + id + "_hidden").html("").append(icon);
-                  	/* $("#" + id + "_hidden").hide();
-                  	$("#" + id + "_show").show(); */
+                  	if(result.data == "add"){
+                  		layer.msg('审核成功！', {
+	                      shift: 6, //动画类型
+	                      offset:'100px'
+	                    });
+	                    var icon = "<img src='${pageContext.request.contextPath}/public/backend/images/light_icon_2.png'/>";
+	                  	$("#" + id + "_hidden").html("").append(icon);
+	                  	/* $("#" + id + "_hidden").hide();
+	                  	$("#" + id + "_show").show(); */
+                  	}
+                  	if(result.data == "update"){
+                   		layer.msg('修改理由成功！', {
+                        shift: 6, //动画类型
+                        offset:'100px'
+                      });
+                   	}
                   }
                 }
 							});
@@ -243,7 +259,7 @@
 			}
 			//生产
 			function reasonProduction1(obj) {
-				var supplierStatus= $("input[name='supplierStatus']").val();
+				var supplierStatus = $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
         if(isAudit){
@@ -314,12 +330,20 @@
 										});
 									}
 									if(result.status == "500"){
-										layer.msg('审核成功！', {
-									    shift: 6, //动画类型
-									    offset:'100px'
-									  });
-									  //$(obj).after(html);
-										$("#" + obj.id + "").css('border-color', '#FF0000'); //边框变红色
+										if(result.data == "add"){
+											layer.msg('审核成功！', {
+										    shift: 6, //动画类型
+										    offset:'100px'
+										  });
+										  //$(obj).after(html);
+											$("#" + obj.id + "").css('border-color', '#FF0000'); //边框变红色
+										}
+										if(result.data == "update"){
+                   		layer.msg('修改理由成功！', {
+                        shift: 6, //动画类型
+                        offset:'100px'
+                      });
+                   	}
 									}
 								}
 							});
@@ -394,14 +418,22 @@
                     });
                   }
                   if(result.status == "500"){
-                    layer.msg('审核成功！', {
-                      shift: 6, //动画类型
-                      offset:'100px'
-                    });
-                    var icon = "<img src='${pageContext.request.contextPath}/public/backend/images/light_icon_2.png'/>";
-                  	$("#" + id + "_hidden").html("").append(icon);
-	                  /* $("#" + id + "_hidden").hide();
-	                  $("#" + id + "_show").show(); */
+                  	if(result.data == "add"){
+                  		layer.msg('审核成功！', {
+	                      shift: 6, //动画类型
+	                      offset:'100px'
+	                    });
+	                    var icon = "<img src='${pageContext.request.contextPath}/public/backend/images/light_icon_2.png'/>";
+	                  	$("#" + id + "_hidden").html("").append(icon);
+		                  /* $("#" + id + "_hidden").hide();
+		                  $("#" + id + "_show").show(); */
+                  	}
+                  	if(result.data == "update"){
+                   		layer.msg('修改理由成功！', {
+                        shift: 6, //动画类型
+                        offset:'100px'
+                      });
+                   	}
                   }
                 }
 							});
@@ -425,7 +457,7 @@
 			}
 
 			function reasonSale1(obj) {
-				var supplierStatus= $("input[name='supplierStatus']").val();
+				var supplierStatus = $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
         if(isAudit){
@@ -554,17 +586,25 @@
 	                   	});
 	                  }
 	                  if(result.status == "500"){
-	                    layer.msg('审核成功！', {
-	                      shift: 6, //动画类型
-	                      offset:'100px'
-	                    });
-	                    var icon = "<img src='${pageContext.request.contextPath}/public/backend/images/light_icon_2.png'/>";
-	                  	$("#" + id + "_hidden").html("").append(icon);
-	                  	$("#" + id + "_hidden1").html("").append(icon);
-	                  	$("#" + id + "_hidden2").html("").append(icon);
-	                  	$("#" + id + "_hidden3").html("").append(icon);
-	                  	/* $("#" + id + "_hidden").hide();
-	                  	$("#" + id + "_show").show(); */
+	                  	if(result.data == "add"){
+	                  		layer.msg('审核成功！', {
+		                      shift: 6, //动画类型
+		                      offset:'100px'
+		                    });
+		                    var icon = "<img src='${pageContext.request.contextPath}/public/backend/images/light_icon_2.png'/>";
+		                  	$("#" + id + "_hidden").html("").append(icon);
+		                  	$("#" + id + "_hidden1").html("").append(icon);
+		                  	$("#" + id + "_hidden2").html("").append(icon);
+		                  	$("#" + id + "_hidden3").html("").append(icon);
+		                  	/* $("#" + id + "_hidden").hide();
+		                  	$("#" + id + "_show").show(); */
+	                  	}
+	                  	if(result.data == "update"){
+                    		layer.msg('修改理由成功！', {
+	                        shift: 6, //动画类型
+	                        offset:'100px'
+	                      });
+                    	}
 	                  }
                   }
 								});
@@ -587,7 +627,7 @@
 
 			//工程
 			function reasonEngineering1(obj) {
-				var supplierStatus= $("input[name='supplierStatus']").val();
+				var supplierStatus = $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
         if(isAudit){
@@ -652,21 +692,29 @@
 								data: auditData,
 								dataType: "json",
 								success: function(result){
-                   if(result.status == "503"){
-                     layer.msg('该条信息已审核过并退回过！', {             
-                       shift: 6, //动画类型
-                       offset:'100px'
-                     });
-                   }
-                   if(result.status == "500"){
-                     layer.msg('审核成功！', {             
-                       shift: 6, //动画类型
-                       offset:'100px'
-                     });
-                     //$(obj).after(html);
-             				$("#" + obj.id + "").css('border-color', '#FF0000'); //边框变红色
-                   }
-                 }
+                  if(result.status == "503"){
+                    layer.msg('该条信息已审核过并退回过！', {             
+                      shift: 6, //动画类型
+                      offset:'100px'
+                    });
+                  }
+                  if(result.status == "500"){
+                  	if(result.data == "add"){
+                  		layer.msg('审核成功！', {             
+	                      shift: 6, //动画类型
+	                      offset:'100px'
+	                    });
+	                    //$(obj).after(html);
+	            				$("#" + obj.id + "").css('border-color', '#FF0000'); //边框变红色
+                  	}
+                  	if(result.data == "update"){
+                   		layer.msg('修改理由成功！', {
+                        shift: 6, //动画类型
+                        offset:'100px'
+                      });
+                   	}
+                  }
+                }
 							});
 							layer.close(index);
 						}else{
@@ -677,7 +725,7 @@
 			}
 			
 			function reasonFile(ele, auditField) {
-				var supplierStatus= $("input[name='supplierStatus']").val();
+				var supplierStatus = $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
         if(isAudit){
@@ -739,12 +787,20 @@
                    	});
                   }
                   if(result.status == "500"){
-                    layer.msg('审核成功！', {             
-                      shift: 6, //动画类型
-                      offset:'100px'
-                    });
-                    //$(ele).parents("li").find("p").show(); //显示叉
-            				$(ele).css('border', '1px solid #FF0000'); //添加红色边框
+                  	if(result.data == "add"){
+                  		layer.msg('审核成功！', {             
+	                      shift: 6, //动画类型
+	                      offset:'100px'
+	                    });
+	                    //$(ele).parents("li").find("p").show(); //显示叉
+	            				$(ele).css('border', '1px solid #FF0000'); //添加红色边框
+                  	}
+                  	if(result.data == "update"){
+                   		layer.msg('修改理由成功！', {
+                        shift: 6, //动画类型
+                        offset:'100px'
+                      });
+                   	}
                   }
                 }
 							});
@@ -817,18 +873,26 @@
                       shift: 6, //动画类型
                       offset:'100px'
                    	});
-                   }
-                   if(result.status == "500"){
-                     layer.msg('审核成功！', {
-                       shift: 6, //动画类型
-                       offset:'100px'
-                     });
-                     var icon = "<img src='${pageContext.request.contextPath}/public/backend/images/light_icon_2.png'/>";
-	                  $("#" + id + "_hidden").html("").append(icon);
-	                  /* $("#" + id + "_hidden").hide();
-	                  $("#" + id + "_show").show(); */
-                   }
-                 }
+                  }
+                  if(result.status == "500"){
+                  	if(result.data == "add"){
+                  		layer.msg('审核成功！', {
+	                      shift: 6, //动画类型
+	                      offset:'100px'
+	                    });
+	                    var icon = "<img src='${pageContext.request.contextPath}/public/backend/images/light_icon_2.png'/>";
+		                  $("#" + id + "_hidden").html("").append(icon);
+		                  /* $("#" + id + "_hidden").hide();
+		                  $("#" + id + "_show").show(); */
+                  	}
+                  	if(result.data == "update"){
+                   		layer.msg('修改理由成功！', {
+                        shift: 6, //动画类型
+                        offset:'100px'
+                      });
+                   	}
+                  }
+                }
 							});
 							layer.close(index);
 						}else{
@@ -840,7 +904,7 @@
 
 			//服务
 			function reasonService1(obj) {
-				var supplierStatus= $("input[name='supplierStatus']").val();
+				var supplierStatus = $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
         if(isAudit){
@@ -1495,7 +1559,12 @@
 											  </c:if>
 												<c:if test="${supplierMatEngs.isHavingConAchi eq '1'}">
 												  <input id="isHavingConAchi" type="text" value="有" onclick="reasonEngineering1(this)" <c:if test="${fn:contains(fieldSecrecy,'isHavingConAchi')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('isHavingConAchi','mat_eng_page');"</c:if> <c:if test="${fn:contains(auditEngField,'isHavingConAchi')}">style="border: 1px solid red;"</c:if>/>
-											  </c:if>
+												</c:if>
+												<c:if test="${fn:contains(unableEngField,'isHavingConAchi')}">
+													<a class="abolish">
+														<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'/>
+													</a>
+												</c:if>
 											</div>
 										</li>
 										

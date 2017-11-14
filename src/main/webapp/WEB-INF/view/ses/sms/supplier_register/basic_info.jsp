@@ -2258,7 +2258,7 @@
 									<span class="red">${afterSale}</span>
 								</div>
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto">
-									<table id="share_table_id" class="table table-bordered table-condensed mt5 table_wrap table_input left_table">
+									<table id="share_table_id" class="table table-bordered table-condensed mt5 table_wrap table_input left_table m_table_fixed_border">
 										<thead>
 											<tr>
 												<th class="info"><input type="checkbox" onchange="checkAll(this, 'afterSaleDep_list_tbody_id')" />

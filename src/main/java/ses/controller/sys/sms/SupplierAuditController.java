@@ -284,14 +284,20 @@ public class SupplierAuditController extends BaseSupplierController {
 		
 		request.setAttribute("sign", sign);
 		
+		Integer supplierStatus = supplier.getStatus();
+		String loginName = user.getLoginName();
+		
 		SupplierModify supplierModify = new SupplierModify();
 		supplierModify.setSupplierId(supplierId);
-		//先删除对比的旧数据
-		supplierModifyService.deleteByType(supplierModify);
-		// 插入对比后的数据
-		supplierModifyService.insertModifyRecord(supplierModify);
-		// 更新审核记录状态
-		supplierAuditService.updateReturnStatus(supplierId);
+		
+		if(SupplierConstants.isStatusToAudit(supplierStatus)){
+			//先删除对比的旧数据
+			supplierModifyService.deleteByType(supplierModify);
+			// 插入对比后的数据
+			supplierModifyService.insertModifyRecord(supplierModify);
+			// 更新审核记录状态
+			supplierAuditService.updateReturnStatus(supplierId);
+		}
 		
 		//文件
 		request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
@@ -336,16 +342,16 @@ public class SupplierAuditController extends BaseSupplierController {
 		/**
 		 * 查询地址
 		 */
-		List < Area > privnce = areaService.findRootArea();
-		request.setAttribute("privnce", privnce);
+		List < Area > province = areaService.findRootArea();
+		request.setAttribute("province", province);
 		Area area = new Area();
 		//地址信息里地址
 		area = areaService.listById(supplier.getAddress());
 		String sonAddress = area.getName();
 		request.setAttribute("sonAddress", sonAddress);
-		for(int i = 0; i < privnce.size(); i++) {
-			if(area.getParentId().equals(privnce.get(i).getId())) {
-				String parentAddress = privnce.get(i).getName();
+		for(int i = 0; i < province.size(); i++) {
+			if(area.getParentId().equals(province.get(i).getId())) {
+				String parentAddress = province.get(i).getName();
 				request.setAttribute("parentAddress", parentAddress);
 			}
 		}
@@ -354,9 +360,9 @@ public class SupplierAuditController extends BaseSupplierController {
 		area = areaService.listById(supplier.getConcatCity());
 		String sonConcatProvince = area.getName();
 		request.setAttribute("sonConcatProvince", sonConcatProvince);
-		for(int i = 0; i < privnce.size(); i++) {
-			if(area.getParentId().equals(privnce.get(i).getId())) {
-				String parentConcatProvince = privnce.get(i).getName();
+		for(int i = 0; i < province.size(); i++) {
+			if(area.getParentId().equals(province.get(i).getId())) {
+				String parentConcatProvince = province.get(i).getName();
 				request.setAttribute("parentConcatProvince", parentConcatProvince);
 			}
 		}
@@ -365,9 +371,9 @@ public class SupplierAuditController extends BaseSupplierController {
 		area = areaService.listById(supplier.getArmyBuinessCity());
 		String sonArmyBuinessProvince = area.getName();
 		request.setAttribute("sonArmyBuinessProvince", sonArmyBuinessProvince);
-		for(int i = 0; i < privnce.size(); i++) {
-			if(privnce.get(i).getId() !=null && area.getParentId().equals(privnce.get(i).getId())) {
-				String parentArmyBuinessProvince = privnce.get(i).getName();
+		for(int i = 0; i < province.size(); i++) {
+			if(province.get(i).getId() !=null && area.getParentId().equals(province.get(i).getId())) {
+				String parentArmyBuinessProvince = province.get(i).getName();
 				request.setAttribute("parentArmyBuinessProvince", parentArmyBuinessProvince);
 			}
 		}
@@ -376,7 +382,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		List < SupplierAddress > supplierAddress = supplierAddressService.queryBySupplierId(supplierId);
 //		List < SupplierAddress > supplierAddress = supplier.getAddressList();
 		if(!supplierAddress.isEmpty() && supplierAddress.size() > 0 ){
-			for(Area a: privnce) {
+			for(Area a: province) {
 				for(SupplierAddress s: supplierAddress) {
 					if(a.getId().equals(s.getParentId())) {
 						s.setParentName(a.getName());
@@ -394,8 +400,6 @@ public class SupplierAuditController extends BaseSupplierController {
 		/**
 		 * 查出修改前的信息
 		 */
-		Integer supplierStatus = supplier.getStatus();
-		String loginName = user.getLoginName();
 		if(SupplierConstants.isAudit(loginName, supplierStatus)){
 			//地址信息
 			supplierModify.setListType(1);
@@ -445,7 +449,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			/**
 			 * 基本信息退回修改后的附件
 			 */
-			SupplierModify supplierFileModify= new SupplierModify();
+			SupplierModify supplierFileModify = new SupplierModify();
 			supplierFileModify.setSupplierId(supplierId);
 			supplierFileModify.setModifyType("file");
 			StringBuffer fileModifyField = new StringBuffer();
@@ -1349,10 +1353,12 @@ public class SupplierAuditController extends BaseSupplierController {
 		supplierAudit.setIsDeleted(1);// 历史审核记录
 		int auditCount = supplierAuditService.countAuditRecords(supplierAudit, new Integer[]{0,2,4});
 		if(auditCount == 0) {
+			String auditFlag = "add";
 			supplierAudit.setIsDeleted(0);
-			List<SupplierAudit> auditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2});
+			List<SupplierAudit> auditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{0,1,2});
 			if(auditList != null && auditList.size() > 0){
 				supplierAudit.setId(auditList.get(0).getId());
+				auditFlag = "update";
 			}
 			supplierAudit.setStatus(supplier.getStatus());
 			supplierAudit.setCreatedAt(new Date());
@@ -1361,7 +1367,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			if(i>0){
 				// 审核完后更新审核人/审核状态
 				updateSupplierAuditStatus(user, supplier);
-				return new JdcgResult(500, "审核成功", null);
+				return new JdcgResult(500, "审核成功", auditFlag);
 			}else{
 				return new JdcgResult(502, "审核失败", null);
 			}
@@ -1409,12 +1415,14 @@ public class SupplierAuditController extends BaseSupplierController {
 			if(null != alist && !alist.isEmpty()){
 				return new JdcgResult(503, "选择中存在已审核，不可重复审核", null);
 			}else{
+				String auditFlag = "add";
 				Date date = new Date();
 				for (SupplierAudit audit2 : supplierAuditList) {
 					audit2.setIsDeleted(0);
 					List<SupplierAudit> auditList = supplierAuditService.getAuditRecords(audit2, new Integer[]{0,2});
 					if(auditList != null && auditList.size() > 0){
 						audit2.setId(auditList.get(0).getId());
+						auditFlag = "update";
 					}
 					audit2.setStatus(supplier.getStatus());
 					audit2.setCreatedAt(date);
@@ -1424,7 +1432,7 @@ public class SupplierAuditController extends BaseSupplierController {
 				if(i>0){
 					// 审核完后更新审核人/审核状态
 					updateSupplierAuditStatus(user, supplier);
-					return new JdcgResult(500, "审核成功", null);
+					return new JdcgResult(500, "审核成功", auditFlag);
 				}else{
 					return new JdcgResult(502, "审核失败", null);
 				}
@@ -2757,21 +2765,24 @@ public class SupplierAuditController extends BaseSupplierController {
                 // 加入根节点 物资
                 cateTree=categoryService.addNode(parentNodeList);
                 cateTree.setSupplierItemId(supplierItem.getId());
-                // 工程类等级
-                if("工程".equals(cateTree.getRootNode())) {
-                	//--工程  	审核字段存储：末级节点ID关联的SupplierItem的ID
-                	cateTree=supplierAuditService.countEngCategoyrId(cateTree, supplierId);
-                }else{
-					//供应商物资 专业资质要求上传
-					//--物资生产/物资销售/服务 	审核字段存储：三级节点ID关联的SupplierItem的ID
-					cateTree=supplierAuditService.countCategoyrId(cateTree,supplierId,supplierType);
-					//是否有销售合同
-					cateTree=supplierService.contractCountCategoyrId(cateTree,supplierItem);
-					// 合同是否修改
-					cateTree.setIsContractModified(supplierAuditService.isContractModified(supplierItem.getSupplierId(), supplierItem.getId()) ? (byte)1 : (byte)0);
+                cateTree.setAuditType(getAuditTypeItemBySupplierType(supplierType));
+                if(SupplierConstants.isStatusToAudit(supplierStatus)){// 审核状态下
+                	// 工程类等级
+                    if("工程".equals(cateTree.getRootNode())) {
+                    	//--工程  	审核字段存储：末级节点ID关联的SupplierItem的ID
+                    	cateTree=supplierAuditService.countEngCategoyrId(cateTree, supplierId);
+                    }else{
+    					//供应商物资 专业资质要求上传
+    					//--物资生产/物资销售/服务 	审核字段存储：三级节点ID关联的SupplierItem的ID
+    					cateTree=supplierAuditService.countCategoyrId(cateTree,supplierId,supplierType);
+    					//是否有销售合同
+    					cateTree=supplierService.contractCountCategoyrId(cateTree,supplierItem);
+    					// 合同是否修改
+    					cateTree.setIsContractModified(supplierAuditService.isContractModified(supplierItem.getSupplierId(), supplierItem.getId()) ? (byte)1 : (byte)0);
+                    }
+                    //封装 是否有审核 目录 和 销售 合同数据
+                    cateTree=supplierAuditService.cateTreePotting(cateTree,supplierId);
                 }
-                //封装 是否有审核 目录 和 销售 合同数据
-                cateTree=supplierAuditService.cateTreePotting(cateTree,supplierId);
                 cateTreeList.add(cateTree);
             }
         }
@@ -2883,9 +2894,9 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		return auditType;
 	}
-	private String getAuditTypeItem(String tablerId){
+	private String getAuditTypeItemBySupplierType(String supplierType){
 		String auditType = "";
-		if("content_2".equals(tablerId)){
+		if(ses.util.Constant.SUPPLIER_SALES.equals(supplierType)){
 			auditType = ses.util.Constant.ITEMS_SALES_PAGE;
 		}else{
 			auditType = ses.util.Constant.ITEMS_PRODUCT_PAGE;
@@ -5104,7 +5115,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			return new JdcgResult(501, "登录超时", null);
 		}
 		supplierAudit.setIsDeleted(0);
-		List<SupplierAudit> auditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2});
+		List<SupplierAudit> auditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{0,1,2});
 		if(auditList != null && auditList.size() > 0){
 			supplierAudit.setId(auditList.get(0).getId());
 		}
@@ -5123,6 +5134,47 @@ public class SupplierAuditController extends BaseSupplierController {
 			return new JdcgResult(500, "撤销成功", null);
 		}else{
 			return new JdcgResult(502, "撤销失败", null);
+		}
+	}
+	
+	/**
+	 * 撤销审核记录（多条）
+	 * @param supplierAuditList
+	 * @return
+	 */
+	@RequestMapping("/cancelAuditMuti")
+	@ResponseBody
+	public JdcgResult cancelAuditMuti(@RequestBody List<SupplierAudit> supplierAuditList){
+		User user = (User) request.getSession().getAttribute("loginUser");
+		if(user == null){
+			return new JdcgResult(501, "登录超时", null);
+		}
+		if(supplierAuditList != null && supplierAuditList.size() > 0){
+			int result = 0;
+			for(SupplierAudit supplierAudit : supplierAuditList){
+				supplierAudit.setIsDeleted(0);
+				List<SupplierAudit> auditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{0,2});
+				if(auditList != null && auditList.size() > 0){
+					supplierAudit.setId(auditList.get(0).getId());
+				}
+				int status = 0;
+				String auditType = supplierAudit.getAuditType();
+				if("supplierType_page".equals(auditType) || auditType.startsWith("items_")){
+					status = 6;
+				}else{
+					status = 5;
+				}
+				supplierAudit.setReturnStatus(status);
+				supplierAudit.setUpdatedAt(new Date());
+				result += supplierAuditService.updateByIdSelective(supplierAudit);
+			}
+			if(result > 0){
+				return new JdcgResult(500, "撤销成功", null);
+			}else{
+				return new JdcgResult(502, "撤销失败", null);
+			}
+		}else{
+			return new JdcgResult(504, "参数错误", null);
 		}
 	}
 	
@@ -5172,9 +5224,8 @@ public class SupplierAuditController extends BaseSupplierController {
 	}
 	
 	/**
-	 * 更新审核人
+	 * 异步获取供应商信息
 	 * @param supplierId
-	 * @param auditor
 	 * @return
 	 */
 	@RequestMapping("/ajaxSupplier")
@@ -5189,7 +5240,11 @@ public class SupplierAuditController extends BaseSupplierController {
 		return new JdcgResult(1, "OK", supplier);
 	}
 	
-	
+	/**
+	 * 异步获取旧的审核记录
+	 * @param supplierAudit
+	 * @return
+	 */
 	@RequestMapping("/ajaxOldAudit")
 	@ResponseBody
 	public JdcgResult ajaxOldAudit(SupplierAudit supplierAudit){
@@ -5204,9 +5259,45 @@ public class SupplierAuditController extends BaseSupplierController {
 			return new JdcgResult(0, "该条信息已审核过并退回过！", null);
 		}
 		supplierAudit.setIsDeleted(0);
-		List<SupplierAudit> auditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2});
+		List<SupplierAudit> auditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{0,1,2});
 		if(auditList != null && auditList.size() > 0){
 			return new JdcgResult(1, "OK", auditList.get(0));
+		}
+		return null;
+	}
+	
+	/**
+	 * 异步获取旧的审核记录
+	 * @param supplierAudit
+	 * @return
+	 */
+	@RequestMapping("/ajaxOldAuditMuti")
+	@ResponseBody
+	public JdcgResult ajaxOldAuditMuti(@RequestBody List<SupplierAudit> supplierAuditList){
+		// 获取登录用户
+		Object loginUserSession = request.getSession().getAttribute("loginUser");
+		if(loginUserSession == null){
+			return new JdcgResult(-1, "对不起，您没有登录或登录失效！", null);
+		}
+		if(null != supplierAuditList && !supplierAuditList.isEmpty()){
+			String suggest = "";
+			Set<String> suggestSet = new HashSet<String>();
+			for (SupplierAudit supplierAudit : supplierAuditList) {
+				supplierAudit.setIsDeleted(1);
+				int auditCount = supplierAuditService.countAuditRecords(supplierAudit, new Integer[]{0,2});
+				if(auditCount > 0){
+					return new JdcgResult(0, "选择中存在已审核并退回过的记录", null);
+				}
+				supplierAudit.setIsDeleted(0);
+				List<SupplierAudit> auditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{0,2});
+				if(auditList != null && auditList.size() > 0){
+					suggest = auditList.get(0).getSuggest();
+					suggestSet.add(suggest);
+				}
+			}
+			if(suggestSet.size() == 1){
+				return new JdcgResult(1, "OK", suggest);
+			}
 		}
 		return null;
 	}

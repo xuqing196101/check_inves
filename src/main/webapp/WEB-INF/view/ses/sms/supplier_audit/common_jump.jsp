@@ -121,6 +121,23 @@
 		});
 		return result;
 	}
+	
+	// 获取旧的审核记录
+	function getOldAuditMuti(auditData) {
+		var result = null;
+		$.ajax({
+			url : "${pageContext.request.contextPath}/supplierAudit/ajaxOldAuditMuti.do",
+			type : "post",
+			dataType : "json",
+			contentType: "application/json",
+			data : auditData,
+			async : false,
+			success : function(data) {
+				result = data;
+			}
+		});
+		return result;
+	}
 
 	// 撤销审核记录
 	function cancelAudit(auditData) {
@@ -129,6 +146,26 @@
 			url : "${pageContext.request.contextPath}/supplierAudit/cancelAudit.do",
 			type : "post",
 			dataType : "json",
+			data : auditData,
+			async : false,
+			success : function(result) {
+				if (result && result.status == 500) {
+					bool = true;
+					layer.msg('撤销成功！');
+				}
+			}
+		});
+		return bool;
+	}
+	
+	// 撤销审核记录
+	function cancelAuditMuti(auditData) {
+		var bool = false;
+		$.ajax({
+			url : "${pageContext.request.contextPath}/supplierAudit/cancelAuditMuti.do",
+			type : "post",
+			dataType : "json",
+			contentType: "application/json",
 			data : auditData,
 			async : false,
 			success : function(result) {
