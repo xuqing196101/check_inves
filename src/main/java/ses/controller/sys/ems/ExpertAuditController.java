@@ -487,6 +487,9 @@ public class ExpertAuditController{
 				map.put("expertId", expertId);
 				map.put("auditFalg", sign);
 				for(String method: keySet) {
+					if("getProductCategories".equals(method)){
+						continue;
+					}
 					editFields.add(method);
 					 map.remove("auditField");
 					 map.remove("auditContent");
