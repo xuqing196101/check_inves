@@ -412,8 +412,14 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
         List<ExpertExtractResult> resultList = resultMapper.getResultListByrecordId(id);
         for (ExpertExtractResult expertExtractResult : resultList) {
             if(expertExtractResult.getExpertCode() != null){
-                String typeName = DictionaryDataUtil.get(expertExtractResult.getExpertCode()) == null ? "" : DictionaryDataUtil.get(expertExtractResult.getExpertCode()).getName();
-                expertExtractResult.setExpertCode(typeName);
+                DictionaryData dictionaryData = DictionaryDataUtil.get(expertExtractResult.getExpertCode() == null ? "" : expertExtractResult.getExpertCode());
+                if(dictionaryData != null){
+                	if(dictionaryData.getKind() == 6){
+                		expertExtractResult.setExpertCode(dictionaryData.getName() + "技术");
+                	}else{
+                		expertExtractResult.setExpertCode(dictionaryData.getName());
+                	}
+                }
                 StringBuffer pro = new StringBuffer();
                 List<String> list = expertExtractConditionMapper.selProfessionalByExpertId(expertExtractResult.getExpertId() == null ? "" : expertExtractResult.getExpertId());
                 for (String str : list) {
@@ -426,8 +432,14 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
         List<ExpertExtractResult> backList = resultMapper.getBackExpertListByrecordId(id);
         for (ExpertExtractResult expertExtractResult : backList) {
             if(expertExtractResult.getExpertCode() != null){
-                String typeName = DictionaryDataUtil.get(expertExtractResult.getExpertCode()) == null ? "" : DictionaryDataUtil.get(expertExtractResult.getExpertCode()).getName();
-                expertExtractResult.setExpertCode(typeName);
+            	DictionaryData dictionaryData = DictionaryDataUtil.get(expertExtractResult.getExpertCode() == null ? "" : expertExtractResult.getExpertCode());
+                if(dictionaryData != null){
+                	if(dictionaryData.getKind() == 6){
+                		expertExtractResult.setExpertCode(dictionaryData.getName() + "技术");
+                	}else{
+                		expertExtractResult.setExpertCode(dictionaryData.getName());
+                	}
+                }
                 StringBuffer pro = new StringBuffer();
                 List<String> list = expertExtractConditionMapper.selProfessionalByExpertId(expertExtractResult.getExpertId() == null ? "" : expertExtractResult.getExpertId());
                 for (String str : list) {

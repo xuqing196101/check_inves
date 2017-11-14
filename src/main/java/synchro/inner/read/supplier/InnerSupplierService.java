@@ -44,4 +44,27 @@ public interface InnerSupplierService {
      */
     public void importLogoutSupplier(final File file);
 
+
+    /**
+     * 
+     * <简述>导入供应商 
+     *
+     * @author Jia Chengxiang
+     * @dateTime 2017-11-10上午11:00:57
+     * @param f
+     */
+	public void importSupplierLevel(File f);
+
+
+	/**
+	 * 
+	 * <简述>查询供应商等级信息导出 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-11-10下午4:51:19
+	 * @param startTime
+	 * @param endTime
+	 */
+	public void selectSupplierLevelOfExport(String startTime, String endTime);
+
 }

@@ -221,6 +221,11 @@ public class SynchExportController {
 	              iter.remove();
 	              continue;
 	          }
+	          // 过滤供应商等级信息
+	          if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_LEVEL)) {
+	        	  iter.remove();
+	        	  continue;
+	          }
 	          //外网时
 	          if(ipAddressType.equals("1")){
 	       	   //过滤外网导出  	竞价定型产品导出  只能是内网导出外网
@@ -364,6 +369,11 @@ public class SynchExportController {
             /**临时供应商导入导出*/
             if (synchType.contains("temp_out")) {
                 outerSupplierService.tempSupplier(startTime, endTime);
+            }
+            
+            /** 供应商等级导出 */
+            if(synchType.contains(Constant.DATE_SYNCH_SUPPLIER_LEVEL)){
+            	outerSupplierService.selectSupplierLevelOfExport(startTime, endTime);
             }
 
 

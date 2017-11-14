@@ -216,6 +216,11 @@ public class SynchImportController {
                     iter.remove();
                     continue;
                 }
+                //过滤供应商等级信息
+                if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_LEVEL)) {
+                	iter.remove();
+                	continue;
+                }
                 //内网时
                 if (ipAddressType.equals("0")) {
                     //过滤外网导出  	竞价定型产品导出  只能是内网导出外网

@@ -885,6 +885,9 @@
 			<if test="updatedAt != null">
 				UPDATED_AT,
 			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
 			<if test="conTypeId != null">
 				CON_TYPE_ID,
 			</if>
@@ -929,6 +932,9 @@
 			</if>
 			<if test="updatedAt != null">
 				#{updatedAt,jdbcType=VARCHAR},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt,jdbcType=VARCHAR},
 			</if>
 			<if test="conTypeId != null">
 				#{conTypeId,jdbcType=VARCHAR},
@@ -975,6 +981,9 @@
 			</if>
 			<if test="updatedAt != null">
 				UPDATED_AT = #{updatedAt,jdbcType=VARCHAR},
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT = #{updatedAt,jdbcType=VARCHAR},
 			</if>
 			<if test="conTypeId != null">
 				CON_TYPE_ID = #{conTypeId,jdbcType=VARCHAR},
