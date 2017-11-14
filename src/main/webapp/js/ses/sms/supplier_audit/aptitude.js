@@ -661,7 +661,7 @@ function doUpdateAuditItemMuti(tablerId,auditType,auditContent,wzType) {
           	};
           	options.btn3 = function(index){layer.close(index);};
 		}
-		layer.prompt(options, function(value, index, elem){
+		var promptIndex = layer.prompt(options, function(value, index, elem){
 	 		var text = $.trim(value);
 	 		if (text != null && text != "") {
 				if(text.length>900){
@@ -695,6 +695,7 @@ function doUpdateAuditItemMuti(tablerId,auditType,auditContent,wzType) {
 				layer.msg('不能为空！', {offset:'100px'});
 			}
 		});
+		$("#layui-layer"+promptIndex+" .layui-layer-input").attr("placeholder","注意：新的审核理由会覆盖原来的审核理由。");
     }
 }
 
