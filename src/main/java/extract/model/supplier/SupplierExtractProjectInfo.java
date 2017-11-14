@@ -397,7 +397,7 @@ public class SupplierExtractProjectInfo {
 
 
 	public Date getUpdatedAt() {
-		return updatedAt;
+		return null==updatedAt?new Date():this.updatedAt;
 	}
 
 

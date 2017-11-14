@@ -9,10 +9,13 @@
 		<result column="STATUS" jdbcType="DECIMAL" property="status" />
 		<result column="AREA_NAME" jdbcType="VARCHAR" property="areaName" />
 		<result column="ADDRESS_REASON" jdbcType="VARCHAR" property="addressReason" />
+		<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
+		<result column="CREATE_AT" jdbcType="TIMESTAMP" property="createdAt" />
+		<result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+		<result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
 		<result column="BUSINESS_NATURE" jdbcType="VARCHAR" property="businessNature" />
 		<result column="IS_HAVING_CON_CERT" property="isHavingConCert" jdbcType="DECIMAL" />
 		<result column="OVERSEAS_BRANCH" jdbcType="DECIMAL" property="overseasBranch" />
-		<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
 		<result column="SUPPLIER_TYPE_CODE" jdbcType="VARCHAR" property="supplierTypeCode" />
 		<result column="EXTRACT_NUM" jdbcType="DECIMAL" property="extractNum" />
 		<result column="IS_MULTICONDITION" jdbcType="DECIMAL" property="isMulticondition" />
@@ -23,44 +26,28 @@
 	    <result column="QUA_TYPE"  jdbcType="NUMERIC"  property="quaType" />
 	</resultMap>
 	
-	<resultMap type="extract.model.supplier.SupplierExtractCondition" id="BaseResultListMap"
-		extends="BaseResultMap">
-		<collection property="conTypes" column="ID"
-			ofType="extract.model.supplier.SupplierConType">
-			<id column="ctid" jdbcType="VARCHAR" property="id" />
-			<result column="SUPPLIER_TYPE_ID" jdbcType="DECIMAL" property="supplierTypeId" />
-			<result column="SUPPLIER_COUNT" jdbcType="DECIMAL" property="supplierCount" />
-			<result column="SUPPLIER_TYPE_NAME" jdbcType="VARCHAR"
-				property="supplierTypeName" />
-			<result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
-			<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
-		</collection>
-	</resultMap>
-	  <resultMap id="supplierLevelResult" type="ses.model.sms.SupplierItemLevel" >
-	    <id column="ID" property="id" jdbcType="VARCHAR" />
+  	<resultMap id="supplierLevelResult" type="ses.model.sms.SupplierItemLevel" >
+    	<id column="ID" property="id" jdbcType="VARCHAR" />
 	    <result column="SUPPLIER_ID" property="supplierId" jdbcType="VARCHAR" />
 	    <result column="SUPPLIER_LEVEL" property="supplierLevel" jdbcType="VARCHAR" />
 	    <result column="CATEGORY_ID" property="categoryId" jdbcType="VARCHAR" />
 	    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
 	    <result column="SUPPLIER_TYPE_ID" property="supplierTypeId" jdbcType="VARCHAR" />
-	  </resultMap>
+  	</resultMap>
 	
 	<sql id="Base_Column_List">
-		<!-- @mbggenerated -->
 		ID, PROJECT_ID, STATUS, AREA_NAME, ADDRESS_REASON, BUSINESS_NATURE,
 		IS_HAVING_CON_CERT,RECORD_ID,SUPPLIER_TYPE_CODE,IS_MULTICONDITION,
-		OVERSEAS_BRANCH,CATEGORY_NAME,EXTRACT_NUM
+		OVERSEAS_BRANCH,CATEGORY_NAME,EXTRACT_NUM,CREATE_AT,UPDATED_AT,IS_DELETE
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
-		<!-- @mbggenerated -->
 		select
 		<include refid="Base_Column_List" />
 		from T_SES_SMS_EXTRACT_CONDITION
 		where ID = #{id,jdbcType=VARCHAR}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-		<!-- @mbggenerated -->
 		delete from T_SES_SMS_EXTRACT_CONDITION
 		where ID =
 		#{id,jdbcType=VARCHAR}
@@ -83,8 +70,6 @@
 	</sql>
 	
 	<insert id="insertSelective" parameterType="extract.model.supplier.SupplierExtractCondition">
-
-		<!-- @mbggenerated -->
 		insert into T_SES_SMS_EXTRACT_CONDITION
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -125,6 +110,15 @@
 			</if>
 			<if test="isMulticondition != null">
 				IS_MULTICONDITION,
+			</if>
+			<if test="createdAt != null">
+				createdAt,
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT,
+			</if>
+			<if test="categoryName != null">
+				CATEGORY_NAME,
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -167,12 +161,20 @@
 			<if test="isMulticondition != null">
 				 #{isMulticondition,jdbcType=DECIMAL},
 			</if>
+			<if test="createdAt != null">
+				 #{createdAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatedAt != null">
+				 #{updatedAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="categoryName != null">
+				 #{categoryName,jdbcType=VARCHAR},
+			</if>
 		</trim>
 	</insert>
 
 	<!-- 修改条件 -->
 	<update id="updateConditionByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierExtractCondition">
-		<!-- @mbggenerated -->
 		update T_SES_SMS_EXTRACT_CONDITION
 		<set>
 			<if test="status != null">
@@ -203,13 +205,16 @@
 				PROJECT_ID = #{projectId,jdbcType=VARCHAR},
 			</if>
 			<if test="updatedAt != null">
-				UPDATED_AT = #{updatedAt,jdbcType=DATE},
+				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="isDelete != null">
 				isDelete = #{isDelete,jdbcType=DECIMAL},
 			</if>
 			<if test="extractNum != null">
 				EXTRACT_NUM = #{extractNum,jdbcType=DECIMAL},
+			</if>
+			<if test="categoryName != null">
+				CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR},
 			</if>
 			<if test="isMulticondition != null">
 				IS_MULTICONDITION = #{isMulticondition,jdbcType=DECIMAL},

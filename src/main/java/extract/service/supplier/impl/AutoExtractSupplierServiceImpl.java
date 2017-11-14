@@ -346,8 +346,12 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 	 */
 	@Override
 	public void selectAutoExtractProject() {
-		
-		List<SupplierExtractProjectInfo> projectInfos = recordService.selectAutoExtractProject();
+		SupplierExtractProjectInfo p = new SupplierExtractProjectInfo();
+		p.setExtractTheWay((short)0);
+		p.setStartTime(DateUtils.dateToString(DateUtils.getCurrentDateStartTime()));
+		p.setEndTime(common.utils.DateUtils.getCurrentTime());
+		p.setStatus((short)2);
+		List<SupplierExtractProjectInfo> projectInfos = recordService.selectRecordForExport(p);
 		if(null != projectInfos){
 			for (SupplierExtractProjectInfo projectInfo : projectInfos) {
 				
@@ -532,7 +536,12 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 	@Override
 	public Map<String, Object> exportExtractProjectInfo(String start, String end, Date synchDate) {
 		//查询项目信息
-		List<SupplierExtractProjectInfo> projectInfos  = recordService.selectRecordForExport(start,end);
+		SupplierExtractProjectInfo projectInfo = new SupplierExtractProjectInfo();
+		projectInfo.setExtractTheWay((short)0);
+		projectInfo.setStartTime(start);
+		projectInfo.setEndTime(end);
+		projectInfo.setStatus((short)1);
+		List<SupplierExtractProjectInfo> projectInfos  = recordService.selectRecordForExport(projectInfo);
 		if(projectInfos.size()>0){
 			//生成json 并保存
 			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_EXTRACT_PROJECT_PATH_FILENAME, 35),JSON.toJSONString(projectInfos));

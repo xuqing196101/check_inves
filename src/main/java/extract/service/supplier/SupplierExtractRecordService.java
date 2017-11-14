@@ -121,6 +121,7 @@ public interface SupplierExtractRecordService {
    * @dateTime 2017-11-6下午12:45:21
    * @return
    */
-  List<SupplierExtractProjectInfo> selectRecordForExport(String start, String end);
+  List<SupplierExtractProjectInfo> selectRecordForExport(
+		SupplierExtractProjectInfo projectInfo);
 
 }
