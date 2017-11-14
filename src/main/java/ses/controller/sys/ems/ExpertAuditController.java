@@ -1115,12 +1115,22 @@ public class ExpertAuditController{
             
             if(sign != null && sign==2){
             	expertAudit.setExpertId(expertId);
+            	expertAudit.setAuditFalg(1);
+            	
                 expertAudit.setSuggestType("six");
-                expertAudit.setAuditFalg(1);
                 expertAudit.setAuditFieldId(cate.getItemsId());
                 ExpertAudit findAuditByExpertId = expertAuditService.findAuditByExpertId(expertAudit);
                 if(findAuditByExpertId !=null && findAuditByExpertId.getAuditReason() !=null){
                 	cate.setAuditReason(findAuditByExpertId.getAuditReason());
+                }
+                
+               //类型不通过的，下面品目全部不通过
+	            expertAudit.setSuggestType("seven");
+	            expertAudit.setType("1");
+	            expertAudit.setAuditFieldId(typeId);
+	            ExpertAudit itemsTypeNoPass = expertAuditService.findAuditByExpertId(expertAudit);
+	            if(itemsTypeNoPass !=null && itemsTypeNoPass.getAuditReason() !=null){
+                	cate.setAuditReason(itemsTypeNoPass.getAuditReason());
                 }
             }
         }
