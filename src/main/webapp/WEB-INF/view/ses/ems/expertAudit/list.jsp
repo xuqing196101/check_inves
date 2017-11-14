@@ -495,7 +495,7 @@
         <table class="table table-bordered table-condensed table-hover table-striped hand againAudit_table">
           <thead>
             <tr>
-              <th class="info w20"></th>
+              <th class="info w20"><input type="checkbox" name="checkAll" onclick="checkAll(this)"></th>
               <th class="info w40">序号</th>
               <th class="info w50">专家姓名</th>
               <th class="info w90">工作单位</th>
