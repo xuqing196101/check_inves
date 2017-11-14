@@ -109,6 +109,7 @@
       <thead>
         <tr>
           <th class="w50">选择</th>
+          <th class="w50">序号</th>
           <th class="w100">专家姓名</th>
           <th>单位</th>
           <th class="w140">技术职称（职务）</th>

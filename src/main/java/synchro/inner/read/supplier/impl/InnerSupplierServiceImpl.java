@@ -976,7 +976,10 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                 // 更新用户表基本信息
                 userMapper.updateByPrimaryKeySelective(user);
                 // 更新供应商表基本信息
-                supplierMapper.updateByPrimaryKeySelective(user.getSupplier());
+                Supplier supplier = user.getSupplier();
+                if(supplier != null){
+                    supplierMapper.updateByPrimaryKeySelective(supplier);
+                }
             }
         }
         if(list != null){

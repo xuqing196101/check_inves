@@ -528,16 +528,34 @@ public class ExpertAuditController{
 						if("getAtDuty".equals(method)){
 							map.put("auditFiled", "现任职务");
 							falg = true;
-						}else if("getAcademicAchievement" .equals(method)){
+						}else if("getAcademicAchievement".equals(method)){
 							map.put("auditFiled", "专业学术成果");
 							falg = true;
-						}
+						}else if("getFax".equals(method)){
+							map.put("auditFiled", "传真电话");
+							falg = true;
+						}else if("getAcademicAchievement".equals(method)){
+							map.put("auditFiled", "专业学术成果");
+							falg = true;
+						}else if("getReviewSituation".equals(method)){
+							map.put("auditFiled", "参加军队地方采购评审情况");
+							falg = true;
+						}else if("getTimeToWork".equals(method)){
+							map.put("auditFiled", "参加工作时间");
+							falg = true;
+						}else if("getDegree".equals(method)){
+							map.put("auditFiled", "最高学位");
+							falg = true;
+						}else if("getJobExperiences".equals(method)){
+							map.put("auditFiled", "主要工作经历");
+							falg = true;
+					}
 						 editFields.add(method);
 					}
 					if(falg){
 						
 						//政治面貌：
-						if("getPoliticsStatus".equals(method)){
+						if(param !=null && "getPoliticsStatus".equals(method)){
 							DictionaryData DictionaryData = dictionaryDataServiceI.getDictionaryData((String)param);
 							map.put("auditContent", DictionaryData.getName());
 						}
@@ -3675,7 +3693,7 @@ public class ExpertAuditController{
 			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
 			
 			/*
-			 * 查修改过的产品目录
+			 * 查修改过的产品目录（已修改）
 			 */
 			expertAudit.setSuggestType("six");
 			expertAudit.setAuditStatus("2");
@@ -3684,6 +3702,13 @@ public class ExpertAuditController{
 		}else if(expertAudit.getAuditFalg()==2){
 			expertAudit.setAuditFalg(2);
 			expertAudit.setStatusQuery("notPass");
+			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
+			/*
+			 * 查不通过产品目录（已修改）
+			 */
+			expertAudit.setSuggestType("six");
+			expertAudit.setAuditStatus("2");
+			expertAudit.setStatusQuery(null);
 			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
 		}
 		Map<String,Integer> map = new HashMap<String,Integer>();

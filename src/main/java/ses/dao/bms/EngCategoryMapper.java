@@ -265,4 +265,11 @@ public interface EngCategoryMapper {
 	 * @return
 	 */
 	public List<String> selExtractCategory(String pId);
+	
+	/**
+	 * 查询导出专家所需数据
+	 * @param map
+	 * @return
+	 */
+	List<Category> selectExportExcelData(Map<String,Object> map);
 }

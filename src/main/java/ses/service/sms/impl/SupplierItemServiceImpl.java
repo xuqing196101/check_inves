@@ -643,9 +643,9 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 
 	@Override
 	public void deleteBySupplierId(String supplierId) {
-	 Map<String,String> map=new HashMap<String,String>();
-	 map.put("supplierId", supplierId);
-	 supplierItemMapper.deleteByMap(map);
+		Map<String,String> map=new HashMap<String,String>();
+		map.put("supplierId", supplierId);
+		supplierItemMapper.deleteByMap(map);
 	}	
 	
 	public List<SupplierItem> queryBySupplierAndType(String supplierId,String type){

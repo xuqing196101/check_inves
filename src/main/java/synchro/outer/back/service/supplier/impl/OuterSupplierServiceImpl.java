@@ -950,7 +950,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     @Override
     public void selectLogoutSupplierOfExport(String startTime, String endTime) {
         // 查询注销供应商
-        Map<String, Object> map = new HashedMap();
+        Map<String, Object> map = new HashMap<>();
         map.put("startTime", startTime);
         map.put("endTime", endTime);
         map.put("isDeleted", 1);

@@ -36,6 +36,7 @@ import ses.dao.sms.SupplierStarsMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
+import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryQua;
 import ses.model.bms.DictionaryData;
@@ -309,7 +310,19 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
             PropertiesUtil config = new PropertiesUtil("config.properties");
             PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
         }
-		List<Supplier> listSupplier=supplierMapper.querySupplierbytypeAndCategoryIds(supplier);
+		List<Supplier> listSupplier = supplierMapper.querySupplierbytypeAndCategoryIds(supplier);
+        // 封装地区
+        StringBuffer sb = new StringBuffer();
+        Area area = null;
+        if(listSupplier != null && !listSupplier.isEmpty()){
+        	for (Supplier sup : listSupplier){
+                area = sup.getArea();
+                if(area != null){
+                    sup.setName(sb.append(area.getName()).append(" ").append(sup.getName()).toString());
+                    sb.delete(0, sb.length());
+                }
+			}
+		}
 		/*SupplierStars supplierStars = new SupplierStars();
 		supplierStars.setStatus(1);
 		List<SupplierStars> listSupplierStars = supplierStarsMapper.findSupplierStars(supplierStars);
@@ -976,6 +989,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		cateTree.setIsItemsProductPageAudit(countData(supplierId, cateTree.getItemsId(), ses.util.Constant.ITEMS_PRODUCT_PAGE));
 		//封装 目录 物资销售 是否有审核记录数据   审核字段存储：目录末级节点ID
 		cateTree.setIsItemsSalesPageAudit(countData(supplierId, cateTree.getItemsId(), ses.util.Constant.ITEMS_SALES_PAGE));
+		cateTree.setAuditIsDeleted(countDataIsDeleted(supplierId, cateTree.getItemsId(), cateTree.getAuditType()));// 设置是否历史审核记录
 
 		//资质文件：物资生产/物资销售/服务  审核字段存储：目录三级节点ID关联的SupplierItem的ID
 		//--工程 审核字段存储：目录末级节点ID关联的SupplierItem的ID
@@ -1142,8 +1156,10 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	            if(nowDateString.equals(afterDateString)){
 	                // 审核通过，自动入库
 	                supplier.setStatus(1);
-	                // 设置更新时间
-	                supplier.setUpdatedAt(new Date());
+                    // 设置更新时间
+                    supplier.setUpdatedAt(new Date());
+	                // 设置入库时间
+	                supplier.setInstorageAt(new Date());
 	                // 修改
 	                supplierMapper.updateStatus(supplier);
 	            }
@@ -1885,6 +1901,14 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		audit.setSupplierId(supplierId);
 		audit.setAuditField(auditField);
 		audit.setAuditType(auditType);
+		return countAuditRecords(audit, SupplierConstants.AUDIT_RETURN_STATUS);
+	}
+	private Integer countDataIsDeleted(String supplierId, String auditField, String auditType){
+		SupplierAudit audit=new SupplierAudit();
+		audit.setSupplierId(supplierId);
+		audit.setAuditField(auditField);
+		audit.setAuditType(auditType);
+		audit.setIsDeleted(1);
 		return countAuditRecords(audit, SupplierConstants.AUDIT_RETURN_STATUS);
 	}
 	@Override

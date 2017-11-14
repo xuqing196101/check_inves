@@ -75,41 +75,21 @@ public class PurchaseResourceAnalyzeController {
 		if(this.verifyPermission(user)){
 			return "redirect:list.html";
 		}
-		List<Supplier> listSupplier = supplierAuditService.querySupplierbytypeAndCategoryIds(sup, null);
-
-		Map<String, Integer> map = supplierEditService.getMap();
-		Integer maxCount = 0;
-		Integer totalCount = 0;
-		if(listSupplier != null){
-			totalCount = listSupplier.size();
-			for (Supplier supplier : listSupplier) {
-				for (Map.Entry<String, Integer> entry : map.entrySet()) {
-					if (supplier.getName() != null
-							&& !"".equals(supplier.getName())
-							&& supplier.getName().indexOf(entry.getKey()) != -1) {
-						map.put((String) entry.getKey(),
-								(Integer) map.get(entry.getKey()) + 1);
-						if (maxCount < map.get(entry.getKey())) {
-							maxCount = map.get(entry.getKey());
-						}
-						break;
-					}
-				}
-			}			
-		}
-		if (maxCount == 0) {
-			maxCount = 2500;
-		}
-		List<Maps> listMap = new LinkedList<Maps>();
-		for (Map.Entry<String, Integer> entry : map.entrySet()) {
-			Maps mp = new Maps();
-			mp.setValue(new BigDecimal(entry.getValue()));
-			mp.setName(entry.getKey());
-			listMap.add(mp);
-		}
-		String json = JSON.toJSONString(listMap);
-		model.addAttribute("listMap", listMap);
+        List<AnalyzeBigDecimal> list = purchaseResourceAnalyzeService.selectSuppliersByArea();
+        String json = JSON.toJSONString(list);
+		BigDecimal maxCount = new BigDecimal(0);
+        BigDecimal totalCount = new BigDecimal(0);
 		model.addAttribute("data", json);
+		if(list != null && !list.isEmpty()){
+			AnalyzeBigDecimal analy = list.get(0);
+			maxCount = analy.getValue();
+			for (AnalyzeBigDecimal analyze : list) {
+				if(analyze.getValue().compareTo(maxCount) == 1){
+					maxCount = analyze.getValue();
+				}
+                totalCount = totalCount.add(analyze.getValue());
+            }
+		}
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("maxCount", maxCount);
 		return "dss/rids/analyze/analyzeSupplier";
@@ -177,6 +157,7 @@ public class PurchaseResourceAnalyzeController {
 		List<AnalyzeBigDecimal> list = purchaseResourceAnalyzeService.selectExpertsByArea();
 		String json = JSON.toJSONString(list);
 		BigDecimal maxCount = new BigDecimal(0);
+        BigDecimal totalCount = new BigDecimal(0);
 		model.addAttribute("data", json);
 		if(list != null && !list.isEmpty()){
 			AnalyzeBigDecimal analy = list.get(0);
@@ -185,11 +166,9 @@ public class PurchaseResourceAnalyzeController {
 				if(analyze.getValue().compareTo(maxCount) == 1){
 					maxCount = analyze.getValue();
 				}
-				
+                totalCount = totalCount.add(analyze.getValue());
 			}
 		}
-		// 查询入库专家数量
-		Long totalCount = purchaseResourceAnalyzeService.selectStoreExpertCount();
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("maxCount", maxCount);
 		return "dss/rids/analyze/analyzeExpert";

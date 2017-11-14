@@ -485,10 +485,13 @@ public class Expert extends ExpertHistory implements Serializable {
     
     private List<String> expertTypeId;
     
+    private String items;
     
     private String contactMobile;
     
     private String  contactName;
+    
+    private String batchDetailsNumber; //专家编号
     /**
      * 专家提交审核时间
      **/
@@ -1209,6 +1212,22 @@ public class Expert extends ExpertHistory implements Serializable {
 
 	public void setContactName(String contactName) {
 		this.contactName = contactName;
+	}
+
+	public String getItems() {
+		return items;
+	}
+
+	public void setItems(String items) {
+		this.items = items;
+	}
+
+	public String getBatchDetailsNumber() {
+		return batchDetailsNumber;
+	}
+
+	public void setBatchDetailsNumber(String batchDetailsNumber) {
+		this.batchDetailsNumber = batchDetailsNumber;
 	}
     
     
