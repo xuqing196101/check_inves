@@ -1559,7 +1559,12 @@
 											  </c:if>
 												<c:if test="${supplierMatEngs.isHavingConAchi eq '1'}">
 												  <input id="isHavingConAchi" type="text" value="有" onclick="reasonEngineering1(this)" <c:if test="${fn:contains(fieldSecrecy,'isHavingConAchi')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('isHavingConAchi','mat_eng_page');"</c:if> <c:if test="${fn:contains(auditEngField,'isHavingConAchi')}">style="border: 1px solid red;"</c:if>/>
-											  </c:if>
+												</c:if>
+												<c:if test="${fn:contains(unableEngField,'isHavingConAchi')}">
+													<a class="abolish">
+														<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'/>
+													</a>
+												</c:if>
 											</div>
 										</li>
 										

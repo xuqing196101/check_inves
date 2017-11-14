@@ -27,7 +27,6 @@ import iss.service.ps.ArticleTypeService;
 import iss.service.ps.DownloadUserService;
 import iss.service.ps.IndexNewsService;
 import iss.service.ps.SearchService;
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -2466,7 +2465,7 @@ public class IndexNewsController extends BaseSupplierController{
         if(StringUtils.isNotBlank(query_id_of_cate)){
             // 封装查询数据
 			// 定义两个集合
-			Map<String, Object> map = new HashedMap();
+			Map<String, Object> map = new HashMap<>();
 			map.put("supplierId", query_id_of_cate);
             Set<String> set = supplierItemService.findPassSupplierTypeBySupplierId(map);
             model.addAttribute("supplierTypes", StringUtils.join(set,","));

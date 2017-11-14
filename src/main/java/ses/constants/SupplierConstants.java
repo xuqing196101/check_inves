@@ -1,12 +1,11 @@
 package ses.constants;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
+import common.constant.Constant;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import common.constant.Constant;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @Description: 供应商常量
@@ -14,6 +13,9 @@ import common.constant.Constant;
  * @date 2017-8-31 上午11:25:51
  */
 public class SupplierConstants extends Constant {
+
+	// 定义入库状态数组
+	public static final Integer[] INSTORAGE_STATUS = new Integer[]{1, -4, 5, 6, -5, 7, 8};
 	/**
 	 * 供应商状态
 	 * <pre>

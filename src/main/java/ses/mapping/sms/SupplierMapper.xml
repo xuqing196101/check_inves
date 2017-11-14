@@ -92,6 +92,7 @@
 		<result column="AUDITOR" property="auditor" />
 		<result column="AUDIT_TEMPORARY" property="auditTemporary" />
 		<result column="AUDIT_OPINION_ATTACH" property="auditOpinionAttach" />
+		<result column="INSTORAGE_AT" property="instorageAt" jdbcType="TIMESTAMP"/>
     <association property="area" column="ADDRESS" select="ses.dao.bms.AreaMapper.selectById"/>
 	</resultMap>
 
@@ -107,6 +108,13 @@
 		<id column="ID" property="id" />
 		<result column="AUDIT_DATE" property="auditDate" jdbcType="TIMESTAMP" />
 	</resultMap>
+
+    <!-- 统计Analyze关系映射 -->
+    <resultMap type="ses.model.bms.AnalyzeBigDecimal" id="baseAnalyze">
+        <result column="COL_NAME" property="name"/>
+        <result column="COL_VALUE" property="value"/>
+        <result column="COL_ID" property="id"/>
+    </resultMap>
 	
 	<!-- 供应商公示列表查询 -->
   <resultMap id="supplierOfPublicityMapList" type="ses.model.sms.SupplierPublicity" extends="BaseResultMap">
@@ -134,7 +142,8 @@
 		BUSINESS_CERT,DETAIL_ADDRESS,ARMY_BUSINESS_NAME,ARMY_BUSINESS_FAX,ARMY_BUSINESS_MOBILE,
 		ARMY_BUSINESS_TELEPHONE,ARMY_BUSINESS_EMAIL,AUDIT_DATE,ARMY_BUSINESS_ADDRESS,CONCAT_PROVINCE,CONCAT_CITY,ARMY_BUSINESS_PROVINCE,
 		ARMY_BUSINESS_CITY,IS_PROVISIONAL,DESCRIPTION,LEVEL_SCORE_PRODUCT,LEVEL_SCORE_SALES,LEVEL_SCORE_SERVICE,IS_ILLEGAL,PURCHASE_EXPERIENCE,
-		IS_HAVING_CON_CERT, BUSINESS_NATURE, IS_PUBLISH, EXTRACT_ORGID, IS_DELETED, AUDITOR, AUDIT_TEMPORARY,AUDIT_OPINION_ATTACH
+		IS_HAVING_CON_CERT, BUSINESS_NATURE, IS_PUBLISH, EXTRACT_ORGID, IS_DELETED, AUDITOR, AUDIT_TEMPORARY,AUDIT_OPINION_ATTACH,
+		INSTORAGE_AT
 	</sql>
 	<!--查询每个供应商所对应的所有类型 作者SBW -->
 	<select id="selectSupplierTypes" parameterType="ses.model.sms.Supplier"
@@ -496,6 +505,9 @@
 			<if test="auditOpinionAttach != null">
                 AUDIT_OPINION_ATTACH,
 			</if>
+			<if test="instorageAt != null">
+                INSTORAGE_AT,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -727,6 +739,9 @@
             </if>
             <if test="auditOpinionAttach != null">
                 #{auditOpinionAttach},
+            </if>
+            <if test="instorageAt != null">
+                #{instorageAt},
             </if>
 		</trim>
 	</insert>
@@ -969,6 +984,9 @@
             </if>
             <if test="auditOpinionAttach != null">
                 AUDIT_OPINION_ATTACH=#{auditOpinionAttach},
+            </if>
+            <if test="instorageAt != null">
+                INSTORAGE_AT=#{instorageAt},
             </if>
 		</set>
 		where ID = #{id}
@@ -1332,15 +1350,15 @@
       </if>
   </select>
 
-	<!--  -->
+	<!-- 全部/入库供应商查询 -->
 	<select id="querySupplierbytypeAndCategoryIds" parameterType="ses.model.sms.Supplier" resultMap="findSupplierMap">
     SELECT
-      "NVL" (T4.NAME, T3.NAME) AS NAME,
       t1.typeId,
       t2.ID,
       t2.SUPPLIER_NAME,
       t2.CREATED_AT,
       t2.SUBMIT_AT,
+      t2.INSTORAGE_AT,
       t2.AUDIT_DATE,
       t2.SUPPLIER_STATUS,
       t2.AUDIT_TEMPORARY,
@@ -1349,10 +1367,13 @@
       t2.CREDIT_CODE,
       t2.CONTACT_NAME,
       t2.CONTACT_ADDRESS,
-      t2.ADDRESS,
       t2.MOBILE,
 	  t2.CONTACT_MOBILE,
-      org.SHORT_NAME AS orgName
+      org.SHORT_NAME AS orgName,
+      <!--省-->
+      T3.PARENT_ID AS ADDRESS,
+      <!--区-->
+      T3.NAME
     FROM
       (SELECT
           ID,
@@ -1393,7 +1414,7 @@
            GROUP BY ID) t1
     LEFT JOIN T_SES_SMS_SUPPLIER t2 ON t1.ID = t2.ID
     LEFT JOIN T_SES_BMS_AREA T3 ON t2.ADDRESS = T3.ID
-    LEFT JOIN T_SES_BMS_AREA T4 ON T3.PARENT_ID = T4.ID
+    <!--LEFT JOIN T_SES_BMS_AREA T4 ON T3.PARENT_ID = T4.ID-->
     LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON t2.PROCUREMENT_DEP_ID = dep.ID
     LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
     WHERE
@@ -1451,11 +1472,12 @@
 	    <if test="judge == 5">
 	      <!-- and (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS =6 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS =8)
 	      and IS_PROVISIONAL = '0' -->
-	      and (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS = -4 or SUPPLIER_STATUS = -5)
-	      and IS_PROVISIONAL = '0'
+	      AND (SUPPLIER_STATUS = 1 OR SUPPLIER_STATUS = -4 OR SUPPLIER_STATUS = 5 OR SUPPLIER_STATUS = 6 OR SUPPLIER_STATUS = -5
+            OR SUPPLIER_STATUS = 7 OR SUPPLIER_STATUS = 8)
+	      AND IS_PROVISIONAL = '0'
 	    </if>
 	    <if test="address != null and address !=''">
-	      and t4.NAME like CONCAT(CONCAT('%', #{address}), '%')
+	      AND T3.PARENT_ID = #{address}
 	    </if>
 	    <if test="loginName != null and loginName !=''">
 	      and LOGIN_NAME like CONCAT(CONCAT('%', #{loginName}), '%')
@@ -1472,8 +1494,134 @@
 	    <!-- <if test="judge == null and judge != 5">
 	      ORDER BY CREATED_AT DESC NULLS LAST
 	    </if> -->
-      ORDER BY AUDIT_DATE  DESC NULLS LAST
+      ORDER BY SUBMIT_AT, AUDIT_DATE  DESC NULLS LAST
   </select>
+
+    <!-- 查询无产品供应商 -->
+    <select id="selectSupplierListByNoCate" parameterType="ses.model.sms.Supplier" resultMap="findSupplierMap">
+        SELECT
+        t1.typeId,
+        t2.ID,
+        t2.SUPPLIER_NAME,
+        t2.CREATED_AT,
+        t2.SUBMIT_AT,
+        t2.INSTORAGE_AT,
+        t2.AUDIT_DATE,
+        t2.AUDIT_TEMPORARY,
+        t2.BUSINESS_NATURE,
+        t2.IS_PROVISIONAL,
+        t2.CREDIT_CODE,
+        t2.CONTACT_NAME,
+        t2.CONTACT_ADDRESS,
+        t2.MOBILE,
+        t2.CONTACT_MOBILE,
+        org.SHORT_NAME AS orgName,
+        <!--省-->
+        T3.PARENT_ID AS ADDRESS,
+        <!--区-->
+        T3.NAME,
+        400 AS SUPPLIER_STATUS
+        FROM
+        (SELECT
+        ID,
+        wm_concat (DISTINCT(SUPPLIER_TYPE_ID)) AS typeId
+        FROM
+        (SELECT
+        t1.ID,
+        t3.SUPPLIER_TYPE_ID
+        FROM
+        T_SES_SMS_SUPPLIER t1
+        LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE t3 ON t1. ID = t3.SUPPLIER_ID)
+        GROUP BY
+        ID
+        ) t1
+        LEFT JOIN T_SES_SMS_SUPPLIER t2 ON t1.ID = t2.ID
+        LEFT JOIN T_SES_BMS_AREA T3 ON t2.ADDRESS = T3.ID
+        LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON t2.PROCUREMENT_DEP_ID = dep.ID
+        LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
+        WHERE
+        t2.IS_DELETED = 0
+        AND t2.ID NOT IN(
+        SELECT t_item.SUPPLIER_ID FROM T_SES_SMS_SUPPLIER_ITEM t_item WHERE t_item.NODE_LEVEL = 3 AND t_item.CATEGORY_ID IN(
+        SELECT ID FROM T_SES_BMS_CATEGORY WHERE IS_PUBLISH = 0
+        )
+        )
+        <if test="itemType != null and itemType != ''">
+            <foreach item="itemType" index="index" collection="itemType" open="and(" separator="or" close=")">
+                T1.typeId LIKE CONCAT(CONCAT('%', #{itemType}), '%')
+            </foreach>
+        </if>
+        <if test="supplierName != null and supplierName !=''">
+            and SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
+        </if>
+        <if test="startDate != null">
+            AND CREATED_AT &gt;= #{startDate}
+        </if>
+        <if test="endDate != null">
+            AND CREATED_AT &lt;= #{endDate}
+        </if>
+        <if test="startSubimtDate != null">
+            AND SUBMIT_AT &gt;= #{startSubimtDate}
+        </if>
+        <if test="endSubimtDate != null">
+            AND SUBMIT_AT &lt;= #{endSubimtDate}
+        </if>
+        <if test="startAuditDate != null">
+            AND AUDIT_DATE &gt;= #{startAuditDate}
+        </if>
+        <if test="endAuditDate != null">
+            AND AUDIT_DATE &lt;= #{endAuditDate}
+        </if>
+        <if test="contactName != null and contactName != ''">
+            AND T2.CONTACT_NAME like CONCAT(CONCAT('%', #{contactName}), '%')
+        </if>
+        <if test="businessType != null and businessType != ''">
+            AND BUSINESS_TYPE =#{businessType}
+        </if>
+        <if test="businessNature != null and businessNature != ''">
+            AND BUSINESS_NATURE =#{businessNature}
+        </if>
+        <if test="orgName != null and orgName != ''">
+            AND ORG.SHORT_NAME =#{orgName}
+        </if>
+        <if test="orgId != null and orgId != ''">
+            AND ORG.ID = #{orgId}
+        </if>
+        <if test="status != null">
+            <if test="status == 5">
+                and IS_PROVISIONAL = '0'
+            </if>
+            and SUPPLIER_STATUS = #{status}
+        </if>
+        <if test="auditTemporary != null">
+            and t2.AUDIT_TEMPORARY = #{auditTemporary}
+        </if>
+        <if test="judge == 5">
+            <!-- and (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS =6 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS =8)
+            and IS_PROVISIONAL = '0' -->
+            and (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS = -4 or SUPPLIER_STATUS = -5)
+            and IS_PROVISIONAL = '0'
+        </if>
+        <if test="address != null and address !=''">
+            AND T3.PARENT_ID = #{address}
+        </if>
+        <if test="loginName != null and loginName !=''">
+            and LOGIN_NAME like CONCAT(CONCAT('%', #{loginName}), '%')
+        </if>
+        <if test="mobile != null and mobile !=''">
+            and MOBILE like CONCAT(CONCAT('%', #{mobile}), '%')
+        </if>
+        <if test="isProvisional != null">
+            and IS_PROVISIONAL = #{isProvisional}
+        </if>
+        <if test="creditCode != null and creditCode != '' ">
+            and CREDIT_CODE like CONCAT(CONCAT('%', #{creditCode}), '%')
+        </if>
+        <!-- <if test="judge == null and judge != 5">
+          ORDER BY CREATED_AT DESC NULLS LAST
+        </if> -->
+        ORDER BY SUBMIT_AT, AUDIT_DATE  DESC NULLS LAST
+    </select>
 
 	<select id="findSupplierbyCategoryId" parameterType="ses.model.sms.Supplier"	resultMap="findSupplierMap">
 		SELECT
@@ -1610,6 +1758,9 @@
             </if>
             <if test="auditOpinionAttach !=null">
                 AUDIT_OPINION_ATTACH = #{auditOpinionAttach}
+            </if>
+            <if test="instorageAt !=null">
+                INSTORAGE_AT = #{instorageAt}
             </if>
         </set>
         where ID = #{id}
@@ -2282,129 +2433,30 @@
         AND (SUPPLIER_STATUS ='3' or  SUPPLIER_STATUS ='6' or SUPPLIER_STATUS ='8')
         AND IS_DELETED = 0
     </select>
-    
-     <!-- 查询无产品供应商 -->
-    <select id="selectSupplierListByNoCate" parameterType="ses.model.sms.Supplier" resultMap="findSupplierMap">
-    	SELECT
-      "NVL" (T4.NAME, T3.NAME) AS NAME,
-      t1.typeId,
-      t2.ID,
-      t2.SUPPLIER_NAME,
-      t2.CREATED_AT,
-      t2.SUBMIT_AT,
-      t2.AUDIT_DATE,
-      <!-- t2.SUPPLIER_STATUS, -->
-      400 AS SUPPLIER_STATUS,
-      t2.AUDIT_TEMPORARY,
-      t2.BUSINESS_NATURE,
-      t2.IS_PROVISIONAL,
-      t2.CREDIT_CODE,
-      t2.CONTACT_NAME,
-	  t2.CONTACT_ADDRESS,
-	  t2.ADDRESS,
-      t2.MOBILE,
-	  t2.CONTACT_MOBILE,
-      org.SHORT_NAME AS orgName
-    FROM
-      (SELECT
-          ID,
-          wm_concat (DISTINCT(SUPPLIER_TYPE_ID)) AS typeId
-        FROM
-          (SELECT
-             t1.ID,
-             t3.SUPPLIER_TYPE_ID
-           FROM
-             T_SES_SMS_SUPPLIER t1
-             LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE t3 ON t1. ID = t3.SUPPLIER_ID)
-           GROUP BY
-             ID
-      ) t1
-    LEFT JOIN T_SES_SMS_SUPPLIER t2 ON t1.ID = t2.ID 
-    LEFT JOIN T_SES_BMS_AREA T3 ON t2.ADDRESS = T3.ID
-    LEFT JOIN T_SES_BMS_AREA T4 ON T3.PARENT_ID = T4.ID
-    LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON t2.PROCUREMENT_DEP_ID = dep.ID
-    LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
-    WHERE
-      t2.IS_DELETED = 0
-      AND t2.ID NOT IN(
-      	SELECT t_item.SUPPLIER_ID FROM T_SES_SMS_SUPPLIER_ITEM t_item WHERE t_item.NODE_LEVEL = 3 AND t_item.CATEGORY_ID IN(
-					SELECT ID FROM T_SES_BMS_CATEGORY WHERE IS_PUBLISH = 0
-				)
-      )
-	    <if test="itemType != null and itemType != ''">
-	      <foreach item="itemType" index="index" collection="itemType" open="and(" separator="or" close=")">
-	        T1.typeId LIKE CONCAT(CONCAT('%', #{itemType}), '%')
-	      </foreach>
-	    </if>
-	    <if test="supplierName != null and supplierName !=''">
-	      and SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
-	    </if>
-	    <if test="startDate != null">
-	      AND CREATED_AT &gt;= #{startDate}
-	    </if>
-	    <if test="endDate != null">
-	      AND CREATED_AT &lt;= #{endDate}
-	    </if>
-	    <if test="startSubimtDate != null">
-	      AND SUBMIT_AT &gt;= #{startSubimtDate}
-	    </if>
-	    <if test="endSubimtDate != null">
-	      AND SUBMIT_AT &lt;= #{endSubimtDate}
-	    </if>
-	    <if test="startAuditDate != null">
-	      AND AUDIT_DATE &gt;= #{startAuditDate}
-	    </if>
-	    <if test="endAuditDate != null">
-	      AND AUDIT_DATE &lt;= #{endAuditDate}
-	    </if>
-	    <if test="contactName != null and contactName != ''">
-	      AND T2.CONTACT_NAME like CONCAT(CONCAT('%', #{contactName}), '%')
-	    </if>
-	    <if test="businessType != null and businessType != ''">
-	      AND BUSINESS_TYPE =#{businessType}
-	    </if>
-	    <if test="businessNature != null and businessNature != ''">
-	      AND BUSINESS_NATURE =#{businessNature}
-	    </if>
-	    <if test="orgName != null and orgName != ''">
-	      AND ORG.SHORT_NAME =#{orgName}
-	    </if>
-	    <if test="orgId != null and orgId != ''">
-	      AND ORG.ID = #{orgId}
-	    </if>
-	    <if test="status != null">
-	      <if test="status == 5">
-	        and IS_PROVISIONAL = '0'
-	      </if>
-	      and SUPPLIER_STATUS = #{status}
-	    </if>
-	    <if test="auditTemporary != null">
-	      and t2.AUDIT_TEMPORARY = #{auditTemporary}
-	    </if>
-	    <if test="judge == 5">
-	      <!-- and (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS =6 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS =8)
-	      and IS_PROVISIONAL = '0' -->
-	      and (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS = -4 or SUPPLIER_STATUS = -5)
-	      and IS_PROVISIONAL = '0'
-	    </if>
-	    <if test="address != null and address !=''">
-	      and t4.NAME like CONCAT(CONCAT('%', #{address}), '%')
-	    </if>
-	    <if test="loginName != null and loginName !=''">
-	      and LOGIN_NAME like CONCAT(CONCAT('%', #{loginName}), '%')
-	    </if>
-	    <if test="mobile != null and mobile !=''">
-	      and MOBILE like CONCAT(CONCAT('%', #{mobile}), '%')
-	    </if>
-	    <if test="isProvisional != null">
-	      and IS_PROVISIONAL = #{isProvisional}
-	    </if>
-	    <if test="creditCode != null and creditCode != '' ">
-	      and CREDIT_CODE like CONCAT(CONCAT('%', #{creditCode}), '%')
-	    </if>
-	    <!-- <if test="judge == null and judge != 5">
-	      ORDER BY CREATED_AT DESC NULLS LAST
-	    </if> -->
-      ORDER BY AUDIT_DATE  DESC NULLS LAST
+
+    <!-- 查询地区下所对应的供应商 -->
+    <select id="selectSuppliersByArea" resultMap="baseAnalyze">
+        SELECT REPLACE(SUBSTR(P.NAME, 0, 3), '省', '') AS COL_NAME,
+		       COUNT(T.ID) AS COL_VALUE,
+		       P.AREAID AS COL_ID
+		  FROM (SELECT A.ID, AREA.NAME, AREA.ID AS AREAID
+		          FROM T_SES_BMS_AREA AREA
+		          LEFT JOIN T_SES_BMS_AREA A
+		            ON AREA.ID = A.PARENT_ID
+		         WHERE AREA.PARENT_ID = '0') P
+		  LEFT JOIN (SELECT T.ADDRESS, T.ID
+		               FROM T_SES_SMS_SUPPLIER T
+		              WHERE T.IS_PROVISIONAL = '0'
+		                AND T.IS_DELETED = 0
+		                <if test="supplierStatusList != null and supplierStatusList.size() > 0">
+                            AND T.SUPPLIER_STATUS IN
+                            <foreach collection="supplierStatusList" item="supplierStatus" open="(" close=")" separator=",">
+                                #{supplierStatus}
+                            </foreach>
+                        </if>
+		                ) T
+		    ON P.ID = T.ADDRESS
+		 GROUP BY P.NAME, P.AREAID
     </select>
+    
 </mapper>

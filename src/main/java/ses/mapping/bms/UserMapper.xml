@@ -573,7 +573,7 @@
       <if test="telephone != null and telephone != ''">
         TELEPHONE = #{telephone,jdbcType=VARCHAR},
       </if>
-      <if test="email != ''">
+      <if test="email != null and email != ''">
         EMAIL = #{email,jdbcType=VARCHAR},
       </if>
       <if test="org != null">
@@ -582,7 +582,7 @@
       <if test="typeName == 3 and org == null">
         ORG_ID = null,
       </if>
-      <if test="duties != ''">
+      <if test="duties != null and duties != ''">
         DUTIES = #{duties,jdbcType=VARCHAR},
       </if>
       <if test="typeName != null">
@@ -1171,7 +1171,7 @@
         SELECT
         <include refid="Base_Column_List_Alias"/>
         FROM T_SES_BMS_USER U
-        LEFT JOIN T_SES_SMS_SUPPLIER T
+        INNER JOIN T_SES_SMS_SUPPLIER T
         ON U.TYPE_ID = T.ID
         WHERE U.IS_DELETED = #{isDeleted}
         AND U.UPDATED_AT &gt;=

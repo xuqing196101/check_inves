@@ -9,7 +9,7 @@
     <style type="text/css">
       .abolish_img{
   			position: absolute;
-		    right: 320px;
+		    right: 380px;
 		    top: 5px;
 		    color: #ef0000;
 		    font-weight: bold;
