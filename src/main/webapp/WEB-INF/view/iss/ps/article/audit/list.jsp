@@ -538,7 +538,7 @@
                  ${article.user.relName }
               </td>
               <td class="tl" >
-                ${article.user.orgName }
+                ${article.user.org.shortName}
               </td>
               <%-- <td class="tc" onclick="view('${article.id }')">
                 <fmt:formatDate value='${article.submitAt }' pattern="yyyy-MM-dd   HH:mm:ss" />
