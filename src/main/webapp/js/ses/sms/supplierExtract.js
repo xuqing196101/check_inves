@@ -758,6 +758,7 @@ function opens(cate) {
         	 if(typeCode == "PROJECT"){
              	initTypeLevelId(null);
              }
+        	selectLikeSupplier();
             opens(cate);
         }
     });
