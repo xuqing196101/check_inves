@@ -16,7 +16,7 @@ $(function(){
 });
 
 //审核资质不通过理由
-function reasonProject(ind,auditField, auditFieldName,inds,quaId,quaName) {
+function reasonProject(ind,auditField, auditFieldName,idx,quaId,quaName) {
 	var supplierStatus = $("input[name='supplierStatus']").val();
     var sign = $("input[name='sign']").val();
     // 只有审核的状态能审核
