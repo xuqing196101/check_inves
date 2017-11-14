@@ -1,5 +1,6 @@
 package synchro.outer.back.service.supplier;
 
+import java.io.File;
 import java.util.Date;
 
 /**
@@ -93,4 +94,14 @@ public interface OuterSupplierService {
      * @param endTime
      */
 	void selectSupplierLevelOfExport(String startTime, String endTime);
+
+	/**
+	 * 外网导入供应商等级
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-11-10下午5:02:33
+	 * @param f
+	 */
+	public void importSupplierLevel(File f);
 }

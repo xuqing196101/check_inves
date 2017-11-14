@@ -1,11 +1,15 @@
 package synchro.inner.read.supplier.impl;
 
-import common.constant.Constant;
-import common.dao.FileUploadMapper;
-import common.model.UploadFile;
+import java.io.File;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.sms.SupplierAddressMapper;
@@ -22,6 +26,7 @@ import ses.dao.sms.SupplierCertServeMapper;
 import ses.dao.sms.SupplierEngQuaMapper;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierHistoryMapper;
+import ses.dao.sms.SupplierItemLevelMapper;
 import ses.dao.sms.SupplierItemMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierMatEngMapper;
@@ -52,6 +57,7 @@ import ses.model.sms.SupplierEngQua;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierHistory;
 import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierItemLevel;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
@@ -68,8 +74,11 @@ import synchro.inner.read.supplier.InnerSupplierService;
 import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
 
-import java.io.File;
-import java.util.List;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import common.constant.Constant;
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
 
 /**
  * 版权：(C) 版权所有
@@ -191,6 +200,9 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 
     @Autowired
     private SupplierAuditOpinionMapper supplierAuditOpinionMapper;
+    
+    @Autowired
+    private SupplierItemLevelMapper supplierItemLevelMapper;
 
     /**
      * @see synchro.inner.read.supplier.InnerSupplierService#importSupplierInfo(java.io.File)
@@ -974,5 +986,51 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
             synchRecordService.synchBidding(null, new Integer(list.size()).toString(), synchro.util.Constant.SYNCH_LOGOUT_SUPPLIER, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.IMPORT_SYNCH_LOGOUT_SUPPLIER);
         }
     }
+
+    /**
+     * 导入供应商等级
+     */
+	@Override
+	public void importSupplierLevel(File file) {
+		 int num = 0;
+	        for (File file2 : file.listFiles()) {
+	            // 抽取结果信息
+	            if (file2.getName().contains(FileUtils.SUPPLIER_LEVEL_FILENAME)) {
+	                List<SupplierItemLevel> levelList = FileUtils.getBeans(file2, SupplierItemLevel.class);
+	                num += levelList == null ? 0 : levelList.size();
+	                for (SupplierItemLevel level : levelList) {
+	                	SupplierItemLevel selectById = supplierItemLevelMapper.selectById(level.getId());
+	                    if(selectById != null){
+	                    	supplierItemLevelMapper.updateByPrimaryKey(level);
+	                    }else{
+	                    	supplierItemLevelMapper.insert(level);
+	                    }
+	                }
+	            }
+	        }
+	    synchRecordService.synchBidding(new Date(), num+"", synchro.util.Constant.DATE_SYNCH_SUPPLIER_LEVEL, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.SUPPLIER_LEVEL_COMMIT_IMPORT);
+	}
+
+	
+	/**
+	 * 查询供应商等级导出
+	 */
+	@Override
+	public void selectSupplierLevelOfExport(String startTime, String endTime) {
+		// 查询注销供应商
+    	@SuppressWarnings("unchecked")
+		Map<String, Object> map = new HashedMap();
+    	map.put("startTime", startTime);
+    	map.put("endTime", endTime);
+    	
+    	List<SupplierItemLevel> levels = supplierItemLevelMapper.selectByMapForExport(map);
+    	
+    	// 将查询的数据封装
+    	//将数据写入文件
+    	if (!levels.isEmpty()) {
+    		FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_LEVEL_FILENAME, 37), JSON.toJSONString(levels, SerializerFeature.WriteMapNullValue));
+    	}
+    	synchRecordService.synchBidding(null, new Integer(levels.size()).toString(), synchro.util.Constant.DATE_SYNCH_SUPPLIER_LEVEL, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.SUPPLIER_LEVEL_COMMIT);
+	}
 
 }

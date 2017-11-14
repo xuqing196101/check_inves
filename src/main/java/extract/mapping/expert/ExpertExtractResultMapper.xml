@@ -272,12 +272,12 @@
   <!-- 下载抽取结果 -->
   <select id="getResultListByrecordId" parameterType="java.lang.String" resultMap="expertInfo">
     SELECT R.EXPERT_ID,E.REAL_NAME,E.ID_CARD_NUMBER,E.Profess_Tech_Titles,E.MAJOR,E.PROFESSIONAL,E.MOBILE,E.TELEPHONE,R.IS_JOIN,R.REASON,R.EXPERT_CODE from T_SES_EMS_EXTRACT_RESULT R LEFT JOIN T_SES_EMS_EXPERT E ON R.EXPERT_ID = E.ID
-    WHERE R.PROJECT_ID = #{value} AND R.IS_JOIN IN (1,3) AND R.IS_ALTERNATE IS NULL ORDER BY R.IS_JOIN ASC
+    WHERE R.PROJECT_ID = #{value} AND R.IS_JOIN IN (1,3) AND R.IS_ALTERNATE IS NULL ORDER BY R.EXPERT_CODE,R.IS_JOIN ASC
   </select>
   
   <select id="getBackExpertListByrecordId" parameterType="java.lang.String" resultMap="expertInfo">
     SELECT R.EXPERT_ID,E.REAL_NAME,E.ID_CARD_NUMBER,E.Profess_Tech_Titles,E.MAJOR,E.PROFESSIONAL,E.Mobile,R.IS_JOIN,R.REASON,R.EXPERT_CODE from T_SES_EMS_EXTRACT_RESULT R LEFT JOIN T_SES_EMS_EXPERT E ON R.EXPERT_ID = E.ID
-   WHERE R.PROJECT_ID =#{value} AND R.IS_ALTERNATE = 1
+   WHERE R.PROJECT_ID =#{value} AND R.IS_ALTERNATE = 1 ORDER BY R.EXPERT_CODE,R.IS_JOIN ASC
   </select>
   
   <select id="findAll" resultMap="BaseResultMap">
