@@ -125,7 +125,7 @@
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('expertType');">专家类别</a>
 						</li>
 						<li class="active">
-							<a aria-expanded="true" href="#tab-3" data-toggle="tab" class="f18" onclick="jump('product');">产品类别</a>
+							<a aria-expanded="true" href="#tab-3" data-toggle="tab" class="f18" onclick="jump('product');">参评类别</a>
 						</li>
 						<li class="">
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('expertFile');">承诺书和申请表</a>
@@ -148,7 +148,7 @@
 									<c:set value="${liCount+1}" var="liCount" />
 									<%-- <li id="li_id_${vs.index + 1}" class="active" onclick="showDivTree(this);"> --%>
 									<li id="li_id_${vs.index + 1}" class="active" onclick="showDivTree('${matCodeId }');">
-										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">物资产品类别信息</a>
+										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">物资参评类别信息</a>
 										<input type="hidden" id="mat" value="mat_page">
 										<input id="matCodeId" type="hidden" value="${matCodeId }">
 									</li>
@@ -156,7 +156,7 @@
 								<c:if test="${cate.code eq 'PROJECT'}">
 									<%-- <li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);"> --%>
 									<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree('${engCodeId }');">
-										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程产品类别信息</a>
+										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程参评类别信息</a>
 										<input type="hidden" id="eng" value="eng_page">
 										<input id="engCodeId" type="hidden" value="${engCodeId }">
 									</li>
@@ -173,7 +173,7 @@
 								<c:if test="${cate.code eq 'SERVICE'}">
 									<%-- <li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);"> --%>
 									<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree('${serCodeId }');">
-										<a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="f18">服务产品类别信息</a>
+										<a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="f18">服务参评类别信息</a>
 										<input type="hidden" id="ser" value="ser_page">
 										<input id="serCodeId" type="hidden" value="${serCodeId }">
 									</li>
@@ -183,7 +183,7 @@
 								<!-- 经济 -->
 								<c:if test="${cate.code eq 'GOODS_PROJECT'}">
 									<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree('${goodsProjectId }');">
-										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程产品类别信息</a>
+										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程参评类别信息</a>
 										<input type="hidden" id="goodsProject" value="goodsProject_page">
 										<input id=goodsProjectId type="hidden" value="${goodsProjectId }">
 									</li>
