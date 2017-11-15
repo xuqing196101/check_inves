@@ -11,4 +11,6 @@ public interface ExpertReviewTeamMapper {
 	void insert(ExpertReviewTeam expertReviewTeam);
 	void deleteByPrimaryKey(String id);
 	List<ExpertReviewTeam> findExpertReviewTeam(String userId);
+	void deleteGroupreReviewTeam(String groupId);
+	List<ExpertReviewTeam> selectReviewTeamAll();
 } 

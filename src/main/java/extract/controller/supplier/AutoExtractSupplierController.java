@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import extract.model.supplier.SupplierConType;
 import extract.model.supplier.SupplierExtractCondition;
 import extract.service.supplier.AutoExtractSupplierService;
 
@@ -14,7 +13,7 @@ import extract.service.supplier.AutoExtractSupplierService;
 public class AutoExtractSupplierController {
 
 	@Autowired
-	private AutoExtractSupplierService autoExtract;
+	private AutoExtractSupplierService autoExtractSupplierService;
 	
 	/**
 	 * 内网导出抽取条件
@@ -25,13 +24,15 @@ public class AutoExtractSupplierController {
 	 * @return
 	 */
 	@RequestMapping("exportExtractInfo")
-	public void exportExtractInfo(SupplierExtractCondition condition,SupplierConType conType,String projectInto) {
+	public void exportExtractInfo(SupplierExtractCondition condition,String projectInto) {
 		
 		//处理详细抽取条件
-		autoExtract.exportExtractInfo(condition,conType,projectInto);
+		autoExtractSupplierService.exportExtractInfo(condition,projectInto);
 		
 	}
   
-	
-	
+	@RequestMapping("autoExtractTest")
+	public void selectAutoExtractProject(){
+		autoExtractSupplierService.selectAutoExtractProject();
+	}
 }

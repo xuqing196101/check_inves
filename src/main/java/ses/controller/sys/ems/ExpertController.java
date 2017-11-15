@@ -13,9 +13,11 @@ import bss.service.ppms.SaleTenderService;
 import bss.service.prms.PackageExpertService;
 import bss.service.prms.ReviewProgressService;
 import bss.util.ExcelRead;
+
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import com.google.zxing.WriterException;
+
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
@@ -25,6 +27,7 @@ import common.utils.ListSortUtil;
 import common.utils.QRCodeUtil;
 import common.utils.RSAEncrypt;
 import net.sf.json.JSONObject;
+
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -47,6 +50,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
@@ -118,6 +122,7 @@ import javax.imageio.stream.ImageOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -131,6 +136,7 @@ import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -596,6 +602,7 @@ public class ExpertController extends BaseController {
 	            expertAudit.setExpertId(expertId);
 	            expertAudit.setSuggestType(stepNumber);
 	            expertAudit.setStatusQuery("notPass");
+	            expertAudit.setIsDeleted(1);
 	            List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);
 	            // 所有的不通过字段的名字
 	            StringBuffer errorField = new StringBuffer();
@@ -612,6 +619,7 @@ public class ExpertController extends BaseController {
     			expertAuditFor.setSuggestType("seven");
     			expertAuditFor.setType("1");
     			expertAuditFor.setStatusQuery("notPass");
+    			expertAuditFor.setIsDeleted(1);
     			List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
     			
     			
@@ -2057,8 +2065,8 @@ public class ExpertController extends BaseController {
                     	/* expertAuditService.deleteByExpertId(expertId);*/
                     	
                     	//清空审核人
-                    	expert.setAuditor("");
-                    	expert.setAuditAt(null);
+                    	/*expert.setAuditor("");
+                    	expert.setAuditAt(null);*/
                     	
                     	//退回修改再审核的状态
                     	expert.setStatus("9");
@@ -2231,8 +2239,19 @@ public class ExpertController extends BaseController {
      * @return String
      */
     @RequestMapping("/findAllExpert")
-    public String findAllExpert(Expert expert, Integer page,HttpServletRequest request, HttpServletResponse response, String expertTypeIds, String expertType) {
+    public String findAllExpert(Expert expert, Integer page,HttpServletRequest request, HttpServletResponse response, String expertTypeIds, String expertType, String categoryIds, String categoryNames) {
+    	//类型id
     	expert.setExpertsTypeId(expertTypeIds);
+    	
+    	//品目id
+		if (categoryIds != null && !"".equals(categoryIds)) {
+            List<String> listCategoryIds = Arrays.asList(categoryIds.split(","));
+            expert.setExpertCategoryId(listCategoryIds);
+            request.setAttribute("categoryIds", categoryIds);
+            request.setAttribute("categoryNames", categoryNames);
+        }
+		
+    	
         List < Expert > allExpert = service.selectAllExpert(page == null ? 0 : page, expert);
         for(Expert exp: allExpert) {
             DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(exp.getGender());
@@ -2284,6 +2303,11 @@ public class ExpertController extends BaseController {
         request.setAttribute("expert", expert);
         request.setAttribute("expertType", expertType);
         request.setAttribute("expertTypeIds", expertTypeIds);
+        
+        
+        //地区
+        List < Area > privnce = areaServiceI.findRootArea();
+        request.setAttribute("privnce", privnce);
         return "ses/ems/expert/list";
     }
 

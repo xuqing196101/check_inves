@@ -432,32 +432,28 @@ public class MultiImportTask {
                         result = DictionaryDataUtil.getId(Constant.SYNCH_PUBLICITY_SUPPLIER);
                         if (StringUtils.isNotEmpty(result)) {
                             if (f.getName().equals(Constant.T_SES_SMS_SUPPLIER_PUBLICITY_PATH)) {
-                                if (f.isDirectory()) {
-                                    // 遍历文件夹中的所有文件
-                                    for (File file2 : f.listFiles()) {
-                                        if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_SUPPLIER_FILENAME)) {
-                                            innerSupplierService.importInner(file2, "publicity");
-                                        }
+                                // 遍历文件夹中的所有文件
+                                for (File file2 : f.listFiles()) {
+                                    if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_SUPPLIER_FILENAME)) {
+                                        innerSupplierService.importInner(file2, "publicity");
                                     }
                                 }
                             }
                         }
-						/**
+                        /**
 						 * 专家公示自动导入
 						 */
-						result = DictionaryDataUtil.getId(Constant.SYNCH_PUBLICITY_EXPERT);
-						if(StringUtils.isNotEmpty(result)){
-							if (f.getName().equals(Constant.T_SES_SMS_EXPERT_PUBLICITY_PATH)) {
-								if (f.isDirectory()) {
-									// 遍历文件夹中的所有文件
-									for (File file2 : f.listFiles()) {
-										if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_EXPERT_FILENAME)) {
-											innerExpertService.importExpOfPublicity(file2);
-										}
-									}
-								}
-							}
-						}
+                        result = DictionaryDataUtil.getId(Constant.SYNCH_PUBLICITY_EXPERT);
+                        if (StringUtils.isNotEmpty(result)) {
+                            if (f.getName().equals(Constant.T_SES_SMS_EXPERT_PUBLICITY_PATH)) {
+                                // 遍历文件夹中的所有文件
+                                for (File file2 : f.listFiles()) {
+                                    if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_EXPERT_FILENAME)) {
+                                        innerExpertService.importExpOfPublicity(file2);
+                                    }
+                                }
+                            }
+                        }
 
                         /**
                          * 供应商注销自动导入
@@ -473,7 +469,6 @@ public class MultiImportTask {
                                 }
                             }
                         }
-
                     }
                 }
             }

@@ -23,6 +23,7 @@ import ses.dao.bms.AreaMapper;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.bms.EngCategoryMapper;
+import ses.dao.bms.UserMapper;
 import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
@@ -96,11 +97,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
     
     @Autowired
     private EngCategoryMapper engCategoryMapper;
-    /**
-     * 人员信息
-     */
-    @Autowired
-    private ExtractUserMapper userMapper;
+
     @Autowired
     private SuperviseMapper superviseMapper;
     
@@ -133,6 +130,9 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
     @Autowired
     private ExpertExtractResultMapper expertExtractResultMapper;
     
+    @Autowired
+    private UserMapper userMapper;
+    
     /**
      * 保存信息
      */
@@ -142,6 +142,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
         expertExtractProject.setUpdatedAt(new Date());
         expertExtractProject.setIsDeleted((short) 0);
         expertExtractProject.setStatus("1");
+        expertExtractProject.setCreaterId(user == null ? "" : user.getId());
         if(user != null){
             expertExtractProject.setProcurementDepId(user.getOrg().getId());
         }
@@ -223,24 +224,19 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
                 if(reviewProvince != null && reviewAddress != null){
                     Area area1 = areaMapper.selectById(reviewProvince);
                     Area area2 = areaMapper.selectById(reviewAddress);
+                    StringBuffer address = new StringBuffer();
+                    if(area1 != null){
+                    	address.append(area1.getName());
+                    }
                     if(area1 != null && area2 != null){
-                        expertExtractProject.setReviewAddress(area1.getName() + "/" + area2.getName());
+                    	address.append("/");
+                    	address.append(area2.getName());
                     }
+                    expertExtractProject.setReviewAddress(address.toString());
                 }
+                User user = userMapper.queryById(expertExtractProject.getCreaterId() == null ? "" : expertExtractProject.getCreaterId());
                 //抽取人员
-                List<String> userList = extractUserMapper.getUnameByprojectId(expertExtractProject.getId());
-                StringBuffer sb = new StringBuffer();
-                if(userList != null && userList.size() > 0){
-                    for (int i = 0; i < userList.size(); i++) {
-                        if(i == 0){
-                            sb.append(userList.get(i));
-                        }else{
-                            sb.append(",");
-                            sb.append(userList.get(i));
-                        }
-                    }
-                }
-                expertExtractProject.setExtractPerson(sb.toString());
+                expertExtractProject.setExtractPerson(user == null ? "" :user.getRelName());
             }
         }
         return list;
@@ -308,6 +304,9 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
             map.put("ProcurementDep",findOrgByPrimaryKey.getName());
         }
         
+        //建设单位名称
+        map.put("constructionName", projectInfo.getConstructionName());
+        
         //抽取地点
         map.put("construction", projectInfo.getExtractAddress());
         
@@ -338,7 +337,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
         //map.put("areaName", condition.getAreaName()==0?"全国":"");
         
         //人员信息
-        map.put("extractUsers",  userMapper.getlistByRid(projectInfo.getId()));
+        map.put("extractUsers",  extractUserMapper.getlistByRid(projectInfo.getId()));
         map.put("supervises",  superviseMapper.getlistByRid(projectInfo.getId()));
 
         DictionaryData typeData = DictionaryDataUtil.findById(projectInfo.getProjectType());
@@ -413,15 +412,41 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
         List<ExpertExtractResult> resultList = resultMapper.getResultListByrecordId(id);
         for (ExpertExtractResult expertExtractResult : resultList) {
             if(expertExtractResult.getExpertCode() != null){
-                String typeName = DictionaryDataUtil.get(expertExtractResult.getExpertCode()) == null ? "" : DictionaryDataUtil.get(expertExtractResult.getExpertCode()).getName();
-                expertExtractResult.setExpertCode(typeName);
+                DictionaryData dictionaryData = DictionaryDataUtil.get(expertExtractResult.getExpertCode() == null ? "" : expertExtractResult.getExpertCode());
+                if(dictionaryData != null){
+                	if(dictionaryData.getKind() == 6){
+                		expertExtractResult.setExpertCode(dictionaryData.getName() + "技术");
+                	}else{
+                		expertExtractResult.setExpertCode(dictionaryData.getName());
+                	}
+                }
+                StringBuffer pro = new StringBuffer();
+                List<String> list = expertExtractConditionMapper.selProfessionalByExpertId(expertExtractResult.getExpertId() == null ? "" : expertExtractResult.getExpertId());
+                for (String str : list) {
+                	pro.append(str+"、");
+				}
+                String profi = pro.toString();
+                expertExtractResult.setProfessional(profi.length() > 1 ? profi.substring(0,profi.length() - 1) : profi);
             }
         }
         List<ExpertExtractResult> backList = resultMapper.getBackExpertListByrecordId(id);
         for (ExpertExtractResult expertExtractResult : backList) {
             if(expertExtractResult.getExpertCode() != null){
-                String typeName = DictionaryDataUtil.get(expertExtractResult.getExpertCode()) == null ? "" : DictionaryDataUtil.get(expertExtractResult.getExpertCode()).getName();
-                expertExtractResult.setExpertCode(typeName);
+            	DictionaryData dictionaryData = DictionaryDataUtil.get(expertExtractResult.getExpertCode() == null ? "" : expertExtractResult.getExpertCode());
+                if(dictionaryData != null){
+                	if(dictionaryData.getKind() == 6){
+                		expertExtractResult.setExpertCode(dictionaryData.getName() + "技术");
+                	}else{
+                		expertExtractResult.setExpertCode(dictionaryData.getName());
+                	}
+                }
+                StringBuffer pro = new StringBuffer();
+                List<String> list = expertExtractConditionMapper.selProfessionalByExpertId(expertExtractResult.getExpertId() == null ? "" : expertExtractResult.getExpertId());
+                for (String str : list) {
+                	pro.append(str+"、");
+				}
+                String profi = pro.toString();
+                expertExtractResult.setProfessional(profi.length() > 1 ? profi.substring(0,profi.length() - 1) : profi);
             }
         }
         map.put("result", resultList);
@@ -431,9 +456,9 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 
 
     @Override
-    public String vaProjectCode(String code) {
+    public String vaProjectCode(String code,String xmProjectId) {
         Map<String, Object> map = new HashMap<String, Object>();
-        int v = expertExtractProjectMapper.vaProjectCode(code);
+        int v = expertExtractProjectMapper.vaProjectCode(code,xmProjectId);
         if(v > 0){
             //已经存在
             map.put("status", "no");

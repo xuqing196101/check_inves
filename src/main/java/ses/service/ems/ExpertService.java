@@ -1,24 +1,23 @@
 package ses.service.ems;
 
-import java.lang.reflect.InvocationTargetException;
-import java.text.ParseException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import bss.model.ppms.Packages;
+import bss.model.ppms.ext.ProjectExt;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
-
 import ses.model.bms.Category;
 import ses.model.bms.User;
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertHistory;
-import ses.model.sms.Supplier;
-import bss.model.ppms.Packages;
-import bss.model.ppms.ext.ProjectExt;
+import ses.model.ems.ExpertVO;
+
+import java.lang.reflect.InvocationTargetException;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -527,7 +526,7 @@ public interface ExpertService {
      * @param 
      * @return
      */
-    List<Expert> selectIndexExpert(Integer pageNum,Map<String, Object> map);
+    List<ExpertVO> selectIndexExpert(Integer pageNum, Map<String, Object> map);
     
     /**
      * 
@@ -577,4 +576,12 @@ public interface ExpertService {
      * @return
      */
     List<Expert> findStorage (Expert expert);
+    
+    /**
+     * 导出
+     * @param expert
+     * @return
+     */
+    List<Expert> exportExcel (Expert expert, String expertTypeIds, String expertType, String categoryIds, Integer flag);
+    
 }

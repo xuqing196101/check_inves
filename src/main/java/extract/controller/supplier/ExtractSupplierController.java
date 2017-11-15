@@ -31,7 +31,6 @@ import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
-import ses.model.ems.ExtConType;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -82,7 +81,7 @@ public class ExtractSupplierController extends BaseController {
     @Autowired
     private SupplierExtractRelateResultService extRelateService; //抽取结果关联表
     @Autowired
-    private SupplierExtractRecordService expExtractRecordService; //记录
+    private SupplierExtractRecordService recordService; //记录
     @Autowired
     private CategoryService categoryService; //品目
     @Autowired
@@ -118,16 +117,18 @@ public class ExtractSupplierController extends BaseController {
     		
     		//采购方式
             List<DictionaryData> purchaseWayList = new ArrayList<>();
-            DictionaryData dictionaryData = DictionaryDataUtil.get("XJCG");
-            dictionaryData.setName("询价");
-            purchaseWayList.add(dictionaryData);
+            purchaseWayList.add(DictionaryDataUtil.get("GKZB"));
             purchaseWayList.add(DictionaryDataUtil.get("YQZB"));
             purchaseWayList.add(DictionaryDataUtil.get("JZXTP"));
+        	DictionaryData xj = DictionaryDataUtil.get("XJCG");
+        	xj.setName("询价");
+        	purchaseWayList.add(xj);
+        	purchaseWayList.add(DictionaryDataUtil.get("DYLY"));
             model.addAttribute("purchaseTypeList",purchaseWayList);
             model.addAttribute("startTime",startTime);
             model.addAttribute("endTime",endTime);
             model.addAttribute("project",project);
-            List<SupplierExtractProjectInfo> extractRecords = expExtractRecordService.getList(page == null?1:page,user,project);
+            List<SupplierExtractProjectInfo> extractRecords = recordService.getList(page == null?1:page,user,project);
             model.addAttribute("info", new PageInfo<SupplierExtractProjectInfo>(extractRecords));
     		return "ses/sms/supplier_extracts/project_list";
     	}
@@ -169,8 +170,8 @@ public class ExtractSupplierController extends BaseController {
     		String recordId = WfUtil.createUUID();
     		eRecord.setId(recordId);
     		eRecord.setProcurementDepId(user.getOrg().getId());
-    		
-    		expExtractRecordService.insertProjectInfo(eRecord);
+    		eRecord.setExtractUser(user.getId());
+    		recordService.insertProjectInfo(eRecord);
     		
     		if("advPro".equals(eRecord.getProjectInto())){
     			//预研进入
@@ -205,10 +206,10 @@ public class ExtractSupplierController extends BaseController {
     		
     	}else if(StringUtils.isNotBlank(eRecord.getId())){
     		
-    		eRecord=expExtractRecordService.selectByPrimaryKey(eRecord.getId());
+    		eRecord=recordService.selectByPrimaryKey(eRecord.getId());
     		if(StringUtils.isEmpty(eRecord.getConditionId())){
     			eRecord.setConditionId(conditionId);
-    			expExtractRecordService.update(eRecord);
+    			recordService.update(eRecord);
     		}
     		//从记录列表进入 继续抽取 项目信息
     		model.addAttribute("projectInfo",eRecord);
@@ -220,11 +221,13 @@ public class ExtractSupplierController extends BaseController {
     	model.addAttribute("province", province);
     	//加载采购方式
     	List<DictionaryData> purchaseTypeList = new ArrayList<>();
+    	purchaseTypeList.add(DictionaryDataUtil.get("GKZB"));
+    	purchaseTypeList.add(DictionaryDataUtil.get("YQZB"));
+    	purchaseTypeList.add(DictionaryDataUtil.get("JZXTP"));
     	DictionaryData xj = DictionaryDataUtil.get("XJCG");
     	xj.setName("询价");
     	purchaseTypeList.add(xj);
-    	purchaseTypeList.add(DictionaryDataUtil.get("YQZB"));
-    	purchaseTypeList.add(DictionaryDataUtil.get("JZXTP"));
+    	purchaseTypeList.add(DictionaryDataUtil.get("DYLY"));
     	model.addAttribute("purchaseTypeList", purchaseTypeList);
     	//model.addAttribute("address", areaService.findAreaByParentId(province.get(0).getId()));
     	return "ses/sms/supplier_extracts/condition_list";
@@ -241,16 +244,7 @@ public class ExtractSupplierController extends BaseController {
      */
     @RequestMapping("/addHeading")
     public String addHeading(Model model, String categoryId,String projectId,String supplierTypeCode){
-        ExtConType extConType = null;
-       /* if (id != null && id.length != 0){
-            extConType = new ExtConType();
-            extConType.setCategoryId(id[0]);
-            extConType.setExpertsCount(Integer.parseInt(id[2]));
-            extConType.setExpertsQualification(id[3]);
-        }*/
-        //        List<DictionaryData> find = DictionaryDataUtil.find(8);
         model.addAttribute("categoryId", categoryId);
-        //        supplierExtPackageServicel.list(sExtPackage, page);
         model.addAttribute("supplierTypeCode", supplierTypeCode);
         return "ses/sms/supplier_extracts/product";
     }
@@ -266,12 +260,12 @@ public class ExtractSupplierController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("/saveResult")
-    public Object saveResult(Model model,SupplierExtractResult supplierExtRelate,String projectType){
+    public String saveResult(Model model,SupplierExtractResult supplierExtRelate,String projectType){
     	
     	//保存抽取记录  供应商id  记录id 条件id  结果id 是否参加 不参加理由 供应商类型代码
     	//supplierExtRelate.setId(UUIDUtils.getUUID32());
-    	extRelateService.saveResult(supplierExtRelate,projectType);
-		return null;
+    	int saveResult = extRelateService.saveResult(supplierExtRelate,projectType);
+    	return JSON.toJSONString(saveResult);
     }
 
 
@@ -358,8 +352,8 @@ public class ExtractSupplierController extends BaseController {
 			}
     		return JSON.toJSONString(errMsg);
     	}
-    	
-    	expExtractRecordService.saveOrUpdateProjectInfo(projectInfo,user);
+    	projectInfo.setProcurementDepId(user.getOrg().getId());//存储采购机构
+    	recordService.saveOrUpdateProjectInfo(projectInfo);
     	return JSON.toJSONString(null);
     }
     
@@ -375,23 +369,13 @@ public class ExtractSupplierController extends BaseController {
     public ResponseEntity<byte[]> printRecord(String id,HttpServletRequest request, HttpServletResponse response,String projectInto){
     	ResponseEntity<byte[]> printRecord = null;
     	try {
-			printRecord = expExtractRecordService.printRecord(id,request,response,projectInto);
+			printRecord = recordService.printRecord(id,request,response,projectInto);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	return printRecord;
     }
-    
-    @RequestMapping("/extractOver")		
-    @ResponseBody
-    public int extractOver(SupplierExtractProjectInfo record,@CurrentUser User user){
-    	int status = expExtractRecordService.saveOrUpdateProjectInfo(record, user);
-		return status;
-    }
-    
-    
-    
     
     /**
      *
@@ -403,8 +387,7 @@ public class ExtractSupplierController extends BaseController {
     @RequestMapping("/checkSole")
     @ResponseBody
     public int checkSole(String projectCode){
-    	List<SupplierExtractProjectInfo> extractRecords = expExtractRecordService.checkSoleProjectCdoe(projectCode);
-    	
+    	List<SupplierExtractProjectInfo> extractRecords = recordService.checkSoleProjectCdoe(projectCode);
     	return extractRecords.size();
     }
     
@@ -416,10 +399,32 @@ public class ExtractSupplierController extends BaseController {
      * @dateTime 2017-10-13下午3:44:17
      * @return
      */
-    @RequestMapping("/supplierExtractResult")
-    public void receiveVoiceResult(String json) {
-    	autoExtract.receiveVoiceResult(json);
+    @RequestMapping(value="/supplierExtractResult",produces="application/json; charset=utf-8")
+    @ResponseBody
+    public String receiveVoiceResult(String json) {
+    	String result = "";
+    	if(StringUtils.isNotBlank(json)){
+    		result = autoExtract.receiveVoiceResult(json);
+    		result = StringUtils.isNotBlank(result)?result:"service error";
+    	}else{
+    		result = "receive success,but json is null";
+    	}
+    	return JSON.toJSONString(result);
  	}
     
-	
+    /**
+     * 
+     * <简述> 修改项目抽取状态
+     *
+     * @author Jia Chengxiang
+     * @dateTime 2017-10-13下午3:44:17
+     * @return
+     */
+    @RequestMapping(value="/updateExtractStatus",produces="application/json; charset=utf-8")
+    @ResponseBody
+    public String updateExtractStatus(SupplierExtractProjectInfo projectInfo) {
+    	int saveOrUpdateProjectInfo = recordService.saveOrUpdateProjectInfo(projectInfo);
+    	return JSON.toJSONString(saveOrUpdateProjectInfo);
+    }
+    
 }

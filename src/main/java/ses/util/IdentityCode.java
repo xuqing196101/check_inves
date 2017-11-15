@@ -26,7 +26,7 @@ public class IdentityCode {
 	/** 验证码个数 */
 	private int codeCount = 4;
 	/** 验证码干扰线数 */
-	private int lineCount = 20;
+	private int lineCount = 10;
 	/** 验证码 */
 	private String code = null;
 	/** 验证码图片Buffer */
@@ -78,7 +78,7 @@ public class IdentityCode {
 		Graphics g = buffImg.getGraphics();
 		// Graphics2D g = buffImg.createGraphics();
 		/** 设置背景颜色 */
-		g.setColor(getRandColor(200, 250));
+		g.setColor(getRandColor(230, 250));
 		g.fillRect(0, 0, width, height);
 
 		/** 设置字体 */
@@ -111,7 +111,7 @@ public class IdentityCode {
 		this.code = str1;
 		for (int i = 0; i < codeCount; i++) {
 			String strRand = str1.substring(i, i + 1);
-			g.setColor(getRandColor(1, 255));
+			g.setColor(getRandColor(1, 100));
 			// g.drawString(a,x,y);
 			// a为要画出来的东西，x和y表示要画的东西最左侧字符的基线位于此图形上下文坐标系的 (x, y) 位置处
 			g.drawString(strRand, i * fontWidth + 3, codeY);

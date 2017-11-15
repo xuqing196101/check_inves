@@ -95,7 +95,7 @@
               <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('expertType');">专家类别</a>
             </li>
             <li class="">
-              <a aria-expanded="fale" href="#tab-3" data-toggle="tab" class="f18" onclick="jump('product');">产品类别</a>
+              <a aria-expanded="fale" href="#tab-3" data-toggle="tab" class="f18" onclick="jump('product');">参评类别</a>
             </li>
             <li class="">
               <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('expertFile');">承诺书和申请表</a>
@@ -121,6 +121,7 @@
 	                <th class="info">审批字段</th>
 	                <th class="info">审批内容</th>
 	                <th class="info">不合格理由</th>
+	                <th class="info">状态</th>
 	              </tr>
 	            </thead>
 	            <c:forEach items="${auditList }" var="audit" varStatus="vs">
@@ -143,6 +144,16 @@
 	                  <c:if test="${fn:length (audit.auditReason) > 20}">${fn:substring(audit.auditReason,0,20)}...</c:if>
 	                  <c:if test="${fn:length (audit.auditReason) <= 20}">${audit.auditReason}</c:if>
 	                </td>
+	                <!-- 状态 -->
+                  <c:if test="${audit.auditStatus eq '1'}"><td class="tc">有问题</td></c:if>
+                  <c:if test="${audit.suggestType eq 'six' && audit.auditStatus eq '2'}"><td class="tc">审核不通过</td></c:if>
+                  <c:if test="${audit.suggestType eq 'seven' && audit.type eq '1' && audit.auditFieldId != 'isTitle' && audit.auditStatus eq '2'}"><td class="tc">审核不通过</td></c:if>
+                  <c:if test="${audit.suggestType != 'six' && audit.auditStatus eq '2' && !(audit.suggestType eq 'seven' && audit.type eq '1' && audit.auditFieldId != 'isTitle' && audit.auditStatus eq '2') }"><td class="tc">已修改</td></c:if>
+                  <c:if test="${audit.auditStatus eq '3'}"><td class="tc">未修改</td></c:if>
+                  <c:if test="${audit.auditStatus eq '4'}"><td class="tc">撤销退回</td></c:if>
+                  <c:if test="${audit.auditStatus eq '5'}"><td class="tc">撤销不通过</td></c:if>
+                  <c:if test="${audit.auditStatus eq '6'}"><td class="tc">审核不通过</td></c:if>
+                  <c:if test="${audit.auditStatus eq null}"><td class="tc"></td></c:if>
 	              </tr>
 	            </c:forEach>
 	          </table>

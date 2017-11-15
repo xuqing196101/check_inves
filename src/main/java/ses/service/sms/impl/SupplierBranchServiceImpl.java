@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import ses.dao.sms.SupplierBranchMapper;
 import ses.model.sms.SupplierBranch;
 import ses.service.sms.SupplierBranchService;
-import ses.util.WfUtil;
 
 @Service(value = "supplierBranchService")
 public class SupplierBranchServiceImpl implements SupplierBranchService{
@@ -21,7 +20,6 @@ public class SupplierBranchServiceImpl implements SupplierBranchService{
 		
 		return supplierBranchMapper.queryBySupplierId(supplierId);
 	}
-	
 	
 	@Override
 	public void addBatch(List<SupplierBranch> list,String supplierId) {
@@ -69,7 +67,6 @@ public class SupplierBranchServiceImpl implements SupplierBranchService{
 
 	@Override
 	public void delete(String id) {
-		// TODO Auto-generated method stub
 		supplierBranchMapper.deleteByPrimaryKey(id);
 	}
 

@@ -4,25 +4,10 @@ import java.io.File;
 import java.util.Date;
 import java.util.Map;
 
-import extract.model.supplier.SupplierConType;
 import extract.model.supplier.SupplierExtractCondition;
 
 public interface AutoExtractSupplierService {
 
-
-  /**
-   * 自动抽取
-   * <简述> 
-   *
-   * @author Jia Chengxiang
-   * @dateTime 2017-10-12上午11:21:02
-   * @param condition
-   * @param conType
-   * @param i
-   * @return
-   */
-  Map<String, Object> autoExtract(SupplierExtractCondition condition,
-		  SupplierConType conType, String projectInfo);
 
   /**
    * 返回通知结果
@@ -31,8 +16,9 @@ public interface AutoExtractSupplierService {
    * @author Jia Chengxiang
    * @dateTime 2017-10-20下午2:45:33
    * @param json
+ * @return 
    */
-  void receiveVoiceResult(String json);
+  String receiveVoiceResult(String json);
 
   /**
    * 点击自动抽取 将项目信息，抽取条件从内网导出
@@ -43,7 +29,7 @@ public interface AutoExtractSupplierService {
    * @return
    */
   Map<String, Object> exportExtractInfo(SupplierExtractCondition condition,
-		  SupplierConType conType, String projectInfo);
+		 String projectInfo);
 
   
   /**
@@ -77,6 +63,23 @@ public interface AutoExtractSupplierService {
    * @param file
    */
   void importSupplierExtract(File file);
+
+  Map<String, Object> autoExtract(SupplierExtractCondition condition,
+		String projectInfo);
+
+  void selectAutoExtractProject();
+
+
+  /**
+   * 
+   * <简述> 内网导出项目信息
+   *
+   * @author Jia Chengxiang
+   * @dateTime 2017-11-6下午12:13:32
+   * @return
+   */
+  Map<String, Object> exportExtractProjectInfo(String start, String end,
+		Date synchDate);
 
 
 

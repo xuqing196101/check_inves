@@ -49,35 +49,10 @@
 		<div class="container container_box">
 			<div class="content height-350">
 				<div class="col-md-12 tab-v2 job-content">
-					<ul class="nav nav-tabs bgwhite">
-						<li class="">
-							<a aria-expanded="fale" href="#tab-1" data-toggle="tab" class="f18" onclick="tijiao('essential');">基本信息</a>
-						</li>
-						<li class="">
-							<a aria-expanded="fale" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('financial');">财务信息</a>
-						</li>
-						<li class="active">
-							<a aria-expanded="true" href="#tab-3" data-toggle="tab" class="f18" onclick="tijiao('shareholder');">股东信息</a>
-						</li>
-						<li class="">
-							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('supplierType');">供应商类型</a>
-						</li>
-						<li class="">
-							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('item');">产品类别</a>
-						</li>
-						<li class="">
-							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('zizhi');">资质文件</a>
-						</li>
-						<li class="">
-							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('contract');">销售合同</a>
-						</li>
-						<li class="">
-							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('table');">承诺书/申请表</a>
-						</li>
-						<li class="">
-              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('audit');">审核信息</a>
-            </li>
-					</ul>
+					<jsp:include page="/WEB-INF/view/ses/sms/supplier_query/supplierInfo/nav.jsp">
+						<jsp:param name="nav_flag" value="3"></jsp:param>
+						<jsp:param name="supplierStatus" value="${suppliers.status}"></jsp:param>
+					</jsp:include>
 					<div class="tab-content padding-top-20">
 						<form id="form_id" action="" method="post">
 							<input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">

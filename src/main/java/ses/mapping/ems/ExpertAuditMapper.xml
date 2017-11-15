@@ -58,31 +58,44 @@
   <!-- 查找所有符合条件的专家 -->
   <select id="findConditionPassExpert" parameterType="ses.model.ems.ExpertAudit" resultMap="BaseResultMap">
     select 
-    *
-    from T_SES_EMS_EXPERT_AUDIT
+    	t3.CODE,t2.CODE,t1.*
+    from
+    	T_SES_EMS_EXPERT_AUDIT t1
+		LEFT JOIN T_SES_BMS_ENG_CATEGORY t2 ON t1.AUDIT_FIELD_ID = t2."ID"
+  		LEFT JOIN T_SES_BMS_CATEGORY t3 ON t1.AUDIT_FIELD_ID = t3."ID"
     where 
-    	EXPERT_ID = #{expertId}
+    	t1.EXPERT_ID = #{expertId}
     <if test="isDeleted==null">
-    and IS_DELETED = 0
+    and t1.IS_DELETED = 0
     </if>
     <if test="statusQuery!=null">
-    AND (AUDIT_STATUS IN ('1','3','6') OR AUDIT_STATUS is null)
+    AND (t1.AUDIT_STATUS IN ('1','3','6') OR t1.AUDIT_STATUS is null)
     </if>
     <if test="suggestType != '' and suggestType != null">
-    	and SUGGEST_TYPE = #{suggestType}
+    	and t1.SUGGEST_TYPE = #{suggestType}
     </if>
     <if test="type != '' and type != null">
-    	and TYPE = #{type}
+    	and t1.TYPE = #{type}
     </if>
      <if test="auditFalg != '' and auditFalg != null">
     	 <if test="auditFalg == 666 ">
-    		and AUDIT_FALG is null
+    		and t1.AUDIT_FALG is null
     	</if>
     	<if test="auditFalg != 666">
-    		and AUDIT_FALG = #{auditFalg}
+    		and t1.AUDIT_FALG = #{auditFalg}
     	</if>
-     </if> 
-     ORDER BY DECODE (SUGGEST_TYPE,'one','1','seven','2','six','3','five','4'),AUDIT_AT ASC
+     </if>
+     <if test="auditStatus!=null">
+	    AND t1.AUDIT_STATUS = #{auditStatus}
+	 </if>
+	 <if test="auditFieldId =null">
+	 	AND t1.AUDIT_FIELD_ID = #{auditFieldId}
+	 </if>
+     ORDER BY 
+     	DECODE (t1.SUGGEST_TYPE,'one','1','seven','2','six','3','five','4'),
+     	t3.CODE,
+		t2.CODE,
+		t1.AUDIT_AT ASC
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -219,7 +232,7 @@
       <if test="auditUserId != null and auditUserId != ''">
         AUDIT_USER_ID = #{auditUserId},
       </if>
-      <if test="auditUserName != null auditUserName != ''">
+      <if test="auditUserName != null and auditUserName != ''">
         AUDIT_USER_NAME = #{auditUserName},
       </if>
       <if test="auditReason != null and auditReason != ''">
@@ -273,10 +286,18 @@
       IS_DELETED = #{isDeleted},
       SUGGEST_TYPE = #{suggestType},
       AUDIT_FIELD = #{auditField},
-      AUDIT_CONTENT = #{auditContent}
+      AUDIT_CONTENT = #{auditContent},
+      AUDIT_FALG=#{auditFalg},
+      AUDIT_STATUS=#{auditStatus}
     where ID = #{id}
   </update>
-  
+  <update id="updateByAuditReason" parameterType="ses.model.ems.ExpertAudit">
+    update T_SES_EMS_EXPERT_AUDIT
+    set 
+      AUDIT_REASON = #{auditReason}
+    where ID = #{id}
+  </update>
+
   <select id="selectFailByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     	*
@@ -284,7 +305,9 @@
     	T_SES_EMS_EXPERT_AUDIT
     where 
     	EXPERT_ID = #{expertId}
+    <if test="isDeleted == null">
     	and IS_DELETED = 0
+    </if>
     <if test="suggestType != '' and suggestType != null">
     	and SUGGEST_TYPE = #{suggestType}
     </if>
@@ -296,6 +319,9 @@
     </if>
     <if test="auditFieldName != '' and auditFieldName != null">
     	and AUDIT_FIELD_NAME = #{auditFieldName}
+    </if>
+    <if test="auditFalg !='' and auditFalg !=null">
+        and AUDIT_FALG = #{auditFalg}
     </if>
     <if test="type !=null ">
     	and TYPE = #{type}
@@ -337,6 +363,9 @@
     <if test="auditFalg !='' and auditFalg !=null">
         and AUDIT_FALG = #{auditFalg}
     </if>
+    <if test="statusQuery!=null">
+    	AND (AUDIT_STATUS IN ('1','3','6') OR AUDIT_STATUS is null)
+    </if>
     <if test="auditStatus != null and auditStatus != ''">
         and AUDIT_STATUS = #{auditStatus}
     </if>
@@ -346,6 +375,7 @@
           #{item}
         </foreach>
     </if>
+    ORDER BY DECODE (SUGGEST_TYPE,'one','1','seven','2','six','3','five','4'),AUDIT_AT ASC
   </select>
   
   
@@ -396,7 +426,29 @@
     </if>
   </select>
   
-  
+  <select id="findByExpertAuditObj" parameterType="ses.model.ems.ExpertAudit" resultMap="BaseResultMap">
+    select 
+    	*
+    from T_SES_EMS_EXPERT_AUDIT
+    where EXPERT_ID = #{expertId}
+    and IS_DELETED = 0
+    and (AUDIT_STATUS IN ('1','3','6') OR AUDIT_STATUS is null)
+    <if test="suggestType != '' and suggestType != null">
+    	and SUGGEST_TYPE = #{suggestType}
+    </if>
+    <if test="auditField != '' and auditField != null">
+    	and AUDIT_FIELD = #{auditField}
+    </if>
+    <if test="auditFieldId != '' and auditFieldId != null">
+    	and AUDIT_FIELD_ID = #{auditFieldId}
+    </if>
+    <if test="auditContent != '' and auditContent != null">
+    	and AUDIT_CONTENT = #{auditContent}
+    </if>
+    <if test="auditFalg != '' and auditFalg != null">
+      and AUDIT_FALG = #{auditFalg}
+    </if>
+  </select>
     <!-- 记录审核 -->
   <insert id="insertActive" parameterType="ses.model.ems.ExpertAudit">
     insert into T_SES_EMS_EXPERT_AUDIT
@@ -443,6 +495,12 @@
       <if test="auditFieldName != null">
         AUDIT_FIELD_NAME,
       </if>
+      <if test="auditFalg != null">
+      	AUDIT_FALG,
+      </if>
+      <if test="auditStatus != null">
+      	AUDIT_STATUS,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -486,6 +544,12 @@
       </if>
       <if test="auditFieldName != null">
         #{auditFieldName},
+      </if>
+      <if test="auditFalg != null">
+        #{auditFalg},
+      </if>
+      <if test="auditStatus != null">
+        #{auditStatus},
       </if>
     </trim>
   </insert>
@@ -558,6 +622,9 @@
         and AUDIT_FALG = #{auditFalg}
       </if>
      </if> 
+      <if test="auditStatus != null">
+     	and AUDIT_STATUS =#{auditStatus}
+     </if>
   </select>
   
   <!-- 全部专家查询中的审核记录 -->
@@ -572,6 +639,9 @@
     <if test="auditFalg != '' and auditFalg != null">
       and AUDIT_FALG = #{auditFalg}
     </if>
+    <if test="statusQuery !=null and statusQuery !=''">
+      AND (AUDIT_STATUS = '1' OR AUDIT_STATUS = '3' OR AUDIT_STATUS = '6' OR ( SUGGEST_TYPE = 'six' AND AUDIT_STATUS = '2'))
+    </if>
     ORDER BY DECODE (SUGGEST_TYPE,'one','1','seven','2','six','3','five','4'),AUDIT_AT ASC
   </select>
   <update id="updateDoAuditStatus" parameterType="Map">
@@ -581,7 +651,7 @@
   	</if>
   	<if test="auditFalg != '' and auditFalg != null">
       <if test="auditFalg == 1">
-        and AUDIT_FALG != 2 and AUDIT_FALG != 3
+        and AUDIT_FALG != 3
       </if>
       <if test="auditFalg != 1">
         and AUDIT_FALG = #{auditFalg}
@@ -595,6 +665,9 @@
     </if>
     <if test="auditFieldName != null">
     	and AUDIT_FIELD_NAME=#{auditFieldName}
+    </if>
+    <if test="auditFieldId != '' and auditFieldId != null">
+      and AUDIT_FIELD_ID = #{auditFieldId}
     </if>
     and AUDIT_STATUS = '3'
   </update>

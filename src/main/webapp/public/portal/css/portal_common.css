@@ -163,9 +163,15 @@
   width: 43%;
 }
 .w38p { width: 38%; }
+.w30p { width: 30%; }
+.w14p { width: 14%; }
 .w20p { width: 20%; }
 .w18p { width: 18%; }
+.w16p { width: 16%; }
 .w12p { width: 12%; }
+.w11p { width: 11%; }
+.w10p { width: 10%; }
+.w8p { width: 8%; }
 /*高度*/
   .h15 {
   height: 15px;

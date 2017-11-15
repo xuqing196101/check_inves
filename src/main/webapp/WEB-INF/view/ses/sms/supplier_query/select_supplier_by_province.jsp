@@ -1,11 +1,18 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
 <%@ page import="ses.constants.SupplierConstants" %>
+<%@ page import="ses.model.bms.User" %>
+<% 
+	String account = ((User)session.getAttribute(SupplierConstants.KEY_SESSION_LOGIN_USER)).getLoginName();
+	boolean isAccountToAudit = SupplierConstants.isAccountToAudit(account);
+%>
+<c:set var="isAccountToAudit" value="<%=isAccountToAudit %>" />
 
 <!DOCTYPE HTML >
 <html>
 	<head>
 		<%@ include file="../../../common.jsp"%>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/supplier_query/select_supplier_by_province.js"></script>
 		<script type="text/javascript">
 			$(function() {
 				laypage({
@@ -49,6 +56,8 @@
 				$("#supplierType").val('');
 				$("#isProvisional").val('');
 				$("#creditCode").val('');
+				$("#supplierGradeInputVal").val('');
+				$("#supplierGradeInput").val('');
 				$("#orgName option:selected").removeAttr("selected");
 				$("#status option:selected").removeAttr("selected");
 				$("#address option:selected").removeAttr("selected");
@@ -72,6 +81,8 @@
 						optionScore[i].selected = true;
 					}
 				}
+				// 回显地区
+                $("#address").val('${supplier.address}');
 			});
 		</script>
 		<script type="text/javascript">
@@ -278,7 +289,7 @@
 							if(zNodes[i].isParent) {
 
 							} else {
-								//zNodes[i].icon = "${ctxStatic}/images/532.ico";//设置图标  
+								//zNodes[i].icon = "${ctxStatic}/images/532.ico";//设置图标
 							}
 						}
 						tree = $.fn.zTree.init($("#treeSupplierType"), setting, zNodes);
@@ -305,11 +316,11 @@
 					hideSupplierType();
 				}
 			}
-			
 
-			
-			
-			
+
+
+
+
 		//撤销
    /* 	function cancellation(){
    		var id = $(":radio:checked").val();
@@ -339,9 +350,9 @@
    		}else{
    			layer.msg("请选择供应商！",{offset : '100px'});
    		}
-   		
+
    	} */
-   	
+
    		//禁用F12键及右键
   		 /* function click(e) {
 			if (document.layers) {
@@ -355,14 +366,14 @@
 			}
 			document.onmousedown=click;
 			document.oncontextmenu = new Function("return false;");
-			document.onkeydown =document.onkeyup = document.onkeypress=function(){ 
-				if(window.event.keyCode == 123) { 
+			document.onkeydown =document.onkeyup = document.onkeypress=function(){
+				if(window.event.keyCode == 123) {
 					window.event.returnValue=false;
-					return(false); 
-				} 
+					return(false);
+				}
 			}; */
-			
-			
+
+
 			/**重置密码*/
 	 		/* function resetPwd(){
  	   		var id = $(":radio:checked").val();
@@ -384,7 +395,7 @@
             layer.msg("请选择供应商！",{offset: '100px'});
         	}
 	 		} */
-	 		
+
 	 		//窗口
 	 		function openDiy(){
 				layer.open({
@@ -432,6 +443,13 @@
 	<div id="supplierTypeContent" class="supplierTypeContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 		<ul id="treeSupplierType" class="ztree" style="margin-top:0;"></ul>
 	</div>
+    <div id="supplierGradeTreeContent" class="supplierTypeContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+        <div class="col-md-12 col-xs-8 col-sm-8 p0">
+            <input type="text" id="search" class="input_group" value="">
+            <img src="${pageContext.request.contextPath }/public/backend/images/view.png" onclick="loadZtree()">
+        </div>
+        <ul id="supplierGradeTree" class="ztree" style="margin-top:0;"></ul>
+    </div>
 
 	<body>
 		<div class="container">
@@ -439,6 +457,19 @@
 				<h2>供应商信息</h2>
 			</div>
 			<h2 class="search_detail">
+                <!--下载Excel查询条件表单-->
+                <form id="exportExcelCond">
+                    <input type="hidden" name="supplierName" value="${supplier.supplierName}"/>
+                    <input type="hidden" name="businessNature" value="${supplier.businessNature}"/>
+                    <input type="hidden" name="supplierTypeIds" value="${supplierTypeIds}"/>
+                    <input type="hidden" name="status" value="${supplier.status}"/>
+                    <input type="hidden" name="isProvisional" value="${supplier.isProvisional}"/>
+                    <input type="hidden" name="creditCode" value="${supplier.creditCode}"/>
+                    <input type="hidden" name="orgName" value="${supplier.orgName}"/>
+                    <input type="hidden" name="address" value="${supplier.address}"/>
+                    <input type="hidden" name="queryCategory" value="${supplier.queryCategory }"/>
+                    <input type="hidden" name="sign" value="${sign}"/>
+                </form>
 	      <form id="form1" action="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?sign=${sign}" method="post" class="mb0">
 	      	<c:if test="${sign != 1 }">
 	      		<input type="hidden" name="address" value="${address }">
@@ -537,18 +568,24 @@
                 </c:forEach>
               </select>
             </li>
-            
+
 	          <c:if test ="${sign == 1 }">
               <li>
                 <label class="fl">地区：</label>
                 <select name="address" id="address" class="w220">
                   <option value=''>全部</option>
                   <c:forEach items="${privnce}" var="list">
-                    <option <c:if test="${supplier.address eq list.name }">selected</c:if> value="${list.name }">${list.name }</option>
+                    <option value="${list.id}">${list.name }</option>
                   </c:forEach>
                 </select>
               </li>
             </c:if>
+                <c:if test ="${sign == 1 }">
+                    <li>
+                        <label class="fl">供应商品目：</label><span><input  class="w220" name="queryCategoryName" id="supplierGradeInput" class="span2 mt5" type="text" name=""  readonly value="${supplier.queryCategoryName }" onclick="initZtree(true);" />
+						<input type="hidden" name="queryCategory" id="supplierGradeInputVal" value="${supplier.queryCategory}"/></span>
+                    </li>
+                </c:if>
 	        </ul>
 	          <div class="col-md-12 clear tc mt10">
             	<button type="button" onclick="submit()" class="btn">查询</button>
@@ -558,6 +595,7 @@
               <c:choose>
 								<c:when test="${sign == 1 }">
 								 		<a href="${pageContext.request.contextPath}/supplierQuery/highmaps.html" class="btn">切换到地图</a>
+								 		<a href="javascript:;" class="btn" id="export_result">将结果导出Excel</a>
 								</c:when>
 								<c:otherwise>
 										<button class="btn btn-windows back" type="button" onclick="location.href='${pageContext.request.contextPath}/supplierQuery/highmaps.html'">返回</button>
@@ -571,7 +609,7 @@
 	       </form>
      </h2>
 			<div class="col-md-12 pl20 mt10">
-				
+
 			</div>
 
 			<div class="content table_box">
@@ -580,116 +618,143 @@
 						<tr>
 							<!-- <th class="info w50">选择</th> -->
 							<th class="info w50">序号</th>
-							<th class="info" width="28%">供应商名称</th>
 							<th class="info" width="10%">采购机构</th>
+							<th class="info" width="21%">供应商名称</th>
 							<th class="info" width="8%">地区</th>
-							<th class="info w90">注册日期</th>
-							<th class="info w90">提交日期</th>
-							<th class="info w90">审核日期</th>
-							<th class="info" width="7%">供应商类型</th>
 							<th class="info" width="7%">企业性质</th>
-							<th class="info">供应商状态</th>
+							<th class="info" width="15%">供应商类型</th>
+							<th class="info w90">注册日期</th>
+							<th class="info w90">最新提交日期</th>
+							<th class="info w90">最新审核日期</th>
+							<th class="info w90">入库日期</th>
+							<th class="info" width="8%">状态</th>
+							<c:if test="${isAccountToAudit}"><th class="info" width="5%">操作</th></c:if>
 						</tr>
 					</thead>
 					<tbody>
 						<c:set var="supplierStatusMap" value="<%=SupplierConstants.STATUSMAP %>"/>
 						<c:set var="supplierAuditTemporaryStatusMap" value="<%=SupplierConstants.STATUSMAP_AUDITTEMPORARY %>"/>
 						<c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
-							<tr>
-								<%-- <td class="tc w30"><input type="radio" value="${list.id }" name="chkItem"  id="${list.id}"></td> --%>
-								<td class="tc">${(vs.count)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
-								<td class="hand" title="${list.supplierName}">
-									<c:choose>
-							       <c:when test="${list.status ==5 and list.isProvisional == 1 }">
-							       	 <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierQuery/temporarySupplier.html?supplierId=${list.id}&sign=${sign}')">
-							       	   <c:if test="${fn:length (list.supplierName) > 20}">${fn:substring(list.supplierName,0,20)}...</c:if>
-                         <c:if test="${fn:length (list.supplierName) <= 20}">${list.supplierName}</c:if>
-							       	 </a>
-							       </c:when>
-							       <c:otherwise>
-							       	 <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierQuery/essential.html?supplierId=${list.id}&sign=${sign}')">
-							       	   <c:if test="${fn:length (list.supplierName) > 20}">${fn:substring(list.supplierName,0,20)}...</c:if>
-                         <c:if test="${fn:length (list.supplierName) <= 20}">${list.supplierName}</c:if>
-							       	 </a>
-							       </c:otherwise>
-									</c:choose>
-								</td>
-								<td class="tl">${list.orgName}</td>
-								<td class="tl">${list.name }</td>
-								<td class="tc">
-									<fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd" />
-								</td>
-								<td class="tc">
-									<fmt:formatDate value="${list.submitAt }" pattern="yyyy-MM-dd" />
-								</td>
-								<td class="tc">
-									<fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd" />
-								</td>
-								<td class="hand" title="${list.supplierType}">
-								  <c:if test="${fn:length (list.supplierType) > 4}">${fn:substring(list.supplierType,0,4)}...</c:if>
-                  <c:if test="${fn:length (list.supplierType) <= 4}">${list.supplierType}</c:if>
-								</td>
-								<td class="tc">${list.businessNature }</td>
-								<td class="tc">
-									<%-- <c:if test="${list.status==5 and list.isProvisional == 1}"><span class="label rounded-2x label-dark">临时</span></c:if>
-									<c:if test="${list.status==-1 }"><span class="label rounded-2x label-dark">暂存</span></c:if>
-									<c:if test="${list.status==0 }"><span class="label rounded-2x label-dark">待审核</span></c:if>
-									<c:if test="${list.status==-2 }"><span class="label rounded-2x label-dark">预审核结束</span></c:if>
-									<c:if test="${list.status==-3 }"><span class="label rounded-2x label-dark">公示中</span></c:if>
-									<c:if test="${list.status==1 }"><span class="label rounded-2x label-u">审核通过</span></c:if>
-									<c:if test="${list.status==2 }"><span class="label rounded-2x label-dark">退回修改</span></c:if>
-									<c:if test="${list.status==9 }"><span class="label rounded-2x label-dark">退回再审核</span></c:if>
-									<c:if test="${list.status==3 }"><span class="label rounded-2x label-dark">审核未通过</span></c:if>
-									<c:if test="${list.status==4 }"><span class="label rounded-2x label-dark">待复核</span></c:if>
-									<c:if test="${list.status==5 and list.isProvisional == 0}"><span class="label rounded-2x label-u">复核通过</span></c:if>
-									<c:if test="${list.status==6 }"><span class="label rounded-2x label-dark">复核未通过</span></c:if>
-									<c:if test="${list.status==7 }"><span class="label rounded-2x label-u">考察合格</span></c:if>
-									<c:if test="${list.status==8 }"><span class="label rounded-2x label-dark">考察不合格</span></c:if> --%>
-									
-									<%-- <c:if test="${list.status==5 and list.isProvisional == 1}"><span class="label rounded-2x label-dark">临时</span></c:if>
-									<c:if test="${list.status==-1 }"><span class="label rounded-2x label-dark">暂存</span></c:if>
-									<c:if test="${list.status==0 }"><span class="label rounded-2x label-dark">待审核</span></c:if>
-									<c:if test="${list.status==-2 }"><span class="label rounded-2x label-dark">预审核结束</span></c:if>
-									<c:if test="${list.status==-3 }"><span class="label rounded-2x label-dark">公示中</span></c:if>
-									<c:if test="${list.status==2 }"><span class="label rounded-2x label-dark">退回修改</span></c:if>
-									<c:if test="${list.status==9 }"><span class="label rounded-2x label-dark">退回再审核</span></c:if>
-									<c:if test="${list.status==3 }"><span class="label rounded-2x label-dark">审核不通过</span></c:if>
-									<c:if test="${list.status==1 }"><span class="label rounded-2x label-dark">待复核</span></c:if>
-									<c:if test="${list.status==5 and list.isProvisional == 0}"><span class="label rounded-2x label-u">复核合格</span></c:if>
-									<c:if test="${list.status==6 }"><span class="label rounded-2x label-dark">复核不合格</span></c:if>
-									<c:if test="${list.status==7 }"><span class="label rounded-2x label-u">考察合格</span></c:if>
-									<c:if test="${list.status==8 }"><span class="label rounded-2x label-dark">考察不合格</span></c:if>
-									<c:if test="${list.status==-4 }"><span class="label rounded-2x label-dark">预复核结束</span></c:if>
-									<c:if test="${list.status==-5 }"><span class="label rounded-2x label-dark">预考察结束</span></c:if>
-									<c:if test="${list.status==10 }"><span class="label rounded-2x label-dark">异议处理</span></c:if> --%>
-									
-									<%-- <c:set var="label_color" value="label-dark"/>
-									<c:if test="${list.status==5 || list.status==7 }"><c:set var="label_color" value="label-u"/></c:if>
-									<c:if test="${list.status==5 and list.isProvisional == 1}"><span class="label rounded-2x label-dark">临时</span></c:if>
-									<c:if test="${list.status==5 and list.isProvisional == 0}"><span class="label rounded-2x label-u">${supplierStatusMap[list.status]}</span></c:if>
-									<c:if test="${list.status!=5 }"><span class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if> --%>
-									
-									<c:set var="label_color" value="label-dark"/>
-									<c:if test="${list.status==5 || list.status==7 }"><c:set var="label_color" value="label-u"/></c:if>
-									<c:if test="${list.status==5 and list.isProvisional == 1}"><span class="label rounded-2x label-dark">临时</span></c:if>
-									<c:if test="${list.status == 0 and list.auditTemporary != 1}"><span class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if>
-									<c:if test="${list.status == 9 and list.auditTemporary != 1}"><span class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if>
-									<c:if test="${(list.status == 0 or list.status == 9) and list.auditTemporary == 1}"><span class="label rounded-2x ${label_color}">${supplierAuditTemporaryStatusMap[list.auditTemporary]}</span></c:if>
-									<c:if test="${list.status == 1 and list.auditTemporary != 2}"><span class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if>
-									<c:if test="${list.status == 1 and list.auditTemporary == 2}"><span class="label rounded-2x ${label_color}">${supplierAuditTemporaryStatusMap[list.auditTemporary]}</span></c:if>
-									<c:if test="${list.status == 5 and list.auditTemporary != 3 and list.isProvisional != 1}"><span class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if>
-									<c:if test="${list.status == 5 and list.auditTemporary == 3 and list.isProvisional != 1}"><span class="label rounded-2x ${label_color}">${supplierAuditTemporaryStatusMap[list.auditTemporary]}</span></c:if>
-									<c:if test="${list.status != 0 && list.status != 9 && list.status != 1 && list.status != 5 }"><span class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if>
-									
-								</td>
-							</tr>
+                <tr>
+                    <%-- <td class="tc w30"><input type="radio" value="${list.id }" name="chkItem"  id="${list.id}"></td> --%>
+                    <td class="tc">${(vs.count)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
+                    <td class="tl">${list.orgName}</td>
+                    <td class="hand" title="${list.supplierName}">
+                        <c:choose>
+                            <c:when test="${list.status == 5 and list.isProvisional == 1 }">
+                                <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierQuery/temporarySupplier.html?supplierId=${list.id}&sign=${sign}')">
+                                    <c:if test="${fn:length (list.supplierName) > 15}">${fn:substring(list.supplierName,0,15)}...</c:if>
+                                    <c:if test="${fn:length (list.supplierName) <= 15}">${list.supplierName}</c:if>
+                                </a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierQuery/essential.html?supplierId=${list.id}&sign=${sign}')">
+                                    <c:if test="${fn:length (list.supplierName) > 15}">${fn:substring(list.supplierName,0,15)}...</c:if>
+                                    <c:if test="${fn:length (list.supplierName) <= 15}">${list.supplierName}</c:if>
+                                </a>
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td class="tl">${list.name }</td>
+                    <td class="tc">${list.businessNature }</td>
+                    <td class="">${list.supplierType }</td>
+                    <td class="tc">
+                        <fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd"/>
+                    </td>
+                    <td class="tc">
+                        <fmt:formatDate value="${list.submitAt }" pattern="yyyy-MM-dd"/>
+                    </td>
+                    <td class="tc">
+                        <fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd"/>
+                    </td>
+                    <td class="tc">
+                        <c:if test="${!empty list.instorageAt}">
+                            <fmt:formatDate value="${list.instorageAt }" pattern="yyyy-MM-dd"/>
+                        </c:if>
+                    </td>
+                    <td class="tc">
+                            <%-- <c:if test="${list.status==5 and list.isProvisional == 1}"><span class="label rounded-2x label-dark">临时</span></c:if>
+                            <c:if test="${list.status==-1 }"><span class="label rounded-2x label-dark">暂存</span></c:if>
+                            <c:if test="${list.status==0 }"><span class="label rounded-2x label-dark">待审核</span></c:if>
+                            <c:if test="${list.status==-2 }"><span class="label rounded-2x label-dark">预审核结束</span></c:if>
+                            <c:if test="${list.status==-3 }"><span class="label rounded-2x label-dark">公示中</span></c:if>
+                            <c:if test="${list.status==1 }"><span class="label rounded-2x label-u">审核通过</span></c:if>
+                            <c:if test="${list.status==2 }"><span class="label rounded-2x label-dark">退回修改</span></c:if>
+                            <c:if test="${list.status==9 }"><span class="label rounded-2x label-dark">退回再审核</span></c:if>
+                            <c:if test="${list.status==3 }"><span class="label rounded-2x label-dark">审核未通过</span></c:if>
+                            <c:if test="${list.status==4 }"><span class="label rounded-2x label-dark">待复核</span></c:if>
+                            <c:if test="${list.status==5 and list.isProvisional == 0}"><span class="label rounded-2x label-u">复核通过</span></c:if>
+                            <c:if test="${list.status==6 }"><span class="label rounded-2x label-dark">复核未通过</span></c:if>
+                            <c:if test="${list.status==7 }"><span class="label rounded-2x label-u">考察合格</span></c:if>
+                            <c:if test="${list.status==8 }"><span class="label rounded-2x label-dark">考察不合格</span></c:if> --%>
+
+                            <%-- <c:if test="${list.status==5 and list.isProvisional == 1}"><span class="label rounded-2x label-dark">临时</span></c:if>
+                            <c:if test="${list.status==-1 }"><span class="label rounded-2x label-dark">暂存</span></c:if>
+                            <c:if test="${list.status==0 }"><span class="label rounded-2x label-dark">待审核</span></c:if>
+                            <c:if test="${list.status==-2 }"><span class="label rounded-2x label-dark">预审核结束</span></c:if>
+                            <c:if test="${list.status==-3 }"><span class="label rounded-2x label-dark">公示中</span></c:if>
+                            <c:if test="${list.status==2 }"><span class="label rounded-2x label-dark">退回修改</span></c:if>
+                            <c:if test="${list.status==9 }"><span class="label rounded-2x label-dark">退回再审核</span></c:if>
+                            <c:if test="${list.status==3 }"><span class="label rounded-2x label-dark">审核不通过</span></c:if>
+                            <c:if test="${list.status==1 }"><span class="label rounded-2x label-dark">待复核</span></c:if>
+                            <c:if test="${list.status==5 and list.isProvisional == 0}"><span class="label rounded-2x label-u">复核合格</span></c:if>
+                            <c:if test="${list.status==6 }"><span class="label rounded-2x label-dark">复核不合格</span></c:if>
+                            <c:if test="${list.status==7 }"><span class="label rounded-2x label-u">考察合格</span></c:if>
+                            <c:if test="${list.status==8 }"><span class="label rounded-2x label-dark">考察不合格</span></c:if>
+                            <c:if test="${list.status==-4 }"><span class="label rounded-2x label-dark">预复核结束</span></c:if>
+                            <c:if test="${list.status==-5 }"><span class="label rounded-2x label-dark">预考察结束</span></c:if>
+                            <c:if test="${list.status==10 }"><span class="label rounded-2x label-dark">异议处理</span></c:if> --%>
+
+                            <%-- <c:set var="label_color" value="label-dark"/>
+                            <c:if test="${list.status==5 || list.status==7 }"><c:set var="label_color" value="label-u"/></c:if>
+                            <c:if test="${list.status==5 and list.isProvisional == 1}"><span class="label rounded-2x label-dark">临时</span></c:if>
+                            <c:if test="${list.status==5 and list.isProvisional == 0}"><span class="label rounded-2x label-u">${supplierStatusMap[list.status]}</span></c:if>
+                            <c:if test="${list.status!=5 }"><span class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if> --%>
+
+                        <c:set var="label_color" value="label-dark"/>
+                        <c:if test="${list.status == 5 || list.status == 7}"><c:set var="label_color" value="label-u"/></c:if>
+                        <c:if test="${list.status == 5 and list.isProvisional == 1}"><span
+                                class="label rounded-2x label-dark">临时</span></c:if>
+                        <c:if test="${list.status == 0 and list.auditTemporary != 1}"><span
+                                class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if>
+                        <c:if test="${list.status == 9 and list.auditTemporary != 1}"><span
+                                class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if>
+                        <c:if test="${(list.status == 0 or list.status == 9) and list.auditTemporary == 1}"><span
+                                class="label rounded-2x ${label_color}">${supplierAuditTemporaryStatusMap[list.auditTemporary]}</span></c:if>
+                        <c:if test="${list.status == 1 and list.auditTemporary != 2}"><span
+                                class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if>
+                        <c:if test="${list.status == 1 and list.auditTemporary == 2}"><span
+                                class="label rounded-2x ${label_color}">${supplierAuditTemporaryStatusMap[list.auditTemporary]}</span></c:if>
+                        <c:if test="${list.status == 5 and list.auditTemporary != 3 and list.isProvisional != 1}"><span
+                                class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if>
+                        <c:if test="${list.status == 5 and list.auditTemporary == 3 and list.isProvisional != 1}"><span
+                                class="label rounded-2x ${label_color}">${supplierAuditTemporaryStatusMap[list.auditTemporary]}</span></c:if>
+                        <c:if test="${list.status != 0 && list.status != 9 && list.status != 1 && list.status != 5}"><span
+                                class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if>
+                    </td>
+                    <c:if test="${isAccountToAudit and list.status == 2}">
+                    	<td class="tc">
+                    		<a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/essential.html?supplierId=${list.id}&sign=${sign}')">标记</a>
+                    	</td>
+                    </c:if>
+                    <c:if test="${isAccountToAudit and list.status != 2}">
+                    	<td class="tc">
+                    		<c:if test="${list.status == 5 and list.isProvisional == 1}">
+                    			<a href="javascript:jumppage('${pageContext.request.contextPath}/supplierQuery/temporarySupplier.html?supplierId=${list.id}&sign=${sign}')">查看</a>
+                    		</c:if>
+                    		<c:if test="${list.isProvisional != 1}">
+                    			<a href="javascript:jumppage('${pageContext.request.contextPath}/supplierQuery/essential.html?supplierId=${list.id}&sign=${sign}')">查看</a>
+                    		</c:if>
+                    	</td>
+                    </c:if>
+                </tr>
 						</c:forEach>
 					</tbody>
 				</table>
 				<div id="pagediv" align="right"></div>
 			</div>
 		</div>
-		
+
 		<div id="openDiv" class="dnone layui-layer-wrap" >
 		  <form id="form2" action="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?sign=${sign}" method="post" class="mb0">
 		  	<div class="drop_window">

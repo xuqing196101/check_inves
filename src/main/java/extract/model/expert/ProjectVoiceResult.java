@@ -16,7 +16,7 @@ public class ProjectVoiceResult {
     
     private String recordeId;
     
-    private List<ExpertResult> expertList;
+    private List<ExpertResult> expertResult;
 
     public String getProjectId() {
         return projectId;
@@ -34,11 +34,12 @@ public class ProjectVoiceResult {
         this.recordeId = recordeId;
     }
 
-    public List<ExpertResult> getExpertList() {
-        return expertList;
+    public List<ExpertResult> getExpertResult() {
+        return expertResult;
     }
 
-    public void setExpertList(List<ExpertResult> expertList) {
-        this.expertList = expertList;
+    public void setExpertResult(List<ExpertResult> expertResult) {
+        this.expertResult = expertResult;
     }
+
 }

@@ -101,6 +101,7 @@ function findData(type,tablerId,pageNum) {
 		shade : [ 0.1, '#fff' ],
 		offset : [ '40%', '50%' ]
 	});
+	$("#tablerId").val(tablerId);
 	$("[name=supplierType]").val(type);
 	$("#pageNum").val(pageNum);
 	$.ajax({
@@ -132,7 +133,7 @@ function showData(obj,tablerId,typeId,pageNum) {
 				// 物资 生产 目录
 				var isItemsProductPageAudit=isNumber(item.isItemsProductPageAudit);
 				// 物资 销售 目录
-				var setIsItemsSalesPageAudit=isNumber(item.isItemsSalesPageAudit);
+				var isItemsSalesPageAudit=isNumber(item.isItemsSalesPageAudit);
 				// 物资 生产 合同
 				var isContractProductPageAudit=isNumber(item.isContractProductPageAudit);
 				// 物资 销售 合同
@@ -188,17 +189,17 @@ function showData(obj,tablerId,typeId,pageNum) {
 					}
 					break;
 				case 'SALES':
-					if(setIsItemsSalesPageAudit > 0){
+					if(isItemsSalesPageAudit > 0){
 						itemsStyle=" class=\"tc info table-border-color-red\" ";
 					}else{
 						itemsStyle=" class=\"tc info\" ";
 					}
-					if(isContractSalesPageAudit > 0 || setIsItemsSalesPageAudit > 0){
+					if(isContractSalesPageAudit > 0 || isItemsSalesPageAudit > 0){
 						contractStyle=" class=\"tc info table-border-color-red\" ";
 					}else{
 						contractStyle=" class=\"tc info\" ";
 					}
-					if(isAptitudeSalesPageAudit > 0 || setIsItemsSalesPageAudit > 0){
+					if(isAptitudeSalesPageAudit > 0 || isItemsSalesPageAudit > 0){
 						aptitudeStyle=" class=\"tc info table-border-color-red\" ";
 					}else{
 						aptitudeStyle=" class=\"tc info\" ";
@@ -227,15 +228,16 @@ function showData(obj,tablerId,typeId,pageNum) {
 				}else{
 					projectDiv="";
 				}
-				$("#"+tablerId+" tbody").append("<tr id=\"showTr"+ind+"\">"+
-						" <td class=\"tc w30\"><input onclick=\"check('"+tablerId+"')\" type=\"checkbox\" name=\""+tablerId+"itemsCheckboxName\" id=\""+tablerId+"itemCheckboxId\" value=\""+ind+"\" /></td>"+
+				$("#"+tablerId+" tbody").append("<tr id=\"showTr"+ind+"\" onmouseover=\"onmouseoverItem(this);\">"+
+						" <td class=\"tc w30\" id=\"ckTd"+ind+"\"><input onclick=\"check('"+tablerId+"')\" type=\"checkbox\" name=\""+tablerId+"itemsCheckboxName\" id=\""+tablerId+"itemCheckboxId\" value=\""+ind+"\" /></td>"+
 								"<td class=\"tc info\">" + ind+ "</td>"+
 								"<input type=\"hidden\" id=\"isItemsProductPageAudit"+ind+"\" value=\""+isItemsProductPageAudit+"\">"+
-								"<input type=\"hidden\" id=\"setIsItemsSalesPageAudit"+ind+"\" value=\""+setIsItemsSalesPageAudit+"\">"+
+								"<input type=\"hidden\" id=\"isItemsSalesPageAudit"+ind+"\" value=\""+isItemsSalesPageAudit+"\">"+
 								"<input type=\"hidden\" id=\"isAptitudeProductPageAudit"+ind+"\" value=\""+isAptitudeProductPageAudit+"\">"+
 								"<input type=\"hidden\" id=\"isContractProductPageAudit"+ind+"\" value=\""+isContractProductPageAudit+"\">"+
 								"<input type=\"hidden\" id=\"isAptitudeSalesPageAudit"+ind+"\" value=\""+isAptitudeSalesPageAudit+"\">"+
 								"<input type=\"hidden\" id=\"isContractSalesPageAudit"+ind+"\" value=\""+isContractSalesPageAudit+"\">"+
+								"<input type=\"hidden\" id=\"auditIsDeleted"+ind+"\" value=\""+item.auditIsDeleted+"\">"+
 								"<input type=\"hidden\" id=\"itemsName"+ind+"\" value=\""+item.itemsName+"\">"+
 								"<input type=\"hidden\" id=\"itemsId"+ind+"\" value=\""+item.itemsId+"\">"+
 								"<input type=\"hidden\" id=\"tablerId"+ind+"\" value=\""+tablerId+"\">"+
@@ -258,6 +260,10 @@ function showData(obj,tablerId,typeId,pageNum) {
 	                            "<td "+aptitudeStyle+aptitudeModifiedStyle+" id=\"qualifications"+ind+"\" >"+isShow(tablerId,ind,showQua,"qualifications",item.rootNode,item.itemsId,item.supplierItemId,item.secondNode,item.secondNodeID)+"</td>"+
 	                            projectDiv+"</tr>"
 				);
+				// 已经审核并退回过的显示小红叉
+				if(item.auditIsDeleted && item.auditIsDeleted > 0){
+					$("#showTr"+ind+" #ckTd"+ind).html("<img src=\"/zhbj/public/backend/images/sc.png\" onclick=\"javascript:layer.msg('该条信息已审核并退回过！');\"/>");
+				}
 			});
 }
 
@@ -294,6 +300,13 @@ function check(tablerId){
 		}
 	}
 }
+// 鼠标经过品目事件
+function onmouseoverItem(_this){
+	var auditIsDeleted = $(_this).find("input[id^='auditIsDeleted']").val();
+	if(auditIsDeleted && auditIsDeleted > 0){
+		$(_this).attr("title","此条信息已审核并退回过");
+	}
+}
 // 审核 目录
 function auditCategory(tablerId){
 	var checkedLen = $("input[name='"+tablerId+"itemsCheckboxName']:checked").length;
@@ -317,49 +330,49 @@ function auditContract(tablerId){
 	}
 }
 // 审核 目录
-function onCategory(tablerId,wzType){// ,ind,secondNode,secondNodeId,wzType
+function onCategory(tablerId,wzType){
 	var auditType;
-	var secondNode;
+	var auditContent;
 	switch (wzType) {
 	case 'PRODUCT':
-		secondNode='物资-生产目录信息';
+		auditContent='物资-生产目录信息';
 		auditType='items_product_page';
 		break;
 	case 'SALES':
-		secondNode='物资-销售目录信息';
+		auditContent='物资-销售目录信息';
 		auditType='items_sales_page';
 		break;
 	case 'PROJECT':
-		secondNode='工程-目录信息';
+		auditContent='工程-目录信息';
 		auditType='items_product_page';
 		break;
 	case 'SERVICE':
-		secondNode='服务-目录信息';
+		auditContent='服务-目录信息';
 		auditType='items_product_page';
 		break;
 	}
-	var count=isAudit(tablerId,wzType);
+	var count=isAudited(tablerId,wzType);
 	/*
 	 * //非 选择框 审核 单选 if(is==0){ if(count==0){
 	 * auditContent=contentParent(tablerId,ind,'目录信息');
-	 * reasonProjectRadio(tablerId,ind,secondNodeId,
+	 * doAuditItemRadio(tablerId,ind,secondNodeId,
 	 * secondNode,auditType,auditContent,wzType); }else{ layer.msg('已审核！',
 	 * {offset:'100px'}); } }else{
 	 */
 		// 选择框 审核
 		if(count==0){
-			reasonProjectMulti(tablerId,auditType,secondNode,wzType);
+			doAuditItemMuti(tablerId,auditType,auditContent,wzType);
 		}else{
 			layer.msg('选择中存在已审核目录，不可重复审核！', {offset:'100px'});
 		}
 	/* } */
 }
 // 判断 是否是已审核 目录
-function isAudit(tablerId,wzType){
+function isAudited(tablerId,wzType){
 	var showin=0;
 	var auditType;
 	var temp=0;
-	$("input[name='"+tablerId+"itemsCheckboxName']:checked").each(function(){ 
+	$("input[name='"+tablerId+"itemsCheckboxName']:checked").each(function(){
 		var ind=$(this).val();
 	switch (wzType) {
 	case 'PRODUCT':
@@ -367,7 +380,7 @@ function isAudit(tablerId,wzType){
 		showin=showin+temp;
 		break;
 	case 'SALES':
-		temp=parseInt($("#"+tablerId+" #setIsItemsSalesPageAudit"+ind+"").val());
+		temp=parseInt($("#"+tablerId+" #isItemsSalesPageAudit"+ind+"").val());
 		showin=showin+temp;
 		break;
 	case 'PROJECT':
@@ -391,7 +404,7 @@ function isItemAudited(tablerId,ind){
 		isAudited = parseInt($("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val());
 		break;
 	case 'SALES':
-		isAudited = parseInt($("#"+tablerId+" #setIsItemsSalesPageAudit"+ind+"").val());
+		isAudited = parseInt($("#"+tablerId+" #isItemsSalesPageAudit"+ind+"").val());
 		break;
 	case 'PROJECT':
 		isAudited = parseInt($("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val());
@@ -436,19 +449,21 @@ function isShow(tablerId,ind,count,type,rootNode,itemId,supplierItemid,secondNod
 	
 	// 合同
 	if(type=='contract'){
-		if(count>0){
+		/*if(count>0){
 			rut= "<a href=\"javascript:void(0);\" onclick=\"onContractShow('"+tablerId+"','"+ind+"','"+rootNode+"','"+itemId+"','"+supplierItemid+"','"+secondNode+"','"+secondNodeId+"')\">审核</a>";
 		}else {
 			rut= "";
-		}
+		}*/
+		rut= "<a href=\"javascript:void(0);\" onclick=\"onContractShow('"+tablerId+"','"+ind+"','"+rootNode+"','"+itemId+"','"+supplierItemid+"','"+secondNode+"','"+secondNodeId+"')\">审核</a>";
 		// 资质
 	}else if(type=='qualifications'){
-		if(count>0){
+		/*if(count>0){
 			rut="<a href=\"javascript:void(0);\" onclick=\"onQualificationsShow('"+tablerId+"','"+ind+"','"+rootNode+"','"+itemId+"','"+secondNode+"','"+secondNodeId+"')\">审核</a>";
 		}else{
 			rut= "";
-		};
-	};
+		}*/
+		rut="<a href=\"javascript:void(0);\" onclick=\"onQualificationsShow('"+tablerId+"','"+ind+"','"+rootNode+"','"+itemId+"','"+secondNode+"','"+secondNodeId+"')\">审核</a>";
+	}
 	return rut;
 }
 // 弹出框
@@ -457,10 +472,10 @@ function showFrame(tablerId,ind,title,cateTree,flng,id,secondNode,secondNodeId){
 		layer.msg("此产品目录已经审核不通过！");
 		return;
 	}
-	var supplierStatus= $("input[name='supplierStatus']").val();
+	var supplierStatus = $("input[name='supplierStatus']").val();
     var sign = $("input[name='sign']").val();
-	    // 只有审核的状态能审核
-	    if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+    // 只有审核的状态能审核
+    if(isAudit){
 		var supplierId=$("#supplierId").val();
 		var content;
 		var auditType;
@@ -476,10 +491,10 @@ function showFrame(tablerId,ind,title,cateTree,flng,id,secondNode,secondNodeId){
 		}
 		layer.open({
 		  type: 2, // page层
-		  area: ['880px', '330px'],
+		  area: ['880px', '380px'],
 		  title: title,
 		  closeBtn: 1,
-		  shade:0.01, // 遮罩透明度
+		  shade: 0.01, // 遮罩透明度
 		  moveType: 1, // 拖拽风格，0是默认，1是传统拖动
 		  shift: 1, // 0-6的动画形式，-1不开启
 		  offset: '60px',
@@ -529,7 +544,7 @@ function checkML(tablerId,wzType){
 		if('PRODUCT'==wzType){
 			auditCount =parseInt($("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val());
 		}else if('SALES'==wzType){
-			auditCount = parseInt($("#"+tablerId+" #setIsItemsSalesPageAudit"+ind+"").val());
+			auditCount = parseInt($("#"+tablerId+" #isItemsSalesPageAudit"+ind+"").val());
 		}else{
 			auditCount = parseInt($("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val());
 		}
@@ -537,15 +552,14 @@ function checkML(tablerId,wzType){
 	return auditCount;
 }
 // 目录 审核不通过理由 物资 生产
-function reasonProjectMulti(tablerId,auditType,auditContent,wzType) {// ,ind,aType,wzType
-	var supplierStatus= $("input[name='supplierStatus']").val();
+function doAuditItemMuti(tablerId,auditType,auditContent,wzType) {
+	var supplierStatus = $("input[name='supplierStatus']").val();
     var sign = $("input[name='sign']").val();
     // 只有审核的状态能审核
-    if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
-	
+    if(isAudit){
 		var supplierId = $("#supplierId").val();
 		var auditCount=checkML(tablerId,wzType);
-		if(auditCount!=null && auditCount !='' && auditCount>'0' ){
+		if(auditCount!=null && auditCount !='' && auditCount>'0'){
 			layer.msg('已审核', {offset:'100px'});
 			return;
 		}
@@ -556,36 +570,36 @@ function reasonProjectMulti(tablerId,auditType,auditContent,wzType) {// ,ind,aTy
 			maxlength: '100',
 		}, function(text) {
 			var text = $.trim(text);
-		  if(text != null && text !=""){
-			  if($.trim(text).length>900){
-				  layer.msg('审核内容长度过长！', {offset:'100px'});
-				  return;
-			  }
-			  var supplierAuditList=[];
-			  $("input[name='"+tablerId+"itemsCheckboxName']:checked").each(function(){ 
+			if(text != null && text !=""){
+				if($.trim(text).length>900){
+					layer.msg('审核内容长度过长！', {offset:'100px'});
+					return;
+				}
+				var supplierAuditList=[];
+				$("input[name='"+tablerId+"itemsCheckboxName']:checked").each(function(){
 					var index=$(this).val();
-					 var itemsId=$("#"+tablerId+" #itemsId"+index+"").val();
-					 var supplierAudit=new Object();
-					 supplierAudit.auditFieldName=auditContent;
-					 supplierAudit.suggest=text;
-					 supplierAudit.supplierId=supplierId;
-					 supplierAudit.auditType=auditType;
-					 supplierAudit.auditContent=contentParent(tablerId,index,'');;
-					 supplierAudit.auditField=itemsId;
-					 supplierAuditList.push(supplierAudit);
-		       });
+					var itemsId=$("#"+tablerId+" #itemsId"+index+"").val();
+					var supplierAudit=new Object();
+					supplierAudit.auditFieldName=auditContent;
+					supplierAudit.suggest=text;
+					supplierAudit.supplierId=supplierId;
+					supplierAudit.auditType=auditType;
+					supplierAudit.auditContent=contentParent(tablerId,index,'');
+					supplierAudit.auditField=itemsId;
+					supplierAuditList.push(supplierAudit);
+				});
 				$.ajax({
 					url: globalPath+"/supplierAudit/auditReasonsMulti.do",
 					type: "post",
 					data: JSON.stringify(supplierAuditList),
-					contentType:"application/json",
+					contentType: "application/json",
 					success: function(result) {
 						if(result.status==500){
 							changStyle(tablerId, wzType);
 							layer.msg(result.msg, {
 								shift: 6, // 动画类型
 								offset: '100px',
-							});    
+							});
 						}else{
 							layer.msg(result.msg, {
 								shift: 6, // 动画类型
@@ -594,13 +608,97 @@ function reasonProjectMulti(tablerId,auditType,auditContent,wzType) {// ,ind,aTy
 						}
 					}
 				});
-					layer.close(index);
-				}else{
-	  		layer.msg('不能为空！', {offset:'100px'});
-	  	};
+				layer.close(index);
+			}else{
+				layer.msg('不能为空！', {offset:'100px'});
+			}
 		});
     }
 }
+
+// 目录更新审核
+function doUpdateAuditItemMuti(tablerId,auditType,auditContent,wzType) {
+	var supplierStatus = $("input[name='supplierStatus']").val();
+    var sign = $("input[name='sign']").val();
+    // 只有审核的状态能审核
+    if(isAudit){
+		var supplierId = $("#supplierId").val();
+		var supplierAuditList=[];
+		$("input[name='"+tablerId+"itemsCheckboxName']:checked").each(function(){
+			var index=$(this).val();
+			var itemsId=$("#"+tablerId+" #itemsId"+index+"").val();
+			var supplierAudit=new Object();
+			supplierAudit.auditFieldName=auditContent;
+			supplierAudit.supplierId=supplierId;
+			supplierAudit.auditType=auditType;
+			supplierAudit.auditContent=contentParent(tablerId,index,'');
+			supplierAudit.auditField=itemsId;
+			supplierAuditList.push(supplierAudit);
+		});
+		var auditData = JSON.stringify(supplierAuditList);
+		var result = getOldAuditMuti(auditData);
+		if(result && result.status == 0){
+			layer.msg('选择中存在已审核并退回过的记录！');
+    		return;
+		}
+		var defaultVal = "";
+		var options = {
+			title: '请填写不通过的理由：',
+			value: defaultVal,
+			formType: 2, 
+			offset: '100px',
+			maxlength: '100'
+ 		};
+		if(result && result.status == 1 && result.data){
+          	defaultVal = result.data;
+          	options.value = defaultVal;
+          	options.btn = ['确定','撤销','取消'];
+          	options.btn2 = function(index){
+          		var bool = cancelAuditMuti(auditData);
+          		if(bool){
+          			flushData();
+          		}
+          	};
+          	options.btn3 = function(index){layer.close(index);};
+		}
+		var promptIndex = layer.prompt(options, function(value, index, elem){
+	 		var text = $.trim(value);
+	 		if (text != null && text != "") {
+				if(text.length>900){
+					layer.msg('审核内容长度过长！', {offset:'100px'});
+					return;
+				}
+				$.each(supplierAuditList, function(index, supplierAudit){
+	 				supplierAudit.suggest = text;
+	 			});
+				$.ajax({
+					url: globalPath+"/supplierAudit/auditReasonsMulti.do",
+					type: "post",
+					data: JSON.stringify(supplierAuditList),
+					contentType: "application/json",
+					success: function(result) {
+						if(result.status==500){
+							layer.msg("更新审核成功！", {
+								shift: 6, // 动画类型
+								offset: '100px',
+							});
+						}else{
+							layer.msg(result.msg, {
+								shift: 6, // 动画类型
+								offset: '100px',
+							});
+						}
+					}
+				});
+				layer.close(index);
+			}else{
+				layer.msg('不能为空！', {offset:'100px'});
+			}
+		});
+		$("#layui-layer"+promptIndex+" .layui-layer-input").attr("placeholder","注意：新的审核理由会覆盖原来的审核理由。");
+    }
+}
+
 // 改变 样式
 function changStyle(tablerId,wzType){
 	$("input[name='"+tablerId+"itemsCheckboxName']:checked").each(function(){ 
@@ -625,18 +723,18 @@ function changStyle(tablerId,wzType){
 	if('PRODUCT'==wzType){
 		$("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val(1);
 	}else if('SALES'==wzType){
-		$("#"+tablerId+" #setIsItemsSalesPageAudit"+ind+"").val(1);
+		$("#"+tablerId+" #isItemsSalesPageAudit"+ind+"").val(1);
 	}else{
 		$("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val(1);
 	}
 	});
 }
 // 目录 审核不通过理由 非选择框 单选
-function reasonProjectRadio(tablerId,ind,auditField, auditFieldName,type,auditContent,wzType) {
-	var supplierStatus= $("input[name='supplierStatus']").val();
+function doAuditItemRadio(tablerId,ind,auditField, auditFieldName,type,auditContent,wzType) {
+	var supplierStatus = $("input[name='supplierStatus']").val();
     var sign = $("input[name='sign']").val();
     // 只有审核的状态能审核
-    if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+    if(isAudit){
 	
 		var supplierId = $("#supplierId").val();
 		var auditType;
@@ -644,7 +742,7 @@ function reasonProjectRadio(tablerId,ind,auditField, auditFieldName,type,auditCo
 		if('PRODUCT'==wzType){
 			auditType = $("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val();
 		}else if('SALES'==wzType){
-			auditType = $("#"+tablerId+" #setIsItemsSalesPageAudit"+ind+"").val();
+			auditType = $("#"+tablerId+" #isItemsSalesPageAudit"+ind+"").val();
 		}else{
 			auditType = $("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val();
 		}
@@ -695,7 +793,7 @@ function reasonProjectRadio(tablerId,ind,auditField, auditFieldName,type,auditCo
 							if('PRODUCT'==wzType){
 								$("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val(1);
 							}else if('SALES'==wzType){
-								$("#"+tablerId+" #setIsItemsSalesPageAudit"+ind+"").val(1);
+								$("#"+tablerId+" #isItemsSalesPageAudit"+ind+"").val(1);
 							}else{
 								$("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val(1);
 							}
@@ -720,7 +818,7 @@ function doAuditContractMuti(tablerId,supplierTypeId) {
 	var supplierStatus = $("input[name='supplierStatus']").val();
     var sign = $("input[name='sign']").val();
     // 只有审核的状态能审核
-    if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+    if(isAudit){
     	var isAudited = false;
     	var isMuluAudited = false;
 		$("input[name='"+tablerId+"itemsCheckboxName']:checked").each(function(){
@@ -803,22 +901,67 @@ function doAuditContractMuti(tablerId,supplierTypeId) {
 				layer.close(index);
 			}else{
 				layer.msg('不能为空！', {offset:'100px'});
-			};
+			}
 		});
     }
 }
-// 暂存
-function zhancun(){
-  var supplierId = $("#supplierId").val();
-  $.ajax({
-    url: globalPath+"/supplierAudit/temporaryAudit.do",
-    dataType: "json",
-    data:{supplierId : supplierId},
-    success : function (result) {
-    	layer.msg(result, {offset : [ '100px' ]});
-    },error : function(){
-    	layer.msg("暂存失败", {offset : [ '100px' ]});
-    }
-  });
+
+// 更新审核
+function updateAudit(tablerId){
+	var checkedLen = $("input[name='"+tablerId+"itemsCheckboxName']:checked").length;
+	// 是否是 选择目录
+	if(checkedLen > 0){
+		var wzType = $("#"+tablerId+" input[id^='typeId']").val();
+		var auditType;
+		var auditContent;
+		switch (wzType) {
+		case 'PRODUCT':
+			auditContent='物资-生产目录信息';
+			auditType='items_product_page';
+			break;
+		case 'SALES':
+			auditContent='物资-销售目录信息';
+			auditType='items_sales_page';
+			break;
+		case 'PROJECT':
+			auditContent='工程-目录信息';
+			auditType='items_product_page';
+			break;
+		case 'SERVICE':
+			auditContent='服务-目录信息';
+			auditType='items_product_page';
+			break;
+		}
+		var count=isAudited(tablerId,wzType);
+		if(count==checkedLen){
+			doUpdateAuditItemMuti(tablerId, auditType, auditContent, wzType);
+		}else{
+			layer.msg('请选择已审核目录！', {offset:'100px'});
+		}
+	}else{
+		layer.msg('请先选择目录，至少有一条！', {offset:'100px'});
+	}
 }
 
+// 暂存
+function zhancun(){
+	var supplierId = $("#supplierId").val();
+	$.ajax({
+		url: globalPath+"/supplierAudit/temporaryAudit.do",
+		dataType: "json",
+		data: {supplierId : supplierId},
+		success : function (result) {
+			layer.msg(result, {offset : [ '100px' ]});
+		},error : function(){
+			layer.msg("暂存失败", {offset : [ '100px' ]});
+		}
+	});
+}
+
+// 刷新数据
+function flushData(){
+	var typeId = $("#supplierType").val();
+	var tablerId = $("#tablerId").val();
+	var pageNum = $("#pageNum").val();
+	findData(typeId,tablerId,pageNum);
+}

@@ -1,8 +1,8 @@
 package ses.dao.ems;
 
-import java.util.List;
-
 import ses.model.ems.ExpertBatchDetails;
+
+import java.util.List;
 
 public interface ExpertBatchDetailsMapper {
 	
@@ -22,4 +22,15 @@ public interface ExpertBatchDetailsMapper {
 	 * @return
 	 */
 	List<String> selGroupIdByExpertId(String expertId);
+
+	/**
+	 *
+	 * Description: 根据专家ID删除批次
+	 *
+	 * @author Easong
+	 * @version 2017/11/8
+	 * @param expertId
+	 * @since JDK1.7
+	 */
+	int deleteByExpertId(String expertId);
 }

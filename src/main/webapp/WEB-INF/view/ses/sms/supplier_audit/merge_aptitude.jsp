@@ -43,14 +43,18 @@
 	<div class="container container_box">
 		<div class="content ">
 			<div class="col-md-12 tab-v2 job-content">
-				<%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%>
+				<%-- <%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%> --%>
+        <jsp:include page="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp">
+        	<jsp:param value="${supplierStatus }" name="supplierStatus"/>
+        </jsp:include>
 				<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab count_flow ">
-                    </ul>
+				</ul>
 				<div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_1">
 				<div class="mb10">
-				  <c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+				  <c:if test="${isAudit}">
             <button class="btn btn-windows cancel" type="button" onclick="auditCategory('content_1');">不通过</button>
             <button class="btn btn-windows cancel" type="button" onclick="auditContract('content_1');">退回合同</button>
+            <button class="btn btn-windows edit" type="button" onclick="updateAudit('content_1');">更新审核</button>
           </c:if>
         </div>
 					<table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_1">
@@ -73,9 +77,10 @@
 				</div>
 				<div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_2">
 				<div class="mb10">
-				  <c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+				  <c:if test="${isAudit}">
             <button class="btn btn-windows cancel" type="button" onclick="auditCategory('content_2');">不通过</button>
             <button class="btn btn-windows cancel" type="button" onclick="auditContract('content_2');">退回合同</button>
+            <button class="btn btn-windows edit" type="button" onclick="updateAudit('content_2');">更新审核</button>
           </c:if>
                 </div>
                     <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_2">
@@ -99,8 +104,9 @@
                 </div>
                 <div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_3">
                 <div class="mb10">
-                  <c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+                  <c:if test="${isAudit}">
                     <button class="btn btn-windows cancel" type="button" onclick="auditCategory('content_3');">不通过</button>
+                    <button class="btn btn-windows edit" type="button" onclick="updateAudit('content_3');">更新审核</button>
                   </c:if>
                 </div>
                     <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_3">
@@ -122,9 +128,10 @@
                 </div>
                 <div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_4">
                  <div class="mb10">
-                   <c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+                   <c:if test="${isAudit}">
                      <button class="btn btn-windows cancel" type="button" onclick="auditCategory('content_4');">不通过</button>
                      <button class="btn btn-windows cancel" type="button" onclick="auditContract('content_4');">退回合同</button>
+                     <button class="btn btn-windows edit" type="button" onclick="updateAudit('content_4');">更新审核</button>
                    </c:if>
                 </div>
                     <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_4">
@@ -148,7 +155,7 @@
 				<div id="pagediv" align="right"></div>
 				<div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
 					<a class="btn" type="button" onclick="lastStep();">上一步</a>
-					  <c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+					  <c:if test="${isStatusToAudit}">
 					    <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
 					  </c:if>
 						 <a class="btn" type="button" onclick="nextStep();">下一步</a>
@@ -158,11 +165,12 @@
 	</div>
 	<form id="form_id" action="" method="post">
 		<input id="supplierId" name="supplierId" value="${supplierId}" type="hidden"> 
-		<input id="pageNum" name="pageNum" value="1" type="hidden"> 
+		<input id="pageNum" name="pageNum" value="1" type="hidden">
 		<input name="supplierStatus" id="status" value="${supplierStatus}" type="hidden">
 		<input type="hidden" id="supplierTypes" value="${supplierTypes}">
-		<input type="hidden" name="supplierType" >
+		<input type="hidden" name="supplierType" id="supplierType">
 		<input type="hidden" name="sign" value="${sign}">
+		<input type="hidden" id="tablerId">
 	</form>
 </body>
 

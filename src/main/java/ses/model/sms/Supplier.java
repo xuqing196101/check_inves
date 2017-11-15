@@ -1,21 +1,21 @@
 package ses.model.sms;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-
+import bss.model.ppms.AdvancedDetail;
+import bss.model.ppms.ProjectDetail;
+import common.model.UploadFile;
 import ses.model.bms.Area;
 import ses.model.bms.CategoryParameter;
 import ses.model.bms.RoleUser;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.util.MyAnnotation;
-import bss.model.ppms.AdvancedDetail;
-import bss.model.ppms.ProjectDetail;
-import common.model.UploadFile;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @Title: Supplier
@@ -429,6 +429,7 @@ Supplier implements Serializable {
 	 * </pre>
 	 */
 	private Integer status;
+	private String statusString;
 
 	/**
 	 * <pre>
@@ -667,6 +668,7 @@ Supplier implements Serializable {
 	private String armyBuinessAddress;
 	
 	private Date auditDate;
+	private String auditDateString;
 	
 	private List<SupplierAddress> addressList=new ArrayList<SupplierAddress>();
 	
@@ -725,8 +727,14 @@ Supplier implements Serializable {
     
     /**参加政府或军队采购经历登记表**/
     private String purchaseExperience;
-    
-    /**供应商附件表**/
+
+    // 查询条件品目ID
+    private String queryCategory;
+    private List<String> queryCategorys;
+    // 查询条件品目名称
+    private String queryCategoryName;
+
+	/**供应商附件表**/
     private List<UploadFile> attchList=new ArrayList<UploadFile>();
     
     private List<SupplierHistory> historys=new ArrayList<SupplierHistory>();
@@ -839,6 +847,9 @@ Supplier implements Serializable {
     
     /**审核意见附件**/
 	private String auditOpinionAttach;
+
+	/**供应商入库时间**/
+	private Date instorageAt;
 	
     public String getAuditOpinionAttach() {
 		return auditOpinionAttach;
@@ -2066,5 +2077,52 @@ Supplier implements Serializable {
 
     public void setSupplierAudits(List<SupplierAudit> supplierAudits) {
         this.supplierAudits = supplierAudits;
+    }
+
+    public String getQueryCategory() {
+		return queryCategory;
+	}
+
+	public void setQueryCategory(String queryCategory) {
+		this.queryCategory = queryCategory;
+	}
+    public String getQueryCategoryName() {
+        return queryCategoryName;
+    }
+
+    public void setQueryCategoryName(String queryCategoryName) {
+        this.queryCategoryName = queryCategoryName;
+    }
+
+	public String getStatusString() {
+		return statusString;
+	}
+
+	public void setStatusString(String statusString) {
+		this.statusString = statusString;
+	}
+
+	public String getAuditDateString() {
+		return auditDateString;
+	}
+
+	public void setAuditDateString(String auditDateString) {
+		this.auditDateString = auditDateString;
+	}
+
+	public List<String> getQueryCategorys() {
+		return queryCategorys;
+	}
+
+	public void setQueryCategorys(List<String> queryCategorys) {
+		this.queryCategorys = queryCategorys;
+	}
+
+    public Date getInstorageAt() {
+        return instorageAt;
+    }
+
+    public void setInstorageAt(Date instorageAt) {
+        this.instorageAt = instorageAt;
     }
 }

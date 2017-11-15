@@ -643,9 +643,9 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 
 	@Override
 	public void deleteBySupplierId(String supplierId) {
-	 Map<String,String> map=new HashMap<String,String>();
-	 map.put("supplierId", supplierId);
-	 supplierItemMapper.deleteByMap(map);
+		Map<String,String> map=new HashMap<String,String>();
+		map.put("supplierId", supplierId);
+		supplierItemMapper.deleteByMap(map);
 	}	
 	
 	public List<SupplierItem> queryBySupplierAndType(String supplierId,String type){
@@ -1114,6 +1114,12 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 			items = this.queryBySupplierAndType(supplierId, code);
 		}
 		if(items != null){
+			
+			// 先清空IS_RETURNED状态值
+			SupplierItem itemParam = new SupplierItem();
+			itemParam.setIsReturned((byte)0);
+			supplierItemMapper.updateBySupplierId(itemParam, supplierId);
+			
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType(ses.util.Constant.ITEMS_PRODUCT_PAGE);

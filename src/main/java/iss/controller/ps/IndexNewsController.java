@@ -27,7 +27,6 @@ import iss.service.ps.ArticleTypeService;
 import iss.service.ps.DownloadUserService;
 import iss.service.ps.IndexNewsService;
 import iss.service.ps.SearchService;
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -45,6 +44,7 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExpertBlackList;
 import ses.model.ems.ExpertBlackListVO;
 import ses.model.ems.ExpertPublicity;
+import ses.model.ems.ExpertVO;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierBlacklist;
@@ -1635,6 +1635,9 @@ public class IndexNewsController extends BaseSupplierController{
             content = content.replaceAll(CommonStringUtil.getAppendString("&nbsp;", 30), "");
             content = content.replaceAll(":=\"\"", "=\"\"");
           }
+          //生成图片不识别的样式替换
+          content = content.replaceAll("windowtext", "black");
+          content = content.replaceAll("rgb\\(221, 221, 221\\)", "black");
           
           divStyle.append(content);
           divStyle.append("</div>");
@@ -2109,7 +2112,7 @@ public class IndexNewsController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/selectsumByDirectory")
-	public String selectsumByDirectory(Model model,Integer page,HttpServletRequest request) throws Exception{
+	public String selectsumByDirectory(String batchDetailsNumber, Model model,Integer page,HttpServletRequest request) throws Exception{
 		String act=request.getParameter("act");
 		//供应商名录
 		if("0".equals(act)){
@@ -2140,37 +2143,35 @@ public class IndexNewsController extends BaseSupplierController{
 	        return "iss/ps/index/sumByPubSupplier";
 		}
 		else {//专家名录 ：1
-			Expert expert=new Expert();
 			Map<String, Object> expertMap = new HashMap<>();
 			//处理查询参数
 			String relName=RequestTool.getParam(request,"relName","");
 			if(!"".equals(relName)){
-				expert.setRelName(relName);
 				expertMap.put("relName", relName);
 				model.addAttribute("relName", relName );
+			}
+			// 专家编号
+			if(StringUtils.isNotEmpty(batchDetailsNumber)){
+				expertMap.put("batchDetailsNumber", batchDetailsNumber);
+				model.addAttribute("batchDetailsNumber", batchDetailsNumber);
 			}
 			String status=RequestTool.getParam(request,"status","");
 			if(!"".equals(status)){
 				String [] statusArray= status.split(","); 
 				expertMap.put("statusArray", statusArray);
 				expertMap.put("size", statusArray.length);
-				expert.setStatus(status);
 				model.addAttribute("status", status );
 			}else {
-                int statusArray[] = {4,6,7,8};
+                int statusArray[] = {6,7,8};
                 expertMap.put("size", statusArray.length);
                 expertMap.put("statusArray", statusArray);
             }
-			
-			ExpertService expertService=SpringBeanUtil.getBean(ExpertService.class);
             //只显示公开的
 			//expert.setIsPublish(1);
 			//expertMap.put("isPublish", 1);
-			expertMap.put("flag", 1);
-
 			//分页
-	        List<Expert> list = expertService.selectIndexExpert(page == null ? 1 : page, expertMap);
-	        model.addAttribute("list",  new PageInfo<Expert>(list));
+	        List<ExpertVO> list = expertService.selectIndexExpert(page == null ? 1 : page, expertMap);
+	        model.addAttribute("list",  new PageInfo<>(list));
 	        return "iss/ps/index/sumByPubExpert";
 		}
 	}
@@ -2464,7 +2465,7 @@ public class IndexNewsController extends BaseSupplierController{
         if(StringUtils.isNotBlank(query_id_of_cate)){
             // 封装查询数据
 			// 定义两个集合
-			Map<String, Object> map = new HashedMap();
+			Map<String, Object> map = new HashMap<>();
 			map.put("supplierId", query_id_of_cate);
             Set<String> set = supplierItemService.findPassSupplierTypeBySupplierId(map);
             model.addAttribute("supplierTypes", StringUtils.join(set,","));

@@ -1,4 +1,5 @@
 package ses.util;
+
 /**
  * 
  * Description:静态常量
@@ -24,7 +25,11 @@ public class Constant {
 	//供应商审核 记录 物资生产 资质文件标识
 	public static final String APTITUDE_PRODUCT_PAGE="aptitude_product_page";
 	//供应商审核 记录 物资销售 资质文件标识
-	public static final String APTITUDE_SALES_PAGE="aptitude_sales_page";
+	public static final String APTITUDE_SALES_PAGE="aptitude_sales_page";    // 标识
+
+    public static final String UNDERLINE_PRODUCT="_product";
+	//物资 标识
+	public static final String GOODS="GOODS";
 	//供应商 物资 生成 标识
 	public static final String SUPPLIER_PRODUCT="PRODUCT";
 	//供应商 物资销售 标识
@@ -34,6 +39,15 @@ public class Constant {
 	public static final String SUPPLIER_PROJECT="PROJECT";
 	//供应商 服务 标识
 	public static final String SUPPLIER_SERVICE="SERVICE";
+
+	//供应商 物资 生成 标识名称
+	public static final String SUPPLIER_PRODUCT_NAME="物资生产";
+	//供应商 物资销售 标识名称
+	public static final String SUPPLIER_SALES_NAME="物资销售";
+	//供应商 工程 生成 标识名称
+	public static final String SUPPLIER_PROJECT_NAME="工程";
+	//供应商 服务 标识名称
+	public static final String SUPPLIER_SERVICE_NAME="服务";
 
 	// 供应商审核记录基本信息审核项标识
 	public static final String SUPPLIER_BASIC_INFO_ITEM_FLAG = "basic_page";

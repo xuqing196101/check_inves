@@ -1,12 +1,11 @@
 package ses.dao.sms;
 
-import org.apache.ibatis.annotations.Param;
-
 import extract.model.supplier.SupplierExtractCondition;
+import org.apache.ibatis.annotations.Param;
+import ses.model.bms.AnalyzeBigDecimal;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCondition;
 import ses.model.sms.SupplierPublicity;
-import ses.model.sms.supplierExport;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -683,4 +682,24 @@ public interface SupplierMapper {
 	 */
 	List<Supplier> selectSupplierListByNoCate(Supplier supplier);
 
+	/**
+	 *
+	 * Description: 退回修改导出
+	 *
+	 * @author Easong
+	 * @version 2017/10/26
+	 * @param
+	 * @since JDK1.7
+	 */
+    int updateByPrimaryKeySelectiveOfBack(Supplier record);
+
+    /**
+     *
+     * Description: 查询地区下所对应的供应商
+     *
+     * @author Easong
+     * @version 2017年11月13日
+     * @return
+     */
+    List<AnalyzeBigDecimal> selectSuppliersByArea(Map<String, Object> map);
 }

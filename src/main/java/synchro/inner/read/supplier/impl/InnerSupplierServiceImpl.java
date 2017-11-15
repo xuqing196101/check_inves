@@ -1,11 +1,15 @@
 package synchro.inner.read.supplier.impl;
 
-import common.constant.Constant;
-import common.dao.FileUploadMapper;
-import common.model.UploadFile;
+import java.io.File;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.sms.SupplierAddressMapper;
@@ -22,6 +26,7 @@ import ses.dao.sms.SupplierCertServeMapper;
 import ses.dao.sms.SupplierEngQuaMapper;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierHistoryMapper;
+import ses.dao.sms.SupplierItemLevelMapper;
 import ses.dao.sms.SupplierItemMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierMatEngMapper;
@@ -52,6 +57,7 @@ import ses.model.sms.SupplierEngQua;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierHistory;
 import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierItemLevel;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
@@ -68,8 +74,11 @@ import synchro.inner.read.supplier.InnerSupplierService;
 import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
 
-import java.io.File;
-import java.util.List;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import common.constant.Constant;
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
 
 /**
  * 版权：(C) 版权所有
@@ -191,6 +200,9 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 
     @Autowired
     private SupplierAuditOpinionMapper supplierAuditOpinionMapper;
+    
+    @Autowired
+    private SupplierItemLevelMapper supplierItemLevelMapper;
 
     /**
      * @see synchro.inner.read.supplier.InnerSupplierService#importSupplierInfo(java.io.File)
@@ -484,13 +496,13 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
             if (supp == null) {
                 saveSupplier(supplier);
             } else {
+                // 设置审核人
+                supplier.setAuditor(supp.getAuditor());
                 // 先做删除操作
                 supplierMapper.deleteByPrimaryKey(supplier.getId());
                 // 再做插入操作
                 saveSupplier(supplier);
             }
-
-
         }
         synchRecordService.importNewSupplierRecord(new Integer(list.size()).toString());
     }
@@ -535,9 +547,9 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     }
 
     /**
-     * Description:供应商退回修改导入
+     * Description:供应商退回修改导入外网
      *
-     * @param [file：文件, flag：标识]
+     * @param file：文件, flag：标识 区分公示和退回修改
      * @author Easong
      * @version 2017/9/30
      * @since JDK1.7
@@ -550,29 +562,32 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
             if (user != null) {
                 User user2 = userMapper.queryById(user.getId());
                 if (user2 != null) {
+                    // 不导入密码，防止覆盖供应商新重置的密码
+                    user.setPassword(null);
                     userMapper.updateByPrimaryKeySelective(user);
                 }
             }
-            supplierMapper.updateSupplierStatus(sb.getSupplierId(), sb.getStatus(), sb.getAuditDate());
+            // 退回修改供应商基本信息导入外网
+            //supplierMapper.updateSupplierStatus(sb.getSupplierId(), sb.getStatus(), sb.getAuditDate());
+            supplierMapper.updateByPrimaryKeySelectiveOfBack(sb.getSupplier());
+
             List<SupplierAuditNot> auditNots = sb.getSupplierAuditNot();
             for (SupplierAuditNot sa : auditNots) {
                 SupplierAuditNot not = supplierAuditNotMapper.selectById(sa.getId());
                 if (not == null) {
                     supplierAuditNotMapper.insertAcitive(sa);
                 }
-                if (not != null) {
-//					  supplierAuditNotMapper
-                }
             }
             List<SupplierAudit> supplierAudits = sb.getSupplierAudits();
-            supplierAuditMapper.deleteBySupplierId(sb.getSupplierId());
+            if(sb.getSupplier() != null){
+                supplierAuditMapper.deleteBySupplierId(sb.getSupplier().getId());
+            }
             for (SupplierAudit sat : supplierAudits) {
-
                 SupplierAudit audit = supplierAuditMapper.selectById(sat.getId());
                 if (audit == null) {
                     supplierAuditMapper.inserActive(sat);
                 } else {
-                    supplierAuditMapper.updateByPrimaryKeySelective(sat);
+                    supplierAuditMapper.updateByIdSelective(sat);
                 }
             }
             List<SupplierModify> supplierModify = sb.getSupplierModify();
@@ -580,8 +595,6 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                 SupplierModify smf = supplierModifyMapper.selectById(sm.getId());
                 if (smf == null) {
                     supplierModifyMapper.add(sm);
-                } else {
-//					  supplierModifyMapper.
                 }
             }
             List<SupplierHistory> historys = sb.getSupplierHistory();
@@ -589,8 +602,6 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                 SupplierHistory history = supplierHistoryMapper.queryById(sh.getId());
                 if (history == null) {
                     supplierHistoryMapper.inserActive(sh);
-                } else {
-//					  supplierHistoryMapper.u
                 }
             }
             List<SupplierSignature> signatures = sb.getSupplierSignature();
@@ -598,8 +609,6 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                 SupplierSignature singature = supplierSignatureMapper.queryById(ss.getId());
                 if (singature == null) {
                     supplierSignatureMapper.insertActive(ss);
-                } else {
-//					  supplierSignatureMapper.
                 }
             }
             if ("publicity".equals(flag)) {
@@ -621,14 +630,13 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                     }
                 }
             }
-
         }
-        //
+        // 公示信息导入（外网）
         if ("publicity".equals(flag)) {
             synchRecordService.synchBidding(null, new Integer(list.size()).toString(), synchro.util.Constant.SYNCH_PUBLICITY_SUPPLIER, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.IMPORT_SYNCH_PUBLICITY_SUPPLIER);
+        } else{
+            synchRecordService.synchBidding(null, new Integer(list.size()).toString(), synchro.util.Constant.DATA_TYPE_SUPPLIER_CODE, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.NEW_COMMIT_SUPPLIER_IMPORT);
         }
-
-
     }
 
 
@@ -957,8 +965,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
      *
      * @author Easong
      * @version 2017/10/16
-     * @param startTime
-     * @param endTime
+     * @param file
      * @since JDK1.7
      */
     @Override
@@ -969,12 +976,61 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                 // 更新用户表基本信息
                 userMapper.updateByPrimaryKeySelective(user);
                 // 更新供应商表基本信息
-                supplierMapper.updateByPrimaryKeySelective(user.getSupplier());
+                Supplier supplier = user.getSupplier();
+                if(supplier != null){
+                    supplierMapper.updateByPrimaryKeySelective(supplier);
+                }
             }
         }
         if(list != null){
             synchRecordService.synchBidding(null, new Integer(list.size()).toString(), synchro.util.Constant.SYNCH_LOGOUT_SUPPLIER, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.IMPORT_SYNCH_LOGOUT_SUPPLIER);
         }
     }
+
+    /**
+     * 导入供应商等级
+     */
+	@Override
+	public void importSupplierLevel(File file) {
+		 int num = 0;
+	        for (File file2 : file.listFiles()) {
+	            // 抽取结果信息
+	            if (file2.getName().contains(FileUtils.SUPPLIER_LEVEL_FILENAME)) {
+	                List<SupplierItemLevel> levelList = FileUtils.getBeans(file2, SupplierItemLevel.class);
+	                num += levelList == null ? 0 : levelList.size();
+	                for (SupplierItemLevel level : levelList) {
+	                	SupplierItemLevel selectById = supplierItemLevelMapper.selectById(level.getId());
+	                    if(selectById != null){
+	                    	supplierItemLevelMapper.updateByPrimaryKey(level);
+	                    }else{
+	                    	supplierItemLevelMapper.insert(level);
+	                    }
+	                }
+	            }
+	        }
+	    synchRecordService.synchBidding(new Date(), num+"", synchro.util.Constant.DATE_SYNCH_SUPPLIER_LEVEL, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.SUPPLIER_LEVEL_COMMIT_IMPORT);
+	}
+
+	
+	/**
+	 * 查询供应商等级导出
+	 */
+	@Override
+	public void selectSupplierLevelOfExport(String startTime, String endTime) {
+		// 查询注销供应商
+    	@SuppressWarnings("unchecked")
+		Map<String, Object> map = new HashedMap();
+    	map.put("startTime", startTime);
+    	map.put("endTime", endTime);
+    	
+    	List<SupplierItemLevel> levels = supplierItemLevelMapper.selectByMapForExport(map);
+    	
+    	// 将查询的数据封装
+    	//将数据写入文件
+    	if (!levels.isEmpty()) {
+    		FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_LEVEL_FILENAME, 37), JSON.toJSONString(levels, SerializerFeature.WriteMapNullValue));
+    	}
+    	synchRecordService.synchBidding(null, new Integer(levels.size()).toString(), synchro.util.Constant.DATE_SYNCH_SUPPLIER_LEVEL, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.SUPPLIER_LEVEL_COMMIT);
+	}
 
 }

@@ -17,11 +17,6 @@ public class ExtractConditionRelation {
 	 */
 	private String propertyValue;
 	
-	/**
-	 * 存储供应商类别  标注在 品目 等级后面
-	 */
-	private String typeCode;
-	
 	public String getConditionId() {
 		return conditionId;
 	}

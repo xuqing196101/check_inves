@@ -121,7 +121,7 @@
 
     <script type="text/javascript">
         function view(expertId,sign){
-            window.location.href = "${pageContext.request.contextPath}/expertAudit/basicInfo.html?expertId="+expertId+"&sign="+sign;
+            window.location.href = "${pageContext.request.contextPath}/expertAudit/basicInfo.html?expertId="+expertId+"&sign="+sign+"&isCheck=yes";
         }
       //审核
       function shenhe(id) {
@@ -150,14 +150,7 @@
           });
           return;
         }
-        /* //抽取之后的才能复核
-        if(isExtract != 1 && state == "待复核") {
-          layer.msg("该专家未抽取 !", {
-            offset: '100px',
-          });
-          return;
-        } */
-        layer.alert('点击审核项,弹出不合格理由框！', {
+/*         layer.alert('点击审核项,弹出不合格理由框！', {
             title: '审核操作说明：',
             skin: 'layui-layer-molv', //样式类名
             closeBtn: 0,
@@ -168,9 +161,69 @@
             $("input[name='expertId']").val(id);
             $("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/basicInfo.html");
             $("#form_id").submit();
-          });
+          }); */
+        
+          
+        $.ajax({
+        	url: "${pageContext.request.contextPath}/expertAudit/findExpertInfo.do?",
+        	data:{"id":id},
+          type:"post",
+          success: function(result){
+        	  var auditor = result.auditor;
+        	  if(auditor != null && auditor != ""){
+        		  $("input[name='expertId']").val(id);
+              $("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/basicInfo.html");
+              $("#form_id").submit();
+        	  }else{
+        		  $("input[name='expId']").val(id);
+        		  layer.open({
+                type: 1,
+                title: '填写审核人:',
+                area: ['270px', '170px'],
+                closeBtn: 1,
+                shade:0.01, //遮罩透明度
+                moveType: 1, //拖拽风格，0是默认，1是传统拖动
+                shift: 1, //0-6的动画形式，-1不开启
+                skin: 'layui-layer-molv', //样式类名
+                offset: '150px',
+                shadeClose: false,
+                content: $("#openDiv"),
+              });
+        	  }
+          }
+        });
       }
-
+      
+      //关闭窗口
+      function cancel(){
+        layer.closeAll();
+      }
+      
+      //保存审核人
+      function saveAuditor(){
+    	  $.ajax({
+    		  url: "${pageContext.request.contextPath}/expertAudit/auditor.do?",
+    		  data : $('#formSaveAuditor').serializeArray(),
+    		  type:"post",
+    		  success: function(result){
+    			  if(result.status == 200){
+    				  layer.msg(result.msg, {offset: '100px',});
+    				  window.setTimeout(function() {
+    					  $("input[name='expertId']").val(result.data);
+	              $("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/basicInfo.html");
+	              $("#form_id").submit();
+              }, 1000);
+    			  }else{
+    				  layer.msg(result.msg, {offset: '100px',});
+    			  }
+    		  },error:function(){
+    			  layer.msg("保存失败!", {offset: '100px',});
+          }
+  		  });
+      }
+      
+      
+      
       function trim(str) { //删除左右两端的空格
         return str.replace(/(^\s*)|(\s*$)/g, "");
       }
@@ -422,7 +475,7 @@
       </h2>
       <!-- 表格开始-->
       <div class="col-md-12 pl20 mt10" id="btn_group">
-        <button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button>
+        <button class="btn btn-windows check" type="button" onclick="shenhe();">初审</button>
         <c:if test="${sign == 2 or sign == 3}">
           <a class="btn btn-windows apply" onclick='publish()' type="button">发布</a>
         </c:if>
@@ -442,42 +495,48 @@
         <table class="table table-bordered table-condensed table-hover table-striped hand againAudit_table">
           <thead>
             <tr>
-              <th class="info w50"><input type="checkbox" name="checkAll" onclick="checkAll(this)"></th>
-              <th class="info w50">序号</th>
-              <th class="info">专家姓名</th>
-              <th class="info">工作单位</th>
-              <th class="info">技术职称(职务)</th>
-              <th class="info">类型</th>
-              <th class="info">类别</th>
-              <th class="info">提交时间</th>
-              <th class="info">初审时间</th>
-              <th class="info">审核人</th>
-              <th class="info">状态</th>
+              <th class="info w20"><input type="checkbox" name="checkAll" onclick="checkAll(this)"></th>
+              <th class="info w40">序号</th>
+              <th class="info w50">专家姓名</th>
+              <th class="info w90">工作单位</th>
+              <th class="info w100">技术职称(职务)</th>
+              <th class="info w30">类型</th>
+              <th class="info w50">类别</th>
+              <th class="info w60">最新提交时间</th>
+              <th class="info w60">最新审核时间</th>
+              <th class="info w70">审核人</th>
+              <th class="info w80">状态</th>
               
             </tr>
           </thead>
           <c:forEach items="${expertList}" var="expert" varStatus="vs">
             <tr>
-              <td class="tc w50"><input name="id" type="checkbox" value="${expert.id}" class="select_item"></td>
-              <td class="tc w50">${(vs.count)+(result.pageNum-1)*(result.pageSize)}</td>
+              <td class="tc"><input name="id" type="checkbox" value="${expert.id}" class="select_item"></td>
+              <td class="tc">${(vs.count)+(result.pageNum-1)*(result.pageSize)}</td>
               <td class="tl" title="${expert.relName}">
                 <c:if test="${fn:length(expert.relName) >4 }"><a href="javascript:;" onclick="view('${expert.id}',${sign})">${fn:substring(expert.relName,0,4)}...</a></c:if>
                 <c:if test="${fn:length(expert.relName) <=4}"><a href="javascript:;" onclick="view('${expert.id}',${sign})">${expert.relName}</a></c:if>
               </td>
-               <td class="tl" onclick="shenhe('${expert.id}');" title="${expert.workUnit }">
+              <td class="tl" onclick="shenhe('${expert.id}');" title="${expert.workUnit }">
                 <c:if test="${fn:length(expert.workUnit) >8}">${fn:substring(expert.workUnit,0,8)}...</c:if>
                 <c:if test="${fn:length(expert.workUnit) <=8}">${expert.workUnit}</c:if>
               </td>
-              <td class="tl" onclick="shenhe('${expert.id}');">${expert.professTechTitles}</td>
-              <td class="tl" onclick="shenhe('${expert.id}');">${expert.expertsFrom}</td>
-              <td class="tl" onclick="shenhe('${expert.id}');">${expert.expertsTypeId}</td>
+              <td class="tl" onclick="shenhe('${expert.id}');" title="${expert.professTechTitles }">
+                <c:if test="${fn:length(expert.professTechTitles) >11}">${fn:substring(expert.professTechTitles,0,11)}...</c:if>
+                <c:if test="${fn:length(expert.professTechTitles) <=11}">${expert.professTechTitles}</c:if>
+              </td>
+              <td class="tc" onclick="shenhe('${expert.id}');">${expert.expertsFrom}</td>
+              <td class="hand" title="${expert.expertsTypeId}">
+                <c:if test="${fn:length (expert.expertsTypeId) > 4}">${fn:substring(expert.expertsTypeId,0,4)}...</c:if>
+                <c:if test="${fn:length (expert.expertsTypeId) <= 4}">${expert.expertsTypeId}</c:if>
+              </td>
               <td class="tc" onclick="shenhe('${expert.id}');">
                 <fmt:formatDate type='date' value='${expert.submitAt }' dateStyle="default" pattern="yyyy-MM-dd" />
               </td>
               <td class="tc" onclick="shenhe('${expert.id}');">
                 <fmt:formatDate type='date' value='${expert.auditAt }' dateStyle="default" pattern="yyyy-MM-dd" />
               </td>
-              <td class="" onclick="shenhe('${expert.id}');">
+              <td class="tc" onclick="shenhe('${expert.id}');">
                 <c:choose>
                   <c:when test="${expert.auditor ==null or expert.auditor == ''}">无</c:when>
                   <c:otherwise>${expert.auditor}</c:otherwise>
@@ -555,6 +614,27 @@
         </table>
         <div id="pagediv" align="right"></div>
       </div>
+    </div>
+    
+    <div id="openDiv" class="dnone layui-layer-wrap" >
+      
+      <form id="formSaveAuditor" method="post" >
+        <div class="drop_window">
+          <input name="expId" type="hidden" />
+			    <input name="sign" type="hidden" value="${sign}"/>
+          <ul class="list-unstyled">
+          <div class="col-md-12 col-sm-12 col-xs-12 pl15">
+            <div class="input-append  col-sm-12 col-xs-12 input_group p0">
+              <input name="auditor" maxlength="10" >
+            </div>
+          </div>
+          </ul> 
+            <div class="tc col-md-12 col-sm-12 col-xs-12 mt10">
+              <input class="btn" id="inputb" name="addr" onclick="saveAuditor();" value="确定" type="button"> 
+              <input class="btn" id="inputa" name="addr" onclick="cancel();" value="取消" type="button"> 
+            </div>
+          </div>
+       </form>
     </div>
   </body>
 

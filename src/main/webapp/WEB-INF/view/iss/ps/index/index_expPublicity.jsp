@@ -40,7 +40,7 @@
                  </select>
              </div>
              <div class="form-group">
-                 <label>初审单位：</label>
+                 <label>采购机构：</label>
                  <select id="orgId" name="orgId">
                      <option value="">--请选择--</option>
                      <c:forEach var="b" items="${orgDepList}">
@@ -54,16 +54,18 @@
      </form>
         <div class="report_list_box">
             <div class="report_list_title">
-          	  <div class="col-xs-12 w12p f16">专家名称</div>
-              <div class="col-xs-12 w20p f16">类别</div>
-              <div class="col-xs-12 w12p f16 tc">初审单位</div>
-              <div class="col-xs-12 w38p f16 tc">审核结果</div>
+          	  <div class="col-xs-12 w12p f16 tc">专家编号</div>
+                <div class="col-xs-12 w10p f16 tc">采购机构</div>
+                <div class="col-xs-12 w8p f16 tc">专家姓名</div>
+                <div class="col-xs-3 w8p f16 tc">性别</div>
+                <div class="col-xs-12 w14p f16">专家类别</div>
+                <div class="col-xs-12 w30p f16 tc">复审结果</div>
               <div class="col-xs-12 w18p f16 tc">公示时间</div>
               <div class="clear"></div>
             </div>
                 <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new" id="expPublicityList">
                 </ul>
-            <h5><span class="red">如果对公示内容有异议，请拨打举报电话：010-66880147</span></h5>
+            <h5><span class="red">如果对公示内容有异议，请拨打举报电话：010-66880147 （工作日内8:30-11:30、14:30-17:30受理举报）</span></h5>
            <div id="pagediv" align="right"></div>
         </div>
 	  </div>

@@ -81,9 +81,17 @@
             }
            return tempnode;
         }
+            var fourNode;
 			function zTreeOnClick(event, treeId, treeNode){
 					var name = treeNode.name;
 					var categoryIds = treeNode.id;
+					$("#clickCategoryId").val(categoryIds);
+					$("#nodeLevel").val(treeNode.level);
+					if (treeNode.level >= 4) {
+						//如果是大于或等于五级的品目，就查其父级四级目录的等级
+						getFourNode(treeNode);
+						categoryIds = fourNode.id;
+					}
 					var tempnode= getroot();
 					if(tempnode){
 						if (treeNode.level !=3 && tempnode.name != "工程") {
@@ -91,7 +99,7 @@
 						} else if (treeNode.level ==3 && tempnode.name != "工程") {
 							$("#selectSupplierType").show();
 						} else if (tempnode.name == "工程") {
-							//如果是工程类别，获取该品目的所有等级
+							//如果是工程类别，获取该品目的所有等级作为搜索条件
 							$.ajax({
 								type : "POST",
 								url : globalPath + "/supplierQuery/ajaxCategoryLevels.do",
@@ -133,8 +141,16 @@
 						findSupplier();
 					}
 			}
-
-
+			
+			//获取父级四级节点
+			function getFourNode(node){
+				if (node.level >= 4) {
+					getFourNode(node.getParentNode());
+				} else {
+					fourNode = node;
+				}
+			}
+			
 			function focusKey(e) {
 				if(key.hasClass("empty")) {
 					key.removeClass("empty");
@@ -207,8 +223,73 @@
 	         /*ifm.width = subWeb.body.scrollWidth;*/
 	      	}   
 	      } 
-		</script>
-	</head>
+		
+		//品目查询条件
+		function searchCate(){
+			var treeSetting = {
+				    async: {
+				        autoParam: ["id"],
+				        enable: true,
+				        url: globalPath + "/category/supplierCreatetree.do",
+				        dataType: "json",
+				        type: "post",
+				    },
+				    /*check: {
+				        enable: true,
+				        chkboxType: {
+				            "Y": "s",
+				            "N": "s"
+				        }
+				    },*/
+				    callback: {
+				        // 点击复选框按钮触发事件
+				        //onCheck: zTreeOnCheck
+				        // 点击节点触发事件
+				        onClick: zTreeOnClick
+				    },
+				    data: {
+				        simpleData: {
+				            enable: true,
+				            idKey: "id",
+				            pIdKey: "parentId",
+				            rootPId:"0"
+				        }
+				    }
+				};
+		    var zNodes;
+		    // 加载中的菊花图标
+		    var loading = layer.load(1);
+		    // 获取搜索内容
+		    var searchName = $("#cateKey").val().replace(/(^\s*)|(\s*$)/g, "");
+		    var parms = "PRODUCT,SALES,PROJECT,SERVICE";
+		    treeSetting.async.otherParam= ["code", parms];
+		    $.ajax({
+		        url: globalPath + "/category/selectAllCateByCond.do",
+		        data: {
+		            "name": searchName,
+		            "code": parms
+		        },
+		        async: false,
+		        type: "post",
+		        dataType: "json",
+		        success: function (data) {
+		            if (data.length <= 0) {
+		                layer.msg("没有符合查询条件的产品类别信息！");
+		            } else {
+		                zNodes = data;
+		                zTreeObj = $.fn.zTree.init($("#treeDemo"), treeSetting, zNodes);
+		                zTreeObj.expandAll(true);//全部展开
+		            }
+		            // 禁用选节点
+		            //设置禁用的复选框节点
+		            //setDisabledNode();
+		            // 关闭加载中的菊花图标
+		            layer.close(loading);
+		        }
+		    });
+		}
+	</script>
+</head>
 
 	<body>
 		<!--面包屑导航开始-->
@@ -241,6 +322,11 @@
 					</div>
 					<div class="col-md-3 col-sm-4 col-xs-12" id="show_tree_div">
 						<div class="tag-box tag-box-v3">
+							<ul class="p0">
+							 <input type="text" id="cateKey" class="w150 m0">
+							 <input class="btn m0 fr" type="button" value="搜索" onclick="searchCate()">
+							 <div class="clear"></div>
+							</ul>
 							<ul id="treeDemo" class="ztree s_ztree" ></ul>
 						</div>
 					</div>

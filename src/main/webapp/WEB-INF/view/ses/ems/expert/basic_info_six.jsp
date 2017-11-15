@@ -7,6 +7,9 @@
   <head>
     <%@ include file="/reg_head.jsp"%>
     <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+    <c:if test="${expert.status == 3}">
+		<%@ include file="/WEB-INF/view/ses/ems/expert/expert_purchase_dept.jsp"%>
+	</c:if>
     <title>评审专家注册</title>
     <script src="${pageContext.request.contextPath}/js/ems/expert/validate_expert_basic_info.js"></script>
     <script src="${pageContext.request.contextPath}/js/ems/expert/validate_regester.js"></script>
@@ -163,8 +166,14 @@
         	// 已经通过审核的节点不能修改
         	var expertSt = '${expert.status}';
 					if(expertSt == '3'){// 退回修改的状态
-						layer.msg("此节点已通过审核，不能修改!");
-	        			return false;
+						if(treeNode.checked){
+							layer.msg("此节点已通过审核，不能修改!");
+		        			return false;
+						}else{
+							layer.msg("不可新增参评类别!");
+		        			return false;
+						}
+						
 						/* if($.inArray(treeNode.id, enableNodeList) >= 0){
 							return true;
 						}
@@ -501,20 +510,20 @@
                   <c:set value="${liCount+1}" var="liCount" />
                   <c:set value="${jjCount+1}" var="jjCount" />
                   <li id="li_id_${vs.index + 1}" class="active" onclick="showDivTree(this);">
-                    <a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">物资产品类别信息</a>
+                    <a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">物资参评类别信息</a>
                   </li>
                 </c:if>
                 
                 <c:if test="${cate.code eq 'PROJECT' }">
                     <li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
-                      <a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程产品类别信息</a>
+                      <a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程参评类别信息</a>
                     </li>
                     <c:set value="${liCount+1}" var="liCount" />
                 </c:if>
                 <c:if test="${liCount == 0}">
                      <c:if test="${cate.code eq 'GOODS_PROJECT' }">
                       <li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
-                        <a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程产品类别信息</a>
+                        <a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程参评类别信息</a>
                       </li>
                       <c:set value="${liCount+1}" var="liCount" />
                   </c:if>
@@ -537,7 +546,7 @@
                 
                 <c:if test="${cate.code eq 'SERVICE'}">
                   <li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
-                    <a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="f18">服务产品类别信息</a>
+                    <a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="f18">服务参评类别信息</a>
                   </li>
                   <c:set value="${liCount+1}" var="liCount" />
                 </c:if>

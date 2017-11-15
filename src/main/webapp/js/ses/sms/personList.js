@@ -45,7 +45,7 @@ var personType ;
 			//if(null==index ||''==index || "undefined"== index){
 			//	index=0;
 			//}
-    	var input_count = 0;
+	  var input_count = 0;
       var count = 0;
 			var j = 1;
 			var str = '';
@@ -102,7 +102,7 @@ var personType ;
           trNum++;
         });
   			$(obj).parents("form").find("tbody").prepend(str);
-        if (inputTrnum === trNum) {
+        // if (inputTrnum === trNum) {
           $(obj).parents("form").find("tbody tr").each(function(index) {
             if ($(this).find('input[type=text]').length > 0) {
               var name = Trim($(this).find('td:eq(2) input').val(), 'g');
@@ -124,7 +124,7 @@ var personType ;
               }
             }
     			});
-        }
+        // }
         $(obj).parents("form").find("tbody tr").each(function() {
           $(this).find('td').eq(1).html(j);
   				j++;

@@ -52,9 +52,6 @@
         <if test="audit.auditType != null">
             and AUDIT_TYPE = #{audit.auditType}
         </if>
-        <if test="audit.returnStatus != null">
-            and RETURN_STATUS = #{audit.returnStatus}
-        </if>
         <if test="audit.isDeleted != null">
             and IS_DELETED = #{audit.isDeleted}
         </if>
@@ -123,11 +120,14 @@
         count(ID)
         from T_SES_SMS_SUPPLIER_AUDIT
         where SUPPLIER_ID = #{audit.supplierId}
-        <if test="audit.auditField!=null">
-            and AUDIT_FIELD=#{audit.auditField}
+        <if test="audit.auditField != null">
+            and AUDIT_FIELD = #{audit.auditField}
         </if>
-        <if test="audit.auditType!=null">
-            and AUDIT_TYPE=#{audit.auditType}
+        <if test="audit.auditType != null">
+            and AUDIT_TYPE = #{audit.auditType}
+        </if>
+        <if test="audit.isDeleted != null">
+            and IS_DELETED = #{audit.isDeleted}
         </if>
         <if test="rss != null and rss.length > 0">
             and RETURN_STATUS in
@@ -138,14 +138,14 @@
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from T_SES_SMS_SUPPLIER_AUDIT
-    where ID = #{id}
-  </delete>
+	    delete from T_SES_SMS_SUPPLIER_AUDIT
+	    where ID = #{id}
+  	</delete>
 
     <delete id="deleteBySupplierId" parameterType="java.lang.String">
-  	delete from T_SES_SMS_SUPPLIER_AUDIT
-    where SUPPLIER_ID = #{supplierId}
-  </delete>
+	  	delete from T_SES_SMS_SUPPLIER_AUDIT
+	    where SUPPLIER_ID = #{supplierId}
+  	</delete>
 
     <insert id="insert" parameterType="ses.model.sms.SupplierAudit">
     insert into T_SES_SMS_SUPPLIER_AUDIT (ID, SUGGEST, AUDIT_TYPE, 
@@ -364,7 +364,7 @@
             <if test="auditContent != null">
                 AUDIT_CONTENT = #{auditContent},
             </if>
-            <if test="auditContent != null">
+            <if test="auditFieldName != null">
                 AUDIT_FIELD_NAME = #{auditFieldName},
             </if>
             <if test="isDeleted != null">

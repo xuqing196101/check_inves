@@ -17,6 +17,9 @@
 
     %>
 		<%@ include file="/WEB-INF/view/common/validate.jsp"%>
+		<c:if test="${expert.status == 3}">
+			<%@ include file="/WEB-INF/view/ses/ems/expert/expert_purchase_dept.jsp"%>
+		</c:if>
 		<script type="text/javascript">
 			$().ready(function() {
 				$("#formExpert").validForm();

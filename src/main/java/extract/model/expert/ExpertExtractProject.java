@@ -135,7 +135,46 @@ public class ExpertExtractProject {
      */
     private String reviewSite;
     
-    public String getReviewSite() {
+    /**
+     * 抽取人
+     */
+    private String createrId;
+    
+    /**
+     * 建设单位名称
+     */
+    private String constructionName;
+    
+    /**
+     * 联系固话
+     */
+    private String landline;
+    
+    public String getConstructionName() {
+		return constructionName;
+	}
+
+	public void setConstructionName(String constructionName) {
+		this.constructionName = constructionName;
+	}
+
+	public String getLandline() {
+		return landline;
+	}
+
+	public void setLandline(String landline) {
+		this.landline = landline;
+	}
+
+	public String getCreaterId() {
+		return createrId;
+	}
+
+	public void setCreaterId(String createrId) {
+		this.createrId = createrId;
+	}
+
+	public String getReviewSite() {
 		return reviewSite;
 	}
 

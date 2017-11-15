@@ -43,6 +43,9 @@
         //还原select下拉列表只需要这一句
       $("#operationType option:selected").removeAttr("selected");
     }
+   function goBack(){
+	   window.location.href = "${pageContext.request.contextPath}/expertBlacklist/blacklist.html";
+   }
 </script>
 </head>
 	<body>
@@ -92,25 +95,25 @@
 							<tr>
 								<th class="info w50">序号</th>
 								<th class="info">操作人</th>
-								<th class="info">操作类型</th>
-								<th class="info">专家</th>
-								<th class="info">操作时间</th>
-								<th class="info">处罚日期</th>
-								<th class="info">处罚时限</th>
-								<th class="info">处罚方式</th>
-								<th class="info">处罚理由</th>
+								<th class="info w70">操作类型</th>
+								<th class="info w130">专家</th>
+								<th class="info w140">操作时间</th>
+								<th class="info w90">处罚日期</th>
+								<th class="info w80">处罚时限</th>
+								<th class="info w80">处罚方式</th>
+								<th class="info w350">处罚理由</th>
 							</tr>
 						</thead>
 						<c:forEach items="${log }" var="log" varStatus="vs">
              	<tr>
                 <td class="tc w50">${vs.index+1}</td>
-                <td class="tc">${log.operator }</td>
+                <td class="">${log.operator }</td>
                 <td class="tc">
                   <c:if test="${log.operationType == 0}">新增</c:if>
 		              <c:if test="${log.operationType == 1}">修改</c:if>
 		              <c:if test="${log.operationType == 2}">移除</c:if>
                 </td>
-	              <td class="tc">${log.expertName }</td>
+	              <td class="">${log.expertName }</td>
 	              <td class="tc"><fmt:formatDate type='date' value='${log.operationDate }' dateStyle="default" pattern="yyyy-MM-dd HH:mm"/></td>
 	              <td class="tc"><fmt:formatDate type='date' value='${log.dateOfPunishment }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
 	              <td class="tc">${log.punishDate }</td>
@@ -119,14 +122,17 @@
 	               	<c:if test="${log.punishType == 2}">严重警告</c:if>
 	               	<c:if test="${log.punishType == 3}">取消资格</c:if>
 	              </td>
-	              <td class="tl pl20">${log.reason }</td>
+	              <td title="${log.reason}" class="hand">
+	               <c:if test="${fn:length (log.reason) > 23}">${fn:substring(log.reason,0,23)}...</c:if>
+                 <c:if test="${fn:length (log.reason) <= 23}">${log.reason}</c:if>
+	              </td>
              	</tr>
            	</c:forEach>
 					</table>
 			   	<div id="pagediv" align="right"></div>
 			   	<div class="margin-bottom-0 categories">
             <div class="col-md-12 add_regist tc">
-              <a class="btn btn-windows back" onclick="location.href='javascript:history.go(-1);'">返回</a>
+              <a class="btn btn-windows back" onclick="goBack();">返回</a>
             </div>
           </div>
 	      </div>

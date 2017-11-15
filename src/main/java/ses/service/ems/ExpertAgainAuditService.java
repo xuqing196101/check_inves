@@ -4,7 +4,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
+
+import ses.model.ems.Expert;
 import ses.model.ems.ExpertAgainAuditImg;
+import ses.model.ems.ExpertBatchDetails;
 
 public interface ExpertAgainAuditService {
 	ExpertAgainAuditImg addAgainAudit(String ids);
@@ -28,4 +32,11 @@ public interface ExpertAgainAuditService {
 	ExpertAgainAuditImg checkGroupStatus(String expertId);
 	void handleExpertReviewTeam(String expertId);
 	ExpertAgainAuditImg automaticGrouping(String batchId,int count);
+	ExpertAgainAuditImg selectReviewTeamAll();
+	List<ExpertBatchDetails> findBatchDetailsList(String batchId);
+	void deleteByPrimaryKey();
+	ExpertAgainAuditImg addBatchTemporary(String expertId,String ids);
+	ExpertAgainAuditImg selectBatchTemporary(Expert expert);
+	ExpertAgainAuditImg deleteBatchTemporary(String ids);
+	String getbatchName(String batchId);
 }

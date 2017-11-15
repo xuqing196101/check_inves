@@ -47,8 +47,18 @@ public class ExpertAudit implements Serializable{
     
     //审核状态集合
     private List<String> statusList;
+    //该产品目录编码
+    private String catalogCode;
     
-    public List<String> getStatusList() {
+    public String getCatalogCode() {
+		return catalogCode;
+	}
+
+	public void setCatalogCode(String catalogCode) {
+		this.catalogCode = catalogCode;
+	}
+
+	public List<String> getStatusList() {
 		return statusList;
 	}
 

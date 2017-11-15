@@ -201,22 +201,29 @@
          AND T.SUGGEST_TYPE = #{type}
          AND T.IS_DELETED = 0
          AND T.AUDIT_FALG = #{flag}
+         AND T.AUDIT_STATUS = #{auditStatus}
     </select>
 
     <!--查询专家审核通过的类型—根据类型查询-->
     <select id="selectPassCateByExpertId" parameterType="Map" resultMap="BaseResultMap">
         SELECT C.TYPE_ID, C.CATEGORY_ID
           FROM T_SES_EMS_EXPERT_CATEGORY C
+        <if test="tabName != null">
+            INNER JOIN ${tabName} BC
+            ON C.CATEGORY_ID = BC.ID
+        </if>
          WHERE NOT EXISTS (SELECT T.AUDIT_FIELD_ID
                   FROM T_SES_EMS_EXPERT_AUDIT T
                  WHERE C.CATEGORY_ID = T.AUDIT_FIELD_ID
                    AND T.EXPERT_ID = #{expertId}
                    AND T.SUGGEST_TYPE = #{type}
                    AND T.AUDIT_FALG = #{flag}
+                   AND T.AUDIT_STATUS = #{auditStatus}
                    AND T.IS_DELETED = 0)
            AND C.EXPERT_ID = #{expertId}
            AND C.LEVELS = '1'
            AND C.TYPE_ID = #{typeId}
+           ORDER BY BC.CODE ASC
     </select>
     <!--查询专家审核通过的数量-->
     <select id="selectPassCount" parameterType="Map" resultMap="BaseResultMap">
@@ -373,5 +380,26 @@
                 #{item}
             </foreach>
 	    </if>
+    </select>
+    
+    <!-- 根据typeId查询专家品目节点 -->
+    <select id="findPointsByTypeId" resultMap="expertCategoryMap">
+		SELECT DISTINCT ID,PARENT_ID,NAME,CODE
+		 FROM 
+			<if test=" 'FC9528B2E74F4CB2A9ASD789123AS7D'.equals(typeId)">
+				T_SES_BMS_ENG_CATEGORY
+			</if>
+			<if test=" !'FC9528B2E74F4CB2A9ASD789123AS7D'.equals(typeId)">
+				T_SES_BMS_CATEGORY
+			</if>
+		WHERE IS_DELETED = 0 START WITH ID in (
+			SELECT CATEGORY_ID FROM T_SES_EMS_EXPERT_CATEGORY WHERE LEVELS = 1
+			<if test="typeId != null">
+				AND TYPE_ID = #{typeId}
+			</if>
+			<if test="expertId != null">
+				AND EXPERT_ID = #{expertId}
+			</if>
+		) CONNECT BY PRIOR PARENT_ID = ID ORDER BY CODE
     </select>
 </mapper>

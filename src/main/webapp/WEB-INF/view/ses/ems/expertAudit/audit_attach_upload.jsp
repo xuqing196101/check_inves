@@ -95,6 +95,8 @@ $(function(){
                 <input name="expertId" value="${expertId}" type="hidden">
                 <input name="sign" value="${sign}" type="hidden">
                 <input name="status" id="expertStatus" value="${status}" type="hidden">
+                <input name="isReviewRevision" value="${isReviewRevision}" type="hidden">
+                <input name="isCheck" value="${isCheck}" type="hidden">
             </form>
             <form id="form_shenhe" action="${pageContext.request.contextPath}/expertAudit/updateStatus.html">
                 <input name="id" value="${expertId}" type="hidden">
@@ -109,7 +111,7 @@ $(function(){
                                 <input class="btn btn-windows cancel" type="button" id="auditNoPass" value="复审不合格" />--%>
                                 <input class="btn btn-windows end" type="button" id="auditOver" value="复审结束" />
                             </c:if>
-                            <c:if test="${status == 15 || status == 16}">
+                            <c:if test="${isCheck eq 'no' && (status == 15 || status == 16)}">
                                 <input class="btn btn-windows end" type="button" value = "初审结束" onclick = "chuAuditEnd()"/>
                             </c:if>
                         </div>

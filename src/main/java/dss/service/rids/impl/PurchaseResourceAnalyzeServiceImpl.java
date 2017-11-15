@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ses.constants.SupplierConstants;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.ems.ExpertCategoryMapper;
 import ses.dao.ems.ExpertMapper;
@@ -30,6 +31,7 @@ import ses.util.DictionaryDataUtil;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -232,6 +234,27 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 		setArea(list);
 		return list;
 	}
+
+	/**
+	 *
+	 * Description: 查询地区下所对应的供应商
+	 *
+	 * @author Easong
+	 * @version 2017年11月13日
+	 * @return
+	 */
+	@Override
+	public List<AnalyzeBigDecimal> selectSuppliersByArea() {
+	    Map<String, Object> map = new HashMap<>();
+	    // 获取入库状态
+        map.put("supplierStatusList", Arrays.asList(SupplierConstants.INSTORAGE_STATUS));
+		List<AnalyzeBigDecimal> list = supplierMapper.selectSuppliersByArea(map);
+		// 设置地区
+		setArea(list);
+		return list;
+	}
+
+
 
 	/**
 	 * 

@@ -103,14 +103,14 @@
     
     
       function showDiv(){
-        var s=$('input[name="chkItem"]:checked').eq(0).parent("td").parent("tr").find("td").eq(7).text();
+        var s=$('input[name="chkItem"]:checked').eq(0).parent("td").parent("tr").find("td").eq(6).text();
         var show=true;
         if($('input[name="chkItem"]:checked').size()<=0){
           layer.alert("请选择需要修改状态的信息！", {offset: '100px'});
           return;
         }
         $('input[name="chkItem"]:checked').each(function () {
-         var str=$(this).parent("td").parent("tr").find("td").eq(7).text();
+         var str=$(this).parent("td").parent("tr").find("td").eq(6).text();
          if(s!=str){
            layer.alert("请选择相同状态的审核记录！", {offset: '100px'});
            show=false;
@@ -122,9 +122,9 @@
         }
         if(show){
           $("input[name='updateStatusRadio']").attr("disabled","disabled");
-          $("input[name='updateStatusRadio']").removeAttr('checked');
-          $("input[type='checkbox']").attr("disabled","disabled");
-          if("退回修改"==s||"未修改"==s){
+		  $("input[name='updateStatusRadio']").removeAttr('checked');
+		  $("input[type='checkbox']").attr("disabled","disabled");
+          if("有问题"==s||"未修改"==s){
            $("#revokeReturn").attr("disabled",false);
           }
           if("审核不通过"==s){
@@ -210,20 +210,25 @@
       <div class="content">
         <div class="col-md-12 tab-v2 job-content">
           <%@include file="/WEB-INF/view/ses/ems/expertAudit/common_jump.jsp" %>
-          <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
+          <c:if test="${sign eq '2'}">
+            <h2 class="count_flow"><i>1</i>复审汇总信息</h2>
+          </c:if>
+          <c:if test="${sign ne '2'}">
+            <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
+          </c:if>
           <ul class="ul_list count_flow">
              <c:if test="${status == -2 || status == 0 || (sign ==1 && expert.status ==9) || (sign ==3 && status ==6) || status ==4}">
               <!-- <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">撤销</button> -->
               <button class="btn btn-windows edit" type="button" onclick="showDiv()" style=" border-bottom-width: -;margin-bottom: 7px;">改状态</button>  
             </c:if> 
 		         <div id="updateStatus" style="display: none">
-		          <input type="radio" id="upd" onclick="updateStatus(1)" name="updateStatusRadio" >退回修改
+		          <input type="radio" id="upd" onclick="updateStatus(1)" name="updateStatusRadio" >有问题
 		          <input type="radio" id="yupd" onclick="updateStatus(2)" name="updateStatusRadio" >已修改
 		          <input type="radio" id="nupd" onclick="updateStatus(3)" name="updateStatusRadio" >未修改
 		          <input type="radio" id="revokeReturn" onclick="updateStatus(4)" name="updateStatusRadio" >撤销退回
 		          <input type="radio" id="revokeNotpass" onclick="updateStatus(5)" name="updateStatusRadio">撤销不通过
 		         </div>
-            <table class="table table-bordered table-condensed table-hover">
+            <table class="table table-bordered table-condensed table-hover" id="fixed_table">
               <thead>
               <tr>
                 <th class="info w30"><input type="checkbox" onclick="selectAll();" id="checkAll"></th>
@@ -232,7 +237,7 @@
                 <th class="info w80">审批字段</th>
                 <th class="info w200">审批内容</th>
                 <th class="info">审核理由</th>
-                <th class="info w150">审核时间</th>
+                <!-- <th class="info w150">审核时间</th> -->
                 <th class="info w100">状态</th>
               </tr>
               </thead>
@@ -249,7 +254,7 @@
                   <c:if test="${reasons.suggestType eq 'five'}">承诺书和申请表</c:if>
                 </td>
                 <td class="text-center">${reasons.auditField }</td>
-                <td class="hand" title="${reasons.auditContent}">
+                <td class="hand" title="${reasons.catalogCode == null ? reasons.auditContent : reasons.catalogCode}">
                   <c:if test="${fn:length (reasons.auditContent) > 30}">${fn:substring(reasons.auditContent,0,30)}...</c:if>
                   <c:if test="${fn:length (reasons.auditContent) <= 30}">${reasons.auditContent}</c:if>
                 </td>
@@ -258,11 +263,11 @@
 	                 <c:if test="${fn:length (reasons.auditReason) <= 20}">${reasons.auditReason}</c:if>
                 </td>
                 <!-- 审核时间 auditAt-->
-                <td class="tc">
+                <%-- <td class="tc">
                   <fmt:formatDate value="${reasons.auditAt }" pattern="yyyy-MM-dd HH:mm"/>
-                </td>
+                </td> --%>
                  <!-- 状态 -->
-                 <c:if test="${reasons.auditStatus eq '1'}"><td class="tc">退回修改</td></c:if>
+                 <c:if test="${reasons.auditStatus eq '1'}"><td class="tc">有问题</td></c:if>
                  <c:if test="${reasons.suggestType eq 'six' && reasons.auditStatus eq '2'}"><td class="tc">审核不通过</td></c:if>
                  <c:if test="${reasons.suggestType != 'six' && reasons.auditStatus eq '2'}"><td class="tc">已修改</td></c:if>
                  <c:if test="${reasons.auditStatus eq '3'}"><td class="tc">未修改</td></c:if>
@@ -292,7 +297,32 @@
       <input name="status" id="status" value="${status}" type="hidden">
       <input name="batchId" value="${batchId}" type="hidden">
     </form>
+    
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.css">
+    <script src="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.js"></script>
+    <script>
+      // 锁表头
+      $('#fixed_table').m_fixedTable({
+        fixedNumber: 0
+      });
+      
+      // 判断全选按钮是否选中
+      var checkbox_sum = $('#fixed_table tbody input[type="checkbox"]').length; // 多选总和
+      $('#fixed_table tbody input[type="checkbox"]').bind('click', function () {
+        var checked_sum = 0; // 未选数量
+        $('#fixed_table tbody input[type="checkbox"]').each(function () {
+          if ($(this).is(':checked')) {
+            checked_sum++;
+          }
+        });
+        
+        if (checked_sum == checkbox_sum) {
+          $('#checkAll').prop('checked', true);
+        } else {
+          $('#checkAll').prop('checked', false);
+        }
+      });
+    </script>
 
   </body>
-
 </html>

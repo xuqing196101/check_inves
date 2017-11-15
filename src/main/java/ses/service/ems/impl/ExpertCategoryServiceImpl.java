@@ -1,10 +1,12 @@
 package ses.service.ems.impl;
 
 import com.github.pagehelper.PageHelper;
+
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.ems.ExpertCategoryMapper;
 import ses.model.bms.Category;
@@ -230,11 +232,13 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 	@Override
 	public List<String> selectCateByExpertId(String expertId) {
         // 定义查询条件
-		Map<String, Object> map = new HashedMap();
+		Map<String, Object> map = new HashMap<>();
 		map.put("expertId", expertId);
 		map.put("type", "seven");
 		// 复审不通过的专家类型 2:复审
 		map.put("flag", 2);
+		// 审核不通过标识
+		map.put("auditStatus", 6);
 		return mapper.selectNoPassCateByExpertId(map);
 	}
 
@@ -251,16 +255,26 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 	 */
     @Override
     public List<ExpertCategory> selectPassCateByExpertId(String expertId, String typeId, Integer pageNum) {
+        // 查询数据词典区别工程专业和工程
+        DictionaryData dictionaryData = DictionaryDataUtil.get("ENG_INFO_ID");
+        String tabName = null;
+        if (dictionaryData != null && dictionaryData.getId().equals(typeId)) {
+            tabName = "T_SES_BMS_ENG_CATEGORY";
+        } else {
+            tabName = "T_SES_BMS_CATEGORY";
+        }
         if (pageNum != null) {
             PageHelper.startPage(pageNum, PropUtil.getIntegerProperty("pageSizeArticle"));
         }
-	    // 定义查询条件
-        Map map = new HashedMap();
+        // 定义查询条件
+        Map<String, Object> map = new HashMap<>();
+        map.put("tabName", tabName);
         map.put("expertId", expertId);
         map.put("typeId", typeId);
         map.put("type", "six");
         // 设置复审字段标识，只查询复审不通过的参评类别
         map.put("flag", 2);
+        map.put("auditStatus", 6);
         return mapper.selectPassCateByExpertId(map);
     }
     /**
@@ -343,6 +357,11 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 	public List<ExpertCategory> selectCategoryListByCategoryId(ExpertCategory expertCategory) {
 		// TODO Auto-generated method stub
 		return mapper.selectCategoryListByCategoryId(expertCategory);
+	}
+
+	@Override
+	public List<SupplierCateTree> findPointsByTypeId(String typeId, String expertId) {
+		return mapper.findPointsByTypeId(typeId, expertId);
 	}
 }
  

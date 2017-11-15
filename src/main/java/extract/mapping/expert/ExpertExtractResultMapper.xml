@@ -17,6 +17,7 @@
   </resultMap>
   
   <resultMap type="extract.model.expert.ExpertExtractResult" id="expertInfo" extends="BaseResultMap">
+        <result column="EXPERT_ID" jdbcType="VARCHAR" property="expertId" />
         <result column="IS_SUBMIT" jdbcType="VARCHAR" property="isSubmit" />
         <result column="IS_DO" jdbcType="VARCHAR" property="isDo" />
         <result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
@@ -265,18 +266,18 @@
   
   <!-- 条件查询 -->
   <select id="findByConditionId" resultType="String" parameterType="String">
-    SELECT EXPERT_ID FROM T_SES_EMS_EXTRACT_RESULT WHERE IS_DELETED = 0 AND IS_JOIN = 1 AND CONDITION_ID = #{conditionId,jdbcType=VARCHAR}
+    SELECT EXPERT_ID FROM T_SES_EMS_EXTRACT_RESULT WHERE CONDITION_ID = #{conditionId,jdbcType=VARCHAR}
   </select>
   
   <!-- 下载抽取结果 -->
   <select id="getResultListByrecordId" parameterType="java.lang.String" resultMap="expertInfo">
-    SELECT E.REAL_NAME,E.ID_CARD_NUMBER,E.Profess_Tech_Titles,E.MAJOR,E.PROFESSIONAL,E.Mobile,R.IS_JOIN,R.REASON,R.EXPERT_CODE from T_SES_EMS_EXTRACT_RESULT R LEFT JOIN T_SES_EMS_EXPERT E ON R.EXPERT_ID = E.ID
-    WHERE R.PROJECT_ID = #{value} AND R.IS_JOIN IN (1,3) AND R.IS_ALTERNATE IS NULL ORDER BY R.IS_JOIN ASC
+    SELECT R.EXPERT_ID,E.REAL_NAME,E.ID_CARD_NUMBER,E.Profess_Tech_Titles,E.MAJOR,E.PROFESSIONAL,E.MOBILE,E.TELEPHONE,R.IS_JOIN,R.REASON,R.EXPERT_CODE from T_SES_EMS_EXTRACT_RESULT R LEFT JOIN T_SES_EMS_EXPERT E ON R.EXPERT_ID = E.ID
+    WHERE R.PROJECT_ID = #{value} AND R.IS_JOIN IN (1,3) AND R.IS_ALTERNATE IS NULL ORDER BY R.EXPERT_CODE,R.IS_JOIN ASC
   </select>
   
   <select id="getBackExpertListByrecordId" parameterType="java.lang.String" resultMap="expertInfo">
-    SELECT E.REAL_NAME,E.ID_CARD_NUMBER,E.Profess_Tech_Titles,E.MAJOR,E.PROFESSIONAL,E.Mobile,R.IS_JOIN,R.REASON,R.EXPERT_CODE from T_SES_EMS_EXTRACT_RESULT R LEFT JOIN T_SES_EMS_EXPERT E ON R.EXPERT_ID = E.ID
-   WHERE R.PROJECT_ID =#{value} AND R.IS_ALTERNATE = 1
+    SELECT R.EXPERT_ID,E.REAL_NAME,E.ID_CARD_NUMBER,E.Profess_Tech_Titles,E.MAJOR,E.PROFESSIONAL,E.Mobile,R.IS_JOIN,R.REASON,R.EXPERT_CODE from T_SES_EMS_EXTRACT_RESULT R LEFT JOIN T_SES_EMS_EXPERT E ON R.EXPERT_ID = E.ID
+   WHERE R.PROJECT_ID =#{value} AND R.IS_ALTERNATE = 1 ORDER BY R.EXPERT_CODE,R.IS_JOIN ASC
   </select>
   
   <select id="findAll" resultMap="BaseResultMap">

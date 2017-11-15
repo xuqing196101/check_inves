@@ -159,7 +159,7 @@
 
 				$("#address_list_body").find("input[type='text']").each(function(index, element) {
 					if(element.value.trim().length <= 0) {
-						msg = "地址信息不能为空!";
+						msg = "地址信息不能为空！";
 						flag = false;
 					}
 				});
@@ -200,14 +200,14 @@
 				// 非空校验
 				$("#financeInfo").find("input[type='text']").each(function(index, element) {
 					if(element.value.trim().length <= 0) {
-						msg = "近三年财务信息不能为空!";
+						msg = "近三年财务信息不能为空！";
 						flag = false;
 					}
 				});
 				// 事务所联系方式格式校验
 				$("#financeInfo").find("input[name$='telephone']").each(function(index, element) {
 					if(element.value.trim().length <= 0) {
-						msg = "近三年财务信息不能为空!";
+						msg = "近三年财务信息不能为空！";
 						flag = false;
 					}
 				});
@@ -237,7 +237,7 @@
 				
 				// 校验信用代码
 				var creditCodeValue = $("#creditCode").val();
-				if(creditCodeValue == ""){
+				if($.trim(creditCodeValue) == ""){
 					msg = "信用代码不能为空!";
 					flag = false;
 				}
@@ -2258,7 +2258,7 @@
 									<span class="red">${afterSale}</span>
 								</div>
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto">
-									<table id="share_table_id" class="table table-bordered table-condensed mt5 table_wrap table_input left_table">
+									<table id="share_table_id" class="table table-bordered table-condensed mt5 table_wrap table_input left_table m_table_fixed_border">
 										<thead>
 											<tr>
 												<th class="info"><input type="checkbox" onchange="checkAll(this, 'afterSaleDep_list_tbody_id')" />
@@ -2495,7 +2495,7 @@
 				}
 			}
 			if(!bool){
-				var msg = "信用代码18位，请按照实际社会信用代码填写!";
+				var msg = "信用代码18位，请按照实际社会信用代码填写！";
 				layer.msg(msg);
 			}
 			return bool;

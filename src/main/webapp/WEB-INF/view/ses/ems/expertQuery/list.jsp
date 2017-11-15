@@ -37,9 +37,12 @@
         $("#mobile").attr("value", "");
         $("#idCardNumber").attr("value", "");
         $("#orgName").attr("value", "");
+        $("#categoryIds").val("");
+        $("#category").val("");
         $("#expertsFrom option:selected").removeAttr("selected");
         $("#expertsTypeId option:selected").removeAttr("selected");
         $("#orgName option:selected").removeAttr("selected");
+        $("#address option:selected").removeAttr("selected");
         $("#formSearch").submit();
       }
       
@@ -47,6 +50,160 @@
       function checkMap(){
         window.location.href = "${pageContext.request.contextPath}/expertQuery/expertStorageMap.html";
       }
+    </script>
+    <!-- 品目 -->
+    <script type="text/javascript">
+      var key;
+      function showCategory() {
+        var zTreeObj;
+        var zNodes;
+        var setting = {
+          async: {
+            autoParam: ["id"],
+            enable: true,
+            url: "${pageContext.request.contextPath}/expertQuery/createtree.do",
+            otherParam: {
+              categoryIds: "${categoryIds}",
+            },
+            dataType: "json",
+            type: "post",
+          },
+          check: {
+            enable: true,
+            chkboxType: {
+              "Y": "s",
+              "N": "s"
+            }
+          },
+          callback: {
+            beforeClick: beforeClickCategory,
+            onCheck: onCheckCategory
+          },
+          data: {
+            simpleData: {
+              enable: true,
+              idKey: "id",
+              pIdKey: "parentId"
+            }
+          },
+          view: {
+            fontCss: getFontCss
+          }
+        };
+        zTreeObj = $.fn.zTree.init($("#treeRole"), setting, zNodes);
+        key = $("#key");
+        key.bind("focus", focusKey)
+          .bind("blur", blurKey)
+          .bind("propertychange", searchNode)
+          .bind("input", searchNode);
+
+        var cityObj = $("#category");
+        var cityOffset = $("#category").offset();
+        $("#roleContent").css({
+          left: cityOffset.left + "px",
+          top: cityOffset.top + cityObj.outerHeight() + "px"
+        }).slideDown("fast");
+        $("body").bind("mousedown", onBodyDownOrg);
+      }
+
+      function focusKey(e) {
+        if(key.hasClass("empty")) {
+          key.removeClass("empty");
+        }
+      }
+
+      function blurKey(e) {
+        if(key.get(0).value === "") {
+          key.addClass("empty");
+        }
+      }
+      var lastValue = "",
+        nodeList = [],
+        fontCss = {};
+
+      function clickRadio(e) {
+        lastValue = "";
+        searchNode(e);
+      }
+
+      function searchNode(e) {
+        var zTree = $.fn.zTree.getZTreeObj("treeRole");
+        var value = $.trim(key.get(0).value);
+        var keyType = "name";
+        if(key.hasClass("empty")) {
+          value = "";
+        }
+        if(lastValue === value) return;
+        lastValue = value;
+        if(value === "") return;
+        updateNodes(false);
+        nodeList = zTree.getNodesByParamFuzzy(keyType, value);
+        updateNodes(true);
+      }
+
+      function updateNodes(highlight) {
+        var zTree = $.fn.zTree.getZTreeObj("treeRole");
+        for(var i = 0, l = nodeList.length; i < l; i++) {
+          nodeList[i].highlight = highlight;
+          zTree.updateNode(nodeList[i]);
+        }
+      }
+
+      function getFontCss(treeId, treeNode) {
+        return(!!treeNode.highlight) ? {
+          color: "#A60000",
+          "font-weight": "bold"
+        } : {
+          color: "#333",
+          "font-weight": "normal"
+        };
+      }
+
+      function filter(node) {
+        return !node.isParent && node.isFirstNode;
+      }
+
+      function beforeClickCategory(treeId, treeNode) {
+        var zTree = $.fn.zTree.getZTreeObj("treeRole");
+        zTree.checkNode(treeNode, !treeNode.checked, null, true);
+        return false;
+      }
+
+      function onCheckCategory(e, treeId, treeNode) {
+        var zTree = $.fn.zTree.getZTreeObj("treeRole"),
+          nodes = zTree.getCheckedNodes(true),
+          v = "";
+        var rid = "";
+        for(var i = 0, l = nodes.length; i < l; i++) {
+          v += nodes[i].name + ",";
+          rid += nodes[i].id + ",";
+        }
+        if(v.length > 0) v = v.substring(0, v.length - 1);
+        if(rid.length > 0) rid = rid.substring(0, rid.length - 1);
+        var cityObj = $("#category");
+        cityObj.attr("value", v);
+        $("#categoryIds").val(rid);
+      }
+
+      function onBodyDownOrg(event) {
+        if(!(event.target.id == "menuBtn" || event.target.id == "roleSel" || event.target.id == "roleContent" || $(event.target).parents("#roleContent").length > 0)) {
+          hideRole();
+        }
+      }
+
+      function hideRole() {
+        $("#roleContent").fadeOut("fast");
+        $("body").unbind("mousedown", onBodyDownOrg);
+
+      }
+    </script>
+    <script type="text/javascript">
+    function exportExcel(){
+    	$("#formSearch").attr("action", "${pageContext.request.contextPath}/expertQuery/exportExcel.html?flag=2");
+        $("#formSearch").submit();
+        //还原地址
+        $("#formSearch").attr("action", "${pageContext.request.contextPath}/expert/findAllExpert.html");
+    }
     </script>
   </head>
 
@@ -71,6 +228,14 @@
         <div class="clear"></div>
       </div>
     </div>
+    <div id="roleContent" class="roleContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+      <!-- <input type="text" id="key" value="" class="empty" /><br/> -->
+      <ul id="treeRole" class="ztree" style="margin-top:0;"></ul>
+    </div>
+    <div id="expertTypeContent" class="expertTypeContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+      <ul id="treeExpertType" class="ztree" style="margin-top:0;"></ul>
+    </div>
+    
     <!-- 我的订单页面开始-->
     <div class="container">
       <div class="headline-v2">
@@ -143,6 +308,19 @@
             </select>
           </span>
         </li>
+        <li>
+         <label class="fl">地区：</label>
+         <select name="address" id="address" class="w220">
+           <option value=''>全部</option>
+           <c:forEach items="${privnce}" var="list">
+             <option <c:if test="${expert.address eq list.id }">selected</c:if> value="${list.id }">${list.name }</option>
+           </c:forEach>
+         </select>
+        </li>
+        <li>
+          <label class="fl">品目：</label><span><input id="category" type="text" name="categoryNames" value="${categoryNames}" readonly onclick="showCategory();" class="w220"/>
+          <input type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds}" /></span>
+        </li>
       </ul>
       <div class="col-md-12 clear tc mt10">
         <input class="btn mt1"  value="查询" type="submit">
@@ -153,6 +331,7 @@
        <c:if test="${flag != 1 }">
 	       <input class="btn mt1" onclick="checkMap();" value="切换到地图" type="reset">
        </c:if>
+       <input class="btn mt1" onclick="exportExcel();" value="导出" type="reset">
      </div>
      <div class="clear"></div>
     </form>
@@ -162,28 +341,40 @@
           <thead>
             <tr>
               <th class="info w50">序号</th>
-              <th class="info">专家姓名</th>
-              <th class="info">身份证号</th>
-              <th class="info w50">性别</th>
+              <th class="info w80">专家编号</th>
+              <th class="info w100">采购机构</th>
+              <th class="info">姓名</th>
+              <!-- <th class="info">身份证号</th> -->
+              <th class="info w40">性别</th>
+              <th class="info w130">专业职称（职务）</th>
+              <th class="info w50">类型</th>
+              <th class="info w80">类别</th>
               <!-- <th class="info">毕业院校及专业</th> -->
               <th class="info w90">注册日期</th>
-              <th class="info w90">提交日期</th>
-              <th class="info w90">审核日期</th>
-              <th class="info">手机</th>
-              <th class="info">类别</th>
-              <th class="info">采购机构</th>
-              <th class="info">专家类型</th>
-              <th class="info">专家状态</th>
+              <th class="info w100">最新提交日期</th>
+              <th class="info w100">最新审核日期</th>
+              <!-- <th class="info">手机</th>
+              <th class="info">地区</th> -->
+              <th class="info W100">入库日期</th>
+              <th class="info w100">状态</th>
             </tr>
           </thead>
           <c:forEach items="${result.list }" var="e" varStatus="vs">
             <tr class="pointer">
               <td class="tc w50" class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
+              <td class="tl">${e.batchDetailsNumber}</td>
+              <td class="tl">${e.orgName}</td>
               <td class="tl">
                 <a href="javascript:jumppage('${pageContext.request.contextPath}/expertQuery/view.html?expertId=${e.id}&sign=2')">${e.relName}</a>
               </td>
-              <td class="tc">${e.idCardNumber}</td>
-              <td class="tc w50">${e.gender}</td>
+              <%-- <td class="tc">${e.idCardNumber}</td> --%>
+              <td class="tc">${e.gender}</td>
+              <td class="tc">${e.atDuty}</td>
+              <td class="tc">${e.expertsFrom }</td>
+              <td class="hand" title="${e.expertsTypeId}">
+                <c:if test="${fn:length (e.expertsTypeId) > 4}">${fn:substring(e.expertsTypeId,0,4)}...</c:if>
+                <c:if test="${fn:length (e.expertsTypeId) <= 4}">${e.expertsTypeId}</c:if>
+              </td>
               <%-- <td class="tl">${e.graduateSchool }</td> --%>
               <td class="tc">
                 <fmt:formatDate value="${e.createdAt }" pattern="yyyy-MM-dd" />
@@ -194,10 +385,9 @@
               <td class="tc">
                 <fmt:formatDate value="${e.auditAt }" pattern="yyyy-MM-dd" />
               </td>
-              <td class="tc">${e.mobile }</td>
-              <td class="tl">${e.expertsTypeId}</td>
-              <td class="tl">${e.orgName}</td>
-              <td class="tc">${e.expertsFrom }</td>
+              <%-- <td class="tc">${e.mobile }</td>
+              <td class="tc">${e.address }</td> --%>
+              <td class="tc"><fmt:formatDate value="${e.storageAt }" pattern="yyyy-MM-dd" /></td>
               <td class="tc" id="${e.id}">
                 <c:if test="${e.status eq '6' and e.auditTemporary != 3}">
                   <span class="label rounded-2x label-u">入库(待复查)</span>

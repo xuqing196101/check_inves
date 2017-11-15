@@ -103,6 +103,12 @@
 			<if test="nodeLevel != null">
 				NODE_LEVEL,
 			</if>
+			<if test="isReturned != null">
+				IS_RETURNED,
+			</if>
+			<if test="isDeleted != null">
+				IS_DELETED,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -142,7 +148,13 @@
 				#{professType},
 			</if>
 			<if test="nodeLevel != null">
-				#{nodeLevel}
+				#{nodeLevel},
+			</if>
+			<if test="isReturned != null">
+				#{isReturned},
+			</if>
+			<if test="isDeleted != null">
+				#{isDeleted}
 			</if>
 		</trim>
 	
@@ -189,9 +201,9 @@
 			<if test="isReturned != null">
 				IS_RETURNED = #{isReturned},
 			</if>
-            <if test="isDeleted != null">
-                IS_DELETED = #{isDeleted},
-            </if>
+			<if test="isDeleted != null">
+				IS_DELETED = #{isDeleted},
+			</if>
 		</set>
 		where ID = #{id}
 	</update>
@@ -370,7 +382,7 @@
 				from
 				T_SES_SMS_SUPPLIER_ITEM
 				where CATEGORY_ID = #{categoryId}  
-				and  SUPPLIER_ID = #{supplierId} 
+				and SUPPLIER_ID = #{supplierId} 
 				and SUPPLIER_TYPE_RELATE_ID = #{type}
 				and IS_RETURNED != 1
 				and IS_DELETED != 1
@@ -552,7 +564,8 @@
           WHERE T.SUPPLIER_ID = #{supplierId}) R
 		LEFT JOIN T_SES_SMS_SUPPLIER_ITEM T
 		ON R.SUPPLIER_TYPE_ID = T.SUPPLIER_TYPE_RELATE_ID
-		WHERE T.NODE_LEVEL = 3
+		WHERE T.IS_DELETED = 0
+		AND T.NODE_LEVEL = 3
 		<if test="supplierId != null and supplierId != ''">
 			AND T.SUPPLIER_ID = #{supplierId}
 		</if>
@@ -594,5 +607,15 @@
 		AND s.IS_PROVISIONAL = '0'
 		AND s.IS_DELETED = 0
 	</select>
+	
+	<update id="updateBySupplierId">
+		update T_SES_SMS_SUPPLIER_ITEM
+		<set>
+			<if test="item.isReturned != null">
+				IS_RETURNED = #{item.isReturned}
+			</if>
+		</set>
+		where SUPPLIER_ID = #{supplierId}
+	</update>
 
 </mapper>

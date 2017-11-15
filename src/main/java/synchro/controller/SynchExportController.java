@@ -208,7 +208,7 @@ public class SynchExportController {
 	              continue;
 	          }
 	          // 过滤供应商抽取信息  定时任务自动导入导出
-              if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_EXTRACT)) {
+              if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO)) {
               	iter.remove();
               	continue;
               }
@@ -220,6 +220,11 @@ public class SynchExportController {
 	          if (dd.getCode().equals(Constant.DATE_SYNCH_MILITARY_EXPERT)) {
 	              iter.remove();
 	              continue;
+	          }
+	          // 过滤供应商等级信息
+	          if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_LEVEL)) {
+	        	  iter.remove();
+	        	  continue;
 	          }
 	          //外网时
 	          if(ipAddressType.equals("1")){
@@ -364,6 +369,11 @@ public class SynchExportController {
             /**临时供应商导入导出*/
             if (synchType.contains("temp_out")) {
                 outerSupplierService.tempSupplier(startTime, endTime);
+            }
+            
+            /** 供应商等级导出 */
+            if(synchType.contains(Constant.DATE_SYNCH_SUPPLIER_LEVEL)){
+            	outerSupplierService.selectSupplierLevelOfExport(startTime, endTime);
             }
 
 

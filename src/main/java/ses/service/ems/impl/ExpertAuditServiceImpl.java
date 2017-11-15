@@ -1,11 +1,9 @@
 package ses.service.ems.impl;
 
 import com.github.pagehelper.PageHelper;
-
 import common.constant.StaticVariables;
 import common.utils.DateUtils;
 import common.utils.JdcgResult;
-
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -15,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import ses.dao.ems.ExpertAuditFileModifyMapper;
 import ses.dao.ems.ExpertAuditMapper;
 import ses.dao.ems.ExpertAuditOpinionMapper;
@@ -30,19 +27,19 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
 import ses.model.ems.ExpertAuditOpinion;
+import ses.model.ems.ExpertBatchDetails;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertPublicity;
 import ses.model.ems.ExpertReviewTeam;
-import ses.model.sms.SupplierAuditOpinion;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertService;
 import ses.util.Constant;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -436,13 +433,16 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
      * @return void
      */
 	@Override
-	public boolean temporaryAudit(String expertId,String realName) {
+	public boolean temporaryAudit(String expertId,String realName, Integer sign) {
 		Expert expert = new Expert();
 		expert.setId(expertId);
-		expert.setAuditor(realName);
+		if(sign !=null && sign == 2){
+			//复审人
+			expert.setReviewPeople(realName);
+		}
 		Expert expertInfo = expertMapper.selectByPrimaryKey(expertId);
 		String status = expertInfo.getStatus();
-		if("0".equals(status) || "15".equals(status) || "16".equals(status) || "9".equals(status)){
+		if("0".equals(status) || "4".equals(status) || "15".equals(status) || "16".equals(status) || "9".equals(status) || "-2".equals(status) || (sign==2 && "6".equals(status))){
 			//初审中
 			expert.setAuditTemporary(1);
 		}else if("4".equals(status)){
@@ -507,6 +507,9 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	            if(nowDateString.equals(afterDateString)){
 	                // 审核通过，自动入库
 	            	expert.setStatus("6");
+	            	expert.setUpdatedAt(new Date());
+	            	//入库时间
+	            	expert.setStorageAt(new Date());
 	                // 修改
 	            	expertMapper.updateByPrimaryKeySelective(expert);
 	            }
@@ -524,16 +527,14 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	 */
 	@Override
 	public List<ExpertPublicity> selectExpByPublictyList(Map<String, Object> map) {
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		if(map.get("flag") != null && ("app").equals(map.get("flag"))){
-			PageHelper.startPage((Integer) (map.get("page")),10);
-		}else{
-			PageHelper.startPage((Integer) (map.get("page")),Integer.parseInt(config.getString("pageSize")));
-		}
+		// 设置分页
+		PageHelper.startPage((Integer) (map.get("page")), PropUtil.getIntegerProperty("pageSize"));
 		// 查询公示专家列表
 		ExpertPublicity expertPublicityQuery = (ExpertPublicity) map.get("expertPublicity");
 		List<ExpertPublicity> list = expertMapper.selectExpByPublictyList(expertPublicityQuery);
 		StringBuffer sb = new StringBuffer();
+		// 专家编号
+        ExpertBatchDetails expertBatchDetails = null;
 		if(list != null && !list.isEmpty()){
 			for (ExpertPublicity expertPublicity : list) {
 				// 查询专家类别
@@ -559,7 +560,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 					expertPublicity.setExpertsTypeId("");
 				}
 				// 查询选择和未通过的产品小类
-				selectChooseOrNoPassCateOfDB(expertPublicity);
+				//selectChooseOrNoPassCateOfDB(expertPublicity);
 				// 查询审核意见
                 ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
                 expertAuditOpinion.setExpertId(expertPublicity.getId());
@@ -571,7 +572,16 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 					// 没意见设置为""
                     expertPublicity.setAuditOpinion("");
 				}
-			}
+				// 查询专家编号
+                expertBatchDetails = new ExpertBatchDetails();
+                expertBatchDetails.setExpertId(expertPublicity.getId());
+                ExpertBatchDetails expertBatchDetails1 = expertBatchDetailsMapper.findExpertBatchDetails(expertBatchDetails);
+                if(expertBatchDetails1 != null){
+                    expertPublicity.setExpertNum(expertBatchDetails1.getBatchDetailsNumber());
+                } else {
+                    expertPublicity.setExpertNum("");
+                }
+            }
 		}
 		return list;
 	}
@@ -629,14 +639,32 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
         map.put("expertId",expertId);
         map.put("auditFalg",auditFalg);
         
-        map.put("regType", Constant.EXPERT_BASIC_INFO_ITEM_FLAG);
+        //map.put("regType", Constant.EXPERT_BASIC_INFO_ITEM_FLAG);
         Integer count;
         // 定义选择类型数量
         Integer selectCount;
-        count = expertAuditMapper.selectRegExpCateCount(map);
+        /*count = expertAuditMapper.selectRegExpCateCount(map);
         if(count != null && count > 0){
-            return JdcgResult.build(500, "基本信息中有不通过项");
-        }
+        	ExpertAudit expertAudit = new ExpertAudit();
+        	expertAudit.setExpertId(expertId);
+        	expertAudit.setAuditFalg(auditFalg);
+        	expertAudit.setSuggestType(Constant.EXPERT_BASIC_INFO_ITEM_FLAG);
+        	expertAudit.setStatusQuery("notPass");
+        	expertAudit.setIsDeleted(1);
+        	List<ExpertAudit> list = getListByExpert(expertAudit);
+        	String name="不通过";
+        	if(list.size()>0){
+	        	if(list.get(0)!=null){
+		        	if("1".equals(list.get(0).getAuditStatus())){
+		        		name="退回修改";
+		        	}
+		        	if("3".equals(list.get(0).getAuditStatus())){
+		        		name="未修改";
+		        	}
+	        	}
+        	}
+            return JdcgResult.build(500, "基本信息中有"+name+"项");
+        }*/
 
         // 判断专家类型和产品类别分别不能有全不通过项
         // 获取专家选择品目的类型
@@ -713,14 +741,14 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 			ExpertCategory category = expertCategoryMapper.selectCategoryByCategoryId(expertCategory);
 			
 			expertAudit.setAuditFieldId(categoryIds[i]);
-			expertAudit.setIsDeleted(0);
 			expertAudit.setAuditFalg(sign);
 			expertAudit.setSuggestType("six");
+			expertAudit.setAuditStatus("6");
 			//查询是否有审核记录
 			ExpertAudit findAuditByExpertId = mapper.findAuditByExpertId(expertAudit);
 			if(findAuditByExpertId !=null && category !=null){
-				//删除审核信息
-				mapper.deleteByExpertIdAndAuditFieldId(expertAudit);
+				//撤销退回审核信息
+				mapper.updateAuditStatus(findAuditByExpertId.getId(), "5");
 				
 				//更新category中间表审核状态
 				expertCategory.setAuditStatus(0);
@@ -792,6 +820,62 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 		// TODO Auto-generated method stub
 		mapper.updateExpertTypeAuditStatus(e);
 	}
-
+	@Override
+	public ExpertAudit findByExpertAuditObj(ExpertAudit expertAudit) {
+		// TODO Auto-generated method stub
+		return  mapper.findByExpertAuditObj(expertAudit);
+	}
+	@Override
+	public void updateByAuditReason(ExpertAudit expertAudit) {
+		// TODO Auto-generated method stub
+		 mapper.updateByAuditReason(expertAudit);
+	}
+	@Override
+	public JdcgResult selectCategoryAudit(String expertId, String[] categoryIds, Integer sign) {
+		// TODO Auto-generated method stub
+		ExpertAudit expertAudit = new ExpertAudit();
+    	expertAudit.setExpertId(expertId);
+    	String auditReason="";
+    	for(int i = 0 ; i < categoryIds.length ; i ++){
+			expertAudit.setAuditFieldId(categoryIds[i]);
+			expertAudit.setAuditFalg(sign);
+			expertAudit.setSuggestType("six");
+			expertAudit.setAuditStatus("6");
+			//查询是否有审核记录
+			ExpertAudit findAuditByExpertId = mapper.findAuditByExpertId(expertAudit);
+			if(findAuditByExpertId!=null){
+				if(!"".equals(auditReason)){
+					if(!auditReason.equals(findAuditByExpertId.getAuditReason())){
+						auditReason="";
+						break;
+					}
+				}
+				auditReason=findAuditByExpertId.getAuditReason();
+			}
+		}
+		return new JdcgResult(000, auditReason, null);
+	}
+	@Override
+	public JdcgResult updateCategoryAudit(String expertId, String[] categoryIds, Integer sign, String auditReason) {
+		// TODO Auto-generated method stub
+		ExpertAudit expertAudit = new ExpertAudit();
+    	expertAudit.setExpertId(expertId);
+    	for(int i = 0 ; i < categoryIds.length ; i ++){
+			expertAudit.setAuditFieldId(categoryIds[i]);
+			expertAudit.setAuditFalg(sign);
+			expertAudit.setSuggestType("six");
+			expertAudit.setAuditStatus("6");
+			//查询是否有审核记录
+			ExpertAudit findAuditByExpertId = mapper.findAuditByExpertId(expertAudit);
+			if(findAuditByExpertId!=null){
+				findAuditByExpertId.setAuditReason(auditReason);
+				mapper.updateByAuditReason(findAuditByExpertId);
+			}
+		}
+		return new JdcgResult(200, "审核理由修改成功", null);
+	}
+	public void updateAuditStatus(String id,String auditStatus) {
+		mapper.updateAuditStatus(id, auditStatus);
+	}
 
 }

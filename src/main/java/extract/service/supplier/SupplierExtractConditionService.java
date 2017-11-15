@@ -7,6 +7,7 @@ import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
+import ses.model.sms.SupplierItemLevel;
 import extract.model.supplier.Qua;
 import extract.model.supplier.SupplierConType;
 import extract.model.supplier.SupplierExtractCondition;
@@ -172,6 +173,16 @@ public interface SupplierExtractConditionService {
 
   
   int saveContype(SupplierExtractCondition condition, SupplierConType conType);
+
+
+  List<SupplierItemLevel> setExtractCondition2(SupplierExtractCondition condition, String typeCode);
+
+
+  int saveContype2(SupplierExtractCondition condition);
+
+
+  Map<String, Object> selectLikeSupplier2(SupplierExtractCondition condition,
+		int type);
 
 }
 

@@ -1,5 +1,9 @@
 package ses.constants;
 
+import common.constant.Constant;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -8,7 +12,10 @@ import java.util.Map;
  * @author hxg
  * @date 2017-8-31 上午11:25:51
  */
-public class SupplierConstants {
+public class SupplierConstants extends Constant {
+
+	// 定义入库状态数组
+	public static final Integer[] INSTORAGE_STATUS = new Integer[]{1, -4, 5, 6, -5, 7, 8};
 	/**
 	 * 供应商状态
 	 * <pre>
@@ -210,6 +217,7 @@ public class SupplierConstants {
 		STATUSMAP_SHENHE.put(Status.RETURN_AUDIT.getValue(), "退回再审核");
 		STATUSMAP_SHENHE.put(Status.PRE_AUDIT_ENDED.getValue(), "预审核结束");
 		STATUSMAP_SHENHE.put(Status.PUBLICITY.getValue(), "公示中");
+		STATUSMAP_SHENHE.put(Status.DISSENT.getValue(), "异议处理");
 		STATUSMAP_SHENHE.put(Status.PENDING_REVIEW.getValue(), "入库（待复核）");
 		STATUSMAP_SHENHE.put(Status.AUDIT_NOT_PASS.getValue(), "审核不通过");
 	}
@@ -278,10 +286,11 @@ public class SupplierConstants {
 		if(null == status){
 			return false;
 		}
-		return status == Status.PENDING_AUDIT.getValue()
+		return (status == Status.PENDING_AUDIT.getValue()
 			|| status == Status.RETURN_AUDIT.getValue()
 			|| status == Status.PRE_AUDIT_ENDED.getValue()
-			|| status == Status.PENDING_REVIEW.getValue();
+			|| status == Status.PENDING_REVIEW.getValue())
+			&& Constant.IP_ADDRESS_TYPE.equals(Constant.IP_INNER);
 	}
 	
 	/** 供应商审核记录退回状态 */
@@ -292,6 +301,39 @@ public class SupplierConstants {
 		AuditReturnStatus.AUDIT_NOT_PASS.getValue(), 
 		AuditReturnStatus.NOT_MODIFY.getValue()
 	};
+	
+    /** 特定的审核账号 */
+    public static final String[] SPECIFIC_AUDIT_ACCOUNT = {
+    	"quwenbo",
+    	"easong"
+    };
+    
+    /**
+     * 账号是否能够审核
+     * @param account
+     * @return
+     */
+    public static final boolean isAccountToAudit(final String account){
+    	if(StringUtils.isBlank(account)){
+    		return false;
+    	}
+    	if(ArrayUtils.contains(SPECIFIC_AUDIT_ACCOUNT, account) 
+    			&& Constant.IP_ADDRESS_TYPE.equals(Constant.IP_OUTER)){
+    		return true;
+    	}
+    	return false;
+    }
+    
+    /**
+     * 是否能够审核
+     * @param account
+     * @param status
+     * @return
+     */
+    public static final boolean isAudit(final String account, final Integer status){
+    	return isStatusToAudit(status) 
+    			|| (isAccountToAudit(account) && status == Status.RETURN.getValue());
+    }
 	
 	public static void main(String[] args) {
 		for(Status status : Status.values()){

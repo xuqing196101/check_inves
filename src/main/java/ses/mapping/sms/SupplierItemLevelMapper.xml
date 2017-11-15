@@ -132,7 +132,6 @@
       <if test="supplierTypeId != null" >
         #{supplierTypeId,jdbcType=VARCHAR},
       </if>
-      
     </trim>
   </insert>
   <update id="updateByPrimaryKeyBySupplierIdTypeID" parameterType="ses.model.sms.SupplierItemLevel" >
@@ -153,18 +152,29 @@
       <if test="supplierTypeId != null" >
         SUPPLIER_TYPE_ID = #{supplierTypeId,jdbcType=VARCHAR},
       </if>
-       
     </set>
     where SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR} 
     and SUPPLIER_TYPE_ID=#{supplierTypeId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierItemLevel" >
     update T_SES_SMS_SUPPLIER_ITEM_LEVEL
-    set SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
-      SUPPLIER_LEVEL = #{supplierLevel,jdbcType=VARCHAR},
-      CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
-      SUPPLIER_TYPE_ID = #{supplierTypeId,jdbcType=VARCHAR},
+    <set >
+      <if test="supplierId != null" >
+        SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierLevel != null" >
+        SUPPLIER_LEVEL = #{supplierLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="supplierTypeId != null" >
+        SUPPLIER_TYPE_ID = #{supplierTypeId,jdbcType=VARCHAR},
+      </if>
+    </set>
      where ID = #{id,jdbcType=VARCHAR}
   </update>
   
@@ -286,4 +296,79 @@
         ORDER BY supplierLevelName
   </select>
   
+  <select id="selectByMapForExport" parameterType="map" resultMap="BaseResultMap">
+	SELECT * FROM T_SES_SMS_SUPPLIER_ITEM_LEVEL 
+ 	<where>
+	  <if test="supplierId != null" >
+        SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierLevel != null" >
+        AND SUPPLIER_LEVEL = #{supplierLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        AND CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        AND CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="supplierTypeId != null" >
+        AND SUPPLIER_TYPE_ID = #{supplierTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null and startTime != ''">
+        AND CREATED_AT &gt;= to_date(#{startTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
+      </if>
+      <if test="endTime != null and endTime != ''">
+        AND CREATED_AT  &lt;= to_date(#{endTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
+      </if>
+	</where> 
+  </select>
+  
+  <select id="selectFourCategoryLevelOutfour" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    SELECT 
+    	ll.SUPPLIER_LEVEL AS supplierLevelName,
+    	ss.*
+    FROM
+		(
+			SELECT 
+				l.SUPPLIER_ID AS supplierId,
+				l.CATEGORY_ID categoryId,
+				l.CREATED_AT AS createdAt,
+				l.SUPPLIER_TYPE_RELATE_ID AS supplierTypeId,
+				s.SUPPLIER_NAME AS supplierName,
+				s.ARMY_BUSINESS_NAME AS armyBusinessName,
+				s.ARMY_BUSINESS_TELEPHONE AS armyBuinessTelephone,
+				org.SHORT_NAME AS orgName
+			FROM
+				T_SES_SMS_SUPPLIER_ITEM l
+			LEFT JOIN T_SES_SMS_SUPPLIER s
+			LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON s.PROCUREMENT_DEP_ID = dep. ID
+			LEFT JOIN T_SES_OMS_ORG org ON org. ID = dep.ORG_ID ON l.SUPPLIER_ID = s. ID
+			WHERE
+				l.SUPPLIER_TYPE_RELATE_ID = #{supplierTypeRelateId,jdbcType=VARCHAR}
+			AND l.CATEGORY_ID = #{clickCategoryId,jdbcType=VARCHAR}
+			AND (
+				s.SUPPLIER_STATUS = 1
+				OR s.SUPPLIER_STATUS = 5
+				OR s.SUPPLIER_STATUS = 7
+			)
+			AND s.IS_PROVISIONAL = '0'
+			AND s.IS_DELETED = 0
+			<if test="supplierName != null and supplierName !=''">
+	            AND s.SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
+	        </if>
+	        <if test="armyBusinessName != null and armyBusinessName != ''">
+	            AND s.ARMY_BUSINESS_NAME like CONCAT(CONCAT('%', #{armyBusinessName}), '%')
+	        </if>
+		) ss 
+	LEFT JOIN  T_SES_SMS_SUPPLIER_ITEM_LEVEL ll ON ss.supplierId = ll.supplier_id
+	WHERE ll.CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
+	AND ll.SUPPLIER_TYPE_ID = #{supplierTypeRelateId,jdbcType=VARCHAR}
+    <if test="supplierLevel != null and supplierLevel != ''">
+        AND ll.SUPPLIER_LEVEL = #{supplierLevel}
+    </if>
+    ORDER BY decode(ll.SUPPLIER_LEVEL, '一级', 1, '二级', 2, '三级', 3, '四级', 4, '五级', 5, '六级', 6, '七级', 7, '八级', 8)
+  </select>
+  <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	SELECT <include refid="Base_Column_List"/> FROM T_SES_SMS_SUPPLIER_ITEM_LEVEL WHERE ID = #{id}
+  </select>
 </mapper>

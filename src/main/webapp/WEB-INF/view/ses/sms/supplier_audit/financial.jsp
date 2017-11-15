@@ -18,75 +18,120 @@
 		<script type="text/javascript">
 			//默认不显示叉
 			$(function() {
-                // 导航栏选中
-                $("#reverse_of_two").attr("class","active");
-                $("#reverse_of_two").removeAttr("onclick");
+        // 导航栏选中
+        $("#reverse_of_two").attr("class","active");
+        $("#reverse_of_two").removeAttr("onclick");
 				$("td").each(function() {
 					$(this).find("p").hide();
 				});
-
 			});
 
 			function reason(id, auditFieldName, year) {
 				/* var offset = "";
-	    if (window.event) {
-		    e = event || window.event;
-		    var x = "";
-		    var y = "";
-		    x = e.clientX + 20 + "px";
-		    y = e.clientY + 20 + "px";
-		    offset = [y, x];
-	    } else {
-	      offset = "200px";
-	    } */
-	     var supplierStatus= $("input[name='supplierStatus']").val();
-       var sign = $("input[name='sign']").val();
-        //只有审核的状态能审核
-       if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
-				var supplierId = $("#supplierId").val();
-				if(auditFieldName == "财务信息") {
-					var auditContent = year + "年财务信息"; //审批的字段内容
-				} else {
-					var auditContent = year + "年财务附件";
-				}
-
-				var index = layer.prompt({
+		    if (window.event) {
+			    e = event || window.event;
+			    var x = "";
+			    var y = "";
+			    x = e.clientX + 20 + "px";
+			    y = e.clientY + 20 + "px";
+			    offset = [y, x];
+		    } else {
+		      offset = "200px";
+		    } */
+			  var supplierStatus = $("input[name='supplierStatus']").val();
+		   	var sign = $("input[name='sign']").val();
+				//只有审核的状态能审核
+				if(isAudit){
+					var supplierId = $("#supplierId").val();
+					if(auditFieldName == "财务信息") {
+						var auditContent = year + "年财务信息"; //审批的字段内容
+					} else {
+						var auditContent = year + "年财务附件";
+					}
+					var auditData = {
+			    		"supplierId": supplierId,
+			        "auditType": "basic_page",
+			        "auditField": id,
+			        "auditFieldName": auditFieldName,
+			        "auditContent": auditContent
+			    };
+			    // 判断：新审核/可再次审核/不可再次审核
+			    // 获取旧的审核记录
+			    var result = getOldAudit(auditData);
+			    if(result && result.status == 0){
+			    	layer.msg('该条信息已审核过并退回过！');
+			 			return;
+			    }
+			    var defaultVal = "";
+			    var options = {
 						title: '请填写不通过的理由：',
-						formType: 2,
+						value: defaultVal,
+						formType: 2, 
 						offset: '100px',
 						maxlength: '100'
-					},
-					function(text) {
-						var text = trim(text);
-				 	  if(text != null && text !=""){
+					};
+			    if(result && result.status == 1 && result.data){
+			    	defaultVal = result.data.suggest;
+			    	options.value = defaultVal;
+			    	options.btn = ['确定','撤销','取消'];
+			    	options.btn2 = function(index){
+			    		var bool = cancelAudit(auditData);
+			    		if(bool){
+			    			var icon = "<img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'/>";
+			           $("#" + id + "_hidden").html("").append(icon);
+			    		}
+			    	};
+			    	options.btn3 = function(index){layer.close(index);};
+			    }
+					layer.prompt(options, function(value, index, elem){
+						var text = trim(value);
+					  if(text != null && text !=""){
+					  	auditData.suggest = text;
 							$.ajax({
 								url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
 								type: "post",
-							  data: {"auditType":"basic_page","auditFieldName":auditFieldName,"auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
+							  //data: {"auditType":"basic_page","auditFieldName":auditFieldName,"auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
+							  data: auditData,
 								dataType: "json",
-								success:function(result){
-                  if(result.status == "503"){
-                     layer.msg('该条信息已审核过！', {             
-                       shift: 6, //动画类型
-                       offset:'100px'
-                    });
-                  }
-                }
+								success: function(result){
+					        if(result.status == "503"){
+					          layer.msg('该条信息已审核并退回过！', {
+					            shift: 6, //动画类型
+					            offset:'100px'
+					          });
+					        }
+					        if(result.status == "500"){
+					        	if(result.data == "add"){
+					        		layer.msg('审核成功！', {
+						            shift: 6, //动画类型
+						            offset:'100px'
+						          });
+						          var icon = "<img src='${pageContext.request.contextPath}/public/backend/images/light_icon_2.png'/>";
+						       		$("#" + id + "_hidden").html("").append(icon);
+											/* if(auditFieldName == "财务信息"){
+												$("#" + id + "_hidden").hide();
+												$("#" + id + "_show").show();
+											} 
+											if(auditFieldName == "财务附件"){
+												$("#" + id + "_hidden").hide();
+												$("#" + id + "_show").show();
+											} */
+					        	}
+					        	if(result.data == "update"){
+                   		layer.msg('修改理由成功！', {
+                        shift: 6, //动画类型
+                        offset:'100px'
+                      });
+                   	}
+					        }
+					      }
 							});
-								if(auditFieldName == "财务信息") {
-									$("#" + id + "_hidden").hide();
-									$("#" + id + "_show").show();
-								} 
-								if(auditFieldName == "财务附件"){
-									$("#" + id + "_hidden").hide();
-									$("#" + id + "_show").show();
-								}
 							layer.close(index);
-							}else{
-		      			layer.msg('不能为空！', {offset:'100px'});
-		      		}
+						}else{
+			  			layer.msg('不能为空！', {offset:'100px'});
+			  		}
 					});
-        }
+			  }
 			}
 
 			/* function reason1(year, ele,auditField){
@@ -282,8 +327,10 @@
 		<div class="container container_box">
 			<div class="content height-350">
 				<div class="col-md-12 tab-v2 job-content">
-					<%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%>
-
+					<%-- <%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%> --%>
+          <jsp:include page="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp">
+          	<jsp:param value="${supplierStatus }" name="supplierStatus"/>
+          </jsp:include>
 					<form id="form_id" action="" method="post">
 						<input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
 						<input id="status" name="supplierStatus" value="${supplierStatus}" type="hidden">
@@ -321,12 +368,25 @@
 									<td class="tc" id="totalNetAssets_${f.id }" <c:if test="${fn:contains(field,f.id.concat('_totalNetAssets'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('totalNetAssets','${f.id}');"</c:if>>${f.totalNetAssets}</td>
 									<td class="tc" id="taking_${f.id }" <c:if test="${fn:contains(field,f.id.concat('_taking'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('taking','${f.id}');"</c:if>>${f.taking}</td>
 									<td class="tc w50">
-										<a onclick="reason('${f.id}_info','财务信息','${f.year}');" id="${f.id}_info_hidden" class="editItem"><c:if test="${fn:contains(passedField,f.id.concat('_info'))}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if> <c:if test="${!fn:contains(passedField,f.id.concat('_info'))}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if></a>
-										<p id="${f.id}_info_show"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
-										
-										<c:if test="${fn:contains(passedField,f.id.concat('_info'))}">
-											<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+										<c:if test="${!fn:contains(unableField,f.id.concat('_info'))}">
+											<a onclick="reason('${f.id}_info','财务信息','${f.year}');" id="${f.id}_info_hidden" class="editItem">
+												<%-- <c:if test="${fn:contains(auditField,f.id.concat('_info'))}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if>
+												<c:if test="${!fn:contains(auditField,f.id.concat('_info'))}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if> --%>
+												<c:if test="${!fn:contains(auditField,f.id.concat('_info'))}">
+	                        <img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'/>
+	                      </c:if>
+	                      <c:if test="${fn:contains(auditField,f.id.concat('_info'))}">
+	                        <img src='${pageContext.request.contextPath}/public/backend/images/light_icon_2.png'/>
+	                      </c:if>
+											</a>
 										</c:if>
+										<%-- <p id="${f.id}_info_show"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
+										<c:if test="${fn:contains(auditField,f.id.concat('_info'))}">
+											<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+										</c:if> --%>
+										<c:if test="${fn:contains(unableField,f.id.concat('_info'))}">
+                      <img src='${pageContext.request.contextPath}/public/backend/images/sc.png' onclick="javascript:layer.msg('该条信息已审核并退回过！');"/>
+                    </c:if>
 									</td>
 								</tr>
 							</table>
@@ -362,12 +422,25 @@
 										<u:show showId="fina_${vs.index}_change" delete="false" groups="fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${f.id}" typeId="${supplierDictionaryData.supplierOwnerChange}" sysKey="${sysKey}" />
 								  </td>
 								  <td class="tc w50">
-											<a onclick="reason('${f.id}_file','财务附件','${f.year}');" id="${f.id}_file_hidden" class="editItem"><c:if test="${fn:contains(passedField,f.id.concat('_file'))}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if> <c:if test="${!fn:contains(passedField,f.id.concat('_file'))}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if></a>
-											<p id="${f.id}_file_show"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
-											
-											<c:if test="${fn:contains(passedField,f.id.concat('_file'))}">
-												<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
-											</c:if>
+								  	<c:if test="${!fn:contains(unableField,f.id.concat('_file'))}">
+											<a onclick="reason('${f.id}_file','财务附件','${f.year}');" id="${f.id}_file_hidden" class="editItem">
+												<%-- <c:if test="${fn:contains(passedField,f.id.concat('_file'))}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if>
+												<c:if test="${!fn:contains(passedField,f.id.concat('_file'))}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if> --%>
+												<c:if test="${!fn:contains(auditField,f.id.concat('_file'))}">
+	                        <img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'/>
+	                      </c:if>
+	                      <c:if test="${fn:contains(auditField,f.id.concat('_file'))}">
+	                        <img src='${pageContext.request.contextPath}/public/backend/images/light_icon_2.png'/>
+	                      </c:if>
+											</a>
+										</c:if>
+										<%-- <p id="${f.id}_file_show"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
+										<c:if test="${fn:contains(passedField,f.id.concat('_file'))}">
+											<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+										</c:if> --%>
+										<c:if test="${fn:contains(unableField,f.id.concat('_file'))}">
+                      <img src='${pageContext.request.contextPath}/public/backend/images/sc.png' onclick="javascript:layer.msg('该条信息已审核并退回过！');"/>
+                    </c:if>
 								  </td>
 								</tr>
 							</tbody>
@@ -418,7 +491,7 @@
 				</div>
 				<div class="col-md-12 add_regist tc">
 					<a class="btn" type="button" onclick="lastStep();">上一步</a>
-					<c:if test="${supplierStatus == -2 or supplierStatus == 0 or supplierStatus == 9 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+					<c:if test="${isStatusToAudit}">
             <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
           </c:if>
 					<a class="btn" type="button" onclick="nextStep();">下一步</a>

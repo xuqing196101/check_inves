@@ -85,4 +85,7 @@ public interface ExpertAuditOpinionService {
 	void deleteByExpertId(ExpertAuditOpinion expertAuditOpinion);
 	
 	ExpertAuditOpinion findByExpertId(ExpertAuditOpinion expertAuditOpinion);
+	
+	
+	void updata(ExpertAuditOpinion expertAuditOpinion);
 }

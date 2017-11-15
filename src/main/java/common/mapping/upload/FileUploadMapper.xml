@@ -55,6 +55,7 @@
   	 <if test="typeId != null">
   	 	AND TYPE_ID = #{typeId,jdbcType=VARCHAR}
   	 </if>
+  	 ORDER BY CREATED_AT
   </select>
   
   <!-- 获取已经删除的文件 -->

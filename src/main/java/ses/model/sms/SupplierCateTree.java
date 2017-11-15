@@ -81,14 +81,14 @@ public class SupplierCateTree implements Serializable{
     private long isItemsSalesPageAudit; 
     //资质文件 是否有审核记录 物资生产 如果其他类型 也是该字段存储
     private long isAptitudeProductPageAudit;
-    
     //资质文件 是否有审核记录 物资销售
     private long isAptitudeSalesPageAudit;
-    
     //合同文件 是否有资质审核记录  物资生产   如果其他类型 也是该字段存储
     private long isContractProductPageAudit;
     //合同文件 是否有资质审核记录  物资销售
     private long isContractSalesPageAudit;
+    //是否历史审核记录
+    private int auditIsDeleted;
     //审核记录 type
     private String auditType;
     // 根节点类型（1：物质生产；2：物质销售；3：工程；4：服务）
@@ -201,7 +201,7 @@ public class SupplierCateTree implements Serializable{
 		return isItemsSalesPageAudit;
 	}
 
-	public void setIsItemsSalesPageAudit(Integer isItemsSalesPageAudit) {
+	public void setIsItemsSalesPageAudit(long isItemsSalesPageAudit) {
 		this.isItemsSalesPageAudit = isItemsSalesPageAudit;
 	}
 
@@ -253,11 +253,11 @@ public class SupplierCateTree implements Serializable{
 		this.fourthNodeID = fourthNodeID;
 	}
 
-	public Long getFileCount() {
+	public long getFileCount() {
 		return fileCount;
 	}
 
-	public void setFileCount(Long fileCount) {
+	public void setFileCount(long fileCount) {
 		this.fileCount = fileCount;
 	}
 
@@ -487,6 +487,14 @@ public class SupplierCateTree implements Serializable{
 
 	public void setIsEngAptitudeModified(byte isEngAptitudeModified) {
 		this.isEngAptitudeModified = isEngAptitudeModified;
+	}
+
+	public int getAuditIsDeleted() {
+		return auditIsDeleted;
+	}
+
+	public void setAuditIsDeleted(int auditIsDeleted) {
+		this.auditIsDeleted = auditIsDeleted;
 	}
 	
 }

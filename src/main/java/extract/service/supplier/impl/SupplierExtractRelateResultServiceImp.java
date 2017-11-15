@@ -46,7 +46,7 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
    * 存储结果
    */
 	@Override
-	public void saveResult(SupplierExtractResult supplierExtRelate,String projectType) {
+	public int saveResult(SupplierExtractResult supplierExtRelate,String projectType) {
 		
 		ArrayList<SupplierExtractResult> arrayList = new ArrayList<>();
 		String[] packageIds = supplierExtRelate.getPackageIds();
@@ -65,26 +65,22 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 		}
 		//预研项目
 		if("advPro".equals(projectType) && arrayList.size()>0){
-			supplierExtRelateMapper.insertAdv(arrayList);
-			return;
+			return supplierExtRelateMapper.insertAdv(arrayList);
 		//真实项目
 		}else if("relPro".equals(projectType)&& arrayList.size()>0){
-			supplierExtRelateMapper.insertRel(arrayList);
-			return;
+			return supplierExtRelateMapper.insertRel(arrayList);
 		//支撑系统入口	
 		}else if(StringUtils.isBlank(projectType)){
 			supplierExtRelate.setId(UUIDUtils.getUUID32());
-			supplierExtRelateMapper.insertSelective(supplierExtRelate);
-			return;
+			return supplierExtRelateMapper.insertSelective(supplierExtRelate);
 		}
-		
+		return 0;
 	}
 
-	
 	@Override
 	public void saveOrUpdateVoiceResult(SupplierExtractCondition condition,
 			List<Supplier> suppliers, List<SupplierVoiceResult> suppliers2,String projectType) {
-		
+		//处理操作对象，将不同结果放在SupplierExtractResult 同一个对象中
 		ArrayList<SupplierExtractResult> setSupplierExtractResult = setSupplierExtractResult(condition, suppliers, suppliers2);
 		if(null == suppliers){
 			//修改状态
@@ -101,6 +97,17 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 		}
 	}
 
+	/**
+	 * 
+	 * <简述>处理修改或添加的操作对象 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-11-2下午8:35:36
+	 * @param condition
+	 * @param suppliers
+	 * @param suppliers2
+	 * @return
+	 */
 	public ArrayList<SupplierExtractResult> setSupplierExtractResult(SupplierExtractCondition condition,
 			List<Supplier> suppliers, List<SupplierVoiceResult> suppliers2) {
 		String recordId = condition.getRecordId();
@@ -115,13 +122,22 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 			}
 		}else{
 			for (SupplierVoiceResult supplier : suppliers2) {
-				arrayList.add(new SupplierExtractResult(conditionId,null, recordId, Short.valueOf(supplier.getJoin()), supplierType, null, supplier.getSupplierMobile()));
+				arrayList.add(new SupplierExtractResult(conditionId,null, recordId, Short.valueOf(supplier.getJoin()), supplierType, null, supplier.getSupplierId()));
 			}
 		}
 		
 		return arrayList;
 	}
 	
+	/**
+	 * 修改供应商参加状态
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-11-2下午8:35:56
+	 * @param supplierExtractResult
+	 * @param projectType
+	 */
 	public void updateSupplierJoin(SupplierExtractResult supplierExtractResult,String projectType) {
 		
 		if("advPro".equals(projectType)){

@@ -59,10 +59,10 @@
            		getCheckOpinionType(expertId);
            	}
            	if(checkVal == '5'){
-           		$("#cate_result").html("预复审不合格 。");
+           		$("#cate_result").html("预复审不合格。");
            	}
            	if(checkVal == '10'){
-           		$("#cate_result").html("退回修改 。");
+           		$("#cate_result").html("退回修改。");
            	}
             
             //控制《预初审合格》《预初审不合格》
@@ -78,18 +78,23 @@
         
         function showDiv(){
 					var s=$('input[name="chkItem"]:checked').eq(0).parent("td").parent("tr").find("td").eq(7).text();
+					var status=$("#expertStatus").val();
+					if(status==10){
+						layer.alert("复审退回修改的专家不能修改审核记录状态！", {offset: '100px'});
+						return;
+					}
 					var show=true;
 					if($('input[name="chkItem"]:checked').size()<=0){
 						  layer.alert("请选择需要修改状态的信息！", {offset: '100px'});
 						  return;
 					}
 					$('input[name="chkItem"]:checked').each(function () {
-            var str=$(this).parent("td").parent("tr").find("td").eq(7).text();
-            if(s!=str){
-            	layer.alert("请选择相同状态的审核记录！", {offset: '100px'});
-            	show=false;
-            }
-	        });
+		            var str=$(this).parent("td").parent("tr").find("td").eq(7).text();
+		            if(s!=str){
+		            	layer.alert("请选择相同状态的审核记录！", {offset: '100px'});
+		            	show=false;
+		            }
+			        });
 				 if("已修改"==s||"撤销退回"==s||"撤销不通过"==s){
 					 layer.alert(s+"的审核记录不能修改状态！", {offset: '100px'});
 					 return;
@@ -98,7 +103,7 @@
 					 $("input[name='updateStatusRadio']").attr("disabled","disabled");
 					 $("input[name='updateStatusRadio']").removeAttr('checked');
 					 $("input[type='checkbox']").attr("disabled","disabled");
-					 if("退回修改"==s||"未修改"==s){
+					 if("有问题"==s||"未修改"==s){
 						$("#revokeReturn").attr("disabled",false);
 					 }
 					 if("审核不通过"==s){
@@ -185,7 +190,6 @@
             //退回
             if (status == 3) {
                 updateStepNumber("one");
-                zhancun(3);
             }
             if (status == 2 || status == 3 || status == 5  || status == 8) {
                 //询问框
@@ -195,6 +199,7 @@
                     shift: 4,
                     btn: ['确认', '取消']
                 }, function () {
+                	  zhancun();
                     if (status == 3) {
                     	$("#status").val(status);
                       $("#form_shenhe").submit();
@@ -470,9 +475,6 @@
 				var expertId = $("input[name='expertId']").val();
 				var sign = $("input[name='sign']").val();
         var radio = $(":radio:checked").val();
-        if(status !=null && status == 3){
-        	radio = 3;
-        }
         var isDownLoadAttch = $("#isDownLoadAttch").val();
         if(sign == 1){
             flagTime = 0;
@@ -482,7 +484,6 @@
             data: {"opinion": opinion, "expertId": expertId,"flagTime":flagTime,"flagAudit":radio,"isDownLoadAttch":isDownLoadAttch},
             type: "POST",
             success: function () {
-            	if(status ==null){
 	            	//修改专家状态为审核中
 	            	$.ajax({
 	                 url: "${pageContext.request.contextPath}/expertAudit/temporaryAudit.do",
@@ -494,66 +495,9 @@
 	                     layer.msg("暂存失败", {offset: ['100px']});
 	                 }
 	              });
-            	}
             }
         });
     }
-</script>
-
-<script type="text/javascript">
-  <!--预复审结束-->
-	function preReviewEnd(status){
-	  var expertId = $("input[name='expertId']").val();
-	  var batchId = $("input[name='batchId']").val();
-     if(status == null){
-       var status = $(":radio:checked").val().trim();
-       if(status == null){
-         layer.msg("请选择意见", {offset: '100px'});
-         return true;
-       }
-     }
-     $("#status").val(status);
-     
-      //校验
-     var flag = vartifyAuditCount();
-     if(flag){
-         return;
-     }
-     
-      $.ajax({
-            url: "${pageContext.request.contextPath}/expertAudit/updateStatusOfPublictity.do",
-            data: $("#form_shenhe").serialize(),
-            success: function (data) {
-              if(data.status == 200){
-                  $("#expertStatus").val(data.data);
-              }
-            }
-       });
-       // 获取审核意见
-       var opinion  = $("#opinion").val();
-       // 获取选择radio类型
-       var selectOption = $("input[name='selectOption']:checked").val();
-       // 将审核意见表单赋值
-       $("#opinionId").val(opinion);
-       $("#flagTime").val(1);
-       $("#flagAudit").val(selectOption);
-        // 审核意见通过。。
-        var cate_result = $("#cate_result").html();
-        $("#cateResult").val(cate_result);
-       $.ajax({
-           url:globalPath + "/expertAudit/saveAuditOpinion.do",
-           type: "POST",
-           async :false,
-           data:$("#opinionForm").serialize(),
-           dataType:"json",
-           success:function (data) {
-         	  if(data.status == 200){
-         		  location.href = "${pageContext.request.contextPath}/expertAgainAudit/findBatchDetailsList.html?batchId=" + batchId;
-               }
-           }
-       });
-	}
-
 </script>
 </head>
 
@@ -598,12 +542,12 @@
             <c:if test="${sign == 1 || sign == 3}">
             <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
             <ul class="ul_list count_flow">
-              <c:if test="${status == 0 || status == 9 || status == 15 || status == 16 || status == 10 || status == -2 || (sign ==3 && status ==6) || status == 4}">
-<!--                 <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">撤销</button>
- -->            	<button class="btn btn-windows edit" type="button" onclick="showDiv()" style=" border-bottom-width: -;margin-bottom: 7px;">改状态</button>  
+        <c:if test="${isCheck eq 'no' && (status == 0 || status == 9 || status == 15 || status == 16  || status == -2 || (sign ==3 && status ==6) || status == 4)}">
+              <!--<button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">撤销</button>-->            	
+              <button class="btn btn-windows edit" type="button" onclick="showDiv()" style=" border-bottom-width: -;margin-bottom: 7px;">改状态</button>  
  				</c:if>  
  				<div id="updateStatus" style="display: none">
- 					<input type="radio" id="upd" onclick="updateStatus(1)" name="updateStatusRadio" >退回修改
+ 					<input type="radio" id="upd" onclick="updateStatus(1)" name="updateStatusRadio" >有问题
  					<input type="radio" id="yupd" onclick="updateStatus(2)" name="updateStatusRadio" >已修改
  					<input type="radio" id="nupd" onclick="updateStatus(3)" name="updateStatusRadio" >未修改
  					<input type="radio" id="revokeReturn" onclick="updateStatus(4)" name="updateStatusRadio" >撤销退回
@@ -635,10 +579,10 @@
                                 <c:if test="${reasons.suggestType eq 'five'}">承诺书和申请表</c:if>
                             </td>
                             <td class="text-center">${reasons.auditField }</td>
-                            <td class="hand" title="${reasons.auditContent}">
+                            <td class="hand"  title="${reasons.catalogCode == null ? reasons.auditContent : reasons.catalogCode}">
                                 <c:if test="${fn:length (reasons.auditContent) > 30}">${fn:substring(reasons.auditContent,0,30)}...</c:if>
                                 <c:if test="${fn:length (reasons.auditContent) <= 30}">${reasons.auditContent}</c:if>
-                            </td>
+                            
                             <td class="hand" title="${reasons.auditReason}">
                                 <c:if test="${fn:length (reasons.auditReason) > 20}">${fn:substring(reasons.auditReason,0,20)}...</c:if>
                                 <c:if test="${fn:length (reasons.auditReason) <= 20}">${reasons.auditReason}</c:if>
@@ -648,9 +592,10 @@
                             	<fmt:formatDate value="${reasons.auditAt }" pattern="yyyy-MM-dd HH:mm"/>
                             </td>
                             <!-- 状态 -->
-                            <c:if test="${reasons.auditStatus eq '1'}"><td class="tc">退回修改</td></c:if>
+                            <c:if test="${reasons.auditStatus eq '1'}"><td class="tc">有问题</td></c:if>
                             <c:if test="${reasons.suggestType eq 'six' && reasons.auditStatus eq '2'}"><td class="tc">审核不通过</td></c:if>
-                            <c:if test="${reasons.suggestType != 'six' && reasons.auditStatus eq '2'}"><td class="tc">已修改</td></c:if>
+                            <c:if test="${reasons.suggestType eq 'seven' && reasons.type eq '1' && reasons.auditFieldId != 'isTitle' && reasons.auditStatus eq '2'}"><td class="tc">审核不通过</td></c:if>
+                            <c:if test="${reasons.suggestType != 'six' && reasons.auditStatus eq '2' && !(reasons.suggestType eq 'seven' && reasons.type eq '1' && reasons.auditFieldId != 'isTitle' && reasons.auditStatus eq '2') }"><td class="tc">已修改</td></c:if>
                             <c:if test="${reasons.auditStatus eq '3'}"><td class="tc">未修改</td></c:if>
                             <c:if test="${reasons.auditStatus eq '4'}"><td class="tc">撤销退回</td></c:if>
                             <c:if test="${reasons.auditStatus eq '5'}"><td class="tc">撤销不通过</td></c:if>
@@ -668,8 +613,8 @@
                  <c:if test="${sign == 1 }">
                    <li>
                    <div class="select_check">
-                      <input type="radio"  id="qualified" <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> name="selectShenhe" value="15" onclick = "check_opinion()"><c:if test="${sign == 1 && status ne '10'}">预</c:if>初审合格
-                      <input type="radio" id = "noQualified" <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> name="selectShenhe" value="16" onclick = "check_opinion()"><c:if test="${sign == 1 && status ne '10'}">预</c:if>初审不合格
+                      <input type="radio"  id="qualified" <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> name="selectShenhe" value="15" onclick = "check_opinion()" <c:if test="${isCheck eq 'yes'}">disabled="disabled"</c:if>><c:if test="${sign == 1 && status ne '10'}">预</c:if>初审合格
+                      <input type="radio" id = "noQualified" <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> name="selectShenhe" value="16" onclick = "check_opinion()" <c:if test="${isCheck eq 'yes'}">disabled="disabled"</c:if>><c:if test="${sign == 1 && status ne '10'}">预</c:if>初审不合格
                     </div>
                   </li>
                   <li>
@@ -677,7 +622,7 @@
                  </li>
                  </c:if>
                   <li class="mt10">
-                     <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${auditOpinion.opinion }</textarea>
+                     <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80" <c:if test="${isCheck eq 'yes'}">disabled="disabled"</c:if>>${auditOpinion.opinion }</textarea>
                   </li>
                 </ul>
                 <div class="clear"></div>
@@ -714,7 +659,7 @@
             <c:if test="${ sign == 2 }">
               <div class="clear"></div>
               <div id="opinionDiv">
-                  <h2 class="count_flow mt0"><i>1</i><span class="red">*</span>复审意见</h2>
+                  <h2 class="count_flow mt0"><i>1</i><span class="red">*</span>专家复审意见</h2>
                   <ul class="ul_list">
                       <li>
                           <div class="select_check" id="selectOptionId">
@@ -781,7 +726,7 @@
                     <input type="hidden" name="status" id="status" value="${status}"/>
                     <input name="auditOpinionAttach" id="auditOpinion" type="hidden" />
                     <input name="sign" value="${sign}" type="hidden">
-                    <c:if test="${status eq '0' || (sign eq '1' && status eq '9')}">
+                    <c:if test="${(status eq '0' || (sign eq '1' && status eq '9')) && isCheck eq 'no'}">
                        <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(1);" value="初审合格 " id="tongguo">
                        <input class="btn btn-windows cancel" type="button" onclick="shenhe(2);" value="初审不合格" id="butongguo"> -->
                        <!-- <input class="btn btn-windows end" type="button" onclick="shenhe();" value="初审结束" id="tuihui"> -->
@@ -791,7 +736,9 @@
 										  <a id="nextStep" class="btn display-none" type="button" onclick="yuNext();">下一步</a>
                     </c:if>
                     <c:if test = "${status == '15' || status == '16'}" >
-                    	<a id="tempSave" class="btn" onclick="zhancun();">暂存</a>
+                      <c:if test="${isCheck eq 'no'}">
+                        <a id="tempSave" class="btn" onclick="zhancun();">暂存</a>
+                      </c:if>
                     	<a id="nextStep" class="btn" type="button" onclick="yuNext();">下一步</a>
                     </c:if>
                     <c:if test = "${status == '1' || status == '2' && sign eq '1'}" >
@@ -804,7 +751,7 @@
                        <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(4);" value="复审合格 " id="tongguo">
                         <input class="btn btn-windows cancel" type="button" onclick="shenhe(5);" value="复审不合格" id="tichu"> -->
                         <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui"> -->
-                        <input class="btn btn-windows end"  type="button" onclick="preReviewEnd(-2)" value="预复审结束" id="tongguo">
+                        <input class="btn btn-windows end"  type="button" onclick="preReviewEnd(-2)" value="专家预复审结束" id="tongguo">
                         <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();">暂存</a>
                         <!-- <a id="nextStep" class="btn display-none" type="button" onclick="nextStep();">下一步</a> -->
                     </c:if>
@@ -830,6 +777,8 @@
     <input name="sign" value="${sign}" type="hidden">
     <input name="status" id="expertStatus" value="${status}" type="hidden">
     <input name="batchId" value="${batchId}" type="hidden">
+    <input name="isReviewRevision" value="${isReviewRevision}" type="hidden">
+    <input name="isCheck" value="${isCheck}" type="hidden">
 </form>
 
 <form id="form_id_word" method="post">
@@ -839,5 +788,85 @@
   <input name="tableType" type="hidden" value=""/>
 </form>
 <input id="isGoodsServer" type="hidden" value="${isGoodsServer}"/>
+
+  <script>
+    // 预复审结束
+    function preReviewEnd(status) {
+      var expertId = $("input[name='expertId']").val();
+      //var batchId = $("input[name='batchId']").val();
+      if(status == null){
+        var status = $(":radio:checked").val().trim();
+        if(status == null){
+          layer.msg("请选择意见", {offset: '100px'});
+          return true;
+        }
+      }
+      
+      $("#status").val(status);
+       
+      //校验
+      var flag = vartifyAuditCount();
+      if(flag) {
+        return;
+      }
+       
+      $.ajax({
+        url: "${pageContext.request.contextPath}/expertAudit/updateStatusOfPublictity.do",
+        data: $("#form_shenhe").serialize(),
+        success: function (data) {
+          if(data.status == 200){
+            $("#expertStatus").val(data.data);
+          }
+        }
+      });
+      // 获取审核意见
+      var opinion = $("#opinion").val();
+      // 获取选择radio类型
+      var selectOption = $("input[name='selectOption']:checked").val();
+      // 将审核意见表单赋值
+      $("#opinionId").val(opinion);
+      $("#flagTime").val(1);
+      $("#flagAudit").val(selectOption);
+      // 审核意见通过。。
+      var cate_result = $("#cate_result").html();
+      $("#cateResult").val(cate_result);
+      $.ajax({
+        url:globalPath + "/expertAudit/saveAuditOpinion.do",
+        type: "POST",
+        async :false,
+        data:$("#opinionForm").serialize(),
+        dataType:"json",
+        success:function (data) {
+          if(data.status == 200) {
+            // location.href = "${pageContext.request.contextPath}/expertAgainAudit/findBatchList.html";
+            refresh_parent();
+          }
+        }
+      });
+    }
+    
+    function refresh_parent() {
+    	window.opener.index_load(true);
+   		window.opener.location.href = changeURLArg(window.opener.location.href, 'expertId', $("input[name='expertId']").val());
+   	  window.close();
+    }
+    
+    function changeURLArg(url,arg,arg_val){ 
+      var pattern = arg+'=([^&]*)';
+      var replaceText = arg+'='+arg_val;
+      if(url.match(pattern)) {
+        var tmp = '/('+ arg+'=)([^&]*)/gi';
+        tmp = url.replace(eval(tmp),replaceText);
+        return tmp;
+      } else {
+        if(url.match('[\?]')) {
+          return url+'&'+replaceText;
+        } else {
+          return url+'?'+replaceText;
+        }
+      }
+      return url+'\n'+arg+'\n'+arg_val;
+    }
+  </script>
 </body>
 </html>

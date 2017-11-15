@@ -56,8 +56,9 @@
         function reason(obj, str) {
         	var status = ${expert.status};
         	var sign = $("input[name='sign']").val();
+        	var isCheck = '${isCheck}';
         	//只能审核可以审核的状态
-        	if(status ==-2 || status == 0 || status == 15|| status == 16 || (sign ==1 && status ==9) || (sign ==3 && status ==6) || status ==4){
+        	if((status ==-2 || status == 0 || status == 15|| status == 16 || (sign ==1 && status ==9) || (sign ==3 && status ==6) || status ==4) && isCheck == 'no'){
         		var expertId = $("#expertId").val();
             var auditField;
             var auditContent;
@@ -73,37 +74,79 @@
                     auditField = auditField.replace("从事", "").trim();
                 }
             });
-            var index = layer.prompt({
-                    title: '请填写不通过的理由：',
-                    formType: 2,
-                    offset: '100px',
-                    maxlength: '50'
-                },
-                function (text) {
-                    var text = trim(text);
-                    if (text != null && text != "") {
-                        $.ajax({
-                          url: "${pageContext.request.contextPath}/expertAudit/auditReasons.html",
-                          type: "post",
-                          dataType: "json",
-                          data: "suggestType=one" + "&auditContent=" + auditContent + "&auditReason=" + text + "&expertId=" + expertId + "&auditField=" + auditField + "&auditFalg=" + sign,
-                          success: function (result) {
-                              result = eval("(" + result + ")");
-                              if (result.msg == "fail") {
-                                  layer.msg('该条信息已审核过！', {
-                                      shift: 6, //动画类型
-                                      offset: '100px'
-                                  });
+            var auditReason="";
+            $.ajax({
+                url: "${pageContext.request.contextPath}/expertAudit/selectAuditReasons.html",
+                type: "post",
+                dataType: "json",
+                data: "suggestType=one" + "&auditContent=" + auditContent +"&expertId=" + expertId + "&auditField=" + auditField + "&auditFalg=" + sign,
+                success: function (result) {
+                    result = eval("(" + result + ")");
+                    auditReason=result.msg;
+                    var index = layer.prompt({
+                        title: '请填写不通过的理由：',
+                        formType: 2,
+                        offset: '100px',
+                        maxlength: '50',
+                        value:auditReason,
+                        btn:['确认','撤销','取消'],
+                        btn3:function(){
+					    	layer.close(index);
+		                },
+		                btn2:function(){
+		                	 $.ajax({
+		                         url: "${pageContext.request.contextPath}/expertAudit/updateAuditReasons.html",
+		                         type: "post",
+		                         dataType: "json",
+		                         async:false,
+		                         data: "suggestType=one" + "&auditContent=" + auditContent +"&expertId=" + expertId + "&auditField=" + auditField + "&auditFalg=" + sign,
+		                         success: function (result) {
+		                        	 result = eval("(" + result + ")");
+		                        	 if(result.msg=="true"){
+		                        		 layer.msg('撤销成功', {
+	                                         shift: 4, //动画类型
+	                                         offset: '100px'
+	                                     });
+		                        		 $("#" + obj.id + "").css('border-color', '');
+		                        		 $(obj).next("div.abolish").remove();
+		                        	 }else{
+		                        		 layer.msg('当前记录未被审核无法执行撤销操作', {
+	                                         shift: 6, //动画类型
+	                                         offset: '100px'
+	                                     }); 
+		                        	 }
+		                         	}
+		                         });
+		                },
+                    },
+                    function (text) {
+                        var text = trim(text);
+                        if (text != null && text != "") {
+                            $.ajax({
+                              url: "${pageContext.request.contextPath}/expertAudit/auditReasons.html",
+                              type: "post",
+                              dataType: "json",
+                              data: "suggestType=one" + "&auditContent=" + auditContent + "&auditReason=" + text + "&expertId=" + expertId + "&auditField=" + auditField + "&auditFalg=" + sign,
+                              success: function (result) {
+                                  result = eval("(" + result + ")");
+                                  if (result.msg == "fail") {
+                                      layer.msg('审核理由修改成功', {
+                                          shift: 4, //动画类型
+                                          offset: '100px'
+                                      });
+                                  }
                               }
-                          }
-                      });
-                      $("#" + obj.id + "").css('border-color', '#FF0000');
-                      $(obj).after(html);
-                      layer.close(index);
-                  } else {
-                      layer.msg('不能为空！', {offset: '100px'});
-                  }
-              });
+                          });
+                          $("#" + obj.id + "").css('border-color', '#FF0000');
+                          $(obj).after(html);
+                          layer.close(index);
+                      } else {
+                          layer.msg('不能为空！', {offset: '100px'});
+                      }
+                  });
+                }
+            });
+            
           }
         }
 
@@ -111,8 +154,9 @@
         function reasonFile(obj, str) {
         	var status = ${expert.status};
           var sign = $("input[name='sign']").val();
+          var isCheck = '${isCheck}';
           //只能审核可以审核的状态
-          if(status ==-2 || status == 0 || status == 15|| status == 16 || (sign ==1 && status ==9) || (sign ==3 && status ==6) || status ==4){
+          if((status ==-2 || status == 0 || status == 15|| status == 16 || (sign ==1 && status ==9) || (sign ==3 && status ==6) || status ==4) && isCheck == 'no'){
             var expertId = $("#expertId").val();
             var showId = obj.id + "1";
 
@@ -120,36 +164,78 @@
                 auditField = $(this).parents("li").find("span").text().replace("：", "");
             });
             var auditContent = auditField + "附件信息";
-            var index = layer.prompt({
-                    title: '请填写不通过的理由：',
-                    formType: 2,
-                    offset: '100px',
-                    maxlength: '50'
-                },
-                function (text) {
-                    var text = trim(text);
-                    if (text != null && text != "") {
-                        $.ajax({
-                            url: "${pageContext.request.contextPath}/expertAudit/auditReasons.html",
-                            type: "post",
-                            dataType: "json",
-                            data: "suggestType=one" + "&auditContent=" + auditContent + "&auditReason=" + text + "&expertId=" + expertId + "&auditField=" + auditField + "&auditFalg=" + sign,
-                            success: function (result) {
-                                result = eval("(" + result + ")");
-                                if (result.msg == "fail") {
-                                    layer.msg('该条信息已审核过！', {
-                                        shift: 6, //动画类型
-                                        offset: '100px'
-                                    });
+            var auditReason="";
+            $.ajax({
+                url: "${pageContext.request.contextPath}/expertAudit/selectAuditReasons.html",
+                type: "post",
+                dataType: "json",
+                data: "suggestType=one" + "&auditContent=" + auditContent + "&expertId=" + expertId + "&auditField=" + auditField + "&auditFalg=" + sign,
+                success: function (result) {
+                    result = eval("(" + result + ")");
+                    auditReason=result.msg;
+                    var index = layer.prompt({
+                        title: '请填写不通过的理由：',
+                        formType: 2,
+                        offset: '100px',
+                        maxlength: '50',
+                        value:auditReason,
+                        btn:['确认','撤销','取消'],
+                        btn3:function(){
+    				    	layer.close(index);
+    	                },
+    	                btn2:function(){
+    	                	 $.ajax({
+    	                         url: "${pageContext.request.contextPath}/expertAudit/updateAuditReasons.html",
+    	                         type: "post",
+    	                         dataType: "json",
+    	                         async:false,
+    	                         data: "suggestType=one" + "&auditContent=" + auditContent + "&expertId=" + expertId + "&auditField=" + auditField + "&auditFalg=" + sign,
+    	                         success: function (result) {
+    	                        	 result = eval("(" + result + ")");
+    	                        	 if(result.msg=="true"){
+    	                        		 $("#" + showId + "").css('visibility', 'hidden');
+    	                        		 layer.msg('撤销成功', {
+                                             shift: 4, //动画类型
+                                             offset: '100px'
+                                         });
+    	                        		 
+    	                        	 }else{
+    	                        		 layer.msg('当前记录未被审核无法执行撤销操作', {
+                                             shift: 6, //动画类型
+                                             offset: '100px'
+                                         }); 
+    	                        	 }
+    	                         	}
+    	                         });
+    	                },
+                    },
+                    function (text) {
+                        var text = trim(text);
+                        if (text != null && text != "") {
+                            $.ajax({
+                                url: "${pageContext.request.contextPath}/expertAudit/auditReasons.html",
+                                type: "post",
+                                dataType: "json",
+                                data: "suggestType=one" + "&auditContent=" + auditContent + "&auditReason=" + text + "&expertId=" + expertId + "&auditField=" + auditField + "&auditFalg=" + sign,
+                                success: function (result) {
+                                    result = eval("(" + result + ")");
+                                    if (result.msg == "fail") {
+                                    	layer.msg('审核理由修改成功', {
+                                            shift: 4, //动画类型
+                                            offset: '100px'
+                                        });
+                                    }
                                 }
-                            }
-                        });
-                        $("#" + showId + "").css('visibility', 'visible');
-                        layer.close(index);
-                    } else {
-                        layer.msg('不能为空！', {offset: '100px'});
-                    }
-                });
+                            });
+                            $("#" + showId + "").css('visibility', 'visible');  
+                            layer.close(index);
+                        } else {
+                            layer.msg('不能为空！', {offset: '100px'});
+                        }
+                    });
+                }
+             });
+            
            }
         }
 
@@ -528,8 +614,9 @@
                     </li>
                     <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 从事专业起始年月：</span>
                         <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                            <input <c:if test="${fn:contains(conditionStr,'专业起始年月')}"> style="border: 1px solid red;"</c:if>
-                                    <c:if test="${fn:contains(editFields,'getTimeStartWork')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('timeStartWork','getTimeStartWork','3');"</c:if> value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM'/>" readonly="readonly" id="timeStartWork" type="text" onclick="reason(this);"/>
+                            <input <c:if test="${fn:contains(editFields,'getTimeStartWork')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('timeStartWork','getTimeStartWork','3');"</c:if>
+                            		<c:if test="${fn:contains(conditionStr,'专业起始年月')}"> style="border: 1px solid red;"</c:if>
+                                     value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM'/>" readonly="readonly" id="timeStartWork" type="text" onclick="reason(this);"/>
                             <c:if test="${fn:contains(conditionStr,'专业起始年月')}">
                                 <div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
                             </c:if>
@@ -539,8 +626,9 @@
                       <li class="col-md-3 col-sm-6 col-xs-12">
                         <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">专业技术职称：</span>
                         <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                            <input maxlength="20" <c:if test="${fn:contains(conditionStr,'专业技术职称')}"> style="border: 1px solid red;"</c:if>
-                                   <c:if test="${fn:contains(editFields,'getProfessTechTitles')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('professTechTitles','getProfessTechTitles','0');"</c:if> value="${expert.professTechTitles}" name="professTechTitles" id="professTechTitles" type="text" onclick="reason(this);"/>
+                            <input maxlength="20" <c:if test="${fn:contains(editFields,'getProfessTechTitles')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('professTechTitles','getProfessTechTitles','0');"</c:if>
+                            	<c:if test="${fn:contains(conditionStr,'专业技术职称')}"> style="border: 1px solid red;"</c:if>
+                                    value="${expert.professTechTitles}" name="professTechTitles" id="professTechTitles" type="text" onclick="reason(this);"/>
                             <c:if test="${fn:contains(conditionStr,'专业技术职称')}">
                                 <div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
                             </c:if>
@@ -568,8 +656,9 @@
 	                    <c:if test="${expert.teachTitle eq '1'}">
 		                    <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">有无专业技术职称：</span>
 		                       <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-		                           <input value="有" <c:if test="${fn:contains(conditionStr,'有无专业技术职称')}"> style="border: 1px solid red;"</c:if>
-		                                  <c:if test="${fn:contains(editFields,'getTeachTitle')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('teachTitle','getTeachTitle','0');"</c:if> id="teachTitle" type="text" onclick="reason(this);"/>
+		                           <input value="有" <c:if test="${fn:contains(editFields,'getTeachTitle')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('teachTitle','getTeachTitle','0');"</c:if>
+		                           		<c:if test="${fn:contains(conditionStr,'有无专业技术职称')}"> style="border: 1px solid red;"</c:if>
+		                                   id="teachTitle" type="text" onclick="reason(this);"/>
 		                           <c:if test="${fn:contains(conditionStr,'有无专业技术职称')}">
 		                               <div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
 		                           </c:if>
@@ -578,8 +667,9 @@
 		                    <li class="col-md-3 col-sm-6 col-xs-12">
                         <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">专业技术职称：</span>
                         <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                            <input maxlength="20" <c:if test="${fn:contains(conditionStr,'专业技术职称')}"> style="border: 1px solid red;"</c:if>
-                                   <c:if test="${fn:contains(editFields,'getProfessTechTitles')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('professTechTitles','getProfessTechTitles','0');"</c:if> value="${expert.professTechTitles}" name="professTechTitles" id="professTechTitles" type="text" onclick="reason(this);"/>
+                            <input maxlength="20"  <c:if test="${fn:contains(editFields,'getProfessTechTitles')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('professTechTitles','getProfessTechTitles','0');"</c:if>
+                            	<c:if test="${fn:contains(conditionStr,'专业技术职称')}"> style="border: 1px solid red;"</c:if>
+                                   value="${expert.professTechTitles}" name="professTechTitles" id="professTechTitles" type="text" onclick="reason(this);"/>
                             <c:if test="${fn:contains(conditionStr,'专业技术职称')}">
                                 <div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
                             </c:if>
@@ -669,7 +759,8 @@
                         </div>
                     </li>
                 </ul>
-
+                
+                <div class="clear"></div>
                 <h2 class="count_flow"><i>3</i>推荐信</h2>
                 <ul class="ul_list">
 
@@ -704,7 +795,9 @@
                         </li>
                     </c:if>
                 </ul>
+                
                 <!-- 主要工作经历-->
+                <div class="clear"></div>
                 <h2 class="count_flow"><i>4</i>主要工作经历</h2>
                 <ul class="ul_list">
                     <li class="col-md-12 col-sm-12 col-xs-12">
@@ -717,6 +810,8 @@
                         </div>
                     </li>
                 </ul>
+                
+                <div class="clear"></div>
                 <h2 class="count_flow"><i>5</i>获奖证书(限国家科技进步三等或军队科技进步二等以上奖项)</h2>
                 <ul class="ul_list">
                     <li class="col-md-3 col-sm-6 col-xs-12">
@@ -728,7 +823,7 @@
                 </ul>
 
                 <!-- 专业学术成果 -->
-
+                <div class="clear"></div>
                 <h2 class="count_flow"><i>6</i>专业学术成果</h2>
                 <ul class="ul_list">
                     <li class="col-md-12 col-sm-12 col-xs-12">
@@ -743,7 +838,7 @@
                 </ul>
 
                 <!-- 主要工作经历-->
-
+                <div class="clear"></div>
                 <h2 class="count_flow"><i>7</i>参加军队地方采购评审情况</h2>
                 <ul class="ul_list">
                     <li class="col-md-12 col-sm-12 col-xs-12">
@@ -758,7 +853,7 @@
                 </ul>
 
                 <!-- 主要工作经历-->
-
+                <div class="clear"></div>
                 <h2 class="count_flow"><i>8</i>需要申请回避的情况</h2>
                 <ul class="ul_list">
                     <li class="col-md-12 col-sm-12 col-xs-12">
@@ -789,7 +884,7 @@
             </ul> --%>
         </div>
         <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
-          <c:if test="${expert.status == -2 ||  expert.status == 0 || (sign ==1 && expert.status ==9) || (sign ==3 && expert.status ==6) || expert.status ==4}">
+          <c:if test="${(expert.status == -2 ||  expert.status == 0 || (sign ==1 && expert.status ==9) || (sign ==3 && expert.status ==6) || expert.status ==4) && isCheck eq 'no'}">
             <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zancun();">暂存</a>
           </c:if>
           <a class="btn" type="button" onclick="nextStep();">下一步</a>
@@ -801,6 +896,8 @@
     <input name="expertId" value="${expertId}" type="hidden">
     <input name="sign" value="${sign}" type="hidden">
     <input name="batchId" value="${batchId}" type="hidden">
+    <input name="isReviewRevision" value="${isReviewRevision}" type="hidden">
+    <input name="isCheck" value="${isCheck}" type="hidden">
 </form>
 <input id="status" value=" ${expert.status}" type="hidden">
 </body>

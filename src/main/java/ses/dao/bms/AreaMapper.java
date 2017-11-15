@@ -1,11 +1,10 @@
 package ses.dao.bms;
 
+import org.apache.ibatis.annotations.Param;
+import ses.model.bms.Area;
+
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
-
-import ses.model.bms.Area;
 
 
 /**
@@ -101,4 +100,15 @@ public interface AreaMapper {
 
 	List<Area> getTreeForExt();
 	
+	/**
+	 *
+	 * Description: 级联查询地区
+	 *
+	 * @author Easong
+	 * @version 2017/11/6
+	 * @param 
+	 * @since JDK1.7
+	 */
+	List<Area> selectOfHierarchical(Map<String, Object> map);
+
 }

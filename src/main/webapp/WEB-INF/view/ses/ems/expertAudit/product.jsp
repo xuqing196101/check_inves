@@ -180,7 +180,7 @@
 					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + serCodeId + "&sign=" + sign + "&batchId=" + batchId;
 					$("#tbody_category").load(path);
 				}else if(goodsProject == "goodsProject_page"){
-					// 工程产品类别信息
+					// 工程参评类别信息
 					loading = layer.load(1);
 					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + goodsProjectId + "&sign=" + sign + "&batchId=" + batchId;
 					$("#tbody_category").load(path);
@@ -206,8 +206,9 @@
 			function reason(firstNode, secondNode, thirdNode, fourthNode, id) {
 				var status = ${status};
 				var sign = ${sign};
+				var isCheck = '${isCheck}';
         //只能审核可以审核的状态
-        if(status ==-2 || status == 0 || status == 15|| status == 16 || (sign ==1 && status ==9) || (sign ==3 && status ==6) || status ==4){
+        if((status ==-2 || status == 0 || status == 15|| status == 16 || (sign ==1 && status ==9) || (sign ==3 && status ==6) || status ==4) && isCheck == 'no'){
 					var auditContent;
 					var auditField;
 					var expertId = $("#expertId").val();
@@ -276,8 +277,9 @@
 			function batchSelection(){
 				var status = ${status};
 		        var sign = ${sign};
+		        var isCheck = '${isCheck}';
 		        //只能审核可以审核的状态
-        if(status ==-2 || status == 0 || status == 15|| status == 16 || (sign ==1 && status ==9) || (sign ==3 && status ==6) || status ==4){
+        if((status ==-2 || status == 0 || status == 15|| status == 16 || (sign ==1 && status ==9) || (sign ==3 && status ==6) || status ==4) && isCheck == 'no'){
 					 var expAuditList=[];
 					 var expertId = $("#expertId").val();
 					 var ids="";
@@ -409,7 +411,9 @@
 			
 			//撤销
 			function revokeCategoryAudit(){
-				if(status ==-2 || status == 0 || status == 15|| status == 16 || (sign ==1 && status ==9) || (sign ==3 && status ==6) || status ==4){
+				var isCheck = '${isCheck}';
+				var sign = ${sign};
+				if((status ==-2 || status == 0 || status == 15|| status == 16 || (sign ==1 && status ==9) || (sign ==3 && status ==6) || status ==4) && isCheck == 'no'){
 					var expertId = $("#expertId").val();
 					var sign = ${sign};
 					var categoryIds = [];
@@ -426,22 +430,64 @@
 	         });
 	        if(categoryIds.length > 0){
 	        	if(falg){
+	        		var auditReason="";
 	        		$.ajax({
-	              url: "${pageContext.request.contextPath}/expertAudit/revokeCategoryAudit.do",
-	              type: "post",
-	              traditional:true,
-	              data:{"expertId" : expertId, "categoryIds" : categoryIds, "sign" : sign},
-	              success : function(result){
-	                layer.msg(result.msg, {offset : [ '100px' ]});
-	                if(result.status == 500){
-	                  window.setTimeout(function () {
-	                    var action = "${pageContext.request.contextPath}/expertAudit/product.html";
-	                    $("#form_id").attr("action", action);
-	                    $("#form_id").submit();
-	                  }, 1000);
-	                }
-	              }
-	            });
+	  	              url: "${pageContext.request.contextPath}/expertAudit/selectCategoryAudit.do",
+	  	              type: "post",
+	  	              traditional:true,
+	  	              data:{"expertId" : expertId, "categoryIds" : categoryIds, "sign" : sign},
+	  	              success : function(result){
+	  	            	auditReason=result.msg;
+	  	            	 var index = layer.prompt({
+							    title : '请修改不通过的理由：', 
+							    formType : 2, 
+							    offset : '100px',
+							    maxlength : '50',
+							    value:auditReason,
+							    btn:['确认','撤销','取消'],
+							    btn3:function(){
+							    	layer.close(index);
+				                },
+				                btn2:function(){
+				                	$.ajax({
+				      	              url: "${pageContext.request.contextPath}/expertAudit/revokeCategoryAudit.do",
+				      	              type: "post",
+				      	              traditional:true,
+				      	              data:{"expertId" : expertId, "categoryIds" : categoryIds, "sign" : sign},
+				      	              success : function(result){
+				      	                layer.msg(result.msg, {offset : [ '100px' ]});
+				      	                if(result.status == 500){
+				      	                  window.setTimeout(function () {
+				      	                    var action = "${pageContext.request.contextPath}/expertAudit/product.html";
+				      	                    $("#form_id").attr("action", action);
+				      	                    $("#form_id").submit();
+				      	                  }, 1000);
+				      	                }
+				      	              }
+				      	            });
+				                }
+								},function(text){
+									  if(text != null && text !=""){
+										    $.ajax({
+										      url:"${pageContext.request.contextPath}/expertAudit/updateCategoryAudit.html",
+										      type:"post",
+										      data:{"expertId" : expertId, "categoryIds" : categoryIds+"", "sign" : sign,"auditReason":text},
+										      success:function(){
+										           layer.msg('审核理由修改成功', {	            
+										             shift: 4, //动画类型
+										             offset:'100px'
+										          });
+										      }
+										    });
+									      layer.close(index);
+								      }else{
+								      	layer.msg('不能为空！', {offset:'100px'});
+								      }
+								    });
+			           }
+			         });
+	  	             
+	        		
 	        	}else{
 	            layer.msg("请选择复审过的", {offset : [ '100px' ]});
 	          }
@@ -503,7 +549,7 @@
 									<c:set value="${liCount+1}" var="liCount" />
 									<%-- <li id="li_id_${vs.index + 1}" class="active" onclick="showDivTree(this);"> --%>
 									<li id="li_id_${vs.index + 1}" class="active" onclick="showDivTree('${matCodeId }');">
-										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">物资产品类别信息</a>
+										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">物资参评类别信息</a>
 										<input type="hidden" id="mat" value="mat_page">
 										<input id="matCodeId" type="hidden" value="${matCodeId }">
 									</li>
@@ -511,7 +557,7 @@
 								<c:if test="${cate.code eq 'PROJECT'}">
 									<%-- <li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);"> --%>
 									<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree('${engCodeId }');">
-										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程产品类别信息</a>
+										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程参评类别信息</a>
 										<input type="hidden" id="eng" value="eng_page">
 										<input id="engCodeId" type="hidden" value="${engCodeId }">
 									</li>
@@ -528,7 +574,7 @@
 								<c:if test="${cate.code eq 'SERVICE'}">
 									<%-- <li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);"> --%>
 										<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree('${serCodeId }');">
-										<a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="f18">服务产品类别信息</a>
+										<a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="f18">服务参评类别信息</a>
 										<input type="hidden" id="ser" value="ser_page">
 										<input id="serCodeId" type="hidden" value="${serCodeId }">
 									</li>
@@ -538,7 +584,7 @@
 								<!-- 经济 -->
 								<c:if test="${cate.code eq 'GOODS_PROJECT'}">
 									<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree('${goodsProjectId }');">
-										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程产品类别信息</a>
+										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程参评类别信息</a>
 										<input type="hidden" id="goodsProject" value="goodsProject_page">
 										<input id=goodsProjectId type="hidden" value="${goodsProjectId }">
 									</li>
@@ -577,11 +623,11 @@
 						</div> --%>
 						
 						<div class="mt20" id="tbody_category"></div>
-							<div id="pagediv" align="right" class="mb50"></div>
+						<!-- <div id="pagediv" align="right" class="mb50"></div> -->
 					</div>
 					<div class="col-md-12 add_regist tc">
 						<a class="btn" type="button" onclick="lastStep();">上一步</a>
-						<c:if test="${expert.status == -2 ||  expert.status == 0 || (sign ==1 && expert.status ==9) || (sign ==3 && expert.status ==6) || expert.status ==4}">
+						<c:if test="${(expert.status == -2 ||  expert.status == 0 || (sign ==1 && expert.status ==9) || (sign ==3 && expert.status ==6) || expert.status ==4) && isCheck eq 'no'}">
 	            <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zancun();">暂存</a>
 	          </c:if>
 						<a class="btn" type="button" onclick="nextStep();">下一步</a>
@@ -594,6 +640,8 @@
 			<input name="expertId" value="${expertId}" type="hidden">
 			<input name="sign" value="${sign}" type="hidden">
 			<input name="batchId" value="${batchId}" type="hidden">
+			<input name="isReviewRevision" value="${isReviewRevision}" type="hidden">
+			<input name="isCheck" value="${isCheck}" type="hidden">
 		</form>
         <input id="status" value="${status}" type="hidden">
 	</body>

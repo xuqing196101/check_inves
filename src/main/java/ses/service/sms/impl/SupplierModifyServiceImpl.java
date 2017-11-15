@@ -87,7 +87,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 	private SupplierAddressService supplierAddressService;
 	/**
 	 * @Title: selectField
-	 * @author XuQing 
+	  
 	 * @date 2017-2-16 下午4:22:14  
 	 * @Description:查询
 	 * @param @param supplierModify
@@ -102,7 +102,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 
 	/**
 	 * @Title: delete
-	 * @author XuQing 
+	  
 	 * @date 2017-2-16 下午4:24:18  
 	 * @Description:删除
 	 * @param @param supplierModify      
@@ -116,7 +116,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 	
 	/**
      * @Title: insertSelective
-     * @author XuQing 
+      
      * @date 2017-2-15 下午4:22:06  
      * @Description:插入审核退回后供应商修改记录
      * @param @param supplierModify      
@@ -1235,7 +1235,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 
 	/**
 	 * @Title: findBySupplierId
-	 * @author XuQing 
+	  
 	 * @date 2017-2-17 上午10:21:59  
 	 * @Description:查询
 	 * @param @param supplierModify
@@ -1253,7 +1253,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 
 	/**
      * @Title: add
-     * @author XuQing 
+      
      * @date 2017-2-17 下午2:48:40  
      * @Description:插入基本信息
      * @param @param supplierModify      
@@ -1275,7 +1275,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 	
 	/**
      * @Title: add
-     * @author XuQing 
+      
      * @date 2017-4-26 下午2:48:40  
      * @Description:插入审核退回后修改的附件
      * @param @param supplierModify      
@@ -1472,7 +1472,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 	
 	/**
      * @Title: updateIsDeleteBySupplierId
-     * @author XuQing 
+      
      * @date 2017-4-28 下午3:50:56  
      * @Description:软删除历史记录
      * @param @param SupplierModify      

@@ -51,7 +51,7 @@
       function check_opinion() {
         var status = $(":radio:checked").val();
         var expertId = "${expertId}";
-        
+        var opinion = '${auditOpinion.opinion}';
         var itemType;
         var item
         if(status == 15){
@@ -64,7 +64,15 @@
           item = "复审合格，选择了";
         }
         
-        if(status != null && typeof(status) != "undefined") {
+        //复审退回
+        if(status == '10'){
+            $("#check_opinion").html("退回修改。" + opinion);
+        }
+        
+        if(status == '5'){
+            $("#check_opinion").html("复审不合格。" + opinion);
+        }
+        if(status != null && typeof(status) != "undefined" && (status == 15 || status == -3)) {
           $.ajax({
             url: "${pageContext.request.contextPath}/expertAudit/findCategoryCount.do",
             data: {
@@ -75,23 +83,12 @@
             dataType: "json",
             success: function(data) {
             	//初审
-              if(status == 15 || status == -3) {
                 if(data.all == 0 && data.pass == 0){
                   $("#check_opinion").html(itemType);
                 }else{
-                  $("#check_opinion").html(item + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
+                  $("#check_opinion").html(item + data.all + "个参评类别，通过了" + data.pass + "个参评类别。" + opinion);
                 }
-              }
-            	
-            	//复审退回
-              if(status == '10'){
-                  $("#check_opinion").html("退回修改。");
-              }
-            	
-              if(status == '5'){
-                  $("#check_opinion").html("复审不合格。");
-              }
-            }
+             }
           });
         }
       }
@@ -143,8 +140,12 @@
       <div class="content">
         <div class="col-md-12 tab-v2 job-content">
           <%@include file="/WEB-INF/view/ses/ems/expertAudit/common_jump.jsp" %>
-
-          <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
+          <c:if test="${sign eq '1'}">
+            <h2 class="count_flow"><i>1</i>复审汇总信息</h2>
+          </c:if>
+          <c:if test="${sign eq '2'}">
+            <h2 class="count_flow"><i>1</i>初审汇总信息</h2>
+          </c:if>
           <ul class="ul_list count_flow">
             <table class="table table-bordered table-condensed table-hover">
               <thead>
@@ -169,7 +170,7 @@
                     <c:if test="${reasons.suggestType eq 'five'}">承诺书和申请表</c:if>
                   </td>
                   <td class="">${reasons.auditField }</td>
-                  <td class="hand" title="${reasons.auditContent}">
+                  <td class="hand" title="${reasons.catalogCode == null ? reasons.auditContent : reasons.catalogCode}">
                     <c:if test="${fn:length (reasons.auditContent) > 20}">${fn:substring(reasons.auditContent,0,20)}...</c:if>
                     <c:if test="${fn:length (reasons.auditContent) <= 20}">${reasons.auditContent}</c:if>
                   </td>
@@ -178,7 +179,7 @@
                     <c:if test="${fn:length (reasons.auditReason) <= 20}">${reasons.auditReason}</c:if>
                   </td>
                   <!-- 状态 -->
-                   <c:if test="${reasons.auditStatus eq '1'}"><td class="tc">退回修改</td></c:if>
+                   <c:if test="${reasons.auditStatus eq '1'}"><td class="tc">有问题</td></c:if>
                    <c:if test="${reasons.suggestType eq 'six' && reasons.auditStatus eq '2'}"><td class="tc">审核不通过</td></c:if>
                    <c:if test="${reasons.suggestType != 'six' && reasons.auditStatus eq '2'}"><td class="tc">已修改</td></c:if>
                    <c:if test="${reasons.auditStatus eq '3'}"><td class="tc">未修改</td></c:if>
@@ -191,27 +192,35 @@
             </table>
           </ul>
           
-          <h2 class="count_flow mt0"><i>2</i>最终意见</h2>
+          
+          <c:if test="${sign eq 1}">
+            <h2 class="count_flow mt0"><i>2</i>复审最终意见</h2>
+          </c:if>
+          <c:if test="${sign eq 2}">
+            <h2 class="count_flow mt0"><i>2</i>初审最终意见</h2>
+          </c:if>
           <ul class="ul_list">
+             <li>
+               <div id="check_opinion"></div>
+             </li>
+            
              <li>
                <div class="select_check">
                  <c:if test="${sign == 1}">
-                    <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '-3'}">checked</c:if> value="-3">复审合格
-                    <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '5'}">checked</c:if> value="5">复审不合格
-                    <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '10'}">checked</c:if> value="10">退回修改
+                    <%-- <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '-3'}">checked</c:if> value="-3">复审合格 --%>
+                    <input class="hidden" type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '5'}">checked</c:if> value="5">
+                    <input class="hidden" type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '10'}">checked</c:if> value="10">
                   </c:if>
                   <c:if test="${sign == 2}">
-	                  <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> value="15">初审合格
-	                  <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> value="16">初审不合格
+	                  <input class="hidden" type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> value="15">
+	                  <input class="hidden" type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> value="16">
                   </c:if>
                 </div>
               </li>
-              <li>
-                <div id="check_opinion"></div>
-              </li>
-            <li class="mt10">
+             <%--  <li class="mt10">
+              ${auditOpinion.opinion }
                <textarea id="opinion" readonly="readonly" class="col-md-12 col-xs-12 col-sm-12 h80">${auditOpinion.opinion }</textarea>
-            </li>
+              </li> --%>
           </ul>
           
           <c:if test="${sign == 2}">
@@ -234,7 +243,7 @@
 	            <a class="btn" type="button" onclick="nextStep();">下一步</a>
 	          </c:if>
 	          
-	          <c:if test = "${sign eq '1' && status eq '10'}" >
+	          <c:if test = "${sign eq '1' && (status eq '10' || (reviewUnqualifiedConfirm != 1 and status eq '5')) && isCheck eq 'no'}" >
               <a class="btn" type="button" onclick="preliminaryConfirmation();">确认</a>
             </c:if>
 	        </div>
@@ -247,6 +256,8 @@
       <input name="sign" value="${sign}" type="hidden">
       <input name="status" id="status" value="${status}" type="hidden">
       <input name="batchId" value="${batchId}" type="hidden">
+      <input name="isReviewRevision" value="${isReviewRevision}" type="hidden">
+      <input name="isCheck" value="${isCheck}" type="hidden">
     </form>
 
   </body>

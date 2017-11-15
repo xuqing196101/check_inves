@@ -6,9 +6,7 @@ $(function() {
     loadExpertKind();
 
     //加载审核人员
-    for ( var i = 0; i < 2; i++) {
-        addPerson($("#eu"));
-    }
+    addPerson($("#eu"));
     addPerson($("#su"));
 });
 
@@ -49,7 +47,7 @@ function functionArea() {
         async : false,
         success : function(response) {
             $("#city").empty();
-            $("#city").append("<option value='0'>选择地区</option>");
+            $("#city").append("<option value='0'>全部</option>");
             $.each(response, function(i, result) {
                 $("#city").append("<option value='" + result.id + "'>" + result.name + "</option>");
             });
@@ -59,6 +57,9 @@ function functionArea() {
 
 //人工抽取
 function artificial_extracting(isAuto){
+	if(isAuto == 1){
+		return;
+	}
 	//加载菊花图标
 	var ae_load = layer.load();
     getCount();
@@ -129,6 +130,7 @@ function artificial_extracting(isAuto){
         },
         error: function () {
             layer.msg("操作失败", {offset: '100px'});
+            layer.close(ae_load);
         }
     });
 }
@@ -164,10 +166,21 @@ function validationIsNull(code){
     }else{
         $("#err_reviewTime").html("");
     }
+    //建设单位名称
+    var nn = $("#projectType option:selected").text();
+    if(nn != null && nn == "工程"){
+    	var constructionName = $("#constructionName").val();
+    	if(constructionName == null || constructionName == ""){
+            $("#err_constructionName").html("建设单位名称不能为空");
+            flag = false;
+            layer.msg("请完善项目信息");
+    	}else{
+    		$("#err_constructionName").html("");
+    	}
+    }
     //评审地点
     var province = $("#province option:selected").val();
-    var city = $("#city option:selected").val();
-    if(province == '0' || city == '0'){
+    if(province == '0'){
         $("#err_aaa").html("请选择评审地点");
         flag = false;
         layer.msg("请完善项目信息");
@@ -217,11 +230,20 @@ function validationIsNull(code){
     //联系电话
     var contactNum = $("#contactNum").val();
     if(contactNum == null || contactNum == ""){
-        $("#err_contactNum").html("联系电话不能为空");
+        $("#err_contactNum").html("联系手机不能为空");
         flag = false;
         layer.msg("请完善项目信息");
     }else{
         $("#err_contactNum").html("");
+    }
+    //联系固话
+    var landline = $("#landline").val();
+    if(landline == null || landline == ""){
+        $("#err_landline").html("联系固话不能为空");
+        flag = false;
+        layer.msg("请完善项目信息");
+    }else{
+        $("#err_landline").html("");
     }
     //每个品目的人数
     var strs = new Array(); //定义一数组 
@@ -229,7 +251,7 @@ function validationIsNull(code){
     var num = 0;
     for(var i=0; i<strs.length; i++){
         if($("#"+strs[i]+"_count").text() == 0){
-            layer.msg("人数不足，无法抽取");
+            layer.msg("家数不足，无法抽取");
             flag = false;
         }
         var v = $("#"+strs[i].toLowerCase()+"_i_count").val();
@@ -241,8 +263,8 @@ function validationIsNull(code){
             flag = false;
         }else if(parseInt(v) > parseInt($("#"+strs[i]+"_count").text())){
             flag = false;
-            $("#err_"+strs[i].toLowerCase()+"_i_count").html("当前符合条件人数不足");
-            layer.msg("人数不足，无法抽取");
+            $("#err_"+strs[i].toLowerCase()+"_i_count").html("当前符合条件家数不足");
+            layer.msg("家数不足，无法抽取");
         }else{
             num += parseInt(coUndifined(v));
             $("#err_"+strs[i].toLowerCase()+"_i_count").html("");
@@ -293,7 +315,7 @@ function validationIsNull(code){
             count2++;
         }
     });
-    if($("#extractUser").find("tr").length<3){
+    if($("#extractUser").find("tr").length<2){
         count1++;
     }
     if($("#supervise").find("tr").length<2){
@@ -346,7 +368,13 @@ function addTr(code,data){
 		count = parseInt(count);
 	}
     var codeCount = parseInt(coUndifined($("#"+code.toLowerCase()+"_i_count").val()));
-    if(vv && count >= codeCount){
+    var bz = 0;
+    $("#"+code+"_result").find("tbody tr").each(function(){
+    	if(!$(this).find("td:eq(7)").html()){
+    		bz++;
+    	}
+    });
+    if(vv && bz >= codeCount){
     	remark = "候补";
     }
     var info = "<tr>" +
@@ -425,7 +453,7 @@ function isJoin(select){
     var flag = true;
     for (var i = 0; i < s.length; i++) {
         if(s[i].value == '0'){
-            flag = false;
+            flag &= false;
         }
     }
     var count = parseInt($("#"+code+"_result_count").text());
@@ -454,9 +482,31 @@ function isJoin(select){
                 saveResult($(select).parents("tr").find("input").first().val(),value,v,code,select);
                 $(select).parent().parent().remove();
                 $("#"+code+"_result_no").text(no + 1);
+                //判断正式专家人数是否足够
+                var llcount = 0;
+                $("#"+code+"_result").find("tbody tr").each(function(){
+                	if(!$(this).find("td:eq(7)").html()){
+                		llcount++;
+                	}
+                });
                 if(flag){
-                    getExpert(code);
-                    //判断是否要显示结束按钮
+                	if(llcount < codeCount){
+                		getExpert(code);
+                    }else{
+                    	var ddflag = true;
+                    	for (var i = 0; i < s.length; i++) {
+                            if(s[i].value == '2'){
+                                ddflag &= false;
+                            }
+                        }
+                    	if(ddflag){
+                    		var ww = parseInt(coUndifined($("#"+id).children("tbody").find("tr").length));
+                            if(ww < codeCount + hb){
+                                getExpert(code);
+                            }
+                    	}
+                    }
+                    //验证如果人数满足条件  就不在追加显示了
                     displayEnd();
                 }else{
                     var i=0;
@@ -474,12 +524,31 @@ function isJoin(select){
             $(select).parents("td").html("能参加");
             $(select).remove();
             $("#"+code+"_result_count").text(count + 1);
+            //判断正式专家人数是否足够
+            var llcount = 0;
+            $("#"+code+"_result").find("tbody tr").each(function(){
+            	if(!$(this).find("td:eq(7)").html()){
+            		llcount++;
+            	}
+            });
             if(flag){
-                //验证如果人数满足条件  就不在追加显示了
-                var ww = parseInt(coUndifined($("#"+id).children("tbody").find("tr").length));
-                if(ww < codeCount + hb){
-                    getExpert(code);
+            	if(llcount < codeCount){
+            		getExpert(code);
+                }else{
+                	var ddflag = true;
+                	for (var i = 0; i < s.length; i++) {
+                        if(s[i].value == '2'){
+                            ddflag &= false;
+                        }
+                    }
+                	if(ddflag){
+                		var ww = parseInt(coUndifined($("#"+id).children("tbody").find("tr").length));
+                        if(ww < codeCount + hb){
+                            getExpert(code);
+                        }
+                	}
                 }
+                //验证如果人数满足条件  就不在追加显示了
                 displayEnd();
             }else{
                 var i=0;
@@ -489,13 +558,40 @@ function isJoin(select){
             }
         }else if(v == "2"){
             saveResult($(select).parents("tr").find("input").first().val(),"",v,code,select);
+            //判断正式专家人数是否足够
+            var llcount = 0;
+            $("#"+code+"_result").find("tbody tr").each(function(){
+            	if(!$(this).find("td:eq(7)").html()){
+            		llcount++;
+            	}
+            });
             if(flag){
-                //验证如果人数满足条件  就不在追加显示了
-                var ww = parseInt(coUndifined($("#"+id).children("tbody").find("tr").length));
-                if(ww < codeCount + hb){
-                    getExpert(code);
+            	if(llcount < codeCount){
+            		getExpert(code);
+                }else{
+                	var ddflag = true;
+                	for (var i = 0; i < s.length; i++) {
+                        if(s[i].value == '2'){
+                            ddflag &= false;
+                        }
+                    }
+                	var hh = 0;
+                	$("#"+code+"_result").find("tbody tr").each(function(){
+                    	if(!$(this).find("td:eq(7)").html()){
+                    		hh++;
+                    	}
+                    });
+                	if(hh > 0){
+                		ddflag = true;
+                	}
+                	if(ddflag){
+                		var ww = parseInt(coUndifined($("#"+id).children("tbody").find("tr").length));
+                        if(ww < codeCount + hb){
+                            getExpert(code);
+                        }
+                	}
                 }
-                //判断是否要显示结束按钮
+                //验证如果人数满足条件  就不在追加显示了
                 displayEnd();
             }else{
                 var i=0;
@@ -531,7 +627,9 @@ function saveResult(expertId,value,join,code,select){
     	isAlternate = 1;
     }
     var las = coUndifined($(select).parent().prev().html());
-    if(las != "候补"){
+    if(las == "候补"){
+    	isAlternate = 1;
+    } else{
     	isAlternate = null;
     }
     var conditionId = $("#conditionId").val();
@@ -615,6 +713,15 @@ function coUndifined(v){
 
 //加载专家类别
 function loadExpertKind(){
+	//工程要显示建设单位名称
+    var nn = $("#projectType option:selected").text();
+    if(nn != null && nn == "工程"){
+    	$("#jsdw").removeClass("display-none");
+    }else{
+    	$("#constructionName").val("");
+    	$("#err_constructionName").html("");
+    	$("#jsdw").addClass("display-none");
+    }
     var id = $("#projectType option:selected").val();
     $.ajax({
         url : globalPath + "/extractExpert/loadExpertKind.do",
@@ -756,7 +863,7 @@ function opens(cate) {
         title: "选择条件",
         shadeClose: true,
         shade: 0.01,
-        area: ['430px', '400px'],
+        area: ['440px', '400px'],
         offset: '20px',
         skin: "aabbcc",
         content: globalPath+'/extractExpert/addHeading.do?type='+typeCode+'&&id='+ids+'&&isSatisfy='+isSatisfy, //iframe的url
@@ -1107,7 +1214,7 @@ function extractReset(){
 
 //显示结束按钮
 function displayEnd(){
-	var isExtractAlternate = $("#isExtractAlternate  option:selected").val();
+	var isExtractAlternate = $("#isExtractAlternate option:selected").val();
 	var vv = false;
 	if(isExtractAlternate == "1"){
 		vv = true;
@@ -1280,6 +1387,7 @@ function uuid() {
 //验证项目编号
 function vaCode(){
     var projectCode = $("#projectCode").val();
+    var xmProjectId = $("#xmProjectId").val();
     if(projectCode == null || projectCode == ""){
         $("#err_code").html("项目编号不能为空");
     }else{
@@ -1287,7 +1395,8 @@ function vaCode(){
         $.ajax({
             url : globalPath + "/extractExpert/vaProjectCode.do",
             data : {
-                "code" : projectCode
+                "code" : projectCode,
+                "xmProjectId" : xmProjectId
             },
             dataType : "json",
             async : false,
