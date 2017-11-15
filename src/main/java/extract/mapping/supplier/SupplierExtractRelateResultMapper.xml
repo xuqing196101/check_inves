@@ -795,15 +795,15 @@
 	<!-- 支撑系统进入 -->
 	<select id="selectByUpdateDate" parameterType="map" resultMap="BaseResultMap">
 		SELECT * FROM T_SES_SMS_EXTRACT_RESULT WHERE 
-	    to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
-	    and to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;= #{end,jdbcType=VARCHAR} 
+	    UPDATED_AT  &gt;= #{start,jdbcType=VARCHAR}
+	    and UPDATED_AT &lt;= #{end,jdbcType=VARCHAR} 
 	</select>
 	
 	<!-- 预研 -->
 	<select id="selectAdvByUpdateDate" parameterType="map" resultMap="advResult">
 		SELECT * FROM T_SES_SMS_SUPPLIER_EXT_RELATE WHERE 
-	    to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
-	    and to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;= #{end,jdbcType=VARCHAR} 
+	    UPDATED_AT  &gt;= #{start,jdbcType=VARCHAR}
+	    and UPDATED_AT &lt;= #{end,jdbcType=VARCHAR} 
 	</select>
 	
 	

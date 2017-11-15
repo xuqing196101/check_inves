@@ -246,7 +246,7 @@ public class SupplierExtractProjectInfo {
     
     private String purchaseTypeName;
     
-    private int extractNum;
+    private int extractNum = 0;
 
 	public String getId() {
 		return id;

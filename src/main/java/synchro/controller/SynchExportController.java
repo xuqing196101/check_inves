@@ -503,6 +503,10 @@ public class SynchExportController {
 	        if (synchType.contains(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_RESULT)) {
 	        	autoExtractSupplierService.exportSupplierExtractResult(startTime, endTime, date);
 	        } 
+	        /** 供应商抽取信息导出*/
+	        if (synchType.contains(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO)) {
+	        	autoExtractSupplierService.exportExtractProjectInfo(startTime, endTime, date);
+	        } 
 	        bean.setSuccess(true);
 	        return bean;
         }
