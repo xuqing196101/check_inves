@@ -47,7 +47,7 @@ public class SupplierCateTree implements Serializable{
     
     /** 供应商品目ID **/
     private String itemsId;
-    /** 供应商品目ID **/
+    /** 供应商品目名称 **/
     private String itemsName;
     
     /** 等级 **/

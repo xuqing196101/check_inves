@@ -471,12 +471,12 @@ public interface SupplierAuditService {
      * 
      * @author YangHongLiang
      * @version 2017-7-6
-     * @param itemId
      * @param supplierId
-     * @param supplierItemId
+     * @param cateId
+     * @param itemId
      * @return
      */
-    List<SupplierCateTree> showContractData(String itemId,String supplierId,String supplierItemId);
+    List<SupplierCateTree> showContractData(String supplierId,String cateId,String itemId);
 
 	/**
 	 *

@@ -2843,18 +2843,19 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * 销售合同：--物资生产/物资销售/服务  审核字段存储：目录末级节点ID关联的SupplierItem的ID_附件typeId
 	 * @author YangHongLiang
 	 * @version 2017-6-28
-	 * @param itemId
 	 * @param supplierId
+	 * @param cateId
+	 * @param itemId
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping("showContract")
-	public String showContract(String itemId,String supplierId,Model model,String supplierItemId,Integer ind,String tablerId){
+	public String showContract(Model model,String supplierId,String cateId,String itemId,Integer ind,String tablerId){
 		if(StringUtils.isBlank(itemId)){
 			return "ses/sms/supplier_audit/aptitude_contract_item";
 		}
 		
-		List<SupplierCateTree> allTreeList=supplierAuditService.showContractData(itemId, supplierId, supplierItemId);
+		List<SupplierCateTree> allTreeList=supplierAuditService.showContractData(supplierId, cateId, itemId);
 		model.addAttribute("contract", allTreeList);
 		// 年份
 		List < Integer > years = supplierService.getThressYear();
@@ -2920,12 +2921,13 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * --工程 审核字段存储：目录末级节点ID关联的SupplierItem的ID
 	 * @author YangHongLiang
 	 * @version 2017-6-26
-	 * @param itemId
 	 * @param supplierId
+	 * @param cateId
+	 * @param itemId
 	 * @return
 	 */
 	@RequestMapping("showQualifications")
-	public String showQualifications(String cateId, String itemId,String supplierId,Model model,Integer ind,String tablerId){
+	public String showQualifications(Model model,String supplierId,String cateId,String itemId,Integer ind,String tablerId){
 		Set<QualificationBean> beanList=new HashSet<>();
 		if(StringUtils.isBlank(itemId)){
 			return "ses/sms/supplier_audit/aptitude_material_item";
@@ -2994,14 +2996,13 @@ public class SupplierAuditController extends BaseSupplierController {
 		}else if("content_2".equals(tablerId)){
 			//封装 供应商id
 			cateTree.setRootNodeCode("SALES");
-			QualificationBean bean2=new QualificationBean();
 			typeId=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_APTITUD);
-			bean2.setCategoryName(cateTree.getItemsName()+"-销售专业资质要求");
+			bean.setCategoryName(cateTree.getItemsName()+"-销售专业资质要求");
 			list= supplierAuditService.showQualifications(supplierId, cateTree, 3, typeId, 3);
 			if(null!=list && !list.isEmpty()){
 				bean.setCategoryId(list.get(0).getSupplierItemId());
-				bean2.setList(list);
-				beanList.add(bean2);
+				bean.setList(list);
+				beanList.add(bean);
 			}
 		}
 		// 设置修改字段

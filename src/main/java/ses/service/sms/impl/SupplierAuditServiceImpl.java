@@ -1464,7 +1464,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
     }
 
 	@Override
-	public List<SupplierCateTree> showContractData(String itemId,String supplierId,String supplierItemId) {
+	public List<SupplierCateTree> showContractData(String supplierId,String cateId,String itemId) {
 		//合同
 		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
 		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
@@ -1475,7 +1475,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
 		
 		SupplierCateTree cateTree = new SupplierCateTree();
-		cateTree.setSupplierItemId(supplierItemId);
+		cateTree.setSupplierItemId(itemId);
 		cateTree.setOneContract(id1);
 		cateTree.setTwoContract(id2);
 		cateTree.setThreeContract(id3);
@@ -1483,10 +1483,10 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		cateTree.setTwoBil(id5);
 		cateTree.setThreeBil(id6);
 		/*// 递归获取所有父节点
-		List < Category > parentNodeList = categoryService.getAllParentNode(itemId);
+		List < Category > parentNodeList = categoryService.getAllParentNode(cateId);
 		// 加入根节点 物资
 		cateTree=categoryService.addNode(parentNodeList);*/
-		/*SupplierItem item = supplierItemService.selectByPrimaryKey(supplierItemId);
+		/*SupplierItem item = supplierItemService.selectByPrimaryKey(itemId);
 		String type = item.getSupplierTypeRelateId();
 		String typeName = "";
 		if("PRODUCT".equals(type)) {
