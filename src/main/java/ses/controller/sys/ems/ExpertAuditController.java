@@ -2305,12 +2305,6 @@ public class ExpertAuditController{
 		depMap.put("purchaseDepId", expert.getPurchaseDepId());
 		String depName = purChaseDepOrgService.selectOrgFullNameByPurchaseDepId(depMap);
 		dataMap.put("depName", depName);
-		String eStatus = expert.getStatus();
-		if("-2".equals(eStatus)){
-			dataMap.put("orgName", "cgjg");
-		}else{
-			dataMap.put("orgName", "zyfwzx");
-		}
 		//专家编号
 		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
 		expertBatchDetails.setExpertId(expert.getId());
