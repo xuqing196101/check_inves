@@ -1,7 +1,10 @@
 package bss.model.prms;
 
 import java.io.Serializable;
+import java.util.List;
 
+import bss.model.ppms.MarkTerm;
+import bss.model.ppms.ScoreModel;
 import ses.model.ems.Expert;
 
 public class PackageExpert implements Serializable{
@@ -37,6 +40,13 @@ public class PackageExpert implements Serializable{
     
     //是否临时专家  0是 1否
     private Integer isTempExpert;
+    
+    
+    private List<ScoreModel> scoreModels;
+    
+    private List<MarkTerm> markTerms;
+    
+    private List<ExpertScore> expertScores;
 
 	public Short getIsGrade() {
 		return isGrade;
@@ -147,4 +157,30 @@ public class PackageExpert implements Serializable{
     public void setIsTempExpert(Integer isTempExpert) {
       this.isTempExpert = isTempExpert;
     }
+
+    public List<ScoreModel> getScoreModels() {
+      return scoreModels;
+    }
+
+    public void setScoreModels(List<ScoreModel> scoreModels) {
+      this.scoreModels = scoreModels;
+    }
+
+    public List<MarkTerm> getMarkTerms() {
+      return markTerms;
+    }
+
+    public void setMarkTerms(List<MarkTerm> markTerms) {
+      this.markTerms = markTerms;
+    }
+
+    public List<ExpertScore> getExpertScores() {
+      return expertScores;
+    }
+
+    public void setExpertScores(List<ExpertScore> expertScores) {
+      this.expertScores = expertScores;
+    }
+    
+    
 }

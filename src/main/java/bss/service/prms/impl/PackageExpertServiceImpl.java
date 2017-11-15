@@ -724,7 +724,6 @@ public class PackageExpertServiceImpl implements PackageExpertService {
             BigDecimal totalScore2 = new BigDecimal(0);
             totalScore2 = totalScore2.add(o2.getEconomicScore());
             totalScore2 = totalScore2.add(o2.getTechnologyScore());
-            System.out.println(totalScore2);
             /*totalScore2 = totalScore2.add(o2.getPriceScore());*/
             if(totalScore1.doubleValue()-totalScore2.doubleValue() >= 1){  
                 return -1;

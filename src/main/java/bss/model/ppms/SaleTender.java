@@ -213,6 +213,8 @@ public class SaleTender {
     
     private BigDecimal priceScore;//价格评分
     
+    private List<SaleTender> lists;
+    
     public Integer getIsEndPrice() {
         return isEndPrice;
     }
@@ -796,5 +798,15 @@ public class SaleTender {
 	public void setRemoveType(Integer removeType) {
 		this.removeType = removeType;
 	}
+
+
+  public List<SaleTender> getLists() {
+    return lists;
+  }
+
+
+  public void setLists(List<SaleTender> lists) {
+    this.lists = lists;
+  }
     
 }
