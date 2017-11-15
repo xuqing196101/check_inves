@@ -364,35 +364,30 @@
    	</div>
     <c:if test="${flag != '1' }">
 	    <div class="search_detail ml0">
-	        <ul class="demand_list">
-	            <li>
-	             <label class="fl h30 lh30">所属产品目录：</label>
-	            	<div class="input_group w200 fl">
-						<input id="cId" name="categoryId"  type="hidden" value="${categoryId}">
-				        <input id="categorySel"  type="text" name="categoryName"  value="${categoryName}"  onclick="showCategory();" />
-						<%-- <div class="drop_up" onclick="showCategory();">
-						    <img src="${pageContext.request.contextPath}/public/backend/images/down.png" />
-				        </div> --%>
-					</div>
-		       </li>
-		       <li>
-	            <label class="fl h30 lh30">模板选择：</label>
-	            <select id="fatId" class="w180">
-		               <%-- <c:forEach items="${firstAuditTemplats}" var="fat">
-		                    <option value="${fat.id}">${fat.name}</option>
-		                </c:forEach>  --%>
-		            </select>
-	            </li>
-	           
-	           <div class="pull-right f0 lh0">
-		           <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" class="btn mb0">确定选择</button>
-		           <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn mb0">引入历史数据</button>
-		           <button type="button" class="btn mb0" onclick="clreaButtons()">重置</button>
-		           
-		           
-		           
-	           </div>
-	        </ul>
+	      <ul class="demand_list">
+	        <li>
+	          <label class="fl h30 lh30">所属产品目录：</label>
+	          <div class="input_group w150 fl">
+	            <input id="cId" name="categoryId" type="hidden" value="${categoryId}">
+              <input id="categorySel" type="text" name="categoryName" value="${categoryName}" onclick="showCategory();" class="w100p m0 p0">
+	          </div>
+	        </li>
+	        <li>
+	          <label class="fl h30 lh30">模板选择：</label>
+	          <div class="input_group w170 fl">
+	            <select id="fatId" class="w100p">
+                <%-- <c:forEach items="${firstAuditTemplats}" var="fat">
+                     <option value="${fat.id}">${fat.name}</option>
+                 </c:forEach>  --%>
+              </select>
+	          </div>
+	        </li>
+	        <li class="f0 lh0 mr0">
+	          <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" class="btn mb0 h30">确定选择</button>
+            <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn mb0 h30">引入历史数据</button>
+            <button type="button" class="btn mb0 h30 mr0" onclick="clreaButtons()">重置</button>
+	        </li>
+	      </ul>
 	        <div class="clear"></div>
 	     </div>
     </c:if>
