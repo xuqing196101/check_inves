@@ -2695,7 +2695,7 @@
     <!-- 查询公示专家导出外网 -->
     <select id="selectExpByPublictyOfExport" resultMap="BaseResultMap" parameterType="Map">
         SELECT
-        T.ID, T.EXPERTS_TYPE_ID, T.PURCHASE_DEP_ID, T.REAL_NAME, T.EXPERTS_FROM,
+        T.ID, T.EXPERTS_TYPE_ID, T.PURCHASE_DEP_ID, T.REAL_NAME, T.GENDER, T.EXPERTS_FROM,
         T.STATUS, T.IS_PROVISIONAL, T.AUDIT_AT
         FROM T_SES_EMS_EXPERT T
         WHERE T.STATUS = #{status}
