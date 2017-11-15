@@ -69,31 +69,31 @@
 								<c:set value="0" var="divCount" />
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT') and fn:length(proQua) > 0}">
 									<!-- 物资生产型 -->
-									<c:set value="0" var="prolength" />
 									<div class="tab-pane active" id="tab-1">
 										<h2 class="f16">
 							      	<font color="red">*</font> 上传物资-生产型资质文件
 										</h2>
 										<table class="table table-bordered">
+											<c:set value="0" var="proLength" />
 											<c:forEach items="${proQua }" var="obj">
 												<tr>
 													<td width="18%">${obj.categoryName }</td>
 													<td>
-														<c:forEach items="${obj.list }" var="quaPro">
-															<c:set value="${prolength+1}" var="prolength"></c:set>
-															<c:set value="${obj.itemId}_${quaPro.id}" var="quaId" />
+														<c:forEach items="${obj.list }" var="qua">
+															<c:set value="${proLength+1}" var="proLength" />
+															<c:set value="${obj.itemId}_${qua.id}" var="quaId" />
 															<c:set value="${auditTypeMap['PRODUCT']}" var="auditType" />
 															<div class="mr5 fl" <c:if test="${fn:contains(audit,quaId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${quaId}','${auditType}')"</c:if>>
 																<c:choose>
 																	<c:when test="${!fn:contains(audit,quaId) && currSupplier.status==2}">
-																		<div class="webuploader-pick">${quaPro.name}</div>
+																		<div class="webuploader-pick">${qua.name}</div>
 																		<div class="clear"></div>
-																		<u:show showId="pShow${prolength}" delete="false" groups="${saleShow}" businessId="${quaPro.flag}" sysKey="${sysKey}" typeId="${typeId}" />
+																		<u:show showId="pShow${proLength}" delete="false" groups="${fileGroupShow}" businessId="${qua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:when>
 																	<c:otherwise>
-																		<u:upload singleFileSize="300" exts="${properties['file.picture.type']}" id="pUp${prolength}" multiple="true" buttonName="${quaPro.name}" groups="${saleUp}" businessId="${quaPro.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+																		<u:upload singleFileSize="300" exts="${properties['file.picture.type']}" id="pUp${proLength}" multiple="true" buttonName="${qua.name}" groups="${fileGroupUp}" businessId="${qua.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 																		<div class="clear"></div>
-																		<u:show showId="pShow${prolength}" groups="${saleShow}" businessId="${quaPro.flag}" sysKey="${sysKey}" typeId="${typeId}" />
+																		<u:show showId="pShow${proLength}" groups="${fileGroupShow}" businessId="${qua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:otherwise>
 																</c:choose>
 															</div>
@@ -107,31 +107,31 @@
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES') and fn:length(saleQua) > 0}">
 									<!-- 物资销售型 -->
-									<c:set value="0" var="length"> </c:set>
 									<div class="tab-pane <c:if test="${divCount==0 }">active in</c:if> fade height-300" id="tab-2">
 										<h2 class="f16">
 							      	<font color="red">*</font> 上传物资-销售型资质文件
 										</h2>
 										<table class="table table-bordered">
-											<c:forEach items="${saleQua }" var="sale">
+											<c:set value="0" var="saleLength" />
+											<c:forEach items="${saleQua }" var="obj">
 												<tr>
-													<td class="w200">${sale.categoryName } </td>
+													<td class="w200">${obj.categoryName }</td>
 													<td>
-														<c:forEach items="${sale.list }" var="saua">
-															<c:set value="${length+1}" var="length"></c:set>
-															<c:set value="${obj.itemId}_${saua.id}" var="quaId" />
+														<c:forEach items="${obj.list }" var="qua">
+															<c:set value="${saleLength+1}" var="saleLength" />
+															<c:set value="${obj.itemId}_${qua.id}" var="quaId" />
 															<c:set value="${auditTypeMap['SALES']}" var="auditType" />
 															<div class="mr5 fl" <c:if test="${fn:contains(audit,quaId)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${quaId}','${auditType}')"</c:if>>
 																<c:choose>
 																	<c:when test="${!fn:contains(audit,quaId) && currSupplier.status==2}">
-																		<div class="webuploader-pick">${saua.name}</div>
+																		<div class="webuploader-pick">${qua.name}</div>
 																		<div class="clear"></div>
-																		<u:show showId="saleShow${length}" delete="false" groups="${saleShow}" businessId="${saua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
+																		<u:show showId="saleShow${saleLength}" delete="false" groups="${fileGroupShow}" businessId="${qua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:when>
 																	<c:otherwise>
-																		<u:upload singleFileSize="300" exts="${properties['file.picture.type']}" id="saleUp${length}" multiple="true" buttonName="${saua.name}" groups="${saleUp}" businessId="${saua.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+																		<u:upload singleFileSize="300" exts="${properties['file.picture.type']}" id="saleUp${saleLength}" multiple="true" buttonName="${qua.name}" groups="${fileGroupUp}" businessId="${qua.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 																		<div class="clear"></div>
-																		<u:show showId="saleShow${length}" groups="${saleShow}" businessId="${saua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
+																		<u:show showId="saleShow${saleLength}" groups="${fileGroupShow}" businessId="${qua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:otherwise>
 																</c:choose>
 															</div>
@@ -289,27 +289,26 @@
 							      	<font color="red">*</font> 上传服务资质文件
 										</h2>
 										<table class="table table-bordered">
-											<c:set value="0" var="slength"> </c:set>
-											<c:forEach items="${serviceQua }" var="server">
+											<c:set value="0" var="serLength" />
+											<c:forEach items="${serviceQua }" var="obj">
 												<tr>
-													<td class="w200">${server.categoryName }
-													</td>
+													<td class="w200">${obj.categoryName }</td>
 													<td>
-														<c:forEach items="${server.list }" var="ser">
-															<c:set value="${slength+1}" var="slength"></c:set>
-															<c:set value="${obj.itemId}_${ser.id}" var="quaId" />
+														<c:forEach items="${obj.list }" var="qua">
+															<c:set value="${serLength+1}" var="serLength" />
+															<c:set value="${obj.itemId}_${qua.id}" var="quaId" />
 															<c:set value="${auditTypeMap['SERVICE']}" var="auditType" />
 															<div class="fl mr5" <c:if test="${fn:contains(audit,quaId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${quaId}','${auditType}')"</c:if>>
 																<c:choose>
 																	<c:when test="${!fn:contains(audit,quaId) && currSupplier.status==2}">
-																		<div class="webuploader-pick">${ser.name}</div>
+																		<div class="webuploader-pick">${qua.name}</div>
 																		<div class="clear"></div>
-																		<u:show showId="serverShow${slength}" delete="false" groups="${saleShow}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" />
+																		<u:show showId="serverShow${serLength}" delete="false" groups="${fileGroupShow}" businessId="${qua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:when>
 																	<c:otherwise>
-																		<u:upload singleFileSize="300" exts="${properties['file.picture.type']}" id="serverUp${slength}" multiple="true" buttonName="${ser.name}" groups="${saleUp}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+																		<u:upload singleFileSize="300" exts="${properties['file.picture.type']}" id="serverUp${serLength}" multiple="true" buttonName="${qua.name}" groups="${fileGroupUp}" businessId="${qua.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 																		<div class="clear"></div>
-																		<u:show showId="serverShow${slength}" groups="${saleShow}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" />
+																		<u:show showId="serverShow${serLength}" groups="${fileGroupShow}" businessId="${qua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:otherwise>
 																</c:choose>
 															</div>

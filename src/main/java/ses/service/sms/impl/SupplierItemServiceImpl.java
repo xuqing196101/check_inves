@@ -810,6 +810,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 				//cate.setParentId(item.getId());
 				BeanUtils.copyProperties(cate, sic);
 			}
+			System.out.println(code+"====="+item.getId());
 			sic.setItemId(item.getId());
 			sicList.add(sic);
 		}
@@ -1047,16 +1048,16 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 		}
 		
 		if(saleList != null && saleList.size() > 0) {
-			int salelen = saleList.size() + 1;
-			for(int i = 1; i < salelen; i++) {
+			int len = saleList.size() + 1;
+			for(int i = 1; i < len; i++) {
 				sbUp.append("saleUp" + i + ",");
 				sbShow.append("saleShow" + i + ",");
 			}
 		}
 
 		if(serviceList != null && serviceList.size() > 0) {
-			int serverlen = serviceList.size() + 1;
-			for(int i = 1; i < serverlen; i++) {
+			int len = serviceList.size() + 1;
+			for(int i = 1; i < len; i++) {
 				sbUp.append("serverUp" + i + ",");
 				sbShow.append("serverShow" + i + ",");
 			}
@@ -1066,8 +1067,8 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 		map.put("proQua", proQua);
 		map.put("saleQua", saleQua);
 		map.put("serviceQua", serviceQua);
-		map.put("saleShow", sbShow.toString());
-		map.put("saleUp", sbUp.toString());
+		map.put("fileGroupShow", sbShow.toString());
+		map.put("fileGroupUp", sbUp.toString());
 		return map;
 	}
 	
