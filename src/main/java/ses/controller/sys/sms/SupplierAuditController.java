@@ -5130,14 +5130,14 @@ public class SupplierAuditController extends BaseSupplierController {
 			supplierAudit.setId(auditList.get(0).getId());
 		}
 		int result = 0;
-		int status = 0;
+		/*int status = 0;
 		String auditType = supplierAudit.getAuditType();
 		if("supplierType_page".equals(auditType) || auditType.startsWith("items_")){
 			status = 6;
 		}else{
 			status = 5;
-		}
-		supplierAudit.setReturnStatus(status);
+		}*/
+		supplierAudit.setReturnStatus(5);
 		supplierAudit.setUpdatedAt(new Date());
 		result = supplierAuditService.updateByIdSelective(supplierAudit);
 		if(result > 0){
@@ -5167,14 +5167,14 @@ public class SupplierAuditController extends BaseSupplierController {
 				if(auditList != null && auditList.size() > 0){
 					supplierAudit.setId(auditList.get(0).getId());
 				}
-				int status = 0;
+				/*int status = 0;
 				String auditType = supplierAudit.getAuditType();
 				if("supplierType_page".equals(auditType) || auditType.startsWith("items_")){
 					status = 6;
 				}else{
 					status = 5;
-				}
-				supplierAudit.setReturnStatus(status);
+				}*/
+				supplierAudit.setReturnStatus(5);
 				supplierAudit.setUpdatedAt(new Date());
 				result += supplierAuditService.updateByIdSelective(supplierAudit);
 			}

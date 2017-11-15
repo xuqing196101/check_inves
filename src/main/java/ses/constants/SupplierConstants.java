@@ -133,9 +133,11 @@ public class SupplierConstants extends Constant {
 		/** 未修改 */
 		NOT_MODIFY(4),
 		/** 撤销退回 */
-		CANCEL_RETURN(5),
+//		CANCEL_RETURN(5),
 		/** 撤销不通过 */
-		CANCEL_NOT_PASS(6);
+//		CANCEL_NOT_PASS(6);
+		/** 撤销审核 */
+		CANCEL_AUDIT(5);
 		
 		private int value;
 
@@ -302,8 +304,9 @@ public class SupplierConstants extends Constant {
 		AUDIT_RETURN_STATUS_MAP.put(AuditReturnStatus.AUDIT_NOT_PASS.getValue(), "审核不通过");
 		AUDIT_RETURN_STATUS_MAP.put(AuditReturnStatus.MODIFIED.getValue(), "已修改");
 		AUDIT_RETURN_STATUS_MAP.put(AuditReturnStatus.NOT_MODIFY.getValue(), "未修改");
-		AUDIT_RETURN_STATUS_MAP.put(AuditReturnStatus.CANCEL_RETURN.getValue(), "撤销退回");
-		AUDIT_RETURN_STATUS_MAP.put(AuditReturnStatus.CANCEL_NOT_PASS.getValue(), "撤销不通过");
+//		AUDIT_RETURN_STATUS_MAP.put(AuditReturnStatus.CANCEL_RETURN.getValue(), "撤销退回");
+//		AUDIT_RETURN_STATUS_MAP.put(AuditReturnStatus.CANCEL_NOT_PASS.getValue(), "撤销不通过");
+		AUDIT_RETURN_STATUS_MAP.put(AuditReturnStatus.CANCEL_AUDIT.getValue(), "撤销审核");
 	}
 	
 	/** 供应商审核记录退回状态 */

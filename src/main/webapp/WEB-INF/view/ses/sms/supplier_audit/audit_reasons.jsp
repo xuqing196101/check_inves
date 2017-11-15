@@ -282,13 +282,15 @@
 					var errorMsg = "";
 					$('input[name="chkItem"]:checked').each(function(){
 						ids.push($(this).val());
-						var currSt = $(this).attr("st");// 当前状态
-						// 已修改 不能点击任何状态
+						var currSt = $(this).attr("st");// 当前审核状态
+						var currAt = $(this).attr("at");// 当前审核类型
+						/* // 已修改 不能点击任何状态
 						if(currSt == 3){
 							bool = false;
 							errorMsg = "选择中包含已修改的记录，已修改的记录不能修改任何状态！可以重新审核";
 							return false;
 						}
+						// 已撤销 不能点击任何状态
 						if(currSt == 5 || currSt == 6){
 							bool = false;
 							errorMsg = "选择中包含撤销退回/撤销不通过的记录，撤销的记录不能修改任何状态！可以重新审核";
@@ -305,6 +307,30 @@
 							bool = false;
 							errorMsg = "选择中包含审核不通过的记录，审核不通过的记录只能撤销不通过！";
 							return false;
+						} */
+						// 已修改 不能点击任何状态
+						if(currSt == 3){
+							bool = false;
+							errorMsg = "选择中包含已修改的记录，已修改的记录不能修改任何状态！可以重新审核";
+							return false;
+						}
+						// 已撤销 不能点击任何状态
+						if(currSt == 5){
+							bool = false;
+							errorMsg = "选择中包含撤销审核的记录，撤销审核的记录不能修改任何状态！可以重新审核";
+							return false;
+						}
+						// 退回修改/未修改/审核不通过 只能点击 撤销审核
+						if((currSt == 1 || currSt == 4 || currSt == 2) && status != 5){
+							bool = false;
+							errorMsg = "选择中包含有问题/未修改/审核不通过的记录，只能撤销审核！";
+							return false;
+						}
+						// 审核类型为 供应商类型/产品类别 的审核记录只能撤销审核
+						if((currAt == "supplierType_page" || currAt.indexOf("items_") == 0) && status != 5){
+							bool = false;
+							errorMsg = "选择中包含供应商类型/产品类别，只能撤销审核！";
+							return false;
 						}
 					});
 					if(!bool){
@@ -313,7 +339,7 @@
 						return;
 					}
 					if(ids.length > 0){
-						layer.confirm('您确定要更改状态吗？', {title:'提示！',offset: ['200px']}, function(index){
+						layer.confirm('您确定要更改状态吗？', {title:'提示！', offset: ['200px']}, function(index){
 							layer.close(index);
 							$.ajax({
 								url:"${pageContext.request.contextPath}/supplierAudit/updateReturnStatus.do",
@@ -421,12 +447,13 @@
 						  <!-- <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">撤销</button> -->
 						  <button class="btn btn-windows edit" type="button" onclick="toUpdateStatus();" style=" border-bottom-width: -;margin-bottom: 7px;">改状态</button>
 						  <div class="select_check" id="auditStatusRadio" style="display: none;">
-						  	<input type="radio" name="auditStatus" value="1" onclick="updateStatus(1)" id="st1"><label class="label-inline" for="st1">退回修改</label>
-						  	<!-- <input type="radio" name="auditStatus" value="2" onclick="updateStatus(1)" id="st2"><label class="label-inline" for="st2">审核不通过</label> -->
+						  	<!-- <input type="radio" name="auditStatus" value="1" onclick="updateStatus(1)" id="st1"><label class="label-inline" for="st1">退回修改</label> -->
+						  	<input type="radio" name="auditStatus" value="1" onclick="updateStatus(1)" id="st1"><label class="label-inline" for="st1">有问题</label>
 								<input type="radio" name="auditStatus" value="3" onclick="updateStatus(3)" id="st3"><label class="label-inline" for="st3">已修改</label>
 								<input type="radio" name="auditStatus" value="4" onclick="updateStatus(4)" id="st4"><label class="label-inline" for="st4">未修改</label>
-								<input type="radio" name="auditStatus" value="5" onclick="updateStatus(5)" id="st5"><label class="label-inline" for="st5">撤销退回</label>
-								<input type="radio" name="auditStatus" value="6" onclick="updateStatus(6)" id="st6"><label class="label-inline" for="st6">撤销不通过</label>
+								<!-- <input type="radio" name="auditStatus" value="5" onclick="updateStatus(5)" id="st5"><label class="label-inline" for="st5">撤销退回</label>
+								<input type="radio" name="auditStatus" value="6" onclick="updateStatus(6)" id="st6"><label class="label-inline" for="st6">撤销不通过</label> -->
+								<input type="radio" name="auditStatus" value="5" onclick="updateStatus(5)" id="st5"><label class="label-inline" for="st5">撤销审核</label>
 							</div>
 						</c:if>
 						<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
@@ -448,9 +475,11 @@
 							<c:set var="isTypeNotPass_PROJECT" value="0" />
 							<c:set var="isTypeNotPass_SERVICE" value="0" />
 							<c:forEach items="${reasonsList }" var="reasons" varStatus="vs">
-								<input id="auditId" value="${list.id}" type="hidden">
 								<tr>
-									<td class="tc text-center"><input type="checkbox" value="${reasons.id }" name="chkItem" id="${reasons.id}" st="${reasons.returnStatus}"></td>
+									<td class="tc text-center">
+										<input type="checkbox" value="${reasons.id }" name="chkItem" id="${reasons.id}" 
+											st="${reasons.returnStatus}" at="${reasons.auditType}" />
+									</td>
 									<td class="tc text-center">${vs.index + 1}</td>
 									<td class="tc text-center">
 									  <c:if test="${reasons.auditType eq 'basic_page'}">基本信息</c:if>
@@ -540,7 +569,7 @@
 							</li>
 						</ul>
 					</c:if>
-					<c:if test="${ sign == 1}">
+					<c:if test="${sign == 1}">
 						<div>
 							<div id="opinionDiv">
 								<div class="clear"></div>
