@@ -73,6 +73,7 @@ import ses.service.sms.SupplierTypeService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
+import ses.util.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -305,31 +306,11 @@ public class SupplierQueryController extends BaseSupplierController {
      */
     @RequestMapping("/findSupplierByPriovince")
     public String findSupplierByPriovince(Integer judge, Integer sign, Supplier sup, Integer page, Model model, String supplierTypeIds, String supplierType, String categoryNames, String categoryIds, String reqType) throws UnsupportedEncodingException{
-        /*if (judge != null) {
-            sup.setStatus(judge);
-        }*/
-    	if(sup.getAddress() != null){
-    		model.addAttribute("address", sup.getAddress());
-            String address = supplierEditService.getProvince(sup.getAddress());
-            if ("".equals(address)) {
-                String addressName = URLDecoder.decode(sup.getAddress(), "UTF-8");
-                if (addressName.length() > NUMBER_TWO) {
-                    sup.setAddress(addressName.substring(0, NUMBER_THREE).replace(",", ""));
-                    model.addAttribute("address", sup.getAddress());
-                } else {
-                    sup.setAddress(addressName.substring(0, NUMBER_TWO).replace(",", ""));
-                    model.addAttribute("address", sup.getAddress());
-                }
-            } else {
-                sup.setAddress(address);
-            }
-    	}
-        
-        if (categoryIds != null && !"".equals(categoryIds)) {
+        if (StringUtils.isNotEmpty(categoryIds)) {
             List<String> listCategoryIds = Arrays.asList(categoryIds.split(","));
             sup.setItem(listCategoryIds);
         }
-        if (supplierTypeIds != null && !"".equals(supplierTypeIds)) {
+        if (StringUtils.isNotEmpty(supplierTypeIds)) {
             List<String> listSupplierTypeIds = Arrays.asList(supplierTypeIds.split(","));
             sup.setItemType(listSupplierTypeIds);
         }
@@ -2317,27 +2298,7 @@ public class SupplierQueryController extends BaseSupplierController {
 	public String readOnlyList(Integer judge, Integer sign, Supplier sup,
 			Integer page, Model model, String supplierTypeIds,
 			String supplierType, String categoryNames, String categoryIds,
-			SupplierAnalyzeVo supplierAnalyzeVo) throws UnsupportedEncodingException {
-		if (sup.getAddress() != null) {
-			model.addAttribute("address", sup.getAddress());
-			String address = supplierEditService.getProvince(sup.getAddress());
-			if ("".equals(address)) {
-				String addressName = URLDecoder.decode(sup.getAddress(),
-						"UTF-8");
-				if (addressName.length() > NUMBER_TWO) {
-					sup.setAddress(addressName.substring(0, NUMBER_THREE)
-							.replace(",", ""));
-					model.addAttribute("address", sup.getAddress());
-				} else {
-					sup.setAddress(addressName.substring(0, NUMBER_TWO)
-							.replace(",", ""));
-					model.addAttribute("address", sup.getAddress());
-				}
-			} else {
-				sup.setAddress(address);
-			}
-		}
-
+			SupplierAnalyzeVo supplierAnalyzeVo) {
 		if (categoryIds != null && !"".equals(categoryIds)) {
 			List<String> listCategoryIds = Arrays
 					.asList(categoryIds.split(","));
@@ -2447,14 +2408,16 @@ public class SupplierQueryController extends BaseSupplierController {
      */
     @RequestMapping("/exportExcel")
     public void exportExcel(HttpServletResponse httpServletResponse, Supplier supplier) {
-        ExcelUtils excelUtils = new ExcelUtils(httpServletResponse, "供应商信息", "sheet1", 500);
+        ExcelUtils excelUtils = new ExcelUtils(httpServletResponse, "供应商信息", "sheet1", 1000);
         // 设置冻结行
         excelUtils.setFreezePane(true);
         excelUtils.setFreezePane(new Integer[]{0, 1, 0, 1});
+        // 设置序号列
+        excelUtils.setOrder(true);
         //ExcelUtils excelUtils = new ExcelUtils("./test.xls", "sheet1");
         List<Supplier> dataList = supplierService.querySupplierbytypeAndCategoryIds(null, supplier);
         String titleColumn[] = {"orderNum", "supplierName", "businessNature", "supplierType",
-                "address", "contactName", "mobile", "contactMobile", "statusString", "supplierItemIds", "auditDate"};
+                "address", "contactName", "mobile", "contactMobile", "statusString", "supplierItemIds", "instorageAt"};
         String titleName[] = {"序号", "供应商名称", "企业性质", "供应商类型", "住所地址", "军品联系人",
                 "联系手机", "联系固话", "状态", "产品类别", "入库时间"};
         int titleSize[] = {5, 40, 10, 35, 42, 13, 13, 13, 20, 70, 22};

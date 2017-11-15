@@ -1103,7 +1103,7 @@
 					<h2 class="count_flow"><i>1</i>专家个人信息</h2>
 					<ul class="ul_list m_ul_list">
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-							<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 专家姓名11</span>
+							<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 专家姓名</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 								<input onblur="notNull('relName')" id="relName" name="relName" maxlength="50" value="${expert.relName}" type="text" <c:if test="${fn:contains(errorField,'专家姓名')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('专家姓名')"
 								</c:if>/>
