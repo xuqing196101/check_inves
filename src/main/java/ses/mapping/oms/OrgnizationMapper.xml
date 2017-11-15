@@ -282,7 +282,12 @@
 		<if test="cityId != null and cityId != ''">
 			and d.CITY_ID = #{cityId}
 		</if>
-		ORDER BY d.CREATED_AT DESC
+		<if test="xqbm != null">
+			ORDER BY d.POSITION ASC
+		</if>
+		<if test="null == xqbm">
+			ORDER BY d.CREATED_AT DESC
+		</if>
 	</select>
 	<!-- 多对多关联查询    org_id 1的一方   purchase_dep_id 关联多的一方 -->
 	<select id="findPurchaseOrgList" parameterType="java.util.Map" resultType="ses.model.oms.Orgnization">
