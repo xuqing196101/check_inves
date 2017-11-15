@@ -1083,19 +1083,7 @@ public class ExpertQueryController {
                     ct.setIsParent("true");
                     ct.setClassify(dictionaryData.getCode());
                     jList.add(ct);
-                }
-                
-                
-                //工程专业
-                DictionaryData dictionaryData = DictionaryDataUtil.get("ENG_INFO_ID");
-                CategoryTree ct=new CategoryTree();
-                ct.setId(dictionaryData.getId());
-                ct.setName(dictionaryData.getName() + "专业");
-                ct.setIsParent("true");
-                ct.setClassify(dictionaryData.getCode());
-                jList.add(ct);
-                
-                return JSON.toJSONString(jList);
+                }  
             }
             String list="";
             List<Category> cateList=categoryService.findTreeByPid(category.getId());
@@ -1114,8 +1102,24 @@ public class ExpertQueryController {
                   ct.setStatus(cate.getStatus());
                   jList.add(ct);
               }
+              
+              //加入 工程专业类型
+              DictionaryData dic = DictionaryDataUtil.get("PROJECT");
+              if(dic !=null && category.getId() !=null){
+            	  String id = category.getId();
+            	  if(id.equals(dic.getId())){
+	                  DictionaryData dictionaryData = DictionaryDataUtil.get("ENG_INFO_ID");
+	                  CategoryTree engCategory=new CategoryTree();
+	            	  engCategory.setIsParent("true");
+	                  engCategory.setId(dictionaryData.getId());
+	                  engCategory.setName(dictionaryData.getName()+"专业");
+	                  engCategory.setpId(dic.getId());
+	                  jList.add(engCategory);
+            	  }
+              }
+              
 
-              //工程专业
+              //工程专业产品
               List<Category> engCateList=engCategoryService.findTreeByPid(category.getId());
               for(Category cate:engCateList){
                   List<Category> cList=engCategoryService.findTreeByPid(cate.getId());
