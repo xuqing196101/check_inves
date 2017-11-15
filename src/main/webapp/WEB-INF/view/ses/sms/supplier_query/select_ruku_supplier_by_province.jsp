@@ -427,7 +427,7 @@
 						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
 							<div class="row mauto_n5">
 								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="企业性质">企业性质：</div>
-								<div class="col-md-9 col-xs-7 pauto_5">
+								<div class="col-md-9 col-xs-7 pauto_5 f0">
 									<select name="businessNature" id="businessNature" class="w100p mb0">
 			              <option value=''>全部</option>
 			              <c:forEach items="${businessNature}" var="list">
@@ -477,7 +477,7 @@
 						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
 							<div class="row mauto_n5">
 								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="供应商状态">供应商状态：</div>
-								<div class="col-md-9 col-xs-7 pauto_5">
+								<div class="col-md-9 col-xs-7 pauto_5 f0">
 									<select id="status" name="status" class="w100p mb0">
 										<option value=''>全部</option>
 										<!-- <option value="1">审核通过</option>
@@ -527,7 +527,7 @@
 						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
 							<div class="row mauto_n5">
 								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="采购机构">采购机构：</div>
-								<div class="col-md-9 col-xs-7 pauto_5">
+								<div class="col-md-9 col-xs-7 pauto_5 f0">
 									<select name="orgName" id="orgName" class="w100p mb0">
 		                <option value=''>全部</option>
 		                <c:forEach items="${allOrg}" var="org">
@@ -544,7 +544,7 @@
 						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
 							<div class="row mauto_n5">
 								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="地区">地区：</div>
-								<div class="col-md-9 col-xs-7 pauto_5">
+								<div class="col-md-9 col-xs-7 pauto_5 f0">
 									<select name="address" id="address" class="w100p mb0">
 	                  <option value=''>全部</option>
 	                  <c:forEach items="${privnce}" var="list">
@@ -568,7 +568,7 @@
 						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10 hide" id="supplierLevelLi">
 							<div class="row mauto_n5">
 								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="供应商等级">供应商等级：</div>
-								<div class="col-md-9 col-xs-7 pauto_5">
+								<div class="col-md-9 col-xs-7 pauto_5 f0">
 									<select name="supplierLevel" id="supplierLevel" class="w100p mb0">
 									  <option selected="selected" value=''>全部</option>
 									  <option value="一级">一级</option>
