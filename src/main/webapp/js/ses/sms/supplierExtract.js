@@ -550,8 +550,12 @@ function extractSupplier(code,status) {
     		dataType: "json",
     		async:false,
     		success: function (msg) {
-    			
-    		}
+    			if(msg=="OK"){
+    			layer.alert("信息同步至外网状态成功，正在抽取中，请稍后查看结果。");
+	    		}else{
+	    			layer.alert("信息同步至外网状态失败。");
+	    		}
+	    	}
 		});
     }else{
     	// 显示抽取结果表

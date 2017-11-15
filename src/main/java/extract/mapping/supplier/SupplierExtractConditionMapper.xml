@@ -10,7 +10,7 @@
 		<result column="AREA_NAME" jdbcType="VARCHAR" property="areaName" />
 		<result column="ADDRESS_REASON" jdbcType="VARCHAR" property="addressReason" />
 		<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
-		<result column="CREATE_AT" jdbcType="TIMESTAMP" property="createdAt" />
+		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
 		<result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
 		<result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
 		<result column="BUSINESS_NATURE" jdbcType="VARCHAR" property="businessNature" />
@@ -38,7 +38,7 @@
 	<sql id="Base_Column_List">
 		ID, PROJECT_ID, STATUS, AREA_NAME, ADDRESS_REASON, BUSINESS_NATURE,
 		IS_HAVING_CON_CERT,RECORD_ID,SUPPLIER_TYPE_CODE,IS_MULTICONDITION,
-		OVERSEAS_BRANCH,CATEGORY_NAME,EXTRACT_NUM,CREATE_AT,UPDATED_AT,IS_DELETE
+		OVERSEAS_BRANCH,CATEGORY_NAME,EXTRACT_NUM,CREATED_AT,UPDATED_AT,IS_DELETE
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -112,7 +112,7 @@
 				IS_MULTICONDITION,
 			</if>
 			<if test="createdAt != null">
-				createdAt,
+				CREATED_AT,
 			</if>
 			<if test="updatedAt != null">
 				UPDATED_AT,

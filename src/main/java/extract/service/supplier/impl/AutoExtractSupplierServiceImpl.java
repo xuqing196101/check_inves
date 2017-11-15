@@ -108,6 +108,7 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 				SupplierExtractProjectInfo projectInfo = recordService.selectByPrimaryKey(condition.getRecordId());
 				
 				//调用语音接口
+				projectInfo.setExtractNum(condition.getExtractNum());
 				String status = callVoiceService2(suppliers,projectInfo);
 				
 				if("500".equals(status)|| StringUtils.isBlank(status)){
@@ -219,6 +220,7 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 		projectYytz.setReviewdays(0); 
 		projectYytz.setSellend(DateUtils.dateToXmlDate(projectInfo.getSellEnd())); 
 		projectYytz.setStarttime(DateUtils.dateToXmlDate(projectInfo.getSellBegin()));
+		projectYytz.setSpecexpnum(projectInfo.getExtractNum());
 		
 		Epoint005WebService service = WebServiceUtil.getService();
 		
@@ -383,6 +385,7 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 					if(suppliers.size()>0){
 						//存储自动抽取结果
 						resultService.saveOrUpdateVoiceResult(condition,suppliers,null,projectInfo.getProjectInto());
+						projectInfo.setExtractNum(condition.getExtractNum());
 						callVoiceService2(suppliers,projectInfo);
 					}else{
 						//修改项目状态为不满足条件
@@ -398,7 +401,7 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 
 
 	@Override
-	public Map<String, Object> exportExtractInfo(
+	public String exportExtractInfo(
 			SupplierExtractCondition condition,String projectInto) {
 		ArrayList<SupplierExtractProjectInfo> projectInfos = new ArrayList<>();
 		ArrayList<SupplierExtractCondition> conditions = new ArrayList<>();
@@ -420,7 +423,7 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
         //FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_EXTRACT_CONTYPE_PATH_FILENAME, 35),JSON.toJSONString(condition.getSupplierConType()));
 		
         synchRecordService.synchBidding(new Date(), "1", Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO, Constant.OPER_TYPE_EXPORT, Constant.SUPPLIER_EXTRACT_COMMIT);
-		return null;
+		return "OK";
 	}
 	
 	/**
