@@ -109,16 +109,16 @@ public class CategoryController extends BaseSupplierController {
               ct.setClassify(dictionaryData.getCode());
               jList.add(ct);
           }
-      List < Category > categoryList = categoryService.searchByNameAndCode(name.trim(),code,isCreate);
-      List < Category > cateList = new ArrayList < Category > ();
+      List < Category > cateList = categoryService.searchByNameAndCode(name.trim(),code,isCreate);
       Set<Category> set=new HashSet<Category>();
+      /*List < Category > cateList = new ArrayList < Category > ();
       for(int i=0;i<categoryList.size();i++){
         Category catego = categoryList.get(i);
-        /*List<Category> cList=categoryService.findTreeByPid(catego.getId());
+        List<Category> cList=categoryService.findTreeByPid(catego.getId());
         if(cList==null||cList.size()<=0){
-        }*/
-        cateList.add(catego);
-      }
+        	cateList.add(catego);
+        }
+      }*/
       for(int i=0;i<cateList.size();i++){
         HashMap<String,Object> map=new HashMap<String, Object>();
         map.put("id", cateList.get(i).getId());
