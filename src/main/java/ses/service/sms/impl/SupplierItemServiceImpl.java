@@ -810,7 +810,6 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 				//cate.setParentId(item.getId());
 				BeanUtils.copyProperties(cate, sic);
 			}
-			System.out.println(code+"====="+item.getId());
 			sic.setItemId(item.getId());
 			sicList.add(sic);
 		}

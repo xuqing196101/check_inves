@@ -1,5 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<%@ page import="ses.constants.SupplierConstants"%>
+<c:set var="auditReturnStatusMap" value="<%=SupplierConstants.AUDIT_RETURN_STATUS_MAP %>" />
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -39,12 +41,12 @@
         function trim(str) { //删除左右两端的空格
             return str.replace(/(^\s*)|(\s*$)/g, "");
         }
-	   /* function tijiao(status){
-	     $("#supplierStatus").val(status);
-		 form1.submit();
-	   } */
+        /* function tijiao(status){
+          $("#supplierStatus").val(status);
+          form1.submit();
+        } */
 			
-		//上一步
+        //上一步
         function lastStep(){
             var action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
             $("#form_id").attr("action",action);
@@ -482,15 +484,15 @@
 										<fmt:formatDate value="${reasons.createdAt}" pattern="yyyy-MM-dd"/>
 									</td>
 									<td class="tc">
-										<c:choose>
-											<%-- <c:when test="${reasons.returnStatus == 1}">退回修改</c:when> --%>
+										${auditReturnStatusMap[reasons.returnStatus]}
+										<%-- <c:choose>
 											<c:when test="${reasons.returnStatus == 1}">有问题</c:when>
 											<c:when test="${reasons.returnStatus == 2}">审核不通过</c:when>
 											<c:when test="${reasons.returnStatus == 3}">已修改</c:when>
 											<c:when test="${reasons.returnStatus == 4}">未修改</c:when>
 											<c:when test="${reasons.returnStatus == 5}">撤销退回</c:when>
 											<c:when test="${reasons.returnStatus == 6}">撤销不通过</c:when>
-										</c:choose>
+										</c:choose> --%>
 										<c:if test="${reasons.auditType == 'supplierType_page' && reasons.returnStatus == 2 && typeMap[reasons.auditField] == 'PRODUCT'}">
 											<c:set var="isTypeNotPass_PRODUCT" value="1" />
 										</c:if>
