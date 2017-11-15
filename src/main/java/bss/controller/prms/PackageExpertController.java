@@ -2868,11 +2868,11 @@ public class PackageExpertController {
       record.setIsTurnUp(0);
       List<SaleTender> supplierList = saleTenderService.getPackegeSuppliers(record);
       List<SaleTender>  list=new ArrayList<SaleTender>();
-      int supplierListSize=supplierList.size()%2==0?supplierList.size()/2:supplierList.size()/2+1;
+      int supplierListSize=supplierList.size()%8==0?supplierList.size()/8:supplierList.size()/8+1;
       for(int i=1;i<=supplierListSize;i++){
         SaleTender saleTender2=new SaleTender();
         List<SaleTender> listSale=new ArrayList<SaleTender>();
-        for(int j=(i-1)*2;j<i*2;j++){
+        for(int j=(i-1)*8;j<i*8;j++){
           if(j==supplierList.size()){
             break;
            }

@@ -1,16 +1,42 @@
+<%@page import="java.net.URLEncoder"%>
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@page contentType="application/vnd.ms-word;charset=GBK"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<!DOCTYPE html>
-<html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>专家评分详情</title>
 
-  <!-- Meta -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
-  <meta name="author" content="">
+<%
+
+String path = request.getContextPath();
+
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+
+%>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+
+<base href="${pageContext.request.contextPath}/">
+
+<title>My JSP 'creatWord.jsp' starting page</title>
+
+<meta http-equiv="pragma" content="no-cache">
+
+<meta http-equiv="cache-control" content="no-cache">
+
+<meta http-equiv="expires" content="0">   
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+
+<meta http-equiv="description" content="This is my page">
+
+<!--
+
+<link rel="stylesheet" type="text/css" href="styles.css">
+
+-->
   
 <style>
 
@@ -29,13 +55,31 @@ div.Section1
     {page:Section1;}
 
 </style>
-<script type="text/javascript">
-   
-function printResult(projectId,packageId){
-     window.location.href="${pageContext.request.contextPath}/packageExpert/showViewWord.html?projectId="+projectId+"&packId="+packageId;
 
-} 
-</script>
+<%
+
+String fileName = "评审结果"; 
+
+//对中文文件名编码 
+String UserAgent = request.getHeader("USER-AGENT").toLowerCase();  
+String tem="";
+  if (UserAgent != null) {  
+      if (UserAgent.indexOf("msie") >= 0)  
+           tem="IE";  
+      if (UserAgent.indexOf("firefox") >= 0)  
+          tem= "FF";  
+      if (UserAgent.indexOf("safari") >= 0)  
+          tem= "SF";  
+  }
+  if ("FF".equals(tem)) {  
+      // 针对火狐浏览器处理方式不一样了  
+      fileName = new String(fileName.getBytes("UTF-8"),"iso-8859-1") + ".doc";  
+  }else{
+  fileName = URLEncoder.encode(fileName, "UTF-8")+ ".doc";
+  }    
+//对中文文件名编码 
+response.setHeader("Content-disposition", "attachment; filename=" + fileName);     
+%>
 </head>
 <body>
   <div style="width:100%;" class = "Section1">

@@ -33,7 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
 <%
 
-String fileName = "评审结果"; 
+String fileName = "供应商排名"; 
 String UserAgent = request.getHeader("USER-AGENT").toLowerCase();  
 String tem="";
   if (UserAgent != null) {  
