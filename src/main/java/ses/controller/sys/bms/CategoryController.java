@@ -114,10 +114,10 @@ public class CategoryController extends BaseSupplierController {
       Set<Category> set=new HashSet<Category>();
       for(int i=0;i<categoryList.size();i++){
         Category catego = categoryList.get(i);
-        List<Category> cList=categoryService.findTreeByPid(catego.getId());
+        /*List<Category> cList=categoryService.findTreeByPid(catego.getId());
         if(cList==null||cList.size()<=0){
-          cateList.add(catego);
-        }
+        }*/
+        cateList.add(catego);
       }
       for(int i=0;i<cateList.size();i++){
         HashMap<String,Object> map=new HashMap<String, Object>();
