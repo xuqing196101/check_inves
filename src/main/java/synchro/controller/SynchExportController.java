@@ -214,24 +214,24 @@ public class SynchExportController {
 	              continue;
 	          }
 	          // 过滤供应商抽取信息  定时任务自动导入导出
-             /* if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO)) {
+              if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO)) {
               	iter.remove();
               	continue;
               }
               if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_RESULT)) {
               	iter.remove();
               	continue;
-              }*/
+              }
 	          // 过滤军队专家信息
 	          if (dd.getCode().equals(Constant.DATE_SYNCH_MILITARY_EXPERT)) {
 	              iter.remove();
 	              continue;
 	          }
 	          // 过滤供应商等级信息
-	          /*if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_LEVEL)) {
+	          if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_LEVEL)) {
 	        	  iter.remove();
 	        	  continue;
-	          }*/
+	          }
 	          //外网时
 	          if(ipAddressType.equals("1")){
 	       	   //过滤外网导出  	竞价定型产品导出  只能是内网导出外网
@@ -500,13 +500,15 @@ public class SynchExportController {
 	        	serviceHotlineService.exportHotLine(startTime, endTime,date);
 	        } 
 	        /** 供应商抽取结果导出*/
-	        if (synchType.contains(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_RESULT)) {
-	        	autoExtractSupplierService.exportSupplierExtractResult(startTime, endTime, date);
-	        } 
-	        /** 供应商抽取信息导出*/
-	        if (synchType.contains(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO)) {
-	        	autoExtractSupplierService.exportExtractProjectInfo(startTime, endTime, date);
-	        } 
+	        if("1".equals(ipAddressType)){
+	        	if (synchType.contains(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_RESULT)) {
+	        		autoExtractSupplierService.exportSupplierExtractResult(startTime, endTime, date);
+	        	} 
+	        	/** 供应商抽取信息导出*/
+	        	if (synchType.contains(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO)) {
+	        		autoExtractSupplierService.exportExtractProjectInfo(startTime, endTime, date);
+	        	} 
+	        }
 	        bean.setSuccess(true);
 	        return bean;
         }
