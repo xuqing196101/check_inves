@@ -12,10 +12,12 @@ import bss.model.ppms.NegotiationReport;
 import bss.model.ppms.PackageAdvice;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
+import bss.model.ppms.ProjectAdvice;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
 import bss.model.ppms.SaleTender;
 import bss.model.ppms.Task;
+import bss.model.prms.PackageExpert;
 import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.FlowMangeService;
@@ -23,12 +25,14 @@ import bss.service.ppms.NegotiationReportService;
 import bss.service.ppms.NegotiationService;
 import bss.service.ppms.PackageAdviceService;
 import bss.service.ppms.PackageService;
+import bss.service.ppms.ProjectAdviceService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.TaskService;
 import bss.service.ppms.impl.PackageAdviceServiceImpl;
+import bss.service.prms.PackageExpertService;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
@@ -63,6 +67,7 @@ import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseInfo;
 import ses.model.sms.Quote;
+import ses.model.sms.Supplier;
 import ses.model.sms.SupplierExtUser;
 import ses.model.sms.SupplierExtracts;
 import ses.service.bms.RoleServiceI;
@@ -74,6 +79,7 @@ import ses.service.oms.PurchaseServiceI;
 import ses.service.sms.SupplierExtUserServicel;
 import ses.service.sms.SupplierExtractsService;
 import ses.service.sms.SupplierQuoteService;
+import ses.service.sms.SupplierService;
 import ses.util.ComparatorDetail;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
@@ -183,6 +189,15 @@ public class ProjectController extends BaseController {
     
     @Autowired
     private PackageAdviceService adviceService;
+    
+    @Autowired
+    private PackageExpertService packageExpertService;
+    
+    @Autowired
+    private ProjectAdviceService projectAdviceService;
+    
+    @Autowired
+    private SupplierService supplierService;
     
     /** SCCUESS */
     private static final String SUCCESS = "SCCUESS";
@@ -929,6 +944,16 @@ public class ProjectController extends BaseController {
         for (int i = 0; i < list.size() - 1; i++) {
             for (int j = list.size() - 1; j > i; j--) {
                 if (list.get(j).getProject().getId().equals(list.get(i).getProject().getId())) {
+                    list.remove(j);
+                }
+            }
+        }
+    }
+    
+    public void removeProjectDetail(List<ProjectDetail> list) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            for (int j = list.size() - 1; j > i; j--) {
+                if (list.get(j).getId().equals(list.get(i).getId())) {
                     list.remove(j);
                 }
             }
@@ -2298,53 +2323,37 @@ public class ProjectController extends BaseController {
          // 下载后的文件名
          if("1".equals(type)){
             downFileName = new String("投标登记表.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
-         }
-         if("2".equals(type)){
+         } else if ("2".equals(type)){
              downFileName = new String("开标记录.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
-         }
-         if("3".equals(type)){
+         } else if ("3".equals(type)){
              downFileName = new String("组有效监标词.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
-         }
-         if("4".equals(type)){
+         } else if ("4".equals(type)){
              downFileName = new String("大会主持词.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
-         }
-         if("5".equals(type)){
+         } else if ("5".equals(type)){
              downFileName = new String("保证金登记表.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
-         }
-         if("6".equals(type)){
+         } else if ("6".equals(type)){
              downFileName = new String("送审单.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
-         }
-         if("7".equals(type)){
+         } else if ("7".equals(type)){
              downFileName = new String("保密审查单.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
-         }
-         if("8".equals(type)){
+         } else if ("8".equals(type)){
              downFileName = new String("公告封面.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
-         }
-         if("9".equals(type)){
+         } else if ("9".equals(type)){
              downFileName = new String("招标文件.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
-         }
-         if("10".equals(type)){
+         } else if ("10".equals(type)){
              downFileName = new String("专家签到表.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
-         }
-         if("11".equals(type)){
+         } else if ("11".equals(type)){
              downFileName = new String("评标报告.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
-         }
-         if("12".equals(type)){
+         } else if ("12".equals(type)){
              downFileName = new String("中标通知书.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
-         }
-         if("13".equals(type)){
+         } else if ("13".equals(type)){
              downFileName = new String("评标报告（综合）.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
-         }
-         if("14".equals(type)){
+         } else if ("14".equals(type)){
              downFileName = new String("评标报告（最低）.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
-         }
-         if("15".equals(type)){
+         } else if ("15".equals(type)){
              downFileName = new String("劳务发放登记表.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
-         }
-         if("16".equals(type)){
+         } else if ("16".equals(type)){
            downFileName = new String("采购文件编报说明.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
-         }
-         if("17".equals(type)){
+         } else if ("17".equals(type)){
            downFileName = new String("采购文件审批单.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
        }
         return projectService.downloadFile(fileName, filePath, downFileName);
@@ -2362,14 +2371,27 @@ public class ProjectController extends BaseController {
       */
      private String createWordMethod(Project project, String type, HttpServletRequest request) throws Exception {
          Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
+         DictionaryData data = DictionaryDataUtil.findById(project.getPurchaseType());
+         //中标供应商
+         List<Packages> packList = packageService.listSupplierCheckPass(project.getId());
+         //专家签到
+         Map<String, Object> map2 = new HashMap<String, Object>();
+         map2.put("projectId", project.getId());
+         List<PackageExpert> expertSigneds = packageExpertService.selectList(map2);
          /** 用于组装word页面需要的数据 */
          Map<String, Object> dataMap = new HashMap<String, Object>();
          dataMap.put("projectName", project.getName() == null ? "" : project.getName());
          dataMap.put("projectNumber", project.getProjectNumber() == null ? "" : project.getProjectNumber());
-         dataMap.put("purchaseType", project.getPurchaseType() == null ? "" : project.getPurchaseType());
+         dataMap.put("purchaseType", data.getName() == null ? "" : data.getName());
          dataMap.put("purchaseDep", orgnization.getName() == null ? "" : orgnization.getName());
          dataMap.put("bidDate", project.getBidDate() == null ? "" : new SimpleDateFormat("yyyy-MM-dd").format(project.getBidDate()));
          dataMap.put("bidAddress", project.getBidAddress() == null ? "" : project.getBidAddress());
+         if (packList != null && !packList.isEmpty()) {
+        	 dataMap.put("packList", packList == null ? "" : packList);
+         }
+         if (expertSigneds != null && !expertSigneds.isEmpty()) {
+        	 dataMap.put("expertList", expertSigneds == null ? "" : expertSigneds);
+         }
          Date time = new Date();
          dataMap.put("date",time == null ? "" : new SimpleDateFormat("yyyy-MM-dd").format(time));
          String newFileName = null;
@@ -2377,87 +2399,129 @@ public class ProjectController extends BaseController {
          if("1".equals(type)){
              String fileName = new String(("投标登记表.doc").getBytes("UTF-8"), "UTF-8");
              /** 生成word 返回文件名 */
-             newFileName = WordUtil.createWord(dataMap, "bidRegister.ftl", fileName, request);
-         }
-         if("2".equals(type)){
+             newFileName = WordUtil.createWord(dataMap, "bidRegister.ftl", fileName, request, type);
+         } else if ("2".equals(type)){
              String fileName = new String(("开标记录.doc").getBytes("UTF-8"), "UTF-8");
              /** 生成word 返回文件名 */
-             newFileName = WordUtil.createWord(dataMap, "bidRecord.ftl", fileName, request);
-         }
-         if("3".equals(type)){
+             newFileName = WordUtil.createWord(dataMap, "bidRecord.ftl", fileName, request, type);
+         } else if ("3".equals(type)){
+        	 List<Supplier> listSupplier = supplierService.selectSupplierByProjectId(project.getId());
+        	 if (listSupplier != null && !listSupplier.isEmpty()) {
+        		 dataMap.put("supplierSize", listSupplier.size());
+        	 }
              String fileName = new String(("有效监标词.doc").getBytes("UTF-8"), "UTF-8");
              /** 生成word 返回文件名 */
-             newFileName = WordUtil.createWord(dataMap, "validInspect.ftl", fileName, request);
-         }
-         if("4".equals(type)){
+             newFileName = WordUtil.createWord(dataMap, "validInspect.ftl", fileName, request, type);
+         } else if ("4".equals(type)){
              String fileName = new String(("大会主持词.doc").getBytes("UTF-8"), "UTF-8");
              /** 生成word 返回文件名 */
-             newFileName = WordUtil.createWord(dataMap, "host.ftl", fileName, request);
-         }
-         if("5".equals(type)){
+             newFileName = WordUtil.createWord(dataMap, "host.ftl", fileName, request, type);
+         } else if ("5".equals(type)){
              String fileName = new String(("保证金登记表.doc").getBytes("UTF-8"), "UTF-8");
              /** 生成word 返回文件名 */
-             newFileName = WordUtil.createWord(dataMap, "cashDeposit.ftl", fileName, request);
-         }
-         if("6".equals(type)){
+             newFileName = WordUtil.createWord(dataMap, "cashDeposit.ftl", fileName, request, type);
+         } else if ("6".equals(type)){
+        	 dataMap.put("org", orgnization == null ? "" : orgnization);
              String fileName = new String(("送审单.doc").getBytes("UTF-8"), "UTF-8");
+             
+             HashMap<String, Object> hashMap=new HashMap<String, Object>();
+             hashMap.put("projectId", project.getId());
+             List<ProjectAdvice> findByList = projectAdviceService.findByList(hashMap);
+             if (findByList != null && !findByList.isEmpty()) {
+            	 for(ProjectAdvice pa:findByList){
+                	 if(pa.getTypeId().equals(DictionaryDataUtil.getId("PC_REASON"))){
+                  	   dataMap.put("pcId", pa.getContent());
+                     }
+                     if(pa.getTypeId().equals(DictionaryDataUtil.getId("CAUSE_REASON"))){
+                  	   dataMap.put("causeId", pa.getContent());
+                     }
+                     if(pa.getTypeId().equals(DictionaryDataUtil.getId("FINANCE_REASON"))){
+                  	   dataMap.put("financeId", pa.getContent());
+                     }
+                     if(pa.getTypeId().equals(DictionaryDataUtil.getId("FINAL_OPINION"))){
+                  	   dataMap.put("finalId", pa.getContent());
+                     }
+                 }
+             }
              /** 生成word 返回文件名 */
-             newFileName = WordUtil.createWord(dataMap, "singleConstruction.ftl", fileName, request);
-         }
-         if("7".equals(type)){
+             newFileName = WordUtil.createWord(dataMap, "singleConstruction.ftl", fileName, request, type);
+         } else if ("7".equals(type)){
              String fileName = new String(("保密审查单.doc").getBytes("UTF-8"), "UTF-8");
              /** 生成word 返回文件名 */
-             newFileName = WordUtil.createWord(dataMap, "confidentiality.ftl", fileName, request);
-         }
-         if("8".equals(type)){
+             newFileName = WordUtil.createWord(dataMap, "confidentiality.ftl", fileName, request, type);
+         } else if ("8".equals(type)){
              String fileName = new String(("公告封面.doc").getBytes("UTF-8"), "UTF-8");
              /** 生成word 返回文件名 */
-             newFileName = WordUtil.createWord(dataMap, "cover.ftl", fileName, request);
-         }
-         if("9".equals(type)){
+             newFileName = WordUtil.createWord(dataMap, "cover.ftl", fileName, request, type);
+         } else if ("9".equals(type)){
              String fileName = new String(("招标文件.doc").getBytes("UTF-8"), "UTF-8");
              /** 生成word 返回文件名 */
-             newFileName = WordUtil.createWord(dataMap, "biddingAnnouncement.ftl", fileName, request);
-         }
-         if("10".equals(type)){
+             newFileName = WordUtil.createWord(dataMap, "biddingAnnouncement.ftl", fileName, request, type);
+         } else if ("10".equals(type)){
              String fileName = new String(("专家签到表.doc").getBytes("UTF-8"), "UTF-8");
              /** 生成word 返回文件名 */
-             newFileName = WordUtil.createWord(dataMap, "expertsSignIn.ftl", fileName, request);
-         }
-         if("11".equals(type)){
+             newFileName = WordUtil.createWord(dataMap, "expertsSignIn.ftl", fileName, request, type);
+         } else if ("11".equals(type)){
              String fileName = new String(("评标报告.doc").getBytes("UTF-8"), "UTF-8");
              /** 生成word 返回文件名 */
-             newFileName = WordUtil.createWord(dataMap, "bidReport.ftl", fileName, request);
-         }
-         if("12".equals(type)){
+             newFileName = WordUtil.createWord(dataMap, "bidReport.ftl", fileName, request, type);
+         } else if ("12".equals(type)){
              String fileName = new String(("中标通知书.doc").getBytes("UTF-8"), "UTF-8");
              /** 生成word 返回文件名 */
-             newFileName = WordUtil.createWord(dataMap, "bidNotice.ftl", fileName, request);
-         }
-         if("13".equals(type)){
+             newFileName = WordUtil.createWord(dataMap, "bidNotice.ftl", fileName, request, type);
+         } else if ("13".equals(type)){
              String fileName = new String(("评标报告（综合）.doc").getBytes("UTF-8"), "UTF-8");
              /** 生成word 返回文件名 */
-             newFileName = WordUtil.createWord(dataMap, "bidReports.ftl", fileName, request);
-         }
-         if("14".equals(type)){
+             newFileName = WordUtil.createWord(dataMap, "bidReports.ftl", fileName, request, type);
+         } else if ("14".equals(type)){
              String fileName = new String(("评标报告（最低）.doc").getBytes("UTF-8"), "UTF-8");
              /** 生成word 返回文件名 */
-             newFileName = WordUtil.createWord(dataMap, "bidReportss.ftl", fileName, request);
-         }
-         if("15".equals(type)){
+             newFileName = WordUtil.createWord(dataMap, "bidReportss.ftl", fileName, request, type);
+         } else if ("15".equals(type)){
              String fileName = new String(("劳务发放表.doc").getBytes("UTF-8"), "UTF-8");
              /** 生成word 返回文件名 */
-             newFileName = WordUtil.createWord(dataMap, "issueRegistration.ftl", fileName, request);
-         }
-         if("16".equals(type)){
+             newFileName = WordUtil.createWord(dataMap, "issueRegistration.ftl", fileName, request, type);
+         } else if ("16".equals(type)){
+        	 dataMap.put("approvalTime", project.getApprovalTime() == null ? "" : new SimpleDateFormat("yyyy年MM月dd日").format(project.getApprovalTime()));
            String fileName = new String(("采购文件编报说明.doc").getBytes("UTF-8"), "UTF-8");
            /** 生成word 返回文件名 */
-           newFileName = WordUtil.createWord(dataMap, "compilationReport.ftl", fileName, request);
-       }
-         if("17".equals(type)){
+           newFileName = WordUtil.createWord(dataMap, "compilationReport.ftl", fileName, request, type);
+       } else if ("17".equals(type)){
+    	   List<ProjectDetail> list = detailService.selectByDetailRequired(project.getId());
+    	   if (list != null && !list.isEmpty()) {
+    		   BigDecimal price = BigDecimal.ZERO;
+    		   Double num = (double) 0;
+    		   for (ProjectDetail projectDetail : list) {
+    			   price = price.add(BigDecimal.valueOf(projectDetail.getBudget()));
+    			   num += projectDetail.getPurchaseCount();
+    		   }
+    		   dataMap.put("price", price);
+    		   dataMap.put("num", num);
+    		   dataMap.put("approvalTime", project.getApprovalTime() == null ? "" : new SimpleDateFormat("yyyy年MM月dd日").format(project.getApprovalTime()));
+    	   }
+    	   
+    	   HashMap<String, Object> hashMap=new HashMap<String, Object>();
+           hashMap.put("projectId", project.getId());
+           List<ProjectAdvice> findByList = projectAdviceService.findByList(hashMap);
+           if (findByList != null && !findByList.isEmpty()) {
+          	 for(ProjectAdvice pa:findByList){
+              	 if(pa.getTypeId().equals(DictionaryDataUtil.getId("PC_REASON"))){
+                	   dataMap.put("pcId", pa.getContent());
+                   }
+                   if(pa.getTypeId().equals(DictionaryDataUtil.getId("CAUSE_REASON"))){
+                	   dataMap.put("causeId", pa.getContent());
+                   }
+                   if(pa.getTypeId().equals(DictionaryDataUtil.getId("FINANCE_REASON"))){
+                	   dataMap.put("financeId", pa.getContent());
+                   }
+                   if(pa.getTypeId().equals(DictionaryDataUtil.getId("FINAL_OPINION"))){
+                	   dataMap.put("finalId", pa.getContent());
+                   }
+               }
+           }
            String fileName = new String(("采购文件审批单.doc").getBytes("UTF-8"), "UTF-8");
            /** 生成word 返回文件名 */
-           newFileName = WordUtil.createWord(dataMap, "approvalForm.ftl", fileName, request);
+           newFileName = WordUtil.createWord(dataMap, "approvalForm.ftl", fileName, request, type);
        }
          return newFileName;
      }
@@ -3481,17 +3545,28 @@ public class ProjectController extends BaseController {
     	if(StringUtils.isNotBlank(projectId)){
     		Project project = projectService.selectById(projectId);
     		if(project != null){
-    			List<ProjectDetail> viewDetail = detailService.viewDetail(projectId);
+    			List<ProjectDetail> viewDetail = detailService.selectByDetailRequired(projectId);
         		//是否有底层明细，没有的话进else
         		if(viewDetail != null && viewDetail.size() > 0){
-        			List<ProjectDetail> showDetail = detailService.showDetail(viewDetail, projectId);
+        			HashMap<String, Object> hashMap = new HashMap<>();
+        			hashMap.put("projectId", projectId);
+        			List<ProjectDetail> showDetail = detailService.showDetail(viewDetail,projectId);
         			if(showDetail != null && showDetail.size() > 0){
-        				//List<ProjectDetail> details = paixu(showDetail,projectId);
+        				/*List<ProjectDetail> details = paixu(showDetail,projectId);*/
         				sorts(showDetail);
         				model.addAttribute("list", showDetail);
         			}
         			//查询包
-    				HashMap<String, Object> map = new HashMap<>();
+        			List<Packages> packList = packageService.selectByPackList(projectId);
+        			if (packList != null && !packList.isEmpty()) {
+						for (Packages packages : packList) {
+							removeProjectDetail(packages.getProjectDetails());
+							sorts(packages.getProjectDetails());
+						}
+						viewSubPack(project);
+    					model.addAttribute("packageList", packList);
+					}
+    				/*HashMap<String, Object> map = new HashMap<>();
     				map.put("projectId", projectId);
     				List<Packages> packages = packageService.findPackageById(map);
     				if(packages != null && packages.size() > 0){
@@ -3510,7 +3585,7 @@ public class ProjectController extends BaseController {
 						}
     					viewSubPack(project);
     					model.addAttribute("packageList", packages);
-    				}
+    				}*/
         		} else {
         			return "redirect:findByPackage.html";
         		}
@@ -3552,10 +3627,16 @@ public class ProjectController extends BaseController {
     
     @RequestMapping("/hold")
     @ResponseBody
-    public String hold(@CurrentUser User user, String id){
+    public String hold(@CurrentUser User user, String id, String name, String projectNumber){
     	if (StringUtils.isNotBlank(id)) {
     		Project project = projectService.selectById(id);
     		if (project != null) {
+    			if (StringUtils.isNotBlank(projectNumber)) {
+					project.setProjectNumber(projectNumber);
+				}
+    			if (StringUtils.isNotBlank(name)) {
+    				project.setName(name);
+				}
     			project.setStatus(DictionaryDataUtil.getId("XMZC"));
     			project.setIsRehearse(0);
     			project.setPrincipal(user.getId());

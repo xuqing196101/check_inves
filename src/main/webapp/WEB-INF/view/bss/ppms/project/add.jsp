@@ -199,7 +199,7 @@
         	$.ajax({
 	          url: "${pageContext.request.contextPath}/project/hold.html",
 	          type: "post",
-	          data: {"id" : id},
+	          data: {"id" : id, "name" : name, "projectNumber" : projectNumber},
 	          dataType: "text",
 	          async: false,
 	          success: function(data) {

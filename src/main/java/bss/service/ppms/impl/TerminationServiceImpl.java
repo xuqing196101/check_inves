@@ -1052,29 +1052,28 @@ public class TerminationServiceImpl implements TerminationService {
 	  map.put("projectStatus", "status");
 	  List<Packages> findByID = packageMapper.findByID(map);
 	  if (findByID != null && !findByID.isEmpty() && findByID.size() > 1) {
-		  List<String> num = new ArrayList<String>();
-		  int number = 0;
+		  List<String> number = new ArrayList<String>();
+		  for (String packageId : packageIds) {
+			  Packages packages2 = packageMapper.selectByPrimaryKeyId(packageId);
+			  findByID.remove(packages2);
+		  }
+		  int num = 0;
 		  for (Packages packages : findByID) {
-			  for (String packageId : packageIds) {
-				  if (!StringUtils.equals(packageId, packages.getId())) {
-					  num.add(packages.getName().substring(1, packages.getName().length()-1));
-					  if(!packages.getProjectStatus().equals(DictionaryDataUtil.getId("YZZ")) && !packages.getProjectStatus().equals(DictionaryDataUtil.getId("ZJZXTP"))){
-						  number = 1;
-					  }
-				  }
+			  if(!packages.getProjectStatus().equals(DictionaryDataUtil.getId("YZZ")) && !packages.getProjectStatus().equals(DictionaryDataUtil.getId("ZJZXTP"))){
+				  num = 1;
 			  }
-		  }	
-		  String title = ShortBooleanTitle(num);
+			  number.add(packages.getName());
+		  }
+		  String shortBooleanTitle = ShortBooleanTitle(number);
 		  String name = project.getName().substring(0,project.getName().lastIndexOf("（"));
-		  project.setName(name+title);
-		  project.setProjectNumber(project.getProjectNumber().substring(0,project.getProjectNumber().lastIndexOf("（"))+title);
-		  if (number == 0) {
+		  project.setName(name+shortBooleanTitle);
+		  project.setProjectNumber(project.getProjectNumber().substring(0,project.getProjectNumber().lastIndexOf("（"))+shortBooleanTitle);
+		  if (num == 0) {
 			  project.setStatus(DictionaryDataUtil.getId("YZZ"));
 		  }
 	  } else {
 		  project.setStatus(DictionaryDataUtil.getId("YZZ"));
 	  }
-	  
 	  projectMapper.updateByPrimaryKeySelective(project);
 	  
   }

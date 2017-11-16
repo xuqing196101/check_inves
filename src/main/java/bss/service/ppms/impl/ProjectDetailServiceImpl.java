@@ -20,6 +20,7 @@ import common.constant.StaticVariables;
 import bss.dao.ppms.ProjectDetailMapper;
 import bss.dao.ppms.ProjectMapper;
 import bss.dao.ppms.theSubjectMapper;
+import bss.model.pms.PurchaseDetail;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.theSubject;
@@ -205,7 +206,7 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
 		return list;
 	}
 
-	@Override
+	/*@Override
 	public List<ProjectDetail> showDetail(List<ProjectDetail> list, String projectId) {
 		List<ProjectDetail> showDetails = new ArrayList<>();
 		List<String> parentId = new ArrayList<>();
@@ -267,10 +268,35 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
                     }
 				}
 			}
-		
 		}
 		return showDetails;
+	}*/
+	
+	public List<ProjectDetail> showDetail(List<ProjectDetail> list, String projectId) {
+		List<ProjectDetail> showDetail = new ArrayList<ProjectDetail>();
+		HashMap<String,Object> detailMap = new HashMap<>();
+		detailMap.put("projectId", projectId);
+		for (ProjectDetail projectDetail : list) {
+			if (StringUtils.isBlank(projectDetail.getPackageId())) {
+				detailMap.put("id", projectDetail.getRequiredId());
+                List<ProjectDetail> selectByParent = projectDetailMapper.selectByParent(detailMap);
+                showDetail.addAll(selectByParent);
+			}
+		}
+		removeProjectDetail(showDetail);
+		return showDetail;
 	}
+	
+	
+	public void removeProjectDetail(List<ProjectDetail> list) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            for (int j = list.size() - 1; j > i; j--) {
+                if (list.get(j).getId().equals(list.get(i).getId())) {
+                    list.remove(j);
+                }
+            }
+        }
+    }
 
 	@Override
 	public List<ProjectDetail> showPackDetail(List<ProjectDetail> list, String projectId) {
@@ -319,5 +345,17 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
         
         projectDetailMapper.deleteByMap(map);
     }
+
+	@Override
+	public List<ProjectDetail> selectByDetailRequired(String projectId) {
+		
+		return projectDetailMapper.selectByDetailRequired(projectId);
+	}
+
+	@Override
+	public List<ProjectDetail> selectByParentList(HashMap<String, Object> map) {
+		
+		return projectDetailMapper.selectByParentList(map);
+	}
 
 }
