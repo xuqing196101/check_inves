@@ -293,7 +293,6 @@
 .vm {
   vertical-align: middle; }
 
-<<<<<<< HEAD
 .fl {
   float: left; }
 
@@ -670,7 +669,7 @@
   
 .pwr9{
   padding-right:9% !important;}
-=======
+
 .fl { float: left; }
 .fr { float: right; }
 .fn{ float: none!important; }
@@ -803,8 +802,6 @@
 .pr20 { padding-right: 20px!important; }
 .pwr9 { padding-right:9% !important;}
 .pauto_5 { padding-left: 5px !important; padding-right: 5px !important; }
->>>>>>> 552782af9d53ba2778088a8a613d00faf2a2ce54
->>>>>>> master
 
 /*内容位置*/
 .textc {
@@ -1308,6 +1305,7 @@ text-align:center;
 }
 .m_uploadFiles .webuploader-pick {
   font-size: 14px;
+}
 /* 一堆多选框放一起 */
 .m_inputGroup_wrapper {
   overflow: hidden;
