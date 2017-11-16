@@ -779,37 +779,52 @@ function import_history() {
       if ($('#history_content input[type=checkbox]:checked').length <= 2 && $('#history_content input[type=checkbox]:checked').length > 0) {
         var val = [];
         var empty_tr = 0;
+        var has_num = 0;
         
         $('#history_content input[type=checkbox]:checked').each(function (index) {
           val.push($(this).siblings('input[type=hidden]').val().split(','));
         });
         
-        if ($('#history_content input[type=checkbox]:checked').length == 1) {
-          $('#list_content tr').each(function (index) {
-            if ($(this).find('input[name=relName]').val() == '' && $(this).find('input[name=orgName]').val() == '' && $(this).find('input[name=duties]').val() == '') {
-              $(this).find('input[name=relName]').val(val[0][0]);
-              $(this).find('input[name=orgName]').val(val[0][1]);
-              $(this).find('input[name=duties]').val(val[0][2]);
-              return false;
-            } else {
-              empty_tr++;
+        $('#list_content tr').each(function (index) {
+          for (var i in val) {
+            if ($(this).find('td').eq(0).find('input').val() == val[i][0]) {
+              has_num = 1;
             }
-            
-            if (empty_tr == $('#list_content tr').length) {
-              $('#list_content tr').eq(0).find('input[name=relName]').val(val[0][0]);
-              $('#list_content tr').eq(0).find('input[name=orgName]').val(val[0][1]);
-              $('#list_content tr').eq(0).find('input[name=duties]').val(val[0][2]);
-            }
-          });
+          }
+        });
+        
+        if (has_num == 0) {
+          if ($('#history_content input[type=checkbox]:checked').length == 1) {
+            $('#list_content tr').each(function (index) {
+              if ($(this).find('input[name=relName]').val() == '' && $(this).find('input[name=orgName]').val() == '' && $(this).find('input[name=duties]').val() == '') {
+                $(this).find('input[name=relName]').val(val[0][0]);
+                $(this).find('input[name=orgName]').val(val[0][1]);
+                $(this).find('input[name=duties]').val(val[0][2]);
+                return false;
+              } else {
+                empty_tr++;
+              }
+              
+              if (empty_tr == $('#list_content tr').length) {
+                $('#list_content tr').eq(0).find('input[name=relName]').val(val[0][0]);
+                $('#list_content tr').eq(0).find('input[name=orgName]').val(val[0][1]);
+                $('#list_content tr').eq(0).find('input[name=duties]').val(val[0][2]);
+              }
+            });
+          } else {
+            $('#list_content tr').each(function (index) {
+              $(this).find('input[name=relName]').val(val[index][0]);
+              $(this).find('input[name=orgName]').val(val[index][1]);
+              $(this).find('input[name=duties]').val(val[index][2]);
+            });
+          }
+          
+          layer.close(index);
         } else {
-          $('#list_content tr').each(function (index) {
-            $(this).find('input[name=relName]').val(val[index][0]);
-            $(this).find('input[name=orgName]').val(val[index][1]);
-            $(this).find('input[name=duties]').val(val[index][2]);
+          layer.msg('您选择的人员已存在，请重新选择', {
+            offset: '100px'
           });
         }
-        
-        layer.close(index);
       } else if ($('#history_content input[type=checkbox]:checked').length <= 0) {
         layer.msg('最至少选择一个历史人员', {
           offset: '100px'
