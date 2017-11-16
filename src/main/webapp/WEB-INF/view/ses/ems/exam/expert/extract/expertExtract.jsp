@@ -179,6 +179,7 @@
         </ul>
       </form>
       </div>
+      <div class="clear"></div>
       <h2 class="count_flow"><i>2</i>人员信息</h2>
       <div id="div_2">
         <ul class="ul_list">
@@ -236,6 +237,7 @@
        </form>
        </ul>
       </div>
+      <div class="clear"></div>
       <h2 class="count_flow"><i>3</i>抽取条件</h2>
       <div id="div_3">
       <!--地区id -->
