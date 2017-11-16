@@ -1055,6 +1055,18 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		if(ids!=null){
 			String[] split = ids.split(",");
+			List<String> list = new ArrayList<String>();
+			BatchTemporary b = new BatchTemporary();
+			for (String string : split) {
+				list.add(string);
+			}
+			b.setIds(list);
+			int count = batchTemporaryMapper.selectBatchTemporaryCount(b);
+			if(count>0){
+				img.setStatus(false);
+				img.setMessage("请选择未被分到预选分组的专家");
+				return img;
+			}
 			for (String string : split) {
 				BatchTemporary t = new BatchTemporary();
 				t.setExpertId(expertId);
