@@ -233,7 +233,6 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 			super.writeJson(response, img);
 			return;
 		}
-		againAuditService.deleteByPrimaryKey();
 		img = againAuditService.createBatch(batchName, batchNumber, ids);
 		super.writeJson(response, img);
 	}
