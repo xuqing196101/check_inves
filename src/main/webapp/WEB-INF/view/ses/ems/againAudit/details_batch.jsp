@@ -120,30 +120,30 @@
     
     //下载
     function downloadTable(id) {
-        var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
-        state = trim(state);
-        if(state =="专家预复审结束") {
-        	$.ajax({
-        		url: "${pageContext.request.contextPath}/expertAudit/findExpertInfo.do",
-        	  data:{"id":id},
-        	  type: "post",
-        	  success: function(data){
-        		  if(data.isReviewEnd != 1){
-        			  $("input[name='tableType']").val('2');
-     	          $("input[name='expertId']").val(id);
-     	          $("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/download.html");
-     	          $("#form_id").submit();
-        		  }else {
-     	          layer.msg("该专家已复审结束，请刷新页面 !", {offset: '100px',});
-        		  }
-        	  }
-        	});
-          
-        } else {
-          layer.msg("请选择预复审结束的专家 !", {
-            offset: '100px',
-          });
-        }
+      var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
+      state = trim(state);
+      if(state =="专家预复审结束") {
+      	$.ajax({
+      		url: "${pageContext.request.contextPath}/expertAudit/findExpertInfo.do",
+      	  data:{"id":id},
+      	  type: "post",
+      	  success: function(data){
+      		  if(data.isReviewEnd != 1){
+      			  $("input[name='tableType']").val('2');
+   	          $("input[name='expertId']").val(id);
+   	          $("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/download.html");
+   	          $("#form_id").submit();
+      		  }else {
+   	          layer.msg("该专家已复审结束，请刷新页面 !", {offset: '100px',});
+      		  }
+      	  }
+      	});
+        
+      } else {
+        layer.msg("请选择预复审结束的专家 !", {
+          offset: '100px',
+        });
+      }
     }
     
     function trim(str) { //删除左右两端的空格
@@ -152,58 +152,29 @@
     
     //下载
     function downloadReviewTable() {
-	  			var id="${batchId}";
-     	          $("input[name='batchId']").val(id);
-     	          $("#form_expertReview").attr("action", "${pageContext.request.contextPath}/expertAgainAudit/downloadExpertReview.html");
-     	          $("#form_expertReview").submit();
+			var id="${batchId}";
+      $("input[name='batchId']").val(id);
+      $("#form_expertReview").attr("action", "${pageContext.request.contextPath}/expertAgainAudit/downloadExpertReview.html");
+      $("#form_expertReview").submit();
     }
-    /** 全选全不选 */
-    // function selectAll(){
-    //    var checklist = document.getElementsByName ("chkItem");
-    //    var checkAll = document.getElementById("checkAll");
-    //    if(checkAll.checked){
-    //        for(var i=0;i<checklist.length;i++)
-    //        {
-    //           checklist[i].checked = true;
-    //        } 
-    //      }else{
-    //       for(var j=0;j<checklist.length;j++)
-    //       {
-    //          checklist[j].checked = false;
-    //       }
-    //    }
-    // }
-    
-    /** 单选 */
-    // function check(){
-    //    var count=0;
-    //    var checklist = document.getElementsByName ("chkItem");
-    //    var checkAll = document.getElementById("checkAll");
-    //    for(var i=0;i<checklist.length;i++){
-    //        if(checklist[i].checked == false){
-    //          checkAll.checked = false;
-    //          break;
-    //        }
-    //        for(var j=0;j<checklist.length;j++){
-    //          if(checklist[j].checked == true){
-    //              //checkAll.checked = true;
-    //              count++;
-    //            }
-    //        }
-    //      }
-    // }
     
     //复审结束（审核专家操作）
-    function reviewEnd(expertId){
+    function reviewEnd(expertId) {
     	$.ajax({
         url: "${pageContext.request.contextPath}/expertAgainAudit/reviewEnd.do",
         data: {"expertId" : expertId},
         success: function (data) {
           if(data.status == 200){
         	  layer.msg("操作成功",{offset:'100px'});
-        	  window.setTimeout(function(){
-        		  window.location.reload();
-        	  },1000);
+            $('#table_content').listConstructor({
+              url: list_url,
+              data: {
+                batchId: batchId
+              }
+            });
+        	  // window.setTimeout(function(){
+        		//   window.location.reload();
+        	  // },1000);
           }
         },error: function(){
         	layer.msg("操作失败",{offset:'100px'});

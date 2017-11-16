@@ -1,6 +1,7 @@
 package ses.model.ems;
 
 import java.util.Date;
+import java.util.List;
 
 
 public class BatchTemporary {
@@ -39,7 +40,14 @@ public class BatchTemporary {
 	private Date createdAt;
 	private Date updatedAt;
 	private String updateTime;
+	private List<String> ids;
 	
+	public List<String> getIds() {
+		return ids;
+	}
+	public void setIds(List<String> ids) {
+		this.ids = ids;
+	}
 	public String getUpdateTime() {
 		return updateTime;
 	}
