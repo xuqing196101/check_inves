@@ -501,32 +501,32 @@
         <table class="table table-bordered table-condensed table-hover table-striped">
           <thead>
             <tr>
-              <th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+              <th class="w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
               <th class="tnone"></th>
-              <th class="info w50">序号</th>
-              <th class="info" width="25%">信息标题</th>
-              <th class="info" width="8%">发布范围</th>
-              <th class="info" width="12%">发布人</th>
-              <th class="info" width="12%">发布单位</th>
+              <th class="w50">序号</th>
+              <th>信息标题</th>
+              <th class="w80">发布范围</th>
+              <th class="w80">发布人</th>
+              <th class="w80">发布单位</th>
               <!-- <th class="info">提交时间</th> -->
-              <th class="info" width="12%">审核时间</th>
-              <th class="info" width="10%">信息栏目</th>
-              <th class="info">发布状态</th>
-              <th class="info" width="7%">发布依据</th>
+              <th class="w80">审核时间</th>
+              <th class="w80">信息栏目</th>
+              <th class="w80">发布状态</th>
+              <th class="w80">发布依据</th>
             </tr>
           </thead>
           <c:forEach items="${list.list}" var="article" varStatus="vs">
             <tr class="pointer">
-              <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${article.id }" /></td>
+              <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${article.id }" /></td>
               <td class="tnone">${article.status }</td>
-              <td class="tc w50" onclick="view('${article.id }')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+              <td class="tc" onclick="view('${article.id }')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
               <c:if test="${fn:length(article.name)>26}">
-                <td class="tl" onclick="view('${article.id }')" <%-- onmouseover="titleMouseOver('${article.name}',this)" onmouseout="titleMouseOut()" --%> title="${article.name}">${fn:substring(article.name,0,26)}...</td>
+                <td class="tl text-nowrapEl" onclick="view('${article.id }')" <%-- onmouseover="titleMouseOver('${article.name}',this)" onmouseout="titleMouseOut()" --%> title="${article.name}">${fn:substring(article.name,0,26)}...</td>
               </c:if>
               <c:if test="${fn:length(article.name)<=26}">
-                <td class="tl" onclick="view('${article.id }')" title="${article.name}">${article.name }</td>
+                <td class="tl text-nowrapEl" onclick="view('${article.id }')" title="${article.name}">${article.name }</td>
               </c:if>
-              <td class="tl" onclick="view('${article.id }')">
+              <td class="tc text-nowrapEl" onclick="view('${article.id }')">
                 <c:if test="${article.range=='0' }">
                   内网
                 </c:if>
@@ -534,20 +534,20 @@
                   内外网
                 </c:if>
               </td>
-              <td class="tl">
+              <td class="tl text-nowrapEl">
                  ${article.user.relName }
               </td>
-              <td class="tl" >
-                ${article.user.orgName }
+              <td class="tl text-nowrapEl" >
+                ${article.user.org.shortName}
               </td>
               <%-- <td class="tc" onclick="view('${article.id }')">
                 <fmt:formatDate value='${article.submitAt }' pattern="yyyy-MM-dd   HH:mm:ss" />
               </td> --%>
-              <td class="tc" onclick="view('${article.id }')">
+              <td class="tc text-nowrapEl" onclick="view('${article.id }')">
                 <fmt:formatDate value='${article.publishedAt }' pattern="yyyy-MM-dd HH:mm:ss" />
               </td>
-              <td class="tl" onclick="view('${article.id }')">${article.articleType.name }</td>
-              <td class="tc">
+              <td class="tc text-nowrapEl" onclick="view('${article.id }')">${article.articleType.name }</td>
+              <td class="tc text-nowrapEl">
                 <c:if test="${article.status=='1' }">
                   <input type="hidden" name="status" value="${article.status }">待发布
                 </c:if>
