@@ -2595,7 +2595,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 					return new JdcgResult(503, "选择中存在审核不通过的产品目录", null);
 				}*/
 				if(supplierAuditById != null && supplierAuditById.getReturnStatus() != null && status != null){
-					if(supplierAuditById.getReturnStatus() == 3){
+					/*if(supplierAuditById.getReturnStatus() == 3){
 						return new JdcgResult(503, "选择中包含已修改的记录，已修改的记录不能修改任何状态！可以重新审核", null);
 					}
 					if(supplierAuditById.getReturnStatus() == 5 || supplierAuditById.getReturnStatus() == 6){
@@ -2606,6 +2606,20 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 					}
 					if(supplierAuditById.getReturnStatus() == 2 && status != 6){
 						return new JdcgResult(503, "选择中包含审核不通过的记录，审核不通过的记录只能撤销不通过！", null);
+					}*/
+					if(supplierAuditById.getReturnStatus() == 3){
+						return new JdcgResult(503, "选择中包含已修改的记录，已修改的记录不能修改任何状态！可以重新审核", null);
+					}
+					if(supplierAuditById.getReturnStatus() == 5){
+						return new JdcgResult(503, "选择中包含撤销审核的记录，撤销审核的记录不能修改任何状态！可以重新审核", null);
+					}
+					if((supplierAuditById.getReturnStatus() == 1 || supplierAuditById.getReturnStatus() == 4 || supplierAuditById.getReturnStatus() == 2) && status != 5){
+						return new JdcgResult(503, "选择中包含有问题/未修改/审核不通过的记录，只能撤销审核！", null);
+					}
+					if(StringUtils.isNotBlank(supplierAuditById.getAuditType())){
+						if(("supplierType_page".equals(supplierAuditById.getAuditType()) || supplierAuditById.getAuditType().startsWith("items_")) && status != 5){
+							return new JdcgResult(503, "选择中包含供应商类型/产品类别，只能撤销审核！", null);
+						}
 					}
 				}
 				SupplierAudit supplierAudit = new SupplierAudit();

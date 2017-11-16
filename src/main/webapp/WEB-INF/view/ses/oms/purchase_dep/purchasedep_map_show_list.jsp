@@ -42,6 +42,10 @@
                 }
             });
         }
+        function back(){
+			var parentName = $("#parentName").val();
+			window.location.href="${pageContext.request.contextPath}/purchaseManage/purchaseDepdetailList.html?parentName="+parentName; 
+        }
     </script>
 </head>
 <body>
@@ -53,7 +57,7 @@
             <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
             <li><a href="javascript:void(0);">支撑系统</a></li>
             <li><a href="javascript:void(0);">机构管理</a></li>
-            <li class="active"><a href="javascript:void(0);">需求部门管理</a></li>
+            <li class="active"><a href="javascript:void(0);">采购机构管理</a></li>
         </ul>
         <div class="clear"></div>
     </div>
@@ -89,7 +93,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <h2 class="count_flow jbxx">上级部门</h2>
+                        <!-- <h2 class="count_flow jbxx">上级部门</h2>
                         <table class="table table-bordered">
                             <tbody>
                             <tr>
@@ -97,7 +101,7 @@
                                 <td></td>
                             </tr>
                             </tbody>
-                        </table>
+                        </table> -->
                         <h2 class="count_flow jbxx">采购人员</h2>
                         <table id="tb1" class="table table-bordered table-condensed table-hover table-striped">
                             <thead>
@@ -199,6 +203,10 @@
 
                         </table>
                     </div>
+                    <div class="mt20 tc col-md-12 col-sm-12 col-xs-12">
+                    <input type="hidden" id="parentName" value="${parentName }">
+                		<input type="button" class="btn btn-windows back" onclick="back();" value="返回" />
+              		</div>
                 </div>
             </form>
         </div>

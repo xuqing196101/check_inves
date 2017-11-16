@@ -11,16 +11,16 @@
 			<%@ include file="/WEB-INF/view/ses/sms/supplier_register/supplier_purchase_dept.jsp"%>
 		</c:if>
 		<title>供应商注册</title>
-		<style type="text/css">
-			.current {
-				cursor: pointer;
-			}
-		</style>
 	</head>
 
 	<body>
 		<div class="wrapper">
-			<div class="container clear margin-top-30">
+			<jsp:include page="/WEB-INF/view/ses/sms/supplier_register/common_jump.jsp">
+				<jsp:param value="${currSupplier.id}" name="supplierId"/>
+				<jsp:param value="${currSupplier.status}" name="supplierSt"/>
+				<jsp:param value="4" name="currentStep"/>
+			</jsp:include>
+			<!-- <div class="container clear margin-top-30">
 				<h2 class="step_flow">
 					<span id="sp1" class="new_step current fl" onclick="updateStep('1')"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span>
 		            <span id="sp2" class="new_step current fl" onclick="updateStep('2')"><i class="">2</i><div class="line"></div> <span class="step_desc_01">供应商类型</span> </span>
@@ -32,7 +32,7 @@
 		            <span id="sp8" class="new_step fl new_step_last"><i class="">8</i> <span class="step_desc_01">提交审核</span> </span>
 		            <div class="clear"></div>
 				</h2>
-			</div>
+			</div> -->
 			<!--基本信息-->
 			<div class="container content ">
 				<div class="row magazine-page">
@@ -69,31 +69,31 @@
 								<c:set value="0" var="divCount" />
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT') and fn:length(proQua) > 0}">
 									<!-- 物资生产型 -->
-									<c:set value="0" var="prolength" />
 									<div class="tab-pane active" id="tab-1">
 										<h2 class="f16">
 							      	<font color="red">*</font> 上传物资-生产型资质文件
 										</h2>
 										<table class="table table-bordered">
+											<c:set value="0" var="proLength" />
 											<c:forEach items="${proQua }" var="obj">
 												<tr>
 													<td width="18%">${obj.categoryName }</td>
 													<td>
-														<c:forEach items="${obj.list }" var="quaPro">
-															<c:set value="${prolength+1}" var="prolength"></c:set>
-															<c:set value="${obj.itemId}_${quaPro.id}" var="quaId" />
+														<c:forEach items="${obj.list }" var="qua">
+															<c:set value="${proLength+1}" var="proLength" />
+															<c:set value="${obj.itemId}_${qua.id}" var="quaId" />
 															<c:set value="${auditTypeMap['PRODUCT']}" var="auditType" />
 															<div class="mr5 fl" <c:if test="${fn:contains(audit,quaId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${quaId}','${auditType}')"</c:if>>
 																<c:choose>
 																	<c:when test="${!fn:contains(audit,quaId) && currSupplier.status==2}">
-																		<div class="webuploader-pick">${quaPro.name}</div>
+																		<div class="webuploader-pick">${qua.name}</div>
 																		<div class="clear"></div>
-																		<u:show showId="pShow${prolength}" delete="false" groups="${saleShow}" businessId="${quaPro.flag}" sysKey="${sysKey}" typeId="${typeId}" />
+																		<u:show showId="pShow${proLength}" delete="false" groups="${fileGroupShow}" businessId="${qua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:when>
 																	<c:otherwise>
-																		<u:upload singleFileSize="300" exts="${properties['file.picture.type']}" id="pUp${prolength}" multiple="true" buttonName="${quaPro.name}" groups="${saleUp}" businessId="${quaPro.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+																		<u:upload singleFileSize="300" exts="${properties['file.picture.type']}" id="pUp${proLength}" multiple="true" buttonName="${qua.name}" groups="${fileGroupUp}" businessId="${qua.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 																		<div class="clear"></div>
-																		<u:show showId="pShow${prolength}" groups="${saleShow}" businessId="${quaPro.flag}" sysKey="${sysKey}" typeId="${typeId}" />
+																		<u:show showId="pShow${proLength}" groups="${fileGroupShow}" businessId="${qua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:otherwise>
 																</c:choose>
 															</div>
@@ -107,31 +107,31 @@
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES') and fn:length(saleQua) > 0}">
 									<!-- 物资销售型 -->
-									<c:set value="0" var="length"> </c:set>
 									<div class="tab-pane <c:if test="${divCount==0 }">active in</c:if> fade height-300" id="tab-2">
 										<h2 class="f16">
 							      	<font color="red">*</font> 上传物资-销售型资质文件
 										</h2>
 										<table class="table table-bordered">
-											<c:forEach items="${saleQua }" var="sale">
+											<c:set value="0" var="saleLength" />
+											<c:forEach items="${saleQua }" var="obj">
 												<tr>
-													<td class="w200">${sale.categoryName } </td>
+													<td class="w200">${obj.categoryName }</td>
 													<td>
-														<c:forEach items="${sale.list }" var="saua">
-															<c:set value="${length+1}" var="length"></c:set>
-															<c:set value="${obj.itemId}_${saua.id}" var="quaId" />
+														<c:forEach items="${obj.list }" var="qua">
+															<c:set value="${saleLength+1}" var="saleLength" />
+															<c:set value="${obj.itemId}_${qua.id}" var="quaId" />
 															<c:set value="${auditTypeMap['SALES']}" var="auditType" />
 															<div class="mr5 fl" <c:if test="${fn:contains(audit,quaId)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${quaId}','${auditType}')"</c:if>>
 																<c:choose>
 																	<c:when test="${!fn:contains(audit,quaId) && currSupplier.status==2}">
-																		<div class="webuploader-pick">${saua.name}</div>
+																		<div class="webuploader-pick">${qua.name}</div>
 																		<div class="clear"></div>
-																		<u:show showId="saleShow${length}" delete="false" groups="${saleShow}" businessId="${saua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
+																		<u:show showId="saleShow${saleLength}" delete="false" groups="${fileGroupShow}" businessId="${qua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:when>
 																	<c:otherwise>
-																		<u:upload singleFileSize="300" exts="${properties['file.picture.type']}" id="saleUp${length}" multiple="true" buttonName="${saua.name}" groups="${saleUp}" businessId="${saua.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+																		<u:upload singleFileSize="300" exts="${properties['file.picture.type']}" id="saleUp${saleLength}" multiple="true" buttonName="${qua.name}" groups="${fileGroupUp}" businessId="${qua.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 																		<div class="clear"></div>
-																		<u:show showId="saleShow${length}" groups="${saleShow}" businessId="${saua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
+																		<u:show showId="saleShow${saleLength}" groups="${fileGroupShow}" businessId="${qua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:otherwise>
 																</c:choose>
 															</div>
@@ -289,27 +289,26 @@
 							      	<font color="red">*</font> 上传服务资质文件
 										</h2>
 										<table class="table table-bordered">
-											<c:set value="0" var="slength"> </c:set>
-											<c:forEach items="${serviceQua }" var="server">
+											<c:set value="0" var="serLength" />
+											<c:forEach items="${serviceQua }" var="obj">
 												<tr>
-													<td class="w200">${server.categoryName }
-													</td>
+													<td class="w200">${obj.categoryName }</td>
 													<td>
-														<c:forEach items="${server.list }" var="ser">
-															<c:set value="${slength+1}" var="slength"></c:set>
-															<c:set value="${obj.itemId}_${ser.id}" var="quaId" />
+														<c:forEach items="${obj.list }" var="qua">
+															<c:set value="${serLength+1}" var="serLength" />
+															<c:set value="${obj.itemId}_${qua.id}" var="quaId" />
 															<c:set value="${auditTypeMap['SERVICE']}" var="auditType" />
 															<div class="fl mr5" <c:if test="${fn:contains(audit,quaId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${quaId}','${auditType}')"</c:if>>
 																<c:choose>
 																	<c:when test="${!fn:contains(audit,quaId) && currSupplier.status==2}">
-																		<div class="webuploader-pick">${ser.name}</div>
+																		<div class="webuploader-pick">${qua.name}</div>
 																		<div class="clear"></div>
-																		<u:show showId="serverShow${slength}" delete="false" groups="${saleShow}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" />
+																		<u:show showId="serverShow${serLength}" delete="false" groups="${fileGroupShow}" businessId="${qua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:when>
 																	<c:otherwise>
-																		<u:upload singleFileSize="300" exts="${properties['file.picture.type']}" id="serverUp${slength}" multiple="true" buttonName="${ser.name}" groups="${saleUp}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+																		<u:upload singleFileSize="300" exts="${properties['file.picture.type']}" id="serverUp${serLength}" multiple="true" buttonName="${qua.name}" groups="${fileGroupUp}" businessId="${qua.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 																		<div class="clear"></div>
-																		<u:show showId="serverShow${slength}" groups="${saleShow}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" />
+																		<u:show showId="serverShow${serLength}" groups="${fileGroupShow}" businessId="${qua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:otherwise>
 																</c:choose>
 															</div>
@@ -401,30 +400,7 @@
 			 		temp_heights.push($(this).outerHeight());
 			 	})
 			 	$("#tab_content_div_id").outerHeight(Math.max.apply(null, temp_heights));
-		 }
-
-			//显示不通过的理由
-			function errorMsg(_this, auditField, auditType){
-				// 如果加载过错误信息，则不再加载
-				var errorMsg = $(_this).attr("data-errorMsg");
-				if(errorMsg){
-					layer.msg("不通过理由：" + errorMsg, {
-						offset: '300px'
-					});
-					return;
-				}
-				
-				var supplierId = "${currSupplier.id}";
-				$.ajax({
-					url: "${pageContext.request.contextPath}/supplier/audit.html",
-					data: {"supplierId": supplierId, "auditField": auditField, "auditType": auditType},
-					dataType: "json",
-					success: function(data){
-						$(_this).attr("data-errorMsg", data.suggest);
-						layer.msg("不通过理由：" + data.suggest , {offset: '200px'});
-					}
-				});
-			}
+		 	}
 			
 			function onkeydownCertCode(_this){
 				$(_this).attr("oldCode", $(_this).val());
@@ -581,11 +557,6 @@
 					$(obj).next().addClass("dis_none");
 				}
 				tempSave();
-			}
-			
-			function updateStep(step){
-				var supplierId = "${currSupplier.id}";
-				location.href = "${pageContext.request.contextPath}/supplier/updateStep.html?step=" + step + "&supplierId=" + supplierId;
 			}
 			
 			//TODO 预加载函数
