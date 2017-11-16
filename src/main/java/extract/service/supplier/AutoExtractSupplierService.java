@@ -28,7 +28,7 @@ public interface AutoExtractSupplierService {
    * @dateTime 2017-10-20下午6:09:19
    * @return
    */
-  Map<String, Object> exportExtractInfo(SupplierExtractCondition condition,
+  String exportExtractInfo(SupplierExtractCondition condition,
 		 String projectInfo);
 
   

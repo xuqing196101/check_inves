@@ -41,20 +41,45 @@
     <result column="BUILD_COMPANY" jdbcType="VARCHAR" property="buildCompany" />
   </resultMap>
   <sql id="Base_Column_List">
-    <!--
-    @mbggenerated
-    -->
-    ID, PROJECT_NAME, PROCUREMENT_DEP_ID, EXTRACTION_TIME, EXTRACTION_SITES, EXTRACT_THE_WAY, 
-    EXTRACTS_PEOPLE, CREATED_AT, UPDATED_AT, PROJECT_CODE, PROJECT_ID,BUILD_COMPANY,CONTACT_PHONE
+    E.ID,
+    E.PROJECT_NAME,
+    E.PROCUREMENT_DEP_ID,
+    E.EXTRACTION_TIME,
+    E.EXTRACTION_SITES,
+    E.EXTRACT_THE_WAY,
+    E.CREATED_AT,
+    E.UPDATED_AT,
+    E.PROJECT_CODE,
+    E.PROJECT_ID,
+    E.PACKAGE_ID,
+    E.PACKAGE_NAME,
+    E.PACKAGE_NUMBER,
+    E.STATUS,
+    E.PURCHASE_TYPE,
+    E.TENDER_AT,
+    E.AREA_NAME,
+    E.PROJECT_TYPE,
+    E.CONSTRUCTION_PRO,
+    E.SELL_BEGIN,
+    E.SELL_END,
+    E.SELL_ADDRESS,
+    E.SELL_PROVINCE,
+    E.CONSTRUCTION_ADDR,
+    E.SELL_SITE,
+    E.IS_DELETE,
+    E.CONDITION_ID,
+    E.REMARK,
+    E.CONTACT_PERSON,
+    E.CONTACT_NUM,
+    E.PROJECT_INTO,
+    E.EXTRACT_USER,
+    E.BUILD_COMPANY,
+    E.CONTACT_PHONE
   </sql>
   
   
   <sql id="project_info">
-    <!--
-    @mbggenerated
-    -->
-    E.ID,E.PROJECT_NAME,E.EXTRACTION_TIME,E.PACKAGE_NAME,E.PROJECT_ID,E.PROJECT_CODE,E.STATUS,E.CREATED_AT,BUILD_COMPANY,CONTACT_PHONE
-   <!--  E.ID,E.CONDITION_ID,E.PROJECT_ID,E.STATUS,E.PROJECT_NAME,E.PROJECT_CODE,E.EXTRACTION_TIME,E.PACKAGE_NAME,E.EXTRACT_THE_WAY,E.EXTRACTS_PEOPLE,E.PURCHASE_TYPE,E.TENDER_AT,D.NAME PURCHASE_TYPE_NAME -->
+    E.ID,E.PROJECT_NAME,E.EXTRACTION_TIME,E.PACKAGE_NAME,E.PROJECT_ID,E.PROJECT_CODE,E.STATUS,E.CREATED_AT,E.BUILD_COMPANY,E.CONTACT_PHONE,E.EXTRACT_THE_WAY
   </sql>
  
  
@@ -67,11 +92,11 @@
     
     <!-- 抽取记录表（结束） -->
     <select id="getList" parameterType="extract.model.supplier.SupplierExtractProjectInfo" resultMap="BaseResultMap">
-    <!--
-    @mbggenerated
-    -->
     SELECT <include refid="project_info"/>,U.REL_NAME EXTRACT_USER ,D.NAME PURCHASE_TYPE,D1.NAME PROJECT_TYPE from T_SES_SMS_EXTRACT_RECORD E LEFT JOIN T_SES_BMS_USER U ON E.EXTRACT_USER = U.ID LEFT JOIN T_SES_BMS_DICTIONARY_DATA D ON E.PURCHASE_TYPE = D.ID  
-    LEFT JOIN T_SES_BMS_DICTIONARY_DATA D1 ON E.PROJECT_TYPE = D1.CODE WHERE E.EXTRACT_THE_WAY = '1' <!-- AND E.STATUS = '1' --> AND E.IS_DELETE = '0' AND PROJECT_INTO IS NULL
+    LEFT JOIN T_SES_BMS_DICTIONARY_DATA D1 ON E.PROJECT_TYPE = D1.CODE WHERE <!-- AND E.STATUS = '1' --> E.IS_DELETE = '0' AND PROJECT_INTO IS NULL
+   	  <if test="extractTheWay != null and extractTheWay != ''">
+    	AND  E.EXTRACT_THE_WAY = #{extractTheWay}
+      </if>
    	  <if test="procurementDepId != null and procurementDepId != ''">
     	AND E.PROCUREMENT_DEP_ID = #{procurementDepId}  
       </if>
@@ -95,10 +120,7 @@
 
 	<!-- 查询项目信息 -->
 	<select id="getListByMap" parameterType="extract.model.supplier.SupplierExtractProjectInfo" resultMap="BaseResultMap">
-    <!--
-    @mbggenerated
-    -->
-    SELECT <include refid="project_info"/>  from T_SES_SMS_EXTRACT_RECORD E  WHERE E.IS_DELETE = '0' 
+    SELECT <include refid="Base_Column_List"/>  from T_SES_SMS_EXTRACT_RECORD E  WHERE E.IS_DELETE = '0' 
    	  <if test="extractTheWay != null and extractTheWay != ''">
     	AND E.EXTRACT_THE_WAY = #{extractTheWay}  
       </if>
@@ -118,12 +140,12 @@
         AND E.PURCHASE_TYPE = #{purchaseType}
       </if>
       <if test="startTime != null and startTime != ''">
-        AND E.CREATED_AT &gt;= to_date(#{startTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
+        AND E.UPDATED_AT &gt;= to_date(#{startTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
       </if>
       <if test="endTime != null and endTime != ''">
-        AND E.CREATED_AT  &lt;= to_date(#{endTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
+        AND E.UPDATED_AT  &lt;= to_date(#{endTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
       </if>
-     ORDER BY E.CREATED_AT DESC
+     ORDER BY E.UPDATED_AT DESC
  	 </select>
 
 	<!--修改项目信息 -->
@@ -164,10 +186,10 @@
 	   			CONSTRUCTION_ADDR = #{constructionAddr,jdbcType=VARCHAR},
 	   		</if>
 	   		<if test="sellBegin !=null and sellBegin !='' ">
-	   			SELL_BEGIN = #{sellBegin,jdbcType=DATE},
+	   			SELL_BEGIN = #{sellBegin,jdbcType=TIMESTAMP},
 	   		</if>
 	   		<if test="sellEnd !=null and sellEnd !='' ">
-	   			SELL_END = #{sellEnd,jdbcType=DATE},
+	   			SELL_END = #{sellEnd,jdbcType=TIMESTAMP},
 	   		</if>
 	   		<if test="sellAddress !=null and sellAddress !='' ">
 	   			SELL_ADDRESS = #{sellAddress,jdbcType=VARCHAR},
@@ -205,23 +227,26 @@
 	   		<if test="extractUser !=null and extractUser != '' ">
 	   			 EXTRACT_USER = #{extractUser,jdbcType=VARCHAR},
 	   		</if>
-	   		<if test="buildCompany !=null and extractUser != '' ">
+	   		<if test="buildCompany !=null and buildCompany != '' ">
 	   			 BUILD_COMPANY = #{buildCompany,jdbcType=VARCHAR},
 	   		</if>
-	   		<if test="extractionTime !=null and extractuser != '' ">
+	   		<if test="extractionTime !=null and extractionTime != '' ">
 	   			 EXTRACTION_TIME = #{extractionTime,jdbcType=VARCHAR},
 	   		</if>
-	   		<if test="packageId !=null and extractuser != '' ">
+	   		<if test="packageId !=null and packageId != '' ">
 	   			 PACKAGE_ID = #{packageId,jdbcType=VARCHAR},
 	   		</if>
-	   		<if test="areaName !=null and extractuser != '' ">
+	   		<if test="areaName !=null and areaName != '' ">
 	   			 AREA_NAME = #{areaName,jdbcType=VARCHAR},
 	   		</if>
-	   		<if test="tenderAt !=null and extractuser != '' ">
+	   		<if test="tenderAt !=null and tenderAt != '' ">
 	   			 TENDER_AT = #{tenderAt,jdbcType=VARCHAR},
 	   		</if>
-	   		<if test="projectInto !=null and extractuser != '' ">
+	   		<if test="projectInto !=null and projectInto != '' ">
 	   			 PROJECT_INTO = #{projectInto,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="updatedAt !=null and updatedAt != '' ">
+	   			 UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 	   		</if>
 	   		
    		</set>
@@ -258,6 +283,9 @@
       </if>
       <if test="extractionTime != null">
         EXTRACTION_TIME,
+      </if>
+      <if test="isDelete != null">
+        IS_DELETE,
       </if>
       <if test="extractTheWay != null">
         EXTRACT_THE_WAY,
@@ -325,6 +353,12 @@
       <if test="packageNumber != null">
         PACKAGE_NUMBER,
       </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -354,6 +388,9 @@
       </if>
       <if test="extractionTime != null">
         #{extractionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=DECIMAL},
       </if>
       <if test="extractTheWay != null">
         #{extractTheWay,jdbcType=DECIMAL},
@@ -398,10 +435,10 @@
         #{sellAddress,jdbcType=VARCHAR},
       </if>
       <if test="sellBegin != null">
-       #{sellBegin,jdbcType=DATE},
+       #{sellBegin,jdbcType=TIMESTAMP},
       </if>
       <if test="sellEnd != null">
-       #{sellEnd,jdbcType=DATE},
+       #{sellEnd,jdbcType=TIMESTAMP},
       </if>
       <if test="constructionPro != null">
         #{constructionPro,jdbcType=VARCHAR},
@@ -410,7 +447,7 @@
         #{areaName,jdbcType=VARCHAR},
       </if>
       <if test="tenderAt != null">
-        #{tenderAt,jdbcType=DATE},
+        #{tenderAt,jdbcType=TIMESTAMP},
       </if>
       <if test="purchaseType != null">
        #{purchaseType,jdbcType=VARCHAR},
@@ -421,6 +458,12 @@
       <if test="packageNumber != null">
         #{packageNumber,jdbcType=VARCHAR},
       </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
     </trim>
     </insert>
     
@@ -429,9 +472,10 @@
     	SELECT R.* FROM T_SES_SMS_EXTRACT_RECORD R WHERE R.ID = #{value}
     </select>
     
-    
+    <!-- 查询待通知项目 -->
     <select id="selectAutoExtractProject" resultMap="BaseResultMap">
-    	SELECT R.* FROM T_SES_SMS_EXTRACT_RECORD R WHERE R.STATUS = 2 AND R.EXTRACT_THE_WAY = 0 AND R.IS_DELETE = 0
+    	SELECT R.* FROM T_SES_SMS_EXTRACT_RECORD R WHERE  R.IS_DELETE = 0 AND R.EXTRACT_THE_WAY = 0 
+	    AND R.STATUS =  2
     </select>
     
 </mapper>

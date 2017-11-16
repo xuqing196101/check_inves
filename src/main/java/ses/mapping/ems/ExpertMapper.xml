@@ -2337,7 +2337,7 @@
     <if test="addressName != null and addressName !=''">
       and AREA.NAME like CONCAT(CONCAT('%', #{addressName}), '%')
     </if>
-    ORDER BY DECODE (T1.STATUS,'6','1'),T1.AUDIT_AT DESC NULLS LAST
+    ORDER BY DECODE (T1.STATUS,'6','1'),T1.STORAGE_AT DESC NULLS LAST
   </select>
 
 	<!-- 统计注册专家数 -->
@@ -2524,8 +2524,8 @@
 		         WHERE AREA.PARENT_ID = '0') P
 		  LEFT JOIN (SELECT T.ADDRESS, T.ID
 		               FROM T_SES_EMS_EXPERT T
-		              WHERE (T.STATUS = 4 OR T.STATUS = 5 OR T.STATUS = 6 OR
-		                    T.STATUS = 7 OR T.STATUS = 8)
+		              WHERE (T.STATUS = 6 or T.STATUS = 7 or
+		                T.STATUS = 13 or T.STATUS = 17 or T.STATUS = 19)
 		                AND T.IS_PROVISIONAL = '0'
 		                AND T.IS_DELETE = 0) T
 		    ON P.ID = T.ADDRESS

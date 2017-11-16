@@ -26,11 +26,27 @@ public interface SupplierExtractRelateResultMapper {
 	 */
 	List<String> selectSupplierIdListByRecordId(String recordId);
 	
+	/**
+	 * 
+	 * <简述>满足供应商人数 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-11-14下午4:49:25
+	 * @param condition
+	 * @return
+	 */
+	Integer listExtractionSupplierCount(SupplierExtractCondition condition);
 	
-	Object listExtractionExpertCount(SupplierExtractCondition condition);
-	
-	
-	List<Supplier> listExtractionExpert(SupplierExtractCondition condition);
+	/**
+	 * 
+	 * <简述>抽取供应商 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-11-14下午4:49:37
+	 * @param condition
+	 * @return
+	 */
+	List<Supplier> listExtractionSupplier(SupplierExtractCondition condition);
 	
 	/**
 	 * 记录id查询抽取到的详细供应商信息

@@ -115,9 +115,7 @@
 				myChart.setOption(option);
 				myChart.hideLoading();
 				myChart.on('click', function(params) {
-					var address = encodeURI(params.name);
-					address = encodeURI(address);
-					window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + address;
+					window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + params.data.id;
 				});
 
 			});

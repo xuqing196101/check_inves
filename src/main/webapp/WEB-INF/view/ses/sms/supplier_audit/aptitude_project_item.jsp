@@ -36,24 +36,24 @@
 						<tbody>
 							<c:forEach items="${showProject }" var="cate" varStatus="vs">
 								<tr>
-									<td  class="w50">${vs.index + 1}</td>
+									<td class="w50">${vs.index + 1}</td>
 									<td><c:choose>
 										<c:when test="${cate.fourthNode!=null}">
-                                    ${cate.fourthNode}
-                                </c:when>
+                      ${cate.fourthNode}
+                    </c:when>
 										<c:otherwise>
 											<c:choose>
 												<c:when test="${cate.thirdNode!=null}">
-                                    ${cate.thirdNode}
-                                  </c:when>
+                          ${cate.thirdNode}
+                        </c:when>
 												<c:otherwise>
 													<c:choose>
 														<c:when test="${cate.secondNode!=null}">
-                                        ${cate.secondNode}
-                                      </c:when>
+                              ${cate.secondNode}
+                            </c:when>
 														<c:otherwise>
-                                        ${cate.firstNode}
-                                      </c:otherwise>
+                              ${cate.firstNode}
+                            </c:otherwise>
 													</c:choose>
 												</c:otherwise>
 											</c:choose>
@@ -67,14 +67,14 @@
 									<td <c:if test="${fn:contains(field,'certCode')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('certCode','certCode_${vs.index}');"</c:if> id="certCode_${vs.index}">${cate.supplierAptitute.certCode}</td>
 									<td <c:if test="${fn:contains(field,'professType')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('professType','professType_${vs.index}');"</c:if> id="professType_${vs.index}">${cate.supplierAptitute.professType}</td>
 									<td <c:if test="${fn:contains(field,'aptituteLevel')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('aptituteLevel','aptituteLevel_${vs.index}');"</c:if> id="aptituteLevel_${vs.index}">${cate.supplierAptitute.aptituteLevel}</td>
-									<td <c:if test="${fn:contains(fileModifyField,cate.fileId)}">style="border: 1px solid #FF8C00;"</c:if>><div class="w110 fl">
+									<td <c:if test="${fn:contains(fileModifyField,cate.fileId) and !empty cate.fileId}">style="border: 1px solid #FF8C00;"</c:if>><div class="w110 fl">
 											<u:show showId="eng_show_${vs.index}"
 												businessId="${cate.fileId}" typeId="${typeId}"
 												sysKey="${sysKey}" delete="false" />
 										</div>
 									</td>
                   <c:if test="${!fn:contains(unableField,cate.supplierItemId)}">
-                  	<td class="tc info" onclick="reasonProject('${ids }','${cate.supplierItemId}','${cate.itemsName }','${cate.supplierAptitute.certType}')">
+                  	<td class="tc info" onclick="reasonProject('${ind}','${cate.supplierItemId}','${cate.itemsName}','${cate.supplierAptitute.certType}')">
                   		<c:if test="${!fn:contains(auditField,cate.supplierItemId)}">
                   			<a href="javascript:void(0);"><img id="show_td" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></a>
                   		</c:if>
