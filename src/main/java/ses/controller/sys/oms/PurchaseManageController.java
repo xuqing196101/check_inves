@@ -1240,6 +1240,7 @@ public class PurchaseManageController {
 		condtionmap.put("purchaseDepId", purchaseDep.getOrgId());
 		List<PurchaseInfo> purchaselist = purchaseServiceI.findPurchaseList(condtionmap);
 		model.addAttribute("purchaselist", purchaselist);
+		model.addAttribute("parentName", purchaseDep.getParentName() == null ? "" : purchaseDep.getParentName());
 		//logger.info(JSON.toJSONStringWithDateFormat(oList,"yyyy-MM-dd HH:mm:ss"));
 		return "ses/oms/purchase_dep/purchasedep_map_show_list";
 	}
