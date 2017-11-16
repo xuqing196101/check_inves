@@ -413,7 +413,7 @@ public interface SupplierAuditService {
      * @param type
      * @return
      */
-    List<Qualification> showQualifications(SupplierCateTree cateTree,Integer type,String type_id,Integer typeService);
+    List<Qualification> showQualifications(String supplierId, SupplierCateTree cateTree,Integer type,String type_id,Integer typeService);
     /**
      * 
      * Description:工程 资质 文件查看
@@ -424,7 +424,7 @@ public interface SupplierAuditService {
      * @param type
      * @return
      */
-    List<SupplierCateTree> showProject(SupplierCateTree cateTree,Integer type,String type_id);
+    List<SupplierCateTree> showProject(String supplierId, SupplierCateTree cateTree,Integer type,String type_id);
     /**
      * 
      * Description:根据参数 查询数据是否存在
@@ -471,12 +471,12 @@ public interface SupplierAuditService {
      * 
      * @author YangHongLiang
      * @version 2017-7-6
-     * @param itemId
      * @param supplierId
-     * @param supplierItemId
+     * @param cateId
+     * @param itemId
      * @return
      */
-    List<SupplierCateTree> showContractData(String itemId,String supplierId,String supplierItemId);
+    List<SupplierCateTree> showContractData(String supplierId,String cateId,String itemId);
 
 	/**
 	 *

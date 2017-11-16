@@ -1571,11 +1571,11 @@
 										<c:if test="${supplierMatEngs.isHavingConAchi eq '1'}">
 											<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 												<span <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierConAch)}">style="border: 1px solid #FF8C00;"</c:if> class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'supplierConAch');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'"  <c:if test="${fn:contains(auditEngField,'supplierConAch')}">style="border: 1px solid red;"</c:if>>承包合同主要页及保密协议：</span>
-												<c:if test="${supplierStatus == -2 or supplierStatus == 0 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+												<c:if test="${isStatusToAudit}">
 												  <u:upload singleFileSize="300" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}" id="conAch_up" multiple="true" auto="true" maxcount="5"/>
 												</c:if>
 												<c:choose>
-												  <c:when test="${supplierStatus == -2 or supplierStatus == 0 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+												  <c:when test="${isStatusToAudit}">
 												    <u:show showId="conAch_show"  businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}"/>
 												  </c:when>
 												  <c:otherwise>
@@ -1605,11 +1605,11 @@
 													<c:if test="${fn:contains(auditEngField,area.name)}">style="border: 1px solid red;"</c:if>
 													<c:if test="${fn:contains(fileModifyField,area.id)}">style="border: 1px solid #FF8C00;"</c:if>
 													>${area.name}：</span>
-													<c:if test="${supplierStatus == -2 or supplierStatus == 0 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+													<c:if test="${isStatusToAudit}">
 													  <u:upload singleFileSize="300" maxcount="5"  id="area_show_${st.index+1}" multiple="true" businessId="${supplierId}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" auto="true" />
 													</c:if>
 													<c:choose>
-													  <c:when test="${supplierStatus == -2 or supplierStatus == 0 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+													  <c:when test="${isStatusToAudit}">
 													    <u:show showId="area_show_${st.index+1}"  businessId="${supplierId}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" />
 													  </c:when>
 													  <c:otherwise>

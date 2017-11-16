@@ -1085,6 +1085,68 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 	
 	@Override
+	/*public SupplierCateTree addNode(List<Category> parentNodeList) {
+		SupplierCateTree cateTree = new SupplierCateTree();
+		// 加入根节点
+		for(int i = 0; i < parentNodeList.size(); i++) {
+			Category cate = parentNodeList.get(i);
+			Category parentNode = null;
+			if(cate != null && cate.getParentId() != null) {
+				parentNode = findById(cate.getParentId());
+			}
+			DictionaryData rootNode = DictionaryDataUtil.findById(cate.getId());
+			// 加入根节点
+			if(rootNode != null) {
+				//其他，3物资生产/物资销售 2物质销售 1物资生产
+				cateTree.setRootNode(rootNode.getName());
+				cateTree.setRootNodeID(rootNode.getId());
+				cateTree.setItemsId(rootNode.getId());
+				cateTree.setItemsName(rootNode.getName());
+			}
+			// 加入一级节点
+			if(cateTree.getRootNode() != null) {
+				if(cate != null && cate.getParentId() != null) {
+					DictionaryData parentNodeDd = DictionaryDataUtil.findById(cate.getParentId());
+					if(parentNodeDd != null && cateTree.getRootNode().equals(parentNodeDd.getName())) {
+						cateTree.setFirstNode(cate.getName());
+						cateTree.setFirstNodeID(cate.getId());
+						cateTree.setItemsId(cate.getId());
+						cateTree.setItemsName(cate.getName());
+					}
+				}
+			}
+			// 加入二级节点
+			if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null) {
+				if(parentNode != null && cateTree.getFirstNode().equals(parentNode.getName())) {
+					cateTree.setSecondNode(cate.getName());
+					cateTree.setSecondNodeID(cate.getId());
+					cateTree.setItemsId(cate.getId());
+					cateTree.setItemsName(cate.getName());
+				}
+			}
+			// 加入三级节点
+			if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null) {
+				if(parentNode != null && cateTree.getSecondNode().equals(parentNode.getName())) {
+					cateTree.setThirdNode(cate.getName());
+					cateTree.setThirdNodeID(cate.getId());
+					cateTree.setItemsId(cate.getId());
+					cateTree.setItemsName(cate.getName());
+				}
+			}
+			// 加入末级节点
+			if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null && cateTree.getThirdNode() != null) {
+			    if(parentNodeList.size()>4){
+			    	if(parentNode != null && cateTree.getThirdNode().equals(parentNode.getName())) {
+		                cateTree.setFourthNode(cate.getName());
+						cateTree.setFourthNodeID(cate.getId());
+						cateTree.setItemsId(cate.getId());
+						cateTree.setItemsName(cate.getName());
+	                }
+			    }
+			}
+		}
+		return cateTree;
+	}*/
 	public SupplierCateTree addNode(List<Category> parentNodeList) {
 		SupplierCateTree cateTree = new SupplierCateTree();
 		// 加入根节点
@@ -1120,10 +1182,10 @@ public class CategoryServiceImpl implements CategoryService {
 				if(cate != null && cate.getParentId() != null) {
 					Category parentNode = findById(cate.getParentId());
 					if(parentNode != null && cateTree.getFirstNode().equals(parentNode.getName())) {
-					cateTree.setSecondNode(cate.getName());
-					cateTree.setSecondNodeID(cate.getId());
-					cateTree.setItemsId(cate.getId());
-					cateTree.setItemsName(cate.getName());
+						cateTree.setSecondNode(cate.getName());
+						cateTree.setSecondNodeID(cate.getId());
+						cateTree.setItemsId(cate.getId());
+						cateTree.setItemsName(cate.getName());
 					}
 				}
 			}
@@ -1131,7 +1193,7 @@ public class CategoryServiceImpl implements CategoryService {
 		// 加入三级节点
 		if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null) {
 			for(int i = 0; i < parentNodeList.size(); i++) {
-	    		Category cate = findById(parentNodeList.get(i).getId());
+				Category cate = findById(parentNodeList.get(i).getId());
 				if(cate != null && cate.getParentId() != null) {
 					Category parentNode = findById(cate.getParentId());
 					if(parentNode != null && cateTree.getSecondNode().equals(parentNode.getName())) {
@@ -1141,24 +1203,24 @@ public class CategoryServiceImpl implements CategoryService {
 						cateTree.setItemsName(cate.getName());
 					}
 				}
-		    }
-	    }
+			}
+		}
 		// 加入末级节点
 		if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null && cateTree.getThirdNode() != null) {
-		    if(parentNodeList.size()>4){
-                for(int i = 0; i < parentNodeList.size(); i++) {
-	                Category cate = findById(parentNodeList.get(i).getId());
-		            if(cate != null && cate.getParentId() != null) {
-			            Category parentNode = findById(cate.getParentId());
-			            if(parentNode != null && cateTree.getThirdNode().equals(parentNode.getName())) {
-			                cateTree.setFourthNode(cate.getName());
+			if(parentNodeList.size()>4){
+				for(int i = 0; i < parentNodeList.size(); i++) {
+					Category cate = findById(parentNodeList.get(i).getId());
+					if(cate != null && cate.getParentId() != null) {
+						Category parentNode = findById(cate.getParentId());
+						if(parentNode != null && cateTree.getThirdNode().equals(parentNode.getName())) {
+							cateTree.setFourthNode(cate.getName());
 							cateTree.setFourthNodeID(cate.getId());
 							cateTree.setItemsId(cate.getId());
 							cateTree.setItemsName(cate.getName());
-		                }
-	                }
-		        }
-		    }
+						}
+					}
+				}
+			}
 		}
 		return cateTree;
 	}
