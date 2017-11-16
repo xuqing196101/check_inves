@@ -150,6 +150,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 				return img;
 			}
 		}
+		batchTemporaryMapper.deleteByPrimaryKey();
 		expertBatchMapper.insert(expertBatch);
 		int count=1;
 		for (Expert expert : list) {
