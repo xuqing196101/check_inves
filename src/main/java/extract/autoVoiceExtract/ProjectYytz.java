@@ -54,7 +54,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "reviewdays",
     "sellend",
     "site",
-    "starttime"
+    "starttime",
+    "specexpnum",
 })
 public class ProjectYytz {
 
@@ -73,6 +74,7 @@ public class ProjectYytz {
     protected String site;
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar starttime;
+    protected int specexpnum;
 
     /**
      * Gets the value of the address property.
@@ -358,5 +360,13 @@ public class ProjectYytz {
     public void setStarttime(XMLGregorianCalendar value) {
         this.starttime = value;
     }
+
+	public int getSpecexpnum() {
+		return specexpnum;
+	}
+
+	public void setSpecexpnum(int specexpnum) {
+		this.specexpnum = specexpnum;
+	}
 
 }

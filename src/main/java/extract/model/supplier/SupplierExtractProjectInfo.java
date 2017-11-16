@@ -245,6 +245,8 @@ public class SupplierExtractProjectInfo {
     private String endTime;
     
     private String purchaseTypeName;
+    
+    private int extractNum = 0;
 
 	public String getId() {
 		return id;
@@ -387,7 +389,7 @@ public class SupplierExtractProjectInfo {
 
 
 	public Date getCreatedAt() {
-		return createdAt;
+		return null!=createdAt?createdAt:new Date();
 	}
 
 
@@ -397,7 +399,7 @@ public class SupplierExtractProjectInfo {
 
 
 	public Date getUpdatedAt() {
-		return updatedAt;
+		return null==updatedAt?new Date():this.updatedAt;
 	}
 
 
@@ -677,5 +679,16 @@ public class SupplierExtractProjectInfo {
 		this.contactPhone = contactPhone;
 	}
 
+
+	public int getExtractNum() {
+		return extractNum;
+	}
+
+
+	public void setExtractNum(int extractNum) {
+		this.extractNum = extractNum;
+	}
+
+	
 	
 }

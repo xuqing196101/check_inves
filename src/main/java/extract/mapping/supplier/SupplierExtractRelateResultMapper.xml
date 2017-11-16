@@ -2,18 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="extract.dao.supplier.SupplierExtractRelateResultMapper">
 	<resultMap id="BaseResultMap" type="extract.model.supplier.SupplierExtractResult">
-		
 		<id column="ID" jdbcType="VARCHAR" property="id" />
-		<result column="CONDITION_ID" jdbcType="VARCHAR"
-			property="conditionId" />
-		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+		<result column="CONDITION_ID" jdbcType="VARCHAR" property="conditionId" />
+		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
 		<result column="JOIN" property="join" />
 		<result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
 		<result column="REASON" jdbcType="VARCHAR" property="reason" />
 		<result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
 		<result column="RECORD_ID" jdbcType="VARCHAR" property="recordId" />
 		<result column="SUPPLIER_TYPE" jdbcType="VARCHAR" property="supplierType" />
-		
 		<result column="SUPPLIER_LEVEL" jdbcType="VARCHAR" property="supplierLevel" />
 		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
 		<result column="UPDATED_AT" jdbcType="VARCHAR" property="updatedAt" />
@@ -24,9 +21,6 @@
 		<result column="ARMY_BUSINESS_NAME" property="armyBusinessName" />
 		<result column="ARMY_BUSINESS_MOBILE" property="armyBusinessMobile" />
 		<result column="ARMY_BUSINESS_TELEPHONE" property="armyBuinessTelephone" />
-		<!-- 供应商 -->
-		<!-- <association column="SUPPLIER_ID" property="supplier"
-			select="ses.dao.sms.SupplierMapper.selectByPrimaryKeyItem" /> -->
 	</resultMap>
 	<resultMap id="findSupplierMap" type="ses.model.sms.Supplier">
 		<id column="ID" property="id" />
@@ -53,24 +47,18 @@
 		<result column="ARMY_BUSINESS_TELEPHONE" property="contactmobile" />
 	</resultMap>
 	
-	<resultMap id="BaseMap" type="extract.model.supplier.SupplierExtractResult">
-		<result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
-		<result column="SUPPLIER_TYPE_ID" jdbcType="VARCHAR" property="supplierTypeId" />
-	</resultMap>
-	
 	<resultMap id="advResult" type="extract.model.supplier.SupplierExtractResult">
 		<id column="ID" jdbcType="VARCHAR" property="id" />
-		<result column="SUPPLIER_CONDITION_ID" jdbcType="VARCHAR"
-			property="supplierConditionId" />
-		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
-		<result column="OPERATING_TYPE" jdbcType="DECIMAL" property="operatingType" />
+		<result column="SUPPLIER_CONDITION_ID" jdbcType="VARCHAR"	property="condition" />
+		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+		<result column="OPERATING_TYPE" jdbcType="DECIMAL" property="join" />
 		<result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
 		<result column="REASON" jdbcType="VARCHAR" property="reason" />
 		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
 		<result column="UPDATED_AT" jdbcType="VARCHAR" property="updatedAt" />
 		<result column="CON_TYPE_ID" jdbcType="VARCHAR" property="conTypeId" />
-		<result column="STATUS_COUNT" jdbcType="DECIMAL" property="statusCount" />
-		<result column="REVIEW_TYPE" jdbcType="VARCHAR" property="reviewType" />
+		<result column="STATUS_COUNT" jdbcType="DECIMAL" property="status" />
+		<result column="REVIEW_TYPE" jdbcType="VARCHAR" property="supplierType" />
 		<result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
 		<result column="RECORD_ID" jdbcType="VARCHAR" property="recordId" />
 	</resultMap>	
@@ -102,6 +90,7 @@
 		where ID = #{id,jdbcType=VARCHAR}
 	</select>
 	
+	<!-- 批量添加抽取结果 -->
 	<insert id="insertBatch" parameterType="java.util.List">
 		 INSERT ALL
         <foreach item="t" index="index" collection="list">
@@ -118,6 +107,12 @@
 			</if>
 			<if test="isDeleted != null">
 				IS_DELETED,
+			</if>
+			<if test="updatedAt">
+				UPDATED_AT,
+			</if>
+			<if test="createdAt">
+				CREATED_AT,
 			</if>
 			<if test="join != null">
 				JOIN,
@@ -147,6 +142,12 @@
 			</if>
 			<if test="isDeleted != null">
 				#{isDeleted,jdbcType=DECIMAL},
+			</if>
+			<if test="updatedAt != null">
+				#{updatedAt,jdbcType=VARCHAR},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt,jdbcType=DATE},
 			</if>
 			<if test="join != null">
 				#{join,jdbcType=DECIMAL},
@@ -182,6 +183,12 @@
 			<if test="isDeleted != null">
 				IS_DELETED,
 			</if>
+			<if test="updatedAt">
+				UPDATED_AT,
+			</if>
+			<if test="createdAt">
+				CREATED_AT,
+			</if>
 			<if test="join != null">
 				JOIN,
 			</if>
@@ -211,6 +218,12 @@
 			<if test="isDeleted != null">
 				#{isDeleted,jdbcType=DECIMAL},
 			</if>
+			<if test="updatedAt != null">
+				#{updatedAt,jdbcType=VARCHAR},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt,jdbcType=DATE},
+			</if>
 			<if test="join != null">
 				#{join,jdbcType=DECIMAL},
 			</if>
@@ -229,7 +242,7 @@
 		</trim>
 	</insert>
 	
-	
+	<!-- 修改抽取结果 -->
 	<update id="updateByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierExtractResult">
 		
 		update T_SES_SMS_EXTRACT_RESULT
@@ -237,15 +250,14 @@
 			<if test="supplierId != null">
 				SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
 			</if>
-			<if test="supplierConditionId != null">
-				SUPPLIER_CONDITION_ID =
-				#{supplierConditionId,jdbcType=VARCHAR},
+			<if test="conditionId != null">
+				CONDITION_ID =	#{conditionId,jdbcType=VARCHAR},
 			</if>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+				CREATED_AT = #{createdAt,jdbcType=DATE},
 			</if>
-			<if test="operatingType != null">
-				OPERATING_TYPE = #{operatingType,jdbcType=DECIMAL},
+			<if test="join != null">
+				join = #{join,jdbcType=DECIMAL},
 			</if>
 			<if test="isDeleted != null">
 				IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
@@ -253,20 +265,11 @@
 			<if test="reason != null">
 				REASON = #{reason,jdbcType=VARCHAR},
 			</if>
-			<if test="projectId != null">
-				PROJECT_ID = #{projectId,jdbcType=VARCHAR},
-			</if>
 			<if test="updatedAt != null">
 				UPDATED_AT = #{updatedAt,jdbcType=VARCHAR},
 			</if>
-			<if test="conTypeId != null">
-				CON_TYPE_ID = #{conTypeId,jdbcType=VARCHAR},
-			</if>
-			<if test="statusCount != null">
-				STATUS_COUNT = #{statusCount,jdbcType=DECIMAL},
-			</if>
-			<if test="reviewType != null">
-				REVIEW_TYPE = #{reviewType,jdbcType=VARCHAR},
+			<if test="supplierType != null">
+				SUPPLIER_TYPE = #{supplierType,jdbcType=VARCHAR},
 			</if>
 			<if test="supplierLevel != null">
 				SUPPLIER_LEVEL = #{supplierLevel,jdbcType=VARCHAR},
@@ -310,46 +313,7 @@
 			</if>
 		</if>
 	</select>
-	<!-- 删除重复数据 -->
-	<delete id="deleteData" parameterType="Map">
-		delete from
-		T_SES_SMS_EXTRACT_RESULT
-
-		where SUPPLIER_ID in (select SUPPLIER_ID
-		from
-		T_SES_SMS_EXTRACT_RESULT group
-		by SUPPLIER_ID having
-		count(SUPPLIER_ID) >
-		1)
-
-		and rowid not in (select min(rowid) from
-		T_SES_SMS_EXTRACT_RESULT
-		group
-		by SUPPLIER_ID having
-		count(SUPPLIER_ID )>1)
-		AND
-		PROJECT_ID=#{projectId}
-		AND
-		SUPPLIER_CONDITION_ID=#{expertConditionId}
-	</delete>
-	<!-- 当抽取数量满足时修改还未抽取的专家状态为1 -->
-	<update id="updateStatusCount" parameterType="map">
-		UPDATE
-		T_SES_SMS_EXTRACT_RESULT
-		SET STATUS_COUNT = #{type}
-		WHERE
-		CON_TYPE_ID =
-		#{conTypeId}
-		AND OPERATING_TYPE = 0
-	</update>
-	<!-- 包下是否已存在供应商 -->
-	<select id="getSupplierId" parameterType="Map" resultType="java.lang.Integer">
-		SELECT "COUNT"(SUPPLIER_ID) as count FROM
-		T_SES_SMS_EXTRACT_RESULT WHERE
-		SUPPLIER_ID=#{supplierId}
-		AND
-		PROJECT_ID=#{projectId}
-	</select>
+	
 
 	<!-- 查询已经抽取到的供应商 -->
 	<select id="selectSupplierIdListByRecordId" parameterType="java.lang.String" resultType="java.lang.String">
@@ -480,13 +444,13 @@
 	</sql>
 
 	<!-- 供应商个数 -->
-	<select id="listExtractionExpertCount" parameterType="extract.model.supplier.SupplierExtractCondition" resultType="int">
+	<select id="listExtractionSupplierCount" parameterType="extract.model.supplier.SupplierExtractCondition" resultType="int">
 		SELECT COUNT(DISTINCT S.ID) FROM T_SES_SMS_SUPPLIER S
 		<include refid="extractSql"></include>
 	</select>
 	
 	<!-- 供应商抽取集合 -->
-	<select id="listExtractionExpert" parameterType="extract.model.supplier.SupplierExtractCondition" resultMap="findSupplierMap">
+	<select id="listExtractionSupplier" parameterType="extract.model.supplier.SupplierExtractCondition" resultMap="findSupplierMap">
 		SELECT SP.* FROM 
 		(SELECT DISTINCT S.ID,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_MOBILE,S.ARMY_BUSINESS_TELEPHONE,T.SUPPLIER_TYPE_ID  FROM T_SES_SMS_SUPPLIER S
 		<include refid="extractSql"></include>
@@ -566,19 +530,15 @@
 			<if test="t.updatedAt != null">
 				UPDATED_AT,
 			</if>
-			<!-- <if test="conTypeId != null">
-				CON_TYPE_ID,
-			</if> -->
 			<if test="t.status != null">
 				STATUS_COUNT,
 			</if>
-			<if test="t.projectType != null">
+			<if test="t.supplierType != null">
 				REVIEW_TYPE,
 			</if>
 			<if test="t.supplierLevel != null">
 				SUPPLIER_LEVEL,
 			</if>
-
 		</trim>
        <trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="t.id != null">
@@ -594,7 +554,7 @@
 				#{t.t.recordId,jdbcType=VARCHAR},
 			</if>
 			<if test="t.createdAt != null">
-				#{t.createdAt,jdbcType=TIMESTAMP},
+				#{t.createdAt,jdbcType=DATE},
 			</if>
 			<if test="t.join != null">
 				#{t.join,jdbcType=DECIMAL},
@@ -611,14 +571,11 @@
 			<if test="t.updatedAt != null">
 				#{t.updatedAt,jdbcType=VARCHAR},
 			</if>
-			<!-- <if test="conTypeId != null">
-				#{conTypeId,jdbcType=VARCHAR},
-			</if> -->
 			<if test="t.status != null">
 				#{t.status,jdbcType=DECIMAL},
 			</if>
-			<if test="t.projectType != null">
-				#{t.projectType,jdbcType=VARCHAR},
+			<if test="t.supplierType != null">
+				#{t.supplierType,jdbcType=VARCHAR},
 			</if>
 			<if test="t.supplierLevel != null">
 				#{t.supplierLevel,jdbcType=VARCHAR},
@@ -689,10 +646,6 @@
 			<if test="reason != null">
 				re.REASON = #{reason,jdbcType=VARCHAR},
 			</if>
-			<!-- 包名不应会被修改 -->
-			<!-- <if test="projectId != null">
-				PROJECT_ID = #{projectId,jdbcType=VARCHAR},
-			</if> -->
 			<if test="updatedAt != null">
 				re.UPDATED_AT = #{updatedAt,jdbcType=VARCHAR},
 			</if>
@@ -787,7 +740,7 @@
 			<if test="t.status != null">
 				STATUS_COUNT,
 			</if>
-			<if test="t.projectType != null">
+			<if test="t.supplierType != null">
 				REVIEW_TYPE,
 			</if>
 			<if test="t.supplierLevel != null">
@@ -809,7 +762,7 @@
 				#{t.recordId,jdbcType=VARCHAR},
 			</if>
 			<if test="t.createdAt != null">
-				#{t.createdAt,jdbcType=TIMESTAMP},
+				#{t.createdAt,jdbcType=DATE},
 			</if>
 			<if test="t.join != null">
 				#{t.join,jdbcType=DECIMAL},
@@ -829,8 +782,8 @@
 			<if test="t.status != null">
 				#{t.status,jdbcType=DECIMAL},
 			</if>
-			<if test="t.projectType != null">
-				#{t.projectType,jdbcType=VARCHAR},
+			<if test="t.supplierType != null">
+				#{t.supplierType,jdbcType=VARCHAR},
 			</if>
 			<if test="t.supplierLevel != null">
 				#{t.supplierLevel,jdbcType=VARCHAR},
@@ -842,15 +795,15 @@
 	<!-- 支撑系统进入 -->
 	<select id="selectByUpdateDate" parameterType="map" resultMap="BaseResultMap">
 		SELECT * FROM T_SES_SMS_EXTRACT_RESULT WHERE 
-	    to_char(created_at,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
-	    and to_char(created_at,'yyyy-MM-dd hh24:mi:ss') &lt;= #{end,jdbcType=VARCHAR} 
+	    UPDATED_AT  &gt;= #{start,jdbcType=VARCHAR}
+	    and UPDATED_AT &lt;= #{end,jdbcType=VARCHAR} 
 	</select>
 	
 	<!-- 预研 -->
 	<select id="selectAdvByUpdateDate" parameterType="map" resultMap="advResult">
 		SELECT * FROM T_SES_SMS_SUPPLIER_EXT_RELATE WHERE 
-	    to_char(created_at,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
-	    and to_char(created_at,'yyyy-MM-dd hh24:mi:ss') &lt;= #{end,jdbcType=VARCHAR} 
+	    UPDATED_AT  &gt;= #{start,jdbcType=VARCHAR}
+	    and UPDATED_AT &lt;= #{end,jdbcType=VARCHAR} 
 	</select>
 	
 	
@@ -864,13 +817,10 @@
 			<if test="supplierId != null">
 				SUPPLIER_ID,
 			</if>
-			<if test="supplierConditionId != null">
+			<if test="conditionId != null">
 				SUPPLIER_CONDITION_ID,
 			</if>
-			<if test="createdAt != null">
-				CREATED_AT,
-			</if>
-			<if test="operatingType != null">
+			<if test="join != null">
 				OPERATING_TYPE,
 			</if>
 			<if test="isDeleted != null">
@@ -888,13 +838,10 @@
 			<if test="createdAt != null">
 				CREATED_AT,
 			</if>
-			<if test="conTypeId != null">
-				CON_TYPE_ID,
-			</if>
-			<if test="statusCount != null">
+			<if test="status != null">
 				STATUS_COUNT,
 			</if>
-			<if test="reviewType != null">
+			<if test="supplierType != null">
 				REVIEW_TYPE,
 			</if>
 			<if test="recordId != null">
@@ -912,14 +859,11 @@
 			<if test="supplierId != null">
 				#{supplierId,jdbcType=VARCHAR},
 			</if>
-			<if test="supplierConditionId != null">
-				#{supplierConditionId,jdbcType=VARCHAR},
+			<if test="conditionId != null">
+				#{conditionId,jdbcType=VARCHAR},
 			</if>
-			<if test="createdAt != null">
-				#{createdAt,jdbcType=TIMESTAMP},
-			</if>
-			<if test="operatingType != null">
-				#{operatingType,jdbcType=DECIMAL},
+			<if test="join != null">
+				#{join,jdbcType=DECIMAL},
 			</if>
 			<if test="isDeleted != null">
 				#{isDeleted,jdbcType=DECIMAL},
@@ -934,16 +878,13 @@
 				#{updatedAt,jdbcType=VARCHAR},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt,jdbcType=VARCHAR},
+				#{createdAt,jdbcType=DATE},
 			</if>
-			<if test="conTypeId != null">
-				#{conTypeId,jdbcType=VARCHAR},
+			<if test="status != null">
+				#{status,jdbcType=DECIMAL},
 			</if>
-			<if test="statusCount != null">
-				#{statusCount,jdbcType=DECIMAL},
-			</if>
-			<if test="reviewType != null">
-				#{reviewType,jdbcType=VARCHAR},
+			<if test="supplierType != null">
+				#{supplierType,jdbcType=VARCHAR},
 			</if>
 			<if test="recordId != null">
 				#{recordId,jdbcType=VARCHAR},
@@ -953,6 +894,8 @@
 			</if>
 		</trim>
 	</insert>
+	
+	<!-- 修改预研项目抽取结果 -->
 	<update id="updateAdvByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierExtractResult">
 		
 		update T_SES_SMS_SUPPLIER_EXT_RELATE
@@ -960,15 +903,14 @@
 			<if test="supplierId != null">
 				SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
 			</if>
-			<if test="supplierConditionId != null">
-				SUPPLIER_CONDITION_ID =
-				#{supplierConditionId,jdbcType=VARCHAR},
+			<if test="conditionId != null">
+				SUPPLIER_CONDITION_ID =	#{conditionId,jdbcType=VARCHAR},
 			</if>
 			<if test="createdAt != null">
 				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
-			<if test="operatingType != null">
-				OPERATING_TYPE = #{operatingType,jdbcType=DECIMAL},
+			<if test="join != null">
+				OPERATING_TYPE = #{join,jdbcType=DECIMAL},
 			</if>
 			<if test="isDeleted != null">
 				IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
@@ -983,16 +925,13 @@
 				UPDATED_AT = #{updatedAt,jdbcType=VARCHAR},
 			</if>
 			<if test="createdAt != null">
-				CREATED_AT = #{updatedAt,jdbcType=VARCHAR},
+				CREATED_AT = #{createdAt,jdbcType=DATE},
 			</if>
-			<if test="conTypeId != null">
-				CON_TYPE_ID = #{conTypeId,jdbcType=VARCHAR},
+			<if test="status != null">
+				STATUS_COUNT = #{status,jdbcType=DECIMAL},
 			</if>
-			<if test="statusCount != null">
-				STATUS_COUNT = #{statusCount,jdbcType=DECIMAL},
-			</if>
-			<if test="reviewType != null">
-				REVIEW_TYPE = #{reviewType,jdbcType=VARCHAR},
+			<if test="supplierType != null">
+				REVIEW_TYPE = #{supplierType,jdbcType=VARCHAR},
 			</if>
 			<if test="recordId != null">
 				RECORD_ID = #{recordId,jdbcType=VARCHAR},

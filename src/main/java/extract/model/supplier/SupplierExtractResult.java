@@ -6,6 +6,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import ses.model.sms.SupplierExtRelate;
 
+import common.utils.DateUtils;
+
 public class SupplierExtractResult extends SupplierExtRelate {
     
     /**
@@ -131,7 +133,7 @@ public class SupplierExtractResult extends SupplierExtRelate {
 	}
 
 	public String getUpdatedAt() {
-		return updatedAt;
+		return StringUtils.isNotBlank(this.updatedAt)?this.updatedAt:DateUtils.getCurrentTime();
 	}
 
 	public void setUpdatedAt(String updatedAt) {
