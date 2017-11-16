@@ -4861,13 +4861,13 @@ public class SupplierAuditController extends BaseSupplierController {
 	 */
 	@RequestMapping("/updateStatusOfPublictity")
 	@ResponseBody
-	public JdcgResult updateStatusOfPublictity(@CurrentUser User user, HttpServletRequest request, Supplier supplier, SupplierAudit supplierAudit, String opinion) throws IOException {
+	public JdcgResult updateStatusOfPublictity(Supplier supplier, SupplierAudit supplierAudit){
 		String supplierId = supplierAudit.getSupplierId();
 		//更新状态
 		supplier.setId(supplierId);
 		supplier.setAuditDate(new Date());
 		//审核人
-		supplier.setAuditor(user.getRelName());
+		// supplier.setAuditor(user.getRelName());
 		//还原审核暂存状态
 		supplier.setAuditTemporary(0);
 		// 设置修改时间
@@ -4937,7 +4937,7 @@ public class SupplierAuditController extends BaseSupplierController {
 
     @RequestMapping("/updateStatusAjax")
     @ResponseBody
-    public JdcgResult updateStatusAjax(@CurrentUser User user, HttpServletRequest request, Supplier supplier, SupplierAudit supplierAudit) throws IOException {
+    public JdcgResult updateStatusAjax(Supplier supplier, SupplierAudit supplierAudit) {
 	    /**
 	     *
 	     * Description:修改供应商状态-ajax
@@ -4969,7 +4969,7 @@ public class SupplierAuditController extends BaseSupplierController {
         supplier.setId(supplierId);
         supplier.setAuditDate(new Date());
         //审核人
-        supplier.setAuditor(user.getRelName());
+        //supplier.setAuditor(user.getRelName());
 
         //还原审核暂存状态
         supplier.setAuditTemporary(0);

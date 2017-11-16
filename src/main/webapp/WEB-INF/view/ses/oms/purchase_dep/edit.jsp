@@ -172,9 +172,8 @@
 	    var typeName = $("input[name='typeName']").val();
 	     layer.open({
 	      type: 2, 
-	      area : [ '750px', '550px' ],
+	      area : [ '280px', '420px' ],
 	      title: '关联采购管理部门',
-	      offset: ['0px', '380px'],
 	      shadeClose: true,
 	      content:"${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.do?typeName=" + typeName+'&notIds='+qwe
 	     });
