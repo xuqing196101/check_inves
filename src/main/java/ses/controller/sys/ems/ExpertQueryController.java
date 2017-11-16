@@ -1086,9 +1086,10 @@ public class ExpertQueryController {
                 }  
             }
             String list="";
-            List<Category> cateList=categoryService.findTreeByPid(category.getId());
+            
+            List<Category> cateList=categoryService.findTreeByPidIsPublish(category.getId());
               for(Category cate:cateList){
-                  List<Category> cList=categoryService.findTreeByPid(cate.getId());
+                  List<Category> cList=categoryService.findTreeByPidIsPublish(cate.getId());
                   CategoryTree ct=new CategoryTree();
                   if(!cList.isEmpty()){
                       ct.setIsParent("true");
