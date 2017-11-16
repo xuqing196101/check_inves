@@ -377,6 +377,7 @@ public class AuditBiddingController extends BaseController {
         model.addAttribute("financeTypeId", DictionaryDataUtil.getId("FINANCE_REASON"));
         //最终意见
         model.addAttribute("finalTypeId", DictionaryDataUtil.getId("FINAL_OPINION"));
+        model.addAttribute("typeId", DictionaryDataUtil.getId("BID_FILE_AUDIT"));
         return "bss/ppms/audit_bidding/audit_suggestion";
     }
 

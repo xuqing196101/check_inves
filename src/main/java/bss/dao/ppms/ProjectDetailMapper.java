@@ -85,4 +85,11 @@ public interface ProjectDetailMapper {
 	  */
 	 List<ProjectDetail> selectByParentList(HashMap<String, Object> map);
 	 
+	 /**
+	  * 根据项目id和包id递归查询所有的明细
+	  * @param map
+	  * @return
+	  */
+	 List<ProjectDetail> selectByProjectIdAndPackageId(HashMap<String, Object> map);
+	 
 }

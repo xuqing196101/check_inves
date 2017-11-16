@@ -3542,7 +3542,9 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping("/subPackage")
     public String subPackage(HttpServletRequest request, String flowDefineId, String projectId, Model model){
-    	if(StringUtils.isNotBlank(projectId)){
+    	long begin=System.currentTimeMillis();
+      System.out.println("开始时间:"+begin);
+      if(StringUtils.isNotBlank(projectId)){
     		Project project = projectService.selectById(projectId);
     		if(project != null){
     			List<ProjectDetail> viewDetail = detailService.selectByDetailRequired(projectId);
@@ -3553,16 +3555,16 @@ public class ProjectController extends BaseController {
         			List<ProjectDetail> showDetail = detailService.selectByParentList(hashMap);
         			if(showDetail != null && showDetail.size() > 0){
         				/*List<ProjectDetail> details = paixu(showDetail,projectId);*/
-        				sorts(showDetail);
+        				/*sorts(showDetail);*/
         				model.addAttribute("list", showDetail);
         			}
         			//查询包
         			List<Packages> packList = packageService.selectByPackList(projectId);
         			if (packList != null && !packList.isEmpty()) {
-						for (Packages packages : packList) {
+						/*for (Packages packages : packList) {
 							removeProjectDetail(packages.getProjectDetails());
 							sorts(packages.getProjectDetails());
-						}
+						}*/
 						viewSubPack(project);
     					model.addAttribute("packageList", packList);
 					}
@@ -3589,6 +3591,9 @@ public class ProjectController extends BaseController {
         		} else {
         			return "redirect:findByPackage.html";
         		}
+        		long end=System.currentTimeMillis();
+        		System.out.println("结束时间:"+end);
+        		System.out.println("用时:"+(end-begin));
         		model.addAttribute("project", project);
     		}
     	}

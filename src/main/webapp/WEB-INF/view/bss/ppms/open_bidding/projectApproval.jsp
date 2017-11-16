@@ -35,7 +35,7 @@
 				</li>
 
 				<li class="active">
-					<a href="${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${projectId}&flowDefineId=${flowDefineId}">03、报批说明、审批单</a>
+					<a href="${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${projectId}&flowDefineId=${flowDefineId}">03、编报说明</a>
 					<i></i>
 				</li>
 				<li>
@@ -64,30 +64,30 @@
 						<u:show showId="f"  businessId="${project.id}" sysKey="${sysKey}" typeId="${typeApproval}" />
 					</td>
 				</tr>
-				<tr class="h50">
+				<%-- <tr class="h50">
 					<td><span class="star_red">*</span>审批单：</td>
 					<td ><button class="btn btn-windows input m0 w50p" type="button" onclick="bidRegister('${project.id}','17')"> 模板下载</button></td>
 					<td class="w200">
 						<u:upload id="a" buttonName="上传彩色扫描件" exts="jpg,jpeg,gif,png,bmp,pdf" multiple="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 						<u:show showId="b"  businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
 					</td>
-				</tr>
+				</tr> --%>
 			</c:if>
 			<c:if test="${project.confirmFile == 1 || project.confirmFile == 3 || project.confirmFile == 4 }">
 				<tr>
 				    
-					<td>报批说明：</td>
+					<td>编报说明：</td>
 					<td class="w200">
 						<u:show showId="f" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeApproval}" />
 					</td>
 				</tr>
-				<tr class="h50">
+				<%-- <tr class="h50">
 				    
 					<td>审批单：</td>
 					<td class="w200">
 						<u:show showId="b"  delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
 					</td>
-				</tr>
+				</tr> --%>
 			</c:if>
 		</table>
 	</body>

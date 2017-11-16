@@ -23,7 +23,7 @@
 						}); */
 
 			function initLength() {
-				var txtLeng = $('#pcReason').val().length;
+				/* var txtLeng = $('#pcReason').val().length;
 				$('#into1').text(2000 - txtLeng);
 				$('#in1').text(txtLeng);
 				txtLeng = $('#causereason').val().length;
@@ -31,8 +31,8 @@
 				$('#in2').text(txtLeng);
 				txtLeng = $('#financereason').val().length;
 				$('#into3').text(2000 - txtLeng);
-				$('#in3').text(txtLeng);
-				txtLeng = $('#finalreason').val().length;
+				$('#in3').text(txtLeng); */
+				var txtLeng = $('#finalreason').val().length;
 				$('#into4').text(2000 - txtLeng);
 				$('#in4').text(txtLeng);
 			}
@@ -158,6 +158,7 @@
 				var obj = document.getElementById("TANGER_OCX");
 				obj.Menubar = true;
 				obj.Caption = "( 双击可放大 ! )";
+				obj.FileSave = false; 
 				if(fileId != '0') {
 					obj.BeginOpenFromURL("${pageContext.request.contextPath}/open_bidding/loadFile.html?fileId=" + fileId, true, false, 'word.document'); // 异步加载, 服务器文件路径
 				} else {
@@ -222,8 +223,13 @@
 			*/
 			function updateAudit(status) {
 				var text = $("#ii_disFileId").find("a");
+				var aps = $("#ff1_disFileId").find("a");
 				if(text.length<=0){
 					layer.alert("请先上传最终意见附件");
+					return false;
+				}
+				if(aps.length<=0){
+					layer.alert("请先上传审批单");
 					return false;
 				}
 				if($.trim($("#finalreason").val()) =="") {
@@ -357,7 +363,7 @@
 					var pathArray = filePath.split(",");
 					if(pathArray.length > 1) {
 						//项目名称
-						replaceContent("SYS_1", "SYS_1_1", "${project.name}");
+						/* replaceContent("SYS_1", "SYS_1_1", "${project.name}"); */
 						//项目编号
 						replaceContent("SYS_2", "SYS_2_2", "${project.projectNumber}");
 						//招标人
@@ -443,7 +449,7 @@
 							<i></i>
 						</li>
 						 <li>
-						   <a  href="${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${project.id}&flowDefineId=${flowDefineId}">03、报批说明、审批单</a>
+						   <a  href="${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${project.id}&flowDefineId=${flowDefineId}">03、编报说明</a>
 						   <i></i>
 						 </li>
 						 <li>
@@ -470,7 +476,7 @@
 							<i></i>
 						</li>
 						 <li >
-							   <a  href="${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${project.id}&flowDefineId=${flowDefineId}">03、报批说明、审批单</a>
+							   <a  href="${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${project.id}&flowDefineId=${flowDefineId}">03、编报说明</a>
 							   <i></i>
 							 </li>
 							 <li>
@@ -502,21 +508,22 @@
 		
 		<c:if test="${process == 1 }">
 		<div class="bggrey p20_15 mt10">
-			<div class="count_flow m0"><i>1</i><span class="fw">报批说明、审批单</span></div>
+			<div class="count_flow m0"><i>1</i><span class="fw">编报说明</span></div>
 			<div class="fl mt10 ml34">
-				<span class="m_inline f14 lh20">报批说明：</span>
+				<span class="m_inline f14 lh20">编报说明：</span>
 				<div class="m_inline m_uploadFiles f0">
 					<u:show showId="g" groups="b,c,d" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeApproval}" />
 				</div>
 				<div class="clear"></div>
 			</div>
-			<div class="fl mt10 ml20">
+			<div class="clear"></div>
+			<%-- <div class="fl mt10 ml20">
 				<span class="m_inline f14 lh20">审批单：</span>
 				<div class="m_inline m_uploadFiles f0">
 					<u:show showId="h" groups="b,c,d" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
 				</div>
 				<div class="clear"></div>
-			</div>
+			</div> --%>
 			<div class="clear"></div>
 		</div>
 		
@@ -527,7 +534,11 @@
 				<div class="m_inline m_uploadFiles f0">
 					<u:show showId="j" groups="b,c,d" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${projectTypeId}" />
 				</div>
-				<div class="clear"></div>
+				<div class="clear mt10"></div>
+				<span class="m_inline f14 lh20">&nbsp;&nbsp;&nbsp;审批单：</span>
+				<div class="m_inline m_uploadFiles f0">
+					<ul id="hs_disFileId" class="uploadFiles"><li class="file_load"><a href="${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=${project.id}&type=17"></a></li></ul>
+				</div>
 			</div>
 			<div class="clear"></div>
 		</div>
@@ -559,7 +570,7 @@
 						<div class="bggrey p20_15 mt10">
 							<div class="count_flow m0"><i>3</i><span class="fw">部门意见</span></div>
 							
-							<div class="mt20 fw f14" id="cgspan">采购管理部门意见</div>
+							<%-- <div class="mt20 fw f14" id="cgspan">采购管理部门意见</div>
 							<div class="mt10">
 								<textarea class="w100p h80 resizen" disabled="disabled" id="pcReason" maxlength="2000" name="pcReason" title="不超过2000个字">${MapPa['pcId'].content}</textarea>
 								<div class="m_uploadFiles mt10">
@@ -568,9 +579,9 @@
 										<u:show delete="false" showId="r" businessId="${MapPa['pcId'].id}" sysKey="${sysKey}" typeId="${pcTypeId}" />
 									</div>
 								</div>
-							</div>
+							</div> --%>
 
-							<div class="mt20 fw f14" id="cgspan">事业部门意见</div>
+							<%-- <div class="mt20 fw f14" id="cgspan">事业部门意见</div>
 							<div class="mt10">
 								<textarea class="w100p h80 resizen" disabled="disabled" id="causereason" maxlength="2000" name="causeReason" title="不超过2000个字">${MapPa['causeId'].content}</textarea>
 								<div class="m_uploadFiles mt10">
@@ -579,9 +590,9 @@
 										<u:show delete="false" showId="y" businessId="${MapPa['causeId'].id}" sysKey="${sysKey}" typeId="${causeTypeId}" />
 									</div>
 								</div>
-							</div>
+							</div> --%>
 
-							<div class="mt20 fw f14" id="cgspan">财务部门意见</div>
+							<%-- <div class="mt20 fw f14" id="cgspan">财务部门意见</div>
 							<div class="mt10">
 								<textarea class="w100p h80 resizen" disabled="disabled" id="financereason" maxlength="2000" name="financeReason" title="不超过2000个字">${MapPa['financeId'].content}</textarea>
 								<div class="m_uploadFiles mt10">
@@ -590,11 +601,17 @@
 										<u:show delete="false" showId="o" businessId="${MapPa['financeId'].id}" sysKey="${sysKey}" typeId="${financeTypeId}" />
 									</div>
 								</div>
-							</div>
+							</div> --%>
 
 							<div class="mt20 fw f14" id="cgspan">最终意见</div>
 							<div class="mt10">
 								<textarea class="w100p h80 resizen" disabled="disabled" id="finalreason" maxlength="2000" name="finalReason" title="不超过2000个字">${MapPa['finalId'].content}</textarea>
+								<div class="fl f0 mt10">
+										<span class="m_inline f14 lh16">审批单：</span>
+										<div class="m_inline m_uploadFiles">
+											<u:show showId="ff1" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
+										</div>
+									</div>
 								<div class="m_uploadFiles mt10">
 									<span class="m_inline f14 lh16">最终意见附件：</span>
 									<div class="m_inline m_uploadFiles f0">
@@ -612,7 +629,7 @@
 							<div class="bggrey p20_15 mt10">
 								<div class="count_flow m0"><i>3</i><span class="fw">部门意见</span></div>
 								
-								<div class="mt20 fw f14" id="cgspan">采购管理部门意见</div>
+								<%-- <div class="mt20 fw f14" id="cgspan">采购管理部门意见</div>
 								<div class="mt10">
 									<textarea class="w100p h80 resizen" onkeyup="lengthStr('1',this)" id="pcReason" maxlength="2000" name="projectAdviceList[0].content" title="不超过2000个字">${reasons.pcReason}</textarea>
 									<input type="hidden" name="projectAdviceList[0].typeId" value="${pcTypeId}"/>
@@ -627,9 +644,9 @@
 									</div>
 									<div class="fr mt10">当前已经输入<span class="red" id="in1"></span>字，还可以输入<span class="red" id="into1"></span>字</div>
 									<div class="clear"></div>
-								</div>
+								</div> --%>
 								
-								<div class="mt20 fw f14" id="cgspan">事业部门意见</div>
+								<%-- <div class="mt20 fw f14" id="cgspan">事业部门意见</div>
 								<div class="mt10">
 									<textarea class="w100p h80 resizen" id="causereason" onkeyup="lengthStr('2',this)" maxlength="2000" name="projectAdviceList[1].content" title="不超过2000个字">${reasons.causeReason}</textarea>
 									<input type="hidden" name="projectAdviceList[1].typeId" value="${causeTypeId}"/>
@@ -644,9 +661,9 @@
 									</div>
 									<div class="fr mt10">当前已经输入<span class="red" id="in2"></span>字，还可以输入<span class="red" id="into2"></span>字</div>
 									<div class="clear"></div>
-								</div>
+								</div> --%>
 								
-								<div class="mt20 fw f14" id="cgspan">财务部门意见</div>
+								<%-- <div class="mt20 fw f14" id="cgspan">财务部门意见</div>
 								<div class="mt10">
 									<textarea class="w100p h80 resizen" onkeyup="lengthStr('3',this)" id="financereason" maxlength="2000" name="projectAdviceList[2].content" title="不超过2000个字">${reasons.financeReason}</textarea>
 									<input type="hidden" name="projectAdviceList[2].typeId" value="${financeTypeId}"/>
@@ -661,16 +678,23 @@
 									</div>
 									<div class="fr mt10">当前已经输入<span class="red" id="in3"></span>字，还可以输入<span class="red" id="into3"></span>字</div>
 									<div class="clear"></div>
-								</div>
+								</div> --%>
 								
 								<div class="mt20 fw f14" id="cgspan"><span class="red">*</span>最终意见</div>
 								<div class="mt10">
-									<textarea class="w100p h80 resizen" id="finalreason" maxlength="2000" onkeyup="lengthStr('4',this)" name="projectAdviceList[3].content" title="不超过2000个字">${reasons.finalReason}</textarea>
-									<input type="hidden" name="projectAdviceList[3].typeId" value="${finalTypeId}"/>
-									<input type="hidden" name="projectAdviceList[3].id" value="${finalId}"/>
-									<input type="hidden" name="projectAdviceList[3].seq" value="4"/>
+									<textarea class="w100p h80 resizen" id="finalreason" maxlength="2000" onkeyup="lengthStr('4',this)" name="projectAdviceList[0].content" title="不超过2000个字">${reasons.finalReason}</textarea>
+									<input type="hidden" name="projectAdviceList[0].typeId" value="${finalTypeId}"/>
+									<input type="hidden" name="projectAdviceList[0].id" value="${finalId}"/>
+									<input type="hidden" name="projectAdviceList[0].seq" value="4"/>
 									<div class="fl f0 mt10">
-										<span class="m_inline f14 lh16"><span class="red">*</span>最终意见附件：</span>
+										<span class="m_inline f14 lh16"><span class="red">*</span>审批单：</span>
+										<div class="m_inline m_uploadFiles">
+											<u:upload id="aa1"  multiple="true" buttonName="文件上传" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+											<u:show showId="ff1" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
+										</div>
+									</div>
+									<div class="fl f0 mt10">
+										<span class="m_inline f14 lh16"><span class="red">*</span>其他部门意见附件：</span>
 										<div class="m_inline m_uploadFiles">
 											<u:upload id="kk" exts=".jpg,.png" multiple="true" businessId="${finalId}" sysKey="${sysKey}" typeId="${finalTypeId}" auto="true" />
 											<u:show showId="ii" businessId="${finalId}" sysKey="${sysKey}" typeId="${finalTypeId}" />

@@ -55,7 +55,7 @@
 			 </li>
 			 
 			   <li>
-		   <a  href="${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${project.id}&flowDefineId=${flowDefineId}">03、报批说明、审批单</a>
+		   <a  href="${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${project.id}&flowDefineId=${flowDefineId}">03、编报说明</a>
 		   <i></i>
 		 </li>
 		 <li>
@@ -77,7 +77,7 @@
 	 
 	 <div class="clear"></div>
 	 <div class="bggrey p20_15 mt20">
-	   <div class="fw f14" id="cgspan">采购管理部门意见</div>
+	   <%-- <div class="fw f14" id="cgspan">采购管理部门意见</div>
      <div class="mt10">
        <textarea class="w100p h80 resizen" disabled="disabled">${MapPa['pcId'].content}</textarea>
        <div class="m_uploadFiles mt10">
@@ -86,9 +86,9 @@
            <u:show showId="e" delete="flase" businessId="${MapPa['pcId'].id}" sysKey="${sysKey}" typeId="${pcTypeId}"/>
          </div>
        </div>
-     </div>
+     </div> --%>
      
-     <div class="mt20 fw f14" id="cgspan">事业部门意见</div>
+     <%-- <div class="mt20 fw f14" id="cgspan">事业部门意见</div>
      <div class="mt10">
        <textarea class="w100p h80 resizen" disabled="disabled">${MapPa['causeId'].content}</textarea>
        <div class="m_uploadFiles mt10">
@@ -97,8 +97,8 @@
            <u:show delete="flase" showId="y" businessId="${MapPa['causeId'].id}" sysKey="${sysKey}" typeId="${causeTypeId}"/>
          </div>
        </div>
-     </div>
-
+     </div> --%>
+<%-- 
      <div class="mt20 fw f14" id="cgspan">财务部门意见</div>
      <div class="mt10">
        <textarea class="w100p h80 resizen" disabled="disabled">${MapPa['financeId'].content}</textarea>
@@ -108,11 +108,17 @@
            <u:show showId="o" delete="flase" businessId="${MapPa['financeId'].id}" sysKey="${sysKey}" typeId="${financeTypeId}"/>
          </div>
        </div>
-     </div>
+     </div> --%>
 
      <div class="mt20 fw f14" id="cgspan">最终意见</div>
      <div class="mt10">
        <textarea class="w100p h80 resizen" disabled="disabled">${MapPa['finalId'].content}</textarea>
+       <div class="fl f0 mt10">
+			<span class="m_inline f14 lh16">审批单：</span>
+			<div class="m_inline m_uploadFiles">
+				<u:show showId="ff1" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
+			</div>
+		</div>
        <div class="m_uploadFiles mt10">
          <span class="m_inline f14 lh16">最终意见附件：</span>
          <div class="m_inline m_uploadFiles f0">

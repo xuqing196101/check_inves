@@ -6,8 +6,10 @@ package bss.service.ppms.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -448,30 +450,40 @@ public class PackageServiceImpl implements PackageService {
 		packageMapper.insertSelective(pg);
 	}
 
-	@Override
-	public List<Packages> selectByPackList(String projectId) {
-		HashMap<String, Object> map = new HashMap<>();
-		map.put("projectId", projectId);
-		List<Packages> list = packageMapper.findByID(map);
-		if (list != null && !list.isEmpty()) {
-			for (Packages packages : list) {
-				HashMap<String,Object> packageId = new HashMap<>();
-	            packageId.put("packageId", packages.getId());
-	            List<ProjectDetail> detailList = detailMapper.selectById(packageId);
-	            if(detailList != null && detailList.size() > 0){
-	            	for (ProjectDetail projectDetail : detailList) {
-	            		HashMap<String,Object> dMap = new HashMap<String,Object>();
-	                    dMap.put("projectId", projectId);
-	                    dMap.put("id", projectDetail.getRequiredId());
-	                    List<ProjectDetail> lists = detailMapper.selectByParent(dMap);
-	                    if (lists != null && !lists.isEmpty()) {
-	                    	packages.setProjectDetails(lists);
-						}
-					}
-	            }
-			}
-		}
-		return list;
-	}
+  @Override
+  public List<Packages> selectByPackList(String projectId) {
+    HashMap<String, Object> map = new HashMap<>();
+    map.put("projectId", projectId);
+    List<Packages> list = packageMapper.findByID(map);
+    if (list != null && !list.isEmpty()) {
+      for (Packages packages : list) {
+        HashMap<String, Object> packageId = new HashMap<>();
+        packageId.put("packageId", packages.getId());
+        packageId.put("projectId", projectId);
+        List<ProjectDetail> selectByProjectIdAndPackageId = detailMapper.selectByProjectIdAndPackageId(packageId);
+        packages.setProjectDetails(selectByProjectIdAndPackageId);
+        /*Set<ProjectDetail> details = new HashSet<ProjectDetail>();
+        List<ProjectDetail> listDetail = new ArrayList<ProjectDetail>();
+        HashMap<String, Object> packageId = new HashMap<>();
+        packageId.put("packageId", packages.getId());
+        List<ProjectDetail> detailList = detailMapper.selectById(packageId);
+        if (detailList != null && detailList.size() > 0) {
+          for (ProjectDetail projectDetail : detailList) {
+            HashMap<String, Object> dMap = new HashMap<String, Object>();
+            dMap.put("projectId", projectId);
+            dMap.put("id", projectDetail.getRequiredId());
+            List<ProjectDetail> lists = detailMapper.selectByParent(dMap);
+            if (lists != null && !lists.isEmpty()) {
+              details.addAll(lists);
+               //packages.setProjectDetails(lists); 
+            }
+          }
+        }
+        listDetail.addAll(details);
+        packages.setProjectDetails(listDetail);*/
+      }
+    }
+    return list;
+  }
 
 }

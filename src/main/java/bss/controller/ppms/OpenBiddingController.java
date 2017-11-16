@@ -311,13 +311,13 @@ public class OpenBiddingController extends BaseSupplierController{
     //判断报批说明
       List<UploadFile> approvalList = uploadService.getFilesOther(id, DictionaryDataUtil.getId("BID_FILE_APPROVAL"), Constant.TENDER_SYS_KEY+"");
       // 判断审批文件
-      List<UploadFile> fileAuditList = uploadService.getFilesOther(id, DictionaryDataUtil.getId("BID_FILE_AUDIT"), Constant.TENDER_SYS_KEY+"");
+      /*List<UploadFile> fileAuditList = uploadService.getFilesOther(id, DictionaryDataUtil.getId("BID_FILE_AUDIT"), Constant.TENDER_SYS_KEY+"");*/
       if(approvalList==null||approvalList.size()==0){
         return "redirect:/open_bidding/projectApproval.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg=1";
       }
-      if(fileAuditList==null||fileAuditList.size()==0){
+      /*if(fileAuditList==null||fileAuditList.size()==0){
         return "redirect:/open_bidding/projectApproval.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg=2";
-      }
+      }*/
       for (Packages p : packages) {
         //判断各包符合性审查项是否编辑完成
         FirstAudit firstAudit = new FirstAudit();
@@ -3866,7 +3866,7 @@ public class OpenBiddingController extends BaseSupplierController{
     model.addAttribute("projectId",projectId);
     model.addAttribute("flowDefineId",flowDefineId);
     model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
-    model.addAttribute("typeId", DictionaryDataUtil.getId("BID_FILE_AUDIT"));
+    /*model.addAttribute("typeId", DictionaryDataUtil.getId("BID_FILE_AUDIT"));*/
     model.addAttribute("typeApproval", DictionaryDataUtil.getId("BID_FILE_APPROVAL"));
     model.addAttribute("msg", msg);
     return "bss/ppms/open_bidding/projectApproval";

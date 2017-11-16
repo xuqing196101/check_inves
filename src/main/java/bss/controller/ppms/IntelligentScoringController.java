@@ -193,11 +193,11 @@ public class IntelligentScoringController extends BaseController{
 	    //报批说明
 	    List<UploadFile> approvalFile = serviceUploadService.getFilesOther(projectId, DictionaryDataUtil.getId("BID_FILE_APPROVAL"), Constant.TENDER_SYS_KEY+"");
 	    model.addAttribute("approvalFile", approvalFile);
-	  }else if(page==4){
+	  }/*else if(page==4){
 	    //审批单
 	    List<UploadFile> bidFile = serviceUploadService.getFilesOther(projectId, DictionaryDataUtil.getId("BID_FILE_AUDIT"), Constant.TENDER_SYS_KEY+"");
 	    model.addAttribute("bidFile", bidFile);
-	  }
+	  }*/
   	   model.addAttribute("packageId", packId);
        model.addAttribute("projectId", projectId);
 	     model.addAttribute("page", page);

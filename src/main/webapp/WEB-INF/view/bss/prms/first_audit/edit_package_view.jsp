@@ -35,7 +35,7 @@
     		var url='${pageContext.request.contextPath}/file/viewFile.html?id=${approvalFile[0].id}&key=2';
     		var html='<img data-original="'+url+'"  src="'+url+'"/>';
     		$("#img3").append(html);
-    	}else if("${page}"=="4"){
+    	}/* else if("${page}"=="4"){
     		$("#content1").hide();
     		$("#content2").hide();
     		$("#content3").hide();
@@ -44,7 +44,7 @@
     		var html='<img data-original="'+url+'"  src="'+url+'"/>';
     		$("#img4").append(html);
     		
-    	}
+    	} */
     });
   </script>
 <body>  
@@ -223,23 +223,23 @@
     
     </div>
     <div class="content" id="content3">
-       <h2 class="list_title"><span class="f16 b">报批说明</span></h2>
+       <h2 class="list_title"><span class="f16 b">编报说明</span></h2>
        <div id="img3" class="tc"></div>
     </div>
-    <div class="content" id="content4">
+    <!-- <div class="content" id="content4">
        <h2 class="list_title"><span class="f16 b">审批单</span></h2>
        <div id="img4" class="tc"></div>
-    </div>
+    </div> -->
 	    <div class="mt80 tc mb50 position_fixed" >
 	        <c:if test="${page==1}">
 	          <button class="btn btn-windows back" disabled="disabled" >上一页</button>
 	          <button class="btn btn-windows back" onclick="window.location.href='${pageContext.request.contextPath}/intelligentScore/viewPackageModel.html?packId=${packageId}&projectId=${projectId}&page=${page+1}'">下一页</button>
 	        </c:if>
-	        <c:if test="${page!=1&&page!=4}">
+	        <c:if test="${page!=1&&page!=3}">
 	          <button class="btn btn-windows back" onclick="window.location.href='${pageContext.request.contextPath}/intelligentScore/viewPackageModel.html?packId=${packageId}&projectId=${projectId}&page=${page-1}'">上一页</button>
 	          <button class="btn btn-windows back" onclick="window.location.href='${pageContext.request.contextPath}/intelligentScore/viewPackageModel.html?packId=${packageId}&projectId=${projectId}&page=${page+1}'">下一页</button>
 	        </c:if>
-	        <c:if test="${page==4}">
+	        <c:if test="${page==3}">
 	          <button class="btn btn-windows back"  onclick="window.location.href='${pageContext.request.contextPath}/intelligentScore/viewPackageModel.html?packId=${packageId}&projectId=${projectId}&page=${page-1}'">上一页</button>
 	          <button class="btn btn-windows back" disabled="disabled" >下一页</button>
 	        </c:if>

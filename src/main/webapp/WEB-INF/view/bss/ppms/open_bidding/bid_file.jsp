@@ -198,7 +198,7 @@
 		 </li>
 		 
 		  <li>
-		   <a  href="${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${projectId}&flowDefineId=${flowDefineId}">03、报批说明、审批单</a>
+		   <a  href="${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${projectId}&flowDefineId=${flowDefineId}">03、编报说明</a>
 		   <i></i>
 		 </li>
 		 <li>
