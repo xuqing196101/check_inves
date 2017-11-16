@@ -93,7 +93,7 @@
         $(divObj).removeClass("hide");
         $("#packageIds").removeClass("shrink");        
         $("#packageIds").addClass("spread");
-      })
+      });
   </script>
   <body>
 	    <h2 class="list_title">合格供应商</h2>

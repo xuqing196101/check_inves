@@ -108,6 +108,14 @@
 		$("#"+id).load(path);
 	  }
 	  
+	  function loadPageTen(id,url){
+	  	$.ajaxSetup({cache:false}); 
+		var projectId = $("#projectId").val();
+	  	var flowDefineId = $("#flowDefineId").val();
+		var path = "${pageContext.request.contextPath}/"+url+"?projectId="+projectId+"&flowDefineId="+flowDefineId;
+		$("#"+id).load(path);
+	  }
+	  
 	  //页面默认加载第一页内容
 	  $(function() { 
 	  	$.ajaxSetup({cache:false});
@@ -134,6 +142,7 @@
 								<li class="" onclick="loadPageSix('tab-6','packageExpert/toScoreAudit.html');"><a aria-expanded="false" href="#tab-6" data-toggle="tab">经济技术评审(审查)</a></li>
 								<li class="" onclick="loadPageNine('tab-9','packageExpert/removeSupplier.html');"><a aria-expanded="false" href="#tab-9" data-toggle="tab">价格分析</a></li>
 								<li class="" onclick="loadPageSeven('tab-7','packageExpert/supplierRank.html');"><a aria-expanded="false" href="#tab-7" data-toggle="tab">供应商排名</a></li>
+								<li class="" onclick="loadPageTen('tab-10','packageExpert/priceReport.html');"><a aria-expanded="false" href="#tab-10" data-toggle="tab">评审报告</a></li>
 							</c:if>	
 	          </ul>
 	          <div class="tab-content padding-top-20">
@@ -161,6 +170,9 @@
 	            	
 	            </div> 
 	            <div class="tab-pane fade " id="tab-9">
+	            	
+	            </div> 
+	            <div class="tab-pane fade " id="tab-10">
 	            	
 	            </div> 
 		      </div> 

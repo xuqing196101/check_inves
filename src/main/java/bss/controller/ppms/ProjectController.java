@@ -3550,7 +3550,7 @@ public class ProjectController extends BaseController {
         		if(viewDetail != null && viewDetail.size() > 0){
         			HashMap<String, Object> hashMap = new HashMap<>();
         			hashMap.put("projectId", projectId);
-        			List<ProjectDetail> showDetail = detailService.showDetail(viewDetail,projectId);
+        			List<ProjectDetail> showDetail = detailService.selectByParentList(hashMap);
         			if(showDetail != null && showDetail.size() > 0){
         				/*List<ProjectDetail> details = paixu(showDetail,projectId);*/
         				sorts(showDetail);

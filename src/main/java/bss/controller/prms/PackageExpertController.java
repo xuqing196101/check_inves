@@ -25,6 +25,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,6 +49,7 @@ import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
+import ses.util.WordUtil;
 import bss.formbean.Jzjf;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.ppms.BidMethod;
@@ -3947,6 +3949,12 @@ public class PackageExpertController {
             if (findPackageById != null && !findPackageById.isEmpty()) {
             	SaleTender saleTender = null;
 				for (Packages packages : findPackageById) {
+					if (StringUtils.isNotBlank(packages.getProjectStatus())) {
+						DictionaryData data = DictionaryDataUtil.findById(packages.getProjectStatus());
+						if (data != null) {
+							packages.setProjectStatus(data.getCode());
+						}
+					}
 					packages.setStatus(null);
 					saleTender = new SaleTender();
 					saleTender.setPackages(packages.getId());
@@ -5474,8 +5482,6 @@ public class PackageExpertController {
     @RequestMapping("/endCheck")
     @ResponseBody
     public void endCheck(String packageId, String projectId) {
-      
-      
         // 供应商信息
         List<SaleTender> supplierList = new ArrayList<SaleTender>();
         SaleTender st0 = new SaleTender();
@@ -5621,5 +5627,50 @@ public class PackageExpertController {
             }
         }
         
+    }
+    
+    
+    @RequestMapping("/priceReport")
+    public String priceReport(String projectId, String flowDefineId, Model model){
+    	HashMap<String, Object> map = new HashMap<>();
+    	map.put("projectId", projectId);
+    	List<Packages> list = packageService.findByID(map);
+    	if (list != null && !list.isEmpty()) {
+			model.addAttribute("list", list);
+		}
+    	model.addAttribute("flowDefineId", flowDefineId);
+		model.addAttribute("projectId", projectId);
+		return "bss/prms/price_report/list";
+    }
+    
+    @RequestMapping("/purchaseEmbodiment")
+    public ResponseEntity<byte[]> purchaseEmbodiment(String packageId, String projectId, HttpServletRequest request) throws Exception{
+        String downFileName = null;
+        // 文件存储地址
+        String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
+        String fileName = createWordMethod(packageId, projectId, request);
+        downFileName = new String("评审报告.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
+    	return projectService.downloadFile(fileName, filePath, downFileName);
+    }
+    
+    private String createWordMethod(String packageId, String projectId, HttpServletRequest request) throws Exception {
+    	Map<String, Object> map = new HashMap<String, Object>();
+        map.put("projectId", projectId);
+        map.put("packageId", packageId);
+        List<PackageExpert> expertSigneds = packageExpertService.selectList(map);
+        Project project = projectService.selectById(projectId);
+        DictionaryData data = DictionaryDataUtil.findById(project.getPurchaseType());
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        dataMap.put("projectName", project.getName() == null ? "" : project.getName());
+        dataMap.put("projectNumber", project.getProjectNumber() == null ? "" : project.getProjectNumber());
+        dataMap.put("purchaseType", data.getName() == null ? "" : data.getName());
+        dataMap.put("bidDate", project.getBidDate() == null ? "" : new SimpleDateFormat("yyyy-MM-dd").format(project.getBidDate()));
+        dataMap.put("bidAddress", project.getBidAddress() == null ? "" : project.getBidAddress());
+        if (expertSigneds != null && !expertSigneds.isEmpty()) {
+        	dataMap.put("expertList", expertSigneds == null ? "" : expertSigneds);
+        }
+        String fileName = new String(("评审报告.doc").getBytes("UTF-8"), "UTF-8");
+        String newFileName = WordUtil.createWord(dataMap, "priceReport.ftl", fileName, request, "1");
+    	return newFileName;
     }
 }
