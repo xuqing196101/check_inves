@@ -440,6 +440,7 @@ public class PurchaseManageController {
 		}else if (orgnization.getTypeName().equals(StaticVariables.ORG_TYPE_PURCHASE)
 				  || orgnization.getTypeName().equals(StaticVariables.ORG_TYPE_DEFAULT)) {
 			map.put("typeName", StaticVariables.ORG_TYPE_MANAGE);
+			model.addAttribute("typeName", StaticVariables.ORG_TYPE_MANAGE);
 		}
 		map.put("name", orgnization.getName());
 		model.addAttribute("orgnization", orgnization);
@@ -452,6 +453,9 @@ public class PurchaseManageController {
 		List<Orgnization> orgnizationList = orgnizationServiceI.findManageOfOrg(map);
 		//List<Orgnization> orgnizationList = orgnizationServiceI.findOrgnizationList(map);
 		model.addAttribute("list", new PageInfo<Orgnization>(orgnizationList));
+		
+		//跳转关联采购部门页面
+		model.addAttribute("notIds", notIds);
 		return "ses/oms/require_dep/add_purchase_org";
 	}
 	
