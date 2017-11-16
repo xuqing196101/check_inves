@@ -5,7 +5,7 @@ $(function(){
 	var count4=$("#count4").val();
 	var count5=$("#count5").val();
 	var count6=$("#count6").val();
-	var ind = parseInt($("#ids").val());
+	var ind = parseInt($("#ind").val());
 	if(parseInt(count1)>0){
 		$("#td11").css('border-color', '#FF0000');
 		$("#show_td1").attr('src', globalPath+'/public/backend/images/sc.png');
@@ -33,19 +33,19 @@ $(function(){
 });
   
 // 审核 销售合同不通过理由
-function reasonProject(ind,auditField, auditFieldName,ids) {
+function reasonProject(ind,auditField,auditFieldName,idx) {
 	var supplierStatus = $("input[name='supplierStatus']").val();
     var sign = $("input[name='sign']").val();
     // 只有审核的状态能审核
     if(window.parent.isAudit){
-		var businessId=$("#fileId"+ids+"").val();
-		auditField=auditField+"_"+businessId;
+		//var businessId=$("#fileId"+idx+"").val();
+		//auditField=auditField+"_"+businessId;
 		var supplierId = $("#supplierId").val();
-		var auditCount = $("#count"+ids+"").val();
+		//var auditCount = $("#count"+idx+"").val();
 		ind=parseInt(ind)+1;
 		var tablerId=$("#tablerId").val();
-		//var auditContent=content(tablerId,ind,'销售合同_'+showData(ids));
-		var auditContent=content(tablerId,ind,showData(ids));
+		//var auditContent=content(tablerId,ind,'销售合同_'+showData(idx));
+		var auditContent=content(tablerId,ind,showData(idx));
 		var audits;
 		var auditType;
 		/*if(auditCount!=null && auditCount !='' && auditCount>'0' ){
@@ -109,8 +109,8 @@ function reasonProject(ind,auditField, auditFieldName,ids) {
 			options.btn2 = function(index) {
 				var bool = window.parent.cancelAudit(auditData);
 				if (bool) {
-					$("#td1"+ids+"").css('border-color', '');
-					$("#show_td"+ids+"").attr('src', globalPath+'/public/backend/images/light_icon.png');
+					$("#td1"+idx+"").css('border-color', '');
+					$("#show_td"+idx+"").attr('src', globalPath+'/public/backend/images/light_icon.png');
 					// 刷新父页面数据
 					window.parent.flushData();
 				}
@@ -170,10 +170,10 @@ function reasonProject(ind,auditField, auditFieldName,ids) {
 								}
 							});*/
 							
-							$("#td1"+ids+"").css('border-color', '#FF0000');
-							//$("#show_td"+ids+"").attr('src', globalPath+'/public/backend/images/sc.png');
-							$("#show_td"+ids+"").attr('src', globalPath+'/public/backend/images/light_icon_2.png');
-							$("#count"+ids+"").val('1');
+							$("#td1"+idx+"").css('border-color', '#FF0000');
+							//$("#show_td"+idx+"").attr('src', globalPath+'/public/backend/images/sc.png');
+							$("#show_td"+idx+"").attr('src', globalPath+'/public/backend/images/light_icon_2.png');
+							$("#count"+idx+"").val('1');
 							// 刷新父页面数据
 							window.parent.flushData();
 						}else{

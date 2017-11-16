@@ -236,8 +236,14 @@ public class ExpExtractRecordController extends BaseController {
                             String[] name = ((String)entry.getValue()).split(StaticVariables.COMMA_SPLLIT);
                             List<String> typeNames = new ArrayList<String>();
                             for (String string : name) {
-                                String typeName = DictionaryDataUtil.findById(string).getName();
-                                typeNames.add(typeName);
+                            	DictionaryData dictionaryData = DictionaryDataUtil.findById(string);
+                            	if(dictionaryData != null){
+                            		if(dictionaryData.getKind() == 6){
+                            			typeNames.add(dictionaryData.getName() + "技术");
+                                	}else{
+                                		typeNames.add(dictionaryData.getName());
+                                	}
+                            	}
                             }
                             entry.setValue(StringUtils.join(typeNames, StaticVariables.COMMA_SPLLIT));
                         }
