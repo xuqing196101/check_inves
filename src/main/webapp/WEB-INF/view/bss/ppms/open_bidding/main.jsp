@@ -67,10 +67,11 @@
   			layer.alert("请选择一个或多个包");
   			return false;
   		}
+  		var projectId = $("#projectId").val();
   		ids=val.join(',');
   		$.ajax({
 			url:"${pageContext.request.contextPath}/termination/flowDefineId.do",
-			data:{"currFlowDefineId":$("#currHuanjieId").val()},
+			data:{"projectId":projectId},
 			type:"post",
 			dataType:"json",
 	   	success:function(data){

@@ -171,6 +171,7 @@ public class TerminationServiceImpl implements TerminationService {
     String title=ShortBooleanTitle(number);
     //生成项目
     Project project = insertProject(projectId, title,type,currFlowDefineId);
+    oldCurrFlowDefineId = flowDe(project.getId());
     updateProjectName(projectId, packId);
     Map<String, String> mapId=new HashMap<String, String>();
     if(!TerminationConstant.FLW_XMLX.equals(currFlowDefineId)){
@@ -221,7 +222,7 @@ public class TerminationServiceImpl implements TerminationService {
           Packages pg = packageMapper.selectByPrimaryKeyId(id);
           pg.setOldFlowId(oldCurrFlowDefineId);
           pg.setNewFlowId("CGLC_CGXMFB");
-          pg.setProjectStatus("F0EAF1136F7E4E8A8BDA6561AE8B4390");
+          pg.setProjectStatus(DictionaryDataUtil.getId("YZZ"));
           packageMapper.updateByPrimaryKeySelective(pg);
           List<ProjectDetail> pds = projectDetailMapper.selectByPackageRecursively(id);
           for(ProjectDetail pd:pds){
@@ -971,6 +972,7 @@ public class TerminationServiceImpl implements TerminationService {
   private void insertPackages(String packagesId, Project project,
       Map<String, String> mapId,String currFlowDefineId,String oldCurrFlowDefineId,String oldProjectId,String type) {
     if(packagesId!=null){
+    	String flowStatus = flowStatus(currFlowDefineId);
       String[] split = packagesId.split(",");
       String pagId="";
       for(int i=0;i<split.length;i++){
@@ -991,11 +993,11 @@ public class TerminationServiceImpl implements TerminationService {
           pg.setUpdatedAt(null);
           pg.setOldFlowId(null);
           if(type!=null){
-            pg.setProjectStatus(oldCurrFlowDefineId);
+            pg.setProjectStatus(flowStatus);
             pg.setPurchaseType(DictionaryDataUtil.getId("JZXTP"));
           }else{
             pg.setNewFlowId(currFlowDefineId);
-            pg.setProjectStatus(oldCurrFlowDefineId);
+            pg.setProjectStatus(flowStatus);
           }
           pg.setTechniqueTime(null);
           pg.setQualificationTime(null);
@@ -1007,7 +1009,52 @@ public class TerminationServiceImpl implements TerminationService {
     }
   }
 
-  private Project insertProject(String projectId, String title,String type,String currFlowDefineId ) {
+  private String flowStatus(String currFlowDefineId) {
+	  String status = null;
+	  FlowDefine flowDefine = flowDefineMapper.get(currFlowDefineId);
+	  if (flowDefine != null) {
+		  if ("XMXX".equals(flowDefine.getCode())) {
+			  status = DictionaryDataUtil.getId("SSZ_WWSXX");
+		  } else if ("NZCGWJ".equals(flowDefine.getCode())) {
+			  status = DictionaryDataUtil.getId("ZBWJYTJ");
+		  } else if ("NZCGGG".equals(flowDefine.getCode())) {
+			  status = DictionaryDataUtil.getId("ZBGGNZZ");
+		  } else if ("FSBS".equals(flowDefine.getCode())) {
+			  status = DictionaryDataUtil.getId("FSBSZ");
+		  } else if ("CQGYS".equals(flowDefine.getCode())) {
+			  status = DictionaryDataUtil.getId("GYSCQZ");
+		  } else if ("CQPSZJ".equals(flowDefine.getCode())) {
+			  status = DictionaryDataUtil.getId("CQPSZJZ");
+		  } else if ("GYSQD".equals(flowDefine.getCode())) {
+			  status = DictionaryDataUtil.getId("GYSQD");
+		  } else if ("KBCB".equals(flowDefine.getCode())) {
+			  status = DictionaryDataUtil.getId("DKB");
+		  } else if ("BZTPJL".equals(flowDefine.getCode()) || "ZZZJPS".equals(flowDefine.getCode())) {
+			  status = DictionaryDataUtil.getId("KBCBZ");
+		  } else if ("NZZBGS".equals(flowDefine.getCode())) {
+			  status = DictionaryDataUtil.getId("NZZBGG");
+		  } else if ("QRZBGYS".equals(flowDefine.getCode()) || "DYLYTPBG".equals(flowDefine.getCode())) {
+			  status = DictionaryDataUtil.getId("QRZBGYS");
+		  }
+	  } else {
+		  if(TerminationConstant.FLW_XMFB.equals(currFlowDefineId)){
+			  status = DictionaryDataUtil.getId("YJLX");
+		  }
+	  }
+	  return status;
+  }
+private String flowDe(String projectId) {
+	  String flowDefineId = null;
+	  FlowExecute flowExecute = new FlowExecute();
+	  flowExecute.setProjectId(projectId);
+	  flowExecute.setIsDeleted(0);
+	  List<FlowExecute> findStatusDesc = flowExecuteMapper.findExecuted(flowExecute);
+	  if (findStatusDesc != null && !findStatusDesc.isEmpty()) {
+		  flowDefineId = findStatusDesc.get(0).getFlowDefineId();
+	  }
+	  return flowDefineId;
+  }
+private Project insertProject(String projectId, String title,String type,String currFlowDefineId ) {
     Project project = projectMapper.selectProjectByPrimaryKey(projectId);
     project.setRelationId(project.getId());
     project.setCreateAt(new Date());
@@ -1116,9 +1163,10 @@ public class TerminationServiceImpl implements TerminationService {
 	  return title;
   }
   @Override
-  public List<FlowDefine> selectFlowDefineTermination(String currFlowDefineId) {
+  public List<FlowDefine> selectFlowDefineTermination(String projectId) {
+	  String flowDefineId = flowDe(projectId);
     FlowDefine define=new FlowDefine();
-    define.setId(currFlowDefineId);
+    define.setId(flowDefineId);
     define.setUrl("gt");
     List<FlowDefine> flow = flowDefineMapper.getFlow(define);
     return flow;

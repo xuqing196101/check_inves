@@ -72,7 +72,7 @@ public class FirstAuditController {
 	  * @return String
 	 */
 	@RequestMapping("/toAdd")
-	public String toAdd(@CurrentUser User user, String projectId, Model model, String flowDefineId, String msg){
+	public String toAdd(@CurrentUser User user, String projectId, Model model, String flowDefineId, String msg,HttpServletRequest request){
 		try {
 		    Project project = projectService.selectById(projectId);
 		    HashMap<String, Object> map = new HashMap<String, Object>();
@@ -92,8 +92,9 @@ public class FirstAuditController {
             	  project.setStatus(DictionaryDataUtil.getId("ZBWJNZZ"));
             	  packages2.setIsEditFirst(0);
               } else {
-            	  
             	  packages2.setIsEditFirst(1);
+            	  //该环节设置为执行中状态
+                  flowMangeService.flowExe(request, flowDefineId, projectId, 2);
               }
             }
             //查询项目下所有的符合性审查项

@@ -3554,40 +3554,14 @@ public class ProjectController extends BaseController {
         			hashMap.put("projectId", projectId);
         			List<ProjectDetail> showDetail = detailService.selectByParentList(hashMap);
         			if(showDetail != null && showDetail.size() > 0){
-        				/*List<ProjectDetail> details = paixu(showDetail,projectId);*/
-        				/*sorts(showDetail);*/
         				model.addAttribute("list", showDetail);
         			}
         			//查询包
         			List<Packages> packList = packageService.selectByPackList(projectId);
         			if (packList != null && !packList.isEmpty()) {
-						/*for (Packages packages : packList) {
-							removeProjectDetail(packages.getProjectDetails());
-							sorts(packages.getProjectDetails());
-						}*/
 						viewSubPack(project);
     					model.addAttribute("packageList", packList);
 					}
-    				/*HashMap<String, Object> map = new HashMap<>();
-    				map.put("projectId", projectId);
-    				List<Packages> packages = packageService.findPackageById(map);
-    				if(packages != null && packages.size() > 0){
-    					for (Packages ps : packages) {
-    						HashMap<String,Object> packageId = new HashMap<>();
-    		                packageId.put("packageId", ps.getId());
-    		                List<ProjectDetail> detailList = detailService.selectById(packageId);
-    		                if(detailList != null && detailList.size() > 0){
-    		                	List<ProjectDetail> showPackDetail = detailService.showPackDetail(detailList, projectId);
-    		                	if(showPackDetail != null && showPackDetail.size() > 0){
-    		                		//List<ProjectDetail> projectDetails = paixu(showPackDetail,projectId);
-    		                		sorts(showPackDetail);
-    		                		ps.setProjectDetails(showPackDetail);
-    		                	}
-    		                }
-						}
-    					viewSubPack(project);
-    					model.addAttribute("packageList", packages);
-    				}*/
         		} else {
         			return "redirect:findByPackage.html";
         		}
@@ -3653,30 +3627,13 @@ public class ProjectController extends BaseController {
     }
     
     public void viewSubPack(Project project){
-    	//拿到一个项目所有的明细
-    	HashMap<String, Object> map = new HashMap<>();
-    	map.put("id", project.getId());
-        List<ProjectDetail> details = detailService.selectById(map);
-        List<ProjectDetail> bottomDetails = new ArrayList<>();//底层的明细
-        for(ProjectDetail detail:details){
-            HashMap<String,Object> detailMap = new HashMap<>();
-            detailMap.put("id",detail.getRequiredId());
-            detailMap.put("projectId", project.getId());
-            List<ProjectDetail> dlist = detailService.selectByParentId(detailMap);
-            if(dlist.size()==1){
-                bottomDetails.add(detail);
-            }
-        }
-        for(int i=0;i<bottomDetails.size();i++){
-            if(bottomDetails.get(i).getPackageId()==null){
-                break;
-            }else if(i==bottomDetails.size()-1){
-            	if(DictionaryDataUtil.getId("YJLX").equals(project.getStatus())){
-            		project.setStatus(DictionaryDataUtil.getId("FBWC"));
-                    projectService.update(project);
-            	}
-            }
-        }
+    	List<ProjectDetail> list = detailService.selectByDetailPackNull(project.getId());
+    	if (list == null || list.isEmpty()) {
+    		if(DictionaryDataUtil.getId("YJLX").equals(project.getStatus())){
+        		project.setStatus(DictionaryDataUtil.getId("FBWC"));
+                projectService.update(project);
+        	}
+		}
     }
     
     /**

@@ -111,7 +111,7 @@ public interface ProjectDetailService {
 	 * @Title: selectByDetailRequired
 	 * @author FengTian 
 	 * @date 2017-11-13 上午11:32:23  
-	 * @Description: 获取第底层明细 
+	 * @Description: 获取底层明细 
 	 * @param @param projectId
 	 * @param @return      
 	 * @return List<ProjectDetail>
@@ -129,4 +129,16 @@ public interface ProjectDetailService {
 	 * @return List<ProjectDetail>
 	  */
 	 List<ProjectDetail> selectByParentList(HashMap<String, Object> map);
+	 
+	 /**
+	  * 
+	 * @Title: selectByDetailPackNull
+	 * @author FengTian 
+	 * @date 2017-11-17 下午5:06:14  
+	 * @Description: 获取底层明细（包ID为null） 
+	 * @param @param projectId
+	 * @param @return      
+	 * @return List<ProjectDetail>
+	  */
+	 List<ProjectDetail> selectByDetailPackNull(String projectId);
 }

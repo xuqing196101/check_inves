@@ -32,6 +32,7 @@ import bss.dao.cs.ContractRequiredMapper;
 import bss.dao.cs.PurchaseContractMapper;
 import bss.dao.pms.CollectPlanMapper;
 import bss.dao.pms.PurchaseDetailMapper;
+import bss.dao.pms.PurchaseRequiredMapper;
 import bss.dao.ppms.AdvancedProjectMapper;
 import bss.dao.ppms.FlowDefineMapper;
 import bss.dao.ppms.FlowExecuteMapper;
@@ -173,6 +174,9 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
     
     @Autowired
     private PqInfoMapper pqInfoMapper;
+    
+    @Autowired
+    private PurchaseRequiredMapper requiredMapper;
 
     @Override
     public List<PurchaseRequired> viewDemand(String id) {
@@ -651,27 +655,8 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 
 	@Override
 	public PurchaseRequired viewPurchaseRequired(String id) {
-		if(StringUtils.isNotBlank(id)){
-			PurchaseRequired required = null;
-			HashMap<String, Object> map = new HashMap<>();
-            map.put("id", id);
-            List<PurchaseRequired> requireds = requiredService.selectByParent(map);
-            if(requireds != null && requireds.size() > 0){
-                for (PurchaseRequired purchaseRequired : requireds) {
-                    if("1".equals(purchaseRequired.getParentId())){
-                    	List<User> user = userMapper.selectByPrimaryKey(purchaseRequired.getUserId());
-                        if(user != null && user.size() > 0){
-                            purchaseRequired.setUserId(user.get(0).getRelName());
-                            purchaseRequired.setCode(user.get(0).getMobile());
-                        }
-                        required = purchaseRequired;
-                        break;
-                    }
-                }
-            }
-            return required;
-		}
-		return null;
+		
+		return requiredMapper.supervisionByRequired(id);
 	}
 
 	@Override
@@ -896,7 +881,7 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
     					}
     				} else {
     					HashMap<String, Object> flowMap = new HashMap<>();
-    					if(StringUtils.isNotBlank(packages.getNewFlowId())){
+    					if(StringUtils.isNotBlank(packages.getNewFlowId())){/*
     						flowMap.put("gt", packages.getNewFlowId());
     						List<DictionaryData> viewFlows = dictionaryDataMapper.viewFlows(flowMap);
         					if(viewFlows != null && viewFlows.size() > 0){
@@ -907,7 +892,7 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
     								num++;
     							}
         					}
-    					}
+    					*/}
     				}
 				}
 			

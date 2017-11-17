@@ -51,8 +51,8 @@ public class TerminationController extends BaseSupplierController {
     super.writeJson(response, "ok");
   }
   @RequestMapping("/flowDefineId")
-  public void flowDefineId(HttpServletResponse response, String packagesId,String currFlowDefineId){
-    List<FlowDefine> flowDefine = terminationService.selectFlowDefineTermination(currFlowDefineId);
+  public void flowDefineId(HttpServletResponse response, String packagesId,String projectId){
+    List<FlowDefine> flowDefine = terminationService.selectFlowDefineTermination(projectId);
     super.writeJson(response, flowDefine);
   }
 	

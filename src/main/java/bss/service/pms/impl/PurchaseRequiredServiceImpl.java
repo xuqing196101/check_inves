@@ -383,4 +383,10 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 		
 		return purchaseRequiredMapper.selectByCreatedAt(projectId);
 	}
+
+	@Override
+	public PurchaseRequired supervisionByRequiredId(String id) {
+		
+		return purchaseRequiredMapper.supervisionByRequiredId(id);
+	}
 }

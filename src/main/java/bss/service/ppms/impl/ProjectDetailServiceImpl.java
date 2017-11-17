@@ -358,4 +358,10 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
 		return projectDetailMapper.selectByParentList(map);
 	}
 
+	@Override
+	public List<ProjectDetail> selectByDetailPackNull(String projectId) {
+		
+		return projectDetailMapper.selectByDetailPackNull(projectId);
+	}
+
 }

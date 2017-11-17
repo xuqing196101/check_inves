@@ -66,12 +66,14 @@ public interface ProjectDetailMapper {
 	 * @Title: selectByDetailRequired
 	 * @author FengTian 
 	 * @date 2017-11-13 上午11:32:23  
-	 * @Description: 获取第底层明细 
+	 * @Description: 获取底层明细 
 	 * @param @param projectId
 	 * @param @return      
 	 * @return List<ProjectDetail>
 	  */
 	 List<ProjectDetail> selectByDetailRequired(String projectId);
+	 
+	 List<ProjectDetail> selectByDetailPackNull(String projectId);
 	 
 	 /**
 	  * 

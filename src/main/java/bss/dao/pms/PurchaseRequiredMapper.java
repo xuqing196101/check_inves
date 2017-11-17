@@ -406,4 +406,29 @@ public interface PurchaseRequiredMapper {
     * @return List<PurchaseRequired>
      */
     List<PurchaseRequired> selectByCreatedAt(String projectId);
+    
+    /******************************************  监督查看需求    *******************************************************/
+    /**
+     * 
+    * @Title: supervisionByRequired
+    * @author FengTian 
+    * @date 2017-11-17 下午3:16:15  
+    * @Description: 根据明细ID查询根节点 
+    * @param @param id
+    * @param @return      
+    * @return PurchaseRequired
+     */
+    PurchaseRequired supervisionByRequired(@Param("id") String id);
+    
+    /**
+     * 
+    * @Title: supervisionByRequiredId
+    * @author FengTian 
+    * @date 2017-11-17 下午3:48:23  
+    * @Description: 根据明细ID关联查询
+    * @param @param id
+    * @param @return      
+    * @return PurchaseRequired
+     */
+    PurchaseRequired supervisionByRequiredId(@Param("id") String id);
 }
