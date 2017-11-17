@@ -499,8 +499,8 @@ public class SynchExportController {
 	        if (synchType.contains(Constant.DATE_SYNCH_HOT_LINE)) {
 	        	serviceHotlineService.exportHotLine(startTime, endTime,date);
 	        } 
-	        /** 供应商抽取结果导出*/
 	        if("1".equals(ipAddressType)){
+	        	/** 供应商抽取结果导出*/
 	        	if (synchType.contains(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_RESULT)) {
 	        		autoExtractSupplierService.exportSupplierExtractResult(startTime, endTime, date);
 	        	} 

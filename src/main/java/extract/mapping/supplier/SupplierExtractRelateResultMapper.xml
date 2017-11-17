@@ -395,30 +395,34 @@
 				)
 			</if>
 		</if>
-		<!-- 查询等级 -->
+		<!-- 查询等级 或关系 -->
 		<if test="supplierTypeCode != 'PROJECT'.toString() and supplierTypeCodes.length == 1">
-			<if test="null != supplierItemId">
+			<if test="null != supplierItemId and isMulticondition == 1">
 				AND L.CATEGORY_ID  IN <foreach collection="supplierItemId" item="sid" open="(" close=")" separator=","> #{sid}  </foreach>
 			</if>
 			AND L.SUPPLIER_TYPE_ID = #{supplierTypeCode}
 			<if test="levelTypeId !=null and levelTypeId != '' ">
 				AND L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
 			</if>
+			
 		</if>
 		<if test="supplierTypeCodes.length == 2">
-			<if test="null != supplierItemId">
-				AND L.CATEGORY_ID  IN <foreach collection="supplierItemId" item="sid" open="(" close=")" separator=","> #{sid}  </foreach>
-				AND ( L.SUPPLIER_TYPE_ID = 'PRODUCT'
+			<!-- 或关系 -->
+			<if test="isMulticondition == 1">
+				<if test="null != supplierItemId">
+					AND L.CATEGORY_ID  IN <foreach collection="supplierItemId" item="sid" open="(" close=")" separator=","> #{sid}  </foreach>
+					AND ( L.SUPPLIER_TYPE_ID = 'PRODUCT'               
+				</if>
+				<if test="levelTypeId !=null and levelTypeId != '' ">
+					AND  L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
+				</if>
+				OR
+				<if test="salesLevelTypeId !=null and salesLevelTypeId != '' ">
+					 L.SUPPLIER_LEVEL IN <foreach collection="salesLevelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
+					 AND 
+				</if>
+					L.SUPPLIER_TYPE_ID ='SALES')
 			</if>
-			<if test="levelTypeId !=null and levelTypeId != '' ">
-				AND  L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
-			</if>
-			OR
-			<if test="salesLevelTypeId !=null and salesLevelTypeId != '' ">
-				 L.SUPPLIER_LEVEL IN <foreach collection="salesLevelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
-				 AND 
-			</if>
-				L.SUPPLIER_TYPE_ID ='SALES')
 		</if>
 		<!-- 保密要求 -->
 		<if test="isHavingConCert !=null and isHavingConCert != '' ">

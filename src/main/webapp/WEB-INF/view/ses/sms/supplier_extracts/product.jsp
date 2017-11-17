@@ -63,7 +63,6 @@
     var temp = new Array();
     var isCheckParent = true;
     $(function() {
-      
       categoryId = sessionStorage.getItem("categoryId");
       loadZtree(null);
 		
@@ -305,7 +304,7 @@
         //是否满足
        var issatisfy=$('input[name="radio"]:checked ').val();
        if("PROJECT"!=typeCode){
-           $(cate).parents("li").find(".parentId").val(cateId.toString());
+           $(cate).parents("li").find(".categoryId").val(cateId.toString());
        }else{
        		var ppid = modifParentOrChild(nodes);
        		$(cate).parents("li").find(".categoryId").val(ppid.substring(0,ppid.lastIndexOf(",")));

@@ -295,7 +295,7 @@
 	</select>
 	
 	<select id="selectCateLevelToUp" parameterType="map" resultMap="supplierLevelResult">
-		SELECT * FROM  T_SES_BMS_CATEGORY CATE  
+		SELECT L.CATEGORY_ID,L.SUPPLIER_ID,L.SUPPLIER_LEVEL,L.SUPPLIER_TYPE_ID FROM  T_SES_BMS_CATEGORY CATE  
 		LEFT JOIN T_SES_SMS_SUPPLIER_ITEM_LEVEL L ON CATE.ID = L.CATEGORY_ID
 		WHERE CATE.SUPPLIER_REGISTER_LEVEL = 4 
 		AND L.SUPPLIER_TYPE_ID IN 
@@ -313,15 +313,17 @@
 	</select>
 	
 	<select id="selectCateLevelToDown" parameterType="map" resultMap="supplierLevelResult">
-		SELECT * FROM  T_SES_BMS_CATEGORY CATE  
-		LEFT JOIN T_SES_SMS_SUPPLIER_ITEM_LEVEL L ON CATE.ID = L.CATEGORY_ID
+		SELECT L.CATEGORY_ID,L.SUPPLIER_ID,L.SUPPLIER_LEVEL,L.SUPPLIER_TYPE_ID
+		FROM  T_SES_BMS_CATEGORY CATE  	
+		LEFT JOIN T_SES_SMS_SUPPLIER_ITEM_LEVEL L 
+		ON CATE.ID = L.CATEGORY_ID
 		WHERE CATE.SUPPLIER_REGISTER_LEVEL = 4 
 		AND L.SUPPLIER_TYPE_ID IN 
 		<foreach collection="supplierTypeId" index="index" item="it" open="(" close=")" separator=",">
 			#{it}
 		</foreach>
 		
-		<if test="categoryIds == null">
+		<if test="categoryIds != null">
 			START WITH CATE.ID in 
 			<foreach collection="categoryIds" index="index" item="it" open="(" close=")" separator=",">
 				#{it}

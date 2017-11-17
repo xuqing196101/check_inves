@@ -873,7 +873,6 @@ public class SupplierExtractConditionServiceimp implements
 		
 		//处理产品类目
 		String cid = condition.getCategoryId();
-		String pid = condition.getParentId();
 		String addressId = condition.getAddressId();
 		
 		if (2 == condition.getIsMulticondition()) {
@@ -882,19 +881,7 @@ public class SupplierExtractConditionServiceimp implements
 			if(StringUtils.isNotBlank(cid)){
 				cate.addAll(conditionMapper.selectChildCate(cid.split(",")));
 			}
-			if(StringUtils.isNotBlank(pid)){
-				cate.addAll(conditionMapper.selectChildCate(pid.split(",")));
-			}
 			condition.setCsize(cate.size());
-		}
-		
-		// 若勾选了父节点
-		if (StringUtils.isNotBlank(pid)) {
-			// 遍历出全部的其下的末级节点，去重拼进categoryId
-			// cid = this.selectChild(pid,cid);
-			String tempCateIdString = "";
-			tempCateIdString = pid	+ (StringUtils.isNotBlank(cid) ? ("," + cid) : "");
-			condition.setCategoryId(tempCateIdString);
 		}
 		
 		// 处理地区查询条件
@@ -1045,22 +1032,13 @@ public class SupplierExtractConditionServiceimp implements
 			}
 		}
 		
-		Set<String> hashSet = new HashSet<>();
 		String cids = condition.getCategoryId();
 		if (StringUtils.isNotBlank(cids)) {
-			List<String> asList = Arrays.asList(cids.split(","));
-			hashSet.addAll(asList);
-		} 
-		String pids = condition.getParentId();
-		if (StringUtils.isNotBlank(pids)) {
-			List<String> asList = Arrays.asList(pids.split(","));
-			hashSet.addAll(asList);
-		}
-		if(hashSet.size()>0){
-			for (String cId : hashSet) {
+			for (String cId : cids.split(",")) {
 				list.add(new ExtractConditionRelation(cid, "categoryId", cId));
 			}
-		}
+		} 
+		
 		String le = condition.getLevelTypeId();
 		if (StringUtils.isNotBlank(le)) {
 			for (String lv : le.split(",")) {
@@ -1112,8 +1090,6 @@ public class SupplierExtractConditionServiceimp implements
 		
 		map.put("supplierTypeId",condition.getSupplierTypeCodes());
 		map.put("categoryIds", categoryIds);
-		String[] levelTypeIds = condition.getLevelTypeIds();
-		String[] salesLevelTypeIds = condition.getSalesLevelTypeIds();
 		if(condition.getSupplierTypeCodes().length>1){
 			
 		}
@@ -1156,4 +1132,5 @@ public class SupplierExtractConditionServiceimp implements
 		map.put("qids", qids);
 		return conditionMapper.selectQuaLevelBySupplierIdAndQuaId(map);
 	}
+	
 }

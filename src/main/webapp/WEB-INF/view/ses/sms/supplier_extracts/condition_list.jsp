@@ -365,12 +365,12 @@
 				</h2>
 				<ul class="ul_list m0 pl5" style="background-color: #fbfbfb">
 					<li class="col-md-3 col-sm-6 col-xs-12 pl10 category">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">产品类别：</span>
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span>产品类别：</span>
 						<!--  满足多个条件 -->
 						<input type="hidden" name="isMulticondition" value="1" id="isSatisfy" class="isSatisfy"> <input type="hidden" name="categoryId" id="categoryIds" class="categoryId">
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input readonly value="${listCon.conTypes[0].categoryName}" typeCode="" onclick="opens(this);" type="text"> <span class="add-on">i</span>
-							<div class="cue" id="dCategoryName"></div>
+							<div class="cue" id="categoryIdError"></div>
 						</div>
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12">
@@ -380,7 +380,7 @@
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<select id=supplierType name="supplierTypeCode" onchange="initCategoryAndLevel(this)" class="w100p"></select> 
 							<span class="add-on">i</span>
-							<div class="cue" id="dCount"></div>
+							<div class="cue" id="supplierTypeCodeError"></div>
 						</div>
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12 level">
@@ -388,7 +388,7 @@
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="hidden" name="levelTypeId"> 
 							<input type="text" readonly id="level" value="${listCon.supplierLevel == null? '':listCon.supplierLevel}" onclick="showLevel(this);" /> <span class="add-on">i</span>
-							<div class="cue" id="dCount"></div>
+							<div class="cue" id="levelTypeIdError"></div>
 						</div>
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12 level">
@@ -396,14 +396,14 @@
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="hidden" name="salesLevelTypeId"> 
 							<input type="text" readonly id="salesLevel" value="${listCon.supplierLevel == null? '':listCon.supplierLevel}" onclick="showLevel(this);" /> <span class="add-on">i</span>
-							<div class="cue" id="dCount"></div>
+							<div class="cue" id="salesLevelTypeIdError"></div>
 						</div>
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input class="title col-md-12" id='extractNum' name="extractNum" maxlength="11" type="text"> <span class="add-on">i</span>
-							<div class="cue" id="ExtractNumError">${loginPwdError}</div>
+							<div class="cue" id="extractNumError">${loginPwdError}</div>
 						</div>
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12 dnone projectOwn">
@@ -492,7 +492,7 @@
 			<!--=== Content Part ===-->
 		</div>
 		<div class="container_box col-md-12 col-sm-12 dnone col-xs-12" id="result">
-			<h2 class="count_flow">
+			<h2 class="count_flow" a>
 				<i>4</i>抽取结果
 			</h2>
 			<div class="ul_list">
