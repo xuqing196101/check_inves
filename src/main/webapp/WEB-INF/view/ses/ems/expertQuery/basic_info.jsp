@@ -211,7 +211,7 @@
 							</tr>
 							<c:if test="${froms eq 'LOCAL'}">
 							  <tr>
-                  <td width="12%" class="bggrey">专家技术职称</td>
+                  <td width="12%" class="bggrey">专业技术职称</td>
                   <td width="25%">${expert.professTechTitles}</td>
                   <td width="12%" class="bggrey">专业技术职称证书</td>
                   <td width="25%">
@@ -228,7 +228,7 @@
 							<c:if test="${froms eq 'ARMY'}">
 						    <c:if test="${expert.teachTitle eq '1'}">
 	                <tr>
-		                 <td width="12%" class="bggrey">专家技术职称</td>
+		                 <td width="12%" class="bggrey">专业技术职称</td>
 		                 <td width="25%">${expert.professTechTitles}</td>
 		                 <td width="12%" class="bggrey">专业技术职称证书</td>
 		                 <td width="25%">

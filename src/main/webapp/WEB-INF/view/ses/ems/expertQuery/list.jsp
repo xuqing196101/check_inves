@@ -369,7 +369,16 @@
               </td>
               <%-- <td class="tc">${e.idCardNumber}</td> --%>
               <td class="tc">${e.gender}</td>
-              <td class="tc">${e.atDuty}</td>
+              <td class="tc">
+              	<c:choose>
+              		<c:when test="${e.professTechTitles !=null and e.professTechTitles ne ''}">
+              			${e.professTechTitles}
+              		</c:when>
+              		<c:otherwise>
+              			 ${e.atDuty}
+              		</c:otherwise>
+              	</c:choose>
+              </td>
               <td class="tc">${e.expertsFrom }</td>
               <td class="hand" title="${e.expertsTypeId}">
                 <c:if test="${fn:length (e.expertsTypeId) > 4}">${fn:substring(e.expertsTypeId,0,4)}...</c:if>
