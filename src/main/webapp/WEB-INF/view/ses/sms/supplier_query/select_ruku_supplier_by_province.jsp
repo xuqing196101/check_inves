@@ -428,7 +428,7 @@
 							<div class="row mauto_n5">
 								<div class="col-xs-5 pauto_5 tr text-nowrapEl" title="企业性质">企业性质：</div>
 								<div class="col-xs-7 pauto_5 f0">
-									<select name="businessNature" id="businessNature" class="w100p mb0">
+									<select name="businessNature" id="businessNature" class="w100p mb0 f14">
 			              <option value=''>全部</option>
 			              <c:forEach items="${businessNature}" var="list">
 			              	<option <c:if test="${supplier.businessNature eq list.id }">selected</c:if> value="${list.id }">${list.name }</option>
@@ -478,7 +478,7 @@
 							<div class="row mauto_n5">
 								<div class="col-xs-5 pauto_5 tr text-nowrapEl" title="供应商状态">供应商状态：</div>
 								<div class="col-xs-7 pauto_5 f0">
-									<select id="status" name="status" class="w100p mb0">
+									<select id="status" name="status" class="w100p mb0 f14">
 										<option value=''>全部</option>
 										<!-- <option value="1">审核通过</option>
 										<option value="4">待复核</option>
@@ -528,7 +528,7 @@
 							<div class="row mauto_n5">
 								<div class="col-xs-5 pauto_5 tr text-nowrapEl" title="采购机构">采购机构：</div>
 								<div class="col-xs-7 pauto_5 f0">
-									<select name="orgName" id="orgName" class="w100p mb0">
+									<select name="orgName" id="orgName" class="w100p mb0 f14">
 		                <option value=''>全部</option>
 		                <c:forEach items="${allOrg}" var="org">
 		                  <c:if test="${org.isAuditSupplier == 1}">
@@ -545,7 +545,7 @@
 							<div class="row mauto_n5">
 								<div class="col-xs-5 pauto_5 tr text-nowrapEl" title="地区">地区：</div>
 								<div class="col-xs-7 pauto_5 f0">
-									<select name="address" id="address" class="w100p mb0">
+									<select name="address" id="address" class="w100p mb0 f14">
 	                  <option value=''>全部</option>
 	                  <c:forEach items="${privnce}" var="list">
 	                    <option value="${list.id }">${list.name }</option>
@@ -569,7 +569,7 @@
 							<div class="row mauto_n5">
 								<div class="col-xs-5 pauto_5 tr text-nowrapEl" title="供应商等级">供应商等级：</div>
 								<div class="col-xs-7 pauto_5 f0">
-									<select name="supplierLevel" id="supplierLevel" class="w100p mb0">
+									<select name="supplierLevel" id="supplierLevel" class="w100p mb0 f14">
 									  <option selected="selected" value=''>全部</option>
 									  <option value="一级">一级</option>
 									  <option value="二级">二级</option>
