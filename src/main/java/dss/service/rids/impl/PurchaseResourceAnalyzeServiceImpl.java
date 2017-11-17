@@ -453,9 +453,13 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 		// 获取男女数据词典
 		List<DictionaryData> dictList = DictionaryDataUtil.find(13);
 		if(dictList != null && !dictList.isEmpty()){
-			BigDecimal count;
+			BigDecimal count = null;
 			for (DictionaryData dict : dictList) {
 				count = purchaseInfoMapper.selectMenberByGender(dict.getId());
+				// 取数据则不显示
+				if(count != null && count.compareTo(BigDecimal.ZERO) == 0){
+					continue;
+				}
 				setAnalyzeBigDate(count, dict.getName(), null, dict.getId(), list);
 			}
 		}
