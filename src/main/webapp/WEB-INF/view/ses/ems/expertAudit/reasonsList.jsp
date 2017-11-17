@@ -747,7 +747,7 @@
                     <c:if test = "${sign eq '1' && (status eq '5' || status eq '10')}" >
                     	<a id="nextStep" class="btn" type="button" onclick="nextStep();">下一步</a>
                     </c:if>
-                    <c:if test="${status eq '4' && sign eq '2' || status eq '-2'}">
+                    <c:if test="${(status eq '4' && sign eq '2' || status eq '-2') && isCheck eq 'no'}">
                        <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(4);" value="复审合格 " id="tongguo">
                         <input class="btn btn-windows cancel" type="button" onclick="shenhe(5);" value="复审不合格" id="tichu"> -->
                         <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui"> -->

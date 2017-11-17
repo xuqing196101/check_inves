@@ -159,7 +159,7 @@
             	+'<td class="text-center"><input type="checkbox" value="'+ list_content.list[i].expertId +'" class="select_item"></td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].batchDetailsNumber +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].orgName +'</td>'
-                +'<td class="text-center break-all">'+ list_content.list[i].realName +'</td>'
+                +'<td class="text-center break-all" onclick="viewDetails(\''+ list_content.list[i].expertId +'\');"><a href="javascript:void(0)">'+ list_content.list[i].realName +'</a></td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].gender +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].expertsFrom +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].expertsTypeId +'</td>'

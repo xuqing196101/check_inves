@@ -214,8 +214,8 @@
  	      });
     }
     
-    function view(expertId){
-        window.location.href = "${pageContext.request.contextPath}/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2";
+    function viewDetails(expertId){
+        window.location.href = "${pageContext.request.contextPath}/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2&isCheck=yes";
     }
   </script>
     

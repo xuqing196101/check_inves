@@ -4105,11 +4105,12 @@ public class ExpertAuditController{
      * @return
      */
     @RequestMapping(value = "/auditSummary")
-    public String auditSummary(Model model, String expertId, Integer sign, String batchId){
+    public String auditSummary(Model model, String expertId, Integer sign, String batchId, String isCheck){
     	//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
 		model.addAttribute("batchId", batchId);
 		model.addAttribute("expertId", expertId);
+		model.addAttribute("isCheck", isCheck == null? "no" : isCheck);
 		ExpertAudit expertAudit = new ExpertAudit();
 		expertAudit.setExpertId(expertId);
 		expertAudit.setAuditFalg(2);
