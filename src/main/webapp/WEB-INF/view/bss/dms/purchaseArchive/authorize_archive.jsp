@@ -333,7 +333,7 @@
 			<div id="pageDiv" align="right"></div>
 		</div>
 
-		<div class="dnone layui-layer-wrap col-md-12" id="news">
+		<div class="dnone layui-layer-wrap col-md-12 mt20" id="news">
 			<table class="table table-bordered table-condensed table-hover">
 				<thead>
 					<tr class="info">
@@ -346,7 +346,7 @@
 				<tbody id="fileNews">
 				</tbody>
 			</table>
-			<div class="col-md-12 mt10 tc ">
+			<div class="col-md-12 tc">
 				<button class="btn btn-windows save" type="button" onclick="save()">保存</button>
 				<button class="btn btn-windows cancel" type="button" onclick="cancel()">取消</button>
 			</div>
