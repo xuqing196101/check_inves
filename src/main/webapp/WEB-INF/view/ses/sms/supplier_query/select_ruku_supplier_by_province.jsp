@@ -510,7 +510,7 @@
 						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
 							<div class="row mauto_n5">
 								<div class="col-xs-5 pauto_5 tr text-nowrapEl" title="审核日期">审核日期：</div>
-								<div class="col-xs-7 pauto_5">
+								<div class="col-xs-7 pauto_5 f0">
 									<div class="row mauto_n5">
 										<div class="col-xs-5 pauto_5">
 											<input id="startAuditDate" name="startAuditDate" class="Wdate w100p mb0" type="text"  value='<fmt:formatDate value="${supplier.startAuditDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('startAuditDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'startAuditDate\')}'})">
