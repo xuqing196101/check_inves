@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ page import="org.apache.commons.lang3.StringUtils"%>
 <%@ page import="org.apache.commons.lang3.math.NumberUtils"%>
 <%@ page import="ses.constants.SupplierConstants"%>
 <%@ page import="ses.model.bms.User" %>
@@ -6,10 +7,13 @@
 	String ipAddressType = SupplierConstants.IP_ADDRESS_TYPE;
 	String ipInner = SupplierConstants.IP_INNER;
 	String ipOuter = SupplierConstants.IP_OUTER;
-	int status = NumberUtils.toInt(request.getParameter("supplierStatus"), 0);
+	
+	String currentStep = StringUtils.defaultIfEmpty(request.getParameter("currentStep"), "one");
+	String supplierId = request.getParameter("supplierId");
+	int supplierSt = NumberUtils.toInt(request.getParameter("supplierStatus"), 0);
 	String account = ((User)session.getAttribute(SupplierConstants.KEY_SESSION_LOGIN_USER)).getLoginName();
-	boolean isAudit = SupplierConstants.isAudit(account, status);
-	boolean isStatusToAudit = SupplierConstants.isStatusToAudit(status);
+	boolean isAudit = SupplierConstants.isAudit(account, supplierSt);
+	boolean isStatusToAudit = SupplierConstants.isStatusToAudit(supplierSt);
 	
 	request.setAttribute("isAudit", isAudit);
 	request.setAttribute("isStatusToAudit", isStatusToAudit);
@@ -95,86 +99,31 @@
 </ul>
 
 <script type="text/javascript">
-	var isAudit = <%=isAudit %>;
+	var isAudit = "<%=isAudit %>";
+	var supplierId = "<%=supplierId %>";
+	var supplierSt = "<%=supplierSt %>";
+	
+	$(function () {
+		// 导航栏选中
+		$("li[id$='reverse_of_']").removeClass("active");
+    $("#reverse_of_<%=currentStep %>").addClass("active").removeAttr("onclick");
+    // 文本只读
+    $(":input").attr("readonly", "readonly");
+    // 文本添加title
+    $("input[type='text']").each(function(){
+    	$(this).attr("title", $(this).val());
+    });
+    // 文本鼠标移入移出效果
+    $(":input").each(function () {
+      var onmousemove = "this.style.background='#E8E8E8'";
+      var onmouseout = "this.style.background='#FFFFFF'";
+      $(this).attr("onmousemove", onmousemove);
+      $(this).attr("onmouseout", onmouseout);
+    });
+    // 隐藏
+    //$("td,li").find("p").hide();
+  });
 	//以前的判断
 	//if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 </script>
-<script type="text/javascript">
-
-	// 删除左右两端的空格
-	function trim(str) {
-		return str.replace(/(^\s*)|(\s*$)/g, "");
-	}
-
-	// 获取旧的审核记录
-	function getOldAudit(auditData) {
-		var result = null;
-		$.ajax({
-			url : "${pageContext.request.contextPath}/supplierAudit/ajaxOldAudit.do",
-			type : "post",
-			dataType : "json",
-			data : auditData,
-			async : false,
-			success : function(data) {
-				result = data;
-			}
-		});
-		return result;
-	}
-	
-	// 获取旧的审核记录
-	function getOldAuditMuti(auditData) {
-		var result = null;
-		$.ajax({
-			url : "${pageContext.request.contextPath}/supplierAudit/ajaxOldAuditMuti.do",
-			type : "post",
-			dataType : "json",
-			contentType: "application/json",
-			data : auditData,
-			async : false,
-			success : function(data) {
-				result = data;
-			}
-		});
-		return result;
-	}
-
-	// 撤销审核记录
-	function cancelAudit(auditData) {
-		var bool = false;
-		$.ajax({
-			url : "${pageContext.request.contextPath}/supplierAudit/cancelAudit.do",
-			type : "post",
-			dataType : "json",
-			data : auditData,
-			async : false,
-			success : function(result) {
-				if (result && result.status == 500) {
-					bool = true;
-					layer.msg('撤销成功！');
-				}
-			}
-		});
-		return bool;
-	}
-	
-	// 撤销审核记录
-	function cancelAuditMuti(auditData) {
-		var bool = false;
-		$.ajax({
-			url : "${pageContext.request.contextPath}/supplierAudit/cancelAuditMuti.do",
-			type : "post",
-			dataType : "json",
-			contentType: "application/json",
-			data : auditData,
-			async : false,
-			success : function(result) {
-				if (result && result.status == 500) {
-					bool = true;
-					layer.msg('撤销成功！');
-				}
-			}
-		});
-		return bool;
-	}
-</script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/common.js"></script>

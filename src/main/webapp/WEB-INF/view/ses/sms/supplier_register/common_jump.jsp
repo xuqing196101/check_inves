@@ -5,9 +5,6 @@
 	int currentStep = NumberUtils.toInt(request.getParameter("currentStep"), 1);// 当前步骤
 	String supplierId = request.getParameter("supplierId");// 供应商id
 	String supplierSt = request.getParameter("supplierSt");// 供应商状态
-	switch(currentStep){
-		
-	}
 %>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
 <c:set var="currentStep" value="<%=currentStep %>" />

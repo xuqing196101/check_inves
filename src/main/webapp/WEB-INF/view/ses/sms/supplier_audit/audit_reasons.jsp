@@ -410,7 +410,10 @@
 				<div class="col-md-12 tab-v2 job-content">
 					<%-- <%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%> --%>
           <jsp:include page="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp">
-          	<jsp:param value="${supplierStatus }" name="supplierStatus"/>
+          	<jsp:param value="seven" name="currentStep"/>
+           	<jsp:param value="${supplierId }" name="supplierId"/>
+           	<jsp:param value="${supplierStatus }" name="supplierStatus"/>
+           	<jsp:param value="${sign }" name="sign"/>
           </jsp:include>
 					<form id="form_id" action="" method="post">
 					  <input name="supplierId" value="${supplierId}" type="hidden">
@@ -643,8 +646,7 @@
 							<div class="margin-bottom-0  categories">
 								<div class="col-md-12 add_regist tc">
 									<div class="col-md-12 add_regist tc">
-										<a class="btn"  type="button" onclick="lastStep();">上一步</a>
-										<!-- <a class="btn"  type="button" onclick="lastStep();">上一步</a> -->
+										<a class="btn"  type="button" onclick="toStep('six');">上一步</a>
 										<c:if test="${supplierStatus == 0 or supplierStatus == 9 and ipAddressType == ipInner}">
 											<input  class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">
 											<span id="tongguoSpan"><input class="btn btn-windows end"  type="button" onclick="shenhe(-2)" value="预审核结束" id="tongguo"></span>
@@ -662,7 +664,7 @@
 											<c:if test="${supplierStatus == -2 and ipAddressType == ipInner}">
 												<a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();" id="oprTempSave">暂存</a>
 											</c:if>
-											<a class="btn" type="button" onclick="nextStep();" id="oprNextStep">下一步</a>
+											<a class="btn" type="button" onclick="toStep('eight');" id="oprNextStep">下一步</a>
 										</c:if>
 										
 										<c:if test="${supplierStatus == 4 and ipAddressType == ipInner}">
