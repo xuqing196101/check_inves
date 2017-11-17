@@ -427,30 +427,41 @@ public class ExpertQueryController {
         // 查询已选中的节点信息(所有子节点)
         /*List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);*/
         //只查询审核通过的
-       /* List<ExpertCategory> items = expertCategoryService.selectPassCateByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);*/
-        List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId);
+        List<ExpertCategory> items = null;
+        if(StringUtils.isNotEmpty(flags)){
+            // 公示品目删选
+            items = expertCategoryService.selectPassCateByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
+        }else {
+            items = expertCategoryService.getListByExpertId(expertId, typeId);
+        }
 
         List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
         int count=0;
-        for (ExpertCategory expertCategory : items) {
-        	count++;
-            if (!DictionaryDataUtil.findById(expertCategory.getTypeId()).getCode().equals("ENG_INFO_ID")) {
-                Category data = categoryService.findById(expertCategory.getCategoryId());
-                List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
-                if (findPublishTree.size() == 0) {
-                    expertItems.add(expertCategory);
-                } else if (data != null && data.getCode().length() == 7) {
-                    expertItems.add(expertCategory);
-                }
-            } else {
-                Category data = engCategoryService.findById(expertCategory.getCategoryId());
-                List<Category> findPublishTree = engCategoryService.findPublishTree(expertCategory.getCategoryId(), null);
-                if (findPublishTree.size() == 0) {
-                    expertItems.add(expertCategory);
-                } else if (data != null && data.getCode().length() == 7) {
-                    expertItems.add(expertCategory);
+        if(items != null && !items.isEmpty() && StringUtils.isEmpty(flags)){
+            for (ExpertCategory expertCategory : items) {
+                count++;
+                if (!DictionaryDataUtil.findById(expertCategory.getTypeId()).getCode().equals("ENG_INFO_ID")) {
+                    Category data = categoryService.findById(expertCategory.getCategoryId());
+                    List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
+                    if (findPublishTree.size() == 0) {
+                        expertItems.add(expertCategory);
+                    } else if (data != null && data.getCode().length() == 7) {
+                        expertItems.add(expertCategory);
+                    }
+                } else {
+                    Category data = engCategoryService.findById(expertCategory.getCategoryId());
+                    List<Category> findPublishTree = engCategoryService.findPublishTree(expertCategory.getCategoryId(), null);
+                    if (findPublishTree.size() == 0) {
+                        expertItems.add(expertCategory);
+                    } else if (data != null && data.getCode().length() == 7) {
+                        expertItems.add(expertCategory);
+                    }
                 }
             }
+        }
+        // 公示
+        if(items != null && !items.isEmpty() && StringUtils.isNotEmpty(flags)){
+            expertItems.addAll(items);
         }
         List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
         for(ExpertCategory item: expertItems) {
@@ -473,16 +484,15 @@ public class ExpertQueryController {
         model.addAttribute("typeId", typeId);
         model.addAttribute("result", new PageInfo < > (items));
         model.addAttribute("itemsList", allTreeList);
-        List<ExpertCategory> list = expertCategoryService.getListCount(expertId, typeId, "1");//设置level为1是为了过滤掉父节点,只统计子节点个数
-        
-        /*model.addAttribute("resultPages", (list == null ? 0 : this.totalPages(list)));
-        model.addAttribute("resultTotal", (list == null ? 0 : list.size()));
+        //List<ExpertCategory> list = expertCategoryService.getListCount(expertId, typeId, "1");//设置level为1是为了过滤掉父节点,只统计子节点个数
+        /*model.addAttribute("resultPages", (items == null ? 0 : this.totalPages(items)));
+        model.addAttribute("resultTotal", (items == null ? 0 : items.size()));
         model.addAttribute("resultpageNum", pageNum);
-        model.addAttribute("resultStartRow", (list == null ? 0 : 1));
+        model.addAttribute("resultStartRow", (items == null ? 0 : 1));
         model.addAttribute("resultEndRow", new PageInfo < > (items).getEndRow()+1);*/
         // 首页公示显示专家小类详情
         if(StringUtils.isNotEmpty(flags)){
-           return "iss/ps/index/index_expPublicity_item_ajax";
+            return "iss/ps/index/index_expPublicity_item_ajax";
         }
 
         return "ses/ems/expertQuery/ajax_items";
