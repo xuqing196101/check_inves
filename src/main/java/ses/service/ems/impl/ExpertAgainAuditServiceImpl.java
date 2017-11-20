@@ -209,6 +209,11 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		}*/
 		//expertBatchDetails.setSort("1");
 		Map<String,Object> map = new HashMap<String,Object>();
+		if (expertBatchDetails.getExpertsTypeId() != null && !"".equals(expertBatchDetails.getExpertsTypeId())) {
+            List<String> listExpertTypeId = Arrays.asList(expertBatchDetails.getExpertsTypeId().split(","));
+            expertBatchDetails.setExpertTypeId(listExpertTypeId);
+		
+		}
 		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
 		if(list.size()>0){
 			map.put("batchId", list.get(0).getBatchId());
