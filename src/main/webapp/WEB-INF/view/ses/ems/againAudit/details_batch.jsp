@@ -42,7 +42,7 @@
   <div class="container">
     <div class="headline-v2"><h2 id="head_tit"></h2></div>
     
-    <div class="search_detail">
+    <div class="search_detail hide">
       <form id="form_id" action="${pageContext.request.contextPath}/expertAudit/basicInfo.html" method="post">
         <input name="expertId" type="hidden" />
         <input name="sign" type="hidden" value="${sign }"/>
@@ -106,7 +106,7 @@
     </div>
     
     <div class="mt20 pl20 text-center">
-      <button type="button" id="back_btn" class="btn btn-windows back" onclick="location='${pageContext.request.contextPath}/expertAgainAudit/findBatchList.html'">返回</button>
+      <button type="button" id="back_btn" class="btn btn-windows back hide" onclick="location='${pageContext.request.contextPath}/expertAgainAudit/findBatchList.html'">返回</button>
     </div>
       
   </div>
