@@ -19,9 +19,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
-
 import common.constant.StaticVariables;
-
 import bss.dao.ppms.PackageAdviceMapper;
 import bss.dao.ppms.PackageMapper;
 import bss.dao.ppms.ProjectDetailMapper;
@@ -248,4 +246,9 @@ public class PackageAdviceServiceImpl implements PackageAdviceService {
 			}
 		}
 	}
+
+  @Override
+  public List<PackageAdvice> selectByStatus(String projectId) {
+    return mapper.selectByStatus(projectId);
+  }
 }

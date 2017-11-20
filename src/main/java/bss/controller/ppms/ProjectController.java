@@ -2125,7 +2125,7 @@ public class ProjectController extends BaseController {
      * @exception IOException
      */
     @RequestMapping("/excute")
-    public String execute(String id, Model model, Integer page, String type) {
+    public String execute(@CurrentUser User user,String id, Model model, Integer page, String type) {
         Project project = projectService.selectById(id);
         String id2 = DictionaryDataUtil.getId("YJLX");
         if(id2.equals(project.getStatus())){
@@ -2144,6 +2144,7 @@ public class ProjectController extends BaseController {
         HashMap<String, Object> map = projectService.getFlowDefine(purchaseType, id);
         model.addAttribute("fds", map.get("fds"));
         model.addAttribute("url", map.get("url"));
+        model.addAttribute("userId", user.getId());
         System.out.println(map.get("url"));
         return "bss/ppms/open_bidding/main";
     }

@@ -32,4 +32,6 @@ public interface PackageAdviceService {
 
 	void recheck(String packageIds);
 	
+	List<PackageAdvice> selectByStatus(String projectId);
+	
 }

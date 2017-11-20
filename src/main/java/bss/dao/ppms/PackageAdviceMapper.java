@@ -65,4 +65,7 @@ public interface PackageAdviceMapper {
 	 */
 	List<PackageAdvice> findByProjectList(HashMap<String, Object> map);
 	
+	
+	List<PackageAdvice> selectByStatus(String projectId);
+	
 }

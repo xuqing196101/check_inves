@@ -273,5 +273,8 @@
 		GROUP BY
 			PROJECT_ID,STATUS,ADVICE,CODE
   </select>
+  <select id="selectByStatus" parameterType="java.lang.String" resultMap="PackageAdviceResult">
+  	select status from T_BSS_PPMS_PACKAGE_ADVICE where code=#{code} group by status
+  </select>
   
 </mapper>

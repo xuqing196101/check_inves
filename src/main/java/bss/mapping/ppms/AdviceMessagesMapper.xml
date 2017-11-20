@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.ppms.AdviceMessagesMapper">
+  <resultMap id="BaseResultMap" type="bss.model.ppms.AdviceMessages">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+    <result column="MANAGERS" jdbcType="VARCHAR" property="managers" />
+    <result column="SENDER" jdbcType="VARCHAR" property="sender" />
+    <result column="CREATE_AT" jdbcType="DATE" property="createAt" />
+    <result column="CARRYOUT_AT" jdbcType="DATE" property="carryoutAt" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CODE, PROJECT_ID, MANAGERS, SENDER, CREATE_AT, CARRYOUT_AT, STATUS, IS_DELETE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_MESSAGE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BSS_PPMS_MESSAGE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="bss.model.ppms.AdviceMessages">
+    insert into T_BSS_PPMS_MESSAGE (ID, CODE, PROJECT_ID, 
+      MANAGERS, SENDER, CREATE_AT, 
+      CARRYOUT_AT, STATUS, IS_DELETE
+      )
+    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, 
+      #{managers,jdbcType=VARCHAR}, #{sender,jdbcType=VARCHAR}, #{createAt,jdbcType=DATE}, 
+      #{carryoutAt,jdbcType=DATE}, #{status,jdbcType=DECIMAL}, #{isDelete,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.ppms.AdviceMessages">
+    insert into T_BSS_PPMS_MESSAGE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="managers != null">
+        MANAGERS,
+      </if>
+      <if test="sender != null">
+        SENDER,
+      </if>
+      <if test="createAt != null">
+        CREATE_AT,
+      </if>
+      <if test="carryoutAt != null">
+        CARRYOUT_AT,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="isDelete != null">
+        IS_DELETE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="managers != null">
+        #{managers,jdbcType=VARCHAR},
+      </if>
+      <if test="sender != null">
+        #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        #{createAt,jdbcType=DATE},
+      </if>
+      <if test="carryoutAt != null">
+        #{carryoutAt,jdbcType=DATE},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.AdviceMessages">
+    update T_BSS_PPMS_MESSAGE
+    <set>
+      <if test="code != null">
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="managers != null">
+        MANAGERS = #{managers,jdbcType=VARCHAR},
+      </if>
+      <if test="sender != null">
+        SENDER = #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        CREATE_AT = #{createAt,jdbcType=DATE},
+      </if>
+      <if test="carryoutAt != null">
+        CARRYOUT_AT = #{carryoutAt,jdbcType=DATE},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="isDelete != null">
+        IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bss.model.ppms.AdviceMessages">
+    update T_BSS_PPMS_MESSAGE
+    set CODE = #{code,jdbcType=VARCHAR},
+      PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      MANAGERS = #{managers,jdbcType=VARCHAR},
+      SENDER = #{sender,jdbcType=VARCHAR},
+      CREATE_AT = #{createAt,jdbcType=DATE},
+      CARRYOUT_AT = #{carryoutAt,jdbcType=DATE},
+      STATUS = #{status,jdbcType=DECIMAL},
+      IS_DELETE = #{isDelete,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

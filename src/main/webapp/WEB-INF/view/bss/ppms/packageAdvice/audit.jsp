@@ -22,6 +22,7 @@
 					}
 				});
 				if($("input[name='packId']").length == packStatus){
+					ajaxComet();
 					window.location.href = "${pageContext.request.contextPath}/packageAdvice/list.html";
 				}
 			}
@@ -47,7 +48,7 @@
 		 				if(data == "ok"){
 		 					layer.msg("审核通过");
 		 					if($("input[name='packId']").length == packId.length){
-		 						window.location.href = "${pageContext.request.contextPath}/packageAdvice/list.html";
+		 						ajaxComet();
 		 					} else {
 		 						window.location.href = "${pageContext.request.contextPath}/packageAdvice/audit.html?code=" + code + "&status=2";
 		 					}
@@ -61,6 +62,25 @@
 	    }
 		}
 		
+		function ajaxComet(){
+			$.ajax({
+	 			url:"${pageContext.request.contextPath}/packageAdvice/comet.do",
+	 			type:"post",
+	 			dataType:"text",
+	 			async: false,
+	 			data:{
+	 				"projectId" : "${advice.project.id}",
+	 				"proposer" : "${advice.proposer}",
+	 				"code" : "${advice.code}"
+	 			},
+	 			success:function(data){
+	 				if(data=="ok"){
+	 					window.location.href = "${pageContext.request.contextPath}/packageAdvice/list.html";
+	 				}
+	 			}
+	 			
+			});
+		}
 		function noPass(code){
 			var packId = [];
 		 	$("input[name='packId']:checked").each(function() {
@@ -86,9 +106,8 @@
 			 			success:function(data){
 			 				if(data == "ok"){
 			 					layer.msg("成功");
-			 					
 				 				if($("input[name='packId']").length == packId.length){
-			 						window.location.href = "${pageContext.request.contextPath}/packageAdvice/list.html";
+				 					ajaxComet();
 			 					} else {
 			 						window.location.href = "${pageContext.request.contextPath}/packageAdvice/audit.html?code=" + code + "&status=2";
 			 					}
