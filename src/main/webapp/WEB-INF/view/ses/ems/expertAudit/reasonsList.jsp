@@ -55,15 +55,23 @@
            	var expertId = $("input[name='expertId']").val();
            	var checkVal = $("input:radio[name='selectOption']:checked").val();
            	
-           	if(checkVal == '-3'){
-           		getCheckOpinionType(expertId);
+          	//是否点专家姓名进来查看的
+          	var isCheck = '${isCheck}';
+           	if(isCheck == "yes"){
+           		var opinion = "${auditOpinion.opinion}";
+           		seeItemsOpinion(expertId,opinion,status);
+           	}else{
+           		if(checkVal == '-3'){
+               		getCheckOpinionType(expertId);
+               	}
+               	if(checkVal == '5'){
+               		$("#cate_result").html("预复审不合格。");
+               	}
+               	if(checkVal == '10'){
+               		$("#cate_result").html("退回修改。");
+               	}
            	}
-           	if(checkVal == '5'){
-           		$("#cate_result").html("预复审不合格。");
-           	}
-           	if(checkVal == '10'){
-           		$("#cate_result").html("退回修改。");
-           	}
+           	
             
             //控制《预初审合格》《预初审不合格》
            if(status == '5' || status == '10'){
@@ -659,21 +667,35 @@
             <c:if test="${ sign == 2 }">
               <div class="clear"></div>
               <div id="opinionDiv">
-                  <h2 class="count_flow mt0"><i>1</i><span class="red">*</span>专家复审意见</h2>
-                  <ul class="ul_list">
-                      <li>
-                          <div class="select_check" id="selectOptionId">
-                           <input type="radio" id="qualified" name="selectOption" value="-3">预复审合格
-                           <input type="radio"  name="selectOption" value="5">预复审不合格
-                           <input type="radio"  name="selectOption" value="10">退回修改
-                          </div>
-                      </li>
-                      <div><span type="text" name="cate_result" id="cate_result"></span></div>
-                      <li class="mt10">
-                          <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ auditOpinion.opinion }</textarea>
-                      </li>
-                  </ul>
-              </div>
+	              <h2 class="count_flow mt0"><i>1</i><span class="red">*</span>专家复审意见</h2>
+	              <ul class="ul_list">
+		             <c:choose>
+		             	<c:when test="${isCheck eq 'yes'}">
+		             		<div><span type="text" name="cate_result" id="cate_result"></span></div>
+		      		 		<li>
+		                 		<div class="select_check" id="selectOptionId">
+		                  			<input type="radio" class="hidden" id="qualified" name="selectOption" value="-3">
+		                  			<input type="radio" class="hidden" name="selectOption" value="5">
+		                  			<input type="radio" class="hidden" name="selectOption" value="10">
+		                 		</div>
+		             		</li>
+		             	</c:when>
+		             	<c:otherwise>
+		                <li>
+		                	<div class="select_check" id="selectOptionId">
+			                    <input type="radio" id="qualified" name="selectOption" value="-3">预复审合格
+			                    <input type="radio"  name="selectOption" value="5">预复审不合格
+			                    <input type="radio"  name="selectOption" value="10">退回修改
+		                    </div>
+		                </li>
+		                <div><span type="text" name="cate_result" id="cate_result"></span></div>
+		                <li class="mt10">
+		                    <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${auditOpinion.opinion}</textarea>
+		                </li>
+		             	</c:otherwise>
+		             </c:choose>
+              	 </ul>
+	          </div>
               <!-- 审核公示扫描件上传 -->
               <%-- <div class="display-none" id="checkWord">
                   <h2 class="count_flow"><i>3</i>专家审批表</h2>
