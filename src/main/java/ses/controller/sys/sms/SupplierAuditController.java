@@ -2479,7 +2479,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("sign", supplier.getSign());
 		request.getSession().setAttribute("signs", supplier.getSign());
 		
-		if(user != null && SupplierConstants.isAccountToAudit(user.getLoginName())){
+		/*if(user != null && SupplierConstants.isAccountToAudit(user.getLoginName())){
 			request.setAttribute("isAccountToAudit", 1);
 			supplier.setProcurementDepId(null);
 			supplier.setExtractOrgid(null);
@@ -2494,7 +2494,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			}else{
 				supplier.setStatus(2);
 			}
-		}
+		}*/
 		
 		//查询列表
 		List < Supplier > supplierList = supplierAuditService.getAuditSupplierList(supplier, page);
