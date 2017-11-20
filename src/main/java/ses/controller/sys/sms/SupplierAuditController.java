@@ -4482,7 +4482,7 @@ public class SupplierAuditController extends BaseSupplierController {
 				dataMap.put("isData","yes");
 				auditReasons.append("不通过。原因：");
 				for (SupplierAudit supplierAudit2 : auditList) {
-					auditReasons.append(supplierAudit2.getSuggest());
+					auditReasons.append(supplierAudit2.getAuditFieldName()).append("：").append(supplierAudit2.getSuggest()).append("；");
 				}
 			}else{
 				dataMap.put("isData","no");
