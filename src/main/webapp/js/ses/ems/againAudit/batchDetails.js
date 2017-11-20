@@ -70,10 +70,10 @@
               if (list_content.list[i].status === '-3') {
                 list_content.list[i].status = '公示中';
               } else if (list_content.list[i].status === '-2' && list_content.list[i].isReviewEnd != '1') {
-                list_content.list[i].status = '<span class="green">专家预复审结束</span>';
-                btn = '<button type="button" class="btn" onclick="downloadTable(\''+ list_content.list[i].expertId +'\')">下载专家复审表</button>';
+                list_content.list[i].status = '<span class="green">预复审结束</span>';
+                btn = '<button type="button" class="btn" onclick="downloadTable(\''+ list_content.list[i].expertId +'\')">下载复审表</button>';
               } else if (list_content.list[i].status === '-2' && list_content.list[i].isReviewEnd == '1') {
-            	  list_content.list[i].status = '<span class="red">专家复审结束</span>';
+            	  list_content.list[i].status = '<span class="red">复审结束</span>';
               } else if (list_content.list[i].status === '-1') {
                 list_content.list[i].status = '暂存';
               } else if (list_content.list[i].status === '0') {
@@ -212,12 +212,12 @@
               if (list_content.list.list[i].status === '-3') {
                 list_content.list.list[i].status = '公示中';
               } else if (list_content.list.list[i].status === '-2'&& list_content.list.list[i].isReviewEnd != '1') {
-                list_content.list.list[i].status = '<span class="green">专家预复审结束</span>';
+                list_content.list.list[i].status = '<span class="green">预复审结束</span>';
                 if(list_content.list.list[i].isDownload == '1' && list_content.list.list[i].isReviewEnd != '1'){
-                	btn = '<button type="button" class="btn m0" onclick="reviewEnd(\''+ list_content.list.list[i].expertId +'\');">专家复审结束</button>';
+                	btn = '<button type="button" class="btn m0" onclick="reviewEnd(\''+ list_content.list.list[i].expertId +'\');">复审结束</button>';
                 }
               }else if (list_content.list.list[i].status === '-2' && list_content.list.list[i].isReviewEnd == '1') {
-                  list_content.list.list[i].status = '<span class="red">专家复审结束</span>';
+                  list_content.list.list[i].status = '<span class="red">复审结束</span>';
               }else if (list_content.list.list[i].status === '-1') {
                 list_content.list.list[i].status = '暂存';
               } else if (list_content.list.list[i].status === '0') {
@@ -296,7 +296,7 @@
                 list_content.list.list[i].auditAt = '';
               }
               
-              if (list_content.list.list[i].status != "公示中" && list_content.list.list[i].status != "复审合格" && list_content.list.list[i].status != "<span class=\"red\">专家复审结束</span>" && list_content.list.list[i].status != "复审不合格" && list_content.list.list[i].status != "复审退回修改" && list_content.list.list[i].status != "复查合格" && list_content.list.list[i].status != "复查未合格") {
+              if (list_content.list.list[i].status != "公示中" && list_content.list.list[i].status != "复审合格" && list_content.list.list[i].status != "<span class=\"red\">复审结束</span>" && list_content.list.list[i].status != "复审不合格" && list_content.list.list[i].status != "复审退回修改" && list_content.list.list[i].status != "复查合格" && list_content.list.list[i].status != "复查未合格") {
                 btn = '<button type="button" class="btn w100p mr0 mb5" onclick="expert_auditBatch(\''+ root_url +'\', \''+ list_content.list.list[i].expertId +'\')">复审</button>' + btn;
               }
               

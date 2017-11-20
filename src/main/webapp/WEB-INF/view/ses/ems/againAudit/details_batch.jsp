@@ -122,7 +122,7 @@
     function downloadTable(id) {
       var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
       state = trim(state);
-      if(state =="专家预复审结束") {
+      if(state =="预复审结束") {
       	$.ajax({
       		url: "${pageContext.request.contextPath}/expertAudit/findExpertInfo.do",
       	  data:{"id":id},
@@ -189,7 +189,7 @@
         var id = $(this).val();
        	var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
         state = trim(state);
-        if(state !="" && state == "专家复审结束"){
+        if(state !="" && state == "复审结束"){
         	ids.push(id);
         }
       });
@@ -214,6 +214,7 @@
  	      });
     }
     
+    //查看
     function viewDetails(expertId){
         window.location.href = "${pageContext.request.contextPath}/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2&isCheck=yes";
     }
