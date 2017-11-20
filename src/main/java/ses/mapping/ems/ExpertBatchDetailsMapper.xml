@@ -72,6 +72,20 @@
                 #{id}
             </foreach>
         </if>
+        <if test="expertTypeId != null and expertTypeId != ''">
+	        <foreach item="typeId" index="index" collection="expertTypeId" open="and(" separator="or" close=")">
+	          t2.EXPERTS_TYPE_ID LIKE CONCAT(CONCAT('%', #{typeId}), '%')
+	        </foreach>
+	      </if>
+        <if test="orgName != null">
+        	and org.SHORT_NAME=#{orgName}
+        </if>
+        <if test="expertsFrom != null">
+        	and T2.EXPERTS_FROM = #{expertsFrom}
+        </if>
+        <if test="groupId != null">
+        	and T1.GROUP_ID = #{groupId}
+        </if>
         <if test=" sort != null ">
         ORDER BY org.POSITION ASC,t2.AUDIT_AT ASC
         </if>
