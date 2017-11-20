@@ -4088,7 +4088,7 @@ public class SupplierAuditController extends BaseSupplierController {
 					}
 				}
 			}
-			dataMap.put("supplierType", supplierType.toString().substring(0, supplierType.length() -1));
+			dataMap.put("supplierType", supplierType.length() > 0? supplierType.toString().substring(0, supplierType.length() -1) : "");
 
 			/*查询附件审核结果*/
 			SupplierAudit supplierAttach = new SupplierAudit();

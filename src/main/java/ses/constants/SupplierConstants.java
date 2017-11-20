@@ -16,6 +16,16 @@ public class SupplierConstants extends Constant {
 
 	// 定义入库状态数组
 	public static final Integer[] INSTORAGE_STATUS = new Integer[]{1, -4, 5, 6, -5, 7, 8};
+	// 下载供应商审核表
+	public static final Integer[] DOWNLOAD_CHECK_TABLE_STATUS = new Integer[]{
+			Status.RETURN.getValue(),
+			Status.PRE_AUDIT_ENDED.getValue(),
+			Status.PUBLICITY.getValue(),
+			Status.PENDING_REVIEW.getValue(),
+			Status.AUDIT_NOT_PASS.getValue(),
+			Status.REVIEW_PASSED.getValue(),
+			Status.REVIEW_NOT_PASS.getValue(),
+	};
 	/**
 	 * 供应商状态
 	 * <pre>
