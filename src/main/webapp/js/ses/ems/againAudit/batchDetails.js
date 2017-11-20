@@ -13,6 +13,37 @@
         var userType = data.userType;
         
         $('#head_tit').html(list_content.batchName);
+        
+        if (is_init === 0) {
+          var str = '';
+          for (var orgName_i in list_content.allOrg) {
+            str += '<option value="'+ list_content.allOrg[orgName_i].shortName +'">'+ list_content.allOrg[orgName_i].shortName +'</option>';
+          }
+          $('[name=orgName]').html('<option value="">请选择</option>' + str);
+          str = '';
+          for (var expertsFrom_i in list_content.lyTypeList) {
+            str += '<option value="'+ list_content.lyTypeList[expertsFrom_i].id +'">'+ list_content.lyTypeList[expertsFrom_i].name +'</option>';
+          }
+          $('[name=expertsFrom]').html('<option value="">全部</option>' + str);
+          str = '';
+          for (var expertsTypeId_i in list_content.expTypeList) {
+            str += '<option value="'+ list_content.expTypeList[expertsTypeId_i].id +'">'+ list_content.expTypeList[expertsTypeId_i].name +'</option>';
+          }
+          $('[name=expertsTypeId]').html(str);
+          str = '';
+          $('[name=expertsTypeId]').select2({
+            placeholder: '全部',
+            closeOnSelect: false,
+            minimumResultsForSearch: -1
+          });
+          str = '';
+          for (var groupId_i in list_content.groupList) {
+            str += '<option value="'+ list_content.groupList[groupId_i].groupId +'">'+ list_content.groupList[groupId_i].groupName +'</option>';
+          }
+          $('[name=groupId]').html(str);
+        }
+        is_init ++;
+        
         // 按钮判断
         if (userType === '4') {
           $('#pic_checkword_picker').css({

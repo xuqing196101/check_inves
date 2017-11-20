@@ -42,6 +42,54 @@
   <div class="container">
     <div class="headline-v2"><h2 id="head_tit"></h2></div>
     
+    <div class="search_detail pb0">
+      <form id="form_id" action="${pageContext.request.contextPath}/expertAudit/basicInfo.html" method="post">
+        <input name="expertId" type="hidden" />
+        <input name="sign" type="hidden" value="${sign }"/>
+        <input name="tableType" type="hidden" value=""/>
+      </form>
+      <form action="${pageContext.request.contextPath}/expertAgainAudit/againAuditList.html" method="post" id="formSearch" class="mb0">
+        <input type="hidden" name="pageNum" id="pageNum">
+        <input type="hidden" name="sign" value="${sign }">
+        <ul class="demand_list">
+          <li class="mb10">
+            <label class="fl">采购机构：</label>
+            <select class="w220" name="orgName"></select>
+          </li>
+          <li class="mb10">
+            <label class="fl">专家类型：</label>
+            <select class="w220" name="expertsFrom"></select>
+          </li>
+          <li class="select2-nosearch mb10">
+            <label class="fl">专家类别：</label>
+            <div class="fl w220">
+            <select multiple name="expertsTypeId">
+            </select>
+            </div>
+          </li>
+          <li class="mb10">
+            <label class="fl">审核组：</label>
+            <select class="w220" name="groupId"></select>
+          </li>
+          <li class="mb10">
+            <label class="fl">审核状态：</label>
+            <select class="w220" name="status">
+              <option value="">全部</option>
+              <option value="">复审合格</option>
+              <option value="5">复审不合格</option>
+              <option value="10">复审退回修改</option>
+              <option value="">重新复审</option>
+            </select>
+          </li>
+          <li class="mb10">
+            <button type="button" class="btn mb0" onclick="detailsBatch_search()">查询</button>
+            <button type="reset" class="btn mb0" id="againAudit_reset">重置</button>
+          </li>
+        </ul>
+        <div class="clear"></div>
+      </form>
+    </div>
+    
     <!-- 表格开始-->
     <div class="col-md-12 pl20 pr0 mt10 mb10" id="btn_group">
       <div class="fr pic_upload">
@@ -73,6 +121,7 @@
   
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/batchDetails.js"></script>
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
+  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/search.js"></script>
   <script>
   	var batchId = '${batchId}';
     var root_url = '${pageContext.request.contextPath}';  // 根目录地址
@@ -80,6 +129,7 @@
     var audit_url = '${pageContext.request.contextPath}/expertAgainAudit/checkGroupStatus.do';  // 校验地址
     var jump_auditBatch_url = '${pageContext.request.contextPath}/expertAgainAudit/groupBatch.html?batchId='+batchId;
     var select_ids = [];  // 选择的专家id集合
+    var is_init = 0;
     
     // loadding
     var indexLoad;
@@ -110,6 +160,11 @@
       });
       $('html, body').animate({
         scrollTop: position
+      });
+      
+      // 重置操作
+      $('#againAudit_reset').on('click', function () {
+        $('[name=expertsTypeId]').select2('val', '');
       });
     });
     
