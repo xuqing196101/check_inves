@@ -10,7 +10,6 @@
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">
-		<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script>
 		<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/essential.js"></script>
     <style type="text/css">
         input {
@@ -80,11 +79,11 @@
             	<jsp:param value="${sign }" name="sign"/>
             </jsp:include>
             
-            <form id="form_id" action="${pageContext.request.contextPath}/supplierAudit/financial.html" method="post">
+            <%-- <form id="form_id" action="${pageContext.request.contextPath}/supplierAudit/financial.html" method="post">
                 <input name="supplierId" id="id" value="${suppliers.id }" type="hidden">
                 <input id="status" name="supplierStatus" value="${suppliers.status }" type="hidden">
                 <input type="hidden" name="sign" value="${sign}">
-            </form>
+            </form> --%>
 
             <h2 class="count_flow"><i>1</i>供应商信息</h2>
             <ul class="ul_list">

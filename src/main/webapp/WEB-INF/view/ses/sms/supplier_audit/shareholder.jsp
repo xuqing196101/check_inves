@@ -8,7 +8,6 @@
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
 		<meta http-equiv="expires" content="0">
-		<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script>
 		<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/essential.js"></script>
 		<style type="text/css">
 			td {
@@ -62,11 +61,11 @@
            	<jsp:param value="${supplierStatus }" name="supplierStatus"/>
            	<jsp:param value="${sign }" name="sign"/>
           </jsp:include>
-        <form id="form_id" action="" method="post" >
+        <%-- <form id="form_id" action="" method="post" >
             <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
             <input id="status" name="supplierStatus" value="${supplierStatus}" type="hidden">
             <input type="hidden" name="sign" value="${sign}">
-        </form>
+        </form> --%>
         <ul class="ul_list count_flow">
         	<h5>出资人（股东）信息 （说明：出资人（股东）多于10人的，可以列出出资金额前十位的信息，但所列的出资比例应高于50%）</h5>
           <table class="table table-bordered table-condensed table-hover m_table_fixed_border">

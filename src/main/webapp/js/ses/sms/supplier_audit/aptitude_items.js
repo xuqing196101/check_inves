@@ -1,7 +1,3 @@
-$(function () {
-    $("#reverse_of_five").attr("class","active");
-    $("#reverse_of_five").removeAttr("onclick");
-});
 //封装 数据
 function content(tablerId,ind,item){
     var parents=$("#"+tablerId+" #qualifications"+ind+"",window.parent.document).parent();

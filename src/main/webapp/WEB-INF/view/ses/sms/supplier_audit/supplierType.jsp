@@ -36,7 +36,6 @@
       	padding: 5px;
       }
 		</style>
-		<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script>
 		<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/essential.js"></script>
 		<script type="text/javascript">
 			$(function() {
@@ -1006,11 +1005,11 @@
 				<form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html" method="post">
 					<input type="hidden" name="fileName" />
 				</form>
-				<form id="form_id" action="" method="post">
+				<%-- <form id="form_id" action="" method="post">
 					<input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
 					<input id="status" name="supplierStatus" value="${supplierStatus}" type="hidden">
 					<input type="hidden" name="sign" value="${sign}">
-				</form>
+				</form> --%>
 	</body>
 	
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/regex.js"></script>

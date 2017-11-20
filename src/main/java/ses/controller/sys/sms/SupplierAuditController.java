@@ -4905,7 +4905,8 @@ public class SupplierAuditController extends BaseSupplierController {
 	     * @since JDK1.7
 	     */
 	    // 查询供应商
-        Supplier supplier = supplierAuditService.supplierById(supplierId);
+//        Supplier supplier = supplierAuditService.supplierById(supplierId);
+        Supplier supplier = supplierService.selectById(supplierId);
 	    Integer supplierStatus = null;
         if(supplier != null){
             supplierStatus = supplier.getStatus();

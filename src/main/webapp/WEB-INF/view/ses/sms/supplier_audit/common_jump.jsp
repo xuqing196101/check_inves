@@ -11,6 +11,7 @@
 	String currentStep = StringUtils.defaultIfEmpty(request.getParameter("currentStep"), "one");
 	String supplierId = request.getParameter("supplierId");
 	int supplierSt = NumberUtils.toInt(request.getParameter("supplierStatus"), 0);
+	int sign = NumberUtils.toInt(request.getParameter("sign"), 0);
 	String account = ((User)session.getAttribute(SupplierConstants.KEY_SESSION_LOGIN_USER)).getLoginName();
 	boolean isAudit = SupplierConstants.isAudit(account, supplierSt);
 	boolean isStatusToAudit = SupplierConstants.isStatusToAudit(supplierSt);
@@ -74,9 +75,9 @@
       <i></i>
     </li>
     <li onclick="jump('aptitude')">
-                  <a aria-expanded="false">资质文件维护</a>
-                  <i></i>
-              </li>
+      <a aria-expanded="false">资质文件维护</a>
+      <i></i>
+    </li>
     <li onclick = "jump('contract')" >
       <a aria-expanded="false" href="#tab-4">销售合同</a>
        <i></i>-->
@@ -99,31 +100,41 @@
 </ul>
 
 <script type="text/javascript">
-	var isAudit = "<%=isAudit %>";
+	var isAudit = <%=isAudit %>;
 	var supplierId = "<%=supplierId %>";
 	var supplierSt = "<%=supplierSt %>";
+	var currentStep = "<%=currentStep %>";
+	var sign = "<%=sign %>";
 	
-	$(function () {
+	$(function(){
 		// 导航栏选中
 		$("li[id$='reverse_of_']").removeClass("active");
-    $("#reverse_of_<%=currentStep %>").addClass("active").removeAttr("onclick");
-    // 文本只读
-    $(":input").attr("readonly", "readonly");
-    // 文本添加title
-    $("input[type='text']").each(function(){
-    	$(this).attr("title", $(this).val());
-    });
-    // 文本鼠标移入移出效果
-    $(":input").each(function () {
-      var onmousemove = "this.style.background='#E8E8E8'";
-      var onmouseout = "this.style.background='#FFFFFF'";
-      $(this).attr("onmousemove", onmousemove);
-      $(this).attr("onmouseout", onmouseout);
-    });
-    // 隐藏
-    //$("td,li").find("p").hide();
-  });
+		$("#reverse_of_"+currentStep).addClass("active").removeAttr("onclick");
+		if(currentStep != "seven" && currentStep != "eight"){
+			// 文本只读
+			$("input[type='text'],textArea").attr("readonly", "readonly");
+			// 文本添加title
+			$("input[type='text'],textArea").each(function(){
+				$(this).attr("title", $(this).val());
+			});
+			// 文本鼠标移入移出效果
+			$("input[type='text'],textArea").each(function () {
+			  var onmousemove = "this.style.background='#E8E8E8'";
+			  var onmouseout = "this.style.background='#FFFFFF'";
+			  $(this).attr("onmousemove", onmousemove);
+			  $(this).attr("onmouseout", onmouseout);
+			});
+			// 隐藏
+			//$("td,li").find("p").hide();
+		}
+		// 预审核结束状态
+		if(supplierSt == -2 || supplierSt == -3 || supplierSt == 3 || (supplierSt == 1 && sign == 1)){
+			$("#reverse_of_seven_i").show();
+			$("#reverse_of_eight").show();
+		}
+	});
 	//以前的判断
 	//if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 </script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/common.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/jump.js"></script>

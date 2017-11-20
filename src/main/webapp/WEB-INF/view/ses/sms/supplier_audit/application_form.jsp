@@ -17,7 +17,6 @@
 		    cursor: pointer;
       }
     </style>
-    <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script>
     <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/essential.js"></script>
 		<script type="text/javascript">
       $(function() {
@@ -74,11 +73,11 @@
 	           	<jsp:param value="${supplierStatus }" name="supplierStatus"/>
 	           	<jsp:param value="${sign }" name="sign"/>
 	          </jsp:include>
-            <form id="form_id" action="" method="post" >
+            <%-- <form id="form_id" action="" method="post" >
                 <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
                 <input id="status" name="supplierStatus" value="${supplierStatus}" type="hidden">
                 <input type="hidden" name="sign" value="${sign}">
-            </form>
+            </form> --%>
 
             <ul class="count_flow ul_list hand">
               <%-- <li class="col-md-3 margin-0 padding-0 ">

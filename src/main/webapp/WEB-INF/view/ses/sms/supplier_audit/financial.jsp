@@ -9,7 +9,6 @@
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
 		<meta http-equiv="expires" content="0">
-		<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script>
 		<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/essential.js"></script>
 		<style type="text/css">
 			td {
@@ -76,11 +75,11 @@
            	<jsp:param value="${supplierStatus }" name="supplierStatus"/>
            	<jsp:param value="${sign }" name="sign"/>
           </jsp:include>
-					<form id="form_id" action="" method="post">
+					<%-- <form id="form_id" action="" method="post">
 						<input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
 						<input id="status" name="supplierStatus" value="${supplierStatus}" type="hidden">
 						<input type="hidden" name="sign" value="${sign}">
-					</form>
+					</form> --%>
 
 					<c:forEach items="${financial}" var="f" varStatus="vs">
 						<h2 class="count_flow"><i>${vs.index + 1}</i>${f.year }年财务（金额单位：万元）</h2>
