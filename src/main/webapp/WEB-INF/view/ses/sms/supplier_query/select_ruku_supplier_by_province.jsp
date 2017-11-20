@@ -515,7 +515,7 @@
 										<div class="col-xs-5 pauto_5">
 											<input id="startAuditDate" name="startAuditDate" class="Wdate w100p mb0" type="text"  value='<fmt:formatDate value="${supplier.startAuditDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('startAuditDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'startAuditDate\')}'})">
 										</div>
-				            <div class="col-xs-2 pauto_5 tc">至</div>
+				            <div class="col-xs-2 pauto_5 tc f16">至</div>
 										<div class="col-xs-5 pauto_5">
 											<input id="endAuditDate" name="endAuditDate" value='<fmt:formatDate value="${supplier.endAuditDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100p mb0" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'endAuditDate\')}'})">
 										</div>
@@ -612,11 +612,11 @@
 					<thead>
 						<tr>
 							<th class="info w50">序号</th>
-							<th class="info w100">采购机构</th>
-							<th class="info w170">供应商名称</th>
-							<th class="info w80">地区</th>
+							<th class="info w150">采购机构</th>
+							<th class="info w250">供应商名称</th>
+							<th class="info w150">地区</th>
 							<th class="info w70">企业性质</th>
-							<th class="info w80">供应商类型</th>
+							<th class="info w150">供应商类型</th>
 							<th class="info w90">注册日期</th>
 							<th class="info w90">最新提交日期</th>
 							<th class="info w90">最新审核日期</th>
@@ -644,22 +644,24 @@
 						<c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
 							<tr>
 								<td class="tc">${(vs.count)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
-								<td class="hand" title="${list.orgName}">
+								<td class="tl">${list.orgName}</td>
+								<%-- <td class="hand" title="${list.orgName}">
 									<c:if test="${fn:length (list.orgName) > 10}">${fn:substring(list.orgName,0,10)}...</c:if>
 									<c:if test="${fn:length (list.orgName) <= 10}">${list.orgName}</c:if>
-								</td>
+								</td> --%>
 								<td class="hand" title="${list.supplierName}">
 									<a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/supplierQuery/essential.html?judge=5&supplierId=${list.id}&sign=${sign}')">
-										<c:if test="${fn:length (list.supplierName) > 11}">${fn:substring(list.supplierName,0,11)}...</c:if>
-										<c:if test="${fn:length (list.supplierName) <= 11}">${list.supplierName}</c:if>
+										<c:if test="${fn:length (list.supplierName) > 15}">${fn:substring(list.supplierName,0,15)}...</c:if>
+										<c:if test="${fn:length (list.supplierName) <= 15}">${list.supplierName}</c:if>
 									</a>
 								</td>
-								<td class="">${list.name }</td>
+								<td class="">${list.name}</td>
 								<td class="tc">${list.businessNature}</td>
-								<td class="hand" title="${list.supplierType}">
-									<c:if test="${fn:length (list.supplierType) > 4}">${fn:substring(list.supplierType,0,4)}...</c:if>
-									<c:if test="${fn:length (list.supplierType) <= 4}">${list.supplierType}</c:if>
-								</td>
+								<td class="">${list.supplierType}</td>
+								<%-- <td class="hand" title="${list.supplierType}">
+									<c:if test="${fn:length (list.supplierType) > 10}">${fn:substring(list.supplierType,0,10)}...</c:if>
+									<c:if test="${fn:length (list.supplierType) <= 10}">${list.supplierType}</c:if>
+								</td> --%>
 								<td class="tc">
 									<fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd" />
 								</td>
@@ -671,11 +673,11 @@
 								</td>
 							<%--<td class="">${list.contactName }</td>
 								<td class="tc">${list.mobile }</td>--%>
-                                <td class="tc">
-                                    <c:if test="${!empty list.instorageAt}">
-                                        <fmt:formatDate value="${ list.instorageAt }" pattern="yyyy-MM-dd"/>
-                                    </c:if>
-                                </td>
+								<td class="tc">
+							    <c:if test="${!empty list.instorageAt}">
+						        <fmt:formatDate value="${ list.instorageAt }" pattern="yyyy-MM-dd"/>
+							    </c:if>
+								</td>
 								<td class="tc">
 									<%-- <c:if test="${list.status==1 }"><span class="label rounded-2x label-u">审核通过</span></c:if>
 									<c:if test="${list.status==4 }"><span class="label rounded-2x label-dark">待复核</span></c:if>
