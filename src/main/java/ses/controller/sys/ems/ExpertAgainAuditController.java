@@ -283,7 +283,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	 * 查询批次详情
 	 * */
 	@RequestMapping("/findBatchDetails")
-	public void findBatchDetails(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String batchId,String status,Integer pageNum){
+	public void findBatchDetails(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,ExpertBatchDetails expertBatchDetails,Integer pageNum){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		if(user == null){
 			img.setStatus(false);
@@ -292,27 +292,24 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 			return;
 		}
 		if("4".equals(user.getTypeName())){
-			/*if(pageNum == null) {
-				pageNum = StaticVariables.DEFAULT_PAGE;
-			}*/
-			if(batchId==null){
+			if(expertBatchDetails==null){
 				img.setStatus(false);
 				img.setMessage("参数有误");
 				super.writeJson(response, img);
 				return;
 			}
-			img=againAuditService.findBatchDetails(batchId,status, pageNum);
+			img=againAuditService.findBatchDetails(expertBatchDetails);
 			img.setUserType(user.getTypeName());
 			super.writeJson(response, img);
 			return;
 		}else if("6".equals(user.getTypeName())){
-			if(batchId==null){
+			if(expertBatchDetails==null){
 				img.setStatus(false);
-				img.setMessage("请选择要审核的批次");
+				img.setMessage("参数有误");
 				super.writeJson(response, img);
 				return;
 			}
-			img=againAuditService.fingStayReviewExpertDetailsList(user.getId(), batchId, pageNum);
+			img=againAuditService.fingStayReviewExpertDetailsList(user.getId(), expertBatchDetails.getBatchId(), pageNum);
 			img.setUserType(user.getTypeName());
 			super.writeJson(response, img);
 			return;
