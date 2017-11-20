@@ -116,13 +116,14 @@ public class SupplierItemController extends BaseController {
 			SupplierAudit s = new SupplierAudit();
 			s.setSupplierId(supplierId);
 			//s.setAuditType("items_page");
-			s.setAuditType(ses.util.Constant.ITEMS_PRODUCT_PAGE);
+			String auditType = ses.util.Constant.ITEMS_PRODUCT_PAGE;
 			if(ses.util.Constant.SUPPLIER_PRODUCT.equals(supplierTypeRelateId)){
-				s.setAuditType(ses.util.Constant.ITEMS_PRODUCT_PAGE);
+				auditType = ses.util.Constant.ITEMS_PRODUCT_PAGE;
 			}
 			if(ses.util.Constant.SUPPLIER_SALES.equals(supplierTypeRelateId)){
-				s.setAuditType(ses.util.Constant.ITEMS_SALES_PAGE);
+				auditType = ses.util.Constant.ITEMS_SALES_PAGE;
 			}
+			s.setAuditType(auditType);
 			List < SupplierAudit > auditLists = supplierAuditService.getAuditRecords(s, SupplierConstants.AUDIT_RETURN_STATUS);
 
 			StringBuffer errorField = new StringBuffer();
@@ -140,7 +141,7 @@ public class SupplierItemController extends BaseController {
 				model.addAttribute("isSupplierTypeAudited", true);
 			}
 			model.addAttribute("audit", errorField);
-			model.addAttribute("auditType", s.getAuditType());
+			model.addAttribute("auditType", auditType);
 		}
 
 		return "ses/sms/supplier_register/ajax_items";

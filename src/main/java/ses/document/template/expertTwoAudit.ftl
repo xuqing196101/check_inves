@@ -218,7 +218,7 @@
 							<wx:font wx:val="方正小标宋简体" />
 							<w:sz w:val="44" />
 							<w:sz-cs w:val="44" /></w:rPr>
-						<w:t>军队采购评审专家入库复审表<#if orgName == "cgjg" >（专家）</#if><#if orgName == "zyfwzx" >（中心）</#if></w:t>
+						<w:t>军队采购评审专家入库复审表</w:t>
 					</w:r>
 				</w:p>
 				<w:p>
@@ -230,24 +230,13 @@
 							<wx:font wx:val="华文中宋" />
 							<w:sz w:val="24" /></w:rPr>
 					</w:pPr>
-					<#if orgName == "cgjg" >
-						<w:r>
-							<w:rPr>
-								<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
-								<wx:font wx:val="宋体" />
-								<w:sz w:val="24" /></w:rPr>
-							<w:t>初审采购机构名称：${depName}</w:t>
-						</w:r>
-					</#if>
-					<#if orgName == "zyfwzx" >
-						<w:r>
-							<w:rPr>
-								<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
-								<wx:font wx:val="宋体" />
-								<w:sz w:val="24" /></w:rPr>
-							<w:t>复审单位：资源服务中心</w:t>
-						</w:r>
-					</#if>
+					<w:r>
+						<w:rPr>
+							<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
+							<wx:font wx:val="宋体" />
+							<w:sz w:val="24" /></w:rPr>
+						<w:t>初审采购机构名称：${depName}</w:t>
+					</w:r>
 					<w:r>
 						<w:rPr>
 							<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
@@ -1028,7 +1017,6 @@
 							</w:p>
 						</w:tc>
 					</w:tr>
-					<#if orgName != "zyfwzx" >
 					<w:tr>
 						<w:trPr>
 							<w:trHeight w:val="653" /></w:trPr>
@@ -1281,7 +1269,6 @@
 						</w:tc>
 					</w:tr>
 					</#list>
-					</#if>
 				</w:tbl>
 				<w:p>
 					<w:pPr>

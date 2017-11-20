@@ -9,11 +9,6 @@
 	<%@ include file="/WEB-INF/view/ses/sms/supplier_register/supplier_purchase_dept.jsp"%>
 </c:if>
 <title>供应商注册</title>
-	<style type="text/css">
-		.current {
-			cursor: pointer;
-		}
-</style>
 <script type="text/javascript">
 	/** 保存基本信息 */
 	function saveTemplate(flag) {
@@ -71,11 +66,6 @@
 		}
 	}
 	
-	function updateStep(step){
-		var supplierId = "${currSupplier.id}";
-		location.href = "${pageContext.request.contextPath}/supplier/updateStep.html?step=" + step + "&supplierId=" + supplierId;
-	}
-	
 	function uploadNew(id) {
 		$("#" + id).find("div").remove();
 		var name = "";
@@ -114,43 +104,18 @@
 		sessionStorage.locationH=true;
 		sessionStorage.index=8;
 		
-		
-			//退回理由
-			function errorMsg(_this, auditField) {
-				// 如果加载过错误信息，则不再加载
-				var errorMsg = $(_this).attr("data-errorMsg");
-				if(errorMsg){
-					layer.msg("不通过理由：" + errorMsg, {
-						offset: '300px'
-					});
-					return;
-				}
-				
-				var supplierId = "${currSupplier.id}";
-				$.ajax({
-					url: "${pageContext.request.contextPath}/supplier/audit.html",
-					data: {
-						"supplierId": supplierId,
-						"auditField": auditField,
-						"auditType": "download_page"
-					},
-					dataType: "json",
-					success: function(data) {
-						/* alert(data.suggest); */
-						$(_this).attr("data-errorMsg", data.suggest);
-						layer.msg("不通过理由：" + data.suggest, {
-							offset: '300px'
-						});
-					}
-				});
-			}
 </script>
 
 </head>
 
 <body>
 	<div class="wrapper">
-		<div class="container clear margin-top-30">
+		<jsp:include page="/WEB-INF/view/ses/sms/supplier_register/common_jump.jsp">
+			<jsp:param value="${currSupplier.id}" name="supplierId"/>
+			<jsp:param value="${currSupplier.status}" name="supplierSt"/>
+			<jsp:param value="8" name="currentStep"/>
+		</jsp:include>
+		<!-- <div class="container clear margin-top-30">
 			<h2 class="step_flow">
 				<span id="sp1" class="new_step current fl" onclick="updateStep('1')"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span>
 	            <span id="sp2" class="new_step current fl" onclick="updateStep('2')"><i class="">2</i><div class="line"></div> <span class="step_desc_01">供应商类型</span> </span>
@@ -162,7 +127,7 @@
 	            <span id="sp8" class="new_step current fl new_step_last"><i class="">8</i> <span class="step_desc_01">提交审核</span> </span>
 	            <div class="clear"></div>
 			</h2>
-		</div>
+		</div> -->
 		<!--基本信息-->
 		<div class="container content">
 			<div class="row magazine-page">
@@ -184,7 +149,7 @@
 										<table class="table table-bordered">
 									   	   <tr>
 							   	   			 <td class="bggrey" width="15%" ><i class="red">*</i>供应商承诺书：</td>
-									   	     <td <c:if test="${fn:contains(audit,'supplierPledge')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'supplierPledge')"</c:if>>
+									   	     <td <c:if test="${fn:contains(audit,'supplierPledge')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'supplierPledge','download_page')"</c:if>>
 									   	       <div class="w200 fl">
 									   	       	<c:choose>
 									   	     			<c:when test="${!fn:contains(audit,'supplierPledge') && currSupplier.status==2}">
@@ -198,7 +163,7 @@
 									   	       </div>
 									   	     </td>
 									   	     <td class="bggrey" width="15%"><i class="red">*</i>供应商申请表：</td>
-									   	     <td <c:if test="${fn:contains(audit,'supplierRegList')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'supplierRegList')"</c:if>>
+									   	     <td <c:if test="${fn:contains(audit,'supplierRegList')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'supplierRegList','download_page')"</c:if>>
 									   	     	<div class="w200 fl">
 									   	     		<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="promise_up"  groups="promise_up,application_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" auto="true" /> 
 									   		 			<u:show showId="promise_show"  groups="promise_show,application_show"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" />

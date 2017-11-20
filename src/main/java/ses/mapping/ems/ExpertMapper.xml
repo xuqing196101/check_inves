@@ -298,10 +298,11 @@
         </if>
     </select>
 
-    <select id="selectByPrimaryKey" parameterType="java.lang.String"
-        resultMap="BaseResultMap">
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
-        t1.*,t3.SHORT_NAME AS orgName,t3.CONTACT_NAME AS contactName,t3.CONTACT_MOBILE AS contactMobile
+        t1.*,t3.SHORT_NAME AS orgName,
+        t2.EXPER_CONTACT AS contactName,
+        t2.EXPER_PHONE AS contactMobile
         from T_SES_EMS_EXPERT t1
         LEFT JOIN T_SES_OMS_PURCHASE_DEP t2 ON t1.PURCHASE_DEP_ID = t2.ID
     	LEFT JOIN T_SES_OMS_ORG t3 ON t3.ID = t2.ORG_ID
@@ -2336,7 +2337,7 @@
     <if test="addressName != null and addressName !=''">
       and AREA.NAME like CONCAT(CONCAT('%', #{addressName}), '%')
     </if>
-    ORDER BY DECODE (T1.STATUS,'6','1'),T1.AUDIT_AT DESC NULLS LAST
+    ORDER BY DECODE (T1.STATUS,'6','1'),T1.STORAGE_AT DESC NULLS LAST
   </select>
 
 	<!-- 统计注册专家数 -->
@@ -2523,8 +2524,8 @@
 		         WHERE AREA.PARENT_ID = '0') P
 		  LEFT JOIN (SELECT T.ADDRESS, T.ID
 		               FROM T_SES_EMS_EXPERT T
-		              WHERE (T.STATUS = 4 OR T.STATUS = 5 OR T.STATUS = 6 OR
-		                    T.STATUS = 7 OR T.STATUS = 8)
+		              WHERE (T.STATUS = 6 or T.STATUS = 7 or
+		                T.STATUS = 13 or T.STATUS = 17 or T.STATUS = 19)
 		                AND T.IS_PROVISIONAL = '0'
 		                AND T.IS_DELETE = 0) T
 		    ON P.ID = T.ADDRESS
@@ -2666,8 +2667,10 @@
 	
 	<!-- 查询公示专家列表 -->
 	<select id="selectExpByPublictyList" resultMap="expertOfPublicityMapList" parameterType="ses.model.ems.ExpertPublicity">
-		SELECT T.ID, T.EXPERTS_TYPE_ID, T.REAL_NAME, T.AUDIT_AT, ORG.SHORT_NAME AS ORGNAME
+		SELECT T.ID, T.EXPERTS_TYPE_ID, T.REAL_NAME, D.NAME AS GENDER, T.AUDIT_AT, ORG.SHORT_NAME AS ORGNAME
 		  FROM T_SES_EMS_EXPERT T
+          LEFT JOIN T_SES_BMS_DICTIONARY_DATA D
+            ON T.GENDER = D.ID
 		  LEFT JOIN T_SES_OMS_PURCHASE_DEP DEP
 		    ON T.PURCHASE_DEP_ID = DEP.ID
 		  LEFT JOIN T_SES_OMS_ORG ORG
@@ -2693,7 +2696,7 @@
     <!-- 查询公示专家导出外网 -->
     <select id="selectExpByPublictyOfExport" resultMap="BaseResultMap" parameterType="Map">
         SELECT
-        T.ID, T.EXPERTS_TYPE_ID, T.PURCHASE_DEP_ID, T.REAL_NAME, T.EXPERTS_FROM,
+        T.ID, T.EXPERTS_TYPE_ID, T.PURCHASE_DEP_ID, T.REAL_NAME, T.GENDER, T.EXPERTS_FROM,
         T.STATUS, T.IS_PROVISIONAL, T.AUDIT_AT
         FROM T_SES_EMS_EXPERT T
         WHERE T.STATUS = #{status}

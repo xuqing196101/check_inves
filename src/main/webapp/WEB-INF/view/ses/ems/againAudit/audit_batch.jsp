@@ -57,6 +57,9 @@
   <script>
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/findExpertGroupDetails.do';  // 列表地址
     var members_url = '${pageContext.request.contextPath}/expertAgainAudit/findExpertReviewTeam.do';  // 审核组成员地址
+    var index_load = layer.load(1, {
+      shade: [1, '#FFF']
+    });
     
     $(function () {
       $('#group_batch_box').listConstructor({

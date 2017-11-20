@@ -203,7 +203,11 @@
 									  formType: 0,// 0（文本）默认1（密码）2（多行文本）
 									  value: '',
 									  title: '请填写审核人：'
-									}, function(val, index){
+									}, function(val, index, ele){
+										if($.trim(val) == ""){
+											$(ele).focus();
+											return;
+										}
 										// 保存审核人
 										var bool = updateAuditor(id, val);
 										if(bool){
