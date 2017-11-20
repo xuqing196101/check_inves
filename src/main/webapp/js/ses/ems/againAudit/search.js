@@ -78,6 +78,7 @@ function detailsBatch_search() {
       expertsFrom: expertsFrom,
       expertsTypeId: expertsTypeId,
       groupId: groupId,
+      status: status,
       batchId: batchId
     },
     url: list_url
