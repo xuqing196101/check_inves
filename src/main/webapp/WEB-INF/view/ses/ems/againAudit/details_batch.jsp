@@ -128,6 +128,9 @@
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/findBatchDetails.do';  // 列表地址
     var audit_url = '${pageContext.request.contextPath}/expertAgainAudit/checkGroupStatus.do';  // 校验地址
     var jump_auditBatch_url = '${pageContext.request.contextPath}/expertAgainAudit/groupBatch.html?batchId='+batchId;
+    var take_effect_url = '${pageContext.request.contextPath}/expertAgainAudit/takeEffect.do';  // 生效地址
+    var reexamination_url = '${pageContext.request.contextPath}/expertAgainAudit/againReview.do';  // 取消重新复审地址
+    var cancel_reexamination_url = '${pageContext.request.contextPath}/expertAgainAudit/cancelReview.do';  // 取消重新复审地址
     var select_ids = [];  // 选择的专家id集合
     var is_init = 0;
     
