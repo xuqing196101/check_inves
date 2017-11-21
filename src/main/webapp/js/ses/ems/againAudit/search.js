@@ -79,7 +79,8 @@ function detailsBatch_search() {
       expertsTypeId: expertsTypeId,
       groupId: groupId,
       status: status,
-      batchId: batchId
+      batchId: batchId,
+      requestType: 'select'
     },
     url: list_url
   });
