@@ -61,7 +61,7 @@ public class ExpertBatchDetails {
 	
 	private List<String> expertTypeId;
 	private String requestType;
-	private String reviewStatus;
+	private String reviewStatus="";
 	
 	public String getReviewStatus() {
 		return reviewStatus;

@@ -1158,7 +1158,12 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		if(list.size()>0){
 			for (ExpertBatchDetails e : list) {
 				expertAuditMapper.updateAgainReview(e.getExpertId());
+				Expert expert = new Expert();
+				expert.setStatus("1");
+				expert.setId(e.getExpertId());
+				expertMapper.updateByPrimaryKey(expert);
 			}
+			
 		}
 		expertBatchMapper.updateBatchStatus(batchId);
 		img.setStatus(true);
