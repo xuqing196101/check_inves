@@ -948,6 +948,12 @@ function reexamination(expertId) {
       id: expertId
     },
     success: function (data) {
+      $('#table_content').listConstructor({
+        url: list_url,
+        data: {
+          batchId: getUrlParam('batchId')
+        }
+      });
       layer.msg(data.message, {
         offset: '100px'
       });
@@ -965,6 +971,12 @@ function cancel_reexamination(expertId) {
       id: expertId
     },
     success: function (data) {
+      $('#table_content').listConstructor({
+        url: list_url,
+        data: {
+          batchId: getUrlParam('batchId')
+        }
+      });
       layer.msg(data.message, {
         offset: '100px'
       });

@@ -96,10 +96,9 @@
               $('#list_content').html('');
               for (var i in list_content.list) {
                 var btn = '';
-                console.log(typeof(list_content.list[i].reviewStatus));
                 
                 // 判断是否为重新复审状态
-                if (typeof(list_content.list[i].reviewStatus) != null && typeof(list_content.list[i].reviewStatus) != 'null' && typeof(list_content.list[i].reviewStatus) != 'undefined') {
+                if (typeof(list_content.list[i].reviewStatus) == null || typeof(list_content.list[i].reviewStatus) == 'null' || typeof(list_content.list[i].reviewStatus) == 'undefined') {
                   // 判断复审专家输出
                   if (list_content.list[i].status === '4' || list_content.list[i].status === '11' || list_content.list[i].status === '14') {
                     list_content.list[i].auditor = '';
@@ -442,37 +441,6 @@
         });
       });
     }
-  
-    // 分页
-    // function laypageConstructor() {
-    //   laypage({
-    //     cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-    //     pages: list_content.list.pages, //总页数
-    //     skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-    //     skip: true, //是否开启跳页
-    //     total: list_content.list.total,
-    //     startRow: list_content.list.startRow,
-    //     endRow: list_content.list.endRow,
-    //     groups: list_content.list.pages >= 3 ? 3 : list_content.list.pages, //连续显示分页数
-    //     curr: function() { //合格url获取当前页，也可以同上（pages）方式获取
-    //       return list_content.list.pageNum;
-    //     }(),
-    //     jump: function(e, first) { //触发分页后的回调
-    //       if(!first) { //一定要加此判断，否则初始时会无限刷新
-    //         $("#pageNum").val(e.curr);
-    //         opts.data.pageNum = e.curr;
-    //         opts.data.batchId = getUrlParam('batchId');
-    //         $.ajax({
-    //           type: opts.type,
-    //           dataType: opts.dataType,
-    //           url: opts.url,
-    //           data: opts.data,
-    //           success: opts.success
-    //         });
-    //       }
-    //     }
-    //   });
-    // }
 
     return start();
   }
