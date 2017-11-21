@@ -3,6 +3,7 @@ package extract.controller.supplier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import extract.model.supplier.SupplierExtractCondition;
 import extract.service.supplier.AutoExtractSupplierService;
@@ -24,10 +25,11 @@ public class AutoExtractSupplierController {
 	 * @return
 	 */
 	@RequestMapping("exportExtractInfo")
-	public void exportExtractInfo(SupplierExtractCondition condition,String projectInto) {
+	@ResponseBody
+	public String exportExtractInfo(SupplierExtractCondition condition,String projectInto) {
 		
 		//处理详细抽取条件
-		autoExtractSupplierService.exportExtractInfo(condition,projectInto);
+		return autoExtractSupplierService.exportExtractInfo(condition,projectInto);
 		
 	}
   

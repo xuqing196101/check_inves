@@ -59,6 +59,14 @@ public class ExpertBatchDetails {
 	/**排序*/
 	private String sort;
 	
+	private List<String> expertTypeId;
+	
+	public List<String> getExpertTypeId() {
+		return expertTypeId;
+	}
+	public void setExpertTypeId(List<String> expertTypeId) {
+		this.expertTypeId = expertTypeId;
+	}
 	public String getSort() {
 		return sort;
 	}

@@ -13,8 +13,43 @@
         var userType = data.userType;
         
         $('#head_tit').html(list_content.batchName);
+        
         // 按钮判断
         if (userType === '4') {
+          $('.search_detail').removeClass('hide');
+          $('#back_btn').removeClass('hide');
+          
+          // 初始化搜索
+          if (is_init === 0) {
+            var str = '';
+            for (var orgName_i in list_content.allOrg) {
+              str += '<option value="'+ list_content.allOrg[orgName_i].shortName +'">'+ list_content.allOrg[orgName_i].shortName +'</option>';
+            }
+            $('[name=orgName]').html('<option value="">请选择</option>' + str);
+            str = '';
+            for (var expertsFrom_i in list_content.lyTypeList) {
+              str += '<option value="'+ list_content.lyTypeList[expertsFrom_i].id +'">'+ list_content.lyTypeList[expertsFrom_i].name +'</option>';
+            }
+            $('[name=expertsFrom]').html('<option value="">全部</option>' + str);
+            str = '';
+            for (var expertsTypeId_i in list_content.expTypeList) {
+              str += '<option value="'+ list_content.expTypeList[expertsTypeId_i].id +'">'+ list_content.expTypeList[expertsTypeId_i].name +'</option>';
+            }
+            $('[name=expertsTypeId]').html(str);
+            str = '';
+            $('[name=expertsTypeId]').select2({
+              placeholder: '全部',
+              closeOnSelect: false,
+              minimumResultsForSearch: -1
+            });
+            str = '';
+            for (var groupId_i in list_content.groupList) {
+              str += '<option value="'+ list_content.groupList[groupId_i].groupId +'">'+ list_content.groupList[groupId_i].groupName +'</option>';
+            }
+            $('[name=groupId]').html(str);
+          }
+          is_init ++;
+          
           $('#pic_checkword_picker').css({
             verticalAlign: 'middle',
             marginRight: 3,
@@ -46,7 +81,7 @@
             +'    <th class="info w80">专家类型</th>'
             +'    <th class="info w80">专家类别</th>'
             +'    <th class="info">工作单位</th>'
-            +'    <th class="info w120">技术职称(职称)</th>'
+            +'    <th class="info w120">专业职称(职务)</th>'
             +'    <th class="info w60">审核组</th>'
             +'    <th class="info w110">审核状态</th>'
             +'    <th class="info w100">操作</th>'
@@ -70,10 +105,10 @@
               if (list_content.list[i].status === '-3') {
                 list_content.list[i].status = '公示中';
               } else if (list_content.list[i].status === '-2' && list_content.list[i].isReviewEnd != '1') {
-                list_content.list[i].status = '<span class="green">专家预复审结束</span>';
-                btn = '<button type="button" class="btn" onclick="downloadTable(\''+ list_content.list[i].expertId +'\')">下载专家复审表</button>';
+                list_content.list[i].status = '<span class="green">预复审结束</span>';
+                btn = '<button type="button" class="btn" onclick="downloadTable(\''+ list_content.list[i].expertId +'\')">下载复审表</button>';
               } else if (list_content.list[i].status === '-2' && list_content.list[i].isReviewEnd == '1') {
-            	  list_content.list[i].status = '<span class="red">专家复审结束</span>';
+            	  list_content.list[i].status = '<span class="red">复审结束</span>';
               } else if (list_content.list[i].status === '-1') {
                 list_content.list[i].status = '暂存';
               } else if (list_content.list[i].status === '0') {
@@ -159,7 +194,7 @@
             	+'<td class="text-center"><input type="checkbox" value="'+ list_content.list[i].expertId +'" class="select_item"></td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].batchDetailsNumber +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].orgName +'</td>'
-                +'<td class="text-center break-all">'+ list_content.list[i].realName +'</td>'
+                +'<td class="text-center break-all" onclick="viewDetails(\''+ list_content.list[i].expertId +'\');"><a href="javascript:void(0)">'+ list_content.list[i].realName +'</a></td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].gender +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].expertsFrom +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].expertsTypeId +'</td>'
@@ -174,7 +209,6 @@
         } else if (userType === '6') {
           // $('#btn_group').html('<button type="button" class="btn btn-windows git" onclick="expert_auditBatch(\''+ root_url +'\')">审核</button>'
           //   +'<button type="button" onclick="downloadTable(2)" class="btn btn-windows input">下载复审表</button>');
-          $('#back_btn').remove();
           
           $('#btn_group').html('<button type="button" class="btn btn-windows reset" onclick="javascript: location.reload()">刷新</button>');
           
@@ -186,7 +220,7 @@
             +'    <th class="info w80">专家姓名</th>'
             +'    <th class="info w50">性别</th>'
             +'    <th class="info">工作单位</th>'
-            +'    <th class="info w120">技术职称(职称)</th>'
+            +'    <th class="info w120">专业职称(职务)</th>'
             +'    <th class="info w120">专家类型</th>'
             +'    <th class="info w80">专家类别</th>'
             +'    <th class="info w60">审核组</th>'
@@ -212,12 +246,12 @@
               if (list_content.list.list[i].status === '-3') {
                 list_content.list.list[i].status = '公示中';
               } else if (list_content.list.list[i].status === '-2'&& list_content.list.list[i].isReviewEnd != '1') {
-                list_content.list.list[i].status = '<span class="green">专家预复审结束</span>';
+                list_content.list.list[i].status = '<span class="green">预复审结束</span>';
                 if(list_content.list.list[i].isDownload == '1' && list_content.list.list[i].isReviewEnd != '1'){
-                	btn = '<button type="button" class="btn m0" onclick="reviewEnd(\''+ list_content.list.list[i].expertId +'\');">专家复审结束</button>';
+                	btn = '<button type="button" class="btn m0" onclick="reviewEnd(\''+ list_content.list.list[i].expertId +'\');">复审结束</button>';
                 }
               }else if (list_content.list.list[i].status === '-2' && list_content.list.list[i].isReviewEnd == '1') {
-                  list_content.list.list[i].status = '<span class="red">专家复审结束</span>';
+                  list_content.list.list[i].status = '<span class="red">复审结束</span>';
               }else if (list_content.list.list[i].status === '-1') {
                 list_content.list.list[i].status = '暂存';
               } else if (list_content.list.list[i].status === '0') {
@@ -296,7 +330,7 @@
                 list_content.list.list[i].auditAt = '';
               }
               
-              if (list_content.list.list[i].status != "公示中" && list_content.list.list[i].status != "复审合格" && list_content.list.list[i].status != "<span class=\"red\">专家复审结束</span>" && list_content.list.list[i].status != "复审不合格" && list_content.list.list[i].status != "复审退回修改" && list_content.list.list[i].status != "复查合格" && list_content.list.list[i].status != "复查未合格") {
+              if (list_content.list.list[i].status != "公示中" && list_content.list.list[i].status != "复审合格" && list_content.list.list[i].status != "<span class=\"red\">复审结束</span>" && list_content.list.list[i].status != "复审不合格" && list_content.list.list[i].status != "复审退回修改" && list_content.list.list[i].status != "复查合格" && list_content.list.list[i].status != "复查未合格") {
                 btn = '<button type="button" class="btn w100p mr0 mb5" onclick="expert_auditBatch(\''+ root_url +'\', \''+ list_content.list.list[i].expertId +'\')">复审</button>' + btn;
               }
               

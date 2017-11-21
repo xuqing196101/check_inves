@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -104,7 +103,6 @@ public class SupplierExtractConditionServiceimp implements
 	 */
 	@Override
 	public void insert(SupplierExtractCondition condition) {
-		condition.setCreatedAt(new Date());
 		conditionMapper.insertSelective(condition);
 	}
 
@@ -182,10 +180,10 @@ public class SupplierExtractConditionServiceimp implements
 					map.put("error", code + "ExtractNumError");
 					return map;
 				}
-				List<Supplier> selectAllExpert = supplierExtRelateMapper.listExtractionExpert(condition);
+				List<Supplier> selectAllSupplier = supplierExtRelateMapper.listExtractionSupplier(condition);
 				
 				start:
-				for (Supplier supplier : selectAllExpert) {
+				for (Supplier supplier : selectAllSupplier) {
 					supplier.setSupplierType(dictionaryDataMapper.selectByCode(supplier.getSupplierTypeId()).get(0).getName());
 					for (SupplierItemLevel supplierLevel : setExtractCondition2) {
 						if(supplier.getId().equals(supplierLevel.getSupplierId()) && (!condition.getSupplierTypeCode().equals("PROJECT"))){
@@ -266,9 +264,9 @@ public class SupplierExtractConditionServiceimp implements
 					}
 				}
 
-				list.put(typeCode, selectAllExpert);
+				list.put(typeCode, selectAllSupplier);
 			} else {
-				count.put(typeCode + "Count", supplierExtRelateMapper.listExtractionExpertCount(condition));
+				count.put(typeCode + "Count", supplierExtRelateMapper.listExtractionSupplierCount(condition));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -314,7 +312,7 @@ public class SupplierExtractConditionServiceimp implements
 					map.put("error", code + "ExtractNumError");
 					return map;
 				}
-				List<Supplier> selectAllExpert = supplierExtRelateMapper.listExtractionExpert(condition);
+				List<Supplier> selectAllExpert = supplierExtRelateMapper.listExtractionSupplier(condition);
 				
 				//查询当前抽取到供应商的类型
 				first:
@@ -420,7 +418,7 @@ public class SupplierExtractConditionServiceimp implements
 				}
 				map.put("list", selectAllExpert);
 			} else {
-				map.put("count", supplierExtRelateMapper.listExtractionExpertCount(condition));
+				map.put("count", supplierExtRelateMapper.listExtractionSupplierCount(condition));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

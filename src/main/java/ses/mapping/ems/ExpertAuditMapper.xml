@@ -87,7 +87,10 @@
      </if>
      <if test="auditStatus!=null">
 	    AND t1.AUDIT_STATUS = #{auditStatus}
-	   </if>
+	 </if>
+	 <if test="auditFieldId =null">
+	 	AND t1.AUDIT_FIELD_ID = #{auditFieldId}
+	 </if>
      ORDER BY 
      	DECODE (t1.SUGGEST_TYPE,'one','1','seven','2','six','3','five','4'),
      	t3.CODE,

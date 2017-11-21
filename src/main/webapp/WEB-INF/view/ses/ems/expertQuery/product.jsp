@@ -201,7 +201,7 @@
 							</c:forEach>
 						</ul>
 						<div class="mt20" id="tbody_category"></div>
-						<div id="pagediv" align="right" class="mb50"></div>
+						<!-- <div id="pagediv" align="right" class="mb50"></div> -->
 						
 						<div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12">
 							<%-- <c:if test="${empty reqType }"> --%>

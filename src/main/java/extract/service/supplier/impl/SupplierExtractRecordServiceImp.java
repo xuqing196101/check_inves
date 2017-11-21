@@ -108,6 +108,11 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 		 PageHelper.startPage(i, PropUtil.getIntegerProperty("pageSize"));
 		 
 		 List<SupplierExtractProjectInfo> list = new ArrayList<>();
+		 //获取是否内网标识 1外网 0内网
+	     String ipAddressType= PropUtil.getProperty("ipAddressType");
+	     if(ipAddressType.equals("1")){
+	    	 project.setExtractTheWay((short)0);
+	     }
 		 if("1".equals(user.getTypeName())){
 			project.setProcurementDepId(user.getOrg().getId());
 			list = recordMapper.getList(project);
@@ -688,7 +693,10 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 		return recordMapper.getListByMap(p);
 	}
 
-
+	
+	/**
+	 * 查询待通知项目
+	 */
 	@Override
 	public List<SupplierExtractProjectInfo> selectAutoExtractProject() {
 		
@@ -698,12 +706,8 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 
 
 	@Override
-	public List<SupplierExtractProjectInfo> selectRecordForExport(String start, String end) {
-		SupplierExtractProjectInfo p = new SupplierExtractProjectInfo();
-		p.setExtractTheWay((short)0);
-		p.setStartTime(start);
-		p.setEndTime(end);
-		return  recordMapper.getListByMap(p);
+	public List<SupplierExtractProjectInfo> selectRecordForExport(SupplierExtractProjectInfo projectInfo) {
+		return  recordMapper.getListByMap(projectInfo);
 	}
 
 }

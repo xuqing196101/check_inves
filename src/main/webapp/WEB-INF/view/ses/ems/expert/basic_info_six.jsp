@@ -47,7 +47,7 @@
 		function showTree(tabId) {
 			var id = $("#" + tabId + "-value").val();
 			if(id == null || id == '') {
-				  layer.alert("此类专家无需选择产品类别，请进入下一环节！");
+				  layer.alert("此类专家无需选择参评类别，请进入下一环节！");
 				  $("#isServer").val(1);
 			}
 			var zTreeObj;
@@ -494,7 +494,7 @@
         <h2 class="step_flow">
             <span id="ty1" class="new_step current fl" onclick="one()"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
             <span id="sp7" class="new_step current fl" onclick='pre7()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类别</span> </span>
-            <span id="ty6" class="new_step current fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品类别</span> </span>
+            <span id="ty6" class="new_step current fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">参评类别</span> </span>
             <span id="ty3" class="new_step fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span> 
             <span id="ty4" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">承诺书和申请表</span> </span> 
             <span id="ty5" class="new_step fl new_step_last"><i class="">6</i> <span class="step_desc_01">提交审核</span> </span> 
@@ -561,7 +561,7 @@
                   <input id="cate_hid" value="${cate.code}" type="hidden">
                   <div id="div-${vs.index + 1}" class="mb10 col-md-12 col-sm-12 col-xs-12 p0">
                     <div class="fl mr5">
-                    	<i class="red">*</i>产品类别：<input type="text" id="cate-${vs.index + 1}">
+                    	<i class="red">*</i>参评类别：<input type="text" id="cate-${vs.index + 1}">
                     </div>
                     <div class="fl mr5">
                                         目录编码：<input type="text" id="code-${vs.index + 1}">
@@ -578,7 +578,7 @@
                   <c:set var="count" value="${count + 1}"></c:set>
                   <div id="div-${vs.index + 1}" class="mb10 col-md-12 col-sm-12 col-xs-12 p0">
                     <div class="fl mr5">
-                   		<i class="red">*</i>产品类别：<input type="text" id="cate-${vs.index + 1}">
+                   		<i class="red">*</i>参评类别：<input type="text" id="cate-${vs.index + 1}">
                     </div>
                     <div class="fl mr5">
                                         目录编码：<input type="text" id="code-${vs.index + 1}">
@@ -594,7 +594,7 @@
                   <c:set var="count" value="${count + 1}"></c:set>
                   <div id="div-${vs.index + 1}" class="mb10 col-md-12 col-sm-12 col-xs-12 p0">
                     <div class="fl mr5">
-                      <i class="red">*</i>产品类别：<input type="text" id="cate-${vs.index + 1}">
+                      <i class="red">*</i>参评类别：<input type="text" id="cate-${vs.index + 1}">
                     </div>
                     <div class="fl mr5">
                                                    目录编码：<input type="text" id="code-${vs.index + 1}">
@@ -610,7 +610,7 @@
                   <c:set var="count" value="${count + 1}"></c:set>
                   <div id="div-4" class="mb10 col-md-12 col-sm-12 col-xs-12 p0">
                     <div class="fl mr5">
-                     	<i class="red">*</i>产品类别：<input type="text" id="cate-4">
+                     	<i class="red">*</i>参评类别：<input type="text" id="cate-4">
                     </div>
                     <div class="fl mr5">
                                                   目录编码：<input type="text" id="code-4">
@@ -630,7 +630,7 @@
                   <c:set var="count" value="${count + 1}"></c:set>
                   <div id="div-4" class="mb10">
                     <div class="fl mr5">
-                   		<i class="red">*</i>产品类别：<input type="text" id="cate-4">
+                   		<i class="red">*</i>参评类别：<input type="text" id="cate-4">
                       </div>
                       <div class="fl mr5">
                                         目录编码：<input type="text" id="code-4">
@@ -660,7 +660,7 @@
                   <c:set var="count" value="${count + 1}"></c:set>
                   <div id="div-${vs.index + 1}" class="mb10">
                     <div class="fl mr5">
-                    	<i class="red">*</i>产品类别：<input type="text" id="cate-${vs.index + 1}">
+                    	<i class="red">*</i>参评类别：<input type="text" id="cate-${vs.index + 1}">
                     </div>
                     <div class="fl mr5">
                                        目录编码：<input type="text" id="code-${vs.index + 1}">

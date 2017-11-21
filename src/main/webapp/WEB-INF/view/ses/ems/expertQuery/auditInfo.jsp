@@ -30,6 +30,14 @@
         var status = $(":radio:checked").val();
         var expertId = $("input[name='expertId']").val();
         var expertStatus = $("input[name='status']").val();
+        var opinion = '${auditOpinion.opinion}';
+        var yu;
+        if(expertStatus == 15 || expertStatus == 16){
+        	yu = "预";
+        }else{
+        	yu='';
+        }
+        
         if(status != null && typeof(status) != "undefined" && status == 15) {
           $.ajax({
             url:globalPath + "/expertAudit/findCategoryCount.do",
@@ -41,14 +49,14 @@
             dataType: "json",
             success: function(data) {
                 if(data.isGoodsServer == 1 && data.pass == 0){
-                  $("#check_opinion").html("预初审合格，通过的是物资服务经济类别。");
+                  $("#check_opinion").html(yu + "初审合格，通过的是物资服务经济类别。");
                 }else{
-                  $("#check_opinion").html("预初审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
+                  $("#check_opinion").html(yu + "初审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。" + opinion);
                 }
             }
           });
         }else if(status == 16) {
-            $("#check_opinion").html("预初审不合格。");
+            $("#check_opinion").html(yu + "初审不合格。");
         }else if(status == 3) {
             $("#check_opinion").html("退回修改。");
         }
@@ -111,7 +119,7 @@
             </li>
           </ul>
           
-          <h2 class="count_flow mt0"><i>1</i>审核信息</h2>
+          <h2 class="count_flow"><i>1</i>审核信息</h2>
           <ul class="ul_list hand">
 	          <table class="table table-bordered table-condensed table-hover">
 	            <thead>
@@ -159,27 +167,28 @@
 	          </table>
 	        </ul>
 	        
-
-            <h2 class="count_flow mt0"><i>2</i>意见信息</h2>
+            <div class="clear"></div>
+            <h2 class="count_flow"><i>2</i>意见信息</h2>
             <ul class="ul_list">
-              <li>
-                <div class="select_check" id="selectOptionId">
-                    <input type="radio" disabled="disabled" name="selectOption" value="15" <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if>>预初审合格
-                    <input type="radio"  disabled="disabled" value="16" <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if>>预初审不合格
-                    <%-- <input type="radio"  disabled="disabled" value="3" <c:if test="${auditOpinion.flagAudit eq '3'}">checked</c:if>>退回修改 --%>
-                </div>
-              </li>
               <li>
                 <div id="check_opinion"></div>
               </li>
-              <div><span type="text" name="cate_result" id="cate_result"></span></div>
-              <li class="mt10">
-                <textarea id="opinion" disabled="disabled" class="col-md-12 col-xs-12 col-sm-12 h80">${ auditOpinion.opinion }</textarea>
+            
+              <li>
+                <div class="select_check" id="selectOptionId">
+                    <input type="radio" class="hidden" disabled="disabled" name="selectOption" value="15" <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if>>
+                    <input type="radio" class="hidden" disabled="disabled" value="16" <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if>>
+                    <%-- <input type="radio"  disabled="disabled" value="3" <c:if test="${auditOpinion.flagAudit eq '3'}">checked</c:if>>退回修改 --%>
+                </div>
               </li>
+              
+              <%-- <li class="mt10">
+                <textarea id="opinion" disabled="disabled" class="col-md-12 col-xs-12 col-sm-12 h80">${ auditOpinion.opinion }</textarea>
+              </li> --%>
             </ul>
             
-            
-            <h2 class="count_flow mt0"><i>3</i>批准初审表</h2>
+            <div class="clear"></div>
+            <h2 class="count_flow"><i>3</i>批准初审表</h2>
             <ul class="ul_list">
               <li class="col-md-6 col-sm-6 col-xs-6">
                 <div>

@@ -306,7 +306,7 @@ public class SupplierExtractCondition {
 	}
 
 	public Date getCreatedAt() {
-		return createdAt;
+		return null==createdAt?new Date():createdAt;
 	}
 
 	public void setCreatedAt(Date createdAt) {

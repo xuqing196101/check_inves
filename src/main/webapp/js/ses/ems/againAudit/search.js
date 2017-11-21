@@ -60,3 +60,27 @@ function expert_auditBatch_search() {
     url: list_url
   });
 }
+
+// 复审分配列表搜索
+function detailsBatch_search() {
+  var orgName = $('[name=orgName] option:selected').val();  // 获取采购机构
+  var expertsFrom = $('[name=expertsFrom] option:selected').val();  // 获取专家类型
+  var expertsTypeId = $('[name=expertsTypeId]').val();  // 获取专家类别
+  var groupId = $('[name=groupId]').val();  // 获取审核组
+  var status = $('[name=status]').val();  // 获取审核状态
+  if (expertsTypeId != null) {
+    expertsTypeId = expertsTypeId.join(',');
+  }
+  
+  $('#table_content').listConstructor({
+    data: {
+      orgName: orgName,
+      expertsFrom: expertsFrom,
+      expertsTypeId: expertsTypeId,
+      groupId: groupId,
+      status: status,
+      batchId: batchId
+    },
+    url: list_url
+  });
+}
