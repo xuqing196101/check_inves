@@ -90,7 +90,7 @@ function selectArea(obj){
 	}
 	if(provinceId == ''){
 		$(obj).next().empty();
-		$(obj).next().append("<option value=''>选择地区</option>");
+		$(obj).next().append("<option value='0'>全部</option>");
         return;
 	}
 	$.ajax({
@@ -100,7 +100,7 @@ function selectArea(obj){
         dataType: "json",
         success: function (data) {
         	$(obj).next().empty();
-        	$(obj).next().append("<option value=''>选择地区</option>");
+        	$(obj).next().append("<option value='0'>全部</option>");
         	for(var i=0;i<data.length;i++){
         		city += "<option value="+data[i].id+">"+data[i].name+"</option>";
         	}
@@ -298,13 +298,13 @@ function selectLikeSupplier() {
 function checkEmptyAndspace(ele,count){
 	if(!ele.value){
 		count++;
-		$(ele).parents("li").find(".cue").html("不能为空");
+		$(ele).parents("li").find("#"+ele.name+"Error").html("不能为空");
 	}else{
 		if(ele.value.split(" ").length>1 && $(ele).attr("id")!="sellBegin" && $(ele).attr("id")!="sellEnd"){
-			$(ele).parents("li").find(".cue").html("不能包含空格");
+			$(ele).parents("li").find("#"+ele.name+"Error").html("不能包含空格");
 			count ++ ;
 		}else{
-			$(ele).parents("li").find(".cue").html("");
+			$(ele).parents("li").find("#"+ele.name+"Error").html("");
 		}
 	}
 	return count;
@@ -318,7 +318,7 @@ function checkEmpty(){
 	var count = 0;
 	$(".star_red").each(function(){
 		$($(this).parents("li").find("input")).each(function(index, ele){
-			$(ele).parents("li").find(".cue").html("");
+			$(ele).parents("li").find("#"+ele.name+"Error").html("");
 			count = checkEmptyAndspace(ele,count);
 		});
 		
@@ -402,7 +402,7 @@ function compareExtractNum(){
 		if(ExtractNum>parseInt($("#count").html())){
 			$("#ExtractNumError").html("家数不足，无法抽取");
 			$("#count").parents("button").prop("style","background-color: red;");
-		}else{
+		}else if($("#count").html()!="0"){
 			$("#result").find("tbody").empty();
 			$("#count").parents("button").removeAttr("style");
 			$("#ExtractNumError").html("");
@@ -544,14 +544,18 @@ function extractSupplier(code,status) {
     	// 自动抽取
     	$.ajax({
     		type: "POST",
-    		url: globalPath+'/SupplierCondition_new/autoExtract.do?projectInfo'+projectType,//测试用
+    		//url: globalPath+'/SupplierCondition_new/autoExtract.do?projectInfo'+projectType,//测试用
     		data: formData ,
-    		//url: globalPath+'/autoExtract/exportExtractInfo.do?projectInfo'+projectType,// 真实
+    		url: globalPath+'/autoExtract/exportExtractInfo.do?projectInfo'+projectType,// 真实
     		dataType: "json",
     		async:false,
     		success: function (msg) {
-    			
-    		}
+    			if(msg=="OK"){
+    			layer.alert("信息同步至外网状态成功，正在抽取中，请稍后查看结果。");
+	    		}else{
+	    			layer.alert("信息同步至外网状态失败。");
+	    		}
+	    	}
 		});
     }else{
     	// 显示抽取结果表
@@ -758,6 +762,7 @@ function opens(cate) {
         	 if(typeCode == "PROJECT"){
              	initTypeLevelId(null);
              }
+        	selectLikeSupplier();
             opens(cate);
         }
     });

@@ -47,7 +47,7 @@
 		function showTree(tabId) {
 			var id = $("#" + tabId + "-value").val();
 			if(id == null || id == '') {
-				  layer.alert("此类专家无需选择产品类别，请进入下一环节！");
+				  layer.alert("此类专家无需选择参评类别，请进入下一环节！");
 				  $("#isServer").val(1);
 			}
 			var zTreeObj;
@@ -494,7 +494,7 @@
         <h2 class="step_flow">
             <span id="ty1" class="new_step current fl" onclick="one()"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
             <span id="sp7" class="new_step current fl" onclick='pre7()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类别</span> </span>
-            <span id="ty6" class="new_step current fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品类别</span> </span>
+            <span id="ty6" class="new_step current fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">参评类别</span> </span>
             <span id="ty3" class="new_step fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span> 
             <span id="ty4" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">承诺书和申请表</span> </span> 
             <span id="ty5" class="new_step fl new_step_last"><i class="">6</i> <span class="step_desc_01">提交审核</span> </span> 
@@ -510,20 +510,20 @@
                   <c:set value="${liCount+1}" var="liCount" />
                   <c:set value="${jjCount+1}" var="jjCount" />
                   <li id="li_id_${vs.index + 1}" class="active" onclick="showDivTree(this);">
-                    <a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">物资产品类别信息</a>
+                    <a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">物资参评类别信息</a>
                   </li>
                 </c:if>
                 
                 <c:if test="${cate.code eq 'PROJECT' }">
                     <li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
-                      <a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程产品类别信息</a>
+                      <a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程参评类别信息</a>
                     </li>
                     <c:set value="${liCount+1}" var="liCount" />
                 </c:if>
                 <c:if test="${liCount == 0}">
                      <c:if test="${cate.code eq 'GOODS_PROJECT' }">
                       <li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
-                        <a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程产品类别信息</a>
+                        <a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程参评类别信息</a>
                       </li>
                       <c:set value="${liCount+1}" var="liCount" />
                   </c:if>
@@ -546,7 +546,7 @@
                 
                 <c:if test="${cate.code eq 'SERVICE'}">
                   <li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
-                    <a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="f18">服务产品类别信息</a>
+                    <a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="f18">服务参评类别信息</a>
                   </li>
                   <c:set value="${liCount+1}" var="liCount" />
                 </c:if>

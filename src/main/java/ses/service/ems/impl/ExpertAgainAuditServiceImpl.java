@@ -2,6 +2,7 @@ package ses.service.ems.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -149,6 +150,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 				return img;
 			}
 		}
+		batchTemporaryMapper.deleteByPrimaryKey();
 		expertBatchMapper.insert(expertBatch);
 		int count=1;
 		for (Expert expert : list) {
@@ -1004,6 +1006,11 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	}
 	public ExpertAgainAuditImg selectBatchTemporary(Expert expert) {
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		if (expert.getExpertsTypeId() != null && !"".equals(expert.getExpertsTypeId())) {
+            List<String> listExpertTypeId = Arrays.asList(expert.getExpertsTypeId().split(","));
+            expert.setExpertTypeId(listExpertTypeId);
+		
+		}
 		List<BatchTemporary> list = batchTemporaryMapper.selectBatchTemporaryAll(expert);
 		if(list.size()>0){
 			for (BatchTemporary e : list) {
@@ -1048,6 +1055,18 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		if(ids!=null){
 			String[] split = ids.split(",");
+			List<String> list = new ArrayList<String>();
+			BatchTemporary b = new BatchTemporary();
+			for (String string : split) {
+				list.add(string);
+			}
+			b.setIds(list);
+			int count = batchTemporaryMapper.selectBatchTemporaryCount(b);
+			if(count>0){
+				img.setStatus(false);
+				img.setMessage("请选择未被分到预选分组的专家");
+				return img;
+			}
 			for (String string : split) {
 				BatchTemporary t = new BatchTemporary();
 				t.setExpertId(expertId);

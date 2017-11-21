@@ -31,6 +31,7 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import sums.service.oc.ComplaintService;
 import synchro.inner.back.service.infos.InnerInfoExportService;
+import synchro.inner.read.supplier.InnerSupplierService;
 import synchro.model.SynchRecord;
 import synchro.outer.back.service.expert.OuterExpertService;
 import synchro.outer.back.service.supplier.OuterSupplierService;
@@ -77,6 +78,11 @@ public class SynchExportController {
     @Autowired
     private OuterSupplierService outerSupplierService;
 
+    /**
+     * 内网同步供应商数据service
+     **/
+    @Autowired
+    private InnerSupplierService innerSupplierService;
     /**
      * 供应商名录
      **/
@@ -220,6 +226,11 @@ public class SynchExportController {
 	          if (dd.getCode().equals(Constant.DATE_SYNCH_MILITARY_EXPERT)) {
 	              iter.remove();
 	              continue;
+	          }
+	          // 过滤供应商等级信息
+	          if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_LEVEL)) {
+	        	  iter.remove();
+	        	  continue;
 	          }
 	          //外网时
 	          if(ipAddressType.equals("1")){
@@ -365,8 +376,7 @@ public class SynchExportController {
             if (synchType.contains("temp_out")) {
                 outerSupplierService.tempSupplier(startTime, endTime);
             }
-
-
+            
             /**专家内网，外网数据导出*/
             if (synchType.contains(Constant.DATA_TYPE_EXPERT_CODE)) {
                 outerExpertService.backupCreated(startTime, endTime);
@@ -407,6 +417,14 @@ public class SynchExportController {
                     smsProductLibService.exportCheckProjectData(startTime, endTime, date);
                 }
             }
+            
+            if(ipAddressType.equals("0")){
+            	/** 供应商等级导出 */
+                if(synchType.contains(Constant.DATE_SYNCH_SUPPLIER_LEVEL)){
+                	innerSupplierService.selectSupplierLevelOfExport(startTime, endTime);
+                }
+            }
+            
             if (synchType.contains(Constant.SYNCH_CATEGORY)) {
                 //产品目录 导出 数据
                 categoryService.exportCategory(startTime, endTime, date);
@@ -482,9 +500,15 @@ public class SynchExportController {
 	        	serviceHotlineService.exportHotLine(startTime, endTime,date);
 	        } 
 	        /** 供应商抽取结果导出*/
-	        if (synchType.contains(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_RESULT)) {
-	        	autoExtractSupplierService.exportSupplierExtractResult(startTime, endTime, date);
-	        } 
+	        if("1".equals(ipAddressType)){
+	        	if (synchType.contains(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_RESULT)) {
+	        		autoExtractSupplierService.exportSupplierExtractResult(startTime, endTime, date);
+	        	} 
+	        	/** 供应商抽取信息导出*/
+	        	if (synchType.contains(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO)) {
+	        		autoExtractSupplierService.exportExtractProjectInfo(startTime, endTime, date);
+	        	} 
+	        }
 	        bean.setSuccess(true);
 	        return bean;
         }

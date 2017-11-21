@@ -10,4 +10,5 @@ public interface BatchTemporaryMapper {
 	void deleteByPrimaryKey();
 	void addBatchTemporary(BatchTemporary batchTemporary);
 	void deleteBatchTemporary(String batchExpertId);
+	Integer selectBatchTemporaryCount(BatchTemporary batchTemporary);
 }

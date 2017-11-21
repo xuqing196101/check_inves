@@ -86,8 +86,11 @@
     	</if>
      </if>
      <if test="auditStatus!=null">
-	    AND t1.AUDIT_STATUS ='2'
-	   </if>
+	    AND t1.AUDIT_STATUS = #{auditStatus}
+	 </if>
+	 <if test="auditFieldId =null">
+	 	AND t1.AUDIT_FIELD_ID = #{auditFieldId}
+	 </if>
      ORDER BY 
      	DECODE (t1.SUGGEST_TYPE,'one','1','seven','2','six','3','five','4'),
      	t3.CODE,
@@ -635,6 +638,9 @@
     </if>
     <if test="auditFalg != '' and auditFalg != null">
       and AUDIT_FALG = #{auditFalg}
+    </if>
+    <if test="statusQuery !=null and statusQuery !=''">
+      AND (AUDIT_STATUS = '1' OR AUDIT_STATUS = '3' OR AUDIT_STATUS = '6' OR ( SUGGEST_TYPE = 'six' AND AUDIT_STATUS = '2'))
     </if>
     ORDER BY DECODE (SUGGEST_TYPE,'one','1','seven','2','six','3','five','4'),AUDIT_AT ASC
   </select>

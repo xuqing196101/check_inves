@@ -31,7 +31,7 @@ public interface SupplierExtractConditionMapper {
      * @param record
      * @return
      */
-    int insertSelective(SupplierExtractCondition record);
+    int insertSelective(SupplierExtractCondition condition);
 
     /**
      * 根据主键获取一条数据库记录

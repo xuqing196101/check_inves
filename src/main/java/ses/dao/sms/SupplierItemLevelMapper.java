@@ -124,4 +124,15 @@ public interface SupplierItemLevelMapper {
 	List<SupplierItemLevel> selectFourCategoryLevelOutfour(@Param("categoryId")String categoryIds,
 			@Param("supplierTypeRelateId")String supplierType, @Param("armyBusinessName")String armyBusinessName, @Param("supplierName")String supplierName,
 			@Param("supplierLevel")String supplierLevelName, @Param("clickCategoryId")String clickCategoryId);
+	
+	/**
+	 * 
+	 * <简述> 按id查询数据
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-11-10上午11:45:07
+	 * @param id
+	 * @return
+	 */
+	SupplierItemLevel selectById(String id);
 }

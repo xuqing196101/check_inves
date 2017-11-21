@@ -7,12 +7,6 @@
   <%@ include file="/WEB-INF/view/common/webupload.jsp" %>
 </head>
 <body>
-  
-  <script>
-    var index_load = layer.load(1, {
-      shade: [1, '#FFF']
-    });
-  </script>
 
 	<!-- 面包屑导航开始 -->
 	<div class="margin-top-10 breadcrumbs">
@@ -49,7 +43,6 @@
     <div class="headline-v2"><h2 id="head_tit"></h2></div>
     
     <!-- 表格开始-->
-   
     <div class="col-md-12 pl20 pr0 mt10 mb10" id="btn_group">
       <div class="fr pic_upload">
         <div class="fl h30 lh30">上传批准复审表：</div>
@@ -88,6 +81,19 @@
     var jump_auditBatch_url = '${pageContext.request.contextPath}/expertAgainAudit/groupBatch.html?batchId='+batchId;
     var select_ids = [];  // 选择的专家id集合
     
+    // loadding
+    var indexLoad;
+    index_load(true);
+    function index_load(on_off) {
+    	if (on_off) {
+    		indexLoad = layer.load(1, {
+ 	        shade: [1, '#FFF']
+ 	      });
+    	} else {
+    		layer.close(indexLoad);
+    	}
+    }
+    
     $(function () {
       $('#table_content').listConstructor({
         url: list_url,
@@ -111,90 +117,64 @@
     function jump_auditBatch() {
       window.location.href = '${pageContext.request.contextPath}/expertAgainAudit/auditBatch.html?batchId='+batchId;
     }
+    
     //下载
     function downloadTable(id) {
-        var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
-        state = trim(state);
-        if(state =="专家预复审结束") {
-        	$.ajax({
-        		url: "${pageContext.request.contextPath}/expertAudit/findExpertInfo.do",
-        	  data:{"id":id},
-        	  type: "post",
-        	  success: function(data){
-        		  if(data.isReviewEnd != 1){
-        			  $("input[name='tableType']").val('2');
-     	          $("input[name='expertId']").val(id);
-     	          $("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/download.html");
-     	          $("#form_id").submit();
-        		  }else {
-     	          layer.msg("该专家已复审结束，请刷新页面 !", {offset: '100px',});
-        		  }
-        	  }
-        	});
-          
-        } else {
-          layer.msg("请选择预复审结束的专家 !", {
-            offset: '100px',
-          });
-        }
+      var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
+      state = trim(state);
+      if(state =="专家预复审结束") {
+      	$.ajax({
+      		url: "${pageContext.request.contextPath}/expertAudit/findExpertInfo.do",
+      	  data:{"id":id},
+      	  type: "post",
+      	  success: function(data){
+      		  if(data.isReviewEnd != 1){
+      			  $("input[name='tableType']").val('2');
+   	          $("input[name='expertId']").val(id);
+   	          $("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/download.html");
+   	          $("#form_id").submit();
+      		  }else {
+   	          layer.msg("该专家已复审结束，请刷新页面 !", {offset: '100px',});
+      		  }
+      	  }
+      	});
+        
+      } else {
+        layer.msg("请选择预复审结束的专家 !", {
+          offset: '100px',
+        });
+      }
     }
+    
     function trim(str) { //删除左右两端的空格
       return str.replace(/(^\s*)|(\s*$)/g, "");
     }
-  //下载
-    function downloadReviewTable() {
-	  			var id="${batchId}";
-     	          $("input[name='batchId']").val(id);
-     	          $("#form_expertReview").attr("action", "${pageContext.request.contextPath}/expertAgainAudit/downloadExpertReview.html");
-     	          $("#form_expertReview").submit();
-    }
-    /** 全选全不选 */
-    // function selectAll(){
-    //    var checklist = document.getElementsByName ("chkItem");
-    //    var checkAll = document.getElementById("checkAll");
-    //    if(checkAll.checked){
-    //        for(var i=0;i<checklist.length;i++)
-    //        {
-    //           checklist[i].checked = true;
-    //        } 
-    //      }else{
-    //       for(var j=0;j<checklist.length;j++)
-    //       {
-    //          checklist[j].checked = false;
-    //       }
-    //    }
-    // }
     
-    /** 单选 */
-    // function check(){
-    //    var count=0;
-    //    var checklist = document.getElementsByName ("chkItem");
-    //    var checkAll = document.getElementById("checkAll");
-    //    for(var i=0;i<checklist.length;i++){
-    //        if(checklist[i].checked == false){
-    //          checkAll.checked = false;
-    //          break;
-    //        }
-    //        for(var j=0;j<checklist.length;j++){
-    //          if(checklist[j].checked == true){
-    //              //checkAll.checked = true;
-    //              count++;
-    //            }
-    //        }
-    //      }
-    // }
+    //下载
+    function downloadReviewTable() {
+			var id="${batchId}";
+      $("input[name='batchId']").val(id);
+      $("#form_expertReview").attr("action", "${pageContext.request.contextPath}/expertAgainAudit/downloadExpertReview.html");
+      $("#form_expertReview").submit();
+    }
     
     //复审结束（审核专家操作）
-    function reviewEnd(expertId){
+    function reviewEnd(expertId) {
     	$.ajax({
         url: "${pageContext.request.contextPath}/expertAgainAudit/reviewEnd.do",
         data: {"expertId" : expertId},
         success: function (data) {
           if(data.status == 200){
         	  layer.msg("操作成功",{offset:'100px'});
-        	  window.setTimeout(function(){
-        		  window.location.reload();
-        	  },1000);
+            $('#table_content').listConstructor({
+              url: list_url,
+              data: {
+                batchId: batchId
+              }
+            });
+        	  // window.setTimeout(function(){
+        		//   window.location.reload();
+        	  // },1000);
           }
         },error: function(){
         	layer.msg("操作失败",{offset:'100px'});

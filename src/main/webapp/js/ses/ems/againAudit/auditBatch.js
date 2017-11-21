@@ -14,6 +14,7 @@
         var groupStatus = ['（待配置）','（配置中）'];
         var groupStatus_str = '';
         list_content = data.object;  // 储存所需数据到变量
+        layer.close(index_load);
         
         if (typeof(list_content) != 'undefined') {
           $('#group_batch_box').html('');
@@ -21,8 +22,8 @@
             layer.msg('请先进行批次分组！', {
               time: 0,
               btn: ['好'],
-              yes: function(index){
-                layer.close(index);
+              shade: [1, '#FFF'],
+              yes: function(index) {
                 history.back();
               }
             });

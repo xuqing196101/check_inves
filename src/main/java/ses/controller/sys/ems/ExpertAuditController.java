@@ -487,6 +487,9 @@ public class ExpertAuditController{
 				map.put("expertId", expertId);
 				map.put("auditFalg", sign);
 				for(String method: keySet) {
+					if("getProductCategories".equals(method)){
+						continue;
+					}
 					editFields.add(method);
 					 map.remove("auditField");
 					 map.remove("auditContent");
@@ -528,16 +531,34 @@ public class ExpertAuditController{
 						if("getAtDuty".equals(method)){
 							map.put("auditFiled", "现任职务");
 							falg = true;
-						}else if("getAcademicAchievement" .equals(method)){
+						}else if("getAcademicAchievement".equals(method)){
 							map.put("auditFiled", "专业学术成果");
 							falg = true;
-						}
+						}else if("getFax".equals(method)){
+							map.put("auditFiled", "传真电话");
+							falg = true;
+						}else if("getAcademicAchievement".equals(method)){
+							map.put("auditFiled", "专业学术成果");
+							falg = true;
+						}else if("getReviewSituation".equals(method)){
+							map.put("auditFiled", "参加军队地方采购评审情况");
+							falg = true;
+						}else if("getTimeToWork".equals(method)){
+							map.put("auditFiled", "参加工作时间");
+							falg = true;
+						}else if("getDegree".equals(method)){
+							map.put("auditFiled", "最高学位");
+							falg = true;
+						}else if("getJobExperiences".equals(method)){
+							map.put("auditFiled", "主要工作经历");
+							falg = true;
+					}
 						 editFields.add(method);
 					}
 					if(falg){
 						
 						//政治面貌：
-						if("getPoliticsStatus".equals(method)){
+						if(param !=null && "getPoliticsStatus".equals(method)){
 							DictionaryData DictionaryData = dictionaryDataServiceI.getDictionaryData((String)param);
 							map.put("auditContent", DictionaryData.getName());
 						}
@@ -550,7 +571,9 @@ public class ExpertAuditController{
 		}
 		
 		
-		if(expert.getStatus().equals("-3") || expert.getStatus().equals("1") || expert.getStatus().equals("0") || "10".equals(expert.getStatus())|| "16".equals(expert.getStatus())|| "15".equals(expert.getStatus()) || "9".equals(expert.getStatus()) || expert.getStatus().equals("-2") ||  expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6"))){
+		if(expert.getStatus().equals("-3") || expert.getStatus().equals("1") || expert.getStatus().equals("0") || "10".equals(expert.getStatus())
+				|| "16".equals(expert.getStatus())|| "15".equals(expert.getStatus()) || "9".equals(expert.getStatus()) || expert.getStatus().equals("-2") 
+				||  expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6")) || "3".equals(expert.getStatus())){
 			/**
 			 * 回显未通过的字段
 			 */
@@ -1097,12 +1120,22 @@ public class ExpertAuditController{
             
             if(sign != null && sign==2){
             	expertAudit.setExpertId(expertId);
+            	expertAudit.setAuditFalg(1);
+            	
                 expertAudit.setSuggestType("six");
-                expertAudit.setAuditFalg(1);
                 expertAudit.setAuditFieldId(cate.getItemsId());
                 ExpertAudit findAuditByExpertId = expertAuditService.findAuditByExpertId(expertAudit);
                 if(findAuditByExpertId !=null && findAuditByExpertId.getAuditReason() !=null){
                 	cate.setAuditReason(findAuditByExpertId.getAuditReason());
+                }
+                
+               //类型不通过的，下面品目全部不通过
+	            expertAudit.setSuggestType("seven");
+	            expertAudit.setType("1");
+	            expertAudit.setAuditFieldId(typeId);
+	            ExpertAudit itemsTypeNoPass = expertAuditService.findAuditByExpertId(expertAudit);
+	            if(itemsTypeNoPass !=null && itemsTypeNoPass.getAuditReason() !=null){
+                	cate.setAuditReason(itemsTypeNoPass.getAuditReason());
                 }
             }
         }
@@ -1430,7 +1463,9 @@ public class ExpertAuditController{
 		model.addAttribute("expertId", expertId);
 		model.addAttribute("status", expert.getStatus());
 		//回显不通过的字段
-		if(expert.getStatus().equals("-3") ||  expert.getStatus().equals("1") || expert.getStatus().equals("-2") || expert.getStatus().equals("0") || "10".equals(expert.getStatus())|| "15".equals(expert.getStatus())|| "16".equals(expert.getStatus()) || "9".equals(expert.getStatus()) || expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6"))){
+		if(expert.getStatus().equals("-3") ||  expert.getStatus().equals("1") || expert.getStatus().equals("-2") || expert.getStatus().equals("0") 
+				|| "10".equals(expert.getStatus())|| "15".equals(expert.getStatus())|| "16".equals(expert.getStatus()) || "9".equals(expert.getStatus()) 
+				|| expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6")) || "3".equals(expert.getStatus())){
 			ExpertAudit expertAuditFor = new ExpertAudit();
 			expertAuditFor.setExpertId(expertId);
 			expertAuditFor.setSuggestType("five");
@@ -1711,7 +1746,9 @@ public class ExpertAuditController{
 		model.addAttribute("typeMap", typeMap);
 		
 		//回显不通过的字段
-		if(expert.getStatus().equals("-3") ||  expert.getStatus().equals("1") ||"15".equals(expert.getStatus())||"16".equals(expert.getStatus()) || expert.getStatus().equals("-2") || expert.getStatus().equals("0") || "10".equals(expert.getStatus()) || "9".equals(expert.getStatus()) || expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6"))){
+		if(expert.getStatus().equals("-3") ||  expert.getStatus().equals("1") ||"15".equals(expert.getStatus())||"16".equals(expert.getStatus()) 
+				|| expert.getStatus().equals("-2") || expert.getStatus().equals("0") || "10".equals(expert.getStatus()) || "9".equals(expert.getStatus()) 
+				|| expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6")) || "3".equals(expert.getStatus())){
 			/*ExpertAudit expertAuditFor = new ExpertAudit();
 			expertAuditFor.setExpertId(expertId);
 			expertAuditFor.setSuggestType("seven");
@@ -2274,12 +2311,6 @@ public class ExpertAuditController{
 		depMap.put("purchaseDepId", expert.getPurchaseDepId());
 		String depName = purChaseDepOrgService.selectOrgFullNameByPurchaseDepId(depMap);
 		dataMap.put("depName", depName);
-		String eStatus = expert.getStatus();
-		if("-2".equals(eStatus)){
-			dataMap.put("orgName", "cgjg");
-		}else{
-			dataMap.put("orgName", "zyfwzx");
-		}
 		//专家编号
 		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
 		expertBatchDetails.setExpertId(expert.getId());
@@ -3675,7 +3706,7 @@ public class ExpertAuditController{
 			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
 			
 			/*
-			 * 查修改过的产品目录
+			 * 查修改过的产品目录（已修改）
 			 */
 			expertAudit.setSuggestType("six");
 			expertAudit.setAuditStatus("2");
@@ -3684,6 +3715,13 @@ public class ExpertAuditController{
 		}else if(expertAudit.getAuditFalg()==2){
 			expertAudit.setAuditFalg(2);
 			expertAudit.setStatusQuery("notPass");
+			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
+			/*
+			 * 查不通过产品目录（已修改）
+			 */
+			expertAudit.setSuggestType("six");
+			expertAudit.setAuditStatus("2");
+			expertAudit.setStatusQuery(null);
 			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
 		}
 		Map<String,Integer> map = new HashMap<String,Integer>();

@@ -163,9 +163,9 @@
 								</c:forEach>
 							</select> <select name="sellAddress" class="col-md-6 col-sm-6 col-xs-6 p0"
 								id="sellAddress">
-								<option value="">选择地区</option>
+								<option value="0">全部</option>
 							</select>
-							<div class="cue" id="sellAreaError"></div>
+							<div class="cue" id="sellProvinceError"></div>
 						</div></li>
 					<li class="col-md-3 col-sm-4 col-xs-12"><span
 						class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span
@@ -211,8 +211,7 @@
 					<li class="col-md-3 col-sm-4 col-xs-12"><span
 						class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span
 							id="xmss"></span>项目实施地区</span>
-						<div
-							class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<select class="col-md-6 col-sm-6 col-xs-6 p0"
 								id="constructionPro" name="constructionPro"
 								onchange="selectArea(this);">
@@ -220,12 +219,9 @@
 								<c:forEach items="${province }" var="pro">
 									<option value="${pro.id }">${pro.name }</option>
 								</c:forEach>
-							</select> <select name="constructionAddr"
-								class="col-md-6 col-sm-6 col-xs-6 p0" id="constructionAddr">
-								<option value="">选择地区</option>
-								<%-- <c:forEach items="${address }" var="add">
-                                <option value="${add.id }">${add.name }</option>
-                       		 </c:forEach> --%>
+							</select> 
+							<select name="constructionAddr"	class="col-md-6 col-sm-6 col-xs-6 p0" id="constructionAddr">
+								<option value="0">全部</option>
 							</select> 
 							<div class="cue" id="constructionProError"></div>
 						</div></li>
@@ -489,7 +485,7 @@
 				<div class="col-xs-12 tc mt20">
 					<button class="btn bu" onclick="extractVerify(1);" type="button">人工抽取</button>
 					<button class="btn bu" type="button" >自动抽取</button>
-					<!-- onclick="extractVerify('auto')" -->
+					<!-- onclick="extractVerify(0)" -->
 					<button class="btn bu" type="button" onclick="resetCondition(this)">重置</button>
 				</div>
 			</form>

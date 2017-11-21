@@ -46,7 +46,7 @@
             +'    <th class="info w80">专家类型</th>'
             +'    <th class="info w80">专家类别</th>'
             +'    <th class="info">工作单位</th>'
-            +'    <th class="info w120">技术职称(职称)</th>'
+            +'    <th class="info w120">专业职称(职务)</th>'
             +'    <th class="info w60">审核组</th>'
             +'    <th class="info w110">审核状态</th>'
             +'    <th class="info w100">操作</th>'
@@ -186,7 +186,7 @@
             +'    <th class="info w80">专家姓名</th>'
             +'    <th class="info w50">性别</th>'
             +'    <th class="info">工作单位</th>'
-            +'    <th class="info w120">技术职称(职称)</th>'
+            +'    <th class="info w120">专业职称(职务)</th>'
             +'    <th class="info w120">专家类型</th>'
             +'    <th class="info w80">专家类别</th>'
             +'    <th class="info w60">审核组</th>'
@@ -367,7 +367,7 @@
           });
         }
         
-        layer.close(index_load);
+        index_load(false);
         
         // 构造分页
         // laypageConstructor();

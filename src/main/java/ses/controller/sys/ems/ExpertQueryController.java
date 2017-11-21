@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+
+import bss.formbean.Maps;
+import bss.util.ExcelUtils;
+import common.constant.Constant;
+import dss.model.rids.ExpertAnalyzeVo;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
@@ -45,13 +54,6 @@ import ses.service.oms.PurChaseDepOrgService;
 import ses.service.sms.SupplierEditService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
-import bss.formbean.Maps;
-
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
-import common.constant.Constant;
-
-import dss.model.rids.ExpertAnalyzeVo;
 
 /**
  * <p>Title:ExpertQuery </p>
@@ -425,7 +427,8 @@ public class ExpertQueryController {
         // 查询已选中的节点信息(所有子节点)
         /*List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);*/
         //只查询审核通过的
-        List<ExpertCategory> items = expertCategoryService.selectPassCateByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
+       /* List<ExpertCategory> items = expertCategoryService.selectPassCateByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);*/
+        List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId);
 
         List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
         int count=0;
@@ -472,11 +475,11 @@ public class ExpertQueryController {
         model.addAttribute("itemsList", allTreeList);
         List<ExpertCategory> list = expertCategoryService.getListCount(expertId, typeId, "1");//设置level为1是为了过滤掉父节点,只统计子节点个数
         
-        model.addAttribute("resultPages", (list == null ? 0 : this.totalPages(list)));
+        /*model.addAttribute("resultPages", (list == null ? 0 : this.totalPages(list)));
         model.addAttribute("resultTotal", (list == null ? 0 : list.size()));
         model.addAttribute("resultpageNum", pageNum);
         model.addAttribute("resultStartRow", (list == null ? 0 : 1));
-        model.addAttribute("resultEndRow", new PageInfo < > (items).getEndRow()+1);
+        model.addAttribute("resultEndRow", new PageInfo < > (items).getEndRow()+1);*/
         // 首页公示显示专家小类详情
         if(StringUtils.isNotEmpty(flags)){
            return "iss/ps/index/index_expPublicity_item_ajax";
@@ -832,37 +835,14 @@ public class ExpertQueryController {
 	@RequestMapping(value = "/auditInfo")
 	public String auditInfo(Model model, String expertId, Integer sign, String reqType, String status){
 		Map<String,Object> map = new HashMap<String,Object>();
-		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
 		
 		map.put("expertId", expertId);
-		//初审的意见
-		/*if("0".equals(status) || "1".equals(status) || "2".equals(status) || "3".equals(status) || "9".equals(status) || "11".equals(status) 
-				|| "14".equals(status) || "15".equals(status) || "16".equals(status)){
-			map.put("isDeleted", 0);
-			map.put("auditFalg", 1);
-			
-			expertAuditOpinion.setFlagTime(0);
-		}
-		
-		//复审
-		if("-3".equals(status) || "-2".equals(status) || "4".equals(status) || "5".equals(status)  || "10".equals(status)){
-			map.put("isDeleted", 0);
-			map.put("auditFalg", 2);
-			
-			expertAuditOpinion.setFlagTime(1);
-		}
-		
-		//复查
-		if("6".equals(status) || "7".equals(status) || "8".equals(status) || "17".equals(status) || "19".equals(status)){
-			map.put("isDeleted", 0);
-			map.put("auditFalg", 3);
-			
-			expertAuditOpinion.setFlagTime(2);
-		}*/
-		
-		//map.put("isDeleted", 0);
 		map.put("auditFalg", 1);
 		
+		//查询 有问题，未修改，审核不通过的状态
+		map.put("statusQuery", "statusQuery");
+		
+		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
 		expertAuditOpinion.setFlagTime(0);
 		
 		//审核记录
@@ -907,6 +887,8 @@ public class ExpertQueryController {
 		
 		map.put("expertId", expertId);
 		map.put("auditFalg", 2);
+		//查询 有问题，未修改，审核不通过的状态
+		map.put("statusQuery", "statusQuery");
 			
 		expertAuditOpinion.setFlagTime(1);
 		//审核记录
@@ -1101,24 +1083,13 @@ public class ExpertQueryController {
                     ct.setIsParent("true");
                     ct.setClassify(dictionaryData.getCode());
                     jList.add(ct);
-                }
-                
-                
-                //工程专业
-                DictionaryData dictionaryData = DictionaryDataUtil.get("ENG_INFO_ID");
-                CategoryTree ct=new CategoryTree();
-                ct.setId(dictionaryData.getId());
-                ct.setName(dictionaryData.getName() + "专业");
-                ct.setIsParent("true");
-                ct.setClassify(dictionaryData.getCode());
-                jList.add(ct);
-                
-                return JSON.toJSONString(jList);
+                }  
             }
             String list="";
-            List<Category> cateList=categoryService.findTreeByPid(category.getId());
+            
+            List<Category> cateList=categoryService.findTreeByPidIsPublish(category.getId());
               for(Category cate:cateList){
-                  List<Category> cList=categoryService.findTreeByPid(cate.getId());
+                  List<Category> cList=categoryService.findTreeByPidIsPublish(cate.getId());
                   CategoryTree ct=new CategoryTree();
                   if(!cList.isEmpty()){
                       ct.setIsParent("true");
@@ -1132,8 +1103,24 @@ public class ExpertQueryController {
                   ct.setStatus(cate.getStatus());
                   jList.add(ct);
               }
+              
+              //加入 工程专业类型
+              DictionaryData dic = DictionaryDataUtil.get("PROJECT");
+              if(dic !=null && category.getId() !=null){
+            	  String id = category.getId();
+            	  if(id.equals(dic.getId())){
+	                  DictionaryData dictionaryData = DictionaryDataUtil.get("ENG_INFO_ID");
+	                  CategoryTree engCategory=new CategoryTree();
+	            	  engCategory.setIsParent("true");
+	                  engCategory.setId(dictionaryData.getId());
+	                  engCategory.setName(dictionaryData.getName()+"专业");
+	                  engCategory.setpId(dic.getId());
+	                  jList.add(engCategory);
+            	  }
+              }
+              
 
-              //工程专业
+              //工程专业产品
               List<Category> engCateList=engCategoryService.findTreeByPid(category.getId());
               for(Category cate:engCateList){
                   List<Category> cList=engCategoryService.findTreeByPid(cate.getId());
@@ -1155,4 +1142,29 @@ public class ExpertQueryController {
             return list;
       		}
       }
+    
+    /**
+     * 导出excel
+     * @param httpServletResponse
+     * @param expert
+     * @param expertTypeIds
+     * @param expertType
+     * @param categoryIds
+     * @param categoryNames
+     * @param flag（1：全部查询，2：入库查询）
+     */
+    @RequestMapping(value = "/exportExcel")
+    public void exportExcel(HttpServletResponse httpServletResponse, Expert expert, String expertTypeIds, String expertType, String categoryIds, String categoryNames, Integer flag){
+        ExcelUtils excelUtils = new ExcelUtils(httpServletResponse, "评审专家信息", "sheet1", 1000);
+        // 设置冻结行
+        excelUtils.setFreezePane(true);
+        excelUtils.setFreezePane(new Integer[]{0, 1, 0, 1});
+        // 设置序号列
+        excelUtils.setOrder(true);
+        List<Expert> dataList = service.exportExcel(expert, expertTypeIds, expertType, categoryIds, flag);
+        String titleColumn[] = {"orderNum", "relName", "address", "expertsFrom", "expertsTypeId", "atDuty", "mobile", "telephone", "storageAt", "items"};
+        String titleName[] = {"序号", "专家姓名", "地区", "专家类型", "专家类别","职称（职务）", "联系手机", "联系固话", "入库时间", "参评类别"};
+        int titleSize[] = {5, 20, 15, 10, 40, 25, 15, 15, 20, 15, 800};
+        excelUtils.wirteExcel(titleColumn, titleName, titleSize, dataList);
+    }
 }

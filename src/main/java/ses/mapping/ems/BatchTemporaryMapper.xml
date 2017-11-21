@@ -86,4 +86,13 @@
   <delete id="deleteBatchTemporary" parameterType="java.lang.String">
     delete from T_SES_EMS_BATCH_TEMPORARY WHERE BATCH_EXPERT_ID = #{batchExpertId}
   </delete>
+  <select id="selectBatchTemporaryCount"  parameterType="ses.model.ems.BatchTemporary" resultType="java.lang.Integer">
+  	select count(*) from T_SES_EMS_BATCH_TEMPORARY where 1=1
+  	<if test="ids != null">
+            <foreach collection="ids" item="id" open="and BATCH_EXPERT_ID  in ("
+                     close=")" separator=",">
+                #{id}
+            </foreach>
+     </if>
+  </select>
 </mapper>

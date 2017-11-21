@@ -435,4 +435,11 @@ public interface CategoryMapper {
 	 * @since JDK1.7
 	 */
 	List<String> selectMoreCategoryByIds(Map<String, Object> map);
+	
+	/**
+	 * 查询导出专家所需数据
+	 * @param map
+	 * @return
+	 */
+	List<Category> selectExportExcelData (Map<String, Object> map);
 }

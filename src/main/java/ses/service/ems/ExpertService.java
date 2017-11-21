@@ -578,10 +578,10 @@ public interface ExpertService {
     List<Expert> findStorage (Expert expert);
     
     /**
-     * 无分页
+     * 导出
      * @param expert
      * @return
      */
-    List<Expert> findExpertNoPag (Expert expert);
+    List<Expert> exportExcel (Expert expert, String expertTypeIds, String expertType, String categoryIds, Integer flag);
     
 }
