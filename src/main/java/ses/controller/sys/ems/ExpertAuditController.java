@@ -1958,6 +1958,10 @@ public class ExpertAuditController{
 			selectEao.setFlagTime(1);
 		}
 		auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
+		//如果当前专家为重新复审专家清空复审意见
+		if(sign==2&&"1".equals(expert.getReviewStatus())){
+			auditOpinion.setOpinion("");
+		}
 		model.addAttribute("qualified", true);
 		JdcgResult result =null;
 		if(expertAudit.getAuditFalg()==2){
@@ -3467,6 +3471,7 @@ public class ExpertAuditController{
 		expert.setAuditTemporary(0);
 		// 设置修改时间
 		expert.setUpdatedAt(new Date());
+		expertService.updateReviewStatus(expert.getId());
 		expertService.updateByPrimaryKeySelective(expert);
 		return JdcgResult.ok(expert.getStatus());
 	}
