@@ -171,4 +171,11 @@ public interface ExpertCategoryService {
     List<ExpertCategory> selectCategoryListByCategoryId(ExpertCategory expertCategory);
     
     List<SupplierCateTree> findPointsByTypeId(String typeId, String expertId);
+    
+    /**
+     * 根据专家id查询通过的品目
+     * @param expertCategory
+     * @return
+     */
+    List<ExpertCategory> selectPassCategoryByExpertId(String expertId, String typeId);
 }

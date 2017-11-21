@@ -432,11 +432,9 @@ public class ExpertQueryController {
             // 公示品目删选
             items = expertCategoryService.selectPassCateByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
         }else {
-        	ExpertCategory expertCategory = new ExpertCategory();
-        	expertCategory.setAuditStatus(0);
-        	expertCategory.setTypeId(typeId);
-        	expertCategory.setExpertId(expertId);
-            items = expertCategoryService.selectCategoryByCategoryId(expertCategory);
+            items = expertCategoryService.selectPassCategoryByExpertId(expertId, typeId);
+            
+           /* items = expertCategoryService.getListByExpertId(expertId, typeId);*/
         }
 
         List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();

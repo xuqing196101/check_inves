@@ -363,5 +363,11 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 	public List<SupplierCateTree> findPointsByTypeId(String typeId, String expertId) {
 		return mapper.findPointsByTypeId(typeId, expertId);
 	}
+
+	@Override
+	public List<ExpertCategory> selectPassCategoryByExpertId(String expertId, String typeId){
+		
+		return mapper.selectPassCategoryByExpertId(expertId, typeId);
+	}
 }
  
