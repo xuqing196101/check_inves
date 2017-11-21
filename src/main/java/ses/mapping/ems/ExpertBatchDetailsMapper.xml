@@ -49,7 +49,8 @@
         T2.EXPERTS_TYPE_ID AS expertsTypeId,<!-- 专家类型 -->
         T2.EXPERTS_FROM AS expertsFrom,<!-- 专家类别 -->
         T2.AUDIT_TEMPORARY AS auditTemporary,
-        T2.IS_REVIEW_END AS isReviewEnd
+        T2.IS_REVIEW_END AS isReviewEnd,
+        T2.REVIEW_STATUS AS reviewStatus
         from 
         T_SYS_EMS_EXPERT_BATCH_DETAILS T1
 		LEFT JOIN T_SES_EMS_EXPERT T2 ON T1.EXPERT_ID=T2.ID 
@@ -86,12 +87,15 @@
         <if test="groupId != null">
         	and T1.GROUP_ID = #{groupId}
         </if>
+        <if test="reviewStatus !=null">
+        	and T2.REVIEW_STATUS=#{reviewStatus}
+        </if>  
         <if test=" sort != null ">
         ORDER BY org.POSITION ASC,t2.AUDIT_AT ASC
         </if>
         <if test=" sort == null ">
         ORDER BY T1.COUNT ASC   
-        </if>     
+        </if> 
     </select> 
     <select id="getExpertBatchDetailsCount" resultType="java.lang.Integer"  parameterType="java.lang.String">
     	select count(*) from T_SYS_EMS_EXPERT_BATCH_DETAILS where GROUP_ID=#{groupId}

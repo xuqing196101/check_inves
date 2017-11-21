@@ -1074,4 +1074,85 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		img=againAuditService.deleteBatchTemporary(ids);
 		super.writeJson(response, img);
 	 }
+	 /*
+	  * 重新复审
+	  * */
+	 @RequestMapping("againReview")
+	 public void againReview(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String id){
+		 ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		 if(user==null){
+			img.setStatus(false);
+			img.setMessage("请登录");
+			super.writeJson(response, img);
+			return;
+		}
+		if(!"4".equals(user.getTypeName())){
+			img.setStatus(false);
+			img.setMessage("您的权限不足");
+			super.writeJson(response, img);
+			return;
+		}
+		if(id==null){
+			img.setStatus(false);
+			img.setMessage("请求参数有误");
+			super.writeJson(response, img);
+			return;
+		}
+		img=againAuditService.againReview(id);
+		super.writeJson(response, img);
+	 };
+	 /*
+	  * 取消复审
+	  * */
+	 @RequestMapping("cancelReview")
+	 public void cancelReview(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String id) {
+		 ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		 if(user==null){
+			img.setStatus(false);
+			img.setMessage("请登录");
+			super.writeJson(response, img);
+			return;
+		}
+		if(!"4".equals(user.getTypeName())){
+			img.setStatus(false);
+			img.setMessage("您的权限不足");
+			super.writeJson(response, img);
+			return;
+		}
+		if(id==null){
+			img.setStatus(false);
+			img.setMessage("请求参数有误");
+			super.writeJson(response, img);
+			return;
+		}
+		img=againAuditService.cancelReview(id);
+		super.writeJson(response, img);
+	}
+	/*
+	 * 生效
+	 * */
+	@RequestMapping("takeEffect")
+	public void takeEffect(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String batchId) {
+		 ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		 if(user==null){
+			img.setStatus(false);
+			img.setMessage("请登录");
+			super.writeJson(response, img);
+			return;
+		}
+		if(!"4".equals(user.getTypeName())){
+			img.setStatus(false);
+			img.setMessage("您的权限不足");
+			super.writeJson(response, img);
+			return;
+		}
+		if(batchId==null){
+			img.setStatus(false);
+			img.setMessage("请求参数有误");
+			super.writeJson(response, img);
+			return;
+		}
+		img=againAuditService.takeEffect(batchId);
+		super.writeJson(response, img);
+	}
 }

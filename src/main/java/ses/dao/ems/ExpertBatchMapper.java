@@ -10,4 +10,5 @@ public interface ExpertBatchMapper {
 	List<ExpertBatch> getAllExpertBatch(Map<String,Object> e);
 	void insert(ExpertBatch expertBatch);
 	ExpertBatch getExpertBatchByKey(String batchId);
+	void updateBatchStatus(String batchId);
 }

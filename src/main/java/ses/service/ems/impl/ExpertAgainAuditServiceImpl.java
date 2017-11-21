@@ -23,6 +23,7 @@ import com.github.pagehelper.PageInfo;
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.ems.BatchTemporaryMapper;
+import ses.dao.ems.ExpertAuditMapper;
 import ses.dao.ems.ExpertAuditOpinionMapper;
 import ses.dao.ems.ExpertBatchDetailsMapper;
 import ses.dao.ems.ExpertBatchMapper;
@@ -36,6 +37,7 @@ import ses.model.bms.User;
 import ses.model.ems.BatchTemporary;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAgainAuditImg;
+import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditOpinion;
 import ses.model.ems.ExpertBatch;
 import ses.model.ems.ExpertBatchDetails;
@@ -75,6 +77,8 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	private ExpertAuditOpinionMapper expertAuditOpinionMapper;
 	@Autowired
 	private BatchTemporaryMapper batchTemporaryMapper;
+	@Autowired
+	private ExpertAuditMapper expertAuditMapper;
 	public static final String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	public String getbatchName(String batchId) {
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -1121,6 +1125,42 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 				batchTemporaryMapper.deleteBatchTemporary(string);
 			}
 		}
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		return img;
+	}
+	/*
+	 * 重新复审
+	 * */
+	public ExpertAgainAuditImg againReview(String id) {
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		expertMapper.updateReviewStatus("1", id);
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		return img;
+	}
+	/*
+	 * 取消复审
+	 * */
+	public ExpertAgainAuditImg cancelReview(String id) {
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		expertMapper.updateReviewStatus("", id);
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		return img;
+	}
+	public ExpertAgainAuditImg takeEffect(String batchId) {
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
+		expertBatchDetails.setBatchId(batchId);
+		expertBatchDetails.setReviewStatus("1");
+		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
+		if(list.size()>0){
+			for (ExpertBatchDetails e : list) {
+				expertAuditMapper.updateAgainReview(e.getExpertId());
+			}
+		}
+		expertBatchMapper.updateBatchStatus(batchId);
 		img.setStatus(true);
 		img.setMessage("操作成功");
 		return img;

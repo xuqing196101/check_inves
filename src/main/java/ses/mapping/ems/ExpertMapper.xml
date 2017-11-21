@@ -2909,4 +2909,7 @@
     AND to_char(AUDIT_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
     AND to_char(AUDIT_AT,'yyyy-MM-dd hh24:mi:ss') &lt;= #{end,jdbcType=VARCHAR} 
   </select>
+  <update id="updateReviewStatus" parameterType="java.lang.String">
+  	UPDATE T_SES_EMS_EXPERT SET REVIEW_STATUS=${reciewStatus} WHERE ID=${id};
+  </update>
 </mapper>

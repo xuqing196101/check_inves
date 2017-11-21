@@ -708,4 +708,7 @@
   		and ID=#{id}
   	</if>
    </update>
+   <update id="updateAgainReview" parameterType="java.lang.String">
+   	update T_SES_EMS_EXPERT_AUDIT SET AUDIT_STATUS="7" WHERE EXPERT_ID=#{expertId} and AUDIT_FIELD='2' and AUDIT_STATUS !='7'
+   </update>
 </mapper>

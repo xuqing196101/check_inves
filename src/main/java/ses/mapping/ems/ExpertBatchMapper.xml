@@ -40,9 +40,11 @@
      </select>
     <insert id="insert" parameterType="ses.model.ems.ExpertBatch">
         insert into T_SYS_EMS_EXPERT_BATCH
-        (BATCH_ID,BATCH_NUMBER,BATCH_NAME,CREATED_AT,UPDATED_AT)
+        (BATCH_ID,BATCH_NUMBER,BATCH_NAME,CREATED_AT,UPDATED_AT,BATCH_STATUS)
         values
-        (#{batchId}, #{batchNumber},#{batchName}, #{createdAt}, #{updatedAt})
+        (#{batchId}, #{batchNumber},#{batchName}, #{createdAt}, #{updatedAt},'0')
     </insert>
-   
+   <update id="updateBatchStatus"  parameterType="java.lang.String">
+   		UPDATE T_SYS_EMS_EXPERT_BATCH SET BATCH_STATUS = '1' WHERE BATCH_ID=#{batchId}
+   </update>
 </mapper>
