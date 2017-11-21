@@ -95,6 +95,7 @@ public class PackageAdvice {
 	 * 申请人
 	 */
 	private String proposer;
+	private Integer processStatus;//是否处理 1处理，0未处理
 
 	public String getId() {
 		return id;
@@ -239,5 +240,13 @@ public class PackageAdvice {
 	public void setProposer(String proposer) {
 		this.proposer = proposer;
 	}
+
+  public Integer getProcessStatus() {
+    return processStatus;
+  }
+
+  public void setProcessStatus(Integer processStatus) {
+    this.processStatus = processStatus;
+  }
 	
 }

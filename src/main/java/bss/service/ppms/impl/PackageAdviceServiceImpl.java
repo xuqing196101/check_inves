@@ -108,6 +108,7 @@ public class PackageAdviceServiceImpl implements PackageAdviceService {
 					packageAdvice.setType(SUSPEND);
 				} else {
 					packageAdvice.setType(ZJZXTP);
+					packageAdvice.setProcessStatus(0);
 				}
 				packageAdvice.setCode(auditCode);
 				packageAdvice.setCreatedAt(new Date());
@@ -250,5 +251,11 @@ public class PackageAdviceServiceImpl implements PackageAdviceService {
   @Override
   public List<PackageAdvice> selectByStatus(String projectId) {
     return mapper.selectByStatus(projectId);
+  }
+
+  @Override
+  public void update(PackageAdvice find) {
+    mapper.update(find);
+    
   }
 }

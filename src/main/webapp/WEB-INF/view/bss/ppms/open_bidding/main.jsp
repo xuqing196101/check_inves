@@ -11,6 +11,9 @@
   <script type="text/javascript">
   var userId="${userId}";
   var project_Id="${project.id}";
+  var parentPass;
+  var dataTypes;
+  var flgsType="";
   $(function(){
 	  /* layer.open({
      	    shift: 1, //0-6的动画形式，-1不开启
@@ -31,13 +34,19 @@
 	 	            	   url:"${pageContext.request.contextPath}/packageAdvice/cometPackage.html",
 	 	            	   data:{"cometId":userids[1]},
 	 	            	   type:"post",
+	 	            	   async: false,
 	 	            	   dataType:"json",
 	 	            	   success:function(data){
+	 	            		  $("#closePass").attr("disabled",true);
+	 	            	      $("#noPassZJTButton").removeAttr("disabled");
+	 	            		  $("#noPassZZButton").removeAttr("disabled");
+	 	            		  $("#passButton").removeAttr("disabled");
 	 	            		  $("#noPassPackages").empty();
 	 	            		  $("#passPackages").empty();
 	 	            		  $("#noPassZJTButton").removeAttr("onclick");
 	 	            		  $("#noPassZZButton").removeAttr("onclick");
 	 	            		  $("#passButton").removeAttr("onclick");
+	 	            		  dataTypes=data[0].status;
 	 	            		   if(data[0].status=='0'){//不通过
 	 	            			   $("#pass").hide();
 	 	            			   $("#noPass").show();
@@ -80,9 +89,10 @@
 	 	            			$("#noPassZJTButton").attr("onclick","passBut('"+userids[1]+"','0')");
 	 	            			$("#noPassZZButton").attr("onclick","passBut('"+userids[1]+"','2')");
 	 	            		   }
-	 	            		  layer.open({
+	 	            		  parentPass=layer.open({
 	            		     	    shift: 1, //0-6的动画形式，-1不开启
 	            		     	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+	            		     	    closeBtn:0,
 	            		     	    title: ['转竟谈信息提醒','border-bottom:1px solid #e5e5e5'],
 	            		     	    shade:0.01, //遮罩透明度
 	            		   	  		type : 1,
@@ -105,6 +115,7 @@
     	   url:"${pageContext.request.contextPath}/packageAdvice/cometPassCheck.html",
     	   data:{"cometId":cometId,"type":type},
     	   type:"post",
+    	   async: false,
     	   dataType:"json",
     	   success:function(data){
     		   if(data.length>0){
@@ -118,6 +129,8 @@
     			   }
     			   $("#openPassPackages_check").append(html);
     			   openPassPackagess= layer.open({
+    				id: 'openPassPackagess',
+    				name:'openPassPackagess',
    		     	    shift: 1, //0-6的动画形式，-1不开启
    		     	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
    		     	    title: ['请选择包','border-bottom:1px solid #e5e5e5'],
@@ -145,6 +158,7 @@
 		    	   url:"${pageContext.request.contextPath}/packageAdvice/cometSubmit.html",
 		    	   data:{"packs":packages.join(","),"type":$("#passType").val(),"cometId":$("#cometId").val()},
 		    	   type:"post",
+		    	   async: false,
 		    	   dataType:"text",
 		    	   success:function(data){
 		    		   if(data=="ok"){
@@ -155,6 +169,7 @@
 		    			   var checkName=$("#"+id+" input[name='passName']");
 		    			   if(checkName.length==0){
 		    				   layer.close(openPassPackagess);
+		    				   $("#passButton").attr("disabled",true);
 		    			   }
 		    			   
 		    		   }
@@ -168,15 +183,51 @@
 		  	    shade:0.01, //遮罩透明度
 			  		type : 2,
 			  		area : [ '30%', '400px'  ], //宽高
-			  		content : '${pageContext.request.contextPath}/packageAdvice/auditFile.do?pachageIds=' + packages + '&projectId=${project.id}' + '&currHuanjieId='+$("#currHuanjieId").val() + '&type=2',
+			  		content : '${pageContext.request.contextPath}/packageAdvice/auditFile.do?pachageIds=' + packages + '&projectId=${project.id}' + '&currHuanjieId='+$("#currHuanjieId").val() + '&type=2&passType=0&cometId='+$("#cometId").val(),
 					});
 		  }else if(passType=='2'){//终止
+			    flgsType="1";
 		  		bynSub();
 		  }
+		  /* if($("#noPassZJTButton").attr("disabled")=="disabled"&&$("#noPassZZButton").attr("disabled")=="disabled"&&$("#passButton").attr("disabled")=="disabled"){
+			  $("#closePass").removeAttr("disabled");
+		  } */
+		  blockButton();
 	  }
+  }
+  function blockButton(){
+	  if(dataTypes=="0"){//不通过
+		  if($("#noPassZJTButton").attr("disabled")=="disabled"&&$("#noPassZZButton").attr("disabled")=="disabled"){
+			  $("#closePass").removeAttr("disabled");
+		  } 
+	  }else if(dataTypes=="1"){//通过
+		  if($("#passButton").attr("disabled")=="disabled"){
+			  $("#closePass").removeAttr("disabled");
+		  }
+	  }else if(dataTypes=="2"){//都有
+		  if($("#noPassZJTButton").attr("disabled")=="disabled"&&$("#noPassZZButton").attr("disabled")=="disabled"&&$("#passButton").attr("disabled")=="disabled"){
+			  $("#closePass").removeAttr("disabled");
+		  } 
+	  }
+  }
+  function closePass(){
+	  layer.close(parentPass);
+  }
+  function deleteChecked(){
+	  var checks=$("#openPassPackages_check input[name='passName']:checked");
+	  for(var i=0;i<checks.length;i++){
+		   $(checks[i]).parent().empty();
+	   }
+  }
+  function parentHide(){
+	  layer.close(openPassPackagess);
+	  $("#noPassZJTButton").attr("disabled",true);
+	  $("#noPassZZButton").attr("disabled",true);
+	  blockButton();
   }
   var fflog=false;  
   function termination(projectId){
+	  flgsType="0";
 	  fflog=true;
  	  $.ajax({
 		url:"${pageContext.request.contextPath}/termination/package.do",
@@ -289,10 +340,26 @@
   	    shade:0.01, //遮罩透明度
 	  		type : 2,
 	  		area : [ '30%', '400px'  ], //宽高
-	  		content : '${pageContext.request.contextPath}/packageAdvice/auditFile.do?pachageIds=' + ids + '&projectId=${project.id}' + '&currHuanjieId='+$("#currHuanjieId").val() + '&type=1',
+	  		content : '${pageContext.request.contextPath}/packageAdvice/auditFile.do?pachageIds=' + ids + '&projectId=${project.id}' + '&currHuanjieId='+$("#currHuanjieId").val() + '&type=1&passType='+flgsType+'&cometId='+$("#cometId").val(),
 			});
   	}
-  	
+  	function auditSuspend1(){
+  		var val=[];
+  		$('input[type="radio"]:checked').each(function(){ 
+  			val.push($(this).val()); 
+  		});
+  		$.ajax({
+			url:"${pageContext.request.contextPath}/termination/ter_package.do",
+			data:{"packagesId":ids,"projectId":'${project.id}',"currFlowDefineId":val.join(','),"oldCurrFlowDefineId":$("#currHuanjieId").val()},
+			type:"post",
+			dataType:"json",
+	   	success:function(data){
+	   		if(data=="ok"){
+	   			layer.alert("终止成功");
+	   		}
+	   	}
+  		})
+  	}
   	function auditSuspend(){
   		var val=[];
   		$('input[type="radio"]:checked').each(function(){ 
@@ -638,7 +705,7 @@
            </table>
       </div>
       <div class="tc col-md-12 mt50">
-        <input class="btn" id="inputb" name="addr" type="button" onclick="bynSub1();" value="确定"> 
+        <input class="btn" id="closePass" name="addr" type="button" onclick="closePass();" value="关闭"> 
         <!-- <input class="btn" id="inputa" name="addr" type="button" onclick="cancel2();" value="取消">  -->
       </div>
     </div>

@@ -232,7 +232,7 @@ public class PackageAdviceController extends BaseController {
 	}
 
 	@RequestMapping("/auditFile")
-	public String auditFile(String pachageIds, String projectId, String type, String currHuanjieId, Model model) {
+	public String auditFile(String pachageIds, String projectId, String type, String currHuanjieId, Model model,String cometId,Integer passType) {
 		model.addAttribute("pachageIds", pachageIds);
 		model.addAttribute("projectId", projectId);
 		model.addAttribute("auditJZXTP", DictionaryDataUtil.getId("ZJTFJ"));
@@ -240,6 +240,8 @@ public class PackageAdviceController extends BaseController {
 		model.addAttribute("auditCode", WfUtil.createUUID());
 		model.addAttribute("currHuanjieId", currHuanjieId);
 		model.addAttribute("type", type);
+		model.addAttribute("cometId", cometId);
+		model.addAttribute("passType", passType);
 		return "bss/ppms/packageAdvice/upload";
 	}
 
@@ -386,19 +388,27 @@ public class PackageAdviceController extends BaseController {
 			List<PackageAdvice> PackageAdvices = service.find(map);
 			if (type == 1) {// 转竞谈
 				terminationService.updateTermination(packs, ams.getProjectId(), PackageAdvices.get(0).getFlowDefineId(), PackageAdvices.get(0).getFlowDefineId(), "JZXTP");
+			}
+				String[] pacId = packs.split(",");
+				for (String string : pacId) {
+				  map.put("packageId", string);
+	        List<PackageAdvice> pa = service.find(map);
+	        if(pa!=null&&pa.size()>0){
+	          pa.get(0).setProcessStatus(1);
+	          service.update(pa.get(0));
+	        }
+        }
 				Boolean flg = false;
-				for (PackageAdvice pa : PackageAdvices) {
-					Packages pack = packageService.selectByPrimaryKeyId(pa.getPackageId());
-					if (!pack.getProjectStatus().equals(DictionaryDataUtil.getId("ZJZXTP"))) {
-						flg = true;
-						break;
-					}
-				}
+        for (PackageAdvice pa : PackageAdvices) {
+          if(pa.getProcessStatus()==null||pa.getProcessStatus()==0){
+            flg=true;
+            break;
+          }
+        }
 				if (!flg) {
 					ams.setStatus((short) 1);
 					adviceMessagesService.updateByPrimaryKeySelective(ams);
 				}
-			}
 
 		}
 		super.printOutMsg(response, "ok");

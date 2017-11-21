@@ -16,11 +16,12 @@
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="ADUIT_TIME" jdbcType="TIMESTAMP" property="aduitTime" />
     <result column="IS_DELETED" property="isDeleted" />
+    <result column="PROCESS_STATUS"  property="processStatus" />
     <association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey" />
   </resultMap>
   
   <sql id="Base_Column_List">
-    ID, PROJECT_ID, PACKAGE_ID, CREATED_AT, TYPE, FLOW_DEFINE_ID, ADVICE, ADUIT_TIME, USER_ID, STATUS, CODE, REASON, IS_DELETED, PROPOSER
+    ID, PROJECT_ID, PACKAGE_ID, CREATED_AT, TYPE, FLOW_DEFINE_ID, ADVICE, ADUIT_TIME, USER_ID, STATUS, CODE, REASON, IS_DELETED, PROPOSER,PROCESS_STATUS
   </sql>
   
   <!-- 查询条件 -->
@@ -128,6 +129,9 @@
       <if test="proposer != null">
         PROPOSER,
       </if>
+      <if test="processStatus != null">
+        PROCESS_STATUS,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -171,6 +175,9 @@
       </if>
       <if test="proposer != null">
         #{proposer},
+      </if>
+      <if test="processStatus != null">
+        #{processStatus},
       </if>
     </trim>
   </insert>
@@ -217,6 +224,9 @@
       </if>
       <if test="proposer != null">
         PROPOSER = #{proposer},
+      </if>
+       <if test="processStatus != null">
+        PROCESS_STATUS = #{processStatus},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
