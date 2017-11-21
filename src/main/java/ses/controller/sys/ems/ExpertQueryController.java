@@ -432,7 +432,11 @@ public class ExpertQueryController {
             // 公示品目删选
             items = expertCategoryService.selectPassCateByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
         }else {
-            items = expertCategoryService.getListByExpertId(expertId, typeId);
+        	ExpertCategory expertCategory = new ExpertCategory();
+        	expertCategory.setAuditStatus(0);
+        	expertCategory.setTypeId(typeId);
+        	expertCategory.setExpertId(expertId);
+            items = expertCategoryService.selectCategoryByCategoryId(expertCategory);
         }
 
         List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
@@ -835,6 +839,7 @@ public class ExpertQueryController {
         return "dss/rids/list/storeExpertList";
     }
 	
+	
 	/**
 	 * 审核信息
 	 * @param model
@@ -857,6 +862,7 @@ public class ExpertQueryController {
 		
 		//审核记录
 		List < ExpertAudit > auditList = expertAuditService.diySelect(map);
+		auditList(auditList);
 		model.addAttribute("auditList", auditList);
 		
 		// 查询审核最终意见
@@ -903,6 +909,7 @@ public class ExpertQueryController {
 		expertAuditOpinion.setFlagTime(1);
 		//审核记录
 		List < ExpertAudit > auditList = expertAuditService.diySelect(map);
+		auditList(auditList);
 		model.addAttribute("auditList", auditList);
 		
 		// 查询审核最终意见
@@ -947,6 +954,69 @@ public class ExpertQueryController {
 		model.addAttribute("reqType", reqType);
 		model.addAttribute("status", status);
 		return "ses/ems/expertQuery/reviewCheck";
+	}
+	
+	
+	/**
+	 * 添加父节点
+	 * @param auditList
+	 * @return
+	 */
+	public List<ExpertAudit>  auditList(List<ExpertAudit> auditList){
+		Map<String,Integer> map = new HashMap<String,Integer>();
+		map.put("GOODS", 0);
+		map.put("PROJECT", 0);
+		map.put("SERVICE", 0);
+		map.put("ENG_INFO_ID", 0);
+		StringBuffer items=new StringBuffer();
+		if( auditList != null && auditList.size() > 0 ){
+			for (ExpertAudit e : auditList) {
+				if("six".equals(e.getSuggestType())){
+					SupplierCateTree tree =null;
+					Category category = categoryService.findById(e.getAuditFieldId());
+					if(category != null){
+						tree = getTreeListByCategoryId(category.getId(), null);
+					}else{
+						tree = getTreeListByCategoryId(e.getAuditFieldId(), "ENG_INFO_ID");
+						category=engCategoryService.findById(e.getAuditFieldId());
+					}
+					String rootNode = tree.getRootNode();
+		        	String firstNode = tree.getFirstNode();
+		        	String secondNode = tree.getSecondNode();
+		        	String thirdNode=tree.getThirdNode();
+		        	if(rootNode !=null && rootNode !=""){
+		        		items.append(rootNode);
+		        	}
+		        	if(firstNode !=	null && firstNode !=""){
+		        		items.append("/" + firstNode); 
+		        	}
+		        	if(secondNode != null && secondNode !=""){
+		        		items.append("/" + secondNode); 
+		        	}
+		        	if(thirdNode != null && thirdNode !=""){
+		        		items.append("/" + thirdNode); 
+		        	}
+		
+					e.setAuditContent(items.toString());
+					e.setCatalogCode(category.getCode());
+					items.setLength(0);
+					if(tree != null && tree.getRootNodeCode() != null){
+						map.put(tree.getRootNodeCode(), map.get(tree.getRootNodeCode())+1);
+						if("GOODS".equals(tree.getRootNodeCode())){
+							e.setAuditField("物资品目信息");
+						}else if("PROJECT".equals(tree.getRootNodeCode())){
+							e.setAuditField("工程品目信息");
+						}else if("SERVICE".equals(tree.getRootNodeCode())){
+							e.setAuditField("服务品目信息");
+						}else if("ENG_INFO_ID".equals(tree.getRootNodeCode())){
+							e.setAuditField("工程专业属性");
+						}
+					}
+					
+				}
+			}
+		}
+		return auditList;
 	}
 	
 	/**
