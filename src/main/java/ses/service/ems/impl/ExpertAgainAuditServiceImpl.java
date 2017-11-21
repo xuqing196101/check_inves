@@ -214,59 +214,61 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
             expertBatchDetails.setExpertTypeId(listExpertTypeId);
 		
 		}
+		ExpertBatch batch = expertBatchMapper.getExpertBatchByKey(expertBatchDetails.getBatchId());
+		map.put("batchId", batch.getBatchId());
+		map.put("batchName", batch.getBatchName());
 		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
+		 // 查询数据字典中的专家来源配置数据
+        List < DictionaryData > lyTypeList = DictionaryDataUtil.find(12);
+        // 查询数据字典中的专家类别数据
+        List < DictionaryData > jsTypeList = DictionaryDataUtil.find(6);
+        for(DictionaryData data: jsTypeList) {
+            data.setName(data.getName() + "技术");
+        }
+        List < DictionaryData > jjTypeList = DictionaryDataUtil.find(19);
+        
+        //全部机构
+        HashMap<String,Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("isAuditSupplier", 0);
+        List<Orgnization>  allOrg = orgniztionMapper.findPurchaseOrgByPosition(hashMap);
+        jsTypeList.addAll(jjTypeList);
+        map.put("allOrg", allOrg);//全部采购机构
+        map.put("expTypeList", jsTypeList);//专家类型
+        map.put("lyTypeList", lyTypeList);//专家来源
+        ExpertGroup expertGroup = new ExpertGroup();
+        expertGroup.setBatchId(expertBatchDetails.getBatchId());
+        List<ExpertGroup> group = expertGroupMapper.getGroup(expertGroup);
+        map.put("groupList", group);//该批次下的组
 		if(list.size()>0||"select".equals(expertBatchDetails.getRequestType())){
-			map.put("batchId", list.get(0).getBatchId());
-			map.put("batchName", list.get(0).getBatchName());
-			 // 查询数据字典中的专家来源配置数据
-	        List < DictionaryData > lyTypeList = DictionaryDataUtil.find(12);
-	        // 查询数据字典中的专家类别数据
-	        List < DictionaryData > jsTypeList = DictionaryDataUtil.find(6);
-	        for(DictionaryData data: jsTypeList) {
-	            data.setName(data.getName() + "技术");
-	        }
-	        List < DictionaryData > jjTypeList = DictionaryDataUtil.find(19);
-	        
-	        //全部机构
-	        HashMap<String,Object> hashMap = new HashMap<String, Object>();
-	        hashMap.put("isAuditSupplier", 0);
-	        List<Orgnization>  allOrg = orgniztionMapper.findPurchaseOrgByPosition(hashMap);
-	        jsTypeList.addAll(jjTypeList);
-	        map.put("allOrg", allOrg);//全部采购机构
-	        map.put("expTypeList", jsTypeList);//专家类型
-	        map.put("lyTypeList", lyTypeList);//专家来源
-	        ExpertGroup expertGroup = new ExpertGroup();
-	        expertGroup.setBatchId(list.get(0).getBatchId());
-	        List<ExpertGroup> group = expertGroupMapper.getGroup(expertGroup);
-	        map.put("groupList", group);//该批次下的组
-	        
-			for (ExpertBatchDetails e : list) {
-				StringBuffer expertType = new StringBuffer();
-	            if(e.getExpertsTypeId() != null) {
-	                for(String typeId: e.getExpertsTypeId().split(",")) {
-	                    DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(typeId);
-	                    if(data != null){
-	                    	if(6 == data.getKind()) {
-	                            expertType.append(data.getName() + "技术、");
-	                        } else {
-	                            expertType.append(data.getName() + "、");
-	                        }
-	                    }
-	                    
-	                }
-	                if(expertType.length() > 0){
-	                	String expertsType = expertType.toString().substring(0, expertType.length() - 1);
-	                	 e.setExpertsTypeId(expertsType);
-	                }
-	            } else {
-	                e.setExpertsTypeId("");
-	            }
-	           
-	          //专家来源
-	      		if(e.getExpertsFrom() != null) {
-	      			DictionaryData expertsFrom = dictionaryDataMapper.selectByPrimaryKey(e.getExpertsFrom());
-	      			e.setExpertsFrom(expertsFrom.getName());
-	      		}
+			if(list.size()>0){
+				for (ExpertBatchDetails e : list) {
+					StringBuffer expertType = new StringBuffer();
+		            if(e.getExpertsTypeId() != null) {
+		                for(String typeId: e.getExpertsTypeId().split(",")) {
+		                    DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(typeId);
+		                    if(data != null){
+		                    	if(6 == data.getKind()) {
+		                            expertType.append(data.getName() + "技术、");
+		                        } else {
+		                            expertType.append(data.getName() + "、");
+		                        }
+		                    }
+		                    
+		                }
+		                if(expertType.length() > 0){
+		                	String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+		                	 e.setExpertsTypeId(expertsType);
+		                }
+		            } else {
+		                e.setExpertsTypeId("");
+		            }
+		           
+		          //专家来源
+		      		if(e.getExpertsFrom() != null) {
+		      			DictionaryData expertsFrom = dictionaryDataMapper.selectByPrimaryKey(e.getExpertsFrom());
+		      			e.setExpertsFrom(expertsFrom.getName());
+		      		}
+				}
 			}
 		}else{
 			if(expertBatchDetails.getStatus() != null){

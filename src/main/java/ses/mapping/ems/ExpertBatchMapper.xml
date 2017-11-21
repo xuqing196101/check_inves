@@ -32,7 +32,12 @@
         </if> 
         ORDER BY CREATED_AT DESC
     </select>
-    
+     <select id="getExpertBatchByKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+     	 select
+        <include refid="Base_List" />
+        from T_SYS_EMS_EXPERT_BATCH 
+        where BATCH_ID = #{batchId}
+     </select>
     <insert id="insert" parameterType="ses.model.ems.ExpertBatch">
         insert into T_SYS_EMS_EXPERT_BATCH
         (BATCH_ID,BATCH_NUMBER,BATCH_NAME,CREATED_AT,UPDATED_AT)
