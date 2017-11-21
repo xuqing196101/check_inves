@@ -193,10 +193,14 @@
 				var projectName = $("#projectName").val();
 				var obj = document.getElementById("TANGER_OCX");
 				//提交
-				if(flag == "1") {
+				if(flag == "1"||flag == "5") {
 					//1.url	2.后台接收的文件的变量	3.可选参数(为空)		4.文件名		5.form表单的ID
 					obj.SaveToURL("${pageContext.request.contextPath}/open_bidding/saveBidFile.html?projectId=" + projectId + "&flowDefineId=" + flowDefineId + "&flag=" + flag, "ntko", "", projectName + "_采购文件.doc", "MyFile");
-					alert("采购文件已提交");
+					if(flag == "5"){
+					  alert("采购文件已存档");
+					}else{
+					  alert("采购文件已提交");
+					}
 					$("#handle").attr("class", "dnone");
 					$("#audit_file_add").attr("class", "dnone");
 					$("#audit_file_view").removeAttr("class", "dnone");
@@ -546,11 +550,15 @@
 			
 			<!-- 按钮 -->
 			<div class="mt5 mb5 fr" id="handle">
-	    <c:if test="${process != 1 && project.confirmFile != 1 && project.confirmFile != 3 && project.confirmFile != 4 && ope =='add'}">
+	    <c:if test="${process != 1 && project.confirmFile != 1 && project.confirmFile != 3 && project.confirmFile != 4 &&project.confirmFile != 5 && ope =='add'}">
+        <input type="button" class="btn btn-windows save" onclick="saveFile('5')" value="直接下达">
         <input type="button" class="btn btn-windows save" onclick="saveFile('0')" value="暂存">
         <input type="button" class="btn btn-windows git" onclick="saveFile('1')" value="提交至采购管理部门"></input>
 	    </c:if>
-	    <c:if test="${(project.confirmFile == 3 || project.confirmFile == 4) && process != 1}">
+	    <c:if test="${project.confirmFile == 4 && process != 1}">
+	      
+	    </c:if>
+	    <c:if test="${(project.confirmFile == 3 || project.confirmFile == 4||project.confirmFile == 5) && process != 1}">
         <input type="button" class="btn btn-windows save" onclick="oncreate();" value="生成正式采购文件">
 	    </c:if>
 	    </div>

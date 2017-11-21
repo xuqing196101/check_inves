@@ -123,7 +123,7 @@ public class Project {
     
     private String planType; //（货物，工程，服务）
     
-    private Integer confirmFile; //确认制作招标文件内容。0：暂存 , 1：已提交 , 2:审核退回, 3:审核通过,4:修改报备
+    private Integer confirmFile; //确认制作招标文件内容。0：暂存 , 1：已提交 , 2:审核退回, 3:审核通过,4:修改报备,5:不用管理部门审核直接通过
 
     private List<Packages> packagesList;
     

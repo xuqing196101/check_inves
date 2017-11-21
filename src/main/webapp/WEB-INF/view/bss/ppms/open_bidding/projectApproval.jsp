@@ -73,7 +73,7 @@
 					</td>
 				</tr> --%>
 			</c:if>
-			<c:if test="${project.confirmFile == 1 || project.confirmFile == 3 || project.confirmFile == 4 }">
+			<c:if test="${project.confirmFile == 1 || project.confirmFile == 3 || project.confirmFile == 4 ||project.confirmFile == 5 }">
 				<tr>
 				    
 					<td>编报说明：</td>

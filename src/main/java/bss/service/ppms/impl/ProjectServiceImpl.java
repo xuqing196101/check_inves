@@ -524,7 +524,7 @@ public class ProjectServiceImpl implements ProjectService {
               List<UploadFile> files = uploadService.getFilesOther(projectId, typeId, Constant.TENDER_SYS_KEY+"");
               if(files != null && files.size() > 0){
             	  Project project = projectMapper.selectProjectByPrimaryKey(projectId);
-            	  if (project != null && (project.getConfirmFile() == 3||project.getConfirmFile() == 4)) {
+            	  if (project != null && (project.getConfirmFile() == 3||project.getConfirmFile() == 4||project.getConfirmFile() == 5)) {
             		  jsonObj.put("success", true);
             	  } else {
             		  jsonObj.put("success", false);

@@ -1243,6 +1243,35 @@ public class OpenBiddingController extends BaseSupplierController{
         //该环节设置为执行中状态
         flowMangeService.flowExe(req, flowDefineId, projectId, 2);
       }
+      if("5".equals(flag)){
+        Project project = projectService.selectById(projectId);
+        project.setConfirmFile(5);
+        project.setAuditReason(null);
+        project.setApprovalTime(new Date());
+        //修改项目状态
+        project.setStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
+        projectService.update(project);
+        //该环节设置为执行中状态
+        flowMangeService.flowExe(req, flowDefineId, projectId, 2);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("projectId", projectId);
+        List<Packages> findById = packageService.findByID(map);
+        if(findById != null && findById.size() > 0){
+          for (Packages packages : findById) {
+            String projectStatus = packages.getProjectStatus();
+            if(projectStatus!=null){
+              DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
+              if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())&&!"ZJTSHZ".equals(dd.getCode())&&!"ZJTSHBTG".equals(dd.getCode())){
+                packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
+                packageService.updateByPrimaryKeySelective(packages);
+              }
+            }else{
+              packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
+              packageService.updateByPrimaryKeySelective(packages);
+            }
+        }
+        }
+      }
     } else {
       result = uploadService.saveOnlineFile(req, projectId, typeId, Constant.TENDER_SYS_KEY+"");
       //flag：1，招标文件为提交状态
@@ -1269,9 +1298,18 @@ public class OpenBiddingController extends BaseSupplierController{
         List<Packages> findById = packageService.findByID(map);
         if(findById != null && findById.size() > 0){
         	for (Packages packages : findById) {
-        		packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
-        		packageService.updateByPrimaryKeySelective(packages);
-    		}
+        	  String projectStatus = packages.getProjectStatus();
+            if(projectStatus!=null){
+              DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
+              if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())&&!"ZJTSHZ".equals(dd.getCode())&&!"ZJTSHBTG".equals(dd.getCode())){
+                packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
+                packageService.updateByPrimaryKeySelective(packages);
+              }
+            }else{
+              packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
+              packageService.updateByPrimaryKeySelective(packages);
+            }
+    		 }
         }
       }
       //flag：0，招标文件为暂存状态
@@ -1281,6 +1319,35 @@ public class OpenBiddingController extends BaseSupplierController{
         projectService.update(project);
         //该环节设置为执行中状态
         flowMangeService.flowExe(req, flowDefineId, projectId, 2);
+      }
+      if("5".equals(flag)){
+        Project project = projectService.selectById(projectId);
+        project.setConfirmFile(5);
+        project.setAuditReason(null);
+        project.setApprovalTime(new Date());
+        //修改项目状态
+        project.setStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
+        projectService.update(project);
+        //该环节设置为执行中状态
+        flowMangeService.flowExe(req, flowDefineId, projectId, 2);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("projectId", projectId);
+        List<Packages> findById = packageService.findByID(map);
+        if(findById != null && findById.size() > 0){
+          for (Packages packages : findById) {
+            String projectStatus = packages.getProjectStatus();
+            if(projectStatus!=null){
+              DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
+              if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())&&!"ZJTSHZ".equals(dd.getCode())&&!"ZJTSHBTG".equals(dd.getCode())){
+                packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
+                packageService.updateByPrimaryKeySelective(packages);
+              }
+            }else{
+              packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
+              packageService.updateByPrimaryKeySelective(packages);
+            }
+         }
+        }
       }
     }
 	  }

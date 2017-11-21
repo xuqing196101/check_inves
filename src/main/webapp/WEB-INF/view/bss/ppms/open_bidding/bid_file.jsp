@@ -270,10 +270,10 @@
                 	</c:if>
                 </td>
                 <td class="tc">
-                	<c:if test="${project.confirmFile == 1}">
+                	<c:if test="${project.confirmFile == 1||project.confirmFile == 5}">
                 		<button class="btn" type="button" onclick="view('${p.id}','${projectId}')"  <c:if test="${p.projectStatus=='YZZ'}">disabled="disabled"</c:if>>查看</button>
                 	</c:if>
-                	<c:if test="${project.confirmFile != 1}">
+                	<c:if test="${project.confirmFile != 1 &&project.confirmFile !=5}">
 	                    <button class="btn btn-windows edit" type="button" onclick="editPackageFirstAudit('${p.id}','${projectId}')" <c:if test="${p.projectStatus=='YZZ'}">disabled="disabled"</c:if>>编辑</button>
                 	</c:if>
                 </td>
