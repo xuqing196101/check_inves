@@ -161,9 +161,17 @@
 		    	   }
 			  });
 		  }else if(passType=='0'){//继续转竟谈
-			  
+			  	indexAudit = layer.open({
+		  	    shift: 1, //0-6的动画形式，-1不开启
+		  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+		  	    title: ['提示','border-bottom:1px solid #e5e5e5'],
+		  	    shade:0.01, //遮罩透明度
+			  		type : 2,
+			  		area : [ '30%', '400px'  ], //宽高
+			  		content : '${pageContext.request.contextPath}/packageAdvice/auditFile.do?pachageIds=' + packages + '&projectId=${project.id}' + '&currHuanjieId='+$("#currHuanjieId").val() + '&type=2',
+					});
 		  }else if(passType=='2'){//终止
-			  
+		  		bynSub();
 		  }
 	  }
   }
