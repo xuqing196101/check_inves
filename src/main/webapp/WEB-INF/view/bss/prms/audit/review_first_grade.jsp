@@ -347,7 +347,7 @@
 	 	          <select name="expertValue" title="单位:${score.unit}" class="target"
 	 	           onchange="audit(this,'${score.id}','${supplier.supplierId}','${score.typeName}','${score.markTermId}','')"
 	 	          >
-	 	            <option value=""></option>
+	 	            <option value="">请选择</option>
 	 	            <option value="1" 
 	 	              <c:forEach items="${scores}" var="sco">
 	 	                <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.supplierId and sco.scoreModelId eq score.id and sco.expertValue eq '1'}">selected=selected</c:if>

@@ -377,4 +377,16 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
     
     }
 }
+
+	@Override
+	public List<PurchaseRequired> selectByCreatedAt(String projectId) {
+		
+		return purchaseRequiredMapper.selectByCreatedAt(projectId);
+	}
+
+	@Override
+	public PurchaseRequired supervisionByRequiredId(String id) {
+		
+		return purchaseRequiredMapper.supervisionByRequiredId(id);
+	}
 }

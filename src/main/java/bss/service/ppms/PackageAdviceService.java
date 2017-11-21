@@ -18,7 +18,7 @@ import bss.model.ppms.Project;
  */
 public interface PackageAdviceService {
 
-	void savaAudit(String projectId, String packageIds,String advice,String flowDefineId, String auditCode, String type);
+	void savaAudit(String projectId, String packageIds,String advice,String flowDefineId, String auditCode, String type, String userId);
 
 	List<PackageAdvice> list(PackageAdvice packageAdvice, User user, Integer page);
 
@@ -29,5 +29,9 @@ public interface PackageAdviceService {
 	void update(User user, List<PackageAdvice> find, String removedReason, Integer status);
 
 	BigDecimal selectbudget(String code);
+
+	void recheck(String packageIds);
+	
+	List<PackageAdvice> selectByStatus(String projectId);
 	
 }

@@ -21,7 +21,7 @@
  		if(advice){
  			$.ajax({
 	 			url:"${pageContext.request.contextPath}/packageAdvice/saveAudit.do",
-	 			tpye:"post",
+	 			type:"post",
 	 			dataType:"text",
 	 			async: false,
 	 			data:{
@@ -71,7 +71,7 @@
   <div id="openAudit" class="layui-layer-wrap">
     	<div class="drop_window">
     		<ul class="list-unstyled">
-    			<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+    			<li class="col-xs-12">
     				<c:if test="${type == 2}">
 	          	<label class="col-md-12 pl20 col-xs-12">上传转竞谈附件：</label>
 	            <span class="col-md-12 col-xs-12">

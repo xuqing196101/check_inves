@@ -724,7 +724,6 @@ public class PackageExpertServiceImpl implements PackageExpertService {
             BigDecimal totalScore2 = new BigDecimal(0);
             totalScore2 = totalScore2.add(o2.getEconomicScore());
             totalScore2 = totalScore2.add(o2.getTechnologyScore());
-            System.out.println(totalScore2);
             /*totalScore2 = totalScore2.add(o2.getPriceScore());*/
             if(totalScore1.doubleValue()-totalScore2.doubleValue() >= 1){  
                 return -1;
@@ -868,13 +867,13 @@ public class PackageExpertServiceImpl implements PackageExpertService {
           }
         });   
         for (SaleTender obj : finalSupplier) {
-          System.out.println(obj.getEconomicScore()+"--"+obj.getTechnologyScore());
+          System.out.println(obj.getEconomicScore()+"++"+obj.getTechnologyScore());
         }
       }
       //最低价法
       if ("PBFF_ZDJF".equals(aduitMethodCode)) {
         for (SaleTender obj : finalSupplier) {
-          System.out.println(obj.getEconomicScore()+"--"+obj.getTechnologyScore());
+          System.out.println(obj.getEconomicScore()+"++===="+obj.getTechnologyScore());
         }
         //根据供应商的最新报价排名
         Collections.sort(finalSupplier,new Comparator<SaleTender>(){

@@ -33,13 +33,13 @@
         });
       });
 
-      $(function() {
+      /* $(function() {
       	$("input[name='linkman']").each(function(){
       		if($(this).val() == '1'){
       			$(this).prev().css("color","gray");
       		}
       	});
-      });
+      }); */
 
       //重置
       function clearSearch() {
@@ -149,18 +149,18 @@
           </thead>
           <tbody id="tbody_id">
             <c:forEach items="${info.list}" var="obj" varStatus="vs">
-              <tr class="pointer">
+              <tr class="pointer <c:if test="${obj.status eq yzz}">red</c:if>">
                 
                 <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
                 <td class="tl">
-                  <a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.name}</a>
+                  <a href="javascript:void(0)" <c:if test="${obj.status eq yzz}">class="red"</c:if> onclick="view('${obj.id}');">${obj.name}</a>
                   <input type="hidden" name="linkman" value="${obj.linkman}"/>
                 </td>
                 <td class="tl">${obj.projectNumber}</td>
                 <td class="tl">${obj.purchaseDepId}</td>
                 <td class="tc">
                   <c:forEach items="${kind}" var="kind">
-                    <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                    <c:if test="${kind.id eq obj.purchaseType}">${kind.name}</c:if>
                   </c:forEach>
                 </td>
                 <td class="tc">

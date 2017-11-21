@@ -91,6 +91,15 @@
 	<listener>
 		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
 	</listener>
+	
+	<listener>
+	  <listener-class>org.comet4j.core.CometAppListener</listener-class>
+	</listener>
+	
+	<listener>
+        <description>监听我们自己的推送类</description>
+        <listener-class>bss.util.comet.CometUtil</listener-class>
+    </listener>
 	<servlet>
 		<description>spring mvc servlet</description>
 		<servlet-name>springMvc</servlet-name>
@@ -107,6 +116,15 @@
 		<url-pattern>*.do</url-pattern>
 		<url-pattern>*.html</url-pattern>
 	</servlet-mapping>
+	<servlet>
+        <description>客户端访问入口</description>
+        <servlet-name>CometServlet</servlet-name>
+        <servlet-class>org.comet4j.core.CometServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CometServlet</servlet-name>
+        <url-pattern>/conn</url-pattern>
+    </servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>/first.jsp</welcome-file>
 	</welcome-file-list>

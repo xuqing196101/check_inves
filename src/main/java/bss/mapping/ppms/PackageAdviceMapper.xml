@@ -11,19 +11,21 @@
     <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
     <result column="REASON" jdbcType="VARCHAR" property="reason" />
     <result column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="PROPOSER" jdbcType="VARCHAR" property="proposer" />
     <result column="STATUS" property="status" />
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="ADUIT_TIME" jdbcType="TIMESTAMP" property="aduitTime" />
+    <result column="IS_DELETED" property="isDeleted" />
     <association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey" />
   </resultMap>
   
   <sql id="Base_Column_List">
-    ID, PROJECT_ID, PACKAGE_ID, CREATED_AT, TYPE, FLOW_DEFINE_ID, ADVICE, ADUIT_TIME, USER_ID, STATUS, CODE, REASON
+    ID, PROJECT_ID, PACKAGE_ID, CREATED_AT, TYPE, FLOW_DEFINE_ID, ADVICE, ADUIT_TIME, USER_ID, STATUS, CODE, REASON, IS_DELETED, PROPOSER
   </sql>
   
   <!-- 查询条件 -->
   <sql id="Example_Where_Clause">
-  	WHERE 1=1
+  	WHERE 1=1 AND pa.IS_DELETED = 0
     <trim suffixOverrides=",">
       <if test="id != null and id != ''">
         AND pa.ID = #{id} 
@@ -48,6 +50,9 @@
       </if>
       <if test="flowDefineId != null and flowDefineId !='' ">
         AND pa.FLOW_DEFINE_ID = #{flowDefineId} 
+      </if>
+      <if test="proposer != null and proposer !='' ">
+        AND pa.PROPOSER = #{proposer} 
       </if>
       <if test="code != null and code !='' ">
         AND pa.CODE = #{code} 
@@ -117,6 +122,12 @@
       <if test="reason != null">
         REASON,
       </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="proposer != null">
+        PROPOSER,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -154,6 +165,12 @@
       </if>
       <if test="reason != null">
         #{reason},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+      <if test="proposer != null">
+        #{proposer},
       </if>
     </trim>
   </insert>
@@ -195,6 +212,12 @@
       <if test="createdAt != null">
         CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted},
+      </if>
+      <if test="proposer != null">
+        PROPOSER = #{proposer},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -206,6 +229,7 @@
 			PA.STATUS,
 			PA.CODE,
 			PA.ADVICE,
+			PA.PROPOSER,
 			PA.CREATED_AT
 		FROM
 			T_BSS_PPMS_PACKAGE_ADVICE pa LEFT JOIN T_BSS_PPMS_PROJECTS ps ON PS.ID = PA.PROJECT_ID
@@ -221,7 +245,7 @@
 					AND	PO.ORG_ID = #{orgId,jdbcType=VARCHAR}
 				</if>
 			
-		) and pa.TYPE = 2
+		) and pa.TYPE = 2 AND pa.IS_DELETED = 0
 		<if test="name != null">
      and PS.NAME like CONCAT(CONCAT('%', #{name}), '%')
     </if>
@@ -234,7 +258,7 @@
     <if test="code != null">
      and PA.CODE = #{code}
     </if>
-    GROUP BY PA.CODE, PA.PROJECT_ID, PA.STATUS,PA.ADVICE, PA.CREATED_AT
+    GROUP BY PA.CODE, PA.PROJECT_ID, PA.STATUS,PA.ADVICE, PA.CREATED_AT, PA.PROPOSER
 		ORDER BY PA.CREATED_AT DESC
   </select>
   
@@ -248,6 +272,9 @@
 			CODE = #{code}
 		GROUP BY
 			PROJECT_ID,STATUS,ADVICE,CODE
+  </select>
+  <select id="selectByStatus" parameterType="java.lang.String" resultMap="PackageAdviceResult">
+  	select status from T_BSS_PPMS_PACKAGE_ADVICE where code=#{code} group by status
   </select>
   
 </mapper>

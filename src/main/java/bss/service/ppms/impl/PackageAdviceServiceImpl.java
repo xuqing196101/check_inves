@@ -19,9 +19,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
-
 import common.constant.StaticVariables;
-
 import bss.dao.ppms.PackageAdviceMapper;
 import bss.dao.ppms.PackageMapper;
 import bss.dao.ppms.ProjectDetailMapper;
@@ -54,31 +52,52 @@ public class PackageAdviceServiceImpl implements PackageAdviceService {
 	@Autowired
 	private OrgnizationMapper orgnizationMapper;
 	
-	//未审核
+	/**
+	 * 待审核
+	 */
 	private static final Integer AUDIT_NOT = 1;
 	
-	//审核中
+	/**
+	 * 审核中
+	 */
 	private static final Integer AUDITING = 2;
 	
-	//审核通过
+	/**
+	 * 审核通过
+	 */
 	private static final Integer AUDIT_PASS= 3;
 	
-	//审核未通过
+	/**
+	 * 审核不通过
+	 */
 	private static final Integer AUDIT_FALIED = 4;
 	
-	//中止
+	/**
+	 * 中止
+	 */
 	private static final Integer SUSPEND = 1;
 	
-	//转竞谈
+	/**
+	 * 转竞谈
+	 */
 	private static final Integer ZJZXTP = 2;
 	
 	@Override
-	public void savaAudit(String projectId, String packageIds, String advice, String flowDefineId, String auditCode, String type) {
+	public void savaAudit(String projectId, String packageIds, String advice, String flowDefineId, String auditCode, String type, String userId) {
 		String[] packageId = packageIds.split(StaticVariables.COMMA_SPLLIT);
 		if (packageId.length > 0) {
 			PackageAdvice packageAdvice = null; 
 			for (String packId : packageId) {
 				packageAdvice = new PackageAdvice();
+				HashMap<String, Object> hashMap = new HashMap<>();
+				hashMap.put("packageId", packId);
+				List<PackageAdvice> findByList = mapper.findByList(hashMap);
+				if (findByList != null && !findByList.isEmpty()) {
+					for (PackageAdvice packageAdvice2 : findByList) {
+						packageAdvice2.setIsDeleted(1);
+						mapper.update(packageAdvice2);
+					}
+				}
 				packageAdvice.setId(WfUtil.createUUID());
 				packageAdvice.setProjectId(projectId);
 				packageAdvice.setPackageId(packId);
@@ -92,6 +111,8 @@ public class PackageAdviceServiceImpl implements PackageAdviceService {
 				}
 				packageAdvice.setCode(auditCode);
 				packageAdvice.setCreatedAt(new Date());
+				packageAdvice.setIsDeleted(0);
+				packageAdvice.setProposer(userId);
 				mapper.insert(packageAdvice);
 				
 				if ("2".equals(type)) {
@@ -149,6 +170,21 @@ public class PackageAdviceServiceImpl implements PackageAdviceService {
 					packageAdvice.getProject().setPurchaseDepName(orgName);
 				}
 			}
+			List<Packages> packList = new ArrayList<Packages>();
+			HashMap<String, Object> hashMap = new HashMap<>();
+			hashMap.put("code", code);
+			hashMap.put("projectId", findByProjectList.get(0).getProjectId());
+			List<PackageAdvice> findByList = mapper.findByList(map);
+			if (findByList != null && !findByList.isEmpty()) {
+				for (PackageAdvice packageAdvice : findByList) {
+					Packages packages = packageMapper.selectByPrimaryKeyId(packageAdvice.getPackageId());
+					if (packageAdvice.getStatus() == 3 || packageAdvice.getStatus() == 4) {
+						packages.setStatus(5);
+					}
+					packList.add(packages);
+				}
+			}
+			findByProjectList.get(0).setPackageList(packList);
 		}
 		return findByProjectList.get(0);
 	}
@@ -191,4 +227,28 @@ public class PackageAdviceServiceImpl implements PackageAdviceService {
 		}
 		return budgets;
 	}
+
+	@Override
+	public void recheck(String packageIds) {
+		String[] id = packageIds.split(StaticVariables.COMMA_SPLLIT);
+		for (String string : id) {
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("packageId", string);
+			List<PackageAdvice> findByList = mapper.findByList(map);
+			if (findByList != null && !findByList.isEmpty()) {
+				findByList.get(0).setStatus(AUDIT_NOT);
+				mapper.update(findByList.get(0));
+			}
+			Packages packages = packageMapper.selectByPrimaryKeyId(string);
+			if (packages != null) {
+				packages.setProjectStatus(DictionaryDataUtil.getId("ZJTSHZ"));
+				packageMapper.updateByPrimaryKeySelective(packages);
+			}
+		}
+	}
+
+  @Override
+  public List<PackageAdvice> selectByStatus(String projectId) {
+    return mapper.selectByStatus(projectId);
+  }
 }

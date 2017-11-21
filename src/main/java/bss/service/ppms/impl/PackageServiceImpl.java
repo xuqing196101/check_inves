@@ -6,8 +6,10 @@ package bss.service.ppms.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -268,6 +270,18 @@ public class PackageServiceImpl implements PackageService {
 				}
 			}
 		}
+		
+		Integer pattern = 0;
+		for (int i = 0; i < packageName.length(); i++) {
+			char charAt = packageName.charAt(i);
+			String charAts = String.valueOf(charAt);
+			if (!",".equals(charAts) && !"-".equals(charAts)) {
+				if (!Pattern.compile("^[0-9]*[1-9][0-9]*$").matcher(charAts).matches()) {
+					pattern = 1;
+					break;
+				}
+			}
+		}
 
 		Project project = projectMapper.selectProjectByPrimaryKey(projectId);
 		if (project != null) {
@@ -275,7 +289,11 @@ public class PackageServiceImpl implements PackageService {
 			// 添加一个子项目
 			Project newProject = new Project();
 			if (StringUtils.isNotBlank(project.getName())) {
-				newProject.setName(project.getName() + "（第" + packageName + "包）");
+				if (pattern == 0) {
+					newProject.setName(project.getName() + "（第" + packageName + "包）");
+				} else {
+					newProject.setName(project.getName() + "（" + packageName + "）");
+				}
 			}
 			if (StringUtils.isNotBlank(project.getProjectNumber())) {
 				newProject.setProjectNumber(project.getProjectNumber() + "（" + packageName + "）");
@@ -431,5 +449,41 @@ public class PackageServiceImpl implements PackageService {
 		pg.setUpdatedAt(new Date());
 		packageMapper.insertSelective(pg);
 	}
+
+  @Override
+  public List<Packages> selectByPackList(String projectId) {
+    HashMap<String, Object> map = new HashMap<>();
+    map.put("projectId", projectId);
+    List<Packages> list = packageMapper.findByID(map);
+    if (list != null && !list.isEmpty()) {
+      for (Packages packages : list) {
+        HashMap<String, Object> packageId = new HashMap<>();
+        packageId.put("packageId", packages.getId());
+        packageId.put("projectId", projectId);
+        List<ProjectDetail> selectByProjectIdAndPackageId = detailMapper.selectByProjectIdAndPackageId(packageId);
+        packages.setProjectDetails(selectByProjectIdAndPackageId);
+        /*Set<ProjectDetail> details = new HashSet<ProjectDetail>();
+        List<ProjectDetail> listDetail = new ArrayList<ProjectDetail>();
+        HashMap<String, Object> packageId = new HashMap<>();
+        packageId.put("packageId", packages.getId());
+        List<ProjectDetail> detailList = detailMapper.selectById(packageId);
+        if (detailList != null && detailList.size() > 0) {
+          for (ProjectDetail projectDetail : detailList) {
+            HashMap<String, Object> dMap = new HashMap<String, Object>();
+            dMap.put("projectId", projectId);
+            dMap.put("id", projectDetail.getRequiredId());
+            List<ProjectDetail> lists = detailMapper.selectByParent(dMap);
+            if (lists != null && !lists.isEmpty()) {
+              details.addAll(lists);
+               //packages.setProjectDetails(lists); 
+            }
+          }
+        }
+        listDetail.addAll(details);
+        packages.setProjectDetails(listDetail);*/
+      }
+    }
+    return list;
+  }
 
 }

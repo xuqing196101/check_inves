@@ -111,4 +111,6 @@ public interface TaskService {
 	  * @param taskId
 	  */
 	 void updateDetail(List<PurchaseDetail> list, String taskId);
+	 
+	 List<Task> selectByProjectTask(String projectId);
 }

@@ -1,5 +1,6 @@
 package bss.controller.ppms;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,8 +35,15 @@ public class TerminationController extends BaseSupplierController {
     HashMap<String, Object> map=new HashMap<String, Object>();
 	map.put("projectId", projectId);
 	map.put("projectStatus", "1");
+	List<Packages> list1=new ArrayList<Packages>();
 	List<Packages> packages = packageService.selectByProjectKey(map);
-	super.writeJson(response, packages);
+	for(Packages pc:packages){
+	  Packages packages2=new Packages();
+	  packages2.setId(pc.getId());
+	  packages2.setName(pc.getName());
+	  list1.add(packages2);
+	}
+	super.writeJson(response, list1);
   }
   @RequestMapping("/ter_package")
   public void terPackage(HttpServletResponse response, String packagesId,String projectId,String currFlowDefineId,String oldCurrFlowDefineId){
@@ -43,8 +51,8 @@ public class TerminationController extends BaseSupplierController {
     super.writeJson(response, "ok");
   }
   @RequestMapping("/flowDefineId")
-  public void flowDefineId(HttpServletResponse response, String packagesId,String currFlowDefineId){
-    List<FlowDefine> flowDefine = terminationService.selectFlowDefineTermination(currFlowDefineId);
+  public void flowDefineId(HttpServletResponse response, String packagesId,String projectId){
+    List<FlowDefine> flowDefine = terminationService.selectFlowDefineTermination(projectId);
     super.writeJson(response, flowDefine);
   }
 	

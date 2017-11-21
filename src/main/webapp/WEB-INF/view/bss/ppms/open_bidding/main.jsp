@@ -7,7 +7,174 @@
   <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet">
   <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/bss/ppms/main.js"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/public/comet/comet4j.js"></script>
   <script type="text/javascript">
+  var userId="${userId}";
+  var project_Id="${project.id}";
+  $(function(){
+	  /* layer.open({
+     	    shift: 1, //0-6的动画形式，-1不开启
+     	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+     	    title: ['转竟谈信息提醒','border-bottom:1px solid #e5e5e5'],
+     	    shade:0.01, //遮罩透明度
+   	  		type : 1,
+   	  		area : [ '30%', '300px'  ], //宽高
+   	  		content : $('#openPackages'),
+   	  	  }); */
+	  JS.Engine.start('${pageContext.request.contextPath}/conn');
+	    JS.Engine.on(
+	         { 
+	             msgData : function(msgData){
+	            	 var userids=msgData.split(",");
+	            	 if(userids[0]==userId){
+	 	            	 $.ajax({
+	 	            	   url:"${pageContext.request.contextPath}/packageAdvice/cometPackage.html",
+	 	            	   data:{"cometId":userids[1]},
+	 	            	   type:"post",
+	 	            	   dataType:"json",
+	 	            	   success:function(data){
+	 	            		  $("#noPassPackages").empty();
+	 	            		  $("#passPackages").empty();
+	 	            		  $("#noPassZJTButton").removeAttr("onclick");
+	 	            		  $("#noPassZZButton").removeAttr("onclick");
+	 	            		  $("#passButton").removeAttr("onclick");
+	 	            		   if(data[0].status=='0'){//不通过
+	 	            			   $("#pass").hide();
+	 	            			   $("#noPass").show();
+	 	            			   var names=[];
+	 	            			   var packages=data[0].packages;
+	 	            			   for(var i=0;i<packages.length;i++){
+	 	            				  names.push(packages[i].name);
+	 	            			   }
+	 	            			   $("#noPassPackages").text(names.join(","));
+	 	            			   $("#noPassZJTButton").attr("onclick","passBut('"+userids[1]+"','0')");
+	 	            			   $("#noPassZZButton").attr("onclick","passBut('"+userids[1]+"','2')");
+	 	            		   }else if(data[0].status=='1'){//通过
+	 	            			   $("#pass").show();
+	 	            			   $("#noPass").hide();
+	 	            			   var names=[];
+	 	            			   var packages=data[0].packages;
+	 	            			   for(var i=0;i<packages.length;i++){
+	 	            				  names.push(packages[i].name);
+	 	            			   }
+	 	            			   $("#passPackages").text(names.join(","));
+	 	            			   $("#passButton").attr("onclick","passBut('"+userids[1]+"','1')");
+	 	            		   }else if(data[0].status=='2'){//都有
+	 	            			  $("#noPassPackages").empty();
+	 	            			  $("#passPackages").empty();
+	 	            			  $("#pass").show();
+	 	            			  $("#noPass").show();
+	 	            			  var passName=[];
+	 	            			  var noPassName=[];
+	 	            			  var passPackages=data[0].package1;
+	 	            			  var noPassPackages=data[0].package2;
+	 	            			  for(var i=0;i<passPackages.length;i++){
+	 	            				  passName.push(passPackages[i].name);
+	 	            			  }
+	 	            			  for(var i=0;i<noPassPackages.length;i++){
+	 	            				  noPassName.push(noPassPackages[i].name);
+	 	            			  }
+	 	            			 $("#passPackages").text(passName.join(","));
+	 	            			 $("#noPassPackages").text(noPassName.join(","));
+	 	            			$("#passButton").attr("onclick","passBut('"+userids[1]+"','1')");
+	 	            			$("#noPassZJTButton").attr("onclick","passBut('"+userids[1]+"','0')");
+	 	            			$("#noPassZZButton").attr("onclick","passBut('"+userids[1]+"','2')");
+	 	            		   }
+	 	            		  layer.open({
+	            		     	    shift: 1, //0-6的动画形式，-1不开启
+	            		     	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+	            		     	    title: ['转竟谈信息提醒','border-bottom:1px solid #e5e5e5'],
+	            		     	    shade:0.01, //遮罩透明度
+	            		   	  		type : 1,
+	            		   	  		area : [ '30%', '300px'  ], //宽高
+	            		   	  		content : $('#openPackages'),
+	            		   	  	  });
+	 	            	   }
+	 	            	 })
+	            	 }
+	             },
+	            	
+	        }
+	    );
+	  
+  })
+  var openPassPackagess;
+  function passBut(cometId,type){
+	  $("#openPassPackages_check").empty();
+	  $.ajax({
+    	   url:"${pageContext.request.contextPath}/packageAdvice/cometPassCheck.html",
+    	   data:{"cometId":cometId,"type":type},
+    	   type:"post",
+    	   dataType:"json",
+    	   success:function(data){
+    		   if(data.length>0){
+    			   if(data[0].msg=="no"){
+    				   layer.alert("没有可选包");
+    				   return false;
+    			   }
+    			   var html='<input type="hidden" id="passType" value="'+type+'"/><input type="hidden" id="cometId" value="'+cometId+'"/>';
+    			   for(var i=0;i<data.length;i++){
+    				   html+='<div class=" mt10 fl ml10"><input type="checkbox" value="'+data[i].id+'" name="passName" />'+data[i].name+'</div>';
+    			   }
+    			   $("#openPassPackages_check").append(html);
+    			   openPassPackagess= layer.open({
+   		     	    shift: 1, //0-6的动画形式，-1不开启
+   		     	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+   		     	    title: ['请选择包','border-bottom:1px solid #e5e5e5'],
+   		     	    shade:0.01, //遮罩透明度
+   		   	  		type : 1,
+   		   	  		area : [ '20%', '200px'  ], //宽高
+   		   	  		content : $('#openPassPackages'),
+   		   	  	  });
+    		   }
+    	   }
+	  });
+  }
+  function openPassPackagesBut(id){
+	  var passType=$("#passType").val();
+	  var checks=$("#"+id+" input[name='passName']:checked");
+	  if(checks.length==0){
+		  layer.alert("请选择一个或多个包");
+	  }else{
+		  var packages=[];
+		  for(var i=0;i<checks.length;i++){
+			  packages.push($(checks[i]).val());
+		  }
+		  if(passType=='1'){//通过
+			  $.ajax({
+		    	   url:"${pageContext.request.contextPath}/packageAdvice/cometSubmit.html",
+		    	   data:{"packs":packages.join(","),"type":$("#passType").val(),"cometId":$("#cometId").val()},
+		    	   type:"post",
+		    	   dataType:"text",
+		    	   success:function(data){
+		    		   if(data=="ok"){
+		    			   layer.msg("操作成功");
+		    			   for(var i=0;i<checks.length;i++){
+		    				   $(checks[i]).parent().empty();
+		    			   }
+		    			   var checkName=$("#"+id+" input[name='passName']");
+		    			   if(checkName.length==0){
+		    				   layer.close(openPassPackagess);
+		    			   }
+		    			   
+		    		   }
+		    	   }
+			  });
+		  }else if(passType=='0'){//继续转竟谈
+			  	indexAudit = layer.open({
+		  	    shift: 1, //0-6的动画形式，-1不开启
+		  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+		  	    title: ['提示','border-bottom:1px solid #e5e5e5'],
+		  	    shade:0.01, //遮罩透明度
+			  		type : 2,
+			  		area : [ '30%', '400px'  ], //宽高
+			  		content : '${pageContext.request.contextPath}/packageAdvice/auditFile.do?pachageIds=' + packages + '&projectId=${project.id}' + '&currHuanjieId='+$("#currHuanjieId").val() + '&type=2',
+					});
+		  }else if(passType=='2'){//终止
+		  		bynSub();
+		  }
+	  }
+  }
   var fflog=false;  
   function termination(projectId){
 	  fflog=true;
@@ -67,10 +234,11 @@
   			layer.alert("请选择一个或多个包");
   			return false;
   		}
+  		var projectId = $("#projectId").val();
   		ids=val.join(',');
   		$.ajax({
 			url:"${pageContext.request.contextPath}/termination/flowDefineId.do",
-			data:{"currFlowDefineId":$("#currHuanjieId").val()},
+			data:{"projectId":projectId},
 			type:"post",
 			dataType:"json",
 	   	success:function(data){
@@ -254,6 +422,77 @@
 	});
 	}
 	
+	var indexRecheck;
+	function dnoneZJT(id){
+		$.ajax({
+			url: "${pageContext.request.contextPath}/open_bidding/dnoneZJT.html",
+			data: {
+				"projectId": id
+			},
+			type: "post",
+			async: false,
+			dataType: "json",
+			success: function(data) {
+					if(data.rules != null){
+						var split = data.rules.split(";");
+						var html="";
+						$("#openDiv_recheck").empty();
+						for(var i=0;i<split.length;i++){
+							var split2=split[i].split(",");
+							html+='<div class=" mt10 fl ml10"><input type="checkbox" value="'+split2[0]+'" name="packIds" />'+split2[1]+'</div>';
+						}
+						$("#openDiv_recheck").append(html);
+						
+						indexRecheck = layer.open({
+						  	    shift: 1, //0-6的动画形式，-1不开启
+						  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+						  	    title: ['提示','border-bottom:1px solid #e5e5e5'],
+						  	    shade:0.01, //遮罩透明度
+							  		type : 1,
+							  		area : [ '30%', '200px'  ], //宽高
+							  		content : $('#openDivRecheck'),
+						});
+					}else {
+						layer.msg("提交失败");
+					}
+			}
+		});
+	}
+	
+	function jzxtpRecheck(){
+		var id = [];
+	 	$('input[name="packIds"]:checked').each(function() {
+      id.push($(this).val());
+    });
+    id.join(",");
+    indexAudit = layer.open({
+  	    shift: 1, //0-6的动画形式，-1不开启
+  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+  	    title: ['提示','border-bottom:1px solid #e5e5e5'],
+  	    shade:0.01, //遮罩透明度
+	  		type : 2,
+	  		area : [ '30%', '400px'  ], //宽高
+	  		content : '${pageContext.request.contextPath}/packageAdvice/auditFile.do?pachageIds=' + id + '&projectId=${project.id}' + '&currHuanjieId='+$("#currHuanjieId").val() + '&type=2',
+			});
+    /* $.ajax({
+			url: "${pageContext.request.contextPath}/packageAdvice/recheck.html",
+			data: {
+				"packageIds": id.join(",")
+			},
+			type: "post",
+			async: false,
+			dataType: "text",
+			success: function(data) {
+				if(data == "ok"){
+					layer.msg("提交成功");
+					layer.close(indexRecheck);
+				} else {
+					layer.msg("提交失败");
+				}
+			}
+		}); */
+	}
+	
 	function cancels(){
   		saveSumitFlow($("#currHuanjieId").val(),"${project.id}");
   		layer.closeAll();
@@ -370,7 +609,8 @@
         <div class="mt5 mb5 tc">
           <%-- <button class="btn btn-windows delete" onclick="abandoned('${project.id}');" type="button">废标</button> --%>
           <button class="btn btn-windows back" onclick="back();" type="button">返回列表</button>
-          <button class="btn btn-windows back" onclick="termination('${project.id}');" type="button">终止</button>
+          <button class="btn btn-windows end bgred" onclick="termination('${project.id}');" type="button">终止</button>
+          <button class="btn btn-windows end bgred dnone" id="dnoneZJT" onclick="dnoneZJT('${project.id}');" type="button">转竞谈</button>
         </div>
         </div>
         
@@ -379,6 +619,37 @@
       <!-- 右侧内容结束 -->
     </div>
     <!-- 主要内容结束 -->
+    
+    <div id="openPackages" class="dnone layui-layer-wrap">
+      <div id="openPackages_check">
+         <div class="tl mt10 ml10">转竞谈审核结果如下:</div>
+           <table class="mt10 ml20" width="95%">
+              <tr id="pass">
+                 <td width="40%" id="passPackages">第1包，第2包</td>
+                 <td>审核通过</td>
+                 <td><button class="btn" id="passButton"   type="button">确认结果</button></td>
+              </tr>
+              <tr id="noPass" class="h50">
+                 <td id="noPassPackages">第3包</td>
+                 <td class="red">审核不通过</td>
+                 <td><button class="btn" id="noPassZJTButton"  type="button">继续转竞谈</button><button class="btn" id="noPassZZButton"  type="button">终止</button></td>
+              </tr>
+            
+           </table>
+      </div>
+      <div class="tc col-md-12 mt50">
+        <input class="btn" id="inputb" name="addr" type="button" onclick="bynSub1();" value="确定"> 
+        <!-- <input class="btn" id="inputa" name="addr" type="button" onclick="cancel2();" value="取消">  -->
+      </div>
+    </div>
+    <div id="openPassPackages" class="dnone layui-layer-wrap">
+       <div id="openPassPackages_check">
+          
+       </div>
+       <div class="tc col-md-12 mt50">
+        <input class="btn" id="inputb" name="addr" type="button" onclick="openPassPackagesBut('openPassPackages_check');" value="确定"> 
+      </div>
+    </div>
     
     <div id="openDiv" class="dnone layui-layer-wrap">
       <div class="drop_window tc" id="openDiv_check"></div>
@@ -403,6 +674,15 @@
         <input class="btn" id="jzxtp" name="addr" type="button" onclick="upddatejzxtp();" value="转为竞争性谈判"> 
         <input class="btn" id="inputa" name="addr" type="button" onclick="bynSub();" value="终止实施"> 
         <input class="btn" id="inputa" name="addr" type="button" onclick="cancels();" value="继续实施"> 
+      </div>
+      <div class="clear"></div>
+    </div>
+    
+    <div id="openDivRecheck" class="dnone layui-layer-wrap p20">
+    	<div class="tc ">请选择要转竞谈复审的包！</div>
+      <div class="tc mt20" id="openDiv_recheck"></div>
+      <div class="tc mt50">
+        <input class="btn" id="jzxtpRecheck" name="jzxtpRecheck" type="button" onclick="jzxtpRecheck();" value="竞争性谈判审核"> 
       </div>
       <div class="clear"></div>
     </div>

@@ -760,13 +760,22 @@
                 </c:if>
               </td>
               <td>
-                <div class="goodsname">${obj.goodsName}</div>
+                <div class="goodsname" title="${obj.goodsName}">
+                   <c:if test="${fn:length (obj.goodsName) > 20}">${fn:substring(obj.goodsName,0,19)}...</c:if>
+                   <c:if test="${fn:length(obj.goodsName) <= 20}">${obj.goodsName}</c:if>
+                   </div>
               </td>
               <td>
-                <div class="stand">${obj.stand}</div>
+                <div class="stand" title="${obj.stand}">
+                    <c:if test="${fn:length (obj.stand) > 20}">${fn:substring(obj.stand,0,19)}...</c:if>
+                   <c:if test="${fn:length(obj.stand) <= 20}">${obj.stand}</c:if>
+                </div>
               </td>
               <td>
-                <div class="qualitstand">${obj.qualitStand}</div>
+                <div class="qualitstand" title="${obj.qualitStand}">
+                   <c:if test="${fn:length (obj.qualitStand) > 20}">${fn:substring(obj.qualitStand,0,19)}...</c:if>
+                   <c:if test="${fn:length(obj.qualitStand) <= 20}">${obj.qualitStand}</c:if>
+                </div>
               </td>
               <td>
                 <div class="item">${obj.item}</div>

@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 /**
  * 
  * @Title: PurcharseRequiredService
@@ -382,4 +384,28 @@ public interface PurchaseRequiredService {
 	 * @param list
 	 */
 	void deletedList(String unqueId);
+	
+	/**
+     * 
+    * @Title: selectByCreatedAt
+    * @author FengTian 
+    * @date 2017-11-9 下午2:43:13  
+    * @Description: 根据项目ID查询需求编报时间 
+    * @param @param projectId
+    * @param @return      
+    * @return List<PurchaseRequired>
+     */
+    List<PurchaseRequired> selectByCreatedAt(String projectId);
+    
+    /**
+     * 
+    * @Title: supervisionByRequiredId
+    * @author FengTian 
+    * @date 2017-11-17 下午3:48:23  
+    * @Description: 根据明细ID关联查询
+    * @param @param id
+    * @param @return      
+    * @return PurchaseRequired
+     */
+    PurchaseRequired supervisionByRequiredId(String id);
 }

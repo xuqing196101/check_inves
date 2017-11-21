@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,10 +39,13 @@ import bss.controller.base.BaseController;
 import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
+import bss.model.ppms.ProjectAdvice;
 import bss.model.ppms.Reason;
+import bss.model.sstps.TrialPriceBean;
 import bss.service.ppms.AdvancedProjectService;
 import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
+import bss.service.ppms.ProjectAdviceService;
 import bss.service.ppms.ProjectService;
 import bss.util.PropUtil;
 
@@ -94,6 +98,9 @@ public class AuditBiddingController extends BaseController {
   
   @Autowired
   private PurchaseOrgnizationServiceI purchaseOrgnizationService;
+  
+  @Autowired
+  private ProjectAdviceService adviceService;
   
   /**
    * 
@@ -180,16 +187,16 @@ public class AuditBiddingController extends BaseController {
    */
   @ResponseBody
   @RequestMapping(value = "/updateAuditStatus",produces = "text/html;charset=UTF-8")
-  public String updateAuditStatus(@CurrentUser User user, String projectId, String status, Reason reasons,HttpServletRequest request,String flowDefineId,String process) throws UnsupportedEncodingException{
-    String  reasonStr = "";
+  public String updateAuditStatus(@CurrentUser User user, String projectId, String status, Reason reasons,HttpServletRequest request,String flowDefineId,String process,TrialPriceBean projectAdviceList) throws UnsupportedEncodingException{
+   /* String  reasonStr = "";
     if (reasons != null) {
         JSONObject object = JSONObject.fromObject(reasons);
         reasonStr = object.toString();
-    }
+    }*/
     
     Project project = new Project();
     project.setId(projectId);
-    project.setAuditReason(reasonStr);
+    /*project.setAuditReason(reasonStr);*/
     //该环节设置为执行中状态
     flowMangeService.flowExe(request, flowDefineId, projectId, 2);
     //获取项目信息
@@ -213,12 +220,21 @@ public class AuditBiddingController extends BaseController {
     }
     //修改代办为已办
     todosService.updateIsFinish("open_bidding/bidFile.html?id=" + projectId + "&process=1");
-    
+    List<ProjectAdvice> projectAdviceList2 = projectAdviceList.getProjectAdviceList();
   //修改报备 状态
     if("4".equals(status)){
     	project.setStatus(DictionaryDataUtil.getId("ZBWJXGBB"));
     	project.setConfirmFile(4);
     	project.setReplyTime(new Date());
+    	
+    	for(ProjectAdvice ad:projectAdviceList2){
+    	  ad.setCreateUser(user.getId());
+    	  ad.setIsDelete(0);
+    	  ad.setCreateAt(new Date());
+    	  ad.setProjectId(projectId);
+    	  adviceService.insert(ad);
+    	}
+    	
     	 //推送待办
         Todos todos = new Todos();
         todos.setName(selectById.getName() + "招标文件修改报备");
@@ -234,6 +250,13 @@ public class AuditBiddingController extends BaseController {
       project.setStatus(DictionaryDataUtil.getId("ZBWJYTG"));
       project.setConfirmFile(3);
       project.setReplyTime(new Date());
+      for(ProjectAdvice ad:projectAdviceList2){
+        ad.setCreateUser(user.getId());
+        ad.setIsDelete(0);
+        ad.setCreateAt(new Date());
+        ad.setProjectId(projectId);
+        adviceService.insert(ad);
+      }
       //推送待办
       Todos todos = new Todos();
       todos.setName(selectById.getName() + "招标文件审核通过");
@@ -250,6 +273,13 @@ public class AuditBiddingController extends BaseController {
       project.setStatus(DictionaryDataUtil.getId("NZPFBZ"));
       project.setConfirmFile(2);
       project.setReplyTime(new Date());
+      for(ProjectAdvice ad:projectAdviceList2){
+        ad.setCreateUser(user.getId());
+        ad.setIsDelete(0);
+        ad.setCreateAt(new Date());
+        ad.setProjectId(projectId);
+        adviceService.insert(ad);
+      }
       //推送待办
       Todos todos = new Todos();
       todos.setName(selectById.getName() + "招标文件审核退回");
@@ -320,6 +350,25 @@ public class AuditBiddingController extends BaseController {
         model.addAttribute("pStatus",DictionaryDataUtil.findById(project.getStatus()).getCode());
         model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
         model.addAttribute("type", type); //从监管系统跳转过来的
+        HashMap<String, Object> hashMap=new HashMap<String, Object>();
+        hashMap.put("projectId", project.getId());
+        List<ProjectAdvice> findByList = adviceService.findByList(hashMap);
+        Map<String, Object> map2=new HashMap<String, Object>();
+        for(ProjectAdvice pa:findByList){
+          if(pa.getTypeId().equals(DictionaryDataUtil.getId("PC_REASON"))){
+            map2.put("pcId", pa);
+          }
+          if(pa.getTypeId().equals(DictionaryDataUtil.getId("CAUSE_REASON"))){
+            map2.put("causeId", pa);
+           }
+          if(pa.getTypeId().equals(DictionaryDataUtil.getId("FINANCE_REASON"))){
+            map2.put("financeId", pa);
+          }
+          if(pa.getTypeId().equals(DictionaryDataUtil.getId("FINAL_OPINION"))){
+            map2.put("finalId", pa);
+          }
+        }
+        model.addAttribute("MapPa",map2);
         //采购管理部门审核意见附件
         model.addAttribute("pcTypeId", DictionaryDataUtil.getId("PC_REASON"));
         //事业部门审核意见附件
@@ -328,6 +377,7 @@ public class AuditBiddingController extends BaseController {
         model.addAttribute("financeTypeId", DictionaryDataUtil.getId("FINANCE_REASON"));
         //最终意见
         model.addAttribute("finalTypeId", DictionaryDataUtil.getId("FINAL_OPINION"));
+        model.addAttribute("typeId", DictionaryDataUtil.getId("BID_FILE_AUDIT"));
         return "bss/ppms/audit_bidding/audit_suggestion";
     }
 

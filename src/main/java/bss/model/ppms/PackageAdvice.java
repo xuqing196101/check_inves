@@ -2,53 +2,99 @@ package bss.model.ppms;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class PackageAdvice {
 
-	//主键
+	/**
+	 * 主键
+	 */
 	private String id;
 	
-	//项目ID
+	/**
+	 * 项目ID
+	 */
 	private String projectId;
 	
-	//包ID
+	/**
+	 * 包ID
+	 */
 	private String packageId;
 	
-	//类型 1：中止，2：转竞谈
+	/**
+	 * 类型 1：中止，2：转竞谈
+	 */
 	private Integer type;
 	
-	//流程ID
+	/**
+	 * 流程ID
+	 */
 	private String flowDefineId;
 	
-	//原因
+	/**
+	 * 原因
+	 */
 	private String advice;
 	
-	//审核人
+	/**
+	 * 审核人
+	 */
 	private String userId;
 	
-	//审核时间
+	/**
+	 * 审核时间
+	 */
 	private Date aduitTime;
 	
-	//创建时间
+	/**
+	 * 创建时间
+	 */
 	private Date createdAt;
 	
-	//项目实体
+	/**
+	 * 项目实体
+	 */
 	private Project project;
 	
-	//状态 1：未审核，2：审核中，3：审核通过，4：审核不通过
+	/**
+	 * 状态 1：未审核，2：审核中，3：审核通过，4：审核不通过
+	 */
 	private Integer status;
 	
-	//包名
+	/**
+	 * 包名
+	 */
 	private String packageName;
 	
-	//审核标识
+	/**
+	 * 审核标识
+	 */
 	private String code;
 	
-	//项目预算
+	/**
+	 * 项目预算
+	 */
 	private BigDecimal budget;
 	
-	//审核意见
+	/**
+	 * 审核意见
+	 */
 	private String reason;
+	
+	/**
+	 * 包集合
+	 */
+	private List<Packages> packageList;
+	
+	/**
+	 * 假删除
+	 */
+	private Integer isDeleted;
+	
+	/**
+	 * 申请人
+	 */
+	private String proposer;
 
 	public String getId() {
 		return id;
@@ -168,6 +214,30 @@ public class PackageAdvice {
 
 	public void setReason(String reason) {
 		this.reason = reason;
+	}
+
+	public List<Packages> getPackageList() {
+		return packageList;
+	}
+
+	public void setPackageList(List<Packages> packageList) {
+		this.packageList = packageList;
+	}
+
+	public Integer getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Integer isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public String getProposer() {
+		return proposer;
+	}
+
+	public void setProposer(String proposer) {
+		this.proposer = proposer;
 	}
 	
 }
