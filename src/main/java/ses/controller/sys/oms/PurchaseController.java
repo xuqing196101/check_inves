@@ -37,6 +37,7 @@ import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
 import common.utils.RSAEncrypt;
+import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Role;
 import ses.model.bms.User;
@@ -46,6 +47,7 @@ import ses.model.oms.util.AjaxJsonData;
 import ses.model.oms.util.CommonConstant;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
+import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
@@ -75,6 +77,9 @@ public class PurchaseController extends BaseController{
 	@Autowired
 	private UploadService uploadService;
 	
+	@Autowired
+	private OrgnizationServiceI orgnizationService;
+	
 	
 	private AjaxJsonData jsonData = new AjaxJsonData();
 	
@@ -100,6 +105,15 @@ public class PurchaseController extends BaseController{
 		}
 		if(StringUtils.isNotBlank(purchaseInfo.getPurchaseDepName())){
 		    map.put("purchaseDepName", purchaseInfo.getPurchaseDepName());
+		}
+		if(StringUtils.isNotBlank(purchaseInfo.getPurchaseDepId())){
+		    map.put("purchaseDepId", purchaseInfo.getPurchaseDepId());
+		}
+		if(StringUtils.isNotBlank(purchaseInfo.getId())){
+			//采购机构id  需要转换成orgid
+			String orgId = orgnizationService.selOrgIdByDepId(purchaseInfo.getId());
+			purchaseInfo.setPurchaseDepId(orgId);
+		    map.put("purchaseDepId", orgId);
 		}
 		// 采购人员类型
 		if(StringUtils.isNotBlank(purchaseInfo.getPurcahserType())){
@@ -133,10 +147,12 @@ public class PurchaseController extends BaseController{
 		//入口标识
 		String origin = request.getParameter("origin");
 		String orgId = request.getParameter("orgId");
-		
+		//采购机构人员管理进入标志
+		String cggl = request.getParameter("cggl");
 		model.addAttribute("mainId", WfUtil.createUUID());
 		model.addAttribute("origin", origin);
 		model.addAttribute("originOrgId", orgId);
+		model.addAttribute("cggl", cggl);
 		purchaseServiceI.initPurchaser(model,orgId);
 		return "ses/oms/purchase/add";
 	}
@@ -162,6 +178,9 @@ public class PurchaseController extends BaseController{
 		
 		String originOrgId = request.getParameter("originOrgId");
 		
+		String cggl = request.getParameter("cggl");
+		
+		model.addAttribute("cggl", cggl);
 		//校验
 		/*if (result.hasErrors()){
 			model.addAttribute("roleName",roleName);
@@ -321,6 +340,9 @@ public class PurchaseController extends BaseController{
 				 return "ses/oms/require_dep/list";
 			 }
 		} 
+		if("cggl".equals(cggl)){
+			return "redirect:list.html?purchaseDepId="+originOrgId;
+		}
 	    return "redirect:list.do";
 	}
 	
@@ -351,9 +373,10 @@ public class PurchaseController extends BaseController{
 		String orgId = request.getParameter("orgId");
 		String purchaserId = request.getParameter("purchaserId");
 
+		String cggl = request.getParameter("cggl");
 		model.addAttribute("origin", origin);
 		model.addAttribute("originOrgId", orgId);
-		
+		model.addAttribute("cggl", cggl);
 		if (StringUtils.isNotBlank(purchaserId)){
 			User user = userServiceI.getUserById(purchaserId);
 			if (user != null){
@@ -403,7 +426,9 @@ public class PurchaseController extends BaseController{
 		String origin = request.getParameter("origin");
 		String originOrgId = request.getParameter("originOrgId");
 		
+		String cggl = request.getParameter("cggl");
 		
+		model.addAttribute("cggl", cggl);
 		String roleName = request.getParameter("roleName");
 		//校验
 		if (result.hasErrors()){
@@ -502,6 +527,9 @@ public class PurchaseController extends BaseController{
         
 		if (StringUtils.isNotBlank(origin)){
 			 if (StaticVariables.ORG_ORIGIN_PURCHASER.equals(origin)){
+				 if("cggl".equals(cggl)){
+						return "redirect:list.html?purchaseDepId="+originOrgId;
+					}
 				 return "redirect:/purchaseManage/purchaseUnitList.html";
 			 }
 			 if (StaticVariables.ORG_ORIGIN_ORG.equals(origin)){
@@ -676,5 +704,63 @@ public class PurchaseController extends BaseController{
 			return "dss/rids/list/purchaseMemberListToOrg";
 		}
 		return "dss/rids/list/purchaseMemberList";
+	}
+	
+	/**
+	 * 
+	 *〈简述〉查看详情
+	 *〈详细描述〉
+	 * @param purchaseInfo
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("view")
+	public String view(@ModelAttribute PurchaseInfo purchaseInfo,Model model,HttpServletRequest request) {
+		//入口标识
+		String origin = request.getParameter("origin");
+		String orgId = request.getParameter("orgId");
+		String purchaserId = request.getParameter("purchaserId");
+
+		String cggl = request.getParameter("cggl");
+		model.addAttribute("origin", origin);
+		model.addAttribute("originOrgId", orgId);
+		model.addAttribute("cggl", cggl);
+		if (StringUtils.isNotBlank(purchaserId)){
+			User user = userServiceI.getUserById(purchaserId);
+			if (user != null){
+				purchaseInfo.setId(user.getTypeId());
+			}
+		} 
+		
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("id", purchaseInfo.getId());
+		purchaseServiceI.initPurchaser(model,orgId);
+		
+		List<PurchaseInfo> oList = purchaseServiceI.findPurchaseList(map);
+		if(oList!=null && oList.size()>0){
+			
+			PurchaseInfo purchase = oList.get(0);
+			List<Role> roleList = roleService.selectByUserId(purchase.getUserId());
+			
+			String roleIds =  "";
+			String  roleNames = "";
+			
+			for (Role role : roleList){
+				roleIds += role.getId() + StaticVariables.COMMA_SPLLIT;
+				roleNames += role.getName() + StaticVariables.COMMA_SPLLIT;
+			}
+			
+			if (StringUtils.isNotBlank(roleIds)){
+				roleIds = roleIds.substring(0, roleIds.length() -1);
+				roleNames = roleNames.substring(0, roleNames.length() -1);
+			}
+			
+			purchase.setRoleId(roleIds);
+			purchase.setOrgId(purchase.getPurchaseDepId());
+			model.addAttribute("purchaseInfo", purchase);
+			model.addAttribute("mainId", purchase.getId());
+			model.addAttribute("roleName", roleNames);
+		}
+		return "ses/oms/purchase/view";
 	}
 }
