@@ -807,8 +807,9 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void addProejctDetail(List<PurchaseDetail> list, String projectId, Integer position) {
         if(list != null && list.size() > 0 && StringUtils.isNotBlank(projectId)){
+        	ProjectDetail projectDetail = null;
             for (PurchaseDetail purchaseDetail : list) {
-                ProjectDetail projectDetail = new ProjectDetail();
+            	projectDetail = new ProjectDetail();
                 if(StringUtils.isNotBlank(purchaseDetail.getId())){
                     projectDetail.setRequiredId(purchaseDetail.getId());
                 }
@@ -880,7 +881,11 @@ public class ProjectServiceImpl implements ProjectService {
         if(list != null && list.size() > 0){
             HashSet<String> set = new HashSet<>();
             for (PurchaseDetail purchaseDetail : list) {
-                Map<String,Object> map=new HashMap<String,Object>();
+            	 Integer num = purchaseDetailMapper.selectByDetailId(purchaseDetail);
+            	 if (num != null && num > 0) {
+            		 set.add(purchaseDetail.getParentId());
+            	 }
+               /* Map<String,Object> map=new HashMap<String,Object>();
                 map.put("id", purchaseDetail.getId());
                 List<PurchaseDetail> details = purchaseDetailMapper.selectByParentId(map);
                 if(details != null && details.size() == 1){
@@ -891,7 +896,7 @@ public class ProjectServiceImpl implements ProjectService {
                     if (purchaseDetail.getParentId() != null && !"1".equals(purchaseDetail.getParentId())) {
                       set.add(purchaseDetail.getParentId());
                     }
-                } 
+                } */
             }
             //List<PurchaseDetail> bottomDetails = new ArrayList<PurchaseDetail>();
             for (String string : set) {
@@ -925,6 +930,7 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectMapper.selectByOrgnization(map);
 	}
     private void updateDetailStatusParent(String projectId, PurchaseDetail purchaseDetail) {
+    	//查询节点下面全部明细
       Map<String,Object> map=new HashMap<String,Object>();
       map.put("parentId", purchaseDetail.getId());
       List<PurchaseDetail> detailChilds = purchaseDetailMapper.getByMap(map);

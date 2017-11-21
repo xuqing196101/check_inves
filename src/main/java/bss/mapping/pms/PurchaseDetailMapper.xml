@@ -1446,4 +1446,37 @@
 		PARENT_ID='1' and HISTORY_STATUS='0' and IS_DELETE='0' and
 		UNIQUE_ID=#{uniqueId}
 	</select>
+	
+		<!-- 获取最底层明细 -->
+    <update id="selectByDetailId"  parameterType="bss.model.pms.PurchaseDetail">
+    	UPDATE T_BSS_PMS_PURCHASE_DETAIL
+			SET PROJECT_STATUS = 2
+			WHERE
+				ID IN 
+				(SELECT
+				ID
+			FROM
+				(
+					SELECT
+						detail.*, DECODE (
+							(
+								SELECT
+									COUNT (*)
+								FROM
+									T_BSS_PMS_PURCHASE_DETAIL
+								WHERE
+									PARENT_ID = detail.ID
+							),
+							0,
+							'false',
+							'true'
+						) AS isParent
+					FROM
+						T_BSS_PMS_PURCHASE_DETAIL detail
+					WHERE
+						detail.ID = #{id}
+				)
+			WHERE
+				isParent = 'false')
+    </update>
 </mapper>

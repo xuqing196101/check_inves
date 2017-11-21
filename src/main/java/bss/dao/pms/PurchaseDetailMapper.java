@@ -414,4 +414,6 @@ public interface PurchaseDetailMapper {
     * @return List<PurchaseDetail>
      */
     List<PurchaseDetail> findTaskByDetail(HashMap<String, Object> map);
+    
+    Integer selectByDetailId(PurchaseDetail purchaseDetail);
 }

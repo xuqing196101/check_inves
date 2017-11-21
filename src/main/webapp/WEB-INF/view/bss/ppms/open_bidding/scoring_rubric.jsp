@@ -294,21 +294,21 @@
 								</td>
 								<td class="tc">
 									<c:forEach items="${ddList}" var="list" varStatus="vs">
-										<c:if test="${list.position == p.bidMethodTypeName }"><a onclick="show('${p.id}','${p.projectId }')" class="pointer">${list.name }</a></c:if>
+										<c:if test="${list.position eq p.bidMethodTypeName}"><a onclick="show('${p.id}','${p.projectId }')" class="pointer">${list.name }</a></c:if>
 										
 									</c:forEach>
 								</td>
 								 <td class="tc">
-								   <c:if test="${p.isHaveScoreMethod == 1 and project.confirmFile != 1 and project.confirmFile != 5}">
+								   <c:if test="${p.isHaveScoreMethod == 1 and project.confirmFile != 1 and project.confirmFile != 5 and project.confirmFile != 3}">
 								       <!-- <button class="btn" type="button" onclick="editScoreMethod()">修改评分方法</button> -->
-				                       <button class="btn" type="button" <c:if test="${p.projectStatus=='YZZ'}">disabled="disabled"</c:if> onclick="editPackageFirstAudit('${p.id}','${projectId}')">编辑</button>
+				                       <button class="btn" type="button" <c:if test="${p.projectStatus eq 'YZZ'}">disabled="disabled"</c:if> onclick="editPackageFirstAudit('${p.id}','${projectId}')">编辑</button>
 								   </c:if>
-								   <c:if test="${p.isHaveScoreMethod == 2 and project.confirmFile != 1 and project.confirmFile != 5}">
-				                       <button class="btn" type="button" <c:if test="${p.projectStatus=='YZZ'}">disabled="disabled"</c:if> onclick="addScoreMethod('${p.id}','${projectId}')">选择评分办法</button>
+								   <c:if test="${p.isHaveScoreMethod == 2 and project.confirmFile != 1 and project.confirmFile != 5 and project.confirmFile != 3}">
+				                       <button class="btn" type="button" <c:if test="${p.projectStatus eq 'YZZ'}">disabled="disabled"</c:if> onclick="addScoreMethod('${p.id}','${projectId}')">选择评分办法</button>
 								   </c:if>
 								   <!-- 采购文件提交后不可修改 -->
-								   <c:if test="${project.confirmFile == 1||project.confirmFile == 5}">
-				                       <button class="btn" type="button" <c:if test="${p.projectStatus=='YZZ'}">disabled="disabled"</c:if> onclick="view('${p.id}','${projectId}','${p.isEditSecond}')">查看</button>
+								   <c:if test="${project.confirmFile == 1 or project.confirmFile == 5 or project.confirmFile == 3}">
+				                       <button class="btn" type="button" <c:if test="${p.projectStatus eq 'YZZ'}">disabled="disabled"</c:if> onclick="view('${p.id}','${projectId}','${p.isEditSecond}')">查看</button>
 								   </c:if>
 				                </td>
 								<%-- <td align="center">

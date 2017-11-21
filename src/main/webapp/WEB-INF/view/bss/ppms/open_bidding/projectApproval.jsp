@@ -10,7 +10,7 @@
 		<script type="text/javascript">
 		 $(function(){
 			 if("${msg}"  == "1") {
-			    layer.alert("请先上传报批说明",{offset: '50px'});
+			    layer.alert("请先上传编报说明",{offset: '50px'});
 			}else if("${msg}" == "2"){
 				layer.alert("请先上传审批文件",{offset: '50px'});
 			}
@@ -23,7 +23,7 @@
 
 	<body>
 		<div class="col-md-12 p0">
-			<h2 class="list_title">报批说明</h2>
+			<h2 class="list_title">编报说明</h2>
 			<ul class="flow_step">
 				<li>
 					<a href="${pageContext.request.contextPath}/firstAudit/toAdd.html?projectId=${projectId}&flowDefineId=${flowDefineId}">01、资格性和符合性审查</a>
@@ -57,7 +57,7 @@
 		<table class="mt20">
 			<c:if test="${project.confirmFile == null || project.confirmFile == 0 || project.confirmFile == 2}">
 				<tr>
-					<td> <span class="star_red">*</span>报批说明：</td>
+					<td> <span class="star_red">*</span>编报说明：</td>
 					<td class="w100"><button class="btn btn-windows input m0 w50p" type="button" onclick="bidRegister('${project.id}','16')">模板下载</button></td>
 					<td class="w200">
 						<u:upload id="c"  buttonName="上传彩色扫描件" exts="jpg,jpeg,gif,png,bmp,pdf" multiple="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeApproval}" auto="true" />

@@ -20,6 +20,7 @@ import bss.model.ppms.Task;
 import bss.model.prms.PackageExpert;
 import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseRequiredService;
+import bss.service.ppms.BidMethodService;
 import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.NegotiationReportService;
 import bss.service.ppms.NegotiationService;
@@ -198,6 +199,9 @@ public class ProjectController extends BaseController {
     
     @Autowired
     private SupplierService supplierService;
+    
+    @Autowired
+    private BidMethodService bidMethodService;
     
     /** SCCUESS */
     private static final String SUCCESS = "SCCUESS";
@@ -2483,8 +2487,40 @@ public class ProjectController extends BaseController {
              /** 生成word 返回文件名 */
              newFileName = WordUtil.createWord(dataMap, "issueRegistration.ftl", fileName, request, type);
          } else if ("16".equals(type)){
-        	 dataMap.put("approvalTime", project.getApprovalTime() == null ? "" : new SimpleDateFormat("yyyy年MM月dd日").format(project.getApprovalTime()));
-           String fileName = new String(("采购文件编报说明.doc").getBytes("UTF-8"), "UTF-8");
+        	 HashMap<String, Object> hashMap = new HashMap<>();
+        	 hashMap.put("projectId", project.getId());
+        	 List<Packages> list = packageService.findByID(hashMap);
+        	 if (list != null && !list.isEmpty()) {
+        		 List<String> methodName = new ArrayList<String>();
+				for (Packages packages : list) {
+					String methodCode = bidMethodService.getMethod(packages.getProjectId(), packages.getId());
+					if ("PBFF_JZJF".equals(methodCode)) {
+						methodName.add("基准价法");
+					} else if ("PBFF_ZDJF".equals(methodCode)) {
+						methodName.add("最低价法");
+					} else if ("OPEN_ZHPFF".equals(methodCode)) {
+						methodName.add("综合评分法");
+					}
+				}
+				String join = StringUtils.join(methodName, StaticVariables.COMMA_SPLLIT);
+				dataMap.put("methodName", join == null ? "" : join);
+        	 }
+        	 List<UploadFile> uploadFiles = uploadService.getFilesOther(project.getId(), DictionaryDataUtil.getId("BID_FILE_APPROVAL"), "2");
+        	 if (uploadFiles != null && !uploadFiles.isEmpty()) {
+        		 dataMap.put("approvalTime", uploadFiles.get(0).getCreateDate() == null ? "" : new SimpleDateFormat("yyyy年MM月dd日").format(uploadFiles.get(0).getCreateDate()));
+        	 }
+        	 List<PurchaseRequired> selectByCreatedAt = purchaseRequiredService.selectByCreatedAt(project.getId());
+             if(selectByCreatedAt != null && selectByCreatedAt.size() > 0){
+            	 List<String> orgName = new ArrayList<String>();
+            	 for (PurchaseRequired purchaseRequired : selectByCreatedAt) {
+					User user = userService.getUserById(purchaseRequired.getUserId());
+					orgName.add(user.getOrg().getShortName());
+            	 }
+            	 String join = StringUtils.join(orgName, StaticVariables.COMMA_SPLLIT);
+ 				dataMap.put("orgName", join == null ? "" : join);
+             }
+        	 dataMap.put("nature", "正常");
+        	 String fileName = new String(("采购文件编报说明.doc").getBytes("UTF-8"), "UTF-8");
            /** 生成word 返回文件名 */
            newFileName = WordUtil.createWord(dataMap, "compilationReport.ftl", fileName, request, type);
        } else if ("17".equals(type)){
