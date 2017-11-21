@@ -136,8 +136,8 @@
         <!-- 修改订列表开始-->
         <div>
             <form id="form1" action="${pageContext.request.contextPath}/intelligentScore/updateScoreMethod.html" method="post">
-                <div class="container container_box">
-                    <h2 class="list_title">修改评标方法</h2>
+                <div class="bggrey p20">
+                    <h2 class="list_title mt0">修改评标方法</h2>
                     <ul class="list-unstyled m_boxS1">
                             <input type="hidden" name="projectId" value="${projectId}" />
                             <input type="hidden" name="packageId" value="${packageId}" />
