@@ -1,5 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<%@ page import="ses.constants.SupplierConstants"%>
+<c:set var="auditReturnStatusMap" value="<%=SupplierConstants.AUDIT_RETURN_STATUS_MAP %>" />
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -14,14 +16,10 @@
 			display: inline;
 		}
 	</style>
-	<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script>
 	<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/audit_reasons.js"></script>
     <script type="text/javascript">
         //只读
         $(function() {
-            /*$(":input").each(function() {
-             $(this).attr("readonly", "readonly");
-             }); */
             //审核按钮
             var num = ${num};
             if(num == 0){
@@ -36,312 +34,6 @@
                 $("#hege").attr("disabled", true);
             };
         });
-        function trim(str) { //删除左右两端的空格
-            return str.replace(/(^\s*)|(\s*$)/g, "");
-        }
-	   /* function tijiao(status){
-	     $("#supplierStatus").val(status);
-		 form1.submit();
-	   } */
-			
-		//上一步
-        function lastStep(){
-            var action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
-            $("#form_id").attr("action",action);
-            $("#form_id").submit();
-        }
-
-        //审核
-        function shenhe(status){
-            var supplierId = $("input[name='supplierId']").val();
-            /*if(status == 3){
-                //询问框
-                layer.confirm('您确认吗？', {
-                    closeBtn: 0,
-                    offset: '100px',
-                    shift: 4,
-                    btn: ['确认','取消']
-                }, function(){
-                    var index = layer.prompt({
-                        title: '请填写理由：',
-                        formType: 2,
-                        offset: '100px',
-                    }, function(text) {
-                        $.ajax({
-                            url: "${pageContext.request.contextPath}/supplierAudit/recordNotPassed.html",
-                            data: {"reason" : text , "supplierId" : supplierId},
-                            success: function() {
-                                //提交审核
-                                $("#status").val(status);
-                                $("#status").val(status);
-                                $("#form_shen").submit();
-                            },
-                        });
-                    });
-                });
-            }else{*/
-                //询问框
-            if(status == -2){
-                /*// 获取审核意见
-                var opinion  = $("#opinion").val();
-                if(opinion == ''){
-                    layer.msg("审核意见不能为空！");
-                    return;
-                }
-                if(opinion.length > 1000){
-                    layer.msg("审核意见不能超过1000字！");
-                    return;
-                }*/
-                // 校验
-                var flags = vartifyAuditCount();
-                if(flags){
-                    return;
-                }
-                // 校验通过
-                layer.confirm('您确认吗？', {
-                    closeBtn: 0,
-                    offset: '100px',
-                    shift: 4,
-                    btn: ['确认','取消']
-                }, function(index){
-                    //最终意见
-                    $("#status").val(status);
-                    //$("#auditOpinion").val($("#auditOpinionFile").val());
-                    //$("input[name='opinion']").val(opinion);
-                    // ajax提交改变供应商状态
-                    $.ajax({
-                        url: "${pageContext.request.contextPath}/supplierAudit/updateStatusOfPublictity.do",
-                        data: $("#form_shen").serialize(),
-                        success: function (data) {
-                            if(data.status == 200){
-                                $("#tongguoSpan").hide();
-                                $("#tuihui").hide();
-                                $("#checkWord").show();
-                                $("#publicity").show();
-                                $("#tempSave").css("display","inline-block");
-                                $("#nextStep").css("display","inline-block");
-                                // 显示上传批准审核表页面标签
-                                $("#reverse_of_seven_i").show();
-                                $("#reverse_of_eight").show();
-                            }
-                        }
-                    });
-                    layer.close(index);
-                    return;
-                });
-            }
-
-            if(status == 2){
-                var flags = false;
-                $.ajax({
-                    url:globalPath + "/supplierAudit/vertifyReturnToModify.do",
-                    type: "POST",
-                    async:false,
-                    data:{
-                        "supplierId":supplierId,
-                    },
-                    dataType:"json",
-                    success:function (data) {
-                        if (data.status != 0) {
-                            layer.msg(data.msg);
-                            flags = true;
-                            return;
-                        }
-                    }
-                });
-                if(flags){
-                    return;
-                }
-                layer.confirm('您确认吗？', {
-                    closeBtn: 0,
-                    offset: '100px',
-                    shift: 4,
-                    btn: ['确认','取消']
-                }, function(index){
-                    //最终意见
-                    $("#status").val(status);
-                    //提交审核
-                    $("#form_shen").submit();
-                });
-            }
-
-            if(status != -2 && status != 2){
-                var opinion = document.getElementById('opinion').value;
-                opinion = trim(opinion);
-                if (opinion != null && opinion != "") {
-                    if (opinion.length <= 200) {
-                        layer.confirm('您确认吗？', {
-                            closeBtn: 0,
-                            offset: '100px',
-                            shift: 4,
-                            btn: ['确认','取消']
-                        }, function(index){
-                            //最终意见
-                            $("#status").val(status);
-                            $("input[name='opinion']").val(opinion);
-                            if(status == -2){
-                                $.ajax({
-                                    url: "${pageContext.request.contextPath}/supplierAudit/updateStatusOfPublictity.do",
-                                    data: $("#form_shen").serialize(),
-                                    success: function (data) {
-                                        if(data.status == 200){
-                                            layer.alert('完成操作，请公示！', function(index){
-                                                $("#opinion").attr("disabled", true);
-                                                $("#tongguoSpan").hide();
-                                                $("#checkWord").show();
-                                                $("#publicity").show();
-                                                init_web_upload();
-                                                layer.close(index);
-                                            });
-                                        }
-                                    }
-                                });
-                                layer.close(index);
-                                return;
-                            }
-                            //提交审核
-                            $("#form_shen").submit();
-                        });
-                    } else {
-                        layer.msg("不能超过200字", {offset: '100px'});
-                    }
-                } else {
-                    layer.msg("请填写最终意见", {offset: '100px'});
-                    return;
-                }
-            }
-        };
-
-		/** 全选全不选 */
-        function selectAll(){
-            var checklist = document.getElementsByName ("chkItem");
-            var checkAll = document.getElementById("checkAll");
-            if(checkAll.checked){
-                for(var i=0;i<checklist.length;i++){
-                    checklist[i].checked = true;
-                } ;
-            }else{
-                for(var j=0;j<checklist.length;j++){
-                    checklist[j].checked = false;
-                };
-            };
-        }
-
-        //移除
-        function dele(){
-            var ids =[];
-            $('input[name="chkItem"]:checked').each(function(){
-                ids.push($(this).val());
-            });
-            if(ids.length>0){
-                layer.confirm('确认撤销审核操作吗？', {title:'提示！',offset: ['200px']}, function(index){
-                    layer.close(index);
-                    $.ajax({
-                        url:"${pageContext.request.contextPath}/supplierAudit/deleteById.html",
-                        data:"ids="+ids,
-                        dataType:"json",
-                        success:function(result){
-                            result = eval("(" + result + ")");
-                            if(result.msg == "yes"){
-                                layer.msg("删除成功！",{offset : '100px'});
-                                window.setTimeout(function(){
-                                    var action = "${pageContext.request.contextPath}/supplierAudit/reasonsList.html";
-                                    $("#form_id").attr("action",action);
-                                    $("#form_id").submit();
-                                }, 1000);
-                            }
-                        },
-                        error: function(message){
-                            layer.msg("删除失败！",{offset : '100px'});
-                        }
-                    });
-                });
-            }else{
-                layer.alert("请选择需要移除的记录！",{offset:'100px'});
-            }
-        }
-        
-				//去改状态
-				function toUpdateStatus(){
-					var ids = [];
-					$('input[name="chkItem"]:checked').each(function(){
-						ids.push($(this).val());
-					});
-					if(ids.length > 0){
-						$("#auditStatusRadio").fadeIn().css("display","inline");
-					}else{
-						layer.alert("请选择需要修改状态的记录！",{offset:'100px'});
-					}
-				}
-				//改状态
-				function updateStatus(status){
-					var ids = [];
-					var bool = true;
-					var errorMsg = "";
-					$('input[name="chkItem"]:checked').each(function(){
-						ids.push($(this).val());
-						var currSt = $(this).attr("st");// 当前状态
-						// 已修改 不能点击任何状态
-						if(currSt == 3){
-							bool = false;
-							errorMsg = "选择中包含已修改的记录，已修改的记录不能修改任何状态！可以重新审核";
-							return false;
-						}
-						if(currSt == 5 || currSt == 6){
-							bool = false;
-							errorMsg = "选择中包含撤销退回/撤销不通过的记录，撤销的记录不能修改任何状态！可以重新审核";
-							return false;
-						}
-						// 退回修改/未修改 只能点击 撤销退回
-						if((currSt == 1 || currSt == 4) && status != 5){
-							bool = false;
-							errorMsg = "选择中包含退回修改/未修改的记录，退回修改和未修改的记录只能撤销退回！";
-							return false;
-						}
-						// 审核不通过 只能点击 撤销不通过
-						if(currSt == 2 && status != 6){
-							bool = false;
-							errorMsg = "选择中包含审核不通过的记录，审核不通过的记录只能撤销不通过！";
-							return false;
-						}
-					});
-					if(!bool){
-						//layer.msg(errorMsg, {offset : '100px'});
-						layer.alert(errorMsg);
-						return;
-					}
-					if(ids.length > 0){
-						layer.confirm('您确定要更改状态吗？', {title:'提示！',offset: ['200px']}, function(index){
-							layer.close(index);
-							$.ajax({
-								url:"${pageContext.request.contextPath}/supplierAudit/updateReturnStatus.do",
-								type:"post",
-								data:{
-									ids: ids.join(","),
-									status: status
-								},
-								dataType: "json",
-								success: function(result){
-									if(result && result.status == 500){
-										layer.msg(result.msg, {offset : '100px'});
-							 			window.setTimeout(function(){
-                      var action = "${pageContext.request.contextPath}/supplierAudit/reasonsList.html";
-                      $("#form_id").attr("action",action);
-                      $("#form_id").submit();
-                    }, 1000);
-									}else{
-										layer.msg(result.msg, {offset : '100px'});
-									}
-								},
-								error: function(message){
-									layer.msg("更新失败！", {offset : '100px'});
-								}
-							});
-						});
-					}else{
-						layer.alert("请选择需要修改状态的记录！",{offset:'100px'});
-					}
-				}
     </script>
   </head>
 
@@ -382,13 +74,16 @@
 				<div class="col-md-12 tab-v2 job-content">
 					<%-- <%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%> --%>
           <jsp:include page="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp">
-          	<jsp:param value="${supplierStatus }" name="supplierStatus"/>
+          	<jsp:param value="seven" name="currentStep"/>
+           	<jsp:param value="${supplierId }" name="supplierId"/>
+           	<jsp:param value="${supplierStatus }" name="supplierStatus"/>
+           	<jsp:param value="${sign }" name="sign"/>
           </jsp:include>
-					<form id="form_id" action="" method="post">
+					<%-- <form id="form_id" action="" method="post">
 					  <input name="supplierId" value="${supplierId}" type="hidden">
 						<input name="supplierStatus" id="supplierStatus" value="${supplierStatus}" type="hidden">
 						<input type="hidden" name="sign" value="${sign}">
-					</form>
+					</form> --%>
 					
 					<!--审核意见上传表单-->
 					<form id="opinionForm" method="post">
@@ -404,7 +99,7 @@
 					
 					<!-- download check table -->
 					<form id="shenhe_form_id" action="" method="post">
-						<input name="supplierId" type="hidden" value="${supplierId}"/>
+						<input type="hidden" name="supplierId" value="${supplierId}"/>
 						<input type="hidden" name="sign" value="${sign}">
 						<input type="hidden" name="opinion">
 						<input type="hidden" name="tableType">
@@ -419,12 +114,13 @@
 						  <!-- <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">撤销</button> -->
 						  <button class="btn btn-windows edit" type="button" onclick="toUpdateStatus();" style=" border-bottom-width: -;margin-bottom: 7px;">改状态</button>
 						  <div class="select_check" id="auditStatusRadio" style="display: none;">
-						  	<input type="radio" name="auditStatus" value="1" onclick="updateStatus(1)" id="st1"><label class="label-inline" for="st1">退回修改</label>
-						  	<!-- <input type="radio" name="auditStatus" value="2" onclick="updateStatus(1)" id="st2"><label class="label-inline" for="st2">审核不通过</label> -->
+						  	<!-- <input type="radio" name="auditStatus" value="1" onclick="updateStatus(1)" id="st1"><label class="label-inline" for="st1">退回修改</label> -->
+						  	<input type="radio" name="auditStatus" value="1" onclick="updateStatus(1)" id="st1"><label class="label-inline" for="st1">有问题</label>
 								<input type="radio" name="auditStatus" value="3" onclick="updateStatus(3)" id="st3"><label class="label-inline" for="st3">已修改</label>
 								<input type="radio" name="auditStatus" value="4" onclick="updateStatus(4)" id="st4"><label class="label-inline" for="st4">未修改</label>
-								<input type="radio" name="auditStatus" value="5" onclick="updateStatus(5)" id="st5"><label class="label-inline" for="st5">撤销退回</label>
-								<input type="radio" name="auditStatus" value="6" onclick="updateStatus(6)" id="st6"><label class="label-inline" for="st6">撤销不通过</label>
+								<!-- <input type="radio" name="auditStatus" value="5" onclick="updateStatus(5)" id="st5"><label class="label-inline" for="st5">撤销退回</label>
+								<input type="radio" name="auditStatus" value="6" onclick="updateStatus(6)" id="st6"><label class="label-inline" for="st6">撤销不通过</label> -->
+								<input type="radio" name="auditStatus" value="5" onclick="updateStatus(5)" id="st5"><label class="label-inline" for="st5">撤销审核</label>
 							</div>
 						</c:if>
 						<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
@@ -446,9 +142,11 @@
 							<c:set var="isTypeNotPass_PROJECT" value="0" />
 							<c:set var="isTypeNotPass_SERVICE" value="0" />
 							<c:forEach items="${reasonsList }" var="reasons" varStatus="vs">
-								<input id="auditId" value="${list.id}" type="hidden">
 								<tr>
-									<td class="tc text-center"><input type="checkbox" value="${reasons.id }" name="chkItem" id="${reasons.id}" st="${reasons.returnStatus}"></td>
+									<td class="tc text-center">
+										<input type="checkbox" value="${reasons.id }" name="chkItem" id="${reasons.id}" 
+											st="${reasons.returnStatus}" at="${reasons.auditType}" />
+									</td>
 									<td class="tc text-center">${vs.index + 1}</td>
 									<td class="tc text-center">
 									  <c:if test="${reasons.auditType eq 'basic_page'}">基本信息</c:if>
@@ -482,15 +180,15 @@
 										<fmt:formatDate value="${reasons.createdAt}" pattern="yyyy-MM-dd"/>
 									</td>
 									<td class="tc">
-										<c:choose>
-											<%-- <c:when test="${reasons.returnStatus == 1}">退回修改</c:when> --%>
+										${auditReturnStatusMap[reasons.returnStatus]}
+										<%-- <c:choose>
 											<c:when test="${reasons.returnStatus == 1}">有问题</c:when>
 											<c:when test="${reasons.returnStatus == 2}">审核不通过</c:when>
 											<c:when test="${reasons.returnStatus == 3}">已修改</c:when>
 											<c:when test="${reasons.returnStatus == 4}">未修改</c:when>
 											<c:when test="${reasons.returnStatus == 5}">撤销退回</c:when>
 											<c:when test="${reasons.returnStatus == 6}">撤销不通过</c:when>
-										</c:choose>
+										</c:choose> --%>
 										<c:if test="${reasons.auditType == 'supplierType_page' && reasons.returnStatus == 2 && typeMap[reasons.auditField] == 'PRODUCT'}">
 											<c:set var="isTypeNotPass_PRODUCT" value="1" />
 										</c:if>
@@ -538,7 +236,7 @@
 							</li>
 						</ul>
 					</c:if>
-					<c:if test="${ sign == 1}">
+					<c:if test="${sign == 1}">
 						<div>
 							<div id="opinionDiv">
 								<div class="clear"></div>
@@ -605,15 +303,14 @@
 						<input name="opinionBack" id="opinionBack" value="" type="hidden">
 						<form id="form_shen" action="${pageContext.request.contextPath}/supplierAudit/updateStatus.html"  enctype="multipart/form-data">
 							<input name="supplierId" id="supplierId" value="${supplierId}" type="hidden">
-							<input name="status" id="status" type="hidden" value="${supplierStatus}">
+							<input name="status" id="status" value="${supplierStatus}" type="hidden">
 							<input name="opinion" type="hidden">
 							<input name="id" type="hidden">
 							<input name="auditOpinionAttach" id="auditOpinion" type="hidden" />
 							<div class="margin-bottom-0  categories">
 								<div class="col-md-12 add_regist tc">
 									<div class="col-md-12 add_regist tc">
-										<a class="btn"  type="button" onclick="lastStep();">上一步</a>
-										<!-- <a class="btn"  type="button" onclick="lastStep();">上一步</a> -->
+										<a class="btn"  type="button" onclick="toStep('six');">上一步</a>
 										<c:if test="${supplierStatus == 0 or supplierStatus == 9 and ipAddressType == ipInner}">
 											<input  class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">
 											<span id="tongguoSpan"><input class="btn btn-windows end"  type="button" onclick="shenhe(-2)" value="预审核结束" id="tongguo"></span>

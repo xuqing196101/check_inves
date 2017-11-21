@@ -501,7 +501,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
         supplier.setModifys(listModify);
 
         // 查询供应商审核记录表
-        Map<String, Object> map = new HashedMap();
+        Map<String, Object> map = new HashMap<>();
         map.put("supplierId", supplier.getId());
         List<SupplierAudit> supplierAudits = supplierAuditMapper.findByMap(map);
         supplier.setSupplierAudits(supplierAudits);
@@ -962,6 +962,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
         }
         recordService.synchBidding(null, new Integer(users.size()).toString(), synchro.util.Constant.SYNCH_LOGOUT_SUPPLIER, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.EXPORT_SYNCH_LOGOUT_SUPPLIER);
     }
+    
     
     
     /**

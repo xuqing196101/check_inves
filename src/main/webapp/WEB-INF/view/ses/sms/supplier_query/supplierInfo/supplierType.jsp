@@ -113,7 +113,7 @@
 									<div class="tab-content padding-top-20" id="tab_content_div_id">
 										<c:if test="${fn:contains(supplierTypeCode, 'PRODUCT')}">
 											<div class="tab-pane fade active in height-300" id="tab-1">
-												<h2 class="count_flow"><i>1</i>产品研发能力</h2>
+												<h2 class="count_flow mt0"><i>1</i>产品研发能力</h2>
 												<ul class="ul_list">
 													<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 														<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术人员数量比例(%)：</span>
@@ -168,7 +168,8 @@
 											</div>
 										</li>
 										</ul>
-
+                    
+                    <div class="clear"></div>
 										<h2 class="count_flow"><i>2</i>资质证书信息</h2>
 										<div class="ul_list">
 											<table class="table table-bordered table-condensed table-hover">

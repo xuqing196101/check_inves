@@ -110,7 +110,8 @@
             </li>
           </ul>
           
-          <h2 class="count_flow mt0"><i>1</i>审核信息</h2>
+          <div class="clear"></div>
+          <h2 class="count_flow"><i>1</i>审核信息</h2>
           <ul class="ul_list hand">
 	          <table class="table table-bordered table-condensed table-hover">
 	            <thead>
@@ -158,8 +159,8 @@
 	          </table>
 	        </ul>
 	        
-
-            <h2 class="count_flow mt0"><i>2</i>意见信息</h2>
+            <div class="clear"></div>
+            <h2 class="count_flow"><i>2</i>意见信息</h2>
             <ul class="ul_list">
               <li>
                 <div class="select_check" id="selectOptionId">

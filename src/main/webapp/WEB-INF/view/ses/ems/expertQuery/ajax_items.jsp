@@ -6,14 +6,9 @@
 <head>
 <script type="text/javascript">
 	$(function() {
-		//默认不显示叉
-		$("td").each(function() {
-			$(this).find("p").hide();
-		});
-
 		// 加载完成后关闭layer.load()加载层
 		layer.close(loading);
-		laypage({
+		/* laypage({
 			cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
             pages: "${result.pages}", //总页数
             skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
@@ -35,7 +30,7 @@
 					$("#tbody_category").load(path);
 				}
 			}
-		});
+		}); */
 	});
 </script>
 </head>

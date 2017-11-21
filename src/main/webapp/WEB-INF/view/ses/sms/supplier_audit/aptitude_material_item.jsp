@@ -32,7 +32,7 @@
 									  			<a href="javascript:void(0);"><img id="show_td${qua.id}" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></a>&nbsp;&nbsp;${qua.name}
 									  		</div> --%>
 									  		<c:if test="${!fn:contains(unableField,obj.categoryId.concat('_').concat(qua.id))}">
-                          <div class="m_inline" onclick="reasonProject('${ids }','${obj.categoryId }','${obj.categoryName }','${vss.index + 1}','${qua.id}','${qua.name}')">
+                          <div class="m_inline" onclick="reasonProject('${ind}','${obj.categoryId }','${obj.categoryName }','${vss.index + 1}','${qua.id}','${qua.name}')">
 										  			<c:if test="${!fn:contains(auditField,obj.categoryId.concat('_').concat(qua.id))}">
 										  				<a href="javascript:void(0);"><img id="show_td${qua.id}" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></a>&nbsp;&nbsp;${qua.name}
 										  			</c:if>

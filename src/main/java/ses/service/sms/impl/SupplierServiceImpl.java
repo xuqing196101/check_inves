@@ -2267,7 +2267,13 @@ public class SupplierServiceImpl implements SupplierService {
                           .append(" ").append(contactAddress == null ? "" : contactAddress).toString());
               }
               // 状态
-              sup.setStatusString(SupplierConstants.STATUSMAP.get(sup.getStatus()));
+              Integer auditTemporary = sup.getAuditTemporary();
+              if(auditTemporary != null && auditTemporary != 0){
+                  sup.setStatusString(SupplierConstants.STATUSMAP_AUDITTEMPORARY.get(auditTemporary));
+              } else {
+                  sup.setStatusString(SupplierConstants.STATUSMAP.get(sup.getStatus()));
+              }
+
               // 清空数据封装
               supTypeSB.delete(0, supTypeSB.length());
               supCategrySB2.delete(0, supCategrySB2.length());

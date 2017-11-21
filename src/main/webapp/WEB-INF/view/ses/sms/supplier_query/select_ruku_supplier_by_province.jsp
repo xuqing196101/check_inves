@@ -390,8 +390,8 @@
 					<div class="row mauto_n5 f14">
 						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
 							<div class="row mauto_n5">
-								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="供应商名称">供应商名称：</div>
-								<div class="col-md-9 col-xs-7 pauto_5">
+								<div class="col-xs-5 pauto_5 tr text-nowrapEl" title="供应商名称">供应商名称：</div>
+								<div class="col-xs-7 pauto_5">
 									<input id="supplierName" class="w100p mb0" name="supplierName" value="${supplier.supplierName }" type="text">
 								</div>
 							</div>
@@ -399,8 +399,8 @@
 						
 						<%-- <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
 							<div class="row mauto_n5">
-								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl">用户名：</div>
-								<div class="col-md-9 col-xs-7 pauto_5">
+								<div class="col-xs-5 pauto_5 tr text-nowrapEl">用户名：</div>
+								<div class="col-xs-7 pauto_5">
 									<input id="loginName" class="w100p" name="loginName" value="${supplier.loginName }" type="text">
 								</div>
 							</div>
@@ -408,8 +408,8 @@
 						
 						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
 							<div class="row mauto_n5">
-								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="联系人">联系人：</div>
-								<div class="col-md-9 col-xs-7 pauto_5">
+								<div class="col-xs-5 pauto_5 tr text-nowrapEl" title="联系人">联系人：</div>
+								<div class="col-xs-7 pauto_5">
 									<input id="contactName" class="w100p mb0" name="contactName" value="${supplier.contactName }" type="text">
 								</div>
 							</div>
@@ -417,8 +417,8 @@
 						
 						<%-- <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
 							<div class="row mauto_n5">
-								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl">手机号：</div>
-								<div class="col-md-9 col-xs-7 pauto_5">
+								<div class="col-xs-5 pauto_5 tr text-nowrapEl">手机号：</div>
+								<div class="col-xs-7 pauto_5 f">
 									<input id="mobile" class="w100p" name="mobile" value="${supplier.mobile }" type="text">
 								</div>
 							</div>
@@ -426,9 +426,9 @@
 						
 						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
 							<div class="row mauto_n5">
-								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="企业性质">企业性质：</div>
-								<div class="col-md-9 col-xs-7 pauto_5">
-									<select name="businessNature" id="businessNature" class="w100p mb0">
+								<div class="col-xs-5 pauto_5 tr text-nowrapEl" title="企业性质">企业性质：</div>
+								<div class="col-xs-7 pauto_5 f0">
+									<select name="businessNature" id="businessNature" class="w100p mb0 f14">
 			              <option value=''>全部</option>
 			              <c:forEach items="${businessNature}" var="list">
 			              	<option <c:if test="${supplier.businessNature eq list.id }">selected</c:if> value="${list.id }">${list.name }</option>
@@ -440,8 +440,8 @@
 						
 						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
 							<div class="row mauto_n5">
-								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="供应商类型">供应商类型：</div>
-								<div class="col-md-9 col-xs-7 pauto_5">
+								<div class="col-xs-5 pauto_5 tr text-nowrapEl" title="供应商类型">供应商类型：</div>
+								<div class="col-xs-7 pauto_5">
 									<input id="supplierType" class="w100p mb0" name="supplierType" readonly value="${supplierType }" onclick="showSupplierType();" type="text">
 									<input type="hidden" name="supplierTypeIds" id="supplierTypeIds" value="${supplierTypeIds }">
 								</div>
@@ -450,8 +450,8 @@
 						
 						<%-- <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
 							<div class="row mauto_n5">
-								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="品目">品目：</div>
-								<div class="col-md-9 col-xs-7 pauto_5">
+								<div class="col-xs-5 pauto_5 tr text-nowrapEl" title="品目">品目：</div>
+								<div class="col-xs-7 pauto_5">
 									<input id="category" class="w100p mb0" name="categoryNames" value="${categoryNames }" readonly onclick="showCategory();" type="text">
 		              <input type="hidden" name="categoryIds" id="categoryIds" value="${categoryIds }">
 								</div>
@@ -460,8 +460,8 @@
 						
 						<%-- <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
 							<div class="row mauto_n5">
-								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="供应商级别">供应商级别：</div>
-								<div class="col-md-9 col-xs-7 pauto_5">
+								<div class="col-xs-5 pauto_5 tr text-nowrapEl" title="供应商级别">供应商级别：</div>
+								<div class="col-xs-7 pauto_5 f0">
 									<select name="score" class="w100p mb0">
 			              <option selected="selected" value=''>-请选择-</option>
 			              <option value="1">一级</option>
@@ -476,9 +476,9 @@
 						
 						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
 							<div class="row mauto_n5">
-								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="供应商状态">供应商状态：</div>
-								<div class="col-md-9 col-xs-7 pauto_5">
-									<select id="status" name="status" class="w100p mb0">
+								<div class="col-xs-5 pauto_5 tr text-nowrapEl" title="供应商状态">供应商状态：</div>
+								<div class="col-xs-7 pauto_5 f0">
+									<select id="status" name="status" class="w100p mb0 f14">
 										<option value=''>全部</option>
 										<!-- <option value="1">审核通过</option>
 										<option value="4">待复核</option>
@@ -496,8 +496,8 @@
 						
 						<%-- <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
 							<div class="row mauto_n5">
-								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="临时供应商">临时供应商：</div>
-								<div class="col-md-9 col-xs-7 pauto_5">
+								<div class="col-xs-5 pauto_5 tr text-nowrapEl" title="临时供应商">临时供应商：</div>
+								<div class="col-xs-7 pauto_5 f0">
 									<select name="isProvisional" id="isProvisional" class="w100p mb0">
 			              <option value=''>全部</option>
 			              <option value='1' <c:if test="${supplier.isProvisional eq '1' }">selected</c:if>>是</option>
@@ -509,13 +509,13 @@
 						
 						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
 							<div class="row mauto_n5">
-								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="审核日期">审核日期：</div>
-								<div class="col-md-9 col-xs-7 pauto_5">
+								<div class="col-xs-5 pauto_5 tr text-nowrapEl" title="审核日期">审核日期：</div>
+								<div class="col-xs-7 pauto_5 f0">
 									<div class="row mauto_n5">
 										<div class="col-xs-5 pauto_5">
 											<input id="startAuditDate" name="startAuditDate" class="Wdate w100p mb0" type="text"  value='<fmt:formatDate value="${supplier.startAuditDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('startAuditDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'startAuditDate\')}'})">
 										</div>
-				            <div class="col-xs-2 pauto_5 tc">至</div>
+				            <div class="col-xs-2 pauto_5 tc f16">至</div>
 										<div class="col-xs-5 pauto_5">
 											<input id="endAuditDate" name="endAuditDate" value='<fmt:formatDate value="${supplier.endAuditDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100p mb0" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'endAuditDate\')}'})">
 										</div>
@@ -526,9 +526,9 @@
 						
 						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
 							<div class="row mauto_n5">
-								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="采购机构">采购机构：</div>
-								<div class="col-md-9 col-xs-7 pauto_5">
-									<select name="orgName" id="orgName" class="w100p mb0">
+								<div class="col-xs-5 pauto_5 tr text-nowrapEl" title="采购机构">采购机构：</div>
+								<div class="col-xs-7 pauto_5 f0">
+									<select name="orgName" id="orgName" class="w100p mb0 f14">
 		                <option value=''>全部</option>
 		                <c:forEach items="${allOrg}" var="org">
 		                  <c:if test="${org.isAuditSupplier == 1}">
@@ -543,9 +543,9 @@
 						<c:if test ="${sign == 2 }">
 						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
 							<div class="row mauto_n5">
-								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="地区">地区：</div>
-								<div class="col-md-9 col-xs-7 pauto_5">
-									<select name="address" id="address" class="w100p mb0">
+								<div class="col-xs-5 pauto_5 tr text-nowrapEl" title="地区">地区：</div>
+								<div class="col-xs-7 pauto_5 f0">
+									<select name="address" id="address" class="w100p mb0 f14">
 	                  <option value=''>全部</option>
 	                  <c:forEach items="${privnce}" var="list">
 	                    <option value="${list.id }">${list.name }</option>
@@ -557,8 +557,8 @@
 						
 						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10">
 							<div class="row mauto_n5">
-								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="供应商品目">供应商品目：</div>
-								<div class="col-md-9 col-xs-7 pauto_5">
+								<div class="col-xs-5 pauto_5 tr text-nowrapEl" title="供应商品目">供应商品目：</div>
+								<div class="col-xs-7 pauto_5">
 									<input class="span2 w100p mb0" name="queryCategoryName" id="supplierGradeInput" type="text" name="" readonly value="${supplier.queryCategoryName }" onclick="initZtree(true);">
 									<input type="hidden" name="queryCategory" id="supplierGradeInputVal" value="${supplier.queryCategory}">
 								</div>
@@ -567,9 +567,9 @@
 						
 						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 pauto_5 mb10 hide" id="supplierLevelLi">
 							<div class="row mauto_n5">
-								<div class="col-md-3 col-xs-5 pauto_5 tr text-nowrapEl" title="供应商等级">供应商等级：</div>
-								<div class="col-md-9 col-xs-7 pauto_5">
-									<select name="supplierLevel" id="supplierLevel" class="w100p mb0">
+								<div class="col-xs-5 pauto_5 tr text-nowrapEl" title="供应商等级">供应商等级：</div>
+								<div class="col-xs-7 pauto_5 f0">
+									<select name="supplierLevel" id="supplierLevel" class="w100p mb0 f14">
 									  <option selected="selected" value=''>全部</option>
 									  <option value="一级">一级</option>
 									  <option value="二级">二级</option>
@@ -612,11 +612,11 @@
 					<thead>
 						<tr>
 							<th class="info w50">序号</th>
-							<th class="info w100">采购机构</th>
-							<th class="info w170">供应商名称</th>
-							<th class="info w80">地区</th>
+							<th class="info w150">采购机构</th>
+							<th class="info w250">供应商名称</th>
+							<th class="info w150">地区</th>
 							<th class="info w70">企业性质</th>
-							<th class="info w80">供应商类型</th>
+							<th class="info w150">供应商类型</th>
 							<th class="info w90">注册日期</th>
 							<th class="info w90">最新提交日期</th>
 							<th class="info w90">最新审核日期</th>
@@ -644,22 +644,24 @@
 						<c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
 							<tr>
 								<td class="tc">${(vs.count)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
-								<td class="hand" title="${list.orgName}">
+								<td class="tl">${list.orgName}</td>
+								<%-- <td class="hand" title="${list.orgName}">
 									<c:if test="${fn:length (list.orgName) > 10}">${fn:substring(list.orgName,0,10)}...</c:if>
 									<c:if test="${fn:length (list.orgName) <= 10}">${list.orgName}</c:if>
-								</td>
+								</td> --%>
 								<td class="hand" title="${list.supplierName}">
 									<a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/supplierQuery/essential.html?judge=5&supplierId=${list.id}&sign=${sign}')">
-										<c:if test="${fn:length (list.supplierName) > 11}">${fn:substring(list.supplierName,0,11)}...</c:if>
-										<c:if test="${fn:length (list.supplierName) <= 11}">${list.supplierName}</c:if>
+										<c:if test="${fn:length (list.supplierName) > 15}">${fn:substring(list.supplierName,0,15)}...</c:if>
+										<c:if test="${fn:length (list.supplierName) <= 15}">${list.supplierName}</c:if>
 									</a>
 								</td>
-								<td class="">${list.name }</td>
+								<td class="">${list.name}</td>
 								<td class="tc">${list.businessNature}</td>
-								<td class="hand" title="${list.supplierType}">
-									<c:if test="${fn:length (list.supplierType) > 4}">${fn:substring(list.supplierType,0,4)}...</c:if>
-									<c:if test="${fn:length (list.supplierType) <= 4}">${list.supplierType}</c:if>
-								</td>
+								<td class="">${list.supplierType}</td>
+								<%-- <td class="hand" title="${list.supplierType}">
+									<c:if test="${fn:length (list.supplierType) > 10}">${fn:substring(list.supplierType,0,10)}...</c:if>
+									<c:if test="${fn:length (list.supplierType) <= 10}">${list.supplierType}</c:if>
+								</td> --%>
 								<td class="tc">
 									<fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd" />
 								</td>
@@ -671,11 +673,11 @@
 								</td>
 							<%--<td class="">${list.contactName }</td>
 								<td class="tc">${list.mobile }</td>--%>
-                                <td class="tc">
-                                    <c:if test="${!empty list.instorageAt}">
-                                        <fmt:formatDate value="${ list.instorageAt }" pattern="yyyy-MM-dd"/>
-                                    </c:if>
-                                </td>
+								<td class="tc">
+							    <c:if test="${!empty list.instorageAt}">
+						        <fmt:formatDate value="${ list.instorageAt }" pattern="yyyy-MM-dd"/>
+							    </c:if>
+								</td>
 								<td class="tc">
 									<%-- <c:if test="${list.status==1 }"><span class="label rounded-2x label-u">审核通过</span></c:if>
 									<c:if test="${list.status==4 }"><span class="label rounded-2x label-dark">待复核</span></c:if>
