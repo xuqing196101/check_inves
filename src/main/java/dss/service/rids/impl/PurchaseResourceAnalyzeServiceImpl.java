@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ses.constants.SupplierConstants;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.ems.ExpertCategoryMapper;
 import ses.dao.ems.ExpertMapper;
@@ -30,6 +31,7 @@ import ses.util.DictionaryDataUtil;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -234,6 +236,27 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	}
 
 	/**
+	 *
+	 * Description: 查询地区下所对应的供应商
+	 *
+	 * @author Easong
+	 * @version 2017年11月13日
+	 * @return
+	 */
+	@Override
+	public List<AnalyzeBigDecimal> selectSuppliersByArea() {
+	    Map<String, Object> map = new HashMap<>();
+	    // 获取入库状态
+        map.put("supplierStatusList", Arrays.asList(SupplierConstants.INSTORAGE_STATUS));
+		List<AnalyzeBigDecimal> list = supplierMapper.selectSuppliersByArea(map);
+		// 设置地区
+		setArea(list);
+		return list;
+	}
+
+
+
+	/**
 	 * 
 	 * Description: 查询入库专家数量
 	 * 
@@ -430,9 +453,13 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 		// 获取男女数据词典
 		List<DictionaryData> dictList = DictionaryDataUtil.find(13);
 		if(dictList != null && !dictList.isEmpty()){
-			BigDecimal count;
+			BigDecimal count = null;
 			for (DictionaryData dict : dictList) {
 				count = purchaseInfoMapper.selectMenberByGender(dict.getId());
+				// 取数据则不显示
+				if(count != null && count.compareTo(BigDecimal.ZERO) == 0){
+					continue;
+				}
 				setAnalyzeBigDate(count, dict.getName(), null, dict.getId(), list);
 			}
 		}

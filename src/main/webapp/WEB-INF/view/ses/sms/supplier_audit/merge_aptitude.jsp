@@ -8,7 +8,6 @@
 <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <title>产品类别及资质合同</title>
 <script	src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/aptitude.js"></script>
-<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script>
 <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/aptitude_items.js"></script>
 </head>
 <body>
@@ -45,7 +44,10 @@
 			<div class="col-md-12 tab-v2 job-content">
 				<%-- <%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%> --%>
         <jsp:include page="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp">
-        	<jsp:param value="${supplierStatus }" name="supplierStatus"/>
+        	<jsp:param value="five" name="currentStep"/>
+         	<jsp:param value="${supplierId }" name="supplierId"/>
+         	<jsp:param value="${supplierStatus }" name="supplierStatus"/>
+         	<jsp:param value="${sign }" name="sign"/>
         </jsp:include>
 				<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab count_flow ">
 				</ul>
@@ -54,6 +56,7 @@
 				  <c:if test="${isAudit}">
             <button class="btn btn-windows cancel" type="button" onclick="auditCategory('content_1');">不通过</button>
             <button class="btn btn-windows cancel" type="button" onclick="auditContract('content_1');">退回合同</button>
+            <button class="btn btn-windows edit" type="button" onclick="updateAudit('content_1');">更新审核</button>
           </c:if>
         </div>
 					<table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_1">
@@ -79,6 +82,7 @@
 				  <c:if test="${isAudit}">
             <button class="btn btn-windows cancel" type="button" onclick="auditCategory('content_2');">不通过</button>
             <button class="btn btn-windows cancel" type="button" onclick="auditContract('content_2');">退回合同</button>
+            <button class="btn btn-windows edit" type="button" onclick="updateAudit('content_2');">更新审核</button>
           </c:if>
                 </div>
                     <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_2">
@@ -104,6 +108,7 @@
                 <div class="mb10">
                   <c:if test="${isAudit}">
                     <button class="btn btn-windows cancel" type="button" onclick="auditCategory('content_3');">不通过</button>
+                    <button class="btn btn-windows edit" type="button" onclick="updateAudit('content_3');">更新审核</button>
                   </c:if>
                 </div>
                     <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_3">
@@ -128,6 +133,7 @@
                    <c:if test="${isAudit}">
                      <button class="btn btn-windows cancel" type="button" onclick="auditCategory('content_4');">不通过</button>
                      <button class="btn btn-windows cancel" type="button" onclick="auditContract('content_4');">退回合同</button>
+                     <button class="btn btn-windows edit" type="button" onclick="updateAudit('content_4');">更新审核</button>
                    </c:if>
                 </div>
                     <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_4">

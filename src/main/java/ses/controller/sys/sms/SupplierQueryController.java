@@ -73,6 +73,7 @@ import ses.service.sms.SupplierTypeService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
+import ses.util.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -226,9 +227,6 @@ public class SupplierQueryController extends BaseSupplierController {
         if (status != null){
             sup.setStatus(status);
         }*/
-    	
-    	
-    	
         if (categoryIds != null && !"".equals(categoryIds)){
             List<String> listCategoryIds = Arrays.asList(categoryIds.split(","));
             sup.setItem(listCategoryIds);
@@ -244,14 +242,14 @@ public class SupplierQueryController extends BaseSupplierController {
  		model.addAttribute("businessNature", businessNature);
         
         //开始循环 判断地址是否
-        Map<String, Integer> map = supplierEditService.getMap();
+        Map<String, Object> map = supplierEditService.getMapArea();
         Integer maxCount = 0;
         for (Supplier supplier:listSupplier) {
-            for (Map.Entry<String, Integer> entry:map.entrySet()) {   
-                if (supplier.getName() != null && !"".equals(supplier.getName()) && supplier.getName().indexOf(entry.getKey()) != -1){
-                    map.put((String) entry.getKey(), (Integer) map.get(entry.getKey()) + 1);
-                    if (maxCount < map.get(entry.getKey())) {
-                        maxCount = map.get(entry.getKey());
+            for (Map.Entry<String, Object> entry:map.entrySet()) {
+                if(supplier.getArea() != null && !"".equals(supplier.getArea().getName()) && supplier.getArea().getName().indexOf(entry.getKey().split(",")[0]) != -1){
+                    map.put(entry.getKey(), (Integer)map.get(entry.getKey()) + 1);
+                    if (maxCount < (Integer)map.get(entry.getKey())) {
+                        maxCount = (Integer)map.get(entry.getKey());
                     }
                     break;
                 }
@@ -261,10 +259,17 @@ public class SupplierQueryController extends BaseSupplierController {
             maxCount =2500;
         }
         List<Maps> listMap = new LinkedList<Maps>();
-        for (Map.Entry<String, Integer> entry:map.entrySet()) {   
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
             Maps mp = new Maps();
-            mp.setValue(new BigDecimal(entry.getValue()));
-            mp.setName(entry.getKey());
+            mp.setValue(new BigDecimal((Integer) entry.getValue()));
+            String key = entry.getKey();
+            String[] split = key.split(",");
+            if(split != null && split.length > 1){
+                // 设置名称
+                mp.setName(split[0]);
+                // 设置ID
+                mp.setId(split[1]);
+            }
             listMap.add(mp);
         }
         //全部机构
@@ -305,31 +310,11 @@ public class SupplierQueryController extends BaseSupplierController {
      */
     @RequestMapping("/findSupplierByPriovince")
     public String findSupplierByPriovince(Integer judge, Integer sign, Supplier sup, Integer page, Model model, String supplierTypeIds, String supplierType, String categoryNames, String categoryIds, String reqType) throws UnsupportedEncodingException{
-        /*if (judge != null) {
-            sup.setStatus(judge);
-        }*/
-    	if(sup.getAddress() != null){
-    		model.addAttribute("address", sup.getAddress());
-            String address = supplierEditService.getProvince(sup.getAddress());
-            if ("".equals(address)) {
-                String addressName = URLDecoder.decode(sup.getAddress(), "UTF-8");
-                if (addressName.length() > NUMBER_TWO) {
-                    sup.setAddress(addressName.substring(0, NUMBER_THREE).replace(",", ""));
-                    model.addAttribute("address", sup.getAddress());
-                } else {
-                    sup.setAddress(addressName.substring(0, NUMBER_TWO).replace(",", ""));
-                    model.addAttribute("address", sup.getAddress());
-                }
-            } else {
-                sup.setAddress(address);
-            }
-    	}
-        
-        if (categoryIds != null && !"".equals(categoryIds)) {
+        if (StringUtils.isNotEmpty(categoryIds)) {
             List<String> listCategoryIds = Arrays.asList(categoryIds.split(","));
             sup.setItem(listCategoryIds);
         }
-        if (supplierTypeIds != null && !"".equals(supplierTypeIds)) {
+        if (StringUtils.isNotEmpty(supplierTypeIds)) {
             List<String> listSupplierTypeIds = Arrays.asList(supplierTypeIds.split(","));
             sup.setItemType(listSupplierTypeIds);
         }
@@ -2317,27 +2302,7 @@ public class SupplierQueryController extends BaseSupplierController {
 	public String readOnlyList(Integer judge, Integer sign, Supplier sup,
 			Integer page, Model model, String supplierTypeIds,
 			String supplierType, String categoryNames, String categoryIds,
-			SupplierAnalyzeVo supplierAnalyzeVo) throws UnsupportedEncodingException {
-		if (sup.getAddress() != null) {
-			model.addAttribute("address", sup.getAddress());
-			String address = supplierEditService.getProvince(sup.getAddress());
-			if ("".equals(address)) {
-				String addressName = URLDecoder.decode(sup.getAddress(),
-						"UTF-8");
-				if (addressName.length() > NUMBER_TWO) {
-					sup.setAddress(addressName.substring(0, NUMBER_THREE)
-							.replace(",", ""));
-					model.addAttribute("address", sup.getAddress());
-				} else {
-					sup.setAddress(addressName.substring(0, NUMBER_TWO)
-							.replace(",", ""));
-					model.addAttribute("address", sup.getAddress());
-				}
-			} else {
-				sup.setAddress(address);
-			}
-		}
-
+			SupplierAnalyzeVo supplierAnalyzeVo) {
 		if (categoryIds != null && !"".equals(categoryIds)) {
 			List<String> listCategoryIds = Arrays
 					.asList(categoryIds.split(","));
@@ -2447,17 +2412,19 @@ public class SupplierQueryController extends BaseSupplierController {
      */
     @RequestMapping("/exportExcel")
     public void exportExcel(HttpServletResponse httpServletResponse, Supplier supplier) {
-        ExcelUtils excelUtils = new ExcelUtils(httpServletResponse, "供应商信息", "sheet1", 500);
+        ExcelUtils excelUtils = new ExcelUtils(httpServletResponse, "供应商信息", "sheet1", 3000);
         // 设置冻结行
         excelUtils.setFreezePane(true);
         excelUtils.setFreezePane(new Integer[]{0, 1, 0, 1});
+        // 设置序号列
+        excelUtils.setOrder(true);
         //ExcelUtils excelUtils = new ExcelUtils("./test.xls", "sheet1");
         List<Supplier> dataList = supplierService.querySupplierbytypeAndCategoryIds(null, supplier);
         String titleColumn[] = {"orderNum", "supplierName", "businessNature", "supplierType",
-                "address", "contactName", "mobile", "contactMobile", "statusString", "supplierItemIds", "auditDate"};
-        String titleName[] = {"序号", "供应商名称", "企业性质", "供应商类型", "住所地址", "军品联系人",
+                "address", "contactName", "mobile", "contactMobile", "statusString", "supplierItemIds", "instorageAt"};
+        String titleName[] = {"序号", "供应商名称", "企业性质", "供应商类型", "住所地址", "军队联系人",
                 "联系手机", "联系固话", "状态", "产品类别", "入库时间"};
-        int titleSize[] = {5, 40, 10, 35, 42, 13, 13, 13, 20, 70, 22};
+        int titleSize[] = {5, 40, 10, 35, 42, 13, 13, 16, 20, 70, 22};
         excelUtils.wirteExcel(titleColumn, titleName, titleSize, dataList);
     }
 }

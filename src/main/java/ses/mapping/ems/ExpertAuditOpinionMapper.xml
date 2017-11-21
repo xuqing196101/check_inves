@@ -53,6 +53,9 @@
       <if test="isDownLoadAttch != null" >
         IS_DOWNLOAD_ATTCH = #{isDownLoadAttch,jdbcType=DECIMAL},
       </if>
+      <if test="id != null" >
+        ID = #{id},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>

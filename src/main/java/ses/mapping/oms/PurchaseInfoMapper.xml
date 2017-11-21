@@ -284,7 +284,8 @@
 			    ON P.PURCHASE_DEP_ID = O.ID
 			 WHERE O.TYPE_NAME = 1
 			   AND O.IS_DELETED = 0
-			 GROUP BY O.SHORT_NAME, O.ID
+			 GROUP BY O.SHORT_NAME, O.ID, O.POSITION
+			 ORDER BY O.POSITION
 	</select>
 	
 	<!-- 各类型人员数量 -->

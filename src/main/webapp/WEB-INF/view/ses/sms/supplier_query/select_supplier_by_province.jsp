@@ -1,12 +1,18 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
 <%@ page import="ses.constants.SupplierConstants" %>
+<%@ page import="ses.model.bms.User" %>
+<% 
+	String account = ((User)session.getAttribute(SupplierConstants.KEY_SESSION_LOGIN_USER)).getLoginName();
+	boolean isAccountToAudit = SupplierConstants.isAccountToAudit(account);
+%>
+<c:set var="isAccountToAudit" value="<%=isAccountToAudit %>" />
 
 <!DOCTYPE HTML >
 <html>
 	<head>
 		<%@ include file="../../../common.jsp"%>
-        <script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/supplier_query/select_supplier_by_province.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/supplier_query/select_supplier_by_province.js"></script>
 		<script type="text/javascript">
 			$(function() {
 				laypage({
@@ -32,8 +38,6 @@
 					}
 				});
 			});
-
-
 
 			function fanhui() {
 				window.location.href = "${pageContext.request.contextPath}/supplierQuery/highmaps.html";
@@ -77,6 +81,8 @@
 						optionScore[i].selected = true;
 					}
 				}
+				// 回显地区
+                $("#address").val('${supplier.address}');
 			});
 		</script>
 		<script type="text/javascript">
@@ -569,17 +575,17 @@
                 <select name="address" id="address" class="w220">
                   <option value=''>全部</option>
                   <c:forEach items="${privnce}" var="list">
-                    <option <c:if test="${supplier.address eq list.name }">selected</c:if> value="${list.name }">${list.name }</option>
+                    <option value="${list.id}">${list.name }</option>
                   </c:forEach>
                 </select>
               </li>
             </c:if>
-                <c:if test ="${sign == 1 }">
-                    <li>
-                        <label class="fl">供应商品目：</label><span><input  class="w220" name="queryCategoryName" id="supplierGradeInput" class="span2 mt5" type="text" name=""  readonly value="${supplier.queryCategoryName }" onclick="initZtree(true);" />
-						<input type="hidden" name="queryCategory" id="supplierGradeInputVal" value="${supplier.queryCategory}"/></span>
-                    </li>
-                </c:if>
+            <c:if test ="${sign == 1 }">
+              <li>
+                <label class="fl">供应商品目：</label><span><input  class="w220" name="queryCategoryName" id="supplierGradeInput" class="span2 mt5" type="text" name=""  readonly value="${supplier.queryCategoryName }" onclick="initZtree(true);" />
+								<input type="hidden" name="queryCategory" id="supplierGradeInputVal" value="${supplier.queryCategory}"/></span>
+              </li>
+            </c:if>
 	        </ul>
 	          <div class="col-md-12 clear tc mt10">
             	<button type="button" onclick="submit()" class="btn">查询</button>
@@ -612,15 +618,17 @@
 						<tr>
 							<!-- <th class="info w50">选择</th> -->
 							<th class="info w50">序号</th>
-							<th class="info" width="10%">采购机构</th>
-							<th class="info" width="21%">供应商名称</th>
-							<th class="info" width="8%">地区</th>
-							<th class="info" width="7%">企业性质</th>
-							<th class="info" width="15%">供应商类型</th>
+							<th class="info w150">采购机构</th><!-- width="10%" -->
+							<th class="info w250">供应商名称</th><!-- width="20%" -->
+							<th class="info w150">地区</th><!-- width="8%" -->
+							<th class="info w70">企业性质</th><!-- width="6%" -->
+							<th class="info w150">供应商类型</th><!-- width="15%" -->
 							<th class="info w90">注册日期</th>
-							<th class="info w90">提交日期</th>
-							<th class="info w90">审核日期</th>
-							<th class="info" width="8%">供应商状态</th>
+							<th class="info w90">最新提交日期</th>
+							<th class="info w90">最新审核日期</th>
+							<th class="info w90">入库日期</th>
+							<th class="info w100">状态</th><!-- width="10%" -->
+							<c:if test="${isAccountToAudit}"><th class="info w50">操作</th></c:if><!-- width="3%" -->
 						</tr>
 					</thead>
 					<tbody>
@@ -633,7 +641,7 @@
                     <td class="tl">${list.orgName}</td>
                     <td class="hand" title="${list.supplierName}">
                         <c:choose>
-                            <c:when test="${list.status ==5 and list.isProvisional == 1 }">
+                            <c:when test="${list.status == 5 and list.isProvisional == 1 }">
                                 <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierQuery/temporarySupplier.html?supplierId=${list.id}&sign=${sign}')">
                                     <c:if test="${fn:length (list.supplierName) > 15}">${fn:substring(list.supplierName,0,15)}...</c:if>
                                     <c:if test="${fn:length (list.supplierName) <= 15}">${list.supplierName}</c:if>
@@ -658,6 +666,11 @@
                     </td>
                     <td class="tc">
                         <fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd"/>
+                    </td>
+                    <td class="tc">
+                        <c:if test="${!empty list.instorageAt}">
+                            <fmt:formatDate value="${list.instorageAt }" pattern="yyyy-MM-dd"/>
+                        </c:if>
                     </td>
                     <td class="tc">
                             <%-- <c:if test="${list.status==5 and list.isProvisional == 1}"><span class="label rounded-2x label-dark">临时</span></c:if>
@@ -699,9 +712,8 @@
                             <c:if test="${list.status!=5 }"><span class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if> --%>
 
                         <c:set var="label_color" value="label-dark"/>
-                        <c:if test="${list.status==5 || list.status==7 }"><c:set var="label_color"
-                                                                                 value="label-u"/></c:if>
-                        <c:if test="${list.status==5 and list.isProvisional == 1}"><span
+                        <c:if test="${list.status == 5 || list.status == 7}"><c:set var="label_color" value="label-u"/></c:if>
+                        <c:if test="${list.status == 5 and list.isProvisional == 1}"><span
                                 class="label rounded-2x label-dark">临时</span></c:if>
                         <c:if test="${list.status == 0 and list.auditTemporary != 1}"><span
                                 class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if>
@@ -717,9 +729,24 @@
                                 class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if>
                         <c:if test="${list.status == 5 and list.auditTemporary == 3 and list.isProvisional != 1}"><span
                                 class="label rounded-2x ${label_color}">${supplierAuditTemporaryStatusMap[list.auditTemporary]}</span></c:if>
-                        <c:if test="${list.status != 0 && list.status != 9 && list.status != 1 && list.status != 5 }"><span
+                        <c:if test="${list.status != 0 && list.status != 9 && list.status != 1 && list.status != 5}"><span
                                 class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if>
                     </td>
+                    <c:if test="${isAccountToAudit and list.status == 2}">
+                    	<td class="tc">
+                    		<a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/essential.html?supplierId=${list.id}&sign=${sign}')">标记</a>
+                    	</td>
+                    </c:if>
+                    <c:if test="${isAccountToAudit and list.status != 2}">
+                    	<td class="tc">
+                    		<c:if test="${list.status == 5 and list.isProvisional == 1}">
+                    			<a href="javascript:jumppage('${pageContext.request.contextPath}/supplierQuery/temporarySupplier.html?supplierId=${list.id}&sign=${sign}')">查看</a>
+                    		</c:if>
+                    		<c:if test="${list.isProvisional != 1}">
+                    			<a href="javascript:jumppage('${pageContext.request.contextPath}/supplierQuery/essential.html?supplierId=${list.id}&sign=${sign}')">查看</a>
+                    		</c:if>
+                    	</td>
+                    </c:if>
                 </tr>
 						</c:forEach>
 					</tbody>

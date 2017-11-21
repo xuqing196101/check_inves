@@ -209,4 +209,10 @@
         CONNECT BY PRIOR T.PARENT_ID = T.ID
         ORDER BY T.CREATED_AT
   </select>
+
+    <select id="selectByParentId" parameterType="map" resultMap="BaseResultMap">
+        SELECT ID, REPLACE(SUBSTR(A.NAME, 0, 3), '省', '') AS NAME
+          FROM T_SES_BMS_AREA A
+          WHERE PARENT_ID = #{parentId}
+    </select>
 </mapper>

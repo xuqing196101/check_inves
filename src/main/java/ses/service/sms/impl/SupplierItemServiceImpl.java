@@ -643,9 +643,9 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 
 	@Override
 	public void deleteBySupplierId(String supplierId) {
-	 Map<String,String> map=new HashMap<String,String>();
-	 map.put("supplierId", supplierId);
-	 supplierItemMapper.deleteByMap(map);
+		Map<String,String> map=new HashMap<String,String>();
+		map.put("supplierId", supplierId);
+		supplierItemMapper.deleteByMap(map);
 	}	
 	
 	public List<SupplierItem> queryBySupplierAndType(String supplierId,String type){
@@ -1047,16 +1047,16 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 		}
 		
 		if(saleList != null && saleList.size() > 0) {
-			int salelen = saleList.size() + 1;
-			for(int i = 1; i < salelen; i++) {
+			int len = saleList.size() + 1;
+			for(int i = 1; i < len; i++) {
 				sbUp.append("saleUp" + i + ",");
 				sbShow.append("saleShow" + i + ",");
 			}
 		}
 
 		if(serviceList != null && serviceList.size() > 0) {
-			int serverlen = serviceList.size() + 1;
-			for(int i = 1; i < serverlen; i++) {
+			int len = serviceList.size() + 1;
+			for(int i = 1; i < len; i++) {
 				sbUp.append("serverUp" + i + ",");
 				sbShow.append("serverShow" + i + ",");
 			}
@@ -1066,8 +1066,8 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 		map.put("proQua", proQua);
 		map.put("saleQua", saleQua);
 		map.put("serviceQua", serviceQua);
-		map.put("saleShow", sbShow.toString());
-		map.put("saleUp", sbUp.toString());
+		map.put("fileGroupShow", sbShow.toString());
+		map.put("fileGroupUp", sbUp.toString());
 		return map;
 	}
 	
@@ -1383,7 +1383,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 				cateTree.setDiyLevel(item.getLevel());
 				//每次都是最新
 				if(matEng.getListSupplierAptitutes() != null && !matEng.getListSupplierAptitutes().isEmpty()){
-					for (SupplierAptitute apt: matEng.getListSupplierAptitutes()){
+					for(SupplierAptitute apt: matEng.getListSupplierAptitutes()){
 						//proName="三大部分"  diyLevel="6B0CC322A1BF489898A3EF51DE9AA6AD"
 						//qualificationType="4D96D5A8CAF4E7E2E050007F0100A66F"
 						//System.out.println(apt.getCertCode()+","+apt.getCertType()+"==="+cateTree.getCertCode()+","+cateTree.getQualificationType());
