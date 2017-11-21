@@ -215,7 +215,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		
 		}
 		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
-		if(list.size()>0){
+		if(list.size()>0||"select".equals(expertBatchDetails.getRequestType())){
 			map.put("batchId", list.get(0).getBatchId());
 			map.put("batchName", list.get(0).getBatchName());
 			 // 查询数据字典中的专家来源配置数据
@@ -261,7 +261,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	            } else {
 	                e.setExpertsTypeId("");
 	            }
-	            
+	           
 	          //专家来源
 	      		if(e.getExpertsFrom() != null) {
 	      			DictionaryData expertsFrom = dictionaryDataMapper.selectByPrimaryKey(e.getExpertsFrom());

@@ -60,7 +60,14 @@ public class ExpertBatchDetails {
 	private String sort;
 	
 	private List<String> expertTypeId;
+	private String requestType;
 	
+	public String getRequestType() {
+		return requestType;
+	}
+	public void setRequestType(String requestType) {
+		this.requestType = requestType;
+	}
 	public List<String> getExpertTypeId() {
 		return expertTypeId;
 	}
