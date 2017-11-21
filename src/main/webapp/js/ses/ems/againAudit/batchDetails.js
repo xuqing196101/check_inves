@@ -11,7 +11,6 @@
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
         var userType = data.userType;
-        console.log(data);
         
         if (typeof(list_content) != null && typeof(list_content) != 'null' && typeof(list_content) != 'undefined') {
           $('#head_tit').html(list_content.batchName);
@@ -97,9 +96,10 @@
               $('#list_content').html('');
               for (var i in list_content.list) {
                 var btn = '';
+                console.log(typeof(list_content.list[i].reviewStatus));
                 
                 // 判断是否为重新复审状态
-                if (list_content.list[i].reviewStatus != '') {
+                if (typeof(list_content.list[i].reviewStatus) != null && typeof(list_content.list[i].reviewStatus) != 'null' && typeof(list_content.list[i].reviewStatus) != 'undefined') {
                   // 判断复审专家输出
                   if (list_content.list[i].status === '4' || list_content.list[i].status === '11' || list_content.list[i].status === '14') {
                     list_content.list[i].auditor = '';

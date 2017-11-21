@@ -945,7 +945,7 @@ function reexamination(expertId) {
     dataType: 'json',
     url: reexamination_url,
     data: {
-      expertId: expertId
+      id: expertId
     },
     success: function (data) {
       layer.msg(data.message, {
@@ -962,7 +962,7 @@ function cancel_reexamination(expertId) {
     dataType: 'json',
     url: cancel_reexamination_url,
     data: {
-      expertId: expertId
+      id: expertId
     },
     success: function (data) {
       layer.msg(data.message, {
