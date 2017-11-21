@@ -340,4 +340,13 @@
 			</foreach>
 		</if>
 	</select>
+	
+	<select id="selectLevelOfLogicIsAnd" parameterType="map" resultType="java.lang.String">
+		SELECT SUPPLIER_LEVEL FROM T_SES_SMS_SUPPLIER_ITEM_LEVEL WHERE 
+		SUPPLIER_ID = #{supplierId} AND CATEGORY_ID IN
+		<foreach collection="categoryIds" index="in" item="it" open="(" separator="," close=")">
+			#{it}
+		</foreach>
+		GROUP BY SUPPLIER_LEVEL
+	</select>
 </mapper>

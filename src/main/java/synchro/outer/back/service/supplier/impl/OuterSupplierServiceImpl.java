@@ -969,13 +969,13 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
      *
      * @param startTime
      * @param endTime
-     * @author Easong
+     * @author jiachengxiang
      * @version 2017/10/16
      * @since JDK1.7
      */
     @Override
     public void selectSupplierLevelOfExport(String startTime, String endTime) {
-    	// 查询注销供应商
+    	// 查询供应商等级
     	@SuppressWarnings("unchecked")
 		Map<String, Object> map = new HashedMap();
     	map.put("startTime", startTime);
@@ -998,7 +998,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
 	public void importSupplierLevel(File file) {
 		int num = 0;
         for (File file2 : file.listFiles()) {
-            // 抽取结果信息
+            // 供应商等级
             if (file2.getName().contains(FileUtils.SUPPLIER_LEVEL_FILENAME)) {
                 List<SupplierItemLevel> levelList = FileUtils.getBeans(file2, SupplierItemLevel.class);
                 num += levelList == null ? 0 : levelList.size();
