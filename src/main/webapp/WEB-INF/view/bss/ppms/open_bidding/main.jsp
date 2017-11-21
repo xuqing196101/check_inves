@@ -140,7 +140,7 @@
 		  for(var i=0;i<checks.length;i++){
 			  packages.push($(checks[i]).val());
 		  }
-		  if(passType=='1'){
+		  if(passType=='1'){//通过
 			  $.ajax({
 		    	   url:"${pageContext.request.contextPath}/packageAdvice/cometSubmit.html",
 		    	   data:{"packs":packages.join(","),"type":$("#passType").val(),"cometId":$("#cometId").val()},
@@ -160,7 +160,9 @@
 		    		   }
 		    	   }
 			  });
-		  }else if(passType=='1'){
+		  }else if(passType=='0'){//继续转竟谈
+			  
+		  }else if(passType=='2'){//终止
 			  
 		  }
 	  }
