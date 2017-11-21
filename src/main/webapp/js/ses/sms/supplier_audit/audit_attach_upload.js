@@ -1,7 +1,4 @@
 $(function () {
-    $("#reverse_of_eight").attr("class","active");
-    $("#reverse_of_eight").removeAttr("onclick");
-
     // 绑定审核通过和不通过事件
     /*$("#auditPass").click(function () {
         // -3:审核通过
@@ -15,17 +12,7 @@ $(function () {
         // 3:审核不通过
         audit();
     });
-
-})
-
-/**
- * 上一步
- */
-function lastStep(){
-    var action = globalPath + "/supplierAudit/reasonsList.html";
-    $("#form_id").attr("action",action);
-    $("#form_id").submit();
-}
+});
 
 /**
  * 审核
@@ -57,7 +44,7 @@ function audit(){
                         }, function () {
                             window.location.href = globalPath + "/supplierAudit/supplierAll.html";
                         }
-                    )
+                    );
                 } else {
                     if (data.status == 500) {
                         layer.alert(data.msg);

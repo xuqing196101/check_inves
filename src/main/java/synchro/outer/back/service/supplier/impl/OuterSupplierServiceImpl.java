@@ -501,7 +501,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
         supplier.setModifys(listModify);
 
         // 查询供应商审核记录表
-        Map<String, Object> map = new HashedMap();
+        Map<String, Object> map = new HashMap<>();
         map.put("supplierId", supplier.getId());
         List<SupplierAudit> supplierAudits = supplierAuditMapper.findByMap(map);
         supplier.setSupplierAudits(supplierAudits);
@@ -964,18 +964,19 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     }
     
     
+    
     /**
      * Description:查询供应商等级导出
      *
      * @param startTime
      * @param endTime
-     * @author Easong
+     * @author jiachengxiang
      * @version 2017/10/16
      * @since JDK1.7
      */
     @Override
     public void selectSupplierLevelOfExport(String startTime, String endTime) {
-    	// 查询注销供应商
+    	// 查询供应商等级
     	@SuppressWarnings("unchecked")
 		Map<String, Object> map = new HashedMap();
     	map.put("startTime", startTime);

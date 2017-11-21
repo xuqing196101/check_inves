@@ -110,6 +110,7 @@
             </li>
           </ul>
           
+          <div class="clear"></div>
           <h2 class="count_flow"><i>1</i>审核信息</h2>
           <ul class="ul_list hand">
 	          <table class="table table-bordered table-condensed table-hover">
