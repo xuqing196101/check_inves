@@ -112,7 +112,7 @@
 				<tr>
 				    <td class="tc w50">${vs.index+1 }</td>
 				    <td class="tl">${treemapValue.suppliers.supplierName}</td>
-				    <td class="tc">${treemapValue.total}</td>
+				    <td class="tr">${treemapValue.total}</td>
 				    <td class="tc">${treemapValue.deliveryTime }</td>
 			<%-- 	    <td class="tc">${treemapValue.isRemoved}</td>
 					<td class="tc">${treemapValue.removedReason}</td> --%>
