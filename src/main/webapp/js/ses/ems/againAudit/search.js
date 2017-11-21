@@ -66,8 +66,8 @@ function detailsBatch_search() {
   var orgName = $('[name=orgName] option:selected').val();  // 获取采购机构
   var expertsFrom = $('[name=expertsFrom] option:selected').val();  // 获取专家类型
   var expertsTypeId = $('[name=expertsTypeId]').val();  // 获取专家类别
-  var groupId = $('[name=groupId]').val();  // 获取审核组
-  var status = $('[name=status]').val();  // 获取审核状态
+  var groupId = $('[name=groupId] option:selected').val();  // 获取审核组
+  var status = $('[name=status] option:selected').val();  // 获取审核状态
   if (expertsTypeId != null) {
     expertsTypeId = expertsTypeId.join(',');
   }
