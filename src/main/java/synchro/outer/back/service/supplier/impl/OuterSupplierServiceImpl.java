@@ -996,7 +996,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
 	public void importSupplierLevel(File file) {
 		int num = 0;
         for (File file2 : file.listFiles()) {
-            // 抽取结果信息
+            // 供应商等级
             if (file2.getName().contains(FileUtils.SUPPLIER_LEVEL_FILENAME)) {
                 List<SupplierItemLevel> levelList = FileUtils.getBeans(file2, SupplierItemLevel.class);
                 num += levelList == null ? 0 : levelList.size();

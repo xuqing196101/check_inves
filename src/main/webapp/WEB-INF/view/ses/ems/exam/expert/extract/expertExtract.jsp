@@ -179,6 +179,7 @@
         </ul>
       </form>
       </div>
+      <div class="clear"></div>
       <h2 class="count_flow"><i>2</i>人员信息</h2>
       <div id="div_2">
         <ul class="ul_list">
@@ -236,6 +237,7 @@
        </form>
        </ul>
       </div>
+      <div class="clear"></div>
       <h2 class="count_flow"><i>3</i>抽取条件</h2>
       <div id="div_3">
       <!--地区id -->
@@ -307,7 +309,7 @@
         <div class="col-md-12 clear mt20 pt20 borderTS1 display-none" id="PROJECT">
           <form id="PROJECT_form">
             <!-- <input class="span5" type="hidden" name="cateCode" value="PROJECT"> -->
-            <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="PROJECT_count">0</span>家</button></div>
+            <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="PROJECT_count">0</span>人</button></div>
             <ul class="col-xs-10 p0">
               <li class="col-md-3 col-sm-4 col-xs-12 pl15 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 工程技术人数:</span>
@@ -355,7 +357,7 @@
         <!-- 工程经济 -->
         <div class="col-md-12 clear mt20 pt20 borderTS1 display-none" id="GOODS_PROJECT">
           <form id="GOODS_PROJECT_form">
-            <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="GOODS_PROJECT_count">0</span>家</button></div>
+            <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="GOODS_PROJECT_count">0</span>人</button></div>
             <ul class="col-xs-10 p0">
               <li class="col-md-3 col-sm-4 col-xs-12 pl15 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 工程经济人数:</span>
@@ -404,7 +406,7 @@
         <div class="col-md-12 clear mt20 pt20 borderTS1 display-none" id="GOODS">
           <form id="GOODS_form">
             <!-- <input class="span5" type="hidden" name="cateCode" value="GOODS"> -->
-            <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="GOODS_count">0</span>家</button></div>
+            <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="GOODS_count">0</span>人</button></div>
             <ul class="col-xs-10 p0">
               <li class="col-md-3 col-sm-4 col-xs-12 pl15 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 物资技术人数:</span>
@@ -414,12 +416,12 @@
                 </div>
               </li>
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
-                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 参评类别:</span>
+                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 参评类别:</span>
                 <input type="hidden" name="goods_isSatisfy" id= "goods_isSatisfy" class="isSatisfy">
                 <input type="hidden" name="goods_type" id="goods_type" class="categoryId">
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                   <input class="span5" type="text" readonly onclick="opens(this);" typeCode="GOODS" name=""> <span class="add-on">i</span>
-                  <div class="cue" id=""></div>
+                  <div class="cue" id="err_goods_type"></div>
                 </div>
               </li>
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
@@ -437,7 +439,7 @@
         <div class="col-md-12 clear mt20 pt20 borderTS1 display-none" id="SERVICE">
           <form id="SERVICE_form">
             <!-- <input class="span5" type="hidden" name="cateCode" value="SERVICE"> -->
-            <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="SERVICE_count">0</span>家</button></div>
+            <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="SERVICE_count">0</span>人</button></div>
             <ul class="col-xs-10 p0">
               <li class="col-md-3 col-sm-4 col-xs-12 pl15 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 服务技术人数:</span>
@@ -447,12 +449,12 @@
                 </div>
               </li>
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
-                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 参评类别:</span>
+                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 参评类别:</span>
                 <input type="hidden" name="service_isSatisfy" class="isSatisfy" id="service_isSatisfy">
                 <input type="hidden" name="service_type" class="categoryId" id="service_type">
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                   <input class="span5" type="text" readonly onclick="opens(this);" typeCode="SERVICE" name=""> <span class="add-on">i</span>
-                  <div class="cue" id=""></div>
+                  <div class="cue" id="err_service_type"></div>
                 </div>
               </li>
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
@@ -470,7 +472,7 @@
         <div class="col-md-12 clear mt20 pt20 borderTS1 display-none" id="GOODS_SERVER">
           <form id="GOODS_SERVER_form">
             <!-- <input class="span5" type="hidden" name="cateCode" value="GOODS_SERVER"> -->
-            <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="GOODS_SERVER_count">0</span>家</button></div>
+            <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="GOODS_SERVER_count">0</span>人</button></div>
             <ul class="col-xs-10 p0">
               <li class="col-md-3 col-sm-4 col-xs-12 pl15 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 物资服务经济人数:</span>
@@ -515,28 +517,6 @@
             <h2 class="count_flow">物资技术：确认参加的专家共有<span id="GOODS_result_count" class="f26 red">0</span>位，确认不参加的专家共有<span id="GOODS_result_no">0</span>位</h2>
             <div class="content">
               <table class="table table-bordered table-condensed table-hover table-striped" id="GOODS_result">
-                <thead>
-                  <tr>
-                    <th class="w50 info">序号</th>
-                    <th class="info w100">专家姓名</th>
-                    <th class="info w100">联系电话</th>
-                    <th class="info w120">专家类别</th>
-                    <th class="info">工作单位名称</th>
-                    <th class="info w140">技术职称（职务）</th>
-                    <th class="info w100">执业资格</th>
-                    <th class="info w80">备注</th>
-                    <th class="info w100">操作</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
-          </div>
-          <!-- 物资服务经济 -->
-          <div class="display-none" id="GOODS_SERVER_h">
-            <h2 class="count_flow">物资服务经济：确认参加的专家共有<span id="GOODS_SERVER_result_count" class="f26 red">0</span>位，确认不参加的专家共有<span id="GOODS_SERVER_result_no">0</span>位</h2>
-            <div class="content">
-              <table class="table table-bordered table-condensed table-hover table-striped" id="GOODS_SERVER_result">
                 <thead>
                   <tr>
                     <th class="w50 info">序号</th>
@@ -603,6 +583,28 @@
             <h2 class="count_flow">服务技术：确认参加的专家共有<span id="SERVICE_result_count" class="f26 red">0</span>位，确认不参加的专家共有<span id="SERVICE_result_no">0</span>位</h2>
             <div class="content">
               <table class="table table-bordered table-condensed table-hover table-striped" id="SERVICE_result">
+                <thead>
+                  <tr>
+                    <th class="w50 info">序号</th>
+                    <th class="info w100">专家姓名</th>
+                    <th class="info w100">联系电话</th>
+                    <th class="info w120">专家类别</th>
+                    <th class="info">工作单位名称</th>
+                    <th class="info w140">技术职称（职务）</th>
+                    <th class="info w100">执业资格</th>
+                    <th class="info w80">备注</th>
+                    <th class="info w100">操作</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+          <!-- 物资服务经济 -->
+          <div class="display-none" id="GOODS_SERVER_h">
+            <h2 class="count_flow">物资服务经济：确认参加的专家共有<span id="GOODS_SERVER_result_count" class="f26 red">0</span>位，确认不参加的专家共有<span id="GOODS_SERVER_result_no">0</span>位</h2>
+            <div class="content">
+              <table class="table table-bordered table-condensed table-hover table-striped" id="GOODS_SERVER_result">
                 <thead>
                   <tr>
                     <th class="w50 info">序号</th>

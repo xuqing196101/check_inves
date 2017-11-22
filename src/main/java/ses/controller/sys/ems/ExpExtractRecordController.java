@@ -228,7 +228,7 @@ public class ExpExtractRecordController extends BaseController {
             }
             
             // 根据包获取抽取出的专家
-            List<Map<String, Object>> list = projectExtractService.selectProExpert(projectId);
+            List<Map<String, Object>> list = projectExtractService.selectProResultExpert(projectId);
             if (list != null && !list.isEmpty()) {
                 for (Map<String, Object> map : list) {
                     for (Entry<String, Object> entry : map.entrySet()) {

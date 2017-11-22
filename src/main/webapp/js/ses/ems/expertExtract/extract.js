@@ -251,7 +251,7 @@ function validationIsNull(code){
     var num = 0;
     for(var i=0; i<strs.length; i++){
         if($("#"+strs[i]+"_count").text() == 0){
-            layer.msg("家数不足，无法抽取");
+            layer.msg("人数不足，无法抽取");
             flag = false;
         }
         var v = $("#"+strs[i].toLowerCase()+"_i_count").val();
@@ -263,8 +263,8 @@ function validationIsNull(code){
             flag = false;
         }else if(parseInt(v) > parseInt($("#"+strs[i]+"_count").text())){
             flag = false;
-            $("#err_"+strs[i].toLowerCase()+"_i_count").html("当前符合条件家数不足");
-            layer.msg("家数不足，无法抽取");
+            $("#err_"+strs[i].toLowerCase()+"_i_count").html("当前符合条件人数不足");
+            layer.msg("人数不足，无法抽取");
         }else{
             num += parseInt(coUndifined(v));
             $("#err_"+strs[i].toLowerCase()+"_i_count").html("");
@@ -278,6 +278,16 @@ function validationIsNull(code){
             }else{
                 $("#err_"+strs[i].toLowerCase()+"_eng_info").html("");
             }
+        }else{
+        	if(strs[i].toLowerCase() != "goods_server"){
+        		var typ = $("#"+strs[i].toLowerCase()+"_type").val();
+        		if(typ == null || typ == ""){
+        			$("#err_"+strs[i].toLowerCase()+"_type").html("参评类别不能为空");
+        			flag = false;
+        		}else{
+        			$("#err_"+strs[i].toLowerCase()+"_type").html("");
+        		}
+        	}
         }
     }
     //区域要求

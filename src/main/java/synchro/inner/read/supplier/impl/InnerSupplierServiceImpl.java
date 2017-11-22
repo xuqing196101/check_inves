@@ -1021,7 +1021,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 	@Override
 	public void selectSupplierLevelOfExport(String startTime, String endTime) {
 		// 查询注销供应商
-    	@SuppressWarnings("unchecked")
+		@SuppressWarnings("unchecked")
 		Map<String, Object> map = new HashedMap();
     	map.put("startTime", startTime);
     	map.put("endTime", endTime);
@@ -1033,7 +1033,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     	if (!levels.isEmpty()) {
     		FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_LEVEL_FILENAME, 37), JSON.toJSONString(levels, SerializerFeature.WriteMapNullValue));
     	}
-    	synchRecordService.synchBidding(null, new Integer(levels.size()).toString(), synchro.util.Constant.DATE_SYNCH_SUPPLIER_LEVEL, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.SUPPLIER_LEVEL_COMMIT);
+    	synchRecordService.synchBidding(null, levels.size()+"", synchro.util.Constant.DATE_SYNCH_SUPPLIER_LEVEL, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.SUPPLIER_LEVEL_COMMIT);
 	}
 
 }
