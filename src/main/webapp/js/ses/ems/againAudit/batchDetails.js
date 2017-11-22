@@ -233,20 +233,38 @@
                   list_content.list[i].expertsFrom = '';
                 }
                 
-                $('#list_content').append('<tr><input id="'+ list_content.list[i].expertId +'" type="hidden">'
-              	+'<td class="text-center"><input type="checkbox" value="'+ list_content.list[i].expertId +'" class="select_item"></td>'
-                  +'<td class="text-center break-all">'+ list_content.list[i].batchDetailsNumber +'</td>'
-                  +'<td class="text-center break-all">'+ list_content.list[i].orgName +'</td>'
-                  +'<td class="text-center break-all" onclick="viewDetails(\''+ list_content.list[i].expertId +'\');"><a href="javascript:void(0)">'+ list_content.list[i].realName +'</a></td>'
-                  +'<td class="text-center break-all">'+ list_content.list[i].gender +'</td>'
-                  +'<td class="text-center break-all">'+ list_content.list[i].expertsFrom +'</td>'
-                  +'<td class="text-center break-all">'+ list_content.list[i].expertsTypeId +'</td>'
-                  +'<td class="text-center break-all">'+ list_content.list[i].workUnit +'</td>'
-                  +'<td class="text-center break-all">'+ list_content.list[i].professTechTitles +'</td>'
-                  +'<td class="text-center break-all">'+ list_content.list[i].groupName +'</td>'
-                  +'<td class="text-center break-all">'+ list_content.list[i].status +'</td>'
-                  +'<td class="text-center break-all">'+ btn +'</td>'
-                +'</tr>');
+                // 判断是否禁用页面功能
+                if (list_content.batchStatus == '1') {
+                  $('#list_content').append('<tr><input id="'+ list_content.list[i].expertId +'" type="hidden">'
+                	+'<td class="text-center"><input type="checkbox" value="'+ list_content.list[i].expertId +'" class="select_item" disabled></td>'
+                    +'<td class="text-center break-all">'+ list_content.list[i].batchDetailsNumber +'</td>'
+                    +'<td class="text-center break-all">'+ list_content.list[i].orgName +'</td>'
+                    +'<td class="text-center break-all" onclick="viewDetails(\''+ list_content.list[i].expertId +'\');"><a href="javascript:void(0)">'+ list_content.list[i].realName +'</a></td>'
+                    +'<td class="text-center break-all">'+ list_content.list[i].gender +'</td>'
+                    +'<td class="text-center break-all">'+ list_content.list[i].expertsFrom +'</td>'
+                    +'<td class="text-center break-all">'+ list_content.list[i].expertsTypeId +'</td>'
+                    +'<td class="text-center break-all">'+ list_content.list[i].workUnit +'</td>'
+                    +'<td class="text-center break-all">'+ list_content.list[i].professTechTitles +'</td>'
+                    +'<td class="text-center break-all">'+ list_content.list[i].groupName +'</td>'
+                    +'<td class="text-center break-all">'+ list_content.list[i].status +'</td>'
+                    +'<td class="text-center break-all">'+ btn +'</td>'
+                  +'</tr>');
+                } else {
+                  $('#list_content').append('<tr><input id="'+ list_content.list[i].expertId +'" type="hidden">'
+                	+'<td class="text-center"><input type="checkbox" value="'+ list_content.list[i].expertId +'" class="select_item"></td>'
+                    +'<td class="text-center break-all">'+ list_content.list[i].batchDetailsNumber +'</td>'
+                    +'<td class="text-center break-all">'+ list_content.list[i].orgName +'</td>'
+                    +'<td class="text-center break-all" onclick="viewDetails(\''+ list_content.list[i].expertId +'\');"><a href="javascript:void(0)">'+ list_content.list[i].realName +'</a></td>'
+                    +'<td class="text-center break-all">'+ list_content.list[i].gender +'</td>'
+                    +'<td class="text-center break-all">'+ list_content.list[i].expertsFrom +'</td>'
+                    +'<td class="text-center break-all">'+ list_content.list[i].expertsTypeId +'</td>'
+                    +'<td class="text-center break-all">'+ list_content.list[i].workUnit +'</td>'
+                    +'<td class="text-center break-all">'+ list_content.list[i].professTechTitles +'</td>'
+                    +'<td class="text-center break-all">'+ list_content.list[i].groupName +'</td>'
+                    +'<td class="text-center break-all">'+ list_content.list[i].status +'</td>'
+                    +'<td class="text-center break-all">'+ btn +'</td>'
+                  +'</tr>');
+                }
               }
             }
             
