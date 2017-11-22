@@ -589,7 +589,7 @@
     
     <!-- 根据项目ID递归查询明细 (父节点)-->
     <select id="selectByParentList"  parameterType="java.util.Map" resultMap="BaseResultMap">
-    	SELECT
+    	<!-- SELECT
 				*
 			FROM
 				(
@@ -651,7 +651,58 @@
 				AND TAB.cou1 = 'false'
 			)
 			ORDER BY
-				TAB.POSITION ASC
+				TAB.POSITION ASC -->
+				SELECT
+				tab.*
+			FROM
+				(
+				SELECT
+				detail. ID,
+				detail.PARENT_ID,
+				detail.REQUIRED_ID,
+				detail.SERIAL_NUMBER,
+				detail.DEPARTMENT,
+				detail.GOODS_NAME,
+				detail.STAND,
+				detail.QUALIT_STAND,
+				detail.ITEM,
+				detail.PURCHASE_COUNT,
+				detail.PRICE,
+				detail.BUDGET,
+				detail.DELIVER_DATE,
+				detail.PURCHASE_TYPE,
+				detail.SUPPLIER,
+				detail.IS_FREE_TAX,
+				detail.GOODS_USE,
+				detail.USE_UNIT,
+				detail.PROJECT_ID,
+				detail.PACKAGE_ID,
+				detail.BRAND,
+				detail.MEMO,
+				detail.POSITION,
+				DECODE (
+					(
+						SELECT
+							COUNT (*)
+						FROM
+							T_BSS_PPMS_PROJECTS_DETAIL
+						WHERE
+							PARENT_ID = detail.REQUIRED_ID
+						AND PROJECT_ID = #{projectId}
+					),
+					0,
+					'false',
+					'true'
+				) AS cou1,
+			  project_detail(detail.REQUIRED_ID,#{projectId}) as cou2
+			FROM
+				T_BSS_PPMS_PROJECTS_DETAIL detail
+			WHERE
+				detail.PROJECT_ID = #{projectId}
+			AND detail.package_id IS NULL ) tab
+			where (tab.cou1='false' and cou2='false') or (tab.cou1='true' and cou2='true') or (tab.cou1='false' and cou2='true')
+			 order by TAB.POSITION ASC
+			 
     </select>
     
     <select id="selectByProjectIdAndPackageId" parameterType="java.util.Map" resultMap="BaseResultMap">
