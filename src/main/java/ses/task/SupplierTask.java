@@ -241,7 +241,7 @@ public class SupplierTask {
 	 */
 	public void handleSupplierPublicity(){
 		// 调用7天后自动入库公示
-		supplierAuditService.handlerPublictySup();
+		supplierAuditService.updateHandlerPublictySup();
 	}
 	/**
 	 * 

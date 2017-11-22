@@ -494,9 +494,9 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			if(StringUtils.isNotBlank(id) && status != null){
 				// 短信通知供应商审核结果
 				if(SupplierConstants.STATUSMAP_SMS.containsKey(status)){
-					Supplier supplierOfDb = supplierMapper.selectByPrimaryKey(id);
-					if(supplierOfDb != null){
-						SMSUtil.sendMsg(supplierOfDb.getMobile(), "【军队采购网】审核通知：您好，您的信息"+SupplierConstants.STATUSMAP_SMS.get(status)+"。");
+					String mobile = supplierMapper.selectSupMobileById(id);
+					if(StringUtils.isNotEmpty(mobile)){
+						SMSUtil.sendMsg(mobile, "【军队采购网】审核通知：您好，您的信息"+SupplierConstants.STATUSMAP_SMS.get(status)+"。");
 					}
 				}
 			}
@@ -1223,7 +1223,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 * @version 2017年6月26日
 	 */
 	@Override
-	public void handlerPublictySup() {
+	public void updateHandlerPublictySup() {
 		// 获取当前时间
 	    Date nowDate = new Date();
 	    // 查询所有公示供应商
@@ -1242,7 +1242,9 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	                // 设置入库时间
 	                supplier.setInstorageAt(new Date());
 	                // 修改
-	                supplierMapper.updateStatus(supplier);
+	                // supplierMapper.updateStatus(supplier);
+                    // 修改状态并短信通知供应商
+	                this.updateStatus(supplier);
 	            }
 	        }
          }
