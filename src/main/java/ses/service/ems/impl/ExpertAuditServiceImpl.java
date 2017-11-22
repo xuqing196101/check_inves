@@ -514,6 +514,8 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	            	expert.setStorageAt(new Date());
 	                // 修改
 	            	expertMapper.updateByPrimaryKeySelective(expert);
+	            	//审核结果短信通知
+	            	sendSms(expert.getId());
 	            }
 	        }
          }
