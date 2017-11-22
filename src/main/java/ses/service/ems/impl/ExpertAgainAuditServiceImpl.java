@@ -219,8 +219,13 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		
 		}
 		ExpertBatch batch = expertBatchMapper.getExpertBatchByKey(expertBatchDetails.getBatchId());
+		Integer batchStatus=0;
+		if(batch.getBatchStatus()!=null){
+			batchStatus=Integer.valueOf(batch.getBatchStatus());
+		}
 		map.put("batchId", batch.getBatchId());
 		map.put("batchName", batch.getBatchName());
+		map.put("batchStatus", batchStatus);
 		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
 		 // 查询数据字典中的专家来源配置数据
         List < DictionaryData > lyTypeList = DictionaryDataUtil.find(12);

@@ -7,9 +7,10 @@
         <result column="BATCH_NAME" jdbcType="VARCHAR" property="batchName" />
         <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
         <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+        <result column="BATCH_STATUS" jdbcType="VARCHAR" property="batchStatus" />
     </resultMap>
     <sql id="Base_List">
-    	BATCH_ID,BATCH_NUMBER,BATCH_NAME,CREATED_AT,UPDATED_AT
+    	BATCH_ID,BATCH_NUMBER,BATCH_NAME,CREATED_AT,UPDATED_AT,BATCH_STATUS
     </sql>
    
     <!-- 获取所有批次 -->
