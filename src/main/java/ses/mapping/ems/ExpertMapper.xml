@@ -2734,6 +2734,7 @@
         t1.AUDIT_AT,
         t1.WORK_UNIT,
         t1.PROFESS_TECH_TITLES,
+        t1.REVIEW_STATUS as reviewStatus,
         t2.NAME as sex,
         org.SHORT_NAME AS orgName
         from
