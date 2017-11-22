@@ -160,7 +160,7 @@
                   }
                 } else {
                   list_content.list[i].status = '重新复审';
-                  btn = '<button type="button" class="btn" onclick="cancel_takeEffect(\''+ list_content.list[i].expertId +'\')">取消重新复审</button>';
+                  btn = '<button type="button" class="btn" onclick="cancel_reexamination(\''+ list_content.list[i].expertId +'\')">取消重新复审</button>';
                 }
                 
                 if (typeof(list_content.list[i].batchDetailsNumber) === 'undefined') {
