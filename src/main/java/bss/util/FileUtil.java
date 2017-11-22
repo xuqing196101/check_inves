@@ -2,6 +2,7 @@ package bss.util;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -222,12 +223,15 @@ public class FileUtil {
      * FileChannel复制文件的速度比BufferedInputStream/BufferedOutputStream
      * 复制文件的速度快了近三分之一
      *
-     * @param [oldPath: 原路径   newPath：目标路径]
+     * @param    [oldPath: 原路径
+     *           newPath：目标路径
+     *           bakDir: finish目录]
+     *
      * @author Easong
      * @version 2017/10/30
      * @since JDK1.7
      */
-    public static void copyFolder(String oldPath, String newPath) {
+    public static void copyFolder(String srcPath, String descPath, String bakPath) {
        /* // 定义文件管道
         FileChannel cin = null;
         FileChannel cout = null;
@@ -289,13 +293,17 @@ public class FileUtil {
             }
         }*/
         try {
-            File srcDir = new File(oldPath);
+            File srcDir = new File(srcPath);
             if (srcDir.exists()) {
-                FileUtils.copyDirectory(srcDir, new File(newPath));
+                FileUtils.copyDirectory(srcDir, new File(descPath));
                 // 删除内网import下的供应商图片
                 /*if ("0".equals(StaticVariables.ipAddressType)) {
                     FileUtils.deleteDirectory(srcDir);
                 }*/
+                // 将import下的文件移动到备份目录(finish目录)
+                if (StringUtils.isNotEmpty(bakPath)) {
+                    FileUtils.moveDirectoryToDirectory(srcDir, new File(bakPath), true);
+                }
             }
         } catch (IOException e) {
             logger.error("复制整个文件夹内容操作出错");
