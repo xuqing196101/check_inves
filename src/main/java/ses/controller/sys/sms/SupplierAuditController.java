@@ -2479,7 +2479,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("sign", supplier.getSign());
 		request.getSession().setAttribute("signs", supplier.getSign());
 		
-		if(user != null && SupplierConstants.isAccountToAudit(user.getLoginName())){
+		/*if(user != null && SupplierConstants.isAccountToAudit(user.getLoginName())){
 			request.setAttribute("isAccountToAudit", 1);
 			supplier.setProcurementDepId(null);
 			supplier.setExtractOrgid(null);
@@ -2494,7 +2494,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			}else{
 				supplier.setStatus(2);
 			}
-		}
+		}*/
 		
 		//查询列表
 		List < Supplier > supplierList = supplierAuditService.getAuditSupplierList(supplier, page);
@@ -4088,7 +4088,7 @@ public class SupplierAuditController extends BaseSupplierController {
 					}
 				}
 			}
-			dataMap.put("supplierType", supplierType.toString().substring(0, supplierType.length() -1));
+			dataMap.put("supplierType", supplierType.length() > 0? supplierType.toString().substring(0, supplierType.length() -1) : "");
 
 			/*查询附件审核结果*/
 			SupplierAudit supplierAttach = new SupplierAudit();
@@ -4482,7 +4482,7 @@ public class SupplierAuditController extends BaseSupplierController {
 				dataMap.put("isData","yes");
 				auditReasons.append("不通过。原因：");
 				for (SupplierAudit supplierAudit2 : auditList) {
-					auditReasons.append(supplierAudit2.getSuggest());
+					auditReasons.append(supplierAudit2.getAuditFieldName()).append("：").append(supplierAudit2.getSuggest()).append("；");
 				}
 			}else{
 				dataMap.put("isData","no");
@@ -4905,7 +4905,8 @@ public class SupplierAuditController extends BaseSupplierController {
 	     * @since JDK1.7
 	     */
 	    // 查询供应商
-        Supplier supplier = supplierAuditService.supplierById(supplierId);
+//        Supplier supplier = supplierAuditService.supplierById(supplierId);
+        Supplier supplier = supplierService.selectById(supplierId);
 	    Integer supplierStatus = null;
         if(supplier != null){
             supplierStatus = supplier.getStatus();
@@ -5130,14 +5131,14 @@ public class SupplierAuditController extends BaseSupplierController {
 			supplierAudit.setId(auditList.get(0).getId());
 		}
 		int result = 0;
-		int status = 0;
+		/*int status = 0;
 		String auditType = supplierAudit.getAuditType();
 		if("supplierType_page".equals(auditType) || auditType.startsWith("items_")){
 			status = 6;
 		}else{
 			status = 5;
-		}
-		supplierAudit.setReturnStatus(status);
+		}*/
+		supplierAudit.setReturnStatus(5);
 		supplierAudit.setUpdatedAt(new Date());
 		result = supplierAuditService.updateByIdSelective(supplierAudit);
 		if(result > 0){
@@ -5167,14 +5168,14 @@ public class SupplierAuditController extends BaseSupplierController {
 				if(auditList != null && auditList.size() > 0){
 					supplierAudit.setId(auditList.get(0).getId());
 				}
-				int status = 0;
+				/*int status = 0;
 				String auditType = supplierAudit.getAuditType();
 				if("supplierType_page".equals(auditType) || auditType.startsWith("items_")){
 					status = 6;
 				}else{
 					status = 5;
-				}
-				supplierAudit.setReturnStatus(status);
+				}*/
+				supplierAudit.setReturnStatus(5);
 				supplierAudit.setUpdatedAt(new Date());
 				result += supplierAuditService.updateByIdSelective(supplierAudit);
 			}

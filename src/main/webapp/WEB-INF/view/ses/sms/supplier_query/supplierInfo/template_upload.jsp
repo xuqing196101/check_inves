@@ -57,7 +57,7 @@
                 <!--基本信息-->
                 <div class="padding-top-10">
                     <div class="ul_list">
-                        <div class="headline-v2">
+                        <div class="headline-v2 ml0">
                             <h2>查看供应商申请表、承诺书 </h2>
                         </div>
                         <table class="table table-bordered">

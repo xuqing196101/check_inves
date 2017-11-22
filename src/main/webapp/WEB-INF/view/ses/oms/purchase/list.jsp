@@ -71,7 +71,12 @@
   	    layer.msg("只有资源服务中心可以操作");
   	    return;
   	    }
-    	window.location.href="${pageContext.request.contextPath}/purchase/add.do";
+  	    var purchaseDepId = $("#purchaseDepId").val();
+  	    if(purchaseDepId != null && purchaseDepId != ''){
+  	    	window.location.href="${pageContext.request.contextPath}/purchase/add.html?origin=1&cggl=cggl&orgId="+purchaseDepId;
+  	    }else{
+    		window.location.href="${pageContext.request.contextPath}/purchase/add.do";
+  	    }
     }
     function edit(){
     	var auth='${authType}';
@@ -88,7 +93,12 @@
 			layer.msg("请选择一条记录进行编辑");
 			return;
 		}
-		window.location.href = "${pageContext.request.contextPath}/purchase/edit.html?id=" + id[0]; 
+  	    var purchaseDepId = $("#purchaseDepId").val();
+  	    if(purchaseDepId != null && purchaseDepId != ''){
+  	    	window.location.href = "${pageContext.request.contextPath}/purchase/edit.html?id=" + id[0] + "&origin=1&cggl=cggl&orgId="+purchaseDepId;
+  	    }else{
+			window.location.href = "${pageContext.request.contextPath}/purchase/edit.html?id=" + id[0]; 
+  	    }
     }
     function delPurchaser(){
     	var auth='${authType}';
@@ -119,7 +129,12 @@
 		    success: function(data) {
 		    	if (data.success){
 		    		layer.msg("删除成功");
-		    		window.location.href= "${pageContext.request.contextPath}/purchase/list.html";
+		    		var purchaseDepId = $("#purchaseDepId").val();
+		      	    if(purchaseDepId != null && purchaseDepId != ''){
+		      	    	window.location.href= "${pageContext.request.contextPath}/purchase/list.html?purchaseDepId="+purchaseDepId;
+		      	    }else{
+		    			window.location.href= "${pageContext.request.contextPath}/purchase/list.html";
+		      	    }
 		    	} else {
 		    		layer.msg("删除失败");
 		    	}
@@ -136,6 +151,24 @@
   	    }
 		$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
 	}
+	
+	function back(){
+		window.location.href= "${pageContext.request.contextPath}/purchaseManage/purchaseUnitList.html";
+	}
+	
+	function show(id){
+		var auth='${authType}';
+  	    if(auth !='4'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
+  	    var purchaseDepId = $("#purchaseDepId").val();
+  	    if(purchaseDepId != null && purchaseDepId != ''){
+  	    	window.location.href = "${pageContext.request.contextPath}/purchase/view.html?id=" + id + "&origin=1&cggl=cggl&orgId="+purchaseDepId;
+  	    }else{
+			window.location.href = "${pageContext.request.contextPath}/purchase/view.html?id=" + id; 
+  	    }
+	}
 </script>
 </head>
 
@@ -150,10 +183,16 @@
 					</li>
 					<li><a href="javascript:void(0);">支撑系统</a>
 					</li>
+					<c:if test="${purchaseInfo.purchaseDepId == null || purchaseInfo.purchaseDepId == ''}">
 					<li><a href="javascript:void(0);">人员管理</a>
 					</li>
 					<li class="active"><a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/purchase/list.html')">采购人管理</a>
 					</li>
+					</c:if>
+					<c:if test="${purchaseInfo.purchaseDepId != null and purchaseInfo.purchaseDepId != ''}">
+					<li><a href="javascript:void(0)">机构管理</a></li>
+					<li><a href="javascript:void(0)">采购机构人员管理</a></li>
+					</c:if>
 				</ul>
 			</div>
 		</div>
@@ -164,14 +203,17 @@
 				<h2 class="search_detail">
 					<form action="${pageContext.request.contextPath}/purchase/list.html" method="post" id="form1" class="mb0">
 						<input type="hidden" name="page" id="page"/> 
+						<input type="hidden" name="purchaseDepId" id="purchaseDepId" value="${purchaseInfo.purchaseDepId }"/> 
 						<ul class="demand_list">
 							<li><label class="fl">姓名：</label><span><input type="text" name="relName" id="relName"
 							value="${purchaseInfo.relName }"/>
 							</span></li>
+							<c:if test="${purchaseInfo.purchaseDepId == null || purchaseInfo.purchaseDepId == ''}">
 							<li><label class="fl">采购机构名称：</label><span><input type="text" name="purchaseDepName" id="purchaseDepName"
 							value="${purchaseInfo.purchaseDepName }"/>
 							</span>
 							</li>
+							</c:if>
 							<button type="button" onclick="submit();" class="btn fl mt1">查询</button>
                             <button type="button" onclick="resetQuery();" class="btn fl mt1">重置</button>
 						</ul>
@@ -186,6 +228,9 @@
 						onclick="edit();">修改</button>
 					<button class="btn btn-windows delete" type="button"
 						onclick="delPurchaser();">删除</button>
+						<c:if test="${purchaseInfo.purchaseDepId != null and purchaseInfo.purchaseDepId != ''}">
+						<button type="button" class="btn btn-windows back" onclick="back();">返回</button>
+						</c:if>
 				</div>
 			<div class="content table_box">
                  <table class="table table-bordered table-condensed table-hover table-striped">

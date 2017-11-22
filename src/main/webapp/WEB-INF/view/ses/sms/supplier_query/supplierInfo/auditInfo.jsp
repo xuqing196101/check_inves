@@ -1,5 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
+<%@ page import="ses.constants.SupplierConstants"%>
+<c:set var="auditReturnStatusMap" value="<%=SupplierConstants.AUDIT_RETURN_STATUS_MAP %>" />
 <!DOCTYPE HTML>
 <html>
 
@@ -103,14 +105,15 @@
                                 <fmt:formatDate value="${audit.createdAt}" pattern="yyyy-MM-dd"/>
                             </td>
                             <td class="tc">
-                                <c:choose>
-                                    <c:when test="${audit.returnStatus == 1}">退回修改</c:when>
+                            		${auditReturnStatusMap[audit.returnStatus]}
+                                <%-- <c:choose>
+                                    <c:when test="${audit.returnStatus == 1}">有问题</c:when>
                                     <c:when test="${audit.returnStatus == 2}">审核不通过</c:when>
                                     <c:when test="${audit.returnStatus == 3}">已修改</c:when>
                                     <c:when test="${audit.returnStatus == 4}">未修改</c:when>
                                     <c:when test="${audit.returnStatus == 5}">撤销退回</c:when>
                                     <c:when test="${audit.returnStatus == 6}">撤销不通过</c:when>
-                                </c:choose>
+                                </c:choose> --%>
                             </td>
                         </tr>
                     </c:forEach>

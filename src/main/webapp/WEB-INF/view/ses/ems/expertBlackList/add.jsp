@@ -112,7 +112,8 @@
              <span class="red">${err_reason}</span>
           </li> 
 	      </ul>
-	       
+	      
+	      <div class="clear"></div>
 	      <h2 class="count_flow"><i>2</i>附件上传</h2>
         <ul class="ul_list">
 	        <li class="col-md-3 col-sm-6 col-xs-12 pl15" onclick = "clearErrorMsg()">

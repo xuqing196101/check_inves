@@ -48,6 +48,18 @@ public interface SupplierExtractRelateResultMapper {
 	 */
 	List<Supplier> listExtractionSupplier(SupplierExtractCondition condition);
 	
+	
+	/**
+	 * 
+	 * <简述>抽取供应商 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-11-14下午4:49:37
+	 * @param condition
+	 * @return
+	 */
+	List<Supplier> listExtractionSupplierOfLogicIsAnd(SupplierExtractCondition condition);
+	
 	/**
 	 * 记录id查询抽取到的详细供应商信息
 	 * @param hashMap2

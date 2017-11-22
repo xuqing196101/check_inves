@@ -15,10 +15,10 @@ var productLevel = [{id: "一级", pid: 0, name: "一级"},
                     {id: "二级", pid: 0, name: "二级"},
                     {id: "三级", pid: 0, name: "三级"},
                     {id: "四级", pid: 0, name: "四级"},
-                    {id: "四级", pid: 0, name: "五级"},
-                    {id: "四级", pid: 0, name: "六级"},
-                    {id: "四级", pid: 0, name: "七级"},
-                    {id: "五级", pid: 0, name: "八级"}];
+                    {id: "五级", pid: 0, name: "五级"},
+                    {id: "六级", pid: 0, name: "六级"},
+                    {id: "七级", pid: 0, name: "七级"},
+                    {id: "八级", pid: 0, name: "八级"}];
 /**
  * 预加载函数
  */
@@ -728,13 +728,15 @@ function opens(cate) {
 	$(cate).attr("typeCode",typeCode);
     var iframeWin;
     var categoryId = $("#categoryIds").val();
-    var parentId = $(cate).prev(".parentId");
+   /* var parentId = $(cate).prev(".parentId");
     if(parentId.length<=0){
     	$(cate).before("<input class='parentId' type='hidden' value='' name='parentId'>");
     }else if($(parentId).val()){
     	categoryId += ","+ $(parentId).val();
-    }
-    sessionStorage.setItem("categoryId",categoryId);
+    }*/
+	sessionStorage.setItem("categoryId",categoryId);
+    sessionStorage.setItem("categoryName",$("#categoryName").val());
+    sessionStorage.setItem("isMulticondition",$("#isSatisfy").val());
     layer.open({
         type: 2,
         title: "选择条件",
@@ -989,7 +991,7 @@ function checkAllChildCheckParent(node,treeObj){
 }
 
 
-// 判断前一个节点是否选中
+// 判断当前节点之前的全部节点是否选中
 function preIsCheck(treeNode){
  	var pre = treeNode.getPreNode();
  	var flag = treeNode.checked;
@@ -999,7 +1001,7 @@ function preIsCheck(treeNode){
 	return flag;
 }
 
-// 判断后一个节点是否选中
+// 判断当前节点之后的全部节点是否选中
 function nextIsCheck(treeNode){
 	var next = treeNode.getNextNode();
 	var flag = treeNode.checked;
@@ -1090,7 +1092,7 @@ function loadQuaList(nodes){
 	
 	if(nodes==null){
 		var cateId = $("#categoryIds").val();
-		var parentId = $("[name='parentId']").val();
+		var parentId = null;//= $("[name='parentId']").val();
 		
 		$.ajax({
 			url:globalPath+"/SupplierCondition_new/getQuaByCid.do",
@@ -1364,17 +1366,24 @@ function beforeClickQua(treeId, treeNode) {
     zTree.checkNode(treeNode, !treeNode.checked, null, true);
     return false;
 }
-// 工程等级树被选中后
-function onCheckLevel(obj) {
-	var zTree = $.fn.zTree.getZTreeObj(obj);
-	if(null == zTree){
-		zTree = $.fn.zTree.getZTreeObj(obj.target.id);
-		obj = obj.target.id;
+// 等级树被选中后
+function onCheckLevel(event, treeId, treeNode) {
+	var zTree = $.fn.zTree.getZTreeObj(treeId);
+	if(treeNode.checked){
+		//判断前一个 或者后一个  是不是存在被选中的，有，则将两者间的全部选中
+		if(prevNodesIsChecked(treeNode)){
+			checkPre(treeNode,zTree);
+		}
+		if(nextNodesIsChecked(treeNode)){
+			checkNext(treeNode,zTree);
+		}
+	}else{
+		//将后面的节点全部取消选中
+		reNextCheck(treeNode,zTree);
 	}
 	
-	var input = obj.substring(0,obj.lastIndexOf("T"));
-	
 	var nodes = zTree.getCheckedNodes(true);
+	var input = treeId.substring(0,treeId.lastIndexOf("T"));
 	v = "";
 	var rid = "";
 	for (var i = 0, l = nodes.length; i < l; i++) {
@@ -1388,6 +1397,61 @@ function onCheckLevel(obj) {
 	levelTypeObj.attr("title", v);
 	$(levelTypeObj).parents("li").find("[name='"+input+"TypeId']").val(rid);
 }
+
+//递归查找该节点之前的选中节点
+function prevNodesIsChecked(treeNode){
+	var preIsChecked = treeNode.getPreNode();
+	if(preIsChecked){
+		if(preIsChecked && preIsChecked.checked){
+			return true;
+		}
+		return prevNodesIsChecked(preIsChecked);
+	}
+	return false;
+}
+
+
+//递归查找该节点之后的选中节点
+function nextNodesIsChecked(treeNode){
+	var nextIsChecked = treeNode.getNextNode();
+	if(nextIsChecked){
+		if(nextIsChecked && nextIsChecked.checked){
+			return true;
+		}
+		return nextNodesIsChecked(nextIsChecked);
+	}
+	return false;
+}
+
+//选中前面的节点
+function checkPre(treeNode,treeObj){
+ 	var pre = treeNode.getPreNode();
+	if(pre && (!pre.checked)){
+		treeObj.checkNode(pre, true, true);
+		checkPre(pre,treeObj);
+	}
+}
+
+//选中后面节点
+function checkNext(treeNode,treeObj){
+	var next = treeNode.getNextNode();
+	if(next && (!next.checked)){
+		treeObj.checkNode(next, true, true);
+		checkNext(next,treeObj);
+	}
+}
+
+/**
+ * 取消选中
+ */
+function reNextCheck(treeNode,treeObj){
+	var next = treeNode.getNextNode();
+	if(next && next.checked){
+		treeObj.checkNode(next, false, true);
+		reNextCheck(next,treeObj);
+	}
+}
+
 
 // 工程资质被选中后
 function choseQua(event, treeId, treeNode) {
