@@ -57,35 +57,33 @@
 		   </div>  
 		   <h2 class="search_detail">
   				<form id="form1" action="${pageContext.request.contextPath}/purchaseManage/readOnlyList.html" method="post" class="mb0">
-		       <input type="hidden" name="page" id="page">
-		       <input type="hidden" name="provinceId" value="${purchaseDep.provinceId }">
-		       <input type="hidden" name="orgId" value="${purchaseDep.orgId }">
-		      <ul class="demand_list">
-                       <li>
-                        <label class="fl">采购机构名称：</label><span><input id="name" name="name" value="${purchaseDep.name }" type="text"></span>
-                      </li>
-                       <li>
-                        <label class="fl">资质起止日期：</label>
-                        <input id="quaStartDate" name="quaStartDate" class="Wdate w150" type="text"  value='<fmt:formatDate value="${purchaseDep.quaStartDate }" pattern="YYYY-MM-dd"/>'
-                        onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){quaStartDate.focus();},maxDate:'#F{$dp.$D(\'quaStartDate\')}'})"/>
-                        <span class="f14">至</span>
-                        <input id="quaEdndate" name="quaEdndate" value='<fmt:formatDate value="${purchaseDep.quaEdndate }" pattern="YYYY-MM-dd"/>' class="Wdate w150" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'quaEdndate\')}'})"/>
-                      </li>
-                      <li>
-                        <label class="fl">上级监管部门：</label>
-                        <span class="fl">
-                          <select name="" class="w100">
-                                     <option selected="selected" value=''>-请选择-</option>
-                                    <option  value="生产型">部门1</option>
-                                    <option  value="销售型">部门2</option>
-                          </select>
-                        </span>
-                      </li>
-                  </ul>
-                        <input class="btn fl mt1" onclick="submit()" type="button" value="查询">
-                        <input class="btn fl mt1" onclick="chongzhi()" type="button" value="重置">
-                        <input class="btn back fl mt1" onclick="back()" value="返回" type="button"/>
-                   <div class="clear"></div>
+					<input type="hidden" name="page" id="page">
+					<input type="hidden" name="provinceId" value="${purchaseDep.provinceId }">
+					<input type="hidden" name="orgId" value="${purchaseDep.orgId }">
+					<ul class="demand_list">
+						<li><label class="fl">采购机构名称：</label><span><input id="name" name="name" value="${purchaseDep.name }" type="text"></span></li>
+						<li>
+							<label class="fl">资质起止日期：</label>
+							<input id="quaStartDate" name="quaStartDate" class="Wdate w120" type="text"  value='<fmt:formatDate value="${purchaseDep.quaStartDate }" pattern="YYYY-MM-dd"/>'
+							onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){quaStartDate.focus();},maxDate:'#F{$dp.$D(\'quaStartDate\')}'})"/>
+							<span class="f14">至</span>
+						  <input id="quaEdndate" name="quaEdndate" value='<fmt:formatDate value="${purchaseDep.quaEdndate }" pattern="YYYY-MM-dd"/>' class="Wdate w120" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'quaEdndate\')}'})"/>
+						</li>
+						<li>
+							<label class="fl">上级监管部门：</label>
+							<div class="fl">
+								<select name="" class="w100">
+								<option selected="selected" value=''>-请选择-</option>
+								<option  value="生产型">部门1</option>
+								<option  value="销售型">部门2</option>
+								</select>
+							</div>
+						</li>
+					</ul>
+					<input class="btn fl mt1" onclick="submit()" type="button" value="查询">
+					<input class="btn fl mt1" onclick="chongzhi()" type="button" value="重置">
+					<input class="btn back fl mt1" onclick="back()" value="返回" type="button">
+					<div class="clear"></div>
 		     </form>
 		     </h2>
 		      <div class="content table_box">

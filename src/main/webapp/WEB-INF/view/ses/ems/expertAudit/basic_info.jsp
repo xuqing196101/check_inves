@@ -816,9 +816,9 @@
                 <ul class="ul_list">
                     <li class="col-md-3 col-sm-6 col-xs-12">
                         <span class="hand" <c:if test="${fn:contains(fileModify,'7')}"> style="border: 1px solid #FF8C00; height: 20px !important;"</c:if> id="degreeTypeid" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="titleType" onclick="reasonFile(this);">获奖证书：</span>
-                        <up:show showId="show7" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="7"/>
-                        <a style="visibility:hidden" id="degreeTypeid1" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-                        <c:if test="${fn:contains(conditionStr,'获奖证书')}"> <p class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
+                        <div class="m_inline"><up:show showId="show7" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="7"/></div>
+                        <a id="degreeTypeid1" class='hide abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+                        <c:if test="${fn:contains(conditionStr,'获奖证书')}"> <div class='abolish t0 f0'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div></c:if>
                     <li>
                 </ul>
 

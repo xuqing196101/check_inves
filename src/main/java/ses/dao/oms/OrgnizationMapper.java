@@ -354,4 +354,10 @@ public interface OrgnizationMapper {
 	 */
 	List<Orgnization> findManageOfOrg(HashMap<String, Object> map);
 
+	/**
+	 * 根据机构id查询关联的orgid
+	 * @param id
+	 * @return
+	 */
+	String selOrgIdByDepId(String id);
 }

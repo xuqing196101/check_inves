@@ -167,7 +167,11 @@
 	          </table>
 	        </ul>
 	        
+<<<<<<< HEAD
             <div class="clear"></div>
+=======
+          <div class="clear"></div>
+>>>>>>> 72782900a73604f43c7b2e8940208a99e1df3aac
             <h2 class="count_flow"><i>2</i>意见信息</h2>
             <ul class="ul_list">
               <li>
@@ -198,6 +202,7 @@
              </li>
             </ul>
             
+            <div class="clear"></div>
 	         <div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12">
             <%-- <c:if test="${ empty reqType }"> --%>
               <c:if test="${sign == 1}">

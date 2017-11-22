@@ -528,6 +528,7 @@
                   </li>
                 </ul>
                 
+                <div class="clear"></div>
                 <h2 class="count_flow"><i>2</i>资质信息</h2>
                 <ul class="ul_list">
                   <li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -591,7 +592,7 @@
                   </li>
                 </ul>
                 
-                
+                <div class="clear"></div>
                 <h2 class="count_flow"><i>3</i>人员信息</h2>
                 <ul class="ul_list">
                   <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">单位主要领导姓名</span>
@@ -674,7 +675,7 @@
                   </li>
                 </ul>
                 
-                
+                <div class="clear"></div>
                 <h2 class="count_flow"><i>4</i>甲方信息</h2>
                 <ul class="ul_list">
                   <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">单位名称</span>
@@ -855,7 +856,7 @@
                   
                 </ul>
                 
-                
+                <div class="clear"></div>
                 <h2 class="count_flow"><i>2</i>添加场所</h2>
                 <ul class="ul_list">
                   <div class="col-md-12 pl20 mt10">

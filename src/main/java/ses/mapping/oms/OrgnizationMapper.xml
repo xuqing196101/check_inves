@@ -1140,8 +1140,9 @@
 				     ON ORG.ID = PC.PURCHASE_DEP_NAME
 				  WHERE ORG.TYPE_NAME = 1
 				    AND ORG.IS_DELETED = 0
-				  GROUP BY ORG.SHORT_NAME, ORG.ID
-				  ORDER BY COL_VALUE DESC
+				  GROUP BY ORG.SHORT_NAME, ORG.ID, ORG.POSITION
+				  <!--ORDER BY COL_VALUE DESC-->
+				  ORDER BY ORG.POSITION
 	</select>
 	
 	<!-- 查询当前各采购机构受领任务总金额 -->
@@ -1160,8 +1161,9 @@
 			    ON PT.COLLECT_ID = P.ID
 			 WHERE ORG.TYPE_NAME = 1
 			   AND ORG.IS_DELETED = 0
-			 GROUP BY ORG.SHORT_NAME, ORG.ID
-			 ORDER BY COL_VALUE DESC
+			 GROUP BY ORG.SHORT_NAME, ORG.ID, ORG.POSITION
+			 <!--ORDER BY COL_VALUE DESC-->
+			 ORDER BY ORG.POSITION
 	</select>
 	
 	<!-- 各采购机构完成采购项目数量及总金额 -->
@@ -1356,5 +1358,9 @@
 	 	    </foreach>
 		</if>
 		ORDER BY d.CREATED_AT DESC
+	</select>
+	
+	<select id="selOrgIdByDepId" parameterType="String" resultType="String">
+		SELECT ORG_ID FROM T_SES_OMS_PURCHASE_DEP WHERE ID = #{id}
 	</select>
 </mapper>
