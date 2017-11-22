@@ -98,6 +98,7 @@
                 +'    <th class="info w120">专业职称(职务)</th>'
                 +'    <th class="info w60">审核组</th>'
                 +'    <th class="info w110">审核状态</th>'
+                +'    <th class="info w110">审核结论</th>'
                 +'    <th class="info w100">操作</th>'
                 +'  </tr>'
                 +'</thead>'
@@ -118,6 +119,7 @@
                 +'    <th class="info w120">专业职称(职务)</th>'
                 +'    <th class="info w60">审核组</th>'
                 +'    <th class="info w110">审核状态</th>'
+                +'    <th class="info w110">审核结论</th>'
                 +'    <th class="info w100">操作</th>'
                 +'  </tr>'
                 +'</thead>'
@@ -232,6 +234,15 @@
                 if (typeof(list_content.list[i].expertsFrom) === 'undefined') {
                   list_content.list[i].expertsFrom = '';
                 }
+                if (typeof(list_content.list[i].expertStatus) === 'undefined') {
+                  list_content.list[i].expertStatus = '';
+                } else if (list_content.list[i].expertStatus === '-3') {
+                  list_content.list[i].expertStatus = '复审合格';
+                } else if (list_content.list[i].expertStatus === '5') {
+                  list_content.list[i].expertStatus = '复审不合格';
+                } else if (list_content.list[i].expertStatus === '10') {
+                  list_content.list[i].expertStatus = '复审退回修改';
+                }
                 
                 // 判断是否禁用页面功能
                 if (list_content.batchStatus == '1') {
@@ -247,6 +258,7 @@
                     +'<td class="text-center break-all">'+ list_content.list[i].professTechTitles +'</td>'
                     +'<td class="text-center break-all">'+ list_content.list[i].groupName +'</td>'
                     +'<td class="text-center break-all">'+ list_content.list[i].status +'</td>'
+                    +'<td class="text-center break-all">'+ list_content.list[i].expertStatus +'</td>'
                     +'<td class="text-center break-all">'+ btn +'</td>'
                   +'</tr>');
                 } else {
@@ -262,6 +274,7 @@
                     +'<td class="text-center break-all">'+ list_content.list[i].professTechTitles +'</td>'
                     +'<td class="text-center break-all">'+ list_content.list[i].groupName +'</td>'
                     +'<td class="text-center break-all">'+ list_content.list[i].status +'</td>'
+                    +'<td class="text-center break-all">'+ list_content.list[i].expertStatus +'</td>'
                     +'<td class="text-center break-all">'+ btn +'</td>'
                   +'</tr>');
                 }
@@ -291,6 +304,7 @@
               +'    <th class="info w80">专家类别</th>'
               +'    <th class="info w60">审核组</th>'
               +'    <th class="info w110">审核状态</th>'
+              +'    <th class="info w110">审核结论</th>'
               +'    <th class="info w100">操作</th>'
               +'  </tr>'
               +'</thead>'
@@ -395,6 +409,15 @@
                 if (typeof(list_content.list.list[i].auditAt) === 'undefined') {
                   list_content.list.list[i].auditAt = '';
                 }
+                if (typeof(list_content.list.list[i].expertStatus) === 'undefined') {
+                  list_content.list.list[i].expertStatus = '';
+                } else if (list_content.list.list[i].expertStatus === '-3') {
+                  list_content.list.list[i].expertStatus = '复审合格';
+                } else if (list_content.list.list[i].expertStatus === '5') {
+                  list_content.list.list[i].expertStatus = '复审不合格';
+                } else if (list_content.list.list[i].expertStatus === '10') {
+                  list_content.list.list[i].expertStatus = '复审退回修改';
+                }
                 
                 if (list_content.list.list[i].status != "公示中" && list_content.list.list[i].status != "复审合格" && list_content.list.list[i].status != "<span class=\"red\">复审结束</span>" && list_content.list.list[i].status != "复审不合格" && list_content.list.list[i].status != "复审退回修改" && list_content.list.list[i].status != "复查合格" && list_content.list.list[i].status != "复查未合格") {
                   btn = '<button type="button" class="btn w100p mr0 mb5 canDisable" onclick="expert_auditBatch(\''+ root_url +'\', \''+ list_content.list.list[i].expertId +'\')">复审</button>' + btn;
@@ -412,6 +435,7 @@
                   +'<td class="text-center break-all">'+ list_content.list.list[i].expertsTypeId +'</td>'
                   +'<td class="text-center break-all">'+ list_content.list.list[i].groupName +'</td>'
                   +'<td class="text-center break-all">'+ list_content.list.list[i].status +'</td>'
+                  +'<td class="text-center break-all">'+ list_content.list.list[i].expertStatus +'</td>'
                   +'<td class="text-center break-all">'+ btn +'</td>'
                 +'</tr>');
               }
