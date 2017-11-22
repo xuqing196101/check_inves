@@ -3,8 +3,10 @@ package common.utils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
@@ -22,6 +24,10 @@ import org.apache.commons.codec.binary.Base64;
  * @since JDK1.7
  */
 public class SMSUtil {
+	
+    /**
+     * API文档地址   http://bcp.pro-group.cn:7002/Docs/#!easycloud-smsapi.md
+     */
 
     /** 用户账号 **/
     public static final String ACCTNO = "100514";
@@ -44,6 +50,11 @@ public class SMSUtil {
      * @return "0" : 成功返回
      */
     public static String sendMsg(String mobile, String msg){
+    	try {
+			msg = URLEncoder.encode(msg, "UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
         String time = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         String token = getMD5(ACCTNO + time + Passwd);
         String param = "token=" + token + "&mobile=" + mobile + "&msg=" + msg;

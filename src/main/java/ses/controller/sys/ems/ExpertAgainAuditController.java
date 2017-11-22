@@ -36,6 +36,7 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.TodosService;
 import ses.service.ems.ExpertAgainAuditService;
 import ses.service.ems.ExpertAuditOpinionService;
+import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
@@ -67,6 +68,8 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	private ExpertAuditOpinionService expertAuditOpinionService;
 	@Autowired
 	private ExpertReviewTeamMapper expertReviewTeamMapper;
+	@Autowired
+	private ExpertAuditService expertAuditService;
 	/*
 	 * 提交复审
 	 * */
@@ -947,6 +950,8 @@ public class ExpertAgainAuditController extends BaseSupplierController {
             		expertService.updateByPrimaryKeySelective(expert);
             		//完成待办
             		todosService.updateIsFinish("expertAudit/basicInfo.html?expertId=" + expertIds[i]);
+            		//审核结果发送短信
+            		expertAuditService.sendSms(expertIds[i]);
             		jdcgResult.setStatus(500);
         		}else{
         			jdcgResult.setStatus(503);

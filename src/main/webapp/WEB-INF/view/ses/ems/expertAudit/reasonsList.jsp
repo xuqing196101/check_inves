@@ -240,6 +240,7 @@
                     }
                   	//提交审核
                     if(status == -2){
+                    	alert(status);
                     	$("#status").val(status);
                     	$.ajax({
                             url: "${pageContext.request.contextPath}/expertAudit/updateStatusOfPublictity.do",

@@ -20,8 +20,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
-import org.jsoup.helper.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,6 +28,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+
+import bss.formbean.PurchaseRequiredFormBean;
+import common.annotation.CurrentUser;
+import common.constant.Constant;
+import common.constant.StaticVariables;
+import common.utils.JdcgResult;
 import ses.dao.ems.ExpertBatchDetailsMapper;
 import ses.dao.ems.ExpertField;
 import ses.model.bms.Area;
@@ -76,16 +82,6 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WordUtil;
-import bss.formbean.PurchaseRequiredFormBean;
-
-import com.alibaba.fastjson.JSON;
-import com.ctc.wstx.util.DataUtil;
-import com.github.pagehelper.PageInfo;
-
-import common.annotation.CurrentUser;
-import common.constant.Constant;
-import common.constant.StaticVariables;
-import common.utils.JdcgResult;
 
 
 /**
@@ -2185,9 +2181,12 @@ public class ExpertAuditController{
 	        todos.setUrl("expertAudit/basicInfo.html?expertId=" + expert.getId());
 	        todosService.insert(todos );
 	      }
-			if(sign==2){
-				expertAgainAuditService.handleExpertReviewTeam(expertId);
-			}
+		  if(sign==2){
+		     expertAgainAuditService.handleExpertReviewTeam(expertId);
+		  }
+		  
+		 //审核结果发送短信
+  		 expertAuditService.sendSms(expert.getId());
 		return "redirect:list.html";
 	}
 
@@ -4017,6 +4016,9 @@ public class ExpertAuditController{
 	        todos.setUrl("expertAudit/basicInfo.html?expertId=" + expert.getId());
 	        todosService.insert(todos );
 	      }
+		
+		////审核结果发送短信
+		expertAuditService.sendSms(expertId);		
         return JdcgResult.ok();
     }
     

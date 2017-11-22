@@ -299,7 +299,7 @@
         </if>
     </select>
 
-    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap" flushCache="true" useCache="false">
         select
         t1.*,t3.SHORT_NAME AS orgName,
         t2.EXPER_CONTACT AS contactName,
