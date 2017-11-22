@@ -808,9 +808,15 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
 		Map<String,Object> map = new HashMap<String,Object>();
 		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+		ExpertBatch batch = expertBatchMapper.getExpertBatchByKey(expertBatchDetails.getBatchId());
+		Integer batchStatus=0;
+		if(batch.getBatchStatus()!=null){
+			batchStatus=Integer.valueOf(batch.getBatchStatus());
+		}
+		map.put("batchId", batch.getBatchId());
+		map.put("batchName", batch.getBatchName());
+		map.put("batchStatus", batchStatus);
 		if(list.size()>0){
-			map.put("batchId", list.get(0).getBatchId());
-			map.put("batchName", list.get(0).getBatchName());
 			// 供应商系统key文件上传key
 			Integer sysKey = common.constant.Constant.EXPERT_SYS_KEY;
 			// 定义文件上传类型
