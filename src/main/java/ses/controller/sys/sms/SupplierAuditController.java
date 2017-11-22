@@ -403,7 +403,8 @@ public class SupplierAuditController extends BaseSupplierController {
 		/**
 		 * 查出修改前的信息
 		 */
-		if(SupplierConstants.isAudit(loginName, supplierStatus)){
+//		if(SupplierConstants.isAudit(loginName, supplierStatus)){
+		if(SupplierConstants.isStatusToAudit(supplierStatus)){
 			//基本信息
 			supplierModify.setListType(0);
 			List < SupplierModify > fieldList = supplierModifyService.selectBySupplierId(supplierModify);
@@ -545,7 +546,8 @@ public class SupplierAuditController extends BaseSupplierController {
 		
 		String loginName = user.getLoginName();
 		//查出财务修改前的信息
-		if(SupplierConstants.isAudit(loginName, supplierStatus)){
+//		if(SupplierConstants.isAudit(loginName, supplierStatus)){
+		if(SupplierConstants.isStatusToAudit(supplierStatus)){
 			SupplierModify supplierModify = new SupplierModify();
 			supplierModify.setSupplierId(supplierId);
 			supplierModify.setModifyType("finance_page");
@@ -582,7 +584,8 @@ public class SupplierAuditController extends BaseSupplierController {
 		/**
 		 * 退回修改后的附件
 		 */
-		if(SupplierConstants.isAudit(loginName, supplierStatus)){
+//		if(SupplierConstants.isAudit(loginName, supplierStatus)){
+		if(SupplierConstants.isStatusToAudit(supplierStatus)){
 			SupplierModify supplierFileModify = new SupplierModify();
 			supplierFileModify.setSupplierId(supplierId);
 			supplierFileModify.setModifyType("file");
@@ -621,7 +624,8 @@ public class SupplierAuditController extends BaseSupplierController {
 		/**
 		 * 查出股东修改前的信息
 		 */
-		if(SupplierConstants.isAudit(loginName, supplierStatus)){
+//		if(SupplierConstants.isAudit(loginName, supplierStatus)){
+		if(SupplierConstants.isStatusToAudit(supplierStatus)){
 			SupplierModify supplierModify = new SupplierModify();
 			supplierModify.setSupplierId(supplierId);
 			supplierModify.setModifyType("shareholder_page");
@@ -1195,7 +1199,8 @@ public class SupplierAuditController extends BaseSupplierController {
 		/**
 		 * 退回修改的内容
 		 */
-		if(SupplierConstants.isAudit(loginName, supplierStatus)){
+//		if(SupplierConstants.isAudit(loginName, supplierStatus)){
+		if(SupplierConstants.isStatusToAudit(supplierStatus)){
 			SupplierModify supplierModify = new SupplierModify();
 			supplierModify.setSupplierId(supplierId);
 			List<SupplierModify> modifyList = null;
@@ -2012,7 +2017,8 @@ public class SupplierAuditController extends BaseSupplierController {
 		/**
 		 * 退回修改后的附件
 		 */
-		if(SupplierConstants.isAudit(loginName, supplierStatus)){
+//		if(SupplierConstants.isAudit(loginName, supplierStatus)){
+		if(SupplierConstants.isStatusToAudit(supplierStatus)){
 			SupplierModify supplierFileModify= new SupplierModify();
 			supplierFileModify.setSupplierId(supplierId);
 			supplierFileModify.setModifyType("file");
@@ -2758,7 +2764,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 */
 	@RequestMapping("overAptitude")
 	@ResponseBody
-	public JdcgResult overAptitude(Model model, String supplierId, String supplierType, Integer supplierStatus, Integer sign, Integer pageNum, String flag){
+	public JdcgResult overAptitude(@CurrentUser User user, Model model, String supplierId, String supplierType, Integer supplierStatus, Integer sign, Integer pageNum, String flag){
 		if(pageNum==null){
 			pageNum=1;
 		}
@@ -2781,7 +2787,7 @@ public class SupplierAuditController extends BaseSupplierController {
                 cateTree.setSupplierItemId(supplierItem.getId());
                 cateTree.setCategoryId(supplierItem.getCategoryId());
                 cateTree.setAuditType(getAuditTypeItemBySupplierType(supplierType));
-                if(SupplierConstants.isStatusToAudit(supplierStatus)){// 审核状态下
+                if(SupplierConstants.isAudit(user.getLoginName(), supplierStatus)){// 审核状态下
                 	// 工程类等级
                     if("工程".equals(cateTree.getRootNode())) {
                     	//--工程  	审核字段存储：末级节点ID关联的SupplierItem的ID
@@ -2793,7 +2799,9 @@ public class SupplierAuditController extends BaseSupplierController {
     					//是否有销售合同
     					cateTree=supplierService.contractCountCategoyrId(cateTree,supplierItem);
     					// 合同是否修改
-    					cateTree.setIsContractModified(supplierAuditService.isContractModified(supplierItem.getSupplierId(), supplierItem.getId()) ? (byte)1 : (byte)0);
+    					if(SupplierConstants.isStatusToAudit(supplierStatus)){
+    						cateTree.setIsContractModified(supplierAuditService.isContractModified(supplierItem.getSupplierId(), supplierItem.getId()) ? (byte)1 : (byte)0);
+    					}
                     }
                     //封装 是否有审核 目录 和 销售 合同数据
                     cateTree=supplierAuditService.cateTreePotting(cateTree,supplierId);
@@ -2856,7 +2864,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return
 	 */
 	@RequestMapping("showContract")
-	public String showContract(Model model,String supplierId,String cateId,String itemId,Integer ind,String tablerId){
+	public String showContract(@CurrentUser User user, Model model,String supplierId,String cateId,String itemId,Integer ind,String tablerId){
 		if(StringUtils.isBlank(itemId)){
 			return "ses/sms/supplier_audit/aptitude_contract_item";
 		}
@@ -2888,7 +2896,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			model.addAttribute("fileModifyField", fileModifyField);
 		}
 		// 设置审核字段
-		setAuditField(model, supplier, getAuditTypeContract(tablerId));
+		setAuditField(model, user, supplier, getAuditTypeContract(tablerId));
 		return "ses/sms/supplier_audit/aptitude_contract_item";
 	}
 	
@@ -2933,7 +2941,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return
 	 */
 	@RequestMapping("showQualifications")
-	public String showQualifications(Model model,String supplierId,String cateId,String itemId,Integer ind,String tablerId){
+	public String showQualifications(@CurrentUser User user, Model model,String supplierId,String cateId,String itemId,Integer ind,String tablerId){
 		Set<QualificationBean> beanList=new HashSet<>();
 		if(StringUtils.isBlank(itemId)){
 			return "ses/sms/supplier_audit/aptitude_material_item";
@@ -2976,7 +2984,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			// 设置修改字段
 			setModifyField(model, supplier, cateTree, true);
 			// 设置审核字段
-			setAuditField(model, supplier, getAuditTypeAptitude(tablerId));
+			setAuditField(model, user, supplier, getAuditTypeAptitude(tablerId));
 			return "ses/sms/supplier_audit/aptitude_project_item";
 		}else if("content_4".equals(tablerId)){
 			//封装 供应商id  服务
@@ -3014,7 +3022,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		// 设置修改字段
 		setModifyField(model, supplier, cateTree, false);
 		// 设置审核字段
-		setAuditField(model, supplier, getAuditTypeAptitude(tablerId));
+		setAuditField(model, user, supplier, getAuditTypeAptitude(tablerId));
 		
 		model.addAttribute("sysKey", sysKey);
 		model.addAttribute("typeId", typeId);
@@ -3031,8 +3039,8 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @param supplier
 	 * @param auditType
 	 */
-	private void setAuditField(Model model, Supplier supplier, String auditType){
-		if(SupplierConstants.isStatusToAudit(supplier.getStatus())){
+	private void setAuditField(Model model, User user, Supplier supplier, String auditType){
+		if(SupplierConstants.isAudit(user.getLoginName(), supplier.getStatus())){
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplier.getId());
 			supplierAudit.setAuditType(auditType);

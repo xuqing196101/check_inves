@@ -2166,7 +2166,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			// 退回修改附件
 			StringBuffer fileModifyField = new StringBuffer();
 			Supplier supplier = supplierMapper.selectByPrimaryKey(supplierId);
-			if(supplier != null && supplier.getStatus() != null && (supplier.getStatus() == 0 || supplier.getStatus() == 9)) {
+//			if(supplier != null && supplier.getStatus() != null && (supplier.getStatus() == 0 || supplier.getStatus() == 9)) {
+			if(SupplierConstants.isStatusToAudit(supplier.getStatus())){
 				SupplierModify supplierFileModify = new SupplierModify();
 				supplierFileModify.setSupplierId(supplierId);
 				supplierFileModify.setModifyType("file");
