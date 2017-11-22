@@ -21,7 +21,7 @@
     <div class="tab-pane fade active in p20" >
     <input id="supplierId"  type="hidden" value="${supplierId }">
     <input id="auditType"  type="hidden" value="${auditType }">
-    <input id="ids"  type="hidden" value="${ids }">
+    <input id="ind"  type="hidden" value="${ind }">
     <input id="tablerId"  type="hidden" value="${tablerId}">
       <c:choose>
       <c:when test="${not empty beanList }">
@@ -62,7 +62,7 @@
 				                  <c:set var="iconUrl" value="${pageContext.request.contextPath}/public/backend/images/sc.png" />
 				                  <c:set var="iconCls" value="icon_sc" />
 				                </c:if>
-				                <div class="m_inline" onclick="reasonProject(this,'${ids }','${obj.categoryId }','${obj.categoryName }','${vss.index + 1}','${qua.id}','${qua.name}');">
+				                <div class="m_inline" onclick="reasonProject(this,'${ind }','${obj.categoryId }','${obj.categoryName }','${vss.index + 1}','${qua.id}','${qua.name}');">
 									  			<img src="${iconUrl}" class="${iconCls}"/>&nbsp;&nbsp;${qua.name}
 									  		</div>
 									  		<div class="m_inline"><u:show showId="showfile${qua.flag}" delete="false" businessId="${qua.flag}" sysKey="${sysKey}" typeId="${typeId }"/></div>

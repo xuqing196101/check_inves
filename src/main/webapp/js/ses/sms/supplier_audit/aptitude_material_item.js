@@ -1,6 +1,6 @@
 $(function(){
 	/*var tablerId=$("#tablerId").val();
-	var ind = parseInt($("#ids").val());
+	var ind = parseInt($("#ind").val());
 	ind=ind+1;
 	var auditCount;
 	$("input[id^='count']").each(function(index,value){
