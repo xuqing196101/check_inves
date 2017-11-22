@@ -78,7 +78,7 @@
                 +'<button type="button" class="btn btn-windows reset" onclick="javascript: location.reload()">刷新</button>'
                 +'<button type="button" class="btn btn-windows input" onclick="downloadReviewTable()">下载专家复审统计表</button>'
               );
-              $('.pic_upload').after('<button type="button" class="btn btn-windows passed canDisable" onclick="takeEffect()">生效</button>');
+              $('.pic_upload').after('<button type="button" class="btn btn-windows passed canDisable mr0 ml5" onclick="takeEffect()">生效</button>');
             }
             
             // 判断是否禁用页面功能
