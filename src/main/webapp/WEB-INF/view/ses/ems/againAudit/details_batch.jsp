@@ -71,13 +71,12 @@
             <select class="w220" name="groupId"></select>
           </li>
           <li class="mb10">
-            <label class="fl">审核状态：</label>
+            <label class="fl">审核结论：</label>
             <select class="w220" name="status">
               <option value="">全部</option>
-              <option value="">复审合格</option>
+              <option value="-3">复审合格</option>
               <option value="5">复审不合格</option>
               <option value="10">复审退回修改</option>
-              <option value="">重新复审</option>
             </select>
           </li>
         </ul>
