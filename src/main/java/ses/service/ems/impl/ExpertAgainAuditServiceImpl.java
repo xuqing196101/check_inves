@@ -852,6 +852,30 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 			map.put("sysKey", sysKey);
 			for (ExpertBatchDetails e : list) {
 				StringBuffer expertType = new StringBuffer();
+				// 查询审核意见
+        		ExpertAuditOpinion expertAuditOpinion2 = new ExpertAuditOpinion();
+        		expertAuditOpinion2.setExpertId(e.getExpertId());
+        		expertAuditOpinion2.setFlagTime(1);
+        		expertAuditOpinion2 = expertAuditOpinionMapper.selectByExpertId(expertAuditOpinion2);
+        		
+        		Expert expertInfo = expertMapper.selectByPrimaryKey(e.getExpertId());
+        		if(expertInfo.getIsReviewEnd() !=null && expertInfo.getIsReviewEnd() == 1 && "-2".equals(expertInfo.getStatus())){
+            		if(expertAuditOpinion2 !=null && expertAuditOpinion2.getFlagAudit() !=null){
+            			if(expertAuditOpinion2.getFlagAudit() == -3){
+            				//预复审合格
+            				e.setExpertStatus("-3");
+            			}
+            			if(expertAuditOpinion2.getFlagAudit() == 5){
+            				//复审不合格
+            				e.setExpertStatus("5");
+            				
+            			}
+            			if(expertAuditOpinion2.getFlagAudit() == 10){
+            				//复审退回修改
+            				e.setExpertStatus("10");
+            			}
+            		}
+            	}
 	            if(e.getExpertsTypeId() != null) {
 	                for(String typeId: e.getExpertsTypeId().split(",")) {
 	                    DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(typeId);
