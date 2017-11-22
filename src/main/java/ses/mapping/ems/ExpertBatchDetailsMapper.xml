@@ -89,7 +89,10 @@
         </if>
         <if test="reviewStatus !=null">
         	and T2.REVIEW_STATUS=#{reviewStatus}
-        </if>  
+        </if> 
+         <if test="notReviewStatus !=null">
+        	and T2.REVIEW_STATUS is null
+        </if> 
         <if test=" sort != null ">
         ORDER BY org.POSITION ASC,t2.AUDIT_AT ASC
         </if>

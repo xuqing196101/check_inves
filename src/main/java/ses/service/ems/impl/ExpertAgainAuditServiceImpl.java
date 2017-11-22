@@ -252,6 +252,30 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 			if(list.size()>0){
 				for (ExpertBatchDetails e : list) {
 					StringBuffer expertType = new StringBuffer();
+					// 查询审核意见
+	        		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+	        		expertAuditOpinion.setExpertId(e.getExpertId());
+	        		expertAuditOpinion.setFlagTime(1);
+	        		expertAuditOpinion = expertAuditOpinionMapper.selectByExpertId(expertAuditOpinion);
+	        		
+	        		Expert expertInfo = expertMapper.selectByPrimaryKey(e.getExpertId());
+	        		if(expertInfo.getIsReviewEnd() !=null && expertInfo.getIsReviewEnd() == 1 && "-2".equals(expertInfo.getStatus())){
+	            		if(expertAuditOpinion !=null && expertAuditOpinion.getFlagAudit() !=null){
+	            			if(expertAuditOpinion.getFlagAudit() == -3){
+	            				//预复审合格
+	            				e.setExpertStatus("-3");
+	            			}
+	            			if(expertAuditOpinion.getFlagAudit() == 5){
+	            				//复审不合格
+	            				e.setExpertStatus("5");
+	            				
+	            			}
+	            			if(expertAuditOpinion.getFlagAudit() == 10){
+	            				//复审退回修改
+	            				e.setExpertStatus("10");
+	            			}
+	            		}
+	            	}
 		            if(e.getExpertsTypeId() != null) {
 		                for(String typeId: e.getExpertsTypeId().split(",")) {
 		                    DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(typeId);
@@ -998,9 +1022,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		img.setObject(listTemp);
 		return img;
 	} 
-	public List<ExpertBatchDetails> findBatchDetailsList(String batchId) {
-		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
-		expertBatchDetails.setBatchId(batchId);
+	public List<ExpertBatchDetails> findBatchDetailsList(ExpertBatchDetails expertBatchDetails) {
 		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
 		int i=1;
 		if(list.size()>0){
