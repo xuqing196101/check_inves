@@ -75,11 +75,10 @@
             if ($('.pic_upload').siblings('button').length <= 0) {
               $('.pic_upload').before('<button type="button" class="btn btn-windows group canDisable" onclick="jump_batchGroup()">批次分组</button>'
                 +'<button type="button" class="btn btn-windows config canDisable" onclick="jump_auditBatch()">审核配置</button>'
-                +'<button type="button" class="btn btn-windows apply canDisable" onclick="reviewConfirm()">批准</button>'
                 +'<button type="button" class="btn btn-windows reset" onclick="javascript: location.reload()">刷新</button>'
                 +'<button type="button" class="btn btn-windows input" onclick="downloadReviewTable()">下载专家复审统计表</button>'
-                +'<button type="button" class="btn btn-windows passed canDisable" onclick="takeEffect()">生效</button>'
               );
+              $('.pic_upload').after('<button type="button" class="btn btn-windows passed canDisable" onclick="takeEffect()">生效</button>');
             }
             
             // 判断是否禁用页面功能

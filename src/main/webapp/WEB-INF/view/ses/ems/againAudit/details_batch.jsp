@@ -90,9 +90,8 @@
     
     <!-- 表格开始-->
     <div class="col-md-12 pl20 pr0 mt10 mb10" id="btn_group">
-      <div class="fr pic_upload">
-        <div class="fl h30 lh30">上传批准复审表：</div>
-        <u:upload id="pic_checkword" businessId="${batchId}" sysKey="3" typeId="da6ab7e73b8d464d8d8d46013dd70e43" buttonName="上传彩色扫描件" auto="true" multiple="true"/>
+      <div class="m_inline pic_upload">
+        <u:upload id="pic_checkword" businessId="${batchId}" sysKey="3" typeId="da6ab7e73b8d464d8d8d46013dd70e43" buttonName="上传批准复审表" auto="true" multiple="true"/>
         <u:show showId="pic_checkword" businessId="${batchId}" sysKey="3" typeId="da6ab7e73b8d464d8d8d46013dd70e43" />
       </div>
       <div class="clear"></div>
@@ -239,36 +238,36 @@
     }
     
     //复审批准（资源服务中心）
-    function reviewConfirm(){
-    	var ids = [];
-    	$('input[type="checkbox"]:checked').each(function() {
-        var id = $(this).val();
-       	var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
-        state = trim(state);
-        if(state !="" && state == "复审结束"){
-        	ids.push(id);
-        }
-      });
-    		$.ajax({
- 	        url: "${pageContext.request.contextPath}/expertAgainAudit/reviewConfirm.do",
- 	        data: {"expertIds" : ids},
- 	        type: "post",
- 	        traditional:true,
- 	        success: function (data) {
- 	          if(data.status == 500){
- 	            layer.msg("操作成功",{offset:'100px'});
- 	            window.setTimeout(function(){
- 	              window.location.reload();
- 	            },1000);
- 	          }
- 	          if(data.status == 503){
- 	            layer.msg("请选择复审结束的专家",{offset:'100px'});
- 	          }
- 	        },error: function(){
- 	          layer.msg("操作失败",{offset:'100px'});
- 	        }
- 	      });
-    }
+    // function reviewConfirm(){
+    // 	var ids = [];
+    // 	$('input[type="checkbox"]:checked').each(function() {
+    //     var id = $(this).val();
+    //    	var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
+    //     state = trim(state);
+    //     if(state !="" && state == "复审结束"){
+    //     	ids.push(id);
+    //     }
+    //   });
+    // 		$.ajax({
+ 	  //       url: "${pageContext.request.contextPath}/expertAgainAudit/reviewConfirm.do",
+ 	  //       data: {"expertIds" : ids},
+ 	  //       type: "post",
+ 	  //       traditional:true,
+ 	  //       success: function (data) {
+ 	  //         if(data.status == 500){
+ 	  //           layer.msg("操作成功",{offset:'100px'});
+ 	  //           window.setTimeout(function(){
+ 	  //             window.location.reload();
+ 	  //           },1000);
+ 	  //         }
+ 	  //         if(data.status == 503){
+ 	  //           layer.msg("请选择复审结束的专家",{offset:'100px'});
+ 	  //         }
+ 	  //       },error: function(){
+ 	  //         layer.msg("操作失败",{offset:'100px'});
+ 	  //       }
+ 	  //     });
+    // }
     
     //查看
     function viewDetails(expertId){
