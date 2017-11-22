@@ -9,6 +9,8 @@ import common.constant.StaticVariables;
 import common.service.UploadService;
 import common.utils.JdcgResult;
 import common.utils.ListSortUtil;
+import common.utils.SMSUtil;
+
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -1846,9 +1848,8 @@ public class SupplierAuditController extends BaseSupplierController {
 			supplierModify.setSupplierId(supplierId);
 			/*supplierModifyService.delete(supplierModify);*/
 			supplierModifyService.updateIsDeleteBySupplierId(supplierModify);
-			
-			
 		}
+		
 		return "redirect:supplierAll.html";
 	}
 

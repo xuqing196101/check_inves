@@ -6,6 +6,8 @@ import common.constant.StaticVariables;
 import common.service.UploadService;
 import common.utils.DateUtils;
 import common.utils.JdcgResult;
+import common.utils.SMSUtil;
+
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -485,7 +487,21 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
      */
 	@Override
 	public int updateStatus(Supplier supplier) {
-		return supplierMapper.updateStatus(supplier);
+		int updateResult = supplierMapper.updateStatus(supplier);
+		if(updateResult > 0){
+			String id = supplier.getId();
+			Integer status = supplier.getStatus();
+			if(StringUtils.isNotBlank(id) && status != null){
+				// 短信通知供应商审核结果
+				if(SupplierConstants.STATUSMAP_SMS.containsKey(status)){
+					Supplier supplierOfDb = supplierMapper.selectByPrimaryKey(id);
+					if(supplierOfDb != null){
+						SMSUtil.sendMsg(supplierOfDb.getMobile(), "【军队采购网】审核通知：您好，您的信息"+SupplierConstants.STATUSMAP_SMS.get(status)+"。");
+					}
+				}
+			}
+		}
+		return updateResult;
 	}
 	
 	/**
