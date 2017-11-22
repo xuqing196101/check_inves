@@ -63,8 +63,7 @@
           <li class="select2-nosearch mb10">
             <label class="fl">专家类别：</label>
             <div class="fl w220">
-            <select multiple name="expertsTypeId">
-            </select>
+            <select class="w220 h30" name="expertsTypeId" multiple></select>
             </div>
           </li>
           <li class="mb10">
@@ -84,8 +83,8 @@
         </ul>
         <div class="clear"></div>
         <div class="tc">
-          <button type="button" class="btn mb0" onclick="detailsBatch_search()">查询</button>
-          <button type="reset" class="btn mb0 mr0" id="againAudit_reset">重置</button>
+          <button type="button" class="btn mb0 canDisable" onclick="detailsBatch_search()">查询</button>
+          <button type="reset" class="btn mb0 mr0 canDisable" id="againAudit_reset">重置</button>
         </div>
       </form>
     </div>

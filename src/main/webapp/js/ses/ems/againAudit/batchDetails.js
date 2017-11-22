@@ -23,31 +23,41 @@
             // 初始化搜索
             if (is_init === 0) {
               var str = '';
-              for (var orgName_i in list_content.allOrg) {
-                str += '<option value="'+ list_content.allOrg[orgName_i].shortName +'">'+ list_content.allOrg[orgName_i].shortName +'</option>';
+              // 判断是否禁用页面功能
+              if (list_content.batchStatus == '1') {
+                $('[name=orgName]').prop('disabled', true);
+                $('[name=expertsFrom]').prop('disabled', true);
+                $('[name=expertsTypeId]').prop('disabled', true);
+                $('[name=expertsTypeId]').prop('disabled', true);
+                $('[name=groupId]').prop('disabled', true);
+                $('[name=status]').prop('disabled', true);
+              } else {
+                for (var orgName_i in list_content.allOrg) {
+                  str += '<option value="'+ list_content.allOrg[orgName_i].shortName +'">'+ list_content.allOrg[orgName_i].shortName +'</option>';
+                }
+                $('[name=orgName]').html('<option value="">请选择</option>' + str);
+                str = '';
+                for (var expertsFrom_i in list_content.lyTypeList) {
+                  str += '<option value="'+ list_content.lyTypeList[expertsFrom_i].id +'">'+ list_content.lyTypeList[expertsFrom_i].name +'</option>';
+                }
+                $('[name=expertsFrom]').html('<option value="">全部</option>' + str);
+                str = '';
+                for (var expertsTypeId_i in list_content.expTypeList) {
+                  str += '<option value="'+ list_content.expTypeList[expertsTypeId_i].id +'">'+ list_content.expTypeList[expertsTypeId_i].name +'</option>';
+                }
+                $('[name=expertsTypeId]').html(str);
+                str = '';
+                $('[name=expertsTypeId]').select2({
+                  placeholder: '全部',
+                  closeOnSelect: false,
+                  minimumResultsForSearch: -1
+                });
+                str = '';
+                for (var groupId_i in list_content.groupList) {
+                  str += '<option value="'+ list_content.groupList[groupId_i].groupId +'">'+ list_content.groupList[groupId_i].groupName +'</option>';
+                }
+                $('[name=groupId]').html('<option value="">全部</option>' + str);
               }
-              $('[name=orgName]').html('<option value="">请选择</option>' + str);
-              str = '';
-              for (var expertsFrom_i in list_content.lyTypeList) {
-                str += '<option value="'+ list_content.lyTypeList[expertsFrom_i].id +'">'+ list_content.lyTypeList[expertsFrom_i].name +'</option>';
-              }
-              $('[name=expertsFrom]').html('<option value="">全部</option>' + str);
-              str = '';
-              for (var expertsTypeId_i in list_content.expTypeList) {
-                str += '<option value="'+ list_content.expTypeList[expertsTypeId_i].id +'">'+ list_content.expTypeList[expertsTypeId_i].name +'</option>';
-              }
-              $('[name=expertsTypeId]').html(str);
-              str = '';
-              $('[name=expertsTypeId]').select2({
-                placeholder: '全部',
-                closeOnSelect: false,
-                minimumResultsForSearch: -1
-              });
-              str = '';
-              for (var groupId_i in list_content.groupList) {
-                str += '<option value="'+ list_content.groupList[groupId_i].groupId +'">'+ list_content.groupList[groupId_i].groupName +'</option>';
-              }
-              $('[name=groupId]').html('<option value="">全部</option>' + str);
             }
             is_init ++;
             
@@ -63,34 +73,57 @@
             });
   
             if ($('.pic_upload').siblings('button').length <= 0) {
-              $('.pic_upload').before('<button type="button" class="btn btn-windows group" onclick="jump_batchGroup()">批次分组</button>'
-                +'<button type="button" class="btn btn-windows config" onclick="jump_auditBatch()">审核配置</button>'
-                +'<button type="button" class="btn btn-windows apply" onclick="reviewConfirm()">批准</button>'
+              $('.pic_upload').before('<button type="button" class="btn btn-windows group canDisable" onclick="jump_batchGroup()">批次分组</button>'
+                +'<button type="button" class="btn btn-windows config canDisable" onclick="jump_auditBatch()">审核配置</button>'
+                +'<button type="button" class="btn btn-windows apply canDisable" onclick="reviewConfirm()">批准</button>'
                 +'<button type="button" class="btn btn-windows reset" onclick="javascript: location.reload()">刷新</button>'
                 +'<button type="button" class="btn btn-windows input" onclick="downloadReviewTable()">下载专家复审统计表</button>'
-                +'<button type="button" class="btn btn-windows passed" onclick="takeEffect()">生效</button>'
+                +'<button type="button" class="btn btn-windows passed canDisable" onclick="takeEffect()">生效</button>'
               );
             }
-              
-            $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped break-all againAudit_table">'
-              +'<thead>'
-              +'  <tr>'
-              +'    <th class="info w30"><input type="checkbox" onclick="checkAll(this)" name="checkAll"></th>'
-              +'    <th class="info w130">专家编号</th>'
-              +'    <th class="info w100">采购机构</th>'
-              +'    <th class="info w100">专家姓名</th>'
-              +'    <th class="info w50">性别</th>'
-              +'    <th class="info w80">专家类型</th>'
-              +'    <th class="info w80">专家类别</th>'
-              +'    <th class="info">工作单位</th>'
-              +'    <th class="info w120">专业职称(职务)</th>'
-              +'    <th class="info w60">审核组</th>'
-              +'    <th class="info w110">审核状态</th>'
-              +'    <th class="info w100">操作</th>'
-              +'  </tr>'
-              +'</thead>'
-              +'<tbody id="list_content"></tbody>'
-            +'</table>');
+            
+            // 判断是否禁用页面功能
+            if (list_content.batchStatus == '1') {
+              $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped break-all againAudit_table">'
+                +'<thead>'
+                +'  <tr>'
+                +'    <th class="info w30"><input type="checkbox" onclick="checkAll(this)" name="checkAll" disabled></th>'
+                +'    <th class="info w130">专家编号</th>'
+                +'    <th class="info w100">采购机构</th>'
+                +'    <th class="info w100">专家姓名</th>'
+                +'    <th class="info w50">性别</th>'
+                +'    <th class="info w80">专家类型</th>'
+                +'    <th class="info w80">专家类别</th>'
+                +'    <th class="info">工作单位</th>'
+                +'    <th class="info w120">专业职称(职务)</th>'
+                +'    <th class="info w60">审核组</th>'
+                +'    <th class="info w110">审核状态</th>'
+                +'    <th class="info w100">操作</th>'
+                +'  </tr>'
+                +'</thead>'
+                +'<tbody id="list_content"></tbody>'
+              +'</table>');
+            } else {
+              $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped break-all againAudit_table">'
+                +'<thead>'
+                +'  <tr>'
+                +'    <th class="info w30"><input type="checkbox" onclick="checkAll(this)" name="checkAll"></th>'
+                +'    <th class="info w130">专家编号</th>'
+                +'    <th class="info w100">采购机构</th>'
+                +'    <th class="info w100">专家姓名</th>'
+                +'    <th class="info w50">性别</th>'
+                +'    <th class="info w80">专家类型</th>'
+                +'    <th class="info w80">专家类别</th>'
+                +'    <th class="info">工作单位</th>'
+                +'    <th class="info w120">专业职称(职务)</th>'
+                +'    <th class="info w60">审核组</th>'
+                +'    <th class="info w110">审核状态</th>'
+                +'    <th class="info w100">操作</th>'
+                +'  </tr>'
+                +'</thead>'
+                +'<tbody id="list_content"></tbody>'
+              +'</table>');
+            }
             
             if (typeof(list_content) != 'undefined') {
               $('#list_content').html('');
@@ -110,7 +143,7 @@
                     list_content.list[i].status = '公示中';
                   } else if (list_content.list[i].status === '-2' && list_content.list[i].isReviewEnd != '1') {
                     list_content.list[i].status = '<span class="green">预复审结束</span>';
-                    btn = '<button type="button" class="btn" onclick="downloadTable(\''+ list_content.list[i].expertId +'\')">下载复审表</button>';
+                    btn = '<button type="button" class="btn canDisable" onclick="downloadTable(\''+ list_content.list[i].expertId +'\')">下载复审表</button>';
                   } else if (list_content.list[i].status === '-2' && list_content.list[i].isReviewEnd == '1') {
                 	  list_content.list[i].status = '<span class="red">复审结束</span>';
                   } else if (list_content.list[i].status === '-1') {
@@ -131,10 +164,10 @@
                     }
                   } else if (list_content.list[i].status === '5') {
                     list_content.list[i].status = '复审不合格';
-                    btn = '<button type="button" class="btn" onclick="reexamination(\''+ list_content.list[i].expertId +'\')">重新复审</button>';
+                    btn = '<button type="button" class="btn canDisable" onclick="reexamination(\''+ list_content.list[i].expertId +'\')">重新复审</button>';
                   } else if (list_content.list[i].status === '6') {
                     list_content.list[i].status = '待复查';
-                    btn = '<button type="button" class="btn" onclick="reexamination(\''+ list_content.list[i].expertId +'\')">重新复审</button>';
+                    btn = '<button type="button" class="btn canDisable" onclick="reexamination(\''+ list_content.list[i].expertId +'\')">重新复审</button>';
                   } else if (list_content.list[i].status === '7') {
                     list_content.list[i].status = '复查合格';
                   } else if (list_content.list[i].status === '8') {
@@ -160,7 +193,7 @@
                   }
                 } else {
                   list_content.list[i].status = '重新复审';
-                  btn = '<button type="button" class="btn" onclick="cancel_reexamination(\''+ list_content.list[i].expertId +'\')">取消重新复审</button>';
+                  btn = '<button type="button" class="btn canDisable" onclick="cancel_reexamination(\''+ list_content.list[i].expertId +'\')">取消重新复审</button>';
                 }
                 
                 if (typeof(list_content.list[i].batchDetailsNumber) === 'undefined') {
@@ -216,6 +249,11 @@
                 +'</tr>');
               }
             }
+            
+            // 判断是否禁用页面功能
+            if (list_content.batchStatus == '1') {
+              $('.canDisable').prop('disabled', true);
+            }
           } else if (userType === '6') {
             // $('#btn_group').html('<button type="button" class="btn btn-windows git" onclick="expert_auditBatch(\''+ root_url +'\')">审核</button>'
             //   +'<button type="button" onclick="downloadTable(2)" class="btn btn-windows input">下载复审表</button>');
@@ -258,7 +296,7 @@
                 } else if (list_content.list.list[i].status === '-2'&& list_content.list.list[i].isReviewEnd != '1') {
                   list_content.list.list[i].status = '<span class="green">预复审结束</span>';
                   if(list_content.list.list[i].isDownload == '1' && list_content.list.list[i].isReviewEnd != '1'){
-                  	btn = '<button type="button" class="btn m0" onclick="reviewEnd(\''+ list_content.list.list[i].expertId +'\');">复审结束</button>';
+                  	btn = '<button type="button" class="btn m0 canDisable" onclick="reviewEnd(\''+ list_content.list.list[i].expertId +'\');">复审结束</button>';
                   }
                 }else if (list_content.list.list[i].status === '-2' && list_content.list.list[i].isReviewEnd == '1') {
                     list_content.list.list[i].status = '<span class="red">复审结束</span>';
@@ -341,7 +379,7 @@
                 }
                 
                 if (list_content.list.list[i].status != "公示中" && list_content.list.list[i].status != "复审合格" && list_content.list.list[i].status != "<span class=\"red\">复审结束</span>" && list_content.list.list[i].status != "复审不合格" && list_content.list.list[i].status != "复审退回修改" && list_content.list.list[i].status != "复查合格" && list_content.list.list[i].status != "复查未合格") {
-                  btn = '<button type="button" class="btn w100p mr0 mb5" onclick="expert_auditBatch(\''+ root_url +'\', \''+ list_content.list.list[i].expertId +'\')">复审</button>' + btn;
+                  btn = '<button type="button" class="btn w100p mr0 mb5 canDisable" onclick="expert_auditBatch(\''+ root_url +'\', \''+ list_content.list.list[i].expertId +'\')">复审</button>' + btn;
                 }
                 
                 $('#list_content').append('<tr>'
@@ -359,6 +397,11 @@
                   +'<td class="text-center break-all">'+ btn +'</td>'
                 +'</tr>');
               }
+            }
+            
+            // 判断是否禁用页面功能
+            if (list_content.batchStatus == '1') {
+              $('.canDisable').prop('disabled', true);
             }
           }
         } else {
