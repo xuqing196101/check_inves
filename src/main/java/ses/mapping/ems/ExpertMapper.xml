@@ -190,6 +190,7 @@
         T1.TELEPHONE,
         T1.STORAGE_AT,
         T1.AT_DUTY,
+        T1.PROFESS_TECH_TITLES,
         T2.LOGIN_NAME AS loginName,
         org.SHORT_NAME AS orgName,
         AREA.NAME AS ADDRESS
@@ -298,7 +299,7 @@
         </if>
     </select>
 
-    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap" flushCache="true" useCache="false">
         select
         t1.*,t3.SHORT_NAME AS orgName,
         t2.EXPER_CONTACT AS contactName,
@@ -2264,6 +2265,7 @@
       T1.AUDIT_TEMPORARY,
       T1.AT_DUTY,
       T1.STORAGE_AT,
+      T1.PROFESS_TECH_TITLES,
       T2.LOGIN_NAME AS loginName,
       org.SHORT_NAME AS orgName,
       AREA.NAME AS ADDRESS,
@@ -2732,6 +2734,7 @@
         t1.AUDIT_AT,
         t1.WORK_UNIT,
         t1.PROFESS_TECH_TITLES,
+        t1.REVIEW_STATUS as reviewStatus,
         t2.NAME as sex,
         org.SHORT_NAME AS orgName
         from
@@ -2907,4 +2910,7 @@
     AND to_char(AUDIT_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
     AND to_char(AUDIT_AT,'yyyy-MM-dd hh24:mi:ss') &lt;= #{end,jdbcType=VARCHAR} 
   </select>
+  <update id="updateReviewStatus" parameterType="java.lang.String">
+  	UPDATE T_SES_EMS_EXPERT SET REVIEW_STATUS='${reciewStatus}' WHERE ID='${id}'
+  </update>
 </mapper>

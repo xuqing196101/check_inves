@@ -217,7 +217,7 @@
             <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
           </c:if>
           <ul class="ul_list count_flow">
-             <c:if test="${status == -2 || status == 0 || (sign ==1 && expert.status ==9) || (sign ==3 && status ==6) || status ==4}">
+             <c:if test="${(status == -2 || status == 0 || (sign ==1 && expert.status ==9) || (sign ==3 && status ==6) || status ==4) && isCheck eq 'no'}">
               <!-- <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">撤销</button> -->
               <button class="btn btn-windows edit" type="button" onclick="showDiv()" style=" border-bottom-width: -;margin-bottom: 7px;">改状态</button>  
             </c:if> 
@@ -282,7 +282,7 @@
           
           <div class="col-md-12 col-sm-12 col-xs-12  add_regist tc">
 	          <a class="btn" type="button" onclick="lastStep();">上一步</a>
-	          <c:if test="${status == -2 || status == 0 || (sign ==1 && expert.status ==9) || (sign ==3 && status ==6) || status ==4}">
+	          <c:if test="${(status == -2 || status == 0 || (sign ==1 && expert.status ==9) || (sign ==3 && status ==6) || status ==4) && isCheck eq 'no'}">
 	            <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zancun();">暂存</a>
 	          </c:if>
 	          <a class="btn" type="button" onclick="nextStep();">下一步</a>
@@ -296,6 +296,7 @@
       <input name="sign" value="${sign}" type="hidden">
       <input name="status" id="status" value="${status}" type="hidden">
       <input name="batchId" value="${batchId}" type="hidden">
+      <input name="isCheck" value="${isCheck}" type="hidden">
     </form>
     
     <link rel="stylesheet" href="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.css">

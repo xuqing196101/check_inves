@@ -23,23 +23,27 @@ import com.github.pagehelper.PageInfo;
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.ems.BatchTemporaryMapper;
+import ses.dao.ems.ExpertAuditMapper;
 import ses.dao.ems.ExpertAuditOpinionMapper;
 import ses.dao.ems.ExpertBatchDetailsMapper;
 import ses.dao.ems.ExpertBatchMapper;
 import ses.dao.ems.ExpertGroupMapper;
 import ses.dao.ems.ExpertMapper;
 import ses.dao.ems.ExpertReviewTeamMapper;
+import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.RoleUser;
 import ses.model.bms.User;
 import ses.model.ems.BatchTemporary;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAgainAuditImg;
+import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditOpinion;
 import ses.model.ems.ExpertBatch;
 import ses.model.ems.ExpertBatchDetails;
 import ses.model.ems.ExpertGroup;
 import ses.model.ems.ExpertReviewTeam;
+import ses.model.oms.Orgnization;
 import ses.service.ems.ExpertAgainAuditService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
@@ -57,6 +61,8 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	private ExpertMapper expertMapper;
 	@Autowired
 	private DictionaryDataMapper dictionaryDataMapper;
+	 @Autowired
+		private OrgnizationMapper orgniztionMapper;
 	@Autowired
 	private ExpertBatchMapper expertBatchMapper;
 	@Autowired
@@ -71,6 +77,8 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	private ExpertAuditOpinionMapper expertAuditOpinionMapper;
 	@Autowired
 	private BatchTemporaryMapper batchTemporaryMapper;
+	@Autowired
+	private ExpertAuditMapper expertAuditMapper;
 	public static final String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	public String getbatchName(String batchId) {
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -196,52 +204,83 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	}
 
 	@Override
-	public ExpertAgainAuditImg findBatchDetails(String batchId,String status, Integer pageNum) {
+	public ExpertAgainAuditImg findBatchDetails(ExpertBatchDetails expertBatchDetails) {
 		// TODO Auto-generated method stub
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
-		PropertiesUtil config = new PropertiesUtil("config.properties");
+		//PropertiesUtil config = new PropertiesUtil("config.properties");
 		/*if(pageNum != null){
 			PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
 		}*/
-		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
-		expertBatchDetails.setBatchId(batchId);
-		expertBatchDetails.setStatus(status);
 		//expertBatchDetails.setSort("1");
 		Map<String,Object> map = new HashMap<String,Object>();
+		if (expertBatchDetails.getExpertsTypeId() != null && !"".equals(expertBatchDetails.getExpertsTypeId())) {
+            List<String> listExpertTypeId = Arrays.asList(expertBatchDetails.getExpertsTypeId().split(","));
+            expertBatchDetails.setExpertTypeId(listExpertTypeId);
+		
+		}
+		ExpertBatch batch = expertBatchMapper.getExpertBatchByKey(expertBatchDetails.getBatchId());
+		Integer batchStatus=0;
+		if(batch.getBatchStatus()!=null){
+			batchStatus=Integer.valueOf(batch.getBatchStatus());
+		}
+		map.put("batchId", batch.getBatchId());
+		map.put("batchName", batch.getBatchName());
+		map.put("batchStatus", batchStatus);
 		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
-		if(list.size()>0){
-			map.put("batchId", list.get(0).getBatchId());
-			map.put("batchName", list.get(0).getBatchName());
-			for (ExpertBatchDetails e : list) {
-				StringBuffer expertType = new StringBuffer();
-	            if(e.getExpertsTypeId() != null) {
-	                for(String typeId: e.getExpertsTypeId().split(",")) {
-	                    DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(typeId);
-	                    if(data != null){
-	                    	if(6 == data.getKind()) {
-	                            expertType.append(data.getName() + "技术、");
-	                        } else {
-	                            expertType.append(data.getName() + "、");
-	                        }
-	                    }
-	                    
-	                }
-	                if(expertType.length() > 0){
-	                	String expertsType = expertType.toString().substring(0, expertType.length() - 1);
-	                	 e.setExpertsTypeId(expertsType);
-	                }
-	            } else {
-	                e.setExpertsTypeId("");
-	            }
-	            
-	          //专家来源
-	      		if(e.getExpertsFrom() != null) {
-	      			DictionaryData expertsFrom = dictionaryDataMapper.selectByPrimaryKey(e.getExpertsFrom());
-	      			e.setExpertsFrom(expertsFrom.getName());
-	      		}
+		 // 查询数据字典中的专家来源配置数据
+        List < DictionaryData > lyTypeList = DictionaryDataUtil.find(12);
+        // 查询数据字典中的专家类别数据
+        List < DictionaryData > jsTypeList = DictionaryDataUtil.find(6);
+        for(DictionaryData data: jsTypeList) {
+            data.setName(data.getName() + "技术");
+        }
+        List < DictionaryData > jjTypeList = DictionaryDataUtil.find(19);
+        
+        //全部机构
+        HashMap<String,Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("isAuditSupplier", 0);
+        List<Orgnization>  allOrg = orgniztionMapper.findPurchaseOrgByPosition(hashMap);
+        jsTypeList.addAll(jjTypeList);
+        map.put("allOrg", allOrg);//全部采购机构
+        map.put("expTypeList", jsTypeList);//专家类型
+        map.put("lyTypeList", lyTypeList);//专家来源
+        ExpertGroup expertGroup = new ExpertGroup();
+        expertGroup.setBatchId(expertBatchDetails.getBatchId());
+        List<ExpertGroup> group = expertGroupMapper.getGroup(expertGroup);
+        map.put("groupList", group);//该批次下的组
+		if(list.size()>0||"select".equals(expertBatchDetails.getRequestType())){
+			if(list.size()>0){
+				for (ExpertBatchDetails e : list) {
+					StringBuffer expertType = new StringBuffer();
+		            if(e.getExpertsTypeId() != null) {
+		                for(String typeId: e.getExpertsTypeId().split(",")) {
+		                    DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(typeId);
+		                    if(data != null){
+		                    	if(6 == data.getKind()) {
+		                            expertType.append(data.getName() + "技术、");
+		                        } else {
+		                            expertType.append(data.getName() + "、");
+		                        }
+		                    }
+		                    
+		                }
+		                if(expertType.length() > 0){
+		                	String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+		                	 e.setExpertsTypeId(expertsType);
+		                }
+		            } else {
+		                e.setExpertsTypeId("");
+		            }
+		           
+		          //专家来源
+		      		if(e.getExpertsFrom() != null) {
+		      			DictionaryData expertsFrom = dictionaryDataMapper.selectByPrimaryKey(e.getExpertsFrom());
+		      			e.setExpertsFrom(expertsFrom.getName());
+		      		}
+				}
 			}
 		}else{
-			if(status != null){
+			if(expertBatchDetails.getStatus() != null){
 				img.setStatus(false);
 				img.setMessage("全部专家已分组完成");
 				return img;
@@ -769,9 +808,15 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
 		Map<String,Object> map = new HashMap<String,Object>();
 		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+		ExpertBatch batch = expertBatchMapper.getExpertBatchByKey(expertBatchDetails.getBatchId());
+		Integer batchStatus=0;
+		if(batch.getBatchStatus()!=null){
+			batchStatus=Integer.valueOf(batch.getBatchStatus());
+		}
+		map.put("batchId", batch.getBatchId());
+		map.put("batchName", batch.getBatchName());
+		map.put("batchStatus", batchStatus);
 		if(list.size()>0){
-			map.put("batchId", list.get(0).getBatchId());
-			map.put("batchName", list.get(0).getBatchName());
 			// 供应商系统key文件上传key
 			Integer sysKey = common.constant.Constant.EXPERT_SYS_KEY;
 			// 定义文件上传类型
@@ -1091,6 +1136,47 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 				batchTemporaryMapper.deleteBatchTemporary(string);
 			}
 		}
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		return img;
+	}
+	/*
+	 * 重新复审
+	 * */
+	public ExpertAgainAuditImg againReview(String id) {
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		expertMapper.updateReviewStatus("1", id);
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		return img;
+	}
+	/*
+	 * 取消复审
+	 * */
+	public ExpertAgainAuditImg cancelReview(String id) {
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		expertMapper.updateReviewStatus("", id);
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		return img;
+	}
+	public ExpertAgainAuditImg takeEffect(String batchId) {
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
+		expertBatchDetails.setBatchId(batchId);
+		expertBatchDetails.setReviewStatus("1");
+		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
+		if(list.size()>0){
+			for (ExpertBatchDetails e : list) {
+				expertAuditMapper.updateAgainReview(e.getExpertId());
+				Expert expert = new Expert();
+				expert.setStatus("1");
+				expert.setId(e.getExpertId());
+				expertMapper.updateByPrimaryKey(expert);
+			}
+			
+		}
+		expertBatchMapper.updateBatchStatus(batchId);
 		img.setStatus(true);
 		img.setMessage("操作成功");
 		return img;

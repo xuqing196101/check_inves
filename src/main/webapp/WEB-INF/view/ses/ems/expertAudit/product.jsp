@@ -489,7 +489,7 @@
 	  	             
 	        		
 	        	}else{
-	            layer.msg("请选择复审过的", {offset : [ '100px' ]});
+	            layer.msg("请选择已审核不通过的产品目录", {offset : [ '100px' ]});
 	          }
 	        }else{
 	        	 layer.msg("请选择", {offset : [ '100px' ]});

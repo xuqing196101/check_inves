@@ -39,18 +39,34 @@
             list_content[i].expertsFrom = '';
           }
           
-          $('#selected_content').append('<tr>'
-              +'  <td class="text-center"><input name="id" type="checkbox" value="'+ list_content[i].id +'" class="select_item"></td>'
-              +'  <td class="text-center">'+ (parseInt(i) + 1) +'</td>'
-              +'  <td>'+ list_content[i].orgName +'</td>'
-              +'  <td>'+ list_content[i].relName +'</td>'
-              +'  <td class="text-center">'+ list_content[i].sex +'</td>'
-              +'  <td>'+ list_content[i].expertsTypeId +'</td>'
-              +'  <td class="text-center">'+ list_content[i].expertsFrom +'</td>'
-              +'  <td>'+ list_content[i].workUnit +'</td>'
-              +'  <td>'+ list_content[i].professTechTitles +'</td>'
-              +'  <td class="text-center">'+ list_content[i].updateTime +'</td>'
-          +'</tr>');
+          // 判断是否为重新复审状态
+          if (typeof(list_content[i].reviewStatus) != null || typeof(list_content[i].reviewStatus) != 'null' || typeof(list_content[i].reviewStatus) != 'undefined') {
+            $('#selected_content').append('<tr class="red">'
+                +'  <td class="text-center"><input name="id" type="checkbox" value="'+ list_content[i].id +'" class="select_item"></td>'
+                +'  <td class="text-center">'+ (parseInt(i) + 1) +'</td>'
+                +'  <td>'+ list_content[i].orgName +'</td>'
+                +'  <td>'+ list_content[i].relName +'</td>'
+                +'  <td class="text-center">'+ list_content[i].sex +'</td>'
+                +'  <td>'+ list_content[i].expertsTypeId +'</td>'
+                +'  <td class="text-center">'+ list_content[i].expertsFrom +'</td>'
+                +'  <td>'+ list_content[i].workUnit +'</td>'
+                +'  <td>'+ list_content[i].professTechTitles +'</td>'
+                +'  <td class="text-center">'+ list_content[i].updateTime +'</td>'
+            +'</tr>');
+          } else {
+            $('#selected_content').append('<tr>'
+                +'  <td class="text-center"><input name="id" type="checkbox" value="'+ list_content[i].id +'" class="select_item"></td>'
+                +'  <td class="text-center">'+ (parseInt(i) + 1) +'</td>'
+                +'  <td>'+ list_content[i].orgName +'</td>'
+                +'  <td>'+ list_content[i].relName +'</td>'
+                +'  <td class="text-center">'+ list_content[i].sex +'</td>'
+                +'  <td>'+ list_content[i].expertsTypeId +'</td>'
+                +'  <td class="text-center">'+ list_content[i].expertsFrom +'</td>'
+                +'  <td>'+ list_content[i].workUnit +'</td>'
+                +'  <td>'+ list_content[i].professTechTitles +'</td>'
+                +'  <td class="text-center">'+ list_content[i].updateTime +'</td>'
+            +'</tr>');
+          }
         }
         
         // 绑定列表框点击事件，获取选中id集合

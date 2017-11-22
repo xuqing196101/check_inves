@@ -1471,13 +1471,13 @@
 							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'专业技术职称证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('专业技术职称证书')"
 								</c:if>>
 								<c:choose>
-									<c:when test="${(expert.status == 3 and !fn:contains(errorField,'专业技术职称证书'))||fn:contains(errorField,'专业技术职称')}">
+									<%-- <c:when test="${(expert.status == 3 and !fn:contains(errorField,'专业技术职称证书'))||fn:contains(errorField,'专业技术职称')}">
 										<u:show showId="show4" delete="false" groups="show9,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="4" />
 									</c:when>
-									<c:otherwise>
+									<c:otherwise> --%>
 										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert4" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="4" auto="true" />
 										<u:show showId="show4"  groups="show9,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="4" />
-									</c:otherwise>
+									<%-- </c:otherwise> --%>
 								</c:choose>
 							</div>
 						</li>

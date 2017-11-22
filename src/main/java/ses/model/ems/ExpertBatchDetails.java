@@ -59,6 +59,28 @@ public class ExpertBatchDetails {
 	/**排序*/
 	private String sort;
 	
+	private List<String> expertTypeId;
+	private String requestType;
+	private String reviewStatus;
+	
+	public String getReviewStatus() {
+		return reviewStatus;
+	}
+	public void setReviewStatus(String reviewStatus) {
+		this.reviewStatus = reviewStatus;
+	}
+	public String getRequestType() {
+		return requestType;
+	}
+	public void setRequestType(String requestType) {
+		this.requestType = requestType;
+	}
+	public List<String> getExpertTypeId() {
+		return expertTypeId;
+	}
+	public void setExpertTypeId(List<String> expertTypeId) {
+		this.expertTypeId = expertTypeId;
+	}
 	public String getSort() {
 		return sort;
 	}

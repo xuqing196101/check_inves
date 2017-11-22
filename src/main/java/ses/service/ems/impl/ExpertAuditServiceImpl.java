@@ -1,9 +1,11 @@
 package ses.service.ems.impl;
 
-import com.github.pagehelper.PageHelper;
-import common.constant.StaticVariables;
-import common.utils.DateUtils;
-import common.utils.JdcgResult;
+import java.io.File;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -13,6 +15,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import com.github.pagehelper.PageHelper;
+
+import common.constant.StaticVariables;
+import common.utils.DateUtils;
+import common.utils.JdcgResult;
+import common.utils.SMSUtil;
 import ses.dao.ems.ExpertAuditFileModifyMapper;
 import ses.dao.ems.ExpertAuditMapper;
 import ses.dao.ems.ExpertAuditOpinionMapper;
@@ -36,14 +45,7 @@ import ses.service.ems.ExpertService;
 import ses.util.Constant;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
-import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
-
-import java.io.File;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 /**
  * <p>Title:ExpertAuditServiceImpl </p>
  * <p>Description: 专家审核</p>
@@ -876,6 +878,49 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	}
 	public void updateAuditStatus(String id,String auditStatus) {
 		mapper.updateAuditStatus(id, auditStatus);
+	}
+	
+	
+	/**
+     * 审核结果短信通知
+     * @param expertId
+     * @return 0表示成功
+     * API文档地址   http://bcp.pro-group.cn:7002/Docs/#!easycloud-smsapi.md
+     */
+	@Override
+	public String sendSms(String expertId) {
+		Expert expert = expertService.selectByPrimaryKey(expertId);
+    	String mobile = expert.getMobile();
+    	String status = expert.getStatus();
+    	String msg = null;
+    	String prompt = "";
+		switch (status) {
+		case "1":
+			msg = "【军队采购网】审核通知：您好，您的信息初审合格。";
+			break;
+		case "2":
+			msg = "【军队采购网】审核通知：您好，您的信息初审不合格。";
+			break;
+		case "3":
+			msg = "【军队采购网】审核通知：您好，您的信息初审退回修改。";
+			break;
+		case "5":
+			msg = "【军队采购网】审核通知：您好，您的信息复审不合格。";
+			break;
+		case "6":
+			msg = "【军队采购网】审核通知：您好，您的信息复审合格。";
+			break;
+		case "10":
+			msg = "【军队采购网】审核通知：您好，您的信息复审退回修改。";
+			break;
+		default:
+			msg = null;
+			break;
+		}
+		if(msg !=null && !"".equals(msg) && mobile !=null && !"".equals(mobile)){
+			 prompt = SMSUtil.sendMsg(mobile, msg);			
+		}
+		return prompt;
 	}
 
 }

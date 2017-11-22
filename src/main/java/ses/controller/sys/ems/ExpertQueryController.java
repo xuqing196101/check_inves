@@ -427,30 +427,43 @@ public class ExpertQueryController {
         // 查询已选中的节点信息(所有子节点)
         /*List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);*/
         //只查询审核通过的
-       /* List<ExpertCategory> items = expertCategoryService.selectPassCateByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);*/
-        List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId);
+        List<ExpertCategory> items = null;
+        if(StringUtils.isNotEmpty(flags)){
+            // 公示品目删选
+            items = expertCategoryService.selectPassCateByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
+        }else {
+            items = expertCategoryService.selectPassCategoryByExpertId(expertId, typeId);
+            
+           /* items = expertCategoryService.getListByExpertId(expertId, typeId);*/
+        }
 
         List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
         int count=0;
-        for (ExpertCategory expertCategory : items) {
-        	count++;
-            if (!DictionaryDataUtil.findById(expertCategory.getTypeId()).getCode().equals("ENG_INFO_ID")) {
-                Category data = categoryService.findById(expertCategory.getCategoryId());
-                List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
-                if (findPublishTree.size() == 0) {
-                    expertItems.add(expertCategory);
-                } else if (data != null && data.getCode().length() == 7) {
-                    expertItems.add(expertCategory);
-                }
-            } else {
-                Category data = engCategoryService.findById(expertCategory.getCategoryId());
-                List<Category> findPublishTree = engCategoryService.findPublishTree(expertCategory.getCategoryId(), null);
-                if (findPublishTree.size() == 0) {
-                    expertItems.add(expertCategory);
-                } else if (data != null && data.getCode().length() == 7) {
-                    expertItems.add(expertCategory);
+        if(items != null && !items.isEmpty() && StringUtils.isEmpty(flags)){
+            for (ExpertCategory expertCategory : items) {
+                count++;
+                if (!DictionaryDataUtil.findById(expertCategory.getTypeId()).getCode().equals("ENG_INFO_ID")) {
+                    Category data = categoryService.findById(expertCategory.getCategoryId());
+                    List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
+                    if (findPublishTree.size() == 0) {
+                        expertItems.add(expertCategory);
+                    } else if (data != null && data.getCode().length() == 7) {
+                        expertItems.add(expertCategory);
+                    }
+                } else {
+                    Category data = engCategoryService.findById(expertCategory.getCategoryId());
+                    List<Category> findPublishTree = engCategoryService.findPublishTree(expertCategory.getCategoryId(), null);
+                    if (findPublishTree.size() == 0) {
+                        expertItems.add(expertCategory);
+                    } else if (data != null && data.getCode().length() == 7) {
+                        expertItems.add(expertCategory);
+                    }
                 }
             }
+        }
+        // 公示
+        if(items != null && !items.isEmpty() && StringUtils.isNotEmpty(flags)){
+            expertItems.addAll(items);
         }
         List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
         for(ExpertCategory item: expertItems) {
@@ -473,16 +486,15 @@ public class ExpertQueryController {
         model.addAttribute("typeId", typeId);
         model.addAttribute("result", new PageInfo < > (items));
         model.addAttribute("itemsList", allTreeList);
-        List<ExpertCategory> list = expertCategoryService.getListCount(expertId, typeId, "1");//设置level为1是为了过滤掉父节点,只统计子节点个数
-        
-        /*model.addAttribute("resultPages", (list == null ? 0 : this.totalPages(list)));
-        model.addAttribute("resultTotal", (list == null ? 0 : list.size()));
+        //List<ExpertCategory> list = expertCategoryService.getListCount(expertId, typeId, "1");//设置level为1是为了过滤掉父节点,只统计子节点个数
+        /*model.addAttribute("resultPages", (items == null ? 0 : this.totalPages(items)));
+        model.addAttribute("resultTotal", (items == null ? 0 : items.size()));
         model.addAttribute("resultpageNum", pageNum);
-        model.addAttribute("resultStartRow", (list == null ? 0 : 1));
+        model.addAttribute("resultStartRow", (items == null ? 0 : 1));
         model.addAttribute("resultEndRow", new PageInfo < > (items).getEndRow()+1);*/
         // 首页公示显示专家小类详情
         if(StringUtils.isNotEmpty(flags)){
-           return "iss/ps/index/index_expPublicity_item_ajax";
+            return "iss/ps/index/index_expPublicity_item_ajax";
         }
 
         return "ses/ems/expertQuery/ajax_items";
@@ -825,6 +837,7 @@ public class ExpertQueryController {
         return "dss/rids/list/storeExpertList";
     }
 	
+	
 	/**
 	 * 审核信息
 	 * @param model
@@ -847,6 +860,7 @@ public class ExpertQueryController {
 		
 		//审核记录
 		List < ExpertAudit > auditList = expertAuditService.diySelect(map);
+		auditList(auditList);
 		model.addAttribute("auditList", auditList);
 		
 		// 查询审核最终意见
@@ -893,6 +907,7 @@ public class ExpertQueryController {
 		expertAuditOpinion.setFlagTime(1);
 		//审核记录
 		List < ExpertAudit > auditList = expertAuditService.diySelect(map);
+		auditList(auditList);
 		model.addAttribute("auditList", auditList);
 		
 		// 查询审核最终意见
@@ -937,6 +952,69 @@ public class ExpertQueryController {
 		model.addAttribute("reqType", reqType);
 		model.addAttribute("status", status);
 		return "ses/ems/expertQuery/reviewCheck";
+	}
+	
+	
+	/**
+	 * 添加父节点
+	 * @param auditList
+	 * @return
+	 */
+	public List<ExpertAudit>  auditList(List<ExpertAudit> auditList){
+		Map<String,Integer> map = new HashMap<String,Integer>();
+		map.put("GOODS", 0);
+		map.put("PROJECT", 0);
+		map.put("SERVICE", 0);
+		map.put("ENG_INFO_ID", 0);
+		StringBuffer items=new StringBuffer();
+		if( auditList != null && auditList.size() > 0 ){
+			for (ExpertAudit e : auditList) {
+				if("six".equals(e.getSuggestType())){
+					SupplierCateTree tree =null;
+					Category category = categoryService.findById(e.getAuditFieldId());
+					if(category != null){
+						tree = getTreeListByCategoryId(category.getId(), null);
+					}else{
+						tree = getTreeListByCategoryId(e.getAuditFieldId(), "ENG_INFO_ID");
+						category=engCategoryService.findById(e.getAuditFieldId());
+					}
+					String rootNode = tree.getRootNode();
+		        	String firstNode = tree.getFirstNode();
+		        	String secondNode = tree.getSecondNode();
+		        	String thirdNode=tree.getThirdNode();
+		        	if(rootNode !=null && rootNode !=""){
+		        		items.append(rootNode);
+		        	}
+		        	if(firstNode !=	null && firstNode !=""){
+		        		items.append("/" + firstNode); 
+		        	}
+		        	if(secondNode != null && secondNode !=""){
+		        		items.append("/" + secondNode); 
+		        	}
+		        	if(thirdNode != null && thirdNode !=""){
+		        		items.append("/" + thirdNode); 
+		        	}
+		
+					e.setAuditContent(items.toString());
+					e.setCatalogCode(category.getCode());
+					items.setLength(0);
+					if(tree != null && tree.getRootNodeCode() != null){
+						map.put(tree.getRootNodeCode(), map.get(tree.getRootNodeCode())+1);
+						if("GOODS".equals(tree.getRootNodeCode())){
+							e.setAuditField("物资品目信息");
+						}else if("PROJECT".equals(tree.getRootNodeCode())){
+							e.setAuditField("工程品目信息");
+						}else if("SERVICE".equals(tree.getRootNodeCode())){
+							e.setAuditField("服务品目信息");
+						}else if("ENG_INFO_ID".equals(tree.getRootNodeCode())){
+							e.setAuditField("工程专业属性");
+						}
+					}
+					
+				}
+			}
+		}
+		return auditList;
 	}
 	
 	/**

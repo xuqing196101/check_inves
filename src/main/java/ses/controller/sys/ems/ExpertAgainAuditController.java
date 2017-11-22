@@ -36,6 +36,7 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.TodosService;
 import ses.service.ems.ExpertAgainAuditService;
 import ses.service.ems.ExpertAuditOpinionService;
+import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
@@ -67,6 +68,8 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	private ExpertAuditOpinionService expertAuditOpinionService;
 	@Autowired
 	private ExpertReviewTeamMapper expertReviewTeamMapper;
+	@Autowired
+	private ExpertAuditService expertAuditService;
 	/*
 	 * 提交复审
 	 * */
@@ -283,7 +286,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	 * 查询批次详情
 	 * */
 	@RequestMapping("/findBatchDetails")
-	public void findBatchDetails(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String batchId,String status,Integer pageNum){
+	public void findBatchDetails(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,ExpertBatchDetails expertBatchDetails,Integer pageNum){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		if(user == null){
 			img.setStatus(false);
@@ -292,27 +295,24 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 			return;
 		}
 		if("4".equals(user.getTypeName())){
-			/*if(pageNum == null) {
-				pageNum = StaticVariables.DEFAULT_PAGE;
-			}*/
-			if(batchId==null){
+			if(expertBatchDetails==null){
 				img.setStatus(false);
 				img.setMessage("参数有误");
 				super.writeJson(response, img);
 				return;
 			}
-			img=againAuditService.findBatchDetails(batchId,status, pageNum);
+			img=againAuditService.findBatchDetails(expertBatchDetails);
 			img.setUserType(user.getTypeName());
 			super.writeJson(response, img);
 			return;
 		}else if("6".equals(user.getTypeName())){
-			if(batchId==null){
+			if(expertBatchDetails==null){
 				img.setStatus(false);
-				img.setMessage("请选择要审核的批次");
+				img.setMessage("参数有误");
 				super.writeJson(response, img);
 				return;
 			}
-			img=againAuditService.fingStayReviewExpertDetailsList(user.getId(), batchId, pageNum);
+			img=againAuditService.fingStayReviewExpertDetailsList(user.getId(), expertBatchDetails.getBatchId(), pageNum);
 			img.setUserType(user.getTypeName());
 			super.writeJson(response, img);
 			return;
@@ -950,6 +950,8 @@ public class ExpertAgainAuditController extends BaseSupplierController {
             		expertService.updateByPrimaryKeySelective(expert);
             		//完成待办
             		todosService.updateIsFinish("expertAudit/basicInfo.html?expertId=" + expertIds[i]);
+            		//审核结果发送短信
+            		expertAuditService.sendSms(expertIds[i]);
             		jdcgResult.setStatus(500);
         		}else{
         			jdcgResult.setStatus(503);
@@ -1077,4 +1079,85 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		img=againAuditService.deleteBatchTemporary(ids);
 		super.writeJson(response, img);
 	 }
+	 /*
+	  * 重新复审
+	  * */
+	 @RequestMapping("againReview")
+	 public void againReview(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String id){
+		 ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		 if(user==null){
+			img.setStatus(false);
+			img.setMessage("请登录");
+			super.writeJson(response, img);
+			return;
+		}
+		if(!"4".equals(user.getTypeName())){
+			img.setStatus(false);
+			img.setMessage("您的权限不足");
+			super.writeJson(response, img);
+			return;
+		}
+		if(id==null){
+			img.setStatus(false);
+			img.setMessage("请求参数有误");
+			super.writeJson(response, img);
+			return;
+		}
+		img=againAuditService.againReview(id);
+		super.writeJson(response, img);
+	 };
+	 /*
+	  * 取消复审
+	  * */
+	 @RequestMapping("cancelReview")
+	 public void cancelReview(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String id) {
+		 ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		 if(user==null){
+			img.setStatus(false);
+			img.setMessage("请登录");
+			super.writeJson(response, img);
+			return;
+		}
+		if(!"4".equals(user.getTypeName())){
+			img.setStatus(false);
+			img.setMessage("您的权限不足");
+			super.writeJson(response, img);
+			return;
+		}
+		if(id==null){
+			img.setStatus(false);
+			img.setMessage("请求参数有误");
+			super.writeJson(response, img);
+			return;
+		}
+		img=againAuditService.cancelReview(id);
+		super.writeJson(response, img);
+	}
+	/*
+	 * 生效
+	 * */
+	@RequestMapping("takeEffect")
+	public void takeEffect(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String batchId) {
+		 ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		 if(user==null){
+			img.setStatus(false);
+			img.setMessage("请登录");
+			super.writeJson(response, img);
+			return;
+		}
+		if(!"4".equals(user.getTypeName())){
+			img.setStatus(false);
+			img.setMessage("您的权限不足");
+			super.writeJson(response, img);
+			return;
+		}
+		if(batchId==null){
+			img.setStatus(false);
+			img.setMessage("请求参数有误");
+			super.writeJson(response, img);
+			return;
+		}
+		img=againAuditService.takeEffect(batchId);
+		super.writeJson(response, img);
+	}
 }

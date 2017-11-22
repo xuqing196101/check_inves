@@ -7,9 +7,10 @@
         <result column="BATCH_NAME" jdbcType="VARCHAR" property="batchName" />
         <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
         <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+        <result column="BATCH_STATUS" jdbcType="VARCHAR" property="batchStatus" />
     </resultMap>
     <sql id="Base_List">
-    	BATCH_ID,BATCH_NUMBER,BATCH_NAME,CREATED_AT,UPDATED_AT
+    	BATCH_ID,BATCH_NUMBER,BATCH_NAME,CREATED_AT,UPDATED_AT,BATCH_STATUS
     </sql>
    
     <!-- 获取所有批次 -->
@@ -32,12 +33,19 @@
         </if> 
         ORDER BY CREATED_AT DESC
     </select>
-    
+     <select id="getExpertBatchByKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+     	 select
+        <include refid="Base_List" />
+        from T_SYS_EMS_EXPERT_BATCH 
+        where BATCH_ID = #{batchId}
+     </select>
     <insert id="insert" parameterType="ses.model.ems.ExpertBatch">
         insert into T_SYS_EMS_EXPERT_BATCH
-        (BATCH_ID,BATCH_NUMBER,BATCH_NAME,CREATED_AT,UPDATED_AT)
+        (BATCH_ID,BATCH_NUMBER,BATCH_NAME,CREATED_AT,UPDATED_AT,BATCH_STATUS)
         values
-        (#{batchId}, #{batchNumber},#{batchName}, #{createdAt}, #{updatedAt})
+        (#{batchId}, #{batchNumber},#{batchName}, #{createdAt}, #{updatedAt},'0')
     </insert>
-   
+   <update id="updateBatchStatus"  parameterType="java.lang.String">
+   		UPDATE T_SYS_EMS_EXPERT_BATCH SET BATCH_STATUS = '1' WHERE BATCH_ID=#{batchId}
+   </update>
 </mapper>

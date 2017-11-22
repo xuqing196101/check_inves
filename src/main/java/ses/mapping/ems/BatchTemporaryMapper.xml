@@ -21,6 +21,7 @@
         t1.AUDIT_AT AS auditAt,
         t1.WORK_UNIT AS workUnit,
         t1.PROFESS_TECH_TITLES AS professTechTitles,
+        t1.REVIEW_STATUS AS reviewStatus,
         t2.NAME as sex,
         org.SHORT_NAME AS orgName
         from

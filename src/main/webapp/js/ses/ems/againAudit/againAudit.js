@@ -10,6 +10,7 @@
       data: {},
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
+        
         if (is_init === 0) {
           var str = '';
           for (var orgName_i in list_content.allOrg) {
@@ -63,18 +64,34 @@
               list_content.expertList[i].expertsFrom = '';
             }
             
-            $('#list_content').append('<tr>'
-              +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content.expertList[i].id +'" class="select_item"></td>'
-              +'<td class="text-center">'+ (parseInt(i) + 1) +'</td>'
-              +'<td>'+ list_content.expertList[i].orgName +'</td>'
-              +'<td>'+ list_content.expertList[i].relName +'</td>'
-              +'<td class="text-center">'+ list_content.expertList[i].sex +'</td>'
-              +'<td>'+ list_content.expertList[i].expertsTypeId +'</td>'
-              +'<td class="text-center">'+ list_content.expertList[i].expertsFrom +'</td>'
-              +'<td>'+ list_content.expertList[i].workUnit +'</td>'
-              +'<td>'+ list_content.expertList[i].professTechTitles +'</td>'
-              +'<td class="text-center">'+ list_content.expertList[i].updateTime +'</td>'
-            +'</tr>');
+            // 判断是否为重新复审状态
+            if (typeof(list_content.expertList[i].reviewStatus) != null || typeof(list_content.expertList[i].reviewStatus) != 'null' || typeof(list_content.expertList[i].reviewStatus) != 'undefined') {
+              $('#list_content').append('<tr class="red">'
+                +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content.expertList[i].id +'" class="select_item"></td>'
+                +'<td class="text-center">'+ (parseInt(i) + 1) +'</td>'
+                +'<td>'+ list_content.expertList[i].orgName +'</td>'
+                +'<td>'+ list_content.expertList[i].relName +'</td>'
+                +'<td class="text-center">'+ list_content.expertList[i].sex +'</td>'
+                +'<td>'+ list_content.expertList[i].expertsTypeId +'</td>'
+                +'<td class="text-center">'+ list_content.expertList[i].expertsFrom +'</td>'
+                +'<td>'+ list_content.expertList[i].workUnit +'</td>'
+                +'<td>'+ list_content.expertList[i].professTechTitles +'</td>'
+                +'<td class="text-center">'+ list_content.expertList[i].updateTime +'</td>'
+              +'</tr>');
+            } else {
+              $('#list_content').append('<tr class="red">'
+                +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content.expertList[i].id +'" class="select_item"></td>'
+                +'<td class="text-center">'+ (parseInt(i) + 1) +'</td>'
+                +'<td>'+ list_content.expertList[i].orgName +'</td>'
+                +'<td>'+ list_content.expertList[i].relName +'</td>'
+                +'<td class="text-center">'+ list_content.expertList[i].sex +'</td>'
+                +'<td>'+ list_content.expertList[i].expertsTypeId +'</td>'
+                +'<td class="text-center">'+ list_content.expertList[i].expertsFrom +'</td>'
+                +'<td>'+ list_content.expertList[i].workUnit +'</td>'
+                +'<td>'+ list_content.expertList[i].professTechTitles +'</td>'
+                +'<td class="text-center">'+ list_content.expertList[i].updateTime +'</td>'
+              +'</tr>');
+            }
           }
           
           // 处理未选数据

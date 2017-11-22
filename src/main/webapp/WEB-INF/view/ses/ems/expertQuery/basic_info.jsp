@@ -116,31 +116,24 @@
 							</tr>
 							<tr>
 								<td width="12%" class="bggrey">政治面貌</td>
-								<td width="25%" id="tFace"></td>
+								<td width="25%">${expert.healthState}</td>
 								<td width="12%" class="bggrey">民族</td>
 								<td width="25%">${expert.nation}</td>
 							</tr>
 							<tr>
+								<td width="12%" class="bggrey">健康状态</td>
+								<td width="25%" id="tFace"></td>
+								<td width="12%" class="bggrey">手机</td>
+								<td width="25%">${expert.mobile}</td>
+							</tr>
+							<tr>
 								<td width="12%" class="bggrey">居民身份证号码</td>
 								<td width="25%">${expert.idCardNumber}</td>
-								<td width="12%" class="bggrey">身份证复印件</td>
+								<td width="12%" class="bggrey">身份证扫描件</td>
 								<td width="25%">
 									<up:show showId="show3" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="3" />
 								</td>
 							</tr>
-							<tr>
-								<td width="12%" class="bggrey">健康状态</td>
-								<td width="25%">${expert.healthState}</td>
-								<td width="12%" class="bggrey">固定电话</td>
-								<td width="25%">${expert.telephone}</td>
-							</tr>
-							<tr>
-								<td width="12%" class="bggrey">传真电话</td>
-								<td width="25%">${expert.fax}</td>
-								<td width="12%" class="bggrey">个人邮箱</td>
-								<td width="25%">${expert.email}</td>
-							</tr>
-
 							<c:if test="${froms eq 'LOCAL'}">
 								<tr>
 									<td width="12%" class="bggrey">是否缴纳社会保险</td>
@@ -176,6 +169,18 @@
 									</td>
 								</tr>
 							</c:if>
+							<tr>
+								<td width="12%" class="bggrey">固定电话</td>
+								<td width="25%">${expert.telephone}</td>
+								<td width="12%" class="bggrey">传真电话</td>
+								<td width="25%">${expert.fax}</td>
+							</tr>
+							<tr>
+								<td width="12%" class="bggrey">个人邮箱</td>
+								<td width="25%">${expert.email}</td>
+							</tr>
+
+							
 						</table>
 					</ul>
 					<ul class="ul_list hand count_flow">
@@ -211,7 +216,7 @@
 							</tr>
 							<c:if test="${froms eq 'LOCAL'}">
 							  <tr>
-                  <td width="12%" class="bggrey">专家技术职称</td>
+                  <td width="12%" class="bggrey">专业技术职称</td>
                   <td width="25%">${expert.professTechTitles}</td>
                   <td width="12%" class="bggrey">专业技术职称证书</td>
                   <td width="25%">
@@ -228,7 +233,7 @@
 							<c:if test="${froms eq 'ARMY'}">
 						    <c:if test="${expert.teachTitle eq '1'}">
 	                <tr>
-		                 <td width="12%" class="bggrey">专家技术职称</td>
+		                 <td width="12%" class="bggrey">专业技术职称</td>
 		                 <td width="25%">${expert.professTechTitles}</td>
 		                 <td width="12%" class="bggrey">专业技术职称证书</td>
 		                 <td width="25%">
@@ -290,17 +295,17 @@
 								<td>${expert.jobExperiences}</td>
 							</tr>
 						</table>
+					</ul>
+					<ul class="ul_list hand count_flow">
+						<h2 class="count_flow"><i>5</i>获奖证书(限国家科技进步三等或军队科技进步二等以上奖项)</h2>
 						<table class="table table-bordered table-condensed ">
 							<tr>
-								<td class="bggrey" width="50%">获奖证书(限国家科技进步三等或军队科技进步二等以上奖项)</td>
-								<td>
-									<up:show showId="show7" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="7" />
-								</td>
+								<up:show showId="show7" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="7" />
 							</tr>
 						</table>
 					</ul>
 					<ul class="ul_list hand count_flow">
-						<h2 class="count_flow"><i>5</i>专业学术成果</h2>
+						<h2 class="count_flow"><i>6</i>专业学术成果</h2>
 						<table class="table table-bordered table-condensed ">
 							<tr>
 								<td>${expert.academicAchievement}</td>
@@ -308,7 +313,7 @@
 						</table>
 					</ul>
 					<ul class="ul_list hand count_flow">
-						<h2 class="count_flow"><i>6</i>参加军队地方采购评审情况</h2>
+						<h2 class="count_flow"><i>7</i>参加军队地方采购评审情况</h2>
 						<table class="table table-bordered table-condensed ">
 							<tr>
 								<td>${expert.reviewSituation}</td>
@@ -316,7 +321,7 @@
 						</table>
 					</ul>
 					<ul class="ul_list hand count_flow">
-						<h2 class="count_flow"><i>7</i>需要申请回避的情况</h2>
+						<h2 class="count_flow"><i>8</i>需要申请回避的情况</h2>
 						<table class="table table-bordered table-condensed ">
 							<tr>
 								<td>${expert.avoidanceSituation}</td>

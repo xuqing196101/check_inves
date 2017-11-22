@@ -208,4 +208,11 @@ public interface ExpertCategoryMapper {
      * @return
      */
     List<SupplierCateTree> findPointsByTypeId(@Param("typeId")String typeId, @Param("expertId")String expertId);
+    
+    /**
+     * 根据专家id查询通过的品目
+     * @param expertCategory
+     * @return
+     */
+    List<ExpertCategory> selectPassCategoryByExpertId(String expertId, String typeId);
 }

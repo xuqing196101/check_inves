@@ -42,6 +42,53 @@
   <div class="container">
     <div class="headline-v2"><h2 id="head_tit"></h2></div>
     
+    <div class="search_detail hide">
+      <form id="form_id" action="${pageContext.request.contextPath}/expertAudit/basicInfo.html" method="post">
+        <input name="expertId" type="hidden" />
+        <input name="sign" type="hidden" value="${sign }"/>
+        <input name="tableType" type="hidden" value=""/>
+      </form>
+      <form action="${pageContext.request.contextPath}/expertAgainAudit/againAuditList.html" method="post" id="formSearch" class="mb0">
+        <input type="hidden" name="pageNum" id="pageNum">
+        <input type="hidden" name="sign" value="${sign }">
+        <ul class="demand_list">
+          <li class="mb10">
+            <label class="fl">采购机构：</label>
+            <select class="w220" name="orgName"></select>
+          </li>
+          <li class="mb10">
+            <label class="fl">专家类型：</label>
+            <select class="w220" name="expertsFrom"></select>
+          </li>
+          <li class="select2-nosearch mb10">
+            <label class="fl">专家类别：</label>
+            <div class="fl w220">
+            <select class="w220 h30" name="expertsTypeId" multiple></select>
+            </div>
+          </li>
+          <li class="mb10">
+            <label class="fl">审核组：</label>
+            <select class="w220" name="groupId"></select>
+          </li>
+          <li class="mb10">
+            <label class="fl">审核状态：</label>
+            <select class="w220" name="status">
+              <option value="">全部</option>
+              <option value="">复审合格</option>
+              <option value="5">复审不合格</option>
+              <option value="10">复审退回修改</option>
+              <option value="">重新复审</option>
+            </select>
+          </li>
+        </ul>
+        <div class="clear"></div>
+        <div class="tc">
+          <button type="button" class="btn mb0 canDisable" onclick="detailsBatch_search()">查询</button>
+          <button type="reset" class="btn mb0 mr0 canDisable" id="againAudit_reset">重置</button>
+        </div>
+      </form>
+    </div>
+    
     <!-- 表格开始-->
     <div class="col-md-12 pl20 pr0 mt10 mb10" id="btn_group">
       <div class="fr pic_upload">
@@ -58,7 +105,7 @@
     </div>
     
     <div class="mt20 pl20 text-center">
-      <button type="button" id="back_btn" class="btn btn-windows back" onclick="location='${pageContext.request.contextPath}/expertAgainAudit/findBatchList.html'">返回</button>
+      <button type="button" id="back_btn" class="btn btn-windows back hide" onclick="location='${pageContext.request.contextPath}/expertAgainAudit/findBatchList.html'">返回</button>
     </div>
       
   </div>
@@ -73,13 +120,18 @@
   
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/batchDetails.js"></script>
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
+  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/search.js"></script>
   <script>
   	var batchId = '${batchId}';
     var root_url = '${pageContext.request.contextPath}';  // 根目录地址
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/findBatchDetails.do';  // 列表地址
     var audit_url = '${pageContext.request.contextPath}/expertAgainAudit/checkGroupStatus.do';  // 校验地址
     var jump_auditBatch_url = '${pageContext.request.contextPath}/expertAgainAudit/groupBatch.html?batchId='+batchId;
+    var take_effect_url = '${pageContext.request.contextPath}/expertAgainAudit/takeEffect.do';  // 生效地址
+    var reexamination_url = '${pageContext.request.contextPath}/expertAgainAudit/againReview.do';  // 取消重新复审地址
+    var cancel_reexamination_url = '${pageContext.request.contextPath}/expertAgainAudit/cancelReview.do';  // 取消重新复审地址
     var select_ids = [];  // 选择的专家id集合
+    var is_init = 0;
     
     // loadding
     var indexLoad;
@@ -111,6 +163,11 @@
       $('html, body').animate({
         scrollTop: position
       });
+      
+      // 重置操作
+      $('#againAudit_reset').on('click', function () {
+        $('[name=expertsTypeId]').select2('val', '');
+      });
     });
     
     // 跳转批次审核
@@ -122,7 +179,7 @@
     function downloadTable(id) {
       var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
       state = trim(state);
-      if(state =="专家预复审结束") {
+      if(state =="预复审结束") {
       	$.ajax({
       		url: "${pageContext.request.contextPath}/expertAudit/findExpertInfo.do",
       	  data:{"id":id},
@@ -189,7 +246,7 @@
         var id = $(this).val();
        	var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
         state = trim(state);
-        if(state !="" && state == "专家复审结束"){
+        if(state !="" && state == "复审结束"){
         	ids.push(id);
         }
       });
@@ -214,8 +271,9 @@
  	      });
     }
     
-    function view(expertId){
-        window.location.href = "${pageContext.request.contextPath}/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2";
+    //查看
+    function viewDetails(expertId){
+        window.location.href = "${pageContext.request.contextPath}/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2&isCheck=yes";
     }
   </script>
     

@@ -920,3 +920,66 @@ function unselected_sort() {
     }
   });
 }
+
+// 生效
+function takeEffect() {
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: take_effect_url,
+    data: {
+      batchId: getUrlParam('batchId')
+    },
+    success: function (data) {
+      layer.msg(data.message, {
+        offset: '100px'
+      });
+    }
+  });
+}
+
+// 重新复审
+function reexamination(expertId) {
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: reexamination_url,
+    data: {
+      id: expertId
+    },
+    success: function (data) {
+      $('#table_content').listConstructor({
+        url: list_url,
+        data: {
+          batchId: getUrlParam('batchId')
+        }
+      });
+      layer.msg(data.message, {
+        offset: '100px'
+      });
+    }
+  });
+}
+
+// 取消重新复审
+function cancel_reexamination(expertId) {
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: cancel_reexamination_url,
+    data: {
+      id: expertId
+    },
+    success: function (data) {
+      $('#table_content').listConstructor({
+        url: list_url,
+        data: {
+          batchId: getUrlParam('batchId')
+        }
+      });
+      layer.msg(data.message, {
+        offset: '100px'
+      });
+    }
+  });
+}

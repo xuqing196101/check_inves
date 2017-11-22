@@ -1745,6 +1745,12 @@ public class ExpertServiceImpl implements ExpertService {
 		
 		return expertList;
 	}
+
+	@Override
+	public void updateReviewStatus(String expertId) {
+		// TODO Auto-generated method stub
+		mapper.updateReviewStatus("", expertId);
+	}
 }
 
 
