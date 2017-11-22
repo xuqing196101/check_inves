@@ -144,14 +144,27 @@
     	window.location.href="${pageContext.request.contextPath}/purchaseManage/showPurchaseDep.do?id="+id+"&&type=view";
     }
     
-    /** 添加管理人员 **/
+    /** 采购机构人员管理 **/
     function addPurchase(){
     	var auth='${authType}';
   	    if(auth !='4'){
   	    layer.msg("只有资源服务中心可以操作");
   	    return;
   	    }
-    	window.location.href="${pageContext.request.contextPath}/purchase/add.html?origin=1";
+  	    var ids =[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			ids.push($(this).val()); 
+		}); 
+		if(ids.length>0){
+			if(ids.length == 1){
+				window.location.href="${pageContext.request.contextPath}/purchase/list.html?id="+ids[0];
+			}else{
+				layer.msg("只能选择一个采购机构");
+			}
+		}else{
+			layer.msg("请选择一个采购机构");
+		}
+  	    
     }
     
     /**  重置查询条件  **/

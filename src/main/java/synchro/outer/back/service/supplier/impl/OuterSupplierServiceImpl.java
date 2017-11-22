@@ -9,11 +9,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+
+import common.constant.Constant;
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
+import common.service.UploadService;
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
@@ -79,13 +85,6 @@ import synchro.outer.back.service.supplier.OuterSupplierService;
 import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
-
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import common.constant.Constant;
-import common.dao.FileUploadMapper;
-import common.model.UploadFile;
-import common.service.UploadService;
 
 /**
  * 
@@ -976,9 +975,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
      */
     @Override
     public void selectSupplierLevelOfExport(String startTime, String endTime) {
-    	// 查询供应商等级
-    	@SuppressWarnings("unchecked")
-		Map<String, Object> map = new HashedMap();
+    	Map<String, Object> map = new HashMap<>();
     	map.put("startTime", startTime);
     	map.put("endTime", endTime);
     	
