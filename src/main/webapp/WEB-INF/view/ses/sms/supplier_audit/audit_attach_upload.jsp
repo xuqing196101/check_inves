@@ -9,7 +9,6 @@
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">
-    <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script>
     <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/audit_attach_upload.js"></script>
 </head>
 
@@ -38,7 +37,10 @@
         <div class="col-md-12 tab-v2 job-content">
             <%-- <%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%> --%>
             <jsp:include page="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp">
-            	<jsp:param value="${supplierStatus }" name="supplierStatus"/>
+            	<jsp:param value="eight" name="currentStep"/>
+	           	<jsp:param value="${supplierId }" name="supplierId"/>
+	           	<jsp:param value="${supplierStatus }" name="supplierStatus"/>
+	           	<jsp:param value="${sign }" name="sign"/>
             </jsp:include>
             <!-- 审核公示扫描件上传 -->
             <div>
@@ -78,11 +80,11 @@
 
         <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc mt20">
             <input name="downloadAttachFile" id="downloadAttachFile" value="" type="hidden">
-            <form id="form_id" action="${pageContext.request.contextPath}/supplierAudit/uploadApproveFile.html" method="post">
+            <%-- <form id="form_id" action="${pageContext.request.contextPath}/supplierAudit/uploadApproveFile.html" method="post">
                 <input name="supplierId" value="${supplierId}" type="hidden">
                 <input name="supplierStatus" value="${supplierStatus}" type="hidden">
                 <input type="hidden" name="sign" value="${sign}">
-            </form>
+            </form> --%>
             <form id="form_shen" action="${pageContext.request.contextPath}/supplierAudit/updateStatus.html">
                 <input name="supplierId" id="supplierId" value="${supplierId}" type="hidden">
                 <input name="status" id="status" type="hidden" value="${supplierStatus}">
@@ -92,7 +94,7 @@
                 <div class="margin-bottom-0  categories">
                     <div class="col-md-12 add_regist tc">
                         <div class="col-md-12 add_regist tc">
-                            <a class="btn" type="button" onclick="lastStep();">上一步</a>
+                            <a class="btn" type="button" onclick="toStep('seven');">上一步</a>
                             <c:if test="${supplierStatus == -2}">
                                 <%--<input class="btn btn-windows apply" type="button" id="auditPass" value="审核通过 " />
                                 <input class="btn btn-windows cancel" type="button" id="auditNoPass" value="审核不通过" />--%>

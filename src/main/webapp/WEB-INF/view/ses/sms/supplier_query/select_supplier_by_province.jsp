@@ -580,12 +580,12 @@
                 </select>
               </li>
             </c:if>
-                <c:if test ="${sign == 1 }">
-                    <li>
-                        <label class="fl">供应商品目：</label><span><input  class="w220" name="queryCategoryName" id="supplierGradeInput" class="span2 mt5" type="text" name=""  readonly value="${supplier.queryCategoryName }" onclick="initZtree(true);" />
-						<input type="hidden" name="queryCategory" id="supplierGradeInputVal" value="${supplier.queryCategory}"/></span>
-                    </li>
-                </c:if>
+            <c:if test ="${sign == 1 }">
+              <li>
+                <label class="fl">供应商品目：</label><span><input  class="w220" name="queryCategoryName" id="supplierGradeInput" class="span2 mt5" type="text" name=""  readonly value="${supplier.queryCategoryName }" onclick="initZtree(true);" />
+								<input type="hidden" name="queryCategory" id="supplierGradeInputVal" value="${supplier.queryCategory}"/></span>
+              </li>
+            </c:if>
 	        </ul>
 	          <div class="col-md-12 clear tc mt10">
             	<button type="button" onclick="submit()" class="btn">查询</button>
@@ -618,17 +618,17 @@
 						<tr>
 							<!-- <th class="info w50">选择</th> -->
 							<th class="info w50">序号</th>
-							<th class="info" width="10%">采购机构</th>
-							<th class="info" width="21%">供应商名称</th>
-							<th class="info" width="8%">地区</th>
-							<th class="info" width="7%">企业性质</th>
-							<th class="info" width="15%">供应商类型</th>
+							<th class="info w150">采购机构</th><!-- width="10%" -->
+							<th class="info w250">供应商名称</th><!-- width="20%" -->
+							<th class="info w150">地区</th><!-- width="8%" -->
+							<th class="info w70">企业性质</th><!-- width="6%" -->
+							<th class="info w150">供应商类型</th><!-- width="15%" -->
 							<th class="info w90">注册日期</th>
 							<th class="info w90">最新提交日期</th>
 							<th class="info w90">最新审核日期</th>
 							<th class="info w90">入库日期</th>
-							<th class="info" width="8%">状态</th>
-							<c:if test="${isAccountToAudit}"><th class="info" width="5%">操作</th></c:if>
+							<th class="info w100">状态</th><!-- width="10%" -->
+							<c:if test="${isAccountToAudit}"><th class="info w50">操作</th></c:if><!-- width="3%" -->
 						</tr>
 					</thead>
 					<tbody>

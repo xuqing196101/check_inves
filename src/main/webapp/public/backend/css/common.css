@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /*字体*/
-.f0 { font-size: 0px; }
+.f0 { font-size: 0px !important; }
 .f8 {
   font-size: 8px; }
 

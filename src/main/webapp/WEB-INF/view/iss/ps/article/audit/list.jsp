@@ -538,7 +538,10 @@
                  ${article.user.relName }
               </td>
               <td class="tl text-nowrapEl" >
-                ${article.user.org.shortName}
+                <c:if test="${user.org != null && user.org.shortName != null }">
+                    ${article.user.org.shortName}
+                </c:if>
+                <c:if test="${user.org == null }">${article.user.orgName}</c:if>
               </td>
               <%-- <td class="tc" onclick="view('${article.id }')">
                 <fmt:formatDate value='${article.submitAt }' pattern="yyyy-MM-dd   HH:mm:ss" />

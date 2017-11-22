@@ -2422,7 +2422,7 @@ public class SupplierQueryController extends BaseSupplierController {
         List<Supplier> dataList = supplierService.querySupplierbytypeAndCategoryIds(null, supplier);
         String titleColumn[] = {"orderNum", "supplierName", "businessNature", "supplierType",
                 "address", "contactName", "mobile", "contactMobile", "statusString", "supplierItemIds", "instorageAt"};
-        String titleName[] = {"序号", "供应商名称", "企业性质", "供应商类型", "住所地址", "军品联系人",
+        String titleName[] = {"序号", "供应商名称", "企业性质", "供应商类型", "住所地址", "军队联系人",
                 "联系手机", "联系固话", "状态", "产品类别", "入库时间"};
         int titleSize[] = {5, 40, 10, 35, 42, 13, 13, 16, 20, 70, 22};
         excelUtils.wirteExcel(titleColumn, titleName, titleSize, dataList);

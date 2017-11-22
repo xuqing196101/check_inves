@@ -142,10 +142,11 @@
 								</tbody>
 							</table>
 						</div>
+						<div class="clear"></div>
 					</c:forEach>
 				</div>
 			</div>
-			<div class="col-md-12 tc">
+			<div class="col-md-12 tc mt20">
 				<c:choose>
 					<c:when test="${person == 1 }">
 						<button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
