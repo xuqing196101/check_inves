@@ -53,6 +53,7 @@ import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierEngQua;
+import ses.model.sms.SupplierExtRelate;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierHistory;
 import ses.model.sms.SupplierItem;
@@ -323,7 +324,7 @@ public class SupplierAuditController extends BaseSupplierController {
 				}
 			}
 		}
-		request.setAttribute("suppliers", supplier);
+		request.setAttribute("currSupplier", supplier);
 //		List < SupplierBranch > supplierBranchList = supplierBranchService.findSupplierBranch(supplierId);
 		List < SupplierBranch > supplierBranchList = supplier.getBranchList();
 		if(!supplierBranchList.isEmpty() && supplierBranchList.size()>0){
@@ -401,6 +402,16 @@ public class SupplierAuditController extends BaseSupplierController {
 		 * 查出修改前的信息
 		 */
 		if(SupplierConstants.isAudit(loginName, supplierStatus)){
+			//基本信息
+			supplierModify.setListType(0);
+			List < SupplierModify > fieldList = supplierModifyService.selectBySupplierId(supplierModify);
+			StringBuffer field = new StringBuffer();
+			for(int i = 0; i < fieldList.size(); i++) {
+				String beforeField = fieldList.get(i).getBeforeField();
+				field.append(beforeField + ",");
+			}
+			request.setAttribute("field", field);
+			
 			//地址信息
 			supplierModify.setListType(1);
 			supplierModify.setRelationId(null);
@@ -414,16 +425,6 @@ public class SupplierAuditController extends BaseSupplierController {
 				fieldAddress.append(beforeField + ",");
 			}
 			request.setAttribute("fieldAddress", fieldAddress);
-			
-			//基本信息
-			supplierModify.setListType(0);
-			List < SupplierModify > fieldList = supplierModifyService.selectBySupplierId(supplierModify);
-			StringBuffer field = new StringBuffer();
-			for(int i = 0; i < fieldList.size(); i++) {
-				String beforeField = fieldList.get(i).getBeforeField();
-				field.append(beforeField + ",");
-			}
-			request.setAttribute("field", field);
 			
 			//售后服务机构一览表修改前的信息
 			supplierModify.setListType(11);
@@ -464,15 +465,13 @@ public class SupplierAuditController extends BaseSupplierController {
 			 */
 			StringBuffer houseFileModifyField = new StringBuffer();
 			for(SupplierModify m : fileModify){
-				if(m.getRelationId() != null){
-					if(m.getRelationId() !=null){
-						houseFileModifyField.append(m.getRelationId() + m.getBeforeField() + ",");
-					}
+				if(m.getRelationId() != null && m.getBeforeField() != null){
+					houseFileModifyField.append(m.getRelationId() + m.getBeforeField() + ",");
 				}
 			}
 			request.setAttribute("houseFileModifyField", houseFileModifyField);
 		}
-
+		
 		//回显未通过字段
 		if(SupplierConstants.isAudit(loginName, supplierStatus)){
 			SupplierAudit supplierAudit = new SupplierAudit();
@@ -1328,15 +1327,21 @@ public class SupplierAuditController extends BaseSupplierController {
 	@RequestMapping("auditReasons")
 	@ResponseBody
 	public JdcgResult auditReasons(SupplierAudit supplierAudit, HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String supplierId = supplierAudit.getSupplierId();
-//		Supplier supplier = supplierAuditService.supplierById(id);
-		Supplier supplier = supplierService.selectById(supplierId);
-		
 		// 获取登录用户
 		Object loginUserSession = request.getSession().getAttribute("loginUser");
 		if(loginUserSession == null){
 			return new JdcgResult(501, "对不起，您没有登录或登录失效！", null);
 		}
+		
+		if(StringUtils.isBlank(supplierAudit.getSupplierId())
+				|| StringUtils.isBlank(supplierAudit.getAuditType())
+				|| StringUtils.isBlank(supplierAudit.getAuditField())){
+			return new JdcgResult(504, "参数错误", null);
+		}
+		
+		String supplierId = supplierAudit.getSupplierId();
+		Supplier supplier = supplierService.selectById(supplierId);
+		
 		// 校验审核人权限
 		User user = (User) loginUserSession;
 		/*if(supplier.getAuditor() != null && !supplier.getAuditor().equals(user.getRelName())){
@@ -2687,7 +2692,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 		}
 		// 工程资质--资质类型
-		if("mat_eng_page".equals(supplierModify.getModifyType()) && "certType".equals(supplierModify.getBeforeField()) && StringUtils.isNotBlank(supplierModify.getBeforeContent())){
+		if("mat_eng_page".equals(supplierModify.getModifyType()) && "certType".equals(supplierModify.getBeforeField()) && "9".equals(supplierModify.getListType()+"") && StringUtils.isNotBlank(supplierModify.getBeforeContent())){
 			Qualification qua = qualificationService.getQualification(supplierModify.getBeforeContent());
 			if(qua != null){
 				return JSON.toJSONString(qua.getName());
@@ -2696,7 +2701,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 		}
 		// 工程资质--资质等级
-		if("mat_eng_page".equals(supplierModify.getModifyType()) && "aptituteLevel".equals(supplierModify.getBeforeField()) && StringUtils.isNotBlank(supplierModify.getBeforeContent())){
+		if("mat_eng_page".equals(supplierModify.getModifyType()) && "aptituteLevel".equals(supplierModify.getBeforeField()) && "9".equals(supplierModify.getListType()+"") && StringUtils.isNotBlank(supplierModify.getBeforeContent())){
 			DictionaryData dd = DictionaryDataUtil.findById(supplierModify.getBeforeContent());
 			if(dd != null){
 				return JSON.toJSONString(dd.getName());

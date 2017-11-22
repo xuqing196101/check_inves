@@ -5,9 +5,15 @@
 <head>
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
-<script
-    src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/aptitude_material_item.js"></script>
-    <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/aptitude_items.js"></script>
+<style type="text/css">
+	.icon_edit,.icon_sc{
+		cursor: pointer;
+   	margin-bottom: 5px;
+  }
+</style>
+<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/common.js"></script>
+<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/aptitude_material_item.js"></script>
+<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/aptitude_items.js"></script>
 <title>产品类别物资item</title>
 </head>
 <body>
@@ -31,7 +37,7 @@
 									  		<%-- <div class="m_inline" onclick="reasonProject('${ids }','${obj.categoryId }','${obj.categoryName }','${vss.index + 1}','${qua.id}','${qua.name}')">
 									  			<a href="javascript:void(0);"><img id="show_td${qua.id}" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></a>&nbsp;&nbsp;${qua.name}
 									  		</div> --%>
-									  		<c:if test="${!fn:contains(unableField,obj.categoryId.concat('_').concat(qua.id))}">
+									  		<%-- <c:if test="${!fn:contains(unableField,obj.categoryId.concat('_').concat(qua.id))}">
                           <div class="m_inline" onclick="reasonProject('${ind}','${obj.categoryId }','${obj.categoryName }','${vss.index + 1}','${qua.id}','${qua.name}')">
 										  			<c:if test="${!fn:contains(auditField,obj.categoryId.concat('_').concat(qua.id))}">
 										  				<a href="javascript:void(0);"><img id="show_td${qua.id}" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></a>&nbsp;&nbsp;${qua.name}
@@ -45,7 +51,20 @@
                           <div class="m_inline" onclick="javascript:layer.msg('该条信息已审核并退回过！');">
 										  			<a href="javascript:void(0);"><img id="show_td${qua.id}" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>&nbsp;&nbsp;${qua.name}
 										  		</div>
-                        </c:if>
+                        </c:if> --%>
+                        <c:set var="curField" value="${obj.categoryId.concat('_').concat(qua.id)}" />
+                        <c:set var="iconUrl" value="${pageContext.request.contextPath}/public/backend/images/light_icon.png" />
+				                <c:set var="iconCls" value="icon_edit" />
+				                <c:if test="${!fn:contains(unableField,curField) && fn:contains(auditField,curField)}">
+				                	<c:set var="iconUrl" value="${pageContext.request.contextPath}/public/backend/images/light_icon_2.png" />
+				                </c:if>
+				                <c:if test="${fn:contains(unableField,curField)}">
+				                  <c:set var="iconUrl" value="${pageContext.request.contextPath}/public/backend/images/sc.png" />
+				                  <c:set var="iconCls" value="icon_sc" />
+				                </c:if>
+				                <div class="m_inline" onclick="reasonProject(this,'${ids }','${obj.categoryId }','${obj.categoryName }','${vss.index + 1}','${qua.id}','${qua.name}');">
+									  			<img src="${iconUrl}" class="${iconCls}"/>&nbsp;&nbsp;${qua.name}
+									  		</div>
 									  		<div class="m_inline"><u:show showId="showfile${qua.flag}" delete="false" businessId="${qua.flag}" sysKey="${sysKey}" typeId="${typeId }"/></div>
 										 	</span>
 										</div>

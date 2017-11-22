@@ -1,3 +1,25 @@
+$(function() {
+	initData();
+});
+
+function initData() {
+	var _isAudit = $("#isAudit").val();
+	var _supplierId = $("#supplierId").val();
+	var _supplierSt = $("#supplierSt").val();
+	var _currentStep = $("#currentStep").val();
+	var _sign = $("#sign").val();
+
+	var frameWin = top.document.getElementById('iframepage').contentWindow;
+	var frameDoc = top.document.getElementById('iframepage').contentWindow.document;
+
+	isAudit = _isAudit || frameWin.isAudit;
+	isAudit = (isAudit == true || isAudit == "true") ? true : false;
+	supplierId = _supplierId || frameWin.supplierId;
+	supplierSt = _supplierSt || frameWin.supplierSt;
+	currentStep = _currentStep || frameWin.currentStep;
+	sign = _sign || frameWin.sign;
+}
+
 // 删除左右两端的空格
 function trim(str) {
 	return str.replace(/(^\s*)|(\s*$)/g, "");
@@ -79,20 +101,46 @@ function cancelAuditMuti(auditData) {
 (function($) {
 	$.fn.doAudit = function(options) {
 		options = $.fn.extend({}, $.fn.doAudit.defaults, options);
-		// 只有审核的状态能审核
+		// isAudit：只有审核的状态能审核
 		if (isAudit && options) {
 			if (options.funcBeforeAudit && options.funcBeforeAudit() == false) {
 				return;
 			}
-			var auditData = options.auditData;
+
+			var _this = this;// 当前审核对象
+			var defaultVal = "";// 弹出框默认值
+			var auditData = options.auditData;// 审核数据
+
 			// 判断：新审核/可再次审核/不可再次审核
-			// 获取旧的审核记录
-			var result = getOldAudit(auditData);
-			if (result && result.status == 0) {
-				layer.msg('该条信息已审核过并退回过！');
-				return;
+
+			// 获取是否已审核并退回过的缓存数据
+			var isAudited = $(_this).attr("data-isAudited");
+			// 获取旧的审核记录缓存数据
+			var oldAuditMsg = $(_this).attr("data-oldAuditMsg");
+			// 获取是否缓存
+			var isCached = $(_this).attr("data-isCached");
+
+			if (isCached) {
+				if (isAudited) {
+					layer.msg('该条信息已审核过并退回过！');
+					return;
+				}
+				if (oldAuditMsg) {
+					defaultVal = oldAuditMsg;
+				}
+			} else {
+				var result = getOldAudit(auditData);
+				if (result && result.status == 0) {
+					layer.msg('该条信息已审核过并退回过！');
+					$(_this).attr("data-isAudited", true);
+					return;
+				}
+				if (result && result.status == 1 && result.data) {
+					defaultVal = result.data.suggest;
+					$(_this).attr("data-oldAuditMsg", defaultVal);
+				}
+				$(_this).attr("data-isCached", true);
 			}
-			var defaultVal = "";
 			var promptOptions = {
 				title : '请填写不通过的理由：',
 				value : defaultVal,
@@ -100,14 +148,15 @@ function cancelAuditMuti(auditData) {
 				// offset : '100px',
 				maxlength : '100'
 			};
-			if (result && result.status == 1 && result.data) {
-				defaultVal = result.data.suggest;
+			if (defaultVal) {
 				promptOptions.value = defaultVal;
 				promptOptions.btn = [ '确定', '撤销', '取消' ];
 				promptOptions.btn2 = function(index) {
 					var bool = cancelAudit(auditData);
 					if (bool && options.funcAfterCancelAudit) {
 						options.funcAfterCancelAudit();
+						$(_this).removeAttr("data-isAudited");
+						$(_this).removeAttr("data-oldAuditMsg");
 					}
 				};
 				promptOptions.btn3 = function(index) {
@@ -115,7 +164,18 @@ function cancelAuditMuti(auditData) {
 				};
 			}
 			layer.prompt(promptOptions, function(value, index, elem) {
-				var text = trim(value);
+				var text = $.trim(value);
+				if (text == "") {
+					$(elem).val("");
+					$(elem).focus();
+					return;
+				}
+				if (text.length > 900) {
+					layer.msg('审核理由内容太长！', {
+						offset : '100px'
+					});
+					return;
+				}
 				if (text != null && text != "") {
 					auditData.suggest = text;
 					$.ajax({
@@ -129,6 +189,7 @@ function cancelAuditMuti(auditData) {
 									shift : 6, // 动画类型
 									offset : '100px'
 								});
+								$(_this).attr("data-isAudited", true);
 							}
 							if (result.status == "500") {
 								if (result.data == "add") {
@@ -136,7 +197,7 @@ function cancelAuditMuti(auditData) {
 										shift : 6, // 动画类型
 										offset : '100px'
 									});
-									if(options.funcAfterAddAudit){
+									if (options.funcAfterAddAudit) {
 										options.funcAfterAddAudit();
 									}
 								}
@@ -146,6 +207,7 @@ function cancelAuditMuti(auditData) {
 										offset : '100px'
 									});
 								}
+								$(_this).attr("data-oldAuditMsg", text);
 							}
 						}
 					});
@@ -158,13 +220,14 @@ function cancelAuditMuti(auditData) {
 			});
 		}
 	};
+	initData();
 	$.fn.doAudit.defaults = {
 		auditData : {
 			supplierId : supplierId,
-			auditType : null,
-			auditField : null,
-			auditFieldName : null,
-			auditContent : null
+			auditType : "",
+			auditField : "",
+			auditFieldName : "",
+			auditContent : ""
 		},
 		funcBeforeAudit : null,
 		funcAfterAddAudit : null,
@@ -174,6 +237,13 @@ function cancelAuditMuti(auditData) {
 
 // 显示修改前的信息
 function showModify(_this, modifyType, beforeField) {
+	var modifyMsg = $(_this).attr("data-modifyMsg");
+	if (modifyMsg) {
+		layer.tips("修改前:" + modifyMsg, _this, {
+			tips : 3
+		});
+		return;
+	}
 	$.ajax({
 		url : globalPath + "/supplierAudit/showModify.do",
 		data : {
@@ -183,14 +253,22 @@ function showModify(_this, modifyType, beforeField) {
 		},
 		async : false,
 		success : function(result) {
+			$(_this).attr("data-modifyMsg", result);
 			layer.tips("修改前:" + result, _this, {
 				tips : 3
 			});
 		}
 	});
 }
-//显示修改前的信息
+// 显示修改前的信息
 function showModifyList(_this, modifyType, beforeField, relationId, listType) {
+	var modifyMsg = $(_this).attr("data-modifyMsg");
+	if (modifyMsg) {
+		layer.tips("修改前:" + modifyMsg, _this, {
+			tips : 3
+		});
+		return;
+	}
 	$.ajax({
 		url : globalPath + "/supplierAudit/showModify.do",
 		data : {
@@ -202,6 +280,7 @@ function showModifyList(_this, modifyType, beforeField, relationId, listType) {
 		},
 		async : false,
 		success : function(result) {
+			$(_this).attr("data-modifyMsg", result);
 			layer.tips("修改前:" + result, _this, {
 				tips : 3
 			});
@@ -231,6 +310,6 @@ function tempAudit() {
 }
 
 // 步骤跳转
-function toStep(step){
-  	$("#reverse_of_"+step).click();
+function toStep(step) {
+	$("#reverse_of_" + step).click();
 }

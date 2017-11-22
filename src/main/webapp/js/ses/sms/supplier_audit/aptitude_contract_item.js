@@ -34,8 +34,8 @@ $(function(){
   
 // 审核 销售合同不通过理由
 function reasonProject(ind,auditField,auditFieldName,idx) {
-	var supplierStatus = $("input[name='supplierStatus']").val();
-    var sign = $("input[name='sign']").val();
+	//var supplierStatus = $("input[name='supplierStatus']").val();
+    //var sign = $("input[name='sign']").val();
     // 只有审核的状态能审核
     if(window.parent.isAudit){
 		//var businessId=$("#fileId"+idx+"").val();
@@ -75,7 +75,7 @@ function reasonProject(ind,auditField,auditFieldName,idx) {
 			break;
 		}
 		if(audits!=null && audits !='' && audits>'0' ){
-			layer.msg('产品目录审核不通过,该销售合同不可审核', {offset:'100px'});
+			layer.msg('产品目录审核不通过，该销售合同不可审核', {offset:'100px'});
 			return;
 		}
 		var contractId=$("#"+tablerId+" #contractId"+ind+"",window.parent.document).val();
@@ -87,7 +87,43 @@ function reasonProject(ind,auditField,auditFieldName,idx) {
 	        "auditFieldName": auditFieldName,
 	        "auditContent": auditContent
 	    };
-	    // 判断：新审核/可再次审核/不可再次审核
+	    
+	    $("#td1"+idx+"").doAudit({
+			auditData : auditData,
+			funcBeforeAudit : function() {
+				if ($("#td1"+idx+" img").hasClass("icon_sc")) {
+					layer.msg('该条信息已审核过并退回过！');
+					return false;
+				}
+			},
+			funcAfterAddAudit : function() {
+				// 先获取原来的边框颜色
+				var oldBorderColor = $("#td1"+idx+"").css('border');
+				if(oldBorderColor){
+					$("#td1"+idx+"").attr("data-oldBorderColor", oldBorderColor);
+				}
+				$("#td1"+idx+"").css('border', '1px solid #FF0000');
+				//$("#show_td"+idx+"").attr('src', globalPath+'/public/backend/images/sc.png');
+				$("#td1"+idx+" img").attr('src', globalPath+'/public/backend/images/light_icon_2.png');
+				$("#count"+idx+"").val('1');
+				// 刷新父页面数据
+				window.parent.flushData();
+			},
+			funcAfterCancelAudit : function() {
+				// 先获取原来的边框颜色
+				var oldBorderColor = $("#td1"+idx+"").attr("data-oldBorderColor");
+				if(oldBorderColor){
+					$("#td1"+idx+"").css('border', oldBorderColor);
+				}else{
+					$("#td1"+idx+"").css('border', '');
+				}
+				$("#td1"+idx+" img").attr('src', globalPath+'/public/backend/images/light_icon.png');
+				// 刷新父页面数据
+				window.parent.flushData();
+			}
+		});
+	    
+	    /*// 判断：新审核/可再次审核/不可再次审核
 	    // 获取旧的审核记录
 	    var result = window.parent.getOldAudit(auditData);
 	    if(result && result.status == 0){
@@ -140,35 +176,35 @@ function reasonProject(ind,auditField,auditFieldName,idx) {
 								offset: '100px',
 							});    
 							//销售合同资质 要求
-							/*$("input[name='"+tablerId+"itemsCheckboxName']",window.parent.document).each(function(){
-								var index=$(this).val();
-								var firstNodeId=$("#"+tablerId+" #firstNodeId"+index+"",window.parent.document).val();
-								var secondNodeId=$("#"+tablerId+" #secondNodeId"+index+"",window.parent.document).val();
-								var thirdNodeId=$("#"+tablerId+" #thirdNodeId"+index+"",window.parent.document).val();
-								var fourthNodeId=$("#"+tablerId+" #fourthNodeId"+index+"",window.parent.document).val();
-								//判断 资质关联id 是否包含
-								if(contractId){
-									contractId=$.trim(contractId);
-									var slip=contractId.split(',');
-									$(slip).each(function(inde,value){
-										//以下id结束的 标签比较
-										var v=$("input[id$='NodeId"+index+"'][value*='"+value+"']",window.parent.document).val();
-										if(v){
-											//资质文件
-											$("#"+tablerId+" #contract"+index+"",window.parent.document).css('border-color', '#FF0000');
-											if('contract_product_page'==auditType){
-											//物资生产   服务
-												var old=$("#"+tablerId+" #isContractProductPageAudit"+ind+"",window.parent.document).val();
-												$("#"+tablerId+" #isContractProductPageAudit"+ind+"",window.parent.document).val(parseInt(old)+1);
-											}else{
-											//物资销售
-												var old=$("#"+tablerId+" #isContractSalesPageAudit"+ind+"",window.parent.document).val();;
-												$("#"+tablerId+" #isContractSalesPageAudit"+ind+"",window.parent.document).val(parseInt(old)+1);
-											}
-										}
-									});
-								}
-							});*/
+//							$("input[name='"+tablerId+"itemsCheckboxName']",window.parent.document).each(function(){
+//								var index=$(this).val();
+//								var firstNodeId=$("#"+tablerId+" #firstNodeId"+index+"",window.parent.document).val();
+//								var secondNodeId=$("#"+tablerId+" #secondNodeId"+index+"",window.parent.document).val();
+//								var thirdNodeId=$("#"+tablerId+" #thirdNodeId"+index+"",window.parent.document).val();
+//								var fourthNodeId=$("#"+tablerId+" #fourthNodeId"+index+"",window.parent.document).val();
+//								//判断 资质关联id 是否包含
+//								if(contractId){
+//									contractId=$.trim(contractId);
+//									var slip=contractId.split(',');
+//									$(slip).each(function(inde,value){
+//										//以下id结束的 标签比较
+//										var v=$("input[id$='NodeId"+index+"'][value*='"+value+"']",window.parent.document).val();
+//										if(v){
+//											//资质文件
+//											$("#"+tablerId+" #contract"+index+"",window.parent.document).css('border-color', '#FF0000');
+//											if('contract_product_page'==auditType){
+//											//物资生产   服务
+//												var old=$("#"+tablerId+" #isContractProductPageAudit"+ind+"",window.parent.document).val();
+//												$("#"+tablerId+" #isContractProductPageAudit"+ind+"",window.parent.document).val(parseInt(old)+1);
+//											}else{
+//											//物资销售
+//												var old=$("#"+tablerId+" #isContractSalesPageAudit"+ind+"",window.parent.document).val();;
+//												$("#"+tablerId+" #isContractSalesPageAudit"+ind+"",window.parent.document).val(parseInt(old)+1);
+//											}
+//										}
+//									});
+//								}
+//							});
 							
 							$("#td1"+idx+"").css('border-color', '#FF0000');
 							//$("#show_td"+idx+"").attr('src', globalPath+'/public/backend/images/sc.png');
@@ -188,7 +224,7 @@ function reasonProject(ind,auditField,auditFieldName,idx) {
 			}else{
 				layer.msg('不能为空！', {offset:'100px'});
 			}
-		});
+		});*/
     }
 }
 function showData(index){

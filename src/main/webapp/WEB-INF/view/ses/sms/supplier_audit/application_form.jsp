@@ -9,7 +9,7 @@
     <style type="text/css">
       .abolish_img_file{
   			position: absolute;
-		    right: 380px;
+		    right: 375px;
 		    top: 5px;
 		    color: #ef0000;
 		    font-weight: bold;
@@ -87,7 +87,7 @@
               </li> --%>
              	<li class="col-md-6 mt10 mb25" >
               	<span class="col-md-5 padding-left-5" onclick="auditFile(this,'download_page','supplierPledge');"
-              	<c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierPledge)}">style="border: 1px solid #FF8C00;"</c:if>
+              	<c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierPledge) && !fn:contains(auditField,'supplierPledge')}">style="border: 1px solid #FF8C00;"</c:if>
               	<c:if test="${fn:contains(auditField,'supplierPledge')}">style="border: 1px solid #FF0000;"</c:if>>供应商承诺书：</span>
               	<c:if test="${fn:contains(unableField,'supplierPledge')}">
               		<img style="" src="/zhbj/public/backend/images/sc.png" class="abolish_img_file"/>
@@ -102,7 +102,7 @@
              	</li>
 	            <li class="col-md-6 p0 mt10 mb25">
                 <span class="col-md-5 padding-left-5" onclick="auditFile(this,'download_page','supplierRegList');"
-                <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierRegList)}">style="border: 1px solid #FF8C00;"</c:if>
+                <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierRegList) && !fn:contains(auditField,'supplierRegList')}">style="border: 1px solid #FF8C00;"</c:if>
                 <c:if test="${fn:contains(auditField,'supplierRegList')}">style="border: 1px solid #FF0000;"</c:if>>供应商申请表：</span>
                 <c:if test="${fn:contains(unableField,'supplierRegList')}">
               		<img style="" src="/zhbj/public/backend/images/sc.png" class="abolish_img_file"/>
