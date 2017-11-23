@@ -62,8 +62,8 @@
           </li>
           <li class="select2-nosearch mb10">
             <label class="fl">专家类别：</label>
-            <div class="fl w220 f0">
-            <select class="w220 h30" name="expertsTypeId" multiple></select>
+            <div class="fl w220 h30">
+              <select class="w220 h30" name="expertsTypeId" multiple></select>
             </div>
           </li>
           <li class="mb10">
@@ -152,16 +152,6 @@
         data: {
           batchId: batchId
         }
-      });
-      
-      var position = '';
-      $('#list_content tr').each(function () {
-        if (getUrlParam('expertId') == $(this).find('input[name="expertId"]').val()) {
-          position = $(this).offset().top;
-        }
-      });
-      $('html, body').animate({
-        scrollTop: position
       });
       
       // 重置操作
@@ -273,7 +263,7 @@
     
     //查看
     function viewDetails(expertId){
-        window.location.href = "${pageContext.request.contextPath}/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2&isCheck=yes";
+      window.location.href = "${pageContext.request.contextPath}/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2&isCheck=yes";
     }
   </script>
     

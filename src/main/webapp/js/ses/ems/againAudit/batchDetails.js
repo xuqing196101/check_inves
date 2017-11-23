@@ -46,11 +46,8 @@
                   str += '<option value="'+ list_content.expTypeList[expertsTypeId_i].id +'">'+ list_content.expTypeList[expertsTypeId_i].name +'</option>';
                 }
                 $('[name=expertsTypeId]').html(str);
-                str = '';
                 $('[name=expertsTypeId]').select2({
-                  placeholder: '全部',
-                  closeOnSelect: false,
-                  minimumResultsForSearch: -1
+                  placeholder: '请选择'
                 });
                 str = '';
                 for (var groupId_i in list_content.groupList) {
@@ -89,15 +86,15 @@
                 +'    <th class="w30"><input type="checkbox" onclick="checkAll(this)" name="checkAll" disabled></th>'
                 +'    <th class="w130">专家编号</th>'
                 +'    <th class="w100">采购机构</th>'
-                +'    <th class="w100">专家姓名</th>'
+                +'    <th class="w80">专家姓名</th>'
                 +'    <th class="w50">性别</th>'
-                +'    <th class="w80">专家类型</th>'
+                +'    <th class="w50">专家类型</th>'
                 +'    <th class="w80">专家类别</th>'
                 +'    <th>工作单位</th>'
-                +'    <th class="w120">专业职称(职务)</th>'
+                +'    <th class="w80">专业职称<br>(职务)</th>'
                 +'    <th class="w60">审核组</th>'
                 +'    <th class="w110">审核状态</th>'
-                +'    <th>审核结论</th>'
+                +'    <th class="w50">审核结论</th>'
                 +'    <th class="w100">操作</th>'
                 +'  </tr>'
                 +'</thead>'
@@ -110,15 +107,15 @@
                 +'    <th class="w30"><input type="checkbox" onclick="checkAll(this)" name="checkAll"></th>'
                 +'    <th class="w130">专家编号</th>'
                 +'    <th class="w100">采购机构</th>'
-                +'    <th class="w100">专家姓名</th>'
+                +'    <th class="w80">专家姓名</th>'
                 +'    <th class="w50">性别</th>'
-                +'    <th class="w80">专家类型</th>'
+                +'    <th class="w50">专家类型</th>'
                 +'    <th class="w80">专家类别</th>'
                 +'    <th>工作单位</th>'
-                +'    <th class="w120">专业职称(职务)</th>'
+                +'    <th class="w80">专业职称<br>(职务)</th>'
                 +'    <th class="w60">审核组</th>'
                 +'    <th class="w110">审核状态</th>'
-                +'    <th>审核结论</th>'
+                +'    <th class="w50">审核结论</th>'
                 +'    <th class="w100">操作</th>'
                 +'  </tr>'
                 +'</thead>'
@@ -190,12 +187,73 @@
                     list_content.list[i].status = '预初审不合格';
                   } else if (list_content.list[i].status === '17') {
                     list_content.list[i].status = '资料不全';
-                  } else if (list_content.list[i].status === '100') {
+                  } else if (list_content.list[i].status === '100' ) {
                     list_content.list[i].status = '重新复审';
                   }
                 } else {
-                  list_content.list[i].status = '重新复审';
-                  btn = '<button type="button" class="btn canDisable" onclick="cancel_reexamination(\''+ list_content.list[i].expertId +'\')">取消重新复审</button>';
+                  // 判断复审专家输出
+                  if (list_content.list[i].status === '4' || list_content.list[i].status === '11' || list_content.list[i].status === '14') {
+                    list_content.list[i].auditor = '';
+                    list_content.list[i].auditAt = '';
+                  }
+                  
+                  // 判断状态输出
+                  if (list_content.list[i].status === '-3') {
+                    list_content.list[i].status = '复审合格';
+                  } else if (list_content.list[i].status === '-2' && list_content.list[i].isReviewEnd != '1') {
+                    list_content.list[i].status = '<span class="green">预复审结束</span>';
+                    btn = '<button type="button" class="btn canDisable" onclick="downloadTable(\''+ list_content.list[i].expertId +'\')">下载复审表</button>';
+                  } else if (list_content.list[i].status === '-2' && list_content.list[i].isReviewEnd == '1') {
+                	  list_content.list[i].status = '<span class="red">复审结束</span>';
+                    btn = '<button type="button" class="btn canDisable" onclick="reexamination(\''+ list_content.list[i].expertId +'\')">重新复审</button>';
+                  } else if (list_content.list[i].status === '-1') {
+                    list_content.list[i].status = '暂存';
+                  } else if (list_content.list[i].status === '0') {
+                    list_content.list[i].status = '待初审';
+                  } else if (list_content.list[i].status === '1') {
+                    list_content.list[i].status = '初审合格';
+                  } else if (list_content.list[i].status === '2') {
+                    list_content.list[i].status = '初审不合格';
+                  } else if (list_content.list[i].status === '3') {
+                    list_content.list[i].status = '初审退回修改';
+                  } else if (list_content.list[i].status === '4') {
+                    if (list_content.list[i].status === '4' && list_content.list[i].auditTemporary === '2') {
+                      list_content.list[i].status = '复审中';
+                    } else {
+                      list_content.list[i].status = '复审已分配';
+                    }
+                  } else if (list_content.list[i].status === '5') {
+                    list_content.list[i].status = '复审不合格';
+                  } else if (list_content.list[i].status === '6') {
+                    list_content.list[i].status = '待复查';
+                  } else if (list_content.list[i].status === '7') {
+                    list_content.list[i].status = '复查合格';
+                  } else if (list_content.list[i].status === '8') {
+                    list_content.list[i].status = '复查不合格';
+                  } else if (list_content.list[i].status === '9') {
+                    list_content.list[i].status = '初审退回再审核';
+                  } else if (list_content.list[i].status === '10') {
+                    list_content.list[i].status = '复审退回修改';
+                  } else if (list_content.list[i].status === '11') {
+                    list_content.list[i].status = '待分配';
+                  } else if (list_content.list[i].status === '12') {
+                    list_content.list[i].status = '处罚中';
+                  } else if (list_content.list[i].status === '13') {
+                    list_content.list[i].status = '无产品专家';
+                  } else if (list_content.list[i].status === '14') {
+                    list_content.list[i].status = '复审待分组专家';
+                  } else if (list_content.list[i].status === '15') {
+                    list_content.list[i].status = '预初审合格';
+                  } else if (list_content.list[i].status === '16') {
+                    list_content.list[i].status = '预初审不合格';
+                  } else if (list_content.list[i].status === '17') {
+                    list_content.list[i].status = '资料不全';
+                  } else if (list_content.list[i].status === '100' ) {
+                    list_content.list[i].status = '重新复审';
+                  } else if (list_content.list[i].status === '-2') {
+                    list_content.list[i].status = '重新复审';
+                    btn = '<button type="button" class="btn canDisable" onclick="cancel_reexamination(\''+ list_content.list[i].expertId +'\')">取消重新复审</button>';
+                  }
                 }
                 
                 if (typeof(list_content.list[i].batchDetailsNumber) === 'undefined') {
@@ -452,6 +510,17 @@
             
             $('.fixedTable').m_fixedTable({
               fixedNumber: 0
+            });
+            
+            var position = '';
+            $('#list_content tr').each(function () {
+              if (getUrlParam('expertId') == $(this).find('input[name="expertId"]').val()) {
+                position = $(this).offset().top;
+              }
+            });
+            
+            $('html, body').animate({
+              scrollTop: position
             });
           }
         } else {
