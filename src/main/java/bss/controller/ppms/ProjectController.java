@@ -1071,6 +1071,7 @@ public class ProjectController extends BaseController {
                      List<String> id2 = getIds(checkId);
                      List<PurchaseDetail> dynamicForeach = purchaseDetailService.dynamicForeach(id2);
                      list.addAll(dynamicForeach);
+                     type = dynamicForeach.get(dynamicForeach.size()-1).getPurchaseType();
                      /*for (int i = 0; i < id2.size(); i++ ) {
                          PurchaseDetail detail = purchaseDetailService.queryById(id2.get(i));
                          if(detail != null){
