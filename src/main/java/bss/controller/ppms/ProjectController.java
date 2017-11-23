@@ -1069,7 +1069,9 @@ public class ProjectController extends BaseController {
                  if(StringUtils.isNotBlank(checkIds) && checkIds.trim().length() != 0){
                      String[] checkId = checkIds.split(",");
                      List<String> id2 = getIds(checkId);
-                     for (int i = 0; i < id2.size(); i++ ) {
+                     List<PurchaseDetail> dynamicForeach = purchaseDetailService.dynamicForeach(id2);
+                     list.addAll(dynamicForeach);
+                     /*for (int i = 0; i < id2.size(); i++ ) {
                          PurchaseDetail detail = purchaseDetailService.queryById(id2.get(i));
                          if(detail != null){
                              if(detail.getPrice() != null){
@@ -1077,7 +1079,7 @@ public class ProjectController extends BaseController {
                              }
                              list.add(detail);
                          }
-                     }
+                     }*/
                  }
                  //创建临时项目，临时状态为4
                  project.setCreateAt(new Date());

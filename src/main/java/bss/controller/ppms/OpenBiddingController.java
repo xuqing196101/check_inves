@@ -309,12 +309,12 @@ public class OpenBiddingController extends BaseSupplierController{
       //审核页面不用校验是否完成
     } else {
     //判断报批说明
-      List<UploadFile> approvalList = uploadService.getFilesOther(id, DictionaryDataUtil.getId("BID_FILE_APPROVAL"), Constant.TENDER_SYS_KEY+"");
+      //List<UploadFile> approvalList = uploadService.getFilesOther(id, DictionaryDataUtil.getId("BID_FILE_APPROVAL"), Constant.TENDER_SYS_KEY+"");
       // 判断审批文件
       /*List<UploadFile> fileAuditList = uploadService.getFilesOther(id, DictionaryDataUtil.getId("BID_FILE_AUDIT"), Constant.TENDER_SYS_KEY+"");*/
-      if(approvalList==null||approvalList.size()==0){
+      /*if(approvalList==null||approvalList.size()==0){
         return "redirect:/open_bidding/projectApproval.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg=1";
-      }
+      }*/
       /*if(fileAuditList==null||fileAuditList.size()==0){
         return "redirect:/open_bidding/projectApproval.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg=2";
       }*/
@@ -1358,6 +1358,77 @@ public class OpenBiddingController extends BaseSupplierController{
 	}finally{
 		response.getWriter().close();
 	}
+  }
+  
+  @RequestMapping("/saveBidDocument")
+  @ResponseBody
+  public String saveBidDocument(@CurrentUser User user, String projectId, String flowDefineId, String flag, HttpServletRequest req){
+	  if ("1".equals(flag)) {
+		  Project project = projectService.selectById(projectId);
+		  project.setConfirmFile(1);
+		  project.setAuditReason(null);
+		  project.setApprovalTime(new Date());
+		  //修改项目状态
+		  project.setStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
+		  projectService.update(project);
+		  ProjectAdvice advice=new ProjectAdvice();
+		  advice.setProjectId(project.getId());
+		  advice.setIsDelete(1);
+		  adviceService.update(advice);
+		  //推送待办
+		  push(user,project.getId());
+		  //该环节设置为执行中状态
+		  flowMangeService.flowExe(req, flowDefineId, projectId, 2);
+        
+		  //获取包信息
+		  HashMap<String, Object> map = new HashMap<>();
+		  map.put("projectId", projectId);
+		  List<Packages> findById = packageService.findByID(map);
+		  if(findById != null && findById.size() > 0){
+			  for (Packages packages : findById) {
+				  String projectStatus = packages.getProjectStatus();
+				  if(projectStatus!=null){
+					  DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
+					  if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())&&!"ZJTSHZ".equals(dd.getCode())&&!"ZJTSHBTG".equals(dd.getCode())){
+						  packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
+						  packageService.updateByPrimaryKeySelective(packages);
+					  }
+				  }else{
+					  packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
+					  packageService.updateByPrimaryKeySelective(packages);
+				  }
+			  }
+		  }
+      } else if ("5".equals(flag)){
+		  Project project = projectService.selectById(projectId);
+		  project.setConfirmFile(5);
+		  project.setAuditReason(null);
+		  project.setApprovalTime(new Date());
+		  //修改项目状态
+		  project.setStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
+		  projectService.update(project);
+		  //该环节设置为执行中状态
+		  flowMangeService.flowExe(req, flowDefineId, projectId, 2);
+		  HashMap<String, Object> map = new HashMap<>();
+		  map.put("projectId", projectId);
+		  List<Packages> findById = packageService.findByID(map);
+		  if(findById != null && findById.size() > 0){
+			  for (Packages packages : findById) {
+				  String projectStatus = packages.getProjectStatus();
+				  if(projectStatus!=null){
+					  DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
+					  if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())&&!"ZJTSHZ".equals(dd.getCode())&&!"ZJTSHBTG".equals(dd.getCode())){
+						  packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
+						  packageService.updateByPrimaryKeySelective(packages);
+					  }
+				  }else{
+					  packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
+					  packageService.updateByPrimaryKeySelective(packages);
+				  }
+			  }
+		  }
+	  }
+	  return StaticVariables.SUCCESS;
   }
 
 
@@ -3935,7 +4006,7 @@ public class OpenBiddingController extends BaseSupplierController{
     model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
     /*model.addAttribute("typeId", DictionaryDataUtil.getId("BID_FILE_AUDIT"));*/
     model.addAttribute("typeApproval", DictionaryDataUtil.getId("BID_FILE_APPROVAL"));
-    model.addAttribute("msg", msg);
+    //model.addAttribute("msg", msg);
     return "bss/ppms/open_bidding/projectApproval";
   }
   @RequestMapping("/projectView")

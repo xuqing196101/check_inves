@@ -110,6 +110,7 @@
   })
   var openPassPackagess;
   function passBut(cometId,type){
+  	$("#openPassText").show();
 	  $("#openPassPackages_check").empty();
 	  $.ajax({
     	   url:"${pageContext.request.contextPath}/packageAdvice/cometPassCheck.html",
@@ -122,6 +123,9 @@
     			   if(data[0].msg=="no"){
     				   layer.alert("没有可选包");
     				   return false;
+    			   }
+    			   if(type == 0){
+    			   		$("#openPassText").hide();
     			   }
     			   var html='<input type="hidden" id="passType" value="'+type+'"/><input type="hidden" id="cometId" value="'+cometId+'"/>';
     			   for(var i=0;i<data.length;i++){
@@ -710,6 +714,7 @@
       </div>
     </div>
     <div id="openPassPackages" class="dnone layui-layer-wrap">
+    	<p id="openPassText">请选择包号生成竞争性谈判项目。选择多包视为合并实施。</p>
        <div id="openPassPackages_check">
           
        </div>
