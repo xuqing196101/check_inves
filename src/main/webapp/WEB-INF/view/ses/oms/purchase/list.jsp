@@ -245,7 +245,7 @@
 							<th class="info">性别</th>
 							<th class="info">职务</th>
 							<th class="info">职称</th>
-							<th class="info">采购资格等级</th>
+							<th class="info">采购资质等级</th>
 							<th class="info">学历</th>
 							<th class="info">电话</th>
 							<th class="info">证书编号</th>
