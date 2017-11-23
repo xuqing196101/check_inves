@@ -371,4 +371,8 @@
   <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
   	SELECT <include refid="Base_Column_List"/> FROM T_SES_SMS_SUPPLIER_ITEM_LEVEL WHERE ID = #{id}
   </select>
+  <delete id="deleteSupplierItemLevelByDateOfYestoday" parameterType="java.util.Date">
+	  DELETE T_SES_SMS_SUPPLIER_ITEM_LEVEL WHERE CREATED_AT &lt; #{yestoday}
+  </delete>
+  
 </mapper>

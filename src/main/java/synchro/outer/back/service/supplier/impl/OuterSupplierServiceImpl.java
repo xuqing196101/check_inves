@@ -87,6 +87,8 @@ import common.dao.FileUploadMapper;
 import common.model.UploadFile;
 import common.service.UploadService;
 
+import extract.util.DateUtils;
+
 /**
  * 
  * 版权：(C) 版权所有 
@@ -1002,14 +1004,17 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
             // 供应商等级
             if (file2.getName().contains(FileUtils.SUPPLIER_LEVEL_FILENAME)) {
                 List<SupplierItemLevel> levelList = FileUtils.getBeans(file2, SupplierItemLevel.class);
-                num += levelList == null ? 0 : levelList.size();
+                //num += levelList == null ? 0 : levelList.size();
                 for (SupplierItemLevel level : levelList) {
                 	SupplierItemLevel selectById = supplierItemLevelMapper.selectById(level.getId());
                     if(selectById != null){
-                    	supplierItemLevelMapper.updateByPrimaryKey(level);
+                    	num += supplierItemLevelMapper.updateByPrimaryKey(level);
                     }else{
-                    	supplierItemLevelMapper.insert(level);
+                    	num += supplierItemLevelMapper.insert(level);
                     }
+                }
+                if(num>0){
+                	supplierItemLevelMapper.deleteSupplierItemLevelByDateOfYestoday(DateUtils.getTodayZeroTime());
                 }
             }
         }
