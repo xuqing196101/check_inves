@@ -369,12 +369,16 @@ public class ExpertReviewExcelUtils {
             firstCell.setCellValue(tableName);
             firstCell.setCellStyle(firstStyle);
             sheet.addMergedRegion(new CellRangeAddress(0, 0, 0,titleName.length-1));
+            for (int i = 1; i < titleName.length; i++) {
+				Cell createCell = firstNameRow.createCell(i);
+				createCell.setCellStyle(firstStyle);
+			}
             //写入excel的表头
             Row titleNameRow = workbook.getSheet(sheetName).createRow(1);
             //--设置样式开始
             CellStyle titleStyle = workbook.createCellStyle();
             // 单元格样式
-            CellStyle cellStyle = null;
+            CellStyle cellStyle =workbook.createCellStyle();
             titleStyle = setFontAndBorder(titleStyle, titleFontType, titleFontSize);
             //titleStyle = setColor(titleStyle, titleBackColor, (short) 10);
             //--设置样式结束
@@ -399,7 +403,7 @@ public class ExpertReviewExcelUtils {
                 //设置样式
                 titleStyle = setFontAndBorder(titleStyle, contentFontType, contentFontSize);
                 if (titleColumn.length > 0) {
-                    cellStyle = workbook.createCellStyle();
+                    cellStyle = cellStyle(cellStyle);
                     int rowIndexs=2;
                     int index=1;
                     CellStyle style=setAlignment(titleStyle);
@@ -424,6 +428,10 @@ public class ExpertReviewExcelUtils {
                     	cell2.setCellStyle(style);
                     	cell2.setCellValue(key+"("+map.get(key).size()+")");
                     	sheet.addMergedRegion(new CellRangeAddress(rowIndexs, rowIndexs, 1,4));
+                    	for (int i = 4; i < 10; i++) {
+                    		Cell cells = dataRow.createCell(i);
+                    		cells.setCellStyle(style);
+						}
                     	List<ExpertBatchDetails> list = map.get(key);
                     	for (ExpertBatchDetails expertBatchDetails : list) {
 							rowIndexs++;
@@ -442,7 +450,12 @@ public class ExpertReviewExcelUtils {
                                 String returnType = method.getReturnType().getName();
                                 Object data = method.invoke(expertBatchDetails) == null ? "" : method.invoke(expertBatchDetails);
                                 // 写入单元格数据
-                                packageData(cellStyle, data, c, returnType, s);
+                                if(cellIndex==9){
+                                	packageData(cellStyle, data, c, returnType, s);
+                                }else{
+                                	packageData(titleStyle, data, c, returnType, s);
+                                }
+                                
                                 cellIndex++;
                              // 每当行数达到设置的值就刷新数据到硬盘,以清理内存
                                 if (rowIndexs % size == 0) {
@@ -489,6 +502,7 @@ public class ExpertReviewExcelUtils {
         // 设置自动换行
         // cellStyle.setWrapText(true);
         // cell.setCellStyle(cellStyle);
+    	cell.setCellStyle(cellStyle);
         if (data != null && !"".equals(data)) {
             if ("java.util.Date".equals(returnType)) {
                 cell.setCellValue((Date) data);
@@ -549,7 +563,23 @@ public class ExpertReviewExcelUtils {
         Font font = workbook.createFont();
         font.setFontHeightInPoints(size);
         font.setFontName(fontName);
-        font.setBold(true);
+        //font.setBold(true);
+        style.setFont(font);
+        style.setWrapText(true); //自动换行
+        style.setVerticalAlignment(CellStyle.VERTICAL_CENTER);//垂直居中 
+        style.setBorderBottom(CellStyle.BORDER_THIN); //下边框
+        style.setBorderLeft(CellStyle.BORDER_THIN);//左边框
+        style.setBorderTop(CellStyle.BORDER_THIN);//上边框
+        style.setBorderRight(CellStyle.BORDER_THIN);//右边框
+        return style;
+    }
+    public CellStyle cellStyle(CellStyle style) {
+        Font font = workbook.createFont();
+        font.setFontHeightInPoints(titleFontSize);
+        font.setFontName(titleFontType);
+        //font.setBold(true);
+        style.setWrapText(true); //自动换行
+        style.setVerticalAlignment(CellStyle.VERTICAL_CENTER);//垂直居中 
         style.setFont(font);
         style.setBorderBottom(CellStyle.BORDER_THIN); //下边框
         style.setBorderLeft(CellStyle.BORDER_THIN);//左边框
@@ -557,7 +587,6 @@ public class ExpertReviewExcelUtils {
         style.setBorderRight(CellStyle.BORDER_THIN);//右边框
         return style;
     }
-
     /**
      * Description: 设置字体并加外边框
      *
@@ -631,57 +660,5 @@ public class ExpertReviewExcelUtils {
             }
         }
         return flag;
-    }
-    /**  
-     * 合并单元格  
-     * @param sheet 要合并单元格的excel 的sheet
-     * @param cellLine  要合并的列  
-     * @param startRow  要合并列的开始行  
-     * @param endRow    要合并列的结束行  
-     */  
-    private static void addMergedRegion(HSSFSheet sheet, int cellLine, int startRow, int endRow,HSSFWorkbook workBook){   
-           
-     HSSFCellStyle style = workBook.createCellStyle(); // 样式对象    
-     
-        style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直    
-        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平    
-        //获取第一行的数据,以便后面进行比较    
-        String s_will = sheet.getRow(startRow).getCell(cellLine).getStringCellValue();   
-     
-        int count = 0;
-        boolean flag = false;
-        for (int i = 1; i <= endRow; i++) {   
-         String s_current = sheet.getRow(i).getCell(0).getStringCellValue(); 
-         if(s_will.equals(s_current))
-         {
-          s_will = s_current;
-          if(flag)
-          {
-           sheet.addMergedRegion(new CellRangeAddress(startRow-count,startRow,cellLine,cellLine));
-           HSSFRow row = sheet.getRow(startRow-count);
-           String cellValueTemp = sheet.getRow(startRow-count).getCell(0).getStringCellValue(); 
-           HSSFCell cell = row.createCell(0);
-           cell.setCellValue(cellValueTemp); // 跨单元格显示的数据    
-                  cell.setCellStyle(style); // 样式    
-           count = 0;
-           flag = false;
-          }
-          startRow=i;
-          count++;          
-         }else{
-          flag = true;
-          s_will = s_current;
-         }
-  //由于上面循环中合并的单元放在有下一次相同单元格的时候做的，所以最后如果几行有相同单元格则要运行下面的合并单元格。
-         if(i==endRow&&count>0)
-         {
-          sheet.addMergedRegion(new CellRangeAddress(endRow-count,endRow,cellLine,cellLine));   
-          String cellValueTemp = sheet.getRow(startRow-count).getCell(0).getStringCellValue(); 
-          HSSFRow row = sheet.getRow(startRow-count);
-       HSSFCell cell = row.createCell(0);
-       cell.setCellValue(cellValueTemp); // 跨单元格显示的数据    
-                cell.setCellStyle(style); // 样式    
-         }
-        }
     }
 }

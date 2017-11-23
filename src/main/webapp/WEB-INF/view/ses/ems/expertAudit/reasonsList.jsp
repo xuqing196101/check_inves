@@ -363,12 +363,12 @@
 				success: function(data) {
 					if(status == 15 && expertStatus !=10) {
 						if(data.isGoodsServer == 1 && data.pass == 0){
-							$("#check_opinion").html("预初审合格，通过的是物资服务经济类别。");
+							$("#check_opinion").html("初审合格，通过的是物资服务经济类别。");
 						}else{
-							$("#check_opinion").html("预初审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
+							$("#check_opinion").html("初审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
 						}
 					} else if(status == 16 && expertStatus !=10) {
-						$("#check_opinion").html("预初审不合格。");
+						$("#check_opinion").html("初审不合格。");
 						
 						//下面是复审退回修改要显示的
 					}else if(status == 16 && expertStatus ==10) {
@@ -622,8 +622,8 @@
                  <c:if test="${sign == 1 }">
                    <li>
                    <div class="select_check">
-                      <input type="radio"  id="qualified" <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> name="selectShenhe" value="15" onclick = "check_opinion()" <c:if test="${isCheck eq 'yes'}">disabled="disabled"</c:if>><c:if test="${sign == 1 && status ne '10'}">预</c:if>初审合格
-                      <input type="radio" id = "noQualified" <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> name="selectShenhe" value="16" onclick = "check_opinion()" <c:if test="${isCheck eq 'yes'}">disabled="disabled"</c:if>><c:if test="${sign == 1 && status ne '10'}">预</c:if>初审不合格
+                      <input type="radio"  id="qualified" <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> name="selectShenhe" value="15" onclick = "check_opinion()" <c:if test="${isCheck eq 'yes'}">disabled="disabled"</c:if>><c:if test="${sign == 1 && status ne '10'}"></c:if>初审合格
+                      <input type="radio" id = "noQualified" <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> name="selectShenhe" value="16" onclick = "check_opinion()" <c:if test="${isCheck eq 'yes'}">disabled="disabled"</c:if>><c:if test="${sign == 1 && status ne '10'}"></c:if>初审不合格
                     </div>
                   </li>
                   <li>

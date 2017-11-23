@@ -1270,7 +1270,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	    		expertAuditOpinion.setFlagTime(1);
 	    		expertAuditOpinion = expertAuditOpinionMapper.selectByExpertId(expertAuditOpinion);
 	    		Expert expertInfo = expertMapper.selectByPrimaryKey(e.getExpertId());
-	    		if(expertInfo.getIsReviewEnd() !=null && expertInfo.getIsReviewEnd() == 1 && "-2".equals(expertInfo.getStatus())){
+	    		if(expertInfo.getIsReviewEnd() !=null && expertInfo.getIsReviewEnd() == 1 ){
 	        		if(expertAuditOpinion !=null && expertAuditOpinion.getFlagAudit() !=null){
 	        			if(expertAuditOpinion.getFlagAudit() == -3){
 	        				//预复审合格
