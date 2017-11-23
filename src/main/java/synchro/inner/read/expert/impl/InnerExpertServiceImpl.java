@@ -402,9 +402,7 @@ public class InnerExpertServiceImpl implements InnerExpertService {
         	}
             if(ep!=null){
             	expertService.updateByPrimaryKeySelective(expert);
-            	
-            	//审核结果短信通知
-            	expertAuditService.sendSms(expert.getStatus(), expert.getMobile());
+
             }
         }
     }
