@@ -1234,6 +1234,8 @@ public class SupplierServiceImpl implements SupplierService {
     if (supplierType == null) {
       return rutDate;
     }
+    //根据参数 清除数据
+    supplierItemLevelServer.deleteItemLevel(categoryIds, supplierType);
     Supplier supplier = new Supplier();
     //生产&& 销售
     if (!SupplierToolUtil.PRODUCT_ID.equals(categoryIds) && !SupplierToolUtil.SALES_ID.equals(categoryIds)) {
@@ -1309,8 +1311,6 @@ public class SupplierServiceImpl implements SupplierService {
       int initLevel = 1;
       //初始化日期
       Date date = new Date();
-      //根据参数 清除数据
-      supplierItemLevelServer.deleteItemLevel(categoryIds, supplierType);
     //排名数量
 	  int listSize=maxLevel.intValue();
       for (int i = maxLevel.intValue() - 1; 0 <= i; i--) {
