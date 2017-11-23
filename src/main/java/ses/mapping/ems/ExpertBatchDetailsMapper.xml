@@ -58,6 +58,9 @@
         LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID 
         LEFT JOIN T_SES_BMS_DICTIONARY_DATA data ON T2.GENDER=data.ID
         where 1=1
+        <if test="expertId != null">
+        	and T1.EXPERT_ID=#{expertId}
+        </if>
         <if test="batchId != null">
             and   T1.BATCH_ID=#{batchId}
         </if>

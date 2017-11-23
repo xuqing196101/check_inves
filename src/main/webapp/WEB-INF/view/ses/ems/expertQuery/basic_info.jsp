@@ -209,10 +209,13 @@
 								<td width="25%">
 									<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM-dd' />
 								</td>
+								<td width="12%" class="bggrey">有无专业技术职称</td>
 								<c:if test="${expert.teachTitle eq '2'}">
-	                <td width="12%" class="bggrey">有无专业技术职称</td>
-	                <td width="25%">无</td>
-                </c:if>
+				                	<td width="25%">无</td>
+			                    </c:if>
+								<c:if test="${expert.teachTitle eq '1'}">
+				                	<td width="25%">有</td>
+			                    
 							</tr>
 							<c:if test="${froms eq 'LOCAL'}">
 							  <tr>
@@ -230,24 +233,8 @@
                   </td>
                 </tr>
 							</c:if>
-							<c:if test="${froms eq 'ARMY'}">
-						    <c:if test="${expert.teachTitle eq '1'}">
-	                <tr>
-		                 <td width="12%" class="bggrey">专业技术职称</td>
-		                 <td width="25%">${expert.professTechTitles}</td>
-		                 <td width="12%" class="bggrey">专业技术职称证书</td>
-		                 <td width="25%">
-		                   <up:show showId="show4" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="4" />
-		                 </td>
-	                </tr>
-	                <tr>
-	                  <td width="12%" class="bggrey">取得技术职称时间</td>
-	                  <td width="25%">
-	                    <fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM-dd' />
-	                  </td>
-	                </tr>
-	               </c:if>
 							</c:if>
+
 							
 							<tr>
 								<td width="12%" class="bggrey">毕业院校及专业</td>
@@ -279,12 +266,16 @@
 						<h2 class="count_flow"><i>3</i>推荐信</h2>
 						<table class="table table-bordered table-condensed ">
 							<tr>
+								<td width="12%" class="bggrey">相关机关事业部门推荐信</td>
 								<td width="25%">
-									<c:if test="${expert.isReferenceLftter eq '2'}">否</c:if>
-									<c:if test="${expert.isReferenceLftter eq '1'}">
-										<up:show showId="show8" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="8" />
-									</c:if>
+									<c:if test="${expert.isReferenceLftter == 2}">无</c:if>
+									<c:if test="${expert.isReferenceLftter == 1}">有</c:if>
 								</td>
+								<c:if test="${expert.isReferenceLftter == 1}">
+									<td width="25%">
+									  <up:show showId="show8" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="8" />
+									</td>
+								</c:if>
 							</tr>
 						</table>
 					</ul>

@@ -2005,6 +2005,7 @@ public class ExpertAuditController{
 						model.addAttribute("message", "当前专家有目录下无通过产品");
 						break;
 					}*/
+				    map2.put("auditFalg", sign);
 					map2.put("typeId", DictionaryDataUtil.getId("ENG_INFO_ID"));
 					int passCount= expertCategoryService.selectPassCount(map2);
 					
@@ -2022,6 +2023,7 @@ public class ExpertAuditController{
 					 map2.put("expertId", expertId);
 				     map2.put("typeId", string);
 				     map2.put("type", "six");
+				     map2.put("auditFalg", sign);
 					int passCount = expertCategoryService.selectPassCount(map2);
 					if(passCount<=0){
 						if(!"GOODS_SERVER".equals(data.getCode())){
@@ -4335,7 +4337,7 @@ public class ExpertAuditController{
     	Map<String, Object> map = new HashMap<String, Object>();
     	map.put("businessId", businessId);
     	map.put("typeId", typeId);
-    	map.put("isDeleted", 0);
+    	map.put("isDel", "isDel");
     	List<ExpertAttachment> list = expertAttachmentService.selectListByMap(map);
     	if(list != null && list.size() > 0){
     		return JSON.toJSONString("OK");
