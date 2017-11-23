@@ -323,6 +323,9 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	            			}
 	            		}
 	            	}
+	            	if(!"-2".equals(e.getStatus())&&e.getReviewStatus()!=null){
+	            		e.setExpertStatus(null);
+	            	}
 				}
 			}
 		}else{
