@@ -1024,7 +1024,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
     	if(cxList.size()>0){
     		map.put("重新复审", cxList);
     	}
-    	ExpertReviewExcelUtils excelUtils = new ExpertReviewExcelUtils(response, "("+name+")情况统计表", "sheet1", 1000);
+    	ExpertReviewExcelUtils excelUtils = new ExpertReviewExcelUtils(response, name+"情况统计表", "sheet1", 1000);
         // 设置冻结行
         excelUtils.setFreezePane(true);
         excelUtils.setFreezePane(new Integer[]{0, 1, 0, 1});
