@@ -4,10 +4,11 @@ package ses.common.sms;/**
 
 import common.utils.SMSUtil;
 import org.apache.commons.lang3.StringUtils;
-import ses.common.MessageCommon;
+import ses.common.AbstractMessageCommon;
 import ses.constants.SupplierConstants;
 import ses.model.sms.Supplier;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +18,9 @@ import java.util.Map;
  * @author Easong
  * @create 2017-11-23 13:44
  **/
-public class SupplierMessageCommon extends MessageCommon {
+public class SupplierMessageCommon extends AbstractMessageCommon implements Serializable{
+
+    private static final long serialVersionUID = -3041229505805491877L;
 
     /**
      * Description: 准备数据 短信信息封装

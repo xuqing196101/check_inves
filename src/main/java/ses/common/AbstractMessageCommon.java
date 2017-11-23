@@ -9,7 +9,7 @@ import java.util.Map;
  * @create 2017-11-23 14:25
  * 短信发送信息封装抽象类
  **/
-public abstract class MessageCommon {
+public abstract class AbstractMessageCommon {
 
     /**
      * Description: 准备数据 短信信息封装

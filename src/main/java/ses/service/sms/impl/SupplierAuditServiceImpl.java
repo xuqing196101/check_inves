@@ -6,7 +6,6 @@ import common.constant.StaticVariables;
 import common.service.UploadService;
 import common.utils.DateUtils;
 import common.utils.JdcgResult;
-import common.utils.SMSUtil;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FileUtils;
@@ -18,7 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import ses.common.MessageCommon;
+import ses.common.AbstractMessageCommon;
 import ses.common.sms.SupplierMessageCommon;
 import ses.constants.SupplierConstants;
 import ses.dao.bms.CategoryQuaMapper;
@@ -1233,7 +1232,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	    List<Supplier> list = supplierMapper.selectSupByPublicty();
 	    if(list != null && !list.isEmpty()){
 			// 封装短信发送Map 格式：状态+电话号码集
-			MessageCommon messageCommon = new SupplierMessageCommon();
+			AbstractMessageCommon messageCommon = new SupplierMessageCommon();
 			Map<Integer, StringBuffer> currSupStatusAndMobile = null;
 	        for (Supplier supplier : list) {
 	            // 将公示7天的拟入库供应商入库 

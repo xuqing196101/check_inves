@@ -9,7 +9,7 @@ import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ses.common.MessageCommon;
+import ses.common.AbstractMessageCommon;
 import ses.common.sms.SupplierMessageCommon;
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
@@ -559,7 +559,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
      */
     @Override
     public void importInner(File file, String flag) {
-        MessageCommon supplierMessageCommon = new SupplierMessageCommon();
+        AbstractMessageCommon supplierMessageCommon = new SupplierMessageCommon();
         List<SupplierAuditFormBean> list = getSupplierFormBaean(file);
         // 封装短信发送Map 格式：状态+电话号码集
         Map<Integer, StringBuffer> currSupStatusAndMobile = null;
