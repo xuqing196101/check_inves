@@ -963,7 +963,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		List<ExpertBatchDetails> batchDetails = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
 		for (ExpertBatchDetails e : batchDetails) {
 			ExpertBatch batch = expertBatchMapper.getExpertBatchByKey(e.getBatchId());
-			if(batch.getBatchStatus()==null){
+			if("0".equals(batch.getBatchStatus())){
 				expertBatchDetails=e;
 				break;
 			}
