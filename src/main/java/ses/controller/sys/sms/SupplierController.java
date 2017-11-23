@@ -3093,8 +3093,8 @@ public class SupplierController extends BaseSupplierController {
 
 				ct.setName(type.getName());
 				ct.setId(typeId);
-				List < SupplierItem > items = supplierItemService.getBySupplierIdCategoryIdIsNotReturned(supplierId, typeId, code);
-				//List < SupplierItem > items = supplierItemService.getSupplierIdCategoryId(supplierId, typeId, code);
+				//List < SupplierItem > items = supplierItemService.getBySupplierIdCategoryIdIsNotReturned(supplierId, typeId, code);
+				List < SupplierItem > items = supplierItemService.getSupplierIdCategoryId(supplierId, typeId, code);
 				// 去掉审核不通过的品目
 				//items = supplierItemService.removeAuditNotItems(items, supplierId, code);
 				if(items != null && items.size() > 0) {
@@ -3122,8 +3122,8 @@ public class SupplierController extends BaseSupplierController {
 				ct1.setParentId(c.getParentId());
 				ct1.setId(c.getId());
                 ct1.setCode(c.getCode());
-                List < SupplierItem > items = supplierItemService.getBySupplierIdCategoryIdIsNotReturned(supplierId, c.getId(), code);
-				//List < SupplierItem > items = supplierItemService.getSupplierIdCategoryId(supplierId, c.getId(), code);
+                //List < SupplierItem > items = supplierItemService.getBySupplierIdCategoryIdIsNotReturned(supplierId, c.getId(), code);
+				List < SupplierItem > items = supplierItemService.getSupplierIdCategoryId(supplierId, c.getId(), code);
 				// 去掉审核不通过的品目
 				//items = supplierItemService.removeAuditNotItems(items, supplierId, code);
 				if(items != null && items.size() > 0) {
@@ -3185,8 +3185,8 @@ public class SupplierController extends BaseSupplierController {
                 jsonObject.put("name",type.getName());
                 jsonObject.put("id", typeId);
                 jsonObject.put("open",true);//默认打开根节点
-                List < SupplierItem > items = supplierItemService.getBySupplierIdCategoryIdIsNotReturned(supplierId, typeId, code);
-                //List < SupplierItem > items = supplierItemService.getSupplierIdCategoryId(supplierId, typeId, code);
+                //List < SupplierItem > items = supplierItemService.getBySupplierIdCategoryIdIsNotReturned(supplierId, typeId, code);
+                List < SupplierItem > items = supplierItemService.getSupplierIdCategoryId(supplierId, typeId, code);
                 // 去掉审核不通过的品目
                 //items = supplierItemService.removeAuditNotItems(items, supplierId, code);
                 if(items != null && items.size() > 0) {
@@ -3220,8 +3220,8 @@ public class SupplierController extends BaseSupplierController {
             jsonObject.put("parentId", c.getParentId());
             jsonObject.put("id", c.getId());
             jsonObject.put("code", c.getCode());
-            List < SupplierItem > items = supplierItemService.getBySupplierIdCategoryIdIsNotReturned(supplierId, c.getId(), code);
-            //List < SupplierItem > items = supplierItemService.getSupplierIdCategoryId(supplierId, c.getId(), code);
+            //List < SupplierItem > items = supplierItemService.getBySupplierIdCategoryIdIsNotReturned(supplierId, c.getId(), code);
+            List < SupplierItem > items = supplierItemService.getSupplierIdCategoryId(supplierId, c.getId(), code);
             // 去掉审核不通过的品目
             //items = supplierItemService.removeAuditNotItems(items, supplierId, code);
             if(items != null && items.size() > 0) {
