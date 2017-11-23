@@ -141,7 +141,7 @@
                   
                   // 判断状态输出
                   if (list_content.list[i].status === '-3') {
-                    list_content.list[i].status = '公示中';
+                    list_content.list[i].status = '复审合格';
                   } else if (list_content.list[i].status === '-2' && list_content.list[i].isReviewEnd != '1') {
                     list_content.list[i].status = '<span class="green">预复审结束</span>';
                     btn = '<button type="button" class="btn canDisable" onclick="downloadTable(\''+ list_content.list[i].expertId +'\')">下载复审表</button>';
@@ -190,6 +190,8 @@
                     list_content.list[i].status = '预初审不合格';
                   } else if (list_content.list[i].status === '17') {
                     list_content.list[i].status = '资料不全';
+                  } else if (list_content.list[i].status === '100') {
+                    list_content.list[i].status = '重新复审';
                   }
                 } else {
                   list_content.list[i].status = '重新复审';
@@ -322,7 +324,7 @@
                 
                 // 判断状态输出
                 if (list_content.list.list[i].status === '-3') {
-                  list_content.list.list[i].status = '公示中';
+                  list_content.list[i].status = '复审合格';
                 } else if (list_content.list.list[i].status === '-2'&& list_content.list.list[i].isReviewEnd != '1') {
                   list_content.list.list[i].status = '<span class="green">预复审结束</span>';
                   if(list_content.list.list[i].isDownload == '1' && list_content.list.list[i].isReviewEnd != '1'){
