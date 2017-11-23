@@ -116,13 +116,13 @@
 							</tr>
 							<tr>
 								<td width="12%" class="bggrey">政治面貌</td>
-								<td width="25%">${expert.healthState}</td>
+								<td width="25%" id="tFace"></td>
 								<td width="12%" class="bggrey">民族</td>
 								<td width="25%">${expert.nation}</td>
 							</tr>
 							<tr>
 								<td width="12%" class="bggrey">健康状态</td>
-								<td width="25%" id="tFace"></td>
+								<td width="25%" >${expert.healthState}</td>
 								<td width="12%" class="bggrey">手机</td>
 								<td width="25%">${expert.mobile}</td>
 							</tr>
