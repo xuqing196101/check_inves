@@ -189,9 +189,6 @@
                   list_content.list[i].status = '重新复审';
                 }
                 
-                console.log(list_content.list[i].reviewStatus);
-                console.log(list_content.list[i].status);
-                
                 // 判断是否为重新复审状态
                 if (typeof(list_content.list[i].reviewStatus) != 'undefined' && list_content.list[i].status == '-2') {
                   list_content.list[i].status = '重新复审';
