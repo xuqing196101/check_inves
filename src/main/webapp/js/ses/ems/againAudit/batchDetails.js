@@ -147,6 +147,7 @@
                     btn = '<button type="button" class="btn canDisable" onclick="downloadTable(\''+ list_content.list[i].expertId +'\')">下载复审表</button>';
                   } else if (list_content.list[i].status === '-2' && list_content.list[i].isReviewEnd == '1') {
                 	  list_content.list[i].status = '<span class="red">复审结束</span>';
+                    btn = '<button type="button" class="btn canDisable" onclick="reexamination(\''+ list_content.list[i].expertId +'\')">重新复审</button>';
                   } else if (list_content.list[i].status === '-1') {
                     list_content.list[i].status = '暂存';
                   } else if (list_content.list[i].status === '0') {
@@ -165,10 +166,8 @@
                     }
                   } else if (list_content.list[i].status === '5') {
                     list_content.list[i].status = '复审不合格';
-                    btn = '<button type="button" class="btn canDisable" onclick="reexamination(\''+ list_content.list[i].expertId +'\')">重新复审</button>';
                   } else if (list_content.list[i].status === '6') {
                     list_content.list[i].status = '待复查';
-                    btn = '<button type="button" class="btn canDisable" onclick="reexamination(\''+ list_content.list[i].expertId +'\')">重新复审</button>';
                   } else if (list_content.list[i].status === '7') {
                     list_content.list[i].status = '复查合格';
                   } else if (list_content.list[i].status === '8') {
