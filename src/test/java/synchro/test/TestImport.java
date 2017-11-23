@@ -135,7 +135,22 @@ public class TestImport {
      */
     @Test
     public void testSupplierBackImport() {
-        //　调用新提交供应商退回修改导入方法
-        innerSupplierService.importInner(null, null);
+        // 获取本地文件
+        File file = FileUtils.getImportFile();
+        // 遍历文件
+        if (file != null && file.exists()) {
+            File[] files = file.listFiles();
+            for (File f : files) {
+                //　调用新提交供应商导入方法
+                //　调用新提交供应商退回修改导入方法
+                if(f.isDirectory()){
+                    for (File fileOfDir : f.listFiles()){
+                        innerSupplierService.importInner(fileOfDir, null);
+                    }
+                }else {
+                    innerSupplierService.importInner(f, null);
+                }
+            }
+        }
     }
 }

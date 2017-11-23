@@ -18,6 +18,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import ses.common.MessageCommon;
+import ses.common.sms.SupplierMessageCommon;
 import ses.constants.SupplierConstants;
 import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.sms.SupplierAptituteMapper;
@@ -488,7 +490,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	@Override
 	public int updateStatus(Supplier supplier) {
 		int updateResult = supplierMapper.updateStatus(supplier);
-		if(updateResult > 0){
+		/*if(updateResult > 0){
 			String id = supplier.getId();
 			Integer status = supplier.getStatus();
 			if(StringUtils.isNotBlank(id) && status != null){
@@ -500,7 +502,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 					}
 				}
 			}
-		}
+		}*/
 		return updateResult;
 	}
 	
@@ -1230,6 +1232,9 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	    String nowDateString = DateUtils.getDateOfFormat(nowDate);
 	    List<Supplier> list = supplierMapper.selectSupByPublicty();
 	    if(list != null && !list.isEmpty()){
+			// 封装短信发送Map 格式：状态+电话号码集
+			MessageCommon messageCommon = new SupplierMessageCommon();
+			Map<Integer, StringBuffer> currSupStatusAndMobile = null;
 	        for (Supplier supplier : list) {
 	            // 将公示7天的拟入库供应商入库 
 	            // 获取七天后的今天
@@ -1243,10 +1248,16 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	                supplier.setInstorageAt(new Date());
 	                // 修改
 	                // supplierMapper.updateStatus(supplier);
+					// 封装短信信息 只在外网执行
+                    if("1".equals(StaticVariables.ipAddressType)){
+                        currSupStatusAndMobile = messageCommon.packageMessageInfo(supplier, currSupStatusAndMobile);
+                    }
                     // 修改状态并短信通知供应商
 	                this.updateStatus(supplier);
 	            }
 	        }
+	        // 发送短信
+	        messageCommon.beginSendMessage(currSupStatusAndMobile);
          }
 	}
 

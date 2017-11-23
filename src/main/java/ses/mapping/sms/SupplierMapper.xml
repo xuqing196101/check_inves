@@ -201,6 +201,7 @@
 	<resultMap id="supplierOfPublicityMap" type="ses.model.sms.Supplier">
 		<id column="ID" property="id" />
 		<result column="AUDIT_DATE" property="auditDate" jdbcType="TIMESTAMP" />
+		<result column="MOBILE" property="mobile" />
 	</resultMap>
 
     <!-- 统计Analyze关系映射 -->
@@ -2437,7 +2438,7 @@
 	<!-- 查询公示的供应商 -->
 	<select id="selectSupByPublicty" resultMap="supplierOfPublicityMap">
 		  SELECT
-		   ID, AUDIT_DATE
+		   ID, AUDIT_DATE, MOBILE
 		   FROM T_SES_SMS_SUPPLIER
 		   WHERE
 		   IS_PROVISIONAL = '0'
