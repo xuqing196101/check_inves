@@ -221,9 +221,12 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		String status="";
 		List<ExpertBatchDetails> fingList=new ArrayList<ExpertBatchDetails>();
 		if(expertBatchDetails.getStatus()!=null){
-			s=true;
-			status=expertBatchDetails.getStatus();
-			expertBatchDetails.setStatus(null);
+			if(!"14".equals(expertBatchDetails.getStatus())){
+				s=true;
+				status=expertBatchDetails.getStatus();
+				expertBatchDetails.setStatus(null);
+			}
+			
 		}
 		//
 		Map<String,Object> map = new HashMap<String,Object>();
