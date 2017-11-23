@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import bss.util.ExcelUtils;
 import bss.util.ExpertReviewExcelUtils;
 import ses.controller.sys.sms.BaseSupplierController;
+import ses.dao.bms.TodosMapper;
 import ses.dao.ems.ExpertReviewTeamMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
@@ -977,7 +979,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	public void expertRerviewExcel(HttpServletResponse httpServletResponse,String batchId){
 		 // 根据编号查询专家信息
     	String name = againAuditService.getbatchName(batchId);
-    	Map<String,List<ExpertBatchDetails>> map = new HashMap<String,List<ExpertBatchDetails>>();
+    	Map<String,List<ExpertBatchDetails>> map = new LinkedHashMap<String,List<ExpertBatchDetails>>();
     	ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
     	expertBatchDetails.setBatchId(batchId);
     	expertBatchDetails.setStatus("-2");
@@ -1017,7 +1019,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
     		map.put("复审不合格", notPassList);
     	}
     	if(thList.size()>0){
-    		map.put("退回修改", thList);
+    		map.put("复审退回修改", thList);
     	}
     	if(cxList.size()>0){
     		map.put("重新复审", cxList);

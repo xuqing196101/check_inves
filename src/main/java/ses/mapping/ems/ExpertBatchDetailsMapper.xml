@@ -122,4 +122,85 @@
     <delete id="deleteByExpertId" parameterType="String">
        DELETE FROM T_SYS_EMS_EXPERT_BATCH_DETAILS WHERE EXPERT_ID = #{expertId}
     </delete>
+    <insert id="insertExpertStatusRecord" parameterType="ses.model.ems.ExpertStatusRecord">
+    	INSERT INTO T_SES_EMS_EXPERT_REVIEW_RECORD 
+    	(EXPERT_ID,STATUS,EXPERT_STATUS,CREATED_AT,UPDATED_AT)
+    	VALUES (#{expertId},#{status},#{expertStatus},#{createAt,jdbcType=TIMESTAMP},#{updateAt,jdbcType=TIMESTAMP})
+    </insert>
+    <select id="getExpertBatchDetailsRecord" resultMap="BaseResultMap"  parameterType="ses.model.ems.ExpertBatchDetails">
+        select 
+        T1.ID,
+        T1.EXPERT_ID,
+        T1.BATCH_NUMBER,
+        T1.BATCH_DETAILS_NUMBER,
+        T1.COUNT,
+        T1.BATCH_NAME,
+        T1.GROUP_NAME,
+        T1.GROUP_ID,
+        T1.BATCH_ID,
+        T2.REAL_NAME AS realName,<!-- 真实姓名 -->
+        data.NAME AS gender,<!-- 性别 -->
+        T2.WORK_UNIT AS workUnit,<!-- 工作单位 -->
+        T2.PROFESS_TECH_TITLES AS professTechTitles,<!-- 专业职称 -->
+        T2.UPDATED_AT AS updateTime,<!-- 提交复审时间 -->
+        T2.AUDIT_AT AS auditAt,<!-- 审核时间 -->
+        org.SHORT_NAME AS orgName,<!-- 所属采购机构 -->
+        T2.AUDITOR AS auditor,<!-- 审核人 -->
+        R.STATUS AS status, <!-- 审核状态 -->
+        T2.EXPERTS_TYPE_ID AS expertsTypeId,<!-- 专家类型 -->
+        T2.EXPERTS_FROM AS expertsFrom,<!-- 专家类别 -->
+        T2.AUDIT_TEMPORARY AS auditTemporary,
+        T2.IS_REVIEW_END AS isReviewEnd,
+        T2.REVIEW_STATUS AS reviewStatus,
+        R.EXPERT_STATUS AS expertStatus
+        from 
+        T_SYS_EMS_EXPERT_BATCH_DETAILS T1
+		LEFT JOIN T_SES_EMS_EXPERT T2 ON T1.EXPERT_ID=T2.ID 
+        LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON T2.PURCHASE_DEP_ID = dep.ID
+        LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID 
+        LEFT JOIN T_SES_BMS_DICTIONARY_DATA data ON T2.GENDER=data.ID
+        LEFT JOIN T_SES_EMS_EXPERT_REVIEW_RECORD R ON T1.EXPERT_ID=R.EXPERT_ID
+        where 1=1
+        <if test="batchId != null">
+            and   T1.BATCH_ID=#{batchId}
+        </if>
+        <if test="groupId != null">
+            and   T1.GROUP_ID=#{groupId}
+        </if>
+        <if test="status != null">
+        	and	  T2.STATUS=#{status}
+        </if>
+        <if test="ids != null">
+            <foreach collection="ids" item="id" open="and T1.ID in ("
+                     close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
+        <if test="expertTypeId != null and expertTypeId != ''">
+	        <foreach item="typeId" index="index" collection="expertTypeId" open="and(" separator="or" close=")">
+	          t2.EXPERTS_TYPE_ID LIKE CONCAT(CONCAT('%', #{typeId}), '%')
+	        </foreach>
+	      </if>
+        <if test="orgName != null">
+        	and org.SHORT_NAME=#{orgName}
+        </if>
+        <if test="expertsFrom != null">
+        	and T2.EXPERTS_FROM = #{expertsFrom}
+        </if>
+        <if test="groupId != null">
+        	and T1.GROUP_ID = #{groupId}
+        </if>
+        <if test="reviewStatus !=null">
+        	and T2.REVIEW_STATUS=#{reviewStatus}
+        </if> 
+         <if test="notReviewStatus !=null">
+        	and T2.REVIEW_STATUS is null
+        </if> 
+        <if test=" sort != null ">
+        ORDER BY org.POSITION ASC,t2.AUDIT_AT ASC
+        </if>
+        <if test=" sort == null ">
+        ORDER BY T1.COUNT ASC   
+        </if> 
+    </select> 
 </mapper>

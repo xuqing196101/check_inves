@@ -348,7 +348,7 @@ public class ExpertReviewExcelUtils {
             } else {
                 //否则，直接写到输出流中
                 out = response.getOutputStream();
-                fileName = fileName + OFFICE_EXCEL_2007_POSTFIX;
+                fileName = "专家复审统计表" + OFFICE_EXCEL_2007_POSTFIX;
                 response.setContentType("application/x-msdownload");
                 response.setHeader("Content-Disposition", "attachment; filename="
                         + URLEncoder.encode(fileName, "UTF-8"));
@@ -427,6 +427,7 @@ public class ExpertReviewExcelUtils {
                     	List<ExpertBatchDetails> list = map.get(key);
                     	for (ExpertBatchDetails expertBatchDetails : list) {
 							rowIndexs++;
+							expertBatchDetails.setCount(rowIndexs-index+"");
 							Row row = workbook.getSheet(sheetName).createRow(rowIndexs);
 							int cellIndex=0;
 							for (String s : titleColumn) {
@@ -448,8 +449,10 @@ public class ExpertReviewExcelUtils {
                                     ((SXSSFSheet) sheet).flushRows();
                                 }
 							}
+							Cell c = row.createCell(cellIndex);
+							c.setCellValue("");
 						}
-                    	
+                    	rowIndexs++;
                     }
                 }
             }
