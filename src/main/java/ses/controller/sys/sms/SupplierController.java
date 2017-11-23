@@ -721,7 +721,7 @@ public class SupplierController extends BaseSupplierController {
 	@ResponseBody
 	@RequestMapping(value = "/temporarySave", produces = "html/text;charset=UTF-8")
 	public String temporarySave(HttpServletRequest request, Supplier supplier) {
-		String res = StaticVariables.SUCCESS;
+		String result = StaticVariables.SUCCESS;
 		try {
         	// 供应商名称校验：供应商库（除去临时供应商）
 			if(StringUtils.isNotBlank(supplier.getSupplierName())){
@@ -789,15 +789,15 @@ public class SupplierController extends BaseSupplierController {
 					// BigDecimal score = supplierService.getScoreBySupplierId(supplier.getId());
 					BigDecimal score = supplierService.getScoreByFinances(supplier.getListSupplierFinances());
 					if (score.compareTo(BigDecimal.valueOf(100)) == -1) {
-						res = "notPass";
+						result = "financeNotPass";
 					}
 				}
 			}
 		} catch(Exception e) {
-			res = StaticVariables.FAILED;
+			result = StaticVariables.FAILED;
 			e.printStackTrace();
 		}
-		return res;
+		return result;
 	}
 	
 	/**
@@ -951,7 +951,7 @@ public class SupplierController extends BaseSupplierController {
 		model.addAttribute("company", DictionaryDataUtil.find(17));
 		model.addAttribute("nature", DictionaryDataUtil.find(32));
 		//初始化所在国家
-		model.addAttribute("foregin", DictionaryDataUtil.find(24));
+		model.addAttribute("foreign", DictionaryDataUtil.find(24));
 		//初始化地址
 		Area area = supplier.getArea();
 		if(area != null){
@@ -2489,13 +2489,13 @@ public class SupplierController extends BaseSupplierController {
         }
 
 		if(count > 0) {
-			model.addAttribute("status", "0");
+			model.addAttribute("error", "formError");
 			return false;
 		}else{
 			// 判断财务信息是否满足条件
 		    BigDecimal score = supplierService.getScoreByFinances(supplier.getListSupplierFinances());
 		    if (score.compareTo(BigDecimal.valueOf(100)) == -1) {
-		    	model.addAttribute("notPass", "notPass");
+		    	model.addAttribute("error", "financeNotPass");
 		    	return false;
 		    }
 		}
