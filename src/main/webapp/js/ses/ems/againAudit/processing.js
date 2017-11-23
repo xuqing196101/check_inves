@@ -739,7 +739,7 @@ function toggle_list(el) {
 }
 
 // 导入历史人员
-function import_history() {
+function import_history(el) {
   var index = layer.open({
     title: ['导入历史人员'],
     shade: 0.3, //遮罩透明度
@@ -776,9 +776,8 @@ function import_history() {
       });
     },
     yes: function() {
-      if ($('#history_content input[type=checkbox]:checked').length <= 2 && $('#history_content input[type=checkbox]:checked').length > 0) {
+      if ($('#history_content input[type=checkbox]:checked').length <= 1 && $('#history_content input[type=checkbox]:checked').length > 0) {
         var val = [];
-        var empty_tr = 0;
         var has_num = 0;
         
         $('#history_content input[type=checkbox]:checked').each(function (index) {
@@ -787,37 +786,16 @@ function import_history() {
         
         $('#list_content tr').each(function (index) {
           for (var i in val) {
-            if ($(this).find('td').eq(0).find('input').val() == val[i][0]) {
+            if ($(this).find('td').eq(0).find('input').val() == val[i][0] && $(this).find('td').eq(1).find('input').val() == val[i][1] &&$(this).find('td').eq(2).find('input').val() == val[i][2]) {
               has_num = 1;
             }
           }
         });
         
         if (has_num == 0) {
-          if ($('#history_content input[type=checkbox]:checked').length == 1) {
-            $('#list_content tr').each(function (index) {
-              if ($(this).find('input[name=relName]').val() == '' && $(this).find('input[name=orgName]').val() == '' && $(this).find('input[name=duties]').val() == '') {
-                $(this).find('input[name=relName]').val(val[0][0]);
-                $(this).find('input[name=orgName]').val(val[0][1]);
-                $(this).find('input[name=duties]').val(val[0][2]);
-                return false;
-              } else {
-                empty_tr++;
-              }
-              
-              if (empty_tr == $('#list_content tr').length) {
-                $('#list_content tr').eq(0).find('input[name=relName]').val(val[0][0]);
-                $('#list_content tr').eq(0).find('input[name=orgName]').val(val[0][1]);
-                $('#list_content tr').eq(0).find('input[name=duties]').val(val[0][2]);
-              }
-            });
-          } else {
-            $('#list_content tr').each(function (index) {
-              $(this).find('input[name=relName]').val(val[index][0]);
-              $(this).find('input[name=orgName]').val(val[index][1]);
-              $(this).find('input[name=duties]').val(val[index][2]);
-            });
-          }
+          $(el).parents('tr').find('input[name=relName]').val(val[0][0]);
+          $(el).parents('tr').find('input[name=orgName]').val(val[0][1]);
+          $(el).parents('tr').find('input[name=duties]').val(val[0][2]);
           
           layer.close(index);
         } else {
@@ -830,7 +808,7 @@ function import_history() {
           offset: '100px'
         });
       } else {
-        layer.msg('最多选择两个历史人员', {
+        layer.msg('最多选择一个历史人员', {
           offset: '100px'
         });
       }
@@ -931,6 +909,13 @@ function takeEffect() {
       batchId: getUrlParam('batchId')
     },
     success: function (data) {
+      $('#table_content').listConstructor({
+        url: list_url,
+        data: {
+          batchId: getUrlParam('batchId')
+        }
+      });
+      
       layer.msg(data.message, {
         offset: '100px'
       });
