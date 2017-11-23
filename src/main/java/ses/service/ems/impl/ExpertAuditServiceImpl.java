@@ -515,7 +515,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	                // 修改
 	            	expertMapper.updateByPrimaryKeySelective(expert);
 	            	//审核结果短信通知
-	            	/*sendSms(expert.getId());*/
+	            	sendSms("6", expert.getMobile());
 	            }
 	        }
          }
@@ -890,10 +890,10 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
      * API文档地址   http://bcp.pro-group.cn:7002/Docs/#!easycloud-smsapi.md
      */
 	@Override
-	public String sendSms(String expertId) {
-		Expert expert = expertService.selectByPrimaryKey(expertId);
+	public String sendSms(String status, String mobile) {
+		/*Expert expert = expertService.selectByPrimaryKey(expertId);
     	String mobile = expert.getMobile();
-    	String status = expert.getStatus();
+    	String status = expert.getStatus();*/
     	String msg = null;
     	String prompt = "";
 		switch (status) {

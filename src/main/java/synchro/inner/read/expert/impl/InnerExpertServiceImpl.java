@@ -29,6 +29,7 @@ import ses.model.ems.ExpertEngHistory;
 import ses.model.ems.ExpertHistory;
 import ses.model.ems.ExpertTitle;
 import ses.service.bms.UserServiceI;
+import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
 import ses.util.DictionaryDataUtil;
@@ -95,6 +96,8 @@ public class InnerExpertServiceImpl implements InnerExpertService {
     private ExpertBatchDetailsMapper expertBatchDetailsMapper;
     @Autowired
     private ExpertCategoryMapper expertCategoryMapper;
+    @Autowired
+	private ExpertAuditService expertAuditService;
     /**
      * 
      * @see synchro.inner.read.expert.InnerExpertService#readNewExpertInfo(java.io.File)
@@ -210,6 +213,9 @@ public class InnerExpertServiceImpl implements InnerExpertService {
                     //入库是对每个表进行插入数据
                 	expertMapper.updateExpert(expert.getId(), expert.getStatus(), expert.getIsSubmit(), expert.getAuditAt());
                     saveBackModifyOperation(expert);
+                    
+                    //审核结果短信通知
+                	expertAuditService.sendSms(expert.getStatus(), expert.getMobile());
                 }
             }catch (RuntimeException e){
                 e.printStackTrace();
@@ -396,6 +402,9 @@ public class InnerExpertServiceImpl implements InnerExpertService {
         	}
             if(ep!=null){
             	expertService.updateByPrimaryKeySelective(expert);
+            	
+            	//审核结果短信通知
+            	expertAuditService.sendSms(expert.getStatus(), expert.getMobile());
             }
         }
     }
