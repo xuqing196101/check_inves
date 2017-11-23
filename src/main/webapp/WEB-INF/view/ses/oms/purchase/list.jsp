@@ -241,14 +241,14 @@
 							<th class="info w50">序号</th>
 							<th class="info">姓名</th>
 							<th class="info">所属采购机构</th>
-							<th class="info">类型</th>
+							<th class="info">人员类别</th>
 							<th class="info">性别</th>
 							<th class="info">职务</th>
 							<th class="info">职称</th>
 							<th class="info">采购资质等级</th>
 							<th class="info">学历</th>
-							<th class="info">电话</th>
-							<th class="info">证书编号</th>
+							<th class="info">办公号码</th>
+							<th class="info">资质证书编号</th>
 						</tr>
 					</thead>
 					<c:if test="${authType == 4}">
