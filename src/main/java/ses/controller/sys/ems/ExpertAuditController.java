@@ -2003,7 +2003,12 @@ public class ExpertAuditController{
 					}*/
 					map2.put("typeId", DictionaryDataUtil.getId("ENG_INFO_ID"));
 					int passCount= expertCategoryService.selectPassCount(map2);
-					if(passCount<=0){
+					
+					//物资经济
+					DictionaryData  dictionaryData = DictionaryDataUtil.get("GOODS_SERVER");
+					String expertTypeId = expert.getExpertsTypeId();
+
+					if(passCount<=0 && !expertTypeId.contains(dictionaryData.getId())){
 						model.addAttribute("qualified", false);
 						model.addAttribute("message", "当前专家有目录下无通过产品");
 						break;
@@ -2186,7 +2191,7 @@ public class ExpertAuditController{
 		  }
 		  
 		 //审核结果发送短信
-  		 expertAuditService.sendSms(expert.getId());
+  		 //expertAuditService.sendSms(expert.getId());
 		return "redirect:list.html";
 	}
 
@@ -4018,7 +4023,7 @@ public class ExpertAuditController{
 	      }
 		
 		////审核结果发送短信
-		expertAuditService.sendSms(expertId);		
+		//expertAuditService.sendSms(expertId);		
         return JdcgResult.ok();
     }
     
