@@ -57,9 +57,10 @@ public class SupplierExtractResult extends SupplierExtRelate {
 	
 	private String projectType;
 
-	private String packageId;
-	
-	private String[] packageIds;
+	/**
+	 * packageId
+	 */
+	private String pid;
 	
 	private String level;
 	
@@ -172,22 +173,6 @@ public class SupplierExtractResult extends SupplierExtRelate {
 		this.projectType = projectType;
 	}
 
-	/*public String getPackageId() {
-		return packageId;
-	}*/
-
-	public void setPackageId(String packageId) {
-		this.packageId = packageId;
-	}
-
-	public String[] getPackageIds() {
-		return StringUtils.isNotBlank(packageId)?packageId.split(","):null;
-	}
-
-	public void setPackageIds(String[] packageIds) {
-		this.packageIds = packageIds;
-	}
-
 	public String getSupplierName() {
 		return supplierName;
 	}
@@ -278,5 +263,11 @@ public class SupplierExtractResult extends SupplierExtRelate {
 		this.supplierLevel = supplierLevel;
 	}
 
-	
+	public String getPid() {
+		return pid;
+	}
+
+	public void setPid(String pid) {
+		this.pid = pid;
+	}
 }

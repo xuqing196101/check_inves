@@ -28,9 +28,9 @@
 			method="post" id="form1">
 			<div>
 				<ul class="list-unstyled list-flow p0_20">
-					<li class="col-md-6  p0 ">
+					<li class="col-md-6  p0 isSatisfy">
 						<div class="fl mr10">
-							<input type="radio" name="radio" checked="checked"
+							<input type="radio"  name="radio"
 								value="1" class="fl" />
 							<div class="ml5 fl">满足某一产品条件即可</div>
 						</div>
@@ -60,10 +60,17 @@
     var zTreeObj = "";
     var zNodes = "";
     var categoryId="";
-    var temp = new Array();
+    var temp = new Object();
     var isCheckParent = true;
+    var categoryName = new Object();
     $(function() {
       categoryId = sessionStorage.getItem("categoryId");
+      categoryName = sessionStorage.getItem("categoryName");
+      temp = categoryId.split(",");
+      categoryName = categoryName.split(",");
+      var isMulticondition = sessionStorage.getItem("isMulticondition");
+      //$("[name='radio']").prop("checked",false);
+      $(".isSatisfy [value='"+isMulticondition+"']").prop("checked",true);
       loadZtree(null);
 		
     });
@@ -152,7 +159,23 @@
 			//子节点全部选中，父节点选中
 			checkAllChildCheckParent(treeNode,treeObj);
 		}
+		
+		//异步加载子节点不展开无法回显，对之前选中的进行处理
+		if(!treeNode.checked){
+			deleteParentId(treeNode);
+			removeByValue(categoryName,treeNode.name);
+		}
     }
+  
+  	//删除父节点id  
+    function deleteParentId(treeNode){
+    	removeByValue(temp,treeNode.id);
+    	var parentNode = treeNode.getParentNode();
+    	if(parentNode){
+    		deleteParentId(parentNode);
+    	}
+    }
+    
     
     //递归取消父节点选中状态
 	function dischecked(treeNode,treeObj){
@@ -288,6 +311,15 @@
     var cateName = new Array();
     var cateId = new Array();
     
+ /*    for ( var v in temp) {
+		cateId.push(temp[v]);
+	}
+	
+	for ( var k in categoryName) {
+		cateName.push(categoryName[k]);
+	} */
+    
+    
     for(var i=0;i<nodes.length;i++){ 
 	    //判断当前节点不存在存在于temp集合 就添加到cate集合中
 	    if(!contains(temp,nodes[i].id)){
@@ -303,6 +335,10 @@
      } 
         //是否满足
        var issatisfy=$('input[name="radio"]:checked ').val();
+       if(nodes.length<1 && (!categoryId)){
+          layer.alert("产品类别必选");
+          return false;
+       }
        if("PROJECT"!=typeCode){
            $(cate).parents("li").find(".categoryId").val(cateId.toString());
        }else{

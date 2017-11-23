@@ -41,7 +41,7 @@
   <div class="container">
     <div class="headline-v2"><h2>专家复审分配列表</h2></div>
     
-    <div class="search_detail pb0">
+    <div class="search_detail">
       <form id="form_id" action="${pageContext.request.contextPath}/expertAudit/basicInfo.html" method="post">
         <input name="expertId" type="hidden" />
         <input name="sign" type="hidden" value="${sign }"/>
@@ -74,12 +74,12 @@
             </select>
             </div>
           </li>
-          <li class="mb10">
-            <button type="button" class="btn mb0" onclick="allotList_search()">查询</button>
-            <button type="reset" class="btn mb0" id="againAudit_reset">重置</button>
-          </li>
         </ul>
         <div class="clear"></div>
+        <div class="tc">
+          <button type="button" class="btn mb0" onclick="allotList_search()">查询</button>
+          <button type="reset" class="btn mb0 mr0" id="againAudit_reset">重置</button>
+        </div>
       </form>
     </div>
     

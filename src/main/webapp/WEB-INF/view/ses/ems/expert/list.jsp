@@ -493,7 +493,16 @@
               </td>
               <%-- <td class="tl pl20" >${e.loginName}</td> --%>
               <td class="tc">${e.gender}</td>
-              <td class="tc">${e.atDuty}</td>
+              <td class="tc">
+              	<c:choose>
+              		<c:when test="${e.professTechTitles !=null and e.professTechTitles ne ''}">
+              			${e.professTechTitles}
+              		</c:when>
+              		<c:otherwise>
+              			 ${e.atDuty}
+              		</c:otherwise>
+              	</c:choose>
+              </td>
               <%-- <td class="tc">${e.idCardNumber}</td> --%>
               <td class="tc">${e.expertsFrom }</td>
               <td class="hand" title="${e.expertsTypeId}">

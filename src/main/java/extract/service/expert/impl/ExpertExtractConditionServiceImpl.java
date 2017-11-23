@@ -409,7 +409,7 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                 String technical = (String)field2.get(expertExtractCateInfo);
                 map.put("technical",technical);
                 List<Expert> expertList = expertMapper.findExpertByExtract(map);
-                expertList = getExpertTypes(expertList);
+                expertList = getExpertTypes(expertList,typeCode);
                 resultMap.put(typeCode, expertList);
             }
         }
@@ -425,28 +425,18 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
      * @param 
      * @return
      */
-    public List<Expert> getExpertTypes(List<Expert> expertList){
+    public List<Expert> getExpertTypes(List<Expert> expertList,String code){
         for(Expert exp: expertList) {
-            StringBuffer expertType = new StringBuffer();
-            if(exp.getExpertsTypeId() != null) {
-                for(String typeId: exp.getExpertsTypeId().split(",")) {
-                    DictionaryData data = DictionaryDataUtil.findById(typeId);
-                    if(data != null){
-                        if(6 == data.getKind()) {
-                            expertType.append(data.getName() + "技术、");
-                        } else {
-                            expertType.append(data.getName() + "、");
-                        }
-                    }
-                }
-                if(expertType.length() > 0){
-                    String expertsType = expertType.toString().substring(0, expertType.length() - 1);
-                     exp.setExpertsTypeId(expertsType);
+            DictionaryData data = DictionaryDataUtil.get(code);
+            if(data != null){
+                if(6 == data.getKind()) {
+                    exp.setExpertsTypeId(data.getName() + "技术");
+                } else {
+                	exp.setExpertsTypeId(data.getName());
                 }
             } else {
                 exp.setExpertsTypeId("");
             }
-            
             StringBuffer professional = new StringBuffer();
             List<String> professionalList = expertExtractConditionMapper.selProfessionalByExpertId(exp.getId());
             for (String str : professionalList) {

@@ -453,6 +453,9 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                     SupplierAudit audit = supplierAuditMapper.selectById(supplierAudit.getId());
                     if(audit != null){
                         supplierAuditMapper.updateByIdSelective(supplierAudit);
+                    } else {
+                        // 插入新标记的审核记录
+                        supplierAuditMapper.inserActive(supplierAudit);
                     }
                 }
             }

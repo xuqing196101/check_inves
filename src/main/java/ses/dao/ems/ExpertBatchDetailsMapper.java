@@ -1,6 +1,7 @@
 package ses.dao.ems;
 
 import ses.model.ems.ExpertBatchDetails;
+import ses.model.ems.ExpertStatusRecord;
 
 import java.util.List;
 
@@ -8,9 +9,11 @@ public interface ExpertBatchDetailsMapper {
 	
 	void insert(ExpertBatchDetails expertBatchDetails);
 	List<ExpertBatchDetails> getExpertBatchDetails(ExpertBatchDetails expertBatchDetails);
+	List<ExpertBatchDetails> getExpertBatchDetailsRecord(ExpertBatchDetails expertBatchDetails);
 	void updateExpertBatchDetailsGrouping(ExpertBatchDetails expertBatchDetails);
 	int getExpertBatchDetailsCount(String groupId);
 	ExpertBatchDetails findExpertBatchDetails(ExpertBatchDetails expertBatchDetails);
+	
 	
 	/**
 	 * 
@@ -33,4 +36,5 @@ public interface ExpertBatchDetailsMapper {
 	 * @since JDK1.7
 	 */
 	int deleteByExpertId(String expertId);
+	void insertExpertStatusRecord(ExpertStatusRecord e);
 }

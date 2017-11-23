@@ -347,4 +347,11 @@ public interface ExpertAuditService {
     JdcgResult selectCategoryAudit (String expertId, String[] categoryIds, Integer sign);
     JdcgResult updateCategoryAudit (String expertId, String[] categoryIds, Integer sign,String auditReason);
     void updateAuditStatus(String id,String auditStatus);
+    
+    /**
+     * 审核结果短信通知
+     * @param expertId
+     * @return
+     */
+   String sendSms(String expertId);
 }

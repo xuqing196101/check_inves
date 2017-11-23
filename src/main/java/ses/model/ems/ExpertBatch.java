@@ -14,7 +14,14 @@ public class ExpertBatch {
 	private Date createdAt;
 	/**修改时间*/
 	private Date updatedAt;
+	private String batchStatus;
 	
+	public String getBatchStatus() {
+		return batchStatus;
+	}
+	public void setBatchStatus(String batchStatus) {
+		this.batchStatus = batchStatus;
+	}
 	public String getBatchId() {
 		return batchId;
 	}

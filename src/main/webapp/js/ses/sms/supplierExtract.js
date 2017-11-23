@@ -734,7 +734,9 @@ function opens(cate) {
     }else if($(parentId).val()){
     	categoryId += ","+ $(parentId).val();
     }*/
-    sessionStorage.setItem("categoryId",categoryId);
+	sessionStorage.setItem("categoryId",categoryId);
+    sessionStorage.setItem("categoryName",$("#categoryName").val());
+    sessionStorage.setItem("isMulticondition",$("#isSatisfy").val());
     layer.open({
         type: 2,
         title: "选择条件",

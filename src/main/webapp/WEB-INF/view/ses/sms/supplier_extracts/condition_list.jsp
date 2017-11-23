@@ -352,8 +352,6 @@
 				<!-- 记录id -->
 				<input type="hidden" name="recordId" id="recordId" value="${projectInfo.id}"> 
 				<input type="hidden" id="conditionId" name="id" value="${projectInfo.conditionId }">
-				<!-- 品目Name ， -->
-				<input type="hidden" name="categoryName" id="extCategoryNames">
 				<!-- 省 -->
 				<input type="hidden" name="province" id="province" value="0" /> 
 				<input type="hidden" name="addressId" id="addressId">
@@ -369,7 +367,7 @@
 						<!--  满足多个条件 -->
 						<input type="hidden" name="isMulticondition" value="1" id="isSatisfy" class="isSatisfy"> <input type="hidden" name="categoryId" id="categoryIds" class="categoryId">
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<input readonly value="${listCon.conTypes[0].categoryName}" typeCode="" onclick="opens(this);" type="text"> <span class="add-on">i</span>
+							<input readonly value="${listCon.conTypes[0].categoryName}" id="categoryName" typeCode="" onclick="opens(this);" type="text"> <span class="add-on">i</span>
 							<div class="cue" id="categoryIdError"></div>
 						</div>
 					</li>

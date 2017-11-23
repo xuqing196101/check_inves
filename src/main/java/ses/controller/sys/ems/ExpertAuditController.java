@@ -20,8 +20,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
-import org.jsoup.helper.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,6 +28,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+
+import bss.formbean.PurchaseRequiredFormBean;
+import common.annotation.CurrentUser;
+import common.constant.Constant;
+import common.constant.StaticVariables;
+import common.utils.JdcgResult;
 import ses.dao.ems.ExpertBatchDetailsMapper;
 import ses.dao.ems.ExpertField;
 import ses.model.bms.Area;
@@ -76,16 +82,6 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WordUtil;
-import bss.formbean.PurchaseRequiredFormBean;
-
-import com.alibaba.fastjson.JSON;
-import com.ctc.wstx.util.DataUtil;
-import com.github.pagehelper.PageInfo;
-
-import common.annotation.CurrentUser;
-import common.constant.Constant;
-import common.constant.StaticVariables;
-import common.utils.JdcgResult;
 
 
 /**
@@ -1958,6 +1954,10 @@ public class ExpertAuditController{
 			selectEao.setFlagTime(1);
 		}
 		auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
+		//如果当前专家为重新复审专家清空复审意见
+		if(sign==2&&"1".equals(expert.getReviewStatus())){
+			auditOpinion.setOpinion("");
+		}
 		model.addAttribute("qualified", true);
 		JdcgResult result =null;
 		if(expertAudit.getAuditFalg()==2){
@@ -2181,9 +2181,12 @@ public class ExpertAuditController{
 	        todos.setUrl("expertAudit/basicInfo.html?expertId=" + expert.getId());
 	        todosService.insert(todos );
 	      }
-			if(sign==2){
-				expertAgainAuditService.handleExpertReviewTeam(expertId);
-			}
+		  if(sign==2){
+		     expertAgainAuditService.handleExpertReviewTeam(expertId);
+		  }
+		  
+		 //审核结果发送短信
+  		 expertAuditService.sendSms(expert.getId());
 		return "redirect:list.html";
 	}
 
@@ -3467,6 +3470,7 @@ public class ExpertAuditController{
 		expert.setAuditTemporary(0);
 		// 设置修改时间
 		expert.setUpdatedAt(new Date());
+		expertService.updateReviewStatus(expert.getId());
 		expertService.updateByPrimaryKeySelective(expert);
 		return JdcgResult.ok(expert.getStatus());
 	}
@@ -4012,6 +4016,9 @@ public class ExpertAuditController{
 	        todos.setUrl("expertAudit/basicInfo.html?expertId=" + expert.getId());
 	        todosService.insert(todos );
 	      }
+		
+		////审核结果发送短信
+		expertAuditService.sendSms(expertId);		
         return JdcgResult.ok();
     }
     
@@ -4105,11 +4112,12 @@ public class ExpertAuditController{
      * @return
      */
     @RequestMapping(value = "/auditSummary")
-    public String auditSummary(Model model, String expertId, Integer sign, String batchId){
+    public String auditSummary(Model model, String expertId, Integer sign, String batchId, String isCheck){
     	//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
 		model.addAttribute("batchId", batchId);
 		model.addAttribute("expertId", expertId);
+		model.addAttribute("isCheck", isCheck == null? "no" : isCheck);
 		ExpertAudit expertAudit = new ExpertAudit();
 		expertAudit.setExpertId(expertId);
 		expertAudit.setAuditFalg(2);

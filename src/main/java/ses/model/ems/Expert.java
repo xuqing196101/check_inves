@@ -187,8 +187,17 @@ public class Expert extends ExpertHistory implements Serializable {
     private String fromType;
     private String updateTime;
     private String sort;
+    private String reviewStatus;
+    
+    public String getReviewStatus() {
+		return reviewStatus;
+	}
 
-    public String getSort() {
+	public void setReviewStatus(String reviewStatus) {
+		this.reviewStatus = reviewStatus;
+	}
+
+	public String getSort() {
         return sort;
     }
 

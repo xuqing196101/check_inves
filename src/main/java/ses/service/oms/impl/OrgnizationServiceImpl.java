@@ -881,4 +881,9 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 public List<Orgnization> findManageOfOrg(HashMap<String, Object> map) {
 	return orgniztionMapper.findManageOfOrg(map);
 }
+
+@Override
+public String selOrgIdByDepId(String id) {
+	return orgniztionMapper.selOrgIdByDepId(id);
+}
 }
