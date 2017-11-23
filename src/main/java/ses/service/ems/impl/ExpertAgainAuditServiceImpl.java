@@ -1268,6 +1268,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 				expertAuditMapper.updateAgainReview(e.getExpertId());
 				Expert expert = new Expert();
 				expert.setStatus("1");
+				expert.setIsReviewEnd(0);
 				expert.setId(e.getExpertId());
 				expertMapper.updateByPrimaryKey(expert);
 				ExpertStatusRecord record = new ExpertStatusRecord();
