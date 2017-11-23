@@ -62,7 +62,7 @@
           </li>
           <li class="select2-nosearch mb10">
             <label class="fl">专家类别：</label>
-            <div class="fl w220">
+            <div class="fl w220 f0">
             <select class="w220 h30" name="expertsTypeId" multiple></select>
             </div>
           </li>
@@ -116,6 +116,8 @@
   </form>
   <!-- 内容结束 -->
   
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.css">
+  <script src="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.js"></script>
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/batchDetails.js"></script>
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/search.js"></script>

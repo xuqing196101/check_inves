@@ -83,7 +83,7 @@
             
             // 判断是否禁用页面功能
             if (list_content.batchStatus == '1') {
-              $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped break-all againAudit_table">'
+              $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped break-all againAudit_table fixedTable">'
                 +'<thead>'
                 +'  <tr>'
                 +'    <th class="w30"><input type="checkbox" onclick="checkAll(this)" name="checkAll" disabled></th>'
@@ -104,7 +104,7 @@
                 +'<tbody id="list_content"></tbody>'
               +'</table>');
             } else {
-              $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped break-all againAudit_table">'
+              $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped break-all againAudit_table fixedTable">'
                 +'<thead>'
                 +'  <tr>'
                 +'    <th class="w30"><input type="checkbox" onclick="checkAll(this)" name="checkAll"></th>'
@@ -285,13 +285,17 @@
             if (list_content.batchStatus == '1') {
               $('.canDisable').prop('disabled', true);
             }
+            
+            $('.fixedTable').m_fixedTable({
+              fixedNumber: 0
+            });
           } else if (userType === '6') {
             // $('#btn_group').html('<button type="button" class="btn btn-windows git" onclick="expert_auditBatch(\''+ root_url +'\')">审核</button>'
             //   +'<button type="button" onclick="downloadTable(2)" class="btn btn-windows input">下载复审表</button>');
             
             $('#btn_group').html('<button type="button" class="btn btn-windows reset" onclick="javascript: location.reload()">刷新</button>');
             
-            $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped break-all againAudit_table">'
+            $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped break-all againAudit_table fixedTable">'
               +'<thead>'
               +'  <tr>'
               +'    <th class="w100">专家编号</th>'
@@ -445,6 +449,10 @@
             if (list_content.batchStatus == '1') {
               $('.canDisable').prop('disabled', true);
             }
+            
+            $('.fixedTable').m_fixedTable({
+              fixedNumber: 0
+            });
           }
         } else {
           $('#list_content').html('');
