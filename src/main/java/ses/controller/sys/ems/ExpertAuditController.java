@@ -4337,7 +4337,7 @@ public class ExpertAuditController{
     	Map<String, Object> map = new HashMap<String, Object>();
     	map.put("businessId", businessId);
     	map.put("typeId", typeId);
-    	map.put("isDeleted", 0);
+    	map.put("isDel", "isDel");
     	List<ExpertAttachment> list = expertAttachmentService.selectListByMap(map);
     	if(list != null && list.size() > 0){
     		return JSON.toJSONString("OK");
