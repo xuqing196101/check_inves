@@ -65,7 +65,7 @@
                		getCheckOpinionType(expertId);
                	}
                	if(checkVal == '5'){
-               		$("#cate_result").html("预复审不合格。");
+               		$("#cate_result").html("复审不合格。");
                	}
                	if(checkVal == '10'){
                		$("#cate_result").html("退回修改。");
@@ -684,8 +684,8 @@
 		             	<c:otherwise>
 		                <li>
 		                	<div class="select_check" id="selectOptionId">
-			                    <input type="radio" id="qualified" name="selectOption" value="-3">预复审合格
-			                    <input type="radio"  name="selectOption" value="5">预复审不合格
+			                    <input type="radio" id="qualified" name="selectOption" value="-3">复审合格
+			                    <input type="radio"  name="selectOption" value="5">复审不合格
 			                    <input type="radio"  name="selectOption" value="10">退回修改
 		                    </div>
 		                </li>
