@@ -324,4 +324,11 @@ import ses.model.sms.SupplierTypeTree;
 	 */
 	public SupplierCateTree addNode(SupplierCateTree cateTree,SupplierItem item);
 	
+	/**
+	 * 查询公开的品目
+	 * @param map
+	 * @return
+	 */
+	public List<Category> findPublishCategory (String parentId);
+	
 }

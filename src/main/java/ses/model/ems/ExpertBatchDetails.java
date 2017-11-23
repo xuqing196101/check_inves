@@ -62,7 +62,21 @@ public class ExpertBatchDetails {
 	private List<String> expertTypeId;
 	private String requestType;
 	private String reviewStatus;
+	private String notReviewStatus;
+	private String expertStatus;//评审专家结论
 	
+	public String getExpertStatus() {
+		return expertStatus;
+	}
+	public void setExpertStatus(String expertStatus) {
+		this.expertStatus = expertStatus;
+	}
+	public String getNotReviewStatus() {
+		return notReviewStatus;
+	}
+	public void setNotReviewStatus(String notReviewStatus) {
+		this.notReviewStatus = notReviewStatus;
+	}
 	public String getReviewStatus() {
 		return reviewStatus;
 	}

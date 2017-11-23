@@ -40,7 +40,7 @@
           }
           
           // 判断是否为重新复审状态
-          if (typeof(list_content[i].reviewStatus) != null || typeof(list_content[i].reviewStatus) != 'null' || typeof(list_content[i].reviewStatus) != 'undefined') {
+          if (typeof(list_content[i].reviewStatus) != null && typeof(list_content[i].reviewStatus) != 'null' && typeof(list_content[i].reviewStatus) != 'undefined') {
             $('#selected_content').append('<tr class="red">'
                 +'  <td class="text-center"><input name="id" type="checkbox" value="'+ list_content[i].id +'" class="select_item"></td>'
                 +'  <td class="text-center">'+ (parseInt(i) + 1) +'</td>'
