@@ -258,7 +258,7 @@ public class SupplierController extends BaseSupplierController {
     	
     	if(supplier != null && supplier.getStatus() == 2){
     		// 设置审核不通过的品目
-        	List<SupplierItem> itemList_product = supplierItemService.removeAuditNotItems(null, suppId, "PRODUCT");
+        	/*List<SupplierItem> itemList_product = supplierItemService.removeAuditNotItems(null, suppId, "PRODUCT");
         	List<SupplierItem> itemList_sales = supplierItemService.removeAuditNotItems(null, suppId, "SALES");
         	List<SupplierItem> itemList_project = supplierItemService.removeAuditNotItems(null, suppId, "PROJECT");
         	List<SupplierItem> itemList_service = supplierItemService.removeAuditNotItems(null, suppId, "SERVICE");
@@ -275,7 +275,7 @@ public class SupplierController extends BaseSupplierController {
         	}
         	if(itemList_service == null || itemList_service.isEmpty()){
         		//supplierTypeRelateService.delete(suppId, "SERVICE");
-        	}
+        	}*/
         	
         	// 如果供应商类型被退回，自动去掉勾选
         	/*SupplierAudit supplierAudit = new SupplierAudit();
@@ -291,6 +291,22 @@ public class SupplierController extends BaseSupplierController {
         			}
         		}
         	}*/
+    		String supplierTypeAuditStr = "";
+    		List<String> supplierTypeList = supplierTypeRelateService.findTypeBySupplierId(suppId);
+    		for(String supplierType : supplierTypeList){
+				SupplierAudit supplierAudit = new SupplierAudit();
+				supplierAudit.setSupplierId(suppId);
+				supplierAudit.setAuditType("supplierType_page");
+				DictionaryData dd = DictionaryDataUtil.get(supplierType);
+				if(dd != null){
+					supplierAudit.setAuditField(dd.getId());
+				}
+				int count = supplierAuditService.countAuditRecords(supplierAudit, new Integer[]{0,2});
+				if(count > 0){
+					supplierTypeAuditStr += supplierType + ",";
+				}
+			}
+    		model.addAttribute("supplierTypeAuditStr", supplierTypeAuditStr);
     	}
     	
     	supplier = supplierService.get(suppId, 2);
@@ -994,8 +1010,10 @@ public class SupplierController extends BaseSupplierController {
 		//初始化供应商注册附件类型
 		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
-		model.addAttribute("rootArea", areaService.findRootArea());
-		String businessScope = supplier.getSupplierMatEng().getBusinessScope();
+		if(!model.containsAttribute("rootArea")){
+			model.addAttribute("rootArea", areaService.findRootArea());
+		}
+		/*String businessScope = supplier.getSupplierMatEng().getBusinessScope();
 		List<Area> businessScopeAreas = supplier.getSupplierMatEng().getBusinessScopeAreas();
 		if (businessScope != null && businessScopeAreas.isEmpty()) {
 		    String[] scope = businessScope.split(",");
@@ -1003,7 +1021,7 @@ public class SupplierController extends BaseSupplierController {
 		        Area area = areaService.listById(areaId);
 		        supplier.getSupplierMatEng().getBusinessScopeAreas().add(area);
             }
-		}
+		}*/
 		//资质类型
 		List<Qualification> quaList = qualificationService.findList(null, Integer.MAX_VALUE, null, 4);
 		// 去掉下面的代码（只要后台维护的资质，不要供应商自己添加的资质）
@@ -1391,62 +1409,72 @@ public class SupplierController extends BaseSupplierController {
 		if(checkSupplier == null){
 			return null;
 		}
-		boolean type = true;
-		boolean sale = true;
-		boolean pro = true;
-		boolean server = true;
-		boolean project = true;
-		boolean typeAudit = true;
+		boolean flagSupplierType = true;
+		boolean flagProduct = true;
+		boolean flagSell = true;
+		boolean flagProject = true;
+		boolean flagServer = true;
+		boolean flagTypeAudit = true;
+		String supplierTypeAuditStr = "";
 		try{
 			String supplierTypeIds = supplier.getSupplierTypeIds();
 			if(StringUtils.isNotBlank(supplierTypeIds)){
 				String[] str = supplierTypeIds.trim().split(",");
 				if(str != null && str.length > 0){
-					// 所选专业类型全部审核不通过，不让下一步
-					List<String> supplierTypeList = supplierTypeRelateService.findTypeBySupplierId(supplierId);
-					if(supplierTypeList == null || supplierTypeList.size() == 0){
-						type = false;
-					}else{
-						int supplierTypeAuditCount = 0;
-						for(String supplierType : supplierTypeList){
-							SupplierAudit supplierAudit = new SupplierAudit();
-							supplierAudit.setSupplierId(supplierId);
-							supplierAudit.setAuditType("supplierType_page");
-							DictionaryData dd = DictionaryDataUtil.get(supplierType);
-							if(dd != null){
-								supplierAudit.setAuditField(dd.getId());
+					if(checkSupplier.getStatus() == 2){
+						// 所选专业类型全部审核不通过，不让下一步
+						List<String> supplierTypeList = supplierTypeRelateService.findTypeBySupplierId(supplierId);
+						if(supplierTypeList == null || supplierTypeList.size() == 0){
+							flagSupplierType = false;
+						}else{
+							int supplierTypeAuditCount = 0;
+							for(String supplierType : supplierTypeList){
+								SupplierAudit supplierAudit = new SupplierAudit();
+								supplierAudit.setSupplierId(supplierId);
+								supplierAudit.setAuditType("supplierType_page");
+								DictionaryData dd = DictionaryDataUtil.get(supplierType);
+								if(dd != null){
+									supplierAudit.setAuditField(dd.getId());
+								}
+								int count = supplierAuditService.countAuditRecords(supplierAudit, new Integer[]{0,2});
+								supplierTypeAuditCount += count;
+								if(count > 0){
+									supplierTypeAuditStr += supplierType + ",";
+								}
 							}
-							supplierTypeAuditCount += supplierAuditService.countAuditRecords(supplierAudit, new Integer[]{0,2});
-						}
-						if(supplierTypeAuditCount >= supplierTypeList.size()){
-							typeAudit = false;
+							if(supplierTypeAuditCount >= supplierTypeList.size()){
+								flagTypeAudit = false;
+							}
 						}
 					}
 					for(String s: str) {
-				        if(s.equals("PRODUCT")) {
-				            pro = validatePro(request, supplier.getSupplierMatPro(), model);
-				            if(pro == true) {
-				                supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
-				            }
-				        }
-				        if(s.equals("SALES")) {
-				            sale = validateSale(request, supplier.getSupplierMatSell(), model);
-				            if(sale == true) {
-				                supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
-				            }
-				        }
-				        if(s.equals("PROJECT")) {
-				            project = validateEng(request, supplier.getSupplierMatEng(), model);
-				            if(project == true) {
-				                supplierMatEngService.saveOrUpdateSupplierMatEng(supplier);
-				            }
-				        }
-				        if(s.equals("SERVICE")) {
-				            server = validateServer(request, supplier.getSupplierMatSe(), model);
-				            if(server == true) {
-				                supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
-				            }
-				        }
+						// 没有审核过的才进行校验
+						if(supplierTypeAuditStr.indexOf(s) == -1){
+							if(s.equals("PRODUCT")) {
+					        	flagProduct = validatePro(request, supplier.getSupplierMatPro(), model);
+					            if(flagProduct == true) {
+					                supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
+					            }
+					        }
+					        if(s.equals("SALES")) {
+					        	flagSell = validateSale(request, supplier.getSupplierMatSell(), model);
+					            if(flagSell == true) {
+					                supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
+					            }
+					        }
+					        if(s.equals("PROJECT")) {
+					        	flagProject = validateEng(request, supplier.getSupplierMatEng(), model);
+					            if(flagProject == true) {
+					                supplierMatEngService.saveOrUpdateSupplierMatEng(supplier);
+					            }
+					        }
+					        if(s.equals("SERVICE")) {
+					        	flagServer = validateServer(request, supplier.getSupplierMatSe(), model);
+					            if(flagServer == true) {
+					                supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
+					            }
+					        }
+						}
 				    }
 				}
 				supplierTypeRelateService.saveSupplierTypeRelate(supplier);
@@ -1454,23 +1482,24 @@ public class SupplierController extends BaseSupplierController {
 				    supplierTypeRelateService.delete(supplier.getId(), "SALES");
 				}
 			}else{
-				type = false;
+				flagSupplierType = false;
 			}
 		}catch (Exception e){
 			e.printStackTrace();
             logger.error("保存供应商类型出现问题，具体问题如下：", e);
 		}
 
-		if(type == true && pro == true && server == true && project == true && sale == true && typeAudit == true) {
+		if(flagSupplierType == true && flagProduct == true && flagSell == true && flagProject == true && flagServer == true && flagTypeAudit == true) {
 			model.addAttribute("suppId", supplier.getId());
 			return "redirect:/supplier/items.html";
 		} else {
-			model.addAttribute("type", type);
-			model.addAttribute("pro", pro);
-			model.addAttribute("sale", sale);
-			model.addAttribute("project", project);
-			model.addAttribute("server", server);
-			model.addAttribute("typeAudit", typeAudit);
+			model.addAttribute("flagSupplierType", flagSupplierType);
+			model.addAttribute("flagProduct", flagProduct);
+			model.addAttribute("flagSell", flagSell);
+			model.addAttribute("flagProject", flagProject);
+			model.addAttribute("flagServer", flagServer);
+			model.addAttribute("flagTypeAudit", flagTypeAudit);
+			model.addAttribute("supplierTypeAuditStr", supplierTypeAuditStr);
 			initSupplierTypeConstants(model, supplier);
 			initSupplierTypeAudit(model, checkSupplier);
 			returnSupplierTypeInfo(model, checkSupplier, supplier);
@@ -2724,9 +2753,10 @@ public class SupplierController extends BaseSupplierController {
 			 model.addAttribute("province", "至少选择一个省市！");
 			 bool = false;
 		}
+		List<Area> areas = areaService.findRootArea();
 		String businessScope = supplierMatEng.getBusinessScope();
 		if (businessScope != null) {
-		    String[] scope = businessScope.split(",");
+		    /*String[] scope = businessScope.split(",");
 		    for (String areaId : scope) {
 		        Area area = areaService.listById(areaId);
 		        if (area != null) {
@@ -2737,7 +2767,17 @@ public class SupplierController extends BaseSupplierController {
 		            }
 		            supplierMatEng.getBusinessScopeAreas().add(area);
 		        }
-            }
+            }*/
+			for(Area area : areas){
+				if(businessScope.indexOf(area.getId()) != -1){
+					List < UploadFile > list = uploadService.getFilesOther(supplierMatEng.getSupplierId() + "_" + area.getId(), dictionaryDataServiceI.getSupplierDictionary().getSupplierProContract(), Constant.SUPPLIER_SYS_KEY.toString());
+		            if(list != null && list.size() <= 0) {
+		                bool = false;
+		                area.setErrInfo("请上传文件！");
+		            }
+				}
+			}
+			model.addAttribute("rootArea", areas);
 		}
 		List<SupplierCertEng> listSupplierCertEngs = supplierMatEng.getListSupplierCertEngs();
 		if (listSupplierCertEngs != null && listSupplierCertEngs.size() > 0) {

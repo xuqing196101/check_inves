@@ -30,7 +30,6 @@
 		<input type="hidden" id="supplierSt" value="${currSupplier.status}" />
 		<input type="hidden" id="audit" value="${audit}" />
 		<input type="hidden" id="error" value="${error}" />
-		<input type="hidden" id="supplierAddr" value="${currSupplier.address}" />
 		<div class="wrapper">
 			<!-- 项目戳开始 -->
 			<jsp:include page="/WEB-INF/view/ses/sms/supplier_register/common_jump.jsp">

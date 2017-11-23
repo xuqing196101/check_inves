@@ -1180,6 +1180,8 @@ function checkCharLimit(inputId, countId, limit) {
 	$("#" + countId).text(limit - inputLen);
 }
 
+// ********************以下为注释不用代码********************
+
 /*var infotd;
 var filetd;
 
