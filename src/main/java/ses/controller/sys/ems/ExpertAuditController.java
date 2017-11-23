@@ -2412,7 +2412,20 @@ public class ExpertAuditController{
 				categoryReason = "初审不合格。";
 			}
 			if(expertAuditOpinion !=null){
-				dataMap.put("reason", expertAuditOpinion.getOpinion() == null ? categoryReason : categoryReason+expertAuditOpinion.getOpinion());
+				if(expertAuditOpinion.getFlagTime() != null && expertAuditOpinion.getFlagTime() == 1){
+					if(expertAuditOpinion.getOpinion() != null){
+						int indexOf = expertAuditOpinion.getOpinion().indexOf("。");
+						//手动输入的意见
+						String op = expertAuditOpinion.getOpinion().substring(indexOf + 1);
+						//自动带出来的那句话
+						String reop = expertAuditOpinion.getOpinion().substring(0,indexOf + 1);
+						dataMap.put("reason", reop.replace("预", "") + op);
+					}else{
+						dataMap.put("reason", "");
+					}
+				}else{
+					dataMap.put("reason", expertAuditOpinion.getOpinion() == null ? categoryReason : categoryReason+expertAuditOpinion.getOpinion());
+				}
 			}
 			else{
 				dataMap.put("reason", "无");
