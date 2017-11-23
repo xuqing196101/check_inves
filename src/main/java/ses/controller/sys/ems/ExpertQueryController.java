@@ -1199,9 +1199,9 @@ public class ExpertQueryController {
               
 
               //工程专业产品
-              List<Category> engCateList=engCategoryService.findTreeByPid(category.getId());
+              List<Category> engCateList=engCategoryService.findPublishCategory(category.getId());
               for(Category cate:engCateList){
-                  List<Category> cList=engCategoryService.findTreeByPid(cate.getId());
+                  List<Category> cList=engCategoryService.findPublishCategory(cate.getId());
                   CategoryTree ct=new CategoryTree();
                   if(!cList.isEmpty()){
                       ct.setIsParent("true");
