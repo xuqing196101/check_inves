@@ -879,7 +879,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		/**
 		 * 存新意见
 		 */
-		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+/*		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
 		expertAuditOpinion.setExpertId(expertId);
 		expertAuditOpinion.setFlagTime(1);
 		ExpertAuditOpinion  e = expertAuditOpinionService.selectByExpertId(expertAuditOpinion, null);
@@ -887,14 +887,14 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		if(e.getFlagAudit() !=null && (e.getFlagAudit() == -3  || e.getFlagAudit()== 5)){
 			String opinion = e.getOpinion();
 			if(opinion !=null && !"".equals(opinion)){
-				String newOpinion = opinion.substring(1);
+				String newOpinion = opinion;
 				
 				ExpertAuditOpinion updataAuditOpinion = new ExpertAuditOpinion();
 				updataAuditOpinion.setId(e.getId());
 				updataAuditOpinion.setOpinion(newOpinion);
 				expertAuditOpinionService.updata(updataAuditOpinion);
 			}
-		}
+		}*/
 		
 		return new JdcgResult(200);
 	}
