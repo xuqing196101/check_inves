@@ -892,7 +892,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
         		expertAuditOpinion2 = expertAuditOpinionMapper.selectByExpertId(expertAuditOpinion2);
         		
         		Expert expertInfo = expertMapper.selectByPrimaryKey(e.getExpertId());
-        		if(expertInfo.getIsReviewEnd() !=null && expertInfo.getIsReviewEnd() == 1 && "-2".equals(expertInfo.getStatus())){
+        		if(expertInfo.getIsReviewEnd() !=null && "-2".equals(expertInfo.getStatus())){
             		if(expertAuditOpinion2 !=null && expertAuditOpinion2.getFlagAudit() !=null){
             			if(expertAuditOpinion2.getFlagAudit() == -3){
             				//预复审合格
