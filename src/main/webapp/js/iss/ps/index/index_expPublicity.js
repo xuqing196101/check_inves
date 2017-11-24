@@ -114,9 +114,9 @@ function loadData(data, index, pageNum, pageSize) {
             } else {
                 html += data.auditOpinion;
             }
+        }else {
+            html += data.auditOpinion;
         }
-    } else {
-        html += data.auditOpinion;
     }
     html += "</span>";
     html += "  <span class='col-xs-12 w18p tc'>" + timestampToDate('yyyy-MM-dd', data.auditAt) + "至" + getDateOfNDay(data.auditAt) + "</span>"
