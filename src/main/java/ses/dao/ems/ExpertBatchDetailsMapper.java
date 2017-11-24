@@ -48,4 +48,15 @@ public interface ExpertBatchDetailsMapper {
 	 * @since JDK1.7
 	 */
     List<ExpertBatchDetails> findExpertBatchDetailsList(ExpertBatchDetails expertBatchDetails);
+
+    /**
+     *
+     * Description: 查询专家批次对应编号详情表返回一条
+     *
+     * @author Easong
+     * @version 2017/11/24
+     * @param
+     * @since JDK1.7
+     */
+    ExpertBatchDetails findExpertBatchDetailsOfOne(ExpertBatchDetails expertBatchDetails);
 }

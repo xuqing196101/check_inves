@@ -582,14 +582,15 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 				// 查询专家编号
                 expertBatchDetails = new ExpertBatchDetails();
                 expertBatchDetails.setExpertId(expertPublicity.getId());
-				List<ExpertBatchDetails> batchDetails = expertBatchDetailsMapper.findExpertBatchDetailsList(expertBatchDetails);
+                expertBatchDetails = expertBatchDetailsMapper.findExpertBatchDetailsOfOne(expertBatchDetails);
+				/*List<ExpertBatchDetails> batchDetails = expertBatchDetailsMapper.findExpertBatchDetailsList(expertBatchDetails);
                 for (ExpertBatchDetails e : batchDetails) {
                     ExpertBatch batch = expertBatchMapper.getExpertBatchByKey(e.getBatchId());
                     if (!"1".equals(batch.getBatchStatus())) {
                         expertBatchDetails = e;
                         break;
                     }
-                }
+                }*/
                 if(expertBatchDetails != null){
                     expertPublicity.setExpertNum(expertBatchDetails.getBatchDetailsNumber());
                 } else {
