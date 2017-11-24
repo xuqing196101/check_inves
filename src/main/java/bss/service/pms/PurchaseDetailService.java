@@ -363,4 +363,16 @@ public interface PurchaseDetailService {
     * @return List<PurchaseDetail>
      */
     List<PurchaseDetail> findTaskByDetail(String taskId, String orgId);
+    
+    /**
+     * 
+    * @Title: dynamicForeach
+    * @author FengTian 
+    * @date 2017-11-23 上午11:42:50  
+    * @Description: 根据ID批量查询 
+    * @param @param list
+    * @param @return      
+    * @return List<PurchaseDetail>
+     */
+    List<PurchaseDetail> dynamicForeach(List<String> list);
 }

@@ -249,4 +249,6 @@ public interface PackageService {
      */
     Boolean savePackage(String ids, String projectId);
 
+	List<Packages> selectByPackList(String projectId);
+
 }

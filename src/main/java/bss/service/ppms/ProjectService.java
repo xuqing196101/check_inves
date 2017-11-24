@@ -283,4 +283,6 @@ public interface ProjectService {
      */
     void updateProjectStatus(User currUser, String cheeckedDetail, String id);
     
+    Project newSelectById(String id);
+    
 }

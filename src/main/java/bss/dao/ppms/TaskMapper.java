@@ -28,6 +28,8 @@ public interface TaskMapper {
     
     List<Task> listBycollect(HashMap<String, Object> map);
     
+    List<Task> selectByProjectTask(String projectId);
+    
     void updateByPrimaryKeySelective(Task record);
 
     void updateByPrimaryKey(Task record);

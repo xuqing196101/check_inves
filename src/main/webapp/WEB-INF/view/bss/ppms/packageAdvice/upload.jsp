@@ -15,13 +15,15 @@
   }
   
   function saveAudit(){
+	    var passType="${passType}";
+	    var cometId="${cometId}";
 		var packageId = "${pachageIds}";
  		var advice = $("#advice").val();
  		var type = "${type}";
  		if(advice){
  			$.ajax({
 	 			url:"${pageContext.request.contextPath}/packageAdvice/saveAudit.do",
-	 			tpye:"post",
+	 			type:"post",
 	 			dataType:"text",
 	 			async: false,
 	 			data:{
@@ -38,17 +40,72 @@
 	 					index=parent.layer.getFrameIndex(window.name);
     				parent.layer.close(index); */
     				if(type == 1){
-    					parent.auditSuspend();
-    					index=parent.layer.getFrameIndex(window.name);
-        				parent.layer.close(index);
+    					parent.auditSuspend1();
+    					if(passType!="null"&&passType=="1"){
+    						$.ajax({
+    				 			url:"${pageContext.request.contextPath}/packageAdvice/cometSubmit.html",
+    				 			type:"post",
+    				 			dataType:"text",
+    				 			async: false,
+    				 			data:{
+    				 				"packs" : packageId,
+    				 				"type":"2",
+    				 				"cometId":cometId
+    				 			},
+    				 			success:function(data){
+    				 				if(data=="ok"){
+    				 					parent.deleteChecked();
+    				 					var divs=$('#openPassPackages_check', window.parent.document);
+    				 				    var checkboxSize=$(divs).find("input[name='passName']").length;
+    				 				    if(checkboxSize==0){
+    				 				    	parent.parentHide();
+    				 				    }
+    				 				    parent.cancelFlw();
+    				 				    index=parent.layer.getFrameIndex(window.name);
+				        				parent.layer.close(index);
+    				 				}
+    				 			}
+    						});
+    					}else{
+    						parent.auditSuspend();
+        					index=parent.layer.getFrameIndex(window.name);
+            				parent.layer.close(index);
+    					}
     				} else {
-    					var divs=$('#openDiv_packages', window.parent.document);
-    					var checkboxSize=$(divs).find("input[type='checkbox']").length;
-    		   	  		if(checkboxSize==0){
-    		   	  		   parent.layer.closeAll();
-    		   	  		};
-    					index=parent.layer.getFrameIndex(window.name);
-    					parent.layer.close(index);
+    					if(passType!="null"&&passType=="0"){
+    						$.ajax({
+    				 			url:"${pageContext.request.contextPath}/packageAdvice/cometSubmit.html",
+    				 			type:"post",
+    				 			dataType:"text",
+    				 			async: false,
+    				 			data:{
+    				 				"packs" : packageId,
+    				 				"type":"0",
+    				 				"cometId":cometId
+    				 			},
+    				 			success:function(data){
+    				 				if(data=="ok"){
+    				 					parent.deleteChecked();
+    				 					var divs=$('#openPassPackages_check', window.parent.document);
+    				 				    var checkboxSize=$(divs).find("input[name='passName']").length;
+    				 				    if(checkboxSize==0){
+    				 				    	parent.parentHide();
+    				 				    }
+    				 				    index=parent.layer.getFrameIndex(window.name);
+				        				parent.layer.close(index);
+    				 				}
+    				 			}
+    						});
+    						
+    					}else{
+    						var divs=$('#openDiv_packages', window.parent.document);
+        					var checkboxSize=$(divs).find("input[type='checkbox']").length;
+        		   	  		if(checkboxSize==0){
+        		   	  		   parent.layer.closeAll();
+        		   	  		};
+        					index=parent.layer.getFrameIndex(window.name);
+        					parent.layer.close(index);
+    					}
     				}
     				
 	 				} else if (data == "erroFile"){
@@ -71,7 +128,7 @@
   <div id="openAudit" class="layui-layer-wrap">
     	<div class="drop_window">
     		<ul class="list-unstyled">
-    			<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+    			<li class="col-xs-12">
     				<c:if test="${type == 2}">
 	          	<label class="col-md-12 pl20 col-xs-12">上传转竞谈附件：</label>
 	            <span class="col-md-12 col-xs-12">
