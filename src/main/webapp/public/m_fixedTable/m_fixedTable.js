@@ -32,7 +32,7 @@
       });
       $(el).find('thead th').each(function (index) {
         if ($(this).attr('style') != undefined) {
-          header_html += '<th style="'+ $(this).attr('style') +'width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'">'+ $(this).html() +'</th>';
+          header_html += '<th style="'+ $(this).attr('style') +'width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'px">'+ $(this).html() +'</th>';
           if (index < opts.fixedNumber) {
             header_columns_html += '<th style="'+ $(this).attr('style') +'width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'px">'+ $(this).html() +'</th>';
           }
@@ -93,6 +93,28 @@
           }
         });
       });
+      
+      if ($(window).scrollTop() >= $(el).offset().top) {
+        $(el).parent().siblings('.mfixed-header').css({
+          position: 'fixed',
+          left: 'auto'
+        });
+        
+        $(el).parent().siblings('.mfixed-header-columns').css({
+          position: 'fixed',
+          left: 'auto'
+        });
+      } else {
+        $(el).parent().siblings('.mfixed-header').css({
+          position: 'absolute',
+          left: 0
+        });
+        
+        $(el).parent().siblings('.mfixed-header-columns').css({
+          position: 'absolute',
+          left: 0
+        });
+      }
     };
 
     var start = function() {
@@ -123,7 +145,6 @@
             });
           }
         });
-        
         
         // 左右滚动表头跟随表格
         $(el).parent().bind('scroll', function () {

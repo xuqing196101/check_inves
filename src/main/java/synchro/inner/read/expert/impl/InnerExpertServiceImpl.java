@@ -11,6 +11,7 @@ import ses.dao.ems.ExpertAuditFileModifyMapper;
 import ses.dao.ems.ExpertAuditMapper;
 import ses.dao.ems.ExpertAuditOpinionMapper;
 import ses.dao.ems.ExpertBatchDetailsMapper;
+import ses.dao.ems.ExpertBatchMapper;
 import ses.dao.ems.ExpertCategoryMapper;
 import ses.dao.ems.ExpertEngHistoryMapper;
 import ses.dao.ems.ExpertEngModifyMapper;
@@ -23,12 +24,14 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
 import ses.model.ems.ExpertAuditOpinion;
+import ses.model.ems.ExpertBatch;
 import ses.model.ems.ExpertBatchDetails;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertEngHistory;
 import ses.model.ems.ExpertHistory;
 import ses.model.ems.ExpertTitle;
 import ses.service.bms.UserServiceI;
+import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
 import ses.util.DictionaryDataUtil;
@@ -95,6 +98,10 @@ public class InnerExpertServiceImpl implements InnerExpertService {
     private ExpertBatchDetailsMapper expertBatchDetailsMapper;
     @Autowired
     private ExpertCategoryMapper expertCategoryMapper;
+    @Autowired
+	private ExpertAuditService expertAuditService;
+    @Autowired
+	private ExpertBatchMapper expertBatchMapper;
     /**
      * 
      * @see synchro.inner.read.expert.InnerExpertService#readNewExpertInfo(java.io.File)
@@ -210,6 +217,9 @@ public class InnerExpertServiceImpl implements InnerExpertService {
                     //入库是对每个表进行插入数据
                 	expertMapper.updateExpert(expert.getId(), expert.getStatus(), expert.getIsSubmit(), expert.getAuditAt());
                     saveBackModifyOperation(expert);
+                    
+                    //审核结果短信通知
+                	expertAuditService.sendSms(expert.getStatus(), expert.getMobile());
                 }
             }catch (RuntimeException e){
                 e.printStackTrace();
@@ -268,13 +278,28 @@ public class InnerExpertServiceImpl implements InnerExpertService {
                     }
                 }
 
-                // 保存批次编号
-                ExpertBatchDetails expertBatchDetails = expert.getExpertBatchDetails();
+                // 保存批次编号详情
+                List<ExpertBatchDetails> expertBatchDetails = expert.getExpertBatchDetails();
                 if(expertBatchDetails != null){
-                    // 先删除
-                    expertBatchDetailsMapper.deleteByExpertId(expert.getId());
-                    // 后插入
-                    expertBatchDetailsMapper.insert(expertBatchDetails);
+                    for (ExpertBatchDetails expertBatchDetails1 : expertBatchDetails){
+                        // 先删除
+                        expertBatchDetailsMapper.deleteByExpertId(expert.getId());
+                        // 后插入
+                        expertBatchDetailsMapper.insert(expertBatchDetails1);
+                    }
+                }
+                // 保存批次编号
+                List<ExpertBatch> expertBatchs = expert.getExpertBatchs();
+                if(expertBatchs != null){
+                    for (ExpertBatch expertBatch : expertBatchs){
+                       /* ExpertBatch expertBatchByKey = expertBatchMapper.getExpertBatchByKey(expertBatch.getBatchId());
+                        if(expertBatchByKey != null){
+
+                        }else {
+
+                        }*/
+                        expertBatchMapper.insert(expertBatch);
+                    }
                 }
 
                 // 保存专家审核意见数据
@@ -396,6 +421,7 @@ public class InnerExpertServiceImpl implements InnerExpertService {
         	}
             if(ep!=null){
             	expertService.updateByPrimaryKeySelective(expert);
+
             }
         }
     }

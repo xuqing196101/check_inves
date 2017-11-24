@@ -28,15 +28,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
-
-import bss.formbean.PurchaseRequiredFormBean;
-import common.annotation.CurrentUser;
-import common.constant.Constant;
-import common.constant.StaticVariables;
-import common.utils.JdcgResult;
 import ses.dao.ems.ExpertBatchDetailsMapper;
+import ses.dao.ems.ExpertBatchMapper;
 import ses.dao.ems.ExpertField;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
@@ -45,10 +38,12 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
+import ses.model.ems.ExpertAttachment;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
 import ses.model.ems.ExpertAuditNot;
 import ses.model.ems.ExpertAuditOpinion;
+import ses.model.ems.ExpertBatch;
 import ses.model.ems.ExpertBatchDetails;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertEngHistory;
@@ -66,6 +61,7 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.EngCategoryService;
 import ses.service.bms.TodosService;
 import ses.service.ems.ExpertAgainAuditService;
+import ses.service.ems.ExpertAttachmentService;
 import ses.service.ems.ExpertAuditNotService;
 import ses.service.ems.ExpertAuditOpinionService;
 import ses.service.ems.ExpertAuditService;
@@ -82,6 +78,15 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WordUtil;
+import bss.formbean.PurchaseRequiredFormBean;
+
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+
+import common.annotation.CurrentUser;
+import common.constant.Constant;
+import common.constant.StaticVariables;
+import common.utils.JdcgResult;
 
 
 /**
@@ -134,6 +139,8 @@ public class ExpertAuditController{
 	@Autowired 
 	private ExpertEngModifySerivce expertEngModifySerivce;
 	
+	@Autowired
+	private ExpertAttachmentService expertAttachmentService;
 	/**
 	 * 地区
 	 */
@@ -157,6 +164,9 @@ public class ExpertAuditController{
 	
 	@Autowired
 	private ExpertBatchDetailsMapper expertBatchDetailsMapper;
+	
+	@Autowired
+	private ExpertBatchMapper expertBatchMapper;
 	/**
 	 * @Title: expertAuditList
 	 * @author XuQing 
@@ -2001,9 +2011,15 @@ public class ExpertAuditController{
 						model.addAttribute("message", "当前专家有目录下无通过产品");
 						break;
 					}*/
+				    map2.put("auditFalg", sign);
 					map2.put("typeId", DictionaryDataUtil.getId("ENG_INFO_ID"));
 					int passCount= expertCategoryService.selectPassCount(map2);
-					if(passCount<=0){
+					
+					//物资经济
+					DictionaryData  dictionaryData = DictionaryDataUtil.get("GOODS_SERVER");
+					String expertTypeId = expert.getExpertsTypeId();
+
+					if(passCount<=0 && !expertTypeId.contains(dictionaryData.getId())){
 						model.addAttribute("qualified", false);
 						model.addAttribute("message", "当前专家有目录下无通过产品");
 						break;
@@ -2013,6 +2029,7 @@ public class ExpertAuditController{
 					 map2.put("expertId", expertId);
 				     map2.put("typeId", string);
 				     map2.put("type", "six");
+				     map2.put("auditFalg", sign);
 					int passCount = expertCategoryService.selectPassCount(map2);
 					if(passCount<=0){
 						if(!"GOODS_SERVER".equals(data.getCode())){
@@ -2186,7 +2203,7 @@ public class ExpertAuditController{
 		  }
 		  
 		 //审核结果发送短信
-  		 expertAuditService.sendSms(expert.getId());
+  		 //expertAuditService.sendSms(expert.getId());
 		return "redirect:list.html";
 	}
 
@@ -2317,7 +2334,15 @@ public class ExpertAuditController{
 		//专家编号
 		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
 		expertBatchDetails.setExpertId(expert.getId());
-		ExpertBatchDetails findExpertBatchDetails = expertBatchDetailsMapper.findExpertBatchDetails(expertBatchDetails);
+		ExpertBatchDetails findExpertBatchDetails = null;
+		List<ExpertBatchDetails> batchDetails = expertBatchDetailsMapper.findExpertBatchDetailsList(expertBatchDetails);
+		for (ExpertBatchDetails e : batchDetails) {
+			ExpertBatch batch = expertBatchMapper.getExpertBatchByKey(e.getBatchId());
+			if(!"1".equals(batch.getBatchStatus())){
+				findExpertBatchDetails=e;
+				break;
+			}
+		}
 		dataMap.put("expertNum", findExpertBatchDetails == null ? "" : findExpertBatchDetails.getBatchDetailsNumber());
 		//审核时间
 		//日期格式化
@@ -2388,22 +2413,35 @@ public class ExpertAuditController{
 			}
 			String categoryReason = "";
 			if("1".equals(expert.getStatus()) && "1".equals(tableType)){
-				categoryReason = "预初审合格，选择了" + remap.get("all") + "个参评类别，通过了" + remap.get("pass") + "个参评类别。";
+				categoryReason = "初审合格，选择了" + remap.get("all") + "个参评类别，通过了" + remap.get("pass") + "个参评类别。";
 				if((int)remap.get("isGoodsServer") == 1 && (int)remap.get("pass") == 0){
-					categoryReason = "预初审合格，通过的是物资服务经济类别。";
+					categoryReason = "初审合格，通过的是物资服务经济类别。";
 				}
 			}else if("2".equals(expert.getStatus()) && "1".equals(tableType)){
-				categoryReason = "预初审不合格。";
+				categoryReason = "初审不合格。";
 			}else if("15".equals(expert.getStatus()) && "1".equals(tableType)){
-				categoryReason = "预初审合格，选择了" + remap.get("all") + "个参评类别，通过了" + remap.get("pass") + "个参评类别。";
+				categoryReason = "初审合格，选择了" + remap.get("all") + "个参评类别，通过了" + remap.get("pass") + "个参评类别。";
 				if((int)remap.get("isGoodsServer") == 1 && (int)remap.get("pass") == 0){
-					categoryReason = "预初审合格，通过的是物资服务经济类别。";
+					categoryReason = "初审合格，通过的是物资服务经济类别。";
 				}
 			}else if("16".equals(expert.getStatus()) && "1".equals(tableType)){
-				categoryReason = "预初审不合格。";
+				categoryReason = "初审不合格。";
 			}
 			if(expertAuditOpinion !=null){
-				dataMap.put("reason", expertAuditOpinion.getOpinion() == null ? categoryReason : categoryReason+expertAuditOpinion.getOpinion());
+				if(expertAuditOpinion.getFlagTime() != null && expertAuditOpinion.getFlagTime() == 1){
+					if(expertAuditOpinion.getOpinion() != null){
+						int indexOf = expertAuditOpinion.getOpinion().indexOf("。");
+						//手动输入的意见
+						String op = expertAuditOpinion.getOpinion().substring(indexOf + 1);
+						//自动带出来的那句话
+						String reop = expertAuditOpinion.getOpinion().substring(0,indexOf + 1);
+						dataMap.put("reason", reop.replace("预", "") + op);
+					}else{
+						dataMap.put("reason", "");
+					}
+				}else{
+					dataMap.put("reason", expertAuditOpinion.getOpinion() == null ? categoryReason : categoryReason+expertAuditOpinion.getOpinion());
+				}
 			}
 			else{
 				dataMap.put("reason", "无");
@@ -4018,7 +4056,7 @@ public class ExpertAuditController{
 	      }
 		
 		////审核结果发送短信
-		expertAuditService.sendSms(expertId);		
+		//expertAuditService.sendSms(expertId);		
         return JdcgResult.ok();
     }
     
@@ -4295,6 +4333,30 @@ public class ExpertAuditController{
     		
     	}else{
     		return new JdcgResult(503, "保存失败!", null);
+    	}
+    }
+    
+    /**
+     * 
+     * 
+     * Description: 专家初审上传审批表校验
+     * 
+     * @data 2017年11月23日
+     * @param 
+     * @return String
+     */
+    @RequestMapping("/vaUpload")
+    @ResponseBody
+    public String vaUpload(String businessId,String typeId){
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	map.put("businessId", businessId);
+    	map.put("typeId", typeId);
+    	map.put("isDel", "isDel");
+    	List<ExpertAttachment> list = expertAttachmentService.selectListByMap(map);
+    	if(list != null && list.size() > 0){
+    		return JSON.toJSONString("OK");
+    	}else{
+    		return JSON.toJSONString("NO");
     	}
     }
 }

@@ -323,6 +323,9 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	            			}
 	            		}
 	            	}
+	            	if(!"-2".equals(e.getStatus())&&e.getReviewStatus()!=null){
+	            		e.setExpertStatus(null);
+	            	}
 				}
 			}
 		}else{
@@ -889,7 +892,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
         		expertAuditOpinion2 = expertAuditOpinionMapper.selectByExpertId(expertAuditOpinion2);
         		
         		Expert expertInfo = expertMapper.selectByPrimaryKey(e.getExpertId());
-        		if(expertInfo.getIsReviewEnd() !=null && expertInfo.getIsReviewEnd() == 1 && "-2".equals(expertInfo.getStatus())){
+        		if(expertInfo.getIsReviewEnd() !=null && "-2".equals(expertInfo.getStatus())){
             		if(expertAuditOpinion2 !=null && expertAuditOpinion2.getFlagAudit() !=null){
             			if(expertAuditOpinion2.getFlagAudit() == -3){
             				//预复审合格
@@ -957,7 +960,15 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
 		expertBatchDetails.setExpertId(expertId);
-		expertBatchDetails=expertBatchDetailsMapper.findExpertBatchDetails(expertBatchDetails);
+		List<ExpertBatchDetails> batchDetails = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
+		for (ExpertBatchDetails e : batchDetails) {
+			ExpertBatch batch = expertBatchMapper.getExpertBatchByKey(e.getBatchId());
+			if(!"1".equals(batch.getBatchStatus())){
+				expertBatchDetails=e;
+				break;
+			}
+		}
+		
 		ExpertGroup expertGroup = new ExpertGroup();
 		expertGroup.setGroupId(expertBatchDetails.getGroupId());
 		expertGroup=expertGroupMapper.findGroup(expertGroup);
@@ -1257,6 +1268,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 				expertAuditMapper.updateAgainReview(e.getExpertId());
 				Expert expert = new Expert();
 				expert.setStatus("1");
+				expert.setIsReviewEnd(0);
 				expert.setId(e.getExpertId());
 				expertMapper.updateByPrimaryKey(expert);
 				ExpertStatusRecord record = new ExpertStatusRecord();
@@ -1270,7 +1282,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	    		expertAuditOpinion.setFlagTime(1);
 	    		expertAuditOpinion = expertAuditOpinionMapper.selectByExpertId(expertAuditOpinion);
 	    		Expert expertInfo = expertMapper.selectByPrimaryKey(e.getExpertId());
-	    		if(expertInfo.getIsReviewEnd() !=null && expertInfo.getIsReviewEnd() == 1 && "-2".equals(expertInfo.getStatus())){
+	    		if(expertInfo.getIsReviewEnd() !=null && expertInfo.getIsReviewEnd() == 1 ){
 	        		if(expertAuditOpinion !=null && expertAuditOpinion.getFlagAudit() !=null){
 	        			if(expertAuditOpinion.getFlagAudit() == -3){
 	        				//预复审合格

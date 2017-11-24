@@ -1,17 +1,25 @@
 package synchro.outer.back.service.expert.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import common.constant.Constant;
-import common.dao.FileUploadMapper;
-import common.model.UploadFile;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+
+import common.constant.Constant;
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
 import ses.dao.bms.UserMapper;
 import ses.dao.ems.ExpertAuditFileModifyMapper;
 import ses.dao.ems.ExpertAuditMapper;
 import ses.dao.ems.ExpertBatchDetailsMapper;
+import ses.dao.ems.ExpertBatchMapper;
 import ses.dao.ems.ExpertCategoryMapper;
 import ses.dao.ems.ExpertEngHistoryMapper;
 import ses.dao.ems.ExpertEngModifyMapper;
@@ -24,6 +32,7 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
 import ses.model.ems.ExpertAuditOpinion;
+import ses.model.ems.ExpertBatch;
 import ses.model.ems.ExpertBatchDetails;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertEngHistory;
@@ -39,11 +48,6 @@ import synchro.service.SynchRecordService;
 import synchro.util.DateUtils;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 版权：(C) 版权所有
@@ -107,6 +111,8 @@ public class OuterExpertServiceImpl implements OuterExpertService {
     // 专家审核批次
     @Autowired
     private ExpertBatchDetailsMapper expertBatchDetailsMapper;
+    @Autowired
+    private ExpertBatchMapper expertBatchMapper;
 
     /**
      * @see synchro.outer.back.service.supplier.OuterReadExpertService#backupCreated()
@@ -210,6 +216,10 @@ public class OuterExpertServiceImpl implements OuterExpertService {
         map.put("status", -3);
         List<Expert> expertList = expertMapper.selectExpByPublictyOfExport(map);
         List<Expert> experts = new ArrayList<>();
+        ExpertBatch batch = null;
+        List<ExpertBatchDetails> expertBatchDetailsList = null;
+        ExpertBatchDetails expertBatchDetails = null;
+        List<ExpertBatch> expertBatchs = null;
         if(null != expertList && !expertList.isEmpty()){
             for (Expert expert : expertList) {
                 //专家审核记录表
@@ -231,12 +241,21 @@ public class OuterExpertServiceImpl implements OuterExpertService {
                 ExpertAuditOpinion expertAuditOpinionOut = expertAuditOpinionService.selectByExpertId(expertAuditOpinion, null);
                 expert.setExpertAuditOpinion(expertAuditOpinionOut);
 
-                // 专家审核批次表
+                // 专家审核批次详情表
                 // 查询专家编号
-                ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
+                expertBatchDetails = new ExpertBatchDetails();
                 expertBatchDetails.setExpertId(expert.getId());
-                ExpertBatchDetails expertBatchDetails1 = expertBatchDetailsMapper.findExpertBatchDetails(expertBatchDetails);
-                expert.setExpertBatchDetails(expertBatchDetails1);
+                expertBatchDetailsList = expertBatchDetailsMapper.findExpertBatchDetailsList(expertBatchDetails);
+                expert.setExpertBatchDetails(expertBatchDetailsList);
+                // 查询专家审核批次表
+                if(expertBatchDetailsList != null && !expertBatchDetailsList.isEmpty()){
+                    for (ExpertBatchDetails expertBatchDetails1: expertBatchDetailsList){
+                        batch = expertBatchMapper.getExpertBatchByKey(expertBatchDetails1.getBatchId());
+                        if(batch != null){
+                            expertBatchs.add(batch);
+                        }
+                    }
+                }
                 // 将专家信息添加到集合
                 experts.add(expert);
             }

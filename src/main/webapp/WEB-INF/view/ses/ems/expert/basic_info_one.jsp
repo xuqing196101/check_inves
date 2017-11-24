@@ -1658,8 +1658,8 @@
 					<ul class="ul_list">
 						<!-- 专业学术成果 -->
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 获奖证书</span></li>
-						<div class="padding-top-10 clear">
-							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'获奖证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('获奖证书')"
+						<div class="padding-top-10 clear" >
+							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'获奖证书')}">style="border: 1px solid #ef0000; width: 20%;" onmouseover="errorMsg('获奖证书')"
 								</c:if>>
 								<c:choose>
 									<c:when test="${expert.status == 3 and !fn:contains(errorField,'获奖证书')}">
