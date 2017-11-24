@@ -13,7 +13,7 @@ public interface ExpertBatchDetailsMapper {
 	void updateExpertBatchDetailsGrouping(ExpertBatchDetails expertBatchDetails);
 	int getExpertBatchDetailsCount(String groupId);
 	ExpertBatchDetails findExpertBatchDetails(ExpertBatchDetails expertBatchDetails);
-	
+
 	
 	/**
 	 * 
@@ -37,4 +37,15 @@ public interface ExpertBatchDetailsMapper {
 	 */
 	int deleteByExpertId(String expertId);
 	void insertExpertStatusRecord(ExpertStatusRecord e);
+
+	/**
+	 *
+	 * Description: 查询专家批次对应编号详情表
+	 *
+	 * @author Easong
+	 * @version 2017/11/24
+	 * @param
+	 * @since JDK1.7
+	 */
+    List<ExpertBatchDetails> findExpertBatchDetailsList(ExpertBatchDetails expertBatchDetails);
 }
