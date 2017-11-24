@@ -1,7 +1,6 @@
 /**
  * Created by yggc-easong on 2017/10/24.
  */
-
 $(function () {
     // 页面加载完毕绑定结果导出事件
     $("#export_result").click(function () {
@@ -68,7 +67,7 @@ var treeSetting = {
         onCheck: zTreeOnCheck,
         // 点击节点触发事件
         // onClick: zTreeOnClick
-        onAsyncSuccess: setDisabledNode
+        // onAsyncSuccess: setDisabledNode
     },
     data: {
         simpleData: {
@@ -140,20 +139,35 @@ function setDisabledNode(event, treeId, treeNode) {
  */
 function zTreeOnCheck(event, treeId, treeNode) {
     // 如果父节点为根节点则提示不可选择根节点
-    if (treeNode.parentId == "0") {
+    /*if (treeNode.parentId == "0") {
         layer.msg("不可选择根节点");
         return;
-    }
+    }*/
     var zTree = $.fn.zTree.getZTreeObj("supplierGradeTree"), nodes = zTree.getCheckedNodes(true), names = "", ids = "";
+    var supplierTypeIds = '';
     for (var i = 0; i < nodes.length; i++) {
+        // 判断是否是根节点
         names += nodes[i].name + ",";
+        // 如果选中根节点
+        if(nodes[i].level == 0){
+            supplierTypeIds += nodes[i].code + ",";
+            continue;
+        }else {
+            var currRootNode = getCurrentRoot(nodes[i]);
+            if(supplierTypeIds.indexOf(currRootNode.code) == -1){
+                supplierTypeIds += currRootNode.code + ",";
+            }
+        }
         ids += nodes[i].id + ",";
     }
     if (names.length > 0) names = names.substring(0, names.length - 1);
     if (ids.length > 0) ids = ids.substring(0, ids.length - 1);
     $("#supplierGradeInput").val(names);
     $("#supplierGradeInputVal").val(ids);
+    $("#supplierTypeIds").val(supplierTypeIds);
 };
+
+
 
 /**
  *用于捕获节点被点击的事件回调函数
@@ -193,17 +207,17 @@ function getCurrentRoot(treeNode) {
         var parentNode = treeNode.getParentNode();
         return getCurrentRoot(parentNode);
     } else {
-        return treeNode.id;
+        return treeNode;
     }
 }
 
 function initZtree(parm) {
-    var parms = $("#supplierTypeIds").val();
+    /*var parms = $("#supplierTypeIds").val();
     if (parms == '') {
         layer.msg("请先选择供应商类型");
         return;
     }
-    treeSetting.async.otherParam = ["code", parms];
+    treeSetting.async.otherParam = ["code", parms];*/
     // 初始化树
     zTreeObj = $.fn.zTree.init($("#supplierGradeTree"), treeSetting);
     if (parm) {
@@ -236,4 +250,259 @@ function hideSupplierGradeTreeContent() {
     $("#supplierGradeTreeContent").fadeOut("fast");
     $("body").unbind("mousedown", onBodyDownSupplierGradeContent);
     $("#search").val("");
+}
+
+function fanhui() {
+    window.location.href = globalPath + "/supplierQuery/highmaps.html";
+}
+
+function chongzhi() {
+    $("#supplierName").val('');
+    $("#startDate").val('');
+    $("#mobile").val('');
+    $("#endDate").val('');
+    $("#contactName").val('');
+    $("#categoryIds").val('');
+    $("#supplierTypeIds").val('');
+    $("#category").val('');
+    $("#supplierType").val('');
+    $("#isProvisional").val('');
+    $("#creditCode").val('');
+    $("#supplierGradeInputVal").val('');
+    $("#supplierGradeInput").val('');
+    $("#orgName option:selected").removeAttr("selected");
+    $("#status option:selected").removeAttr("selected");
+    $("#address option:selected").removeAttr("selected");
+    $("#businessNature option:selected").removeAttr("selected");
+    $("#form1").submit();
+}
+
+
+var key;
+function showCategory() {
+    var zTreeObj;
+    var zNodes;
+    var setting = {
+        async: {
+            autoParam: ["id"],
+            enable: true,
+            url: globalPath + "/category/createtree.do",
+            otherParam: {
+                categoryIds: "${categoryIds}",
+            },
+            dataType: "json",
+            type: "post",
+        },
+        check: {
+            enable: true,
+            chkboxType: {
+                "Y": "s",
+                "N": "s"
+            }
+        },
+        callback: {
+            beforeClick: beforeClickCategory,
+            onCheck: onCheckCategory
+        },
+        data: {
+            simpleData: {
+                enable: true,
+                idKey: "id",
+                pIdKey: "parentId"
+            }
+        },
+        view: {
+            fontCss: getFontCss
+        }
+    };
+    zTreeObj = $.fn.zTree.init($("#treeRole"), setting, zNodes);
+    key = $("#key");
+    key.bind("focus", focusKey)
+        .bind("blur", blurKey)
+        .bind("propertychange", searchNode)
+        .bind("input", searchNode);
+
+    var cityObj = $("#category");
+    var cityOffset = $("#category").offset();
+    $("#roleContent").css({
+        left: cityOffset.left + "px",
+        top: cityOffset.top + cityObj.outerHeight() + "px"
+    }).slideDown("fast");
+    $("body").bind("mousedown", onBodyDownOrg);
+}
+
+function focusKey(e) {
+    if (key.hasClass("empty")) {
+        key.removeClass("empty");
+    }
+}
+
+function blurKey(e) {
+    if (key.get(0).value === "") {
+        key.addClass("empty");
+    }
+}
+var lastValue = "",
+    nodeList = [],
+    fontCss = {};
+
+function clickRadio(e) {
+    lastValue = "";
+    searchNode(e);
+}
+
+function searchNode(e) {
+    var zTree = $.fn.zTree.getZTreeObj("treeRole");
+    var value = $.trim(key.get(0).value);
+    var keyType = "name";
+    if (key.hasClass("empty")) {
+        value = "";
+    }
+    if (lastValue === value) return;
+    lastValue = value;
+    if (value === "") return;
+    updateNodes(false);
+    nodeList = zTree.getNodesByParamFuzzy(keyType, value);
+    updateNodes(true);
+}
+
+function updateNodes(highlight) {
+    var zTree = $.fn.zTree.getZTreeObj("treeRole");
+    for (var i = 0, l = nodeList.length; i < l; i++) {
+        nodeList[i].highlight = highlight;
+        zTree.updateNode(nodeList[i]);
+    }
+}
+
+function getFontCss(treeId, treeNode) {
+    return (!!treeNode.highlight) ? {
+        color: "#A60000",
+        "font-weight": "bold"
+    } : {
+        color: "#333",
+        "font-weight": "normal"
+    };
+}
+
+function filter(node) {
+    return !node.isParent && node.isFirstNode;
+}
+
+function beforeClickCategory(treeId, treeNode) {
+    var zTree = $.fn.zTree.getZTreeObj("treeRole");
+    zTree.checkNode(treeNode, !treeNode.checked, null, true);
+    return false;
+}
+
+function onCheckCategory(e, treeId, treeNode) {
+    var zTree = $.fn.zTree.getZTreeObj("treeRole"),
+        nodes = zTree.getCheckedNodes(true),
+        v = "";
+    var rid = "";
+    for (var i = 0, l = nodes.length; i < l; i++) {
+        v += nodes[i].name + ",";
+        rid += nodes[i].id + ",";
+    }
+    if (v.length > 0) v = v.substring(0, v.length - 1);
+    if (rid.length > 0) rid = rid.substring(0, rid.length - 1);
+    var cityObj = $("#category");
+    cityObj.attr("value", v);
+    $("#categoryIds").val(rid);
+}
+
+function onBodyDownOrg(event) {
+    if (!(event.target.id == "menuBtn" || event.target.id == "roleSel" || event.target.id == "roleContent" || $(event.target).parents("#roleContent").length > 0)) {
+        hideRole();
+    }
+}
+
+function hideRole() {
+    $("#roleContent").fadeOut("fast");
+    $("body").unbind("mousedown", onBodyDownOrg);
+}
+
+
+function beforeClick(treeId, treeNode) {
+    var zTree = $.fn.zTree.getZTreeObj("treeSupplierType");
+    zTree.checkNode(treeNode, !treeNode.checked, null, true);
+    return false;
+}
+
+function onCheck(e, treeId, treeNode) {
+    var zTree = $.fn.zTree.getZTreeObj("treeSupplierType"),
+        nodes = zTree.getCheckedNodes(true),
+        v = "";
+    var rid = "";
+    for(var i = 0, l = nodes.length; i < l; i++) {
+        v += nodes[i].name + ",";
+        rid += nodes[i].id + ",";
+    }
+    if(v.length > 0) v = v.substring(0, v.length - 1);
+    if(rid.length > 0) rid = rid.substring(0, rid.length - 1);
+    var cityObj = $("#supplierType");
+    cityObj.attr("value", v);
+    $("#supplierTypeIds").val(rid);
+}
+
+function showSupplierType() {
+    var setting = {
+        check: {
+            enable: true,
+            chkboxType: {
+                "Y": "",
+                "N": ""
+            }
+        },
+        view: {
+            dblClickExpand: false
+        },
+        data: {
+            simpleData: {
+                enable: true,
+                idKey: "id",
+                pIdKey: "parentId"
+            }
+        },
+        callback: {
+            beforeClick: beforeClick,
+            onCheck: onCheck
+        }
+    };
+
+    $.ajax({
+        type: "GET",
+        async: false,
+        url: globalPath + "/supplierQuery/find_supplier_type.do?supplierId=''",
+        dataType: "json",
+        success: function(zNodes) {
+            for(var i = 0; i < zNodes.length; i++) {
+                if(zNodes[i].isParent) {
+
+                } else {
+                    //zNodes[i].icon = "${ctxStatic}/images/532.ico";//设置图标
+                }
+            }
+            tree = $.fn.zTree.init($("#treeSupplierType"), setting, zNodes);
+            tree.expandAll(true); //全部展开
+        }
+    });
+    var cityObj = $("#supplierType");
+    var cityOffset = $("#supplierType").offset();
+    $("#supplierTypeContent").css({
+        left: cityOffset.left + "px",
+        top: cityOffset.top + cityObj.outerHeight() + "px"
+    }).slideDown("fast");
+    $("body").bind("mousedown", onBodyDownSupplierType);
+}
+
+function hideSupplierType() {
+    $("#supplierTypeContent").fadeOut("fast");
+    $("body").unbind("mousedown", onBodyDownSupplierType);
+
+}
+
+function onBodyDownSupplierType(event) {
+    if(!(event.target.id == "menuBtn" || $(event.target).parents("#supplierTypeContent").length > 0)) {
+        hideSupplierType();
+    }
 }

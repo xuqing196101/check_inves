@@ -1410,6 +1410,7 @@ public class CategoryServiceImpl implements CategoryService {
                 ct.setName(dictionaryData.getName());
                 ct.setIsParent("true");
                 ct.setParentId("0");
+                ct.setCode(dictionaryData.getCode());
                 list.add(ct);
             }
             return list;
