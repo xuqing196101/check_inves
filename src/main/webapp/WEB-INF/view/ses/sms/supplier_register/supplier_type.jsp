@@ -42,8 +42,8 @@
 		<input type="hidden" id="flagSell" value="${flagSell}" />
 		<input type="hidden" id="flagProject" value="${flagProject}" />
 		<input type="hidden" id="flagServer" value="${flagServer}" />
-		<input type="hidden" id="flagTypeAudit" value="${flagTypeAudit}" />
-		<input type="hidden" id="supplierTypeAuditStr" value="${supplierTypeAuditStr}" />
+		<input type="hidden" id="flagSupplierTypeAudit" value="${flagSupplierTypeAudit}" />
+		<input type="hidden" id="infoSupplierTypeAudit" value="${infoSupplierTypeAudit}" />
 		<input type="hidden" id="quaListJson" value='${quaListJson}' />
 		<!-- 项目戳开始 -->
 		<jsp:include page="/WEB-INF/view/ses/sms/supplier_register/common_jump.jsp">

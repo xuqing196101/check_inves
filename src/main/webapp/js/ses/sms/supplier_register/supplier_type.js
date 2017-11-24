@@ -236,7 +236,7 @@ function loadTab(val) {
 
 // 上一步
 function prev() {
-	tempSave();
+	//tempSave();
 	updateStep(1);
 }
 
@@ -363,9 +363,9 @@ function saveSupplierTypeRelate(supplierTypeIds) {
 // 判断类型是否审核不通过
 function isSupplierTypeEnable(type) {
 	var supplierSt = $("#supplierSt").val();
-	var supplierTypeAuditStr = $("#supplierTypeAuditStr").val();
+	var infoSupplierTypeAudit = $("#infoSupplierTypeAudit").val();
 	if (supplierSt == '2') {
-		return (supplierTypeAuditStr.indexOf(type) == -1);
+		return (infoSupplierTypeAudit.indexOf(type) == -1);
 	}
 	return true;
 }
@@ -1717,7 +1717,7 @@ if (id.length > 0) {
 		area : [ '800px', '500px' ], // 宽高
 		offset : '100px',
 		scrollbar : false,
-		content : '${pageContext.request.contextPath}/supplier/category.html?id='
+		content : '${pageContext.request.contextPath}/supplier_item/category.html?id='
 				+ id + '&&sid=' + sid, // url
 		closeBtn : 1, // 不显示关闭按钮
 	});

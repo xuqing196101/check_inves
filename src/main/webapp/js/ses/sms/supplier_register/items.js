@@ -93,7 +93,7 @@ function loadZtree(code, kind, status) {
 			async : {
 				autoParam : [ "id", "code" ],
 				enable : true,
-				url : globalPath + "/supplier/category_type.do",
+				url : globalPath + "/supplier_item/category_type.do",
 				otherParam : {
 					"code" : code,
 					"supplierId" : $("#supplierId").val(),
@@ -130,7 +130,7 @@ function loadZtree(code, kind, status) {
 		$.fn.zTree.init($("#" + kind), setting, zNodes);
 	} else {
 		$.ajax({
-			url : globalPath + '/supplier/loadCategory.do',
+			url : globalPath + '/supplier_item/loadCategory.do',
 			type : 'POST', // GET
 			data : {
 				'code' : code,
@@ -475,7 +475,7 @@ function searchCate(cateId, treeId, type, seq, code) {
 		async : {
 			autoParam : [ "id", "code" ],
 			enable : true,
-			url : globalPath + "/supplier/category_type.do",
+			url : globalPath + "/supplier_item/category_type.do",
 			otherParam : {
 				"code" : code,
 				"supplierId" : $("#supplierId").val(),
@@ -519,7 +519,7 @@ function searchCate(cateId, treeId, type, seq, code) {
 		var supplierId = $("#supplierId").val();
 		var id = type;
 		$.ajax({
-			url : globalPath + "/expert/searchCate.do",
+			url : globalPath + "/supplier_item/searchCate.do",
 			type : "post",
 			data : {
 				"typeId" : id,

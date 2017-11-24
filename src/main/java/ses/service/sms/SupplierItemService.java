@@ -304,4 +304,11 @@ public interface SupplierItemService {
 	 */
 	public Map<String, Object> getEngAptitute(String supplierId);
 
+	/**
+	 * 获取供应商品目树
+	 * @param supplierItem
+	 * @return
+	 */
+	public SupplierCateTree getSupplierCateTree(SupplierItem supplierItem);
+
 }

@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.bms.DictionaryDataMapper;
+import ses.dao.bms.EngCategoryMapper;
 import ses.dao.bms.QualificationMapper;
 import ses.dao.sms.SupplierItemMapper;
 import ses.model.bms.Category;
@@ -60,6 +62,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryMapper categoryMapper;
+    
+    @Autowired
+    private EngCategoryMapper engCategoryMapper;
 
     @Autowired
     private SupplierItemMapper supplierItemMapper;
@@ -1513,4 +1518,23 @@ public class CategoryServiceImpl implements CategoryService {
         categorys.add(category);
         list.addAll(categorys);
     }
+
+	@Override
+	public List<Category> searchByName(String cateName, String flag,
+			String codeName) {
+		if (flag == null) {
+        	List<Category> list = categoryMapper.searchByName(cateName, codeName);
+        	List<Category> listNot = new LinkedList<Category>();
+        	for(Category cate:list){
+        		List<Category> pList = this.getPListById(cate.getId());
+        		if(pList != null && pList.size() > 0){
+        			listNot.add(cate);
+        		}
+        	}
+        	list.removeAll(listNot);
+            return list;
+        } else {
+            return engCategoryMapper.searchByName(cateName, codeName);
+        }
+	}
 }

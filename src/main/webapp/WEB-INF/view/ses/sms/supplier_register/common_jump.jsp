@@ -36,6 +36,9 @@
 	
 	// 流程步骤跳转
 	function updateStep(step){
+		if(step == 1 && "<%=currentStep%>" == "2"){
+			tempSave();
+		}
 		var supplierId = "<%=supplierId%>";
 		location.href = "${pageContext.request.contextPath}/supplier/updateStep.html?step=" + step + "&supplierId=" + supplierId;
 	}

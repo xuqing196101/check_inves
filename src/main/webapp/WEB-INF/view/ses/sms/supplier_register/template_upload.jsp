@@ -66,7 +66,7 @@
 		}
 	}
 	
-	function uploadNew(id) {
+/* 	function uploadNew(id) {
 		$("#" + id).find("div").remove();
 		var name = "";
 		if (id == "level_li_id") {
@@ -100,9 +100,10 @@
 	function downloadFile(fileName) {
 		$("input[name='fileName']").val(fileName);
 		$("#download_form_id").submit();
-	}
-		sessionStorage.locationH=true;
-		sessionStorage.index=8;
+	} */
+	
+	sessionStorage.locationH=true;
+	sessionStorage.index=8;
 		
 </script>
 
@@ -135,8 +136,8 @@
 					<div class="padding-top-10">
 						<form id="template_upload_form_id" action="${pageContext.request.contextPath}/supplier/perfect_upload.html" method="post">
 							<input name="id" value="${currSupplier.id}" type="hidden" /> 
-							<input name="jsp" type="hidden" />
-								<input name="flag" type="hidden" />
+							<!-- <input name="jsp" type="hidden" />
+							<input name="flag" type="hidden" /> -->
 							<input name="status" type="hidden" value="${currSupplier.status}" />
 							<input name="supplierTypeIds" value="${supplierTypeIds }"  type="hidden" /> 
 							
