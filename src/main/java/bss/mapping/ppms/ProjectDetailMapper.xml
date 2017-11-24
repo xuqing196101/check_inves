@@ -688,7 +688,6 @@
 							T_BSS_PPMS_PROJECTS_DETAIL
 						WHERE
 							PARENT_ID = detail.REQUIRED_ID
-						AND PROJECT_ID = #{projectId}
 					),
 					0,
 					'false',

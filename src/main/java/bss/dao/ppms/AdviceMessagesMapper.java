@@ -1,5 +1,7 @@
 package bss.dao.ppms;
 
+import java.util.List;
+
 import bss.model.ppms.AdviceMessages;
 
 
@@ -13,6 +15,8 @@ public interface AdviceMessagesMapper {
     AdviceMessages selectByPrimaryKey(String id);
 
     void updateByPrimaryKeySelective(AdviceMessages record);
-
+    
     void updateByPrimaryKey(AdviceMessages record);
+    
+    List<AdviceMessages> selectbyList(AdviceMessages record);
 }

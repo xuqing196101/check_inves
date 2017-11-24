@@ -15,21 +15,38 @@
   var dataTypes;
   var flgsType="";
   $(function(){
-	  /* layer.open({
-     	    shift: 1, //0-6的动画形式，-1不开启
-     	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
-     	    title: ['转竟谈信息提醒','border-bottom:1px solid #e5e5e5'],
-     	    shade:0.01, //遮罩透明度
-   	  		type : 1,
-   	  		area : [ '30%', '300px'  ], //宽高
-   	  		content : $('#openPackages'),
-   	  	  }); */
+	   /* $.ajax({
+    	   url:"${pageContext.request.contextPath}/packageAdvice/initPackageAdvice.html",
+    	   data:{"projectId":project_Id},
+    	   type:"post",
+    	   async: false,
+    	   dataType:"json",
+    	   success:function(data){
+    		   if(data[0].msg=="ok"){
+    			   parentPass=layer.open({
+   		     	    shift: 1, //0-6的动画形式，-1不开启
+   		     	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+   		     	    closeBtn:0,
+   		     	    title: ['转竟谈信息提醒','border-bottom:1px solid #e5e5e5'],
+   		     	    shade:0.01, //遮罩透明度
+   		   	  		type : 1,
+   		   	  		area : [ '30%', '300px'  ], //宽高
+   		   	  		content : $('#openPackages'),
+   		   	  	  });
+    		   }
+    	   }
+	  }); */
+	  
+	  
+	  
+	  
+	  
 	  JS.Engine.start('${pageContext.request.contextPath}/conn');
 	    JS.Engine.on(
 	         { 
 	             msgData : function(msgData){
 	            	 var userids=msgData.split(",");
-	            	 if(userids[0]==userId){
+	            	 if(userids[0]==userId&&userids[2]==project_Id){
 	 	            	 $.ajax({
 	 	            	   url:"${pageContext.request.contextPath}/packageAdvice/cometPackage.html",
 	 	            	   data:{"cometId":userids[1]},
