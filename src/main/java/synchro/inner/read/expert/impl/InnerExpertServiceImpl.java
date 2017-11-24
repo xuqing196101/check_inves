@@ -219,7 +219,7 @@ public class InnerExpertServiceImpl implements InnerExpertService {
                     saveBackModifyOperation(expert);
                     
                     //审核结果短信通知
-                	expertAuditService.sendSms(expert.getStatus(), expert.getMobile());
+                	/*expertAuditService.sendSms(expert.getStatus(), expert.getMobile());*/
                 }
             }catch (RuntimeException e){
                 e.printStackTrace();

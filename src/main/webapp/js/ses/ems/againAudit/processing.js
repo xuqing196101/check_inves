@@ -603,7 +603,6 @@ function checkOnly(el) {
 // 专家批次复审
 function expert_auditBatch(url, expertId) {
   var win = window.open();
-  
   $.ajax({
     type: 'POST',
     dataType: 'json',
@@ -619,6 +618,12 @@ function expert_auditBatch(url, expertId) {
           offset: '100px'
         });
       }
+    },
+    error: function (data) {
+      win.close();
+      layer.msg(data.status + '错误', {
+        offset: '100px'
+      });
     }
   });
 }
