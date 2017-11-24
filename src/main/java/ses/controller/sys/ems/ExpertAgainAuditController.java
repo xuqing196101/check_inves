@@ -994,6 +994,21 @@ public class ExpertAgainAuditController extends BaseSupplierController {
     		expertAuditOpinion.setExpertId(e.getExpertId());
     		expertAuditOpinion.setFlagTime(1);
     		expertAuditOpinion = expertAuditOpinionService.selectByExpertId(expertAuditOpinion);
+    		
+    		/*
+    		 * 处理旧数据中有“预”字的意见
+    		 */
+    		if(e.getAuditTemporary()!=null && !"".equals(e.getAuditTemporary())){
+    			int indexOf = e.getAuditTemporary().indexOf("。");
+    			//手动输入的意见
+    			String op = e.getAuditTemporary().substring(indexOf + 1);
+    			//自动带出来的那句话
+    			String reop = e.getAuditTemporary().substring(0,indexOf + 1);
+    			String newOpinion = reop.replace("预", "") + op;
+    			e.setAuditTemporary(newOpinion);
+    		}
+    		
+    		
     		if(expertAuditOpinion !=null && expertAuditOpinion.getFlagAudit() !=null){
     			if(expertAuditOpinion.getFlagAudit() == -3){
     				//预复审合格
