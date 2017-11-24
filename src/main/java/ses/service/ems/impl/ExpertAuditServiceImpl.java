@@ -518,7 +518,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	                // 修改
 	            	expertMapper.updateByPrimaryKeySelective(expert);
 	            	//审核结果短信通知
-	            	sendSms("6", expert.getMobile());
+	            	/*sendSms("6", expert.getMobile());*/
 	            }
 	        }
          }
