@@ -924,3 +924,7 @@ text-align:center;
 	padding: 20px;
 	background-color: #FFF;
 }
+/* layer弹出框默认按钮选中状态文字颜色修改 */
+.layui-layer-btn a:hover {
+  color: #333 !important;
+}
