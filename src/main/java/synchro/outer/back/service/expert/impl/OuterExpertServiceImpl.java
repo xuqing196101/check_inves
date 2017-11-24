@@ -5,7 +5,6 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
-import javafx.scene.chart.BarChart;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
