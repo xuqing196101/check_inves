@@ -90,7 +90,7 @@ function getCheckOpinionType(expertId){
 		success: function(data) {
 			if(data.pass<=0){
 				//只有物资服务经济
-				$("#cate_result").html("同意入库，通过的是物资服务经济。");
+				$("#cate_result").html("复审合格，通过的是物资服务经济。");
 			}else{
 				$("#cate_result").html("复审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
 			}
@@ -309,7 +309,7 @@ function seeItemsOpinion(expertId,opinion,status){
 			success: function(data) {
 				if(data.pass<=0){
 					//只有物资服务经济
-					$("#cate_result").html("同意入库，通过的是物资服务经济。");
+					$("#cate_result").html("复审合格，通过的是物资服务经济。");
 				}else{
 					$("#cate_result").html("复审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。" + opinion);
 				}
