@@ -248,6 +248,7 @@ public class OuterExpertServiceImpl implements OuterExpertService {
                 expertBatchDetailsList = expertBatchDetailsMapper.findExpertBatchDetailsList(expertBatchDetails);
                 expert.setExpertBatchDetails(expertBatchDetailsList);
                 // 查询专家审核批次表
+                expertBatchs = new ArrayList<>();
                 if(expertBatchDetailsList != null && !expertBatchDetailsList.isEmpty()){
                     for (ExpertBatchDetails expertBatchDetails1: expertBatchDetailsList){
                         batch = expertBatchMapper.getExpertBatchByKey(expertBatchDetails1.getBatchId());
