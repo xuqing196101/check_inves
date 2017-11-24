@@ -1429,6 +1429,14 @@
 		</where>
 		ORDER BY IS_MASTER
 	</select>
+	
+	<!-- 根据ID批量查询 -->
+	<select id="dynamicForeach" parameterType="java.util.ArrayList" resultMap="PurchaseRequired_Map">
+		SELECT * FROM T_BSS_PMS_PURCHASE_DETAIL WHERE ID IN
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+       #{item}       
+    </foreach>
+	</select>
 
 	<!-- 查看该计划明细是否立项 -->
 	<select id="groupByStatus" parameterType="java.lang.String" resultType="java.lang.Integer">

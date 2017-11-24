@@ -455,19 +455,19 @@
 							<i></i>
 						</li>
 						 <li>
-						   <a  href="${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${project.id}&flowDefineId=${flowDefineId}">03、编报说明</a>
-						   <i></i>
-						 </li>
-						 <li>
-						   <a  href="${pageContext.request.contextPath}/open_bidding/projectView.html?projectId=${project.id}&flowDefineId=${flowDefineId}">04、评审项预览</a>
+						   <a  href="${pageContext.request.contextPath}/open_bidding/projectView.html?projectId=${project.id}&flowDefineId=${flowDefineId}">03、评审项预览</a>
 						   <i></i>
 						 </li>
 						<li class="active">
 							<a href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${project.id}&flowDefineId=${flowDefineId}">
-								05、采购文件
+								04、采购文件
 							</a>
 							<i></i>
 						</li>
+						 <li>
+						   <a  href="${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${project.id}&flowDefineId=${flowDefineId}">03、编报说明</a>
+						   <i></i>
+						 </li>
 						<li>
 							<a href="${pageContext.request.contextPath}/Auditbidding/viewAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}">06、审核意见</a>
 						</li>
@@ -481,20 +481,20 @@
 							<a href="${pageContext.request.contextPath}/intelligentScore/packageListView.html?projectId=${project.id}&flowDefineId=${flowDefineId }">02、经济和技术评审细则</a>
 							<i></i>
 						</li>
-						 <li >
-							   <a  href="${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${project.id}&flowDefineId=${flowDefineId}">03、编报说明</a>
-							   <i></i>
-							 </li>
 							 <li>
-						   <a  href="${pageContext.request.contextPath}/open_bidding/projectView.html?projectId=${project.id}&flowDefineId=${flowDefineId}">04、评审项预览</a>
+						   <a  href="${pageContext.request.contextPath}/open_bidding/projectView.html?projectId=${project.id}&flowDefineId=${flowDefineId}">03、评审项预览</a>
 						   <i></i>
 						 </li>
 							<li class="active">
 							<a href="${pageContext.request.contextPath}/open_bidding/bidFileView.html?id=${project.id}&flowDefineId=${flowDefineId }">
-								05、采购文件
+								04、采购文件
 							</a>
 							<i></i>
 						</li>
+						<li>
+							   <a  href="${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${project.id}&flowDefineId=${flowDefineId}">05、编报说明</a>
+							   <i></i>
+							 </li>
 						<li>
 							<c:if test="${project.confirmFile == 0 || project.confirmFile==null}">
 								<a onclick="confirmOk(this,'${projectId}','${flowDefineId }');" id="queren">06、确认</a>
@@ -553,9 +553,9 @@
 			<!-- 按钮 -->
 			<div class="mt5 mb5 fr" id="handle">
 	    <c:if test="${process != 1 && project.confirmFile != 1 && project.confirmFile != 3 && project.confirmFile != 4 &&project.confirmFile != 5 && ope =='add'}">
-        <input type="button" class="btn btn-windows save" onclick="saveFile('5')" value="直接下达">
+        <!-- <input type="button" class="btn btn-windows save" onclick="saveFile('5')" value="直接下达"> -->
         <input type="button" class="btn btn-windows save" onclick="saveFile('0')" value="暂存">
-        <input type="button" class="btn btn-windows git" onclick="saveFile('1')" value="提交至采购管理部门"></input>
+        <!-- <input type="button" class="btn btn-windows git" onclick="saveFile('1')" value="提交至采购管理部门"></input> -->
 	    </c:if>
 	    <c:if test="${project.confirmFile == 4 && process != 1}">
 	      <input type="button" class="btn btn-windows save" onclick="saveFile('5')" value="保存">

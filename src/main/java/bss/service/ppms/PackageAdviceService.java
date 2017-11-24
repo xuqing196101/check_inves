@@ -34,4 +34,6 @@ public interface PackageAdviceService {
 	
 	List<PackageAdvice> selectByStatus(String projectId);
 	
+	void update(PackageAdvice find);
+	
 }
