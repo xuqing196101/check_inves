@@ -216,4 +216,18 @@
             AND EXPERT_ID=#{expertId}
         </if>
     </select>
+
+    <!--查询专家批次对应编号详情表返回一条-->
+    <select id="findExpertBatchDetailsOfOne" resultMap="BaseResultMap"  parameterType="ses.model.ems.ExpertBatchDetails">
+        SELECT
+        <include refid="Base_List"/>
+        FROM (SELECT
+        <include refid="Base_List"/>
+        FROM T_SYS_EMS_EXPERT_BATCH_DETAILS WHERE 1=1
+        <if test="expertId != null">
+            AND EXPERT_ID=#{expertId}
+        </if>
+        ORDER BY CREATED_AT DESC)
+        WHERE ROWNUM = 1
+    </select>
 </mapper>
