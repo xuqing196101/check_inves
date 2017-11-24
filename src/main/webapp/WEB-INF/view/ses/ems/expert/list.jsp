@@ -555,7 +555,7 @@
                 <c:if test="${e.status eq '3' }">
                   <span class="label rounded-2x label-dark">初审退回修改</span>
                 </c:if>
-                <c:if test="${e.status eq '4' and e.isProvisional eq '0' and e.auditTemporary == 0}">
+                <c:if test="${e.status eq '4' and e.isProvisional eq '0' and e.auditTemporary != 2}">
                   <span class="label rounded-2x label-u">复审已分配</span>
                 </c:if>
                 <c:if test="${e.status eq '5' }">
