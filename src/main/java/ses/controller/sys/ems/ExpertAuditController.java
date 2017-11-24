@@ -2335,7 +2335,7 @@ public class ExpertAuditController{
 		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
 		expertBatchDetails.setExpertId(expert.getId());
 		ExpertBatchDetails findExpertBatchDetails = null;
-		List<ExpertBatchDetails> batchDetails = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
+		List<ExpertBatchDetails> batchDetails = expertBatchDetailsMapper.findExpertBatchDetailsList(expertBatchDetails);
 		for (ExpertBatchDetails e : batchDetails) {
 			ExpertBatch batch = expertBatchMapper.getExpertBatchByKey(e.getBatchId());
 			if(!"1".equals(batch.getBatchStatus())){
