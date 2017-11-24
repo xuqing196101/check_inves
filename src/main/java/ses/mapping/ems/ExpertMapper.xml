@@ -2677,12 +2677,12 @@
             ORG.SHORT_NAME    AS ORGNAME,
             ENT.BATCH_DETAILS_NUMBER
         FROM T_SES_EMS_EXPERT T
-          LEFT JOIN (SELECT T.EXPERT_ID, BATCH_DETAILS_NUMBER
-                FROM T_SYS_EMS_EXPERT_BATCH_DETAILS T
-                WHERE NOT EXISTS (SELECT 1
-                FROM T_SYS_EMS_EXPERT_BATCH_DETAILS TC
-                WHERE T.EXPERT_ID = TC.EXPERT_ID
-                AND TC.CREATED_AT > T.CREATED_AT)) ENT
+        LEFT JOIN (SELECT T.EXPERT_ID, T.BATCH_DETAILS_NUMBER,T.COUNT
+        FROM T_SYS_EMS_EXPERT_BATCH_DETAILS T
+        WHERE NOT EXISTS (SELECT 1
+        FROM T_SYS_EMS_EXPERT_BATCH_DETAILS TC
+        WHERE T.EXPERT_ID = TC.EXPERT_ID
+        AND TC.CREATED_AT > T.CREATED_AT)) ENT
         ON T.ID = ENT.EXPERT_ID
         LEFT JOIN T_SES_BMS_DICTIONARY_DATA D
         ON T.GENDER = D.ID
@@ -2690,9 +2690,9 @@
         ON T.PURCHASE_DEP_ID = DEP.ID
         LEFT JOIN T_SES_OMS_ORG ORG
         ON ORG.ID = DEP.ORG_ID
-            WHERE T.STATUS = '-3'
-            AND T.IS_PROVISIONAL = '0'
-            AND T.IS_DELETE = '0'
+        WHERE T.STATUS = '-3'
+        AND T.IS_PROVISIONAL = '0'
+        AND T.IS_DELETE = '0'
            <!--专家名称-->
 		   <if test="relName != null and relName != ''">
 		     AND INSTR(T.REAL_NAME,#{relName}) >0
@@ -2706,7 +2706,7 @@
              AND DEP.ID = #{orgId}
            </if>
 		 <!--ORDER BY T.AUDIT_AT DESC-->
-         ORDER BY ENT.BATCH_DETAILS_NUMBER DESC
+        ORDER BY T.AUDIT_AT DESC, ENT.COUNT
 	</select>
 
     <!-- 查询公示专家导出外网 -->

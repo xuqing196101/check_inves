@@ -2225,7 +2225,7 @@
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=3 and IS_DELETE = 0  AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as CSTHXG,
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and (STATUS=15 or STATUS=16) and IS_DELETE = 0 AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as YCSJS,
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=2 and IS_DELETE = 0 AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as CSBHG,
-	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=1 and IS_DELETE = 0 AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as CSHG,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=1 and IS_DELETE = 0) as CSHG,
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=4 and IS_DELETE = 0 AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as FSYFP,
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and AUDIT_TEMPORARY=2 and IS_DELETE = 0 AND IS_PROVISIONAL=0) as FSZ,
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=-2 and IS_DELETE = 0 AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as YFSJS,
