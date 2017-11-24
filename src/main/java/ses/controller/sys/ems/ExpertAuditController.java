@@ -28,15 +28,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
-
-import bss.formbean.PurchaseRequiredFormBean;
-import common.annotation.CurrentUser;
-import common.constant.Constant;
-import common.constant.StaticVariables;
-import common.utils.JdcgResult;
 import ses.dao.ems.ExpertBatchDetailsMapper;
+import ses.dao.ems.ExpertBatchMapper;
 import ses.dao.ems.ExpertField;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
@@ -50,6 +43,7 @@ import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
 import ses.model.ems.ExpertAuditNot;
 import ses.model.ems.ExpertAuditOpinion;
+import ses.model.ems.ExpertBatch;
 import ses.model.ems.ExpertBatchDetails;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertEngHistory;
@@ -84,6 +78,15 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WordUtil;
+import bss.formbean.PurchaseRequiredFormBean;
+
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+
+import common.annotation.CurrentUser;
+import common.constant.Constant;
+import common.constant.StaticVariables;
+import common.utils.JdcgResult;
 
 
 /**
@@ -161,6 +164,9 @@ public class ExpertAuditController{
 	
 	@Autowired
 	private ExpertBatchDetailsMapper expertBatchDetailsMapper;
+	
+	@Autowired
+	private ExpertBatchMapper expertBatchMapper;
 	/**
 	 * @Title: expertAuditList
 	 * @author XuQing 
@@ -2328,7 +2334,15 @@ public class ExpertAuditController{
 		//专家编号
 		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
 		expertBatchDetails.setExpertId(expert.getId());
-		ExpertBatchDetails findExpertBatchDetails = expertBatchDetailsMapper.findExpertBatchDetails(expertBatchDetails);
+		ExpertBatchDetails findExpertBatchDetails = null;
+		List<ExpertBatchDetails> batchDetails = expertBatchDetailsMapper.findExpertBatchDetailsList(expertBatchDetails);
+		for (ExpertBatchDetails e : batchDetails) {
+			ExpertBatch batch = expertBatchMapper.getExpertBatchByKey(e.getBatchId());
+			if(!"1".equals(batch.getBatchStatus())){
+				findExpertBatchDetails=e;
+				break;
+			}
+		}
 		dataMap.put("expertNum", findExpertBatchDetails == null ? "" : findExpertBatchDetails.getBatchDetailsNumber());
 		//审核时间
 		//日期格式化

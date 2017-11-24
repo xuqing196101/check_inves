@@ -205,5 +205,15 @@
         <if test=" sort == null ">
         ORDER BY T1.COUNT ASC   
         </if> 
-    </select> 
+    </select>
+
+    <!--查询专家批次对应编号详情表-->
+    <select id="findExpertBatchDetailsList" resultMap="BaseResultMap"  parameterType="ses.model.ems.ExpertBatchDetails">
+        SELECT
+        <include refid="Base_List" />
+        FROM T_SYS_EMS_EXPERT_BATCH_DETAILS WHERE 1=1
+        <if test="expertId != null">
+            AND EXPERT_ID=#{expertId}
+        </if>
+    </select>
 </mapper>
