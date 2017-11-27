@@ -12,11 +12,8 @@ import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import net.sf.json.JSONObject;
 
@@ -49,23 +46,11 @@ public class SMSUtil {
      * @param 
      * @return String
      */
-    public static String sendMsg(String mobile, String msg){
+    public static void sendMsg(String mobile, String msg){
     	// 创建一个线程池
-        ExecutorService pool = Executors.newFixedThreadPool(1);
-        // 创建任务
-        Callable<String> c = new SMSCallable(mobile, msg);
-        // 执行任务并获取Future对象
-        Future<String> future = pool.submit(c);
-        // 从Future对象上获取任务的返回值
-        String result = "";
-        try {
-			result = future.get();
-		} catch (InterruptedException | ExecutionException e) {
-			System.out.println("发送异常");
-			e.printStackTrace();
-		}
+        ExecutorService pool = Executors.newCachedThreadPool();
+        pool.submit(new SMSRunnable(mobile, msg));
         pool.shutdown();
-        return result;
     }
     
     /**
