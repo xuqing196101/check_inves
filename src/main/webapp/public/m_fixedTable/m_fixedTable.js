@@ -37,7 +37,7 @@
             header_columns_html += '<th style="'+ $(this).attr('style') +'width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'px">'+ $(this).html() +'</th>';
           }
         } else {
-          header_html += '<th style="width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'">'+ $(this).html() +'</th>';
+          header_html += '<th style="width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'px">'+ $(this).html() +'</th>';
           if (index < opts.fixedNumber) {
             header_columns_html += '<th style="width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'px">'+ $(this).html() +'</th>';
           }
