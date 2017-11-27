@@ -1512,6 +1512,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
         category = new Category();
         category.setId(dict.getId());
+        category.setCode(dict.getCode());
         category.setIsParent("true");
         category.setName(name);
         category.setParentId("0");

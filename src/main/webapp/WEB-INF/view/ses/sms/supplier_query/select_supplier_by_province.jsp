@@ -13,6 +13,7 @@
 	<head>
 		<%@ include file="../../../common.jsp"%>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/supplier_query/select_supplier_by_province.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/supplier_query/select_supplier_common.js"></script>
 		<script type="text/javascript">
 			$(function() {
 				laypage({
@@ -52,6 +53,13 @@
 						optionScore[i].selected = true;
 					}
 				}
+                var supplierLevel = '${supplier.supplierLevel}';
+                // 获取供应商品目
+                var supplierCateQuery = $("#supplierGradeInput").val();
+                if(supplierCateQuery != ''){
+                    $("#supplierLevelLi").css("display", "block");
+                    $("#supplierLevel").val(supplierLevel);
+                }
 				// 回显地区
                 $("#address").val('${supplier.address}');
 			});
@@ -162,30 +170,17 @@
               <label class="fl">供应商类型：</label><span><input  class="w220" id="supplierType" class="span2 mt5" type="text" name="supplierType"  readonly value="${supplierType }" onclick="showSupplierType();" />
               <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" /></span>
             </li>--%>
-	          <li>
-              <label class="fl">供应商状态：</label>
-              <span>
+                <li>
+                    <label class="fl">供应商状态：</label>
+                    <span>
                 <select id="status" name="status" class="w220">
 	                <option  selected="selected" value=''>全部</option>
-	                <!-- <option value="-1">暂存</option>
-	                <option value="0">待审核</option>
-	                <option value="-2">预审核结束</option>
-									<option value="-3">公示中</option>
-									<option value="1">审核通过</option>
-									<option value="2">退回修改</option>
-									<option value="9">退回再审核</option>
-									<option value="3">审核未通过</option>
-									<option value="4">待复核</option>
-									<option value="5">复核通过</option>
-									<option value="6">复核未通过</option>
-									<option value="7">考察合格</option>
-									<option value="8">考察不合格</option> -->
 									<c:forEach items="<%=SupplierConstants.STATUSMAP %>" var="item">
-										<option value="${item.key}">${item.value}</option>
-									</c:forEach>
+                                        <option value="${item.key}">${item.value}</option>
+                                    </c:forEach>
                 </select>
               </span>
-            </li>
+                </li>
             <%-- <li>
               <label class="fl">品目：</label><span><input id="category" type="text" name="categoryNames" value="${categoryNames }" readonly onclick="showCategory();" class="w220"/>
               <input type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds }" /></span>
@@ -235,6 +230,20 @@
                             <input type="hidden" name="queryCategory" id="supplierGradeInputVal" value="${supplier.queryCategory}"/>
                             <input type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds}" />
                           </span>
+                    </li>
+                    <li class="hide"  id="supplierLevelLi">
+                        <label class="fl">供应商等级：</label>
+                        <select name="supplierLevel" id="supplierLevel" class="w220">
+                            <option selected="selected" value=''>全部</option>
+                            <option value="一级">一级</option>
+                            <option value="二级">二级</option>
+                            <option value="三级">三级</option>
+                            <option value="四级">四级</option>
+                            <option value="五级">五级</option>
+                            <option value="六级">六级</option>
+                            <option value="七级">七级</option>
+                            <option value="八级">八级</option>
+                        </select>
                     </li>
                     <li>
                         <label class="fl">地区：</label>
