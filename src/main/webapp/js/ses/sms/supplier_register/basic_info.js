@@ -528,10 +528,11 @@ function delStockholder() {
 	if (size > 0) {
 
 		// 退回修改审核通过的项不能删除
-		/*
-		 * var isDel = checkIsDelForTuihui(checkboxs); if(!isDel){
-		 * layer.msg("审核通过的项不能删除！"); return; }
-		 */
+		var isDel = checkIsDelForTuihui(checkboxs);
+		if (!isDel) {
+			layer.msg("审核通过的项不能删除！");
+			return;
+		}
 
 		// 如果数量不超过10个，那占比必须100%，如果数量超过10个，那占比必须高于50%
 		var proportionTotal = 0;// 出资比例之和
@@ -708,10 +709,11 @@ function delAddress(obj, id) {
 	if (size > 0) {
 
 		// 退回修改审核通过的项不能删除
-		/*
-		 * var isDel = checkIsDelForTuihui(checkboxs); if(!isDel){
-		 * layer.msg("审核通过的项不能删除！"); return; }
-		 */
+		var isDel = checkIsDelForTuihui(checkboxs);
+		if (!isDel) {
+			layer.msg("审核通过的项不能删除！");
+			return;
+		}
 
 		layer.confirm("确认删除？", {
 			offset : '200px',
@@ -942,17 +944,15 @@ function checkYyqx(obj) {
 	var audit = $("#audit").val();
 	if (currSupplierSt == '2'
 			&& audit.indexOf('businessStartDate') < 0) {
-		// return false;
+		return false;
 	}
 	var ch = $(obj).is(":checked");
 	if (ch) {
 		$(obj).val("1");
 		$("#expireDate").val("");
 		$("#expireDate").attr("value", "");
-		// $("#expireDate").attr("disabled","disabled");
 	} else {
 		$(obj).val("0");
-		// $("#expireDate").removeAttr("disabled","disabled");
 	}
 }
 
@@ -962,7 +962,7 @@ function controlExpireDate() {
 	var audit = $("#audit").val();
 	if (currSupplierSt == '2'
 			&& audit.indexOf('businessStartDate') < 0) {
-		// return;
+		return;
 	}
 	var branchName = $("input[name='branchName']").val();
 	if (branchName != '1') {
@@ -1036,8 +1036,9 @@ function readOnlyForm() {
 		// 营业期限
 		$("#expireDate").attr('readonly', 'readonly');
 
-		$("select").not("#stockholder_list_tbody_id select")// 特殊处理出资人信息
-		.not("#address_list_tbody_id select")// 特殊处理生产经营地址
+		$("select")
+//		.not("#stockholder_list_tbody_id select")// 特殊处理出资人信息
+//		.not("#address_list_tbody_id select")// 特殊处理生产经营地址
 		.focus(function() {
 			if (!boolColor(this)) {
 				this.defaultIndex = this.selectedIndex;
@@ -1050,9 +1051,9 @@ function readOnlyForm() {
 		});
 	}
 	// 特殊处理出资人信息
-	$("#stockholder_list_tbody_id input").removeAttr('readonly');
+//	$("#stockholder_list_tbody_id input").removeAttr('readonly');
 	// 特殊处理生产经营地址
-	$("#address_list_tbody_id input").removeAttr('readonly');
+//	$("#address_list_tbody_id input").removeAttr('readonly');
 	
 	// readonly属性去掉blur事件
 	$("input[type='text'][readonly='readonly'],textarea[readonly='readonly']").removeAttr("onblur");

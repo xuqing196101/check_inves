@@ -415,97 +415,94 @@
 									</div>
 								</li>
 								<div id="address_list_body">
-                  <div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
-                   <%-- <c:choose>
-                   	<c:when test="${currSupplier.status==2 }">
-                     	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
-                     </c:when>
-                     <c:otherwise>
-                       <button class="btn btn-windows add" type="button" onclick="addAddress()">新增</button>
-                     </c:otherwise>
-                   </c:choose> --%>
-                   <button class="btn btn-windows add" type="button" onclick="addAddress()">新增</button>
-                   <button class="btn btn-windows delete" type="button" onclick="delAddress()">删除</button>
-                   <span class="red">${err_address_token}</span>
-                  </div>
-                  <div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto">
-                      <table id="address_table_id" class="table table-bordered table-condensed mt5 table_wrap table_input left_table m_table_fixed_border">
-                          <thead>
-                              <tr>
-                                  <th class="info" style="width:3%;"><input type="checkbox" onchange="checkAll(this, 'address_list_tbody_id')" /></th>
-                                  <th class="info" style="width:13%;"><font color="red">*</font> 生产或经营地址邮编</th>
-                                  <th class="info" style="width:23%;"><font color="red">*</font> 生产或经营地址（填写所有地址）</th>
-                                  <th class="info"><font color="red">*</font> 生产或经营详细地址</th>
-                                  <th class="info" style="width:22%;"><font color="red">*</font> 房产证明或租赁协议</th>
-                              </tr>
-                          </thead>
-                          <tbody id="address_list_tbody_id">
-                          <c:set var="addressNumber" value="0" />
-                          <c:forEach items="${currSupplier.addressList}" var="addr" varStatus="vs">
-                              <tr >
-                                  <td class="tc"><input type="checkbox" value="${addr.id}" /></td>
-                                
-                                  <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${addr.id }','basic_page')"</c:if>>
-                                      <input type="text" onkeyup="value=value.replace(/[^\d]/g,'')" onblur="validatePostCode(this.value)"
-                                      <c:if test="${!fn:contains(audit,addr.id)&&currSupplier.status==2}">readonly="readonly"</c:if>  required class="w200 border0 address_zip_code" name="addressList[${vs.index }].code" value="${addr.code}" />
-                                      <input type='hidden' name='addressList[${vs.index }].id' value='${addr.id}'>
-                                  </td>
-                                  <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${addr.id }','basic_page')"</c:if>>
-                                      <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0 ml20">
-                                          <select id="root_area_select_id_${vs.index }" class="w100p" onchange="loadAreaSelect(this,'#children_area_select_id_${vs.index }')" name="addressList[${vs.index }].provinceId">
-                                              <option value="">请选择</option>
-                                              <c:forEach items="${province }" var="prov">
-                                                  <c:if test="${prov.id==addr.provinceId }">
-                                                      <option value="${prov.id }" selected="selected">${prov.name }</option>
-                                                  </c:if>
-                                                  <c:if test="${prov.id!=addr.provinceId }">
-                                                      <option value="${prov.id }">${prov.name }</option>
-                                                  </c:if>
-                                              </c:forEach>
-                                          </select>
-                                      </div>
-                                      <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
-                                          <select id="children_area_select_id_${vs.index }" class="w100p" name="addressList[${vs.index }].address">
-                                              <c:forEach items="${addr.areaList }" var="city">
-                                                  <c:if test="${city.id==addr.address }">
-                                                      <option value="${city.id }" selected="selected">${city.name }</option>
-                                                  </c:if>
-                                                  <c:if test="${city.id!=addr.address }">
-                                                      <option value="${city.id }">${city.name }</option>
-                                                  </c:if>
-                                              </c:forEach>
-                                          </select>
-                                      </div>
-                                  </td>
-                                  <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${addr.id }','basic_page')"</c:if>>
-                                      <input type="text" class="w200 border0" <c:if test="${!fn:contains(audit,addr.id)&&currSupplier.status==2}">readonly="readonly"</c:if>  placeholder="街道名称，门牌号。" name="addressList[${vs.index }].detailAddress" required maxlength="50" value="${addr.detailAddress }" >
-
-                                  </td>
-                                  <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${addr.id }','basic_page')"</c:if>>
-                                      <div class="w200 fl">
-                                          <%-- <c:choose>
-                                          	<c:when test="${!fn:contains(audit,addr.id)&&currSupplier.status==2}">
-                                          		<u:show showId="house_show_${addressNumber}" delete="false" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
-                                          	</c:when>
-                                          	<c:otherwise>
-                                          		<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="house_up_${addressNumber}" multiple="true" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" auto="true" />
-                                          		<u:show showId="house_show_${addressNumber}" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
-                                          	</c:otherwise>
-                                          </c:choose> --%>
-                                          <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="house_up_${addressNumber}" multiple="true" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" auto="true" />
-                                       		<u:show showId="house_show_${addressNumber}" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
-                                          <c:if test="${vs.index == err_house_token}">
-                                              <div class="cue">  </div>
-                                          </c:if>
-                                      </div>
-                                  </td>
-                              </tr>
-                              <c:set var="addressNumber" value="${addressNumber + 1}" />
-                          </c:forEach>
-                          <input type="hidden" id="addressNumber" value="${addressNumber}"/>
-                          </tbody>
-                      </table>
-                  </div>
+									<div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
+								 		<c:choose>
+											<c:when test="${currSupplier.status==2 }">
+												<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
+											</c:when>
+											<c:otherwise>
+												<button class="btn btn-windows add" type="button" onclick="addAddress()">新增</button>
+											</c:otherwise>
+										</c:choose>
+										<button class="btn btn-windows delete" type="button" onclick="delAddress()">删除</button>
+										<span class="red">${err_address_token}</span>
+									</div>
+									<div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto">
+									    <table id="address_table_id" class="table table-bordered table-condensed mt5 table_wrap table_input left_table m_table_fixed_border">
+									        <thead>
+									            <tr>
+									                <th class="info" style="width:3%;"><input type="checkbox" onchange="checkAll(this, 'address_list_tbody_id')" /></th>
+									                <th class="info" style="width:13%;"><font color="red">*</font> 生产或经营地址邮编</th>
+									                <th class="info" style="width:23%;"><font color="red">*</font> 生产或经营地址（填写所有地址）</th>
+									                <th class="info"><font color="red">*</font> 生产或经营详细地址</th>
+									                <th class="info" style="width:22%;"><font color="red">*</font> 房产证明或租赁协议</th>
+									            </tr>
+									        </thead>
+									        <tbody id="address_list_tbody_id">
+									        <c:set var="addressNumber" value="0" />
+									        <c:forEach items="${currSupplier.addressList}" var="addr" varStatus="vs">
+									            <tr >
+									                <td class="tc"><input type="checkbox" value="${addr.id}" /></td>
+									                <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${addr.id }','basic_page')"</c:if>>
+									                    <input type="text" onkeyup="value=value.replace(/[^\d]/g,'')" onblur="validatePostCode(this.value)"
+									                    <c:if test="${!fn:contains(audit,addr.id)&&currSupplier.status==2}">readonly="readonly"</c:if>  required class="w200 border0 address_zip_code" name="addressList[${vs.index }].code" value="${addr.code}" />
+									                    <input type='hidden' name='addressList[${vs.index }].id' value='${addr.id}'>
+									                </td>
+									                <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${addr.id }','basic_page')"</c:if>>
+									                    <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0 ml20">
+									                        <select id="root_area_select_id_${vs.index }" class="w100p" onchange="loadAreaSelect(this,'#children_area_select_id_${vs.index }')" name="addressList[${vs.index }].provinceId">
+									                            <option value="">请选择</option>
+									                            <c:forEach items="${province }" var="prov">
+									                                <c:if test="${prov.id==addr.provinceId }">
+									                                    <option value="${prov.id }" selected="selected">${prov.name }</option>
+									                                </c:if>
+									                                <c:if test="${prov.id!=addr.provinceId }">
+									                                    <option value="${prov.id }">${prov.name }</option>
+									                                </c:if>
+									                            </c:forEach>
+									                        </select>
+									                    </div>
+									                    <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
+									                        <select id="children_area_select_id_${vs.index }" class="w100p" name="addressList[${vs.index }].address">
+									                            <c:forEach items="${addr.areaList }" var="city">
+									                                <c:if test="${city.id==addr.address }">
+									                                    <option value="${city.id }" selected="selected">${city.name }</option>
+									                                </c:if>
+									                                <c:if test="${city.id!=addr.address }">
+									                                    <option value="${city.id }">${city.name }</option>
+									                                </c:if>
+									                            </c:forEach>
+									                        </select>
+									                    </div>
+									                </td>
+									                <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${addr.id }','basic_page')"</c:if>>
+									                    <input type="text" class="w200 border0" <c:if test="${!fn:contains(audit,addr.id)&&currSupplier.status==2}">readonly="readonly"</c:if>  placeholder="街道名称，门牌号。" name="addressList[${vs.index }].detailAddress" required maxlength="50" value="${addr.detailAddress }" >
+									                </td>
+									                <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${addr.id }','basic_page')"</c:if>>
+									                    <div class="w200 fl">
+									                        <%-- <c:choose>
+									                        	<c:when test="${!fn:contains(audit,addr.id)&&currSupplier.status==2}">
+									                        		<u:show showId="house_show_${addressNumber}" delete="false" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
+									                        	</c:when>
+									                        	<c:otherwise>
+									                        		<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="house_up_${addressNumber}" multiple="true" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" auto="true" />
+									                        		<u:show showId="house_show_${addressNumber}" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
+									                        	</c:otherwise>
+									                        </c:choose> --%>
+									                        <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="house_up_${addressNumber}" multiple="true" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" auto="true" />
+									                     		<u:show showId="house_show_${addressNumber}" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
+									                        <c:if test="${vs.index == err_house_token}">
+									                            <div class="cue">  </div>
+									                        </c:if>
+									                    </div>
+									                </td>
+									            </tr>
+									            <c:set var="addressNumber" value="${addressNumber + 1}" />
+									        </c:forEach>
+									        <input type="hidden" id="addressNumber" value="${addressNumber}"/>
+									        </tbody>
+									    </table>
+									</div>
 								</div>
 							</ul>
 						</fieldset>
@@ -1129,15 +1126,14 @@
 						<div class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb20">
 							<div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
-									<%-- <c:choose>
+									<c:choose>
                     <c:when test="${currSupplier.status==2 }">
                     	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
                     </c:when>
                     <c:otherwise>
                       <button class="btn btn-windows add" type="button" onclick="addStockholder()">新增</button>
                			</c:otherwise>
-                  </c:choose> --%>
-                  <button class="btn btn-windows add" type="button" onclick="addStockholder()">新增</button>
+                  </c:choose>
 									<button class="btn btn-windows delete" type="button" onclick="delStockholder()">删除</button>
 									<span class="red">${stock }</span>
 								</div>
