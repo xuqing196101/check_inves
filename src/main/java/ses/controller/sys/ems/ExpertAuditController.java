@@ -1985,9 +1985,17 @@ public class ExpertAuditController{
 			audit.setExpertId(expertId);
 			audit.setSuggestType("seven");
 			audit.setType("1");
+			if(sign==1){
+				audit.setAuditFalg(666);
+			}else{
+				audit.setAuditFalg(sign);
+			}
 			audit.setStatusQuery("notPass");
 			List<ExpertAudit> list = expertAuditService.getListByExpert(audit);
-			
+			if(sign==1){
+				audit.setAuditFalg(1);
+			}
+			list.addAll(expertAuditService.getListByExpert(audit));
 			for (String string : split) {
 				boolean s=false;
 				for (ExpertAudit a : list) {
