@@ -2680,6 +2680,7 @@ public class ExpertAuditController{
     	List<Boolean> list3 = new ArrayList<Boolean>();
     	//第四级
     	List<Boolean> list4 = new ArrayList<Boolean>();
+    	boolean engAuditFlag = true;
     	for (int i = itemsListAll.size()-1; i >= 0; i--) {
     		//查询未通过审核的产品
     		ExpertAudit expertAudit1 = new ExpertAudit();
@@ -2710,6 +2711,12 @@ public class ExpertAuditController{
 			}else{
 				flag = true;
 			}
+			//工程类别的要根据工程=专业属性审核结果来判断
+			if(DictionaryDataUtil.getId("PROJECT").equals(cateTree.getItemsId()) || DictionaryDataUtil.getId("GOODS_PROJECT").equals(cateTree.getItemsId())
+					|| DictionaryDataUtil.getId("PROJECT").equals(cateTree.getRootNodeCode()) || DictionaryDataUtil.getId("GOODS_PROJECT").equals(cateTree.getRootNodeCode())){
+				flag = engAuditFlag;
+			}
+
     		if(category == null && engCategory == null){
     			//判断专家类别的审核结果
     			if(flag){
@@ -2722,6 +2729,10 @@ public class ExpertAuditController{
             				expertAudit1.setAuditField(cateTree.getRootNode());
     	        			expertAudit1.setAuditReason("通过。");
             			}else{
+            				//如果工程专业属性不通过   记录 便于判断工程属性是否通过
+            				if(cateTree.getRootNode().contains("、工程专业")){
+            					engAuditFlag = false;
+            				}
             				expertAudit1.setAuditField(cateTree.getRootNode());
     	        			expertAudit1.setAuditReason("不通过。");
             			}
