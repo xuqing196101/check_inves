@@ -39,7 +39,7 @@ public interface ProjectMapper {
     
     List<Project> selectSuccessProject(Map<String,Object> map);
     
-    List<Project> selectProject(HashMap<String,Object> map);
+    List<Project> selectProject(Map<String,Object> map);
     
     List<Project> provisionalList(Project project);
     
