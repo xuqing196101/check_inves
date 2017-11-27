@@ -53,7 +53,7 @@ public class SMSUtil {
     	// 创建一个线程池
         ExecutorService pool = Executors.newFixedThreadPool(1);
         // 创建任务
-        Callable<String> c = new SMSCallable("18600847461", "采购网短信测试");
+        Callable<String> c = new SMSCallable(mobile, msg);
         // 执行任务并获取Future对象
         Future<String> future = pool.submit(c);
         // 从Future对象上获取任务的返回值
