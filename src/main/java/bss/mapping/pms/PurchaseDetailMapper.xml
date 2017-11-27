@@ -1455,7 +1455,46 @@
 		UNIQUE_ID=#{uniqueId}
 	</select>
 	
-		<!-- 获取最底层明细 -->
+	<select id="selectByPurchaseType" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT
+				PURCHASE_TYPE
+			FROM
+				(
+					SELECT
+						detail.*, DECODE (
+							(
+								SELECT
+									COUNT (*)
+								FROM
+									T_BSS_PMS_PURCHASE_DETAIL
+								WHERE
+									PARENT_ID = detail.ID
+							),
+							0,
+							'false',
+							'true'
+						) AS isParent
+					FROM
+						T_BSS_PMS_PURCHASE_DETAIL detail
+					WHERE
+						detail.ID = #{id}
+				)
+			WHERE
+				isParent = 'false'
+	</select>
+	
+	<select id="selectByProjectStatus" parameterType="java.lang.String" resultMap="PurchaseRequired_Map">
+		SELECT
+			ID,PROJECT_STATUS
+		FROM
+			T_BSS_PMS_PURCHASE_DETAIL
+		WHERE
+			HISTORY_STATUS = '0'
+		AND IS_DELETE = 0  AND (PROJECT_STATUS = 2 OR PROJECT_STATUS = 1)
+		AND PARENT_ID = #{parentId}
+	</select>
+	
+		<!-- 获取最底层明细修改状态 -->
     <update id="selectByDetailId"  parameterType="bss.model.pms.PurchaseDetail">
     	UPDATE T_BSS_PMS_PURCHASE_DETAIL
 			SET PROJECT_STATUS = 2

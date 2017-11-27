@@ -976,7 +976,6 @@ public class ProjectServiceImpl implements ProjectService {
         return projectMapper.selectByProject(map);
     }
 
-    @Override
     public String isUseForPlanDetail(String projectId, String detailId) {
         PurchaseDetail purchaseDetail = purchaseDetailMapper.selectByPrimaryKey(detailId);
         if (purchaseDetail != null && purchaseDetail.getProjectStatus() == 1) {

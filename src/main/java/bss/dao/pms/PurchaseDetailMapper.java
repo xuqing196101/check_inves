@@ -428,4 +428,8 @@ public interface PurchaseDetailMapper {
     * @return List<PurchaseDetail>
      */
     List<PurchaseDetail> dynamicForeach(List<String> list);
+    
+    String selectByPurchaseType(String id);
+    
+    List<PurchaseDetail> selectByProjectStatus(String parentId);
 }

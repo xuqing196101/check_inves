@@ -222,7 +222,13 @@ public class ProjectController extends BaseController {
             Orgnization orgnization = orgnizationService.findByCategoryId(user.getOrg().getId());
             HashMap<String,Object> map = new HashMap<String,Object>();
             if(project.getName() !=null && !project.getName().equals("")){
-                map.put("name", project.getName());
+            	List<String> name = new ArrayList<String>();
+            	for (int i = 0; i < project.getName().length(); i++) {
+            		char charAt = project.getName().charAt(i);
+            		name.add(String.valueOf(charAt));
+				}
+            	String join = StringUtils.join(name, "%");
+                map.put("name", join);
             }
             if(project.getProjectNumber() != null && !project.getProjectNumber().equals("")){
                 map.put("projectNumber", project.getProjectNumber());
@@ -588,7 +594,7 @@ public class ProjectController extends BaseController {
        * @param detailId
        * @return
        */
-      public String isUseForPlanDetail(String projectId, String detailId){
+     /* public String isUseForPlanDetail(String projectId, String detailId){
           JSONObject jsonObj = new JSONObject();
           String isUse = projectService.isUseForPlanDetail(projectId, detailId);
           if (isUse == null) {
@@ -597,7 +603,7 @@ public class ProjectController extends BaseController {
             jsonObj.put("isUse", isUse);
           }
           return jsonObj.toString();
-      }
+      }*/
       
       public List<ProjectDetail> paixu(List<ProjectDetail> newDetails, String id){
           HashMap<String, Object> map = new HashMap<>();
@@ -2604,14 +2610,18 @@ public class ProjectController extends BaseController {
         List<String> id2 = getIds(ids);
         Set<String> set = new HashSet<String>();
         for (String string : id2) {
-            HashMap<String, Object> map = new HashMap<>();
+        	String type = purchaseDetailService.selectByPurchaseType(string);
+        	if (StringUtils.isNotBlank(type)) {
+        		set.add(type);
+			}
+            /*HashMap<String, Object> map = new HashMap<>();
             PurchaseDetail detail = purchaseDetailService.queryById(string);
             map.put("id", detail.getId());
             List<PurchaseDetail> list = purchaseDetailService.selectByParentId(map);
             if(list.size() == 1){
                  String aa = detail.getPurchaseType();
                  set.add(aa);
-            }
+            }*/
         }
             
         if(set.size() == 1){

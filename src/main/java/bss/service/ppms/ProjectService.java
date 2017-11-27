@@ -263,7 +263,7 @@ public interface ProjectService {
      * @param detailId
      * @return
      */
-    String isUseForPlanDetail(String projectId, String detailId);
+    //String isUseForPlanDetail(String projectId, String detailId);
     /**
      *〈简述〉保存项目信息
      *〈详细描述〉

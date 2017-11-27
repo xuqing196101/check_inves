@@ -535,4 +535,10 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
 		}
 		return details;
 	}
+
+	@Override
+	public String selectByPurchaseType(String id) {
+		
+		return purchaseDetailMapper.selectByPurchaseType(id);
+	}
 }

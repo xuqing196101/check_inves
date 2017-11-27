@@ -157,7 +157,7 @@
    		     	    title: ['请选择包','border-bottom:1px solid #e5e5e5'],
    		     	    shade:0.01, //遮罩透明度
    		   	  		type : 1,
-   		   	  		area : [ '20%', '200px'  ], //宽高
+   		   	  		area : ['400px', '200px'], //宽高
    		   	  		content : $('#openPassPackages'),
    		   	  	  });
     		   }
@@ -731,7 +731,7 @@
       </div>
     </div>
     <div id="openPassPackages" class="dnone layui-layer-wrap">
-    	<p id="openPassText">请选择包号生成竞争性谈判项目。选择多包视为合并实施。</p>
+    	<div id="openPassText" class="p20 pb0">请选择包号生成竞争性谈判项目。选择多包视为合并实施。</div>
        <div id="openPassPackages_check">
           
        </div>
