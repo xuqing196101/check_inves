@@ -518,7 +518,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	                // 修改
 	            	expertMapper.updateByPrimaryKeySelective(expert);
 	            	//审核结果短信通知
-	            	sendSms("6", expert.getMobile());
+	            	/*sendSms("6", expert.getMobile());*/
 	            }
 	        }
          }
@@ -582,14 +582,15 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 				// 查询专家编号
                 expertBatchDetails = new ExpertBatchDetails();
                 expertBatchDetails.setExpertId(expertPublicity.getId());
-				List<ExpertBatchDetails> batchDetails = expertBatchDetailsMapper.findExpertBatchDetailsList(expertBatchDetails);
+                expertBatchDetails = expertBatchDetailsMapper.findExpertBatchDetailsOfOne(expertBatchDetails);
+				/*List<ExpertBatchDetails> batchDetails = expertBatchDetailsMapper.findExpertBatchDetailsList(expertBatchDetails);
                 for (ExpertBatchDetails e : batchDetails) {
                     ExpertBatch batch = expertBatchMapper.getExpertBatchByKey(e.getBatchId());
                     if (!"1".equals(batch.getBatchStatus())) {
                         expertBatchDetails = e;
                         break;
                     }
-                }
+                }*/
                 if(expertBatchDetails != null){
                     expertPublicity.setExpertNum(expertBatchDetails.getBatchDetailsNumber());
                 } else {

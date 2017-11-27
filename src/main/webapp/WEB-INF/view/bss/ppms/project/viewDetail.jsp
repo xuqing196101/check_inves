@@ -166,9 +166,19 @@
                     </c:if>
                    </div>
                   </td>
-                  <td><div class="goodsname">${obj.goodsName}</td>
-                  <td class=""><div class="stand">${obj.stand}</td>
-                  <td class="tc"><div class="qualitstand">${obj.qualitStand}</td>
+                  <td><div class="goodsname" title="${obj.goodsName}">
+                  <c:if test="${fn:length (obj.goodsName) > 20}">${fn:substring(obj.goodsName,0,19)}...</c:if>
+                   <c:if test="${fn:length(obj.goodsName) <= 20}">${obj.goodsName}</c:if>
+                  
+                  </td>
+                  <td class=""><div class="stand" title="${obj.stand}">
+                  <c:if test="${fn:length (obj.stand) > 20}">${fn:substring(obj.stand,0,19)}...</c:if>
+                   <c:if test="${fn:length(obj.stand) <= 20}">${obj.stand}</c:if>
+                  </td>
+                  <td class="tc"><div class="qualitstand" title="${obj.qualitStand}">
+                  <c:if test="${fn:length (obj.qualitStand) > 20}">${fn:substring(obj.qualitStand,0,19)}...</c:if>
+                   <c:if test="${fn:length(obj.qualitStand) <= 20}">${obj.qualitStand}</c:if>
+                  </td>
                   <td class="tc"><div class="item">${obj.item}</td>
                   <td class="tc"><div class="purchasecount">${obj.purchaseCount}</div></td>
                   <td class=""><div class="deliverdate">${obj.deliverDate}</div></td>

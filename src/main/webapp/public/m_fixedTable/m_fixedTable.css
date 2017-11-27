@@ -7,6 +7,18 @@
   border-top: none;
   border-bottom: none;
 }
+.mfixed-main .table {
+  margin-bottom: 0;
+}
+.mfixed-main .table-bordered {
+  border: none;
+}
+.mfixed-main .table-bordered>tbody>tr>td, .mfixed-main .table-bordered>tbody>tr>th, .mfixed-main .table-bordered>tfoot>tr>td, .mfixed-main .table-bordered>tfoot>tr>th, .mfixed-main .table-bordered>thead>tr>td, .mfixed-main .table-bordered>thead>tr>th {
+  border-right: none;
+}
+.mfixed-main .table-bordered>tbody>tr>td:first-child, .mfixed-main .table-bordered>thead>tr>th:first-child {
+  border-left: none;
+}
 .mfixed-header {
   position: absolute;
   top: 0;
@@ -29,6 +41,8 @@
   position: absolute;
   left: 0;
   background-color: #FFF;
+}
+.mfixed-columns .table-bordered>tbody>tr>td {
   border-right: solid 1px #ddd;
 }
 .mfixed-body .table-hover>tbody>tr.hover, .mfixed-columns .table-hover>tbody>tr.hover {

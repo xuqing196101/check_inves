@@ -110,14 +110,15 @@ function loadData(data, index, pageNum, pageSize) {
         if (data.auditOpinion.indexOf("。") > -1) {
             auditOpinion = data.auditOpinion.substring(0, data.auditOpinion.indexOf("。"))
             if (auditOpinion.indexOf("选择了") > -1) {
-                html += "  <a class='publicityCss' href=\"javascript:;\" onclick=\"loadItem('" + data.id + "')\">" + data.auditOpinion + "</a></span>";
+                html += "  <a class='publicityCss' href=\"javascript:;\" onclick=\"loadItem('" + data.id + "')\">" + data.auditOpinion + "</a>";
             } else {
-                html += "  <span>" + data.auditOpinion + "</span>";
+                html += data.auditOpinion;
             }
+        }else {
+            html += data.auditOpinion;
         }
-    } else {
-        html += "  <span>" + data.auditOpinion + "</span>";
     }
+    html += "</span>";
     html += "  <span class='col-xs-12 w18p tc'>" + timestampToDate('yyyy-MM-dd', data.auditAt) + "至" + getDateOfNDay(data.auditAt) + "</span>"
     html += "</li>";
     $("#expPublicityList").append(html);

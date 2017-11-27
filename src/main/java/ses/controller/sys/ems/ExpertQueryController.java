@@ -529,6 +529,7 @@ public class ExpertQueryController {
         for(int i = 0; i < parentNodeList.size(); i++) {
             DictionaryData rootNode = DictionaryDataUtil.findById(parentNodeList.get(i).getId());
             if(rootNode != null) {
+            	cateTree.setRootNodeCode(rootNode.getCode());
                 cateTree.setRootNode(rootNode.getName());
             }
         }

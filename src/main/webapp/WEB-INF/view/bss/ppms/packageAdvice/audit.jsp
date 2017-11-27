@@ -12,53 +12,114 @@
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript">
+		$(function() {
+			var status = "${status}";
+			if(status == 1 || status == 2){
+				var packStatus = 0;
+				$("input[name='packStatus']").each(function (){
+					if($(this).val() == 5){
+						packStatus++;
+					}
+				});
+				if($("input[name='packId']").length == packStatus){
+					ajaxComet();
+					window.location.href = "${pageContext.request.contextPath}/packageAdvice/list.html";
+				}
+			}
+		});
+	
 		function pass(code){
-			$.ajax({
-	 			url:"${pageContext.request.contextPath}/packageAdvice/pass.do",
-	 			tpye:"post",
-	 			dataType:"text",
-	 			async: false,
-	 			data:{
-	 				"projectId" : "${advice.project.id}",
-	 				"code" : code
-	 			},
-	 			success:function(data){
-	 				if(data == "ok"){
-	 					layer.msg("审核通过");
-	 					window.location.href = "${pageContext.request.contextPath}/packageAdvice/list.html";
-	 				} else {
-	 					layer.msg("失败");
-	 				}
-	 			}
-	  	});
-		}
-		
-		function noPass(code){
-			var removedReason = layer.prompt({
-		    title : '请填写不通过理由：', 
-		    formType : 2, 
-		    maxlength: 300,
-			},function(text){
-				$.ajax({
-		 			url:"${pageContext.request.contextPath}/packageAdvice/noPass.do",
-		 			tpye:"post",
+			var packId = [];
+		 	$("input[name='packId']:checked").each(function() {
+	      packId.push($(this).val());
+	    });
+	    if(packId.length > 0){
+	    	$.ajax({
+		 			url:"${pageContext.request.contextPath}/packageAdvice/pass.html",
+		 			type:"post",
 		 			dataType:"text",
 		 			async: false,
 		 			data:{
 		 				"projectId" : "${advice.project.id}",
 		 				"code" : code,
-		 				"removedReason" : text
+		 				"packId" : packId.join(",")
 		 			},
 		 			success:function(data){
 		 				if(data == "ok"){
-		 					layer.msg("成功");
-		 					window.location.href = "${pageContext.request.contextPath}/packageAdvice/list.html";
+		 					layer.msg("审核通过");
+		 					if($("input[name='packId']").length == packId.length){
+		 						ajaxComet();
+		 					} else {
+		 						window.location.href = "${pageContext.request.contextPath}/packageAdvice/audit.html?code=" + code + "&status=2";
+		 					}
 		 				} else {
 		 					layer.msg("失败");
 		 				}
 		 			}
 		  	});
+	    } else {
+	    	layer.msg("请选择要评审的包");
+	    }
+		}
+		
+		function ajaxComet(){
+			$.ajax({
+	 			url:"${pageContext.request.contextPath}/packageAdvice/comet.do",
+	 			type:"post",
+	 			dataType:"text",
+	 			async: false,
+	 			data:{
+	 				"projectId" : "${advice.project.id}",
+	 				"proposer" : "${advice.proposer}",
+	 				"code" : "${advice.code}"
+	 			},
+	 			success:function(data){
+	 				if(data=="ok"){
+	 					window.location.href = "${pageContext.request.contextPath}/packageAdvice/list.html";
+	 				}
+	 			}
+	 			
 			});
+		}
+		function noPass(code){
+			var packId = [];
+		 	$("input[name='packId']:checked").each(function() {
+	      packId.push($(this).val());
+	    });
+	    if(packId.length > 0){
+	    	var removedReason = layer.prompt({
+			    title : '请填写不通过理由：', 
+			    formType : 2, 
+			    maxlength: 300,
+				},function(text){
+					$.ajax({
+			 			url:"${pageContext.request.contextPath}/packageAdvice/noPass.do",
+			 			type:"post",
+			 			dataType:"text",
+			 			async: false,
+			 			data:{
+			 				"projectId" : "${advice.project.id}",
+			 				"code" : code,
+			 				"removedReason" : text,
+			 				"packId" : packId.join(",")
+			 			},
+			 			success:function(data){
+			 				if(data == "ok"){
+			 					layer.msg("成功");
+				 				if($("input[name='packId']").length == packId.length){
+				 					ajaxComet();
+			 					} else {
+			 						window.location.href = "${pageContext.request.contextPath}/packageAdvice/audit.html?code=" + code + "&status=2";
+			 					}
+			 				} else {
+			 					layer.msg("失败");
+			 				}
+			 			}
+			  	});
+				});
+	    } else {
+	    	layer.msg("请选择要评审的包");
+	    }
 		}
 		
 		function goBack(){
@@ -143,6 +204,16 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div id="clear">
+          <h2 class="count_flow"><i>3</i>转竞谈包信息</h2>
+          <div class="ul_list mb0 p20">
+          	<c:forEach items="${advice.packageList}" var="obj">
+          		<input type="hidden" value="${obj.status}" name="packStatus"/>
+          		<input type="checkbox" value="${obj.id}" <c:if test="${obj.status == 5}">disabled="disabled"</c:if> name="packId"/>${obj.name}
+          	</c:forEach>
           </div>
           <div class="clear"></div>
         </div>

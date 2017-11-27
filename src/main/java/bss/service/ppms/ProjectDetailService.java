@@ -105,4 +105,40 @@ public interface ProjectDetailService {
 	 * @return
 	 */
 	List<ProjectDetail> findByIdPackageId(HashMap<String,Object> map);
+	
+	/**
+	  * 
+	 * @Title: selectByDetailRequired
+	 * @author FengTian 
+	 * @date 2017-11-13 上午11:32:23  
+	 * @Description: 获取底层明细 
+	 * @param @param projectId
+	 * @param @return      
+	 * @return List<ProjectDetail>
+	  */
+	List<ProjectDetail> selectByDetailRequired(String projectId);
+	
+	/**
+	  * 
+	 * @Title: selectByParentList
+	 * @author FengTian 
+	 * @date 2017-11-14 下午6:10:00  
+	 * @Description: 根据项目ID递归查询明细 (父节点) 
+	 * @param @param map
+	 * @param @return      
+	 * @return List<ProjectDetail>
+	  */
+	 List<ProjectDetail> selectByParentList(HashMap<String, Object> map);
+	 
+	 /**
+	  * 
+	 * @Title: selectByDetailPackNull
+	 * @author FengTian 
+	 * @date 2017-11-17 下午5:06:14  
+	 * @Description: 获取底层明细（包ID为null） 
+	 * @param @param projectId
+	 * @param @return      
+	 * @return List<ProjectDetail>
+	  */
+	 List<ProjectDetail> selectByDetailPackNull(String projectId);
 }

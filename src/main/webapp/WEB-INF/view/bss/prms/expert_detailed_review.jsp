@@ -138,6 +138,9 @@
 			window.open("${pageContext.request.contextPath}/packageExpert/printRank.html?packages=${packageId}", "打印汇总表");
 		/* } */
 	}
+	function printRankView(){
+		window.open("${pageContext.request.contextPath}/packageExpert/showView.html?packId=${packageId}&projectId=${projectId}", "打印评审记录表");
+	}
 	function refur(packageId,projectId){
 		layer.msg("刷新成功",{offset: ['100px']});
 		$("#tab-6").load('${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId='+packageId+'&projectId='+projectId);
@@ -155,7 +158,8 @@
 		  <c:if test="${isEnd == 1}">
 			  <button disabled="disabled" class="btn" id="endId" onclick="toTotal()" type="button">结束评审</button>
 			  <button disabled="disabled" class="btn" id="backId" onclick="backScore()" type="button">复核评分</button>
-		  </c:if> 
+		  </c:if>
+		  <button class="btn btn-windows input" onclick="printRankView()" type="button">打印评审记录表</button>
 		  <button class="btn btn-windows input" onclick="printRank()" type="button">打印汇总表</button>
 		  <button class="btn" onclick="refur('${packageId}','${projectId}')" type="button">刷新</button>
 		</div>

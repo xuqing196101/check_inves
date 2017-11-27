@@ -32,6 +32,7 @@ import bss.dao.cs.ContractRequiredMapper;
 import bss.dao.cs.PurchaseContractMapper;
 import bss.dao.pms.CollectPlanMapper;
 import bss.dao.pms.PurchaseDetailMapper;
+import bss.dao.pms.PurchaseRequiredMapper;
 import bss.dao.ppms.AdvancedProjectMapper;
 import bss.dao.ppms.FlowDefineMapper;
 import bss.dao.ppms.FlowExecuteMapper;
@@ -173,6 +174,9 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
     
     @Autowired
     private PqInfoMapper pqInfoMapper;
+    
+    @Autowired
+    private PurchaseRequiredMapper requiredMapper;
 
     @Override
     public List<PurchaseRequired> viewDemand(String id) {
@@ -651,27 +655,8 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 
 	@Override
 	public PurchaseRequired viewPurchaseRequired(String id) {
-		if(StringUtils.isNotBlank(id)){
-			PurchaseRequired required = null;
-			HashMap<String, Object> map = new HashMap<>();
-            map.put("id", id);
-            List<PurchaseRequired> requireds = requiredService.selectByParent(map);
-            if(requireds != null && requireds.size() > 0){
-                for (PurchaseRequired purchaseRequired : requireds) {
-                    if("1".equals(purchaseRequired.getParentId())){
-                    	List<User> user = userMapper.selectByPrimaryKey(purchaseRequired.getUserId());
-                        if(user != null && user.size() > 0){
-                            purchaseRequired.setUserId(user.get(0).getRelName());
-                            purchaseRequired.setCode(user.get(0).getMobile());
-                        }
-                        required = purchaseRequired;
-                        break;
-                    }
-                }
-            }
-            return required;
-		}
-		return null;
+		
+		return requiredMapper.supervisionByRequired(id);
 	}
 
 	@Override
@@ -896,7 +881,7 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
     					}
     				} else {
     					HashMap<String, Object> flowMap = new HashMap<>();
-    					if(StringUtils.isNotBlank(packages.getNewFlowId())){
+    					if(StringUtils.isNotBlank(packages.getNewFlowId())){/*
     						flowMap.put("gt", packages.getNewFlowId());
     						List<DictionaryData> viewFlows = dictionaryDataMapper.viewFlows(flowMap);
         					if(viewFlows != null && viewFlows.size() > 0){
@@ -907,7 +892,7 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
     								num++;
     							}
         					}
-    					}
+    					*/}
     				}
 				}
 			
@@ -926,7 +911,7 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 			dictionaryData.setUpdatedAt(packages.getCreatedAt());
 			dictionaryData.setDescription(project.getId());
 		} else if ("CGLC_CGWJBB".equals(code)){
-			dictionaryData.setUpdatedAt(project.getApprovalTime());
+			dictionaryData.setUpdatedAt(project.getReplyTime());
 			dictionaryData.setDescription(project.getId());
 		} else if ("CGLC_CGGGFB".equals(code)){
 			Article article = new Article();
@@ -973,11 +958,21 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
             	dictionaryData.setDescription(project.getId());
             }
 		} else if ("CGLC_GYSQD".equals(code)){
-			dictionaryData.setUpdatedAt(project.getBidDate());
-			dictionaryData.setDescription(project.getId());
+			SaleTender saleTender = new SaleTender();
+            saleTender.setPackages(packages.getId());
+			List<SaleTender> packegeSupplier = saleTenderMapper.getPackegeSupplier(saleTender);
+			if (packegeSupplier != null && !packegeSupplier.isEmpty()) {
+				dictionaryData.setUpdatedAt(project.getBidDate());
+				dictionaryData.setDescription(project.getId());
+			}
 		} else if ("CGLC_KB".equals(code)){
-			dictionaryData.setUpdatedAt(project.getBidDate());
-			dictionaryData.setDescription(project.getId());
+			SaleTender saleTender = new SaleTender();
+            saleTender.setPackages(packages.getId());
+			List<SaleTender> packegeSupplier = saleTenderMapper.getPackegeSupplier(saleTender);
+			if (packegeSupplier != null && !packegeSupplier.isEmpty()) {
+				dictionaryData.setUpdatedAt(project.getBidDate());
+				dictionaryData.setDescription(project.getId());
+			}
 		} else if ("CGLC_CGXMPS".equals(code)){
             if(packages.getQualificationTime() != null){
             	dictionaryData.setUpdatedAt(packages.getQualificationTime());
@@ -1224,26 +1219,31 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 	                }
 	                list.add(supervision);
 				} else if (data != null && project.getId().equals(data.getDescription()) && "CGLC_KB".equals(data.getCode()) && data.getUpdatedAt() != null) {
-					Supervision supervision = new Supervision();
-					HashMap<String, Object> map = new HashMap<>();
-					map.put("1投标记录", "25%");
-					map.put("2开标一览表", "35%");
-					map.put("3开标人", "20%");
-					map.put("4开标时间", "20%");
-					List<Map.Entry<String, Object>> lists = sorts(map);
-					supervision.setMap(lists);
-					supervision.setName(data.getName());
-					supervision.setPackages(packages);
-					supervision.setProject(project);
-					//获取开标的操作人
-		            FlowDefine define = new FlowDefine();
-		            define.setPurchaseTypeId(project.getPurchaseType());
-		            define.setCode("KBCB");
-		            FlowExecute flowExecute = operator(define, project.getId());
-		            if(flowExecute != null){
-		            	supervision.setFlowExecute(flowExecute);
-		            }
-		            list.add(supervision);
+					SaleTender saleTender = new SaleTender();
+		            saleTender.setPackages(packages.getId());
+					List<SaleTender> packegeSupplier = saleTenderMapper.getPackegeSupplier(saleTender);
+					if (packegeSupplier != null && !packegeSupplier.isEmpty()) {
+						Supervision supervision = new Supervision();
+						HashMap<String, Object> map = new HashMap<>();
+						map.put("1投标记录", "25%");
+						map.put("2开标一览表", "35%");
+						map.put("3开标人", "20%");
+						map.put("4开标时间", "20%");
+						List<Map.Entry<String, Object>> lists = sorts(map);
+						supervision.setMap(lists);
+						supervision.setName(data.getName());
+						supervision.setPackages(packages);
+						supervision.setProject(project);
+						//获取开标的操作人
+			            FlowDefine define = new FlowDefine();
+			            define.setPurchaseTypeId(project.getPurchaseType());
+			            define.setCode("KBCB");
+			            FlowExecute flowExecute = operator(define, project.getId());
+			            if(flowExecute != null){
+			            	supervision.setFlowExecute(flowExecute);
+			            }
+			            list.add(supervision);
+					}
 				} else if (data != null && project.getId().equals(data.getDescription()) && "CGLC_CGXMPS".equals(data.getCode()) && data.getUpdatedAt() != null) {
 					Supervision supervision = new Supervision();
 					HashMap<String, Object> map = new HashMap<>();

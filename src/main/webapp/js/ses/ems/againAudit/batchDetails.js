@@ -329,7 +329,7 @@
                 } else if (list_content.list.list[i].status === '-2'&& list_content.list.list[i].isReviewEnd != '1') {
                   list_content.list.list[i].status = '<span class="green">预复审结束</span>';
                   if(list_content.list.list[i].isDownload == '1' && list_content.list.list[i].isReviewEnd != '1'){
-                  	btn = '<button type="button" class="btn m0 canDisable" onclick="reviewEnd(\''+ list_content.list.list[i].expertId +'\');">复审结束</button>';
+                  	btn = '<button type="button" class="btn w100p m0 canDisable" onclick="reviewEnd(\''+ list_content.list.list[i].expertId +'\');">复审结束</button>';
                   }
                 }else if (list_content.list.list[i].status === '-2' && list_content.list.list[i].isReviewEnd == '1') {
                     list_content.list.list[i].status = '<span class="red">复审结束</span>';

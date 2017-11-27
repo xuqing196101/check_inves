@@ -253,7 +253,7 @@
 				   		  </c:forEach>
 				   		</thead>
 				   		<c:forEach items="${dds}" var="d">
-				   			<tr><td class="info" colspan="${suppliers+1}"><b>${d.name}</b></td></tr>
+				   			<tr><td class="bggrey" colspan="${suppliers+1}"><b>${d.name}</b></td></tr>
 				   			<c:forEach items="${extension.firstAuditList }" var="first" varStatus="vs">
 					      	<c:if test="${first.kind == d.id}">
 					      	<tr>
@@ -311,5 +311,16 @@
 		</div>
 			   </div>
 	</div>
+	
+	<link href="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.css" rel="stylesheet">
+  <script src="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.js"></script>
+  <script>
+    // 锁表头锁表列
+    $(function () {
+      $('#table').m_fixedTable({
+        fixedNumber: 1
+      });
+    });
+  </script>
   </body>
 </html>

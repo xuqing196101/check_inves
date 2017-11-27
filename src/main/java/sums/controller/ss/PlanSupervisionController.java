@@ -520,9 +520,9 @@ public class PlanSupervisionController {
             /*************************************************采购需求，预研信息****************************************************/
             PurchaseRequired required = null;
             if(detail != null){
-                required = requiredService.queryById(detail.getId());
+                required = requiredService.supervisionByRequiredId(detail.getId());
             }else{
-                required = requiredService.queryById(id);
+                required = requiredService.supervisionByRequiredId(id);
             }
             
             if(required != null){
@@ -533,12 +533,6 @@ public class PlanSupervisionController {
             	hashMap.put(dictionaryData.getId(), dictionaryData);
                 model.addAttribute("purchaseRequired", purchaseRequired);
                 
-                //获取机构名称
-                if(StringUtils.isNotBlank(required.getOrganization())){
-                    Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(required.getOrganization());
-                    required.setOrganization(orgnization.getShortName());
-                }
-                required.setPurchaseType(DictionaryDataUtil.findById(required.getPurchaseType()).getName());
                 
                 //获取管理部门
                 List<PurchaseManagement> queryByPid = managementService.queryByPid(required.getUniqueId());
