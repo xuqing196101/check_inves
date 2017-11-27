@@ -516,7 +516,7 @@ public class SynchExportController {
 	        }
 	        //专家抽取信息导出
 	        if (synchType.contains(Constant.DATE_SYNCH_EXPERT_EXTRACT)) {
-	        	
+	        	expertExtractProjectService.exportListExpertInfo(startTime, endTime, date);
         	}
 	        //专家抽取结果导出
 	        if (synchType.contains(Constant.DATE_SYNCH_EXPERT_EXTRACT_RESULT)) {

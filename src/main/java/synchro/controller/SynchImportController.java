@@ -967,7 +967,16 @@ public class SynchImportController {
         				}
                 	}
                     //专家抽取项目信息导入
-                    
+                    if (synchType.contains(Constant.DATE_SYNCH_EXPERT_EXTRACT)) {
+                    	if (f.getName().equals(Constant.EXPERT_EXTRACT_FILE_EXPERT)) {
+   							expertExtractProjectService.importExpertExtract(f);
+						}
+						if (f.isDirectory()) {
+							if (f.getName().equals(Constant.EXPERT_EXTRACT_FILE_EXPERT)) {
+								OperAttachment.moveFolder(f);
+							}
+						}
+                	}
                     /**目录资质关联表*/
                     categoryService.importCategoryQua(synchType, f);
                     /** 产品资质表*/
