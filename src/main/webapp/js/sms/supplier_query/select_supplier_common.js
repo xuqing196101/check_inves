@@ -90,13 +90,13 @@ function loadZtree() {
     var searchName = $.trim($("#search").val());
     // 清除选中内容
     $("#supplierGradeInput").val("");
-    var parms = $("#supplierTypeIds").val();
-    treeSetting.async.otherParam = ["code", parms];
+    //var parms = $("#supplierTypeIds").val();
+    //treeSetting.async.otherParam = ["code", parms];
     $.ajax({
         url: globalPath + "/category/selectAllCateByCond.do",
         data: {
             "name": searchName,
-            "code": parms
+            //"code": parms
         },
         async: false,
         type: "post",
@@ -168,6 +168,7 @@ function zTreeOnCheck(event, treeId, treeNode) {
     }
     if (names.length > 0) names = names.substring(0, names.length - 1);
     if (ids.length > 0) ids = ids.substring(0, ids.length - 1);
+    if (supplierTypeIds.length > 0) supplierTypeIds = supplierTypeIds.substring(0, supplierTypeIds.length - 1);
     $("#supplierGradeInput").val(names);
     $("#supplierGradeInputVal").val(ids);
     $("#supplierTypeIds").val(supplierTypeIds);
