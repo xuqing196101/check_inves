@@ -2675,8 +2675,8 @@
             D.NAME            AS GENDER,
             T.AUDIT_AT,
             ORG.SHORT_NAME    AS ORGNAME,
-            ENT.BATCH_DETAILS_NUMBER,
-            TO_CHAR(T.AUDIT_AT,'yyyy-MM-dd') AS DATASTRING
+            ENT.BATCH_DETAILS_NUMBER
+            <!--TO_CHAR(T.AUDIT_AT,'yyyy-MM-dd') AS DATASTRING-->
         FROM T_SES_EMS_EXPERT T
         LEFT JOIN (SELECT T.EXPERT_ID, T.BATCH_DETAILS_NUMBER,T.COUNT
         FROM T_SYS_EMS_EXPERT_BATCH_DETAILS T
@@ -2706,8 +2706,8 @@
            <if test="orgId != null and orgId !=''">
              AND DEP.ID = #{orgId}
            </if>
-		 <!--ORDER BY T.AUDIT_AT DESC -->
-        ORDER BY DATASTRING DESC, ENT.BATCH_DETAILS_NUMBER
+		 <!--ORDER BY DATASTRING DESC, ENT.BATCH_DETAILS_NUMBER -->
+        ORDER BY ENT.BATCH_DETAILS_NUMBER
 	</select>
 
     <!-- 查询公示专家导出外网 -->
