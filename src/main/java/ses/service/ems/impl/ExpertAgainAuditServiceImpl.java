@@ -1276,6 +1276,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 				record.setStatus("100");//100标识重新复审
 				record.setCreateAt(new Date());
 				record.setUpdateAt(new Date());
+				record.setBatchId(batchId);
 				// 查询审核意见
 	    		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
 	    		expertAuditOpinion.setExpertId(e.getExpertId());
@@ -1311,6 +1312,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 			record.setExpertId(e.getExpertId());
 			record.setCreateAt(new Date());
 			record.setUpdateAt(new Date());
+			record.setBatchId(batchId);
 			// 查询审核意见
     		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
     		expertAuditOpinion.setExpertId(e.getExpertId());

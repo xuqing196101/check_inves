@@ -6,8 +6,16 @@ public class ExpertStatusRecord {
 	private String expertId;
 	private String status;
 	private String expertStatus;
+	private String batchId;
 	private Date createAt;
 	private Date updateAt;
+	
+	public String getBatchId() {
+		return batchId;
+	}
+	public void setBatchId(String batchId) {
+		this.batchId = batchId;
+	}
 	public String getExpertId() {
 		return expertId;
 	}
