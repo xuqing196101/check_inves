@@ -358,7 +358,17 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 		conditions.add(condition);
 		//查询项目信息
 		SupplierExtractProjectInfo projectInfo = recordService.selectByPrimaryKey(condition.getRecordId());
-		SupplierExtractProjectInfo p = new SupplierExtractProjectInfo();
+		/*SupplierExtractProjectInfo p = new SupplierExtractProjectInfo();
+		p.setId(projectInfo.getId());
+		p.setConditionId(condition.getId());
+		p.setProjectName(projectInfo.getProjectName());
+		p.setSellProvince(projectInfo.getSellProvince());
+		p.setSellAddress(projectInfo.getSellAddress());
+		p.setSellSite(projectInfo.getSellSite());
+		p.setSellBegin(projectInfo.getSellBegin());
+		p.setSellEnd(projectInfo.getSellEnd());
+		p.setProjectInto(projectInto);
+		p.setPackageId(projectInfo.getPackageId());*/
 		projectInfos.add(projectInfo);
 		if(null!=projectInfo){
 			projectInfo.setStatus((short)2);

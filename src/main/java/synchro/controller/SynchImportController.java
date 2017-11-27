@@ -46,9 +46,9 @@ import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBSupplierService;
 
 import com.github.pagehelper.PageInfo;
-
 import common.annotation.CurrentUser;
 import common.bean.ResponseBean;
+
 import extract.service.expert.ExpertExtractProjectService;
 import extract.service.supplier.AutoExtractSupplierService;
 
@@ -209,19 +209,19 @@ public class SynchImportController {
                     continue;
                 }
                 // 过滤供应商抽取信息  定时任务自动导入导出
-                if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO)) {
+               /* if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO)) {
                 	iter.remove();
                 	continue;
                 }
                 if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_RESULT)) {
                 	iter.remove();
                 	continue;
-                }
+                }*/
                 //过滤供应商等级信息
-                if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_LEVEL)) {
+               /* if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_LEVEL)) {
                 	iter.remove();
                 	continue;
-                }
+                }*/
                 //内网时
                 if (ipAddressType.equals("0")) {
                     //过滤外网导出  	竞价定型产品导出  只能是内网导出外网
