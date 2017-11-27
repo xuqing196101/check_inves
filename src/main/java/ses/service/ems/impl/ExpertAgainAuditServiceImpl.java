@@ -1277,6 +1277,12 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 				record.setCreateAt(new Date());
 				record.setUpdateAt(new Date());
 				record.setBatchId(batchId);
+				BatchTemporary t = new BatchTemporary();
+				t.setExpertId("100");
+				t.setBatchExpertId(e.getExpertId());
+				t.setCreatedAt(new Date());
+				t.setUpdatedAt(new Date());
+				batchTemporaryMapper.addBatchTemporary(t);
 				// 查询审核意见
 	    		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
 	    		expertAuditOpinion.setExpertId(e.getExpertId());
