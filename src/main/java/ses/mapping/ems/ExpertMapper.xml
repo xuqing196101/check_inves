@@ -1105,7 +1105,9 @@
              <if test="netType != null">
                 NET_TYPE = #{netType},
             </if>
-            
+            <if test="isReviewEnd!=null">
+            	IS_REVIEW_END=#{isReviewEnd}
+            </if>
         </set>
         where
         ID = #{id,jdbcType=VARCHAR}

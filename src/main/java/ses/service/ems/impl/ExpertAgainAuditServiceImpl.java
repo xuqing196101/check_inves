@@ -988,7 +988,10 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
 		expertBatchDetails.setExpertId(expertId);
 		expertBatchDetails=expertBatchDetailsMapper.findExpertBatchDetails(expertBatchDetails);
-		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
+		ExpertBatchDetails sel = new ExpertBatchDetails();
+		sel.setBatchId(expertBatchDetails.getBatchId());
+		sel.setGroupId(expertBatchDetails.getGroupId());
+		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(sel);
 		boolean status=true;
 		for (ExpertBatchDetails e : list) {
 			Expert expert = expertMapper.selectByPrimaryKey(e.getExpertId());
@@ -1289,7 +1292,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	    		expertAuditOpinion.setFlagTime(1);
 	    		expertAuditOpinion = expertAuditOpinionMapper.selectByExpertId(expertAuditOpinion);
 	    		Expert expertInfo = expertMapper.selectByPrimaryKey(e.getExpertId());
-	    		if(expertInfo.getIsReviewEnd() !=null && expertInfo.getIsReviewEnd() == 1 ){
+	    		if(expertInfo.getIsReviewEnd() !=null){
 	        		if(expertAuditOpinion !=null && expertAuditOpinion.getFlagAudit() !=null){
 	        			if(expertAuditOpinion.getFlagAudit() == -3){
 	        				//预复审合格
