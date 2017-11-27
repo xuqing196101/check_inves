@@ -12,6 +12,11 @@ import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import net.sf.json.JSONObject;
 
@@ -34,9 +39,38 @@ public class SMSUtil {
     /** 请求地址 **/
     public static final String SENDURL = "http://118.178.117.163/smsapi/SmsMt.php";
 
+    
     /**
      * 
-     * Description: 发送短信
+     * 
+     * Description: 发送短信
+     * 
+     * @data 2017年11月27日
+     * @param 
+     * @return String
+     */
+    public static String sendMsg(String mobile, String msg){
+    	// 创建一个线程池
+        ExecutorService pool = Executors.newFixedThreadPool(1);
+        // 创建任务
+        Callable<String> c = new SMSCallable("18600847461", "采购网短信测试");
+        // 执行任务并获取Future对象
+        Future<String> future = pool.submit(c);
+        // 从Future对象上获取任务的返回值
+        String result = "";
+        try {
+			result = future.get();
+		} catch (InterruptedException | ExecutionException e) {
+			System.out.println("发送异常");
+			e.printStackTrace();
+		}
+        pool.shutdown();
+        return result;
+    }
+    
+    /**
+     * 
+     * Description: 请求短信接口
      * 
      * @data 2017年11月9日
      * 
@@ -45,7 +79,7 @@ public class SMSUtil {
      * 
      * @return "0" : 成功返回
      */
-    public static String sendMsg(String mobile, String msg){
+    public static String requestMsg(String mobile, String msg){
         try {
 			msg = URLEncoder.encode(msg, "UTF-8");
 		} catch (UnsupportedEncodingException e1) {
