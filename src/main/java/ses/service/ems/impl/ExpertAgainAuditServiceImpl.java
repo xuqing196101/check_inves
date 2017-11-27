@@ -960,14 +960,14 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
 		expertBatchDetails.setExpertId(expertId);
-		List<ExpertBatchDetails> batchDetails = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
-		for (ExpertBatchDetails e : batchDetails) {
+		expertBatchDetails= expertBatchDetailsMapper.findExpertBatchDetailsOfOne(expertBatchDetails);
+		/*for (ExpertBatchDetails e : batchDetails) {
 			ExpertBatch batch = expertBatchMapper.getExpertBatchByKey(e.getBatchId());
 			if(!"1".equals(batch.getBatchStatus())){
 				expertBatchDetails=e;
 				break;
 			}
-		}
+		}*/
 		
 		ExpertGroup expertGroup = new ExpertGroup();
 		expertGroup.setGroupId(expertBatchDetails.getGroupId());
