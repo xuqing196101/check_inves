@@ -55,6 +55,7 @@ import extract.model.expert.ExpertExtractProject;
 import extract.model.expert.ExpertExtractResult;
 import extract.model.expert.ExpertExtractTypeInfo;
 import extract.model.expert.ExtractCategory;
+import extract.service.expert.AutoExtractService;
 import extract.service.expert.ExpertExtractConditionService;
 import extract.service.expert.ExpertExtractProjectService;
 
@@ -132,6 +133,10 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
     
     @Autowired
     private UserMapper userMapper;
+    
+	/** 自动抽取 **/
+	@Autowired
+	private AutoExtractService autoExtractService;
     
     /**
      * 保存信息
@@ -584,6 +589,12 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
                 }
             }
         }
+        //判断是否有导出的项目信息  如果有则进行语音抽取
+		for (ExpertExtractProject expertExtractProject : projectList) {
+			if(expertExtractProject != null && expertExtractProject.getIsAuto() == 1 && "1".equals(expertExtractProject.getStatus())){
+				autoExtractService.expertAutoExtract(expertExtractProject.getId());
+			}
+		}
         synchRecordService.synchBidding(new Date(), num+"", Constant.DATE_SYNCH_EXPERT_EXTRACT, Constant.OPER_TYPE_IMPORT, Constant.EXPERT_EXTRACT_COMMIT_IMPORT);
         return projectList;
     }
