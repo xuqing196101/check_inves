@@ -1,14 +1,15 @@
 package ses.dao.bms;
 
-import org.apache.ibatis.annotations.Param;
-import ses.model.bms.Category;
-
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
+import ses.model.bms.Category;
 
 
 
@@ -442,4 +443,18 @@ public interface CategoryMapper {
 	 * @return
 	 */
 	List<Category> selectExportExcelData (Map<String, Object> map);
+
+
+	/**
+	 * 查询选中节点的父节点
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-11-24上午11:43:11
+	 * @param classifyType
+	 * @param classifyStatus
+	 * @param categoryIds
+	 * @return
+	 */
+	List<Category> selectParentNode(@Param("classifyType") int classifyType,@Param("classifyStatus") String classifyStatus,@Param("categoryIds") String[] categoryIds);
 }

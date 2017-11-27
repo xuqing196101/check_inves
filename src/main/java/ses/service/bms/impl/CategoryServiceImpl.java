@@ -1249,23 +1249,49 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<CategoryTree> getTreeForExt(Category category,String supplierTypeCode,String categoryId) {
 		
 		List<CategoryTree> jList = new ArrayList<>();
+		List<Category> cateList = new ArrayList<>();
 		if(category.getId()==null){
-	    	   category.setId(dictionaryDataMapper.selectByCode(supplierTypeCode).get(0).getId());
+			//全部根节点
+			category.setId(dictionaryDataMapper.selectByCode(supplierTypeCode).get(0).getId());
+			//查询选中节点及其父节点
+			if(StringUtils.isNotBlank(categoryId)){
+				int classifyType = 1;
+				String classifyStatus = "";
+				switch (supplierTypeCode) {
+					case "GOODS":
+						classifyType = 1;
+						break;
+					case "PROJECT":
+						classifyType = 2;
+						break;
+					case "SERVICE":
+						classifyType = 3;
+						break;
+					case "PRODUCT":
+						classifyType = 1;
+						classifyStatus = "1,3";
+						break;
+					case "SALES":
+						classifyType = 1;
+						classifyStatus = "2,3";
+						break;
+				}
+				cateList.addAll(categoryMapper.selectParentNode(classifyType,classifyStatus,categoryId.split(",")));
+			}
 	    }
-         List<Category> cateList= getCateTreeForExt(category.getId());
+		//查出当前节点下的子节点
+        cateList.addAll(getCateTreeForExt(category.getId()));
+         
          for(Category cate:cateList){
-             List<Category> cList= getCateTreeForExt(cate.getId());
              CategoryTree ct=new CategoryTree();
-             if(!cList.isEmpty()){
-                 ct.setIsParent("true");
-             }else{
-                 ct.setIsParent("false");
-             }
+             ct.setIsParent(cate.getIsParent());
              ct.setId(cate.getId());
              ct.setName(cate.getName());
-             ct.setpId(cate.getParentId());
+             ct.setParentId(cate.getParentId());
              ct.setKind(cate.getKind());
              ct.setStatus(cate.getStatus());
+             ct.setTreeLevel(cate.getLevel());
+             //设置回显选中
              if(StringUtils.isNotBlank(categoryId)){
             	 for (String cid : categoryId.split(",")) {
 					if(ct.getId().equals(cid)){
@@ -1288,7 +1314,6 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<DictionaryData> getQuaByCid(String categoryId) {
-		String[] categoryIds = categoryId.split(",");
 		HashMap<String,String[]> hashMap = new HashMap<>();
 		hashMap.put("categoryIds", categoryId.split(","));
 		return categoryQuaMapper.getQuaByCid(hashMap);
