@@ -2717,14 +2717,15 @@ public class ExpertAuditController{
 				flag = false;
 				zjlbopinion = expertauList.get(0).getAuditReason();
 			}else{
-				flag = true;
-			}
-			//工程类别的要根据工程=专业属性审核结果来判断
-			if(DictionaryDataUtil.getId("PROJECT").equals(cateTree.getItemsId()) || DictionaryDataUtil.getId("GOODS_PROJECT").equals(cateTree.getItemsId())
-					|| DictionaryDataUtil.getId("PROJECT").equals(cateTree.getRootNodeCode()) || DictionaryDataUtil.getId("GOODS_PROJECT").equals(cateTree.getRootNodeCode())){
-				flag = engAuditFlag;
-			}
+				//工程类别的要根据工程=专业属性审核结果来判断
+				if(DictionaryDataUtil.getId("PROJECT").equals(cateTree.getItemsId()) || DictionaryDataUtil.getId("GOODS_PROJECT").equals(cateTree.getItemsId())
+						|| DictionaryDataUtil.getId("PROJECT").equals(cateTree.getRootNodeCode()) || DictionaryDataUtil.getId("GOODS_PROJECT").equals(cateTree.getRootNodeCode())){
+					flag = engAuditFlag;
+				}else{
+					flag = true;
+				}
 
+			}
     		if(category == null && engCategory == null){
     			//判断专家类别的审核结果
     			if(flag){
