@@ -61,18 +61,19 @@
         <result column="TIME_PROFESSIONAL" jdbcType="TIMESTAMP" property="timeProfessional" />
         <result column="IS_PUBLISH" jdbcType="DECIMAL" property="isPublish" />
         <result column="IS_ADD_EXPERT" jdbcType="DECIMAL" property="isAddExpert" />
- 	    	<result column="IS_TITLE" property="isTitle" />
-				<result column="TEACH_TITLE" property="teachTitle" />
-				<result column="NET_TYPE" property="netType" />
-				<result column="EXTRACT_ORGID" property="extractOrgid" />
-				<result column="ORGNAME" property="orgName" />
-				<result column="AUDITOR" property="auditor" />
-				<result column="AUDIT_TEMPORARY" property="auditTemporary" />
-				<result column="AUDIT_OPINION_ATTACH" property="auditOpinionAttach" />
-				<result column="IS_REVIEW_END" property="isReviewEnd" />
-				<result column="REVIEW_PEOPLE" property="reviewPeople" />
-				<result column="REVIEW_UNQUALIFIED_CONFIRM" property="reviewUnqualifiedConfirm" />
-				<result column="STORAGE_AT" property="storageAt" />
+ 	    <result column="IS_TITLE" property="isTitle" />
+		<result column="TEACH_TITLE" property="teachTitle" />
+		<result column="NET_TYPE" property="netType" />
+		<result column="EXTRACT_ORGID" property="extractOrgid" />
+		<result column="ORGNAME" property="orgName" />
+		<result column="AUDITOR" property="auditor" />
+		<result column="AUDIT_TEMPORARY" property="auditTemporary" />
+		<result column="AUDIT_OPINION_ATTACH" property="auditOpinionAttach" />
+		<result column="IS_REVIEW_END" property="isReviewEnd" />
+		<result column="REVIEW_PEOPLE" property="reviewPeople" />
+		<result column="REVIEW_UNQUALIFIED_CONFIRM" property="reviewUnqualifiedConfirm" />
+		<result column="STORAGE_AT" property="storageAt" />
+		<result column="REVIEW_STATUS" property="reviewStatus" />
     </resultMap>
 
     <resultMap id="BaseResultMapVO" type="ses.model.ems.ExpertVO" extends="BaseResultMap">
