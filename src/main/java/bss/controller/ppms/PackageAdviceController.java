@@ -303,7 +303,7 @@ public class PackageAdviceController extends BaseController {
 						}
 						Packages pack = packageService.selectByPrimaryKeyId(PackageAdvices.get(0).getPackageId());
 						sb.append("{\"status\":\"" + status + "\",");
-						sb.append("\"packages\":[{\"id\":\"" + pack.getId() + "\",\"name\":\"" + pack.getName() + "\"}]},");
+						sb.append("\"packages\":[{\"id\":\"" + pack.getId() + "\",\"name\":\"" + pack.getName() + "\",\"cometId\":\""+ams.getId()+"\"}]},");
 					}else{
 						List<PackageAdvice> packAdviceCount = service.selectByStatus(ams.getCode());
 						if (packAdviceCount != null && packAdviceCount.size() == 1) {
@@ -317,7 +317,7 @@ public class PackageAdviceController extends BaseController {
 							sb.append("{\"status\":\"" + status + "\",\"packages\":[");
 							for (PackageAdvice pa : PackageAdvices) {
 								Packages pack = packageService.selectByPrimaryKeyId(pa.getPackageId());
-								sb.append("{\"id\":\"" + pack.getId() + "\",\"name\":\"" + pack.getName() + "\"},");
+								sb.append("{\"id\":\"" + pack.getId() + "\",\"name\":\"" + pack.getName() + "\",\"cometId\":\""+ams.getId()+"\"},");
 							}
 							if (sb.length() > 1) {
 								sb = sb.deleteCharAt(sb.length() - 1);
@@ -333,9 +333,9 @@ public class PackageAdviceController extends BaseController {
 								Packages pack = packageService.selectByPrimaryKeyId(pa.getPackageId());
 								// 通过
 								if (pa.getStatus() == 3) {
-									sb1.append("{\"id\":\"" + pack.getId() + "\",\"name\":\"" + pack.getName() + "\"},");
+									sb1.append("{\"id\":\"" + pack.getId() + "\",\"name\":\"" + pack.getName() + "\",\"cometId\":\""+ams.getId()+"\"},");
 								} else if (pa.getStatus() == 4) {
-									sb2.append("{\"id\":\"" + pack.getId() + "\",\"name\":\"" + pack.getName() + "\"},");
+									sb2.append("{\"id\":\"" + pack.getId() + "\",\"name\":\"" + pack.getName() + "\",\"cometId\":\""+ams.getId()+"\"},");
 								}
 							}
 							if (sb1.length() > 1) {
@@ -434,38 +434,40 @@ public class PackageAdviceController extends BaseController {
 
 	@RequestMapping("/cometPassCheck")
 	public void cometPassCheck(String cometId, HttpServletResponse response, Integer type) {
-		AdviceMessages ams = adviceMessagesService.selectByPrimaryKey(cometId);
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("code", ams.getCode());
-		map.put("type", 2);
-		if (type == 1) {
-			map.put("status", 3);
-		} else {
-			map.put("status", 4);
-		}
-		List<PackageAdvice> PackageAdvices = service.find(map);
-		List<Packages> listPackage = new ArrayList<Packages>();
-		for (PackageAdvice pa : PackageAdvices) {
-			Packages pack = packageService.selectByPrimaryKeyId(pa.getPackageId());
-			if (pack.getProjectStatus().equals(DictionaryDataUtil.getId("ZJZXTP")) || pack.getProjectStatus().equals(DictionaryDataUtil.getId("YZZ"))) {
-				continue;
-			}
-			Packages packages = new Packages();
-			packages.setId(pack.getId());
-			packages.setName(pack.getName());
-			listPackage.add(packages);
-		}
-		if (listPackage != null && listPackage.size() > 0) {
-			super.writeJson(response, listPackage);
-		} else {
-			super.printOutMsg(response, "[{\"msg\":\"no\"}]");
-		}
+	  AdviceMessages ams = adviceMessagesService.selectByPrimaryKey(cometId);
+    HashMap<String, Object> map = new HashMap<String, Object>();
+    map.put("code", ams.getCode());
+    map.put("type", 2);
+    if (type == 1) {
+      map.put("status", 3);
+    } else {
+      map.put("status", 4);
+    }
+    List<PackageAdvice> PackageAdvices = service.find(map);
+    List<Packages> listPackage = new ArrayList<Packages>();
+    for (PackageAdvice pa : PackageAdvices) {
+      Packages pack = packageService.selectByPrimaryKeyId(pa.getPackageId());
+      if (pack.getProjectStatus().equals(DictionaryDataUtil.getId("ZJZXTP")) || pack.getProjectStatus().equals(DictionaryDataUtil.getId("YZZ"))) {
+        continue;
+      }
+      Packages packages = new Packages();
+      packages.setId(pack.getId());
+      packages.setName(pack.getName());
+      packages.setCometId(ams.getId());
+      listPackage.add(packages);
+    }
+    if (listPackage != null && listPackage.size() > 0) {
+      super.writeJson(response, listPackage);
+    } else {
+      super.printOutMsg(response, "[{\"msg\":\"no\"}]");
+    }
 
 	}
 
 	@RequestMapping("/cometSubmit")
 	public void cometSubmit(String cometId, HttpServletResponse response, Integer type, String packs) {
 		if (packs != null) {
+		  
 			AdviceMessages ams = adviceMessagesService.selectByPrimaryKey(cometId);
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("code", ams.getCode());
