@@ -1,30 +1,5 @@
 package ses.controller.sys.sms;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import ses.model.bms.User;
-import ses.model.sms.OpenBidInfo;
-import ses.model.sms.OpenBidInfoVO;
-import ses.model.sms.Quote;
-import ses.model.sms.Supplier;
-import ses.service.sms.SupplierQuoteService;
-import ses.service.sms.SupplierService;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
@@ -35,9 +10,32 @@ import bss.service.ppms.SaleTenderService;
 import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
 import common.annotation.SystemControllerLog;
-import common.annotation.SystemServiceLog;
 import common.constant.StaticVariables;
 import common.utils.JdcgResult;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import ses.model.bms.User;
+import ses.model.sms.OpenBidInfoVO;
+import ses.model.sms.Quote;
+import ses.model.sms.Supplier;
+import ses.service.sms.SupplierQuoteService;
+import ses.service.sms.SupplierService;
+
+import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 /**
  * 版权：(C) 版权所有 
  * <简述>供应商报价控制层
@@ -222,7 +220,7 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
     @SystemControllerLog(description=StaticVariables.SUPPLIER_ONLINE_BIDDING)
     public String listProject(@CurrentUser User user, Project project,Integer page, Model model){
     	if(user != null){
-	        HashMap<String, Object> map = new HashMap<>();
+	        Map<String, Object> map = new HashMap<>();
 	        if (user.getTypeId() == null) {
 	            map.put("supplierId", "");
 	        } else {
@@ -328,7 +326,7 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
     @ResponseBody
     public JdcgResult openBidSave(@CurrentUser User user,OpenBidInfoVO openBidInfoVO){
       System.out.println("ss openBidInfoVO");
-      return null;
+      return JdcgResult.ok();
     }
     /**
      *〈简述〉价格构成表

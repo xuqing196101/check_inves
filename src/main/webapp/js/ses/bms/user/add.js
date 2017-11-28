@@ -59,6 +59,6 @@ function validateIdCard(idCard) {
     } else if (idCard.trim().length==0){
         return "success";
     }else {
-        return "身份证格式不正确!";
+        return "身份证格式不正确！";
     }
 }

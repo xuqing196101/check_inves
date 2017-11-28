@@ -296,7 +296,8 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                                             List<SupplierItem> supListexists = new ArrayList<>();
                                             for(int j=0;j<cateFive.size();j++){
                                                 //去中间表查是否存在
-                                                List<SupplierItem> cateLs = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, cateFive.get(j).getId(),type);
+                                                List<SupplierItem> cateLs = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cateFive.get(j).getId(),type);
+                                                //List<SupplierItem> cateLs = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, cateFive.get(j).getId(),type);
                                                 // 判断是否为空,不为空加入子节点
                                                 if (cateLs != null && !cateLs.isEmpty()) {
                                                     list.add(cateLs.get(0));
@@ -310,7 +311,8 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                                                     list.remove(supListexists.get(j));
                                                 }
                                                 //去中间表查是否存在
-                                                List<SupplierItem> cates = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, cateFour.get(i).getId(),type);
+                                                List<SupplierItem> cates = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cateFour.get(i).getId(),type);
+                                                //List<SupplierItem> cates = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, cateFour.get(i).getId(),type);
                                                 // 判断是否为空,不为空加入子节点
                                                 if (cates != null && !cates.isEmpty()) {
                                                     list.add(cates.get(0));
@@ -320,7 +322,8 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                                         }else{//没有子节点时显示本节点
                                             fiveAllEx = true;
                                             //去中间表查是否存在
-                                            List<SupplierItem> cates = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, cateFour.get(i).getId(),type);
+                                            List<SupplierItem> cates = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cateFour.get(i).getId(),type);
+                                            //List<SupplierItem> cates = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, cateFour.get(i).getId(),type);
                                             // 判断是否为空,不为空加入子节点
                                             if (cates != null && !cates.isEmpty()) {
                                                 list.add(cates.get(0));
@@ -335,7 +338,8 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                                             list.remove(supFourListexists.get(i));
                                         }
                                         //去中间表查是否存在
-                                        List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, cs.getId(),type);
+                                        List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cs.getId(),type);
+                                        //List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, cs.getId(),type);
                                         // 判断是否为空,不为空加入子节点
                                         if (cateLst != null && cateLst.size() > 0) {
                                             list.add(cateLst.get(0));
@@ -345,7 +349,8 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                                 }else{
                                     fourAllEx = true;
                                     //去中间表查是否存在
-                                    List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, cs.getId(),type);
+                                    List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cs.getId(),type);
+                                    //List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, cs.getId(),type);
                                     // 判断是否为空,不为空加入子节点
                                     if (cateLst != null && cateLst.size() > 0) {
                                         list.add(cateLst.get(0));
@@ -359,7 +364,8 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                                     list.remove(supThreeListexists.get(i));
                                 }
                                 //去中间表查是否存在
-                                List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, c.getId(),type);
+                                List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, c.getId(),type);
+                                //List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, c.getId(),type);
                                 // 判断是否为空,不为空加入子节点
                                 if (cateLst != null && cateLst.size() > 0) {
                                     list.add(cateLst.get(0));
@@ -367,7 +373,8 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                             }
                         }else{
                             //去中间表查是否存在
-                            List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, c.getId(),type);
+                            List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, c.getId(),type);
+                            //List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, c.getId(),type);
                             // 判断是否为空,不为空加入子节点
                             if (cateLst != null && cateLst.size() > 0) {
                                 list.add(cateLst.get(0));
@@ -403,7 +410,8 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                     if(null != cateFive && !cateFive.isEmpty()){
                         for(int j=0;j<cateFive.size();j++){
                             //去中间表查是否存在
-                            List<SupplierItem> cateLs = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, cateFive.get(j).getId(),type);
+                            List<SupplierItem> cateLs = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cateFive.get(j).getId(),type);
+                            //List<SupplierItem> cateLs = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, cateFive.get(j).getId(),type);
                             // 判断是否为空,不为空加入子节点
                             if (cateLs != null && !cateLs.isEmpty()) {
                                 list.add(cateLs.get(0));
@@ -411,7 +419,8 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                         }
                     }else{
                         //去中间表查是否存在
-                        List<SupplierItem> cates = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, cateFour.get(i).getId(),type);
+                        List<SupplierItem> cates = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cateFour.get(i).getId(),type);
+                        //List<SupplierItem> cates = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, cateFour.get(i).getId(),type);
                         // 判断是否为空,不为空加入子节点
                         if (cates != null && !cates.isEmpty()) {
                             list.add(cates.get(0));
@@ -420,7 +429,8 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                 }
             }else{
                 //去中间表查是否存在
-                List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, cs.getId(),type);
+                List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cs.getId(),type);
+                //List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, cs.getId(),type);
                 //list.addAll(cateLst);
                 // 判断是否为空,不为空加入子节点
                 if (cateLst != null && cateLst.size() > 0) {
@@ -792,7 +802,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("supplierId", supplierId);
 		paramMap.put("type", code);
-		paramMap.put("isReturned", 0);
+		//paramMap.put("isReturned", 0);
 		paramMap.put("isDeleted", 0);
 		List < SupplierItem > itemList = this.findByMap(paramMap);
 		for(SupplierItem item: itemList) {
@@ -1410,9 +1420,79 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 				allTreeList.add(cateTree);
 			}
 		}
-		resultMap.put("allTreeList", allTreeList);
+		resultMap.put("projectQua", allTreeList);
 		resultMap.put("modifiedCertCodes", modifiedCertCodes);
 		return resultMap;
+	}
+
+	@Override
+	public SupplierCateTree getSupplierCateTree(SupplierItem supplierItem) {
+		String categoryId = supplierItem.getCategoryId();
+        SupplierCateTree cateTree = new SupplierCateTree();
+        // 递归获取所有父节点
+        List < Category > parentNodeList = categoryService.getAllParentNode(categoryId);
+        // 加入根节点
+        for(int i = 0; i < parentNodeList.size(); i++) {
+            DictionaryData rootNode = DictionaryDataUtil.findById(parentNodeList.get(i).getId());
+            if(rootNode != null) {
+                cateTree.setRootNode(rootNode.getName());
+            }
+        }
+        // 加入一级节点
+        if(cateTree.getRootNode() != null) {
+            for(int i = 0; i < parentNodeList.size(); i++) {
+                Category cate = categoryService.findById(parentNodeList.get(i).getId());
+                if(cate != null && cate.getParentId() != null) {
+                    DictionaryData rootNode = DictionaryDataUtil.findById(cate.getParentId());
+                    if(rootNode != null && cateTree.getRootNode().equals(rootNode.getName())) {
+                        cateTree.setFirstNode(cate.getName());
+                    }
+                }
+            }
+        }
+        // 加入二级节点
+        if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null) {
+            for(int i = 0; i < parentNodeList.size(); i++) {
+                Category cate = categoryService.findById(parentNodeList.get(i).getId());
+                if(cate != null && cate.getParentId() != null) {
+                    Category parentNode = categoryService.findById(cate.getParentId());
+                    if(parentNode != null && cateTree.getFirstNode().equals(parentNode.getName())) {
+                        cateTree.setSecondNode(cate.getName());
+                    }
+                }
+            }
+        }
+        // 加入三级节点
+        if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null) {
+            for(int i = 0; i < parentNodeList.size(); i++) {
+                Category cate = categoryService.findById(parentNodeList.get(i).getId());
+                if(cate != null && cate.getParentId() != null) {
+                    Category parentNode = categoryService.findById(cate.getParentId());
+                    if(parentNode != null && cateTree.getSecondNode().equals(parentNode.getName())) {
+                        cateTree.setThirdNode(cate.getName());
+                    }
+                }
+            }
+        }
+        // 加入末级节点
+        if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null && cateTree.getThirdNode() != null) {
+            for(int i = 0; i < parentNodeList.size(); i++) {
+                Category cate = categoryService.findById(parentNodeList.get(i).getId());
+                if(cate != null && cate.getParentId() != null) {
+                    Category parentNode = categoryService.findById(cate.getParentId());
+                    if(parentNode != null && cateTree.getThirdNode().equals(parentNode.getName())) {
+                        cateTree.setFourthNode(cate.getName());
+                    }
+                }
+            }
+        }
+        // 判断是否是物资生产和物资销售类
+        if("PRODUCT".equals(supplierItem.getSupplierTypeRelateId())) {
+            cateTree.setRootNode(cateTree.getRootNode() + "生产");
+        } else if("SALES".equals(supplierItem.getSupplierTypeRelateId())) {
+            cateTree.setRootNode(cateTree.getRootNode() + "销售");
+        }
+        return cateTree;
 	}
 
 }

@@ -52,12 +52,17 @@ import ses.model.sms.DeleteLog;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
+import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierAuditOpinion;
 import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertEng;
+import ses.model.sms.SupplierCertPro;
+import ses.model.sms.SupplierCertSell;
+import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierDictionaryData;
+import ses.model.sms.SupplierEngQua;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
@@ -69,6 +74,7 @@ import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.QualificationService;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
@@ -221,6 +227,9 @@ public class SupplierServiceImpl implements SupplierService {
   
   @Autowired
   private SupplierCertEngMapper supplierCertEngMapper;
+  
+  @Autowired
+  private QualificationService qualificationService;
   
   
   @Override
@@ -1234,6 +1243,8 @@ public class SupplierServiceImpl implements SupplierService {
     if (supplierType == null) {
       return rutDate;
     }
+    //根据参数 清除数据
+    supplierItemLevelServer.deleteItemLevel(categoryIds, supplierType);
     Supplier supplier = new Supplier();
     //生产&& 销售
     if (!SupplierToolUtil.PRODUCT_ID.equals(categoryIds) && !SupplierToolUtil.SALES_ID.equals(categoryIds)) {
@@ -1309,8 +1320,6 @@ public class SupplierServiceImpl implements SupplierService {
       int initLevel = 1;
       //初始化日期
       Date date = new Date();
-      //根据参数 清除数据
-      supplierItemLevelServer.deleteItemLevel(categoryIds, supplierType);
     //排名数量
 	  int listSize=maxLevel.intValue();
       for (int i = maxLevel.intValue() - 1; 0 <= i; i--) {
@@ -2282,4 +2291,227 @@ public class SupplierServiceImpl implements SupplierService {
       }
       return suppliers;
   }
+
+	@Override
+	public Supplier handingDataSupplierApplicationForm(Supplier supplier) {
+        // 申报时间
+        supplier.setReportTime(new Date());
+
+        // 机构
+        supplier.setProcurementDepId(purchaseOrgnizationService.selectPurchaseById(supplier.getProcurementDepId()).getShortName());
+
+        // 地址
+        if(supplier.getAddress() != null){
+        	Area area = areaService.listById(supplier.getAddress());
+            if(area != null) {
+                String province = areaService.listById(area.getParentId()).getName();
+                String city = area.getName();
+                supplier.setAddress(province + city + supplier.getDetailAddress());
+            }
+        }
+
+        // 企业性质
+        supplier.setBusinessNature(DictionaryDataUtil.findById(supplier.getBusinessNature()).getName());
+
+        // 承揽业务范围
+        if(supplier.getSupplierMatEng()!= null){
+            String businessScope = supplier.getSupplierMatEng().getBusinessScope();
+            StringBuffer busScope = new StringBuffer("");
+            if (businessScope != null && !"".equals(businessScope)) {
+                String[] areas = businessScope.split(",");
+                for (String areaId : areas) {
+                    Area areaData = areaService.listById(areaId);
+                    if (areaData != null) {
+                        busScope.append(areaData.getName() + "、");
+                    }
+                }
+                supplier.getSupplierMatEng().setBusinessScope(busScope.toString().substring(0, busScope.toString().length() - 1));
+            }
+        }
+        // 类型
+        StringBuffer supplierTypeId = new StringBuffer();
+        String[] typeIds = supplier.getSupplierTypeIds().split(",");
+        for(String typeId: typeIds) {
+            DictionaryData typeData = DictionaryDataUtil.get(typeId);
+            if(typeData != null) {
+                if (typeData.getCode().equals("PROJECT")) {
+                    supplier.setIsEng("success");
+                } else {
+                    supplier.setIsEngOther("success");
+                }
+                supplierTypeId.append(typeData.getName() + "、");
+            }
+        }
+        if(!"".equals(supplierTypeId) && supplierTypeId.length() > 0) {
+            supplier.setSupplierType(supplierTypeId.toString().substring(0, supplierTypeId.toString().length() - 1));
+        }
+
+        // 营业执照登记类型
+        DictionaryData businessType = DictionaryDataUtil.findById(supplier.getBusinessType());
+        if(businessType != null) {
+            supplier.setBusinessType(businessType.getName());
+        }
+
+        // 生产经营地址
+        List < SupplierAddress > addressList = supplier.getAddressList();
+        for(SupplierAddress address: addressList) {
+            if(StringUtils.isBlank(address.getAddress())){
+                continue;
+            }
+            Area addr = areaService.listById(address.getAddress());
+            if(addr != null) {
+                String province = areaService.listById(addr.getParentId()).getName();
+                String city = addr.getName();
+                address.setAddress(province + city + address.getDetailAddress());
+            }
+        }
+
+        // 境外分支地址
+        if(null != supplier.getOverseasBranch() && supplier.getOverseasBranch() == 1){// 如果有境外分支
+        	List < SupplierBranch > branchList = supplier.getBranchList();
+            for(SupplierBranch branch: branchList) {
+                // 国家(地区)
+                if(branch.getCountry() != null) {
+                	DictionaryData dd = DictionaryDataUtil.findById(branch.getCountry());
+                	if(dd != null){
+                		branch.setCountry(dd.getName());
+                	}
+                }
+            }
+        }else{// 如果没有境外分支清除列表
+        	supplier.getBranchList().clear();
+        }
+
+        // 物资类,服务类资质证书
+        List < SupplierCertPro > listSupplierCertPros = new ArrayList < SupplierCertPro > ();
+        if (supplier.getSupplierMatPro() != null && supplier.getSupplierMatPro().getListSupplierCertPros() != null&&supplier.getSupplierTypeIds().contains("PRODUCT")) {
+            List < SupplierCertPro >  certPros = supplier.getSupplierMatPro().getListSupplierCertPros();
+            for(SupplierCertPro cert:certPros){
+                if(cert.getCode()!=null){
+                    listSupplierCertPros.add(cert);
+                }
+            }
+        }
+        if(!supplier.getSupplierTypeIds().contains("PRODUCT")){
+        	SupplierMatPro pro=new SupplierMatPro();
+        	supplier.setSupplierMatPro(pro);
+        }
+        //		    List < SupplierCertServe > listSupplierCertSes = new ArrayList < SupplierCertServe > ();
+        if (supplier.getSupplierMatSe() != null && supplier.getSupplierMatSe().getListSupplierCertSes() != null && supplier.getSupplierTypeIds().contains("SERVICE")) {
+            List < SupplierCertServe > listSupplierCertSes = supplier.getSupplierMatSe().getListSupplierCertSes();
+		   if(listSupplierCertSes != null && !listSupplierCertSes.isEmpty()){
+			   for(SupplierCertServe server: listSupplierCertSes) {
+				   if(server.getCode() != null){
+					   SupplierCertPro pro = new SupplierCertPro();
+					   pro.setName(server.getName());
+					   pro.setCode(server.getCode());
+					   pro.setLevelCert(server.getLevelCert());
+					   pro.setLicenceAuthorith(server.getLicenceAuthorith());
+					   pro.setExpStartDate(server.getExpStartDate());
+					   pro.setExpEndDate(server.getExpEndDate());
+					   pro.setMot(server.getMot());
+					   listSupplierCertPros.add(pro);
+				   }
+			   }
+		   }
+        }
+        //		    List < SupplierCertSell > listSupplierCertSells = new ArrayList < SupplierCertSell > ();
+		if (supplier.getSupplierMatSell() != null && supplier.getSupplierMatSell().getListSupplierCertSells() != null && supplier.getSupplierTypeIds().contains("SALES")) {
+			List < SupplierCertSell > listSupplierCertSells = supplier.getSupplierMatSell().getListSupplierCertSells();
+			if(listSupplierCertSells != null && !listSupplierCertSells.isEmpty()){
+			    for(SupplierCertSell sell: listSupplierCertSells) {
+					if(sell.getCode() != null){
+						SupplierCertPro pro = new SupplierCertPro();
+					    pro.setName(sell.getName());
+					    pro.setCode(sell.getCode());
+					    pro.setLevelCert(sell.getLevelCert());
+					    pro.setLicenceAuthorith(sell.getLicenceAuthorith());
+					    pro.setExpStartDate(sell.getExpStartDate());
+					    pro.setExpEndDate(sell.getExpEndDate());
+					    pro.setMot(sell.getMot());
+					    listSupplierCertPros.add(pro);
+					}
+			    }
+			}
+		}
+        //		    List < SupplierEngQua > listSupplierEngQuas = new ArrayList < SupplierEngQua > ();
+		if (supplier.getSupplierMatEng() != null && supplier.getSupplierMatEng().getListSupplierEngQuas() != null && supplier.getSupplierTypeIds().contains("PROJECT")) {
+			List < SupplierEngQua > listSupplierEngQuas = supplier.getSupplierMatEng().getListSupplierEngQuas();
+			if(listSupplierEngQuas != null && !listSupplierEngQuas.isEmpty()){
+				for(SupplierEngQua engQua: listSupplierEngQuas) {
+					if(engQua.getCode() != null){
+						SupplierCertPro pro = new SupplierCertPro();
+						pro.setName(engQua.getName());
+						pro.setCode(engQua.getCode());
+						pro.setLevelCert(engQua.getLevelCert());
+						pro.setLicenceAuthorith(engQua.getLicenceAuthorith());
+						pro.setExpStartDate(engQua.getExpStartDate());
+						pro.setExpEndDate(engQua.getExpEndDate());
+						pro.setMot(engQua.getMot());
+						listSupplierCertPros.add(pro);
+					}
+				}
+			}
+        }
+        supplier.getSupplierMatPro().setListSupplierCertPros(listSupplierCertPros);
+
+        // 品目信息
+        List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
+        //List < SupplierItem > itemsList = supplierItemService.findCategoryList(supplier.getId(), null, null);
+        List < SupplierItem > itemsList = supplierItemService.getItemList(supplier.getId(), null, null, null);
+        if(itemsList !=null && !itemsList.isEmpty()) {
+            for (SupplierItem supplierItem : itemsList) {
+                if (supplier.getSupplierTypeIds().contains(supplierItem.getSupplierTypeRelateId())) {
+                    SupplierCateTree cateTree = supplierItemService.getSupplierCateTree(supplierItem);
+                    if (cateTree != null && cateTree.getRootNode() != null) {
+                        //System.out.println(cateTree.getRootNode()+"============");
+                        switch (cateTree.getRootNode()) {
+                            case "物资生产":
+                                cateTree.setRootNodeType(1);
+                                break;
+                            case "物资销售":
+                                cateTree.setRootNodeType(2);
+                                break;
+                            case "工程":
+                                cateTree.setRootNodeType(3);
+                                break;
+                            case "服务":
+                                cateTree.setRootNodeType(4);
+                                break;
+                            default:
+                                break;
+                        }
+                        allTreeList.add(cateTree);
+                    }
+                }
+            }
+        }
+        // 对品目信息按照 物资生产--物资销售--工程--服务 的顺序进行排序
+        ListSortUtil<SupplierCateTree> sortList = new ListSortUtil<SupplierCateTree>();
+        sortList.sort(allTreeList, "rootNodeType", "asc");
+
+        // 工程类证书
+        if (supplier.getIsEng() != null) {
+            List<SupplierAptitute> listSupplierAptitutes = supplier.getSupplierMatEng().getListSupplierAptitutes();
+            if(listSupplierAptitutes !=null && !listSupplierAptitutes.isEmpty()){
+
+            for (SupplierAptitute apt : listSupplierAptitutes) {
+                Qualification certType = qualificationService.getQualification(apt.getCertType());
+                if (certType != null) {
+                    apt.setCertType(certType.getName());
+                }
+                DictionaryData aptituteLevel = DictionaryDataUtil.findById(apt.getAptituteLevel());
+                if (aptituteLevel != null) {
+                    apt.setAptituteLevel(aptituteLevel.getName());
+                }
+            }
+
+            }
+        }
+        supplier.setAllTreeList(allTreeList);
+        
+        // 处理财务信息
+        this.initFinance(supplier);
+        return supplier;
+	}
 }

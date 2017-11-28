@@ -74,14 +74,14 @@
             <%-- <%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%> --%>
             <jsp:include page="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp">
             	<jsp:param value="one" name="currentStep"/>
-            	<jsp:param value="${suppliers.id }" name="supplierId"/>
-            	<jsp:param value="${suppliers.status }" name="supplierStatus"/>
+            	<jsp:param value="${currSupplier.id }" name="supplierId"/>
+            	<jsp:param value="${currSupplier.status }" name="supplierStatus"/>
             	<jsp:param value="${sign }" name="sign"/>
             </jsp:include>
             
             <%-- <form id="form_id" action="${pageContext.request.contextPath}/supplierAudit/financial.html" method="post">
-                <input name="supplierId" id="id" value="${suppliers.id }" type="hidden">
-                <input id="status" name="supplierStatus" value="${suppliers.status }" type="hidden">
+                <input name="supplierId" id="id" value="${currSupplier.id }" type="hidden">
+                <input id="status" name="supplierStatus" value="${currSupplier.status }" type="hidden">
                 <input type="hidden" name="sign" value="${sign}">
             </form> --%>
 
@@ -90,9 +90,9 @@
                 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">供应商名称：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input title="${suppliers.supplierName }" id="supplierName" onclick="auditText(this,'basic_page','supplierName')"
-                               value="${suppliers.supplierName } " type="text"
-                               <c:if test="${fn:contains(field,'supplierName')}">style="border: 1px solid #FF8C00;"
+                        <input title="${currSupplier.supplierName }" id="supplierName" onclick="auditText(this,'basic_page','supplierName')"
+                               value="${currSupplier.supplierName } " type="text"
+                               <c:if test="${fn:contains(field,'supplierName') && !fn:contains(auditField,'supplierName')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','supplierName');"</c:if>
                                <c:if test="${fn:contains(auditField,'supplierName')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'supplierName')}">
@@ -104,9 +104,9 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">网址：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input title="${suppliers.website }" class="hand " id="website" value="${suppliers.website }"
+                        <input title="${currSupplier.website }" class="hand " id="website" value="${currSupplier.website }"
                                type="text" onclick="auditText(this,'basic_page','website')"
-                               <c:if test="${fn:contains(field,'website')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'website') && !fn:contains(auditField,'website')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','website');"</c:if>
                                <c:if test="${fn:contains(auditField,'website')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'website')}">
@@ -119,8 +119,8 @@
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">成立日期：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                         <input id="foundDate" onclick="auditText(this,'basic_page','foundDate')" class="hand "
-                               value="<fmt:formatDate value='${suppliers.foundDate}' pattern='yyyy-MM-dd'/>" type="text"
-                               <c:if test="${fn:contains(field,'foundDate')}">style="border: 1px solid #FF8C00;"
+                               value="<fmt:formatDate value='${currSupplier.foundDate}' pattern='yyyy-MM-dd'/>" type="text"
+                               <c:if test="${fn:contains(field,'foundDate') && !fn:contains(auditField,'foundDate')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','foundDate');"</c:if>
                                <c:if test="${fn:contains(auditField,'foundDate')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'foundDate')}">
@@ -132,9 +132,9 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">企业性质：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input id="businessNature" class="hand " value="${suppliers.businessNature } " type="text"
+                        <input id="businessNature" class="hand " value="${currSupplier.businessNature } " type="text"
                                onclick="auditText(this,'basic_page','businessNature')"
-                               <c:if test="${fn:contains(field,'businessNature')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'businessNature') && !fn:contains(auditField,'businessNature')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','businessNature');"</c:if>
                                <c:if test="${fn:contains(auditField,'businessNature')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'businessNature')}">
@@ -146,9 +146,9 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">基本账户开户银行：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input title="${suppliers.bankName }" id="bankName" class="hand "
-                               value="${suppliers.bankName } " type="text" onclick="auditText(this,'basic_page','bankName')"
-                               <c:if test="${fn:contains(field,'bankName')}">style="border: 1px solid #FF8C00;"
+                        <input title="${currSupplier.bankName }" id="bankName" class="hand "
+                               value="${currSupplier.bankName } " type="text" onclick="auditText(this,'basic_page','bankName')"
+                               <c:if test="${fn:contains(field,'bankName') && !fn:contains(auditField,'bankName')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','bankName');"</c:if>
                                <c:if test="${fn:contains(auditField,'bankName')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'bankName')}">
@@ -160,9 +160,9 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">银行账号：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input id="bankAccount" class="hand " value="${suppliers.bankAccount } " type="text"
+                        <input id="bankAccount" class="hand " value="${currSupplier.bankAccount } " type="text"
                                onclick="auditText(this,'basic_page','bankAccount')"
-                               <c:if test="${fn:contains(field,'bankAccount')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'bankAccount') && !fn:contains(auditField,'bankAccount')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','bankAccount');"</c:if>
                                <c:if test="${fn:contains(auditField,'bankAccount')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'bankAccount')}">
@@ -184,7 +184,7 @@
                 		</div>
                     <u:show showId="bank_show" delete="false"
                             groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show"
-                            businessId="${suppliers.id}" sysKey="${sysKey}"
+                            businessId="${currSupplier.id}" sysKey="${sysKey}"
                             typeId="${supplierDictionaryData.supplierBank}"/>
                     <%-- <p class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
                     <c:if test="${fn:contains(unableField,'supplierBank')}">
@@ -201,9 +201,9 @@
                 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">营业执照登记类型：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input id="businessType" class="hand " value="${suppliers.businessType } " type="text"
+                        <input id="businessType" class="hand " value="${currSupplier.businessType } " type="text"
                                onclick="auditText(this,'basic_page','businessType')"
-                               <c:if test="${fn:contains(field,'businessType')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'businessType') && !fn:contains(auditField,'businessType')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','businessType');"</c:if>
                                <c:if test="${fn:contains(auditField,'businessType')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'businessType')}">
@@ -214,9 +214,9 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">统一社会信用代码：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input id="creditCode" class="hand " value="${suppliers.creditCode } " type="text"
+                        <input id="creditCode" class="hand " value="${currSupplier.creditCode } " type="text"
                                onclick="auditText(this,'basic_page','creditCode')"
-                               <c:if test="${fn:contains(field,'creditCode')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'creditCode') && !fn:contains(auditField,'creditCode')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','creditCode');"</c:if>
                                <c:if test="${fn:contains(auditField,'creditCode')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'creditCode')}">
@@ -228,9 +228,9 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">登记机关：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input id="registAuthority" class="hand " value="${suppliers.registAuthority } " type="text"
+                        <input id="registAuthority" class="hand " value="${currSupplier.registAuthority } " type="text"
                                onclick="auditText(this,'basic_page','registAuthority')"
-                               <c:if test="${fn:contains(field,'registAuthority')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'registAuthority') && !fn:contains(auditField,'registAuthority')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','registAuthority');"</c:if>
                                <c:if test="${fn:contains(auditField,'registAuthority')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'registAuthority')}">
@@ -242,9 +242,9 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">注册资本（人民币：万元）：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input id="registFund" class="hand " value="${suppliers.registFund } " type="text"
+                        <input id="registFund" class="hand " value="${currSupplier.registFund } " type="text"
                                onclick="auditText(this,'basic_page','registFund')"
-                               <c:if test="${fn:contains(field,'registFund')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'registFund') && !fn:contains(auditField,'registFund')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','registFund');"</c:if>
                                <c:if test="${fn:contains(auditField,'registFund')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'registFund')}">
@@ -257,9 +257,9 @@
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">营业期限 ：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                         <input id="businessStartDate" class="hand " onclick="auditText(this,'basic_page','businessStartDate')"
-                               value="<c:choose><c:when test="${suppliers.branchName eq '1'}">长期有效</c:when><c:otherwise> <fmt:formatDate value='${suppliers.businessStartDate}' pattern='yyyy-MM-dd'/></c:otherwise></c:choose>"
+                               value="<c:choose><c:when test="${currSupplier.branchName eq '1'}">长期有效</c:when><c:otherwise> <fmt:formatDate value='${currSupplier.businessStartDate}' pattern='yyyy-MM-dd'/></c:otherwise></c:choose>"
                                type="text"
-                               <c:if test="${fn:contains(field,'businessStartDate')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'businessStartDate') && !fn:contains(auditField,'businessStartDate')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','businessStartDate');"</c:if>
                                <c:if test="${fn:contains(auditField,'businessStartDate')}">style="border: 1px solid red;"</c:if>/>
                         <c:if test="${fn:contains(unableField,'businessStartDate')}">
@@ -271,26 +271,26 @@
                 <%-- <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">营业截止时间：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input id="businessStartDate" class="hand " onclick="auditText(this,'basic_page','businessStartDate')" value="<fmt:formatDate value='${suppliers.businessEndDate}' pattern='yyyy-MM-dd'/>" type="text" />
+                        <input id="businessStartDate" class="hand " onclick="auditText(this,'basic_page','businessStartDate')" value="<fmt:formatDate value='${currSupplier.businessEndDate}' pattern='yyyy-MM-dd'/>" type="text" />
                     </div>
                 </li> --%>
                 <%-- <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="fl" id="businessAddress2">生产或经营地址：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input id="businessAddress" class="hand " value="${suppliers.businessAddress } " type="text" onclick="reason(this.id,'businessAddress')">
+                        <input id="businessAddress" class="hand " value="${currSupplier.businessAddress } " type="text" onclick="reason(this.id,'businessAddress')">
                         <div id="businessAddress3" class="abolish">×</div>
                     </div>
                 </li> --%>
                 <%-- <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮编：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input id="businessPostCode" class="hand " value="${suppliers.businessPostCode } " type="text" onclick="auditText(this,'basic_page','businessPostCode')" <c:if test="${fn:contains(field,'businessPostCode')}">style="border: 1px solid #FF8C00;"  onMouseOver="showModify(this,'basic_page','businessPostCode');"</c:if>>
+                        <input id="businessPostCode" class="hand " value="${currSupplier.businessPostCode } " type="text" onclick="auditText(this,'basic_page','businessPostCode')" <c:if test="${fn:contains(field,'businessPostCode') && !fn:contains(auditField,'businessPostCode')}">style="border: 1px solid #FF8C00;"  onMouseOver="showModify(this,'basic_page','businessPostCode');"</c:if>>
                     </div>
                 </li> --%>
                 <li class="col-md-3 col-sm-6 col-xs-12">
                 		<div <c:if test="${fn:contains(unableField,'businessCert')}">style="border: 1px solid #FF0000;"</c:if>>
 	                    <span
-	                      <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierBusinessCert)}">style="border: 1px solid #FF8C00;"</c:if>
+	                      <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierBusinessCert) && !fn:contains(auditField,'businessCert')}">style="border: 1px solid #FF8C00;"</c:if>
 	                      <c:if test="${fn:contains(auditField,'businessCert') && !fn:contains(unableField,'businessCert')}">style="border: 1px solid #FF0000;"</c:if>
 	                      class="hand" onmouseover="this.style.background='#E8E8E8'"
 	                      onmouseout="this.style.background='#FFFFFF'"
@@ -302,7 +302,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
                         <u:show showId="business_show" delete="false"
                                 groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show"
-                                businessId="${suppliers.id}" sysKey="${sysKey}"
+                                businessId="${currSupplier.id}" sysKey="${sysKey}"
                                 typeId="${supplierDictionaryData.supplierBusinessCert}"/>
                         <%-- <c:if test="${fn:contains(unableField,'businessCert')}">
                             <a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
@@ -314,9 +314,9 @@
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">营业范围（按照营业执照上填写）：</span>
                     <div class="col-md-12 col-sm-12 col-xs-12 p0">
                         <textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="businessScope" onclick="auditText(this,'basic_page','businessScope')"
-                                  <c:if test="${fn:contains(field,'businessScope')}">style="border: 1px solid #FF8C00;"
+                                  <c:if test="${fn:contains(field,'businessScope') && !fn:contains(auditField,'businessScope')}">style="border: 1px solid #FF8C00;"
                                   onMouseOver="showModify(this,'basic_page','businessScope');"</c:if>
-                                  <c:if test="${fn:contains(auditField,'businessScope')}">style="border: 1px solid red;"</c:if>>${suppliers.businessScope }</textarea>
+                                  <c:if test="${fn:contains(auditField,'businessScope')}">style="border: 1px solid red;"</c:if>>${currSupplier.businessScope }</textarea>
                         <c:if test="${fn:contains(unableField,'businessScope')}">
                             <a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
                         </c:if>
@@ -330,9 +330,9 @@
                 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">姓名：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input id="legalName" class="hand " value="${suppliers.legalName } " type="text"
+                        <input id="legalName" class="hand " value="${currSupplier.legalName } " type="text"
                                onclick="auditText(this,'basic_page','legalName')"
-                               <c:if test="${fn:contains(field,'legalName')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'legalName') && !fn:contains(auditField,'legalName')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','legalName');"</c:if>
                                <c:if test="${fn:contains(auditField,'legalName')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'legalName')}">
@@ -344,9 +344,9 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">身份证号：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input id="legalIdCard" class="hand " value="${suppliers.legalIdCard } " type="text"
+                        <input id="legalIdCard" class="hand " value="${currSupplier.legalIdCard } " type="text"
                                onclick="auditText(this,'basic_page','legalIdCard')"
-                               <c:if test="${fn:contains(field,'legalIdCard')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'legalIdCard') && !fn:contains(auditField,'legalIdCard')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','legalIdCard');"</c:if>
                                <c:if test="${fn:contains(auditField,'legalIdCard')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'legalIdCard')}">
@@ -358,9 +358,9 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">固定电话：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input id="legalMobile" class="hand " value="${suppliers.legalMobile } " type="text"
+                        <input id="legalMobile" class="hand " value="${currSupplier.legalMobile } " type="text"
                                onclick="auditText(this,'basic_page','legalMobile')"
-                               <c:if test="${fn:contains(field,'legalMobile')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'legalMobile') && !fn:contains(auditField,'legalMobile')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','legalMobile');"</c:if>
                                <c:if test="${fn:contains(auditField,'legalMobile')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'legalMobile')}">
@@ -372,9 +372,9 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">手机：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input id="legalTelephone" class="hand " value="${suppliers.legalTelephone } " type="text"
+                        <input id="legalTelephone" class="hand " value="${currSupplier.legalTelephone } " type="text"
                                onclick="auditText(this,'basic_page','legalTelephone')"
-                               <c:if test="${fn:contains(field,'legalTelephone')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'legalTelephone') && !fn:contains(auditField,'legalTelephone')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','legalTelephone');"</c:if>
                                <c:if test="${fn:contains(auditField,'legalTelephone')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'legalTelephone')}">
@@ -385,19 +385,19 @@
                 </li>
                 <%-- <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="auditFile(this,'basic_page','supplierIdentityUp');">身份证正面: </span>
-                    <u:show showId="bearchcert_up_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
+                    <u:show showId="bearchcert_up_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
                     <p class="b f18 ml10 red">×</p>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="auditFile(this,'basic_page','supplierIdentitydown');">身份证反面: </span>
-                    <u:show showId="identity_down_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentitydown}" />
+                    <u:show showId="identity_down_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentitydown}" />
                     <p class="b f18 ml10 red">×</p>
                 </li> --%>
 
                 <li class="col-md-3 col-sm-6 col-xs-12">
                 		<div <c:if test="${fn:contains(unableField,'supplierIdentityUp')}">style="border: 1px solid #FF0000;"</c:if>>
 	                    <span
-	                      <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierIdentityUp)}">style="border: 1px solid #FF8C00;"</c:if>
+	                      <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierIdentityUp) && !fn:contains(auditField,'supplierIdentityUp')}">style="border: 1px solid #FF8C00;"</c:if>
 	                      <c:if test="${fn:contains(auditField,'supplierIdentityUp') && !fn:contains(unableField,'supplierIdentityUp')}">style="border: 1px solid #FF0000;"</c:if>
 	                      class="hand" onmouseover="this.style.background='#E8E8E8'"
 	                      onmouseout="this.style.background='#FFFFFF'" onclick="auditFile(this,'basic_page','supplierIdentityUp');"> 身份证复印件（正反面在一张上）:</span>
@@ -408,7 +408,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
                         <u:show showId="bearchcert_up_show" delete="false"
                                 groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show"
-                                businessId="${suppliers.id}" sysKey="${sysKey}"
+                                businessId="${currSupplier.id}" sysKey="${sysKey}"
                                 typeId="${supplierDictionaryData.supplierIdentityUp}"/>
                         <%-- <p class='abolish'><img style="padding-left: 125px;"
                                 src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
@@ -424,9 +424,9 @@
             <ul class="ul_list hand">
                 <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">住所邮编：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input id="postCode" class="hand " value="${suppliers.postCode }" type="text"
+                        <input id="postCode" class="hand " value="${currSupplier.postCode }" type="text"
                                onclick="auditText(this,'basic_page','postCode')"
-                        <c:if test="${fn:contains(field,'postCode')}"> style="border: 1px solid #FF8C00;"
+                        <c:if test="${fn:contains(field,'postCode') && !fn:contains(auditField,'postCode')}"> style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','postCode');"</c:if>
                                <c:if test="${fn:contains(auditField,'postCode')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'postCode')}">
@@ -440,7 +440,7 @@
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                         <input id="address" class="hand " value="${parentAddress}${sonAddress } " type="text"
                                onclick="auditText(this,'basic_page','address')"
-                        <c:if test="${fn:contains(field,'address')}"> style="border: 1px solid #FF8C00;"
+                        <c:if test="${fn:contains(field,'address') && !fn:contains(auditField,'address')}"> style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','address');"</c:if>
                                <c:if test="${fn:contains(auditField,'address')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'address')}">
@@ -453,8 +453,8 @@
                     <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">住所详细地址：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                         <input id="detailAddress" class="hand fl" onclick="auditText(this,'basic_page','detailAddress')" type="text"
-                               value="${suppliers.detailAddress}"
-                               <c:if test="${fn:contains(field,'detailAddress')}">style="border: 1px solid #FF8C00;"
+                               value="${currSupplier.detailAddress}"
+                               <c:if test="${fn:contains(field,'detailAddress') && !fn:contains(auditField,'detailAddress')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','detailAddress');"</c:if>
                                <c:if test="${fn:contains(auditField,'detailAddress')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'detailAddress')}">
@@ -579,7 +579,7 @@
                 <li class="col-md-3 col-sm-6 col-xs-12 pl15 h70">
                 		<div <c:if test="${fn:contains(unableField,'taxCert')}">style="border: 1px solid #FF0000;"</c:if>>
                 			<span
-	                      <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierTaxCert)}">style="border: 1px solid #FF8C00;"</c:if>
+	                      <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierTaxCert) && !fn:contains(auditField,'taxCert')}">style="border: 1px solid #FF8C00;"</c:if>
 	                      <c:if test="${fn:contains(auditField,'taxCert') && !fn:contains(unableField,'taxCert')}">style="border: 1px solid #FF0000;"</c:if>
 	                      class="hand" onclick="auditFile(this,'basic_page','taxCert');"
 	                      onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">近三个月完税凭证：</span>
@@ -590,7 +590,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
                         <u:show showId="taxcert_show" delete="false"
                                 groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show"
-                                businessId="${suppliers.id}" sysKey="${sysKey}"
+                                businessId="${currSupplier.id}" sysKey="${sysKey}"
                                 typeId="${supplierDictionaryData.supplierTaxCert}"/>
                         <%-- <p class='abolish'><img style="padding-left: 125px;"
                                 src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
@@ -604,7 +604,7 @@
                 <li class="col-md-3 col-sm-6 col-xs-12 h70">
                 		<div <c:if test="${fn:contains(unableField,'billCert')}">style="border: 1px solid #FF0000;"</c:if>>
                 			<span
-	                      <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierBillCert)}">style="border: 1px solid #FF8C00;"</c:if>
+	                      <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierBillCert) && !fn:contains(auditField,'billCert')}">style="border: 1px solid #FF8C00;"</c:if>
 	                      <c:if test="${fn:contains(auditField,'billCert') && !fn:contains(unableField,'billCert')}">style="border: 1px solid #FF0000;"</c:if>
 	                      class="hand" onclick="auditFile(this,'basic_page','billCert');"
 	                      onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">近三年银行基本账户年末对账单：</span>
@@ -615,7 +615,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
                         <u:show showId="billcert_show" delete="false"
                                 groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show"
-                                businessId="${suppliers.id}" sysKey="${sysKey}"
+                                businessId="${currSupplier.id}" sysKey="${sysKey}"
                                 typeId="${supplierDictionaryData.supplierBillCert}"/>
                         <%-- <p class='abolish'><img style="padding-left: 125px;"
                                 src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
@@ -629,7 +629,7 @@
                 <li class="col-md-3 col-sm-6 col-xs-12 h70">
                 		<div <c:if test="${fn:contains(unableField,'securityCert')}">style="border: 1px solid #FF0000;"</c:if>>
                				<span class="hand"
-                        <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierSecurityCert)}">style="border: 1px solid #FF8C00;"</c:if>
+                        <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierSecurityCert) && !fn:contains(auditField,'securityCert')}">style="border: 1px solid #FF8C00;"</c:if>
                         <c:if test="${fn:contains(auditField,'securityCert') && !fn:contains(unableField,'securityCert')}">style="border: 1px solid #FF0000;"</c:if>
                         onclick="auditFile(this,'basic_page','securityCert');" onmouseover="this.style.background='#E8E8E8'"
                         onmouseout="this.style.background='#FFFFFF'">近三个月缴纳社会保险金凭证：</span>
@@ -640,7 +640,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
                         <u:show showId="curitycert_show" delete="false"
                                 groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show"
-                                businessId="${suppliers.id}" sysKey="${sysKey}"
+                                businessId="${currSupplier.id}" sysKey="${sysKey}"
                                 typeId="${supplierDictionaryData.supplierSecurityCert}"/>
                         <%-- <p class='abolish'><img style="padding-left: 125px;"
                                 src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
@@ -652,54 +652,54 @@
                     </div>
                 </li>
                 <%-- <li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="auditFile(this,'basic_page','breachCert');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">近三年内无重大违法记录声明：</span>
-                    <u:show showId="bearchcert_show" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" delete="false" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
+                    <u:show showId="bearchcert_show" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" delete="false" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
                     <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
                 </li> --%>
                 <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">近三年内有无重大违法记录：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <c:if test="${'1' eq suppliers.isIllegal }">
+                        <c:if test="${'1' eq currSupplier.isIllegal }">
                             <input id="isIllegal" class="hand " value="有" type="text" onclick="auditText(this,'basic_page','isIllegal')"
                                    <c:if test="${fn:contains(auditField,'isIllegal')}">style="border: 1px solid red;"</c:if>
-                                   <c:if test="${fn:contains(field,'isIllegal')}">style="border: 1px solid #FF8C00;"
+                                   <c:if test="${fn:contains(field,'isIllegal') && !fn:contains(auditField,'isIllegal')}">style="border: 1px solid #FF8C00;"
                                    onMouseOver="showModify(this,'basic_page','isIllegal');"</c:if> >
                         </c:if>
-                        <c:if test="${'0' eq suppliers.isIllegal }">
+                        <c:if test="${'0' eq currSupplier.isIllegal }">
                             <input id="isIllegal" class="hand " value="无" type="text" onclick="auditText(this,'basic_page','isIllegal')"
                                    <c:if test="${fn:contains(auditField,'isIllegal')}">style="border: 1px solid red;"</c:if>
-                                   <c:if test="${fn:contains(field,'isIllegal')}">style="border: 1px solid #FF8C00;"
+                                   <c:if test="${fn:contains(field,'isIllegal') && !fn:contains(auditField,'isIllegal')}">style="border: 1px solid #FF8C00;"
                                    onMouseOver="showModify(this,'basic_page','isIllegal');"</c:if> >
                         </c:if>
                         <c:if test="${fn:contains(unableField,'isIllegal')}"><a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a></c:if>
                     </div>
                 </li>
-                <c:if test="${suppliers.isHavingConCert eq '0'}">
+                <c:if test="${currSupplier.isHavingConCert eq '0'}">
                     <li class="col-md-3 col-sm-6 col-xs-12">
                         <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">国家或军队保密资格证书：</span>
                         <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                             <input id="isHavingConCert" class="hand " value="无" type="text" onclick="auditText(this,'basic_page','isHavingConCert')"
                                    <c:if test="${fn:contains(auditField,'isHavingConCert')}">style="border: 1px solid red;"</c:if>
-                                   <c:if test="${fn:contains(field,'isHavingConCert')}">style="border: 1px solid #FF8C00;"
+                                   <c:if test="${fn:contains(field,'isHavingConCert') && !fn:contains(auditField,'isHavingConCert')}">style="border: 1px solid #FF8C00;"
                                    onMouseOver="showModify(this,'basic_page','isHavingConCert');"</c:if> >
                             <c:if test="${fn:contains(unableField,'isHavingConCert')}"><a class='abolish'><img
                                     src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a></c:if>
                         </div>
                     </li>
                 </c:if>
-                <c:if test="${suppliers.isHavingConCert eq '1'}">
+                <c:if test="${currSupplier.isHavingConCert eq '1'}">
                     <li class="col-md-3 col-sm-6 col-xs-12">
                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">国家或军队保密资格证书：</span>
                         <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                           <input id="isHavingConCert" class="hand " value="有" type="text" onclick="auditText(this,'basic_page','isHavingConCert')"
                           <c:if test="${fn:contains(auditField,'isHavingConCert')}">style="border: 1px solid red;"</c:if>
-                          <c:if test="${fn:contains(field,'isHavingConCert')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'basic_page','isHavingConCert');"</c:if> >
+                          <c:if test="${fn:contains(field,'isHavingConCert') && !fn:contains(auditField,'isHavingConCert')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'basic_page','isHavingConCert');"</c:if> >
                           <c:if test="${fn:contains(unableField,'isHavingConCert')}"><a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a></c:if>
                         </div>
                     </li>
                     <li class="col-md-3 col-sm-6 col-xs-12">
                     		<div <c:if test="${fn:contains(unableField,'supplierBearchCert')}">style="border: 1px solid #FF0000;"</c:if>>
                     			<span 
-	                        	<c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierBearchCert)}">style="border: 1px solid #FF8C00;"</c:if>
+	                        	<c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierBearchCert) && !fn:contains(auditField,'supplierBearchCert')}">style="border: 1px solid #FF8C00;"</c:if>
 	                        	<c:if test="${fn:contains(auditField,'supplierBearchCert') && !fn:contains(unableField,'supplierBearchCert')}">style="border: 1px solid #FF0000;"</c:if>
 	                                class="hand" onclick="auditFile(this,'basic_page','supplierBearchCert');"
 	                                onmouseover="this.style.background='#E8E8E8'"
@@ -711,7 +711,7 @@
                         <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
                             <u:show showId="bearchcert_show" delete="false"
                                     groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show"
-                                    businessId="${suppliers.id}" sysKey="${sysKey}"
+                                    businessId="${currSupplier.id}" sysKey="${sysKey}"
                                     typeId="${supplierDictionaryData.supplierBearchCert}"/>
                             <%-- <p class='abolish'><img style="padding-left: 125px;"
                                     src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
@@ -731,9 +731,9 @@
                 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">姓名：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input id="contactName" class="hand " value="${suppliers.contactName } " type="text"
+                        <input id="contactName" class="hand " value="${currSupplier.contactName } " type="text"
                                onclick="auditText(this,'basic_page','contactName')"
-                               <c:if test="${fn:contains(field,'contactName')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'contactName') && !fn:contains(auditField,'contactName')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','contactName');"</c:if>
                                <c:if test="${fn:contains(auditField,'contactName')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'contactName')}">
@@ -745,9 +745,9 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">传真：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input id="contactFax" class="hand " value="${suppliers.contactFax } " type="text"
+                        <input id="contactFax" class="hand " value="${currSupplier.contactFax } " type="text"
                                onclick="auditText(this,'basic_page','contactFax')"
-                               <c:if test="${fn:contains(field,'contactFax')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'contactFax') && !fn:contains(auditField,'contactFax')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','contactFax');"</c:if>
                                <c:if test="${fn:contains(auditField,'contactFax')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'contactFax')}">
@@ -759,9 +759,9 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">固定电话：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input id="contactMobile" class="hand " value="${suppliers.contactMobile } " type="text"
+                        <input id="contactMobile" class="hand " value="${currSupplier.contactMobile } " type="text"
                                onclick="auditText(this,'basic_page','contactMobile')"
-                               <c:if test="${fn:contains(field,'contactMobile')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'contactMobile') && !fn:contains(auditField,'contactMobile')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','contactMobile');"</c:if>
                                <c:if test="${fn:contains(auditField,'contactMobile')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'contactMobile')}">
@@ -773,9 +773,9 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">手机：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input id="mobile" class="hand " value="${suppliers.mobile } " type="text"
+                        <input id="mobile" class="hand " value="${currSupplier.mobile } " type="text"
                                onclick="auditText(this,'basic_page','mobile')"
-                               <c:if test="${fn:contains(field,'mobile')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'mobile') && !fn:contains(auditField,'mobile')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','mobile');"</c:if>
                                <c:if test="${fn:contains(auditField,'mobile')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'mobile')}">
@@ -787,9 +787,9 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮箱：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input id="contactEmail" class="hand " value="${suppliers.contactEmail } " type="text"
+                        <input id="contactEmail" class="hand " value="${currSupplier.contactEmail } " type="text"
                                onclick="auditText(this,'basic_page','contactEmail')"
-                               <c:if test="${fn:contains(field,'contactEmail')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'contactEmail') && !fn:contains(auditField,'contactEmail')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','contactEmail');"</c:if>
                                <c:if test="${fn:contains(auditField,'contactEmail')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'contactEmail')}">
@@ -803,7 +803,7 @@
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                         <input id="concatCity" class="hand " value="${parentConcatProvince } ${sonConcatProvince}"
                                type="text" onclick="auditText(this,'basic_page','concatCity')"
-                               <c:if test="${fn:contains(field,'concatCity')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'concatCity') && !fn:contains(auditField,'concatCity')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','concatCity');"</c:if>
                                <c:if test="${fn:contains(auditField,'concatCity')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'concatCity')}">
@@ -815,9 +815,9 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">详细地址：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input id="contactAddress" class="hand " value="${suppliers.contactAddress } " type="text"
+                        <input id="contactAddress" class="hand " value="${currSupplier.contactAddress } " type="text"
                                onclick="auditText(this,'basic_page','contactAddress')"
-                               <c:if test="${fn:contains(field,'contactAddress')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'contactAddress') && !fn:contains(auditField,'contactAddress')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','contactAddress');"</c:if>
                                <c:if test="${fn:contains(auditField,'contactAddress')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'contactAddress')}">
@@ -834,9 +834,9 @@
                 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">姓名：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input id="armyBusinessName" class="hand " value="${suppliers.armyBusinessName } " type="text"
+                        <input id="armyBusinessName" class="hand " value="${currSupplier.armyBusinessName } " type="text"
                                onclick="auditText(this,'basic_page','armyBusinessName')"
-                               <c:if test="${fn:contains(field,'armyBusinessName')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'armyBusinessName') && !fn:contains(auditField,'armyBusinessName')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','armyBusinessName');"</c:if>
                                <c:if test="${fn:contains(auditField,'armyBusinessName')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'armyBusinessName')}">
@@ -848,9 +848,9 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">传真：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input id="armyBusinessFax" class="hand " value="${suppliers.armyBusinessFax } " type="text"
+                        <input id="armyBusinessFax" class="hand " value="${currSupplier.armyBusinessFax } " type="text"
                                onclick="auditText(this,'basic_page','armyBusinessFax')"
-                               <c:if test="${fn:contains(field,'armyBusinessFax')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'armyBusinessFax') && !fn:contains(auditField,'armyBusinessFax')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','armyBusinessFax');"</c:if>
                                <c:if test="${fn:contains(auditField,'armyBusinessFax')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'armyBusinessFax')}">
@@ -862,9 +862,9 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">固定电话：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input id="armyBuinessMobile" class="hand " value="${suppliers.armyBuinessMobile } " type="text"
+                        <input id="armyBuinessMobile" class="hand " value="${currSupplier.armyBuinessMobile } " type="text"
                                onclick="auditText(this,'basic_page','armyBuinessMobile')"
-                               <c:if test="${fn:contains(field,'armyBuinessMobile')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'armyBuinessMobile') && !fn:contains(auditField,'armyBuinessMobile')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','armyBuinessMobile');"</c:if>
                                <c:if test="${fn:contains(auditField,'armyBuinessMobile')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'armyBuinessMobile')}">
@@ -876,9 +876,9 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">手机：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input id="armyBuinessTelephone" class="hand " value="${suppliers.armyBuinessTelephone } "
+                        <input id="armyBuinessTelephone" class="hand " value="${currSupplier.armyBuinessTelephone } "
                                type="text" onclick="auditText(this,'basic_page','armyBuinessTelephone')"
-                               <c:if test="${fn:contains(field,'armyBuinessTelephone')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'armyBuinessTelephone') && !fn:contains(auditField,'armyBuinessTelephone')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','armyBuinessTelephone');"</c:if>
                                <c:if test="${fn:contains(auditField,'armyBuinessTelephone')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'armyBuinessTelephone')}">
@@ -890,9 +890,9 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮箱：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <input id="armyBuinessEmail" class="hand " value="${suppliers.armyBuinessEmail } " type="text"
+                        <input id="armyBuinessEmail" class="hand " value="${currSupplier.armyBuinessEmail } " type="text"
                                onclick="auditText(this,'basic_page','armyBuinessEmail')"
-                               <c:if test="${fn:contains(field,'armyBuinessEmail')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'armyBuinessEmail') && !fn:contains(auditField,'armyBuinessEmail')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','armyBuinessEmail');"</c:if>
                                <c:if test="${fn:contains(auditField,'armyBuinessEmail')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'armyBuinessEmail')}">
@@ -907,7 +907,7 @@
                         <input id="armyBuinessCity" class="hand "
                                value="${parentArmyBuinessProvince} ${sonArmyBuinessProvince}" type="text"
                                onclick="auditText(this,'basic_page','armyBuinessCity')"
-                               <c:if test="${fn:contains(field,'armyBuinessCity')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'armyBuinessCity') && !fn:contains(auditField,'armyBuinessCity')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','armyBuinessCity');"</c:if>
                                <c:if test="${fn:contains(auditField,'armyBuinessCity')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'armyBuinessCity')}">
@@ -919,9 +919,9 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">详细地址：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 p0">
-                        <input id="armyBuinessAddress" class="hand " value="${suppliers.armyBuinessAddress } "
+                        <input id="armyBuinessAddress" class="hand " value="${currSupplier.armyBuinessAddress } "
                                type="text" onclick="auditText(this,'basic_page','armyBuinessAddress')"
-                               <c:if test="${fn:contains(field,'armyBuinessAddress')}">style="border: 1px solid #FF8C00;"
+                               <c:if test="${fn:contains(field,'armyBuinessAddress') && !fn:contains(auditField,'armyBuinessAddress')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="showModify(this,'basic_page','armyBuinessAddress');"</c:if>
                                <c:if test="${fn:contains(auditField,'armyBuinessAddress')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(unableField,'armyBuinessAddress')}">
@@ -938,11 +938,11 @@
                 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">境外分支机构：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                        <c:if test="${suppliers.overseasBranch == 0}">
+                        <c:if test="${currSupplier.overseasBranch == 0}">
                             <input id="overseasBranch" class="hand " value="无" type="text" onclick="auditText(this,'basic_page','overseasBranch')"
                                    <c:if test="${fn:contains(auditField,'overseasBranch')}">style="border: 1px solid red;"</c:if>>
                         </c:if>
-                        <c:if test="${suppliers.overseasBranch == 1}">
+                        <c:if test="${currSupplier.overseasBranch == 1}">
                             <input id="overseasBranch" class="hand " value="有" type="text" onclick="auditText(this,'basic_page','overseasBranch')"
                                    <c:if test="${fn:contains(auditField,'overseasBranch')}">style="border: 1px solid red;"</c:if>>
                         </c:if>
@@ -954,7 +954,7 @@
                 </li>
                 <div class="clear"></div>
                 <c:forEach items="${supplierBranchList }" var="supplierBranch" varStatus="vs">
-                    <c:if test="${suppliers.overseasBranch == 1}">
+                    <c:if test="${currSupplier.overseasBranch == 1}">
                         <li class="col-md-3 col-sm-6 col-xs-12">
                             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">机构名称：</span>
                             <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -1095,7 +1095,7 @@
                         <textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="purchaseExperience"
                                   onclick="auditText(this,'basic_page','purchaseExperience')" <c:if test="${fn:contains(auditField,'purchaseExperience')}">style="border: 1px solid red;"</c:if><c:if
                                 test="${fn:contains(field,'purchaseExperience')}"> style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'basic_page','purchaseExperience');"</c:if>
-                                  >${suppliers.purchaseExperience }</textarea>
+                                  >${currSupplier.purchaseExperience }</textarea>
                         <c:if test="${fn:contains(unableField,'purchaseExperience')}">
                             <a class='abolish'><img
                                     src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
@@ -1112,7 +1112,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12 p0">
                         <textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="description" onclick="auditText(this,'basic_page','description')"<c:if
                                 test="${fn:contains(field,'description')}"> style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'basic_page','description');"</c:if>
-                                  <c:if test="${fn:contains(auditField,'description')}">style="border: 1px solid red;"</c:if>>${suppliers.description }</textarea>
+                                  <c:if test="${fn:contains(auditField,'description')}">style="border: 1px solid red;"</c:if>>${currSupplier.description }</textarea>
                         <c:if test="${fn:contains(unableField,'description')}">
                             <a class='abolish'><img
                                     src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
@@ -1133,7 +1133,7 @@
           method="post">
         <input type="hidden" name="fileName"/>
     </form>
-    <input name="supplierId" id="supplierId" value="${suppliers.id }" type="hidden">
+    <input name="supplierId" id="supplierId" value="${currSupplier.id }" type="hidden">
 </div>
 </body>
 

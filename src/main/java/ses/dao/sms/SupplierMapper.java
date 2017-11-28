@@ -702,4 +702,15 @@ public interface SupplierMapper {
      * @return
      */
     List<AnalyzeBigDecimal> selectSuppliersByArea(Map<String, Object> map);
+
+    /**
+     *
+     * Description: 根据供应商ID查询联系号码
+     *
+     * @author Easong
+     * @version 2017/11/22
+     * @param 
+     * @since JDK1.7
+     */
+    String selectSupMobileById(String supplierId);
 }

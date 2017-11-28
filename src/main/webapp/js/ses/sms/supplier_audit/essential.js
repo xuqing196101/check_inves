@@ -19,7 +19,8 @@ function auditText(_this, auditType, auditField, auditFieldName) {
 		$(_this).doAudit({
 			auditData : auditData,
 			funcBeforeAudit : function() {
-				if ($(_this).parent().children("a.abolish").length > 0) {
+				if ($(_this).parent().children("a.abolish").length > 0
+						|| $(_this).parent().children("img.abolish_img").length > 0) {
 					layer.msg('该条信息已审核过并退回过！');
 					return false;
 				}
@@ -28,11 +29,27 @@ function auditText(_this, auditType, auditField, auditFieldName) {
 				if (auditType && auditType == "supplierType_page") {
 					$(_this).css('border', '1px solid #FF0000'); // 添加红边框
 				} else {
+					// 先获取原来的边框颜色
+					var oldBorderColor = $(_this).css('border-color');
+					var oldOnmouseover = $(_this).attr("onmouseover");
+					if (oldBorderColor && oldOnmouseover) {
+						$(_this).attr("data-oldBorderColor", oldBorderColor);
+						$(_this).attr("data-oldOnmouseover", oldOnmouseover);
+					}
 					$(_this).css('border-color', '#FF0000'); // 边框变红色
+					$(_this).removeAttr("onmouseover");
 				}
 			},
 			funcAfterCancelAudit : function() {
-				$(_this).css("border", "");
+				// 先获取原来的边框颜色
+				var oldBorderColor = $(_this).attr("data-oldBorderColor");
+				var oldOnmouseover = $(_this).attr("data-oldOnmouseover");
+				if (oldBorderColor && oldOnmouseover) {
+					$(_this).css('border-color', oldBorderColor);
+					$(_this).attr('onmouseover', oldOnmouseover);
+				} else {
+					$(_this).css("border", "");
+				}
 			}
 		});
 	}
@@ -133,17 +150,27 @@ function auditFile(_this, auditType, auditField) {
 		$(_this).doAudit({
 			auditData : auditData,
 			funcBeforeAudit : function() {
-				if ($(_this).parent().children(
-						"img.abolish_img_file").length > 0) {
+				if ($(_this).parent().children("img.abolish_img_file").length > 0) {
 					layer.msg('该条信息已审核过并退回过！');
 					return false;
 				}
 			},
 			funcAfterAddAudit : function() {
+				// 先获取原来的边框颜色
+				var oldBorderColor = $(_this).css('border');
+				if (oldBorderColor) {
+					$(_this).attr("data-oldBorderColor", oldBorderColor);
+				}
 				$(_this).css('border', '1px solid #FF0000'); // 添加红边框
 			},
 			funcAfterCancelAudit : function() {
-				$(_this).css("border", "");
+				// 先获取原来的边框颜色
+				var oldBorderColor = $(_this).attr("data-oldBorderColor");
+				if (oldBorderColor) {
+					$(_this).css('border', oldBorderColor);
+				} else {
+					$(_this).css("border", "");
+				}
 			}
 		});
 	}
