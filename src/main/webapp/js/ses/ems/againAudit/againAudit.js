@@ -95,7 +95,7 @@
           }
           
           // 处理未选数据
-          $('#list_content tr').each(function () {
+          /*$('#list_content tr').each(function () {
             var _this = $(this);
             $('#selected_content tr').each(function () {
               if (_this.find('input[type="checkbox"]').val() == $(this).find('input[type="checkbox"]').val()) {
@@ -104,7 +104,7 @@
                 return false;
               }
             });
-          });
+          });*/
           
           // 绑定列表框点击事件，获取选中id集合
           var select_checkbox = $('#list_content').find('.select_item');

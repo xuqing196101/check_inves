@@ -26,6 +26,7 @@ import ses.dao.bms.TodosMapper;
 import ses.dao.ems.ExpertReviewTeamMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.model.ems.BatchTemporary;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAgainAuditImg;
 import ses.model.ems.ExpertAgainAuditReviewTeamList;
@@ -116,6 +117,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		}
 		expert.setStatus("1");//查询初审合格专家  
 		expert.setSort("1");
+		expert.setNotIn("y");
 		if(batchIds != null){
 			List<String> idsList = new ArrayList<String>();
 			String[] split = batchIds.split(",");
