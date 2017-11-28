@@ -578,7 +578,7 @@
                     <c:forEach items="${reasonsList }" var="reasons" varStatus="vs">
                         <input id="auditId" value="${reasons.id}" type="hidden">
                         <tr>
-                            <td class="tc"><input type="checkbox" value="${reasons.id }" name="chkItem" id="${reasons.id}"></td>
+                            <td class="tc"><input type="checkbox" value="${reasons.id }" name="chkItem" id="${reasons.id}" <c:if test="${reasons.suggestType eq 'six' && reasons.auditStatus eq '2'}">disabled="disabled"</c:if> ></td>
                             <td class="text-center">${vs.index + 1}</td>
                             <td class="text-center">
                                 <c:if test="${reasons.suggestType eq 'one'}">基本信息</c:if>
