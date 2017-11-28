@@ -703,7 +703,7 @@
   
   <!-- 根据ID查询所有子节点 -->
   <select id="selectCListById" resultMap="CategoryMap" parameterType="java.lang.String">
-    SELECT ID, NAME, CODE, PARENT_ID
+    SELECT ID, NAME, CODE, PARENT_ID, IS_PARENT
 		FROM T_SES_BMS_CATEGORY 
 		WHERE 1 = 1
 		AND IS_PUBLISH = 0 

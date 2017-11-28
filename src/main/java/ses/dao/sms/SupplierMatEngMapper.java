@@ -68,4 +68,11 @@ public interface SupplierMatEngMapper {
      * @return
      */
 	int deleteBySupplierId(String supplierId);
+
+	/**
+	 * 根据供应商id查询工程专业信息id
+	 * @param supplierId
+	 * @return
+	 */
+	String getMatEngIdBySupplierId(String supplierId);
 }

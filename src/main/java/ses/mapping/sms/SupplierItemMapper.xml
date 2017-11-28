@@ -590,7 +590,7 @@
 				#{item}
 			</foreach>
 		</if>
-		AND IS_RETURNED != 1
+		<!-- AND IS_RETURNED != 1 -->
 	</select>
 
 	<select id="findFinaSupplierByCategouryAndType" parameterType="ses.model.sms.Supplier" resultType="ses.model.sms.Supplier">

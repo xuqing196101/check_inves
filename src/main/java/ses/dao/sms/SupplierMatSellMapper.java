@@ -62,4 +62,11 @@ public interface SupplierMatSellMapper {
      * @return
      */
 	int deleteBySupplierId(String supplierId);
+
+	/**
+	 * 根据供应商id查询物资销售专业信息id
+	 * @param supplierId
+	 * @return
+	 */
+	String getMatSellIdBySupplierId(String supplierId);
 }
