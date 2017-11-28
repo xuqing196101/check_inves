@@ -52,4 +52,10 @@ public interface SupplierMatProMapper {
      * @return
      */
     int deleteBySupplierId(String supplierId);
+    
+    /**
+     * 根据供应商id查询物资生产专业信息id
+     * @return
+     */
+    String getMatProIdBySupplierId(String supplierId);
 }

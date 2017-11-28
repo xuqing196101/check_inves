@@ -4380,7 +4380,7 @@ public class SupplierAuditController extends BaseSupplierController {
                         typeName = "工程资质证书";
 						String engId = supplierMatEngService.getMatEngIdBySupplierId(supplier.getId());
 						if(engId != null){
-							List<SupplierAptitute> engCert = supplierAptituteService.queryByAptitute(engId);
+							List<SupplierAptitute> engCert = supplierAptituteService.queryByMatEngId(engId);
 							StringBuffer engReasons = new StringBuffer();
 							boolean engflag = true;
 							if(engCert != null && engCert.size() > 0){

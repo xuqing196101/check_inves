@@ -22,9 +22,9 @@ import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierItem;
-import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierPorjectQua;
 import ses.service.bms.CategoryService;
+import ses.service.sms.SupplierAptituteService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierMatEngService;
@@ -68,6 +68,9 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	
 	@Autowired
 	private SupplierMatEngService supplierMatEngService;
+	
+	@Autowired
+	private SupplierAptituteService supplierAptituteService;
 	
 	@Override
 	public void saveSupplierItem(Supplier supplier) {
@@ -272,7 +275,8 @@ public class SupplierItemServiceImpl implements SupplierItemService {
         boolean fiveAllEx = false;
         boolean fourAllEx = false;
         //一级节点
-        List<SupplierItem> cateList = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, categoryId, type);
+        List<SupplierItem> cateList = supplierItemMapper.getBySupplierIdCategoryId(supplierId, categoryId, type);
+        //List<SupplierItem> cateList = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, categoryId, type);
 
         for(SupplierItem s:cateList){
             //二级节点
@@ -825,129 +829,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 		}
 		return sicList;
 	}
-
-	public SupplierCateTree getTreeListByCategoryId(String categoryId,
-			SupplierItem item) {
-		SupplierCateTree cateTree = new SupplierCateTree();
-		// 递归获取所有父节点
-		List < Category > parentNodeList = getAllParentNode(categoryId);
-		// 加入根节点
-		for(int i = 0; i < parentNodeList.size(); i++) {
-			DictionaryData rootNode = DictionaryDataUtil.findById(parentNodeList.get(i).getId());
-			if(rootNode != null) {
-				cateTree.setRootNode(rootNode.getName());
-			}
-		}
-		// 加入一级节点
-		if(cateTree.getRootNode() != null) {
-			for(int i = 0; i < parentNodeList.size(); i++) {
-				Category cate = categoryService.findById(parentNodeList.get(i).getId());
-				if(cate != null && cate.getParentId() != null) {
-					DictionaryData rootNode = DictionaryDataUtil.findById(cate.getParentId());
-					if(rootNode != null && cateTree.getRootNode().equals(rootNode.getName())) {
-						cateTree.setFirstNode(cate.getName());
-					}
-				}
-			}
-		}
-		// 加入二级节点
-		if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null) {
-			for(int i = 0; i < parentNodeList.size(); i++) {
-				Category cate = categoryService.findById(parentNodeList.get(i).getId());
-				if(cate != null && cate.getParentId() != null) {
-					Category parentNode = categoryService.findById(cate.getParentId());
-					if(parentNode != null && cateTree.getFirstNode().equals(parentNode.getName())) {
-						cateTree.setSecondNode(cate.getName());
-					}
-				}
-			}
-		}
-		// 加入三级节点
-		if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null) {
-			for(int i = 0; i < parentNodeList.size(); i++) {
-				Category cate = categoryService.findById(parentNodeList.get(i).getId());
-				if(cate != null && cate.getParentId() != null) {
-					Category parentNode = categoryService.findById(cate.getParentId());
-					if(parentNode != null && cateTree.getSecondNode().equals(parentNode.getName())) {
-						cateTree.setThirdNode(cate.getName());
-					}
-				}
-			}
-		}
-		// 加入末级节点
-		if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null && cateTree.getThirdNode() != null) {
-		    if(parentNodeList.size()>4){
-                for(int i = 0; i < parentNodeList.size(); i++) {
-                    Category cate = categoryService.findById(parentNodeList.get(i).getId());
-                    if(cate != null && cate.getParentId() != null) {
-                        Category parentNode = categoryService.findById(cate.getParentId());
-                        if(parentNode != null && cateTree.getThirdNode().equals(parentNode.getName())) {
-                            cateTree.setFourthNode(cate.getName());
-                        }
-                    }
-                }
-            }
-		}
-
-		// 工程类等级
-		if(item != null) {
-			// 等级
-			if(item != null && item.getLevel() != null) {
-				DictionaryData data = DictionaryDataUtil.findById(item.getLevel());
-				if(data!=null){
-					cateTree.setLevel(data);
-				}else{
-					List<SupplierPorjectQua> projectData = supplierPorjectQuaService.queryByNameAndSupplierId(item.getQualificationType(), item.getSupplierId());
-					if(projectData!=null&&projectData.size()>0){
-				    	DictionaryData dd=new DictionaryData();
-				    	dd.setName(projectData.get(0).getCertLevel());
-				    	dd.setId(projectData.get(0).getId());
-				    	cateTree.setLevel(dd); 
-			    	}
-				}
-			}
-			// 证书编号
-			if(item != null && item.getCertCode() != null) {
-				cateTree.setCertCode(item.getCertCode());
-			}
-			// 资质等级
-			if(item != null && item.getQualificationType() != null) {
-				cateTree.setQualificationType(item.getQualificationType());
-			}
-			if(item != null && item.getProfessType()!= null) {
-				cateTree.setProName(item.getProfessType());
-			}
-			
-			// 所有资质类型
-			/*List < Category > cateList = new ArrayList < Category > ();
-			cateList.add(categoryService.selectByPrimaryKey(categoryId));
-			List < QualificationBean > type = supplierService.queryCategoyrId(cateList, 4);
-			List < Qualification > typeList = new ArrayList < Qualification > ();
-			if(type != null && type.size() > 0 && type.get(0).getList() != null && type.get(0).getList().size() > 0) {
-				typeList = type.get(0).getList();
-			}*/
-			// 所有资质类型，包括父节点的资质
-			List < QualificationBean > qbList = supplierService.queryCategoyrId(parentNodeList, 4);
-			List < Qualification > typeList = new ArrayList < Qualification > ();
-			if(qbList != null && qbList.size() > 0){
-				for(QualificationBean qb : qbList){
-					typeList.addAll(qb.getList());
-				}
-			}
-			//自定义等级
-//			List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, item.getSupplierId());
-//			for(SupplierPorjectQua qua:supplierQua){
-//				Qualification q=new Qualification();
-//				q.setId(qua.getName());
-//				q.setName(qua.getName());
-//				typeList.add(q);
-//			}
-			
-			cateTree.setTypeList(typeList);
-		}
-		return cateTree;
-	}
-
+	
 	@Override
 	public List<Category> getThirdCategoryList(String supplierId, String type) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -1363,19 +1245,34 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	public SupplierItem getItemById(String id) {
 		return supplierItemMapper.selectByPrimaryKey(id);
 	}
-
+	
 	@Override
 	public Map<String, Object> getEngAptitute(String supplierId) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
-		String firstCateId = DictionaryDataUtil.getId("PROJECT");
-		List < SupplierItem > listSupplierItems = this.getCategoryOther(supplierId, firstCateId, "PROJECT");
-		removeSameItem(listSupplierItems);
+//		SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
+//		List<SupplierAptitute> listSupplierAptitutes = matEng.getListSupplierAptitutes();
+		String matEngId = supplierMatEngService.getMatEngIdBySupplierId(supplierId);
+		List<SupplierAptitute> listSupplierAptitutes = supplierAptituteService.queryByMatEngId(matEngId);
+//		String firstCateId = DictionaryDataUtil.getId("PROJECT");
+//		List < SupplierItem > listSupplierItems = this.getCategoryOther(supplierId, firstCateId, "PROJECT");
+//		removeSameItem(listSupplierItems);
+		List < SupplierItem > listSupplierItems = supplierItemMapper.queryBySupplierIdAndType(supplierId, "PROJECT");
+		
+		listSupplierItems = handlerItemList(supplierId, listSupplierItems);
+		
 		List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
 		String modifiedCertCodes = "";
+		String rootNode = null;
+		DictionaryData dd = DictionaryDataUtil.get("PROJECT");
+		if(dd != null){
+			rootNode = dd.getName();
+		}
 		for(SupplierItem item: listSupplierItems) {
 			String categoryId = item.getCategoryId();
-			SupplierCateTree cateTree = this.getTreeListByCategoryId(categoryId, item);
+			SupplierCateTree cateTree = new SupplierCateTree();
+			cateTree.setCategoryId(categoryId);
+			cateTree.setRootNode(rootNode);
+			cateTree = this.getSupplierCateTreeQua(cateTree, item);
 			//后台判断证书编号是否有更新，若有将更新的证书编号放进数组，前台更新显示样式
 			/*if(StringUtils.isNotEmpty(item.getCertCode())){
 				int selectByCertCode = selectByCertCode(item.getCertCode());
@@ -1392,8 +1289,8 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 				cateTree.setItemsId(item.getId());
 				cateTree.setDiyLevel(item.getLevel());
 				//每次都是最新
-				if(matEng.getListSupplierAptitutes() != null && !matEng.getListSupplierAptitutes().isEmpty()){
-					for(SupplierAptitute apt: matEng.getListSupplierAptitutes()){
+				if(listSupplierAptitutes != null && !listSupplierAptitutes.isEmpty()){
+					for(SupplierAptitute apt: listSupplierAptitutes){
 						//proName="三大部分"  diyLevel="6B0CC322A1BF489898A3EF51DE9AA6AD"
 						//qualificationType="4D96D5A8CAF4E7E2E050007F0100A66F"
 						//System.out.println(apt.getCertCode()+","+apt.getCertType()+"==="+cateTree.getCertCode()+","+cateTree.getQualificationType());
@@ -1424,12 +1321,160 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 		resultMap.put("modifiedCertCodes", modifiedCertCodes);
 		return resultMap;
 	}
-
+	
+	private List<SupplierItem> handlerItemList(String supplierId, List<SupplierItem> listSupplierItems){
+		List < SupplierItem > resultList = new ArrayList<SupplierItem>();
+		for(SupplierItem item: listSupplierItems) {
+			String categoryId = item.getCategoryId();
+			Category cateById = categoryService.findById(categoryId);
+			if(cateById != null && cateById.getCode() != null 
+					&& !cateById.getCode().startsWith("B02") 
+					&& !cateById.getCode().startsWith("B03")
+					&& "false".equals(cateById.getIsParent())){
+				resultList.add(item);
+				continue;
+			}
+			if(cateById != null && "true".equals(cateById.getIsParent())){
+				// 所有子节点
+				List<Category> clist = categoryService.getCListById(categoryId);
+				if(clist != null && clist.size() > 0){
+					List<String> catIds = new ArrayList<String>();
+					for(Category cate : clist){
+						catIds.add(cate.getId());
+					}
+					if(!catIds.isEmpty()){
+						int countItems = this.countItemsBySuppIdAndCateIds(supplierId, catIds, "PROJECT");
+						if(countItems == clist.size()){
+							resultList.add(item);
+						}
+					}
+				}
+			}
+		}
+		if(resultList.size() < listSupplierItems.size()){
+			handlerItemList(supplierId, resultList);
+		}
+		return resultList;
+	}
+	
+	@Override
+	public SupplierCateTree getSupplierCateTree(SupplierCateTree cateTree) {
+		if(cateTree == null){
+			cateTree = new SupplierCateTree();
+		}
+		String categoryId = cateTree.getCategoryId();
+		List < Category > parentNodeList = categoryService.getPListById(categoryId);
+		if(parentNodeList != null){
+			cateTree.setParentNodeList(parentNodeList);
+			if(parentNodeList.size() > 0){
+				if(StringUtils.isBlank(cateTree.getRootNode())){
+					DictionaryData rootNode = DictionaryDataUtil.findById(parentNodeList.get(0).getParentId());
+					if(rootNode != null){
+						cateTree.setRootNode(rootNode.getName());
+					}
+				}
+			}
+			if(parentNodeList.size() > 1){
+				cateTree.setFirstNode(parentNodeList.get(1).getName());
+			}
+			if(parentNodeList.size() > 2){
+				cateTree.setSecondNode(parentNodeList.get(2).getName());
+			}
+			if(parentNodeList.size() > 3){
+				cateTree.setThirdNode(parentNodeList.get(3).getName());
+			}
+			if(parentNodeList.size() > 4){
+				cateTree.setFourthNode(parentNodeList.get(4).getName());
+			}
+		}
+		/*// 递归获取所有父节点
+		List < Category > parentNodeList = getAllParentNode(categoryId);
+		// 加入根节点
+		for(int i = 0; i < parentNodeList.size(); i++) {
+			DictionaryData rootNode = DictionaryDataUtil.findById(parentNodeList.get(i).getId());
+			if(rootNode != null) {
+				cateTree.setRootNode(rootNode.getName());
+			}
+		}
+		// 加入一级节点
+		if(cateTree.getRootNode() != null) {
+			for(int i = 0; i < parentNodeList.size(); i++) {
+				Category cate = categoryService.findById(parentNodeList.get(i).getId());
+				if(cate != null && cate.getParentId() != null) {
+					DictionaryData rootNode = DictionaryDataUtil.findById(cate.getParentId());
+					if(rootNode != null && cateTree.getRootNode().equals(rootNode.getName())) {
+						cateTree.setFirstNode(cate.getName());
+					}
+				}
+			}
+		}
+		// 加入二级节点
+		if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null) {
+			for(int i = 0; i < parentNodeList.size(); i++) {
+				Category cate = categoryService.findById(parentNodeList.get(i).getId());
+				if(cate != null && cate.getParentId() != null) {
+					Category parentNode = categoryService.findById(cate.getParentId());
+					if(parentNode != null && cateTree.getFirstNode().equals(parentNode.getName())) {
+						cateTree.setSecondNode(cate.getName());
+					}
+				}
+			}
+		}
+		// 加入三级节点
+		if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null) {
+			for(int i = 0; i < parentNodeList.size(); i++) {
+				Category cate = categoryService.findById(parentNodeList.get(i).getId());
+				if(cate != null && cate.getParentId() != null) {
+					Category parentNode = categoryService.findById(cate.getParentId());
+					if(parentNode != null && cateTree.getSecondNode().equals(parentNode.getName())) {
+						cateTree.setThirdNode(cate.getName());
+					}
+				}
+			}
+		}
+		// 加入末级节点
+		if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null && cateTree.getThirdNode() != null) {
+		    if(parentNodeList.size()>4){
+                for(int i = 0; i < parentNodeList.size(); i++) {
+                    Category cate = categoryService.findById(parentNodeList.get(i).getId());
+                    if(cate != null && cate.getParentId() != null) {
+                        Category parentNode = categoryService.findById(cate.getParentId());
+                        if(parentNode != null && cateTree.getThirdNode().equals(parentNode.getName())) {
+                            cateTree.setFourthNode(cate.getName());
+                        }
+                    }
+                }
+            }
+		}*/
+		return cateTree;
+	}
+	
 	@Override
 	public SupplierCateTree getSupplierCateTree(SupplierItem supplierItem) {
 		String categoryId = supplierItem.getCategoryId();
         SupplierCateTree cateTree = new SupplierCateTree();
-        // 递归获取所有父节点
+		List < Category > parentNodeList = categoryService.getPListById(categoryId);
+		if(parentNodeList != null){
+			if(parentNodeList.size() > 0){
+				DictionaryData rootNode = DictionaryDataUtil.findById(parentNodeList.get(0).getParentId());
+				if(rootNode != null){
+					cateTree.setRootNode(rootNode.getName());
+				}
+			}
+			if(parentNodeList.size() > 1){
+				cateTree.setFirstNode(parentNodeList.get(1).getName());
+			}
+			if(parentNodeList.size() > 2){
+				cateTree.setSecondNode(parentNodeList.get(2).getName());
+			}
+			if(parentNodeList.size() > 3){
+				cateTree.setThirdNode(parentNodeList.get(3).getName());
+			}
+			if(parentNodeList.size() > 4){
+				cateTree.setFourthNode(parentNodeList.get(4).getName());
+			}
+		}
+        /*// 递归获取所有父节点
         List < Category > parentNodeList = categoryService.getAllParentNode(categoryId);
         // 加入根节点
         for(int i = 0; i < parentNodeList.size(); i++) {
@@ -1485,7 +1530,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                     }
                 }
             }
-        }
+        }*/
         // 判断是否是物资生产和物资销售类
         if("PRODUCT".equals(supplierItem.getSupplierTypeRelateId())) {
             cateTree.setRootNode(cateTree.getRootNode() + "生产");
@@ -1493,6 +1538,71 @@ public class SupplierItemServiceImpl implements SupplierItemService {
             cateTree.setRootNode(cateTree.getRootNode() + "销售");
         }
         return cateTree;
+	}
+	
+	@Override
+	public SupplierCateTree getSupplierCateTreeQua(SupplierCateTree cateTree,
+			SupplierItem item) {
+		cateTree = getSupplierCateTree(cateTree);
+		
+		// 工程类等级
+		if(item != null) {
+			// 等级
+			if(item != null && item.getLevel() != null) {
+				DictionaryData data = DictionaryDataUtil.findById(item.getLevel());
+				if(data!=null){
+					cateTree.setLevel(data);
+				}else{
+					List<SupplierPorjectQua> projectData = supplierPorjectQuaService.queryByNameAndSupplierId(item.getQualificationType(), item.getSupplierId());
+					if(projectData!=null&&projectData.size()>0){
+						DictionaryData dd=new DictionaryData();
+						dd.setName(projectData.get(0).getCertLevel());
+						dd.setId(projectData.get(0).getId());
+						cateTree.setLevel(dd); 
+					}
+				}
+			}
+			// 证书编号
+			if(item != null && item.getCertCode() != null) {
+				cateTree.setCertCode(item.getCertCode());
+			}
+			// 资质等级
+			if(item != null && item.getQualificationType() != null) {
+				cateTree.setQualificationType(item.getQualificationType());
+			}
+			// 专业类型
+			if(item != null && item.getProfessType()!= null) {
+				cateTree.setProName(item.getProfessType());
+			}
+			
+			// 所有资质类型
+			/*List < Category > cateList = new ArrayList < Category > ();
+			cateList.add(categoryService.selectByPrimaryKey(categoryId));
+			List < QualificationBean > type = supplierService.queryCategoyrId(cateList, 4);
+			List < Qualification > typeList = new ArrayList < Qualification > ();
+			if(type != null && type.size() > 0 && type.get(0).getList() != null && type.get(0).getList().size() > 0) {
+				typeList = type.get(0).getList();
+			}*/
+			// 所有资质类型，包括父节点的资质
+			List < QualificationBean > qbList = supplierService.queryCategoyrId(cateTree.getParentNodeList(), 4);
+			List < Qualification > typeList = new ArrayList < Qualification > ();
+			if(qbList != null && qbList.size() > 0){
+				for(QualificationBean qb : qbList){
+					typeList.addAll(qb.getList());
+				}
+			}
+			//自定义等级
+//			List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, item.getSupplierId());
+//			for(SupplierPorjectQua qua:supplierQua){
+//				Qualification q=new Qualification();
+//				q.setId(qua.getName());
+//				q.setName(qua.getName());
+//				typeList.add(q);
+//			}
+			
+			cateTree.setTypeList(typeList);
+		}
+		return cateTree;
 	}
 
 }

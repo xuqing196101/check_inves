@@ -404,6 +404,7 @@ function saveCategory(event, treeId, treeNode) {
 		url : globalPath + "/supplier_item/saveCategory.do",
 		async : false,
 		data : $("#items_info_form_id").serialize(),
+		type: "post",
 		beforeSend : function() {
 			// 禁用按钮防止重复提交，发送前响应
 			// 加载中的菊花图标
