@@ -2721,9 +2721,10 @@ public class ExpertAuditController{
 				if(DictionaryDataUtil.getId("PROJECT").equals(cateTree.getItemsId()) || DictionaryDataUtil.getId("GOODS_PROJECT").equals(cateTree.getItemsId())
 						|| DictionaryDataUtil.getId("PROJECT").equals(cateTree.getRootNodeCode()) || DictionaryDataUtil.getId("GOODS_PROJECT").equals(cateTree.getRootNodeCode())){
 					flag = engAuditFlag;
+				}else{
+					flag = true;
 				}
 
-				flag = true;
 			}
     		if(category == null && engCategory == null){
     			//判断专家类别的审核结果
