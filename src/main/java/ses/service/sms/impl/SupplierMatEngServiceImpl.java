@@ -245,17 +245,18 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
 	 * @see ses.service.sms.SupplierMatEngService#getMatEng(java.lang.String)
 	 */
 	public SupplierMatEng getMatEng(String supplierId){
-	    return  supplierMatEngMapper.getMatEngBySupplierId(supplierId);
+	    return supplierMatEngMapper.getMatEngBySupplierId(supplierId);
 	}
 
     @Override
     public String getMatEngIdBySupplierId(String supplierId) {
-        SupplierMatEng eng = supplierMatEngMapper.getMatEngBySupplierId(supplierId);
+        /*SupplierMatEng eng = supplierMatEngMapper.getMatEngBySupplierId(supplierId);
         if (eng != null) {
             return eng.getId();
         } else {
             return null;
-        }
+        }*/
+    	return supplierMatEngMapper.getMatEngIdBySupplierId(supplierId);
     }
 
     @Override

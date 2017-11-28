@@ -212,16 +212,7 @@ public interface SupplierItemService {
 	  */
 	 public List<SupplierItemCategoryBean> getSupplierItemCategoryList(
 			String supplierId, String code);
-
-	/**
-	 * 查询品目信息
-	 * @param categoryId
-	 * @param item
-	 * @return
-	 */
-	public SupplierCateTree getTreeListByCategoryId(String categoryId,
-			SupplierItem item);
-
+	
 	/**
 	 * 查询三级品目
 	 * @param supplierId
@@ -303,6 +294,14 @@ public interface SupplierItemService {
 	 * @return
 	 */
 	public Map<String, Object> getEngAptitute(String supplierId);
+	
+	/**
+	 * 查询品目信息
+	 * @param cateTree
+	 * @param item
+	 * @return
+	 */
+	public SupplierCateTree getSupplierCateTree(SupplierCateTree cateTree);
 
 	/**
 	 * 获取供应商品目树
@@ -310,5 +309,13 @@ public interface SupplierItemService {
 	 * @return
 	 */
 	public SupplierCateTree getSupplierCateTree(SupplierItem supplierItem);
+	
+	/**
+	 * 获取供应商品目树（资质）
+	 * @param cateTree
+	 * @param supplierItem
+	 * @return
+	 */
+	public SupplierCateTree getSupplierCateTreeQua(SupplierCateTree cateTree, SupplierItem supplierItem);
 
 }

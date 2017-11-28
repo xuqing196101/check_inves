@@ -62,5 +62,12 @@ public interface SupplierMatServeMapper {
      * @return
      */
 	int deleteBySupplierId(String supplierId);
+
+	/**
+	 * 根据供应商id查询服务专业信息id
+	 * @param supplierId
+	 * @return
+	 */
+	String getMatSeIdBySupplierId(String supplierId);
     
 }

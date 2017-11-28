@@ -3770,9 +3770,10 @@ public class SupplierController extends BaseSupplierController {
     @ResponseBody
     public String getProType(String typeId, String certCode, String supplierId){
     	List<String> list = null;
-    	if(null!= certCode){
-    		SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
-    		list = supplierAptituteService.getPorType( typeId,matEng.getId(),certCode);
+    	if(null != certCode){
+//    		SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
+    		String matEngId = supplierMatEngService.getMatEngIdBySupplierId(supplierId);
+    		list = supplierAptituteService.getProType(typeId,matEngId,certCode);
     	}
     	String string = JSON.toJSONString(list);
     	return string;
