@@ -426,21 +426,43 @@ public class ProjectController extends BaseController {
      * @return
      */
     @RequestMapping("/projectByAll")
-    public String projectByAll(Project project,Integer page, Model model){
+    public String projectByAll(@CurrentUser User user, Project project, Integer page, Model model){
         HashMap<String,Object> map = new HashMap<String,Object>();
-        if(project.getName() !=null && !project.getName().equals("")){
+        if(StringUtils.isNotBlank(project.getName())){
             map.put("name", project.getName());
         }
-        if(project.getProjectNumber() != null && !project.getProjectNumber().equals("")){
+        if(StringUtils.isNotBlank(project.getProjectNumber())){
             map.put("projectNumber", project.getProjectNumber());
         }
-        if(project.getStatus() != null && !project.getStatus().equals("")){
+        if(StringUtils.isNotBlank(project.getStatus())){
             map.put("status", project.getStatus());
         }
+        if (user != null && !StringUtils.equals("4", user.getTypeName()) && user.getOrg() != null) {
+        	map.put("purchaseDepId", user.getOrg().getId());
+		} else {
+			map.put("purchaseDepId", project.getPurchaseDepId());
+		}
+        if (StringUtils.isNotBlank(project.getMaterialsType())) {
+        	map.put("goodsName", project.getMaterialsType());
+		}
+        if (StringUtils.isNotBlank(project.getSectorOfDemand())) {
+        	map.put("department", project.getSectorOfDemand());
+		}
+        if (StringUtils.isNotBlank(project.getPrIntroduce())) {
+        	map.put("documentNumber", project.getPrIntroduce());
+		}
         if(page==null){
             page = 1;
         }
-        PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+        List<Orgnization> orgByPosition = orgnizationService.findPurchaseOrgByPosition(null);
+        map.put("page", page);
+        List<Project> listByAll = projectService.listByAll(map);
+        if (listByAll != null && !listByAll.isEmpty()) {
+        	model.addAttribute("info", new PageInfo<Project>(listByAll));
+		}
+        model.addAttribute("typeName", user.getTypeName());
+        model.addAttribute("orgByPosition", orgByPosition);
+        /*PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
         List<Project> list = projectService.lists(map);
         for (int i = 0; i < list.size(); i++ ) {
             try {
@@ -450,7 +472,7 @@ public class ProjectController extends BaseController {
                 list.get(i).setProjectContractor("");
             }
             model.addAttribute("info", new PageInfo<Project>(list));
-        }
+        }*/
         model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
         model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
         model.addAttribute("projects", project);

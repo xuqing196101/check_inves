@@ -26,6 +26,7 @@ import ses.model.bms.User;
 import ses.model.oms.PurchaseInfo;
 import ses.model.sms.Quote;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 import bss.dao.pms.PurchaseDetailMapper;
@@ -51,7 +52,6 @@ import com.github.pagehelper.PageHelper;
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
-import common.service.impl.UploadServiceImpl;
 
 /**
  * 
@@ -187,7 +187,7 @@ public class ProjectServiceImpl implements ProjectService {
      * @return
      */
     @Override
-    public List<Project>  provisionalList(Integer page, Project project){
+    public List<Project> provisionalList(Integer page, Project project){
         PropertiesUtil config = new PropertiesUtil("config.properties");
         PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
         List<Project> lists = projectMapper.provisionalList(project);
@@ -1100,5 +1100,11 @@ public class ProjectServiceImpl implements ProjectService {
 	public Project newSelectById(String id) {
 		
 		return projectMapper.newSelectById(id);
+	}
+
+	@Override
+	public List<Project> listByAll(HashMap<String, Object> map) {
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+		return projectMapper.listByAll(map);
 	} 
   }
