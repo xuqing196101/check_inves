@@ -57,9 +57,6 @@ public class SupplierItemController extends BaseController {
 	@Autowired
 	private EngCategoryService engCategoryService;
 	
-	@Autowired
-	private EngCategoryService engCategoryService;
-	
 	@ResponseBody
 	@RequestMapping(value = "/saveCategory", method = RequestMethod.POST)
 	public String saveCategory(SupplierItem supplierItem, String flag, String clickFlag) {
