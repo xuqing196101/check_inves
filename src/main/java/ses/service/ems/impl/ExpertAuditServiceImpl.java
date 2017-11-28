@@ -1,10 +1,11 @@
 package ses.service.ems.impl;
 
-import com.github.pagehelper.PageHelper;
-import common.constant.StaticVariables;
-import common.utils.DateUtils;
-import common.utils.JdcgResult;
-import common.utils.SMSUtil;
+import java.io.File;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +15,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import com.github.pagehelper.PageHelper;
+
+import common.constant.StaticVariables;
+import common.utils.DateUtils;
+import common.utils.JdcgResult;
+import common.utils.SMSUtil;
 import ses.dao.ems.ExpertAuditFileModifyMapper;
 import ses.dao.ems.ExpertAuditMapper;
 import ses.dao.ems.ExpertAuditOpinionMapper;
@@ -29,7 +37,6 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
 import ses.model.ems.ExpertAuditOpinion;
-import ses.model.ems.ExpertBatch;
 import ses.model.ems.ExpertBatchDetails;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertPublicity;
@@ -40,12 +47,6 @@ import ses.util.Constant;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.WfUtil;
-
-import java.io.File;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 /**
  * <p>Title:ExpertAuditServiceImpl </p>
  * <p>Description: 专家审核</p>
@@ -931,7 +932,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 			break;
 		}
 		if(msg !=null && !"".equals(msg) && mobile !=null && !"".equals(mobile)){
-			 prompt = SMSUtil.sendMsg(mobile, msg);			
+            SMSUtil.sendMsg(mobile, msg);			
 		}
 		return prompt;
 	}
