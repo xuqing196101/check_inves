@@ -32,12 +32,12 @@
       });
       $(el).find('thead th').each(function (index) {
         if ($(this).attr('style') != undefined) {
-          header_html += '<th style="'+ $(this).attr('style') +'width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'">'+ $(this).html() +'</th>';
+          header_html += '<th style="'+ $(this).attr('style') +'width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'px">'+ $(this).html() +'</th>';
           if (index < opts.fixedNumber) {
             header_columns_html += '<th style="'+ $(this).attr('style') +'width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'px">'+ $(this).html() +'</th>';
           }
         } else {
-          header_html += '<th style="width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'">'+ $(this).html() +'</th>';
+          header_html += '<th style="width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'px">'+ $(this).html() +'</th>';
           if (index < opts.fixedNumber) {
             header_columns_html += '<th style="width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'px">'+ $(this).html() +'</th>';
           }
@@ -59,7 +59,7 @@
             $(this).find('td').each(function (td_index) {
               if (td_index < opts.fixedNumber) {
                 // console.log($(this).html());
-                td_html += '<td>'+ $(this).html() +'</td>';
+                td_html += '<td class="'+ $(this).attr('class') +'">'+ $(this).html() +'</td>';
               }
             });
             columns_html += '<tr>'+ td_html +'</tr>';
@@ -67,7 +67,7 @@
         } else {
           $(this).find('td').each(function (td_index) {
             if (td_index < opts.fixedNumber) {
-              td_html += '<td>'+ $(this).html() +'</td>';
+              td_html += '<td class="'+ $(this).attr('class') +'">'+ $(this).html() +'</td>';
             }
           });
           columns_html += '<tr>'+ td_html +'</tr>';
@@ -86,13 +86,42 @@
       $(el).find('tbody tr').each(function (index) {
         $(this).find('td').each(function (td_index) {
           if (td_index < opts.fixedNumber) {
-            $(el).parent().siblings('.mfixed-columns').find('tbody tr').eq(index).find('td').eq(td_index).css({
-              width: $(this).outerWidth(),
-              height: $(this).outerHeight()
-            });
+            if (typeof($(this).attr('colspan')) == 'undefined') {
+              $(el).parent().siblings('.mfixed-columns').find('tbody tr').eq(index).find('td').eq(td_index).css({
+                width: $(this).outerWidth(),
+                height: $(this).outerHeight()
+              });
+            } else {
+              $(el).parent().siblings('.mfixed-columns').find('tbody tr').eq(index).find('td').eq(td_index).css({
+                height: $(this).outerHeight(),
+                borderRight: 'none'
+              });
+            }
           }
         });
       });
+      
+      if ($(window).scrollTop() >= $(el).offset().top) {
+        $(el).parent().siblings('.mfixed-header').css({
+          position: 'fixed',
+          left: 'auto'
+        });
+        
+        $(el).parent().siblings('.mfixed-header-columns').css({
+          position: 'fixed',
+          left: 'auto'
+        });
+      } else {
+        $(el).parent().siblings('.mfixed-header').css({
+          position: 'absolute',
+          left: 0
+        });
+        
+        $(el).parent().siblings('.mfixed-header-columns').css({
+          position: 'absolute',
+          left: 0
+        });
+      }
     };
 
     var start = function() {
@@ -123,7 +152,6 @@
             });
           }
         });
-        
         
         // 左右滚动表头跟随表格
         $(el).parent().bind('scroll', function () {

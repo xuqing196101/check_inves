@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import common.constant.StaticVariables;
 import common.utils.DateUtils;
 import common.utils.JdcgResult;
+import common.utils.SMSUtil;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +18,7 @@ import ses.dao.ems.ExpertAuditFileModifyMapper;
 import ses.dao.ems.ExpertAuditMapper;
 import ses.dao.ems.ExpertAuditOpinionMapper;
 import ses.dao.ems.ExpertBatchDetailsMapper;
+import ses.dao.ems.ExpertBatchMapper;
 import ses.dao.ems.ExpertCategoryMapper;
 import ses.dao.ems.ExpertMapper;
 import ses.dao.ems.ExpertReviewTeamMapper;
@@ -27,6 +29,7 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
 import ses.model.ems.ExpertAuditOpinion;
+import ses.model.ems.ExpertBatch;
 import ses.model.ems.ExpertBatchDetails;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertPublicity;
@@ -36,7 +39,6 @@ import ses.service.ems.ExpertService;
 import ses.util.Constant;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
-import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 
 import java.io.File;
@@ -84,6 +86,9 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	
 	@Autowired
 	private ExpertBatchDetailsMapper expertBatchDetailsMapper;
+
+	@Autowired
+	private ExpertBatchMapper expertBatchMapper;
 
 	/**
 	 * 
@@ -512,6 +517,8 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	            	expert.setStorageAt(new Date());
 	                // 修改
 	            	expertMapper.updateByPrimaryKeySelective(expert);
+	            	//审核结果短信通知
+	            	/*sendSms("6", expert.getMobile());*/
 	            }
 	        }
          }
@@ -575,9 +582,17 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 				// 查询专家编号
                 expertBatchDetails = new ExpertBatchDetails();
                 expertBatchDetails.setExpertId(expertPublicity.getId());
-                ExpertBatchDetails expertBatchDetails1 = expertBatchDetailsMapper.findExpertBatchDetails(expertBatchDetails);
-                if(expertBatchDetails1 != null){
-                    expertPublicity.setExpertNum(expertBatchDetails1.getBatchDetailsNumber());
+                expertBatchDetails = expertBatchDetailsMapper.findExpertBatchDetailsOfOne(expertBatchDetails);
+				/*List<ExpertBatchDetails> batchDetails = expertBatchDetailsMapper.findExpertBatchDetailsList(expertBatchDetails);
+                for (ExpertBatchDetails e : batchDetails) {
+                    ExpertBatch batch = expertBatchMapper.getExpertBatchByKey(e.getBatchId());
+                    if (!"1".equals(batch.getBatchStatus())) {
+                        expertBatchDetails = e;
+                        break;
+                    }
+                }*/
+                if(expertBatchDetails != null){
+                    expertPublicity.setExpertNum(expertBatchDetails.getBatchDetailsNumber());
                 } else {
                     expertPublicity.setExpertNum("");
                 }
@@ -876,6 +891,49 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	}
 	public void updateAuditStatus(String id,String auditStatus) {
 		mapper.updateAuditStatus(id, auditStatus);
+	}
+	
+	
+	/**
+     * 审核结果短信通知
+     * @param expertId
+     * @return 0表示成功
+     * API文档地址   http://bcp.pro-group.cn:7002/Docs/#!easycloud-smsapi.md
+     */
+	@Override
+	public String sendSms(String status, String mobile) {
+		/*Expert expert = expertService.selectByPrimaryKey(expertId);
+    	String mobile = expert.getMobile();
+    	String status = expert.getStatus();*/
+    	String msg = null;
+    	String prompt = "";
+		switch (status) {
+		case "1":
+			msg = "【军队采购网】审核通知：您好，您的信息初审合格。";
+			break;
+		case "2":
+			msg = "【军队采购网】审核通知：您好，您的信息初审不合格。";
+			break;
+		case "3":
+			msg = "【军队采购网】审核通知：您好，您的信息初审退回修改。";
+			break;
+		case "5":
+			msg = "【军队采购网】审核通知：您好，您的信息复审不合格。";
+			break;
+		case "6":
+			msg = "【军队采购网】审核通知：您好，您的信息复审合格。";
+			break;
+		case "10":
+			msg = "【军队采购网】审核通知：您好，您的信息复审退回修改。";
+			break;
+		default:
+			msg = null;
+			break;
+		}
+		if(msg !=null && !"".equals(msg) && mobile !=null && !"".equals(mobile)){
+			 SMSUtil.sendMsg(mobile, msg);			
+		}
+		return prompt;
 	}
 
 }

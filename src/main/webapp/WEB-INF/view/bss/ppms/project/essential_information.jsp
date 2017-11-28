@@ -68,7 +68,7 @@
             var projectNumber = $("#projectNumber").val();//项目编号
             var name = $("#name").val();//项目名称
             var supplierNumber = $("#supplierNumber").val();//供应商人数
-            var purchaseType = "${findById.code}";//采购方式
+            var purchaseType = "${project.purchaseType}";//采购方式
             deadline = $("#deadline").val();//投标截止时间
             bidAddress = $.trim(bidAddress);
             projectNumber = $.trim(projectNumber);
@@ -288,14 +288,14 @@
           }
         });
 
-        var erro = "${erro}";
+        /* var erro = "${erro}";
         if(erro) {
-          /* $("#saveCheck").hide(); */
-         /*  $("input:text").each(function() {
+          $("#saveCheck").hide();
+         	$("input:text").each(function() {
             $(this).attr("disabled", "disabled");
           });
-          $("select").attr("disabled", "disabled"); */
-        }
+          $("select").attr("disabled", "disabled"); 
+        } */
       });
 
       function change(id) {
@@ -316,7 +316,7 @@
         });
       }
 
-      function downloads() {
+      function downloading() {
         var id = [];
         $('input[name="chkItem"]:checked').each(function() {
           id.push($(this).val());
@@ -412,6 +412,11 @@
           <li class="">
             <a aria-expanded="false" href="#tab-5" data-toggle="tab" class="f18">附件上传</a>
           </li>
+          <c:if test="${packAdvice ne null}">
+          <li class="">
+            <a aria-expanded="false" href="#tab-6" data-toggle="tab" class="f18">转竞谈审核原因和附件</a>
+          </li>
+          </c:if>
         </ul>
         <div class="tab-content">
           <div class="tab-pane fade active in" id="tab-1">
@@ -423,22 +428,6 @@
               <div class="p0${1}">
                 <table class="table table-bordered left_table mb0">
                   <tbody>
-                  <tr>
-                      <td class="bggrey" width="15%">终止审核附件:</td>
-                      <td width="35%">
-                      <div class="h30 lh30">
-                        <c:forEach items="${packAdvice}" var="pd" varStatus="v">
-                           <u:show showId="upload_ids${v.index+1}"  delete="false" businessId="${pd.code}" sysKey="1" typeId="${ZZFJ_FJ}" />
-                        </c:forEach>
-                        </div>
-                      </td>
-                      <td class="bggrey" width="15%">转竞谈审核附件:</td>
-                      <td width="35%">
-                      <c:forEach items="${packAdvice}" var="pd" varStatus="v" >
-                           <u:show showId="upload_id${v.index+1}"  delete="false" businessId="${pd.code}" sysKey="2" typeId="${ZJTFJ_FJ}" />
-                        </c:forEach>
-                      </td>
-                    </tr>
                     <tr>
                       <td class="bggrey" width="15%">项目编号:</td>
                       <td width="35%"><input name="projectNumber" class="m0 border0" id="projectNumber" value="${project.projectNumber}" type="text" /></td>
@@ -467,7 +456,12 @@
                     <tr>
                       <td class="bggrey">采购方式:</td>
                       <td>
-                        <input name="purchaseType" class="m0 border0" id="purchaseType" value="${project.purchaseType}" type="text" disabled="disabled"/>
+                      	<c:if test="${project.purchaseNewType ne '' && project.purchaseNewType ne null }">
+				                  <input name="purchaseType" class="m0 border0" id="purchaseType" value="${purchaseTypeName}转${project.purchaseNewType}" type="text" disabled="disabled"/>
+				                </c:if>
+				                <c:if test="${project.purchaseNewType eq null }">
+				                	<input name="purchaseType" class="m0 border0" id="purchaseType" value="${purchaseTypeName}" type="text" disabled="disabled"/>
+				                </c:if>
                       </td>
                       <td class="bggrey"><span class="red star_red">*</span>采购文件收费:</td>
                       <td>
@@ -636,7 +630,7 @@
                 </table>
               </c:if>
               <c:if test="${packageList != null}">
-                <c:forEach items="${packageList }" var="pack" varStatus="p">
+                <c:forEach items="${packageList}" var="pack" varStatus="p">
                   <div class="col-md-12 col-sm-6 col-xs-12 p0">
                     <span onclick="ycDiv1(this,'${p.index}')" class="count_flow hand  shrink"></span>
                     <span class="f16 b">包名：</span>
@@ -720,6 +714,8 @@
           </div>
           <div class="tab-pane fade " id="tab-3">
           <div class="row mt10">
+            <div class="col-sm-2 col-xs-4 mb10"><button class="btn btn-windows input m0 w100p" type="button" onclick="bidRegister('${project.id}','16')">编报说明</button></div>
+            <div class="col-sm-2 col-xs-4 mb10"><button class="btn btn-windows input m0 w100p" type="button" onclick="bidRegister('${project.id}','17')">审批单</button></div>
             <div class="col-sm-2 col-xs-4 mb10"><button class="btn btn-windows input m0 w100p" type="button" onclick="bidRegister('${project.id}','1')">投标登记表</button></div>
             <div class="col-sm-2 col-xs-4 mb10"><button class="btn btn-windows input m0 w100p" type="button" onclick="bidRegister('${project.id}','2')">开标记录</button></div>
             <div class="col-sm-2 col-xs-4 mb10"><button class="btn btn-windows input m0 w100p" type="button" onclick="bidRegister('${project.id}','3')">有效监标词</button></div>
@@ -755,7 +751,7 @@
           <div class="tab-pane fade " id="tab-5">
             <div class="lh22 fl"><u:upload id="upload123" groups="upload123,upload_id" multiple="true" auto="true" businessId="${project.id}" typeId="${dataId}" sysKey="2" buttonName="上传附件" /></div>
             <%-- <u:show showId="upload123" groups="upload123,upload_id" businessId="${project.id}" sysKey="2" typeId="${dataId}" /> --%>
-            <div class="fl ml5"><button class="btn btn-windows input m0" onclick="downloads();">下载</button></div>
+            <div class="fl ml5"><button class="btn btn-windows input m0" onclick="downloading();">下载</button></div>
             <div class="fl ml5"><button class="btn btn-windows delete m0" onclick="deleted();">删除</button></div>
             <div class="clear"></div>
             <table class="table table-bordered table-condensed mt10 mb0">
@@ -770,8 +766,40 @@
               </thead>
               <tbody id="loadUpload"></tbody>
             </table>
-
           </div>
+          <c:if test="${packAdvice ne null}">
+          <div class="tab-pane fade " id="tab-6">
+          	<table class="table table-bordered left_table mb0">
+              <tbody>
+              	<c:forEach items="${packAdvice}" var="pd" varStatus="v">
+              		<tr>
+                  	<td class="bggrey" width="15%">
+                  		<c:if test="${pd.type == 1}">终止</c:if><c:if test="${pd.type == 2}">转竞谈</c:if>审核附件:
+                  	</td>
+                  	<td width="35%">
+                  		<div class="h30 lh30">
+                  			<c:if test="${pd.type == 1}">
+                       		<u:show showId="upload_ids${v.index+1}"  delete="false" businessId="${pd.code}" sysKey="2" typeId="${ZZFJ_FJ}" />
+                    		</c:if>
+                    		<c:if test="${pd.type == 2}">
+                       		<u:show showId="upload_ids${v.index+1}"  delete="false" businessId="${pd.code}" sysKey="2" typeId="${ZJTFJ_FJ}" />
+                    		</c:if>
+                    	</div>
+                  	</td>
+                  	<td class="bggrey" width="15%">
+                  		<c:if test="${pd.type == 1}">终止</c:if><c:if test="${pd.type == 2}">转竞谈</c:if>审核不通过原因:
+                  	</td>
+                  	<td width="35%">
+                  		<div class="h30 lh30">
+                  			<input type="text" class="m0 border0" readonly="readonly" value="${pd.reason}"/>
+                    	</div>
+                  	</td>
+                	</tr>
+                </c:forEach>
+              </tbody> 
+            </table>
+          </div>
+          </c:if>
         </div>
       </div>
     </div>

@@ -33,10 +33,13 @@ public interface ExpertAgainAuditService {
 	void handleExpertReviewTeam(String expertId);
 	ExpertAgainAuditImg automaticGrouping(String batchId,int count);
 	ExpertAgainAuditImg selectReviewTeamAll();
-	List<ExpertBatchDetails> findBatchDetailsList(String batchId);
+	List<ExpertBatchDetails> findBatchDetailsList(ExpertBatchDetails expertBatchDetails);
 	void deleteByPrimaryKey();
 	ExpertAgainAuditImg addBatchTemporary(String expertId,String ids);
 	ExpertAgainAuditImg selectBatchTemporary(Expert expert);
 	ExpertAgainAuditImg deleteBatchTemporary(String ids);
 	String getbatchName(String batchId);
+	ExpertAgainAuditImg againReview(String id);
+	ExpertAgainAuditImg cancelReview(String id);
+	ExpertAgainAuditImg takeEffect(String batchId);
 }

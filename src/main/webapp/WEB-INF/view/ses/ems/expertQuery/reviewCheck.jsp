@@ -115,7 +115,7 @@
 	          </table>
 	        </ul>
 	        
-            <div class="clear"></div>
+          <div class="clear"></div>
             <h2 class="count_flow"><i>2</i>意见信息</h2>
             <ul class="ul_list">
               <li>

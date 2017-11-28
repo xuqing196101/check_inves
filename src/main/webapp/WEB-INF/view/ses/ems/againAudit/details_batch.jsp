@@ -62,9 +62,8 @@
           </li>
           <li class="select2-nosearch mb10">
             <label class="fl">专家类别：</label>
-            <div class="fl w220">
-            <select multiple name="expertsTypeId">
-            </select>
+            <div class="fl w220 h30">
+              <select class="w220 h30" name="expertsTypeId" multiple></select>
             </div>
           </li>
           <li class="mb10">
@@ -72,29 +71,27 @@
             <select class="w220" name="groupId"></select>
           </li>
           <li class="mb10">
-            <label class="fl">审核状态：</label>
+            <label class="fl">审核结论：</label>
             <select class="w220" name="status">
               <option value="">全部</option>
-              <option value="">复审合格</option>
+              <option value="-3">复审合格</option>
               <option value="5">复审不合格</option>
               <option value="10">复审退回修改</option>
-              <option value="">重新复审</option>
             </select>
           </li>
         </ul>
         <div class="clear"></div>
         <div class="tc">
-          <button type="button" class="btn mb0" onclick="detailsBatch_search()">查询</button>
-          <button type="reset" class="btn mb0 mr0" id="againAudit_reset">重置</button>
+          <button type="button" class="btn mb0 canDisable" onclick="detailsBatch_search()">查询</button>
+          <button type="reset" class="btn mb0 mr0 canDisable" id="againAudit_reset">重置</button>
         </div>
       </form>
     </div>
     
     <!-- 表格开始-->
     <div class="col-md-12 pl20 pr0 mt10 mb10" id="btn_group">
-      <div class="fr pic_upload">
-        <div class="fl h30 lh30">上传批准复审表：</div>
-        <u:upload id="pic_checkword" businessId="${batchId}" sysKey="3" typeId="da6ab7e73b8d464d8d8d46013dd70e43" buttonName="上传彩色扫描件" auto="true" multiple="true"/>
+      <div class="m_inline pic_upload">
+        <u:upload id="pic_checkword" businessId="${batchId}" sysKey="3" typeId="da6ab7e73b8d464d8d8d46013dd70e43" buttonName="上传批准复审表" auto="true" multiple="true"/>
         <u:show showId="pic_checkword" businessId="${batchId}" sysKey="3" typeId="da6ab7e73b8d464d8d8d46013dd70e43" />
       </div>
       <div class="clear"></div>
@@ -119,6 +116,8 @@
   </form>
   <!-- 内容结束 -->
   
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.css">
+  <script src="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.js"></script>
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/batchDetails.js"></script>
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/search.js"></script>
@@ -128,6 +127,9 @@
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/findBatchDetails.do';  // 列表地址
     var audit_url = '${pageContext.request.contextPath}/expertAgainAudit/checkGroupStatus.do';  // 校验地址
     var jump_auditBatch_url = '${pageContext.request.contextPath}/expertAgainAudit/groupBatch.html?batchId='+batchId;
+    var take_effect_url = '${pageContext.request.contextPath}/expertAgainAudit/takeEffect.do';  // 生效地址
+    var reexamination_url = '${pageContext.request.contextPath}/expertAgainAudit/againReview.do';  // 取消重新复审地址
+    var cancel_reexamination_url = '${pageContext.request.contextPath}/expertAgainAudit/cancelReview.do';  // 取消重新复审地址
     var select_ids = [];  // 选择的专家id集合
     var is_init = 0;
     
@@ -150,16 +152,6 @@
         data: {
           batchId: batchId
         }
-      });
-      
-      var position = '';
-      $('#list_content tr').each(function () {
-        if (getUrlParam('expertId') == $(this).find('input[name="expertId"]').val()) {
-          position = $(this).offset().top;
-        }
-      });
-      $('html, body').animate({
-        scrollTop: position
       });
       
       // 重置操作
@@ -238,40 +230,40 @@
     }
     
     //复审批准（资源服务中心）
-    function reviewConfirm(){
-    	var ids = [];
-    	$('input[type="checkbox"]:checked').each(function() {
-        var id = $(this).val();
-       	var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
-        state = trim(state);
-        if(state !="" && state == "复审结束"){
-        	ids.push(id);
-        }
-      });
-    		$.ajax({
- 	        url: "${pageContext.request.contextPath}/expertAgainAudit/reviewConfirm.do",
- 	        data: {"expertIds" : ids},
- 	        type: "post",
- 	        traditional:true,
- 	        success: function (data) {
- 	          if(data.status == 500){
- 	            layer.msg("操作成功",{offset:'100px'});
- 	            window.setTimeout(function(){
- 	              window.location.reload();
- 	            },1000);
- 	          }
- 	          if(data.status == 503){
- 	            layer.msg("请选择复审结束的专家",{offset:'100px'});
- 	          }
- 	        },error: function(){
- 	          layer.msg("操作失败",{offset:'100px'});
- 	        }
- 	      });
-    }
+    // function reviewConfirm(){
+    // 	var ids = [];
+    // 	$('input[type="checkbox"]:checked').each(function() {
+    //     var id = $(this).val();
+    //    	var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
+    //     state = trim(state);
+    //     if(state !="" && state == "复审结束"){
+    //     	ids.push(id);
+    //     }
+    //   });
+    // 		$.ajax({
+ 	  //       url: "${pageContext.request.contextPath}/expertAgainAudit/reviewConfirm.do",
+ 	  //       data: {"expertIds" : ids},
+ 	  //       type: "post",
+ 	  //       traditional:true,
+ 	  //       success: function (data) {
+ 	  //         if(data.status == 500){
+ 	  //           layer.msg("操作成功",{offset:'100px'});
+ 	  //           window.setTimeout(function(){
+ 	  //             window.location.reload();
+ 	  //           },1000);
+ 	  //         }
+ 	  //         if(data.status == 503){
+ 	  //           layer.msg("请选择复审结束的专家",{offset:'100px'});
+ 	  //         }
+ 	  //       },error: function(){
+ 	  //         layer.msg("操作失败",{offset:'100px'});
+ 	  //       }
+ 	  //     });
+    // }
     
     //查看
     function viewDetails(expertId){
-        window.location.href = "${pageContext.request.contextPath}/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2&isCheck=yes";
+      window.location.href = "${pageContext.request.contextPath}/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2&isCheck=yes";
     }
   </script>
     

@@ -902,19 +902,6 @@ public class SynchImportController {
                     }
                     
                     
-                    /** 供应商抽取结果数据导入 **/      
-                    if (synchType.contains(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_RESULT)) {
-                    	if (f.getName().contains(Constant.SUPPLIER_EXTRACT_RESULT_FILE_NAME)) {
-            				autoExtractSupplierService.importSupplierExtractResult(f);
-            			}
-                    	if (f.isDirectory()) {
-                    		if (f.getName().contains(Constant.SUPPLIER_EXTRACT_RESULT_FILE_NAME)) {
-                    			OperAttachment.moveFolder(f);
-                    		}
-                    	}
-                    }
-                    
-                    
                     //只能是外网导入
                     /** 供应商等级数据导入 **/
                     if(ipAddressType.equals("1")){
@@ -930,17 +917,32 @@ public class SynchImportController {
                     	}
                     }
                     
-               	 /** 供应商抽取信息数据导入 **/ 
-                	if (synchType.contains(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO)) {
-                		if (f.getName().contains(Constant.SUPPLIER_EXTRACT_FILE_NAME)) {
-                			autoExtractSupplierService.importSupplierExtract(f);
-                		}
-                		if (f.isDirectory()) {
-                			if (f.getName().contains(Constant.SUPPLIER_EXTRACT_FILE_NAME)) {
-                				OperAttachment.moveFolder(f);
+                    /** 供应商抽取信息数据导入 **/ 
+                    if (synchType.contains(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO)) {
+                    	if (f.getName().contains(Constant.SUPPLIER_EXTRACT_FILE_NAME)) {
+                    		autoExtractSupplierService.importSupplierExtract(f);
+                    	}
+                    	if (f.isDirectory()) {
+                    		if (f.getName().contains(Constant.SUPPLIER_EXTRACT_FILE_NAME)) {
+                    			OperAttachment.moveFolder(f);
+                    		}
+                    	}
+                    }
+                    if("0".equals(ipAddressType)){
+                    	
+                    	 /** 供应商抽取结果数据导入 **/      
+                        if (synchType.contains(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_RESULT)) {
+                        	if (f.getName().contains(Constant.SUPPLIER_EXTRACT_RESULT_FILE_NAME)) {
+                				autoExtractSupplierService.importSupplierExtractResult(f);
                 			}
-                		}
-                	}
+                        	if (f.isDirectory()) {
+                        		if (f.getName().contains(Constant.SUPPLIER_EXTRACT_RESULT_FILE_NAME)) {
+                        			OperAttachment.moveFolder(f);
+                        		}
+                        	}
+                        }
+                    	
+                    }
                     
                     /**目录资质关联表*/
                     categoryService.importCategoryQua(synchType, f);

@@ -235,12 +235,12 @@ public class SupervisionServiceImpl implements SupervisionService {
             map.put("contract", contract);
             List<PqInfo> selectByContract = pqInfoMapper.selectByContract(map);
             if(selectByContract != null && selectByContract.size() > 0){
-                if("合格".equals(selectByContract.get(0).getConclusion())){
+                if("0".equals(selectByContract.get(0).getConclusion())){
                     //int one = 38;
                     num = "100";
                     name = "质检合格";
                 }
-                if("不合格".equals(selectByContract.get(0).getConclusion())){
+                if("1".equals(selectByContract.get(0).getConclusion())){
                     int one = 37;
                     num = String.valueOf(Math.round(total*one));
                     name = "质检不合格";

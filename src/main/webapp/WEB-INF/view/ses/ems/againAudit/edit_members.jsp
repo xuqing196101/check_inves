@@ -47,16 +47,16 @@
       <input type="text" class="form-control m0" name="loginName" placeholder="请输入用户名" onblur="checkOnly(this)">
       <button type="button" class="btn btn-windows setPwd" onclick="set_password()" id="set_password">设置密码</button>
       <span id="pwd_msg" class="red"></span>
-      <button type="button" class="btn btn-windows import" onclick="import_history()">引用历史人员信息</button>
     </div>
     
     <div class="content table_box">
       <table class="table table-bordered table-condensed table-hover againAudit_table">
         <thead>
           <tr>
-            <th class="info w200">专家姓名</th>
-            <th class="info">单位</th>
-            <th class="info w300">技术职称（职务）</th>
+            <th class="w200">专家姓名</th>
+            <th>单位</th>
+            <th class="w300">技术职称（职务）</th>
+            <th class="w160 tc">操作</th>
           </tr>
         </thead>
         <tbody id="list_content">
@@ -64,11 +64,13 @@
             <td><input type="text" name="relName" class="form-control w100p border0 m0"></td>
             <td><input type="text" name="orgName" class="form-control w100p border0 m0"></td>
             <td><input type="text" name="duties" class="form-control w100p border0 m0"></td>
+            <td><button type="button" class="btn btn-windows import m0" onclick="import_history(this)">引用历史人员信息</button></td>
           </tr>
           <tr>
             <td><input type="text" name="relName" class="form-control w100p border0 m0"></td>
             <td><input type="text" name="orgName" class="form-control w100p border0 m0"></td>
             <td><input type="text" name="duties" class="form-control w100p border0 m0"></td>
+            <td><button type="button" class="btn btn-windows import m0" onclick="import_history(this)">引用历史人员信息</button></td>
           </tr>
         </tbody>
       </table>

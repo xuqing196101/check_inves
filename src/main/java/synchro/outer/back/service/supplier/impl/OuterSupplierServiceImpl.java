@@ -1,15 +1,25 @@
 package synchro.outer.back.service.supplier.impl;
 
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+
 import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
 import common.service.UploadService;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
@@ -75,14 +85,6 @@ import synchro.outer.back.service.supplier.OuterSupplierService;
 import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 
@@ -963,12 +965,13 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     }
     
     
+    
     /**
      * Description:查询供应商等级导出
      *
      * @param startTime
      * @param endTime
-     * @author Easong
+     * @author jiachengxiang
      * @version 2017/10/16
      * @since JDK1.7
      */
@@ -995,7 +998,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
 	public void importSupplierLevel(File file) {
 		int num = 0;
         for (File file2 : file.listFiles()) {
-            // 抽取结果信息
+            // 供应商等级
             if (file2.getName().contains(FileUtils.SUPPLIER_LEVEL_FILENAME)) {
                 List<SupplierItemLevel> levelList = FileUtils.getBeans(file2, SupplierItemLevel.class);
                 num += levelList == null ? 0 : levelList.size();

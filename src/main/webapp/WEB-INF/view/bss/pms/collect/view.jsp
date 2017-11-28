@@ -392,7 +392,7 @@
 		<form id="acc_form" action="${pageContext.request.contextPath}/accept/update.html" method="post">
 					
 					<c:forEach items="${list }" var="obj" varStatus="vs">
-						<tr <c:if test="${isParent=='true'}">attr='true'</c:if>>
+						<tr <c:if test="${obj.isParent=='true'}">attr='true'</c:if>>
 							<td class="tc w50">
 							    <div class="w50">
 							        ${obj.seq } <input type="hidden" value="${obj.id }" name="list[${vs.index }].id">

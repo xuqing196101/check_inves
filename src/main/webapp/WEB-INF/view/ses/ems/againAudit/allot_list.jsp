@@ -108,7 +108,7 @@
                 <th>专家类型</th>
                 <th class="w80">专家类别</th>
                 <th class="w180">工作单位</th>
-                <th class="w140">专业职称</th>
+                <th class="w140">专业职称(职务)</th>
                 <th class="w120">初审合格时间</th>
               </tr>
             </thead>
@@ -136,7 +136,7 @@
                 <th>专家类型</th>
                 <th class="w80">专家类别</th>
                 <th class="w180">工作单位</th>
-                <th class="w140">专业职称</th>
+                <th class="w140">专业职称(职务)</th>
                 <th class="w120">初审合格时间</th>
               </tr>
             </thead>
@@ -155,14 +155,12 @@
     <div class="search_detail m0">
       <ul class="demand_list">
         <li class="w100p mr0">
-          <label class="fl w110 h30 lh30"><i class="red">*</i> 批次名称：</label>
+          <label class="fl w130 h30 lh30"><i class="red">*</i> 批次名称：</label>
           <input type="text" name="batchName" value="">
         </li>
         <li class="w100p mr0 mt10">
-          <label class="fl w110 h30 lh30"><i class="red">*</i> 专家编号规则：</label>
-          <span>
-            <input type="text" name="batchNumber" value="">
-          </span>
+          <label class="fl w130 h30 lh30"><i class="red">*</i> 专家编号规则：</label>
+          <input type="text" name="batchNumber" value="">
         </li>
       </ul>
       <div class="clear"></div>

@@ -327,4 +327,11 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
         
         return extractMapper.selectProExpert(projectId);
     }
+
+	@Override
+	public List<Map<String, Object>> selectProResultExpert(String projectId) {
+		return extractMapper.selectProResultExpert(projectId);
+	}
+    
+    
 }

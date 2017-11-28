@@ -165,11 +165,11 @@ function form_reset(){
           </li>
           <li>
             <label class="fl">起始时间：</label>
-            <input id="startTime" name="startTime" type="text" value="${startTime}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" type="text" readonly="readonly">
+            <input id="startTime" name="startTime" type="text" value="${startTime}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" type="text" readonly="readonly">
           </li>
           <li>
             <label class="fl">结束时间：</label>
-            <input id="endTime" name="endTime" type="text" value="${endTime}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" type="text" readonly="readonly">
+            <input id="endTime" name="endTime" type="text" value="${endTime}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" type="text" readonly="readonly">
           </li>
           <button class="btn fl mt1" type="submit">查询</button>
           <button type="button" class="btn fl mt1" onclick="form_reset()">重置</button>
