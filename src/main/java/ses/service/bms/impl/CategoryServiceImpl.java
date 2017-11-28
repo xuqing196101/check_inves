@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.bms.DictionaryDataMapper;
+import ses.dao.bms.EngCategoryMapper;
 import ses.dao.bms.QualificationMapper;
 import ses.dao.sms.SupplierItemMapper;
 import ses.model.bms.Category;
@@ -60,6 +62,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryMapper categoryMapper;
+    
+    @Autowired
+    private EngCategoryMapper engCategoryMapper;
 
     @Autowired
     private SupplierItemMapper supplierItemMapper;
@@ -1249,49 +1254,23 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<CategoryTree> getTreeForExt(Category category,String supplierTypeCode,String categoryId) {
 		
 		List<CategoryTree> jList = new ArrayList<>();
-		List<Category> cateList = new ArrayList<>();
 		if(category.getId()==null){
-			//全部根节点
-			category.setId(dictionaryDataMapper.selectByCode(supplierTypeCode).get(0).getId());
-			//查询选中节点及其父节点
-			if(StringUtils.isNotBlank(categoryId)){
-				int classifyType = 1;
-				String classifyStatus = "";
-				switch (supplierTypeCode) {
-					case "GOODS":
-						classifyType = 1;
-						break;
-					case "PROJECT":
-						classifyType = 2;
-						break;
-					case "SERVICE":
-						classifyType = 3;
-						break;
-					case "PRODUCT":
-						classifyType = 1;
-						classifyStatus = "1,3";
-						break;
-					case "SALES":
-						classifyType = 1;
-						classifyStatus = "2,3";
-						break;
-				}
-				cateList.addAll(categoryMapper.selectParentNode(classifyType,classifyStatus,categoryId.split(",")));
-			}
+	    	   category.setId(dictionaryDataMapper.selectByCode(supplierTypeCode).get(0).getId());
 	    }
-		//查出当前节点下的子节点
-        cateList.addAll(getCateTreeForExt(category.getId()));
-         
+         List<Category> cateList= getCateTreeForExt(category.getId());
          for(Category cate:cateList){
+             List<Category> cList= getCateTreeForExt(cate.getId());
              CategoryTree ct=new CategoryTree();
-             ct.setIsParent(cate.getIsParent());
+             if(!cList.isEmpty()){
+                 ct.setIsParent("true");
+             }else{
+                 ct.setIsParent("false");
+             }
              ct.setId(cate.getId());
              ct.setName(cate.getName());
-             ct.setParentId(cate.getParentId());
+             ct.setpId(cate.getParentId());
              ct.setKind(cate.getKind());
              ct.setStatus(cate.getStatus());
-             ct.setTreeLevel(cate.getLevel());
-             //设置回显选中
              if(StringUtils.isNotBlank(categoryId)){
             	 for (String cid : categoryId.split(",")) {
 					if(ct.getId().equals(cid)){
@@ -1314,6 +1293,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<DictionaryData> getQuaByCid(String categoryId) {
+		String[] categoryIds = categoryId.split(",");
 		HashMap<String,String[]> hashMap = new HashMap<>();
 		hashMap.put("categoryIds", categoryId.split(","));
 		return categoryQuaMapper.getQuaByCid(hashMap);
@@ -1435,6 +1415,7 @@ public class CategoryServiceImpl implements CategoryService {
                 ct.setName(dictionaryData.getName());
                 ct.setIsParent("true");
                 ct.setParentId("0");
+                ct.setCode(dictionaryData.getCode());
                 list.add(ct);
             }
             return list;
@@ -1531,10 +1512,30 @@ public class CategoryServiceImpl implements CategoryService {
         }
         category = new Category();
         category.setId(dict.getId());
+        category.setCode(dict.getCode());
         category.setIsParent("true");
         category.setName(name);
         category.setParentId("0");
         categorys.add(category);
         list.addAll(categorys);
     }
+
+	@Override
+	public List<Category> searchByName(String cateName, String flag,
+			String codeName) {
+		if (flag == null) {
+        	List<Category> list = categoryMapper.searchByName(cateName, codeName);
+        	List<Category> listNot = new LinkedList<Category>();
+        	for(Category cate:list){
+        		List<Category> pList = this.getPListById(cate.getId());
+        		if(pList != null && pList.size() > 0){
+        			listNot.add(cate);
+        		}
+        	}
+        	list.removeAll(listNot);
+            return list;
+        } else {
+            return engCategoryMapper.searchByName(cateName, codeName);
+        }
+	}
 }

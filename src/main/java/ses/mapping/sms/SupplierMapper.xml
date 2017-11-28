@@ -96,6 +96,100 @@
     <association property="area" column="ADDRESS" select="ses.dao.bms.AreaMapper.selectById"/>
 	</resultMap>
 
+	<!--基本字段-->
+	<resultMap id="BaseResultMapSimple" type="ses.model.sms.Supplier">
+		<id column="ID" property="id" />
+		<result column="LOGIN_NAME" property="loginName" />
+		<result column="BUSINESS_NATURE" property="businessNature" />
+		<result column="IS_HAVING_CON_CERT" property="isHavingConCert" />
+		<result column="MOBILE" property="mobile" />
+		<result column="PASSWORD" property="password" />
+		<result column="IS_ILLEGAL" property="isIllegal" />
+		<result column="PURCHASE_EXPERIENCE" property="purchaseExperience" />
+		<result column="SUPPLIER_NAME" property="supplierName" />
+		<result column="WEBSITE" property="website" />
+		<result column="FOUND_DATE" property="foundDate" jdbcType="TIMESTAMP" />
+		<result column="BUSINESS_TYPE" property="businessType" />
+		<result column="BUSINESS_CERT" property="businessCert" />
+		<result column="ADDRESS" property="address" />
+		<result column="COUNT" property="count" />
+		<result column="BANK_NAME" property="bankName" />
+		<result column="LEVEL_SCORE_PRODUCT" property="levelScoreProduct" />
+		<result column="LEVEL_SCORE_SALES" property="levelScoreSales" />
+		<result column="LEVEL_SCORE_SERVICE" property="levelScoreService" />
+		<result column="DESCRIPTION" property="description" />
+		<result column="BANK_ACCOUNT" property="bankAccount" />
+		<result column="POST_CODE" property="postCode" />
+		<result column="TAX_CERT" property="taxCert" />
+		<result column="BILL_CERT" property="billCert" />
+		<result column="SECURITY_CERT" property="securityCert" />
+		<result column="BREACH_CERT" property="breachCert" />
+		<result column="LEGAL_NAME" property="legalName" />
+		<result column="LEGAL_ID_CARD" property="legalIdCard" />
+		<result column="LEGAL_TELEPHONE" property="legalTelephone" />
+		<result column="LEGAL_MOBILE" property="legalMobile" />
+		<result column="CONTACT_NAME" property="contactName" />
+		<result column="CONTACT_TELEPHONE" property="contactTelephone" />
+		<result column="CONTACT_FAX" property="contactFax" />
+		<result column="CONTACT_MOBILE" property="contactMobile" />
+		<result column="CONTACT_EMAIL" property="contactEmail" />
+		<result column="CONTACT_ADDRESS" property="contactAddress" />
+		<result column="CREDIT_CODE" property="creditCode" />
+		<result column="REGIST_AUTHORITY" property="registAuthority" />
+		<result column="REGIST_FUND" property="registFund" />
+		<result column="BUSINESS_START_DATE" property="businessStartDate"
+				jdbcType="TIMESTAMP" />
+		<result column="BUSINESS_END_DATE" property="businessEndDate"
+				jdbcType="TIMESTAMP" />
+		<result column="BUSINESS_SCOPE" property="businessScope" />
+		<result column="BUSINESS_ADDRESS" property="businessAddress" />
+		<result column="BUSINESS_POST_CODE" property="businessPostCode" />
+		<result column="OVERSEAS_BRANCH" property="overseasBranch" />
+		<result column="BRANCH_COUNTRY" property="branchCountry" />
+		<result column="BRANCH_ADDRESS" property="branchAddress" />
+		<result column="BRANCH_NAME" property="branchName" />
+		<result column="BRANCH_BUSINESS_SCOPE" property="branchBusinessScope" />
+		<result column="SUPPLIER_TYPE_ID" property="supplierTypeId" />
+		<result column="SUPPLIER_STATUS" property="status" />
+		<result column="PROCUREMENT_DEP_ID" property="procurementDepId" />
+		<result column="SUPPLIER_LEVEL" property="supplierLevel" />
+		<result column="SUPPLIER_PLEDGE" property="supplierPledge" />
+		<result column="SUPPLIER_REG_LIST" property="supplierRegList" />
+		<result column="SUPPLIER_EXTRACTS_LIST" property="supplierExtractsList" />
+		<result column="SUPPLIER_INSPECT_LIST" property="supplierInspectList" />
+		<result column="SUPPLIER_REVIEW_LIST" property="supplierReviewList" />
+		<result column="SUPPLIER_CHANGE_LIST" property="supplierChangeList" />
+		<result column="SUPPLIER_EXIT_LIST" property="supplierExitList" />
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+		<result column="SUBMIT_AT" property="submitAt" jdbcType="TIMESTAMP" />
+		<result column="SCORE" property="score" />
+		<result column="NAME" property="name" />
+		<result column="DETAIL_ADDRESS" property="detailAddress" />
+		<result column="ARMY_BUSINESS_NAME" property="armyBusinessName" />
+		<result column="ARMY_BUSINESS_FAX" property="armyBusinessFax" />
+		<result column="ARMY_BUSINESS_MOBILE" property="armyBuinessMobile" />
+		<result column="ARMY_BUSINESS_TELEPHONE" property="armyBuinessTelephone" />
+		<result column="ARMY_BUSINESS_EMAIL" property="armyBuinessEmail" />
+		<result column="ARMY_BUSINESS_ADDRESS" property="armyBuinessAddress" />
+		<result column="AUDIT_DATE" property="auditDate" jdbcType="TIMESTAMP" />
+		<result column="BUSINESSTYPENAME" property="businessTypeName" />
+		<result column="ISEXTRACT" property="isExtract" />
+		<result column="CONCAT_PROVINCE" property="concatProvince" />
+		<result column="CONCAT_CITY" property="concatCity" />
+		<result column="ARMY_BUSINESS_PROVINCE" property="armyBuinessProvince" />
+		<result column="ARMY_BUSINESS_CITY" property="armyBuinessCity" />
+		<result column="IS_PROVISIONAL" property="isProvisional" />
+		<result column="IS_PUBLISH" property="isPublish" />
+		<result column="EXTRACT_ORGID" property="extractOrgid" />
+		<result column="IS_DELETED" property="isDeleted" />
+		<result column="ORGNAME" property="orgName" />
+		<result column="AUDITOR" property="auditor" />
+		<result column="AUDIT_TEMPORARY" property="auditTemporary" />
+		<result column="AUDIT_OPINION_ATTACH" property="auditOpinionAttach" />
+		<result column="INSTORAGE_AT" property="instorageAt" jdbcType="TIMESTAMP"/>
+	</resultMap>
+
 	<resultMap type="ses.model.sms.Supplier" id="supplierTypeMap"
 		extends="BaseResultMap">
 		<collection property="listSupplierTypeRelates"
@@ -107,6 +201,7 @@
 	<resultMap id="supplierOfPublicityMap" type="ses.model.sms.Supplier">
 		<id column="ID" property="id" />
 		<result column="AUDIT_DATE" property="auditDate" jdbcType="TIMESTAMP" />
+		<result column="MOBILE" property="mobile" />
 	</resultMap>
 
     <!-- 统计Analyze关系映射 -->
@@ -2189,7 +2284,7 @@
 	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=10 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as YYCL,
 	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=0 and IS_DELETED = 0 and AUDIT_TEMPORARY=0 AND IS_PROVISIONAL=0) as DSH,
 	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=9 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as THZSH,
-    (select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and AUDIT_TEMPORARY=1 and SUPPLIER_STATUS=9 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as SHZ,
+    (select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and AUDIT_TEMPORARY=1 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as SHZ,
 	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=2 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as THXG,
 	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=-2 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as YSHJS,
 	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=3 and AUDIT_TEMPORARY=0 and IS_DELETED = 0 AND IS_PROVISIONAL=0) as SHBTG,
@@ -2225,7 +2320,7 @@
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=3 and IS_DELETE = 0  AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as CSTHXG,
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and (STATUS=15 or STATUS=16) and IS_DELETE = 0 AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as YCSJS,
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=2 and IS_DELETE = 0 AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as CSBHG,
-	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=1 and IS_DELETE = 0 AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as CSHG,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=1 and IS_DELETE = 0) as CSHG,
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=4 and IS_DELETE = 0 AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as FSYFP,
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and AUDIT_TEMPORARY=2 and IS_DELETE = 0 AND IS_PROVISIONAL=0) as FSZ,
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=-2 and IS_DELETE = 0 AND IS_PROVISIONAL=0 and AUDIT_TEMPORARY=0) as YFSJS,
@@ -2343,7 +2438,7 @@
 	<!-- 查询公示的供应商 -->
 	<select id="selectSupByPublicty" resultMap="supplierOfPublicityMap">
 		  SELECT
-		   ID, AUDIT_DATE
+		   ID, AUDIT_DATE, MOBILE
 		   FROM T_SES_SMS_SUPPLIER
 		   WHERE
 		   IS_PROVISIONAL = '0'
@@ -2458,5 +2553,10 @@
 		    ON P.ID = T.ADDRESS
 		 GROUP BY P.NAME, P.AREAID
     </select>
+
+	<!--根据供应商ID查询联系号码-->
+	<select id="selectSupMobileById" parameterType="string" resultType="string">
+		SELECT T.MOBILE FROM T_SES_SMS_SUPPLIER T WHERE T.ID = #{supplierId}
+	</select>
     
 </mapper>

@@ -67,7 +67,7 @@
   </select>
   
   <!-- 根据抽取条件id查询参评类别 -->
-  <select id="findAllByConditionId" parameterType="String" resultMap="BaseResultMap">
+  <select id="findAllByConditionId" parameterType="String" resultType="String">
     SELECT * FROM T_SES_EMS_EXTRACT_CATEGORY WHERE CONDITION_ID = #{conditionId}
   </select>
   

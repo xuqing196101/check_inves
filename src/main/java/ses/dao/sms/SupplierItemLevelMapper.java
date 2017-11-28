@@ -1,6 +1,5 @@
 package ses.dao.sms;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -136,14 +135,4 @@ public interface SupplierItemLevelMapper {
 	 * @return
 	 */
 	SupplierItemLevel selectById(String id);
-	
-	/**
-	 * 
-	 * <简述>删除前一天导入的供应商等级 
-	 *
-	 * @author Jia Chengxiang
-	 * @param date 
-	 * @dateTime 2017-11-23下午2:46:35
-	 */
-	void deleteSupplierItemLevelByDateOfYestoday(@Param("yestoday") Date date);
 }

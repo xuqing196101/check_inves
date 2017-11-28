@@ -59,26 +59,29 @@ public class SynchServiceImpl implements SynchService {
 		String supplierPath=PropUtil.getProperty("file.base.path")+PropUtil.getProperty("file.supplier.system.path")+"/"+src;//供应商所有图片
 		String expertPath=PropUtil.getProperty("file.base.path")+PropUtil.getProperty("file.expert.system.path")+"/"+src;//专家所有图片
 		String synchExport=PropUtil.getProperty("file.sync.base")+PropUtil.getProperty("file.sync.export")+"/"+src;
-		FileUtil.copyFolder(supplierPath, synchExport);
-		FileUtil.copyFolder(expertPath, synchExport);
+		FileUtil.copyFolder(supplierPath, synchExport, null);
+		FileUtil.copyFolder(expertPath, synchExport, null);
 		
 	}
 
 	@Override
 	public void imageImportHandler() {
-		Date date=new Date();
-		SimpleDateFormat sdf=new  SimpleDateFormat("yyyyMMdd");
-		Calendar cale = Calendar.getInstance();
-		cale.setTime(date);
-		cale.add(Calendar.DAY_OF_MONTH, -1);
-		String src = sdf.format(cale.getTime());//昨天的文件夹名字
-		String supplierPath=PropUtil.getProperty("file.base.path")+PropUtil.getProperty("file.supplier.system.path")+"/"+src;//供应商专路径
-		String expertPath=PropUtil.getProperty("file.base.path")+PropUtil.getProperty("file.expert.system.path")+"/"+src;//专家路径
-		String supplier=PropUtil.getProperty("file.sync.base")+PropUtil.getProperty("file.sync.import")+"/"+PropUtil.getProperty("file.supplier.system.path")+"/"+src;//供应商图片
-		String expert=PropUtil.getProperty("file.sync.base")+PropUtil.getProperty("file.sync.import")+"/"+PropUtil.getProperty("file.expert.system.path")+"/"+src;//专家图片
-		FileUtil.copyFolder(supplier, supplierPath);
-		FileUtil.copyFolder(expert, expertPath);
-		
-	}
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        Calendar cale = Calendar.getInstance();
+        cale.setTime(date);
+        cale.add(Calendar.DAY_OF_MONTH, -1);
+        String src = sdf.format(cale.getTime());//昨天的文件夹名字
+        String supplierPath = PropUtil.getProperty("file.base.path") + PropUtil.getProperty("file.supplier.system.path") + "/" + src;//供应商专路径
+        String expertPath = PropUtil.getProperty("file.base.path") + PropUtil.getProperty("file.expert.system.path") + "/" + src;//专家路径
+        String supplier = PropUtil.getProperty("file.sync.base") + PropUtil.getProperty("file.sync.import") + "/" + src;//供应商图片
+        String expert = PropUtil.getProperty("file.sync.base") + PropUtil.getProperty("file.sync.import") + "/" + PropUtil.getProperty("file.expert.system.path") + "/" + src;//专家图片
+        // 获取专家图片导入后备份完成路径
+        // 完成后备份目录 /web/sync/finish
+        String supBakPath = PropUtil.getProperty("file.sync.base") + PropUtil.getProperty("file.sync.finish") + "/" + "supplier_pic";
+        // 获取供应商图片导入后备份完成路径
+        FileUtil.copyFolder(supplier, supplierPath, supBakPath);
+        FileUtil.copyFolder(expert, expertPath, null);
+    }
 
 }

@@ -195,7 +195,7 @@
   
   
   <!-- 6.根据条件查询状态不为0的 -->
-  <select id="findExecuted" parameterType="java.lang.String" resultMap="FlowExecuteResult">
+  <select id="findExecuted" parameterType="bss.model.ppms.FlowExecute" resultMap="FlowExecuteResult">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_FLOW_EXECUTE fe
@@ -203,13 +203,13 @@
       <if test="id != null and id != ''">
         and fe.ID = #{id} 
       </if>
-      <if test=" flowDefineId != null and flowDefineId != ''">
+      <if test="flowDefineId != null and flowDefineId != ''">
         and fe.FLOW_DEFINE_ID = #{flowDefineId}
       </if>
-      <if test=" projectId != null and projectId != ''">
+      <if test="projectId != null and projectId != ''">
         and fe.PROJECT_ID = #{projectId}
       </if>
-      <if test=" packageId != null and packageId != ''">
+      <if test="packageId != null and packageId != ''">
         and fe.PACKAGE_ID = #{packageId}
       </if>
       <if test="createdAt != null">
@@ -226,6 +226,9 @@
       </if>
       <if test="step != null">
         and fe.STEP = #{step} 
+      </if>
+      <if test="isDeleted != null">
+        and fe.IS_DELETED = #{isDeleted}
       </if>
     ORDER BY fe.step DESC
   </select>
@@ -244,7 +247,7 @@
      
     ORDER BY fe.status DESC
   </select>
-  <!-- 7.根据状态倒序-->
+  <!-- 7.根据状态倒序，查询不等于0的-->
   <select id="findStatusDesc" parameterType="java.lang.String" resultMap="FlowExecuteResult">
     select 
     <include refid="Base_Column_List" />

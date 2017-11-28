@@ -583,6 +583,13 @@ public interface SupplierService {
 	 * @since JDK1.7
 	 */
 	List<Supplier> querySupplierbytypeAndCategoryIds(String flag, Supplier supplier);
+	
+	/**
+	 * 供应商入库申请表数据处理
+	 * @param supplier
+	 * @return
+	 */
+	public Supplier handingDataSupplierApplicationForm(Supplier supplier);
 
 
 }

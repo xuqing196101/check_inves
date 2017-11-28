@@ -61,4 +61,37 @@ public interface ProjectDetailMapper {
 	 List<ProjectDetail> selectByPackageRecursively(String packageId);
 	 List<ProjectDetail> selectByRequiredIdTree(String requiredId);
 	 
+	 /**
+	  * 
+	 * @Title: selectByDetailRequired
+	 * @author FengTian 
+	 * @date 2017-11-13 上午11:32:23  
+	 * @Description: 获取底层明细 
+	 * @param @param projectId
+	 * @param @return      
+	 * @return List<ProjectDetail>
+	  */
+	 List<ProjectDetail> selectByDetailRequired(String projectId);
+	 
+	 List<ProjectDetail> selectByDetailPackNull(String projectId);
+	 
+	 /**
+	  * 
+	 * @Title: selectByParentList
+	 * @author FengTian 
+	 * @date 2017-11-14 下午6:10:00  
+	 * @Description: 根据项目ID递归查询明细 (父节点) 
+	 * @param @param map
+	 * @param @return      
+	 * @return List<ProjectDetail>
+	  */
+	 List<ProjectDetail> selectByParentList(HashMap<String, Object> map);
+	 
+	 /**
+	  * 根据项目id和包id递归查询所有的明细
+	  * @param map
+	  * @return
+	  */
+	 List<ProjectDetail> selectByProjectIdAndPackageId(HashMap<String, Object> map);
+	 
 }

@@ -56,8 +56,6 @@ public class CategoryTree {
 
     /** 父类的code **/
     private String code;
-    
-    private Integer treeLevel;
 
 
 
@@ -165,14 +163,8 @@ public class CategoryTree {
     public void setNocheck(boolean nocheck) {
       this.nocheck = nocheck;
     }
-	public Integer getTreeLevel() {
-		return treeLevel;
-	}
-	public void setTreeLevel(Integer treeLevel) {
-		this.treeLevel = treeLevel;
-	}
     
-    
+
 
 }
 

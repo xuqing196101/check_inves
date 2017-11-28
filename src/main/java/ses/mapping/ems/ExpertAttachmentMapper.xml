@@ -32,7 +32,9 @@
       </if>
       <if test="isDeleted != null and isDeleted != ''">
        AND IS_DELETED = #{isDeleted}
-       
+      </if>
+      <if test="isDel != null and isDel != ''">
+       AND IS_DELETED = 0
       </if>
       <if test="businessId != null and businessId != ''">
        AND BUSINESS_ID = #{businessId}

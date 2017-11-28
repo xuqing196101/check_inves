@@ -20,6 +20,7 @@
 		<result column="REMOVED_REASON" jdbcType="VARCHAR" property="removedReason" />
 		<result column="IS_TURN_UP" jdbcType="DECIMAL" property="isTurnUp" />
 		<result column="PRICE_SCORE" jdbcType="DECIMAL" property="priceScore" />
+		<result column="REMOVE_TYPE" property="removeType" />
 	</resultMap>
 	
 	<resultMap extends="BaseResultMap" id="BaseResultExternalMap" type="bss.model.ppms.SaleTender">
@@ -36,7 +37,7 @@
 		st.CREATED_AT,
 		st.UPDATED_AT,
 		st.USER_ID,st.BID_FINISH,st.PACKAGR_IDS,st.IS_FIRST_PASS,st.ECONOMIC_SCORE,
-		st.TECHNOLOGY_SCORE,st.REVIEW_RESULT,st.IS_REMOVED,st.REMOVED_REASON,st.PRICE_SCORE
+		st.TECHNOLOGY_SCORE,st.REVIEW_RESULT,st.IS_REMOVED,st.REMOVED_REASON,st.PRICE_SCORE,st.REMOVE_TYPE
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultExternalMap">
@@ -154,6 +155,9 @@
 			<if test="isTurnUp != null">
 				IS_TURN_UP,
 			</if>
+			<if test="removeType != null">
+				REMOVE_TYPE,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -206,6 +210,9 @@
 			</if>
 			<if test="isTurnUp != null">
 				#{isTurnUp,jdbcType=DECIMAL},
+			</if>
+			<if test="removeType != null">
+				#{removeType},
 			</if>
 		</trim>
 	</insert>
@@ -261,6 +268,9 @@
 			<if test="isTurnUp != null">
 				IS_TURN_UP = #{isTurnUp,jdbcType=DECIMAL},
 			</if>
+			<if test="removeType != null">
+				REMOVE_TYPE = #{removeType},
+			</if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
@@ -293,6 +303,8 @@
 		#{reviewResult,jdbcType=VARCHAR},
 		IS_REMOVED =
 		#{isRemoved,jdbcType=VARCHAR},
+		REMOVE_TYPE =
+		#{removeType},
 		REMOVED_REASON =
 		#{removedReason,jdbcType=VARCHAR}
 		where ID = #{id,jdbcType=VARCHAR}
@@ -600,11 +612,12 @@
 		T_BSS_PPMS_SALE_TENDER
 		set
 		IS_REMOVED = '1',
+		<if test="removeType != null">
+			REMOVE_TYPE = 0,
+		</if>
 		REMOVED_REASON = #{removedReason,jdbcType=VARCHAR}
 		where
-		SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
-		and PACKAGR_IDS =
-		#{packageId,jdbcType=VARCHAR}
+		SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR} and PACKAGR_IDS = #{packageId,jdbcType=VARCHAR}
 	</update>
 
 	<!-- 移除供应商 -->

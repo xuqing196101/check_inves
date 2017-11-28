@@ -584,4 +584,5 @@ public interface ExpertService {
      */
     List<Expert> exportExcel (Expert expert, String expertTypeIds, String expertType, String categoryIds, Integer flag);
     
+    void updateReviewStatus(String expertId);
 }

@@ -10,9 +10,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,10 +55,8 @@ import extract.model.expert.ExpertExtractProject;
 import extract.model.expert.ExpertExtractResult;
 import extract.model.expert.ExpertExtractTypeInfo;
 import extract.model.expert.ExtractCategory;
-import extract.service.expert.AutoExtractService;
 import extract.service.expert.ExpertExtractConditionService;
 import extract.service.expert.ExpertExtractProjectService;
-import extract.util.ExpertExtractRunable;
 
 /**
  * 
@@ -137,10 +132,6 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
     
     @Autowired
     private UserMapper userMapper;
-    
-	/** 自动抽取 **/
-	@Autowired
-	private AutoExtractService autoExtractService;
     
     /**
      * 保存信息
@@ -532,6 +523,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
             FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXTRACT_TYPE_INFO_PATH_FILENAME, 32),JSON.toJSONString(typeInfoList));
             FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXTRACT_CATEGORY_PATH_FILENAME, 32),JSON.toJSONString(extractCategoryList));
         }
+        synchRecordService.synchBidding(new Date(), sum+"", Constant.DATE_SYNCH_EXPERT_EXTRACT, Constant.OPER_TYPE_EXPORT, Constant.EXPERT_EXTRACT_COMMIT);
     }
 
 
@@ -542,10 +534,10 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
         for (File file2 : file.listFiles()) {
             //抽取项目信息
             if(file2.getName().contains(FileUtils.EXTRACT_PROJECT_PATH_FILENAME)){
-                List<ExpertExtractProject> projectFileList = FileUtils.getBeans(file2, ExpertExtractProject.class);
-                if(projectFileList != null && projectFileList.size() > 0){
-                    num = projectFileList.size();
-                    for (ExpertExtractProject expertExtractProject : projectFileList) {
+                projectList = FileUtils.getBeans(file2, ExpertExtractProject.class);
+                if(projectList != null && projectList.size() > 0){
+                    num = projectList.size();
+                    for (ExpertExtractProject expertExtractProject : projectList) {
                         ExpertExtractProject extractProject = expertExtractProjectMapper.selectByPrimaryKey(expertExtractProject.getId() == null ? "" : expertExtractProject.getId());
                         if(extractProject != null){
                             expertExtractProjectMapper.updateByPrimaryKeySelective(expertExtractProject);
@@ -553,7 +545,6 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
                             expertExtractProjectMapper.insertSelective(expertExtractProject);
                         }
                     }
-                    projectList.addAll(projectFileList);
                 }
             }
             // 抽取条件
@@ -593,12 +584,6 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
                 }
             }
         }
-        //判断是否有导出的项目信息  如果有则进行语音抽取
-        ExecutorService pool = Executors.newCachedThreadPool();
-        ExpertExtractRunable expertExtractRunable = new ExpertExtractRunable(projectList, autoExtractService);
-        pool.submit(expertExtractRunable);
-        pool.shutdown();
-        System.out.println("1231212323");
         synchRecordService.synchBidding(new Date(), num+"", Constant.DATE_SYNCH_EXPERT_EXTRACT, Constant.OPER_TYPE_IMPORT, Constant.EXPERT_EXTRACT_COMMIT_IMPORT);
         return projectList;
     }
@@ -671,38 +656,4 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
         FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.XM_EXTRACT_RESULT_PATH_FILENAME, 33), JSON.toJSONString(projectExtractList));
         synchRecordService.synchBidding(new Date(), sum + "",Constant.DATE_SYNCH_EXPERT_EXTRACT_RESULT, Constant.OPER_TYPE_EXPORT,Constant.EXPERT_EXTRACT_RESULT_COMMIT);
     }
-
-
-    /**
-     * 导出全部项目信息
-     */
-	@Override
-	public void exportListExpertInfo(String start, String end, Date synchDate) {
-		List<ExpertExtractProject> projectList = expertExtractProjectMapper.selectByUpdateDate(start,end);
-		int sum=0;
-        if(projectList != null && projectList.size() > 0){
-            sum=sum+projectList.size();
-            //生成json 并保存
-            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXTRACT_PROJECT_PATH_FILENAME, 32),JSON.toJSONString(projectList));
-            //抽取条件信息
-            List<ExpertExtractCondition> conditionList = new ArrayList<>();
-            for (ExpertExtractProject expertExtractProject : projectList) {
-                conditionList.addAll(expertExtractConditionMapper.selByProjectId(expertExtractProject.getId()));
-            }
-            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXTRACT_CONDITION_PATH_FILENAME, 32),JSON.toJSONString(conditionList));
-            List<ExpertExtractTypeInfo> typeInfoList = new ArrayList<>();
-            List<ExtractCategory> extractCategoryList = new ArrayList<>();
-            for (ExpertExtractCondition expertExtractCondition : conditionList) {
-                //专家类别条件信息
-                ExpertExtractTypeInfo expertExtractTypeInfo = new ExpertExtractTypeInfo();
-                expertExtractTypeInfo.setConditionId(expertExtractCondition.getId());
-                typeInfoList.addAll(expertExtractTypeInfoMapper.selectByTypeInfo(expertExtractTypeInfo));
-                //专家抽取品目关联信息
-                extractCategoryList.addAll(extractCategoryMapper.findAllByConditionId(expertExtractCondition.getId()));
-            }
-            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXTRACT_TYPE_INFO_PATH_FILENAME, 32),JSON.toJSONString(typeInfoList));
-            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXTRACT_CATEGORY_PATH_FILENAME, 32),JSON.toJSONString(extractCategoryList));
-        }
-        synchRecordService.synchBidding(new Date(), sum+"", Constant.DATE_SYNCH_EXPERT_EXTRACT, Constant.OPER_TYPE_EXPORT, Constant.EXPERT_EXTRACT_COMMIT);
-	}
 }

@@ -414,4 +414,18 @@ public interface PurchaseDetailMapper {
     * @return List<PurchaseDetail>
      */
     List<PurchaseDetail> findTaskByDetail(HashMap<String, Object> map);
+    
+    Integer selectByDetailId(PurchaseDetail purchaseDetail);
+    
+    /**
+     * 
+    * @Title: dynamicForeach
+    * @author FengTian 
+    * @date 2017-11-23 上午11:42:50  
+    * @Description: 根据ID批量查询 
+    * @param @param list
+    * @param @return      
+    * @return List<PurchaseDetail>
+     */
+    List<PurchaseDetail> dynamicForeach(List<String> list);
 }
