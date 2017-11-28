@@ -381,7 +381,7 @@ function shenhe(status){
         var flags = false;
         $.ajax({
             url:globalPath + "/supplierAudit/vertifyReturnToModify.do",
-            type: "POST",
+            type:"POST",
             async:false,
             data:{
                 "supplierId":supplierId,

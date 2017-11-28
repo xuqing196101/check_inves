@@ -736,6 +736,8 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
             supplier.setAuditor(s.getAuditor());
             // 审核中状态
             supplier.setAuditTemporary(s.getAuditTemporary());
+            // 联系电话（短信通知使用）
+            supplier.setMobile(s.getMobile());
             // 将供应商基本信息导出
             saf.setSupplier(supplier);
 

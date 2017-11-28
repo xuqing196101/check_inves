@@ -899,22 +899,30 @@ public class ExpertQueryController {
 	public String review(Model model, String expertId, Integer sign, String reqType, String status){
 		Map<String,Object> map = new HashMap<String,Object>();
 		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
-		
+		Expert expert = service.selectByPrimaryKey(expertId);
 		map.put("expertId", expertId);
 		map.put("auditFalg", 2);
 		//查询 有问题，未修改，审核不通过的状态
 		map.put("statusQuery", "statusQuery");
-			
 		expertAuditOpinion.setFlagTime(1);
-		//审核记录
-		List < ExpertAudit > auditList = expertAuditService.diySelect(map);
-		auditList(auditList);
-		model.addAttribute("auditList", auditList);
 		
-		// 查询审核最终意见
-		expertAuditOpinion.setExpertId(expertId);
-		expertAuditOpinion = expertAuditOpinionService.selectByExpertId(expertAuditOpinion);
-		model.addAttribute("auditOpinion", expertAuditOpinion);
+		//重新复审就不查看审核记录
+		if (expert.getReviewStatus() == null ||  !"1".equals(expert.getReviewStatus())) {
+			//审核记录
+			List < ExpertAudit > auditList = expertAuditService.diySelect(map);
+			auditList(auditList);
+			model.addAttribute("auditList", auditList);
+			
+			// 查询审核最终意见
+			expertAuditOpinion.setExpertId(expertId);
+			expertAuditOpinion = expertAuditOpinionService.selectByExpertId(expertAuditOpinion);
+			model.addAttribute("auditOpinion", expertAuditOpinion);
+		}else{
+			model.addAttribute("auditList", null);
+			model.addAttribute("auditOpinion", null);
+		}
+		
+		
 		
 		model.addAttribute("expertId", expertId);
 		model.addAttribute("sign", sign);

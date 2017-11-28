@@ -299,30 +299,32 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		      			DictionaryData expertsFrom = dictionaryDataMapper.selectByPrimaryKey(e.getExpertsFrom());
 		      			e.setExpertsFrom(expertsFrom.getName());
 		      		}
-		      	// 查询审核意见
-	        		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
-	        		expertAuditOpinion.setExpertId(e.getExpertId());
-	        		expertAuditOpinion.setFlagTime(1);
-	        		expertAuditOpinion = expertAuditOpinionMapper.selectByExpertId(expertAuditOpinion);
-	            	if(expertAuditOpinion !=null && expertAuditOpinion.getFlagAudit() !=null){
-	            		if(expertAuditOpinion.getFlagAudit() == -3){
-	            			//预复审合格
-	            			e.setExpertStatus("-3");
-	            		}
-	            		if(expertAuditOpinion.getFlagAudit() == 5){
-	            			//复审不合格
-	            			e.setExpertStatus("5");
-	            		}
-	            		if(expertAuditOpinion.getFlagAudit() == 10){
-	            			//复审退回修改
-	            			e.setExpertStatus("10");
-	            		}
-	            		if(s){
-	            			if(status.equals(e.getExpertStatus())){
-	            				fingList.add(e);
-	            			}
-	            		}
-	            	}
+		      		if(batchStatus==0){
+		      		// 查询审核意见
+		        		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+		        		expertAuditOpinion.setExpertId(e.getExpertId());
+		        		expertAuditOpinion.setFlagTime(1);
+		        		expertAuditOpinion = expertAuditOpinionMapper.selectByExpertId(expertAuditOpinion);
+		            	if(expertAuditOpinion !=null && expertAuditOpinion.getFlagAudit() !=null){
+		            		if(expertAuditOpinion.getFlagAudit() == -3){
+		            			//预复审合格
+		            			e.setExpertStatus("-3");
+		            		}
+		            		if(expertAuditOpinion.getFlagAudit() == 5){
+		            			//复审不合格
+		            			e.setExpertStatus("5");
+		            		}
+		            		if(expertAuditOpinion.getFlagAudit() == 10){
+		            			//复审退回修改
+		            			e.setExpertStatus("10");
+		            		}
+		            		if(s){
+		            			if(status.equals(e.getExpertStatus())){
+		            				fingList.add(e);
+		            			}
+		            		}
+		            	}
+		      		}
 	            	if(!"-2".equals(e.getStatus())&&e.getReviewStatus()!=null){
 	            		e.setExpertStatus(null);
 	            	}
@@ -960,14 +962,14 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
 		expertBatchDetails.setExpertId(expertId);
-		List<ExpertBatchDetails> batchDetails = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
-		for (ExpertBatchDetails e : batchDetails) {
+		expertBatchDetails= expertBatchDetailsMapper.findExpertBatchDetailsOfOne(expertBatchDetails);
+		/*for (ExpertBatchDetails e : batchDetails) {
 			ExpertBatch batch = expertBatchMapper.getExpertBatchByKey(e.getBatchId());
 			if(!"1".equals(batch.getBatchStatus())){
 				expertBatchDetails=e;
 				break;
 			}
-		}
+		}*/
 		
 		ExpertGroup expertGroup = new ExpertGroup();
 		expertGroup.setGroupId(expertBatchDetails.getGroupId());
@@ -988,7 +990,10 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
 		expertBatchDetails.setExpertId(expertId);
 		expertBatchDetails=expertBatchDetailsMapper.findExpertBatchDetails(expertBatchDetails);
-		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
+		ExpertBatchDetails sel = new ExpertBatchDetails();
+		sel.setBatchId(expertBatchDetails.getBatchId());
+		sel.setGroupId(expertBatchDetails.getGroupId());
+		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(sel);
 		boolean status=true;
 		for (ExpertBatchDetails e : list) {
 			Expert expert = expertMapper.selectByPrimaryKey(e.getExpertId());
@@ -1276,13 +1281,20 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 				record.setStatus("100");//100标识重新复审
 				record.setCreateAt(new Date());
 				record.setUpdateAt(new Date());
+				record.setBatchId(batchId);
+				BatchTemporary t = new BatchTemporary();
+				t.setExpertId("100");
+				t.setBatchExpertId(e.getExpertId());
+				t.setCreatedAt(new Date());
+				t.setUpdatedAt(new Date());
+				batchTemporaryMapper.addBatchTemporary(t);
 				// 查询审核意见
 	    		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
 	    		expertAuditOpinion.setExpertId(e.getExpertId());
 	    		expertAuditOpinion.setFlagTime(1);
 	    		expertAuditOpinion = expertAuditOpinionMapper.selectByExpertId(expertAuditOpinion);
 	    		Expert expertInfo = expertMapper.selectByPrimaryKey(e.getExpertId());
-	    		if(expertInfo.getIsReviewEnd() !=null && expertInfo.getIsReviewEnd() == 1 ){
+	    		if(expertInfo.getIsReviewEnd() !=null){
 	        		if(expertAuditOpinion !=null && expertAuditOpinion.getFlagAudit() !=null){
 	        			if(expertAuditOpinion.getFlagAudit() == -3){
 	        				//预复审合格
@@ -1311,6 +1323,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 			record.setExpertId(e.getExpertId());
 			record.setCreateAt(new Date());
 			record.setUpdateAt(new Date());
+			record.setBatchId(e.getBatchId());
 			// 查询审核意见
     		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
     		expertAuditOpinion.setExpertId(e.getExpertId());

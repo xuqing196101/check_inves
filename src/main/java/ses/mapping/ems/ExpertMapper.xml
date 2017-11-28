@@ -61,18 +61,19 @@
         <result column="TIME_PROFESSIONAL" jdbcType="TIMESTAMP" property="timeProfessional" />
         <result column="IS_PUBLISH" jdbcType="DECIMAL" property="isPublish" />
         <result column="IS_ADD_EXPERT" jdbcType="DECIMAL" property="isAddExpert" />
- 	    	<result column="IS_TITLE" property="isTitle" />
-				<result column="TEACH_TITLE" property="teachTitle" />
-				<result column="NET_TYPE" property="netType" />
-				<result column="EXTRACT_ORGID" property="extractOrgid" />
-				<result column="ORGNAME" property="orgName" />
-				<result column="AUDITOR" property="auditor" />
-				<result column="AUDIT_TEMPORARY" property="auditTemporary" />
-				<result column="AUDIT_OPINION_ATTACH" property="auditOpinionAttach" />
-				<result column="IS_REVIEW_END" property="isReviewEnd" />
-				<result column="REVIEW_PEOPLE" property="reviewPeople" />
-				<result column="REVIEW_UNQUALIFIED_CONFIRM" property="reviewUnqualifiedConfirm" />
-				<result column="STORAGE_AT" property="storageAt" />
+ 	    <result column="IS_TITLE" property="isTitle" />
+		<result column="TEACH_TITLE" property="teachTitle" />
+		<result column="NET_TYPE" property="netType" />
+		<result column="EXTRACT_ORGID" property="extractOrgid" />
+		<result column="ORGNAME" property="orgName" />
+		<result column="AUDITOR" property="auditor" />
+		<result column="AUDIT_TEMPORARY" property="auditTemporary" />
+		<result column="AUDIT_OPINION_ATTACH" property="auditOpinionAttach" />
+		<result column="IS_REVIEW_END" property="isReviewEnd" />
+		<result column="REVIEW_PEOPLE" property="reviewPeople" />
+		<result column="REVIEW_UNQUALIFIED_CONFIRM" property="reviewUnqualifiedConfirm" />
+		<result column="STORAGE_AT" property="storageAt" />
+		<result column="REVIEW_STATUS" property="reviewStatus" />
     </resultMap>
 
     <resultMap id="BaseResultMapVO" type="ses.model.ems.ExpertVO" extends="BaseResultMap">
@@ -1105,7 +1106,9 @@
              <if test="netType != null">
                 NET_TYPE = #{netType},
             </if>
-            
+            <if test="isReviewEnd!=null">
+            	IS_REVIEW_END=#{isReviewEnd}
+            </if>
         </set>
         where
         ID = #{id,jdbcType=VARCHAR}
@@ -2676,6 +2679,7 @@
             T.AUDIT_AT,
             ORG.SHORT_NAME    AS ORGNAME,
             ENT.BATCH_DETAILS_NUMBER
+            <!--TO_CHAR(T.AUDIT_AT,'yyyy-MM-dd') AS DATASTRING-->
         FROM T_SES_EMS_EXPERT T
         LEFT JOIN (SELECT T.EXPERT_ID, T.BATCH_DETAILS_NUMBER,T.COUNT
         FROM T_SYS_EMS_EXPERT_BATCH_DETAILS T
@@ -2705,8 +2709,8 @@
            <if test="orgId != null and orgId !=''">
              AND DEP.ID = #{orgId}
            </if>
-		 <!--ORDER BY T.AUDIT_AT DESC-->
-        ORDER BY T.AUDIT_AT DESC, ENT.COUNT
+		 <!--ORDER BY DATASTRING DESC, ENT.BATCH_DETAILS_NUMBER -->
+        ORDER BY ENT.BATCH_DETAILS_NUMBER
 	</select>
 
     <!-- 查询公示专家导出外网 -->

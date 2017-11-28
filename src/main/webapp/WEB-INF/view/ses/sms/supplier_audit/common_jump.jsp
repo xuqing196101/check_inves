@@ -98,7 +98,16 @@
         <a aria-expanded="false" href="#tab-4">上传批准审核表</a>
     </li>
 </ul>
-
+<style type="text/css">
+  .border_red{
+  	border: 1px solid #FF0000;
+  }
+</style>
+<input type="hidden" id="isAudit" value="<%=isAudit %>" />
+<input type="hidden" id="supplierId" value="<%=supplierId %>" />
+<input type="hidden" id="supplierSt" value="<%=supplierSt %>" />
+<input type="hidden" id="currentStep" value="<%=currentStep %>" />
+<input type="hidden" id="sign" value="<%=sign %>" />
 <script type="text/javascript">
 	var isAudit = <%=isAudit %>;
 	var supplierId = "<%=supplierId %>";

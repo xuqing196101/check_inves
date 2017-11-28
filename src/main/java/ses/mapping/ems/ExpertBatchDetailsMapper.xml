@@ -18,12 +18,15 @@
     	ID,EXPERT_ID,BATCH_NUMBER,BATCH_DETAILS_NUMBER,COUNT,BATCH_NAME,GROUP_ID,GROUP_NAME,CREATED_AT,UPDATED_AT,BATCH_ID
     </sql>
  	<select id="findExpertBatchDetails" resultMap="BaseResultMap"  parameterType="ses.model.ems.ExpertBatchDetails">
- 		select 
- 		 <include refid="Base_List" />
- 		 from T_SYS_EMS_EXPERT_BATCH_DETAILS where 1=1
- 		 <if test="expertId != null">
-            and   EXPERT_ID=#{expertId}
-        </if>
+ 		select * from (
+	 		select 
+	 		 <include refid="Base_List" />
+	 		 from T_SYS_EMS_EXPERT_BATCH_DETAILS where 1=1
+	 		 <if test="expertId != null">
+	            and   EXPERT_ID=#{expertId}
+	        </if>
+	        order by CREATED_AT desc
+ 		)  where rownum=1
  	</select>
     <!-- 根据条件查询专家信息 -->
     <select id="getExpertBatchDetails" resultMap="BaseResultMap"  parameterType="ses.model.ems.ExpertBatchDetails">
@@ -127,8 +130,8 @@
     </delete>
     <insert id="insertExpertStatusRecord" parameterType="ses.model.ems.ExpertStatusRecord">
     	INSERT INTO T_SES_EMS_EXPERT_REVIEW_RECORD 
-    	(EXPERT_ID,STATUS,EXPERT_STATUS,CREATED_AT,UPDATED_AT)
-    	VALUES (#{expertId},#{status},#{expertStatus},#{createAt,jdbcType=TIMESTAMP},#{updateAt,jdbcType=TIMESTAMP})
+    	(EXPERT_ID,STATUS,EXPERT_STATUS,CREATED_AT,UPDATED_AT,BATCH_ID)
+    	VALUES (#{expertId},#{status},#{expertStatus},#{createAt,jdbcType=TIMESTAMP},#{updateAt,jdbcType=TIMESTAMP}，#{batchId})
     </insert>
     <select id="getExpertBatchDetailsRecord" resultMap="BaseResultMap"  parameterType="ses.model.ems.ExpertBatchDetails">
         select 
@@ -166,6 +169,9 @@
         where 1=1
         <if test="batchId != null">
             and   T1.BATCH_ID=#{batchId}
+        </if>
+        <if test="batchId != null">
+            and   R.BATCH_ID=#{batchId}
         </if>
         <if test="groupId != null">
             and   T1.GROUP_ID=#{groupId}
