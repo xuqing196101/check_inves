@@ -2786,7 +2786,10 @@
         		1 = 1
         	</otherwise>
         </choose>
-        )
+        ) 
+        <if test="notIn != null">
+        AND t1.ID NOT IN (select BATCH_EXPERT_ID from T_SES_EMS_BATCH_TEMPORARY)
+        </if>
         AND t1.IS_PROVISIONAL = '0'
         AND t1.IS_DELETE = '0'
         <if test="sign == 1">
