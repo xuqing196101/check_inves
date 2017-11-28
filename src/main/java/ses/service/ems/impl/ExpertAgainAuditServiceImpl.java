@@ -299,30 +299,32 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		      			DictionaryData expertsFrom = dictionaryDataMapper.selectByPrimaryKey(e.getExpertsFrom());
 		      			e.setExpertsFrom(expertsFrom.getName());
 		      		}
-		      	// 查询审核意见
-	        		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
-	        		expertAuditOpinion.setExpertId(e.getExpertId());
-	        		expertAuditOpinion.setFlagTime(1);
-	        		expertAuditOpinion = expertAuditOpinionMapper.selectByExpertId(expertAuditOpinion);
-	            	if(expertAuditOpinion !=null && expertAuditOpinion.getFlagAudit() !=null){
-	            		if(expertAuditOpinion.getFlagAudit() == -3){
-	            			//预复审合格
-	            			e.setExpertStatus("-3");
-	            		}
-	            		if(expertAuditOpinion.getFlagAudit() == 5){
-	            			//复审不合格
-	            			e.setExpertStatus("5");
-	            		}
-	            		if(expertAuditOpinion.getFlagAudit() == 10){
-	            			//复审退回修改
-	            			e.setExpertStatus("10");
-	            		}
-	            		if(s){
-	            			if(status.equals(e.getExpertStatus())){
-	            				fingList.add(e);
-	            			}
-	            		}
-	            	}
+		      		if(batchStatus==0){
+		      		// 查询审核意见
+		        		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+		        		expertAuditOpinion.setExpertId(e.getExpertId());
+		        		expertAuditOpinion.setFlagTime(1);
+		        		expertAuditOpinion = expertAuditOpinionMapper.selectByExpertId(expertAuditOpinion);
+		            	if(expertAuditOpinion !=null && expertAuditOpinion.getFlagAudit() !=null){
+		            		if(expertAuditOpinion.getFlagAudit() == -3){
+		            			//预复审合格
+		            			e.setExpertStatus("-3");
+		            		}
+		            		if(expertAuditOpinion.getFlagAudit() == 5){
+		            			//复审不合格
+		            			e.setExpertStatus("5");
+		            		}
+		            		if(expertAuditOpinion.getFlagAudit() == 10){
+		            			//复审退回修改
+		            			e.setExpertStatus("10");
+		            		}
+		            		if(s){
+		            			if(status.equals(e.getExpertStatus())){
+		            				fingList.add(e);
+		            			}
+		            		}
+		            	}
+		      		}
 	            	if(!"-2".equals(e.getStatus())&&e.getReviewStatus()!=null){
 	            		e.setExpertStatus(null);
 	            	}
