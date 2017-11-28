@@ -306,22 +306,24 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		        		expertAuditOpinion.setFlagTime(1);
 		        		expertAuditOpinion = expertAuditOpinionMapper.selectByExpertId(expertAuditOpinion);
 		            	if(expertAuditOpinion !=null && expertAuditOpinion.getFlagAudit() !=null){
-		            		if(expertAuditOpinion.getFlagAudit() == -3){
-		            			//预复审合格
-		            			e.setExpertStatus("-3");
-		            		}
-		            		if(expertAuditOpinion.getFlagAudit() == 5){
-		            			//复审不合格
-		            			e.setExpertStatus("5");
-		            		}
-		            		if(expertAuditOpinion.getFlagAudit() == 10){
-		            			//复审退回修改
-		            			e.setExpertStatus("10");
-		            		}
-		            		if(s){
-		            			if(status.equals(e.getExpertStatus())){
-		            				fingList.add(e);
-		            			}
+		            		if("-2".equals(e.getStatus())){
+		            			if(expertAuditOpinion.getFlagAudit() == -3){
+			            			//预复审合格
+			            			e.setExpertStatus("-3");
+			            		}
+			            		if(expertAuditOpinion.getFlagAudit() == 5){
+			            			//复审不合格
+			            			e.setExpertStatus("5");
+			            		}
+			            		if(expertAuditOpinion.getFlagAudit() == 10){
+			            			//复审退回修改
+			            			e.setExpertStatus("10");
+			            		}
+			            		if(s){
+			            			if(status.equals(e.getExpertStatus())){
+			            				fingList.add(e);
+			            			}
+			            		}
 		            		}
 		            	}
 		      		}
