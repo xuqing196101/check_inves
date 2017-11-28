@@ -7,6 +7,7 @@
     -->
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="PROJECT_NAME" jdbcType="VARCHAR" property="projectName" />
+    <result column="PROJECT_INTO" jdbcType="VARCHAR" property="projectInto" />
     <result column="PROCUREMENT_DEP_ID" jdbcType="VARCHAR" property="procurementDepId" />
     <result column="EXTRACTION_TIME" jdbcType="TIMESTAMP" property="extractionTime" />
     <result column="EXTRACTION_SITES" jdbcType="VARCHAR" property="extractionSites" />

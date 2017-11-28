@@ -57,7 +57,7 @@ public class DateUtils {
      * @author Jia Chengxiang
      * @dateTime 2017-11-14上午11:49:51
      */
-    public static Date getCurrentDateStartTime() {
+    public static Date getTodayZeroTime() {
     	 Calendar calendar = Calendar.getInstance();
          calendar.setTime(new Date());
          calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -77,5 +77,55 @@ public class DateUtils {
     public static String dateToString(Date date){
         SimpleDateFormat  format = new SimpleDateFormat(TIME_PATTERN);
         return format.format(date);
+    }
+    
+    /**
+     * 获取今天0点时间返回字符串
+     * <简述> 
+     *
+     * @author Jia Chengxiang
+     * @dateTime 2017-11-14上午11:49:51
+     */
+    public static String getTodayZeroTimeToString() {
+    	 Calendar calendar = Calendar.getInstance();
+         calendar.setTime(new Date());
+         calendar.set(Calendar.HOUR_OF_DAY, 0);
+         calendar.set(Calendar.MINUTE, 0);
+         calendar.set(Calendar.SECOND, 0);
+         return dateToString(calendar.getTime());
+	}
+    
+    
+    /**
+     * 获取前一天0点时间 Date类型
+     * <简述> 
+     *
+     * @author Jia Chengxiang
+     * @dateTime 2017-11-14上午11:49:51
+     */
+    public static Date getYesterdayZeroTime() {
+    	Calendar calendar = Calendar.getInstance();
+    	calendar.setTime(new Date());
+    	calendar.set(Calendar.DATE,calendar.get(Calendar.DATE)-1);
+    	calendar.set(Calendar.HOUR_OF_DAY, 0);
+    	calendar.set(Calendar.MINUTE, 0);
+    	calendar.set(Calendar.SECOND, 0);
+    	return calendar.getTime();
+    }
+    /**
+     * 获取前一天0点时间返回字符串
+     * <简述> 
+     *
+     * @author Jia Chengxiang
+     * @dateTime 2017-11-14上午11:49:51
+     */
+    public static String getYesterdayZeroTimeToString() {
+    	Calendar calendar = Calendar.getInstance();
+    	calendar.setTime(new Date());
+    	calendar.set(Calendar.DATE,calendar.get(Calendar.DATE)-1);
+    	calendar.set(Calendar.HOUR_OF_DAY, 0);
+    	calendar.set(Calendar.MINUTE, 0);
+    	calendar.set(Calendar.SECOND, 0);
+    	return dateToString(calendar.getTime());
     }
 } 

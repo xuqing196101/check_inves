@@ -6,8 +6,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.http.ResponseEntity;
-
 import common.model.UploadFile;
 /**
  * 
@@ -68,13 +66,4 @@ public interface DownloadService {
      * @param response
      */
     public List<String> downloadMap(HttpServletRequest request);
-    
-    /**
-     * 文件下载
-     * @param fileName
-     * @param filePath
-     * @param downFileName
-     * @return
-     */
-    public ResponseEntity<byte[]> downloadFile(String fileName, String filePath, String downFileName);
 }

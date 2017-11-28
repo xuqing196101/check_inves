@@ -120,4 +120,7 @@ public interface SupplierExtractConditionMapper {
 	 */
 	List<String> selectQuaLevelBySupplierIdAndQuaId(Map<String, Object> map);
 
+
+	List<String> selectLevelOfLogicIsAnd(Map<String, Object> hashMap);
+
 }

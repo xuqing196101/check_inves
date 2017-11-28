@@ -124,9 +124,7 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
-		return null;
+		return map;
 	}
 	
 	/**
@@ -139,7 +137,7 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 	 * @param recordId
 	 * @return
 	 */
-	public String callVoiceService2(List<Supplier> suppliers, SupplierExtractProjectInfo projectInfo) {
+	public String callVoiceService2(List<Supplier> suppliers, SupplierExtractProjectInfo projectInfo) throws Exception {
 		
 		ArrayList<PeopleYytz> arrayList = new ArrayList<>();
 		
@@ -297,10 +295,10 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 	 * @return
 	 */
 	@Override
-	public void selectAutoExtractProject() {
+	public void selectAutoExtractProject(Date start,Date end) {
 		SupplierExtractProjectInfo p = new SupplierExtractProjectInfo();
 		p.setExtractTheWay((short)0);
-		p.setStartTime(DateUtils.dateToString(DateUtils.getCurrentDateStartTime()));
+		p.setStartTime(DateUtils.dateToString(DateUtils.getTodayZeroTime()));
 		p.setEndTime(common.utils.DateUtils.getCurrentTime());
 		p.setStatus((short)2);
 		List<SupplierExtractProjectInfo> projectInfos = recordService.selectRecordForExport(p);
@@ -416,7 +414,6 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
             }
         }
         synchRecordService.synchBidding(new Date(), num+"", Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO, Constant.OPER_TYPE_IMPORT, Constant.SUPPLIER_EXTRACT_COMMIT_IMPORT);
-        //selectAutoExtractProject();
 	}
 	
 	
@@ -477,7 +474,7 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
         	// 供应商抽取结果信息
         	FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_EXTRACT_ADV_RESULT_PATH_FILENAME, 36), JSON.toJSONString(resultList2));
         }
-        synchRecordService.synchBidding(new Date(), sum + "",Constant.DATE_SYNCH_SUPPLIER_EXTRACT_RESULT, Constant.OPER_TYPE_EXPORT,Constant.SUPPLIER_EXTRACT_RESULT_COMMIT);
+        synchRecordService.synchBidding(synchDate, sum + "",Constant.DATE_SYNCH_SUPPLIER_EXTRACT_RESULT, Constant.OPER_TYPE_EXPORT,Constant.SUPPLIER_EXTRACT_RESULT_COMMIT);
     }
     
 	 /**
@@ -501,7 +498,7 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 			//生成json 并保存
 			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_EXTRACT_PROJECT_PATH_FILENAME, 35),JSON.toJSONString(projectInfos));
 		}
-		synchRecordService.synchBidding(new Date(), "1", Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO, Constant.OPER_TYPE_EXPORT, Constant.SUPPLIER_EXTRACT_COMMIT);
+		synchRecordService.synchBidding(synchDate, projectInfos.size()+"", Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO, Constant.OPER_TYPE_EXPORT, Constant.SUPPLIER_EXTRACT_COMMIT);
 		return null;
 	}
 	

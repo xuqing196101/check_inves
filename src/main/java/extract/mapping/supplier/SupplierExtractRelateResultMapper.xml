@@ -4,7 +4,7 @@
 	<resultMap id="BaseResultMap" type="extract.model.supplier.SupplierExtractResult">
 		<id column="ID" jdbcType="VARCHAR" property="id" />
 		<result column="CONDITION_ID" jdbcType="VARCHAR" property="conditionId" />
-		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
 		<result column="JOIN" property="join" />
 		<result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
 		<result column="REASON" jdbcType="VARCHAR" property="reason" />
@@ -49,8 +49,8 @@
 	
 	<resultMap id="advResult" type="extract.model.supplier.SupplierExtractResult">
 		<id column="ID" jdbcType="VARCHAR" property="id" />
-		<result column="SUPPLIER_CONDITION_ID" jdbcType="VARCHAR"	property="condition" />
-		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+		<result column="SUPPLIER_CONDITION_ID" jdbcType="VARCHAR"	property="conditionId" />
+		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
 		<result column="OPERATING_TYPE" jdbcType="DECIMAL" property="join" />
 		<result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
 		<result column="REASON" jdbcType="VARCHAR" property="reason" />
@@ -147,7 +147,7 @@
 				#{updatedAt,jdbcType=VARCHAR},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt,jdbcType=DATE},
+				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="join != null">
 				#{join,jdbcType=DECIMAL},
@@ -166,6 +166,7 @@
 			</if>
 		</trim>
         </foreach>
+         SELECT 1 FROM DUAL
 	</insert>
 	
 	<insert id="insertSelective" parameterType="extract.model.supplier.SupplierExtractResult">
@@ -222,7 +223,7 @@
 				#{updatedAt,jdbcType=VARCHAR},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt,jdbcType=DATE},
+				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="join != null">
 				#{join,jdbcType=DECIMAL},
@@ -254,7 +255,7 @@
 				CONDITION_ID =	#{conditionId,jdbcType=VARCHAR},
 			</if>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt,jdbcType=DATE},
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="join != null">
 				join = #{join,jdbcType=DECIMAL},
@@ -321,7 +322,7 @@
 	</select>
 	<!-- 查询本项目已经抽取到的供应商 -->
 	<select id="selectSupplierIdListByProjectId" parameterType="java.lang.String" resultType="java.lang.String">
-		SELECT DISTINCT R.SUPPLIER_ID supplierIds FROM T_SES_SMS_EXTRACT_RESULT R LEFT JOIN T_SES_SMS_EXTRACT_RECORD E ON R.RECORD_ID = E.ID  WHERE E.RECORD_ID = #{value}
+		SELECT DISTINCT R.SUPPLIER_ID supplierIds FROM T_SES_SMS_SUPPLIER_EXT_RELATE R LEFT JOIN T_SES_SMS_EXTRACT_RECORD N ON N.ID = R.RECORD_ID  WHERE N.PROJECT_ID = #{value}
 	</select>
 
 	<sql id="extractSql">
@@ -395,30 +396,34 @@
 				)
 			</if>
 		</if>
-		<!-- 查询等级 -->
+		<!-- 查询等级 或关系 -->
 		<if test="supplierTypeCode != 'PROJECT'.toString() and supplierTypeCodes.length == 1">
-			<if test="null != supplierItemId">
+			<if test="null != supplierItemId and isMulticondition == 1">
 				AND L.CATEGORY_ID  IN <foreach collection="supplierItemId" item="sid" open="(" close=")" separator=","> #{sid}  </foreach>
 			</if>
 			AND L.SUPPLIER_TYPE_ID = #{supplierTypeCode}
 			<if test="levelTypeId !=null and levelTypeId != '' ">
 				AND L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
 			</if>
+			
 		</if>
 		<if test="supplierTypeCodes.length == 2">
-			<if test="null != supplierItemId">
-				AND L.CATEGORY_ID  IN <foreach collection="supplierItemId" item="sid" open="(" close=")" separator=","> #{sid}  </foreach>
-				AND ( L.SUPPLIER_TYPE_ID = 'PRODUCT'
+			<!-- 或关系 -->
+			<if test="isMulticondition == 1">
+				<if test="null != supplierItemId">
+					AND L.CATEGORY_ID  IN <foreach collection="supplierItemId" item="sid" open="(" close=")" separator=","> #{sid}  </foreach>
+					AND ( L.SUPPLIER_TYPE_ID = 'PRODUCT'               
+				</if>
+				<if test="levelTypeId !=null and levelTypeId != '' ">
+					AND  L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
+				</if>
+				OR
+				<if test="salesLevelTypeId !=null and salesLevelTypeId != '' ">
+					 L.SUPPLIER_LEVEL IN <foreach collection="salesLevelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
+					 AND 
+				</if>
+					L.SUPPLIER_TYPE_ID ='SALES')
 			</if>
-			<if test="levelTypeId !=null and levelTypeId != '' ">
-				AND  L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
-			</if>
-			OR
-			<if test="salesLevelTypeId !=null and salesLevelTypeId != '' ">
-				 L.SUPPLIER_LEVEL IN <foreach collection="salesLevelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
-				 AND 
-			</if>
-				L.SUPPLIER_TYPE_ID ='SALES')
 		</if>
 		<!-- 保密要求 -->
 		<if test="isHavingConCert !=null and isHavingConCert != '' ">
@@ -455,6 +460,15 @@
 		(SELECT DISTINCT S.ID,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_MOBILE,S.ARMY_BUSINESS_TELEPHONE,T.SUPPLIER_TYPE_ID  FROM T_SES_SMS_SUPPLIER S
 		<include refid="extractSql"></include>
 		ORDER BY dbms_random.random) SP WHERE ROWNUM = 1
+	</select>
+	
+	
+	<!-- 与关系查询返回供应商 -->
+	<select id="listExtractionSupplierOfLogicIsAnd" parameterType="extract.model.supplier.SupplierExtractCondition" resultMap="findSupplierMap">
+		SELECT SP.* FROM 
+		(SELECT DISTINCT S.ID,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_MOBILE,S.ARMY_BUSINESS_TELEPHONE,T.SUPPLIER_TYPE_ID  FROM T_SES_SMS_SUPPLIER S
+		<include refid="extractSql"></include>
+		ORDER BY dbms_random.random) SP 
 	</select>
 	
 	<!-- 自动抽取供应商列表 -->
@@ -524,7 +538,7 @@
 			<if test="t.reason != null">
 				REASON,
 			</if>
-			<if test="t.packageId != null">
+			<if test="t.pid != null">
 				PROJECT_ID,
 			</if>
 			<if test="t.updatedAt != null">
@@ -554,7 +568,7 @@
 				#{t.t.recordId,jdbcType=VARCHAR},
 			</if>
 			<if test="t.createdAt != null">
-				#{t.createdAt,jdbcType=DATE},
+				#{t.createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="t.join != null">
 				#{t.join,jdbcType=DECIMAL},
@@ -565,8 +579,8 @@
 			<if test="t.reason != null">
 				#{t.reason,jdbcType=VARCHAR},
 			</if>
-			<if test="t.packageId != null">
-				#{t.packageId,jdbcType=VARCHAR},
+			<if test="t.pid != null">
+				#{t.pid,jdbcType=VARCHAR},
 			</if>
 			<if test="t.updatedAt != null">
 				#{t.updatedAt,jdbcType=VARCHAR},
@@ -582,6 +596,7 @@
 			</if>
 		</trim>
         </foreach>
+         SELECT 1 FROM DUAL
 	</insert>
 	
 	<update id="updateSupplierJoin" parameterType="extract.model.supplier.SupplierExtractResult">
@@ -702,7 +717,7 @@
 	</update>
 	
 	<!-- 存储进真实项目 -->
-	<insert id="insertRel" parameterType="java.util.List" useGeneratedKeys="false">
+	<insert id="insertRel" parameterType="java.util.List">
         INSERT ALL
         <foreach item="t" index="index" collection="list">
         INTO T_SES_SMS_SUPPLIER_EXT_RELATE
@@ -731,7 +746,7 @@
 			<if test="t.reason != null">
 				REASON,
 			</if>
-			<if test="t.packageId != null">
+			<if test="t.pid != null">
 				PROJECT_ID,
 			</if>
 			<if test="t.updatedAt != null">
@@ -762,7 +777,7 @@
 				#{t.recordId,jdbcType=VARCHAR},
 			</if>
 			<if test="t.createdAt != null">
-				#{t.createdAt,jdbcType=DATE},
+				#{t.createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="t.join != null">
 				#{t.join,jdbcType=DECIMAL},
@@ -773,8 +788,8 @@
 			<if test="t.reason != null">
 				#{t.reason,jdbcType=VARCHAR},
 			</if>
-			<if test="t.packageId != null">
-				#{t.packageId,jdbcType=VARCHAR},
+			<if test="t.pid != null">
+				#{t.pid,jdbcType=VARCHAR},
 			</if>
 			<if test="t.updatedAt != null">
 				#{t.updatedAt,jdbcType=VARCHAR},
@@ -790,6 +805,7 @@
 			</if>
 		</trim>
         </foreach>
+        SELECT 1 FROM DUAL
 	</insert>
 	
 	<!-- 支撑系统进入 -->
@@ -829,7 +845,7 @@
 			<if test="reason != null">
 				REASON,
 			</if>
-			<if test="projectId != null">
+			<if test="pid != null">
 				PROJECT_ID,
 			</if>
 			<if test="updatedAt != null">
@@ -871,14 +887,14 @@
 			<if test="reason != null">
 				#{reason,jdbcType=VARCHAR},
 			</if>
-			<if test="projectId != null">
-				#{projectId,jdbcType=VARCHAR},
+			<if test="pid != null">
+				#{pid,jdbcType=VARCHAR},
 			</if>
 			<if test="updatedAt != null">
 				#{updatedAt,jdbcType=VARCHAR},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt,jdbcType=DATE},
+				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="status != null">
 				#{status,jdbcType=DECIMAL},
@@ -906,9 +922,6 @@
 			<if test="conditionId != null">
 				SUPPLIER_CONDITION_ID =	#{conditionId,jdbcType=VARCHAR},
 			</if>
-			<if test="createdAt != null">
-				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
-			</if>
 			<if test="join != null">
 				OPERATING_TYPE = #{join,jdbcType=DECIMAL},
 			</if>
@@ -925,7 +938,7 @@
 				UPDATED_AT = #{updatedAt,jdbcType=VARCHAR},
 			</if>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt,jdbcType=DATE},
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="status != null">
 				STATUS_COUNT = #{status,jdbcType=DECIMAL},
