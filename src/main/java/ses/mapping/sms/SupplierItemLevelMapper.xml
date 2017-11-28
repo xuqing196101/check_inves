@@ -180,9 +180,8 @@
   
   <!--全部供应商查询，等级查询 -->
   <select id="selectLevelByItem" parameterType="ses.model.sms.SupplierItemLevel" resultMap="BaseResultMap">
-		SELECT T1.* FROM
+		SELECT T1.ID, T1.SUPPLIER_LEVEL FROM
 		  T_SES_SMS_SUPPLIER_ITEM_LEVEL T1 
-		  LEFT JOIN T_SES_BMS_CATEGORY T2 ON T2.ID = T1.CATEGORY_ID
 		WHERE
 		  T1.CATEGORY_ID = #{categoryId}
 		AND T1.SUPPLIER_ID= #{supplierId}
@@ -371,8 +370,4 @@
   <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
   	SELECT <include refid="Base_Column_List"/> FROM T_SES_SMS_SUPPLIER_ITEM_LEVEL WHERE ID = #{id}
   </select>
-  <delete id="deleteSupplierItemLevelByDateOfYestoday" parameterType="java.util.Date">
-	  DELETE T_SES_SMS_SUPPLIER_ITEM_LEVEL WHERE CREATED_AT &lt; #{yestoday}
-  </delete>
-  
 </mapper>

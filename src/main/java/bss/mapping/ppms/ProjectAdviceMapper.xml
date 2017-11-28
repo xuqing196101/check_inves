@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.ppms.ProjectAdviceMapper">
+  <resultMap id="ProjectAdviceResult" type="bss.model.ppms.ProjectAdvice">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+    <result column="CREATE_USER" jdbcType="VARCHAR" property="createUser" />
+    <result column="IS_DELETE" property="isDelete" />
+    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+    <result column="TYPE_ID" jdbcType="VARCHAR" property="typeId" />
+    <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="SEQ" property="seq" />
+    <association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, CREATE_USER, CREATE_AT, CONTENT, TYPE_ID, IS_DELETE, PROJECT_ID,SEQ
+  </sql>
+  
+  <!-- 查询条件 -->
+  <sql id="Example_Where_Clause">
+  	WHERE 1=1 and IS_DELETE=0 
+    <trim suffixOverrides=",">
+      <if test="id != null and id != ''">
+        AND pa.ID = #{id} 
+      </if>
+      <if test="projectId != null">
+        AND pa.PROJECT_ID = #{projectId} 
+      </if>
+      <if test="createAt != null">
+        AND pa.CREATE_AT = #{createAt} 
+      </if>
+      <if test="createUser != null and createUser !='' ">
+        AND pa.CREATE_USER = #{createUser} 
+      </if>
+      <if test="content != null and content !='' ">
+        AND pa.CONTENT = #{content} 
+      </if>
+      <if test="typeId != null and typeId !='' ">
+        AND pa.TYPE_ID = #{typeId} 
+      </if>
+    </trim>
+  </sql>
+  
+  <!-- 1.根据id主键查询 -->
+  <select id="selectById" parameterType="java.lang.String" resultMap="ProjectAdviceResult">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM T_BSS_PPMS_PROJECTS_ADVICE
+    WHERE ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 2.根据条件查询 -->
+  <select id="findByList" parameterType="java.util.Map" resultMap="ProjectAdviceResult">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM T_BSS_PPMS_PROJECTS_ADVICE pa
+    <include refid="Example_Where_Clause"/>
+     order by seq
+  </select>
+  
+  <!-- 3.插入数据 -->
+  <insert id="insert" parameterType="bss.model.ppms.ProjectAdvice">
+    insert into T_BSS_PPMS_PROJECTS_ADVICE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="createUser != null">
+        CREATE_USER,
+      </if>
+      <if test="createAt != null">
+        CREATE_AT,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
+      <if test="typeId != null">
+        TYPE_ID,
+      </if>
+      <if test="isDelete != null">
+        IS_DELETE,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="seq != null">
+        SEQ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null">
+        #{seq},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 4.更新数据 -->
+  <update id="update" parameterType="bss.model.ppms.ProjectAdvice">
+    update T_BSS_PPMS_PROJECTS_ADVICE
+    <set>
+      <if test="isDelete != null">
+        IS_DELETE = #{isDelete},
+      </if>
+    </set>
+    where PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

@@ -10,6 +10,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 public class DateUtils {  
 	
+	  /** 日期格式 **/
+    private final static String  DATE_PATTERN ="yyyy-MM-dd";
+    
     /** 时间格式 **/
     private final static String  TIME_PATTERN ="yyyy-MM-dd HH:mm:ss";
       

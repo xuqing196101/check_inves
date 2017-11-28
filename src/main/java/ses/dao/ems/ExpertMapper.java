@@ -445,4 +445,5 @@ public interface ExpertMapper {
      * @since JDK1.7
      */
     List<ExpertVO> selectInStorageExpert(Map<String, Object> map);
+    void updateReviewStatus(@Param("reciewStatus") String reciewStatus,@Param("id")String id);
 }

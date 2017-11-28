@@ -45,6 +45,7 @@ public class BaseSupplierController extends BaseController {
 	public void writeJson(HttpServletResponse response, Object object) {
 		try {
 			String json = JSON.toJSONStringWithDateFormat(object, "yyyy-MM-dd HH:mm:ss");
+			System.out.println(json+"--============");
 			response.setContentType("text/html;charset=utf-8");
 			response.getWriter().write(json);
 			response.getWriter().flush();

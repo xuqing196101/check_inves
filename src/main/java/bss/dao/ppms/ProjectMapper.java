@@ -78,4 +78,6 @@ public interface ProjectMapper {
      * @return
      */
     BigDecimal selectPurProjectByWay(@Param("dictId") String dictId);
+    
+    Project newSelectById(String id);
 }

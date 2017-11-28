@@ -171,7 +171,8 @@ public class Expert extends ExpertHistory implements Serializable {
 
     private ExpertAuditOpinion expertAuditOpinion;
 
-    private ExpertBatchDetails expertBatchDetails;
+    private List<ExpertBatchDetails> expertBatchDetails;
+    private List<ExpertBatch> expertBatchs;
 
     /**
      * 专家附件表
@@ -187,8 +188,17 @@ public class Expert extends ExpertHistory implements Serializable {
     private String fromType;
     private String updateTime;
     private String sort;
+    private String reviewStatus;
+    
+    public String getReviewStatus() {
+		return reviewStatus;
+	}
 
-    public String getSort() {
+	public void setReviewStatus(String reviewStatus) {
+		this.reviewStatus = reviewStatus;
+	}
+
+	public String getSort() {
         return sort;
     }
 
@@ -239,6 +249,14 @@ public class Expert extends ExpertHistory implements Serializable {
 
     public void setAttchList(List<UploadFile> attchList) {
         this.attchList = attchList;
+    }
+
+    public List<ExpertBatch> getExpertBatchs() {
+        return expertBatchs;
+    }
+
+    public void setExpertBatchs(List<ExpertBatch> expertBatchs) {
+        this.expertBatchs = expertBatchs;
     }
 
     public Integer getTeachTitle() {
@@ -1190,15 +1208,15 @@ public class Expert extends ExpertHistory implements Serializable {
 		this.expertTypeId = expertTypeId;
 	}
 
-    public ExpertBatchDetails getExpertBatchDetails() {
+    public List<ExpertBatchDetails> getExpertBatchDetails() {
         return expertBatchDetails;
     }
 
-    public void setExpertBatchDetails(ExpertBatchDetails expertBatchDetails) {
+    public void setExpertBatchDetails(List<ExpertBatchDetails> expertBatchDetails) {
         this.expertBatchDetails = expertBatchDetails;
     }
 
-	public String getContactMobile() {
+    public String getContactMobile() {
 		return contactMobile;
 	}
 

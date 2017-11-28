@@ -1359,4 +1359,8 @@
 		</if>
 		ORDER BY d.CREATED_AT DESC
 	</select>
+	
+	<select id="selOrgIdByDepId" parameterType="String" resultType="String">
+		SELECT ORG_ID FROM T_SES_OMS_PURCHASE_DEP WHERE ID = #{id}
+	</select>
 </mapper>

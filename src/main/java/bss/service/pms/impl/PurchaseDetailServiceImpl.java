@@ -512,4 +512,27 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
 	           }
 	        });
 	}
+
+	@Override
+	public List<PurchaseDetail> dynamicForeach(List<String> list) {
+		List<String> list1 = new ArrayList<String>();
+   	 	List<String> list2 = new ArrayList<String>();
+		for (int i = 0; i < list.size(); i++) {
+			if (i <= 500) {
+       		 	list1.add(list.get(i));
+       	 	} else if (i > 500 && i<=1000){
+       	 		list2.add(list.get(i));
+       	 	}
+		}
+		List<PurchaseDetail> details = new ArrayList<PurchaseDetail>();
+		if (list1 != null && !list1.isEmpty()) {
+			List<PurchaseDetail> foreach = purchaseDetailMapper.dynamicForeach(list1);
+			details.addAll(foreach);
+		}
+		if (list2 != null && !list2.isEmpty()) {
+			List<PurchaseDetail> foreach = purchaseDetailMapper.dynamicForeach(list2);
+			details.addAll(foreach);
+		}
+		return details;
+	}
 }

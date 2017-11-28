@@ -366,6 +366,18 @@ public class ProjectServiceImpl implements ProjectService {
 	          jsonObj.put("isEnd", true);
 	      }
 	      
+	      HashMap<String, Object> hashMap = new HashMap<>();
+	      hashMap.put("projectId", projectId);
+	      List<Packages> findByID = packageMapper.findByID(hashMap);
+	      if (findByID != null && !findByID.isEmpty()) {
+	    	  String string = DictionaryDataUtil.getId("ZJTSHBTG");
+	    	  for (Packages packages : findByID) {
+	    		  if (StringUtils.isNotBlank(packages.getProjectStatus()) && string.equals(packages.getProjectStatus())) {
+	    			  jsonObj.put("isZJT", true);
+	    			  break;
+	    		  }
+	    	  }
+	      }
 	      
 	      List<PurchaseInfo> purchaseInfo = new ArrayList<>();
          //获取当前项目所属机构人员
@@ -512,7 +524,7 @@ public class ProjectServiceImpl implements ProjectService {
               List<UploadFile> files = uploadService.getFilesOther(projectId, typeId, Constant.TENDER_SYS_KEY+"");
               if(files != null && files.size() > 0){
             	  Project project = projectMapper.selectProjectByPrimaryKey(projectId);
-            	  if (project != null && project.getConfirmFile() == 3) {
+            	  if (project != null && (project.getConfirmFile() == 3||project.getConfirmFile() == 4||project.getConfirmFile() == 5)) {
             		  jsonObj.put("success", true);
             	  } else {
             		  jsonObj.put("success", false);
@@ -795,8 +807,9 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void addProejctDetail(List<PurchaseDetail> list, String projectId, Integer position) {
         if(list != null && list.size() > 0 && StringUtils.isNotBlank(projectId)){
+        	ProjectDetail projectDetail = null;
             for (PurchaseDetail purchaseDetail : list) {
-                ProjectDetail projectDetail = new ProjectDetail();
+            	projectDetail = new ProjectDetail();
                 if(StringUtils.isNotBlank(purchaseDetail.getId())){
                     projectDetail.setRequiredId(purchaseDetail.getId());
                 }
@@ -868,7 +881,11 @@ public class ProjectServiceImpl implements ProjectService {
         if(list != null && list.size() > 0){
             HashSet<String> set = new HashSet<>();
             for (PurchaseDetail purchaseDetail : list) {
-                Map<String,Object> map=new HashMap<String,Object>();
+            	 Integer num = purchaseDetailMapper.selectByDetailId(purchaseDetail);
+            	 if (num != null && num > 0) {
+            		 set.add(purchaseDetail.getParentId());
+            	 }
+               /* Map<String,Object> map=new HashMap<String,Object>();
                 map.put("id", purchaseDetail.getId());
                 List<PurchaseDetail> details = purchaseDetailMapper.selectByParentId(map);
                 if(details != null && details.size() == 1){
@@ -879,7 +896,7 @@ public class ProjectServiceImpl implements ProjectService {
                     if (purchaseDetail.getParentId() != null && !"1".equals(purchaseDetail.getParentId())) {
                       set.add(purchaseDetail.getParentId());
                     }
-                } 
+                } */
             }
             //List<PurchaseDetail> bottomDetails = new ArrayList<PurchaseDetail>();
             for (String string : set) {
@@ -913,6 +930,7 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectMapper.selectByOrgnization(map);
 	}
     private void updateDetailStatusParent(String projectId, PurchaseDetail purchaseDetail) {
+    	//查询节点下面全部明细
       Map<String,Object> map=new HashMap<String,Object>();
       map.put("parentId", purchaseDetail.getId());
       List<PurchaseDetail> detailChilds = purchaseDetailMapper.getByMap(map);
@@ -1077,5 +1095,11 @@ public class ProjectServiceImpl implements ProjectService {
         }
       }
       
-    } 
+    }
+
+	@Override
+	public Project newSelectById(String id) {
+		
+		return projectMapper.newSelectById(id);
+	} 
   }

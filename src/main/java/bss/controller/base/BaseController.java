@@ -12,6 +12,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import com.alibaba.fastjson.JSON;
+
 public class BaseController {
 	
 	protected HttpServletRequest request;
@@ -78,5 +80,17 @@ public class BaseController {
 			}
 		}
 	}
+	public void writeJson(HttpServletResponse response, Object object) {
+    try {
+      String json = JSON.toJSONStringWithDateFormat(object, "yyyy-MM-dd HH:mm:ss");
+      System.out.println(json+"--============");
+      response.setContentType("text/html;charset=utf-8");
+      response.getWriter().write(json);
+      response.getWriter().flush();
+      response.getWriter().close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 	
 }
