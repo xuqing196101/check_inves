@@ -9,9 +9,6 @@ import synchro.inner.read.InnerFilesRepeater;
 import synchro.util.Constant;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
-
-import common.constant.StaticVariables;
-
 import extract.service.expert.ExpertExtractProjectService;
 
 /**
@@ -47,21 +44,18 @@ public class ExpertExtractResultImportTask {
 	 * @return
 	 */
 	public void resultImport() {
-		// 内网
-		if ("0".equals(StaticVariables.ipAddressType)) {
-//			fileRepeater.initFiles();
-			/** 内网导入 **/
-			File file = FileUtils.getImportFile();
-			if (file != null && file.exists()) {
-				File[] files = file.listFiles();
-				for (File f : files) {
+//		fileRepeater.initFiles();
+		/** 内网导入 **/
+		File file = FileUtils.getImportFile();
+		if (file != null && file.exists()) {
+			File[] files = file.listFiles();
+			for (File f : files) {
+				if (f.getName().equals(Constant.EXPERT_EXTRACT_RESULT_FILE_EXPERT)) {
+					expertExtractProjectService.importExpertExtractResult(f);
+				}
+				if (f.isDirectory()) {
 					if (f.getName().equals(Constant.EXPERT_EXTRACT_RESULT_FILE_EXPERT)) {
-						expertExtractProjectService.importExpertExtractResult(f);
-					}
-					if (f.isDirectory()) {
-						if (f.getName().equals(Constant.EXPERT_EXTRACT_RESULT_FILE_EXPERT)) {
-							OperAttachment.moveFolder(f);
-						}
+						OperAttachment.moveFolder(f);
 					}
 				}
 			}
