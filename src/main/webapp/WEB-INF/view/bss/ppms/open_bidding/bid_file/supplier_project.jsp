@@ -56,11 +56,12 @@
 	       			}else{
 	       				text="请选择";
 	       			}
-	       			var arr = $(sel[i]).parents("tr").find("td:last").find("div");
+	       			var arr = $(sel[i]).parents("tr").find("td:last").find(".upload_tag");
 	    			if (text == '已到场') {
 	    				for (var k = 0; k < arr.length; k++) {
 	    					$(arr[k]).css({
-	    						top: 0
+	    						top: '50%',
+	    						marginTop: '-13px'
 	    					});
 	    				}
 	    			}
@@ -215,13 +216,14 @@
 		function yincUpload(obj) {
 			var textVal = $(obj).find("option:selected").text();
 			var arr = new Array();
-			arr = $(obj).parents("tr").find("td:last").find("div");
+			arr = $(obj).parents("tr").find("td:last").find(".upload_tag");
 			if (textVal == '已到场') {
 				setCookie($(obj).attr("id"),1,1);
 				for (var i = 0; i < arr.length; i++) {
 					/* $(arr[i]).removeClass("hide"); */
 					$(arr[i]).css({
-						top: 0
+						top: '50%',
+						marginTop: '-13px'
 					});
 				}
 			} else if(textVal=='未到场'){
@@ -278,22 +280,22 @@
 				<table class="table table-bordered table-condensed table-hover table-striped">
 					<thead>
 						<tr>
-							<th class="w50 info">序号</th>
-							<th class="info">供应商名称</th>
-							<th class="info">关联的包名</th>
-							<th class="info">是否到场</th>
-							<th class="info">投标文件</th>
+							<th class="w50">序号</th>
+							<th>供应商名称</th>
+							<th>关联的包名</th>
+							<th class="w120">是否到场</th>
+							<th class="w180">投标文件</th>
 						</tr>
 					</thead>
 					<c:forEach items="${supplierList}" var="list" varStatus="vs">
 						<c:if test="${not empty list.packageName}">
 							<tr>
 							<td class="tc">${vs.index+1}</td>
-							<td class="tl w300">${list.supplierName}</td>
-							<td class="tl">${list.packageName }</td>
-							<td class="tc">
+							<td class="tl">${list.supplierName}</td>
+							<td class="tc">${list.packageName }</td>
+							<td class="tc p0">
 								<c:if test="${empty list.isturnUp}">
-									<select onchange="yincUpload(this)" name="select" id="select_${(vs.index+1)}_${list.id}">
+									<select onchange="yincUpload(this)" name="select" id="select_${(vs.index+1)}_${list.id}" class="w100p border0">
 										<option value="">请选择</option>
 										<option value="${list.id}">已到场</option>
 										<option value="${list.id}">未到场</option>
@@ -307,22 +309,22 @@
 									未到场
 								</c:if>
 							</td>
-							<td style="position: relative; overflow: hidden;">
-							    <c:if test="${flag == false}">
-							    <div id="upload_tag_${vs.index+1}" style="position: absolute; top: -100px; left: 0; width: 100%;">
-										<c:if test="${fn:length(supplierList) > 1}">
-											<u:upload id="${list.groupsUpload}" exts="txt,rar,zip,doc,docx,pdf" multiple="true" groups="${list.groupsUploadId}" buttonName="上传附件" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-											<u:show showId="${list.groupShow}" groups="${list.groupShowId}" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" />
-									  	</c:if>
-									  	<c:if test="${fn:length(supplierList) == 1}">
-											<u:upload id="${list.groupsUpload}" exts="txt,rar,zip,doc,docx,pdf" businessId="${list.proSupFile}" buttonName="上传附件" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-											<u:show showId="${list.groupShow}" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" />
-									  	</c:if>
-							    	</div>
+							<td class="pr over_hideen">
+						    <c:if test="${flag == false}">
+						    <div id="upload_tag_${vs.index+1}" class="upload_tag" style="position: absolute; top: -100px; left: 5x; width: 100%;">
+									<c:if test="${fn:length(supplierList) > 1}">
+										<u:upload id="${list.groupsUpload}" exts="txt,rar,zip,doc,docx,pdf" multiple="true" groups="${list.groupsUploadId}" buttonName="上传附件" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+										<u:show showId="${list.groupShow}" groups="${list.groupShowId}" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" />
 							  	</c:if>
-							  	 <c:if test="${flag == true}">
-									<a class="mt3 color7171C6" href="javascript:download('${list.bidFileId}', '${sysKey}')">${list.bidFileName}</a>							
-						  		 </c:if>
+							  	<c:if test="${fn:length(supplierList) == 1}">
+										<u:upload id="${list.groupsUpload}" exts="txt,rar,zip,doc,docx,pdf" businessId="${list.proSupFile}" buttonName="上传附件" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+										<u:show showId="${list.groupShow}" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" />
+								  </c:if>
+						    </div>
+						  	</c:if>
+						  	<c:if test="${flag == true}">
+								  <a class="mt3 color7171C6" href="javascript:download('${list.bidFileId}', '${sysKey}')">${list.bidFileName}</a>							
+					  		</c:if>
 							</td>
 						</tr>
 						</c:if>

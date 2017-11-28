@@ -139,7 +139,13 @@ function onCheck(e, treeId, treeNode) {
 	  if (origin != null && origin != ""){
 		  //返回到采购机构
 		  if (origin == "1"){
-			  window.location.href = "${pageContext.request.contextPath}/purchaseManage/purchaseUnitList.html";
+			  var originOrgId = $("#originOrgId").val();
+			  var cggl = $("#cggl").val();
+			  if(cggl == "cggl"){
+				  window.location.href = "${pageContext.request.contextPath}/purchase/list.html?purchaseDepId="+originOrgId;
+			  } else{
+				  window.location.href = "${pageContext.request.contextPath}/purchaseManage/purchaseUnitList.html";
+			  }
 		  }
 		  //返回到组织机构
 		  if (origin == "2"){
@@ -297,11 +303,11 @@ function onCheck(e, treeId, treeNode) {
     <div id="roleContent" class="roleContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 	  <ul id="treeRole" class="ztree" style="margin-top:0;"></ul>
 	</div>
-	
     <sf:form action="${pageContext.request.contextPath}/purchase/create.html" method="post" id="formID" modelAttribute="purchaseInfo">
+	<input type="hidden" id="cggl" name="cggl" value="${cggl}" />
 	  <input type="hidden" name="id"  value="${mainId}" />
 	  <input type="hidden" name ="origin" value="${origin}"/>
-	  <input type="hidden" name ="originOrgId" value="${originOrgId}"/>
+	  <input type="hidden" name ="originOrgId" value="${originOrgId}" id="originOrgId"/>
 	  <input type="hidden" name = "typeName" value="1">
  	  <div>
 	    <h2 class="count_flow"><i>1</i>基本信息</h2>

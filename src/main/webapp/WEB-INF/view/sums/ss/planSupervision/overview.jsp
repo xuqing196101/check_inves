@@ -391,7 +391,7 @@
             </table>
             </c:if>
 
-            <c:if test="${advancedProject != null}">
+            <c:if test="${advancedProject ne null}">
               <h2 class="list_son" id="tab-3"><i>${flag}</i>预研任务下达</h2>
               <c:set var="flag" value="${flag+1}" />
               <table class="table table-bordered mt10">
@@ -420,7 +420,7 @@
             <h2 class="list_son" id="tab-4"><i>${flag}</i>采购计划审核</h2>
             <c:set var="flag" value="${flag+1}" />
             <c:choose>
-              <c:when test="${listAuditPerson != null}">
+              <c:when test="${listAuditPerson ne null}">
                 <table class="table table-bordered mt10">
                   <thead>
                     <tr>
@@ -449,7 +449,7 @@
               </c:otherwise>
             </c:choose>
 
-            <c:if test="${collectPlan.fileName != null}">
+            <c:if test="${collectPlan.fileName ne null}">
               <h2 class="list_son" id="tab-5"><i>${flag}</i>采购计划下达</h2>
               <c:set var="flag" value="${flag+1}" />
               <table class="table table-bordered mt10">

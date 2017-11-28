@@ -23,7 +23,7 @@ session.setAttribute("tokenSession", tokenValue);
    var flag4 = 1;
    function validataLoginName(){
 	   var loginName = $("#loginName").val();
-	   var patrn=/[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im;  
+	   var patrn=/[`~!@#$%^&*()\-_+<>?:"{},.\/;'[\]]/im;  
 	   //var patrn2=/^(?=.*[a-z])[a-z0-9]+/ig;
 	   if(loginName.replace(/\s/g,"")==null || loginName.replace(/\s/g,"")==""){
 		   $("#spp").html("用户名不能为空").css('color','red');

@@ -14,7 +14,30 @@
 <script type="text/javascript">
 $(function(){
 	$("#reverse_of_five_i").css("display","inline-block");
-})
+});
+
+function vaUpload(){
+	//审批表必传校验
+	var businessId = '${expertId}'+'2';
+	var typeId = '${typeId}';
+    $.ajax({
+        url : "${pageContext.request.contextPath}/expertAudit/vaUpload.do",
+        data : {
+            "businessId" : businessId,
+            "typeId" : typeId
+        },
+        dataType : "json",
+        async : false,
+        success : function(data) {
+        	if(data == "OK"){
+        		chuAuditEnd();
+       	    }else{
+       	 		layer.msg("请上传批准初审表");
+       	    }
+        }
+    });
+    
+}
 </script>
 </head>
 
@@ -70,7 +93,7 @@ $(function(){
                     <c:if test="${ status == 15 || status == 16}">
                         <li class="col-md-6 col-sm-6 col-xs-6">
                             <div>
-                                <span class="fl">上传批准初审表：</span>
+                                <span class="fl"><span class="red">*</span>上传批准初审表：</span>
                                 <u:upload id="pic_checkword" businessId="${expertId}2" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="上传彩色扫描件" auto="true" multiple="true"/>
                                 <u:show showId="pic_checkword" businessId="${expertId}2" sysKey="${ sysKey }" typeId="${typeId }" />
                             </div>
@@ -79,7 +102,7 @@ $(function(){
                     <c:if test="${ status != 15 && status != 16}">
                         <li class="col-md-6 col-sm-6 col-xs-6">
                             <div>
-                                <span class="fl">上传批准初审表：</span>
+                                <span class="fl"><span class="red">*</span>上传批准初审表：</span>
                                 <u:upload id="pic_checkword" businessId="${expertId}2" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="上传彩色扫描件" auto="true" multiple="true"/>
                                 <u:show showId="pic_checkword" businessId="${expertId}2" sysKey="${ sysKey }" typeId="${typeId }" delete = "false"/>
                             </div>
@@ -112,7 +135,7 @@ $(function(){
                                 <input class="btn btn-windows end" type="button" id="auditOver" value="复审结束" />
                             </c:if>
                             <c:if test="${isCheck eq 'no' && (status == 15 || status == 16)}">
-                                <input class="btn btn-windows end" type="button" value = "初审结束" onclick = "chuAuditEnd()"/>
+                                <input class="btn btn-windows end" type="button" value = "初审结束" onclick = "vaUpload()"/>
                             </c:if>
                         </div>
                     </div>

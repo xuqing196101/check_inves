@@ -29,7 +29,7 @@ $(function () {
         
         var selectedVal = $(this).val();
         if(selectedVal == 5){
-            $("#cate_result").html("预复审不合格。");
+            $("#cate_result").html("复审不合格。");
             return;
         }
         if(selectedVal == '10'){
@@ -90,9 +90,9 @@ function getCheckOpinionType(expertId){
 		success: function(data) {
 			if(data.pass<=0){
 				//只有物资服务经济
-				$("#cate_result").html("同意入库，通过的是物资服务经济。");
+				$("#cate_result").html("复审合格，通过的是物资服务经济。");
 			}else{
-				$("#cate_result").html("预复审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
+				$("#cate_result").html("复审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
 			}
 			// 关闭旋转图标
             layer.close(index);
@@ -280,4 +280,46 @@ function vartifyAuditCount(){
         }
     } 
     return flags;
+}
+
+//点专家姓名进来查看的(意见生成一句话)
+function seeItemsOpinion(expertId,opinion,status){
+    // 获取专家ID
+    var expertId = $("#expertId").val();
+    var isGoodsServer = $("#isGoodsServer").val();
+    var checkVal = $("input:radio[name='selectOption']:checked").val();
+   /* if(status == -2){
+    	yu = "预";
+    }else{
+    	yu = "";
+    }*/
+    if(checkVal == -3){
+    	var index = layer.load(0, {
+            shade : [ 0.1, '#fff' ],
+            offset : [ '40%', '50%' ]
+        });
+	    $.ajax({
+			url:globalPath + "/expertAudit/findCategoryCount.do",
+			data: {
+				"expertId" : expertId,
+				"auditFalg" : 2
+			},
+			type: "post",
+			dataType: "json",
+			success: function(data) {
+				if(data.pass<=0){
+					//只有物资服务经济
+					$("#cate_result").html("复审合格，通过的是物资服务经济。");
+				}else{
+					$("#cate_result").html("复审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。" + opinion);
+				}
+				// 关闭旋转图标
+	            layer.close(index);
+			}
+		});
+    }else if(checkVal == 5) {
+      $("#cate_result").html("复审不合格。" + opinion);
+    }else if(checkVal == 10) {
+      $("#cate_result").html("退回修改。" + opinion);
+    }
 }
