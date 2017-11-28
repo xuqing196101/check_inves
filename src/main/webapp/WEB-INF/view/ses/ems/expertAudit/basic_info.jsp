@@ -888,7 +888,7 @@
             <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zancun();">暂存</a>
           </c:if>
           <a class="btn" type="button" onclick="nextStep();">下一步</a>
-          <a class="btn" type="button" onclick="javascript:history.back()">返回</a>
+          <!-- <a class="btn" type="button" onclick="javascript:history.back()">返回</a> -->
         </div>
     </div>
 </div>
