@@ -136,6 +136,8 @@
                     <input type="hidden" name="orgName" value="${supplier.orgName}"/>
                     <input type="hidden" name="address" value="${supplier.address}"/>
                     <input type="hidden" name="queryCategory" value="${supplier.queryCategory }"/>
+					<input type="hidden" name="supplierTypeIds" value="${supplierTypeIds}" />
+					<input type="hidden" name="supplierLevel" value="${supplier.supplierLevel }"/>
                     <input type="hidden" name="sign" value="${sign}"/>
                 </form>
 	      <form id="form1" action="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?sign=${sign}" method="post" class="mb0">
