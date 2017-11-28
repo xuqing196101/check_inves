@@ -129,7 +129,6 @@
                 <form id="exportExcelCond">
                     <input type="hidden" name="supplierName" value="${supplier.supplierName}"/>
                     <input type="hidden" name="businessNature" value="${supplier.businessNature}"/>
-                    <input type="hidden" name="supplierTypeIds" value="${supplierTypeIds}"/>
                     <input type="hidden" name="status" value="${supplier.status}"/>
                     <input type="hidden" name="isProvisional" value="${supplier.isProvisional}"/>
                     <input type="hidden" name="creditCode" value="${supplier.creditCode}"/>
