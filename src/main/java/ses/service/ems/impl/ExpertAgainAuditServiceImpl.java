@@ -893,24 +893,26 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
         		expertAuditOpinion2.setFlagTime(1);
         		expertAuditOpinion2 = expertAuditOpinionMapper.selectByExpertId(expertAuditOpinion2);
         		
-        		Expert expertInfo = expertMapper.selectByPrimaryKey(e.getExpertId());
-        		if(expertInfo.getIsReviewEnd() !=null && "-2".equals(expertInfo.getStatus())){
-            		if(expertAuditOpinion2 !=null && expertAuditOpinion2.getFlagAudit() !=null){
-            			if(expertAuditOpinion2.getFlagAudit() == -3){
-            				//预复审合格
-            				e.setExpertStatus("-3");
-            			}
-            			if(expertAuditOpinion2.getFlagAudit() == 5){
-            				//复审不合格
-            				e.setExpertStatus("5");
-            				
-            			}
-            			if(expertAuditOpinion2.getFlagAudit() == 10){
-            				//复审退回修改
-            				e.setExpertStatus("10");
-            			}
-            		}
-            	}
+        		if(batchStatus==0){
+        			Expert expertInfo = expertMapper.selectByPrimaryKey(e.getExpertId());
+            		if("-2".equals(expertInfo.getStatus())){
+                		if(expertAuditOpinion2 !=null && expertAuditOpinion2.getFlagAudit() !=null){
+                			if(expertAuditOpinion2.getFlagAudit() == -3){
+                				//预复审合格
+                				e.setExpertStatus("-3");
+                			}
+                			if(expertAuditOpinion2.getFlagAudit() == 5){
+                				//复审不合格
+                				e.setExpertStatus("5");
+                				
+                			}
+                			if(expertAuditOpinion2.getFlagAudit() == 10){
+                				//复审退回修改
+                				e.setExpertStatus("10");
+                			}
+                		}
+                	}
+        		}
 	            if(e.getExpertsTypeId() != null) {
 	                for(String typeId: e.getExpertsTypeId().split(",")) {
 	                    DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(typeId);
