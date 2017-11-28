@@ -1,14 +1,14 @@
 package ses.service.sms;
 
-import java.sql.Timestamp;
+import bss.model.ppms.Packages;
+import bss.model.ppms.Project;
+import ses.model.sms.Quote;
+
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
-import ses.model.sms.Quote;
-import bss.model.ppms.Packages;
-import bss.model.ppms.Project;
+import java.util.Map;
 
 /**
  * 版权：(C) 版权所有 
@@ -55,7 +55,7 @@ public interface SupplierQuoteService {
      * @param page 当前页
      * @return List<Project> 
      */
-    List<Project> selectByCondition(HashMap<String, Object> map, Integer page);
+    List<Project> selectByCondition(Map<String, Object> map, Integer page);
 
     /**
      *〈简述〉查询项目的所有包

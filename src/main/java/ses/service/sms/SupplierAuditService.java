@@ -453,7 +453,7 @@ public interface SupplierAuditService {
      * @author Easong
      * @version 2017年6月26日
      */
-    void handlerPublictySup();
+    void updateHandlerPublictySup();
     
     /**
      * 

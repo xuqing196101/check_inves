@@ -374,7 +374,11 @@
 		<include refid="Base_Column_List"/>
 				from
 				T_SES_SMS_SUPPLIER_ITEM
-				where CATEGORY_ID = #{categoryId}  and  SUPPLIER_ID = #{supplierId} and SUPPLIER_TYPE_RELATE_ID=#{type}
+				where 
+				CATEGORY_ID = #{categoryId} 
+				and SUPPLIER_ID = #{supplierId} 
+				and SUPPLIER_TYPE_RELATE_ID = #{type}
+				and IS_DELETED != 1
 	</select>
 	<select id="getBySupplierIdCategoryIdIsNotReturned"  resultMap="BaseResultMap">
 		select

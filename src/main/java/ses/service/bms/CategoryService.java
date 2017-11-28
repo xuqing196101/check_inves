@@ -493,4 +493,13 @@ import java.util.Map;
 	 */
 	List<Category> selectAllCateByCond(Map<String, Object> map);
 	
+	/**
+	 * 根据名称搜索类别
+	 * @param cateName
+	 * @param flag
+	 * @param codeName
+	 * @return
+	 */
+	List<Category> searchByName(String cateName, String flag, String codeName);
+	
 }

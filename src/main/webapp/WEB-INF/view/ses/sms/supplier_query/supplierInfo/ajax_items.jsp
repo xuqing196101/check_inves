@@ -44,6 +44,7 @@
       <td class="info tc">小类</td>
       <!-- <td class="info tc">等级</td> -->
       <td class="info tc">品种名称</td>
+      <td class="info tc">供应商等级</td>
     </tr>
     <c:forEach items="${itemsList}" var="item" varStatus="vs">
       <tr>
@@ -55,6 +56,7 @@
 		    <td class="tl pl20">${item.thirdNode}</td>
 		    <%-- <td class="tl pl20">${item.diyLevel}</td> --%>
 		    <td class="tl pl20">${item.fourthNode}</td>
+		    <td class="tl pl20">${item.diyLevel}</td>
       </tr>
     </c:forEach>
   </table> 
