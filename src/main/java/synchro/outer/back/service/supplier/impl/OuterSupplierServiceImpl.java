@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
 import common.service.UploadService;
+import extract.util.DateUtils;
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
@@ -977,7 +979,9 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
      */
     @Override
     public void selectSupplierLevelOfExport(String startTime, String endTime) {
-    	Map<String, Object> map = new HashMap<>();
+    	// 查询供应商等级
+    	@SuppressWarnings("unchecked")
+		Map<String, Object> map = new HashedMap();
     	map.put("startTime", startTime);
     	map.put("endTime", endTime);
     	
@@ -1001,14 +1005,17 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
             // 供应商等级
             if (file2.getName().contains(FileUtils.SUPPLIER_LEVEL_FILENAME)) {
                 List<SupplierItemLevel> levelList = FileUtils.getBeans(file2, SupplierItemLevel.class);
-                num += levelList == null ? 0 : levelList.size();
+                //num += levelList == null ? 0 : levelList.size();
                 for (SupplierItemLevel level : levelList) {
                 	SupplierItemLevel selectById = supplierItemLevelMapper.selectById(level.getId());
                     if(selectById != null){
-                    	supplierItemLevelMapper.updateByPrimaryKey(level);
+                    	num += supplierItemLevelMapper.updateByPrimaryKey(level);
                     }else{
-                    	supplierItemLevelMapper.insert(level);
+                    	num += supplierItemLevelMapper.insert(level);
                     }
+                }
+                if(num>0){
+                	supplierItemLevelMapper.deleteSupplierItemLevelByDateOfYestoday(DateUtils.getTodayZeroTime());
                 }
             }
         }
