@@ -581,8 +581,8 @@ public class ReviewFirstAuditController extends BaseSupplierController {
 	  Quote quote=new Quote(); 
 	  quote.setPackageId(packId);
 	  quote.setProjectId(projectId);
-/*	  List<Date> selectQuoteCount = supplierQuoteService.selectQuoteCount(quote);
-	  quote.setCreatedAt(selectQuoteCount.get(selectQuoteCount.size()-1));*/
+    List<Date> selectQuoteCount = supplierQuoteService.selectQuoteCount(quote);
+	  quote.setCreatedAt(selectQuoteCount.get(selectQuoteCount.size()-1));
 	  List<Quote> quotes = supplierQuoteService.get(quote);
 	  Double param = quotes.get(0).getTotal().doubleValue();
 	  ArrayList<SupplyMark> smList = new ArrayList<>();
