@@ -53,9 +53,6 @@
       <if test="isDownLoadAttch != null" >
         IS_DOWNLOAD_ATTCH = #{isDownLoadAttch,jdbcType=DECIMAL},
       </if>
-      <if test="id != null" >
-        ID = #{id},
-      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -163,4 +160,8 @@
       FLAG_AUDIT = #{flagAudit,jdbcType=DECIMAL},
     </if>
   </delete>
+  
+  <update id="updateDownloadAttch" parameterType="java.lang.String">
+  	UPDATE T_SES_EMS_EXPERT_AUDIT_OPINION SET IS_DOWNLOAD_ATTCH = 0 WHERE ID = #{id}
+  </update>
 </mapper>
