@@ -877,21 +877,26 @@ public class SupplierQueryController extends BaseSupplierController {
 			
 			
 			//查询等级
-			if(supplierItem.getSupplierId() !=null && cate.getItemsId() !=null){
+			/*if(supplierItem.getSupplierId() !=null && cate.getItemsId() !=null){
 				Category category = categoryService.selectCategoryByItemId(cate.getItemsId());
+				
 				supplierItemLevel.setSupplierId(supplierItem.getSupplierId());
 				supplierItemLevel.setSupplierTypeId(supplierItem.getSupplierTypeRelateId());
-				// 品种名称节点
+				
+				//
 				if(category.getLevel() == 5){
 					supplierItemLevel.setCategoryId(category.getParentId());
 				}else{
 					supplierItemLevel.setCategoryId(category.getId());
 				}
 				SupplierItemLevel selectLevelByItem = supplierItemLevelServer.selectLevelByItem(supplierItemLevel);
-				if(selectLevelByItem != null){
+				
+				if(selectLevelByItem!=null){
 					cate.setDiyLevel(selectLevelByItem.getSupplierLevel());
+					
 				}
-			}
+			}*/
+			
 		}
 		model.addAttribute("supplierId", supplierItem.getSupplierId());
 		model.addAttribute("supplierTypeRelateId", supplierItem.getSupplierTypeRelateId());

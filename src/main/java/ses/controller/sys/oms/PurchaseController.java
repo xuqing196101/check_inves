@@ -2,7 +2,6 @@ package ses.controller.sys.oms;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -38,7 +37,6 @@ import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
 import common.utils.RSAEncrypt;
-import ses.dao.bms.UserMapper;
 import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Role;
@@ -81,9 +79,6 @@ public class PurchaseController extends BaseController{
 	
 	@Autowired
 	private OrgnizationServiceI orgnizationService;
-	
-	@Autowired
-	private UserMapper userMapper;
 	
 	
 	private AjaxJsonData jsonData = new AjaxJsonData();
@@ -338,9 +333,6 @@ public class PurchaseController extends BaseController{
 		
 		if (StringUtils.isNotBlank(origin)){
 			 if (StaticVariables.ORG_ORIGIN_PURCHASER.equals(origin)){
-				 if("cggl".equals(cggl)){
-						return "redirect:list.html?purchaseDepId="+originOrgId;
-					}
 				 return "redirect:/purchaseManage/purchaseUnitList.html";
 			 }
 			 if (StaticVariables.ORG_ORIGIN_ORG.equals(origin)){
@@ -348,6 +340,9 @@ public class PurchaseController extends BaseController{
 				 return "ses/oms/require_dep/list";
 			 }
 		} 
+		if("cggl".equals(cggl)){
+			return "redirect:list.html?purchaseDepId="+originOrgId;
+		}
 	    return "redirect:list.do";
 	}
 	
@@ -626,26 +621,7 @@ public class PurchaseController extends BaseController{
 			for(int i=0;i<idStrings.length;i++){
 				map.put("id", idStrings[i]);
 				PurchaseInfo purchaseInfo = purchaseServiceI.findPurchaseList(map).get(0);
-				List<User> list=userMapper.selectByPrimaryKey(purchaseInfo.getUserId());
-				if(list != null && list.size() > 0){
-					u = list.get(0);
-					SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmm");
-			    	String date = format.format(new Date());
-			    	StringBuffer suffix = new StringBuffer();
-			    	suffix.append("_del_bak_");
-			    	suffix.append(date);
-			    	String loginName = u.getLoginName()+suffix.toString();
-			    	String mobile=u.getMobile() +suffix.toString();
-			    	String idNumber=u.getIdNumber() +suffix.toString();
-			    	if(!"".equals(u.getOfficerCertNo())){
-			    		u.setOfficerCertNo(u.getOfficerCertNo()+suffix.toString());
-			    	}
-				    u.setLoginName(loginName);
-				    u.setMobile(mobile);
-				    u.setIdNumber(idNumber);
-				}else{
-					u.setId(purchaseInfo.getUserId());
-				}
+				u.setId(purchaseInfo.getUserId());
 				u.setIsDeleted(1);
 				userServiceI.update(u);
 				

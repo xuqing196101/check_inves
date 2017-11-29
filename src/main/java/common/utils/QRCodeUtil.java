@@ -22,7 +22,7 @@ public class QRCodeUtil {
   private static final int width = 300;// 默认二维码宽度
   private static final int height = 300;// 默认二维码高度
   private static final String format = "png";// 默认二维码文件格式
-  private static final Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();// 二维码参数
+  private static final Map<EncodeHintType, Object> hints = new HashMap();// 二维码参数
 
   static {
       hints.put(EncodeHintType.CHARACTER_SET, "utf-8");// 字符编码

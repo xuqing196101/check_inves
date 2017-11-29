@@ -46,19 +46,17 @@ public class ExpertExtractResultExportTask {
 	 * @return
 	 */
 	public void resultExport(){
-		//外网
-		if ("1".equals(StaticVariables.ipAddressType)) {
-			DictionaryData extractResult = DictionaryDataUtil.get(Constant.DATE_SYNCH_EXPERT_EXTRACT_RESULT);
-	        if(extractResult != null && StringUtils.isNotBlank(extractResult.getId())){
-	        	 String startTime = recordService.getSynchTime(Constant.OPER_TYPE_EXPORT, extractResult.getId());
-	        	 if (!StringUtils.isNotBlank(startTime)){
-	                 startTime = DateUtils.getCurrentDate() + " 00:00:00";
-	             }
-	             startTime = DateUtils.getCalcelDate(startTime);
-	             String endTime = DateUtils.getCurrentTime();
-	             Date synchDate = DateUtils.stringToTime(endTime);
-	             expertExtractProjectService.exportExpertExtractResult(startTime, endTime, synchDate);
-	        }
-		}
+		
+		DictionaryData extractResult = DictionaryDataUtil.get(Constant.DATE_SYNCH_EXPERT_EXTRACT_RESULT);
+        if(extractResult != null && StringUtils.isNotBlank(extractResult.getId())){
+        	 String startTime = recordService.getSynchTime(Constant.OPER_TYPE_EXPORT, extractResult.getId());
+        	 if (!StringUtils.isNotBlank(startTime)){
+                 startTime = DateUtils.getCurrentDate() + " 00:00:00";
+             }
+             startTime = DateUtils.getCalcelDate(startTime);
+             String endTime = DateUtils.getCurrentTime();
+             Date synchDate = DateUtils.stringToTime(endTime);
+             expertExtractProjectService.exportExpertExtractResult(startTime, endTime, synchDate);
+        }
 	}
 }
