@@ -328,7 +328,7 @@
                   list_content.list[i].status = '复审合格';
                 } else if (list_content.list.list[i].status === '-2'&& list_content.list.list[i].isReviewEnd != '1') {
                   list_content.list.list[i].status = '<span class="green">预复审结束</span>';
-                  if(list_content.list.list[i].isDownload == '1' && list_content.list.list[i].isReviewEnd != '1'){
+                  if(list_content.list.list[i].isDownload == '1'){
                   	btn = '<button type="button" class="btn w100p m0 canDisable" onclick="reviewEnd(\''+ list_content.list.list[i].expertId +'\');">复审结束</button>';
                   }
                 }else if (list_content.list.list[i].status === '-2' && list_content.list.list[i].isReviewEnd == '1') {

@@ -9,7 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ses.model.bms.User;
 import extract.dao.common.ExtractUserMapper;
 import extract.dao.common.PersonRelMapper;
 import extract.model.common.ExtractUser;
