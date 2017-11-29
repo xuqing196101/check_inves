@@ -92,7 +92,7 @@ import common.utils.JdcgResult;
 /**
  * <p>Title:ExpertAuditController </p>
  * <p>Description: 专家审核</p>
- * @author XuQing
+ * @author 
  * @date 2016-12-19下午7:33:27
  */
 @Controller
@@ -169,7 +169,7 @@ public class ExpertAuditController{
 	private ExpertBatchMapper expertBatchMapper;
 	/**
 	 * @Title: expertAuditList
-	 * @author XuQing 
+	 * @author  
 	 * @date 2016-12-19 下午7:31:56  
 	 * @Description:审核列表 
 	 * @param @param expert
@@ -351,7 +351,7 @@ public class ExpertAuditController{
 	
 	/**
 	 * @Title: basicInfo
-	 * @author XuQing 
+	 * @author  
 	 * @date 2016-12-19 下午7:35:06  
 	 * @Description:基本信息
 	 * @param @param expert
@@ -932,7 +932,7 @@ public class ExpertAuditController{
 
 	/**
 	 * @Title: experience
-	 * @author XuQing 
+	 * @author  
 	 * @date 2016-12-19 下午7:36:21  
 	 * @Description:经历经验
 	 * @param @param expert
@@ -973,7 +973,7 @@ public class ExpertAuditController{
 
 	/**
 	 * @Title: product
-	 * @author XuQing 
+	 * @author  
 	 * @date 2016-12-19 下午7:36:47  
 	 * @Description:产品目录
 	 * @param @param expert
@@ -1441,7 +1441,7 @@ public class ExpertAuditController{
 
 	/**
 	 * @Title: expertFile
-	 * @author XuQing 
+	 * @author  
 	 * @date 2016-12-19 下午7:37:01  
 	 * @Description:附件信息
 	 * @param @param expert
@@ -1494,18 +1494,19 @@ public class ExpertAuditController{
 			/**
 			 * 附件退回修改
 			 */
-			ExpertAuditFileModify expertAuditFileModify = new ExpertAuditFileModify();
-			expertAuditFileModify.setExpertId(expertId);
-			List<ExpertAuditFileModify> selectFileModifyByExpertId = expertAuditService.selectFileModifyByExpertId(expertAuditFileModify);
-			StringBuffer fileModify = new StringBuffer();
-			if(!selectFileModifyByExpertId.isEmpty()){
-				for(ExpertAuditFileModify m : selectFileModifyByExpertId){
-					fileModify.append(m.getTypeId() + ",");
+			if(sign == 1){
+				ExpertAuditFileModify expertAuditFileModify = new ExpertAuditFileModify();
+				expertAuditFileModify.setExpertId(expertId);
+				List<ExpertAuditFileModify> selectFileModifyByExpertId = expertAuditService.selectFileModifyByExpertId(expertAuditFileModify);
+				StringBuffer fileModify = new StringBuffer();
+				if(!selectFileModifyByExpertId.isEmpty()){
+					for(ExpertAuditFileModify m : selectFileModifyByExpertId){
+						fileModify.append(m.getTypeId() + ",");
+					}
+					model.addAttribute("fileModify", fileModify);
 				}
-				model.addAttribute("fileModify", fileModify);
 			}
 		}
-		
 		// 查询审核最终意见,是否有记录（复审退回修改给采购机构，采购机构确认后退回给专家，专家修改完再提交后，《显示专家复审意见标签及意见信息》的标识）
 		model.addAttribute("isReviewRevision", isReviewRevision);
 		return "ses/ems/expertAudit/expertFile";
@@ -1514,7 +1515,7 @@ public class ExpertAuditController{
 	/**
 	 * 
 	 * @Title: getTypeId
-	 * @author XuQing
+	 * @author 
 	 * @date 2016年11月9日 下午2:32:38
 	 * @Description: 封装附件类型
 	 * @param @return
@@ -1578,7 +1579,7 @@ public class ExpertAuditController{
 
 	/**
 	 * @Title: expertType
-	 * @author XuQing 
+	 * @author  
 	 * @date 2016-12-19 下午7:37:48  
 	 * @Description:专家类型
 	 * @param @param expertAudit
@@ -1839,7 +1840,7 @@ public class ExpertAuditController{
 
 	/**
 	 * @Title: showModify
-	 * @author XuQing 
+	 * @author  
 	 * @date 2016-12-28 上午10:37:47  
 	 * @Description:查询退回修改再次提交审核显示之前的信息
 	 * @param @param supplierHistory
@@ -1866,7 +1867,7 @@ public class ExpertAuditController{
 	
 	/**
 	 * @Title: reasonsList
-	 * @author XuQing 
+	 * @author  
 	 * @date 2016-12-19 下午7:38:05  
 	 * @Description:问题汇总
 	 * @param @param expertAudit
@@ -2095,7 +2096,7 @@ public class ExpertAuditController{
 
 	/**
 	 * @Title: updateStatus
-	 * @author XuQing 
+	 * @author  
 	 * @date 2016-12-19 下午7:38:19  
 	 * @Description:提交审核
 	 * @param @param expert
@@ -3136,7 +3137,7 @@ public class ExpertAuditController{
 	
 	/**
 	 * @Title: publish
-	 * @author XuQing 
+	 * @author  
 	 * @date 2017-3-9 下午4:06:06  
 	 * @Description:发布到门户名录上
 	 * @param @param supplierId      
@@ -3217,7 +3218,7 @@ public class ExpertAuditController{
 	
 	/**
 	 * @Title: getItemsAll
-	 * @author XuQing 
+	 * @author  
 	 * @date 2017-4-7 上午10:28:40  
 	 * @Description:所有的不带分页
 	 * @param @param expertId
@@ -3303,7 +3304,7 @@ public class ExpertAuditController{
 	
 	/**
 	 * @Title: auditOpinion
-	 * @author XuQing 
+	 * @author  
 	 * @date 2017-4-3 下午12:18:11  
 	 * @Description:
 	 * @param @param supplierAuditNot      
@@ -3420,7 +3421,7 @@ public class ExpertAuditController{
 	
 	/**
 	 * @Title: signature
-	 * @author XuQing 
+	 * @author  
 	 * @date 2017-4-6 下午2:48:52  
 	 * @Description:跳转添加签字人员页面
 	 * @param @param ids
@@ -3469,7 +3470,7 @@ public class ExpertAuditController{
 	
 	/**
 	 * @Title: saveAuditNot
-	 * @author XuQing 
+	 * @author  
 	 * @date 2017-5-3 下午7:12:17  
 	 * @Description:记录审核未通过的
 	 * @param       
