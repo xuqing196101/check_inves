@@ -38,28 +38,57 @@
         	yu='';
         } */
         
-        if(status != null && typeof(status) != "undefined" && status == 15) {
-          $.ajax({
-            url:globalPath + "/expertAudit/findCategoryCount.do",
-            data: {
-              "expertId" : expertId,
-              "auditFalg" : 1
-            },
-            type: "post",
-            dataType: "json",
-            success: function(data) {
-                if(data.isGoodsServer == 1 && data.pass == 0){
-                  $("#check_opinion").html("初审合格，通过的是物资服务经济类别。");
-                }else{
-                  $("#check_opinion").html("初审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。" + opinion);
-                }
+        if(status != null && typeof(status) != "undefined") {
+        	if(status == 15){
+        		$.ajax({
+                    url:globalPath + "/expertAudit/findCategoryCount.do",
+                    data: {
+                      "expertId" : expertId,
+                      "auditFalg" : 1
+                    },
+                    type: "post",
+                    dataType: "json",
+                    success: function(data) {
+                        if(data.isGoodsServer == 1 && data.pass == 0){
+                          $("#check_opinion").html("初审合格，通过的是物资服务经济类别。");
+                        }else{
+                          $("#check_opinion").html("初审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。" + opinion);
+                        }
+                    }
+               });
+        	}else if(status == 16) {
+                $("#check_opinion").html("初审不合格。");
+            }else if(status == 3) {
+                $("#check_opinion").html("退回修改。");
             }
-          });
-        }else if(status == 16) {
-            $("#check_opinion").html("初审不合格。");
-        }else if(status == 3) {
-            $("#check_opinion").html("退回修改。");
-        }
+        	
+        	/*
+        	兼容老数据，没有存意见的
+        	*/
+        }else if(status == null || typeof(status) == "undefined"){
+        	if(expertStatus == 2 || expertStatus == 16){
+        		$("#check_opinion").html("初审不合格。");
+        	}else if(expertStatus == 3){
+        		$("#check_opinion").html("退回修改。");
+        	}else{
+	       		$.ajax({
+                   url:globalPath + "/expertAudit/findCategoryCount.do",
+                   data: {
+                     "expertId" : expertId,
+                     "auditFalg" : 1
+                   },
+                   type: "post",
+                   dataType: "json",
+                   success: function(data) {
+                       if(data.isGoodsServer == 1 && data.pass == 0){
+                         $("#check_opinion").html("初审合格，通过的是物资服务经济类别。");
+                       }else{
+                         $("#check_opinion").html("初审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。" + opinion);
+                       }
+                    }
+	       	 	});
+        	}
+         }
       }
     </script>
   </head>

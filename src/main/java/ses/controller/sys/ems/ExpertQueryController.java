@@ -854,10 +854,7 @@ public class ExpertQueryController {
 		map.put("auditFalg", 1);
 		
 		//查询 有问题，未修改，审核不通过的状态
-		map.put("statusQuery", "statusQuery");
-		
-		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
-		expertAuditOpinion.setFlagTime(0);
+		//map.put("statusQuery", "statusQuery");
 		
 		//审核记录
 		List < ExpertAudit > auditList = expertAuditService.diySelect(map);
@@ -865,6 +862,8 @@ public class ExpertQueryController {
 		model.addAttribute("auditList", auditList);
 		
 		// 查询审核最终意见
+		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+		expertAuditOpinion.setFlagTime(0);
 		expertAuditOpinion.setExpertId(expertId);
 		expertAuditOpinion = expertAuditOpinionService.findByExpertId(expertAuditOpinion);
 		model.addAttribute("auditOpinion", expertAuditOpinion);
@@ -903,7 +902,7 @@ public class ExpertQueryController {
 		map.put("expertId", expertId);
 		map.put("auditFalg", 2);
 		//查询 有问题，未修改，审核不通过的状态
-		map.put("statusQuery", "statusQuery");
+		//map.put("statusQuery", "statusQuery");
 		expertAuditOpinion.setFlagTime(1);
 		
 		//重新复审就不查看审核记录
