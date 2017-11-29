@@ -16,7 +16,7 @@
 .mfixed-main .table-bordered>tbody>tr>td, .mfixed-main .table-bordered>tbody>tr>th, .mfixed-main .table-bordered>tfoot>tr>td, .mfixed-main .table-bordered>tfoot>tr>th, .mfixed-main .table-bordered>thead>tr>td, .mfixed-main .table-bordered>thead>tr>th {
   border-right: none;
 }
-.mfixed-main .table-bordered>tbody>tr>td:first-child, .mfixed-main .table-bordered>thead>tr>th:first-child {
+.mfixed-main .table-bordered>tbody>tr>td:first-child {
   border-left: none;
 }
 .mfixed-header {
