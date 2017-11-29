@@ -640,7 +640,13 @@
       and T1.IS_DELETED = #{isDeleted}
     </if>
     <if test="auditFalg != '' and auditFalg != null">
-      and T1.AUDIT_FALG = #{auditFalg}
+    	<!-- 兼容老数据之前没存的 -->
+    	<if test="auditFalg == 1 ">
+    		AND (T1.AUDIT_FALG = #{auditFalg} OR t1.AUDIT_FALG is null)
+    	</if>
+    	<if test="auditFalg != 1 ">
+    		and T1.AUDIT_FALG = #{auditFalg}
+    	</if>
     </if>
     <if test="statusQuery !=null and statusQuery !=''">
       AND (T1.AUDIT_STATUS = '1' OR T1.AUDIT_STATUS = '3' OR T1.AUDIT_STATUS = '6' OR ( T1.SUGGEST_TYPE = 'six' AND T1.AUDIT_STATUS = '2'))

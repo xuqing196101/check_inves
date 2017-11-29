@@ -1300,6 +1300,12 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	    		expertAuditOpinion.setExpertId(e.getExpertId());
 	    		expertAuditOpinion.setFlagTime(1);
 	    		expertAuditOpinion = expertAuditOpinionMapper.selectByExpertId(expertAuditOpinion);
+	    		
+	    		//清空附件下载记录
+	    		if(expertAuditOpinion!=null && expertAuditOpinion.getId() !=null){
+	    			expertAuditOpinionMapper.updateDownloadAttch(expertAuditOpinion.getId());
+	    		}
+	    		
 	    		Expert expertInfo = expertMapper.selectByPrimaryKey(e.getExpertId());
 	    		if(expertInfo.getIsReviewEnd() !=null){
 	        		if(expertAuditOpinion !=null && expertAuditOpinion.getFlagAudit() !=null){
