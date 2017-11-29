@@ -398,7 +398,7 @@
   <select id="selectByUpdateDate" resultMap="BaseResultMap" >
     SELECT * FROM T_SES_EMS_PROJECT_EXTRACT_INFO WHERE 
     to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
-    and to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR}
+    and to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR} 
     and status = 2
   </select>
   
