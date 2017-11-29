@@ -262,8 +262,8 @@
     // }
     
     //查看
-    function viewDetails(expertId){
-      window.location.href = "${pageContext.request.contextPath}/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2&isCheck=yes";
+    function viewDetails(expertId) {
+      window.open("${pageContext.request.contextPath}/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2&isCheck=yes");
     }
   </script>
     
