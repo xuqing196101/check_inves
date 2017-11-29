@@ -5,219 +5,176 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 <script type="text/javascript">
-    var key;
-    var zTreeObj;
-    var temp = new Array();
-    var isCheckParent = true;
-    $(function() {
-      
-      var zNodes;
-      loadZtree();
-
-      function loadZtree() {
-        var setting = {
-          async: {
-            autoParam: ["id"],
-            enable: true,
-            url: "${pageContext.request.contextPath}/extractExpert/getTree.do?code=${type}&&ids=${ids}",
-            otherParam: {
-              categoryIds: "${categoryIds}",
-            },
-            dataFilter: ajaxDataFilter,
-            dataType: "json",
-            type: "post",
-          },
-          check: {
-            enable: true,
-            chkboxType: {
-              "Y": "s",
-              "N": "s"
-            }
-          },
-          data: {
-            simpleData: {
-              enable: true,
-              idKey: "id",
-              pIdKey: "parentId"
-            }
-          },
-          view: {
-            fontCss: getFontCss
-          },
-			callback: {
-				onCheck: onCheck
-			}
-        };
-        zTreeObj = $.fn.zTree.init($("#ztree"), setting, zNodes);
-        key = $("#key");
-        key.bind("focus", focusKey)
-          .bind("blur", blurKey)
-          .bind("propertychange", searchNode)
-          .bind("input", searchNode);
-      }
-    });
-
-    
-    function onCheck(e, treeId, treeNode) {
-    	var index = parent.layer.load(2);
-    	var treeObj=$.fn.zTree.getZTreeObj("ztree");
-    	//当前节点取消选中，递归取消父节点选中状态
-		dischecked(treeNode,treeObj);
-		if(treeNode.checked && isCheckParent){
-			//子节点全部选中，父节点选中
-			checkAllChildCheckParent(treeNode,treeObj);
+	var key;
+	var zTreeObj;
+	var temp = new Array();
+	$(function() {
+		var zNodes;
+		loadZtree();
+		//加载目录树
+		function loadZtree() {
+			var setting = {
+				async : {
+					autoParam : [ "id" ],
+					enable : true,
+					url : "${pageContext.request.contextPath}/extractExpert/getTree.do?code=${type}&&ids=${ids}",
+					otherParam : {
+						categoryIds : "${categoryIds}",
+					},
+					dataFilter : ajaxDataFilter,
+					dataType : "json",
+					type : "post",
+				},
+				check : {
+					enable : true,
+					chkboxType : {
+						"Y" : "ps",
+						"N" : "ps"
+					}
+				},
+				data : {
+					simpleData : {
+						enable : true,
+						idKey : "id",
+						pIdKey : "parentId"
+					}
+				},
+				view : {
+					fontCss : getFontCss
+				},
+				callback : {
+					onCheck : onCheck,
+					beforeCheck: zTreeBeforeCheck,
+				}
+			};
+			zTreeObj = $.fn.zTree.init($("#ztree"), setting, zNodes);
+			key = $("#key");
+			key.bind("focus", focusKey).bind("blur", blurKey).bind("propertychange", searchNode).bind("input", searchNode);
 		}
-    	parent.layer.close(index);
+	});
+
+	function onCheck(e, treeId, treeNode) {
+		var index = parent.layer.load(2);
+		var treeObj = $.fn.zTree.getZTreeObj("ztree");
+		parent.layer.close(index);
 	};
-    
-    //递归取消父节点选中状态
-	function dischecked(treeNode,treeObj){
-		var node = treeNode.getParentNode();
-		if(null !=node){
-			treeObj.checkNode(node, false);
-			dischecked(node,treeObj);
-		}
-	}
-    
-    /**
-	 * 子节点全部选中，选中父节点
-	 * @param node
-	 * @returns
-	 */
-    //递归父节点
-    function checkAllChildCheckParent(node,treeObj){
-    	var flag = preIsCheck(node) && nextIsCheck(node);
-    	var parentNode = node.getParentNode();
-    	if(flag){
-    		if(parentNode){
-    			treeObj.checkNode(parentNode, true,false,true);
-    			checkAllChildCheckParent(parentNode,treeObj);
-    		}
-    	}
-    }
-	function ajaxDataFilter(treeId, parentNode, responseData){
-		if(responseData[0].name!="物资" && responseData[0].name!="工程" && responseData[0].name!="服务"){
-	         if(parentNode.checked==true){
-	        	 for(var i=0;i<responseData.length;i++){
-	        		 responseData[i].checked=true;
-	        	 }
-	         }
-	}
-	return responseData;
-}
-    function focusKey(e) {
-      if(key.hasClass("empty")) {
-        key.removeClass("empty");
-      }
-    }
-
-    function blurKey(e) {
-      if(key.get(0).value === "") {
-        key.addClass("empty");
-      }
-    }
-    var lastValue = "",
-      nodeList = [],
-      fontCss = {};
-
-    function clickRadio(e) {
-      lastValue = "";
-      searchNode(e);
-    }
-
-    function searchNode(e) {
-      var zTree = $.fn.zTree.getZTreeObj("ztree");
-      var value = $.trim(key.get(0).value);
-      var keyType = "name";
-      if(key.hasClass("empty")) {
-        value = "";
-      }
-      if(lastValue === value) return;
-      lastValue = value;
-      if(value === "") return;
-      updateNodes(false);
-      nodeList = zTree.getNodesByParamFuzzy(keyType, value);
-      updateNodes(true);
-    }
-
-    function updateNodes(highlight) {
-      var zTree = $.fn.zTree.getZTreeObj("ztree");
-      for(var i = 0, l = nodeList.length; i < l; i++) {
-        nodeList[i].highlight = highlight;
-        zTree.updateNode(nodeList[i]);
-      }
-    }
 	
-    function getFontCss(treeId, treeNode) {
-      return(!!treeNode.highlight) ? {
-        color: "#A60000",
-        "font-weight": "bold"
-      } : {
-        color: "#333",
-        "font-weight": "normal"
-      };
-    }
-
-    function filter(node) {
-      return !node.isParent && node.isFirstNode;
-    }
-    
-    
-    
-    var treeid=null;
-  /*树点击事件*/
-  function zTreeOnClick(event,treeId,treeNode){
-      treeid=treeNode.id;
-  }
-
-  function onloadChildrens(treeId, treeNode) {
-    //alert("befor");
-    return true;
-  };
-
-  //获取选中子节点id
-  function getChildren(cate){
-      var Obj=$.fn.zTree.getZTreeObj("ztree");  
-       var nodes=Obj.getCheckedNodes(true);  
-       var ids = new Array();
-       var names=new Array();
-  
-
-	for (var i = 0; i < nodes.length; i++) {
-		if (nodes[i].level != 0) {
-			//判断当前节点不存在存在于temp集合 就添加到cate集合中
-			if (!contains(temp, nodes[i].id)) {
-				ids.push(nodes[i].id);
-				names.push(nodes[i].name);
-				//若是父节点查询当前的节点的所有子节点
-				temp.push(nodes[i].id);
-				if (nodes[i].isParent) {
-					//递归其全部子节点
-					selectAllChildNode(nodes[i]);
+	function zTreeBeforeCheck(treeId, treeNode){
+		if (treeNode.level != 3 && treeNode.isParent == true) {
+	          layer.msg("请在末节点上进行操作！");
+	          return false;
+	    }else{
+	    	return true;
+	    }
+	}
+	
+	//过滤父节点选中子节点 默认选中
+	function ajaxDataFilter(treeId, parentNode, responseData) {
+		if (responseData[0].name != "物资" && responseData[0].name != "工程"
+				&& responseData[0].name != "服务") {
+			if (parentNode.checked == true) {
+				for (var i = 0; i < responseData.length; i++) {
+					responseData[i].checked = true;
 				}
 			}
 		}
+		// 判断是否为空
+		if(responseData) {
+			// 判断如果父节点是第三级,则将查询出来的子节点全部改为isParent = false
+			if(parentNode != null && parentNode != "undefined" && parentNode.level == 2) {
+				for(var i = 0; i < responseData.length; i++) {
+					responseData[i].isParent += false;
+				}
+			}
+		}
+		return responseData;
 	}
-		/* for(var i=0;i<nodes.length;i++){ 
-		    if(nodes[i].level != 0){
-		   //获取选中节点的值  
-		    ids+=nodes[i].id+","; 
-		    names+=nodes[i].name+",";
-		    }
-		} */
+	
+	function focusKey(e) {
+		if (key.hasClass("empty")) {
+			key.removeClass("empty");
+		}
+	}
+
+	function blurKey(e) {
+		if (key.get(0).value === "") {
+			key.addClass("empty");
+		}
+	}
+	
+	var lastValue = "", nodeList = [], fontCss = {};
+
+	function clickRadio(e) {
+		lastValue = "";
+		searchNode(e);
+	}
+
+	function searchNode(e) {
+		var zTree = $.fn.zTree.getZTreeObj("ztree");
+		var value = $.trim(key.get(0).value);
+		var keyType = "name";
+		if (key.hasClass("empty")) {
+			value = "";
+		}
+		if (lastValue === value)
+			return;
+		lastValue = value;
+		if (value === "")
+			return;
+		updateNodes(false);
+		nodeList = zTree.getNodesByParamFuzzy(keyType, value);
+		updateNodes(true);
+	}
+
+	function updateNodes(highlight) {
+		var zTree = $.fn.zTree.getZTreeObj("ztree");
+		for (var i = 0, l = nodeList.length; i < l; i++) {
+			nodeList[i].highlight = highlight;
+			zTree.updateNode(nodeList[i]);
+		}
+	}
+
+	function getFontCss(treeId, treeNode) {
+		return (!!treeNode.highlight) ? {
+			color : "#A60000",
+			"font-weight" : "bold"
+		} : {
+			color : "#333",
+			"font-weight" : "normal"
+		};
+	}
+
+	function filter(node) {
+		return !node.isParent && node.isFirstNode;
+	}
+
+	var treeid = null;
+
+	//获取选中子节点id
+	function getChildren(cate) {
+		var Obj = $.fn.zTree.getZTreeObj("ztree");
+		var nodes = Obj.getCheckedNodes(true);
+		var ids = new Array();
+		var names = new Array();
+		for (var i = 0; i < nodes.length; i++) {
+			if (nodes[i].level == 3 || nodes[i].isParent == false) {
+				//判断当前节点不存在存在于temp集合 就添加到cate集合中
+				/* if (!contains(temp, nodes[i].id)) { */
+					ids.push(nodes[i].id);
+					names.push(nodes[i].name);
+					//若是父节点查询当前的节点的所有子节点
+					/* temp.push(nodes[i].id);
+					if (nodes[i].isParent) {
+						//递归其全部子节点
+						selectAllChildNode(nodes[i]);
+					}
+				} */
+			}
+		}
 		//是否满足
 		var issatisfy = $('input[name="radio"]:checked ').val();
-
-		/* $(cate).val("");
-		$(cate).parent().parent().parent().parent().parent().find("#categoryId").val("");
-		$(cate).parent().parent().parent().parent().parent().find("#isSatisfy").val("");
-		
-		if(cate!=null && names != null && names != '' ){
-		    $(cate).val(names.substring(0,names.length-1));
-		    $(cate).parent().parent().parent().parent().parent().find("#categoryId").val(ids.substring(0,ids.length-1));
-		    $(cate).parent().parent().parent().parent().parent().find("#isSatisfy").val(issatisfy);
-		} */
 		if (cate != null) {
+		alert(names)
 			$(cate).val(names.toString());/* 将选中目录名称显示在输入框中 */
 			$(cate).parents("li").find(".categoryId").val(ids.toString());
 			$(cate).parents("li").find(".isSatisfy").val(issatisfy);
@@ -226,14 +183,6 @@
 		parent.layer.close(index);
 	}
 
-	//判断数组中是否包含此元素
-	function contains(arr, val) {
-		for (i in arr) {
-			if (arr[i] == val)
-				return true;
-		}
-		return false;
-	}
 	//递归子节点,存储进临时数组
 	function selectAllChildNode(node) {
 		var childNode = node.children;
@@ -248,35 +197,16 @@
 			}
 		}
 	}
-	//删除数组中元素
-	function removeByValue(arr, val) {
-		for (var i = 0; i < arr.length; i++) {
-			if (arr[i] == val) {
-				arr.splice(i, 1);
-				break;
-			}
+	
+	//判断数组中是否包含此元素
+	function contains(arr, val) {
+		for (i in arr) {
+			if (arr[i] == val)
+				return true;
 		}
+		return false;
 	}
 	
-	   //判断前一个节点是否选中
-    function preIsCheck(treeNode){
-  	 	var pre = treeNode.getPreNode();
-  	 	var flag = treeNode.checked;
-    	if(pre){
-    		flag &=  preIsCheck(pre) ;
-    	}
-    	return flag;
-    }
-    
-    //判断后一个节点是否选中
- 	function nextIsCheck(treeNode){
- 		var next = treeNode.getNextNode();
- 		var flag = treeNode.checked;
- 		if(next){
- 			flag &=  nextIsCheck(next) ;
-    	}
-    	return	flag;
- 	}
 	function exptype() {
 		$("#ztree").css("display", "none");
 		$("#liradio").css("display", "none");
@@ -287,12 +217,12 @@
 			}
 		}
 	}
+	
 	function exptype1() {
 		$("#ztree").css("display", "block");
 		$("#liradio").css("display", "block");
 		var x = document.getElementsByName("radio"); //获取所有name=brand的元素  
 		x[0].checked = true;
-
 	}
 
 	//品目搜索
@@ -306,8 +236,8 @@
 				autoCheckTrigger : true,
 				chkStyle : "checkbox",
 				chkboxType : {
-					"Y" : "s",
-					"N" : "s"
+					"Y" : "ps",
+					"N" : "ps"
 				}, //勾选checkbox对于父子节点的关联关系  
 			},
 			data : {
@@ -319,7 +249,7 @@
 				}
 			},
 			callback : {
-				onCheck : onCheck
+				onCheck : onCheck,
 			},
 			view : {
 				fontCss : getFontCss,
@@ -335,25 +265,23 @@
 		if (cateName == "" && codeName == "") {
 			location.reload();
 		} else {
-			$
-					.ajax({
-						url : "${pageContext.request.contextPath}/extractExpert/searchCate.do",
-						type : "post",
-						data : {
-							"code" : code,
-							"cateName" : cateName,
-							"ids" : ids,
-							"codeName" : codeName,
-						},
-						async : false,
-						dataType : "json",
-						success : function(data) {
-							isCheckParent = false;
-							zTreeObj = $.fn.zTree.init($("#ztree"), setting,
-									data);
-							zTreeObj.expandAll(true); //全部展开
-						}
-					});
+			$.ajax({
+				url : "${pageContext.request.contextPath}/extractExpert/searchCate.do",
+				type : "post",
+				data : {
+					"code" : code,
+					"cateName" : cateName,
+					"ids" : ids,
+					"codeName" : codeName,
+				},
+				async : false,
+				dataType : "json",
+				success : function(data) {
+					zTreeObj = $.fn.zTree.init($("#ztree"), setting,
+							data);
+					zTreeObj.expandAll(true); //全部展开
+				}
+			});
 		}
 		layer.close(index);
 		// 过滤掉四级以下的节点
