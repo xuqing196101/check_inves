@@ -174,7 +174,6 @@
 		//是否满足
 		var issatisfy = $('input[name="radio"]:checked ').val();
 		if (cate != null) {
-		alert(names)
 			$(cate).val(names.toString());/* 将选中目录名称显示在输入框中 */
 			$(cate).parents("li").find(".categoryId").val(ids.toString());
 			$(cate).parents("li").find(".isSatisfy").val(issatisfy);

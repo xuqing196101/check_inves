@@ -1,4 +1,4 @@
-package synchro.task.outer.exportTask;
+package synchro.task.inner.exportTask;
 
 import java.util.Date;
 
@@ -15,14 +15,13 @@ import extract.service.expert.ExpertExtractProjectService;
 
 /**
  * 
- * Description: 外网定时导出抽取结果
+ * Description: 内网定时导出专家抽取信息
  * 
- * @author zhang shubin
- * @version 2016-9-7
+ * @date 2017年11月29日
  * @since JDK1.7
  */
-@Component("expertExtractResultExportTask")
-public class ExpertExtractResultExportTask {
+@Component("extractInfoExportTask")
+public class ExtractInfoExportTask {
 
 	/**
 	 * 专家抽取信息
@@ -36,9 +35,8 @@ public class ExpertExtractResultExportTask {
 	
 	/**
 	 * 
-	 * Description: 外网导出抽取结果
+	 * Description: 内网导出专家抽取结果
 	 * 
-	 * @author zhang shubin
 	 * @data 2017年10月19日
 	 * @param 
 	 * @return
@@ -56,11 +54,11 @@ public class ExpertExtractResultExportTask {
              expertExtractProjectService.exportExpertExtractResult(startTime, endTime, synchDate);
         }
 	}
-	
+
 	/**
 	 * 
 	 * 
-	 * Description: 外网导出专家抽取项目信息
+	 * Description: 内网导出专家抽取项目信息
 	 * 
 	 * @data 2017年11月29日
 	 * @param 
@@ -79,4 +77,5 @@ public class ExpertExtractResultExportTask {
              expertExtractProjectService.exportListExpertInfo(startTime, endTime, synchDate);
         }
 	}
+
 }

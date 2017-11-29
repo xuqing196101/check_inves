@@ -13,7 +13,7 @@ import extract.service.expert.ExpertExtractProjectService;
 
 /**
  * 
- * Description: 内网定时导入抽取结果
+ * Description: 内网定时导入专家抽取信息
  * 
  * @author zhang shubin
  * @version 2016-9-7
@@ -44,7 +44,6 @@ public class ExpertExtractResultImportTask {
 	 * @return
 	 */
 	public void resultImport() {
-//		fileRepeater.initFiles();
 		/** 内网导入 **/
 		File file = FileUtils.getImportFile();
 		if (file != null && file.exists()) {
@@ -55,6 +54,33 @@ public class ExpertExtractResultImportTask {
 				}
 				if (f.isDirectory()) {
 					if (f.getName().equals(Constant.EXPERT_EXTRACT_RESULT_FILE_EXPERT)) {
+						OperAttachment.moveFolder(f);
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * 
+	 * Description: 导入专家抽取信息
+	 * 
+	 * @data 2017年11月29日
+	 * @param 
+	 * @return void
+	 */
+	public void infoImport() {
+		/** 内网导入 **/
+		File file = FileUtils.getImportFile();
+		if (file != null && file.exists()) {
+			File[] files = file.listFiles();
+			for (File f : files) {
+				if (f.getName().equals(Constant.EXPERT_EXTRACT_FILE_EXPERT)) {
+					expertExtractProjectService.importExpertExtract(f);
+				}
+				if (f.isDirectory()) {
+					if (f.getName().equals(Constant.EXPERT_EXTRACT_FILE_EXPERT)) {
 						OperAttachment.moveFolder(f);
 					}
 				}

@@ -47,7 +47,6 @@ public class ExpertExtractImportTask {
 	 */
 	public void extractInfoImport(){
         if ("1".equals(StaticVariables.ipAddressType)) {
-//			fileRepeater.initFiles();
 			/** 外网导入 **/
 			File file = FileUtils.getImportFile();
 			if (file != null && file.exists()) {
@@ -60,6 +59,33 @@ public class ExpertExtractImportTask {
 						if (f.getName().equals(Constant.EXPERT_EXTRACT_FILE_EXPERT)) {
 							OperAttachment.moveFolder(f);
 						}
+					}
+				}
+			}
+		}
+	}
+	
+	
+	/**
+	 * 
+	 * Description: 外网导入抽取结果
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年10月19日
+	 * @param 
+	 * @return
+	 */
+	public void resultImport() {
+		File file = FileUtils.getImportFile();
+		if (file != null && file.exists()) {
+			File[] files = file.listFiles();
+			for (File f : files) {
+				if (f.getName().equals(Constant.EXPERT_EXTRACT_RESULT_FILE_EXPERT)) {
+					expertExtractProjectService.importExpertExtractResult(f);
+				}
+				if (f.isDirectory()) {
+					if (f.getName().equals(Constant.EXPERT_EXTRACT_RESULT_FILE_EXPERT)) {
+						OperAttachment.moveFolder(f);
 					}
 				}
 			}
