@@ -252,23 +252,6 @@ public class SupplierConstants extends Constant {
 		STATUSMAP_KAOCHA.put(Status.INVESTIGATE_NOT_PASS.getValue(), "考察不合格");
 	}
 	
-	/** 供应商接收短信通知状态集合 */
-	public final static Map<Integer, String> STATUSMAP_SMS = new LinkedHashMap<Integer, String>();
-	static{
-		STATUSMAP_SMS.put(Status.RETURN.getValue(), "退回修改");
-		STATUSMAP_SMS.put(Status.PRE_AUDIT_ENDED.getValue(), "预审核结束");
-		STATUSMAP_SMS.put(Status.AUDIT_NOT_PASS.getValue(), "审核不通过");
-		STATUSMAP_SMS.put(Status.PUBLICITY.getValue(), "正在公示中");
-		STATUSMAP_SMS.put(Status.DISSENT.getValue(), "正在异议处理");
-		STATUSMAP_SMS.put(Status.PENDING_REVIEW.getValue(), "已入库");
-		STATUSMAP_SMS.put(Status.PRE_REVIEW_ENDED.getValue(), "预复核结束");
-		STATUSMAP_SMS.put(Status.REVIEW_PASSED.getValue(), "复核合格（待考察）");
-		STATUSMAP_SMS.put(Status.REVIEW_NOT_PASS.getValue(), "复核不合格");
-		STATUSMAP_SMS.put(Status.PRE_INVESTIGATE_ENDED.getValue(), "预考察结束");
-		STATUSMAP_SMS.put(Status.INVESTIGATE_PASSED.getValue(), "考察合格");
-		STATUSMAP_SMS.put(Status.INVESTIGATE_NOT_PASS.getValue(), "考察不合格");
-	}
-	
 	/** 供应商审核暂存状态集合 */
 	public final static Map<Integer, String> STATUSMAP_AUDITTEMPORARY = new LinkedHashMap<Integer, String>();
 	static{
@@ -377,7 +360,7 @@ public class SupplierConstants extends Constant {
     	return isStatusToAudit(status) 
     			|| (isAccountToAudit(account) && status == Status.RETURN.getValue());
     }
-    
+	
 	public static void main(String[] args) {
 		for(Status status : Status.values()){
 			System.out.println(status.getValue());

@@ -23,14 +23,9 @@ import java.util.zip.ZipOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.surefire.shade.org.apache.maven.shared.artifact.filter.StatisticsReportingArtifactFilter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import ses.util.PropUtil;
@@ -323,22 +318,5 @@ public class DownloadServiceImpl implements DownloadService {
 			list.add(id);
 		}
 		return list;
-	}
-
-	@Override
-	public ResponseEntity<byte[]> downloadFile(String fileName,
-			String filePath, String downFileName) {
-		try {
-			File file = new File(filePath+"/"+fileName);
-		    HttpHeaders headers = new HttpHeaders(); 
-		    headers.setContentDispositionFormData("attachment", downFileName);
-		    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-		    ResponseEntity<byte[]> entity = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),headers, HttpStatus.OK);
-		    file.delete();
-		    return entity;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
 	}
 }

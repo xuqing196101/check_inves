@@ -36,6 +36,7 @@ import synchro.model.SynchRecord;
 import synchro.outer.back.service.supplier.OuterSupplierService;
 import synchro.outer.read.att.OuterAttachService;
 import synchro.outer.read.infos.OuterInfoImportService;
+import synchro.service.SynchMilitaryExpertService;
 import synchro.service.SynchService;
 import synchro.util.Constant;
 import synchro.util.FileUtils;
@@ -48,6 +49,7 @@ import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
 import common.bean.ResponseBean;
 
+import extract.service.expert.ExpertExtractProjectService;
 import extract.service.supplier.AutoExtractSupplierService;
 
 /**
@@ -170,6 +172,12 @@ public class SynchImportController {
     
     @Autowired
     private AutoExtractSupplierService autoExtractSupplierService;
+    
+    @Autowired
+	private SynchMilitaryExpertService synchMilitaryExpertService;
+    
+    @Autowired
+	private ExpertExtractProjectService expertExtractProjectService;
 
     /**
      * 〈简述〉初始化导入
@@ -200,34 +208,20 @@ public class SynchImportController {
                     iter.remove();
                     continue;
                 }
-                // 过滤专家抽取信息  定时任务自动导入导出
-                if (dd.getCode().equals(Constant.DATE_SYNCH_EXPERT_EXTRACT)) {
-                    iter.remove();
-                    continue;
-                }
-                if (dd.getCode().equals(Constant.DATE_SYNCH_EXPERT_EXTRACT_RESULT)) {
-                    iter.remove();
-                    continue;
-                }
                 // 过滤供应商抽取信息  定时任务自动导入导出
-                if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO)) {
+               /* if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO)) {
                 	iter.remove();
                 	continue;
                 }
                 if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_RESULT)) {
                 	iter.remove();
                 	continue;
-                }
-                //过滤军队专家信息
-                if (dd.getCode().equals(Constant.DATE_SYNCH_MILITARY_EXPERT)) {
-                    iter.remove();
-                    continue;
-                }
+                }*/
                 //过滤供应商等级信息
-                if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_LEVEL)) {
+               /* if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_LEVEL)) {
                 	iter.remove();
                 	continue;
-                }
+                }*/
                 //内网时
                 if (ipAddressType.equals("0")) {
                     //过滤外网导出  	竞价定型产品导出  只能是内网导出外网
@@ -283,6 +277,11 @@ public class SynchImportController {
 
                     if (dd.getCode().equals(Constant.SYNCH_PUBLICITY_EXPERT)) {
                         /**公示专家**/
+                        iter.remove();
+                        continue;
+                    }
+                    //过滤军队专家信息
+                    if (dd.getCode().equals(Constant.DATE_SYNCH_MILITARY_EXPERT)) {
                         iter.remove();
                         continue;
                     }
@@ -943,7 +942,41 @@ public class SynchImportController {
                         }
                     	
                     }
-                    
+                    //军队专家信息外网导入
+                    if("1".equals(ipAddressType)){
+                    	if (synchType.contains(Constant.DATE_SYNCH_MILITARY_EXPERT)) {
+                    		if (f.getName().equals(Constant.MILITARY_EXPERT_FILE_EXPERT)) {
+        						synchMilitaryExpertService.militaryExpertImport(f);
+        					}
+        					if (f.isDirectory()) {
+        						if (f.getName().equals(Constant.MILITARY_EXPERT_FILE_EXPERT)) {
+        							OperAttachment.moveFolder(f);
+        						}
+        					}
+                        }
+                    }
+                    //专家抽取结果导入
+                    if (synchType.contains(Constant.DATE_SYNCH_EXPERT_EXTRACT_RESULT)) {
+                    	if (f.getName().equals(Constant.EXPERT_EXTRACT_RESULT_FILE_EXPERT)) {
+        					expertExtractProjectService.importExpertExtractResult(f);
+        				}
+        				if (f.isDirectory()) {
+        					if (f.getName().equals(Constant.EXPERT_EXTRACT_RESULT_FILE_EXPERT)) {
+        						OperAttachment.moveFolder(f);
+        					}
+        				}
+                	}
+                    //专家抽取项目信息导入
+                    if (synchType.contains(Constant.DATE_SYNCH_EXPERT_EXTRACT)) {
+                    	if (f.getName().equals(Constant.EXPERT_EXTRACT_FILE_EXPERT)) {
+   							expertExtractProjectService.importExpertExtract(f);
+						}
+						if (f.isDirectory()) {
+							if (f.getName().equals(Constant.EXPERT_EXTRACT_FILE_EXPERT)) {
+								OperAttachment.moveFolder(f);
+							}
+						}
+                	}
                     /**目录资质关联表*/
                     categoryService.importCategoryQua(synchType, f);
                     /** 产品资质表*/
