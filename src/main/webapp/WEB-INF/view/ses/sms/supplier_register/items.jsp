@@ -159,17 +159,14 @@
  	  </div>
 	</div>
 	
-	
 	<form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier/perfect_items.html" method="post">
 		<input name="supplierId" id="supplierId" value="${currSupplier.id}" type="hidden" /> 
 		<input name="categoryId" value=""  id="categoryId" type="hidden" />
-		<input name="clickFlag" value=""  id="clickFlag" type="hidden" />
-		<input name="flag" value=""  id="flag" type="hidden" />
 		<input name="supplierTypeIds" type="hidden" value="${currSupplier.supplierTypeIds }" />
 		<input name="supplierTypeRelateId"  id="supplierTypeRelateId" type="hidden" value="" />
 	</form>
-   <div class="footer_margin">
-   		<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
-   </div>
+  <div class="footer_margin">
+  		<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
+  </div>
 </body>
 </html>

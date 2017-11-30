@@ -117,12 +117,12 @@ public class SupplierItemController_old extends BaseController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/saveCategory")
-	public String saveCategory(SupplierItem supplierItem, String flag, String clickFlag) {
+	public String saveCategory(SupplierItem supplierItem, boolean isMutiChecked, String clickFlag) {
 		// 判断是否是取消选中
-		if("0".equals(clickFlag) && flag.equals("4")) {
-			supplierItemService.deleteItems(supplierItem);
-		} else if(flag.equals("4")) {
-			supplierItemService.saveOrUpdate(supplierItem);
+		if("0".equals(clickFlag)) {
+			supplierItemService.deleteItems(supplierItem, isMutiChecked);
+		} else {
+			supplierItemService.saveOrUpdate(supplierItem, isMutiChecked);
 		}
 		return "ok";
 	}

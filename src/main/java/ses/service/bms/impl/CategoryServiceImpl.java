@@ -1542,21 +1542,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
 	@Override
-	public List<Category> searchByName(String cateName, String flag,
-			String codeName) {
-		if (flag == null) {
-        	List<Category> list = categoryMapper.searchByName(cateName, codeName);
-        	List<Category> listNot = new LinkedList<Category>();
-        	for(Category cate:list){
-        		List<Category> pList = this.getPListById(cate.getId());
-        		if(pList != null && pList.size() > 0){
-        			listNot.add(cate);
-        		}
-        	}
-        	list.removeAll(listNot);
-            return list;
-        } else {
-            return engCategoryMapper.searchByName(cateName, codeName);
-        }
+	public List<Category> searchByName(String cateName, String codeName) {
+		return categoryMapper.searchByName(cateName, codeName);
+	}
+
+	@Override
+	public List<Category> searchList(int type, String cateName, String codeName) {
+		return categoryMapper.searchList(type, cateName, codeName);
 	}
 }

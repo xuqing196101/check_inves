@@ -684,7 +684,6 @@
 		where ID = #{id}
 	</select>
 	
-	
 	<select id="getParentByChildren" parameterType="String" resultMap="CategoryMap">
     select * from T_SES_BMS_CATEGORY 
     start with ID = #{id} 
@@ -913,6 +912,39 @@
 						<foreach collection="categoryIds" item="it" index="in" separator=","> #{it}</foreach>
 					) CONNECT BY PRIOR b.PARENT_ID = b. ID
 			)
+	</select>
+	
+	<!-- 根据父节点ID统计数量 -->
+	<select id="countByParentId" parameterType="string" resultType="int">
+		SELECT COUNT(1) FROM T_SES_BMS_CATEGORY WHERE PARENT_ID = #{id} AND IS_DELETED = 0 AND IS_PUBLISH = 0
+	</select>
+	
+	<!-- 搜索品目 -->
+	<select id="searchList" resultMap="CategoryMap">
+		SELECT DISTINCT ID, NAME, CODE, PARENT_ID
+		FROM T_SES_BMS_CATEGORY 
+		WHERE 1 = 1
+		AND IS_PUBLISH = 0 
+		AND IS_DELETED = 0 
+		START WITH (ID IN (
+			SELECT ID
+			FROM T_SES_BMS_CATEGORY 
+			WHERE 1 = 1
+			AND IS_PUBLISH = 0 
+			AND IS_DELETED = 0 
+			<if test="type != null">
+				AND CLASSIFY_TYPE = #{type}
+			</if>
+			<if test="cateName != null">
+				AND NAME like CONCAT(CONCAT('%', #{cateName}), '%')
+			</if> 
+			<if test="codeName != null">
+				AND CODE = #{codeName}
+			</if>
+			)
+		)  
+		CONNECT BY PRIOR PARENT_ID = ID 
+		ORDER BY CODE
 	</select>
 	
 	<!-- <select id="selectParentNode" resultMap="CateMap">

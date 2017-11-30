@@ -4,7 +4,6 @@ import common.utils.JdcgResult;
 import ses.formbean.SupplierItemCategoryBean;
 
 import ses.model.bms.Category;
-import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierItem;
 
@@ -13,11 +12,9 @@ import java.util.Map;
 import java.util.Set;
 
 public interface SupplierItemService {
-	public void saveOrUpdate(SupplierItem supplierItem);
+	public void saveOrUpdate(SupplierItem supplierItem, boolean isParentChecked);
 	
-	public void saveSupplierItem(Supplier supplier);
-	public List<SupplierItem> getSupplierId(String supplierId);
-	public List<String> getItemSupplierId();
+	public List<SupplierItem> getItemListBySupplierId(String supplierId);
 	
 	/**
 	 * 
@@ -115,7 +112,7 @@ public interface SupplierItemService {
 	 * @author WangHuijie
 	 * @param supplierItem
 	 */
-	public void deleteItems(SupplierItem supplierItem);
+	public void deleteItems(SupplierItem supplierItem, boolean isParentChecked);
 	
 	/**
 	 *〈简述〉
@@ -317,5 +314,15 @@ public interface SupplierItemService {
 	 * @return
 	 */
 	public SupplierCateTree getSupplierCateTreeQua(SupplierCateTree cateTree, SupplierItem supplierItem);
+
+	/**
+	 * 统计品目
+	 * @param supplierId
+	 * @param categoryId
+	 * @param code
+	 * @return
+	 */
+	public int countBySupplierIdCategoryId(String supplierId, String categoryId,
+			String code);
 
 }

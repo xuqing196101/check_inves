@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.sms.SupplierItemMapper;
 import ses.formbean.QualificationBean;
@@ -17,7 +16,6 @@ import ses.formbean.SupplierItemCategoryBean;
 import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
-import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierCateTree;
@@ -73,43 +71,17 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	private SupplierAptituteService supplierAptituteService;
 	
 	@Override
-	public void saveSupplierItem(Supplier supplier) {
-		String id = supplier.getId();
-		supplierItemMapper.deleteBySupplierId(id);
-		String supplierItemIds = supplier.getSupplierItemIds();
-		String supplierTypeIds = supplier.getSupplierTypeIds();
-		String[] itemIds = supplierItemIds.split(";");
-		if (supplierItemIds != null && !"".equals(supplierItemIds)) {
-			for (int i = 0; i < itemIds.length; i++) {
-				for (String str : itemIds[i].split(",")) {
-					SupplierItem supplierItem = new SupplierItem();
-					supplierItem.setSupplierId(id);
-					supplierItem.setCategoryId(str);
-					supplierItem.setCreatedAt(new Date());
-					supplierItem.setSupplierTypeRelateId(supplierTypeIds.split(",")[i]);
-					supplierItemMapper.insertSelective(supplierItem);
-				}
-			}
-		}
+	public List<SupplierItem> getItemListBySupplierId(String supplierId) {
+		return supplierItemMapper.getItemListBySupplierId(supplierId);
 	}
 
 	@Override
-	public List<SupplierItem> getSupplierId(String supplierId) {
-		return supplierItemMapper.getSupplierItem(supplierId);
-	}
-
-	@Override
-	public List<String> getItemSupplierId() {
-		return supplierItemMapper.getItemBySupplierId();
-	}
-
-	@Override
-    @Transactional
-	public void saveOrUpdate(SupplierItem supplierItem) {
-	    String categoryId = supplierItem.getCategoryId();
+    //@Transactional
+	public void saveOrUpdate(SupplierItem supplierItem, boolean isParentChecked) {
 	    try{
+	    	String categoryId = supplierItem.getCategoryId();
             if(!StringUtils.isEmpty(categoryId)){
-                if(categoryId.indexOf(",")!=-1){
+                /*if(categoryId.indexOf(",")!=-1){
                     String[] strArray = categoryId.split(",");
                     for(int i=0;i<strArray.length;i++){
                         if(!StringUtils.isEmpty(strArray[i])){
@@ -118,26 +90,39 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                     }
                 }else{
                     saveOrUpdateOperation(categoryId, supplierItem);
-                }
+                }*/
+            	if(isParentChecked){// 如果是父节点被选中，则保存所有的子节点
+            		List<Category> clist = categoryService.getCListById(categoryId);
+            		if(clist != null && clist.size() > 0){
+            			clist.remove(0);
+            			saveOrUpdateOperation(categoryId, supplierItem, clist);
+            		}
+            	}else{
+            		saveOrUpdateOperation(categoryId, supplierItem, null);
+            	}
             }
         }catch (Exception e){
 	        e.printStackTrace();
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            //TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         }
 	}
-	public void saveOrUpdateOperation(String categoryId, SupplierItem supplierItem) throws Exception {
+	public void saveOrUpdateOperation(String categoryId, SupplierItem supplierItem, List<Category> clist) throws Exception {
         List<Category> categoryList = new ArrayList<Category>();
-        //categoryList.addAll(getChildrenNodes(categoryId));
+        List<SupplierItem> itemList = new ArrayList<SupplierItem>();
         categoryList.addAll(getAllParentNode(categoryId));
+        if(clist != null && clist.size() > 0){
+        	categoryList.addAll(clist);
+        }
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("supplierId", supplierItem.getSupplierId());
         map.put("type", supplierItem.getSupplierTypeRelateId());
-        map.put("isReturned", 0);
+        //map.put("isReturned", 0);
         for (Category cate : categoryList) {
             map.put("categoryId", cate.getId());
             // 查询是否数据库已存在
-            List<SupplierItem> result = supplierItemMapper.findByMap(map);
-            if (result == null || result.size() == 0) {
+            //List<SupplierItem> result = supplierItemMapper.findByMap(map);
+            int countByMap = supplierItemMapper.countByMap(map);
+            if (countByMap == 0) {
                 SupplierItem item = new SupplierItem();
                 item.setId(UUID.randomUUID().toString().toUpperCase().replaceAll("-", ""));
                 item.setSupplierId(supplierItem.getSupplierId());
@@ -146,14 +131,19 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                 item.setCreatedAt(new Date());
                 if(categoryId.equals(cate.getId())){
                     // 设置末级节点
-                    List<Category> treeByPid = categoryMapper.findTreeByPid(categoryId);
-                    if(treeByPid == null || (treeByPid != null && treeByPid.isEmpty())){
+                    //List<Category> treeByPid = categoryMapper.findTreeByPid(categoryId);
+                    int countByParentId = categoryMapper.countByParentId(categoryId);
+                    if(countByParentId == 0){
                         // 设置末级
                         item.setNodeLevel(3);
                     }
                 }
-                supplierItemMapper.insertSelective(item);
+                itemList.add(item);
+                //supplierItemMapper.insertSelective(item);
             }
+        }
+        if(itemList.size() > 0){
+        	supplierItemMapper.batchInsert(itemList);
         }
     }
 		
@@ -250,8 +240,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 
 	@Override
 	public List<SupplierItem> getSupplierIdCategoryId(String supplierId,String categoryId,String type) {
-		 
-		return supplierItemMapper.getBySupplierIdCategoryId(supplierId, categoryId,type);
+		return supplierItemMapper.getBySupplierIdCategoryId(supplierId, categoryId, type);
 	}
 	
 	public List<SupplierItem> getCategory(String supplierId,String categoryId,String type){
@@ -268,6 +257,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
     	}
     	return list;		
 	}
+	
     @Override
     public List<SupplierItem> getCategoryOther(String supplierId,String categoryId,String type){
         List<SupplierItem> list=new ArrayList<SupplierItem>();
@@ -523,43 +513,61 @@ public class SupplierItemServiceImpl implements SupplierItemService {
      * @see ses.service.sms.SupplierItemService#deleteItems(ses.model.sms.SupplierItem)
      */
     @Override
-    @Transactional
-    public void deleteItems(SupplierItem supplierItem) {
+    //@Transactional
+    public void deleteItems(SupplierItem supplierItem, boolean isParentChecked) {
         String categoryId = supplierItem.getCategoryId();
         try{
             if(!StringUtils.isEmpty(categoryId)){
-                if(categoryId.indexOf(",")!=-1){
+                /*if(categoryId.indexOf(",")!=-1){
                     String[] strArray = categoryId.split(",");
                     for(int i=0;i<strArray.length;i++){
                         if(!StringUtils.isEmpty(strArray[i])){
-                            deleteItemsOpertion(strArray[i], supplierItem);
+                            deleteItemsOpertion(strArray[i], supplierItem);？
                         }
                     }
                 }else{
                     deleteItemsOpertion(categoryId, supplierItem);
-                }
+                }*/
+            	if(isParentChecked){// 如果是父节点被选中，则保存所有的子节点
+            		List<Category> clist = categoryService.getCListById(categoryId);
+            		if(clist != null && clist.size() > 0){
+            			clist.remove(0);
+            			deleteItemsOpertion(categoryId, supplierItem, clist);
+            		}
+            	}else{
+            		deleteItemsOpertion(categoryId, supplierItem, null);
+            	}
             }
         }catch (Exception e){
             e.printStackTrace();
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            //TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         }
     }
-    public void deleteItemsOpertion(String categoryId, SupplierItem supplierItem) throws Exception{
+    public void deleteItemsOpertion(String categoryId, SupplierItem supplierItem, List<Category> clist) throws Exception{
         List<Category> categoryList = new ArrayList<Category>();
-        categoryList.addAll(getChildrenNodes(categoryId));
+        List<SupplierItem> itemList = new ArrayList<SupplierItem>();
         Category current = categoryService.findById(categoryId);
         categoryList.add(current);
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("supplierId", supplierItem.getSupplierId());
-        map.put("type", supplierItem.getSupplierTypeRelateId());
+        if(clist != null && clist.size() > 0){
+        	categoryList.addAll(clist);
+        }
+        //Map<String, String> map = new HashMap<String, String>();
+        //map.put("supplierId", supplierItem.getSupplierId());
+        //map.put("type", supplierItem.getSupplierTypeRelateId());
         for (Category cate : categoryList) {
             if (cate != null) {
-                map.put("categoryId", cate.getId());
-                supplierItemMapper.deleteByMap(map);
+                //map.put("categoryId", cate.getId());
+                //supplierItemMapper.deleteByMap(map);
+            	SupplierItem item = new SupplierItem();
+                item.setSupplierId(supplierItem.getSupplierId());
+                item.setSupplierTypeRelateId(supplierItem.getSupplierTypeRelateId());
+            	item.setCategoryId(cate.getId());
+                itemList.add(item);
             }
         }
         // 判断父节点下还有没有子节点被勾选
         if (current != null) {
+        	
 //            Map<String, Object> param = new HashMap<String, Object>();
 //            param.put("supplierId", supplierItem.getSupplierId());
 //            param.put("type", supplierItem.getSupplierTypeRelateId());
@@ -573,10 +581,16 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                 if(bool==false){
                     Category category = categoryService.findById(parentId);
                     if(category != null){
-                        List<SupplierItem> bySupplierIdCategoryId = supplierItemMapper.getBySupplierIdCategoryId(supplierItem.getSupplierId(), category.getId(), supplierItem.getSupplierTypeRelateId());
-                        if(bySupplierIdCategoryId!=null&&bySupplierIdCategoryId.size()>0){
-                            map.put("categoryId", category.getId());
-                            supplierItemMapper.deleteByMap(map);
+                        //List<SupplierItem> bySupplierIdCategoryId = supplierItemMapper.getBySupplierIdCategoryId(supplierItem.getSupplierId(), category.getId(), supplierItem.getSupplierTypeRelateId());
+                        int count = supplierItemMapper.countBySupplierIdCategoryId(supplierItem.getSupplierId(), category.getId(), supplierItem.getSupplierTypeRelateId());
+                    	if(count > 0){
+                            //map.put("categoryId", category.getId());
+                            //supplierItemMapper.deleteByMap(map);
+                    		SupplierItem item = new SupplierItem();
+                            item.setSupplierId(supplierItem.getSupplierId());
+                            item.setSupplierTypeRelateId(supplierItem.getSupplierTypeRelateId());
+                    		item.setCategoryId(category.getId());
+                            itemList.add(item);
                             parentId = category.getParentId();
                         }else{
                             break  ;
@@ -584,12 +598,17 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                     }else{
                         //如果该类型下没有子节点,删除关联的根节点
                         String rootCategoryId = DictionaryDataUtil.getId(supplierItem.getSupplierTypeRelateId());
-                        List<SupplierItem> supplierItemList = this.getSupplierId(supplierItem.getSupplierId());
+                        List<SupplierItem> supplierItemList = this.getItemListBySupplierId(supplierItem.getSupplierId());
                         if(null != supplierItemList && !supplierItemList.isEmpty()){
                             for(int i=0;i<supplierItemList.size();i++){
                                 if(!StringUtils.isEmpty(rootCategoryId) && rootCategoryId.equals(supplierItemList.get(i).getCategoryId())){
-                                    map.put("categoryId", rootCategoryId);
-                                    supplierItemMapper.deleteByMap(map);
+                                    //map.put("categoryId", rootCategoryId);
+                                    //supplierItemMapper.deleteByMap(map);
+                                	SupplierItem item = new SupplierItem();
+                                    item.setSupplierId(supplierItem.getSupplierId());
+                                    item.setSupplierTypeRelateId(supplierItem.getSupplierTypeRelateId());
+                                	item.setCategoryId(rootCategoryId);
+                                    itemList.add(item);
                                 }
                             }
                         }
@@ -630,6 +649,9 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 //            map.put("categoryId", categoryId);
 //            supplierItemMapper.deleteByMap(map);
 //        }
+        }
+        if(itemList.size() > 0){
+        	supplierItemMapper.batchDelete(itemList);
         }
     }
 
@@ -1375,16 +1397,19 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 				}
 			}
 			if(parentNodeList.size() > 1){
-				cateTree.setFirstNode(parentNodeList.get(1).getName());
+				cateTree.setFirstNode(parentNodeList.get(0).getName());
+				cateTree.setSecondNode(parentNodeList.get(1).getName());
 			}
 			if(parentNodeList.size() > 2){
-				cateTree.setSecondNode(parentNodeList.get(2).getName());
+				cateTree.setFirstNode(parentNodeList.get(0).getName());
+				cateTree.setSecondNode(parentNodeList.get(1).getName());
+				cateTree.setThirdNode(parentNodeList.get(2).getName());
 			}
 			if(parentNodeList.size() > 3){
-				cateTree.setThirdNode(parentNodeList.get(3).getName());
-			}
-			if(parentNodeList.size() > 4){
-				cateTree.setFourthNode(parentNodeList.get(4).getName());
+				cateTree.setFirstNode(parentNodeList.get(0).getName());
+				cateTree.setSecondNode(parentNodeList.get(1).getName());
+				cateTree.setThirdNode(parentNodeList.get(2).getName());
+				cateTree.setFourthNode(parentNodeList.get(3).getName());
 			}
 		}
 		/*// 递归获取所有父节点
@@ -1462,16 +1487,19 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 				}
 			}
 			if(parentNodeList.size() > 1){
-				cateTree.setFirstNode(parentNodeList.get(1).getName());
+				cateTree.setFirstNode(parentNodeList.get(0).getName());
+				cateTree.setSecondNode(parentNodeList.get(1).getName());
 			}
 			if(parentNodeList.size() > 2){
-				cateTree.setSecondNode(parentNodeList.get(2).getName());
+				cateTree.setFirstNode(parentNodeList.get(0).getName());
+				cateTree.setSecondNode(parentNodeList.get(1).getName());
+				cateTree.setThirdNode(parentNodeList.get(2).getName());
 			}
 			if(parentNodeList.size() > 3){
-				cateTree.setThirdNode(parentNodeList.get(3).getName());
-			}
-			if(parentNodeList.size() > 4){
-				cateTree.setFourthNode(parentNodeList.get(4).getName());
+				cateTree.setFirstNode(parentNodeList.get(0).getName());
+				cateTree.setSecondNode(parentNodeList.get(1).getName());
+				cateTree.setThirdNode(parentNodeList.get(2).getName());
+				cateTree.setFourthNode(parentNodeList.get(3).getName());
 			}
 		}
         /*// 递归获取所有父节点
@@ -1603,6 +1631,12 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 			cateTree.setTypeList(typeList);
 		}
 		return cateTree;
+	}
+
+	@Override
+	public int countBySupplierIdCategoryId(String supplierId,
+			String categoryId, String code) {
+		return supplierItemMapper.countBySupplierIdCategoryId(supplierId, categoryId, code);
 	}
 
 }
