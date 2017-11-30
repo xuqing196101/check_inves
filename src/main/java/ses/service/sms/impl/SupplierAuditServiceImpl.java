@@ -1248,15 +1248,15 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	                // 修改
 	                // supplierMapper.updateStatus(supplier);
 					// 封装短信信息 只在外网执行
-                    if("1".equals(StaticVariables.ipAddressType)){
+                    /*if("1".equals(StaticVariables.ipAddressType)){
                         currSupStatusAndMobile = messageCommon.packageMessageInfo(supplier, currSupStatusAndMobile);
-                    }
+                    }*/
                     // 修改状态并短信通知供应商
 	                this.updateStatus(supplier);
 	            }
 	        }
 	        // 发送短信
-	        messageCommon.beginSendMessage(currSupStatusAndMobile);
+	        // messageCommon.beginSendMessage(currSupStatusAndMobile);
          }
 	}
 

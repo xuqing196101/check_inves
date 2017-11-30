@@ -185,8 +185,7 @@ public class SupplierItemController extends BaseController {
 		for(Category c: child) {
 			CategoryTree ct1 = new CategoryTree();
 			//ct1.setName(c.getName());
-			ct1.setName((c.getName()+"").replaceAll(cateName, "<span style='background-color: yellow;color:red;'>"+cateName+"</span>"));
-			System.out.println(ct1.getName());
+			ct1.setName((c.getName()+"").replaceAll(cateName, "<span style='background-color: yellow; color: red; margin-left: 0; margin-right: 0;'>"+cateName+"</span>"));
 			ct1.setParentId(c.getParentId());
 			ct1.setId(c.getId());
             ct1.setCode(c.getCode());
