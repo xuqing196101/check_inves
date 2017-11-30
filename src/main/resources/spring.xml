@@ -120,5 +120,27 @@
         <!-- 外网任务 -->
         <!-- <task:scheduled ref="outerInfoExportTask" method="outerInfoExportTask" cron="0 0 5/6 * * ?"/>
         <task:scheduled ref="outerInfoImportTask" method="outerInfoImportTask" cron="0 0 7/6 * * ?"/> -->
+        
+        
+		<!-- 内网任务 -->
+		<!-- 内网导入专家抽取项目信息 -->
+		<task:scheduled ref="expertExtractResultImportTask" method="infoImport"  cron="0 0 9 * * ?"/>
+		<!-- 内网导入专家抽取结果 -->
+		<task:scheduled ref="expertExtractResultImportTask" method="resultImport"  cron="0 30 8/12 * * ?"/>
+		<!-- 内网导出专家抽取项目信息 -->
+		<task:scheduled ref="extractInfoExportTask" method="infoExport"  cron="0 0 23,14 * * ?"/>
+		<!-- 内网导出专家抽取结果 -->
+		<task:scheduled ref="extractInfoExportTask" method="resultExport"  cron="0 30 23,14 * * ?"/>
+		
+		
+		<!-- 外网任务-->
+		<!-- 外网导入专家抽取项目信息 -->
+		<task:scheduled ref="expertExtractImportTask" method="extractInfoImport"  cron="0 0 9 * * ?"/>
+		<!-- 外网导入专家抽取结果 -->
+		<task:scheduled ref="expertExtractImportTask" method="resultImport"  cron="0 30 8/12 * * ?"/>
+		<!-- 外网导出专家抽取项目信息 -->
+		<task:scheduled ref="expertExtractResultExportTask" method="infoExport"  cron="0 0 23,14 * * ?"/>
+		<!-- 外网导出专家抽取结果 -->
+		<task:scheduled ref="expertExtractResultExportTask" method="resultExport"  cron="0 30 23,14 * * ?"/>
     </task:scheduled-tasks>
 </beans>

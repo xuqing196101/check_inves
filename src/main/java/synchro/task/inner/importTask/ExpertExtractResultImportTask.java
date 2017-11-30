@@ -5,6 +5,8 @@ import java.io.File;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import common.constant.StaticVariables;
+
 import synchro.inner.read.InnerFilesRepeater;
 import synchro.util.Constant;
 import synchro.util.FileUtils;
@@ -45,16 +47,18 @@ public class ExpertExtractResultImportTask {
 	 */
 	public void resultImport() {
 		/** 内网导入 **/
-		File file = FileUtils.getImportFile();
-		if (file != null && file.exists()) {
-			File[] files = file.listFiles();
-			for (File f : files) {
-				if (f.getName().equals(Constant.EXPERT_EXTRACT_RESULT_FILE_EXPERT)) {
-					expertExtractProjectService.importExpertExtractResult(f);
-				}
-				if (f.isDirectory()) {
+		if("0".equals(StaticVariables.ipAddressType)){
+			File file = FileUtils.getImportFile();
+			if (file != null && file.exists()) {
+				File[] files = file.listFiles();
+				for (File f : files) {
 					if (f.getName().equals(Constant.EXPERT_EXTRACT_RESULT_FILE_EXPERT)) {
-						OperAttachment.moveFolder(f);
+						expertExtractProjectService.importExpertExtractResult(f);
+					}
+					if (f.isDirectory()) {
+						if (f.getName().equals(Constant.EXPERT_EXTRACT_RESULT_FILE_EXPERT)) {
+							OperAttachment.moveFolder(f);
+						}
 					}
 				}
 			}
@@ -72,16 +76,18 @@ public class ExpertExtractResultImportTask {
 	 */
 	public void infoImport() {
 		/** 内网导入 **/
-		File file = FileUtils.getImportFile();
-		if (file != null && file.exists()) {
-			File[] files = file.listFiles();
-			for (File f : files) {
-				if (f.getName().equals(Constant.EXPERT_EXTRACT_FILE_EXPERT)) {
-					expertExtractProjectService.importExpertExtract(f);
-				}
-				if (f.isDirectory()) {
+		if("0".equals(StaticVariables.ipAddressType)){
+			File file = FileUtils.getImportFile();
+			if (file != null && file.exists()) {
+				File[] files = file.listFiles();
+				for (File f : files) {
 					if (f.getName().equals(Constant.EXPERT_EXTRACT_FILE_EXPERT)) {
-						OperAttachment.moveFolder(f);
+						expertExtractProjectService.importExpertExtract(f);
+					}
+					if (f.isDirectory()) {
+						if (f.getName().equals(Constant.EXPERT_EXTRACT_FILE_EXPERT)) {
+							OperAttachment.moveFolder(f);
+						}
 					}
 				}
 			}

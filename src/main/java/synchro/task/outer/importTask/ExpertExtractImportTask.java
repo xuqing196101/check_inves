@@ -76,16 +76,19 @@ public class ExpertExtractImportTask {
 	 * @return
 	 */
 	public void resultImport() {
-		File file = FileUtils.getImportFile();
-		if (file != null && file.exists()) {
-			File[] files = file.listFiles();
-			for (File f : files) {
-				if (f.getName().equals(Constant.EXPERT_EXTRACT_RESULT_FILE_EXPERT)) {
-					expertExtractProjectService.importExpertExtractResult(f);
-				}
-				if (f.isDirectory()) {
+		if ("1".equals(StaticVariables.ipAddressType)) {
+			/** 外网导入 **/
+			File file = FileUtils.getImportFile();
+			if (file != null && file.exists()) {
+				File[] files = file.listFiles();
+				for (File f : files) {
 					if (f.getName().equals(Constant.EXPERT_EXTRACT_RESULT_FILE_EXPERT)) {
-						OperAttachment.moveFolder(f);
+						expertExtractProjectService.importExpertExtractResult(f);
+					}
+					if (f.isDirectory()) {
+						if (f.getName().equals(Constant.EXPERT_EXTRACT_RESULT_FILE_EXPERT)) {
+							OperAttachment.moveFolder(f);
+						}
 					}
 				}
 			}
