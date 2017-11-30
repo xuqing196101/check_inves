@@ -604,10 +604,18 @@ function searchCate(cateId, treeId, type, seq, code) {
 						var tx = "工程";
 						for(var i = 0, len = allNodes.length; i < len; i++) {
 							var t = allNodes[i].name;
-							t = t.replace(eval("/" + tx + "/gi"), "<span style='background-color: yellow;color:red;'>" + tx + "</span>");
+							t = t.replace(eval("/" + tx + "/gi"), "<span style='background-color: yellow; color: red;; margin-left: 0; margin-right: 0;'>" + tx + "</span>");
 							allNodes[i].name = t;
 							zTreeObj.updateNode(allNodes[i]);
 						}*/
+					}
+					// 去掉高亮显示的title的html标签
+					var tree_ul_a = $("a[id^='tree_ul_id_'][id$='_a']");
+					if (tree_ul_a) {
+						tree_ul_a.each(function() {
+							$(this).attr("title",
+									delHtmlTag($(this).attr("title")));
+						});
 					}
 				}
 				// 关闭加载中的菊花图标
@@ -615,6 +623,11 @@ function searchCate(cateId, treeId, type, seq, code) {
 			}
 		});
 	}
+}
+
+// 去掉所有html标记
+function delHtmlTag(str) {
+	return str.replace(/<[^>]+>/g, "");// 去掉所有的html标记
 }
 
 sessionStorage.locationC = true;
