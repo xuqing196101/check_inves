@@ -582,7 +582,7 @@ function isJoin(select){
                             ddflag &= false;
                         }
                     }
-                	var hh = 0;
+                	/*var hh = 0;
                 	$("#"+code+"_result").find("tbody tr").each(function(){
                     	if(!$(this).find("td:eq(7)").html()){
                     		hh++;
@@ -590,7 +590,7 @@ function isJoin(select){
                     });
                 	if(hh > 0){
                 		ddflag = true;
-                	}
+                	}*/
                 	if(ddflag){
                 		var ww = parseInt(coUndifined($("#"+id).children("tbody").find("tr").length));
                         if(ww < codeCount + hb){
