@@ -2,6 +2,7 @@
 package bss.controller.prms;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -582,7 +583,7 @@ public class ReviewFirstAuditController extends BaseSupplierController {
 	  quote.setPackageId(packId);
 	  quote.setProjectId(projectId);
     List<Date> selectQuoteCount = supplierQuoteService.selectQuoteCount(quote);
-	  quote.setCreatedAt(selectQuoteCount.get(selectQuoteCount.size()-1));
+	  quote.setCreatedAt(new Timestamp(selectQuoteCount.get(selectQuoteCount.size()-1).getTime()));
 	  List<Quote> quotes = supplierQuoteService.get(quote);
 	  Double param = quotes.get(0).getTotal().doubleValue();
 	  ArrayList<SupplyMark> smList = new ArrayList<>();

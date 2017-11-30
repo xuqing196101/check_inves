@@ -28,7 +28,7 @@ public class Quote {
     /**
      * 创建时间
      */
-    private Date createdAt;
+    private Timestamp createdAt;
     
     /**
      * 报价
@@ -283,12 +283,14 @@ public class Quote {
         this.advancedDetail = advancedDetail;
     }
 
-    public Date getCreatedAt() {
+    public Timestamp getCreatedAt() {
       return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
       this.createdAt = createdAt;
     }
+
+
     
 }
