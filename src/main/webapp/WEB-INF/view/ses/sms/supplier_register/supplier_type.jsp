@@ -36,7 +36,11 @@
 		<!-- 隐藏域 -->
 		<input type="hidden" id="supplierId" value="${currSupplier.id}" />
 		<input type="hidden" id="supplierSt" value="${currSupplier.status}" />
-		<input type="hidden" id="audit" value="${audit}" />
+		<input type="hidden" id="typePageField" value="${typePageField}" />
+		<input type="hidden" id="proPageField" value="${proPageField}" />
+		<input type="hidden" id="engPageField" value="${engPageField}" />
+		<input type="hidden" id="sellPageField" value="${sellPageField}" />
+		<input type="hidden" id="servePageField" value="${servePageField}" />
 		<input type="hidden" id="flagSupplierType" value="${flagSupplierType}" />
 		<input type="hidden" id="flagProduct" value="${flagProduct}" />
 		<input type="hidden" id="flagSell" value="${flagSell}" />
