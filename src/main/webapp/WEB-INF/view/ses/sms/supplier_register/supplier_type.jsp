@@ -552,7 +552,7 @@
 
 												</div></li>
 												<div class="clear"></div>
-												<div id="conAchiDiv" <c:if test="${currSupplier.supplierMatEng.isHavingConAchi eq '0'}">style="display:none;"</c:if>>
+												<div id="conAchiDiv" <c:if test="${currSupplier.supplierMatEng.isHavingConAchi ne '1'}">style="display:none;"</c:if>>
 													<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 														<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">
 															<i class="red">*</i>
