@@ -1,5 +1,8 @@
 package common.utils;
 
+import com.alibaba.fastjson.JSON;
+import org.apache.commons.codec.binary.Base64;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,12 +15,6 @@ import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import org.apache.commons.codec.binary.Base64;
-
-import com.alibaba.fastjson.JSON;
 /**
  * 
  * Description: 短信工具类
@@ -52,9 +49,9 @@ public class SMSUtil {
      */
     public static void sendMsg(String mobile, String msg){
     	// 创建一个线程池
-        ExecutorService pool = Executors.newCachedThreadPool();
+        /*ExecutorService pool = Executors.newCachedThreadPool();
         pool.submit(new SMSRunnable(mobile, msg));
-        pool.shutdown();
+        pool.shutdown();*/
     }
     
     /**
