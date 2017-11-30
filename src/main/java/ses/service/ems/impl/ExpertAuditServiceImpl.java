@@ -49,7 +49,7 @@ import java.util.Map;
 /**
  * <p>Title:ExpertAuditServiceImpl </p>
  * <p>Description: 专家审核</p>
- * @author XuQing
+ * @author 
  * @date 2016-12-27上午11:03:02
  */
 @Service("expertAuditService")
@@ -93,7 +93,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	/**
 	 * 
 	  * @Title: deleteByPrimaryKey
-	  * @author XuQing
+	  * @author 
 	  * @date 2016年12月15日 下午2:26:23  
 	  * @Description: TODO 根据主键删除
 	  * @param @param id
@@ -275,7 +275,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	
 	/**
      * @Title: updateByExpertId
-     * @author XuQing 
+     * @author  
      * @date 2016-12-27 上午11:00:46  
      * @Description:更新isdelete
      * @param @param expertId      
@@ -287,7 +287,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
     
     /**
      * @Title: downloadFile
-     * @author XuQing 
+     * @author  
      * @date 2016-12-27 下午2:21:18  
      * @Description:生成的word文件下载
      * @param @param fileName
@@ -314,7 +314,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	
     /**
      * @Title: deleteByExpertId
-     * @author XuQing 
+     * @author  
      * @date 2017-2-14 下午5:05:58  
      * @Description:删除记录
      * @param @param expertId      
@@ -345,7 +345,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	
 	/**
 	 * @Title: selectByExpertId
-	 * @author XuQing 
+	 * @author  
 	 * @date 2017-4-21 下午6:27:57  
 	 * @Description:查询附件修改记录
 	 * @param @param expertId
@@ -359,7 +359,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	
 	/**
 	 * @Title: deleteByExpertId
-	 * @author XuQing 
+	 * @author  
 	 * @date 2017-4-21 下午6:28:24  
 	 * @Description:删除附件修改记录
 	 * @param @param expertId      
@@ -373,7 +373,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 
 	/**
 	 * @Title: addFileInfo
-	 * @author XuQing 
+	 * @author  
 	 * @date 2017-4-26 下午5:30:54  
 	 * @Description:插入附件退回后修改记录
 	 * @param @param expertAuditFileModify      
@@ -404,7 +404,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	
 	/**
 	 * @Title: updateIsDeletedByExpertId
-	 * @author XuQing 
+	 * @author  
 	 * @date 2017-5-2 下午5:03:13  
 	 * @Description:软删除附件历史信息
 	 * @param @param expertId      
@@ -418,7 +418,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	
 	/**
      * @Title: findByObj
-     * @author XuQing 
+     * @author  
      * @date 2017-5-8 上午10:53:24  
      * @Description:唯一校验
      * @param @param expertAudit
@@ -447,13 +447,13 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 		}
 		Expert expertInfo = expertMapper.selectByPrimaryKey(expertId);
 		String status = expertInfo.getStatus();
-		if("0".equals(status) || "4".equals(status) || "15".equals(status) || "16".equals(status) || "9".equals(status) || "-2".equals(status) || (sign==2 && "6".equals(status))){
+		if("0".equals(status) || "9".equals(status)){
 			//初审中
 			expert.setAuditTemporary(1);
 		}else if("4".equals(status)){
 			//复审中
 			expert.setAuditTemporary(2);
-		}else if("6".equals(status)){
+		}else if(sign==2 && "6".equals(status)){
 			//复查中
 			expert.setAuditTemporary(3);
 		}else{
