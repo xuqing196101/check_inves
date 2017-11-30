@@ -178,7 +178,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
         
         //全部机构
         HashMap<String,Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("isAuditSupplier", 0);
+        hashMap.put("isAuditSupplier", 1);
         List<Orgnization>  allOrg = orgnizationServiceI.findPurchaseOrgByPosition(hashMap);
         
         jsTypeList.addAll(jjTypeList);
