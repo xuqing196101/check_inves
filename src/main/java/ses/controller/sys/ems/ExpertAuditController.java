@@ -1966,7 +1966,7 @@ public class ExpertAuditController{
 		}
 		auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
 		//如果当前专家为重新复审专家清空复审意见
-		if(sign==2&&"1".equals(expert.getReviewStatus())){
+		if(sign==2 && "1".equals(expert.getReviewStatus()) && "no".equals(isCheck)){
 			auditOpinion.setOpinion("");
 		}
 		model.addAttribute("qualified", true);
