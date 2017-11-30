@@ -2279,56 +2279,6 @@ public class SupplierAuditController extends BaseSupplierController {
 		return categoryList;
 	}
 	
-	@RequestMapping(value = "/category_type", produces = "text/html;charset=UTF-8")
-	@ResponseBody
-	public String getCategory(String id, String name, String code, String supplierId) {
-		List < CategoryTree > categoryList = new ArrayList < CategoryTree > ();
-		if(code != null) {
-			DictionaryData type = DictionaryDataUtil.get(code);
-			CategoryTree ct = new CategoryTree();
-			ct.setName(type.getName());
-			ct.setId(type.getId());
-			ct.setIsParent("true");
-			categoryList.add(ct);
-
-			List < SupplierItem > item = supplierItemService.getSupplierId(supplierId);
-
-			for(SupplierItem category: item) {
-				String parentId = categoryService.selectByPrimaryKey(category.getCategoryId()).getParentId();
-				if(parentId != null && parentId.equals(ct.getId())) {
-					ct.setChecked(true);
-				}
-			}
-			List < Category > child = getChild(type.getId());
-			for(Category c: child) {
-				CategoryTree ct1 = new CategoryTree();
-				ct1.setName(c.getName());
-				ct1.setParentId(c.getParentId());
-				ct1.setId(c.getId());
-				// 设置是否为父级
-				if(!child.isEmpty()) {
-					ct1.setIsParent("true");
-				} else {
-					ct1.setIsParent("false");
-				}
-				//                ct1.set
-				//                ct1.set  
-				//                }
-
-				// 设置是否回显
-				for(SupplierItem category: item) {
-					if(category.getCategoryId() != null) {
-						if(category.getCategoryId().equals(c.getId())) {
-							ct1.setChecked(true);
-						}
-					}
-				}
-				categoryList.add(ct1);
-			}
-		}
-		return JSON.toJSONString(categoryList);
-	}
-
 	public List < Category > getChild(String id) {
 		List < Category > list = categoryService.findTreeByPid(id);
 		List < Category > childList = new ArrayList < Category > ();

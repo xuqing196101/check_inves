@@ -668,12 +668,12 @@ public class SupplierServiceImpl implements SupplierService {
     return supplierMapper.selectSupplierTypes(supplier);
   }
 
-
+  @Override
   public Map<String, Object> getCategory(String supplierId) {
 
     Map<String, Object> map = new HashMap<String, Object>();
 
-    List<SupplierItem> list = supplierItemService.getSupplierId(supplierId);
+    List<SupplierItem> list = supplierItemService.getItemListBySupplierId(supplierId);
     //三大类
     List<DictionaryData> find = DictionaryDataUtil.find(6);
     //销售生产

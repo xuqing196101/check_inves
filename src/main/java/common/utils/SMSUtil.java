@@ -15,9 +15,9 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import net.sf.json.JSONObject;
-
 import org.apache.commons.codec.binary.Base64;
+
+import com.alibaba.fastjson.JSON;
 /**
  * 
  * Description: 短信工具类
@@ -84,7 +84,7 @@ public class SMSUtil {
             result = "send msg error!" + e;
         }
         @SuppressWarnings("unchecked")
-        Map<String, Object> map = (Map<String, Object>)JSONObject.fromObject(result);
+		Map<String, Object> map = (Map<String, Object>)JSON.parse(result);
         return (String)map.get("RetCode");
     }
 

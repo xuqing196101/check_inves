@@ -26,7 +26,7 @@
 					var pageNum = e.curr;
 					var supplierId = "${supplierId}";
 					var type = "${supplierTypeRelateId}";
-					var path = "${pageContext.request.contextPath}/supplier_item/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=" + type + "&pageNum=" + pageNum;
+					var path = "${pageContext.request.contextPath}/supplier_item/loadCheckedCategory.html?supplierId=" + supplierId + "&code=" + type + "&pageNum=" + pageNum;
 					$("#tbody_category").load(path);
 				}
 			}
