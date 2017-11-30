@@ -552,53 +552,51 @@
 
 												</div></li>
 												<div class="clear"></div>
-												<c:if test="${currSupplier.supplierMatEng.isHavingConAchi eq '1'}">
-													<div id="conAchiDiv">
-														<li class="col-md-3 col-sm-6 col-xs-12 pl10">
-															<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">
-																<i class="red">*</i>
-																承包合同主要页及保密协议：
-															</span>
-															<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0"
-																<c:if test="${fn:contains(engPageField,'supplierConAch')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'supplierConAch')"</c:if>>
-																<c:if test="${(fn:contains(engPageField,'supplierConAch')&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}">
-																  	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}"
-																		  businessId="${currSupplier.id}" sysKey="${sysKey}"
-																		  typeId="${supplierDictionaryData.supplierConAch}"
-																		  exts="${properties['file.picture.type']}" id="conAch_up"
-																		  multiple="true" auto="true" maxcount="5"/>
-																  </c:if>
-																<c:if test="${!fn:contains(engPageField,'supplierConAch')&&currSupplier.status==2}">
-																  <u:show showId="conAch_show" delete="false"
-																		businessId="${currSupplier.id}" sysKey="${sysKey}"
-																		typeId="${supplierDictionaryData.supplierConAch}"/>
-															 	</c:if>
-																<c:if test="${currSupplier.status==-1 || empty(currSupplier.status) || fn:contains(engPageField,'supplierConAch')}">
-																  <u:show showId="conAch_show"
-																		businessId="${currSupplier.id}" sysKey="${sysKey}"
-																		typeId="${supplierDictionaryData.supplierConAch}"/>
-																</c:if>
-																<div class="cue">${err_conAch}</div>
+												<div id="conAchiDiv" <c:if test="${currSupplier.supplierMatEng.isHavingConAchi eq '0'}">style="display:none;"</c:if>>
+													<li class="col-md-3 col-sm-6 col-xs-12 pl10">
+														<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">
+															<i class="red">*</i>
+															承包合同主要页及保密协议：
+														</span>
+														<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0"
+															<c:if test="${fn:contains(engPageField,'supplierConAch')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'supplierConAch')"</c:if>>
+															<c:if test="${(fn:contains(engPageField,'supplierConAch')&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}">
+															  	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}"
+																	  businessId="${currSupplier.id}" sysKey="${sysKey}"
+																	  typeId="${supplierDictionaryData.supplierConAch}"
+																	  exts="${properties['file.picture.type']}" id="conAch_up"
+																	  multiple="true" auto="true" maxcount="5"/>
+															  </c:if>
+															<c:if test="${!fn:contains(engPageField,'supplierConAch')&&currSupplier.status==2}">
+															  <u:show showId="conAch_show" delete="false"
+																	businessId="${currSupplier.id}" sysKey="${sysKey}"
+																	typeId="${supplierDictionaryData.supplierConAch}"/>
+														 	</c:if>
+															<c:if test="${currSupplier.status==-1 || empty(currSupplier.status) || fn:contains(engPageField,'supplierConAch')}">
+															  <u:show showId="conAch_show"
+																	businessId="${currSupplier.id}" sysKey="${sysKey}"
+																	typeId="${supplierDictionaryData.supplierConAch}"/>
+															</c:if>
+															<div class="cue">${err_conAch}</div>
+														</div>
+													</li>
+													<li class="col-md-12 col-xs-12 col-sm-12 mb25"><span
+														class="col-md-12 col-xs-12 col-sm-12 padding-left-5">
+															<i class="red">* </i>国家或军队保密工程业绩：</span>
+														<div class="col-md-12 col-xs-12 col-sm-12 p0">
+															<textarea class="col-md-12 col-xs-12 col-sm-12 h80"
+																name="supplierMatEng.confidentialAchievement" id="conAchi" maxlength="1000" 
+																onkeyup="checkCharLimit('conAchi','limit_char_conAchi',1000);if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" 
+																<c:if test="${currSupplier.supplierMatEng.isHavingConAchi == '1'}">required="required"</c:if>
+																<c:if test="${!fn:contains(engPageField,'confidentialAchievement')&&currSupplier.status==2}">readonly="readonly"</c:if>
+																<c:if test="${fn:contains(engPageField,'confidentialAchievement')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'confidentialAchievement','mat_eng_page')"</c:if>>${currSupplier.supplierMatEng.confidentialAchievement}</textarea>
+															<span class="sm_tip fr">还可输入 <span id="limit_char_conAchi">1000</span> 个字</span>
+															<div class="cue">
+																<span class="red">${secret }</span>
+																<sf:errors path="supplierMatEng.confidentialAchievement" />
 															</div>
-														</li>
-														<li class="col-md-12 col-xs-12 col-sm-12 mb25"><span
-															class="col-md-12 col-xs-12 col-sm-12 padding-left-5">
-																<i class="red">* </i>国家或军队保密工程业绩：</span>
-															<div class="col-md-12 col-xs-12 col-sm-12 p0">
-																<textarea class="col-md-12 col-xs-12 col-sm-12 h80"
-																	name="supplierMatEng.confidentialAchievement" id="conAchi" maxlength="1000" 
-																	onkeyup="checkCharLimit('conAchi','limit_char_conAchi',1000);if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" 
-																	<c:if test="${currSupplier.supplierMatEng.isHavingConAchi == '1'}">required="required"</c:if>
-																	<c:if test="${!fn:contains(engPageField,'confidentialAchievement')&&currSupplier.status==2}">readonly="readonly"</c:if>
-																	<c:if test="${fn:contains(engPageField,'confidentialAchievement')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'confidentialAchievement','mat_eng_page')"</c:if>>${currSupplier.supplierMatEng.confidentialAchievement}</textarea>
-																<span class="sm_tip fr">还可输入 <span id="limit_char_conAchi">1000</span> 个字</span>
-																<div class="cue">
-																	<span class="red">${secret }</span>
-																	<sf:errors path="supplierMatEng.confidentialAchievement" />
-																</div>
-															</div></li>
-													</div>
-												</c:if>
+														</div></li>
+												</div>
 										</ul>
 									</fieldset>
 
