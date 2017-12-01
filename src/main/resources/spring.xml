@@ -80,7 +80,7 @@
         <task:scheduled ref="ExpertTask" method="handlerExportExpert" cron="0 30 0 * * ?"/>
         <!-- 每天凌晨6点导入内网提交专家 -->
         <task:scheduled ref="ExpertTask" method="handlerImportExpert" cron="0 30 0 * * ?"/>
-        <!-- 每天凌晨12点半拟入库专家自动入库-->
+        <!-- 【内外网】专家自动入库时间-->
         <task:scheduled ref="ExpertTask" method="handleExpertPublicity" cron="0 0 0-23 * * ?"/>
 
         <!-- ================================================（统计定时任务）================================================ -->
