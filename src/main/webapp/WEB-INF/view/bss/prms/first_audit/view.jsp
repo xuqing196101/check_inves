@@ -411,16 +411,17 @@
 	    	<c:if test="${isEnd != 1}">
 			    <button class="btn" onclick="sendBack('${projectId}','${pack.id}','${flowDefineId}')" type="button">复核检查</button>
 			    <button class="btn" onclick="isFirstGather('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束符合性检查</button>
-			    <c:if test="${purcahseCode == 'JZXTP' || purcahseCode == 'DYLY'}">
+			    <%-- <c:if test="${purcahseCode == 'JZXTP' || purcahseCode == 'DYLY'}">
 				    <button <c:if test="${pack.isEndPrice == '1'}">disabled="disabled"</c:if> id="againPrice" class="btn" onclick="endPrice('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束报价</button>
-			    </c:if>
+			    </c:if> --%>
 	    	</c:if>
 	    	<c:if test="${isEnd == 1}">
 			    <button class="btn" disabled="disabled" onclick="sendBack('${projectId}','${pack.id}','${flowDefineId}')" type="button">复核检查</button>
 			    <button class="btn" disabled="disabled" onclick="isFirstGather('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束符合性检查</button>
-			    <c:if test="${purcahseCode == 'JZXTP' || purcahseCode == 'DYLY'}">
-				    <button  disabled="disabled" class="btn" onclick="endPrice('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束报价</button>
-			    </c:if>
+			    
+	    	</c:if>
+	    	<c:if test="${purcahseCode == 'JZXTP' || purcahseCode == 'DYLY'}">
+	    	<button  class="btn" <c:if test="${pack.isEndPrice == '1'}">disabled="disabled"</c:if>  onclick="endPrice('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束报价</button>
 	    	</c:if>
 		    <button class="btn" onclick="openPrint('${projectId}','${pack.id}')" type="button">检查汇总表</button>
 		    <button class="btn" onclick="openDetailPrint('${projectId}','${pack.id}')" type="button">打印检查数据</button>

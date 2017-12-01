@@ -2,7 +2,7 @@
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 
 
-<%@page contentType="application/vnd.ms-word;charset=GBK"%>
+<%@page contentType="application/vnd.ms-word;charset=GBK"%> 
 
 <%
 
@@ -56,7 +56,6 @@ div.Section1
 
 </style>
 
-
 <%
 
 String fileName = "投标报价一览表"; 
@@ -82,32 +81,36 @@ String tem="";
 
 response.setHeader("Content-disposition", "attachment; filename=" + fileName);     
     
-%>
+%> 
 
 </head>
 
 <body>
 <div style="width:100%;" class = "Section1">
-	<c:forEach items="${treeMap }" var="treemap" varStatus="vsKey">
+	
 		<div align="center" style="margin-top: 10px!important;text-align: center;">
 	   		<h2>${project.name}(${pack.name})</h2>
 	   		<h2>投标报价一览表</h2>
 	   	</div>
-		<table align="center" style="width:95%;border:1px solid #dddddd; border-collapse: collapse;margin: auto;" colspan="0" rowspan="0">
+	   	<c:forEach items="${list}" var="v" varStatus="vs">
+	   	   <c:if test="${type!=null&&type=='JZXTP_DYLY'}">
+	   	      <div align="center" style="margin-top: 10px!important;text-align: center;">第${vs.index+1}轮报价</div>
+	   	   </c:if>
+		<table align="center" style="width:95%;border:1px solid #dddddd; border-collapse: collapse;margin-top: 10px" colspan="0" rowspan="0">
 			<thead>
 				<tr style="box-sizing: border-box; border:1px solid #dddddd; border-radius: 0px !important;">
-					<th width="50" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">序号</th>
-					<th width="200" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">供应商名称</th>
-					<th width="100" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">总价(万元)</th>
-					<th width="150" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">交货期限</th>
+					<th width="10%" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">序号</th>
+					<th width="50%" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">供应商名称</th>
+					<th width="20%" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">总价(万元)</th>
+					<th width="20%" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">交货期限</th>
 			    </tr>
 			</thead>
-			<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
+			<c:forEach items="${list[vs.index]}" var="qu" varStatus="quvs">
 				<tr style="box-sizing: border-box; border:1px solid #dddddd; border-radius: 0px !important;">
-				    <td width="50" style="border: 1px solid #ddd;padding: 5px 10px;">${vs.index+1 }</td>
-				    <td width="200" style="border: 1px solid #ddd;padding: 5px 10px;">${treemapValue.suppliers.supplierName}</td>
-				    <td width="100" style="border: 1px solid #ddd;padding: 5px 10px;text-align: right;">${treemapValue.total}</td>
-				    <td width="150" style="border: 1px solid #ddd;padding: 5px 10px;">${treemapValue.deliveryTime }</td>
+				    <td  style="border: 1px solid #ddd;padding: 5px 10px;">${quvs.index+1 }</td>
+				    <td  style="border: 1px solid #ddd;padding: 5px 10px;">${qu.supplier.supplierName}</td>
+				    <td  style="border: 1px solid #ddd;padding: 5px 10px;text-align: right;">${qu.total}</td>
+				    <td  style="border: 1px solid #ddd;padding: 5px 10px;">${qu.deliveryTime }</td>
 			    </tr>
 			</c:forEach>
 		</table>
