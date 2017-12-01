@@ -23,6 +23,8 @@ public class DateUtils {
     
     /** 时间格式 **/
     private final static String  TIME_PATTERN ="yyyy-MM-dd HH:mm:ss";
+
+    private static SimpleDateFormat format = new SimpleDateFormat();
     
     /**
      * 
@@ -389,6 +391,23 @@ public class DateUtils {
     public static String getDateOfFormat(Date date) {
     	DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
     	return dateFormat.format(date);
+    }
+
+    /**
+     *
+     * @Title: getDayOfYear
+     * @Description: 获取当前所在天/月/日/时
+     *  如：2017051123(天)  2017050423
+     * @author Easong
+     * @param @param date
+     * @param @param dateFormat
+     * @param @return    设定文件
+     * @return Integer    返回类型
+     * @throws
+     */
+    public static String getDateByFormat(Date date, String pattern) {
+        format.applyPattern(pattern);
+        return format.format(date);
     }
     
     /**
