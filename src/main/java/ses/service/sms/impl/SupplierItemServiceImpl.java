@@ -1145,6 +1145,10 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	private int countItemsBySuppIdAndCateIds(String supplierId, List<String> catIds, String code){
 		return supplierItemMapper.countItemsBySuppIdAndCateIds(supplierId, catIds, code);
 	}
+	
+	private int countItemsInCate(String supplierId, String categoryId, String code){
+		return supplierItemMapper.countItemsInCate(supplierId, categoryId, code);
+	}
 
 	@Override
 	public List<SupplierItem> getBySupplierIdCategoryIdIsNotReturned(
@@ -1278,17 +1282,21 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 //		String firstCateId = DictionaryDataUtil.getId("PROJECT");
 //		List < SupplierItem > listSupplierItems = this.getCategoryOther(supplierId, firstCateId, "PROJECT");
 //		removeSameItem(listSupplierItems);
-		List < SupplierItem > listSupplierItems = supplierItemMapper.queryBySupplierIdAndType(supplierId, "PROJECT");
 		
-		listSupplierItems = handlerItemList(supplierId, listSupplierItems);
-		
-		List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
-		String modifiedCertCodes = "";
 		String rootNode = null;
+		String rootNodeId = null;
 		DictionaryData dd = DictionaryDataUtil.get("PROJECT");
 		if(dd != null){
 			rootNode = dd.getName();
+			rootNodeId = dd.getId();
 		}
+		
+		List < SupplierItem > listSupplierItems = supplierItemMapper.queryBySupplierIdAndType(supplierId, "PROJECT");
+		
+		listSupplierItems = handlerItemList(supplierId, listSupplierItems, rootNodeId);
+		
+		//String modifiedCertCodes = "";
+		List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
 		for(SupplierItem item: listSupplierItems) {
 			String categoryId = item.getCategoryId();
 			SupplierCateTree cateTree = new SupplierCateTree();
@@ -1340,11 +1348,11 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 			}
 		}
 		resultMap.put("projectQua", allTreeList);
-		resultMap.put("modifiedCertCodes", modifiedCertCodes);
+		//resultMap.put("modifiedCertCodes", modifiedCertCodes);
 		return resultMap;
 	}
 	
-	private List<SupplierItem> handlerItemList(String supplierId, List<SupplierItem> listSupplierItems){
+	private List<SupplierItem> handlerItemList(String supplierId, List<SupplierItem> listSupplierItems, String rootNodeId){
 		List < SupplierItem > resultList = new ArrayList<SupplierItem>();
 		for(SupplierItem item: listSupplierItems) {
 			String categoryId = item.getCategoryId();
@@ -1357,24 +1365,21 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 				continue;
 			}
 			if(cateById != null && "true".equals(cateById.getIsParent())){
-				// 所有子节点
-				List<Category> clist = categoryService.getCListById(categoryId);
-				if(clist != null && clist.size() > 0){
-					List<String> catIds = new ArrayList<String>();
-					for(Category cate : clist){
-						catIds.add(cate.getId());
-					}
-					if(!catIds.isEmpty()){
-						int countItems = this.countItemsBySuppIdAndCateIds(supplierId, catIds, "PROJECT");
-						if(countItems == clist.size()){
+				int count = this.countItemsInCate(supplierId, categoryId, "PROJECT");
+				if(count > 0){
+					if(!(rootNodeId+"").equals(cateById.getParentId()+"")){
+						count = this.countItemsInCate(supplierId, cateById.getParentId(), "PROJECT");
+						if(count == 0){
 							resultList.add(item);
 						}
+					}else{
+						resultList.add(item);
 					}
 				}
 			}
 		}
 		if(resultList.size() < listSupplierItems.size()){
-			handlerItemList(supplierId, resultList);
+			handlerItemList(supplierId, resultList, rootNodeId);
 		}
 		return resultList;
 	}
@@ -1395,6 +1400,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 						cateTree.setRootNode(rootNode.getName());
 					}
 				}
+				cateTree.setFirstNode(parentNodeList.get(0).getName());
 			}
 			if(parentNodeList.size() > 1){
 				cateTree.setFirstNode(parentNodeList.get(0).getName());

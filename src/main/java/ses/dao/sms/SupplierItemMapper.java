@@ -269,4 +269,16 @@ public interface SupplierItemMapper {
      */
     int batchDelete(List<SupplierItem> records);
 
+    /**
+     * 在Category中统计Item
+     * @param supplierId
+     * @param categoryId
+     * @param code
+     * @return
+     */
+	int countItemsInCate(
+			@Param("supplierId")String supplierId, 
+			@Param("categoryId")String categoryId,
+			@Param("code")String code);
+
 }

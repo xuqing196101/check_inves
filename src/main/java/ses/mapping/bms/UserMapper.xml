@@ -25,6 +25,8 @@
     <result column="NET_TYPE" property="netType"/>
     <result column="ERROR_NUM" property="errorNum"/>
     <result column="DATA_ACCESS" property="dataAccess"/>
+    <result column="MOBILE2" jdbcType="VARCHAR" property="mobile2"/>
+    <result column="TELEPHONE2" jdbcType="VARCHAR" property="telephone2"/>
     <!-- 查询机构 -->
     <association column="ORG_ID" property="org" select="ses.dao.oms.OrgnizationMapper.findOrgnizationById"/>
     <!-- 查询创建人 -->
@@ -79,8 +81,9 @@
   <sql id="Base_Column_List">
     ID, LOGIN_NAME, PASSWORD, CREATED_AT, IS_DELETED, REL_NAME, UPDATED_AT, USER_ID, 
     MOBILE, GENDER, TELEPHONE, EMAIL, ORG_ID, DUTIES, TYPE_NAME, TYPE_ID, ADDRESS, RANDOM_CODE, ORG_NAME,
-    PUBLISH_TYPE, ID_NUMBER, OFFICER_CERT_NO, NET_TYPE, ERROR_NUM, DATA_ACCESS
+    PUBLISH_TYPE, ID_NUMBER, OFFICER_CERT_NO, NET_TYPE, ERROR_NUM, DATA_ACCESS, MOBILE2, TELEPHONE2
   </sql>
+  
   <!-- 表中所有列（带有别名） -->
   <sql id="Base_Column_List_Alias">
       U.ID, U.LOGIN_NAME, U.PASSWORD, U.CREATED_AT, U.UPDATED_AT, U.IS_DELETED, U.REL_NAME, U.UPDATED_AT,
@@ -159,6 +162,12 @@
       <if test="dataAccess != null">
         and u.DATA_ACCESS = #{dataAccess}
       </if>
+      <if test="mobile2 != null">
+        and u.MOBILE2 = #{mobile2}
+      </if>
+      <if test="telephone2 != null">
+        and u.TELEPHONE2 = #{telephone2}
+      </if>
     </trim>
   </sql>
 
@@ -208,7 +217,7 @@
     GENDER, TELEPHONE, EMAIL,
     ORG_ID, DUTIES, TYPE_NAME,
     TYPE_ID, ADDRESS, RANDOM_CODE,
-    ORG_NAME, PUBLISH_TYPE, ID_NUMBER, OFFICER_CERT_NO, NET_TYPE, ERROR_NUM, DATA_ACCESS)
+    ORG_NAME, PUBLISH_TYPE, ID_NUMBER, OFFICER_CERT_NO, NET_TYPE, ERROR_NUM, DATA_ACCESS, MOBILE2, TELEPHONE2)
     values (#{id,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
     #{createdAt,jdbcType=TIMESTAMP}, #{isDeleted}, #{relName,jdbcType=VARCHAR},
     #{updatedAt,jdbcType=TIMESTAMP}, #{user.id,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR},
@@ -216,7 +225,7 @@
     #{org.id,jdbcType=VARCHAR}, #{duties,jdbcType=VARCHAR}, #{typeName},
     #{typeId,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{randomCode,jdbcType=VARCHAR},
     #{orgName,jdbcType=VARCHAR},#{publishType}, #{idNumber,jdbcType=VARCHAR},
-    #{officerCertNo,jdbcType=VARCHAR},#{netType},#{errorNum},#{dataAccess})
+    #{officerCertNo,jdbcType=VARCHAR},#{netType},#{errorNum},#{dataAccess},#{mobile2},#{telephone2})
   </insert>
   <!-- 保存用户 -->
   <insert id="saveUser" parameterType="ses.model.bms.User">
@@ -297,6 +306,12 @@
       <if test="dataAccess != null">
         DATA_ACCESS,
       </if>
+      <if test="mobile2 != null and mobile2 != ''">
+        MOBILE2,
+      </if>
+      <if test="telephone2 != null and telephone2 != ''">
+        TELEPHONE2,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null and id != ''">
@@ -373,6 +388,12 @@
       </if>
       <if test="dataAccess != null">
         #{dataAccess},
+      </if>
+      <if test="mobile2 != null and mobile2 != ''">
+        #{mobile2},
+      </if>
+      <if test="telephone2 != null and telephone2 != ''">
+        #{telephone2},
       </if>
     </trim>
   </insert>
@@ -457,7 +478,13 @@
         ERROR_NUM,
       </if>
       <if test="dataAccess != null">
-        DATA_ACCESS
+        DATA_ACCESS,
+      </if>
+      <if test="mobile2 != null and mobile2 != ''">
+        MOBILE2,
+      </if>
+      <if test="telephone2 != null and telephone2 != ''">
+        TELEPHONE2,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -535,6 +562,12 @@
       </if>
       <if test="dataAccess != null">
         #{dataAccess},
+      </if>
+      <if test="mobile2 != null and mobile2 != ''">
+        #{mobile2,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone2 != null and telephone2 != ''">
+        #{telephone2,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -616,7 +649,13 @@
         ERROR_NUM = #{errorNum},
       </if>
       <if test="dataAccess != null">
-        DATA_ACCESS = #{dataAccess}
+        DATA_ACCESS = #{dataAccess},
+      </if>
+      <if test="mobile2 != null and mobile2 != ''">
+        MOBILE2 = #{mobile2,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone2 != null and telephone2 != ''">
+        TELEPHONE2 = #{telephone2,jdbcType=VARCHAR}
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -648,7 +687,9 @@
       OFFICER_CERT_NO = #{officerCertNo,jdbcType=VARCHAR},
       NET_TYPE = #{netType},
       ERROR_NUM = #{errorNum},
-      DATA_ACCESS = #{dataAccess}
+      DATA_ACCESS = #{dataAccess},
+      MOBILE2 = #{mobile2,jdbcType=VARCHAR},
+      TELEPHONE2 = #{telephone2,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 
@@ -950,7 +991,9 @@
     u.OFFICER_CERT_NO AS OFFICER_CERT_NO,
     u.NET_TYPE AS NET_TYPE,
     u.ERROR_NUM AS ERROR_NUM,
-    u.DATA_ACCESS AS DATA_ACCESS
+    u.DATA_ACCESS AS DATA_ACCESS,
+    u.MOBILE2 AS MOBILE2,
+    u.TELEPHONE2 AS TELEPHONE2
     FROM
     T_SES_BMS_USER u
     LEFT JOIN T_SES_BMS_USER_ROLE ur ON u. ID = ur.USER_ID

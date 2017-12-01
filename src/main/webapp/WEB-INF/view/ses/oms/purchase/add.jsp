@@ -180,25 +180,48 @@ function onCheck(e, treeId, treeNode) {
 		}
 		
 		function ajaxMoblie(){
-       var is_error = 0;
-       var mobile = $("#mobile").val();
-       $.ajax({
-             type: "GET",
-             async: false, 
-             url: "${pageContext.request.contextPath}/user/ajaxMoblie.do?mobile="+mobile,
-             dataType: "json",
-             success: function(data){
+	       var is_error = 0;
+	       var mobile = $("#mobile").val();
+	       $.ajax({
+	             type: "GET",
+	             async: false, 
+	             url: "${pageContext.request.contextPath}/user/ajaxMoblie.do?mobile="+mobile,
+	             dataType: "json",
+	             success: function(data){
                      if (!data.success) {
-            $("#ajax_mobile").html(data.msg);
-            is_error = 1;
-           } else {
-            $("#ajax_mobile").html("");
-           }
-               }
-          });
-          return is_error;
-    }
+                    	$("#errMobile").html("");
+		            	$("#ajax_mobile").html(data.msg);
+		            	is_error = 1;
+			         } else {
+			            $("#ajax_mobile").html("");
+			         }
+	               }
+	          });
+	          return is_error;
+	    	}
 		
+		function ajaxMoblie2(){
+	       var is_error = 0;
+	       var mobile2 = $("#mobile2").val();
+	       if (mobile2 != null && mobile2 != "") {
+		       $.ajax({
+		             type: "GET",
+		             async: false, 
+		             url: "${pageContext.request.contextPath}/user/ajaxMoblie.do?mobile="+mobile2,
+		             dataType: "json",
+		             success: function(data){
+		                if (!data.success) {
+		                	$("#errMobile2").html("");
+				            $("#ajax_mobile2").html(data.msg);
+				            is_error = 1;
+			           	} else {
+			            	$("#ajax_mobile2").html("");
+			           	}
+		             }
+		        });
+		    }
+	          return is_error;
+	     }
 		
 		function save(){
 		  	$("#formID").validForm();
@@ -251,6 +274,9 @@ function onCheck(e, treeId, treeNode) {
 					error += 1;
 				} 
 				if (ajaxMoblie() == 1){
+					error += 1;
+				} 
+				if (ajaxMoblie2() == 1){
 					error += 1;
 				} 
 				if (isExist() == 1){
@@ -408,10 +434,12 @@ function onCheck(e, treeId, treeNode) {
 			    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>数据查看权限</span>
 		        <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 			        <select name="dataAccess">
+			        	<option value="" >请选择</option>
 		        		<option value="1" <c:if test="${purchaseInfo.dataAccess == 1}">selected</c:if>>所有</option>
 				        <option value="2" <c:if test="${purchaseInfo.dataAccess == 2}">selected</c:if>>本单位</option>
 				        <option value="3" <c:if test="${purchaseInfo.dataAccess == 3}">selected</c:if>>本人</option>
 			        </select>
+			        <div class="cue"><sf:errors path="dataAccess"/></div>
 		        </div>
 		 	</li>
 		  </ul>
@@ -591,21 +619,27 @@ function onCheck(e, treeId, treeNode) {
 			<li class="col-md-3 col-sm-6 col-xs-12 pl15">  
 			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>手机号码</span>
 			  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-				<input id="mobile" class="input_group" name="mobile" onblur="ajaxMoblie()" value="${purchaseInfo.mobile}" type="text">
+				<input id="mobile" class="input_group" name="mobile" onblur="ajaxMoblie()" maxlength="50" value="${purchaseInfo.mobile}" type="text">
 				<span class="add-on">i</span>
-				<div class="cue"><sf:errors path="mobile"/></div>
+				<div class="cue" id="errMobile"><sf:errors path="mobile"/></div>
 				<div id="ajax_mobile" class="cue"></div>
 			  </div>
 			</li>
 			
 			<li class="col-md-3 col-sm-6 col-xs-12"> 
-			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">办公号码</span>
+			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">座机电话（地方）</span>
 			  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			    <input class="input_group" name="telephone" value="${purchaseInfo.telephone}" type="text"> 
+			    <input class="input_group" name="telephone" value="${purchaseInfo.telephone}" maxlength="50" type="text"> 
 			    <span class="add-on">i</span>
 			  </div>
 			</li>
-			
+			<li class="col-md-3 col-sm-6 col-xs-12"> 
+			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">座机电话（军线）</span>
+			  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+			    <input class="input_group" name="telephone2" value="${purchaseInfo.telephone2}" maxlength="50" type="text"> 
+			    <span class="add-on">i</span>
+			  </div>
+			</li>
 			<li class="col-md-3 col-sm-6 col-xs-12"> 
 			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">传真号码</span>
 			  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -615,11 +649,12 @@ function onCheck(e, treeId, treeNode) {
 			</li>
 			
 			<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" >
-			  <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>邮箱</span>
+			  <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">手机2</span>
 			  <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-				<input  name="email" value="${purchaseInfo.email}" required  maxlength="100" type="text">
+				<input id="mobile2" class="input_group" name="mobile2" onblur="ajaxMoblie2()" maxlength="50" value="${purchaseInfo.mobile2}" type="text">
 				<span class="add-on">i</span>
-			    <div class="cue"><sf:errors path="email"/></div>
+				<div class="cue" id="errMobile2"><sf:errors path="mobile2"/></div>
+			    <div class="cue"><sf:errors path="mobile2"/></div>
 			  </div>
 			</li>
 			
