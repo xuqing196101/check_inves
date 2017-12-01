@@ -187,7 +187,7 @@ public class PurchaseController extends BaseController{
 		
 		model.addAttribute("cggl", cggl);
 		//校验
-		/*if (result.hasErrors()){
+		if (result.hasErrors()){
 			model.addAttribute("roleName",roleName);
 			model.addAttribute("mainId",purchaseInfo.getId());
 			model.addAttribute("purchaseInfo", purchaseInfo);
@@ -195,7 +195,7 @@ public class PurchaseController extends BaseController{
 			model.addAttribute("originOrgId", originOrgId);
 			purchaseServiceI.initPurchaser(model,originOrgId);
 			return "ses/oms/purchase/add";
-		}*/
+		}
 		
 		List<UploadFile> list = uploadService.getFilesOther(purchaseInfo.getId(), null, "2");
 		if(list.size() < 1){

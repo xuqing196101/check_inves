@@ -61,6 +61,10 @@ public class User implements Serializable{
     @Pattern(regexp="^(1)[0-9]{10}$", message="手机格式错误")
     private String mobile;
 
+    /** 手机2*/
+    @Pattern(regexp="^(1)[0-9]{10}$", message="手机格式错误")
+    private String mobile2;
+    
     /** 
      * 性别
      * F：女
@@ -69,8 +73,11 @@ public class User implements Serializable{
     @NotNull(message = "性别不能为空")  
     private String gender;
 
-    /** 座机电话 */
+    /** 座机电话(地方) */
     private String telephone;
+    
+    /** 座机电话(军线) */
+    private String telephone2;
 
     /** 邮箱 */
     @Email(message = "邮箱格式不正确") 
@@ -165,6 +172,7 @@ public class User implements Serializable{
     /**
      * @Fields dataAccess:数据查看权限 (1:所有，2:本单位，3:本人)
      */
+    @NotNull(message = "数据查看权限不能为空")
     private Integer dataAccess;
     
     public List<String> getUserDataRule() {
@@ -460,5 +468,21 @@ public class User implements Serializable{
   public void setDataAccess(Integer dataAccess) {
 	this.dataAccess = dataAccess;
   }
-	  
+
+	public String getMobile2() {
+		return mobile2;
+	}
+	
+	public void setMobile2(String mobile2) {
+		this.mobile2 = mobile2;
+	}
+	
+	public String getTelephone2() {
+		return telephone2;
+	}
+	
+	public void setTelephone2(String telephone2) {
+		this.telephone2 = telephone2;
+	}
+  
 }

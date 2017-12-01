@@ -255,9 +255,18 @@
 			});
 			//上传成功后
 			uploader.on( 'uploadSuccess', function(file,res) {
+				var position = null;
+				var num = 0;
+				for (var i = 0; i < uploader.getFiles().length; i++) {
+					if (uploader.getFiles()[i].name == file.name) {
+						position = i+1;
+						break;
+					}
+					num++;
+				}
 				if(file && res){
 					$.post(globalPath + '/file/finished.html'
-			   			,{fileName: file.name, path: res._raw , businessId: $("#"+$base+"_businessId").val(),
+			   			,{position: position, fileName: file.name, path: res._raw , businessId: $("#"+$base+"_businessId").val(),
 			   			  typeId: $("#"+$base+"_typeId").val(), key: $("#"+$base+"_sysKeyId").val() ,mutiple: $("#"+$base+"_multipleId").val()
 			   			},
 			   			function(msg){

@@ -39,6 +39,8 @@
 	    <result column="unetType"  property="netType" />
 	    <result column="uerrorNum"  property="errorNum" />
 	    <result column="udataAccess"  property="dataAccess" />
+	    <result column="umobile2"  property="mobile2" />
+	    <result column="utelephone2"  property="telephone2" />
 	  	<!-- 查询机构 -->  
     	<association column="org"  property="org" select="ses.dao.oms.OrgnizationMapper.findOrgnizationById" />
 	    <!-- 查询创建人 -->
@@ -310,6 +312,8 @@
 			U .NET_TYPE AS unetType,
 			U .ERROR_NUM AS uerrorNum,
 			U .DATA_ACCESS AS udataAccess,
+			U .MOBILE2 AS umobile2,
+			U .TELEPHONE2 AS utelephone2,
 			pm. ID AS mid,
 			pm. NAME AS mname,
 			pm.MENU_TYPE AS mtype,
