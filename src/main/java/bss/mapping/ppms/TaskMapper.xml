@@ -62,12 +62,21 @@
     select 
     *
     from T_BSS_PPMS_TASK
-    where  STATUS = 0
+     where 1=1
+     <if test="beginDate!=null and endDate!=null">
+        and GIVE_TIME BETWEEN TO_DATE(#{beginDate},'yyyy-MM-dd HH24:mi:ss') and TO_DATE(#{endDate},'yyyy-MM-dd HH24:mi:ss')
+     </if>
+     <if test="taskNature!=null||taskNature!=''">
+      and TASK_NATURE = #{taskNature}
+     </if>
+    <if test=" collectId == null ||collectId==''">
+       and STATUS = 0
+     </if>
     <if test="id != null">
        and  ID = #{id}
      </if>
      <if test="name != null and name != ''">
-       and  NAME = #{name}
+       and  NAME like CONCAT(CONCAT('%', #{name}), '%')
      </if>
       <if test="status != null">
        and  STATUS = #{status}
@@ -93,7 +102,7 @@
       <if test="materialsType != null">
         and MATERIALS_TYPE = #{materialsType}
       </if>
-     ORDER BY GIVE_TIME DESC
+     ORDER BY GIVE_TIME DESC, STATUS ASC
   </select>
   
   <select id="likeByName" resultType="bss.model.ppms.Task" parameterType="java.util.Map">

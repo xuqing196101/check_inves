@@ -40,8 +40,8 @@
 	 					index=parent.layer.getFrameIndex(window.name);
     				parent.layer.close(index); */
     				if(type == 1){
-    					parent.auditSuspend1();
     					if(passType!="null"&&passType=="1"){
+    						parent.auditSuspend1();
     						$.ajax({
     				 			url:"${pageContext.request.contextPath}/packageAdvice/cometSubmit.html",
     				 			type:"post",

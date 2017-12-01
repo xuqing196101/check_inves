@@ -1526,4 +1526,100 @@
 			WHERE
 				isParent = 'false')
     </update>
+    <select id="selectByParentIdList" parameterType="java.lang.String" resultMap="PurchaseRequired_Map">
+		SELECT
+			*
+		FROM
+			T_BSS_PMS_PURCHASE_DETAIL
+		WHERE
+		 IS_DELETE = 0  and
+		PARENT_ID=#{id}
+	</select>
+	<select id="selectByTask" parameterType="bss.model.pms.PurchaseDetail" resultMap="PurchaseRequired_Map">
+		SELECT
+			DETAIL.*,TASK.NAME as taskName,TASK.DOCUMENT_NUMBER as taskNumber,TASK.GIVE_TIME AS taskGiveTime 
+		FROM
+			(
+				SELECT
+					COLLECT_ID,
+					GIVE_TIME,
+		      NAME,
+		      DOCUMENT_NUMBER
+				FROM
+					T_BSS_PPMS_TASK
+				WHERE
+					collect_id IS NOT NULL
+				AND TASK_NATURE = 0 and IS_DELETED=0
+				GROUP BY
+					COLLECT_ID,
+					GIVE_TIME,
+		      NAME,
+		      DOCUMENT_NUMBER
+			) task
+		inner JOIN T_BSS_PMS_PURCHASE_DETAIL detail ON TASK.COLLECT_ID = DETAIL.UNIQUE_ID
+		order by TASK.GIVE_TIME desc
+	</select>
+	
+	<select id="selectByDept"  resultMap="PurchaseRequired_Map">
+	select tab.department,SUM(tab.budget) as budget from (
+      SELECT
+			detail.*,(select count(*) from T_BSS_PMS_PURCHASE_DETAIL s where s.PARENT_ID=DETAIL.id) as cou
+		FROM
+			(
+				SELECT
+					COLLECT_ID
+				FROM
+					T_BSS_PPMS_TASK
+				WHERE
+					collect_id IS NOT NULL
+				AND TASK_NATURE = 0
+				AND IS_DELETED = 0
+				GROUP BY
+					COLLECT_ID
+			) task
+		inner JOIN T_BSS_PMS_PURCHASE_DETAIL detail ON TASK.COLLECT_ID = DETAIL.UNIQUE_ID ) tab where TAB.cou=0 and TAB.DEPARTMENT is not null group by tab.DEPARTMENT 
+	</select>
+	
+	<select id="selectByType"  resultMap="PurchaseRequired_Map">
+	select tab.PURCHASE_TYPE,SUM(tab.budget) as budget from (
+       SELECT
+			detail.*,(select count(*) from T_BSS_PMS_PURCHASE_DETAIL s where s.PARENT_ID=DETAIL.id) as cou
+		FROM
+			(
+				SELECT
+					COLLECT_ID
+				FROM
+					T_BSS_PPMS_TASK
+				WHERE
+					collect_id IS NOT NULL
+				AND TASK_NATURE = 0
+				AND IS_DELETED = 0
+				GROUP BY
+					COLLECT_ID
+			) task
+		inner JOIN T_BSS_PMS_PURCHASE_DETAIL detail ON TASK.COLLECT_ID = DETAIL.UNIQUE_ID ) tab where TAB.cou=0 and TAB.PURCHASE_TYPE is not null group by tab.PURCHASE_TYPE 
+	</select>
+	
+	<select id="selectByMonth"  resultType="Map">
+	select TO_CHAR(tab.GIVE_TIME,'yyyy-mm') as taskGiveTime ,SUM(tab.budget) as budget from (
+		SELECT
+					detail.*,task.GIVE_TIME,(select count(*) from T_BSS_PMS_PURCHASE_DETAIL s where s.PARENT_ID=DETAIL.id) as cou
+				FROM
+					(
+						SELECT
+							COLLECT_ID,
+		          GIVE_TIME
+						FROM
+							T_BSS_PPMS_TASK
+						WHERE
+							collect_id IS NOT NULL
+						AND TASK_NATURE = 0
+						AND IS_DELETED = 0
+						GROUP BY
+							COLLECT_ID,
+		GIVE_TIME
+					) task
+		inner JOIN T_BSS_PMS_PURCHASE_DETAIL detail ON TASK.COLLECT_ID = DETAIL.UNIQUE_ID ) tab where TAB.cou=0 and  TO_CHAR(tab.GIVE_TIME,'yyyy')=TO_CHAR(SYSDATE,'yyyy') group by TO_CHAR(tab.GIVE_TIME,'yyyy-mm') order by taskGiveTime 
+	 
+	</select>
 </mapper>

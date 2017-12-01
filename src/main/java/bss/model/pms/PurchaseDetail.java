@@ -1,6 +1,7 @@
 package bss.model.pms;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 /**
  * 
@@ -108,6 +109,10 @@ public class PurchaseDetail {
     
   private Integer advancedStatus;
   private String isParent;
+  
+  private String taskName;
+  private String taskNumber;
+  private Timestamp taskGiveTime;
     
   /**
    * @Fields projectStatus : 0:未被项目立项引用  1：已被立项 2：暂被引用
@@ -555,5 +560,30 @@ public Integer getProjectStatus() {
     public void setIsParent(String isParent) {
       this.isParent = isParent;
     }
+
+    public String getTaskName() {
+      return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+      this.taskName = taskName;
+    }
+
+    public String getTaskNumber() {
+      return taskNumber;
+    }
+
+    public void setTaskNumber(String taskNumber) {
+      this.taskNumber = taskNumber;
+    }
+
+    public Timestamp getTaskGiveTime() {
+      return taskGiveTime;
+    }
+
+    public void setTaskGiveTime(Timestamp taskGiveTime) {
+      this.taskGiveTime = taskGiveTime;
+    }
+
     
 }
