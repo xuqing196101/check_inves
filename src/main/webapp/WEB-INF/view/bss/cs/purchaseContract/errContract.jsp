@@ -732,7 +732,7 @@
 			<li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="">合同文本</a></li>
           </ul>
           <form id="contractForm" action="${pageContext.request.contextPath}/purchaseContract/addPurchaseContract.html?ids=${id}" method="post">
-          <div class="tab-content padding-top-20">
+          <div class="tab-content padding-top-20 mt20">
             <div class="tab-pane fade active in" id="tab-1">
 	   		<input type="hidden" name="status" value="" id="status"/>
 	   		<input type="hidden" name="supplierPurId" value="${purCon.supplierPurId}"/>
@@ -744,7 +744,7 @@
 	   		<%-- <input type="hidden" name="manual" value="${manual}"/> --%>
 	   		<input type="hidden" id="dga" name="dga" value=""/>
 	   		<input type="hidden" id="dra" name="dra" value="">
-	   		<h2 class="f16 count_flow mt40"><i>01</i>基本信息</h2>
+	   		<h2 class="f16 count_flow mt0"><i>01</i>基本信息</h2>
 	   		<ul class="list-unstyled ul_list">
 	   			<input type="hidden" class="contract_id" name="contract_id">
 			     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -877,6 +877,7 @@
 				 </li>
 				 <div class="clear"></div>
 			 </ul>
+			 <div class="clear"></div>
 	   		<h2 class="f16 count_flow mt40"><i>02</i>甲方信息</h2>
 			 <ul class="list-unstyled ul_list">
 	    		 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -954,7 +955,7 @@
 				 </li>
 				 <div class="clear"></div>
 			 </ul>
-	
+	      <div class="clear"></div>
 	   		<h2 class="f16 count_flow mt40"><i>03</i>乙方信息</h2>
 			 <ul class="list-unstyled ul_list">
 				 <%-- <li class="col-md-3 col-sm-6 col-xs-12 pl15">

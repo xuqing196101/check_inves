@@ -17,24 +17,12 @@ import ses.model.bms.DictionaryData;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierTypeTree;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-
-
-   /**
-   * 
-   * <p>Title:CategoryMapper</p>
-   * <p>Description: 采购目录管理接口</p>
-   * @author javazxf
-   * @date 
-   */
-	public interface CategoryService {
+/**
+ * @Description: 采购目录管理接口
+ * @author javazxf
+ * @date 2017-11-29 下午7:36:03
+ */
+public interface CategoryService {
 	/**   
 	* @Title: selectAll
 	* @author zhangxuefeng
@@ -492,5 +480,23 @@ import java.util.Map;
 	 * @since JDK1.7
 	 */
 	List<Category> selectAllCateByCond(Map<String, Object> map);
+	
+	/**
+	 * 根据名称搜索类别
+	 * @param cateName
+	 * @param flag
+	 * @param codeName
+	 * @return
+	 */
+	List<Category> searchByName(String cateName, String codeName);
+
+	/**
+	 * 搜索品目
+	 * @param type
+	 * @param cateName
+	 * @param codeName
+	 * @return
+	 */
+	List<Category> searchList(int type, String cateName, String codeName);
 	
 }

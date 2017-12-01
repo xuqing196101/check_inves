@@ -81,13 +81,13 @@ public class SupplierMatProServiceImpl implements SupplierMatProService {
 
 	@Override
     public String getMatProIdBySupplierId(String supplierId) {
-        // TODO Auto-generated method stub
-	    SupplierMatPro pro = supplierMatProMapper.getMatProBySupplierId(supplierId);
+	    /*SupplierMatPro pro = supplierMatProMapper.getMatProBySupplierId(supplierId);
 	    if (pro != null) {
 	        return pro.getId();
 	    } else {
 	        return null;
-	    }
+	    }*/
+		return supplierMatProMapper.getMatProIdBySupplierId(supplierId);
     }
 
     @Override

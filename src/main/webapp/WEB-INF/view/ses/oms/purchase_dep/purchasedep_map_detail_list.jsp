@@ -71,7 +71,7 @@ function chongzhi(){
                         <span class="f14">至</span>
                         <input id="quaEdndate" name="quaEdndate" value='<fmt:formatDate value="${purchaseDep.quaEdndate }" pattern="YYYY-MM-dd"/>' class="Wdate w150" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'quaEdndate\')}'})"/>
                       </li>
-                      <li>
+                      <!-- <li>
                         <label class="fl">上级监管部门：</label>
                         <span class="fl">
                           <select name="" class="w100">
@@ -81,7 +81,7 @@ function chongzhi(){
                                     <option  value="军区采购">军区采购</option>
                           </select>
                         </span>
-                      </li>
+                      </li> -->
                   </ul>
                         <input class="btn fl mt1" onclick="submit()" type="button" value="查询">
                         <input class="btn fl mt1" onclick="chongzhi()" type="button" value="重置"> 
@@ -102,14 +102,14 @@ function chongzhi(){
 					<th class="info" width="15%">地址</th>
 					<th class="info" width="12%">采购资质开始日期</th>
 					<th class="info" width="12%">采购资质截止日期</th>
-					<th class="info">上级监管部门</th>
+					<!-- <th class="info">上级监管部门</th> -->
 				</tr>
 			  </thead>
 			  <tbody>
 				 <c:forEach items="${list.list }" var="list" varStatus="vs">
 					<tr>
 						<td class="tc w50">${vs.index+1 }</td>
-						<td><a href="${pageContext.request.contextPath}/purchaseManage/purchaseDepMapShow.html?orgId=${list.orgId}">${list.name }</a></td>
+						<td><a href="${pageContext.request.contextPath}/purchaseManage/purchaseDepMapShow.html?orgId=${list.orgId}&parentName=${parentName}">${list.name }</a></td>
 						<td>${list.quaCode }</td>
 						<td>
 							<c:forEach items="${kind}" var="status">
@@ -119,7 +119,7 @@ function chongzhi(){
 						<td>${list.address }</td>
 						<td><fmt:formatDate value="${list.quaStartDate }" pattern="yyyy-MM-dd" /></td>
 						<td><fmt:formatDate value="${list.quaEdndate }" pattern="yyyy-MM-dd" /></td>
-						<td>军区采购</td>
+						<!-- <td>军区采购</td> -->
 					</tr>
 				</c:forEach> 
 			  </tbody>

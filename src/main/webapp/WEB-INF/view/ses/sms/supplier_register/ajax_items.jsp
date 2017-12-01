@@ -26,36 +26,12 @@
 					var pageNum = e.curr;
 					var supplierId = "${supplierId}";
 					var type = "${supplierTypeRelateId}";
-					var path = "${pageContext.request.contextPath}/supplier_item/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=" + type + "&pageNum=" + pageNum;
+					var path = "${pageContext.request.contextPath}/supplier_item/loadCheckedCategory.html?supplierId=" + supplierId + "&code=" + type + "&pageNum=" + pageNum;
 					$("#tbody_category").load(path);
 				}
 			}
 		});
 	});
-	
-	//显示不通过的理由
-	function errorMsg(_this, auditField, auditType){
-		// 如果加载过错误信息，则不再加载
-		var errorMsg = $(_this).attr("data-errorMsg");
-		if(errorMsg){
-			layer.msg("不通过理由：" + errorMsg, {
-				offset: '300px'
-			});
-			return;
-		}
-	
-		var supplierId = "${supplierId}";
-		$.ajax({
-			url: "${pageContext.request.contextPath}/supplier/audit.html",
-			data: {"supplierId": supplierId, "auditField": auditField, "auditType": auditType},
-			dataType: "json",
-			success: function(data){
-				$(_this).attr("data-errorMsg", data.suggest);
-				layer.msg("不通过理由：" + data.suggest , {offset: '200px'});
-			}
-		});
-	}
-	
 </script>
 </head>
 <body>

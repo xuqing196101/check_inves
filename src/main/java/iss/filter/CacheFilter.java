@@ -131,8 +131,7 @@ public class CacheFilter implements Filter {
         } finally {
             // 关闭资源
             if (jedis != null) {
-                jedis.quit();
-                jedis.disconnect();
+                JedisUtils.returnResourceOfFactory(jedis);
             }
         }
     }

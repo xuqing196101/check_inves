@@ -1,22 +1,22 @@
 package ses.service.sms.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.github.pagehelper.PageHelper;
 import org.apache.maven.surefire.shade.org.apache.maven.shared.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import ses.dao.bms.AreaMapper;
 import ses.dao.sms.SupplierEditMapper;
+import ses.model.bms.Area;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierEdit;
 import ses.service.sms.SupplierEditService;
 import ses.util.PropertiesUtil;
 
-import com.github.pagehelper.PageHelper;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 /**
  * 版权：(C) 版权所有 
  * <简述>供应商变更服务层实现层
@@ -41,6 +41,8 @@ public class SupplierEditServiceImpl implements SupplierEditService {
      */
     @Autowired
     private SupplierEditMapper supplierEditMapper;
+    @Autowired
+    private AreaMapper areaMapper;
 
     @Override
     public void insertSelective(SupplierEdit se) {
@@ -699,5 +701,50 @@ public class SupplierEditServiceImpl implements SupplierEditService {
         map.put("吉林", 0);
         map.put("南海诸岛", 0);
         return map;
+    }
+
+    @Override
+    public Map<String, Object> getMapArea() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("parentId", "0");
+        List<Area> areas = areaMapper.selectByParentId(map);
+        map.clear();
+        if(areas != null && !areas.isEmpty()){
+            for (Area area : areas){
+                setArea(area);
+                map.put(area.getName() + "," + area.getId(), 0);
+            }
+        }
+        return map;
+    }
+    
+    private void setArea(Area area){
+        if(area.getName().contains("宁夏")){
+            area.setName("宁夏");
+        }
+        if(area.getName().contains("西藏")){
+            area.setName("西藏");
+        }
+        if(area.getName().contains("香港")){
+            area.setName("香港");
+        }
+        if(area.getName().contains("新疆")){
+            area.setName("新疆");
+        }
+        if(area.getName().contains("澳门")){
+            area.setName("澳门");
+        }
+        if(area.getName().contains("北京市")){
+            area.setName("北京");
+        }
+        if(area.getName().contains("上海市")){
+            area.setName("上海");
+        }
+        if(area.getName().contains("重庆市")){
+            area.setName("重庆");
+        }
+        if(area.getName().contains("天津市")){
+            area.setName("天津");
+        }
     }
 }

@@ -7,6 +7,13 @@
     <%@ include file="/WEB-INF/view/common.jsp" %>
     <%@ include file="/WEB-INF/view/common/webupload.jsp" %>
     <title>品目销售合同</title>
+    <style type="text/css">
+			.icon_edit,.icon_sc{
+				cursor: pointer;
+      	padding: 5px;
+      }
+		</style>
+    <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/common.js"></script>
     <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/aptitude_items.js"></script>
     <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/aptitude_contract_item.js"></script>
 </head>
@@ -14,7 +21,7 @@
 <input type="hidden" name="pageNum" id="pageNum">
 <input id="supplierId" type="hidden" value="${supplierId }">
 <input id="auditType" type="hidden" value="${auditType }">
-<input id="ids" type="hidden" value="${ids }">
+<input id="ind" type="hidden" value="${ind}">
 <input id="count" type="hidden" value="0">
 <input id="tablerId" type="hidden" value="${tablerId}">
 <table class="table table-bordered m_table_fixed_border m_table_fixed_border">
@@ -42,12 +49,12 @@
                 <td class="info tc">${obj.thirdNode}</td>
                 <td class="info tc">${obj.fourthNode}</td> --%>
             <td class="m_upload_file" id="td1${vs.index + 1}"
-                <c:if test="${fn:contains(fileModifyField,obj.supplierItemId.concat(obj.oneContract))}">style="border: 1px solid #FF8C00;"</c:if>
+                <c:if test="${fn:contains(fileModifyField,obj.supplierItemId.concat(obj.oneContract)) && !fn:contains(auditField,obj.supplierItemId.concat('_').concat(obj.oneContract))}">style="border: 1px solid #FF8C00;"</c:if>
                 <c:if test="${fn:contains(auditField,obj.supplierItemId.concat('_').concat(obj.oneContract))}">style="border: 1px solid #FF0000;"</c:if>
                 >
-                <c:if test="${!fn:contains(unableField,obj.supplierItemId.concat('_').concat(obj.oneContract))}">
+                <%-- <c:if test="${!fn:contains(unableField,obj.supplierItemId.concat('_').concat(obj.oneContract))}">
 	                <a href="javascript:void(0);"
-	                  onclick="reasonProject('${ids }','${obj.supplierItemId }','${obj.itemsName }','${vs.index + 1}')">
+	                  onclick="reasonProject('${ind}','${obj.supplierItemId}_${obj.oneContract}','${obj.itemsName }','${vs.index + 1}')">
 	                  <c:if test="${!fn:contains(auditField,obj.supplierItemId.concat('_').concat(obj.oneContract))}">
 	                  	<img id="show_td${vs.index + 1}" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'/>
 	                  </c:if>
@@ -58,9 +65,21 @@
                 </c:if>
                 <c:if test="${fn:contains(unableField,obj.supplierItemId.concat('_').concat(obj.oneContract))}">
                 	<img src='${pageContext.request.contextPath}/public/backend/images/sc.png' onclick="javascript:layer.msg('该条信息已审核并退回过！');"/>
+                </c:if> --%>
+                <c:set var="curField" value="${obj.supplierItemId.concat('_').concat(obj.oneContract)}" />
+                <c:set var="iconUrl" value="${pageContext.request.contextPath}/public/backend/images/light_icon.png" />
+                <c:set var="iconCls" value="icon_edit" />
+                <c:if test="${!fn:contains(unableField,curField) && fn:contains(auditField,curField)}">
+                	<c:set var="iconUrl" value="${pageContext.request.contextPath}/public/backend/images/light_icon_2.png" />
                 </c:if>
-                <input type="hidden" id="fileId${vs.index + 1}" value="${obj.oneContract}">
-                <input type="hidden" id="count1" value="${obj.isAptitudeProductPageAudit}">
+                <c:if test="${fn:contains(unableField,curField)}">
+                  <c:set var="iconUrl" value="${pageContext.request.contextPath}/public/backend/images/sc.png" />
+                  <c:set var="iconCls" value="icon_sc" />
+                </c:if>
+                <img src="${iconUrl}" class="${iconCls}"
+                onclick="reasonProject('${ind}','${curField}','${obj.itemsName }','${vs.index + 1}');" />
+                <%-- <input type="hidden" id="fileId${vs.index + 1}" value="${obj.oneContract}">
+                <input type="hidden" id="count1" value="${obj.isAptitudeProductPageAudit}"> --%>
                 <u:upload id="${fileShow}${(vs.index + 1)*6-1}" buttonName="上传附件" multiple="true" auto="true"
                   businessId="${obj.supplierItemId}" sysKey="${sysKey}" typeId="${obj.oneContract}"/>
                 <u:show showId="${fileShow}${(vs.index + 1)*6-1}"
@@ -68,12 +87,12 @@
                   typeId="${obj.oneContract}"/>
             </td>
             <td class="m_upload_file" id="td1${vs.index + 2}"
-                <c:if test="${fn:contains(fileModifyField,obj.supplierItemId.concat(obj.twoContract))}">style="border: 1px solid #FF8C00;"</c:if>
+                <c:if test="${fn:contains(fileModifyField,obj.supplierItemId.concat(obj.twoContract)) && !fn:contains(auditField,obj.supplierItemId.concat('_').concat(obj.twoContract))}">style="border: 1px solid #FF8C00;"</c:if>
                 <c:if test="${fn:contains(auditField,obj.supplierItemId.concat('_').concat(obj.twoContract))}">style="border: 1px solid #FF0000;"</c:if>
                 >
-                <c:if test="${!fn:contains(unableField,obj.supplierItemId.concat('_').concat(obj.twoContract))}">
+                <%-- <c:if test="${!fn:contains(unableField,obj.supplierItemId.concat('_').concat(obj.twoContract))}">
 	                <a href="javascript:void(0);"
-	                  onclick="reasonProject('${ids }','${obj.supplierItemId }','${obj.itemsName }','${vs.index + 2}')">
+	                  onclick="reasonProject('${ind}','${obj.supplierItemId}_${obj.twoContract}','${obj.itemsName }','${vs.index + 2}')">
 	                  <c:if test="${!fn:contains(auditField,obj.supplierItemId.concat('_').concat(obj.twoContract))}">
 	                  	<img id="show_td${vs.index + 2}" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'/>
 	                  </c:if>
@@ -84,19 +103,33 @@
                 </c:if>
                 <c:if test="${fn:contains(unableField,obj.supplierItemId.concat('_').concat(obj.twoContract))}">
                 	<img src='${pageContext.request.contextPath}/public/backend/images/sc.png' onclick="javascript:layer.msg('该条信息已审核并退回过！');"/>
+                </c:if> --%>
+                <c:set var="curField" value="${obj.supplierItemId.concat('_').concat(obj.twoContract)}" />
+                <c:set var="iconUrl" value="${pageContext.request.contextPath}/public/backend/images/light_icon.png" />
+                <c:set var="iconCls" value="icon_edit" />
+                <c:if test="${!fn:contains(unableField,curField) && fn:contains(auditField,curField)}">
+                	<c:set var="iconUrl" value="${pageContext.request.contextPath}/public/backend/images/light_icon_2.png" />
                 </c:if>
+                <c:if test="${fn:contains(unableField,curField)}">
+                  <c:set var="iconUrl" value="${pageContext.request.contextPath}/public/backend/images/sc.png" />
+                  <c:set var="iconCls" value="icon_sc" />
+                </c:if>
+                <img src="${iconUrl}" class="${iconCls}"
+                onclick="reasonProject('${ind}','${curField}','${obj.itemsName }','${vs.index + 2}');" />
+                <%-- <input type="hidden" id="fileId${vs.index + 2}" value="${obj.twoContract}">
+                <input type="hidden" id="count2" value="${obj.isAptitudeProductPageAudit}"> --%>
                 <u:upload id="${fileShow}${(vs.index + 1)*6-2}" buttonName="上传附件" multiple="true" auto="true"
                   businessId="${obj.supplierItemId}" sysKey="${sysKey}" typeId="${obj.twoContract}"/>
                 <u:show showId="${fileShow}${(vs.index + 1)*6-2}" businessId="${obj.supplierItemId}"
                   sysKey="${sysKey}" typeId="${obj.twoContract}"/>
             </td>
             <td class="m_upload_file" id="td1${vs.index + 3}"
-                <c:if test="${fn:contains(fileModifyField,obj.supplierItemId.concat(obj.threeContract))}">style="border: 1px solid #FF8C00;"</c:if>
+                <c:if test="${fn:contains(fileModifyField,obj.supplierItemId.concat(obj.threeContract)) && !fn:contains(auditField,obj.supplierItemId.concat('_').concat(obj.threeContract))}">style="border: 1px solid #FF8C00;"</c:if>
                 <c:if test="${fn:contains(auditField,obj.supplierItemId.concat('_').concat(obj.threeContract))}">style="border: 1px solid #FF0000;"</c:if>
                 >
-                <c:if test="${!fn:contains(unableField,obj.supplierItemId.concat('_').concat(obj.threeContract))}">
+                <%-- <c:if test="${!fn:contains(unableField,obj.supplierItemId.concat('_').concat(obj.threeContract))}">
 	                <a href="javascript:void(0);"
-	                  onclick="reasonProject('${ids }','${obj.supplierItemId }','${obj.itemsName }','${vs.index + 3}')">
+	                  onclick="reasonProject('${ind}','${obj.supplierItemId}_${obj.threeContract}','${obj.itemsName }','${vs.index + 3}')">
 	                  <c:if test="${!fn:contains(auditField,obj.supplierItemId.concat('_').concat(obj.threeContract))}">
 	                  	<img id="show_td${vs.index + 3}" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'/>
 	                  </c:if>
@@ -107,9 +140,21 @@
                 </c:if>
                 <c:if test="${fn:contains(unableField,obj.supplierItemId.concat('_').concat(obj.threeContract))}">
                 	<img src='${pageContext.request.contextPath}/public/backend/images/sc.png' onclick="javascript:layer.msg('该条信息已审核并退回过！');"/>
+                </c:if> --%>
+                <c:set var="curField" value="${obj.supplierItemId.concat('_').concat(obj.threeContract)}" />
+                <c:set var="iconUrl" value="${pageContext.request.contextPath}/public/backend/images/light_icon.png" />
+                <c:set var="iconCls" value="icon_edit" />
+                <c:if test="${!fn:contains(unableField,curField) && fn:contains(auditField,curField)}">
+                	<c:set var="iconUrl" value="${pageContext.request.contextPath}/public/backend/images/light_icon_2.png" />
                 </c:if>
-                <input type="hidden" id="fileId${vs.index + 3}" value="${obj.threeContract}">
-                <input type="hidden" id="count3" value="${obj.isContractProductPageAudit}">
+                <c:if test="${fn:contains(unableField,curField)}">
+                  <c:set var="iconUrl" value="${pageContext.request.contextPath}/public/backend/images/sc.png" />
+                  <c:set var="iconCls" value="icon_sc" />
+                </c:if>
+                <img src="${iconUrl}" class="${iconCls}"
+                onclick="reasonProject('${ind}','${curField}','${obj.itemsName }','${vs.index + 3}');" />
+                <%-- <input type="hidden" id="fileId${vs.index + 3}" value="${obj.threeContract}">
+                <input type="hidden" id="count3" value="${obj.isContractProductPageAudit}"> --%>
                 <u:upload id="${fileShow}${(vs.index + 1)*6-3}" buttonName="上传附件" multiple="true" auto="true"
                   businessId="${obj.supplierItemId}" sysKey="${sysKey}" typeId="${obj.threeContract}"/>
                 <u:show showId="${fileShow}${(vs.index + 1)*6-3}"
@@ -117,12 +162,12 @@
                   typeId="${obj.threeContract}"/>
             </td>
             <td class="m_upload_file" id="td1${vs.index + 4}"
-                <c:if test="${fn:contains(fileModifyField,obj.supplierItemId.concat(obj.oneBil))}">style="border: 1px solid #FF8C00;"</c:if>
+                <c:if test="${fn:contains(fileModifyField,obj.supplierItemId.concat(obj.oneBil)) && !fn:contains(auditField,obj.supplierItemId.concat('_').concat(obj.oneBil))}">style="border: 1px solid #FF8C00;"</c:if>
                 <c:if test="${fn:contains(auditField,obj.supplierItemId.concat('_').concat(obj.oneBil))}">style="border: 1px solid #FF0000;"</c:if>
                 >
-                <c:if test="${!fn:contains(unableField,obj.supplierItemId.concat('_').concat(obj.oneBil))}">
+                <%-- <c:if test="${!fn:contains(unableField,obj.supplierItemId.concat('_').concat(obj.oneBil))}">
 	                <a href="javascript:void(0);"
-	                  onclick="reasonProject('${ids }','${obj.supplierItemId }','${obj.itemsName }','${vs.index + 4}')">
+	                  onclick="reasonProject('${ind}','${obj.supplierItemId}_${obj.oneBil}','${obj.itemsName }','${vs.index + 4}')">
 	                  <c:if test="${!fn:contains(auditField,obj.supplierItemId.concat('_').concat(obj.oneBil))}">
 	                  	<img id="show_td${vs.index + 4}" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'/>
 	                  </c:if>
@@ -133,9 +178,21 @@
                 </c:if>
                 <c:if test="${fn:contains(unableField,obj.supplierItemId.concat('_').concat(obj.oneBil))}">
                 	<img src='${pageContext.request.contextPath}/public/backend/images/sc.png' onclick="javascript:layer.msg('该条信息已审核并退回过！');"/>
+                </c:if> --%>
+                <c:set var="curField" value="${obj.supplierItemId.concat('_').concat(obj.oneBil)}" />
+                <c:set var="iconUrl" value="${pageContext.request.contextPath}/public/backend/images/light_icon.png" />
+                <c:set var="iconCls" value="icon_edit" />
+                <c:if test="${!fn:contains(unableField,curField) && fn:contains(auditField,curField)}">
+                	<c:set var="iconUrl" value="${pageContext.request.contextPath}/public/backend/images/light_icon_2.png" />
                 </c:if>
-                <input type="hidden" id="fileId${vs.index + 4}" value="${obj.oneBil}">
-                <input type="hidden" id="count4" value="${obj.isContractSalesPageAudit}">
+                <c:if test="${fn:contains(unableField,curField)}">
+                  <c:set var="iconUrl" value="${pageContext.request.contextPath}/public/backend/images/sc.png" />
+                  <c:set var="iconCls" value="icon_sc" />
+                </c:if>
+                <img src="${iconUrl}" class="${iconCls}"
+                onclick="reasonProject('${ind}','${curField}','${obj.itemsName }','${vs.index + 4}');" />
+                <%-- <input type="hidden" id="fileId${vs.index + 4}" value="${obj.oneBil}">
+                <input type="hidden" id="count4" value="${obj.isContractSalesPageAudit}"> --%>
                 <u:upload id="${fileShow}${(vs.index + 1)*6-4}" buttonName="上传附件" multiple="true" auto="true"
                   businessId="${obj.supplierItemId}" sysKey="${sysKey}" typeId="${obj.oneBil}"/>
                 <u:show showId="${fileShow}${(vs.index + 1)*6-4}"
@@ -143,12 +200,12 @@
                   typeId="${obj.oneBil}"/>
             </td>
             <td class="m_upload_file" id="td1${vs.index + 5}"
-                <c:if test="${fn:contains(fileModifyField,obj.supplierItemId.concat(obj.twoBil))}">style="border: 1px solid #FF8C00;"</c:if>
+                <c:if test="${fn:contains(fileModifyField,obj.supplierItemId.concat(obj.twoBil)) && !fn:contains(auditField,obj.supplierItemId.concat('_').concat(obj.twoBil))}">style="border: 1px solid #FF8C00;"</c:if>
                 <c:if test="${fn:contains(auditField,obj.supplierItemId.concat('_').concat(obj.twoBil))}">style="border: 1px solid #FF0000;"</c:if>
                 >
-                <c:if test="${!fn:contains(unableField,obj.supplierItemId.concat('_').concat(obj.twoBil))}">
+                <%-- <c:if test="${!fn:contains(unableField,obj.supplierItemId.concat('_').concat(obj.twoBil))}">
 	                <a href="javascript:void(0);"
-	                  onclick="reasonProject('${ids }','${obj.supplierItemId }','${obj.itemsName }','${vs.index + 5}')">
+	                  onclick="reasonProject('${ind}','${obj.supplierItemId}_${obj.twoBil}','${obj.itemsName }','${vs.index + 5}')">
 	                  <c:if test="${!fn:contains(auditField,obj.supplierItemId.concat('_').concat(obj.twoBil))}">
 	                  	<img id="show_td${vs.index + 5}" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'/>
 	                  </c:if>
@@ -159,9 +216,21 @@
                 </c:if>
                 <c:if test="${fn:contains(unableField,obj.supplierItemId.concat('_').concat(obj.twoBil))}">
                 	<img src='${pageContext.request.contextPath}/public/backend/images/sc.png' onclick="javascript:layer.msg('该条信息已审核并退回过！');"/>
+                </c:if> --%>
+                <c:set var="curField" value="${obj.supplierItemId.concat('_').concat(obj.twoBil)}" />
+                <c:set var="iconUrl" value="${pageContext.request.contextPath}/public/backend/images/light_icon.png" />
+                <c:set var="iconCls" value="icon_edit" />
+                <c:if test="${!fn:contains(unableField,curField) && fn:contains(auditField,curField)}">
+                	<c:set var="iconUrl" value="${pageContext.request.contextPath}/public/backend/images/light_icon_2.png" />
                 </c:if>
-                <input type="hidden" id="fileId${vs.index + 5}" value="${obj.twoBil}">
-                <input type="hidden" id="count5" value="${obj.isItemsProductPageAudit}">
+                <c:if test="${fn:contains(unableField,curField)}">
+                  <c:set var="iconUrl" value="${pageContext.request.contextPath}/public/backend/images/sc.png" />
+                  <c:set var="iconCls" value="icon_sc" />
+                </c:if>
+                <img src="${iconUrl}" class="${iconCls}"
+                onclick="reasonProject('${ind}','${curField}','${obj.itemsName }','${vs.index + 5}');" />
+                <%-- <input type="hidden" id="fileId${vs.index + 5}" value="${obj.twoBil}">
+                <input type="hidden" id="count5" value="${obj.isItemsProductPageAudit}"> --%>
                 <u:upload id="${fileShow}${(vs.index + 1)*6-5}" buttonName="上传附件" multiple="true" auto="true"
                   businessId="${obj.supplierItemId}" sysKey="${sysKey}" typeId="${obj.twoBil}"/>
                 <u:show showId="${fileShow}${(vs.index + 1)*6-5}"
@@ -169,12 +238,12 @@
                   typeId="${obj.twoBil}"/>
             </td>
             <td class="m_upload_file" id="td1${vs.index + 6}"
-                <c:if test="${fn:contains(fileModifyField,obj.supplierItemId.concat(obj.threeBil))}">style="border: 1px solid #FF8C00;"</c:if>
+                <c:if test="${fn:contains(fileModifyField,obj.supplierItemId.concat(obj.threeBil)) && !fn:contains(auditField,obj.supplierItemId.concat('_').concat(obj.threeBil))}">style="border: 1px solid #FF8C00;"</c:if>
                 <c:if test="${fn:contains(auditField,obj.supplierItemId.concat('_').concat(obj.threeBil))}">style="border: 1px solid #FF0000;"</c:if>
                 >
-                <c:if test="${!fn:contains(unableField,obj.supplierItemId.concat('_').concat(obj.threeBil))}">
+                <%-- <c:if test="${!fn:contains(unableField,obj.supplierItemId.concat('_').concat(obj.threeBil))}">
 	                <a href="javascript:void(0);"
-	                  onclick="reasonProject('${ids }','${obj.supplierItemId }','${obj.itemsName }','${vs.index + 6}')">
+	                  onclick="reasonProject('${ind}','${obj.supplierItemId}_${obj.threeBil}','${obj.itemsName }','${vs.index + 6}')">
 	                  <c:if test="${!fn:contains(auditField,obj.supplierItemId.concat('_').concat(obj.threeBil))}">
 	                  	<img id="show_td${vs.index + 6}" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'/>
 	                  </c:if>
@@ -185,9 +254,21 @@
                 </c:if>
                 <c:if test="${fn:contains(unableField,obj.supplierItemId.concat('_').concat(obj.threeBil))}">
                 	<img src='${pageContext.request.contextPath}/public/backend/images/sc.png' onclick="javascript:layer.msg('该条信息已审核并退回过！');"/>
+                </c:if> --%>
+                <c:set var="curField" value="${obj.supplierItemId.concat('_').concat(obj.threeBil)}" />
+                <c:set var="iconUrl" value="${pageContext.request.contextPath}/public/backend/images/light_icon.png" />
+                <c:set var="iconCls" value="icon_edit" />
+                <c:if test="${!fn:contains(unableField,curField) && fn:contains(auditField,curField)}">
+                	<c:set var="iconUrl" value="${pageContext.request.contextPath}/public/backend/images/light_icon_2.png" />
                 </c:if>
-                <input type="hidden" id="fileId${vs.index + 6}" value="${obj.threeBil}">
-                <input type="hidden" id="count6" value="${obj.isItemsSalesPageAudit}">
+                <c:if test="${fn:contains(unableField,curField)}">
+                  <c:set var="iconUrl" value="${pageContext.request.contextPath}/public/backend/images/sc.png" />
+                  <c:set var="iconCls" value="icon_sc" />
+                </c:if>
+                <img src="${iconUrl}" class="${iconCls}"
+                onclick="reasonProject('${ind}','${curField}','${obj.itemsName }','${vs.index + 6}');" />
+                <%-- <input type="hidden" id="fileId${vs.index + 6}" value="${obj.threeBil}">
+                <input type="hidden" id="count6" value="${obj.isItemsSalesPageAudit}"> --%>
                 <u:upload id="${fileShow}${(vs.index + 1)*6-6}" buttonName="上传附件" multiple="true" auto="true"
                   businessId="${obj.supplierItemId}" sysKey="${sysKey}" typeId="${obj.threeBil}"/>
                 <u:show showId="${fileShow}${(vs.index + 1)*6-6}"

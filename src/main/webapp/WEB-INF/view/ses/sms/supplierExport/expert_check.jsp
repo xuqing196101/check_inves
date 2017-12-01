@@ -41,7 +41,7 @@
 										<th class="info">初审退回修改</th>
 										<th class="info">预初审结束</th>
 										<th class="info">初审不合格</th>
-										<th class="info">初审合格（待复核）</th>
+										<th class="info">初审合格（待复审）</th>
 										<th class="info">复审已分配</th>
 										<th class="info">复审中</th>
 										<th class="info">预复审结束</th>

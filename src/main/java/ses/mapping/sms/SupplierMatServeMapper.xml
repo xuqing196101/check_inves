@@ -142,6 +142,10 @@
 		<collection property="listSupplierCertSes" select="ses.dao.sms.SupplierCertServeMapper.findCertSeByMatSeId" column="ID"></collection>
 	</resultMap>
 	
+	<select id="getMatSeIdBySupplierId" parameterType="java.lang.String" resultType="java.lang.String">
+		select ID from T_SES_SMS_SUPPLIER_MAT_SERVE where SUPPLIER_ID = #{supplierId}
+	</select>
+	
 	<select id="findSupplierIdById" parameterType="java.lang.String" resultType="java.lang.String">
 		SELECT
 			SUPPLIER_ID

@@ -111,4 +111,6 @@ public interface AreaMapper {
 	 */
 	List<Area> selectOfHierarchical(Map<String, Object> map);
 
+	List<Area> selectByParentId(Map<String, Object> map);
+
 }

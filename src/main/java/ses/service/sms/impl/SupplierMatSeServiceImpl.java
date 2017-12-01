@@ -76,12 +76,13 @@ public class SupplierMatSeServiceImpl implements SupplierMatSeService {
 
     @Override
     public String getMatSeIdBySupplierId(String supplierId) {
-        SupplierMatServe server = supplierMatSeMapper.getMatSeBySupplierId(supplierId);
+        /*SupplierMatServe server = supplierMatSeMapper.getMatSeBySupplierId(supplierId);
         if (server != null) {
             return server.getId();
         } else {
             return null;
-        }
+        }*/
+    	return supplierMatSeMapper.getMatSeIdBySupplierId(supplierId);
     }
 
     @Override

@@ -139,4 +139,6 @@ public interface SupplierEditService {
      * @return Map<String,Integer>
      */
     Map<String, Integer> getMap();
+
+    Map<String, Object> getMapArea();
 }

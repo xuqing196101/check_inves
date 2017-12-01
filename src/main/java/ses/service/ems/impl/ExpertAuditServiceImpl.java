@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import common.constant.StaticVariables;
 import common.utils.DateUtils;
 import common.utils.JdcgResult;
+import common.utils.SMSUtil;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +18,7 @@ import ses.dao.ems.ExpertAuditFileModifyMapper;
 import ses.dao.ems.ExpertAuditMapper;
 import ses.dao.ems.ExpertAuditOpinionMapper;
 import ses.dao.ems.ExpertBatchDetailsMapper;
+import ses.dao.ems.ExpertBatchMapper;
 import ses.dao.ems.ExpertCategoryMapper;
 import ses.dao.ems.ExpertMapper;
 import ses.dao.ems.ExpertReviewTeamMapper;
@@ -27,6 +29,7 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
 import ses.model.ems.ExpertAuditOpinion;
+import ses.model.ems.ExpertBatch;
 import ses.model.ems.ExpertBatchDetails;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertPublicity;
@@ -36,7 +39,6 @@ import ses.service.ems.ExpertService;
 import ses.util.Constant;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
-import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 
 import java.io.File;
@@ -47,7 +49,7 @@ import java.util.Map;
 /**
  * <p>Title:ExpertAuditServiceImpl </p>
  * <p>Description: 专家审核</p>
- * @author XuQing
+ * @author 
  * @date 2016-12-27上午11:03:02
  */
 @Service("expertAuditService")
@@ -85,10 +87,13 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	@Autowired
 	private ExpertBatchDetailsMapper expertBatchDetailsMapper;
 
+	@Autowired
+	private ExpertBatchMapper expertBatchMapper;
+
 	/**
 	 * 
 	  * @Title: deleteByPrimaryKey
-	  * @author XuQing
+	  * @author 
 	  * @date 2016年12月15日 下午2:26:23  
 	  * @Description: TODO 根据主键删除
 	  * @param @param id
@@ -270,7 +275,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	
 	/**
      * @Title: updateByExpertId
-     * @author XuQing 
+     * @author  
      * @date 2016-12-27 上午11:00:46  
      * @Description:更新isdelete
      * @param @param expertId      
@@ -282,7 +287,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
     
     /**
      * @Title: downloadFile
-     * @author XuQing 
+     * @author  
      * @date 2016-12-27 下午2:21:18  
      * @Description:生成的word文件下载
      * @param @param fileName
@@ -309,7 +314,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	
     /**
      * @Title: deleteByExpertId
-     * @author XuQing 
+     * @author  
      * @date 2017-2-14 下午5:05:58  
      * @Description:删除记录
      * @param @param expertId      
@@ -340,7 +345,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	
 	/**
 	 * @Title: selectByExpertId
-	 * @author XuQing 
+	 * @author  
 	 * @date 2017-4-21 下午6:27:57  
 	 * @Description:查询附件修改记录
 	 * @param @param expertId
@@ -354,7 +359,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	
 	/**
 	 * @Title: deleteByExpertId
-	 * @author XuQing 
+	 * @author  
 	 * @date 2017-4-21 下午6:28:24  
 	 * @Description:删除附件修改记录
 	 * @param @param expertId      
@@ -368,7 +373,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 
 	/**
 	 * @Title: addFileInfo
-	 * @author XuQing 
+	 * @author  
 	 * @date 2017-4-26 下午5:30:54  
 	 * @Description:插入附件退回后修改记录
 	 * @param @param expertAuditFileModify      
@@ -399,7 +404,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	
 	/**
 	 * @Title: updateIsDeletedByExpertId
-	 * @author XuQing 
+	 * @author  
 	 * @date 2017-5-2 下午5:03:13  
 	 * @Description:软删除附件历史信息
 	 * @param @param expertId      
@@ -413,7 +418,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	
 	/**
      * @Title: findByObj
-     * @author XuQing 
+     * @author  
      * @date 2017-5-8 上午10:53:24  
      * @Description:唯一校验
      * @param @param expertAudit
@@ -442,13 +447,13 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 		}
 		Expert expertInfo = expertMapper.selectByPrimaryKey(expertId);
 		String status = expertInfo.getStatus();
-		if("0".equals(status) || "4".equals(status) || "15".equals(status) || "16".equals(status) || "9".equals(status) || "-2".equals(status) || (sign==2 && "6".equals(status))){
+		if("0".equals(status) || "9".equals(status)){
 			//初审中
 			expert.setAuditTemporary(1);
 		}else if("4".equals(status)){
 			//复审中
 			expert.setAuditTemporary(2);
-		}else if("6".equals(status)){
+		}else if(sign==2 && "6".equals(status)){
 			//复查中
 			expert.setAuditTemporary(3);
 		}else{
@@ -512,6 +517,8 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	            	expert.setStorageAt(new Date());
 	                // 修改
 	            	expertMapper.updateByPrimaryKeySelective(expert);
+	            	//审核结果短信通知
+	            	/*sendSms("6", expert.getMobile());*/
 	            }
 	        }
          }
@@ -575,9 +582,17 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 				// 查询专家编号
                 expertBatchDetails = new ExpertBatchDetails();
                 expertBatchDetails.setExpertId(expertPublicity.getId());
-                ExpertBatchDetails expertBatchDetails1 = expertBatchDetailsMapper.findExpertBatchDetails(expertBatchDetails);
-                if(expertBatchDetails1 != null){
-                    expertPublicity.setExpertNum(expertBatchDetails1.getBatchDetailsNumber());
+                expertBatchDetails = expertBatchDetailsMapper.findExpertBatchDetailsOfOne(expertBatchDetails);
+				/*List<ExpertBatchDetails> batchDetails = expertBatchDetailsMapper.findExpertBatchDetailsList(expertBatchDetails);
+                for (ExpertBatchDetails e : batchDetails) {
+                    ExpertBatch batch = expertBatchMapper.getExpertBatchByKey(e.getBatchId());
+                    if (!"1".equals(batch.getBatchStatus())) {
+                        expertBatchDetails = e;
+                        break;
+                    }
+                }*/
+                if(expertBatchDetails != null){
+                    expertPublicity.setExpertNum(expertBatchDetails.getBatchDetailsNumber());
                 } else {
                     expertPublicity.setExpertNum("");
                 }
@@ -876,6 +891,49 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	}
 	public void updateAuditStatus(String id,String auditStatus) {
 		mapper.updateAuditStatus(id, auditStatus);
+	}
+	
+	
+	/**
+     * 审核结果短信通知
+     * @param expertId
+     * @return 0表示成功
+     * API文档地址   http://bcp.pro-group.cn:7002/Docs/#!easycloud-smsapi.md
+     */
+	@Override
+	public String sendSms(String status, String mobile) {
+		/*Expert expert = expertService.selectByPrimaryKey(expertId);
+    	String mobile = expert.getMobile();
+    	String status = expert.getStatus();*/
+    	String msg = null;
+    	String prompt = "";
+		switch (status) {
+		case "1":
+			msg = "【军队采购网】审核通知：您好，您的信息初审合格。";
+			break;
+		case "2":
+			msg = "【军队采购网】审核通知：您好，您的信息初审不合格。";
+			break;
+		case "3":
+			msg = "【军队采购网】审核通知：您好，您的信息初审退回修改。";
+			break;
+		case "5":
+			msg = "【军队采购网】审核通知：您好，您的信息复审不合格。";
+			break;
+		case "6":
+			msg = "【军队采购网】审核通知：您好，您的信息复审合格。";
+			break;
+		case "10":
+			msg = "【军队采购网】审核通知：您好，您的信息复审退回修改。";
+			break;
+		default:
+			msg = null;
+			break;
+		}
+		if(msg !=null && !"".equals(msg) && mobile !=null && !"".equals(mobile)){
+			 SMSUtil.sendMsg(mobile, msg);			
+		}
+		return prompt;
 	}
 
 }

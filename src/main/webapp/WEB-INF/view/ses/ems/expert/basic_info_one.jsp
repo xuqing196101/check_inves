@@ -1090,7 +1090,7 @@
 				<h2 class="step_flow">
             <span id="sp1" class="new_step current fl"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span>
             <span id="sp7" class="new_step fl"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
-            <span id="ty6" class="new_step fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品类别</span> </span>
+            <span id="ty6" class="new_step fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">参评类别</span> </span>
             <span id="sp3" class="new_step fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span>
             <span id="sp4" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">承诺书和申请表</span> </span>
             <span id="sp5" class="new_step fl new_step_last"><i class="">6</i> <span class="step_desc_01">提交审核</span> </span>
@@ -1470,15 +1470,15 @@
                         class="red">*</i> 专业技术职称证书</span>
 							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'专业技术职称证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('专业技术职称证书')"
 								</c:if>>
-								<c:choose>
-									<c:when test="${expert.status == 3 and !fn:contains(errorField,'专业技术职称证书')}">
+								<%-- <c:choose>
+									<c:when test="${(expert.status == 3 and !fn:contains(errorField,'专业技术职称证书'))||fn:contains(errorField,'专业技术职称')}">
 										<u:show showId="show4" delete="false" groups="show9,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="4" />
 									</c:when>
-									<c:otherwise>
+									<c:otherwise> --%>
 										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert4" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="4" auto="true" />
 										<u:show showId="show4"  groups="show9,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="4" />
-									</c:otherwise>
-								</c:choose>
+									<%-- </c:otherwise> 
+								</c:choose>--%>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12" id="profession_date"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
@@ -1658,8 +1658,8 @@
 					<ul class="ul_list">
 						<!-- 专业学术成果 -->
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 获奖证书</span></li>
-						<div class="padding-top-10 clear">
-							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'获奖证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('获奖证书')"
+						<div class="padding-top-10 clear" >
+							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'获奖证书')}">style="border: 1px solid #ef0000; width: 20%;" onmouseover="errorMsg('获奖证书')"
 								</c:if>>
 								<c:choose>
 									<c:when test="${expert.status == 3 and !fn:contains(errorField,'获奖证书')}">

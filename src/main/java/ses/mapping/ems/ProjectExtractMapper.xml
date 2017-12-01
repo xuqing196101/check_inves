@@ -463,4 +463,22 @@
 			  PR.ID = #{projectId}
 			AND et.OPERATING_TYPE = 1) t GROUP BY t.EXPERT_ID,t.conTypeId,t.operatingType,t.reviewType
     </select>
+    
+    <!-- 专家抽取结果回显 -->
+    <select id="selectProResultExpert" parameterType="java.lang.String" resultType="java.util.Map">
+      SELECT wm_concat(t.packageName) AS packageName,t.conTypeId,t.operatingType,t.reviewType FROM(
+      SELECT
+			  ET.EXPERT_ID,
+			  pa.NAME AS packageName,
+			  (SELECT REAL_NAME FROM T_SES_EMS_EXPERT WHERE ID = ET.EXPERT_ID) AS conTypeId,
+			  et.REVIEW_TYPE AS reviewType,
+			  (SELECT TELEPHONE FROM T_SES_EMS_EXPERT WHERE ID = ET.EXPERT_ID) AS operatingType
+			FROM
+			  T_SES_EMS_PROJECT_EXTRACT et
+			LEFT JOIN T_BSS_PPMS_PACKAGE pa ON ET.PROJECT_ID = PA. ID
+			LEFT JOIN T_BSS_PPMS_PROJECTS pr ON pa.PROJECT_ID = PR. ID
+			WHERE
+			  PR.ID = #{projectId}
+			AND et.OPERATING_TYPE = 1) t GROUP BY t.EXPERT_ID,t.conTypeId,t.operatingType,t.reviewType
+    </select>
 </mapper>

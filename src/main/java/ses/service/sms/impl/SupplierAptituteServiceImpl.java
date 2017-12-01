@@ -35,17 +35,17 @@ public class SupplierAptituteServiceImpl implements SupplierAptituteService {
 	}
 
 	@Override
-	public List<SupplierAptitute> queryByAptitute(String projectId) {
-		return supplierAptituteMapper.findAptituteByMatEngId(projectId);
+	public List<SupplierAptitute> queryByMatEngId(String matEngId) {
+		return supplierAptituteMapper.findAptituteByMatEngId(matEngId);
 	}
 
 	@Override
 	public List<SupplierAptitute> queryByCodeAndType(String certType,String matEngId,String code, String type) {
-		return supplierAptituteMapper.quertByCodeAndName(certType,matEngId, code, type);
+		return supplierAptituteMapper.quertByCodeAndName(certType, matEngId, code, type);
 	}
 
 	@Override
-	public List<String> getPorType(String typeId, String matEngId, String code) {
+	public List<String> getProType(String typeId, String matEngId, String code) {
 		return supplierAptituteMapper.quertProType(typeId, matEngId, code);
 	}
 

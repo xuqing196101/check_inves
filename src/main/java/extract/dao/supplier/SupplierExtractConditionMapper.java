@@ -31,7 +31,7 @@ public interface SupplierExtractConditionMapper {
      * @param record
      * @return
      */
-    int insertSelective(SupplierExtractCondition record);
+    int insertSelective(SupplierExtractCondition condition);
 
     /**
      * 根据主键获取一条数据库记录
@@ -119,5 +119,8 @@ public interface SupplierExtractConditionMapper {
 	 * @return 
 	 */
 	List<String> selectQuaLevelBySupplierIdAndQuaId(Map<String, Object> map);
+
+
+	List<String> selectLevelOfLogicIsAnd(Map<String, Object> hashMap);
 
 }

@@ -90,6 +90,24 @@
                 }
              }
           });
+        }else if(typeof(status) == "undefined"){
+        	$.ajax({
+                url: "${pageContext.request.contextPath}/expertAudit/findCategoryCount.do",
+                data: {
+                  "expertId" : expertId,
+                  "auditFalg" : 1
+                },
+                type: "post",
+                dataType: "json",
+                success: function(data) {
+                	//初审
+                    if(data.all == 0 && data.pass == 0){
+                      $("#check_opinion").html("初审合格，通过的是物资服务经济类别。");
+                    }else{
+                      $("#check_opinion").html("初审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。" + opinion);
+                    }
+                 }
+              });
         }
       }
     
@@ -146,7 +164,7 @@
           <c:if test="${sign eq '2'}">
             <h2 class="count_flow"><i>1</i>初审汇总信息</h2>
           </c:if>
-          <ul class="ul_list count_flow">
+          <ul class="ul_list count_flow mt0">
             <table class="table table-bordered table-condensed table-hover">
               <thead>
                 <tr>
@@ -191,13 +209,12 @@
               </c:forEach>
             </table>
           </ul>
-          
-          
+          <div class="clear"></div>
           <c:if test="${sign eq 1}">
-            <h2 class="count_flow mt0"><i>2</i>复审最终意见</h2>
+            <h2 class="count_flow"><i>2</i>复审最终意见</h2>
           </c:if>
           <c:if test="${sign eq 2}">
-            <h2 class="count_flow mt0"><i>2</i>初审最终意见</h2>
+            <h2 class="count_flow"><i>2</i>初审最终意见</h2>
           </c:if>
           <ul class="ul_list">
              <li>
@@ -222,9 +239,9 @@
                <textarea id="opinion" readonly="readonly" class="col-md-12 col-xs-12 col-sm-12 h80">${auditOpinion.opinion }</textarea>
               </li> --%>
           </ul>
-          
+          <div class="clear"></div>
           <c:if test="${sign == 2}">
-	          <h2 class="count_flow mt0"><i>3</i>批准初审表</h2>
+	          <h2 class="count_flow"><i>3</i>批准初审表</h2>
 	          <ul class="ul_list">
 	            <li class="col-md-6 col-sm-6 col-xs-6">
 	              <div>

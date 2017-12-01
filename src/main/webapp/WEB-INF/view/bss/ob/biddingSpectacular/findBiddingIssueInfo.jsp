@@ -27,24 +27,18 @@
     </div>
    <!-- 修改订列表开始-->
    <div class="container container_box" onmouseover="closePrompt()">
-   <div class="mt10">
-	    <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
-   </div> 
-   <div>
-    <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
-    <div class="ul_list">
-		<%@ include file="/WEB-INF/view/bss/ob/biddingSpectacular/biddingInfoCommon.jsp" %>
-     </div>
-  </div> 
-  <div class="clear" ></div>
-  <div>
-	 <h2 class="count_flow"><i>2</i>竞价规则详情</h2>
-	   <%@ include file="/WEB-INF/view/bss/ob/biddingRules/ruleCommon.jsp" %>
-  </div>
-  <div>
-	 <h2 class="count_flow"><i>3</i>产品信息</h2>
-	   <%@ include file="/WEB-INF/view/bss/ob/supplier/productIssueInfoCommon.jsp" %>
-  </div>
- </div>
+	   <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
+		 <%@ include file="/WEB-INF/view/bss/ob/biddingSpectacular/biddingInfoCommon.jsp" %>
+	   <div class="clear" ></div>
+		 <h2 class="count_flow"><i>2</i>竞价规则详情</h2>
+		 <%@ include file="/WEB-INF/view/bss/ob/biddingRules/ruleCommon.jsp" %>
+		 <div class="clear" ></div>
+		 <h2 class="count_flow"><i>3</i>产品信息</h2>
+		 <%@ include file="/WEB-INF/view/bss/ob/supplier/productIssueInfoCommon.jsp" %>
+		 <div class="clear" ></div>
+	   <div class="mt10 tc">
+	   <button class="btn btn-windows back m0" type="button" onclick="history.go(-1)">返回</button>
+	   </div>
+   </div>
 </body>
 </html>

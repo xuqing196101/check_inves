@@ -1,8 +1,13 @@
 package extract.controller.supplier;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSON;
 
 import extract.model.supplier.SupplierExtractCondition;
 import extract.service.supplier.AutoExtractSupplierService;
@@ -24,15 +29,17 @@ public class AutoExtractSupplierController {
 	 * @return
 	 */
 	@RequestMapping("exportExtractInfo")
-	public void exportExtractInfo(SupplierExtractCondition condition,String projectInto) {
+	@ResponseBody
+	public String exportExtractInfo(SupplierExtractCondition condition,String projectInto) {
 		
 		//处理详细抽取条件
-		autoExtractSupplierService.exportExtractInfo(condition,projectInto);
+		String exportExtractInfo = autoExtractSupplierService.exportExtractInfo(condition,projectInto);
+		return JSON.toJSONString(exportExtractInfo);
 		
 	}
   
 	@RequestMapping("autoExtractTest")
 	public void selectAutoExtractProject(){
-		autoExtractSupplierService.selectAutoExtractProject();
+		autoExtractSupplierService.selectAutoExtractProject(new Date(),new Date());
 	}
 }

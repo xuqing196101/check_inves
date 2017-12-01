@@ -144,11 +144,8 @@ public class ExtractSupplierController extends BaseController {
      * @return String
      */
     @RequestMapping("/Extraction")
-   // public String listExtraction(@CurrentUser User user, Model model, String projectId, String page, String typeclassId, String packageId){
    public String listExtraction(@CurrentUser User user,Model model, SupplierExtractProjectInfo eRecord,String conditionId){
     	//两个入口 1.项目实施进入 2.直接进行抽取
-    	
-    	
     	if(!(null!=user && "1".equals(user.getTypeName()))){
     		return "redirect:/qualifyError.jsp";
     	}

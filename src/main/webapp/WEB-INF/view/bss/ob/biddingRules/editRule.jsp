@@ -218,12 +218,10 @@
    <!-- 发布定型产品页面开始 -->
   <div class="wrapper mt10">
   <div class="container">
-	  <div class="mt10">
-	  <div class="container container_box">
+	  <div class="bggrey p20 mt10">
   		<form id="ruleForm" action="" method="post">
   		  <input name="id" type="hidden" value="${ obRule.id }" />
-		  <div>
-		    <h2 class="list_title">修改竞价规则</h2>
+		    <h2 class="list_title mt0">修改竞价规则</h2>
 		   <ul class="ul_list">
 		     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>竞价规则名称：</span>
@@ -292,15 +290,13 @@
 		       </div>
 			 </li> 
 		   </ul>
-		       <div class="clear"></div> 
-		  </div> 
+       <div class="clear"></div>
 		</form>
-		 <div class="col-md-12 col-sm-12 col-xs-12 clear tc mt10">
+		 <div class="clear tc mt10">
 	   		<button class="btn btn-windows save" onclick="submitForm()">修改</button>
 	   		<button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
 		 </div>
 		</div>
-	</div>
   </div>
  </div> 
 </body>

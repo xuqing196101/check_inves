@@ -160,10 +160,6 @@
 			<mvc:exclude-mapping path="/supplier_type_relate/*.*" />
 			<mvc:exclude-mapping path="/category/find_category.*" />
 			<mvc:exclude-mapping path="/categoryparam/flist_by_category_id_and_products_id.*" />
-			<mvc:exclude-mapping path="/supplier/validateAuditTime.*" />
-			<mvc:exclude-mapping path="/supplier/isCommit.*" />
-			<mvc:exclude-mapping path="/supplier/getUUID.*" />
-			<mvc:exclude-mapping path="/supplier/validateCreditCode.*" />
 			
 <!-- 			地区管理 -->
 			<mvc:exclude-mapping path="/area/find_root_area.*" />
@@ -200,6 +196,8 @@
 			
 			<!-- 过滤短信上行接口请求路径 -->
 			<mvc:exclude-mapping path="/sms/*.*" />
+			<!-- 基础数据请求路径 -->
+			<mvc:exclude-mapping path="/basicData/*.*" />
 			<bean class="ses.interceptor.MyInterceptor"></bean>
 			
 		</mvc:interceptor>

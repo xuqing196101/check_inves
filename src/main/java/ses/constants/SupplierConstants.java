@@ -16,6 +16,16 @@ public class SupplierConstants extends Constant {
 
 	// 定义入库状态数组
 	public static final Integer[] INSTORAGE_STATUS = new Integer[]{1, -4, 5, 6, -5, 7, 8};
+	// 下载供应商审核表
+	public static final Integer[] DOWNLOAD_CHECK_TABLE_STATUS = new Integer[]{
+			Status.RETURN.getValue(),
+			Status.PRE_AUDIT_ENDED.getValue(),
+			Status.PUBLICITY.getValue(),
+			Status.PENDING_REVIEW.getValue(),
+			Status.AUDIT_NOT_PASS.getValue(),
+			Status.REVIEW_PASSED.getValue(),
+			Status.REVIEW_NOT_PASS.getValue(),
+	};
 	/**
 	 * 供应商状态
 	 * <pre>
@@ -133,9 +143,11 @@ public class SupplierConstants extends Constant {
 		/** 未修改 */
 		NOT_MODIFY(4),
 		/** 撤销退回 */
-		CANCEL_RETURN(5),
+//		CANCEL_RETURN(5),
 		/** 撤销不通过 */
-		CANCEL_NOT_PASS(6);
+//		CANCEL_NOT_PASS(6);
+		/** 撤销审核 */
+		CANCEL_AUDIT(5);
 		
 		private int value;
 
@@ -240,12 +252,29 @@ public class SupplierConstants extends Constant {
 		STATUSMAP_KAOCHA.put(Status.INVESTIGATE_NOT_PASS.getValue(), "考察不合格");
 	}
 	
+	/** 供应商接收短信通知状态集合 */
+	public final static Map<Integer, String> STATUSMAP_SMS = new LinkedHashMap<Integer, String>();
+	static{
+		STATUSMAP_SMS.put(Status.RETURN.getValue(), "退回修改");
+		STATUSMAP_SMS.put(Status.PRE_AUDIT_ENDED.getValue(), "预审核结束");
+		STATUSMAP_SMS.put(Status.AUDIT_NOT_PASS.getValue(), "审核不通过");
+		STATUSMAP_SMS.put(Status.PUBLICITY.getValue(), "正在公示中");
+		STATUSMAP_SMS.put(Status.DISSENT.getValue(), "正在异议处理");
+		STATUSMAP_SMS.put(Status.PENDING_REVIEW.getValue(), "已入库");
+		STATUSMAP_SMS.put(Status.PRE_REVIEW_ENDED.getValue(), "预复核结束");
+		STATUSMAP_SMS.put(Status.REVIEW_PASSED.getValue(), "复核合格（待考察）");
+		STATUSMAP_SMS.put(Status.REVIEW_NOT_PASS.getValue(), "复核不合格");
+		STATUSMAP_SMS.put(Status.PRE_INVESTIGATE_ENDED.getValue(), "预考察结束");
+		STATUSMAP_SMS.put(Status.INVESTIGATE_PASSED.getValue(), "考察合格");
+		STATUSMAP_SMS.put(Status.INVESTIGATE_NOT_PASS.getValue(), "考察不合格");
+	}
+	
 	/** 供应商审核暂存状态集合 */
 	public final static Map<Integer, String> STATUSMAP_AUDITTEMPORARY = new LinkedHashMap<Integer, String>();
 	static{
-		STATUSMAP_AUDITTEMPORARY.put(AuditTemporaryStatus.IN_AUDIT.getValue(), "审核中 ");
-		STATUSMAP_AUDITTEMPORARY.put(AuditTemporaryStatus.IN_REVIEW.getValue(), "复核中 ");
-		STATUSMAP_AUDITTEMPORARY.put(AuditTemporaryStatus.IN_INVESTIGATE.getValue(), "考察中 ");
+		STATUSMAP_AUDITTEMPORARY.put(AuditTemporaryStatus.IN_AUDIT.getValue(), "审核中");
+		STATUSMAP_AUDITTEMPORARY.put(AuditTemporaryStatus.IN_REVIEW.getValue(), "复核中");
+		STATUSMAP_AUDITTEMPORARY.put(AuditTemporaryStatus.IN_INVESTIGATE.getValue(), "考察中");
 	}
 	
 	/** 注册拥有的状态 */
@@ -293,6 +322,20 @@ public class SupplierConstants extends Constant {
 			&& Constant.IP_ADDRESS_TYPE.equals(Constant.IP_INNER);
 	}
 	
+	/** 供应商审核记录状态集合 */
+	public final static Map<Integer, String> AUDIT_RETURN_STATUS_MAP = new LinkedHashMap<Integer, String>();
+	static{
+		AUDIT_RETURN_STATUS_MAP.put(AuditReturnStatus.INIT_STATUS.getValue(), "");
+//		AUDIT_RETURN_STATUS_MAP.put(AuditReturnStatus.RETURN_TO_MODIFY.getValue(), "退回修改");
+		AUDIT_RETURN_STATUS_MAP.put(AuditReturnStatus.RETURN_TO_MODIFY.getValue(), "有问题");
+		AUDIT_RETURN_STATUS_MAP.put(AuditReturnStatus.AUDIT_NOT_PASS.getValue(), "审核不通过");
+		AUDIT_RETURN_STATUS_MAP.put(AuditReturnStatus.MODIFIED.getValue(), "已修改");
+		AUDIT_RETURN_STATUS_MAP.put(AuditReturnStatus.NOT_MODIFY.getValue(), "未修改");
+//		AUDIT_RETURN_STATUS_MAP.put(AuditReturnStatus.CANCEL_RETURN.getValue(), "撤销退回");
+//		AUDIT_RETURN_STATUS_MAP.put(AuditReturnStatus.CANCEL_NOT_PASS.getValue(), "撤销不通过");
+		AUDIT_RETURN_STATUS_MAP.put(AuditReturnStatus.CANCEL_AUDIT.getValue(), "撤销审核");
+	}
+	
 	/** 供应商审核记录退回状态 */
 	//public final static Integer[] AUDIT_RETURN_STATUS = new Integer[]{0, 1, 2, 4};
 	public final static Integer[] AUDIT_RETURN_STATUS = new Integer[]{
@@ -334,7 +377,7 @@ public class SupplierConstants extends Constant {
     	return isStatusToAudit(status) 
     			|| (isAccountToAudit(account) && status == Status.RETURN.getValue());
     }
-	
+    
 	public static void main(String[] args) {
 		for(Status status : Status.values()){
 			System.out.println(status.getValue());

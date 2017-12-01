@@ -49,7 +49,7 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 	public int saveResult(SupplierExtractResult supplierExtRelate,String projectType) {
 		
 		ArrayList<SupplierExtractResult> arrayList = new ArrayList<>();
-		String[] packageIds = supplierExtRelate.getPackageIds();
+		String[] packageIds = supplierExtRelate.getPackageId();
 		if(null!=packageIds){
 			for (String packageId : packageIds) {
 				SupplierExtractResult supplierExtractResult = new SupplierExtractResult();
@@ -59,7 +59,7 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 					e.printStackTrace();
 				}
 				supplierExtractResult.setId(UUIDUtils.getUUID32());
-				supplierExtractResult.setPackageId(packageId);
+				supplierExtractResult.setPid(packageId);
 				arrayList.add(supplierExtractResult);
 			}
 		}

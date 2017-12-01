@@ -1,44 +1,47 @@
+/**
+ * 验证金额
+ * @param val			输入值
+ * @param radix			小数位(default:2)
+ * @param unsigned		无符号(default:true)
+ * @returns {Boolean}	true|false
+ */
 // 验证金额
-function validateMoney(val) {
-	var reg = /^([0-9]+([.]{1}[0-9]{1,2})?)?$/;
+// negative | positive
+function validateMoney(val, radix, unsigned) {
+	radix = radix || 2;
+	unsigned = unsigned === undefined ? true : unsigned;
+	var msg = "";
+	if(unsigned == true){
+		eval("var reg = /^([0-9]+([.]{1}[0-9]{1," + radix + "})?)?$/");
+		msg = "金额格式不对，请输入正确的金额，非负数最多" + radix + "位小数！";
+	}else{
+		eval("var reg = /^((\-)?[0-9]+([.]{1}[0-9]{1," + radix + "})?)?$/");
+		msg = "金额格式不对，请输入正确的金额，最多" + radix + "位小数！";
+	}
 	if (!reg.test(val)) {
-		//alert("金额格式不对，请输入正确的金额，最多两位小数！");
-		layer.msg("金额格式不对，请输入正确的金额，最多两位小数！");
+		layer.msg(msg);
 		return false;
 	}
 	return true;
 }
 
 // 验证百分比
-function validatePercentage(val) {
-	var reg = /^(([1-9]\d{0,1}|0|100)(\.\d{1,2})?%)?$/;
+function validatePercentage(val, radix) {
+	radix = radix || 2;
+	eval("var reg = /^(([1-9]\\d{0,1}|0|100)(\\.\\d{1," + radix + "})?%)?$/");
 	if (!reg.test(val)) {
-		//alert("百分比格式不对，正确格式为0%-100%，最多两位小数！");
-		layer.msg("百分比格式不对，正确格式为0%-100%，最多两位小数！");
+		layer.msg("百分比格式不对，正确格式为0%-100%，最多" + radix + "位小数！");
 		return false;
 	}
 	return true;
 }
 
 // 验证百分比
-function validatePercentage2(val) {
-	var reg = /^(([1-9]\d{0,1}|0|100)(\.\d{1,2})?)?$/;
+function validatePercentage2(val, radix) {
+	radix = radix || 2;
+	eval("var reg = /^(([1-9]\\d{0,1}|0|100)(\\.\\d{1," + radix + "})?)?$/");
 	if (!reg.test(val)) {
-		//alert("百分比格式不对，正确格式为0-100的数字，最多两位小数！");
-		layer.msg("百分比格式不对，正确格式为0-100的数字，最多两位小数！");
-		return false;
-	}
-	return true;
-}
-
-
-//验证百分比 供应商注册--供应商类型，物资删除半分比不能填超过100的数字
-function validatePercentageSupplier(val,id) {
-	var reg = /^(([1-9]\d{0,1}|0|100)(\.\d{1,2})?)?$/;
-	if (!reg.test(val)) {
-		//alert("百分比格式不对，正确格式为0-100的数字，最多两位小数！");
-		$("#"+id+"").val("");
-		layer.msg("百分比格式不对，正确格式为0-100的数字，最多两位小数！");
+		layer.msg("百分比格式不对，正确格式为0-100的数字，最多" + radix + "位小数！");
 		return false;
 	}
 	return true;

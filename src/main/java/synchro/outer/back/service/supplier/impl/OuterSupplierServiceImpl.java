@@ -14,6 +14,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+
+import common.constant.Constant;
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
+import common.service.UploadService;
+import extract.util.DateUtils;
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
@@ -86,6 +94,8 @@ import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
 import common.service.UploadService;
+
+import extract.util.DateUtils;
 
 /**
  * 
@@ -277,7 +287,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
             	listSupplierCertSes.addAll(supp.getSupplierMatSe().getListSupplierCertSes());
             }
       
-//    		List < SupplierItem > itemsList = supplierItemService.getSupplierId(supp.getId());
+//    		List < SupplierItem > itemsList = supplierItemService.getItemListBySupplierId(supp.getId());
 //    		for(SupplierItem item: itemsList) {
 //    			 List<UploadFile> itemFiles = uploadService.substrBusniessI(item.getId());
 //    			Category cate = categoryService.findById(item.getCategoryId());
@@ -471,7 +481,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
         }
         
         List < Category > category = new ArrayList < Category > ();
-        List < SupplierItem > itemsList = supplierItemService.getSupplierId(supplier.getId());
+        List < SupplierItem > itemsList = supplierItemService.getItemListBySupplierId(supplier.getId());
 		for(SupplierItem item: itemsList) {
 			//资质文件的
 			 List<UploadFile> itemFiles = uploadService.substrBusniessI(item.getId());
@@ -501,7 +511,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
         supplier.setModifys(listModify);
 
         // 查询供应商审核记录表
-        Map<String, Object> map = new HashedMap();
+        Map<String, Object> map = new HashMap<>();
         map.put("supplierId", supplier.getId());
         List<SupplierAudit> supplierAudits = supplierAuditMapper.findByMap(map);
         supplier.setSupplierAudits(supplierAudits);
@@ -688,7 +698,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
      * @return
      */
     private List<SupplierItem> getSupplierItems(String supplierId){
-    	List<SupplierItem> list = supplierItemService.getSupplierId(supplierId);
+    	List<SupplierItem> list = supplierItemService.getItemListBySupplierId(supplierId);
     	for(SupplierItem sc:list){
     		List<UploadFile> files = fileUploadMapper.findBybusinessId(sc.getCategoryId(), "T_SES_SMS_SUPPLIER_ATTACHMENT");
     		sc.setFileList(files);
@@ -737,6 +747,8 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
             supplier.setAuditor(s.getAuditor());
             // 审核中状态
             supplier.setAuditTemporary(s.getAuditTemporary());
+            // 联系电话（短信通知使用）
+            supplier.setMobile(s.getMobile());
             // 将供应商基本信息导出
             saf.setSupplier(supplier);
 
@@ -817,7 +829,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
             	listSupplierCertSes.addAll(supp.getSupplierMatSe().getListSupplierCertSes());
             }
       
-    		List < SupplierItem > itemsList = supplierItemService.getSupplierId(supp.getId());
+    		List < SupplierItem > itemsList = supplierItemService.getItemListBySupplierId(supp.getId());
     		for(SupplierItem item: itemsList) {
     			List<UploadFile> itemFiles = uploadService.substrBusniessI(item.getId());
     			Category cate = categoryService.findById(item.getCategoryId());
@@ -964,18 +976,19 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     }
     
     
+    
     /**
      * Description:查询供应商等级导出
      *
      * @param startTime
      * @param endTime
-     * @author Easong
+     * @author jiachengxiang
      * @version 2017/10/16
      * @since JDK1.7
      */
     @Override
     public void selectSupplierLevelOfExport(String startTime, String endTime) {
-    	// 查询注销供应商
+    	// 查询供应商等级
     	@SuppressWarnings("unchecked")
 		Map<String, Object> map = new HashedMap();
     	map.put("startTime", startTime);
@@ -998,17 +1011,20 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
 	public void importSupplierLevel(File file) {
 		int num = 0;
         for (File file2 : file.listFiles()) {
-            // 抽取结果信息
+            // 供应商等级
             if (file2.getName().contains(FileUtils.SUPPLIER_LEVEL_FILENAME)) {
                 List<SupplierItemLevel> levelList = FileUtils.getBeans(file2, SupplierItemLevel.class);
-                num += levelList == null ? 0 : levelList.size();
+                //num += levelList == null ? 0 : levelList.size();
                 for (SupplierItemLevel level : levelList) {
                 	SupplierItemLevel selectById = supplierItemLevelMapper.selectById(level.getId());
                     if(selectById != null){
-                    	supplierItemLevelMapper.updateByPrimaryKey(level);
+                    	num += supplierItemLevelMapper.updateByPrimaryKey(level);
                     }else{
-                    	supplierItemLevelMapper.insert(level);
+                    	num += supplierItemLevelMapper.insert(level);
                     }
+                }
+                if(num>0){
+                	supplierItemLevelMapper.deleteSupplierItemLevelByDateOfYestoday(DateUtils.getTodayZeroTime());
                 }
             }
         }

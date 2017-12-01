@@ -481,6 +481,9 @@ public List<String> getUserId(List<String> OrgID,String typeName) {
       //如果是采购机构，按排序查询
       oList = orgniztionMapper.findPurchaseOrgByPosition(map);
     } else {
+    	if ("0".equals(orgType)){
+    		map.put("xqbm", "xqbm");
+    	}
       oList = orgniztionMapper.findOrgnizationList(map);
     }
     List<Ztree> treeList = new ArrayList<Ztree>();  

@@ -499,13 +499,13 @@
               <th class="info w40">序号</th>
               <th class="info w50">专家姓名</th>
               <th class="info w90">工作单位</th>
-              <th class="info w100">技术职称(职务)</th>
+              <th class="info w100">专业职称(职务)</th>
               <th class="info w30">类型</th>
               <th class="info w50">类别</th>
               <th class="info w60">最新提交时间</th>
               <th class="info w60">最新审核时间</th>
               <th class="info w70">审核人</th>
-              <th class="info w80">状态</th>
+              <th class="info w60">状态</th>
               
             </tr>
           </thead>
@@ -521,9 +521,15 @@
                 <c:if test="${fn:length(expert.workUnit) >8}">${fn:substring(expert.workUnit,0,8)}...</c:if>
                 <c:if test="${fn:length(expert.workUnit) <=8}">${expert.workUnit}</c:if>
               </td>
-              <td class="tl" onclick="shenhe('${expert.id}');" title="${expert.professTechTitles }">
-                <c:if test="${fn:length(expert.professTechTitles) >11}">${fn:substring(expert.professTechTitles,0,11)}...</c:if>
-                <c:if test="${fn:length(expert.professTechTitles) <=11}">${expert.professTechTitles}</c:if>
+              <td>
+              	<c:choose>
+              		<c:when test="${expert.professTechTitles !=null and expert.professTechTitles ne ''}">
+              			${expert.professTechTitles}
+              		</c:when>
+              		<c:otherwise>
+              			 ${expert.atDuty}
+              		</c:otherwise>
+              	</c:choose>
               </td>
               <td class="tc" onclick="shenhe('${expert.id}');">${expert.expertsFrom}</td>
               <td class="hand" title="${expert.expertsTypeId}">

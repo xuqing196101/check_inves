@@ -1,15 +1,16 @@
 package synchro.inner.read.supplier.impl;
 
-import java.io.File;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import common.constant.Constant;
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import ses.common.AbstractMessageCommon;
+import ses.common.sms.SupplierMessageCommon;
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.sms.SupplierAddressMapper;
@@ -74,11 +75,10 @@ import synchro.inner.read.supplier.InnerSupplierService;
 import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import common.constant.Constant;
-import common.dao.FileUploadMapper;
-import common.model.UploadFile;
+import java.io.File;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 版权：(C) 版权所有
@@ -453,6 +453,9 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                     SupplierAudit audit = supplierAuditMapper.selectById(supplierAudit.getId());
                     if(audit != null){
                         supplierAuditMapper.updateByIdSelective(supplierAudit);
+                    } else {
+                        // 插入新标记的审核记录
+                        supplierAuditMapper.inserActive(supplierAudit);
                     }
                 }
             }
@@ -556,7 +559,10 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
      */
     @Override
     public void importInner(File file, String flag) {
+        AbstractMessageCommon supplierMessageCommon = new SupplierMessageCommon();
         List<SupplierAuditFormBean> list = getSupplierFormBaean(file);
+        // 封装短信发送Map 格式：状态+电话号码集
+        Map<Integer, StringBuffer> currSupStatusAndMobile = null;
         for (SupplierAuditFormBean sb : list) {
             User user = sb.getUser();
             if (user != null) {
@@ -568,9 +574,11 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                 }
             }
             // 退回修改供应商基本信息导入外网
-            //supplierMapper.updateSupplierStatus(sb.getSupplierId(), sb.getStatus(), sb.getAuditDate());
-            supplierMapper.updateByPrimaryKeySelectiveOfBack(sb.getSupplier());
-
+            // supplierMapper.updateSupplierStatus(sb.getSupplierId(), sb.getStatus(), sb.getAuditDate());
+            Supplier supplier = sb.getSupplier();
+            supplierMapper.updateByPrimaryKeySelectiveOfBack(supplier);
+            // 开始封装短信发送Map 格式：状态+电话号码集
+            // currSupStatusAndMobile = supplierMessageCommon.packageMessageInfo(supplier, currSupStatusAndMobile);
             List<SupplierAuditNot> auditNots = sb.getSupplierAuditNot();
             for (SupplierAuditNot sa : auditNots) {
                 SupplierAuditNot not = supplierAuditNotMapper.selectById(sa.getId());
@@ -637,6 +645,8 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
         } else{
             synchRecordService.synchBidding(null, new Integer(list.size()).toString(), synchro.util.Constant.DATA_TYPE_SUPPLIER_CODE, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.NEW_COMMIT_SUPPLIER_IMPORT);
         }
+        // 短信发送
+        // supplierMessageCommon.beginSendMessage(currSupStatusAndMobile);
     }
 
 
@@ -1018,7 +1028,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 	@Override
 	public void selectSupplierLevelOfExport(String startTime, String endTime) {
 		// 查询注销供应商
-    	@SuppressWarnings("unchecked")
+		@SuppressWarnings("unchecked")
 		Map<String, Object> map = new HashedMap();
     	map.put("startTime", startTime);
     	map.put("endTime", endTime);
@@ -1030,7 +1040,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     	if (!levels.isEmpty()) {
     		FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_LEVEL_FILENAME, 37), JSON.toJSONString(levels, SerializerFeature.WriteMapNullValue));
     	}
-    	synchRecordService.synchBidding(null, new Integer(levels.size()).toString(), synchro.util.Constant.DATE_SYNCH_SUPPLIER_LEVEL, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.SUPPLIER_LEVEL_COMMIT);
+    	synchRecordService.synchBidding(null, levels.size()+"", synchro.util.Constant.DATE_SYNCH_SUPPLIER_LEVEL, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.SUPPLIER_LEVEL_COMMIT);
 	}
 
 }

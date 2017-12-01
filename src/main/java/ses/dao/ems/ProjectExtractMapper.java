@@ -157,4 +157,12 @@ public interface ProjectExtractMapper {
      * @return
      */
     List<Map<String, Object>> selectProExpert(String projectId);
+    
+    
+    /**
+     * 专家抽取结果回显
+     * @param projectId
+     * @return
+     */
+    List<Map<String, Object>> selectProResultExpert(String projectId);
 }

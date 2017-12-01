@@ -113,8 +113,7 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 				if("500".equals(status)|| StringUtils.isBlank(status)){
 					map.put("error", "语音接口调用异常");
 				}
-			}
-			if(suppliers.size()<condition.getExtractNum()){
+			}else{
 				//修改项目状态为不满足条件
 				SupplierExtractProjectInfo projectInfo = new SupplierExtractProjectInfo();
 				projectInfo.setStatus((short)1);
@@ -125,61 +124,8 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
-		return null;
+		return map;
 	}
-	
-	
-	
-	/**
-	 * 上传待通知信息（本地测试）
-	 * <简述> 
-	 *
-	 * @author Jia Chengxiang
-	 * @dateTime 2017-10-16下午4:19:02
-	 * @param suppliers
-	 * @param recordId
-	 * @return
-	 */
-	public String callVoiceService(List<Supplier> suppliers, String recordId) {
-		
-		//查询项目信息
-		SupplierExtractProjectInfo projectInfo = recordService.selectByPrimaryKey(recordId);
-		
-		ArrayList<PeopleYytz> arrayList = new ArrayList<>();
-		for (Supplier supplier : suppliers) {
-			PeopleYytz peopleYytz = new PeopleYytz();
-			peopleYytz.setUsername(supplier.getSupplierName());
-			peopleYytz.setMobile(MobileUtils.getMobile(supplier.getArmyBuinessTelephone()));
-			peopleYytz.setContactname(supplier.getArmyBusinessName());
-			peopleYytz.setContactmobile(MobileUtils.getMobile(supplier.getArmyBuinessTelephone()));
-			arrayList.add(peopleYytz);
-		}
-		
-		
-		ProjectYytz projectYytz = new ProjectYytz();
-		projectYytz.setProvince(projectInfo.getProvinceName()); 
-		projectYytz.setAddress(projectInfo.getCityName());
-		projectYytz.setSite(projectInfo.getSellSite()); 
-		
-		projectYytz.setContactnum(projectInfo.getContactNum()); 
-		projectYytz.setContactperson(projectInfo.getContactPerson()); 
-		projectYytz.getPeoplelist().addAll(arrayList);
-		projectYytz.setProjectid(projectInfo.getProjectId());
-		projectYytz.setProjectname(projectInfo.getProjectName()); 
-		projectYytz.setRecordid(projectInfo.getId()); 
-		projectYytz.setReviewdays(0); 
-		projectYytz.setSellend(DateUtils.dateToXmlDate(projectInfo.getSellEnd())); 
-		projectYytz.setStarttime(DateUtils.dateToXmlDate(projectInfo.getSellBegin()));
-		
-		Epoint005WebService service = WebServiceUtil.getService();
-		
-		String putObject = service.putObject(projectYytz, "C");
-		System.out.println(putObject);
-		return putObject;
-	}
-	
 	
 	/**
 	 * 上传待通知信息2（项目，供应商信息直接传入）
@@ -191,7 +137,7 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 	 * @param recordId
 	 * @return
 	 */
-	public String callVoiceService2(List<Supplier> suppliers, SupplierExtractProjectInfo projectInfo) {
+	public String callVoiceService2(List<Supplier> suppliers, SupplierExtractProjectInfo projectInfo) throws Exception {
 		
 		ArrayList<PeopleYytz> arrayList = new ArrayList<>();
 		
@@ -219,11 +165,11 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 		projectYytz.setReviewdays(0); 
 		projectYytz.setSellend(DateUtils.dateToXmlDate(projectInfo.getSellEnd())); 
 		projectYytz.setStarttime(DateUtils.dateToXmlDate(projectInfo.getSellBegin()));
+		projectYytz.setSpecexpnum(projectInfo.getExtractNum());
 		
 		Epoint005WebService service = WebServiceUtil.getService();
 		
 		String putObject = service.putObject(projectYytz, "C");
-		System.out.println(putObject);
 		return putObject;
 	}
 	
@@ -258,6 +204,8 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 		HashMap<Object, Object> hashMap = new HashMap<>();
 		hashMap.put("conditionId", projectInfo.getConditionId());
 		hashMap.put("propertyName","currentExtractNum");
+		
+		//查询当前项目要抽取的人数
 		List<String> currentExtractNum = contypeMapper.getByMap(hashMap);
 		
 		String ExtractNum = null;
@@ -273,6 +221,7 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 				if(supplier.getJoin().equals("1")){
 					count ++;
 				}
+				//去除手机号前面的0
 				supplier.setSupplierId(MobileUtils.reMobile(supplier.getSupplierId()));
 			}
 			
@@ -281,6 +230,7 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 			//判断参加人数是否满足，不满足再次获取供应商通知
 			Short parseShort = Short.parseShort(ExtractNum);
 			if(count<parseShort){
+				//再次抽取的数量
 				Short supplement = (short) (parseShort-count);
 				condition.setExtractNum((short) (parseShort-count));
 				//将需要再次抽取的数量写入进数据库，便于下次进行判断
@@ -345,9 +295,13 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 	 * @return
 	 */
 	@Override
-	public void selectAutoExtractProject() {
-		
-		List<SupplierExtractProjectInfo> projectInfos = recordService.selectAutoExtractProject();
+	public void selectAutoExtractProject(Date start,Date end) {
+		SupplierExtractProjectInfo p = new SupplierExtractProjectInfo();
+		p.setExtractTheWay((short)0);
+		p.setStartTime(DateUtils.dateToString(DateUtils.getTodayZeroTime()));
+		p.setEndTime(common.utils.DateUtils.getCurrentTime());
+		p.setStatus((short)2);
+		List<SupplierExtractProjectInfo> projectInfos = recordService.selectRecordForExport(p);
 		if(null != projectInfos){
 			for (SupplierExtractProjectInfo projectInfo : projectInfos) {
 				
@@ -379,6 +333,7 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 					if(suppliers.size()>0){
 						//存储自动抽取结果
 						resultService.saveOrUpdateVoiceResult(condition,suppliers,null,projectInfo.getProjectInto());
+						projectInfo.setExtractNum(condition.getExtractNum());
 						callVoiceService2(suppliers,projectInfo);
 					}else{
 						//修改项目状态为不满足条件
@@ -393,9 +348,11 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 	}
 
 
+	/**
+	 * 前台点击自动抽取后，将当前抽取条件导出
+	 */
 	@Override
-	public Map<String, Object> exportExtractInfo(
-			SupplierExtractCondition condition,String projectInto) {
+	public String exportExtractInfo(SupplierExtractCondition condition,String projectInto) {
 		ArrayList<SupplierExtractProjectInfo> projectInfos = new ArrayList<>();
 		ArrayList<SupplierExtractCondition> conditions = new ArrayList<>();
 		conditions.add(condition);
@@ -416,7 +373,7 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
         //FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_EXTRACT_CONTYPE_PATH_FILENAME, 35),JSON.toJSONString(condition.getSupplierConType()));
 		
         synchRecordService.synchBidding(new Date(), "1", Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO, Constant.OPER_TYPE_EXPORT, Constant.SUPPLIER_EXTRACT_COMMIT);
-		return null;
+		return "OK";
 	}
 	
 	/**
@@ -457,7 +414,6 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
             }
         }
         synchRecordService.synchBidding(new Date(), num+"", Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO, Constant.OPER_TYPE_IMPORT, Constant.SUPPLIER_EXTRACT_COMMIT_IMPORT);
-        //selectAutoExtractProject();
 	}
 	
 	
@@ -518,7 +474,7 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
         	// 供应商抽取结果信息
         	FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_EXTRACT_ADV_RESULT_PATH_FILENAME, 36), JSON.toJSONString(resultList2));
         }
-        synchRecordService.synchBidding(new Date(), sum + "",Constant.DATE_SYNCH_SUPPLIER_EXTRACT_RESULT, Constant.OPER_TYPE_EXPORT,Constant.SUPPLIER_EXTRACT_RESULT_COMMIT);
+        synchRecordService.synchBidding(synchDate, sum + "",Constant.DATE_SYNCH_SUPPLIER_EXTRACT_RESULT, Constant.OPER_TYPE_EXPORT,Constant.SUPPLIER_EXTRACT_RESULT_COMMIT);
     }
     
 	 /**
@@ -532,12 +488,17 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 	@Override
 	public Map<String, Object> exportExtractProjectInfo(String start, String end, Date synchDate) {
 		//查询项目信息
-		List<SupplierExtractProjectInfo> projectInfos  = recordService.selectRecordForExport(start,end);
+		SupplierExtractProjectInfo projectInfo = new SupplierExtractProjectInfo();
+		projectInfo.setExtractTheWay((short)0);
+		projectInfo.setStartTime(start);
+		projectInfo.setEndTime(end);
+		projectInfo.setStatus((short)1);
+		List<SupplierExtractProjectInfo> projectInfos  = recordService.selectRecordForExport(projectInfo);
 		if(projectInfos.size()>0){
 			//生成json 并保存
 			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_EXTRACT_PROJECT_PATH_FILENAME, 35),JSON.toJSONString(projectInfos));
 		}
-		synchRecordService.synchBidding(new Date(), "1", Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO, Constant.OPER_TYPE_EXPORT, Constant.SUPPLIER_EXTRACT_COMMIT);
+		synchRecordService.synchBidding(synchDate, projectInfos.size()+"", Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO, Constant.OPER_TYPE_EXPORT, Constant.SUPPLIER_EXTRACT_COMMIT);
 		return null;
 	}
 	

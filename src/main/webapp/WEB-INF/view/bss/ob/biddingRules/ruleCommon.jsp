@@ -1,7 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 </head>
 <body>
-  		  <div class="tab-content padding-left-20 padding-right-20">
+  		  <div class="tab-content ul_list">
 				<table class="table table-bordered">
 				 <tbody>
 				 <tr>

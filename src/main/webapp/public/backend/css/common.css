@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /*字体*/
-.f0 { font-size: 0px; }
+.f0 { font-size: 0px !important; }
 .f8 {
   font-size: 8px; }
 
@@ -1341,4 +1341,8 @@ text-align:center;
 	border: dashed 1px #d6cccc;
 	padding: 20px;
 	background-color: #FFF;
+}
+/* layer弹出框默认按钮选中状态文字颜色修改 */
+.layui-layer-btn a:hover {
+  color: #333 !important;
 }

@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.bms.DictionaryDataMapper;
+import ses.dao.bms.EngCategoryMapper;
 import ses.dao.bms.QualificationMapper;
 import ses.dao.sms.SupplierItemMapper;
 import ses.model.bms.Category;
@@ -60,6 +62,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryMapper categoryMapper;
+    
+    @Autowired
+    private EngCategoryMapper engCategoryMapper;
 
     @Autowired
     private SupplierItemMapper supplierItemMapper;
@@ -1085,6 +1090,68 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 	
 	@Override
+	/*public SupplierCateTree addNode(List<Category> parentNodeList) {
+		SupplierCateTree cateTree = new SupplierCateTree();
+		// 加入根节点
+		for(int i = 0; i < parentNodeList.size(); i++) {
+			Category cate = parentNodeList.get(i);
+			Category parentNode = null;
+			if(cate != null && cate.getParentId() != null) {
+				parentNode = findById(cate.getParentId());
+			}
+			DictionaryData rootNode = DictionaryDataUtil.findById(cate.getId());
+			// 加入根节点
+			if(rootNode != null) {
+				//其他，3物资生产/物资销售 2物质销售 1物资生产
+				cateTree.setRootNode(rootNode.getName());
+				cateTree.setRootNodeID(rootNode.getId());
+				cateTree.setItemsId(rootNode.getId());
+				cateTree.setItemsName(rootNode.getName());
+			}
+			// 加入一级节点
+			if(cateTree.getRootNode() != null) {
+				if(cate != null && cate.getParentId() != null) {
+					DictionaryData parentNodeDd = DictionaryDataUtil.findById(cate.getParentId());
+					if(parentNodeDd != null && cateTree.getRootNode().equals(parentNodeDd.getName())) {
+						cateTree.setFirstNode(cate.getName());
+						cateTree.setFirstNodeID(cate.getId());
+						cateTree.setItemsId(cate.getId());
+						cateTree.setItemsName(cate.getName());
+					}
+				}
+			}
+			// 加入二级节点
+			if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null) {
+				if(parentNode != null && cateTree.getFirstNode().equals(parentNode.getName())) {
+					cateTree.setSecondNode(cate.getName());
+					cateTree.setSecondNodeID(cate.getId());
+					cateTree.setItemsId(cate.getId());
+					cateTree.setItemsName(cate.getName());
+				}
+			}
+			// 加入三级节点
+			if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null) {
+				if(parentNode != null && cateTree.getSecondNode().equals(parentNode.getName())) {
+					cateTree.setThirdNode(cate.getName());
+					cateTree.setThirdNodeID(cate.getId());
+					cateTree.setItemsId(cate.getId());
+					cateTree.setItemsName(cate.getName());
+				}
+			}
+			// 加入末级节点
+			if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null && cateTree.getThirdNode() != null) {
+			    if(parentNodeList.size()>4){
+			    	if(parentNode != null && cateTree.getThirdNode().equals(parentNode.getName())) {
+		                cateTree.setFourthNode(cate.getName());
+						cateTree.setFourthNodeID(cate.getId());
+						cateTree.setItemsId(cate.getId());
+						cateTree.setItemsName(cate.getName());
+	                }
+			    }
+			}
+		}
+		return cateTree;
+	}*/
 	public SupplierCateTree addNode(List<Category> parentNodeList) {
 		SupplierCateTree cateTree = new SupplierCateTree();
 		// 加入根节点
@@ -1120,10 +1187,10 @@ public class CategoryServiceImpl implements CategoryService {
 				if(cate != null && cate.getParentId() != null) {
 					Category parentNode = findById(cate.getParentId());
 					if(parentNode != null && cateTree.getFirstNode().equals(parentNode.getName())) {
-					cateTree.setSecondNode(cate.getName());
-					cateTree.setSecondNodeID(cate.getId());
-					cateTree.setItemsId(cate.getId());
-					cateTree.setItemsName(cate.getName());
+						cateTree.setSecondNode(cate.getName());
+						cateTree.setSecondNodeID(cate.getId());
+						cateTree.setItemsId(cate.getId());
+						cateTree.setItemsName(cate.getName());
 					}
 				}
 			}
@@ -1131,7 +1198,7 @@ public class CategoryServiceImpl implements CategoryService {
 		// 加入三级节点
 		if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null) {
 			for(int i = 0; i < parentNodeList.size(); i++) {
-	    		Category cate = findById(parentNodeList.get(i).getId());
+				Category cate = findById(parentNodeList.get(i).getId());
 				if(cate != null && cate.getParentId() != null) {
 					Category parentNode = findById(cate.getParentId());
 					if(parentNode != null && cateTree.getSecondNode().equals(parentNode.getName())) {
@@ -1141,24 +1208,24 @@ public class CategoryServiceImpl implements CategoryService {
 						cateTree.setItemsName(cate.getName());
 					}
 				}
-		    }
-	    }
+			}
+		}
 		// 加入末级节点
 		if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null && cateTree.getThirdNode() != null) {
-		    if(parentNodeList.size()>4){
-                for(int i = 0; i < parentNodeList.size(); i++) {
-	                Category cate = findById(parentNodeList.get(i).getId());
-		            if(cate != null && cate.getParentId() != null) {
-			            Category parentNode = findById(cate.getParentId());
-			            if(parentNode != null && cateTree.getThirdNode().equals(parentNode.getName())) {
-			                cateTree.setFourthNode(cate.getName());
+			if(parentNodeList.size()>4){
+				for(int i = 0; i < parentNodeList.size(); i++) {
+					Category cate = findById(parentNodeList.get(i).getId());
+					if(cate != null && cate.getParentId() != null) {
+						Category parentNode = findById(cate.getParentId());
+						if(parentNode != null && cateTree.getThirdNode().equals(parentNode.getName())) {
+							cateTree.setFourthNode(cate.getName());
 							cateTree.setFourthNodeID(cate.getId());
 							cateTree.setItemsId(cate.getId());
 							cateTree.setItemsName(cate.getName());
-		                }
-	                }
-		        }
-		    }
+						}
+					}
+				}
+			}
 		}
 		return cateTree;
 	}
@@ -1187,23 +1254,45 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<CategoryTree> getTreeForExt(Category category,String supplierTypeCode,String categoryId) {
 		
 		List<CategoryTree> jList = new ArrayList<>();
+		List<Category> cateList = new ArrayList<>();
 		if(category.getId()==null){
 	    	   category.setId(dictionaryDataMapper.selectByCode(supplierTypeCode).get(0).getId());
+	    	   if(StringUtils.isNotBlank(categoryId)){
+					int classifyType = 1;
+					String classifyStatus = "";
+					switch (supplierTypeCode) {
+						case "GOODS":
+							classifyType = 1;
+							break;
+						case "PROJECT":
+							classifyType = 2;
+							break;
+						case "SERVICE":
+							classifyType = 3;
+							break;
+						case "PRODUCT":
+							classifyType = 1;
+							classifyStatus = "1,3";
+							break;
+		
+						case "SALES":
+							classifyType = 1;
+							classifyStatus = "2,3";
+							break;
+					}
+					cateList.addAll(categoryMapper.selectParentNode(classifyType,classifyStatus,categoryId.split(",")));
+				}
 	    }
-         List<Category> cateList= getCateTreeForExt(category.getId());
+		 cateList.addAll(getCateTreeForExt(category.getId()));
          for(Category cate:cateList){
-             List<Category> cList= getCateTreeForExt(cate.getId());
              CategoryTree ct=new CategoryTree();
-             if(!cList.isEmpty()){
-                 ct.setIsParent("true");
-             }else{
-                 ct.setIsParent("false");
-             }
+             ct.setIsParent(cate.getIsParent());
              ct.setId(cate.getId());
              ct.setName(cate.getName());
-             ct.setpId(cate.getParentId());
+             ct.setParentId(cate.getParentId());
              ct.setKind(cate.getKind());
              ct.setStatus(cate.getStatus());
+             ct.setTreeLevel(cate.getLevel());
              if(StringUtils.isNotBlank(categoryId)){
             	 for (String cid : categoryId.split(",")) {
 					if(ct.getId().equals(cid)){
@@ -1226,7 +1315,6 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<DictionaryData> getQuaByCid(String categoryId) {
-		String[] categoryIds = categoryId.split(",");
 		HashMap<String,String[]> hashMap = new HashMap<>();
 		hashMap.put("categoryIds", categoryId.split(","));
 		return categoryQuaMapper.getQuaByCid(hashMap);
@@ -1348,6 +1436,7 @@ public class CategoryServiceImpl implements CategoryService {
                 ct.setName(dictionaryData.getName());
                 ct.setIsParent("true");
                 ct.setParentId("0");
+                ct.setCode(dictionaryData.getCode());
                 list.add(ct);
             }
             return list;
@@ -1444,10 +1533,21 @@ public class CategoryServiceImpl implements CategoryService {
         }
         category = new Category();
         category.setId(dict.getId());
+        category.setCode(dict.getCode());
         category.setIsParent("true");
         category.setName(name);
         category.setParentId("0");
         categorys.add(category);
         list.addAll(categorys);
     }
+
+	@Override
+	public List<Category> searchByName(String cateName, String codeName) {
+		return categoryMapper.searchByName(cateName, codeName);
+	}
+
+	@Override
+	public List<Category> searchList(int type, String cateName, String codeName) {
+		return categoryMapper.searchList(type, cateName, codeName);
+	}
 }

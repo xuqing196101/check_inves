@@ -94,6 +94,18 @@ public class PackageAdviceController extends BaseController {
 				page = 1;
 			}
 			List<PackageAdvice> list = service.list(packageAdvice, user, page);
+			for (PackageAdvice pa : list) {
+			  String[] packageNames = pa.getPackageName().split(",");
+			  String names="";
+			  for (String string : packageNames) {
+			    Packages selectByPrimaryKeyId = packageService.selectByPrimaryKeyId(string);
+			    names+=selectByPrimaryKeyId.getName()+",";
+        }
+			  if(names.endsWith(",")){
+			    names=names.substring(0,names.length()-1);
+			  }
+			  pa.setPackageName(names);
+      }
 			if (list != null && !list.isEmpty()) {
 				model.addAttribute("info", new PageInfo<PackageAdvice>(list));
 				model.addAttribute("kind", DictionaryDataUtil.find(5));

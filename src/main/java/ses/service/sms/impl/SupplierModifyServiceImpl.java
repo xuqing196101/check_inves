@@ -1,13 +1,7 @@
 package ses.service.sms.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierHistoryMapper;
 import ses.dao.sms.SupplierItemMapper;
@@ -41,6 +35,11 @@ import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierModifyService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
+
+import java.text.SimpleDateFormat;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service(value = "supplierModifyService")
 public class SupplierModifyServiceImpl implements SupplierModifyService{
@@ -138,7 +137,8 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		supplierHistory.setListType(12);
 		List<SupplierHistory> historyList = supplierHistoryMapper.findListBySupplierId(supplierHistory);
 		
-		String findBySupplier = supplierTypeRelateService.findBySupplier(supplierId);
+//		String findBySupplier = supplierTypeRelateService.findBySupplier(supplierId);
+		String findBySupplier = supplier.getSupplierTypeIds();
 		if(!findBySupplier.isEmpty() && findBySupplier.length() > 0){
 			for(SupplierHistory h : historyList){
 				if(!findBySupplier.contains(h.getBeforeField())){

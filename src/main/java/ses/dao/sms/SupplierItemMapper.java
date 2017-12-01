@@ -66,13 +66,12 @@ public interface SupplierItemMapper {
     int deleteBySupplierId(String supplierId);
     
     List<String> getSupplierId();
-    List<String> getItemBySupplierId();
     
     List<SupplierItem> findByMap(Map<String, Object> param);
     
     int deleteByMap(Map<String, String> param);
     
-    List<SupplierItem> getSupplierItem(@Param("supplierId")String supplierId);
+    List<SupplierItem> getItemListBySupplierId(@Param("supplierId")String supplierId);
     
     /**
      * 
@@ -131,7 +130,7 @@ public interface SupplierItemMapper {
 	 * @param supplierTypeRelateId
 	 * @return
 	 */
-	List<String>  findSupplierIdByCategoryId(@Param("categoryId")String categoryId);
+	List<String> findSupplierIdByCategoryId(@Param("categoryId")String categoryId);
 	
 	/**
 	 * 
@@ -236,5 +235,38 @@ public interface SupplierItemMapper {
 	 * @return
 	 */
 	int updateBySupplierId(@Param("item")SupplierItem item, @Param("supplierId")String supplierId);
+
+	/**
+	 * 统计品目
+	 * @param supplierId
+	 * @param categoryId
+	 * @param code
+	 * @return
+	 */
+	int countBySupplierIdCategoryId(
+			@Param("supplierId")String supplierId, 
+			@Param("categoryId")String categoryId,
+			@Param("type")String code);
+	
+	/**
+     * 根据条件统计品目
+     * @param map
+     * @return
+     */
+	int countByMap(Map<String, Object> map);
+	
+	/**
+     * 批量插入
+     * @param records
+     * @return
+     */
+    int batchInsert(List<SupplierItem> records);
+    
+    /**
+     * 批量删除
+     * @param records
+     * @return
+     */
+    int batchDelete(List<SupplierItem> records);
 
 }

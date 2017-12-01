@@ -93,8 +93,7 @@
 				myChart.setOption(option);
 				myChart.hideLoading();
 				myChart.on('click', function(params) {
-					var address = encodeURI(params.name);
-					window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + encodeURI(address) + "&judge=5";
+					window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + params.data.id + "&judge=5";
 				});
 
 			});

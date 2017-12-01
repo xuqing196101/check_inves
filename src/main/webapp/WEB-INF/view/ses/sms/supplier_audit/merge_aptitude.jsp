@@ -8,7 +8,6 @@
 <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <title>产品类别及资质合同</title>
 <script	src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/aptitude.js"></script>
-<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script>
 <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/aptitude_items.js"></script>
 </head>
 <body>
@@ -45,7 +44,10 @@
 			<div class="col-md-12 tab-v2 job-content">
 				<%-- <%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%> --%>
         <jsp:include page="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp">
-        	<jsp:param value="${supplierStatus }" name="supplierStatus"/>
+        	<jsp:param value="five" name="currentStep"/>
+         	<jsp:param value="${supplierId }" name="supplierId"/>
+         	<jsp:param value="${supplierStatus }" name="supplierStatus"/>
+         	<jsp:param value="${sign }" name="sign"/>
         </jsp:include>
 				<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab count_flow ">
 				</ul>
@@ -154,11 +156,11 @@
                 </div>
 				<div id="pagediv" align="right"></div>
 				<div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
-					<a class="btn" type="button" onclick="lastStep();">上一步</a>
+					<a class="btn" type="button" onclick="toStep('four');">上一步</a>
 					  <c:if test="${isStatusToAudit}">
-					    <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
+					    <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempAudit();">暂存</a>
 					  </c:if>
-						 <a class="btn" type="button" onclick="nextStep();">下一步</a>
+						 <a class="btn" type="button" onclick="toStep('six');">下一步</a>
 				</div>
 			</div>
 		</div>

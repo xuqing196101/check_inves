@@ -436,58 +436,60 @@ function isContractAudited(tablerId,ind){
 	return isAudited == 0 ? false : true;
 }
 // 判断显示相关内容 合同
-function onContractShow(tablerId,ind,rootNode,itemId,id,secondNode,secondNodeId){
-	showFrame(tablerId,ind,rootNode+"-销售合同信息",itemId,2,id,secondNode,secondNodeId);
+function onContractShow(tablerId,ind,rootNode,cateId,itemId,secondNode,secondNodeId){
+	showFrame(tablerId,ind,rootNode+"-销售合同信息",cateId,2,itemId,secondNode,secondNodeId);
 }
 // 判断显示相关内容 资质
-function onQualificationsShow(tablerId,ind,rootNode,itemId,secondNode,secondNodeId){
-	showFrame(tablerId,ind,rootNode+"-专业资质要求信息",itemId,0,'',secondNode,secondNodeId);
+function onQualificationsShow(tablerId,ind,rootNode,cateId,itemId,secondNode,secondNodeId){
+	showFrame(tablerId,ind,rootNode+"-专业资质要求信息",cateId,0,itemId,secondNode,secondNodeId);
 }
 // 是否有内容显示
-function isShow(tablerId,ind,count,type,rootNode,itemId,supplierItemid,secondNode,secondNodeId){
+function isShow(tablerId,ind,count,type,rootNode,cateId,itemId,secondNode,secondNodeId){
 	var rut="";
 	
 	// 合同
 	if(type=='contract'){
-		/*if(count>0){
-			rut= "<a href=\"javascript:void(0);\" onclick=\"onContractShow('"+tablerId+"','"+ind+"','"+rootNode+"','"+itemId+"','"+supplierItemid+"','"+secondNode+"','"+secondNodeId+"')\">审核</a>";
+		if(count>0){
+			rut= "<a href=\"javascript:void(0);\" onclick=\"onContractShow('"+tablerId+"','"+ind+"','"+rootNode+"','"+cateId+"','"+itemId+"','"+secondNode+"','"+secondNodeId+"')\">审核</a>";
 		}else {
 			rut= "";
-		}*/
-		rut= "<a href=\"javascript:void(0);\" onclick=\"onContractShow('"+tablerId+"','"+ind+"','"+rootNode+"','"+itemId+"','"+supplierItemid+"','"+secondNode+"','"+secondNodeId+"')\">审核</a>";
+		}
 		// 资质
 	}else if(type=='qualifications'){
-		/*if(count>0){
-			rut="<a href=\"javascript:void(0);\" onclick=\"onQualificationsShow('"+tablerId+"','"+ind+"','"+rootNode+"','"+itemId+"','"+secondNode+"','"+secondNodeId+"')\">审核</a>";
+		if(tablerId == "content_3"){
+			rut="<a href=\"javascript:void(0);\" onclick=\"onQualificationsShow('"+tablerId+"','"+ind+"','"+rootNode+"','"+cateId+"','"+itemId+"','"+secondNode+"','"+secondNodeId+"')\">审核</a>";
 		}else{
-			rut= "";
-		}*/
-		rut="<a href=\"javascript:void(0);\" onclick=\"onQualificationsShow('"+tablerId+"','"+ind+"','"+rootNode+"','"+itemId+"','"+secondNode+"','"+secondNodeId+"')\">审核</a>";
+			if(count>0){
+				rut="<a href=\"javascript:void(0);\" onclick=\"onQualificationsShow('"+tablerId+"','"+ind+"','"+rootNode+"','"+cateId+"','"+itemId+"','"+secondNode+"','"+secondNodeId+"')\">审核</a>";
+			}else{
+				rut= "";
+			}
+		}
 	}
 	return rut;
 }
 // 弹出框
-function showFrame(tablerId,ind,title,cateTree,flng,id,secondNode,secondNodeId){
+function showFrame(tablerId,ind,title,cateId,flag,itemId,secondNode,secondNodeId){
 	if(isItemAudited(tablerId,ind)){
 		layer.msg("此产品目录已经审核不通过！");
 		return;
 	}
-	var supplierStatus = $("input[name='supplierStatus']").val();
-    var sign = $("input[name='sign']").val();
+	//var supplierStatus = $("input[name='supplierStatus']").val();
+    //var sign = $("input[name='sign']").val();
     // 只有审核的状态能审核
     if(isAudit){
 		var supplierId=$("#supplierId").val();
 		var content;
 		var auditType;
 		var auditContent;
-		if(flng==0){
+		if(flag==0){
 			// 资质
-		    content=globalPath + "/supplierAudit/showQualifications.do?itemId="+cateTree+"&supplierId="+supplierId+"&ids="+ind+"&tablerId="+tablerId+"";
+		    content=globalPath + "/supplierAudit/showQualifications.do?cateId="+cateId+"&supplierId="+supplierId+"&itemId="+itemId+"&ind="+ind+"&tablerId="+tablerId+"";
 		}else{
 			// 合同
 			auditContent='上传合同文件信息';
 			auditType='contract_page';
-			content=globalPath + "/supplierAudit/showContract.do?itemId="+cateTree+"&supplierId="+supplierId+"&supplierItemId="+id+"&ids="+ind+"&tablerId="+tablerId+"";
+			content=globalPath + "/supplierAudit/showContract.do?cateId="+cateId+"&supplierId="+supplierId+"&itemId="+itemId+"&ind="+ind+"&tablerId="+tablerId+"";
 		}
 		layer.open({
 		  type: 2, // page层
@@ -523,19 +525,6 @@ function isNumber(obj){
 		return 0;
 	}
 }
-// 下一步
-function nextStep() {
-	var action = globalPath + "/supplierAudit/applicationForm.html";
-	$("#form_id").attr("action", action);
-	$("#form_id").submit();
-}
-
-// 上一步
-function lastStep() {
-	var action = globalPath + "/supplierAudit/supplierType.html";
-	$("#form_id").attr("action", action);
-	$("#form_id").submit();
-}
 // 验证 审核 目录是否可以审核
 function checkML(tablerId,wzType){
 	var auditCount=0;
@@ -553,8 +542,8 @@ function checkML(tablerId,wzType){
 }
 // 目录 审核不通过理由 物资 生产
 function doAuditItemMuti(tablerId,auditType,auditContent,wzType) {
-	var supplierStatus = $("input[name='supplierStatus']").val();
-    var sign = $("input[name='sign']").val();
+	//var supplierStatus = $("input[name='supplierStatus']").val();
+    //var sign = $("input[name='sign']").val();
     // 只有审核的状态能审核
     if(isAudit){
 		var supplierId = $("#supplierId").val();
@@ -618,8 +607,8 @@ function doAuditItemMuti(tablerId,auditType,auditContent,wzType) {
 
 // 目录更新审核
 function doUpdateAuditItemMuti(tablerId,auditType,auditContent,wzType) {
-	var supplierStatus = $("input[name='supplierStatus']").val();
-    var sign = $("input[name='sign']").val();
+	//var supplierStatus = $("input[name='supplierStatus']").val();
+    //var sign = $("input[name='sign']").val();
     // 只有审核的状态能审核
     if(isAudit){
 		var supplierId = $("#supplierId").val();
@@ -731,8 +720,8 @@ function changStyle(tablerId,wzType){
 }
 // 目录 审核不通过理由 非选择框 单选
 function doAuditItemRadio(tablerId,ind,auditField, auditFieldName,type,auditContent,wzType) {
-	var supplierStatus = $("input[name='supplierStatus']").val();
-    var sign = $("input[name='sign']").val();
+	//var supplierStatus = $("input[name='supplierStatus']").val();
+    //var sign = $("input[name='sign']").val();
     // 只有审核的状态能审核
     if(isAudit){
 	
@@ -815,8 +804,8 @@ function doAuditItemRadio(tablerId,ind,auditField, auditFieldName,type,auditCont
 // 批量审核合同
 var defaultSuggestText = "";
 function doAuditContractMuti(tablerId,supplierTypeId) {
-	var supplierStatus = $("input[name='supplierStatus']").val();
-    var sign = $("input[name='sign']").val();
+	//var supplierStatus = $("input[name='supplierStatus']").val();
+    //var sign = $("input[name='sign']").val();
     // 只有审核的状态能审核
     if(isAudit){
     	var isAudited = false;
@@ -941,21 +930,6 @@ function updateAudit(tablerId){
 	}else{
 		layer.msg('请先选择目录，至少有一条！', {offset:'100px'});
 	}
-}
-
-// 暂存
-function zhancun(){
-	var supplierId = $("#supplierId").val();
-	$.ajax({
-		url: globalPath+"/supplierAudit/temporaryAudit.do",
-		dataType: "json",
-		data: {supplierId : supplierId},
-		success : function (result) {
-			layer.msg(result, {offset : [ '100px' ]});
-		},error : function(){
-			layer.msg("暂存失败", {offset : [ '100px' ]});
-		}
-	});
 }
 
 // 刷新数据

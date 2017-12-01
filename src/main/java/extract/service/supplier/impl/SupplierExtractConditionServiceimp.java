@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -104,7 +104,6 @@ public class SupplierExtractConditionServiceimp implements
 	 */
 	@Override
 	public void insert(SupplierExtractCondition condition) {
-		condition.setCreatedAt(new Date());
 		conditionMapper.insertSelective(condition);
 	}
 
@@ -177,15 +176,15 @@ public class SupplierExtractConditionServiceimp implements
 			
 			List<SupplierItemLevel> setExtractCondition2 = this.setExtractCondition2(condition,typeCode);
 			
-			if (type == 1) {
+			if (type == 1 && condition.getIsMulticondition() == 1) {
 				if (null == condition.getExtractNum()) {
 					map.put("error", code + "ExtractNumError");
 					return map;
 				}
-				List<Supplier> selectAllExpert = supplierExtRelateMapper.listExtractionExpert(condition);
+				List<Supplier> selectAllSupplier = supplierExtRelateMapper.listExtractionSupplier(condition);
 				
 				start:
-				for (Supplier supplier : selectAllExpert) {
+				for (Supplier supplier : selectAllSupplier) {
 					supplier.setSupplierType(dictionaryDataMapper.selectByCode(supplier.getSupplierTypeId()).get(0).getName());
 					for (SupplierItemLevel supplierLevel : setExtractCondition2) {
 						if(supplier.getId().equals(supplierLevel.getSupplierId()) && (!condition.getSupplierTypeCode().equals("PROJECT"))){
@@ -266,9 +265,12 @@ public class SupplierExtractConditionServiceimp implements
 					}
 				}
 
-				list.put(typeCode, selectAllExpert);
-			} else {
-				count.put(typeCode + "Count", supplierExtRelateMapper.listExtractionExpertCount(condition));
+				list.put(typeCode, selectAllSupplier);
+			} else if(condition.getIsMulticondition().equals("1")){
+				//查询供应商数量
+				count.put(typeCode + "Count", supplierExtRelateMapper.listExtractionSupplierCount(condition));
+			}else if(condition.getIsMulticondition().equals("2")){
+				supplierExtRelateMapper.listExtractionSupplierOfLogicIsAnd(condition);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -314,7 +316,7 @@ public class SupplierExtractConditionServiceimp implements
 					map.put("error", code + "ExtractNumError");
 					return map;
 				}
-				List<Supplier> selectAllExpert = supplierExtRelateMapper.listExtractionExpert(condition);
+				List<Supplier> selectAllExpert = supplierExtRelateMapper.listExtractionSupplier(condition);
 				
 				//查询当前抽取到供应商的类型
 				first:
@@ -419,8 +421,18 @@ public class SupplierExtractConditionServiceimp implements
 					selectAllExpert.get(0).setSupplierLevel(StringUtils.isNotBlank(supplierLevel)?dictionaryDataMapper.selectByPrimaryKey(supplierLevel).getName():"");
 				}
 				map.put("list", selectAllExpert);
-			} else {
-				map.put("count", supplierExtRelateMapper.listExtractionExpertCount(condition));
+			}else if(condition.getIsMulticondition() == 1){
+				//查询供应商数量
+				map.put("count", supplierExtRelateMapper.listExtractionSupplierCount(condition));
+			}else if(condition.getIsMulticondition() == 2){
+				List<Supplier> suppliers = supplierExtRelateMapper.listExtractionSupplierOfLogicIsAnd(condition);
+				
+				//查询等级
+				if(condition.getLevelTypeIds() != null || condition.getSalesLevelTypeIds() !=null){
+					selectSupplierLevelLogicOfAnd(suppliers,condition);
+				}
+				map.put("list", suppliers);
+				map.put("count", suppliers.size());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -875,7 +887,6 @@ public class SupplierExtractConditionServiceimp implements
 		
 		//处理产品类目
 		String cid = condition.getCategoryId();
-		String pid = condition.getParentId();
 		String addressId = condition.getAddressId();
 		
 		if (2 == condition.getIsMulticondition()) {
@@ -884,19 +895,7 @@ public class SupplierExtractConditionServiceimp implements
 			if(StringUtils.isNotBlank(cid)){
 				cate.addAll(conditionMapper.selectChildCate(cid.split(",")));
 			}
-			if(StringUtils.isNotBlank(pid)){
-				cate.addAll(conditionMapper.selectChildCate(pid.split(",")));
-			}
 			condition.setCsize(cate.size());
-		}
-		
-		// 若勾选了父节点
-		if (StringUtils.isNotBlank(pid)) {
-			// 遍历出全部的其下的末级节点，去重拼进categoryId
-			// cid = this.selectChild(pid,cid);
-			String tempCateIdString = "";
-			tempCateIdString = pid	+ (StringUtils.isNotBlank(cid) ? ("," + cid) : "");
-			condition.setCategoryId(tempCateIdString);
 		}
 		
 		// 处理地区查询条件
@@ -1047,22 +1046,13 @@ public class SupplierExtractConditionServiceimp implements
 			}
 		}
 		
-		Set<String> hashSet = new HashSet<>();
 		String cids = condition.getCategoryId();
 		if (StringUtils.isNotBlank(cids)) {
-			List<String> asList = Arrays.asList(cids.split(","));
-			hashSet.addAll(asList);
-		} 
-		String pids = condition.getParentId();
-		if (StringUtils.isNotBlank(pids)) {
-			List<String> asList = Arrays.asList(pids.split(","));
-			hashSet.addAll(asList);
-		}
-		if(hashSet.size()>0){
-			for (String cId : hashSet) {
+			for (String cId : cids.split(",")) {
 				list.add(new ExtractConditionRelation(cid, "categoryId", cId));
 			}
-		}
+		} 
+		
 		String le = condition.getLevelTypeId();
 		if (StringUtils.isNotBlank(le)) {
 			for (String lv : le.split(",")) {
@@ -1114,8 +1104,6 @@ public class SupplierExtractConditionServiceimp implements
 		
 		map.put("supplierTypeId",condition.getSupplierTypeCodes());
 		map.put("categoryIds", categoryIds);
-		String[] levelTypeIds = condition.getLevelTypeIds();
-		String[] salesLevelTypeIds = condition.getSalesLevelTypeIds();
 		if(condition.getSupplierTypeCodes().length>1){
 			
 		}
@@ -1158,4 +1146,47 @@ public class SupplierExtractConditionServiceimp implements
 		map.put("qids", qids);
 		return conditionMapper.selectQuaLevelBySupplierIdAndQuaId(map);
 	}
+	
+	
+	/**
+	 * 
+	 * <简述>品目选择或关系时，对供商进行筛选 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-11-20上午11:26:18
+	 * @param listExtractionSupplierOfLogicIsAnd
+	 * @param condition
+	 * @param setExtractCondition2 供应商等级，品目关系
+	 */
+	public void selectSupplierLevelLogicOfAnd(List<Supplier> suppliers, SupplierExtractCondition condition) {
+		
+		//遍历满足与关系的供应商
+		
+		Map<String, Object> hashMap = new HashMap<>();
+		first:
+		for (Iterator<Supplier> iterator = suppliers.iterator() ;iterator.hasNext();) {
+			boolean flag = false;
+			hashMap.put("supplierId", iterator.next().getId());
+			hashMap.put("categoryIds", condition.getSupplierItemId());
+			List<String> levels = conditionMapper.selectLevelOfLogicIsAnd(hashMap);
+			if(levels.size()==1){
+				for (String string : condition.getLevelTypeIds()) {
+					if(levels.get(0).equals(string)){
+						break first;
+					}
+					flag = true;
+				}
+				
+				for (String string : condition.getLevelTypeIds()) {
+					if(levels.get(0).equals(string)){
+						break first;
+					}
+					flag = true;
+				}
+			}else if(levels.size()!=1 ||flag){
+				iterator.remove();
+			}
+		}
+	}
+	
 }

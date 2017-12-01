@@ -6,6 +6,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import ses.model.sms.SupplierExtRelate;
 
+import common.utils.DateUtils;
+
 public class SupplierExtractResult extends SupplierExtRelate {
     
     /**
@@ -55,9 +57,10 @@ public class SupplierExtractResult extends SupplierExtRelate {
 	
 	private String projectType;
 
-	private String packageId;
-	
-	private String[] packageIds;
+	/**
+	 * packageId
+	 */
+	private String pid;
 	
 	private String level;
 	
@@ -131,7 +134,7 @@ public class SupplierExtractResult extends SupplierExtRelate {
 	}
 
 	public String getUpdatedAt() {
-		return updatedAt;
+		return StringUtils.isNotBlank(this.updatedAt)?this.updatedAt:DateUtils.getCurrentTime();
 	}
 
 	public void setUpdatedAt(String updatedAt) {
@@ -168,22 +171,6 @@ public class SupplierExtractResult extends SupplierExtRelate {
 
 	public void setProjectType(String projectType) {
 		this.projectType = projectType;
-	}
-
-	/*public String getPackageId() {
-		return packageId;
-	}*/
-
-	public void setPackageId(String packageId) {
-		this.packageId = packageId;
-	}
-
-	public String[] getPackageIds() {
-		return StringUtils.isNotBlank(packageId)?packageId.split(","):null;
-	}
-
-	public void setPackageIds(String[] packageIds) {
-		this.packageIds = packageIds;
 	}
 
 	public String getSupplierName() {
@@ -276,5 +263,11 @@ public class SupplierExtractResult extends SupplierExtRelate {
 		this.supplierLevel = supplierLevel;
 	}
 
-	
+	public String getPid() {
+		return pid;
+	}
+
+	public void setPid(String pid) {
+		this.pid = pid;
+	}
 }

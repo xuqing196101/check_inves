@@ -461,10 +461,22 @@ public class AutoExtractServiceImpl implements AutoExtractService {
         if(expertExtractProject.getPackageId() != null){
             xmssFlag = true;
         }
+        //需要抽取的总人数
+        int countNum = 0;
+        if(expertExtractCondition.getIsExtractAlternate() != null && expertExtractCondition.getIsExtractAlternate() == 1){
+        	countNum += 2;
+        }
         if(expertExtractCondition.getExpertKindId() != null){
             String[] kindIds = expertExtractCondition.getExpertKindId().split(",");
             for (String typeCode : kindIds) {
                 String code = DictionaryDataUtil.findById(typeCode) == null ? "" : DictionaryDataUtil.findById(typeCode).getCode();
+                ExpertExtractTypeInfo expertExtractTypeInfo = new ExpertExtractTypeInfo();
+                expertExtractTypeInfo.setConditionId(expertExtractCondition.getId());
+                expertExtractTypeInfo.setExpertTypeCode(code);
+                List<ExpertExtractTypeInfo> selectByTypeInfo = expertExtractTypeInfoMapper.selectByTypeInfo(expertExtractTypeInfo);
+                if(selectByTypeInfo!= null && selectByTypeInfo.size() > 0){
+                	countNum += selectByTypeInfo.get(0).getCountPerson().intValue();
+                }
                 @SuppressWarnings("unchecked")
                 List<Expert> reList = (List<Expert>) resultMap.get(code);
                 //正式专家
@@ -618,6 +630,7 @@ public class AutoExtractServiceImpl implements AutoExtractService {
         projectYytz.setStarttime(expertExtractProject != null ? DateUtils.dateToXmlDate(expertExtractProject.getReviewTime()) : null);
         if(peoplelist != null && peoplelist.size() > 0){
         	projectYytz.getPeoplelist().addAll(peoplelist);
+        	projectYytz.setSpecexpnum(countNum);
         	// 标识""  代表专家
         	String str = service.putObject(projectYytz, "E");
         	return str;

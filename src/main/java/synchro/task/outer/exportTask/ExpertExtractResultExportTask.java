@@ -46,19 +46,45 @@ public class ExpertExtractResultExportTask {
 	 * @return
 	 */
 	public void resultExport(){
-		//外网
 		if ("1".equals(StaticVariables.ipAddressType)) {
+			/** 外网导入 **/
 			DictionaryData extractResult = DictionaryDataUtil.get(Constant.DATE_SYNCH_EXPERT_EXTRACT_RESULT);
-	        if(extractResult != null && StringUtils.isNotBlank(extractResult.getId())){
-	        	 String startTime = recordService.getSynchTime(Constant.OPER_TYPE_EXPORT, extractResult.getId());
-	        	 if (!StringUtils.isNotBlank(startTime)){
-	                 startTime = DateUtils.getCurrentDate() + " 00:00:00";
-	             }
-	             startTime = DateUtils.getCalcelDate(startTime);
-	             String endTime = DateUtils.getCurrentTime();
-	             Date synchDate = DateUtils.stringToTime(endTime);
-	             expertExtractProjectService.exportExpertExtractResult(startTime, endTime, synchDate);
-	        }
+			if(extractResult != null && StringUtils.isNotBlank(extractResult.getId())){
+				String startTime = recordService.getSynchTime(Constant.OPER_TYPE_EXPORT, extractResult.getId());
+				if (!StringUtils.isNotBlank(startTime)){
+					startTime = DateUtils.getCurrentDate() + " 00:00:00";
+				}
+				startTime = DateUtils.getCalcelDate(startTime);
+				String endTime = DateUtils.getCurrentTime();
+				Date synchDate = DateUtils.stringToTime(endTime);
+				expertExtractProjectService.exportExpertExtractResult(startTime, endTime, synchDate);
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * 
+	 * Description: 外网导出专家抽取项目信息
+	 * 
+	 * @data 2017年11月29日
+	 * @param 
+	 * @return void
+	 */
+	public void infoExport(){
+		if ("1".equals(StaticVariables.ipAddressType)) {
+			/** 外网导入 **/
+			DictionaryData info = DictionaryDataUtil.get(Constant.DATE_SYNCH_EXPERT_EXTRACT);
+			if(info != null && StringUtils.isNotBlank(info.getId())){
+				String startTime = recordService.getSynchTime(Constant.OPER_TYPE_EXPORT, info.getId());
+				if (!StringUtils.isNotBlank(startTime)){
+					startTime = DateUtils.getCurrentDate() + " 00:00:00";
+				}
+				startTime = DateUtils.getCalcelDate(startTime);
+				String endTime = DateUtils.getCurrentTime();
+				Date synchDate = DateUtils.stringToTime(endTime);
+				expertExtractProjectService.exportListExpertInfo(startTime, endTime, synchDate);
+			}
 		}
 	}
 }

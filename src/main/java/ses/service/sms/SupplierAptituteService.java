@@ -9,11 +9,11 @@ public interface SupplierAptituteService {
 
 	public SupplierAptitute queryById(String id);
 	
-	List<SupplierAptitute> queryByAptitute(String projectId);
+	List<SupplierAptitute> queryByMatEngId(String matEngId);
 	
 	public List<SupplierAptitute> queryByCodeAndType(String certType,String matEngId,String code,String type);
 	
-	public List<String> getPorType(String typeId, String matEngId, String code);
+	public List<String> getProType(String typeId, String matEngId, String code);
 
 	public int selectByCertCode(String certCode);
 

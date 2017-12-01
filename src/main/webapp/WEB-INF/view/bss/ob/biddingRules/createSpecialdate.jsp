@@ -58,12 +58,10 @@
    </div>
    <!-- 发布定型产品页面开始 -->
    <div class="container">
-	  <div class="mt10">
-	  <div class="container container_box">
+	  <div class="bggrey p20 mt10">
   		<form action="" id="specialDataForm" name="specialDataForm" method="post">
-		  <div>
 		    <h2 class="list_title">添加特殊日期</h2>
-		   <ul class="ul_list">
+		   <ul class="ul_list w100p">
 		     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>设置日期</span>
 			   <div class="input-append input_group col-sm-12 col-xs-12 p0">
@@ -84,15 +82,13 @@
 		       </div>
 			 </li>
 		   </ul>
-		       <div class="clear"></div> 
-		  </div> 
+       <div class="clear"></div>
 		</form>
-		 <div class="col-md-12 col-sm-12 col-xs-12 clear tc mt10">
+		 <div class="clear tc mt10">
 	   		<button class="btn btn-windows save" type="button" onclick="submitForm()">保存</button>
 	   		<button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
 		 </div>
 		</div>
-	</div>
   </div>
 </body>
 </html>

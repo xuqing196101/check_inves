@@ -42,6 +42,10 @@
                 }
             });
         }
+        function back(){
+			var parentName = $("#parentName").val();
+			window.location.href="${pageContext.request.contextPath}/purchaseManage/purchaseDepdetailList.html?parentName="+parentName; 
+        }
     </script>
 </head>
 <body>
@@ -53,7 +57,7 @@
             <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
             <li><a href="javascript:void(0);">支撑系统</a></li>
             <li><a href="javascript:void(0);">机构管理</a></li>
-            <li class="active"><a href="javascript:void(0);">需求部门管理</a></li>
+            <li class="active"><a href="javascript:void(0);">采购机构管理</a></li>
         </ul>
         <div class="clear"></div>
     </div>
@@ -89,7 +93,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <h2 class="count_flow jbxx">上级部门</h2>
+                        <!-- <h2 class="count_flow jbxx">上级部门</h2>
                         <table class="table table-bordered">
                             <tbody>
                             <tr>
@@ -97,7 +101,7 @@
                                 <td></td>
                             </tr>
                             </tbody>
-                        </table>
+                        </table> -->
                         <h2 class="count_flow jbxx">采购人员</h2>
                         <table id="tb1" class="table table-bordered table-condensed table-hover table-striped">
                             <thead>
@@ -105,16 +109,16 @@
                                     <th class="info w50">序号</th>
                                     <th class="info">姓名</th>
                                     <th class="info">所属采购机构</th>
-                                    <th class="info">类型</th>
+                                    <th class="info">人员类别</th>
                                     <th class="info">性别</th>
-                                    <th class="info">年龄</th>
+                                    <!-- <th class="info">年龄</th> -->
                                     <th class="info">职务</th>
                                     <th class="info">职称</th>
                                     <th class="info">采购资格等级</th>
                                     <th class="info">学历</th>
-                                    <th class="info">电话</th>
+                                    <th class="info">办公号码</th>
                                     <!-- <th class="info">资质证书类型</th> -->
-                                    <th class="info">证书编号</th>
+                                    <th class="info">资质证书编号</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -147,20 +151,14 @@
                                     </td>
                                     <!-- 是否发布 -->
                                     <td class="tc" onclick="show('${p.id}');">
-                                        <c:choose>
-                                            <c:when test="${p.gender=='M'}">
-                                                男
-                                            </c:when>
-                                            <c:when test="${p.gender=='F'}">
-                                                女
-                                            </c:when>
-                                            <c:otherwise>
-                                                男
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </td>
+										<c:forEach items="${genders}" var="g">
+											<c:if test="${g.id eq p.gender}">
+												${g.name}
+											</c:if>
+										</c:forEach>
+									</td>
                                     <!-- 是否发布 -->
-                                    <td class="tc" onclick="show('${p.id}');">${p.age}</td>
+                                    <%-- <td class="tc" onclick="show('${p.id}');">${p.age}</td> --%>
                                     <!-- 是否发布 -->
                                     <td class="tc" onclick="show('${p.id}');">${p.duties}</td>
                                     <!-- 是否发布 -->
@@ -199,6 +197,10 @@
 
                         </table>
                     </div>
+                    <div class="mt20 tc col-md-12 col-sm-12 col-xs-12">
+                    <input type="hidden" id="parentName" value="${parentName }">
+                		<input type="button" class="btn btn-windows back" onclick="back();" value="返回" />
+              		</div>
                 </div>
             </form>
         </div>

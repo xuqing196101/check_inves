@@ -138,7 +138,7 @@ public class JedisUtils {
      * @author
      * @version 2017年6月21日
      */
-    public static synchronized Jedis getJedisByFactory(JedisConnectionFactory jedisConnectionFactory) throws Exception{
+    public static synchronized Jedis getJedisByFactory(JedisConnectionFactory jedisConnectionFactory) throws Exception {
         JedisConnection jedisConnection = jedisConnectionFactory.getConnection();
         return jedisConnection.getNativeConnection();
     }
@@ -152,8 +152,8 @@ public class JedisUtils {
      * @version 2017年6月23日
      */
     public static void returnResourceOfFactory(Jedis jedis) {
-        if(jedis!=null){
-          jedis.close();
+        if (jedis != null) {
+            jedis.close();
         }
     }
 }

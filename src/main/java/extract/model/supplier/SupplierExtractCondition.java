@@ -150,11 +150,6 @@ public class SupplierExtractCondition {
 	private String categoryId;
 
 	/**
-	 * 品目父节点id
-	 */
-	private String parentId;
-
-	/**
 	 * 品目是否同时满足 1 or 2 and
 	 */
 	private Short isMulticondition;
@@ -306,7 +301,7 @@ public class SupplierExtractCondition {
 	}
 
 	public Date getCreatedAt() {
-		return createdAt;
+		return null==createdAt?new Date():createdAt;
 	}
 
 	public void setCreatedAt(Date createdAt) {
@@ -538,14 +533,6 @@ public class SupplierExtractCondition {
 
 	public int getCsize() {
 		return this.csize;
-	}
-
-	public String getParentId() {
-		return parentId;
-	}
-
-	public void setParentId(String parentId) {
-		this.parentId = parentId;
 	}
 
 	public String getCurrentExtractNum() {

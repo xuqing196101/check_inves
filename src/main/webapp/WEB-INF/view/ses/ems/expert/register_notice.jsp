@@ -55,7 +55,7 @@
 					</div>
 					<div class="mt40 tc col-md-12 col-xs-12 col-sm-12 p0">
 						<input id="register_input_id" type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/expert/toExpert.html'" value="开始注册">
-					    <input id="register_input_id" type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='<c:if test="${pageContext.request.contextPath == null}">/</c:if>${pageContext.request.contextPath}'" value="返回">
+					    <input id="register_input_id" type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/first.jsp'" value="返回">
 					</div>
 					<div class="mt40 tc red f16 b col-md-12 col-sm-12 col-xs-12" >
 						推荐使用火狐浏览器（Firefox）、谷歌浏览器（Chrome）<!-- 以及IE9以上浏览器 -->！

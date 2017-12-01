@@ -228,7 +228,7 @@ public class ExpExtractRecordController extends BaseController {
             }
             
             // 根据包获取抽取出的专家
-            List<Map<String, Object>> list = projectExtractService.selectProExpert(projectId);
+            List<Map<String, Object>> list = projectExtractService.selectProResultExpert(projectId);
             if (list != null && !list.isEmpty()) {
                 for (Map<String, Object> map : list) {
                     for (Entry<String, Object> entry : map.entrySet()) {
@@ -236,8 +236,14 @@ public class ExpExtractRecordController extends BaseController {
                             String[] name = ((String)entry.getValue()).split(StaticVariables.COMMA_SPLLIT);
                             List<String> typeNames = new ArrayList<String>();
                             for (String string : name) {
-                                String typeName = DictionaryDataUtil.findById(string).getName();
-                                typeNames.add(typeName);
+                            	DictionaryData dictionaryData = DictionaryDataUtil.findById(string);
+                            	if(dictionaryData != null){
+                            		if(dictionaryData.getKind() == 6){
+                            			typeNames.add(dictionaryData.getName() + "技术");
+                                	}else{
+                                		typeNames.add(dictionaryData.getName());
+                                	}
+                            	}
                             }
                             entry.setValue(StringUtils.join(typeNames, StaticVariables.COMMA_SPLLIT));
                         }

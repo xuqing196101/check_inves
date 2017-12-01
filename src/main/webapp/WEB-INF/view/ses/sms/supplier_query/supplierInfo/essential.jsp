@@ -108,6 +108,7 @@
               </tbody>
             </table>
           </div>
+          <div class="clear"></div>
 
           <div class="tab-pane fade active in">
             <h2 class="count_flow"><i>2</i>营业执照</h2>
@@ -157,6 +158,7 @@
                 </tbody>
               </table>
             </ul>
+            <div class="clear"></div>
           </div>
 
           <div class="tab-pane fade active in">
@@ -185,6 +187,7 @@
                 </tbody>
               </table>
             </ul>
+            <div class="clear"></div>
           </div>
 
           <h2 class="count_flow"><i>4</i>地址信息</h2>
@@ -224,6 +227,8 @@
               </table>
             </c:forEach>
           </ul>
+          <div class="clear"></div>
+          
           <div class="tab-pane fade active in">
             <h2 class="count_flow"><i>5</i>资质资信</h2>
             <ul class="ul_list">
@@ -268,6 +273,7 @@
                 </tbody>
               </table>
             </ul>
+            <div class="clear"></div>
           </div>
 
           <div class="tab-pane fade active in">
@@ -300,6 +306,7 @@
                 </tbody>
               </table>
             </ul>
+            <div class="clear"></div>
           </div>
 
           <div class="tab-pane fade active in">
@@ -333,7 +340,9 @@
                 </tbody>
               </table>
             </ul>
+            <div class="clear"></div>
           </div>
+          
           <div class="tab-pane fade active in">
             <h2 class="count_flow"><i>8</i>境外分支</h2>
             <ul class="ul_list">
@@ -371,6 +380,7 @@
                 </c:forEach>
               </c:if>
             </ul>
+            <div class="clear"></div>
           </div>
 
           <div class="tab-pane fade active in">
@@ -404,7 +414,7 @@
                 </tbody>
               </table>
             </ul>
-
+            <div class="clear"></div>
           </div>
 
           <h2 class="count_flow"><i>10</i>参加政府或军队采购经历</h2>
@@ -416,6 +426,8 @@
               </div>
             </li>
           </ul>
+          <div class="clear"></div>
+          
           <h2 class="count_flow"><i>11</i>公司简介</h2>
           <ul class="ul_list">
             <li class="col-md-12 col-sm-12 col-xs-12">
@@ -425,6 +437,7 @@
               </div>
             </li>
           </ul>
+          <div class="clear"></div>
 
         </div>
         <div class="col-md-12 tc">

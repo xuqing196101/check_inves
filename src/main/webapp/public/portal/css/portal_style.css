@@ -1295,6 +1295,10 @@ a.yjfk i {
 .new_content {
   line-height: 30px;
 }
+.new_content table {
+	width: 100% !important;
+	max-width: 100% !important;
+}
 .li_square {
   list-style-type: none;
   padding: 0px;

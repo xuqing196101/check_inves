@@ -9,136 +9,43 @@
 <c:if test="${currSupplier.status == 2}">
 	<%@ include file="/WEB-INF/view/ses/sms/supplier_register/supplier_purchase_dept.jsp"%>
 </c:if>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/sms/supplier_register/contract.js"></script>
 <title>供应商注册</title>
 	<style type="text/css">
 		.current {
 			cursor: pointer;
 		}
 </style>
-<script type="text/javascript">
-	$(function() {
-		var err = "${err_contract_files}";
-		if (err != null && err != "") {
-			layer.msg(err, {offset: '300px'});
-		}
-		var PRODUCT = $("#li_id_1").text();
-		var SALES = $("#li_id_2").text();
-		var PROJECT = $("#li_id_3").text();
-		var SERVICE = $("#li_id_4").text();
-		if($.trim(PRODUCT)==""&&$.trim(SALES)=="" && $.trim(SERVICE)==""){
-			layer.alert("没有必须上传的合同信息，可以点击下一步！");
-		}
-		//加载默认的页签
-		if(PRODUCT == "物资-生产型合同信息") {
-			loadPageOne('tab-1','supplier/ajaxContract.html','PRODUCT');
-			return;
-		}
-	 		if(SALES == "物资-销售型合同信息") {
-			loadPageTwo('tab-2','supplier/ajaxContract.html','SALES');
-			return;
-		}
-		if(PROJECT == "工程合同信息") {
-			
-			// loadPageThree('tab-3','supplier/ajaxContract.html','PROJECT');
-			return;
-		}
-		if(SERVICE == "服务合同信息") {
-			loadPageFour('tab-4','supplier/ajaxContract.html','SERVICE');
-			return;
-		}
-		 
-	});
-
-
-
-	//暂存
-	function saveItems(){
-		layer.msg('暂存成功');
-	}
-	
-	function next(){
-		$("#items_info_form_id").submit();
-	}
-	
-	function prev(){
-		updateStep(4);
-	}
-	var index;
-	function loadPageOne(id, url, supplierTypeId) {
-		 index = layer.load(1, {
-			  shade: [0.1,'#fff'] //0.1透明度的白色背景
-		 });
-     var supplierId = $("#supplierId").val();
-  	 var path = "${pageContext.request.contextPath}/" + url + "?supplierId=" + supplierId + "&supplierTypeId=" + supplierTypeId;
-  	 $("#tab-4").html("");
-  	 $("#tab-2").html("");
-  	 $("#tab-3").html("");
-  	 $("#"+id).load(path);
-  	 init_web_upload_in("#" + id);
-	}
-	
-	function loadPageTwo(id, url, supplierTypeId) {
-		 index = layer.load(1, {
-			  shade: [0.1,'#fff'] //0.1透明度的白色背景
-		 });
-     var supplierId = $("#supplierId").val();
-  	 var path = "${pageContext.request.contextPath}/" + url + "?supplierId=" + supplierId + "&supplierTypeId=" + supplierTypeId;
-  	 $("#tab-1").html("");
-  	 $("#tab-4").html("");
-  	 $("#tab-3").html("");
-  	 $("#"+id).load(path);
-  	 init_web_upload_in("#" + id);
-	}
-	
-	function loadPageThree(id, url, supplierTypeId) {
-		 index = layer.load(1, {
-			  shade: [0.1,'#fff'] //0.1透明度的白色背景
-		 });
-     var supplierId = $("#supplierId").val();
-  	 var path = "${pageContext.request.contextPath}/" + url + "?supplierId=" + supplierId + "&supplierTypeId=" + supplierTypeId;
-  	 $("#tab-1").html("");
-  	 $("#tab-2").html("");
-  	 $("#tab-4").html("");
-  	 $("#"+id).load(path);
-  	 init_web_upload_in("#" + id);
-	}
-	
-	function loadPageFour(id, url, supplierTypeId) {
-		 index = layer.load(1, {
-			  shade: [0.1,'#fff'] //0.1透明度的白色背景
-		 });
-     var supplierId = $("#supplierId").val();
-  	 var path = "${pageContext.request.contextPath}/" + url + "?supplierId=" + supplierId + "&supplierTypeId=" + supplierTypeId;
-  	 $("#tab-1").html("");
-  	 $("#tab-2").html("");
-  	 $("#tab-3").html("");
-  	 $("#"+id).load(path);
-  	 init_web_upload_in("#" + id);
-	}
-	function updateStep(step){
-		var supplierId = $("#supplierId").val();
-		location.href = "${pageContext.request.contextPath}/supplier/updateStep.html?step=" + step + "&supplierId=" + supplierId;
-	}
-	sessionStorage.locationE=true;
-	sessionStorage.index=5;
-</script>
 </head>
 
 <body>
 	<div class="wrapper">
-		<div class="container clear margin-top-30">
+		<!-- 隐藏域 -->
+		<input type="hidden" id="supplierId" value="${supplierId}" />
+		<input type="hidden" id="supplierSt" value="${supplierSt}" />
+		<input type="hidden" id="err_contract_files" value="${err_contract_files}" />
+		<input type="hidden" id="flagSupplierTypeAudit" value="${flagSupplierTypeAudit}" />
+		<input type="hidden" id="infoSupplierTypeAudit" value="${infoSupplierTypeAudit}" />
+		<!-- 项目戳开始 -->
+		<jsp:include page="/WEB-INF/view/ses/sms/supplier_register/common_jump.jsp">
+			<jsp:param value="${supplierId}" name="supplierId"/>
+			<jsp:param value="${supplierSt}" name="supplierSt"/>
+			<jsp:param value="5" name="currentStep"/>
+		</jsp:include>
+		
+		<!-- <div class="container clear margin-top-30">
 			<h2 class="step_flow">
 				<span id="sp1" class="new_step current fl" onclick="updateStep('1')"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span>
-	            <span id="sp2" class="new_step current fl" onclick="updateStep('2')"><i class="">2</i><div class="line"></div> <span class="step_desc_01">供应商类型</span> </span>
-	            <span id="ty3" class="new_step current fl" onclick="updateStep('3')"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品类别</span> </span>
-	            <span id="sp4" class="new_step current fl" onclick="updateStep('4')"><i class="">4</i><div class="line"></div> <span class="step_desc_01">资质文件维护</span> </span>
-	            <span id="sp5" class="new_step current fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">销售合同</span> </span>
-	            <span id="sp6" class="new_step fl"><i class="">6</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span>
-	            <span id="sp7" class="new_step fl"><i class="">7</i><div class="line"></div> <span class="step_desc_02">承诺书和申请表</span> </span>
-	            <span id="sp8" class="new_step fl new_step_last"><i class="">8</i> <span class="step_desc_01">提交审核</span> </span>
-	            <div class="clear"></div>
+		    <span id="sp2" class="new_step current fl" onclick="updateStep('2')"><i class="">2</i><div class="line"></div> <span class="step_desc_01">供应商类型</span> </span>
+		    <span id="ty3" class="new_step current fl" onclick="updateStep('3')"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品类别</span> </span>
+		    <span id="sp4" class="new_step current fl" onclick="updateStep('4')"><i class="">4</i><div class="line"></div> <span class="step_desc_01">资质文件维护</span> </span>
+		    <span id="sp5" class="new_step current fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">销售合同</span> </span>
+		    <span id="sp6" class="new_step fl"><i class="">6</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span>
+		    <span id="sp7" class="new_step fl"><i class="">7</i><div class="line"></div> <span class="step_desc_02">承诺书和申请表</span> </span>
+		    <span id="sp8" class="new_step fl new_step_last"><i class="">8</i> <span class="step_desc_01">提交审核</span> </span>
+		    <div class="clear"></div>
 			</h2>
-		</div>
+		</div> -->
  
  		<!--基本信息-->
 		<div class="container content height-300">
