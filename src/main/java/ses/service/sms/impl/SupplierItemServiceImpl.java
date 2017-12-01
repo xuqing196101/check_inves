@@ -112,13 +112,13 @@ public class SupplierItemServiceImpl implements SupplierItemService {
         List<Category> categoryList = new ArrayList<Category>();
         List<SupplierItem> itemList = new ArrayList<SupplierItem>();
         List<Category> plist = getAllParentNode(categoryId);
-        if(plist != null && plist.size() > 0){
-            plist.remove(0);
-        }
-        categoryList.addAll(plist);
         if(clist != null && clist.size() > 0){
             categoryList.addAll(clist);
+            if(plist != null && plist.size() > 0){
+                plist.remove(0);
+            }
         }
+        categoryList.addAll(plist);
         //removeSame(categoryList);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("supplierId", supplierItem.getSupplierId());
@@ -554,9 +554,10 @@ public class SupplierItemServiceImpl implements SupplierItemService {
         List<Category> categoryList = new ArrayList<Category>();
         List<SupplierItem> itemList = new ArrayList<SupplierItem>();
         Category current = categoryService.findById(categoryId);
-        //categoryList.add(current);
+        categoryList.add(current);
         if(clist != null && clist.size() > 0){
         	categoryList.addAll(clist);
+        	categoryList.remove(current);
         }
         //Map<String, String> map = new HashMap<String, String>();
         //map.put("supplierId", supplierItem.getSupplierId());
