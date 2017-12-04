@@ -1679,7 +1679,7 @@ public class ExpertAuditController{
 	
 			model.addAttribute("editFields", editFields);
 			}
-		}
+		
 		
 		//  判断当前状态如果为退回修改则比较两次的信息
 		/*// 判断有没有进行修改
@@ -1704,20 +1704,20 @@ public class ExpertAuditController{
 			}
 		}*/
 		
-		//回显修改前的职业资格
-		ExpertEngHistory expertEngHistory = new ExpertEngHistory();
-		expertEngHistory.setExpertId(expertId);
-		List<ExpertEngHistory> list = expertEngModifySerivce.selectByExpertId(expertEngHistory);
-		StringBuffer modifyFiled = new StringBuffer();
-		if(!list.isEmpty()){
-			for(ExpertEngHistory history : list){
-				String beforeField = history.getRelationId() +"_"+ history.getField();
-				modifyFiled.append(beforeField + ",");
+			//回显修改前的职业资格
+			ExpertEngHistory expertEngHistory = new ExpertEngHistory();
+			expertEngHistory.setExpertId(expertId);
+			List<ExpertEngHistory> list = expertEngModifySerivce.selectByExpertId(expertEngHistory);
+			StringBuffer modifyFiled = new StringBuffer();
+			if(!list.isEmpty()){
+				for(ExpertEngHistory history : list){
+					String beforeField = history.getRelationId() +"_"+ history.getField();
+					modifyFiled.append(beforeField + ",");
+				}
+				model.addAttribute("modifyFiled", modifyFiled);
 			}
-			model.addAttribute("modifyFiled", modifyFiled);
+		
 		}
-		
-		
 		
 		/**
 		 * 执业资格模块
