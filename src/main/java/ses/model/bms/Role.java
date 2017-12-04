@@ -66,6 +66,8 @@ public class Role implements Serializable{
      */
     private Integer userNumber;
     
+    private String[] codes;
+    
     /**
      * 位置
      */
@@ -174,5 +176,13 @@ public class Role implements Serializable{
     public void setPosition(Integer position) {
       this.position = position;
     }
+
+	public String[] getCodes() {
+		return codes;
+	}
+
+	public void setCodes(String[] codes) {
+		this.codes = codes;
+	}
     
 }

@@ -88,10 +88,11 @@ public interface PreMenuServiceI {
    * 
    * @author Ye MaoLin
    * @version 2016-9-25
+	 * @param kind 
    * @param id
    * @exception IOException
    */
-  List<PreMenu> getMenu(User u);
+  List<PreMenu> getMenu(User u, Integer kind);
 
   /**
    *〈简述〉查询拥有该菜单的用户
