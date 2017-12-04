@@ -34,6 +34,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
+import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
@@ -158,6 +159,12 @@ public class PurchaseController extends BaseController{
 		model.addAttribute("origin", origin);
 		model.addAttribute("originOrgId", orgId);
 		model.addAttribute("cggl", cggl);
+		//用户注册申请表
+  		DictionaryData data = DictionaryDataUtil.get("USER_REG_APPLY");
+  		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+  		model.addAttribute("data", data);
+  		String id = WfUtil.createUUID();
+  		model.addAttribute("userId", id);
 		purchaseServiceI.initPurchaser(model,orgId);
 		return "ses/oms/purchase/add";
 	}
@@ -186,6 +193,11 @@ public class PurchaseController extends BaseController{
 		String cggl = request.getParameter("cggl");
 		
 		model.addAttribute("cggl", cggl);
+		//用户注册申请表
+  		DictionaryData data = DictionaryDataUtil.get("USER_REG_APPLY");
+  		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+  		model.addAttribute("data", data);
+  		model.addAttribute("userId", purchaseInfo.getUserId());
 		//校验
 		if (result.hasErrors()){
 			model.addAttribute("roleName",roleName);
@@ -420,6 +432,10 @@ public class PurchaseController extends BaseController{
 		}
 		Integer shenfenzheng = 1 ;
 		model.addAttribute("shenfenzheng", shenfenzheng);
+		//用户注册申请表
+  		DictionaryData data = DictionaryDataUtil.get("USER_REG_APPLY");
+  		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+  		model.addAttribute("data", data);
 		return "ses/oms/purchase/edit";
 	}
 	
@@ -435,6 +451,10 @@ public class PurchaseController extends BaseController{
 		
 		model.addAttribute("cggl", cggl);
 		String roleName = request.getParameter("roleName");
+		//用户注册申请表
+  		DictionaryData data = DictionaryDataUtil.get("USER_REG_APPLY");
+  		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+  		model.addAttribute("data", data);
 		//校验
 		if (result.hasErrors()){
 			model.addAttribute("roleName",roleName);

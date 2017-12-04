@@ -4,6 +4,7 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
+		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<script src="${pageContext.request.contextPath}/js/ses/bms/user/add.js"></script>
 	<script type="text/javascript">
 		/* 机构树 */
@@ -304,44 +305,59 @@
 		function ajaxMoblie(){
 			 var is_error = 0;
 			 var mobile = $("#mobile").val();
+			 var mobile2 = $("#mobile2").val();
 			 var id = $("#uId").val();
-			 $.ajax({
-             type: "GET",
-             async: false, 
-             url: "${pageContext.request.contextPath}/user/ajaxMoblie.do?mobile="+mobile+"&id="+id,
-             dataType: "json",
-             success: function(data){
-                     if (!data.success) {
-                    	$("#errMobile").html("");
-						$("#ajax_mobile").html(data.msg);
-						is_error = 1;
-					 } else {
-					 	$("#ajax_mobile").html("");
-					 }
-               }
-         	});
+			 if (mobile == mobile2) {
+				 $("#errMobile").html("");
+				 $("#ajax_mobile").html("两个手机号不能一致");
+				 is_error = 1;
+			 } else {
+				 $.ajax({
+	             type: "GET",
+	             async: false, 
+	             url: "${pageContext.request.contextPath}/user/ajaxMoblie.do?mobile="+mobile+"&id="+id,
+	             dataType: "json",
+	             success: function(data){
+	                     if (!data.success) {
+	                    	$("#errMobile").html("");
+							$("#ajax_mobile").html(data.msg);
+							is_error = 1;
+						 } else {
+						 	$("#ajax_mobile").html("");
+						 }
+	               }
+	         	});
+			 }
          	return is_error;
 		}
 		
 		function ajaxMoblie2(){
 			var is_error = 0;
 			var mobile2 = $("#mobile2").val();
+			var id = $("#uId").val();
 			if (mobile2 != null && mobile2 != "") {
-				$.ajax({
-		            type: "GET",
-		            async: false, 
-		            url: "${pageContext.request.contextPath}/user/ajaxMoblie.do?mobile="+mobile2,
-		            dataType: "json",
-		            success: function(data){
-	                    if (!data.success) {
-	                    	$("#errMobile2").html("");
-							$("#ajax_mobile2").html(data.msg);
-							is_error = 1;
-						 } else {
-						 	$("#ajax_mobile2").html("");
-						 }
-	                }
-		        });
+				var mobile = $("#mobile").val();
+				if (mobile == mobile2) {
+					 $("#errMobile2").html("");
+					 $("#ajax_mobile2").html("两个手机号不能一致");
+					 is_error = 1;
+				} else {
+					$.ajax({
+			            type: "GET",
+			            async: false, 
+			            url: "${pageContext.request.contextPath}/user/ajaxMoblie.do?mobile="+mobile2+"&id="+id,
+			            dataType: "json",
+			            success: function(data){
+		                    if (!data.success) {
+		                    	$("#errMobile2").html("");
+								$("#ajax_mobile2").html(data.msg);
+								is_error = 1;
+							 } else {
+							 	$("#ajax_mobile2").html("");
+							 }
+		                }
+			        });
+				}
 			}
         	return is_error;
 		}
@@ -404,9 +420,6 @@
 					error += 1;
 				} 
 				if (ajaxMoblie() == 1){
-					error += 1;
-				} 
-				if (ajaxMoblie2() == 1){
 					error += 1;
 				} 
 				if (ajaxOfficerCertNo() == 1){
@@ -486,7 +499,7 @@
 				        </div>
 				 	</li>
 			     	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3 ">
-					    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>手机</span>
+					    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>手机(常用)</span>
 					    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0" >
 					        <input class="span5" id="mobile" name="mobile" value="${user.mobile }" maxlength="40" onblur="ajaxMoblie()" type="text">
 					        <span class="add-on">i</span>
@@ -495,9 +508,9 @@
 				        </div>
 				 	</li>
 				 	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
-					    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">手机2</span>
+					    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">手机(备用)</span>
 					    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0" >
-					        <input id="mobile2" name="mobile2" value="${user.mobile2}" maxlength="40" type="text" onblur="ajaxMoblie2()">
+					        <input id="mobile2" name="mobile2" value="${user.mobile2}" maxlength="40" type="text">
 					        <span class="add-on">i</span>
 					        <div class="cue" id="errMobile2"><sf:errors path="mobile2"/></div>
 					        <div id="ajax_mobile2" class="cue"></div>
@@ -689,6 +702,13 @@
 						        <option value="3" <c:if test="${user.dataAccess == 3}">selected</c:if>>本人</option>
 					        </select>
 				        </div>
+				 	</li>
+				 	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				 	   <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">上传用户注册申请表</span>
+					   <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">
+		                <u:upload id="fileApply"  multiple="true"  businessId="${user.id}" sysKey="${sysKey}" typeId="${data.id}" auto="true" />
+		                <u:show showId="fileApplyShow"  businessId="${user.id}" sysKey="${sysKey}" typeId="${data.id}" />
+		               </div>
 				 	</li>
 				     <li class="col-md-12 col-sm-12 col-xs-12 col-lg-12 ">
 				 	   <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">详细地址</span>

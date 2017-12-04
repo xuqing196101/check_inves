@@ -195,9 +195,6 @@ function onCheck(e, treeId, treeNode) {
           if (ajaxMoblie() == 1){
               error += 1;
           } 
-          if (ajaxMoblie2() == 1){
-              error += 1;
-          } 
           if (error > 0) {
               return false;
           } else {
@@ -332,6 +329,12 @@ function onCheck(e, treeId, treeNode) {
 			        <div class="cue"><sf:errors path="dataAccess"/></div>
 		        </div>
 		 	</li>
+		 	<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">上传用户注册申请表</span>
+              <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+               <u:upload id="fileApply"  multiple="true"  businessId="${purchaseInfo.userId}" sysKey="${sysKey}" typeId="${data.id}" auto="true" />
+		       <u:show showId="fileApplyShow"  businessId="${purchaseInfo.userId}" sysKey="${sysKey}" typeId="${data.id}" />
+              </div>
+            </li>
 		  </ul>
 		</div>
 		
@@ -506,7 +509,7 @@ function onCheck(e, treeId, treeNode) {
 			  </li>
 				                     
 			  <li class="col-md-3 col-sm-6 col-xs-12 pl15">  
-			    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>手机号码</span>
+			    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>手机(常用)</span>
 				<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 				  <input class="input_group" name="mobile" value="${purchaseInfo.mobile}" onblur="ajaxMoblie()" type="text"> 
 				  <span class="add-on">i</span>
@@ -537,9 +540,9 @@ function onCheck(e, treeId, treeNode) {
 				</div>
 			  </li>
 			  <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" >
-			  <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">手机2</span>
+			  <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">手机(备用)</span>
 			  <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-				<input id="mobile2" class="input_group" name="mobile2" onblur="ajaxMoblie2()" maxlength="50" value="${purchaseInfo.mobile2}" type="text">
+				<input id="mobile2" class="input_group" name="mobile2"  maxlength="50" value="${purchaseInfo.mobile2}" type="text">
 				<span class="add-on">i</span>
 				<div class="cue" id="errMobile2"><sf:errors path="mobile2"/></div>
 			    <div class="cue"><sf:errors path="mobile2"/></div>
