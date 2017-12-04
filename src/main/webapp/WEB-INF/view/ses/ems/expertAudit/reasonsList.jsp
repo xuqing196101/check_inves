@@ -207,7 +207,7 @@
                     shift: 4,
                     btn: ['确认', '取消']
                 }, function () {
-                	  zhancun();
+                	  zancun();
                     if (status == 3) {
                     	$("#status").val(status);
                       $("#form_shenhe").submit();
@@ -479,10 +479,10 @@
     }
 	
 	 //暂存
-    function zhancun(status) {
+    function zancun(status) {
         var opinion = document.getElementById('opinion').value;
-				var expertId = $("input[name='expertId']").val();
-				var sign = $("input[name='sign']").val();
+		var expertId = $("input[name='expertId']").val();
+		var sign = $("input[name='sign']").val();
         var radio = $(":radio:checked").val();
         var isDownLoadAttch = $("#isDownLoadAttch").val();
         if(sign == 1){
@@ -497,7 +497,7 @@
 	            	$.ajax({
 	                 url: "${pageContext.request.contextPath}/expertAudit/temporaryAudit.do",
 	                 dataType: "json",
-	                 data: {expertId: expertId},
+	                 data: {"expertId": expertId, "sign" : sign},
 	                 success: function (result) {
 	                     layer.msg(result, {offset: ['100px']});
 	                 }, error: function () {
@@ -755,12 +755,12 @@
                        <!-- <input class="btn btn-windows end" type="button" onclick="shenhe();" value="初审结束" id="tuihui"> -->
                        <input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
                    	   <input class="btn btn-windows end" type="button" onclick="yuend(15);" value="预初审结束" id="yund">
-										  <a id="tempSave" class="btn" onclick="zhancun();">暂存</a>
+										  <a id="tempSave" class="btn" onclick="zancun();">暂存</a>
 										  <a id="nextStep" class="btn display-none" type="button" onclick="yuNext();">下一步</a>
                     </c:if>
                     <c:if test = "${status == '15' || status == '16'}" >
                       <c:if test="${isCheck eq 'no'}">
-                        <a id="tempSave" class="btn" onclick="zhancun();">暂存</a>
+                        <a id="tempSave" class="btn" onclick="zancun();">暂存</a>
                       </c:if>
                     	<a id="nextStep" class="btn" type="button" onclick="yuNext();">下一步</a>
                     </c:if>
