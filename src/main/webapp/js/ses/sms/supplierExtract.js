@@ -369,12 +369,12 @@ function checkEmpty(){
 		count2++;
 	}
 	if(count1>0){
-		$("#eError").html("抽取人员必须两人以上且信息必须填写完整");
-		layer.msg("抽取人员必须两人以上且信息必须填写完整");
+		$("#eError").html("抽取人员至少填写一人且信息必须填写完整");
+		layer.msg("抽取人员至少填写一人且信息必须填写完整");
 	}
 	if(count2>0){
-		$("#sError").html("监督人员必填且必须填写完整");
-		layer.msg("监督人员必填且必须填写完整");
+		$("#sError").html("监督人员至少填写一人且必须填写完整");
+		layer.msg("监督人员至少填写一人且必须填写完整");
 	}
 	
 	$("#contactNumError").html("");  
@@ -419,7 +419,7 @@ function compareExtractNum(){
  * 校验抽取数量
  */
 function checkExtractNum(){
-	if($("#extractNum").val()){
+	if($("#extractNum").val() && $("#extractNum").val()!=0){
 		return compareExtractNum();
 	}else{
 		layer.msg("请输入抽取数量，仅能输入正整数");
