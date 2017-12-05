@@ -91,7 +91,7 @@
     <!-- 表格开始-->
     <div class="col-md-12 pl20 pr0 mt10 mb10" id="btn_group">
       <div class="m_inline pic_upload">
-        <u:upload id="pic_checkword" businessId="${batchId}" sysKey="3" typeId="da6ab7e73b8d464d8d8d46013dd70e43" buttonName="上传批准复审表" auto="true" multiple="true"/>
+        <u:upload id="pic_checkword" businessId="${batchId}" sysKey="3" typeId="da6ab7e73b8d464d8d8d46013dd70e43" buttonName="上传复审批准件" auto="true" multiple="true"/>
         <u:show showId="pic_checkword" businessId="${batchId}" sysKey="3" typeId="da6ab7e73b8d464d8d8d46013dd70e43" />
       </div>
       <div class="clear"></div>

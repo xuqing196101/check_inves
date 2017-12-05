@@ -98,8 +98,11 @@ public class SupplierCateTree implements Serializable{
     private String rootNodeCode;
     // 类别id
     private String categoryId;
-    //审核理由
+    //初审理由
     private String auditReason;
+    //复审理由
+    private String reviewAudit;
+    
     // 是否被退回
     private byte isReturned;
     //记录一条有资质的节点id
@@ -508,5 +511,15 @@ public class SupplierCateTree implements Serializable{
 	public void setParentNodeList(List<Category> parentNodeList) {
 		this.parentNodeList = parentNodeList;
 	}
+
+	public String getReviewAudit() {
+		return reviewAudit;
+	}
+
+	public void setReviewAudit(String reviewAudit) {
+		this.reviewAudit = reviewAudit;
+	}
+	
+
 	
 }

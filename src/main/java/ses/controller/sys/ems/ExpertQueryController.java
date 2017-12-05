@@ -432,9 +432,9 @@ public class ExpertQueryController {
             // 公示品目删选
             items = expertCategoryService.selectPassCateByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
         }else {
-            items = expertCategoryService.selectPassCategoryByExpertId(expertId, typeId);
+            /*items = expertCategoryService.selectPassCategoryByExpertId(expertId, typeId);*/
             
-           /* items = expertCategoryService.getListByExpertId(expertId, typeId);*/
+           items = expertCategoryService.getListByExpertId(expertId, typeId);
         }
 
         List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
@@ -474,6 +474,8 @@ public class ExpertQueryController {
                 allTreeList.add(cateTree);
             }
         }
+        
+        ExpertAudit expertAudit = new ExpertAudit();
         for(SupplierCateTree cate: allTreeList) {
             cate.setRootNode(cate.getRootNode() == null ? "" : cate.getRootNode());
             cate.setFirstNode(cate.getFirstNode() == null ? "" : cate.getFirstNode());
@@ -481,6 +483,35 @@ public class ExpertQueryController {
             cate.setThirdNode(cate.getThirdNode() == null ? "" : cate.getThirdNode());
             cate.setFourthNode(cate.getFourthNode() == null ? "" : cate.getFourthNode());
             cate.setRootNode(cate.getRootNode());
+            
+            
+        	expertAudit.setExpertId(expertId);
+        	expertAudit.setAuditFalg(1);
+            expertAudit.setSuggestType("six");
+            expertAudit.setAuditFieldId(cate.getItemsId());
+            //初审理由
+            ExpertAudit firstAuditInfo = expertAuditService.findAuditByExpertId(expertAudit);
+            if(firstAuditInfo !=null && firstAuditInfo.getAuditReason() !=null){
+            	cate.setAuditReason("不通过，原因：" + firstAuditInfo.getAuditReason());
+            }else{
+            	//兼容之前老数据
+            	expertAudit.setAuditFalg(666);
+            	ExpertAudit a = expertAuditService.findAuditByExpertId(expertAudit);
+            	if(a !=null && a.getAuditReason() !=null){
+            		cate.setAuditReason("不通过，原因：" + a.getAuditReason());
+            	}else{
+                	cate.setAuditReason("通过。");
+                }
+            }
+            
+            //复审理由
+            expertAudit.setAuditFalg(2);
+            ExpertAudit reviewAuditInfo = expertAuditService.findAuditByExpertId(expertAudit);
+            if(reviewAuditInfo !=null && reviewAuditInfo.getAuditReason() !=null){
+            	cate.setReviewAudit("不通过，原因：" + reviewAuditInfo.getAuditReason());
+            }else{
+            	cate.setReviewAudit("通过。");
+            }
         }
         model.addAttribute("expertId", expertId);
         model.addAttribute("typeId", typeId);
