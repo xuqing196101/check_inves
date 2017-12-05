@@ -494,8 +494,16 @@ public class ExpertQueryController {
             if(firstAuditInfo !=null && firstAuditInfo.getAuditReason() !=null){
             	cate.setAuditReason("不通过，原因：" + firstAuditInfo.getAuditReason());
             }else{
-            	cate.setAuditReason("通过。");
+            	//兼容之前老数据
+            	expertAudit.setAuditFalg(666);
+            	ExpertAudit a = expertAuditService.findAuditByExpertId(expertAudit);
+            	if(a !=null && a.getAuditReason() !=null){
+            		cate.setAuditReason("不通过，原因：" + a.getAuditReason());
+            	}else{
+                	cate.setAuditReason("通过。");
+                }
             }
+            
             //复审理由
             expertAudit.setAuditFalg(2);
             ExpertAudit reviewAuditInfo = expertAuditService.findAuditByExpertId(expertAudit);
