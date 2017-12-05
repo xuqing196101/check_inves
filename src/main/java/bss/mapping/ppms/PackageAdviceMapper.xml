@@ -81,7 +81,7 @@
   </select>
   
   <!-- 2.根据条件查询 -->
-  <select id="findByList" parameterType="java.util.Map" resultMap="PackageAdviceResult">
+  <select id="findByList" flushCache="true" parameterType="java.util.Map" resultMap="PackageAdviceResult">
     SELECT 
     <include refid="Base_Column_List" />
     FROM T_BSS_PPMS_PACKAGE_ADVICE pa
