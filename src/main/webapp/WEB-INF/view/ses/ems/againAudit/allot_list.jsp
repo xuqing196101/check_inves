@@ -70,7 +70,7 @@
           <li class="select2-nosearch mb10">
             <label class="fl">专家类别：</label>
             <div class="fl w220">
-            <select multiple name="expertsTypeId">
+            <select multiple name="expertsTypeId" class="w100p h30">
             </select>
             </div>
           </li>
