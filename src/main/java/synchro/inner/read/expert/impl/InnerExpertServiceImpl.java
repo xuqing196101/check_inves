@@ -276,6 +276,15 @@ public class InnerExpertServiceImpl implements InnerExpertService {
                             expertCategoryMapper.insertSelective(expertCategory);
                         }
                     }
+                    List<ExpertTitle> titleList = expert.getTitles();
+                    if(titleList != null && titleList.size() > 0){
+                    	//先删除之前的执业资格
+                    	expertTitleMapper.deleteByExpertId(expert.getId());
+                    	//新增
+                    	for (ExpertTitle expertTitle : titleList) {
+                    		expertTitleMapper.insertSelective(expertTitle);
+    					}
+                    }
                 }
 
                 // 保存批次编号详情

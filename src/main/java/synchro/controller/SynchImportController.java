@@ -208,6 +208,11 @@ public class SynchImportController {
                     iter.remove();
                     continue;
                 }
+                //过滤军队专家信息
+                if (dd.getCode().equals(Constant.DATE_SYNCH_MILITARY_EXPERT)) {
+                    iter.remove();
+                    continue;
+                }
                 // 过滤供应商抽取信息  定时任务自动导入导出
                /* if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO)) {
                 	iter.remove();
@@ -277,11 +282,6 @@ public class SynchImportController {
 
                     if (dd.getCode().equals(Constant.SYNCH_PUBLICITY_EXPERT)) {
                         /**公示专家**/
-                        iter.remove();
-                        continue;
-                    }
-                    //过滤军队专家信息
-                    if (dd.getCode().equals(Constant.DATE_SYNCH_MILITARY_EXPERT)) {
                         iter.remove();
                         continue;
                     }
