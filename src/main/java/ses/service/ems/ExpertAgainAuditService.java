@@ -14,7 +14,7 @@ public interface ExpertAgainAuditService {
 	ExpertAgainAuditImg addAgainAudit(String ids);
 	ExpertAgainAuditImg createBatch(String batchName,String batchNumber,String ids);
 	ExpertAgainAuditImg findBatch(String batchNumber,String batchName,Date createdAt, Integer pageNum);
-	ExpertAgainAuditImg findBatchDetails(String batchId,String status, Integer pageNum);
+	ExpertAgainAuditImg findBatchDetails(ExpertBatchDetails expertBatchDetails);
 	ExpertAgainAuditImg expertGrouping(String batchId,String ids);
 	ExpertAgainAuditImg getGroups(String batchId);
 	ExpertAgainAuditImg expertAddGroup(String groupId,String ids);
@@ -33,10 +33,13 @@ public interface ExpertAgainAuditService {
 	void handleExpertReviewTeam(String expertId);
 	ExpertAgainAuditImg automaticGrouping(String batchId,int count);
 	ExpertAgainAuditImg selectReviewTeamAll();
-	List<ExpertBatchDetails> findBatchDetailsList(String batchId);
+	List<ExpertBatchDetails> findBatchDetailsList(ExpertBatchDetails expertBatchDetails);
 	void deleteByPrimaryKey();
 	ExpertAgainAuditImg addBatchTemporary(String expertId,String ids);
 	ExpertAgainAuditImg selectBatchTemporary(Expert expert);
 	ExpertAgainAuditImg deleteBatchTemporary(String ids);
 	String getbatchName(String batchId);
+	ExpertAgainAuditImg againReview(String id);
+	ExpertAgainAuditImg cancelReview(String id);
+	ExpertAgainAuditImg takeEffect(String batchId);
 }

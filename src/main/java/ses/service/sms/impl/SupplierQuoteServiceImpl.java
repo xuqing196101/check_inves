@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
@@ -100,7 +101,7 @@ public class SupplierQuoteServiceImpl implements SupplierQuoteService {
      * @see ses.service.sms.SupplierQuoteService#selectByCondition(java.util.HashMap, java.lang.Integer)
      */
     @Override
-    public List<Project> selectByCondition(HashMap<String, Object> map, Integer page) {
+    public List<Project> selectByCondition(Map<String, Object> map, Integer page) {
         PropertiesUtil config = new PropertiesUtil("config.properties");
         PageHelper.startPage(page, Integer.parseInt(config.getString("pageSize")));
         return projectMapper.selectProject(map);

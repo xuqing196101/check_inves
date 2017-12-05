@@ -41,7 +41,14 @@ public class BatchTemporary {
 	private Date updatedAt;
 	private String updateTime;
 	private List<String> ids;
+	private String reviewStatus;
 	
+	public String getReviewStatus() {
+		return reviewStatus;
+	}
+	public void setReviewStatus(String reviewStatus) {
+		this.reviewStatus = reviewStatus;
+	}
 	public List<String> getIds() {
 		return ids;
 	}

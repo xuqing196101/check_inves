@@ -87,6 +87,7 @@ public class PackageAdviceServiceImpl implements PackageAdviceService {
 		String[] packageId = packageIds.split(StaticVariables.COMMA_SPLLIT);
 		if (packageId.length > 0) {
 			PackageAdvice packageAdvice = null; 
+			Date date=new Date();
 			for (String packId : packageId) {
 				packageAdvice = new PackageAdvice();
 				HashMap<String, Object> hashMap = new HashMap<>();
@@ -111,7 +112,7 @@ public class PackageAdviceServiceImpl implements PackageAdviceService {
 					packageAdvice.setProcessStatus(0);
 				}
 				packageAdvice.setCode(auditCode);
-				packageAdvice.setCreatedAt(new Date());
+				packageAdvice.setCreatedAt(date);
 				packageAdvice.setIsDeleted(0);
 				packageAdvice.setProposer(userId);
 				mapper.insert(packageAdvice);

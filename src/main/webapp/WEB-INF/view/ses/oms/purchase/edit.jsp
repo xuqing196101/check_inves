@@ -88,7 +88,13 @@ function onCheck(e, treeId, treeNode) {
 	  if (origin != null && origin != ""){
 		  //返回到采购机构
 		  if (origin == "1"){
-			  window.location.href = "${pageContext.request.contextPath}/purchaseManage/purchaseUnitList.html";
+			  var originOrgId = $("#originOrgId").val();
+			  var cggl = $("#cggl").val();
+			  if(cggl == "cggl"){
+				  window.location.href = "${pageContext.request.contextPath}/purchase/list.html?purchaseDepId="+originOrgId;
+			  } else{
+				  window.location.href = "${pageContext.request.contextPath}/purchaseManage/purchaseUnitList.html";
+			  }
 		  }
 		  //返回到组织机构
 		  if (origin == "2"){
@@ -105,7 +111,6 @@ function onCheck(e, treeId, treeNode) {
 	function ajaxIdNumber(){
 		var shenfenzheng = $("#shenfenzheng").val();
 		if(shenfenzheng != 1){
-			alert(1);
 			var is_error = 0;
 		       var idNumber = $("#idNumber").val();
 		        var msg=validateIdCard(idNumber);
@@ -206,9 +211,10 @@ function onCheck(e, treeId, treeNode) {
 	</div>
 	
 	<sf:form action="${pageContext.request.contextPath}/purchase/update.html" method="post" id="formID" modelAttribute="purchaseInfo">
+	  <input type="hidden" name ="cggl" value="${cggl}" id="cggl"/>
 	  <input type="hidden" name="id"  value="${mainId}" />
 	  <input type="hidden" name ="origin" value="${origin}"/>
-	  <input type="hidden" name ="originOrgId" value="${originOrgId}"/>
+	  <input type="hidden" name ="originOrgId" value="${originOrgId}" id="originOrgId"/>
 	  <input  name="password" value="${purchaseInfo.password}"  type="hidden" />
 	  <input  name="password2" value="${purchaseInfo.password}"  type="hidden" />
 	  <input type="hidden" name = "typeName" value="1">

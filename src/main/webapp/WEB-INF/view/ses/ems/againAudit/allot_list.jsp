@@ -41,7 +41,7 @@
   <div class="container">
     <div class="headline-v2"><h2>专家复审分配列表</h2></div>
     
-    <div class="search_detail pb0">
+    <div class="search_detail">
       <form id="form_id" action="${pageContext.request.contextPath}/expertAudit/basicInfo.html" method="post">
         <input name="expertId" type="hidden" />
         <input name="sign" type="hidden" value="${sign }"/>
@@ -74,12 +74,12 @@
             </select>
             </div>
           </li>
-          <li class="mb10">
-            <button type="button" class="btn mb0" onclick="allotList_search()">查询</button>
-            <button type="reset" class="btn mb0" id="againAudit_reset">重置</button>
-          </li>
         </ul>
         <div class="clear"></div>
+        <div class="tc">
+          <button type="button" class="btn mb0" onclick="allotList_search()">查询</button>
+          <button type="reset" class="btn mb0 mr0" id="againAudit_reset">重置</button>
+        </div>
       </form>
     </div>
     
@@ -108,7 +108,7 @@
                 <th>专家类型</th>
                 <th class="w80">专家类别</th>
                 <th class="w180">工作单位</th>
-                <th class="w140">专业职称</th>
+                <th class="w140">专业职称(职务)</th>
                 <th class="w120">初审合格时间</th>
               </tr>
             </thead>
@@ -136,7 +136,7 @@
                 <th>专家类型</th>
                 <th class="w80">专家类别</th>
                 <th class="w180">工作单位</th>
-                <th class="w140">专业职称</th>
+                <th class="w140">专业职称(职务)</th>
                 <th class="w120">初审合格时间</th>
               </tr>
             </thead>
@@ -155,14 +155,12 @@
     <div class="search_detail m0">
       <ul class="demand_list">
         <li class="w100p mr0">
-          <label class="fl w110 h30 lh30"><i class="red">*</i> 批次名称：</label>
+          <label class="fl w130 h30 lh30"><i class="red">*</i> 批次名称：</label>
           <input type="text" name="batchName" value="">
         </li>
         <li class="w100p mr0 mt10">
-          <label class="fl w110 h30 lh30"><i class="red">*</i> 专家编号规则：</label>
-          <span>
-            <input type="text" name="batchNumber" value="">
-          </span>
+          <label class="fl w130 h30 lh30"><i class="red">*</i> 专家编号规则：</label>
+          <input type="text" name="batchNumber" value="">
         </li>
       </ul>
       <div class="clear"></div>

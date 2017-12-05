@@ -1,8 +1,5 @@
 package ses.dao.bms;
 
-import org.apache.ibatis.annotations.Param;
-import ses.model.bms.Category;
-
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -10,19 +7,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 
+import ses.model.bms.Category;
 
-    /**
-    * 
-    * <p>Title:CategoryMapper</p>
-    * <p>Description: 采购目录管理接口</p>
-    * @author zhangxuefeng
-    * @date 
-    */
+/**
+ * 
+ * <p>Title:CategoryMapper</p>
+ * <p>Description: 采购目录管理接口</p>
+ * @author zhangxuefeng
+ * @date 
+ */
 public interface CategoryMapper {
 
-	
-	
 	/**   
 	* @Title: selectAll
 	* @author zhangxuefeng
@@ -31,7 +28,6 @@ public interface CategoryMapper {
 	* @param @param list<Category>
 	*/
 	public List<Category> selectAll();
-	
 
 	/**   
 	* @Title: readExcel
@@ -41,6 +37,7 @@ public interface CategoryMapper {
 	* @param @param list<Category>
 	*/
     public List<Category> readExcel(Category category);
+    
 	/**   
 	* @Title: insert
 	* @author zhangxuefeng
@@ -50,6 +47,7 @@ public interface CategoryMapper {
 	* 
 	*/
 	public void insertSelective(Category category);
+	
 	/**
 	 * 
 	* @Title: findTreeByPid
@@ -442,4 +440,37 @@ public interface CategoryMapper {
 	 * @return
 	 */
 	List<Category> selectExportExcelData (Map<String, Object> map);
+
+
+	/**
+	 * 查询选中节点的父节点
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-11-24上午11:43:11
+	 * @param classifyType
+	 * @param classifyStatus
+	 * @param categoryIds
+	 * @return
+	 */
+	List<Category> selectParentNode(@Param("classifyType") int classifyType,@Param("classifyStatus") String classifyStatus,@Param("categoryIds") String[] categoryIds);
+
+	/**
+	 * 根据父节点ID统计数量
+	 * @param categoryId
+	 * @return
+	 */
+	int countByParentId(String categoryId);
+
+	/**
+	 * 搜索品目
+	 * @param type
+	 * @param cateName
+	 * @param codeName
+	 * @return
+	 */
+	List<Category> searchList(
+			@Param("type")int type, 
+			@Param("cateName")String cateName, 
+			@Param("codeName")String codeName);
 }

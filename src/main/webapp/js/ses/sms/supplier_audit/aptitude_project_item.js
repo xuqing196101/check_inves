@@ -24,9 +24,9 @@ $(function(){
 });
 
 //审核资质不通过理由
-function reasonProject(ind, auditField, auditFieldName, certType) {
-	var supplierStatus = $("input[name='supplierStatus']").val();
-    var sign = $("input[name='sign']").val();
+function reasonProject(_this, ind, auditField, auditFieldName, certType) {
+	//var supplierStatus = $("input[name='supplierStatus']").val();
+    //var sign = $("input[name='sign']").val();
     // 只有审核的状态能审核
     if(window.parent.isAudit){
 		var supplierId = $("#supplierId").val();
@@ -66,7 +66,7 @@ function reasonProject(ind, auditField, auditFieldName, certType) {
 		}
 		
 		if(audits!=null && audits !='' && audits>'0' ){
-			layer.msg('产品目录审核不通过,该专业资质要求不可审核', {offset:'100px'});
+			layer.msg('产品目录审核不通过，该专业资质要求不可审核', {offset:'100px'});
 			return;
 		}
 		
@@ -77,7 +77,31 @@ function reasonProject(ind, auditField, auditFieldName, certType) {
 	        "auditFieldName": auditFieldName,
 	        "auditContent": auditContent
 	    };
-	    // 判断：新审核/可再次审核/不可再次审核
+	    
+	    $(_this).doAudit({
+			auditData : auditData,
+			funcBeforeAudit : function() {
+				if ($(_this).hasClass("icon_sc")) {
+					layer.msg('该条信息已审核过并退回过！');
+					return false;
+				}
+			},
+			funcAfterAddAudit : function() {
+				//$("#show_td").attr('src', globalPath+'/public/backend/images/sc.png');
+				$(_this).attr('src', globalPath+'/public/backend/images/light_icon_2.png');
+				$("#count").val('1');
+				// 刷新父页面数据
+				window.parent.flushData();
+			},
+			funcAfterCancelAudit : function() {
+				$(_this).attr('src', globalPath+'/public/backend/images/light_icon.png');
+				$("#count").val('0');
+				// 刷新父页面数据
+				window.parent.flushData();
+			}
+		});
+	    
+	    /*// 判断：新审核/可再次审核/不可再次审核
 	    // 获取旧的审核记录
 	    var result = window.parent.getOldAudit(auditData);
 	    if(result && result.status == 0){
@@ -131,31 +155,31 @@ function reasonProject(ind, auditField, auditFieldName, certType) {
 								offset: '100px',
 							});    
 							
-							/*var aptitudeId=$("#"+tablerId+" #aptitudeId"+ind+"",window.parent.document).val();
+							var aptitudeId=$("#"+tablerId+" #aptitudeId"+ind+"",window.parent.document).val();
 							//工程 只有专业资质 要求
-							$("input[name='"+tablerId+"itemsCheckboxName']",window.parent.document).each(function(){
-								var index=$(this).val();
-								var firstNodeId=$("#"+tablerId+" #firstNodeId"+index+"",window.parent.document).val();
-								var secondNodeId=$("#"+tablerId+" #secondNodeId"+index+"",window.parent.document).val();
-								var thirdNodeId=$("#"+tablerId+" #thirdNodeId"+index+"",window.parent.document).val();
-								var fourthNodeId=$("#"+tablerId+" #fourthNodeId"+index+"",window.parent.document).val();
-								if(aptitudeId){
-									var slip=aptitudeId.split(',');
-									$(slip).each(function(inde,value){
-										//判断 资质关联id 是否包含
-										if($("input[id$='NodeId"+index+"'][value*='"+value+"']",window.parent.document).val()){
-											$("#"+tablerId+" #qualifications"+index+"",window.parent.document).css('border-color', '#FF0000');
-											if('aptitude_product_page'==auditType){
-												//物资生产  工程 服务
-												$("#"+tablerId+" #isAptitudeProductPageAudit"+index+"",window.parent.document).val('1');
-											}else{
-												//物资销售
-												$("#"+tablerId+" #isAptitudealesPageAudit"+index+"",window.parent.document).val('1');
-											}
-										}
-									});
-								}
-						 	});*/
+//							$("input[name='"+tablerId+"itemsCheckboxName']",window.parent.document).each(function(){
+//								var index=$(this).val();
+//								var firstNodeId=$("#"+tablerId+" #firstNodeId"+index+"",window.parent.document).val();
+//								var secondNodeId=$("#"+tablerId+" #secondNodeId"+index+"",window.parent.document).val();
+//								var thirdNodeId=$("#"+tablerId+" #thirdNodeId"+index+"",window.parent.document).val();
+//								var fourthNodeId=$("#"+tablerId+" #fourthNodeId"+index+"",window.parent.document).val();
+//								if(aptitudeId){
+//									var slip=aptitudeId.split(',');
+//									$(slip).each(function(inde,value){
+//										//判断 资质关联id 是否包含
+//										if($("input[id$='NodeId"+index+"'][value*='"+value+"']",window.parent.document).val()){
+//											$("#"+tablerId+" #qualifications"+index+"",window.parent.document).css('border-color', '#FF0000');
+//											if('aptitude_product_page'==auditType){
+//												//物资生产  工程 服务
+//												$("#"+tablerId+" #isAptitudeProductPageAudit"+index+"",window.parent.document).val('1');
+//											}else{
+//												//物资销售
+//												$("#"+tablerId+" #isAptitudealesPageAudit"+index+"",window.parent.document).val('1');
+//											}
+//										}
+//									});
+//								}
+//						 	});
 							//$("#show_td").attr('src', globalPath+'/public/backend/images/sc.png');
 							$("#show_td").attr('src', globalPath+'/public/backend/images/light_icon_2.png');
 							$("#count").val('1');
@@ -173,13 +197,13 @@ function reasonProject(ind, auditField, auditFieldName, certType) {
 			}else{
 				layer.msg('不能为空！', {offset:'100px'});
 			}
-		});
+		});*/
     }
 }
 
-//提示之前的信息
+/*//提示之前的信息
 function isCompare(field, targetId) {
-    var supplierId = $("#supplierId").val();
+	showModifyList(_this, modifyType, beforeField, relationId, listType) supplierId = $("#supplierId").val();
     $.ajax({
         url: globalPath+"/supplierAudit/showModify.do",
         data: {"supplierId": supplierId, "beforeField": field, "modifyType": "mat_eng_page", "listType": "9"},
@@ -190,4 +214,4 @@ function isCompare(field, targetId) {
             });
         }
     });
-}
+}*/

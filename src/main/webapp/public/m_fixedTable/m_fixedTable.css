@@ -3,7 +3,9 @@
   overflow: hidden;
   position: relative;
   border: solid 1px #ddd;
+  border-left: none;
   border-top: none;
+  border-bottom: none;
 }
 .mfixed-main .table {
   margin-bottom: 0;
@@ -14,7 +16,7 @@
 .mfixed-main .table-bordered>tbody>tr>td, .mfixed-main .table-bordered>tbody>tr>th, .mfixed-main .table-bordered>tfoot>tr>td, .mfixed-main .table-bordered>tfoot>tr>th, .mfixed-main .table-bordered>thead>tr>td, .mfixed-main .table-bordered>thead>tr>th {
   border-right: none;
 }
-.mfixed-main .table-bordered>tbody>tr>td:first-child, .mfixed-main .table-bordered>thead>tr>th:first-child {
+.mfixed-main .table-bordered>tbody>tr>td:first-child {
   border-left: none;
 }
 .mfixed-header {
@@ -50,4 +52,13 @@
   overflow-x: auto;
   overflow-y: hidden;
   border-bottom: none;
+}
+.mfixed-main .table {
+  margin-bottom: 0;
+}
+.mfixed-main .table-bordered {
+  border: none;
+}
+.mfixed-main .table-bordered>tbody>tr>td, .mfixed-main .table-bordered>tbody>tr>th, .mfixed-main .table-bordered>tfoot>tr>td, .mfixed-main .table-bordered>tfoot>tr>th, .mfixed-main .table-bordered>thead>tr>td, .mfixed-main .table-bordered>thead>tr>th {
+  border-right: none;
 }

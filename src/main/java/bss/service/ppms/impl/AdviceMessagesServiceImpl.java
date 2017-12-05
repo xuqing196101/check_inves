@@ -1,5 +1,7 @@
 package bss.service.ppms.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,4 +46,9 @@ public class AdviceMessagesServiceImpl implements AdviceMessagesService {
   public void updateByPrimaryKey(AdviceMessages record) {
     adviceMessagesMapper.updateByPrimaryKey(record);    
   }
+
+@Override
+public List<AdviceMessages> selectbyList(AdviceMessages record) {
+	return adviceMessagesMapper.selectbyList(record);
+}
 }

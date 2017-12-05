@@ -1,5 +1,6 @@
 package bss.model.ppms;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -48,6 +49,10 @@ public class Task {
     private String createrId; //下达人
     
     private String userId; //受领人
+    private BigDecimal budget;
+    
+    private String beginDate;
+    private String endDate;
 
 	public Task(String id) {
 		super();
@@ -218,5 +223,30 @@ public class Task {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+    public BigDecimal getBudget() {
+      return budget;
+    }
+
+    public void setBudget(BigDecimal budget) {
+      this.budget = budget;
+    }
+
+    public String getBeginDate() {
+      return beginDate;
+    }
+
+    public void setBeginDate(String beginDate) {
+      this.beginDate = beginDate;
+    }
+
+    public String getEndDate() {
+      return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+      this.endDate = endDate;
+    }
+
     
 }

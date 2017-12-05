@@ -122,7 +122,7 @@
           <li class="col-md-3 col-sm-4 col-xs-12 pl15">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red0">*</span> 项目名称:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <input id="name" name="name" value="${project.name}" type="text">
+              <input id="name" name="name" value="${project.name}" type="text" disabled>
               <span class="add-on">i</span>
               <div class="cue" id="projectNameError"></div>
             </div>
@@ -130,7 +130,7 @@
           <li class="col-md-3 col-sm-4 col-xs-12">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red1">*</span> 项目编号:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <input id="projectNumber" name="projectNumber" value="${project.projectNumber}" type="text">
+              <input id="projectNumber" name="projectNumber" value="${project.projectNumber}" type="text" disabled>
               <span class="add-on">i</span>
               <div class="cue" id="projectNumberError"></div>
             </div>
@@ -138,14 +138,14 @@
           <li class="col-md-3 col-sm-4 col-xs-12">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red2">*</span>采购方式:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <input id="purchaseType" name="purchaseType" value="${project.purchaseType}" type="text">
+              <input id="purchaseType" name="purchaseType" value="${project.purchaseType}" type="text" disabled>
               <span class="add-on">i</span>
             </div>
           </li>
           <li class="col-md-3 col-sm-4 col-xs-12 ">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red3">*</span> 开标日期:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <input class="col-md-12 col-sm-12 col-xs-6 p0" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});" id="tenderTimeId" readonly="readonly" name="bidDate" value="<fmt:formatDate value='${project.bidDate}'
+              <input disabled class="col-md-12 col-sm-12 col-xs-6 p0" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});" id="tenderTimeId" readonly="readonly" name="bidDate" value="<fmt:formatDate value='${project.bidDate}'
                              pattern='yyyy-MM-dd HH:mm:ss' />" maxlength="30" type="text">
               <div class="cue" id="tenderTimeError"></div>
             </div>

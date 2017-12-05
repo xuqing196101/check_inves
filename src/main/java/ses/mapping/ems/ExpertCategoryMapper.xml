@@ -402,4 +402,25 @@
 			</if>
 		) CONNECT BY PRIOR PARENT_ID = ID ORDER BY CODE
     </select>
+    
+    
+      <!-- 根据专家id查询通过的品目 -->
+	<select id="selectPassCategoryByExpertId" resultMap="BaseResultMap">
+	    select 
+	    	t1.EXPERT_ID, t1.CATEGORY_ID, t1.TYPE_ID, t1.LEVELS, t1.ENGIN_TYPE ,t2.CODE 
+	    from
+	    	T_SES_EMS_EXPERT_CATEGORY t1
+	    <if test=" 'FC9528B2E74F4CB2A9ASD789123AS7D'.equals(param2)">
+	     	, T_SES_BMS_ENG_CATEGORY t2 
+	    </if>
+	    <if test=" !'FC9528B2E74F4CB2A9ASD789123AS7D'.equals(param2)">
+	     	, T_SES_BMS_CATEGORY t2 
+	    </if> 
+	    where
+	    	t1.EXPERT_ID = #{param1,jdbcType=VARCHAR}  and t1.CATEGORY_ID=t2.ID  and t1.AUDIT_STATUS = 0
+	    <if test="param2 != null">
+	    	and t1.TYPE_ID = #{param2,jdbcType=VARCHAR}
+	    </if>
+	     	order by t2.CODE ASC 
+	</select>
 </mapper>

@@ -9,27 +9,116 @@
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/bss/ppms/main.js"></script>
   <script type="text/javascript" src="${pageContext.request.contextPath}/public/comet/comet4j.js"></script>
   <script type="text/javascript">
+  function htmls(obj,index1,packageNames,cometId,status){
+	  var htmls='<table class="mt10 ml20" width="95%"><tr><td width="40%" id="passPackages'+index1+'">'+packageNames+'</td>'
+	   if(status=='1'){
+		   htmls+='<td>审核通过</td>';
+		   htmls+='<td><button class="btn" id="passButton'+index1+'"   type="button" onclick="passBut(\''+$.trim(cometId)+'\',\'1\',this)">确认结果</button></td>';
+	   }else if(status=='0'){
+		   htmls+='<td class="red">审核不通过</td>';
+		   htmls+='<td><button class="btn" id="noPassZJTButton'+index1+'"   type="button" onclick="passBut(\''+$.trim(cometId)+'\',\'0\',this)">继续转竞谈</button>';
+		   htmls+='<button class="btn" id="noPassZZButton'+index1+'"   type="button" onclick="passBut(\''+$.trim(cometId)+'\',\'2\',this)">终止</button></td>';
+	   }
+	   
+	  htmls+='</tr></table>'
+	  obj.append(htmls);
+  }
+  var objectEntity=new Object();
+  objectEntity.userId="${userId}";
+  objectEntity.project_Id="${project.id}";
+  objectEntity.indexPassComet=0;
+  objectEntity.indexNoPassComet=100;
+  objectEntity.openInit=false;
   var userId="${userId}";
   var project_Id="${project.id}";
   var parentPass;
   var dataTypes;
   var flgsType="";
+  var indexPassComet=0;
+  var indexNoPassComet=100;
+  var openInit=false;
+  var objButton;
+  var cometIdInit;
   $(function(){
-	  /* layer.open({
-     	    shift: 1, //0-6的动画形式，-1不开启
-     	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
-     	    title: ['转竟谈信息提醒','border-bottom:1px solid #e5e5e5'],
-     	    shade:0.01, //遮罩透明度
-   	  		type : 1,
-   	  		area : [ '30%', '300px'  ], //宽高
-   	  		content : $('#openPackages'),
-   	  	  }); */
+	  /* $.ajax({
+    	   url:"${pageContext.request.contextPath}/packageAdvice/initPackageAdvice.html",
+    	   data:{"projectId":project_Id},
+    	   type:"post",
+    	   async: false,
+    	   dataType:"json",
+    	   success:function(data){
+    		  $("#closePass").attr("disabled",true);
+      	      $("#noPassZJTButton").removeAttr("disabled");
+      		  $("#noPassZZButton").removeAttr("disabled");
+      		  $("#passButton").removeAttr("disabled");
+      		  $("#noPassPackages").empty();
+      		  $("#passPackages").empty();
+      		  $("#noPassZJTButton").removeAttr("onclick");
+      		  $("#noPassZZButton").removeAttr("onclick");
+      		  $("#passButton").removeAttr("onclick");
+      		  $("#pass").hide();
+      		  $("#noPass").hide();
+    		   if(data[0].msg=="ok"){
+                 var codes=data[1].codes;  	
+    			 for(var i=0;i<codes.length;i++){
+    				 var names0=[];
+    				 var names1=[];
+    				 var passName2=[];
+       			     var noPassName2=[];
+    				 if(codes[i].status=='0'){//不通过
+           			   $("#noPass").show();
+           			   var packages=codes[i].packages;
+           			   for(var j=0;j< packages.length;j++){
+           				names0.push(packages[j].name);
+           			   }
+           			   $("#noPassPackages").text(($("#noPassPackages").text().length==0?"":$("#noPassPackages").text()+",")+names0.join(","));
+           			   $("#noPassZJTButton").attr("onclick","passBut('"+userId+"','0')");
+           			   $("#noPassZZButton").attr("onclick","passBut('"+userId+"','2')");
+    				 }else if(codes[i].status=='1'){//通过
+    				   $("#pass").show();
+           			   var packages=codes[i].packages;
+           			   for(var j=0;j<packages.length;j++){
+           				  names1.push(packages[j].name);
+           			   }
+           			   $("#passPackages").text(($("#passPackages").text().length==0?"":$("#passPackages").text()+",")+names1.join(","));
+           			   $("#passButton").attr("onclick","passBut('"+userId+"','1')");
+    				 }else if(codes[i].status=='2'){//都有
+            			  $("#pass").show();
+            			  $("#noPass").show();
+            			  var passPackages=codes[i].package1;
+            			  var noPassPackages=codes[i].package2;
+            			  for(var j=0;j<passPackages.length;j++){
+            				  passName2.push(passPackages[j].name);
+            			  }
+            			  for(var j=0;j<noPassPackages.length;j++){
+            				  noPassName2.push(noPassPackages[j].name);
+            			  }
+            			$("#passPackages").text(($("#passPackages").text().length==0?"":$("#passPackages").text()+",")+passName2.join(","));
+            			$("#noPassPackages").text(($("#noPassPackages").text().length==0?"":$("#noPassPackages").text()+",")+noPassName2.join(","));
+            			$("#passButton").attr("onclick","passBut('"+userId+"','1')");
+            			$("#noPassZJTButton").attr("onclick","passBut('"+userId+"','0')");
+            			$("#noPassZZButton").attr("onclick","passBut('"+userId+"','2')");
+    				 }
+    			 }
+    			   parentPass=layer.open({
+   		     	    shift: 1, //0-6的动画形式，-1不开启
+   		     	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+   		     	    closeBtn:0,
+   		     	    title: ['转竟谈信息提醒','border-bottom:1px solid #e5e5e5'],
+   		     	    shade:0.01, //遮罩透明度
+   		   	  		type : 1,
+   		   	  		area : [ '30%', '300px'  ], //宽高
+   		   	  		content : $('#openPackages'),
+   		   	  	  });
+    		   }
+    	   }
+	  }); */
 	  JS.Engine.start('${pageContext.request.contextPath}/conn');
 	    JS.Engine.on(
 	         { 
 	             msgData : function(msgData){
 	            	 var userids=msgData.split(",");
-	            	 if(userids[0]==userId){
+	            	 if(userids[0]==userId&&userids[2]==project_Id){
 	 	            	 $.ajax({
 	 	            	   url:"${pageContext.request.contextPath}/packageAdvice/cometPackage.html",
 	 	            	   data:{"cometId":userids[1]},
@@ -37,40 +126,32 @@
 	 	            	   async: false,
 	 	            	   dataType:"json",
 	 	            	   success:function(data){
+	 	            		  if(!openInit){
+		 	            		  $("#pass").hide();
+		            			  $("#noPass").hide();
+	 	            		  }
 	 	            		  $("#closePass").attr("disabled",true);
-	 	            	      $("#noPassZJTButton").removeAttr("disabled");
-	 	            		  $("#noPassZZButton").removeAttr("disabled");
-	 	            		  $("#passButton").removeAttr("disabled");
-	 	            		  $("#noPassPackages").empty();
-	 	            		  $("#passPackages").empty();
-	 	            		  $("#noPassZJTButton").removeAttr("onclick");
-	 	            		  $("#noPassZZButton").removeAttr("onclick");
-	 	            		  $("#passButton").removeAttr("onclick");
-	 	            		  dataTypes=data[0].status;
 	 	            		   if(data[0].status=='0'){//不通过
-	 	            			   $("#pass").hide();
 	 	            			   $("#noPass").show();
+	 	            			   indexNoPassComet++;
 	 	            			   var names=[];
 	 	            			   var packages=data[0].packages;
-	 	            			   for(var i=0;i<packages.length;i++){
+	 	            			   for(var i=0;i< packages.length;i++){
 	 	            				  names.push(packages[i].name);
 	 	            			   }
-	 	            			   $("#noPassPackages").text(names.join(","));
-	 	            			   $("#noPassZJTButton").attr("onclick","passBut('"+userids[1]+"','0')");
-	 	            			   $("#noPassZZButton").attr("onclick","passBut('"+userids[1]+"','2')");
+	 	            			   htmls($("#noPass"),indexNoPassComet,names.join(","),userids[1],'0');
 	 	            		   }else if(data[0].status=='1'){//通过
+	 	            			   indexPassComet++
 	 	            			   $("#pass").show();
-	 	            			   $("#noPass").hide();
 	 	            			   var names=[];
 	 	            			   var packages=data[0].packages;
 	 	            			   for(var i=0;i<packages.length;i++){
 	 	            				  names.push(packages[i].name);
 	 	            			   }
-	 	            			   $("#passPackages").text(names.join(","));
-	 	            			   $("#passButton").attr("onclick","passBut('"+userids[1]+"','1')");
+	 	            			   htmls($("#pass"),indexPassComet,names.join(","),userids[1],'1');
 	 	            		   }else if(data[0].status=='2'){//都有
-	 	            			  $("#noPassPackages").empty();
-	 	            			  $("#passPackages").empty();
+	 	            			  indexPassComet++
+	 	            			  indexNoPassComet++;
 	 	            			  $("#pass").show();
 	 	            			  $("#noPass").show();
 	 	            			  var passName=[];
@@ -83,22 +164,22 @@
 	 	            			  for(var i=0;i<noPassPackages.length;i++){
 	 	            				  noPassName.push(noPassPackages[i].name);
 	 	            			  }
-	 	            			 $("#passPackages").text(passName.join(","));
-	 	            			 $("#noPassPackages").text(noPassName.join(","));
-	 	            			$("#passButton").attr("onclick","passBut('"+userids[1]+"','1')");
-	 	            			$("#noPassZJTButton").attr("onclick","passBut('"+userids[1]+"','0')");
-	 	            			$("#noPassZZButton").attr("onclick","passBut('"+userids[1]+"','2')");
+	 	            			 htmls($("#pass"),indexPassComet,passName.join(","),userids[1],'1');
+	 	            			 htmls($("#noPass"),indexNoPassComet,noPassName.join(","),userids[1],'0');
 	 	            		   }
-	 	            		  parentPass=layer.open({
-	            		     	    shift: 1, //0-6的动画形式，-1不开启
-	            		     	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
-	            		     	    closeBtn:0,
-	            		     	    title: ['转竟谈信息提醒','border-bottom:1px solid #e5e5e5'],
-	            		     	    shade:0.01, //遮罩透明度
-	            		   	  		type : 1,
-	            		   	  		area : [ '30%', '300px'  ], //宽高
-	            		   	  		content : $('#openPackages'),
-	            		   	  	  });
+	 	            		   if(!openInit){
+	 	            			  parentPass=layer.open({
+		            		     	    shift: 1, //0-6的动画形式，-1不开启
+		            		     	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+		            		     	    closeBtn:0,
+		            		     	    title: ['转竟谈信息提醒','border-bottom:1px solid #e5e5e5'],
+		            		     	    shade:0.01, //遮罩透明度
+		            		   	  		type : 1,
+		            		   	  		area : [ '30%', '300px'  ], //宽高
+		            		   	  		content : $('#openPackages'),
+		            		   	  	  });
+	 	            		   }
+	 	            		  openInit=true;
 	 	            	   }
 	 	            	 })
 	            	 }
@@ -109,8 +190,9 @@
 	  
   })
   var openPassPackagess;
-  function passBut(cometId,type){
-  	$("#openPassText").show();
+  function passBut(cometId,type,button_obj){
+	  objButton=button_obj;
+  	  $("#openPassText").show();
 	  $("#openPassPackages_check").empty();
 	  $.ajax({
     	   url:"${pageContext.request.contextPath}/packageAdvice/cometPassCheck.html",
@@ -127,9 +209,9 @@
     			   if(type == 0){
     			   		$("#openPassText").hide();
     			   }
-    			   var html='<input type="hidden" id="passType" value="'+type+'"/><input type="hidden" id="cometId" value="'+cometId+'"/>';
+    			   var html='<input type="hidden" id="passType" value="'+type+'"/>';
     			   for(var i=0;i<data.length;i++){
-    				   html+='<div class=" mt10 fl ml10"><input type="checkbox" value="'+data[i].id+'" name="passName" />'+data[i].name+'</div>';
+    				   html+='<div class=" mt10 fl ml10"><input type="hidden" value="'+data[i].cometId+'"/>  <input type="checkbox" value="'+data[i].id+'" name="passName" />'+data[i].name+'</div>';
     			   }
     			   $("#openPassPackages_check").append(html);
     			   openPassPackagess= layer.open({
@@ -140,7 +222,7 @@
    		     	    title: ['请选择包','border-bottom:1px solid #e5e5e5'],
    		     	    shade:0.01, //遮罩透明度
    		   	  		type : 1,
-   		   	  		area : [ '20%', '200px'  ], //宽高
+   		   	  		area : [ '400px', '200px'  ], //宽高
    		   	  		content : $('#openPassPackages'),
    		   	  	  });
     		   }
@@ -154,13 +236,16 @@
 		  layer.alert("请选择一个或多个包");
 	  }else{
 		  var packages=[];
+		  var cometIds=[];
 		  for(var i=0;i<checks.length;i++){
 			  packages.push($(checks[i]).val());
+			  cometIds.push($(checks[i]).prev().val())
 		  }
+		  cometIdInit=cometIds[0];
 		  if(passType=='1'){//通过
 			  $.ajax({
 		    	   url:"${pageContext.request.contextPath}/packageAdvice/cometSubmit.html",
-		    	   data:{"packs":packages.join(","),"type":$("#passType").val(),"cometId":$("#cometId").val()},
+		    	   data:{"packs":packages.join(","),"type":$("#passType").val(),"cometId":cometIdInit},
 		    	   type:"post",
 		    	   async: false,
 		    	   dataType:"text",
@@ -173,7 +258,7 @@
 		    			   var checkName=$("#"+id+" input[name='passName']");
 		    			   if(checkName.length==0){
 		    				   layer.close(openPassPackagess);
-		    				   $("#passButton").attr("disabled",true);
+		    				   $(objButton).attr("disabled",true);
 		    			   }
 		    			   
 		    		   }
@@ -187,7 +272,7 @@
 		  	    shade:0.01, //遮罩透明度
 			  		type : 2,
 			  		area : [ '30%', '400px'  ], //宽高
-			  		content : '${pageContext.request.contextPath}/packageAdvice/auditFile.do?pachageIds=' + packages + '&projectId=${project.id}' + '&currHuanjieId='+$("#currHuanjieId").val() + '&type=2&passType=0&cometId='+$("#cometId").val(),
+			  		content : '${pageContext.request.contextPath}/packageAdvice/auditFile.do?pachageIds=' + packages + '&projectId=${project.id}' + '&currHuanjieId='+$("#currHuanjieId").val() + '&type=2&passType=0&cometId='+cometIdInit,
 					});
 		  }else if(passType=='2'){//终止
 			    flgsType="1";
@@ -199,22 +284,30 @@
 		  blockButton();
 	  }
   }
-  function blockButton(){
-	  if(dataTypes=="0"){//不通过
-		  if($("#noPassZJTButton").attr("disabled")=="disabled"&&$("#noPassZZButton").attr("disabled")=="disabled"){
-			  $("#closePass").removeAttr("disabled");
-		  } 
-	  }else if(dataTypes=="1"){//通过
-		  if($("#passButton").attr("disabled")=="disabled"){
+  function closePassBut(id,type){
+	  var passBut=$("#"+id+" button");
+	  var fg=false;
+	  for(var i=0;i<passBut.length;i++){
+		  if($(passBut[i]).attr("disabled")!="disabled"){
+			  fg=true;
+			  break;
+		  }
+	  }  
+	  if(type==1){
+		  if(!fg){
 			  $("#closePass").removeAttr("disabled");
 		  }
-	  }else if(dataTypes=="2"){//都有
-		  if($("#noPassZJTButton").attr("disabled")=="disabled"&&$("#noPassZZButton").attr("disabled")=="disabled"&&$("#passButton").attr("disabled")=="disabled"){
-			  $("#closePass").removeAttr("disabled");
-		  } 
 	  }
+	  return fg;
+  }
+  function blockButton(){
+     if(!closePassBut("noPass",null)&&!closePassBut("pass",null)){
+	    $("#closePass").removeAttr("disabled");
+	  }
+	  
   }
   function closePass(){
+	  openInit=false;
 	  layer.close(parentPass);
   }
   function deleteChecked(){
@@ -225,8 +318,7 @@
   }
   function parentHide(){
 	  layer.close(openPassPackagess);
-	  $("#noPassZJTButton").attr("disabled",true);
-	  $("#noPassZZButton").attr("disabled",true);
+	  $(objButton).parent().find("button").attr("disabled",true);
 	  blockButton();
   }
   var fflog=false;  
@@ -344,7 +436,7 @@
   	    shade:0.01, //遮罩透明度
 	  		type : 2,
 	  		area : [ '30%', '400px'  ], //宽高
-	  		content : '${pageContext.request.contextPath}/packageAdvice/auditFile.do?pachageIds=' + ids + '&projectId=${project.id}' + '&currHuanjieId='+$("#currHuanjieId").val() + '&type=1&passType='+flgsType+'&cometId='+$("#cometId").val(),
+	  		content : '${pageContext.request.contextPath}/packageAdvice/auditFile.do?pachageIds=' + ids + '&projectId=${project.id}' + '&currHuanjieId='+$("#currHuanjieId").val() + '&type=1&passType='+flgsType+'&cometId='+cometIdInit,
 			});
   	}
   	function auditSuspend1(){
@@ -694,19 +786,24 @@
     <div id="openPackages" class="dnone layui-layer-wrap">
       <div id="openPackages_check">
          <div class="tl mt10 ml10">转竞谈审核结果如下:</div>
-           <table class="mt10 ml20" width="95%">
-              <tr id="pass">
+           <!-- <table class="mt10 ml20" width="95%"> -->
+             <div id="pass">
+                <!-- <tr>
                  <td width="40%" id="passPackages">第1包，第2包</td>
                  <td>审核通过</td>
                  <td><button class="btn" id="passButton"   type="button">确认结果</button></td>
-              </tr>
-              <tr id="noPass" class="h50">
+                </tr> -->
+             </div>
+              <div id="noPass">
+              <!-- <tr  class="h50">
                  <td id="noPassPackages">第3包</td>
                  <td class="red">审核不通过</td>
                  <td><button class="btn" id="noPassZJTButton"  type="button">继续转竞谈</button><button class="btn" id="noPassZZButton"  type="button">终止</button></td>
-              </tr>
+              </tr> -->
+              </div>
+              
             
-           </table>
+           <!-- </table> -->
       </div>
       <div class="tc col-md-12 mt50">
         <input class="btn" id="closePass" name="addr" type="button" onclick="closePass();" value="关闭"> 
@@ -714,7 +811,7 @@
       </div>
     </div>
     <div id="openPassPackages" class="dnone layui-layer-wrap">
-    	<p id="openPassText">请选择包号生成竞争性谈判项目。选择多包视为合并实施。</p>
+    	<div id="openPassText" class="p20 pb0">请选择包号生成竞争性谈判项目。选择多包视为合并实施。</div>
        <div id="openPassPackages_check">
           
        </div>

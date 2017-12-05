@@ -170,6 +170,26 @@
                 });
               }
       }
+      
+      /*String.prototype.toCharArray = function(){
+
+				//定义一个数组。
+				var chs = [];
+				//将字符串中的每一位字符存储到字符数组中。 
+				for(var x=0; x<this.length; x++){
+				
+				chs[x] = this.charAt(x);
+				}
+				
+				return chs;
+				
+				}
+      
+       function search(){
+      	var name = $("#proName").val().toCharArray().join("%");
+      	$("#proName").val(name);
+      	$("#form1").submit();
+      } */
     </script>
   </head>
 
@@ -207,7 +227,7 @@
         <label class="fl">项目名称： </label>
         <span>
           <input type="hidden" name="page" id="page">
-          <input type="text" name="name" id="proName" value="${projects.name }" /> 
+          <input type="text" name="name" id="proName" value="${projects.name}" /> 
         </span>
       </li>
       <li>

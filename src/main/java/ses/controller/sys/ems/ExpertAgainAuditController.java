@@ -1,11 +1,10 @@
 package ses.controller.sys.ems;
-
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -15,16 +14,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import bss.util.ExcelUtils;
+import bss.util.ExpertReviewExcelUtils;
 import ses.controller.sys.sms.BaseSupplierController;
+import ses.dao.bms.TodosMapper;
 import ses.dao.ems.ExpertReviewTeamMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.model.ems.BatchTemporary;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAgainAuditImg;
 import ses.model.ems.ExpertAgainAuditReviewTeamList;
@@ -39,7 +41,6 @@ import ses.service.ems.ExpertAuditOpinionService;
 import ses.service.ems.ExpertService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
-import ses.util.WordUtil;
 import common.annotation.CurrentUser;
 import common.constant.StaticVariables;
 import common.utils.JdcgResult;
@@ -116,6 +117,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		}
 		expert.setStatus("1");//查询初审合格专家  
 		expert.setSort("1");
+		expert.setNotIn("y");
 		if(batchIds != null){
 			List<String> idsList = new ArrayList<String>();
 			String[] split = batchIds.split(",");
@@ -176,7 +178,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
         
         //全部机构
         HashMap<String,Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("isAuditSupplier", 0);
+        hashMap.put("isAuditSupplier", 1);
         List<Orgnization>  allOrg = orgnizationServiceI.findPurchaseOrgByPosition(hashMap);
         
         jsTypeList.addAll(jjTypeList);
@@ -283,7 +285,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	 * 查询批次详情
 	 * */
 	@RequestMapping("/findBatchDetails")
-	public void findBatchDetails(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String batchId,String status,Integer pageNum){
+	public void findBatchDetails(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,ExpertBatchDetails expertBatchDetails,Integer pageNum){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		if(user == null){
 			img.setStatus(false);
@@ -292,27 +294,24 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 			return;
 		}
 		if("4".equals(user.getTypeName())){
-			/*if(pageNum == null) {
-				pageNum = StaticVariables.DEFAULT_PAGE;
-			}*/
-			if(batchId==null){
+			if(expertBatchDetails==null){
 				img.setStatus(false);
 				img.setMessage("参数有误");
 				super.writeJson(response, img);
 				return;
 			}
-			img=againAuditService.findBatchDetails(batchId,status, pageNum);
+			img=againAuditService.findBatchDetails(expertBatchDetails);
 			img.setUserType(user.getTypeName());
 			super.writeJson(response, img);
 			return;
 		}else if("6".equals(user.getTypeName())){
-			if(batchId==null){
+			if(expertBatchDetails==null){
 				img.setStatus(false);
-				img.setMessage("请选择要审核的批次");
+				img.setMessage("参数有误");
 				super.writeJson(response, img);
 				return;
 			}
-			img=againAuditService.fingStayReviewExpertDetailsList(user.getId(), batchId, pageNum);
+			img=againAuditService.fingStayReviewExpertDetailsList(user.getId(), expertBatchDetails.getBatchId(), pageNum);
 			img.setUserType(user.getTypeName());
 			super.writeJson(response, img);
 			return;
@@ -885,7 +884,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		/**
 		 * 存新意见
 		 */
-		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+/*		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
 		expertAuditOpinion.setExpertId(expertId);
 		expertAuditOpinion.setFlagTime(1);
 		ExpertAuditOpinion  e = expertAuditOpinionService.selectByExpertId(expertAuditOpinion, null);
@@ -893,14 +892,14 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		if(e.getFlagAudit() !=null && (e.getFlagAudit() == -3  || e.getFlagAudit()== 5)){
 			String opinion = e.getOpinion();
 			if(opinion !=null && !"".equals(opinion)){
-				String newOpinion = opinion.substring(1);
+				String newOpinion = opinion;
 				
 				ExpertAuditOpinion updataAuditOpinion = new ExpertAuditOpinion();
 				updataAuditOpinion.setId(e.getId());
 				updataAuditOpinion.setOpinion(newOpinion);
 				expertAuditOpinionService.updata(updataAuditOpinion);
 			}
-		}
+		}*/
 		
 		return new JdcgResult(200);
 	}
@@ -981,8 +980,83 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		img=againAuditService.selectReviewTeamAll();
 		super.writeJson(response, img);
 	}
-	 @RequestMapping("downloadExpertReview")
-	    public ResponseEntity < byte[] > downloadExpertReview(String batchId,
+	@RequestMapping("downloadExpertReview")
+	public void expertRerviewExcel(HttpServletResponse httpServletResponse,String batchId){
+		 // 根据编号查询专家信息
+    	String name = againAuditService.getbatchName(batchId);
+    	Map<String,List<ExpertBatchDetails>> map = new LinkedHashMap<String,List<ExpertBatchDetails>>();
+    	ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
+    	expertBatchDetails.setBatchId(batchId);
+    	expertBatchDetails.setStatus("-2");
+    	expertBatchDetails.setNotReviewStatus("1");
+    	List<ExpertBatchDetails> list = againAuditService.findBatchDetailsList(expertBatchDetails);
+    	List<ExpertBatchDetails> passList = new ArrayList<ExpertBatchDetails>();
+    	List<ExpertBatchDetails> notPassList = new ArrayList<ExpertBatchDetails>();
+    	List<ExpertBatchDetails> thList = new ArrayList<ExpertBatchDetails>();
+    	for (ExpertBatchDetails e : list) {
+    		// 查询审核意见
+    		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+    		expertAuditOpinion.setExpertId(e.getExpertId());
+    		expertAuditOpinion.setFlagTime(1);
+    		expertAuditOpinion = expertAuditOpinionService.selectByExpertId(expertAuditOpinion);
+    		
+    		/*
+    		 * 处理旧数据中有“预”字的意见
+    		 */
+    		if(e.getAuditTemporary()!=null && !"".equals(e.getAuditTemporary())){
+    			int indexOf = e.getAuditTemporary().indexOf("。");
+    			//手动输入的意见
+    			String op = e.getAuditTemporary().substring(indexOf + 1);
+    			//自动带出来的那句话
+    			String reop = e.getAuditTemporary().substring(0,indexOf + 1);
+    			String newOpinion = reop.replace("预", "") + op;
+    			e.setAuditTemporary(newOpinion);
+    		}
+    		
+    		
+    		if(expertAuditOpinion !=null && expertAuditOpinion.getFlagAudit() !=null){
+    			if(expertAuditOpinion.getFlagAudit() == -3){
+    				//预复审合格
+    				passList.add(e);
+    			}
+    			if(expertAuditOpinion.getFlagAudit() == 5){
+    				//复审不合格
+    				notPassList.add(e);
+    			}
+    			if(expertAuditOpinion.getFlagAudit() == 10){
+    				//复审退回修改
+    				thList.add(e);
+    			}
+    		}
+		}
+    	expertBatchDetails.setReviewStatus("1");
+    	expertBatchDetails.setNotReviewStatus(null);
+    	List<ExpertBatchDetails> cxList = againAuditService.findBatchDetailsList(expertBatchDetails);
+    	if(passList.size()>0){
+    		map.put("复审合格", passList);
+    	}
+    	if(notPassList.size()>0){
+    		map.put("复审不合格", notPassList);
+    	}
+    	if(thList.size()>0){
+    		map.put("复审退回修改", thList);
+    	}
+    	if(cxList.size()>0){
+    		map.put("重新复审", cxList);
+    	}
+    	ExpertReviewExcelUtils excelUtils = new ExpertReviewExcelUtils(response, name+"情况统计表", "sheet1", 1000);
+        // 设置冻结行
+        excelUtils.setFreezePane(true);
+        excelUtils.setFreezePane(new Integer[]{0, 1, 0, 1});
+        // 设置序号列
+        excelUtils.setOrder(true);
+        String titleColumn[] = {"count", "batchDetailsNumber", "orgName", "realName", "gender", "expertsFrom", "expertsTypeId", "workUnit", "professTechTitles", "auditTemporary"};
+        String titleName[] = {"序号", "专家编号", "采购机构", "专家姓名", "性别","专家类型", "专家类别", "工作单位", "技术职称(职务)", "复审意见"};
+        int titleSize[] = {5, 20, 15, 10, 5, 10, 25, 15, 20, 15, 40};
+        excelUtils.wirteExcel(titleColumn, titleName, titleSize, map);
+	}
+	 //@RequestMapping("downloadExpertReview")
+	  /*  public ResponseEntity < byte[] > downloadExpertReview(String batchId,
 	        HttpServletRequest request, HttpServletResponse response) throws Exception {
 	        // 根据编号查询专家信息
 	    	String name = againAuditService.getbatchName(batchId);
@@ -1005,18 +1079,18 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	        return expertService.downloadFile(fileName, filePath, downFileName);
 	    }
 	 private String createWordMethod(List<ExpertBatchDetails> list,String batch, HttpServletRequest request) throws Exception {
-	      /** 用于组装word页面需要的数据 */
+	      *//** 用于组装word页面需要的数据 *//*
 	      Map<String, Object> dataMap = new HashMap<String, Object>();
 	      dataMap.put("batch", batch);
 	      dataMap.put("list", list);
 	      // 文件名称
 	        String fileName = new String(("专家复审统计表.doc").getBytes("UTF-8"),
 	            "UTF-8");
-	        /** 生成word 返回文件名 */
+	        *//** 生成word 返回文件名 *//*
 	        String newFileName = WordUtil.createWord(dataMap, "expertReviewTable.ftl",
 	            fileName, request);
 	        return newFileName;
-	 }
+	 }*/
 	 @RequestMapping("selectBatchTemporary")
 	 public void selectBatchTemporary(@CurrentUser User user,Expert expert,HttpServletRequest request,HttpServletResponse response) {
 		 ExpertAgainAuditImg img = new ExpertAgainAuditImg();
@@ -1077,4 +1151,85 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		img=againAuditService.deleteBatchTemporary(ids);
 		super.writeJson(response, img);
 	 }
+	 /*
+	  * 重新复审
+	  * */
+	 @RequestMapping("againReview")
+	 public void againReview(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String id){
+		 ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		 if(user==null){
+			img.setStatus(false);
+			img.setMessage("请登录");
+			super.writeJson(response, img);
+			return;
+		}
+		if(!"4".equals(user.getTypeName())){
+			img.setStatus(false);
+			img.setMessage("您的权限不足");
+			super.writeJson(response, img);
+			return;
+		}
+		if(id==null){
+			img.setStatus(false);
+			img.setMessage("请求参数有误");
+			super.writeJson(response, img);
+			return;
+		}
+		img=againAuditService.againReview(id);
+		super.writeJson(response, img);
+	 };
+	 /*
+	  * 取消复审
+	  * */
+	 @RequestMapping("cancelReview")
+	 public void cancelReview(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String id) {
+		 ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		 if(user==null){
+			img.setStatus(false);
+			img.setMessage("请登录");
+			super.writeJson(response, img);
+			return;
+		}
+		if(!"4".equals(user.getTypeName())){
+			img.setStatus(false);
+			img.setMessage("您的权限不足");
+			super.writeJson(response, img);
+			return;
+		}
+		if(id==null){
+			img.setStatus(false);
+			img.setMessage("请求参数有误");
+			super.writeJson(response, img);
+			return;
+		}
+		img=againAuditService.cancelReview(id);
+		super.writeJson(response, img);
+	}
+	/*
+	 * 生效
+	 * */
+	@RequestMapping("takeEffect")
+	public void takeEffect(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String batchId) {
+		 ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		 if(user==null){
+			img.setStatus(false);
+			img.setMessage("请登录");
+			super.writeJson(response, img);
+			return;
+		}
+		if(!"4".equals(user.getTypeName())){
+			img.setStatus(false);
+			img.setMessage("您的权限不足");
+			super.writeJson(response, img);
+			return;
+		}
+		if(batchId==null){
+			img.setStatus(false);
+			img.setMessage("请求参数有误");
+			super.writeJson(response, img);
+			return;
+		}
+		img=againAuditService.takeEffect(batchId);
+		super.writeJson(response, img);
+	}
 }

@@ -1,19 +1,20 @@
 package common.utils;
 
+import com.alibaba.fastjson.JSON;
+import org.apache.commons.codec.binary.Base64;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
-
-import net.sf.json.JSONObject;
-
-import org.apache.commons.codec.binary.Base64;
 /**
  * 
  * Description: 短信工具类
@@ -22,6 +23,10 @@ import org.apache.commons.codec.binary.Base64;
  * @since JDK1.7
  */
 public class SMSUtil {
+	
+    /**
+     * API文档地址   http://bcp.pro-group.cn:7002/Docs/#!easycloud-smsapi.md
+     */
 
     /** 用户账号 **/
     public static final String ACCTNO = "100514";
@@ -32,9 +37,26 @@ public class SMSUtil {
     /** 请求地址 **/
     public static final String SENDURL = "http://118.178.117.163/smsapi/SmsMt.php";
 
+    
     /**
      * 
-     * Description: 发送短信
+     * 
+     * Description: 发送短信
+     * 
+     * @data 2017年11月27日
+     * @param 
+     * @return String
+     */
+    public static void sendMsg(String mobile, String msg){
+    	// 创建一个线程池
+        /*ExecutorService pool = Executors.newCachedThreadPool();
+        pool.submit(new SMSRunnable(mobile, msg));
+        pool.shutdown();*/
+    }
+    
+    /**
+     * 
+     * Description: 请求短信接口
      * 
      * @data 2017年11月9日
      * 
@@ -43,7 +65,12 @@ public class SMSUtil {
      * 
      * @return "0" : 成功返回
      */
-    public static String sendMsg(String mobile, String msg){
+    public static String requestMsg(String mobile, String msg){
+        try {
+			msg = URLEncoder.encode(msg, "UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
         String time = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         String token = getMD5(ACCTNO + time + Passwd);
         String param = "token=" + token + "&mobile=" + mobile + "&msg=" + msg;
@@ -54,7 +81,7 @@ public class SMSUtil {
             result = "send msg error!" + e;
         }
         @SuppressWarnings("unchecked")
-        Map<String, Object> map = (Map<String, Object>)JSONObject.fromObject(result);
+		Map<String, Object> map = (Map<String, Object>)JSON.parse(result);
         return (String)map.get("RetCode");
     }
 

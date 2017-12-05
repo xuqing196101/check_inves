@@ -64,6 +64,11 @@
       <if test="userId != null and userId !='' ">
         AND pa.USER_ID = #{userId} 
       </if>
+      <if test="processStatus != null and processStatus !='' ">
+         <if test="processStatus=='3'">
+           and pa.PROCESS_STATUS ==0
+         </if>
+      </if>
     </trim>
   </sql>
   

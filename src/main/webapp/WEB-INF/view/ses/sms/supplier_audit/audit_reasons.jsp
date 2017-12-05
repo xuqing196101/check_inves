@@ -331,13 +331,13 @@
 											<a class="btn" type="button" onclick="nextStep();" id="oprNextStep">下一步</a>
 										</c:if>
 										
-										<c:if test="${supplierStatus == 4 and ipAddressType == ipInner}">
-											<input class="btn btn-windows passed"  type="button" onclick="shenhe(5)" value="复核通过 " id="tongguo">
-											<input class="btn btn-windows cancel"  type="button" onclick="shenhe(6)" value="复核不通过" id="butongguo">
+										<c:if test="${supplierStatus == 1 and ipAddressType == ipInner}">
+											<input class="btn btn-windows passed"  type="button" onclick="shenhe(5)" value="复核合格 " id="tongguo">
+											<input class="btn btn-windows cancel"  type="button" onclick="shenhe(6)" value="复核不合格" id="butongguo">
 										</c:if>
 										<c:if test="${supplierStatus == 5 && sign == 3 and ipAddressType == ipInner}">
-											<input class="btn btn-windows git"  type="button" onclick="shenhe(7)" value="合格 " id="hege">
-											<input class="btn btn-windows cancel"  type="button" onclick="shenhe(8)" value="不合格" id="buhege">
+											<input class="btn btn-windows git"  type="button" onclick="shenhe(7)" value="考察合格 " id="hege">
+											<input class="btn btn-windows cancel"  type="button" onclick="shenhe(8)" value="考察不合格" id="buhege">
 										</c:if>
 									</div>
 								</div>

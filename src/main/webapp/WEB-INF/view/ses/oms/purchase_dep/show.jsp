@@ -684,9 +684,9 @@
 
               <!-- 财务信息 -->
               <div class="tab-pane fade height-450" id="tab-2">
-                <div class="headline-v2">
+                <!-- <div class="headline-v2">
                   <h2>部门信息</h2>
-                </div>
+                </div> -->
                 <div class="content table_box">
                   <table class="table table-bordered table-condensed table-hover table-striped" id="tab-orgnization">
                     <thead>
@@ -783,9 +783,9 @@
                 </div>
               </div>
               <div class="tab-pane fade height-200" id="tab-4">
-                <div class="headline-v2">
+                <!-- <div class="headline-v2">
                   <h2>采购管理部门信息</h2>
-                </div>
+                </div> -->
                 <div class="content table_box">
                   <table class="table table-bordered table-condensed table-hover table-striped" id="tab">
                     <thead>
@@ -808,9 +808,9 @@
                 </div>
               </div>
               <div class="tab-pane fade height-200" id="tab-5">
-                <div class="headline-v2">
+                <!-- <div class="headline-v2">
                   <h2>采购人员列表</h2>
-                </div>
+                </div> -->
                 <div class="content table_box">
                   <table class="table table-bordered table-condensed table-hover table-striped" id="tab1">
                     <thead>

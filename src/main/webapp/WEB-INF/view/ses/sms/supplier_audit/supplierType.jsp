@@ -182,31 +182,31 @@
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="orgName" type="text" value="${supplierMatPros.orgName }" onclick="auditText(this,'mat_pro_page','orgName')" <c:if test="${fn:contains(field,'orgName')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','orgName');;"</c:if>/>
+												<input id="orgName" type="text" value="${supplierMatPros.orgName }" onclick="auditText(this,'mat_pro_page','orgName')" <c:if test="${fn:contains(field,'orgName')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','orgName');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">人员总数：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalPerson" type="text" value="${supplierMatPros.totalPerson }" onclick="auditText(this,'mat_pro_page','totalPerson')" <c:if test="${fn:contains(field,'totalPerson')}"> style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','totalPerson');;"</c:if>/>
+												<input id="totalPerson" type="text" value="${supplierMatPros.totalPerson }" onclick="auditText(this,'mat_pro_page','totalPerson')" <c:if test="${fn:contains(field,'totalPerson')}"> style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','totalPerson');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">管理人员：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalMange" type="text" value="${supplierMatPros.totalMange }" onclick="auditText(this,'mat_pro_page','totalMange')" <c:if test="${fn:contains(field,'totalMange')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','totalMange');;"</c:if>/>
+												<input id="totalMange" type="text" value="${supplierMatPros.totalMange }" onclick="auditText(this,'mat_pro_page','totalMange')" <c:if test="${fn:contains(field,'totalMange')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','totalMange');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术人员：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalTech" type="text" value="${supplierMatPros.totalTech }" onclick="auditText(this,'mat_pro_page','totalTech')" <c:if test="${fn:contains(field,'totalTech')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','totalTech');;"</c:if>/>
+												<input id="totalTech" type="text" value="${supplierMatPros.totalTech }" onclick="auditText(this,'mat_pro_page','totalTech')" <c:if test="${fn:contains(field,'totalTech')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','totalTech');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">工人(职员)：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalWorker" type="text" value="${supplierMatPros.totalWorker }" onclick="auditText(this,'mat_pro_page','totalWorker')" <c:if test="${fn:contains(field,'totalWorker')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','totalWorker');;"</c:if>/>
+												<input id="totalWorker" type="text" value="${supplierMatPros.totalWorker }" onclick="auditText(this,'mat_pro_page','totalWorker')" <c:if test="${fn:contains(field,'totalWorker')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','totalWorker');"</c:if>/>
 											</div>
 										</li>
 									</ul> --%>
@@ -217,7 +217,7 @@
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术人员数量比例(%)：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<input id="scaleTech" type="text" value="${supplierMatPros.scaleTech }" 
-													<c:if test="${fn:contains(fieldProOne,'scaleTech')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','scaleTech');;"</c:if> 
+													<c:if test="${fn:contains(fieldProOne,'scaleTech') && !fn:contains(auditProField,'scaleTech')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','scaleTech');"</c:if> 
 													<c:if test="${fn:contains(auditProField,'scaleTech')}">style="border: 1px solid red;"</c:if>
 													onclick="auditText(this,'mat_pro_page','scaleTech')"/>
 												<c:if test="${fn:contains(unableProField,'scaleTech')}">
@@ -229,7 +229,7 @@
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">高级技术人员数量比例(%)：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<input id="scaleHeightTech" type="text" value="${supplierMatPros.scaleHeightTech }" 
-													<c:if test="${fn:contains(fieldProOne,'scaleHeightTech')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','scaleHeightTech');;"</c:if> 
+													<c:if test="${fn:contains(fieldProOne,'scaleHeightTech') && !fn:contains(auditProField,'scaleHeightTech')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','scaleHeightTech');"</c:if> 
 													<c:if test="${fn:contains(auditProField,'scaleHeightTech')}">style="border: 1px solid red;"</c:if>
 													onclick="auditText(this,'mat_pro_page','scaleHeightTech')"/>
 												<c:if test="${fn:contains(unableProField,'scaleHeightTech')}">
@@ -240,7 +240,7 @@
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" onclick="reason1(this)">研发部门名称：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="researchName" type="text" value="${supplierMatPros.researchName }" onclick="auditText(this,'mat_pro_page','researchName')" <c:if test="${fn:contains(fieldProOne,'researchName')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','researchName');;"</c:if> <c:if test="${fn:contains(auditProField,'researchName')}">style="border: 1px solid red;"</c:if>/>
+												<input id="researchName" type="text" value="${supplierMatPros.researchName }" onclick="auditText(this,'mat_pro_page','researchName')" <c:if test="${fn:contains(fieldProOne,'researchName') && !fn:contains(auditProField,'researchName')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','researchName');"</c:if> <c:if test="${fn:contains(auditProField,'researchName')}">style="border: 1px solid red;"</c:if>/>
 												<c:if test="${fn:contains(unableProField,'researchName')}">
 													<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 												</c:if>
@@ -249,7 +249,7 @@
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" onclick="reason1(this)">研发部门人数：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalResearch" type="text" value="${supplierMatPros.totalResearch }" onclick="auditText(this,'mat_pro_page','totalResearch')" <c:if test="${fn:contains(fieldProOne,'totalResearch')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','totalResearch');;"</c:if> <c:if test="${fn:contains(auditProField,'totalResearch')}">style="border: 1px solid red;"</c:if>/>
+												<input id="totalResearch" type="text" value="${supplierMatPros.totalResearch }" onclick="auditText(this,'mat_pro_page','totalResearch')" <c:if test="${fn:contains(fieldProOne,'totalResearch') && !fn:contains(auditProField,'totalResearch')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','totalResearch');"</c:if> <c:if test="${fn:contains(auditProField,'totalResearch')}">style="border: 1px solid red;"</c:if>/>
 												<c:if test="${fn:contains(unableProField,'totalResearch')}">
 													<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 												</c:if>
@@ -258,7 +258,7 @@
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">研发部门负责人：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="researchLead" type="text" value="${supplierMatPros.researchLead }" onclick="auditText(this,'mat_pro_page','researchLead')" <c:if test="${fn:contains(fieldProOne,'researchLead')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','researchLead');;"</c:if> <c:if test="${fn:contains(auditProField,'researchLead')}">style="border: 1px solid red;"</c:if>/>
+												<input id="researchLead" type="text" value="${supplierMatPros.researchLead }" onclick="auditText(this,'mat_pro_page','researchLead')" <c:if test="${fn:contains(fieldProOne,'researchLead') && !fn:contains(auditProField,'researchLead')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','researchLead');"</c:if> <c:if test="${fn:contains(auditProField,'researchLead')}">style="border: 1px solid red;"</c:if>/>
 												<c:if test="${fn:contains(unableProField,'researchLead')}">
 													<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 												</c:if>
@@ -267,7 +267,7 @@
 										<li class="col-md-12 col-sm-12 col-xs-12 ">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">承担国家军队科研项目：</span>
 											<div class="col-md-12 col-sm-12 col-xs-12 p0">
-												<textarea class="col-md-12 col-xs-12 col-sm-12 h80 hand" id="countryPro" onclick="auditText(this,'mat_pro_page','countryPro')" <c:if test="${fn:contains(fieldProOne,'countryPro')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','countryPro');;"</c:if> <c:if test="${fn:contains(auditProField,'countryPro')}">style="border: 1px solid red;"</c:if>>${supplierMatPros.countryPro }</textarea>
+												<textarea class="col-md-12 col-xs-12 col-sm-12 h80 hand" id="countryPro" onclick="auditText(this,'mat_pro_page','countryPro')" <c:if test="${fn:contains(fieldProOne,'countryPro') && !fn:contains(auditProField,'countryPro')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','countryPro');"</c:if> <c:if test="${fn:contains(auditProField,'countryPro')}">style="border: 1px solid red;"</c:if>>${supplierMatPros.countryPro }</textarea>
 												<c:if test="${fn:contains(unableProField,'countryPro')}">
 													<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 												</c:if>
@@ -276,7 +276,7 @@
 										<li class="col-md-12 col-sm-12 col-xs-12 ">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">获得国家军队科技奖项：</span>
 											<div class="col-md-12 col-sm-12 col-xs-12 p0">
-												<textarea class="col-md-12 col-xs-12 col-sm-12 h80 hand" id="countryReward" onclick="auditText(this,'mat_pro_page','countryReward')" <c:if test="${fn:contains(fieldProOne,'countryReward')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','countryReward');;"</c:if> <c:if test="${fn:contains(auditProField,'countryReward')}">style="border: 1px solid red;"</c:if>>${supplierMatPros.countryReward }</textarea>
+												<textarea class="col-md-12 col-xs-12 col-sm-12 h80 hand" id="countryReward" onclick="auditText(this,'mat_pro_page','countryReward')" <c:if test="${fn:contains(fieldProOne,'countryReward') && !fn:contains(auditProField,'countryReward')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','countryReward');"</c:if> <c:if test="${fn:contains(auditProField,'countryReward')}">style="border: 1px solid red;"</c:if>>${supplierMatPros.countryReward }</textarea>
 												<c:if test="${fn:contains(unableProField,'countryReward')}">
 													<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 												</c:if>
@@ -289,13 +289,13 @@
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">生产线名称数量：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalBeltline" type="text" value="${supplierMatPros.totalBeltline }" onclick="auditText(this,'mat_pro_page','totalBeltline')" <c:if test="${fn:contains(field,'totalBeltline')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','totalBeltline');;"</c:if>/>
+												<input id="totalBeltline" type="text" value="${supplierMatPros.totalBeltline }" onclick="auditText(this,'mat_pro_page','totalBeltline')" <c:if test="${fn:contains(field,'totalBeltline')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','totalBeltline');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">生产设备名称数量：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalDevice" type="text" value="${supplierMatPros.totalDevice }" onclick="auditText(this,'mat_pro_page','totalDevice')" <c:if test="${fn:contains(field,'totalDevice')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','totalDevice');;"</c:if>/>
+												<input id="totalDevice" type="text" value="${supplierMatPros.totalDevice }" onclick="auditText(this,'mat_pro_page','totalDevice')" <c:if test="${fn:contains(field,'totalDevice')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','totalDevice');"</c:if>/>
 											</div>
 										</li>
 									</ul> --%>
@@ -305,25 +305,25 @@
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">质量检测部门：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="qcName" type="text" value="${supplierMatPros.qcName }" onclick="auditText(this,'mat_pro_page','qcName')" <c:if test="${fn:contains(field,'qcName')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','qcName');;"</c:if>/>
+												<input id="qcName" type="text" value="${supplierMatPros.qcName }" onclick="auditText(this,'mat_pro_page','qcName')" <c:if test="${fn:contains(field,'qcName')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','qcName');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">质量检测人数：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalQc" type="text" value="${supplierMatPros.totalQc }" onclick="auditText(this,'mat_pro_page','totalQc')" <c:if test="${fn:contains(field,'totalQc')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','totalQc');;"</c:if>/>
+												<input id="totalQc" type="text" value="${supplierMatPros.totalQc }" onclick="auditText(this,'mat_pro_page','totalQc')" <c:if test="${fn:contains(field,'totalQc')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','totalQc');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">质检部门负责人：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="qcLead" type="text" value="${supplierMatPros.qcLead }" onclick="auditText(this,'mat_pro_page','qcLead')" <c:if test="${fn:contains(field,'qcLead')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','qcLead');;"</c:if>/>
+												<input id="qcLead" type="text" value="${supplierMatPros.qcLead }" onclick="auditText(this,'mat_pro_page','qcLead')" <c:if test="${fn:contains(field,'qcLead')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','qcLead');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">质量检测设备名称：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="qcDevice" type="text" onclick="auditText(this,'mat_pro_page','qcDevice')" value="${supplierMatPros.qcDevice }" <c:if test="${fn:contains(field,'qcDevice')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','qcDevice');;"</c:if>>
+												<input id="qcDevice" type="text" onclick="auditText(this,'mat_pro_page','qcDevice')" value="${supplierMatPros.qcDevice }" <c:if test="${fn:contains(field,'qcDevice')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_pro_page','qcDevice');"</c:if>>
 											</div>
 										</li>
 									</ul> --%>
@@ -402,31 +402,31 @@
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="orgName_sale" type="text" value="${supplierMatSells.orgName }" onclick="reasonSale1(this)" <c:if test="${fn:contains(field,'orgName')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_sell_page','orgName');;"</c:if>/>
+												<input id="orgName_sale" type="text" value="${supplierMatSells.orgName }" onclick="reasonSale1(this)" <c:if test="${fn:contains(field,'orgName')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_sell_page','orgName');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">人员总数：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalPerson_sale" type="text" value="${supplierMatSells.totalPerson }" onclick="reasonSale1(this)" <c:if test="${fn:contains(field,'totalPerson')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_sell_page','totalPerson');;"</c:if>/>
+												<input id="totalPerson_sale" type="text" value="${supplierMatSells.totalPerson }" onclick="reasonSale1(this)" <c:if test="${fn:contains(field,'totalPerson')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_sell_page','totalPerson');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">管理人员：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalMange_sale" type="text" value="${supplierMatSells.totalMange }" onclick="reasonSale1(this)" <c:if test="${fn:contains(field,'totalMange')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_sell_page','totalMange');;"</c:if>/>
+												<input id="totalMange_sale" type="text" value="${supplierMatSells.totalMange }" onclick="reasonSale1(this)" <c:if test="${fn:contains(field,'totalMange')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_sell_page','totalMange');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术人员：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalTech_sale" type="text" value="${supplierMatSells.totalTech }" onclick="reasonSale1(this)" <c:if test="${fn:contains(field,'totalTech')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_sell_page','totalTech');;"</c:if>/>
+												<input id="totalTech_sale" type="text" value="${supplierMatSells.totalTech }" onclick="reasonSale1(this)" <c:if test="${fn:contains(field,'totalTech')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_sell_page','totalTech');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">工人(职员)：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalWorker_sale" type="text" value="${supplierMatSells.totalWorker }" onclick="reasonSale1(this)" <c:if test="${fn:contains(field,'totalWorker')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_sell_page','totalWorker');;"</c:if>/>
+												<input id="totalWorker_sale" type="text" value="${supplierMatSells.totalWorker }" onclick="reasonSale1(this)" <c:if test="${fn:contains(field,'totalWorker')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_sell_page','totalWorker');"</c:if>/>
 											</div>
 										</li>
 									</ul> --%>
@@ -505,31 +505,31 @@
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="orgName_engineering" type="text" value="${supplierMatEngs.orgName }" onclick="auditText(this,'mat_eng_page','orgName_engineering')" <c:if test="${fn:contains(field,'orgName')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_eng_page','orgName');;"</c:if>/>
+												<input id="orgName_engineering" type="text" value="${supplierMatEngs.orgName }" onclick="auditText(this,'mat_eng_page','orgName_engineering')" <c:if test="${fn:contains(field,'orgName')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_eng_page','orgName');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术负责人数量：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalTech_engineering" type="text" value="${supplierMatEngs.totalTech }" onclick="auditText(this,'mat_eng_page','totalTech_engineering')" <c:if test="${fn:contains(field,'totalTech')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_eng_page','totalTech');;"</c:if>/>
+												<input id="totalTech_engineering" type="text" value="${supplierMatEngs.totalTech }" onclick="auditText(this,'mat_eng_page','totalTech_engineering')" <c:if test="${fn:contains(field,'totalTech')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_eng_page','totalTech');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">中级及以上职称人员数量：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalGlNormal_engineering" type="text" value="${supplierMatEngs.totalGlNormal }" onclick="auditText(this,'mat_eng_page','totalGlNormal_engineering')" <c:if test="${fn:contains(field,'totalGlNormal')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_eng_page','totalGlNormal');;"</c:if>/>
+												<input id="totalGlNormal_engineering" type="text" value="${supplierMatEngs.totalGlNormal }" onclick="auditText(this,'mat_eng_page','totalGlNormal_engineering')" <c:if test="${fn:contains(field,'totalGlNormal')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_eng_page','totalGlNormal');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">现场管理人员数量：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalMange_engineering" type="text" value="${supplierMatEngs.totalMange }" onclick="auditText(this,'mat_eng_page','totalMange_engineering')" <c:if test="${fn:contains(field,'totalMange')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_eng_page','totalMange');;"</c:if>/>
+												<input id="totalMange_engineering" type="text" value="${supplierMatEngs.totalMange }" onclick="auditText(this,'mat_eng_page','totalMange_engineering')" <c:if test="${fn:contains(field,'totalMange')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_eng_page','totalMange');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术和工人数量：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalTechWorker_engineering" type="text" value="${supplierMatEngs.totalTechWorker }" onclick="auditText(this,'mat_eng_page','totalTechWorker_engineering')" <c:if test="${fn:contains(field,'totalTechWorker')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_eng_page','totalTechWorker');;"</c:if>/>
+												<input id="totalTechWorker_engineering" type="text" value="${supplierMatEngs.totalTechWorker }" onclick="auditText(this,'mat_eng_page','totalTechWorker_engineering')" <c:if test="${fn:contains(field,'totalTechWorker')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_eng_page','totalTechWorker');"</c:if>/>
 											</div>
 										</li>
 									</ul> --%>
@@ -540,10 +540,10 @@
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" style="width: 230px;">是否有国家或军队保密工程业绩：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<c:if test="${supplierMatEngs.isHavingConAchi eq '0'}">
-												  <input id="isHavingConAchi" type="text" value="无" onclick="auditText(this,'mat_eng_page','isHavingConAchi')" <c:if test="${fn:contains(fieldSecrecy,'isHavingConAchi')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_eng_page','isHavingConAchi');;"</c:if> <c:if test="${fn:contains(auditEngField,'isHavingConAchi')}">style="border: 1px solid red;"</c:if>/>
+												  <input id="isHavingConAchi" type="text" value="无" onclick="auditText(this,'mat_eng_page','isHavingConAchi')" <c:if test="${fn:contains(fieldSecrecy,'isHavingConAchi') && !fn:contains(auditEngField,'isHavingConAchi')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_eng_page','isHavingConAchi');"</c:if> <c:if test="${fn:contains(auditEngField,'isHavingConAchi')}">style="border: 1px solid red;"</c:if>/>
 											  </c:if>
 												<c:if test="${supplierMatEngs.isHavingConAchi eq '1'}">
-												  <input id="isHavingConAchi" type="text" value="有" onclick="auditText(this,'mat_eng_page','isHavingConAchi')" <c:if test="${fn:contains(fieldSecrecy,'isHavingConAchi')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_eng_page','isHavingConAchi');;"</c:if> <c:if test="${fn:contains(auditEngField,'isHavingConAchi')}">style="border: 1px solid red;"</c:if>/>
+												  <input id="isHavingConAchi" type="text" value="有" onclick="auditText(this,'mat_eng_page','isHavingConAchi')" <c:if test="${fn:contains(fieldSecrecy,'isHavingConAchi') && !fn:contains(auditEngField,'isHavingConAchi')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_eng_page','isHavingConAchi');"</c:if> <c:if test="${fn:contains(auditEngField,'isHavingConAchi')}">style="border: 1px solid red;"</c:if>/>
 												</c:if>
 												<c:if test="${fn:contains(unableEngField,'isHavingConAchi')}">
 													<a class="abolish">
@@ -555,7 +555,7 @@
 										
 										<c:if test="${supplierMatEngs.isHavingConAchi eq '1'}">
 											<li class="col-md-3 col-sm-6 col-xs-12 pl10">
-												<span <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierConAch)}">style="border: 1px solid #FF8C00;"</c:if> class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" 
+												<span <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierConAch) && !fn:contains(auditEngField,'supplierConAch')}">style="border: 1px solid #FF8C00;"</c:if> class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" 
 												onclick="auditFile(this,'mat_eng_page','supplierConAch');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'"  <c:if test="${fn:contains(auditEngField,'supplierConAch')}">style="border: 1px solid red;"</c:if>>承包合同主要页及保密协议：</span>
 												<c:if test="${isStatusToAudit}">
 												  <u:upload singleFileSize="300" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}" id="conAch_up" multiple="true" auto="true" maxcount="5"/>
@@ -577,7 +577,7 @@
 											<li class="col-md-12 col-xs-12 col-sm-12 mb25">
 												<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">国家或军队保密工程业绩：</span>
 												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-													<textarea class="col-md-12 col-xs-12 col-sm-12 h80 hand" id="confidentialAchievement" onclick="auditText(this,'mat_eng_page','confidentialAchievement')" <c:if test="${fn:contains(fieldSecrecy,'confidentialAchievement')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_eng_page','confidentialAchievement');;"</c:if> <c:if test="${fn:contains(auditEngField,'confidentialAchievement')}">style="border: 1px solid red;"</c:if>>${supplierMatEngs.confidentialAchievement}</textarea>
+													<textarea class="col-md-12 col-xs-12 col-sm-12 h80 hand" id="confidentialAchievement" onclick="auditText(this,'mat_eng_page','confidentialAchievement')" <c:if test="${fn:contains(fieldSecrecy,'confidentialAchievement') && !fn:contains(auditEngField,'confidentialAchievement')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_eng_page','confidentialAchievement');"</c:if> <c:if test="${fn:contains(auditEngField,'confidentialAchievement')}">style="border: 1px solid red;"</c:if>>${supplierMatEngs.confidentialAchievement}</textarea>
 												</div>
 											</li>
 										</c:if>
@@ -590,7 +590,7 @@
 												<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" 
 													onclick="auditFile(this,'mat_eng_page','${area.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" 
 													<c:if test="${fn:contains(auditEngField,area.name)}">style="border: 1px solid red;"</c:if>
-													<c:if test="${fn:contains(fileModifyField,area.id)}">style="border: 1px solid #FF8C00;"</c:if>
+													<c:if test="${fn:contains(fileModifyField,area.id) && !fn:contains(auditEngField,area.name)}">style="border: 1px solid #FF8C00;"</c:if>
 													>${area.name}：</span>
 													<c:if test="${isStatusToAudit}">
 													  <u:upload singleFileSize="300" maxcount="5"  id="area_show_${st.index+1}" multiple="true" businessId="${supplierId}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" auto="true" />
@@ -897,31 +897,31 @@
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="orgName_service" class="span5" type="text" value="${supplierMatSes.orgName }" onclick="reasonService1(this)" <c:if test="${fn:contains(field,'orgName')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_serve_page','orgName');;"</c:if>/>
+												<input id="orgName_service" class="span5" type="text" value="${supplierMatSes.orgName }" onclick="reasonService1(this)" <c:if test="${fn:contains(field,'orgName')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_serve_page','orgName');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">人员总数：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalPerson_service" class="span5" type="text" value="${supplierMatSes.totalPerson }" onclick="reasonService1(this)" <c:if test="${fn:contains(field,'totalPerson')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_serve_page','totalPerson');;"</c:if>/>
+												<input id="totalPerson_service" class="span5" type="text" value="${supplierMatSes.totalPerson }" onclick="reasonService1(this)" <c:if test="${fn:contains(field,'totalPerson')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_serve_page','totalPerson');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">管理人员：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalMange_service" class="span5" type="text" value="${supplierMatSes.totalMange }" onclick="reasonService1(this)" <c:if test="${fn:contains(field,'totalMange')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_serve_page','totalMange');;"</c:if>/>
+												<input id="totalMange_service" class="span5" type="text" value="${supplierMatSes.totalMange }" onclick="reasonService1(this)" <c:if test="${fn:contains(field,'totalMange')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_serve_page','totalMange');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术人员：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalTech_service" class="span5" type="text" value="${supplierMatSes.totalTech }" onclick="reasonService1(this)" <c:if test="${fn:contains(field,'totalTech')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_serve_page','totalTech');;"</c:if>/>
+												<input id="totalTech_service" class="span5" type="text" value="${supplierMatSes.totalTech }" onclick="reasonService1(this)" <c:if test="${fn:contains(field,'totalTech')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_serve_page','totalTech');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">工人(职员)：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalWorker_service" class="span5" type="text" value="${supplierMatSes.totalWorker }" onclick="reasonService1(this)" <c:if test="${fn:contains(field,'totalWorker')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_serve_page','totalWorker');;"</c:if>/>
+												<input id="totalWorker_service" class="span5" type="text" value="${supplierMatSes.totalWorker }" onclick="reasonService1(this)" <c:if test="${fn:contains(field,'totalWorker')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_serve_page','totalWorker');"</c:if>/>
 											</div>
 										</li>
 									</ul> --%>

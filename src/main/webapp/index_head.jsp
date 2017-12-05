@@ -852,9 +852,9 @@
                             <table class="table table-bordered " >
                                 <thead>
                                 <tr >
-                                    <th class="tc info" width="55%">专家名称</th>
-                                    <th class="tc info" width="25%">编号</th>
-                                    <th class="tc info" width="20%">状态</th>
+                                    <th class="tc" width="20%">专家姓名</th>
+                                    <th class="tc" width="60%">编号</th>
+                                    <th class="tc" width="20%">状态</th>
                                 </tr>
                                 </thead>
                                 <tbody>

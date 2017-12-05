@@ -3,6 +3,7 @@ package ses.model.sms;
 import java.io.Serializable;
 import java.util.List;
 
+import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
 
@@ -108,6 +109,9 @@ public class SupplierCateTree implements Serializable{
     private byte isContractModified;// 合同是否修改过
     private byte isAptitudeModified;// 资质是否修改过
     private byte isEngAptitudeModified;// 工程资质是否修改过
+    
+    /** 所有父级节点集合 */
+    private List<Category> parentNodeList;
     
 	public String getAptitudeId() {
 		return aptitudeId;
@@ -495,6 +499,14 @@ public class SupplierCateTree implements Serializable{
 
 	public void setAuditIsDeleted(int auditIsDeleted) {
 		this.auditIsDeleted = auditIsDeleted;
+	}
+
+	public List<Category> getParentNodeList() {
+		return parentNodeList;
+	}
+
+	public void setParentNodeList(List<Category> parentNodeList) {
+		this.parentNodeList = parentNodeList;
 	}
 	
 }

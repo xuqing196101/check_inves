@@ -819,4 +819,18 @@ public class EngCategoryServiceImpl implements EngCategoryService {
 		}
 		return cateTree;
 	}
+
+	/**
+	 * 查询公开的品目
+	 * @param map
+	 * @return
+	 */
+	@Override
+	public List<Category> findPublishCategory(String parentId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("isDeleted", 0);
+		map.put("isPublish", 0);
+		map.put("parentId", parentId);
+		return engCcategoryMapper.findCategory(map);
+	}
 }

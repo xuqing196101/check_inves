@@ -34,24 +34,9 @@
 					type: "post",
 					success: function(data) {
 						if (data == "1") {
-							/* $.ajax({
-								url: "${pageContext.request.contextPath}/expert/getSupplierInfo.do",
-								data: {
-									"supplierId": supplierId
-								},
-								type: "post",
-								dataType: "json",
-								success: function(supplier) { */
-									//alert("测试");
-								//	layer.close(index);
-									/* var supplierJson = JSON.stringify(supplier);
-									$("#supplierJson").val(supplierJson);
-									$("#download_form").submit(); */
-									layer.close(index);
-									$("#supplierJson").val(supplierId);
-									$("#download_form").submit();
-						/* 		}
-							}); */
+							layer.close(index);
+							$("#supplierJson").val(supplierId);
+							$("#download_form").submit();
 						} else {
 							layer.msg("近3年加权平均净资产不满足物资销售型供应商的要求！");
 							layer.close(index);
@@ -60,9 +45,9 @@
 				});
 			}
 			//下载
-			function downloadNotice() {
+			/* function downloadNotice() {
 				window.location.href = "${pageContext.request.contextPath}/expert/downloadSupplierNotice.html";
-			}
+			} */
 			sessionStorage.locationG = true;
 			sessionStorage.index = 7;
 		</script>
@@ -95,7 +80,7 @@
 				<div class="row magazine-page">
 					<div class="col-md-12 tab-v2 job-content">
 						<div class="padding-top-10">
-							<form action="${pageContext.request.contextPath}/expert/downloadSupplier.html" method="post" id="download_form">
+							<form action="${pageContext.request.contextPath}/supplier/downloadApplicationForm.html" method="post" id="download_form">
 								<input type="hidden" value="" name="supplierJson" id="supplierJson">
 							</form>
 							<form id="template_download_form_id" action="${pageContext.request.contextPath}/supplier/perfect_download.html" method="post">

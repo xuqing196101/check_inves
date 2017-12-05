@@ -28,9 +28,9 @@
 			method="post" id="form1">
 			<div>
 				<ul class="list-unstyled list-flow p0_20">
-					<li class="col-md-6  p0 ">
+					<li class="col-md-6  p0 isSatisfy">
 						<div class="fl mr10">
-							<input type="radio" name="radio" checked="checked"
+							<input type="radio"  name="radio"
 								value="1" class="fl" />
 							<div class="ml5 fl">满足某一产品条件即可</div>
 						</div>
@@ -56,15 +56,22 @@
 	</div>
 </body>
 <script type="text/javascript">
+	var loadFlag = true;
     var key;
     var zTreeObj = "";
     var zNodes = "";
     var categoryId="";
     var temp = new Array();
     var isCheckParent = true;
+    var categoryName = new Object();
     $(function() {
-      
       categoryId = sessionStorage.getItem("categoryId");
+      categoryName = sessionStorage.getItem("categoryName");
+      //temp = categoryId.split(",");
+      categoryName = categoryName.split(",");
+      var isMulticondition = sessionStorage.getItem("isMulticondition");
+      //$("[name='radio']").prop("checked",false);
+      $(".isSatisfy [value='"+isMulticondition+"']").prop("checked",true);
       loadZtree(null);
 		
     });
@@ -77,7 +84,6 @@
             url: "${pageContext.request.contextPath}/SupplierExtracts_new/getTree.do?supplierTypeCode=${supplierTypeCode}",
             otherParam: {
               categoryId: categoryId,
-              //"${categoryId}",
             },
             dataType: "json",
             dataFilter: ajaxDataFilter,
@@ -97,6 +103,8 @@
             }
           },
           callback: {
+            beforeCheck: checkBefore,
+		 	onAsyncSuccess: showNodes,
 		 	onCheck: checkNode
 		  },
           view: {
@@ -122,7 +130,8 @@
 					} else {
 						zNodes = data;
 						zTreeObj = $.fn.zTree.init($("#ztree"), setting, zNodes);
-						zTreeObj.expandAll(true);//全部展开
+						showNodes(zTreeObj,"ztree",null,zNodes);
+						/* zTreeObj.expandAll(true);//全部展开
 						// 如果搜索到的最后一个节点是父节点，折叠最后一个节点
 						var allNodes = zTreeObj.transformToArray(zTreeObj.getNodes());
 						if(allNodes && allNodes.length > 0){
@@ -131,7 +140,7 @@
 							if(lastNode.isParent){
 								zTreeObj.expandNode(lastNode, false);//折叠最后一个节点
 							}
-						}
+						} */
 					}
 					// 关闭加载中的菊花图标
 					layer.close(loading);
@@ -141,19 +150,80 @@
        		isCheckParent = !obj;
 	        zTreeObj = $.fn.zTree.init($("#ztree"), setting, zNodes);
         }
-        
       }
+      
+      
+    //展开节点
+    function showNodes(zTreeObj, treeId, treeNode, nodes){
+    	var zTreeObj = $.fn.zTree.getZTreeObj("ztree");
+    	//搜索
+    	if(!isCheckParent){
+			zTreeObj.expandAll(true);//全部展开
+			// 如果搜索到的最后一个节点是父节点，折叠最后一个节点
+			var allNodes = zTreeObj.transformToArray(zTreeObj.getNodes());
+			if(allNodes && allNodes.length > 0){
+				// 最后一个节点
+				var lastNode = allNodes[allNodes.length-1];
+				if(lastNode.isParent){
+					zTreeObj.expandNode(lastNode, false);//折叠最后一个节点
+				}
+			}
+    	}else if(loadFlag){
+    		var nodes = zTreeObj.getCheckedNodes(true);
+    		for ( var k in nodes) {
+				openParentNode(nodes[k],zTreeObj);
+			}
+			loadFlag = false;
+    	}
+    }  
+      
+     
+    //递归父节点并将其展开
+    function openParentNode(node,treeObj){
+    	var pn = node.getParentNode();
+    	if(pn){
+   			treeObj.expandNode(pn, true);
+    		openParentNode(pn,treeObj);
+    	}
+    }
+    
+    //选中前
+    function checkBefore(treeId,treeNode){
+    	var treeObj=$.fn.zTree.getZTreeObj(treeId);
+    	if(treeNode.treeLevel>5 || treeNode.treeLevel<4){
+    		treeObj.checkNode(treeNode, false,false);
+    		layer.msg("当前选择的是"+treeNode.treeLevel+"级品目,仅能选择4,5级品目");
+    		return false;
+    		//showcheckedNode(treeObj);
+    	}
+    }
       
     //选中时回调
     function checkNode(event,treeId,treeNode){
-    	var treeObj=$.fn.zTree.getZTreeObj("ztree");
+    	var treeObj=$.fn.zTree.getZTreeObj(treeId);
     	//当前节点取消选中，递归取消父节点选中状态
 		dischecked(treeNode,treeObj);
 		if(treeNode.checked && isCheckParent){
 			//子节点全部选中，父节点选中
 			checkAllChildCheckParent(treeNode,treeObj);
 		}
+		
+		//异步加载子节点不展开无法回显，对之前选中的进行处理
+		/* if(!treeNode.checked){
+			deleteParentId(treeNode);
+			removeByValue(categoryName,treeNode.name);
+		} */
     }
+  
+  	//删除父节点id  
+    function deleteParentId(treeNode){
+    	removeByValue(temp,treeNode.id);
+    	var parentNode = treeNode.getParentNode();
+    	if(parentNode){
+    		deleteParentId(parentNode);
+    	}
+    }
+    
     
     //递归取消父节点选中状态
 	function dischecked(treeNode,treeObj){
@@ -174,7 +244,8 @@
     	var flag = preIsCheck(node) && nextIsCheck(node);
     	var parentNode = node.getParentNode();
     	if(flag){
-    		if(parentNode){
+    	//需求变动，若是父节点为4级以上品目，不要选中
+    		if(parentNode && parentNode.treeLevel>3){
     			treeObj.checkNode(parentNode, true,false,true);
     			checkAllChildCheckParent(parentNode,treeObj);
     		}
@@ -243,8 +314,9 @@
     	return	flag;
  	}   
     
-//选中父节点，勾选子节点
   function ajaxDataFilter(treeId, parentNode, responseData){
+  
+	//选中父节点，勾选子节点
 	if(typeof(parentNode)!="undefined"){
 		if(parentNode.checked==true){
         	 for(var i=0;i<responseData.length;i++){
@@ -253,7 +325,7 @@
         }
 	}
 		return responseData;
-	}
+   }
    function focusKey(e) {
       if(key.hasClass("empty")) {
         key.removeClass("empty");
@@ -304,8 +376,12 @@
      } 
         //是否满足
        var issatisfy=$('input[name="radio"]:checked ').val();
+       if(nodes.length<1 && (!categoryId)){
+          layer.alert("产品类别必选");
+          return false;
+       }
        if("PROJECT"!=typeCode){
-           $(cate).parents("li").find(".parentId").val(cateId.toString());
+           $(cate).parents("li").find(".categoryId").val(cateId.toString());
        }else{
        		var ppid = modifParentOrChild(nodes);
        		$(cate).parents("li").find(".categoryId").val(ppid.substring(0,ppid.lastIndexOf(",")));
@@ -315,6 +391,13 @@
        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
        parent.layer.close(index);
   } 
+  
+  //回显选中节点
+  function showcheckedNode(treeObj){
+  	for ( var i in categoryId) {
+		treeObj.checkNode(categoryId[i], true, true);
+	}
+  }
   
   //判断数组中是否包含此元素
   function contains (arr,val) {

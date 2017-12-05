@@ -2433,7 +2433,7 @@ public class SupplierController_old extends BaseSupplierController {
 		//				cateList.addAll(list);
 		//			}
 		//		}
-		List < SupplierItem > itemList = supplierItemService.getSupplierId(sid);
+		List < SupplierItem > itemList = supplierItemService.getItemListBySupplierId(sid);
 
 		List < Category > chose = new LinkedList < Category > ();
 		//List<String> choseId=new LinkedList<String>();
@@ -3404,8 +3404,8 @@ public class SupplierController_old extends BaseSupplierController {
     @RequestMapping(value="/getProType",produces = "application/json;charset=utf-8")
     @ResponseBody
    public String getProType(String typeId, String certCode, String supplierId){
-    	 SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
-   	  List<String> list = supplierAptituteService.getPorType( typeId,matEng.getId(),certCode);
+    	SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
+   	  List<String> list = supplierAptituteService.getProType(typeId,matEng.getId(),certCode);
 	   String string = JSON.toJSONString(list);
 	   return string;
    }

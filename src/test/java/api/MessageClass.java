@@ -6,6 +6,13 @@ package api;
 //（1）调试期间，请仔细阅读接口文档；
 //（2）请使用 用户名(例如：cf_demo123)及 APIkey来调用接口，APIkey在会员中心可以获取；
 //（3）该代码仅供接入互亿无线短信接口参考使用，客户可根据实际需要自行编写；
+
+import common.utils.SMSUtil;
+import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
  * Description: 
@@ -58,4 +65,15 @@ public class MessageClass {
             System.out.println("短信提交成功");
         }
     }*/
+
+    @Test
+    public void messageTest(){
+        SMSUtil.sendMsg("18513119027,15201290464,", "【军队采购网】审核通知：您好，您的信息退回修改。");
+    }
+
+    @Test
+    public void mapTest(){
+
+        Map<Integer, StringBuffer> map = new HashMap<>();
+    }
 }

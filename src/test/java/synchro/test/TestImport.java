@@ -86,7 +86,7 @@ public class TestImport {
      */
     @Test
     public void testImportPic() {
-        Date date = new Date();
+        Date date=new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         Calendar cale = Calendar.getInstance();
         cale.setTime(date);
@@ -96,7 +96,9 @@ public class TestImport {
         String supplier = PropUtil.getProperty("file.sync.base") + PropUtil.getProperty("file.sync.import") + "/" + src;//供应商图片
         // 供应商图片上传目录：/web/attach/uploads/supplier
         String supplierPath = PropUtil.getProperty("file.base.path") + PropUtil.getProperty("file.supplier.system.path") + "/" + src;//供应商专路径
-        FileUtil.copyFolder(supplier, supplierPath);
+        // 完成后备份目录 /web/sync/finish/supplier_pic
+        String bakPath = PropUtil.getProperty("file.sync.base") + PropUtil.getProperty("file.sync.finish") + "/" + "supplier_pic";
+        FileUtil.copyFolder(supplier, supplierPath, bakPath);
     }
 
     /**
@@ -119,7 +121,7 @@ public class TestImport {
         String supplierPath = PropUtil.getProperty("file.base.path") + PropUtil.getProperty("file.supplier.system.path") + "/" + src;//供应商所有图片
         // 数据同步导出目录: /web/sync/export
         String synchExport = PropUtil.getProperty("file.sync.base") + PropUtil.getProperty("file.sync.export") + "/" + src;
-        FileUtil.copyFolder(supplierPath, synchExport);
+        FileUtil.copyFolder(supplierPath, synchExport, null);
     }
 
     /**
@@ -133,7 +135,22 @@ public class TestImport {
      */
     @Test
     public void testSupplierBackImport() {
-        //　调用新提交供应商退回修改导入方法
-        innerSupplierService.importInner(null, null);
+        // 获取本地文件
+        File file = FileUtils.getImportFile();
+        // 遍历文件
+        if (file != null && file.exists()) {
+            File[] files = file.listFiles();
+            for (File f : files) {
+                //　调用新提交供应商导入方法
+                //　调用新提交供应商退回修改导入方法
+                if(f.isDirectory()){
+                    for (File fileOfDir : f.listFiles()){
+                        innerSupplierService.importInner(fileOfDir, null);
+                    }
+                }else {
+                    innerSupplierService.importInner(f, null);
+                }
+            }
+        }
     }
 }

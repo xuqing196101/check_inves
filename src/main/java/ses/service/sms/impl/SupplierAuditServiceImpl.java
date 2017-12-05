@@ -6,6 +6,7 @@ import common.constant.StaticVariables;
 import common.service.UploadService;
 import common.utils.DateUtils;
 import common.utils.JdcgResult;
+
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import ses.common.AbstractMessageCommon;
+import ses.common.sms.SupplierMessageCommon;
 import ses.constants.SupplierConstants;
 import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.sms.SupplierAptituteMapper;
@@ -485,7 +488,21 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
      */
 	@Override
 	public int updateStatus(Supplier supplier) {
-		return supplierMapper.updateStatus(supplier);
+		int updateResult = supplierMapper.updateStatus(supplier);
+		/*if(updateResult > 0){
+			String id = supplier.getId();
+			Integer status = supplier.getStatus();
+			if(StringUtils.isNotBlank(id) && status != null){
+				// 短信通知供应商审核结果
+				if(SupplierConstants.STATUSMAP_SMS.containsKey(status)){
+					String mobile = supplierMapper.selectSupMobileById(id);
+					if(StringUtils.isNotEmpty(mobile)){
+						SMSUtil.sendMsg(mobile, "【军队采购网】审核通知：您好，您的信息"+SupplierConstants.STATUSMAP_SMS.get(status)+"。");
+					}
+				}
+			}
+		}*/
+		return updateResult;
 	}
 	
 	/**
@@ -1207,13 +1224,16 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 * @version 2017年6月26日
 	 */
 	@Override
-	public void handlerPublictySup() {
+	public void updateHandlerPublictySup() {
 		// 获取当前时间
 	    Date nowDate = new Date();
 	    // 查询所有公示供应商
 	    String nowDateString = DateUtils.getDateOfFormat(nowDate);
 	    List<Supplier> list = supplierMapper.selectSupByPublicty();
 	    if(list != null && !list.isEmpty()){
+			// 封装短信发送Map 格式：状态+电话号码集
+			AbstractMessageCommon messageCommon = new SupplierMessageCommon();
+			Map<Integer, StringBuffer> currSupStatusAndMobile = null;
 	        for (Supplier supplier : list) {
 	            // 将公示7天的拟入库供应商入库 
 	            // 获取七天后的今天
@@ -1226,9 +1246,17 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	                // 设置入库时间
 	                supplier.setInstorageAt(new Date());
 	                // 修改
-	                supplierMapper.updateStatus(supplier);
+	                // supplierMapper.updateStatus(supplier);
+					// 封装短信信息 只在外网执行
+                    /*if("1".equals(StaticVariables.ipAddressType)){
+                        currSupStatusAndMobile = messageCommon.packageMessageInfo(supplier, currSupStatusAndMobile);
+                    }*/
+                    // 修改状态并短信通知供应商
+	                this.updateStatus(supplier);
 	            }
 	        }
+	        // 发送短信
+	        // messageCommon.beginSendMessage(currSupStatusAndMobile);
          }
 	}
 
@@ -2148,7 +2176,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			// 退回修改附件
 			StringBuffer fileModifyField = new StringBuffer();
 			Supplier supplier = supplierMapper.selectByPrimaryKey(supplierId);
-			if(supplier != null && supplier.getStatus() != null && (supplier.getStatus() == 0 || supplier.getStatus() == 9)) {
+//			if(supplier != null && supplier.getStatus() != null && (supplier.getStatus() == 0 || supplier.getStatus() == 9)) {
+			if(SupplierConstants.isStatusToAudit(supplier.getStatus())){
 				SupplierModify supplierFileModify = new SupplierModify();
 				supplierFileModify.setSupplierId(supplierId);
 				supplierFileModify.setModifyType("file");

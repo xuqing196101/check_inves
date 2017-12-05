@@ -88,20 +88,20 @@
     </div>
     <div class="report_list_box">
         <div class="col-md-12 col-sm-12 col-xs-12 report_list_title">
-            <div class="col-md-6 col-xs-6 col-sm-5 tc f16">专家名称</div>
-            <div class="col-md-3 col-xs-3 col-sm-4 tc f16">编号</div>
-            <div class="col-md-3 col-xs-3 col-sm-3 tc f16">状态</div>
+            <div class="col-xs-3 tc f16">专家姓名</div>
+            <div class="col-xs-6 tc f16">编号</div>
+            <div class="col-xs-3 tc f16">状态</div>
         </div>
         <c:choose>
             <c:when test="${!empty list.list}">
                 <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
                     <c:forEach items="${list.list}" var="item" varStatus="status">
                         <li>
-                            <div class="col-md-6 col-xs-6 col-sm-5">
+                            <div class="col-xs-3">
                                 <span class="f18 mr5 fl">·</span>${item.relName }
                             </div>
-                            <div class="col-md-3 col-xs-3 col-sm-4 tc">${item.batchDetailsNumber}</div>
-                            <span class="col-md-3 col-sm-3 col-xs-3 tc">
+                            <div class="col-xs-6 tc">${item.batchDetailsNumber}</div>
+                            <span class="col-xs-3 tc">
 					   <c:choose>
                            <c:when test="${item.status eq '4' or item.status == '6' or item.status == '8'}">
                                复审通过

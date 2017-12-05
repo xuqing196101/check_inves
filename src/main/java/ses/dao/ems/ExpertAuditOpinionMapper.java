@@ -81,4 +81,10 @@ public interface ExpertAuditOpinionMapper {
     void updateIsDownloadAttch(ExpertAuditOpinion expertAuditOpinion);
     
     void deleteByExpertId(ExpertAuditOpinion expertAuditOpinion);
+    
+    /**
+     * 清空附件下载记录
+     * @param id
+     */
+    void updateDownloadAttch(String id);
 }

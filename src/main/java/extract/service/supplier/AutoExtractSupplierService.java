@@ -67,8 +67,6 @@ public interface AutoExtractSupplierService {
   Map<String, Object> autoExtract(SupplierExtractCondition condition,
 		String projectInfo);
 
-  void selectAutoExtractProject();
-
 
   /**
    * 
@@ -80,6 +78,8 @@ public interface AutoExtractSupplierService {
    */
   Map<String, Object> exportExtractProjectInfo(String start, String end,
 		Date synchDate);
+
+  void selectAutoExtractProject(Date start, Date end);
 
 
 

@@ -375,4 +375,11 @@ public interface PurchaseDetailService {
     * @return List<PurchaseDetail>
      */
     List<PurchaseDetail> dynamicForeach(List<String> list);
+    
+    String selectByPurchaseType(String id);
+    List<PurchaseDetail> selectByParentIdList(String id);
+    List<PurchaseDetail> selectByTask(PurchaseDetail detail,Integer page);
+    List<PurchaseDetail> selectByDept();
+    List<PurchaseDetail> selectByType();
+    List<Map<String, Object>> selectByMonth();
 }

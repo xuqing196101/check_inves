@@ -97,6 +97,11 @@ function shenhe(id) {
                         value: '',
                         title: '请填写审核人：'
                     }, function (val, index) {
+                        if ($.trim(val) == "") {
+							$(ele).val("");
+							$(ele).focus();
+							return;
+                        }
                         // 保存审核人
                         var bool = updateAuditor(id, val);
                         if (bool) {
@@ -173,8 +178,9 @@ function toEssential(id, sign) {
                         title: '请填写审核人：'
                     }, function (val, index, ele) {
                         if ($.trim(val) == "") {
-                            $(ele).focus();
-                            return;
+							$(ele).val("");
+							$(ele).focus();
+							return;
                         }
                         // 保存审核人
                         var bool = updateAuditor(id, val);

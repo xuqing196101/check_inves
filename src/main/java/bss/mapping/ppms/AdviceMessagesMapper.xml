@@ -21,6 +21,21 @@
     from T_BSS_PPMS_MESSAGE
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="selectbyList" parameterType="bss.model.ppms.AdviceMessages" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_MESSAGE
+    where 1=1 AND IS_DELETE=0
+    <if test="code!=null and code!=''">
+       and CODE=#{code}
+    </if>
+    <if test="projectId!=null and projectId!=''">
+       and PROJECT_ID=#{projectId}
+    </if>
+    <if test="status!=null and status!=''">
+       and STATUS=#{status}
+    </if>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_BSS_PPMS_MESSAGE
     where ID = #{id,jdbcType=VARCHAR}
