@@ -936,4 +936,13 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 		return prompt;
 	}
 
+	@Override
+	public List<ExpertAudit> selectReasonByExpertId(ExpertAudit expertAudit){
+		return mapper.selectReasonByExpertId(expertAudit);
+	}
+	
+	@Override
+    public List<ExpertAudit> selectCatReason(ExpertAudit expertAudit){
+		return mapper.selectCatReason(expertAudit);
+	}
 }

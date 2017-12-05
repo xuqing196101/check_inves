@@ -10,20 +10,13 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import common.bean.ResBean;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierTypeTree;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import common.bean.ResBean;
 
 
 
@@ -501,5 +494,16 @@ import java.util.Map;
 	 * @return
 	 */
 	List<Category> searchByName(String cateName, String flag, String codeName);
+	
+	/**
+	 * 
+	 * 
+	 * Description: 根据id查询名称
+	 * 
+	 * @data 2017年12月4日
+	 * @param 
+	 * @return String
+	 */
+	Category selectById(String id);
 	
 }

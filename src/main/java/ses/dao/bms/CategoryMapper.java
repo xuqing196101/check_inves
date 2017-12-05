@@ -457,4 +457,16 @@ public interface CategoryMapper {
 	 * @return
 	 */
 	List<Category> selectParentNode(@Param("classifyType") int classifyType,@Param("classifyStatus") String classifyStatus,@Param("categoryIds") String[] categoryIds);
+
+
+	/**
+	 * 
+	 * 
+	 * Description: 根据id查询名称
+	 * 
+	 * @data 2017年12月4日
+	 * @param 
+	 * @return Category
+	 */
+	Category selectById(@Param("id") String id);
 }
