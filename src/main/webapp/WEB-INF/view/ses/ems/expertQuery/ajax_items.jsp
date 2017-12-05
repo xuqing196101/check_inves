@@ -42,6 +42,8 @@
       <td class="info tc">大类</td>
       <td class="info tc">中类</td>
       <td class="info tc">小类</td>
+      <td class="info tc">采购机构初审意见</td>
+      <td class="info tc">专家复审意见</td>
       <!-- <td class="info tc">品种名称</td> -->
     </tr>
     <c:forEach items="${itemsList}" var="item" varStatus="vs">
@@ -49,8 +51,16 @@
 	      <td class="tc">${result.pageSize * (result.pageNum - 1) + vs.index + 1}</td>
 		    <td class="tc">${item.rootNode}</td>
 		    <td class="tl pl20">${item.firstNode}</td>
-		    <td class="tl pl20">${item.secondNode}</td>
-		    <td class="tl pl20">${item.thirdNode}</td>
+		    <td class="">${item.secondNode}</td>
+		    <td class="">${item.thirdNode}</td>
+		    <td class="w200 hand" title="${item.auditReason}">
+		    	<c:if test="${fn:length(item.auditReason) >12}">${fn:substring(item.auditReason,0,12)}...</c:if>
+                <c:if test="${fn:length(item.auditReason) <=12}">${item.auditReason}</c:if>
+		    </td>
+		    <td class="w200 hand" title="${item.reviewAudit}">
+		    	<c:if test="${fn:length(item.reviewAudit) >12}">${fn:substring(item.reviewAudit,0,12)}...</c:if>
+                <c:if test="${fn:length(item.reviewAudit) <=12}">${item.reviewAudit}</c:if>
+            </td>
 		   <%--  <td class="tl pl20">${item.fourthNode}</td> --%>
       </tr>
     </c:forEach>
