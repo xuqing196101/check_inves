@@ -564,6 +564,14 @@ public interface SupplierService {
 	 * @return
 	 */
 	public boolean checkIdCard(String id, String idCard);
+	
+	/**
+	 * 供应商查询（全部/入库）
+	 * @param supplier
+	 * @param page
+	 * @return
+	 */
+	public List<Supplier> querySupplierList(Supplier supplier, Integer page);
 
 	/**
 	 * 查询无产品供应商
@@ -582,7 +590,7 @@ public interface SupplierService {
 	 * @param 
 	 * @since JDK1.7
 	 */
-	List<Supplier> querySupplierbytypeAndCategoryIds(String flag, Supplier supplier);
+	List<Supplier> querySupplierList(String flag, Supplier supplier);
 	
 	/**
 	 * 供应商入库申请表数据处理
@@ -590,6 +598,5 @@ public interface SupplierService {
 	 * @return
 	 */
 	public Supplier handingDataSupplierApplicationForm(Supplier supplier);
-
 
 }

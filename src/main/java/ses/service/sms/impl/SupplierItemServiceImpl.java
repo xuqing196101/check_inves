@@ -1503,6 +1503,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 				if(rootNode != null){
 					cateTree.setRootNode(rootNode.getName());
 				}
+				cateTree.setFirstNode(parentNodeList.get(0).getName());
 			}
 			if(parentNodeList.size() > 1){
 				cateTree.setFirstNode(parentNodeList.get(0).getName());

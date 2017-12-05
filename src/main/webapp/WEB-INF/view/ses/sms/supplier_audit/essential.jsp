@@ -940,11 +940,11 @@
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                         <c:if test="${currSupplier.overseasBranch == 0}">
                             <input id="overseasBranch" class="hand " value="无" type="text" onclick="auditText(this,'basic_page','overseasBranch')"
-                                   <c:if test="${fn:contains(auditField,'overseasBranch')}">style="border: 1px solid red;"</c:if>>
+                            <c:if test="${fn:contains(auditField,'overseasBranch')}">style="border: 1px solid red;"</c:if>>
                         </c:if>
                         <c:if test="${currSupplier.overseasBranch == 1}">
                             <input id="overseasBranch" class="hand " value="有" type="text" onclick="auditText(this,'basic_page','overseasBranch')"
-                                   <c:if test="${fn:contains(auditField,'overseasBranch')}">style="border: 1px solid red;"</c:if>>
+                            <c:if test="${fn:contains(auditField,'overseasBranch')}">style="border: 1px solid red;"</c:if>>
                         </c:if>
                         <c:if test="${fn:contains(unableField,'overseasBranch')}">
                             <a class='abolish'><img

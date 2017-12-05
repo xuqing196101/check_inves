@@ -290,13 +290,13 @@
 							<th class="info w50">序号</th>
 							<th class="info w150">采购机构</th><!-- width="10%" -->
 							<th class="info w250">供应商名称</th><!-- width="20%" -->
-							<th class="info w150">地区</th><!-- width="8%" -->
-							<th class="info w70">企业性质</th><!-- width="6%" -->
+							<th class="info w120">地区</th><!-- width="8%" -->
+							<th class="info w80">企业性质</th><!-- width="6%" -->
 							<th class="info w150">供应商类型</th><!-- width="15%" -->
-							<th class="info w90">注册日期</th>
-							<th class="info w90">最新提交日期</th>
-							<th class="info w90">最新审核日期</th>
-							<th class="info w90">入库日期</th>
+							<th class="info w100">注册日期</th>
+							<th class="info w100">最新提交日期</th>
+							<th class="info w100">最新审核日期</th>
+							<th class="info w100">入库日期</th>
 							<th class="info w100">状态</th><!-- width="10%" -->
 							<c:if test="${isAccountToAudit}"><th class="info w50">操作</th></c:if><!-- width="3%" -->
 						</tr>
@@ -325,7 +325,7 @@
                             </c:otherwise>
                         </c:choose>
                     </td>
-                    <td class="tl">${list.name }</td>
+                    <td class="tl">${list.areaName }</td>
                     <td class="tc">${list.businessNature }</td>
                     <td class="">${list.supplierType }</td>
                     <td class="tc">

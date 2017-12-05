@@ -268,104 +268,13 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
         return supplierMapper.findSupplierAll(supplier);
     }
 
-
-    @Override
-	public List<Supplier> querySupplier(Supplier supplier,Integer page) {
-		if(page!=null){
-			PropertiesUtil config = new PropertiesUtil("config.properties");
-			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		}
-		return supplierMapper.querySupplier(supplier);
-	}
-	
-	@Override
-	public List<Supplier> querySupplierbytypeAndCategoryIds(Supplier supplier,Integer page) {
-        String queryCategory = supplier.getQueryCategory();
-        if(StringUtils.isNotEmpty(queryCategory)){
-            List<String> strings = Arrays.asList(queryCategory.split(","));
-            supplier.setQueryCategorys(strings);
-        }
-		/*SupplierStars sstart = new SupplierStars();
-		sstart.setStatus(1);
-        List<SupplierStars> listSs = supplierStarsMapper.findSupplierStars(sstart);
-        
-        if (supplier.getScore() != null && !"".equals(supplier.getScore())) {
-            if (supplier.getScore() == 1) {
-                supplier.setScoreStart(listSs.get(0).getOneStars() + "");
-                supplier.setScoreEnd(listSs.get(0).getTwoStars() + "");
-            }
-            if (supplier.getScore() == 2) {
-                supplier.setScoreStart(listSs.get(0).getTwoStars() + "");
-                supplier.setScoreEnd(listSs.get(0).getThreeStars() + "");
-            }
-            if (supplier.getScore() == 3) {
-                supplier.setScoreStart(listSs.get(0).getThreeStars() + "");
-                supplier.setScoreEnd(listSs.get(0).getFourStars() + "");
-            }
-            if (supplier.getScore() == 4) {
-                supplier.setScoreStart(listSs.get(0).getFourStars() + "");
-                supplier.setScoreEnd(listSs.get(0).getFiveStars() + "");
-            }
-            if (supplier.getScore() == 5) {
-                supplier.setScoreEnd(listSs.get(0).getFiveStars() + "");
-            }
-        }*/
-        if(page!=null){
-            PropertiesUtil config = new PropertiesUtil("config.properties");
-            PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-        }
-		List<Supplier> listSupplier = supplierMapper.querySupplierbytypeAndCategoryIds(supplier);
-        // 封装地区
-        StringBuffer sb = new StringBuffer();
-        Area area = null;
-        if(listSupplier != null && !listSupplier.isEmpty()){
-        	for (Supplier sup : listSupplier){
-                area = sup.getArea();
-                if(area != null){
-                    sup.setName(sb.append(area.getName()).append(" ").append(sup.getName()).toString());
-                    sb.delete(0, sb.length());
-                }
-			}
-		}
-		/*SupplierStars supplierStars = new SupplierStars();
-		supplierStars.setStatus(1);
-		List<SupplierStars> listSupplierStars = supplierStarsMapper.findSupplierStars(supplierStars);
-		for (SupplierStars ss : listSupplierStars) {
-			for (Supplier s : listSupplier) {
-				Integer score = s.getScore();
-				if (score == null || "".equals(score)) {
-				    score = 0;
-				}
-				Integer oneStars = ss.getOneStars();
-				Integer twoStars = ss.getTwoStars();
-				Integer threeStars = ss.getThreeStars();
-				Integer fourStars = ss.getFourStars();
-				Integer fiveStars = ss.getFiveStars();
-				if (score < oneStars) {
-					s.setLevel("无级别");
-				} else if (score < twoStars) {
-					s.setLevel("一级");
-				} else if (score < threeStars) {
-					s.setLevel("二级");
-				} else if (score < fourStars) {
-					s.setLevel("三级");
-				} else if (score < fiveStars) {
-					s.setLevel("四级");
-				} else {
-					s.setLevel("五级");
-				}
-			}
-		}*/
-		return listSupplier;
-	}
-	
 	@Override
 	public List<Supplier> getAllSupplier(Supplier supplier,Integer page) {
 		if(page!=null){
 			PropertiesUtil config = new PropertiesUtil("config.properties");
 			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		}
-		List<Supplier> listSupplier=supplierMapper.getAllSupplier(supplier);
+		List<Supplier> listSupplier = supplierMapper.getAllSupplier(supplier);
 		SupplierStars supplierStars = new SupplierStars();
 		supplierStars.setStatus(1);
 		List<SupplierStars> listSupplierStars = supplierStarsMapper.findSupplierStars(supplierStars);
@@ -706,43 +615,6 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	}
 
 	@Override
-	public List<Supplier> querySupplierbyCategory(Supplier supplier,
-			Integer page) {
-		if(page!=null){
-			PropertiesUtil config = new PropertiesUtil("config.properties");
-			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		}
-		List<Supplier> listSupplier=supplierMapper.querySupplierbyCategory(supplier);
-		SupplierStars supplierStars = new SupplierStars();
-		supplierStars.setStatus(1);
-		List<SupplierStars> listSupplierStars = supplierStarsMapper.findSupplierStars(supplierStars);
-		for (SupplierStars ss : listSupplierStars) {
-			for (Supplier s : listSupplier) {
-				Integer score = s.getScore();
-				Integer oneStars = ss.getOneStars();
-				Integer twoStars = ss.getTwoStars();
-				Integer threeStars = ss.getThreeStars();
-				Integer fourStars = ss.getFourStars();
-				Integer fiveStars = ss.getFiveStars();
-				if (score < oneStars) {
-					s.setLevel("无级别");
-				} else if (score < twoStars) {
-					s.setLevel("一级");
-				} else if (score < threeStars) {
-					s.setLevel("二级");
-				} else if (score < fourStars) {
-					s.setLevel("三级");
-				} else if (score < fiveStars) {
-					s.setLevel("四级");
-				} else {
-					s.setLevel("五级");
-				}
-			}
-		}
-		return listSupplier;
-	}
-	
-	@Override
 	public List<SupplierAudit> findReason(SupplierAudit supplierAudit) {
 		Map<String, Object> param = new HashMap<String, Object>();
 		List<String> list = new ArrayList<String>();
@@ -763,8 +635,6 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		return true;
 	}
 	
-	
-	
 	@Override
 	public List<Supplier> selectAllSupplier(Supplier supplier,Integer page) {
 		if(page!=null){
@@ -776,49 +646,46 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		supplierStars.setStatus(1);
 		return listSupplier;
 	}
-
 	
 	/**
 	 * 发售标书中的供应商
 	 * @see ses.service.sms.SupplierAuditService#selectSaleTenderSupplier(ses.model.sms.Supplier, java.lang.Integer)
 	 */
-  @Override
-  public List<Supplier> selectSaleTenderSupplier(Supplier supplier, Integer page) {
-    if(page!=null){
-      PropertiesUtil config = new PropertiesUtil("config.properties");
-      PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-    }
-    List<Supplier> listSupplier=supplierMapper.selectSaleTenderSupplier(supplier);
-    return listSupplier;
+	@Override
+	public List<Supplier> selectSaleTenderSupplier(Supplier supplier, Integer page) {
+		if(page!=null){
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		}
+		List<Supplier> listSupplier=supplierMapper.selectSaleTenderSupplier(supplier);
+		return listSupplier;
+	}
   
-  }
-  
-  /**
-   * @Title: deleteBySupplierId
-   * @author XuQing 
-   * @date 2017-2-14 下午4:59:14  
-   * @Description:删除记录
-   * @param @param supplierId      
-   * @return void
-   */
+	/**
+	 * @Title: deleteBySupplierId
+	 * @author XuQing
+	 * @date 2017-2-14 下午4:59:14
+	 * @Description:删除记录
+	 * @param @param supplierId
+	 * @return void
+	 */
 	@Override
 	public void deleteBySupplierId(String supplierId) {
 		supplierAuditMapper.deleteBySupplierId(supplierId);
 	}
 
 	
-	 /**
-     * 
-      * @Title: downloadFile
-      * @author ShaoYangYang
-      * @date 2017年4月1日 下午2:07:23  
-      * @Description: TODO 文件下载
-      * @param @param fileName 文件名
-      * @param @param filePath 文件地址
-      * @param @param downFileName 下载文件名
-      * @param @return      
-      * @return ResponseEntity<byte[]>
-     */
+	/**
+	 * @Title: downloadFile
+	 * @author ShaoYangYang
+	 * @date 2017年4月1日 下午2:07:23
+	 * @Description: TODO 文件下载
+	 * @param @param fileName 文件名
+	 * @param @param filePath 文件地址
+	 * @param @param downFileName 下载文件名
+	 * @param @return
+	 * @return ResponseEntity<byte[]>
+	 */
 	@Override
     public ResponseEntity<byte[]> downloadFile(String fileName,String filePath,String downFileName){
     	 try {
@@ -847,8 +714,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	@Override
 	public void updateIsDeleteBySupplierId(SupplierAudit supplierAudit) {
 		supplierAuditMapper.updateIsDeleteBySupplierId(supplierAudit);
-		
 	}
+	
 	/**
 	 * 
 	 * Description:类型判断
