@@ -40,67 +40,57 @@
   var objButton;
   var cometIdInit;
   $(function(){
-	  /* $.ajax({
+	   $.ajax({
     	   url:"${pageContext.request.contextPath}/packageAdvice/initPackageAdvice.html",
     	   data:{"projectId":project_Id},
     	   type:"post",
     	   async: false,
     	   dataType:"json",
     	   success:function(data){
-    		  $("#closePass").attr("disabled",true);
-      	      $("#noPassZJTButton").removeAttr("disabled");
-      		  $("#noPassZZButton").removeAttr("disabled");
-      		  $("#passButton").removeAttr("disabled");
-      		  $("#noPassPackages").empty();
-      		  $("#passPackages").empty();
-      		  $("#noPassZJTButton").removeAttr("onclick");
-      		  $("#noPassZZButton").removeAttr("onclick");
-      		  $("#passButton").removeAttr("onclick");
-      		  $("#pass").hide();
-      		  $("#noPass").hide();
     		   if(data[0].msg=="ok"){
-                 var codes=data[1].codes;  	
-    			 for(var i=0;i<codes.length;i++){
-    				 var names0=[];
-    				 var names1=[];
-    				 var passName2=[];
-       			     var noPassName2=[];
-    				 if(codes[i].status=='0'){//不通过
-           			   $("#noPass").show();
-           			   var packages=codes[i].packages;
-           			   for(var j=0;j< packages.length;j++){
-           				names0.push(packages[j].name);
-           			   }
-           			   $("#noPassPackages").text(($("#noPassPackages").text().length==0?"":$("#noPassPackages").text()+",")+names0.join(","));
-           			   $("#noPassZJTButton").attr("onclick","passBut('"+userId+"','0')");
-           			   $("#noPassZZButton").attr("onclick","passBut('"+userId+"','2')");
-    				 }else if(codes[i].status=='1'){//通过
-    				   $("#pass").show();
-           			   var packages=codes[i].packages;
-           			   for(var j=0;j<packages.length;j++){
-           				  names1.push(packages[j].name);
-           			   }
-           			   $("#passPackages").text(($("#passPackages").text().length==0?"":$("#passPackages").text()+",")+names1.join(","));
-           			   $("#passButton").attr("onclick","passBut('"+userId+"','1')");
-    				 }else if(codes[i].status=='2'){//都有
-            			  $("#pass").show();
-            			  $("#noPass").show();
-            			  var passPackages=codes[i].package1;
-            			  var noPassPackages=codes[i].package2;
-            			  for(var j=0;j<passPackages.length;j++){
-            				  passName2.push(passPackages[j].name);
-            			  }
-            			  for(var j=0;j<noPassPackages.length;j++){
-            				  noPassName2.push(noPassPackages[j].name);
-            			  }
-            			$("#passPackages").text(($("#passPackages").text().length==0?"":$("#passPackages").text()+",")+passName2.join(","));
-            			$("#noPassPackages").text(($("#noPassPackages").text().length==0?"":$("#noPassPackages").text()+",")+noPassName2.join(","));
-            			$("#passButton").attr("onclick","passBut('"+userId+"','1')");
-            			$("#noPassZJTButton").attr("onclick","passBut('"+userId+"','0')");
-            			$("#noPassZZButton").attr("onclick","passBut('"+userId+"','2')");
-    				 }
-    			 }
-    			   parentPass=layer.open({
+    			   $("#pass").empty();
+     			  $("#noPass").empty();
+    			 var codes=data[1].codes;  	
+      			 for(var i=0;i<codes.length;i++){
+      				if(codes[i].status=='1'){//通过
+      				   indexPassComet++
+          			   $("#pass").show();
+          			   var names=[];
+          			   var packages=codes[i].packages;
+          			   for(var j=0;j<packages.length;j++){
+          				  names.push(packages[j].name);
+          			   }
+          			   htmls($("#pass"),indexPassComet,names.join(","),packages[0].cometId,'1');
+      				}else if(codes[i].status=='0'){//不通过
+      					$("#noPass").show();
+          			   indexNoPassComet++;
+          			   var names=[];
+          			   var packages=codes[0].packages;
+          			   for(var j=0;j< packages.length;j++){
+          				  names.push(packages[i].name);
+          			   }
+          			   htmls($("#noPass"),indexNoPassComet,names.join(","),packages[0].cometId,'0');
+      				}else if(codes[i].status=='2'){//都有
+      				  indexPassComet++
+           			  indexNoPassComet++;
+           			  $("#pass").show();
+           			  $("#noPass").show();
+           			  var passName=[];
+           			  var noPassName=[];
+           			  var passPackages=codes[i].package1;
+           			  var noPassPackages=codes[i].package2;
+           			  for(var j=0;j<passPackages.length;j++){
+           				  passName.push(passPackages[j].name);
+           			  }
+           			  for(var j=0;j<noPassPackages.length;j++){
+           				  noPassName.push(noPassPackages[j].name);
+           			  }
+           			 htmls($("#pass"),indexPassComet,passName.join(","),passPackages[0].cometId,'1');
+           			 htmls($("#noPass"),indexNoPassComet,noPassName.join(","),passPackages[0].cometId,'0');
+      				}
+      				 
+      			 }
+      			 parentPass=layer.open({
    		     	    shift: 1, //0-6的动画形式，-1不开启
    		     	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
    		     	    closeBtn:0,
@@ -112,7 +102,7 @@
    		   	  	  });
     		   }
     	   }
-	  }); */
+	  }); 
 	  JS.Engine.start('${pageContext.request.contextPath}/conn');
 	    JS.Engine.on(
 	         { 
@@ -309,6 +299,8 @@
   function closePass(){
 	  openInit=false;
 	  layer.close(parentPass);
+	  $("#pass").empty();
+	  $("#noPass").empty();
   }
   function deleteChecked(){
 	  var checks=$("#openPassPackages_check input[name='passName']:checked");

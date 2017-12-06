@@ -292,7 +292,7 @@ public class PackageAdviceController extends BaseController {
 	public void initPackageAdvice(String projectId, HttpServletResponse response){
 		AdviceMessages am=new AdviceMessages();
 		am.setProjectId(projectId);
-		am.setStatus((short)0);
+		am.setStatus((short)3);
 		List<AdviceMessages> selectbyList = adviceMessagesService.selectbyList(am);
 		if(selectbyList!=null&&selectbyList.size()>0){
 			StringBuffer sb = new StringBuffer();
@@ -479,7 +479,6 @@ public class PackageAdviceController extends BaseController {
 	@RequestMapping("/cometSubmit")
 	public void cometSubmit(String cometId, HttpServletResponse response, Integer type, String packs) {
 		if (packs != null) {
-		  
 			AdviceMessages ams = adviceMessagesService.selectByPrimaryKey(cometId);
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("code", ams.getCode());
@@ -498,7 +497,11 @@ public class PackageAdviceController extends BaseController {
 	        }
         }
 				Boolean flg = false;
-        for (PackageAdvice pa : PackageAdvices) {
+				HashMap<String, Object> map1 = new HashMap<String, Object>();
+	      map1.put("code", ams.getCode());
+	      map1.put("type", 2);
+	      List<PackageAdvice> PackageAdvices1 = service.find(map1);
+        for (PackageAdvice pa : PackageAdvices1) {
           if(pa.getProcessStatus()==null||pa.getProcessStatus()==0){
             flg=true;
             break;
