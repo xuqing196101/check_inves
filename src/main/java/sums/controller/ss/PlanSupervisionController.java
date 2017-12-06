@@ -615,6 +615,7 @@ public class PlanSupervisionController {
                 
                 //项目信息
                 List<Project> view = planSupervisionService.view(detail.getId());
+                if (view != null && !view.isEmpty()) {
                 	sortDate(view);
                 	Project project = null;
                 	if(StringUtils.isNotBlank(projectId)){
@@ -628,9 +629,16 @@ public class PlanSupervisionController {
                 	model.addAttribute("project", project);
                 	model.addAttribute("sortsMap", sortsMap);
                 	model.addAttribute("viewSupervision", viewSupervision);
+				} else {
+					List<Entry<String, Object>> sortsMap = sortsMap(hashMap);
+	            	model.addAttribute("sortsMap", sortsMap);
+				}
+                model.addAttribute("detailId", detail.getId());
+                model.addAttribute("detail", detail);
+            } else {
+            	List<Entry<String, Object>> sortsMap = sortsMap(hashMap);
+            	model.addAttribute("sortsMap", sortsMap);
             }
-            model.addAttribute("detailId", detail.getId());
-            model.addAttribute("detail", detail);
         }
         return "sums/ss/planSupervision/overview";
     }
