@@ -1622,4 +1622,50 @@
 		inner JOIN T_BSS_PMS_PURCHASE_DETAIL detail ON TASK.COLLECT_ID = DETAIL.UNIQUE_ID ) tab where TAB.cou=0 and  TO_CHAR(tab.GIVE_TIME,'yyyy')=TO_CHAR(SYSDATE,'yyyy') group by TO_CHAR(tab.GIVE_TIME,'yyyy-mm') order by taskGiveTime 
 	 
 	</select>
+	
+	<select id="supervisionProjectId" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT
+			pd.PROJECT_ID
+		FROM
+			T_BSS_PPMS_PROJECTS_DETAIL pd
+		WHERE
+			EXISTS (
+				SELECT
+					AA. ID
+				FROM
+					(
+						SELECT
+							detail.*, DECODE (
+								(
+									SELECT
+										COUNT (*)
+									FROM
+										T_BSS_PMS_PURCHASE_DETAIL
+									WHERE
+										PARENT_ID = detail. ID
+								),
+								0,
+								'false',
+								'true'
+							) AS isParent
+						FROM
+							T_BSS_PMS_PURCHASE_DETAIL detail
+						WHERE
+							EXISTS (
+								SELECT
+									asd. ID
+								FROM
+									T_BSS_PMS_PURCHASE_DETAIL asd
+								WHERE
+									asd.FILE_ID = #{fileId}
+								AND detail. ID = asd. ID
+							)
+					) aa
+				WHERE
+					aa.ISPARENT = 'false'
+				AND aa. ID = pd.REQUIRED_ID
+			)
+		GROUP BY
+			PROJECT_ID
+	</select>
 </mapper>

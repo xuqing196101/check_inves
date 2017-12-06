@@ -438,4 +438,6 @@ public interface PurchaseDetailMapper {
     List<PurchaseDetail> selectByDept();
     List<PurchaseDetail> selectByType();
     List<Map<String, Object>> selectByMonth();
+    
+    List<String> supervisionProjectId(String fileId);
 }
