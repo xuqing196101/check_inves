@@ -677,12 +677,13 @@
                     <li class="col-md-3 col-sm-6 col-xs-12">
                         <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">国家或军队保密资格证书：</span>
                         <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                            <input id="isHavingConCert" class="hand " value="无" type="text" onclick="auditText(this,'basic_page','isHavingConCert')"
-                                   <c:if test="${fn:contains(auditField,'isHavingConCert')}">style="border: 1px solid red;"</c:if>
-                                   <c:if test="${fn:contains(field,'isHavingConCert') && !fn:contains(auditField,'isHavingConCert')}">style="border: 1px solid #FF8C00;"
-                                   onMouseOver="showModify(this,'basic_page','isHavingConCert');"</c:if> >
-                            <c:if test="${fn:contains(unableField,'isHavingConCert')}"><a class='abolish'><img
-                                    src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a></c:if>
+                            <input id="isHavingConCert" class="hand " value="无" type="text" onclick="auditText(this,'basic_page','isHavingConCert','true')"
+                            <c:if test="${fn:contains(auditField,'isHavingConCert')}">style="border: 1px solid red;"</c:if>
+                            <c:if test="${fn:contains(field,'isHavingConCert') && !fn:contains(auditField,'isHavingConCert')}">style="border: 1px solid #FF8C00;"
+                              onMouseOver="showModify(this,'basic_page','isHavingConCert');"</c:if> >
+                        	  <c:if test="${fn:contains(unableField,'isHavingConCert')}">
+                        		  <a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+                        	  </c:if>
                         </div>
                     </li>
                 </c:if>
@@ -939,7 +940,7 @@
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">境外分支机构：</span>
                     <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                         <c:if test="${currSupplier.overseasBranch == 0}">
-                            <input id="overseasBranch" class="hand " value="无" type="text" onclick="auditText(this,'basic_page','overseasBranch')"
+                            <input id="overseasBranch" class="hand " value="无" type="text" onclick="auditText(this,'basic_page','overseasBranch','true')"
                             <c:if test="${fn:contains(auditField,'overseasBranch')}">style="border: 1px solid red;"</c:if>>
                         </c:if>
                         <c:if test="${currSupplier.overseasBranch == 1}">
