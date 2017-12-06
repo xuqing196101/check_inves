@@ -1,14 +1,23 @@
 package ses.service.sms.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import common.utils.JdcgResult;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import ses.dao.bms.CategoryMapper;
 import ses.dao.sms.SupplierItemMapper;
 import ses.formbean.QualificationBean;
@@ -32,16 +41,9 @@ import ses.util.Constant;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import common.utils.JdcgResult;
 
 @Service(value = "supplierItemService")
 public class SupplierItemServiceImpl implements SupplierItemService {
@@ -94,7 +96,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
             	if(isParentChecked){// 如果是父节点被选中，则保存所有的子节点
             		List<Category> clist = categoryService.getCListById(categoryId);
             		if(clist != null && clist.size() > 0){
-            			clist.remove(0);
+            			//clist.remove(0);
             			saveOrUpdateOperation(categoryId, supplierItem, clist);
             		}
             	}else{
@@ -109,10 +111,15 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	public void saveOrUpdateOperation(String categoryId, SupplierItem supplierItem, List<Category> clist) throws Exception {
         List<Category> categoryList = new ArrayList<Category>();
         List<SupplierItem> itemList = new ArrayList<SupplierItem>();
-        categoryList.addAll(getAllParentNode(categoryId));
+        List<Category> plist = getAllParentNode(categoryId);
         if(clist != null && clist.size() > 0){
-        	categoryList.addAll(clist);
+            categoryList.addAll(clist);
+            if(plist != null && plist.size() > 0){
+                plist.remove(0);
+            }
         }
+        categoryList.addAll(plist);
+        //removeSame(categoryList);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("supplierId", supplierItem.getSupplierId());
         map.put("type", supplierItem.getSupplierTypeRelateId());
@@ -531,7 +538,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
             	if(isParentChecked){// 如果是父节点被选中，则保存所有的子节点
             		List<Category> clist = categoryService.getCListById(categoryId);
             		if(clist != null && clist.size() > 0){
-            			clist.remove(0);
+            			//clist.remove(0);
             			deleteItemsOpertion(categoryId, supplierItem, clist);
             		}
             	}else{
@@ -550,6 +557,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
         categoryList.add(current);
         if(clist != null && clist.size() > 0){
         	categoryList.addAll(clist);
+        	categoryList.remove(current);
         }
         //Map<String, String> map = new HashMap<String, String>();
         //map.put("supplierId", supplierItem.getSupplierId());
@@ -1353,15 +1361,19 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	}
 	
 	private List<SupplierItem> handlerItemList(String supplierId, List<SupplierItem> listSupplierItems, String rootNodeId){
+		if(listSupplierItems == null || listSupplierItems.size() == 0){
+			return null;
+		}
 		List < SupplierItem > resultList = new ArrayList<SupplierItem>();
 		for(SupplierItem item: listSupplierItems) {
 			String categoryId = item.getCategoryId();
 			Category cateById = categoryService.findById(categoryId);
 			if(cateById != null && cateById.getCode() != null 
 					&& !cateById.getCode().startsWith("B02") 
-					&& !cateById.getCode().startsWith("B03")
-					&& "false".equals(cateById.getIsParent())){
-				resultList.add(item);
+					&& !cateById.getCode().startsWith("B03")){
+				if("false".equals(cateById.getIsParent())){
+					resultList.add(item);
+				}
 				continue;
 			}
 			if(cateById != null && "true".equals(cateById.getIsParent())){
@@ -1491,6 +1503,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 				if(rootNode != null){
 					cateTree.setRootNode(rootNode.getName());
 				}
+				cateTree.setFirstNode(parentNodeList.get(0).getName());
 			}
 			if(parentNodeList.size() > 1){
 				cateTree.setFirstNode(parentNodeList.get(0).getName());

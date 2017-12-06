@@ -4,6 +4,7 @@
 <html>
 <head>
 	<%@ include file="/WEB-INF/view/common.jsp" %>
+	<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 </head>
 <script type="text/javascript">
 	function resetPaw(){
@@ -186,6 +187,10 @@
 		 		<tr>
 		 			<td class="bggrey w160">详细地址：</td><td colspan="3">${user.address}</td>
 		 		</tr>
+		 		<tr>
+		 			<td class="bggrey w160">用户注册申请表：</td>
+		 			<td colspan="3"><u:show showId="fileApplyShow"  delete="fasle" businessId="${user.id}" sysKey="${sysKey}" typeId="${data.id}" /></td>
+		 		</tr> 
 		 	</tbody>
 	 	</table>
    </div>

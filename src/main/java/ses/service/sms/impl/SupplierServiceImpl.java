@@ -2087,24 +2087,105 @@ public class SupplierServiceImpl implements SupplierService {
 	}
 
 	@Override
-	public List<Supplier> querySupplierListByNoCate(Supplier supplier, Integer page) {
-		if(page != null){
+	public List<Supplier> querySupplierList(Supplier supplier, Integer page) {
+		String queryCategory = supplier.getQueryCategory();
+        if(StringUtils.isNotEmpty(queryCategory)){
+            List<String> strings = Arrays.asList(queryCategory.split(","));
+            supplier.setQueryCategorys(strings);
+        }
+		/*SupplierStars sstart = new SupplierStars();
+		sstart.setStatus(1);
+        List<SupplierStars> listSs = supplierStarsMapper.findSupplierStars(sstart);
+        
+        if (supplier.getScore() != null && !"".equals(supplier.getScore())) {
+            if (supplier.getScore() == 1) {
+                supplier.setScoreStart(listSs.get(0).getOneStars() + "");
+                supplier.setScoreEnd(listSs.get(0).getTwoStars() + "");
+            }
+            if (supplier.getScore() == 2) {
+                supplier.setScoreStart(listSs.get(0).getTwoStars() + "");
+                supplier.setScoreEnd(listSs.get(0).getThreeStars() + "");
+            }
+            if (supplier.getScore() == 3) {
+                supplier.setScoreStart(listSs.get(0).getThreeStars() + "");
+                supplier.setScoreEnd(listSs.get(0).getFourStars() + "");
+            }
+            if (supplier.getScore() == 4) {
+                supplier.setScoreStart(listSs.get(0).getFourStars() + "");
+                supplier.setScoreEnd(listSs.get(0).getFiveStars() + "");
+            }
+            if (supplier.getScore() == 5) {
+                supplier.setScoreEnd(listSs.get(0).getFiveStars() + "");
+            }
+        }*/
+        if(page != null){
             PropertiesUtil config = new PropertiesUtil("config.properties");
             PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
         }
-        List<Supplier> listSupplier = supplierMapper.selectSupplierListByNoCate(supplier);
+		List<Supplier> listSupplier = supplierMapper.querySupplierList(supplier);
         // 封装地区
         StringBuffer sb = new StringBuffer();
         Area area = null;
         if(listSupplier != null && !listSupplier.isEmpty()){
-            for (Supplier sup : listSupplier){
+        	for (Supplier sup : listSupplier){
                 area = sup.getArea();
                 if(area != null){
-                    sup.setName(sb.append(area.getName()).append(" ").append(sup.getName()).toString());
+                    sup.setAreaName(sb.append(area.getName()).append(" ").append(sup.getAreaName()).toString());
                     sb.delete(0, sb.length());
                 }
-            }
-        }
+			}
+		}
+		/*SupplierStars supplierStars = new SupplierStars();
+		supplierStars.setStatus(1);
+		List<SupplierStars> listSupplierStars = supplierStarsMapper.findSupplierStars(supplierStars);
+		for (SupplierStars ss : listSupplierStars) {
+			for (Supplier s : listSupplier) {
+				Integer score = s.getScore();
+				if (score == null || "".equals(score)) {
+				    score = 0;
+				}
+				Integer oneStars = ss.getOneStars();
+				Integer twoStars = ss.getTwoStars();
+				Integer threeStars = ss.getThreeStars();
+				Integer fourStars = ss.getFourStars();
+				Integer fiveStars = ss.getFiveStars();
+				if (score < oneStars) {
+					s.setLevel("无级别");
+				} else if (score < twoStars) {
+					s.setLevel("一级");
+				} else if (score < threeStars) {
+					s.setLevel("二级");
+				} else if (score < fourStars) {
+					s.setLevel("三级");
+				} else if (score < fiveStars) {
+					s.setLevel("四级");
+				} else {
+					s.setLevel("五级");
+				}
+			}
+		}*/
+		return listSupplier;
+	}
+	
+	@Override
+	public List<Supplier> querySupplierListByNoCate(Supplier supplier, Integer page) {
+		if(page != null){
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		}
+		List<Supplier> listSupplier = supplierMapper.selectSupplierListByNoCate(supplier);
+		// 封装地区
+		StringBuffer sb = new StringBuffer();
+		Area area = null;
+		if(listSupplier != null && !listSupplier.isEmpty()){
+			for (Supplier sup : listSupplier){
+				area = sup.getArea();
+				if(area != null){
+					sup.setAreaName(sb.append(area.getName()).append(" ").append(sup.getAreaName()).toString());
+					sb.delete(0, sb.length());
+				}
+			}
+		}
 		return listSupplier;
 	}
 
@@ -2118,7 +2199,7 @@ public class SupplierServiceImpl implements SupplierService {
    * @since JDK1.7
    */
   @Override
-  public List<Supplier> querySupplierbytypeAndCategoryIds(String flag, Supplier supplier) {
+  public List<Supplier> querySupplierList(String flag, Supplier supplier) {
       // 封装供应商类型查询条件
       String supplierTypeIds = supplier.getSupplierTypeIds();
       if(StringUtils.isNotEmpty(supplierTypeIds)){
@@ -2157,10 +2238,10 @@ public class SupplierServiceImpl implements SupplierService {
               supplier.setAuditTemporary(null);
               suppliers = supplierMapper.selectSupplierListByNoCate(supplier);
           }else{
-              suppliers = supplierMapper.querySupplierbytypeAndCategoryIds(supplier);
+              suppliers = supplierMapper.querySupplierList(supplier);
           }
       }else{
-          suppliers = supplierMapper.querySupplierbytypeAndCategoryIds(supplier);
+          suppliers = supplierMapper.querySupplierList(supplier);
       }
       if (suppliers != null && !suppliers.isEmpty()) {
           Map<String, Object> param = new HashMap<>();
@@ -2272,7 +2353,7 @@ public class SupplierServiceImpl implements SupplierService {
               // 通过address获取省级加市级地址
               area = sup.getArea();
               if (area != null) {
-                  sup.setAddress(areasSb.append(area.getName()).append(" ").append(sup.getName())
+                  sup.setAddress(areasSb.append(area.getName()).append(" ").append(sup.getAreaName())
                           .append(" ").append(contactAddress == null ? "" : contactAddress).toString());
               }
               // 状态

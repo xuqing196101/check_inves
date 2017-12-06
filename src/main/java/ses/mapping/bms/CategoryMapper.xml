@@ -892,7 +892,7 @@
 	<select id="selectParentNode" resultMap="CateMap">
 		WITH tmp AS (
 			SELECT
-				C.*, LEVEL lev
+				<include refid="Base_Column_List" />
 			FROM
 				T_SES_BMS_CATEGORY C
 			WHERE

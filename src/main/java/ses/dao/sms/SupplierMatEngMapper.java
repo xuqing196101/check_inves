@@ -75,4 +75,11 @@ public interface SupplierMatEngMapper {
 	 * @return
 	 */
 	String getMatEngIdBySupplierId(String supplierId);
+
+	/**
+     * 获取工程信息的基本信息
+     * @param supplierId
+     * @return
+     */
+	SupplierMatEng getMatEngBasicBySupplierId(String supplierId);
 }

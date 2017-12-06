@@ -17,6 +17,8 @@ import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import common.utils.ReflectionUtils;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -378,7 +380,7 @@ public class ExcelUtils {
                     for (int rowIndex = 1; rowIndex <= dataList.size(); rowIndex++) {
                         orderNum += 1;
                         Object obj = dataList.get(rowIndex - 1); //获得该对象
-                        Class clsss = obj.getClass(); //获得该对对象的class实例
+                        //Class clsss = obj.getClass(); //获得该对对象的class实例
                         Row dataRow = workbook.getSheet(sheetName).createRow(rowIndex);
                         for (int columnIndex = 0; columnIndex < titleColumn.length; columnIndex++) {
                             Cell cell = dataRow.createCell(columnIndex);
@@ -395,7 +397,8 @@ public class ExcelUtils {
                                 String UTitle = Character.toUpperCase(title.charAt(0)) + title.substring(1, title.length()); // 使其首字母大写;
                                 String methodName = "get" + UTitle;
                                 // 设置要执行的方法
-                                Method method = clsss.getDeclaredMethod(methodName);
+                                //Method method = clsss.getDeclaredMethod(methodName);
+                                Method method = ReflectionUtils.getDeclaredMethod(obj, methodName);
                                 //获取返回类型
                                 String returnType = method.getReturnType().getName();
                                 Object data = method.invoke(obj) == null ? "" : method.invoke(obj);

@@ -124,40 +124,37 @@
                             <option <c:if test="${state == 9 }">selected</c:if> value="9">退回再审核</option>
                             <option <c:if test="${state == -1 }">selected</c:if> value="-1">审核中</option>
                             <option <c:if test="${state == -2 }">selected</c:if> value="-2">预审核结束</option>
-                           <option <c:if test="${state == -3 }">selected</c:if> value="-3">公示中</option>
-                           <option <c:if test="${state == 1 }">selected</c:if> value="1">审核通过 </option>
-                           <option <c:if test="${state == 2 }">selected</c:if> value="2">退回修改</option>
-                           <option <c:if test="${state == 3 }">selected</c:if> value="3">审核未通过</option> --%>
+                           	<option <c:if test="${state == -3 }">selected</c:if> value="-3">公示中</option>
+                           	<option <c:if test="${state == 1 }">selected</c:if> value="1">审核通过 </option>
+                           	<option <c:if test="${state == 2 }">selected</c:if> value="2">退回修改</option>
+                           	<option <c:if test="${state == 3 }">selected</c:if> value="3">审核未通过</option> --%>
                             <c:forEach items="<%=SupplierConstants.STATUSMAP_SHENHE %>" var="item">
-                                <option value="${item.key}"
-                                        <c:if test="${state == item.key }">selected</c:if>>${item.value}</option>
+                                <option value="${item.key}" <c:if test="${state == item.key }">selected</c:if>>${item.value}</option>
                             </c:forEach>
                             <option value="100"
-                                    <c:if test="${state == 100 }">selected</c:if>><%=SupplierConstants.STATUSMAP_AUDITTEMPORARY.get(1) %>
+                            		<c:if test="${state == 100 }">selected</c:if>><%=SupplierConstants.STATUSMAP_AUDITTEMPORARY.get(1) %>
                             </option>
                         </c:if>
                         <c:if test="${sign eq '2' }">
                             <%-- <option <c:if test="${state == 4 }">selected</c:if> value="4">待复核</option>
-                        <option <c:if test="${state == 5 }">selected</c:if> value="5">复核通过</option>
-                        <option <c:if test="${state == 6 }">selected</c:if> value="6">复核未通过 </option> --%>
+                        		<option <c:if test="${state == 5 }">selected</c:if> value="5">复核通过</option>
+                        		<option <c:if test="${state == 6 }">selected</c:if> value="6">复核未通过 </option> --%>
                             <c:forEach items="<%=SupplierConstants.STATUSMAP_FUHE %>" var="item">
-                                <option value="${item.key}"
-                                        <c:if test="${state == item.key }">selected</c:if>>${item.value}</option>
+                                <option value="${item.key}" <c:if test="${state == item.key }">selected</c:if>>${item.value}</option>
                             </c:forEach>
                             <option value="200"
-                                    <c:if test="${state == 200 }">selected</c:if>><%=SupplierConstants.STATUSMAP_AUDITTEMPORARY.get(2) %>
+                            		<c:if test="${state == 200 }">selected</c:if>><%=SupplierConstants.STATUSMAP_AUDITTEMPORARY.get(2) %>
                             </option>
                         </c:if>
                         <c:if test="${sign eq '3' }">
                             <%-- <option <c:if test="${state == 5 }">selected</c:if> value="5">待考察</option>
-                              <option <c:if test="${state == 7 }">selected</c:if> value="7">合格</option>
-                           <option <c:if test="${state == 8 }">selected</c:if> value="8">不合格</option> --%>
+                            <option <c:if test="${state == 7 }">selected</c:if> value="7">合格</option>
+                           	<option <c:if test="${state == 8 }">selected</c:if> value="8">不合格</option> --%>
                             <c:forEach items="<%=SupplierConstants.STATUSMAP_KAOCHA %>" var="item">
-                                <option value="${item.key}"
-                                        <c:if test="${state == item.key }">selected</c:if>>${item.value}</option>
+                                <option value="${item.key}" <c:if test="${state == item.key }">selected</c:if>>${item.value}</option>
                             </c:forEach>
                             <option value="300"
-                                    <c:if test="${state == 300 }">selected</c:if>><%=SupplierConstants.STATUSMAP_AUDITTEMPORARY.get(3) %>
+                            		<c:if test="${state == 300 }">selected</c:if>><%=SupplierConstants.STATUSMAP_AUDITTEMPORARY.get(3) %>
                             </option>
                         </c:if>
                     </select>
@@ -167,9 +164,8 @@
                     <select name="businessNature" id="businessNature" class="span2">
                         <option value="">全部</option>
                         <c:forEach var="business" varStatus="vs" items="${businessNatureList}">
-                            <option
-                                    <c:if test="${businessNature eq business.id }">selected</c:if>
-                                    value="${business.id}">${business.name}</option>
+                            <option <c:if test="${businessNature eq business.id }">selected</c:if>
+		                            value="${business.id}">${business.name}</option>
                         </c:forEach>
                     </select>
                 </li>
@@ -180,10 +176,10 @@
                 <li>
                     <label class="fl">审核时间：</label>
                     <span>
-	          			<input id="auditDate" name="auditDate" class="Wdate w220 fl"
-                               value='<fmt:formatDate value="${auditDate}" pattern="YYYY-MM-dd"/>' type="text"
-                               onClick="WdatePicker()"/>
-		            </span>
+												<input id="auditDate" name="auditDate" class="Wdate w220 fl"
+                        		value='<fmt:formatDate value="${auditDate}" pattern="YYYY-MM-dd"/>' type="text"
+														onClick="WdatePicker()"/>
+		            		</span>
                 </li>
                 <%-- <li class="fl">
                    <label class="fl">企业类型：</label>

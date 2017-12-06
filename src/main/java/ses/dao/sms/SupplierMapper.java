@@ -125,7 +125,7 @@ public interface SupplierMapper {
     List<Supplier> querySupplier(Supplier record);
     
     /**
-     * @Title: querySupplierbytypeAndCategoryIds
+     * @Title: querySupplierList
      * @author Song Biaowei
      * @date 2016-11-1 下午3:28:37  
      * @Description: 按照品目和类型查询
@@ -133,17 +133,7 @@ public interface SupplierMapper {
      * @param @return      
      * @return List<Supplier>
      */
-    List<Supplier> querySupplierbytypeAndCategoryIds(Supplier record);
-    
-    /**
-     * @Title: findSupplierbyCategoryId
-     * @date 2017-5-18 下午1:09:22  
-     * @Description:按品目查询供应商
-     * @param @param record
-     * @param @return      
-     * @return List<Supplier>
-     */
-    List<Supplier> findSupplierbyCategoryId(Supplier record);
+    List<Supplier> querySupplierList(Supplier record);
     
     /**
      * 
@@ -156,18 +146,6 @@ public interface SupplierMapper {
      */
     List<Supplier> findSupplierByCategoryId(Supplier supplier);
     
-    
-    /**
-     * @Title: querySupplierbyCategory
-     * @author Song Biaowei
-     * @date 2016-10-6 下午5:21:20  
-     * @Description: 查询品目 
-     * @param @param record
-     * @param @return      
-     * @return List<Supplier>
-     */
-    List<Supplier> querySupplierbyCategory(Supplier record);
-
     /**
      * @Title: getCount
      * @author Xu Qing
