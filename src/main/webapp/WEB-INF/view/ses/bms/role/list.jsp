@@ -5,7 +5,7 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
   <script type="text/javascript">
-  	$(function(){
+  	/* $(function(){
 		  laypage({
 			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 			    pages: "${list.pages}", //总页数
@@ -25,7 +25,7 @@
 			        }
 			    }
 			});
-	  });
+	  }); */
   	/** 全选全不选 */
 	function selectAll(){
 	   var checklist = document.getElementsByName ("chkItem");
@@ -287,13 +287,13 @@
 				</thead>
 				<tbody>
 				<c:if test="${menu=='show' }">
-					<c:forEach items="${list.list}" var="role" varStatus="vs">
+					<c:forEach items="${roles}" var="role" varStatus="vs">
 						<tr>
 							<td class="tc"><input onclick="check()" type="checkbox"
 								name="chkItem" value="${role.id}" />
 							</td>
 							<td class="tc">${role.position}</td>
-							<td class="tl"><div class="w160 text-nowrapEl">${role.name}</div></td>
+							<td class="tl" title="${role.name}"><div class="w160 text-nowrapEl">${role.name}</div></td>
 							<td class="tc" id="${role.id}"><c:if test="${role.status == 0}">
 									<span class="label rounded-2x label-u" >启用</span>
 								</c:if> <c:if test="${role.status == 1}">
@@ -321,7 +321,7 @@
 					</c:if>
 				</tbody>
 			</table>
-			<div id="pagediv" align="right"></div>
+			<!-- <div id="pagediv" align="right"></div> -->
 		</div>
 		
    <!-- 菜单树-->
