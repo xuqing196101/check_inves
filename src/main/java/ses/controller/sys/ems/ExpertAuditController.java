@@ -1798,10 +1798,10 @@ public class ExpertAuditController{
 					typeErrorField.append(beforeField + ",");
 				}
 				model.addAttribute("typeErrorField", typeErrorField);
-			}else{
+			}/*else{
 				typeErrorField = nopassType(types, expertId);
 				model.addAttribute("typeErrorField", typeErrorField);
-			}
+			}*/
 			
 			
 			//不通过字段（执业资格）
