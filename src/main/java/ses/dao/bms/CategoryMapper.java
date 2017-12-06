@@ -473,4 +473,16 @@ public interface CategoryMapper {
 			@Param("type")int type, 
 			@Param("cateName")String cateName, 
 			@Param("codeName")String codeName);
+
+	/**
+	 * 
+	 * 
+	 * Description: 根据id查询名称
+	 * 
+	 * @data 2017年12月4日
+	 * @param 
+	 * @return Category
+	 */
+	Category selectById(@Param("id") String id);
+
 }

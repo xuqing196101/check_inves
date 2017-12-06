@@ -272,4 +272,6 @@ public interface EngCategoryMapper {
 	 * @return
 	 */
 	List<Category> selectExportExcelData(Map<String,Object> map);
+	
+	Category selectById(@Param("id") String id);
 }

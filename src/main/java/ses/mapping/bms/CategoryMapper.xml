@@ -63,6 +63,12 @@
 		<result column="SUPPLIER_ENG_REG_LEVEL" property="engLevel" />
 		<result column="IS_PARENT" property="isParent" />
 	</resultMap>
+	
+	<resultMap id="resMap" type="ses.model.bms.Category">
+		<id column="ID" property="id" />
+		<result column="NAME" property="name" />
+		<result column="PARENT_ID" property="parentId" />
+	</resultMap>
 	<sql id="Base_Column_List">
 		ID, NAME, STATUS, PARENT_ID, CREATED_AT, UPDATED_AT,
 		DESCRIPTION, CLASSIFY_STATUS,CODE,POSITION,IS_DELETED,
@@ -965,4 +971,11 @@
 			<foreach collection="categoryIds" item="it" index="in" separator=","> #{it}</foreach>
 		) CONNECT BY PRIOR PARENT_ID = ID
 	</select> -->
+	
+	<!-- 根据id查询 -->
+	<select id="selectById" parameterType="String" resultMap="resMap">
+		SELECT ID,NAME,PARENT_ID
+		FROM T_SES_BMS_CATEGORY
+		WHERE ID = #{id}
+	</select>
 </mapper>
