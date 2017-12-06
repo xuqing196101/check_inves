@@ -290,8 +290,8 @@
 							<th class="info w50">序号</th>
 							<th class="info w150">采购机构</th><!-- width="10%" -->
 							<th class="info w250">供应商名称</th><!-- width="20%" -->
-							<th class="info w120">地区</th><!-- width="8%" -->
-							<th class="info w80">企业性质</th><!-- width="6%" -->
+							<th class="info w150">地区</th><!-- width="8%" -->
+							<th class="info w70">企业性质</th><!-- width="6%" -->
 							<th class="info w150">供应商类型</th><!-- width="15%" -->
 							<th class="info w100">注册日期</th>
 							<th class="info w100">最新提交日期</th>

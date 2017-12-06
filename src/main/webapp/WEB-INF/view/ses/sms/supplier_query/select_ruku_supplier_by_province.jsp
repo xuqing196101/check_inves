@@ -720,8 +720,8 @@
                 <th class="info w50">序号</th>
                 <th class="info w150">采购机构</th>
                 <th class="info w250">供应商名称</th>
-                <th class="info w120">地区</th>
-                <th class="info w80">企业性质</th>
+                <th class="info w150">地区</th>
+                <th class="info w70">企业性质</th>
                 <th class="info w150">供应商类型</th>
                 <th class="info w100">注册日期</th>
                 <th class="info w100">最新提交日期</th>
