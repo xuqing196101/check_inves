@@ -277,7 +277,7 @@
 							onclick="selectAll()" />
 						</th>
 						<th class="info w50">序号</th>
-						<th class="info" width="15%">名称</th>
+						<th class="info">名称</th>
 						<th class="info" width="6%">状态</th>
 						<th class="info" width="14%">唯一编码</th>
 						<th class="info"width="10%">所属后台</th>
@@ -293,7 +293,7 @@
 								name="chkItem" value="${role.id}" />
 							</td>
 							<td class="tc">${role.position}</td>
-							<td class="tl">${role.name}</td>
+							<td class="tl"><div class="w160 text-nowrapEl">${role.name}</div></td>
 							<td class="tc" id="${role.id}"><c:if test="${role.status == 0}">
 									<span class="label rounded-2x label-u" >启用</span>
 								</c:if> <c:if test="${role.status == 1}">
