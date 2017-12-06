@@ -11,29 +11,29 @@
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">
 		<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/essential.js"></script>
-    <style type="text/css">
-        input {
-            cursor: pointer;
-        }
-
-        textarea:not(.layui-layer-input) {
-            cursor: pointer;
-        }
-        
-        .abolish_img_file{
-    			position: absolute;
-			    right: 20px;
-			    top: 4px;
-			    color: #ef0000;
-			    font-weight: bold;
-			    font-size: 18px;
-			    cursor: pointer;
-        }
-        
-        .icon_edit,.icon_sc{
-        	padding: 5px;
-        }
-    </style>
+		<style type="text/css">
+				input,td {
+				    cursor: pointer;
+				}
+				
+				textarea:not(.layui-layer-input) {
+				    cursor: pointer;
+				}
+		    
+				.abolish_img_file {
+					position: absolute;
+					right: 20px;
+					top: 4px;
+					color: #ef0000;
+					font-weight: bold;
+					font-size: 18px;
+					cursor: pointer;
+				}
+		    
+				.icon_edit,.icon_sc {
+					padding: 3px;
+				}
+		</style>
 </head>
 
 <body>
