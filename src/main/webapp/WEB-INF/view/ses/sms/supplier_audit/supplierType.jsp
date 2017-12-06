@@ -119,7 +119,7 @@
 			       				<c:if test="${fn:contains(unableTypeField,obj.id)}">style="border:1px solid #FF0000"</c:if>>
 			       				<span class="hand"
 			       					<c:if test="${fn:contains(auditTypeField,obj.id) && !fn:contains(unableTypeField,obj.id)}">style="border:1px solid #FF0000"</c:if>
-			       					<c:if test="${fn:contains(supplierTypeCode,obj.code)}">onclick="auditText(this,'supplierType_page','${obj.id}','${obj.name}');"</c:if>>
+			       					<c:if test="${fn:contains(supplierTypeCode,obj.code)}">onclick="auditType(this,'supplierType_page','${obj.id}','${obj.name}');"</c:if>>
 			       					<input type="checkbox" disabled="disabled" name="chkItem_1" value="${obj.code}"/> ${obj.name }
 			       				</span>
 						      	<%-- <a class="b f18 ml10 red" id="${obj.id}_show" style="visibility:hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a> --%>
@@ -133,7 +133,7 @@
 					      		<c:if test="${fn:contains(unableTypeField,obj.id)}">style="border:1px solid #FF0000"</c:if>>
 								    <span class="hand"
 								    	<c:if test="${fn:contains(auditTypeField,obj.id) && !fn:contains(unableTypeField,obj.id)}">style="border:1px solid #FF0000"</c:if>
-								    	<c:if test="${fn:contains(supplierTypeCode,obj.code)}">onclick="auditText(this,'supplierType_page','${obj.id}','${obj.name}');"</c:if>>
+								    	<c:if test="${fn:contains(supplierTypeCode,obj.code)}">onclick="auditType(this,'supplierType_page','${obj.id}','${obj.name}');"</c:if>>
 								    	<input type="checkbox" disabled="disabled" name="chkItem_2" value="${obj.code }"/>${obj.name }
 								    </span>
 						      	<%-- <a class="b f18 ml10 red" id="${obj.id}_show" style="visibility:hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a> --%>
@@ -540,7 +540,7 @@
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" style="width: 230px;">是否有国家或军队保密工程业绩：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<c:if test="${supplierMatEngs.isHavingConAchi eq '0'}">
-												  <input id="isHavingConAchi" type="text" value="无" onclick="auditText(this,'mat_eng_page','isHavingConAchi')" <c:if test="${fn:contains(fieldSecrecy,'isHavingConAchi') && !fn:contains(auditEngField,'isHavingConAchi')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_eng_page','isHavingConAchi');"</c:if> <c:if test="${fn:contains(auditEngField,'isHavingConAchi')}">style="border: 1px solid red;"</c:if>/>
+												  <input id="isHavingConAchi" type="text" value="无" onclick="auditText(this,'mat_eng_page','isHavingConAchi','true')" <c:if test="${fn:contains(fieldSecrecy,'isHavingConAchi') && !fn:contains(auditEngField,'isHavingConAchi')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_eng_page','isHavingConAchi');"</c:if> <c:if test="${fn:contains(auditEngField,'isHavingConAchi')}">style="border: 1px solid red;"</c:if>/>
 											  </c:if>
 												<c:if test="${supplierMatEngs.isHavingConAchi eq '1'}">
 												  <input id="isHavingConAchi" type="text" value="有" onclick="auditText(this,'mat_eng_page','isHavingConAchi')" <c:if test="${fn:contains(fieldSecrecy,'isHavingConAchi') && !fn:contains(auditEngField,'isHavingConAchi')}">style="border: 1px solid #FF8C00;" onMouseOver="showModify(this,'mat_eng_page','isHavingConAchi');"</c:if> <c:if test="${fn:contains(auditEngField,'isHavingConAchi')}">style="border: 1px solid red;"</c:if>/>

@@ -733,7 +733,7 @@ public class SupplierExtractsController extends BaseController {
                     User user = (User)sq.getSession().getAttribute("loginUser");
                     todos.setSenderId(user.getId());
                     //待办名称
-                    todos.setName(supplierExtRelate.getSupplier().getName()+"供应商复核");
+                    todos.setName(supplierExtRelate.getSupplier().getSupplierName()+"供应商复核");
                     //机构id
                     todos.setOrgId(supplierExtRelate.getSupplier().getProcurementDepId());
                     //权限id

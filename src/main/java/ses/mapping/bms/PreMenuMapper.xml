@@ -328,6 +328,10 @@
         open="(" close=")" separator=",">
         #{item}
     </foreach>
+    <if test="kind != null">
+    AND
+    	kind = #{kind}
+    </if>
     ORDER BY MENU_LEVEL,POSITION ASC
   </select>
 </mapper>

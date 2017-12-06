@@ -157,7 +157,7 @@ public class SupplierCheckPassServiceImpl implements SupplierCheckPassService {
     SupplierCheckPass checkPass = checkPassMapper.selectByPrimaryKey(id);
     Todos todos = new Todos();
     todos.setUrl("supplierAudit/essential.html?supplierId="+checkPass.getSupplier().getId());
-    todos.setName(checkPass.getSupplier().getName()+"供应商实地考察");
+    todos.setName(checkPass.getSupplier().getSupplierName()+"供应商实地考察");
     todosService.updateByUrl(todos);
     //推送者id
     //发送人id

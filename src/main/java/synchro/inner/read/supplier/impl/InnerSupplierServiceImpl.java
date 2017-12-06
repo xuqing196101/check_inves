@@ -560,7 +560,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     @Override
     public void importInner(File file, String flag) {
         AbstractMessageCommon supplierMessageCommon = new SupplierMessageCommon();
-        List<SupplierAuditFormBean> list = getSupplierFormBaean(file);
+        List<SupplierAuditFormBean> list = getSupplierFormBean(file);
         // 封装短信发送Map 格式：状态+电话号码集
         Map<Integer, StringBuffer> currSupStatusAndMobile = null;
         for (SupplierAuditFormBean sb : list) {
@@ -650,7 +650,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     }
 
 
-    private List<SupplierAuditFormBean> getSupplierFormBaean(final File file) {
+    private List<SupplierAuditFormBean> getSupplierFormBean(final File file) {
         List<SupplierAuditFormBean> supplierList = FileUtils.getSupplier(file, SupplierAuditFormBean.class);
 
         return supplierList;

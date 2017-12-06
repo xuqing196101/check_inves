@@ -34,7 +34,7 @@ public class MyTestController extends BaseSupplierController {
 	private DictionaryDataServiceI dictionaryDataServiceI;
 	
 	@Autowired
-  private SupplierExtUserServicel supplierExtUserServicel;
+	private SupplierExtUserServicel supplierExtUserServicel;
 	
 	@RequestMapping(value = "auto_write")
 	public void autoWrite(HttpServletRequest request, HttpServletResponse response) {

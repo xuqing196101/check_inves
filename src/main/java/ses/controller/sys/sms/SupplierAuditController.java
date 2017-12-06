@@ -405,6 +405,8 @@ public class SupplierAuditController extends BaseSupplierController {
 		 */
 //		if(SupplierConstants.isAudit(loginName, supplierStatus)){
 		if(SupplierConstants.isStatusToAudit(supplierStatus)){
+			supplierModify = new SupplierModify();
+			supplierModify.setSupplierId(supplierId);
 			//基本信息
 			supplierModify.setListType(0);
 			List < SupplierModify > fieldList = supplierModifyService.selectBySupplierId(supplierModify);
@@ -417,10 +419,6 @@ public class SupplierAuditController extends BaseSupplierController {
 			
 			//地址信息
 			supplierModify.setListType(1);
-			supplierModify.setRelationId(null);
-			supplierModify.setId(null);
-			supplierModify.setBeforeField(null);
-			supplierModify.setBeforeContent(null);
 			List < SupplierModify > fieldAddressList = supplierModifyService.selectBySupplierId(supplierModify);
 			StringBuffer fieldAddress = new StringBuffer();
 			for(int i = 0; i < fieldAddressList.size(); i++) {

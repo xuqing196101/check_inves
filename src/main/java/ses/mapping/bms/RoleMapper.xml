@@ -269,7 +269,13 @@
         and NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
       </if>
       <if test="status != null and status !=''">
-        and STATUS = #{status}
+        AND STATUS = #{status}
+      </if>
+      <if test="codes != null">
+      	AND CODE NOT IN 
+      	<foreach item="item" index="index" collection="codes" open="(" separator="," close=")">  
+		 	#{item}  
+		</foreach>
       </if>
     ORDER BY POSITION ASC
   </select>

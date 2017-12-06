@@ -2,6 +2,8 @@ package ses.dao.bms;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.bms.PreMenu;
 import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
@@ -131,9 +133,10 @@ public interface PreMenuMapper {
    *〈简述〉根据权限id集合获取权限对象
    *〈详细描述〉
    * @author Ye Maolin
+   * @param kind 后台菜单种类
    * @param userPreMenu1
    * @return
    */
-  List<PreMenu> findByMids(List<String> mIds);
+  List<PreMenu> findByMids(@Param("list")List<String> mIds, @Param("kind")Integer kind);
 
 }
