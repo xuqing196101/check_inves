@@ -1342,38 +1342,39 @@ public class PlanSupervisionController {
     
     @RequestMapping(value="/paixu",produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String paixu(Model model, String id, Integer page){
+    public String paixu(Model model, String id, String type, Integer page){
         JSONObject jsonObj = new JSONObject();
-        PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-        List<PurchaseDetail> details = detailService.getUnique(id,null,null);
-        if(details != null && details.size() > 0){
-            for (PurchaseDetail detail : details) { 
-                if(detail.getPrice() == null){
-                    detail.setPurchaseType("");
-                    detail.setStatus(null);
-                }else{
-                    DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
-                    if(findById != null){
-                        detail.setPurchaseType(findById.getName());
+        if (StringUtils.isNotBlank(id) && StringUtils.equals("1", type)) {
+        	PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("uniqueId", id);
+            List<PurchaseDetail> details = detailService.supervisionDetail(map);
+            if(details != null && details.size() > 0){
+                for (PurchaseDetail detail : details) {
+                    if(StringUtils.equals("true", detail.getIsParent())){
+                        detail.setPurchaseType("");
+                        detail.setStatus(null);
+                    }else{
+                        DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
+                        if(findById != null){
+                            detail.setPurchaseType(findById.getName());
+                        }
+                        String[] progressBarPlan = supervisionService.progressBar(detail.getId(), null);
+                        detail.setProgressBar(progressBarPlan[0]);
+                        detail.setStatus(progressBarPlan[1]);
+                        detail.setOneAdvice(findById.getCode());
                     }
-                    String[] progressBarPlan = supervisionService.progressBar(detail.getId(), null);
-                    detail.setProgressBar(progressBarPlan[0]);
-                    detail.setStatus(progressBarPlan[1]);
-                    detail.setOneAdvice(findById.getCode());
-                }
+      		  	}
+                PageInfo<PurchaseDetail> pageInfo = new PageInfo<PurchaseDetail>(details);
+                jsonObj.put("pages", pageInfo.getPages());
+                jsonObj.put("data", pageInfo.getList());
             }
-            PageInfo<PurchaseDetail> pageInfo = new PageInfo<PurchaseDetail>(details);
-            jsonObj.put("pages", pageInfo.getPages());
-            jsonObj.put("data", pageInfo.getList());
-        } else {
+        } else if (StringUtils.isNotBlank(id) && StringUtils.equals("0", type)) {
             PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-            List<PurchaseRequired> purchaseRequireds = requiredService.getUnique(id);
+            List<PurchaseRequired> purchaseRequireds = requiredService.supervisionByDetail(id);
             if(purchaseRequireds != null && purchaseRequireds.size() > 0){
                 for (PurchaseRequired purchaseRequired : purchaseRequireds) {
-                    HashMap<String, Object> map = new HashMap<>();
-                    map.put("id", purchaseRequired.getId());
-                    List<PurchaseRequired> purchaseDetails = requiredService.selectByParentId(map);
-                    if(purchaseDetails.size() > 1){
+                    if(StringUtils.equals("true", purchaseRequired.getIsParent())){
                         purchaseRequired.setPurchaseType("");
                         purchaseRequired.setStatus(null);
                     }else{
@@ -1386,13 +1387,12 @@ public class PlanSupervisionController {
                         purchaseRequired.setStatus(progressBarPlan[1]);
                         purchaseRequired.setOneAdvice(findById.getCode());
                     }
-                }
+      		  }
             }
             PageInfo<PurchaseRequired> pageInfo = new PageInfo<PurchaseRequired>(purchaseRequireds);
             jsonObj.put("pages", pageInfo.getPages());
             jsonObj.put("data", pageInfo.getList());
         }
-        
         return jsonObj.toString();
     }
     

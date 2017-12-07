@@ -1553,21 +1553,21 @@ table.lockout .extrafile{
     }
     .tip_line{
       position:relative;
-      border:2px solid #e9e9e5;
+      border-bottom: 4px solid #e9e9e5;
       top:20px;
       padding:0px;
     }
     .flow_tips.current_btn .tip_line{
-      border:2px solid #ffb522;
+      border-color: #ffb522;
     }
     .flow_tips.current_red .tip_line,.flow_tips.current_red .tip_down{
-      border:2px solid #ef0000;
+      border-color: #ef0000;
     }
     .flow_tips.pre_btn .tip_line{
-      border:2px solid #009fa1;
+      border-color: #009fa1;
     }
     .flow_tips.pre_btn .tip_down{
-      border: 2px solid #009fa1;
+      border-color: #009fa1;
     }
     .tip_down{
       height: 50px;

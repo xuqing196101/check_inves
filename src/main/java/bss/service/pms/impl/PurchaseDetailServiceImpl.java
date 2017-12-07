@@ -569,4 +569,10 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
   public List<Map<String, Object>> selectByMonth() {
     return purchaseDetailMapper.selectByMonth();
   }
+
+	@Override
+	public List<PurchaseDetail> supervisionDetail(HashMap<String, Object> map) {
+		
+		return purchaseDetailMapper.supervisionDetail(map);
+	}
 }

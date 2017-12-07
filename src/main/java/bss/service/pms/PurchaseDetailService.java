@@ -382,4 +382,16 @@ public interface PurchaseDetailService {
     List<PurchaseDetail> selectByDept();
     List<PurchaseDetail> selectByType();
     List<Map<String, Object>> selectByMonth();
+    
+    /**
+     * 
+    * @Title: supervisionDetail
+    * @author FengTian 
+    * @date 2017-12-7 下午2:43:43  
+    * @Description: 需求监督根据 条件 查询明细
+    * @param @param fileId
+    * @param @return      
+    * @return List<PurchaseDetail>
+     */
+    List<PurchaseDetail> supervisionDetail(HashMap<String, Object> map);
 }

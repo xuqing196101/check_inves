@@ -439,5 +439,27 @@ public interface PurchaseDetailMapper {
     List<PurchaseDetail> selectByType();
     List<Map<String, Object>> selectByMonth();
     
+    /**
+     * 
+    * @Title: supervisionProjectId
+    * @author FengTian 
+    * @date 2017-12-7 下午2:40:25  
+    * @Description: 需求监督根据 fileId 查询项目
+    * @param @param fileId
+    * @param @return      
+    * @return List<String>
+     */
     List<String> supervisionProjectId(String fileId);
+    
+    /**
+     * 
+    * @Title: supervisionDetail
+    * @author FengTian 
+    * @date 2017-12-7 下午2:43:43  
+    * @Description: 需求监督根据 条件 查询明细
+    * @param @param fileId
+    * @param @return      
+    * @return List<PurchaseDetail>
+     */
+    List<PurchaseDetail> supervisionDetail(HashMap<String, Object> map);
 }

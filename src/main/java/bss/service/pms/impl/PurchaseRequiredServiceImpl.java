@@ -389,4 +389,10 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 		
 		return purchaseRequiredMapper.supervisionByRequiredId(id);
 	}
+
+	@Override
+	public List<PurchaseRequired> supervisionByDetail(String uniqueId) {
+		
+		return purchaseRequiredMapper.supervisionByDetail(uniqueId);
+	}
 }

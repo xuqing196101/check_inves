@@ -1668,4 +1668,44 @@
 		GROUP BY
 			PROJECT_ID
 	</select>
+	
+	<select id="supervisionDetail" parameterType="java.util.Map" resultMap="PurchaseRequired_Map">
+		SELECT
+			detail. ID, detail.PARENT_ID, detail.SEQ, detail.DEPARTMENT, detail.MATERIAL_NAME,
+			detail.STAND, detail.QUALIT_STAND, detail.ITEM, detail.PURCHASE_COUNT, detail.PRICE,
+			detail.BUDGET, detail.DELIVER_DATE, detail.SUPPLIER, detail.PURCHASE_TYPE,
+			detail.IS_MASTER, detail.STATUS,
+			DECODE (
+				(
+					SELECT
+						COUNT (*)
+					FROM
+						T_BSS_PMS_PURCHASE_DETAIL
+					WHERE
+						PARENT_ID = detail. ID
+				),
+				0,
+				'false',
+				'true'
+			) AS isParent
+		FROM
+			T_BSS_PMS_PURCHASE_DETAIL detail
+		WHERE
+			EXISTS (
+				SELECT
+					asd. ID
+				FROM
+					T_BSS_PMS_PURCHASE_DETAIL asd
+				WHERE
+					<if test="fileId != null and fileId != ''">
+						asd.FILE_ID = #{fileId}
+					</if>
+					<if test="uniqueId != null and uniqueId != ''">
+						asd.UNIQUE_ID = #{uniqueId}
+					</if>
+				AND detail. ID = asd. ID
+			)
+		ORDER BY
+			detail.IS_MASTER ASC
+	</select>
 </mapper>

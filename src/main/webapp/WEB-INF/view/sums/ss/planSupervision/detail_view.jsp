@@ -39,7 +39,7 @@
 		      var lis = [];
 		      //以jQuery的Ajax请求为例，请求下一页数据
 		      $.ajax({
-		        url: "${pageContext.request.contextPath}/planSupervision/paixu.do?id=${planId}&page=" + page,
+		        url: "${pageContext.request.contextPath}/planSupervision/paixu.do?id=${planId}&type=${type}&page=" + page,
 	          type: "get",
 	          dataType: "json",
 	          success: function(res) {
