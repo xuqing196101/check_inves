@@ -1112,5 +1112,11 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<Project> listByAll(HashMap<String, Object> map) {
 		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
 		return projectMapper.listByAll(map);
+	}
+
+	@Override
+	public List<Project> supervisionProjectAll(HashMap<String, Object> map) {
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+		return projectMapper.supervisionProjectAll(map);
 	} 
   }

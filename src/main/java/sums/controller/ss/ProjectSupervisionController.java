@@ -45,7 +45,6 @@ import bss.service.cs.PurchaseContractService;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseRequiredService;
-import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
@@ -85,9 +84,6 @@ public class ProjectSupervisionController {
     private CollectPlanService collectPlanService;
 
     @Autowired
-    private PackageService packageService;
-
-    @Autowired
     private ProjectDetailService detailService;
 
     @Autowired
@@ -122,8 +118,7 @@ public class ProjectSupervisionController {
      * @return
      */
     @RequestMapping(value = "/list", produces = "text/html;charset=UTF-8")
-    public String list(Model model, @CurrentUser
-    User user, Project project, Integer page) {
+    public String list(Model model, @CurrentUser User user, Project project, Integer page) {
         if (user != null && user.getOrg() != null) {
             HashMap<String, Object> map = new HashMap<String, Object>();
             if (StringUtils.isNotBlank(project.getName())) {
@@ -161,14 +156,9 @@ public class ProjectSupervisionController {
                     }
                 }
                 
-                /*DictionaryData findById = DictionaryDataUtil.findById(list.get(i).getStatus());
-                if("YZZ".equals(findById.getCode())){
-                	list.get(i).setLinkman("1");
-                }*/
             }
             model.addAttribute("info", new PageInfo<Project>(list));
             model.addAttribute("kind", DictionaryDataUtil.find(5));// 获取数据字典数据
-            //model.addAttribute("status", DictionaryDataUtil.find(2));// 获取数据字典数据
             model.addAttribute("yzz", DictionaryDataUtil.getId("YZZ"));
             model.addAttribute("project", project);
         }
@@ -205,26 +195,13 @@ public class ProjectSupervisionController {
             if (page == null) {
                 page = 1;
             }
-            PageHelper.startPage(page, Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-            List<Project> list = projectService.selectProjectsByConition(map);
-            for (int i = 0; i < list.size(); i++ ) {
-                Orgnization org = orgnizationService.getOrgByPrimaryKey(list.get(i).getPurchaseDepId());
-                if(org != null && StringUtils.isNotBlank(org.getName())){
-                    list.get(i).setPurchaseDepId(org.getName());
-                }else{
-                    list.get(i).setPurchaseDepId("");
-                }
-                
-                if(StringUtils.isNotBlank(list.get(i).getAppointMan())){
-                    User users = userService.getUserById(list.get(i).getAppointMan());
-                    if(users != null && StringUtils.isNotBlank(users.getRelName())){
-                        list.get(i).setAppointMan(users.getRelName());
-                    }
-                }
-            }
+            map.put("page", page);
+            List<Project> list = projectService.supervisionProjectAll(map);
             model.addAttribute("info", new PageInfo<Project>(list));
             model.addAttribute("kind", DictionaryDataUtil.find(5));// 获取数据字典数据
             model.addAttribute("status", DictionaryDataUtil.find(2));// 获取数据字典数据
+            model.addAttribute("yzz", DictionaryDataUtil.getId("YZZ"));
+            model.addAttribute("ZJZXTP", DictionaryDataUtil.getId("ZJZXTP"));
             model.addAttribute("project", project);
         }
         return "sums/ss/projectSupervision/listByAll";

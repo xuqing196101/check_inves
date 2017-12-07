@@ -32,11 +32,6 @@
           }
         });
         
-      var value = $('#p').progressbar('getValue');
-      if (value < 100){
-          value += Math.floor(Math.random() * 10);
-          $('#p').progressbar('setValue', value);
-      }
         
       });
 
@@ -137,7 +132,6 @@
         <table class="table table-bordered table-condensed table-hover table-striped">
           <thead>
             <tr class="info">
-              
               <th class="w50">序号</th>
               <th width="25%">项目名称</th>
               <th width="18%">项目编号</th>
@@ -145,7 +139,6 @@
               <th width="10%">采购方式</th>
               <th width="15%">创建时间</th>
               <th>创建人</th>
-              <!-- <th>项目状态</th> -->
             </tr>
           </thead>
           <tbody id="tbody_id">
@@ -154,13 +147,13 @@
                 
                 <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
                 <td class="tl">
-                  <a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.name}</a>
+                  <a href="javascript:void(0)" <c:if test="${obj.status eq yzz || obj.status eq ZJZXTP}">class="red"</c:if> onclick="view('${obj.id}');">${obj.name}</a>
                 </td>
                 <td class="tl">${obj.projectNumber}</td>
                 <td class="tl">${obj.purchaseDepId}</td>
                 <td class="tc">
                   <c:forEach items="${kind}" var="kind">
-                    <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                    <c:if test="${kind.id eq obj.purchaseType}">${kind.name}</c:if>
                   </c:forEach>
                 </td>
                 <td class="tc">

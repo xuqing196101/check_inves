@@ -1788,4 +1788,32 @@
 			    ON P.ID = T.PROJECT_ID
 			 WHERE P.PURCHASE_TYPE = #{dictId}
    </select>
+   
+   <!-- 资源管理中心查看全部采购项目 -->
+   <select id="supervisionProjectAll" parameterType="java.util.Map" resultMap="BaseResultMap">
+   	SELECT
+			ID, NAME, PROJECT_NUMBER, PURCHASE_TYPE,
+			(SELECT SHORT_NAME FROM T_SES_OMS_ORG WHERE ID = PURCHASE_DEP_ID) AS PURCHASE_DEP_ID,
+			(SELECT REL_NAME FROM T_SES_BMS_USER WHERE ID = APPOINT_MAN) AS APPOINT_MAN,
+			CREATED_AT,STATUS
+		FROM
+			T_BSS_PPMS_PROJECTS
+		WHERE
+			STATUS != '4' AND
+			(PARENT_ID IS NULL OR PARENT_ID != '1') AND
+			IS_REHEARSE = 0 AND IS_PROVISIONAL=0
+			<if test="purchaseType != null and purchaseType != ''">
+        and PURCHASE_TYPE = #{purchaseType}
+      </if>
+			<if test="name != null and name != ''">
+	     	AND NAME like CONCAT(CONCAT('%', #{name}), '%')
+	    </if>
+	    <if test="projectNumber != null and projectNumber != ''">
+	     	AND PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
+	    </if>
+	    <if test="status != null and status != ''">
+	     	AND STATUS = #{status}
+	    </if>
+			ORDER BY CREATED_AT DESC
+   </select>
 </mapper>
