@@ -225,4 +225,16 @@ public interface PackageMapper {
      */
     List<Packages> selectPackageOrderByCreated(HashMap<String, Object> map);
     List<Packages> selectByPackageFirstAudit(HashMap<String, Object> map);
+    
+    /**
+     * 
+    * @Title: selectBySupplier
+    * @author FengTian 
+    * @date 2017-11-28 下午2:53:52  
+    * @Description: 供应商签到查询包名 
+    * @param @param map
+    * @param @return      
+    * @return List<Packages>
+     */
+    List<Packages> selectBySupplier(HashMap<String, Object> map);
 }
