@@ -178,7 +178,5 @@ public interface ExpertCategoryService {
      * @return
      */
     List<ExpertCategory> selectPassCategoryByExpertId(String expertId, String typeId);
-    
-    
-    Integer findNoPassCategoryCount(Map<String, Object> map);
+
 }

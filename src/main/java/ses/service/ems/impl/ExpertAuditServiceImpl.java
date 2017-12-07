@@ -945,4 +945,100 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
     public List<ExpertAudit> selectCatReason(ExpertAudit expertAudit){
 		return mapper.selectCatReason(expertAudit);
 	}
+	
+	
+	/**
+    * 全部参评类别不通过类别也标注不通过
+    * @param map
+    * @return
+    */
+	@Override
+	public StringBuffer noPassTypeId(String expertId, String[] types, Integer auditFalg) {
+		StringBuffer typeErrorField = new StringBuffer();
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("expertId", expertId);
+		map.put("auditFalg", auditFalg);
+		//现在勾选的类型
+		try {
+			for(String typeId : types){
+				if(typeId!=null && !"".equals(typeId)){
+					map.put("typeId", typeId);
+					//全部根节点
+					Integer allNumber = expertCategoryMapper.findRootNoteCountByExpertId(map);
+					
+					DictionaryData data = DictionaryDataUtil.findById(typeId);
+					//物资
+					if(data !=null && "GOODS".equals(data.getCode()) && allNumber !=0){
+						//不通过的根节点
+						Integer number = expertCategoryMapper.findNoPassCategoryCountByAuditFalg(map);
+						if(allNumber - number == 0){
+							typeErrorField.append(typeId + ",");
+						}
+					//服务
+					}else if(data !=null && "SERVICE".equals(data.getCode()) && allNumber !=0){
+						//不通过的根节点
+						Integer number = expertCategoryMapper.findNoPassCategoryCountByAuditFalg(map);
+						if(allNumber - number == 0){
+							typeErrorField.append(typeId + ",");
+						}
+					//工程技术
+					}else if(data !=null && "PROJECT".equals(data.getCode()) && allNumber !=0){
+						//工程专业id
+						String engId = DictionaryDataUtil.getId("ENG_INFO_ID");
+						//全部工程专业的数量
+						map.put("typeId", engId);
+						Integer engNumber = 0;
+						if(engId !=null && !"".equals(engId)){
+							engNumber = expertCategoryMapper.findRootNoteCountByExpertId(map);
+						}
+						
+						//工程专业不通过的根节点
+						Integer noPassNumber = expertCategoryMapper.findNoPassCategoryCountByAuditFalg(map);
+
+						//工程不通过的根节点
+						map.put("typeId", typeId);
+						Integer number = expertCategoryMapper.findNoPassCategoryCountByAuditFalg(map);
+						
+						//所有工程根节点数量
+						Integer all = allNumber + engNumber;
+						Integer engNoPassNumber = noPassNumber + number;
+						
+						if(all - engNoPassNumber == 0){
+							typeErrorField.append(typeId + ",");
+						}
+					//工程经济
+					}else if(data !=null && "GOODS_PROJECT".equals(data.getCode())){
+						//工程专业id
+						String engInfoId = DictionaryDataUtil.getId("ENG_INFO_ID");
+						//工程id
+						String engId = DictionaryDataUtil.getId("PROJECT");
+						
+						//全部工程专业根节点
+						map.put("typeId", engInfoId);
+						Integer jjNumber = expertCategoryMapper.findRootNoteCountByExpertId(map);
+						
+						//工程专业不通过根节点
+						Integer jjNoPassNumber = expertCategoryMapper.findNoPassCategoryCountByAuditFalg(map);
+						
+						//全部工程根节点
+						map.put("typeId", engId);
+						Integer engNumber = expertCategoryMapper.findRootNoteCountByExpertId(map);
+						
+						//工程不通过的根节点
+						Integer number = expertCategoryMapper.findNoPassCategoryCountByAuditFalg(map);
+						
+						//所有工程根节点数量
+						Integer all = engNumber + jjNumber;
+						Integer engNoPassNumber = jjNoPassNumber + number;
+						if(all - engNoPassNumber == 0){
+							typeErrorField.append(typeId + ",");
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return typeErrorField;
+	}
 }

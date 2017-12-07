@@ -425,21 +425,36 @@
 	</select>
 	
 	
-	<select id="findNoPassCategoryCount" resultType="int">
+	<!-- 查询全部根节点数量 -->
+	<select id="findRootNoteCountByExpertId" parameterType="Map" resultType="java.lang.Integer" >
 	    select 
 	    	COUNT(*)
 	    from
 	    	T_SES_EMS_EXPERT_CATEGORY
 	    where
-	    	EXPERT_ID = #{expertId}
-	    <if test="auditStatus !=null">
-	    	and AUDIT_STATUS = #{auditStatus}
-	    </if>
-	    <if test="levels !=null">
-	    	and LEVELS = #{levels}
-	    </if>
+	    	LEVELS = 1
+	    and EXPERT_ID = #{expertId}
 	    <if test="typeId !=null">
 	    	and TYPE_ID = #{typeId}
 	    </if>
+	</select>
+	
+	<!-- 根据审核标识查询审核不通过的根节点数量 -->
+	<select id="findNoPassCategoryCountByAuditFalg" resultType="java.lang.Integer" parameterType="Map">
+		SELECT
+			COUNT(*)
+		FROM
+			T_SES_EMS_EXPERT_CATEGORY T1
+		LEFT JOIN T_SES_EMS_EXPERT_AUDIT t2 ON T1.CATEGORY_ID = T2.AUDIT_FIELD_ID
+		WHERE
+			T1.EXPERT_ID = #{expertId}
+		AND T1.AUDIT_STATUS = 1
+		AND T1.LEVELS = 1
+		AND T1.TYPE_ID = #{typeId}
+		AND T2.EXPERT_ID = T1.EXPERT_ID
+		AND T2.AUDIT_FALG = #{auditFalg}
+		AND T2.AUDIT_STATUS = 6
+		AND T2.SUGGEST_TYPE = 'six'
+		AND T2.IS_DELETED = 0
 	</select>
 </mapper>

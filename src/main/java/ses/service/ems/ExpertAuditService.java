@@ -367,4 +367,11 @@ public interface ExpertAuditService {
     * @return List<ExpertAudit>
     */
    List<ExpertAudit> selectCatReason(ExpertAudit expertAudit);
+   
+   /**
+    * 全部参评类别不通过类别也不通过
+    * @param map
+    * @return
+    */
+   StringBuffer noPassTypeId(String expertId, String[] types, Integer auditFalg);
 }
