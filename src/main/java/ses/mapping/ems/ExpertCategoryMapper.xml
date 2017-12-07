@@ -423,4 +423,23 @@
 	    </if>
 	     	order by t2.CODE ASC 
 	</select>
+	
+	
+	<select id="findNoPassCategoryCount" resultType="int">
+	    select 
+	    	COUNT(*)
+	    from
+	    	T_SES_EMS_EXPERT_CATEGORY
+	    where
+	    	EXPERT_ID = #{expertId}
+	    <if test="auditStatus !=null">
+	    	and AUDIT_STATUS = #{auditStatus}
+	    </if>
+	    <if test="levels !=null">
+	    	and LEVELS = #{levels}
+	    </if>
+	    <if test="typeId !=null">
+	    	and TYPE_ID = #{typeId}
+	    </if>
+	</select>
 </mapper>

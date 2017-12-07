@@ -168,7 +168,7 @@
 	                <td class="">
 	                  <c:if test="${audit.suggestType eq 'one'}">基本信息</c:if>
 	                  <%-- <c:if test="${audit.suggestType eq 'two'}">经历经验</c:if> --%>
-	                  <c:if test="${audit.suggestType eq 'seven'}">专家类别</c:if>
+	                  <c:if test="${audit.suggestType eq 'seven'}">参评类别</c:if>
 	                  <c:if test="${audit.suggestType eq 'six'}">产品类别</c:if>
 	                  <c:if test="${audit.suggestType eq 'five'}">承诺书和申请表</c:if>
 	                </td>

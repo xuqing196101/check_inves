@@ -369,5 +369,12 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 		
 		return mapper.selectPassCategoryByExpertId(expertId, typeId);
 	}
+
+	
+	@Override
+	public Integer findNoPassCategoryCount(Map<String, Object> map) {
+		Integer num = mapper.findNoPassCategoryCount(map);
+		return num;
+	}
 }
  
