@@ -2033,8 +2033,24 @@ public class ExpertAuditController{
 					//物资经济
 					DictionaryData  dictionaryData = DictionaryDataUtil.get("GOODS_SERVER");
 					String expertTypeId = expert.getExpertsTypeId();
-
-					if(passCount<=0 && !expertTypeId.contains(dictionaryData.getId())){
+					boolean ss=false;
+					if(expertTypeId.contains(dictionaryData.getId())){
+						if(sign==1){
+							audit.setAuditFalg(666);
+						}else{
+							audit.setAuditFalg(sign);
+						}
+						audit.setAuditFieldId(dictionaryData.getId());
+						List<ExpertAudit> lists = expertAuditService.getListByExpert(audit);
+						if(sign==1){
+							audit.setAuditFalg(1);
+						}
+						lists.addAll(expertAuditService.getListByExpert(audit));
+						if(lists.size()>0){
+							ss=true;
+						}
+					}
+					if(passCount<=0 && ss){
 						model.addAttribute("qualified", false);
 						model.addAttribute("message", "当前专家有目录下无通过产品");
 						break;
