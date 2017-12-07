@@ -68,8 +68,8 @@ public class RoleManageController {
 		//默认角色不显示
 		String[] codes = {"IMPORT_AGENT_R", "SUPPLIER_R", "EXPERT_R", "EXPERT_REVIEW_R"};
 		role.setCodes(codes);
-		List<Role> roles = roleService.list(role, page == null ? 1 : page);
-		for (Role role2 : roles) {
+		List<Role> roles = roleService.findList(role);
+		/*for (Role role2 : roles) {
 	      HashMap<String, Object> map = new HashMap<String, Object>();
 	      map.put("id", role2.getId());
 	      List<User> users = userService.findByRole(map);
@@ -78,13 +78,13 @@ public class RoleManageController {
 	      } else {
 	        role2.setUserNumber(0);
 	      }
-	    }
+	    }*/
 		if("4".equals(cuser.getTypeName())){
 	      model.addAttribute("menu", "show");
 	    }else{
 	      model.addAttribute("menu", "hidden");
 	    }
-		model.addAttribute("list", new PageInfo<Role>(roles));
+		model.addAttribute("roles", roles);
 		model.addAttribute("role", role);
 		logger.info(JSON.toJSONStringWithDateFormat(roles,
 				"yyyy-MM-dd HH:mm:ss"));

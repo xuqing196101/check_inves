@@ -5,7 +5,7 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
   <script type="text/javascript">
-  	$(function(){
+  	/* $(function(){
 		  laypage({
 			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 			    pages: "${list.pages}", //总页数
@@ -25,7 +25,7 @@
 			        }
 			    }
 			});
-	  });
+	  }); */
   	/** 全选全不选 */
 	function selectAll(){
 	   var checklist = document.getElementsByName ("chkItem");
@@ -277,7 +277,7 @@
 							onclick="selectAll()" />
 						</th>
 						<th class="info w50">序号</th>
-						<th class="info" width="15%">名称</th>
+						<th class="info" width="16%">名称</th>
 						<th class="info" width="6%">状态</th>
 						<th class="info" width="14%">唯一编码</th>
 						<th class="info"width="10%">所属后台</th>
@@ -287,13 +287,13 @@
 				</thead>
 				<tbody>
 				<c:if test="${menu=='show' }">
-					<c:forEach items="${list.list}" var="role" varStatus="vs">
+					<c:forEach items="${roles}" var="role" varStatus="vs">
 						<tr>
 							<td class="tc"><input onclick="check()" type="checkbox"
 								name="chkItem" value="${role.id}" />
 							</td>
 							<td class="tc">${role.position}</td>
-							<td class="tl">${role.name}</td>
+							<td class="tl" title="${role.name}">${role.name}</td>
 							<td class="tc" id="${role.id}"><c:if test="${role.status == 0}">
 									<span class="label rounded-2x label-u" >启用</span>
 								</c:if> <c:if test="${role.status == 1}">
@@ -321,7 +321,7 @@
 					</c:if>
 				</tbody>
 			</table>
-			<div id="pagediv" align="right"></div>
+			<!-- <div id="pagediv" align="right"></div> -->
 		</div>
 		
    <!-- 菜单树-->

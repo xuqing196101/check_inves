@@ -1365,29 +1365,48 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 			return null;
 		}
 		List < SupplierItem > resultList = new ArrayList<SupplierItem>();
+		Set<String> pCateIds = new HashSet<>();// 所有添加过的父节点
+		Set<String> pCateIdsOfLeaf = new HashSet<>();// 叶子节点的父节点
 		for(SupplierItem item: listSupplierItems) {
 			String categoryId = item.getCategoryId();
 			Category cateById = categoryService.findById(categoryId);
-			if(cateById != null && cateById.getCode() != null 
-					&& !cateById.getCode().startsWith("B02") 
-					&& !cateById.getCode().startsWith("B03")){
-				if("false".equals(cateById.getIsParent())){
-					resultList.add(item);
+			if(cateById != null){
+				if(cateById.getCode() != null 
+						&& !cateById.getCode().startsWith("B02") 
+						&& !cateById.getCode().startsWith("B03")){
+					if("false".equals(cateById.getIsParent())){
+						resultList.add(item);
+					}
+					continue;
 				}
-				continue;
-			}
-			if(cateById != null && "true".equals(cateById.getIsParent())){
+//				if("true".equals(cateById.getIsParent())){
+				// 如果当前节点的父节点选过，则不选当前节点了
+				if(pCateIds.contains(cateById.getParentId())){
+					continue;
+				}
+				// 如果是子节点中的同级节点，则直接添加
+				if("false".equals(cateById.getIsParent()) && pCateIdsOfLeaf.contains(cateById.getParentId())){
+					resultList.add(item);
+					continue;
+				}
 				int count = this.countItemsInCate(supplierId, categoryId, "PROJECT");
 				if(count > 0){
 					if(!(rootNodeId+"").equals(cateById.getParentId()+"")){
 						count = this.countItemsInCate(supplierId, cateById.getParentId(), "PROJECT");
 						if(count == 0){
 							resultList.add(item);
+							if("false".equals(cateById.getIsParent())){
+								pCateIdsOfLeaf.add(cateById.getParentId());
+							}
 						}
 					}else{
 						resultList.add(item);
 					}
+					if("true".equals(cateById.getIsParent())){
+						pCateIds.add(categoryId);
+					}
 				}
+//				}
 			}
 		}
 		if(resultList.size() < listSupplierItems.size()){
@@ -1631,11 +1650,14 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 				typeList = type.get(0).getList();
 			}*/
 			// 所有资质类型，包括父节点的资质
-			List < QualificationBean > qbList = supplierService.queryCategoyrId(cateTree.getParentNodeList(), 4);
+			List < QualificationBean > qbList = supplierService.getQuaList(cateTree.getParentNodeList(), 4);
 			List < Qualification > typeList = new ArrayList < Qualification > ();
 			if(qbList != null && qbList.size() > 0){
-				for(QualificationBean qb : qbList){
+				/*for(QualificationBean qb : qbList){
 					typeList.addAll(qb.getList());
+				}*/
+				for(int i=qbList.size()-1; i>=0; i--){
+					typeList.addAll(qbList.get(i).getList());
 				}
 			}
 			//自定义等级

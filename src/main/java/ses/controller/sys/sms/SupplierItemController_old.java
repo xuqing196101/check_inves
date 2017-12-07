@@ -316,7 +316,7 @@ public class SupplierItemController_old extends BaseController {
 			// 所有等级List
 			List < Category > cateList = new ArrayList < Category > ();
 			cateList.add(categoryService.selectByPrimaryKey(categoryId));
-			List < QualificationBean > type = supplierService.queryCategoyrId(cateList, 4);
+			List < QualificationBean > type = supplierService.getQuaList(cateList, 4);
 			List < Qualification > typeList = new ArrayList < Qualification > ();
 			if(type != null && type.size() > 0 && type.get(0).getList() != null && type.get(0).getList().size() > 0) {
 				typeList = type.get(0).getList();
@@ -1038,19 +1038,19 @@ public class SupplierItemController_old extends BaseController {
 		List < Category > listPro = getProduct(supplierId, supplierTypeIds);
 		removeSame(listPro);
 		//根据品目id查询所有的证书信息
-		List < QualificationBean > list3 = supplierService.queryCategoyrId(listPro, 2);
+		List < QualificationBean > list3 = supplierService.getQuaList(listPro, 2);
 
 		//查询所有的三级品目销售
 		List < Category > listSale = getSale(supplierId, supplierTypeIds);
 		removeSame(listSale);
 		//根据品目id查询所有的证书信息
-		List < QualificationBean > saleQua = supplierService.queryCategoyrId(listSale, 3);
+		List < QualificationBean > saleQua = supplierService.getQuaList(listSale, 3);
 
 		//查询所有的三级品目服务
 		List < Category > listService = getService(supplierId, supplierTypeIds);
 		removeSame(listService);
 		//根据品目id查询所有的服务证书信息
-		List < QualificationBean > serviceQua = supplierService.queryCategoyrId(listService, 1);
+		List < QualificationBean > serviceQua = supplierService.getQuaList(listService, 1);
 		
 		List<QualificationBean> list = new ArrayList<QualificationBean>();
 		list.addAll(list3);

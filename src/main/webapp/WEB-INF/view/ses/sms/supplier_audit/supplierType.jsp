@@ -8,11 +8,7 @@
     <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<title>供应商类型</title>
 		<style type="text/css">
-			td {
-				cursor: pointer;
-			}
-			
-			input {
+			input,td {
 				cursor: pointer;
 			}
 			
@@ -25,16 +21,16 @@
 			}
 			.abolish_img_file {
 				position: absolute;
-		    right: 20px;
-		    color: #ef0000;
-		    font-weight: bold;
-		    font-size: 18px;
-		    cursor: pointer;
-		    top: 5px;
+				right: 20px;
+				color: #ef0000;
+				font-weight: bold;
+				font-size: 18px;
+				cursor: pointer;
+				top: 5px;
 			}
 			.icon_edit,.icon_sc{
-      	padding: 5px;
-      }
+				padding: 3px;
+			}
 		</style>
 		<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/essential.js"></script>
 		<script type="text/javascript">

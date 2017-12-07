@@ -176,4 +176,12 @@ public interface RoleServiceI {
      */
     List<String> findByRoleName(String roleName);
     
+    /**
+	 *〈简述〉角色列表
+	 *〈详细描述〉
+	 * @author Ye Maolin
+	 * @param role
+	 * @return
+	 */
+	List<Role> findList(Role role);
 }

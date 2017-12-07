@@ -65,7 +65,7 @@ public class SupplierMessageCommon extends AbstractMessageCommon implements Seri
         if (currStatusAndMobile != null) {
             // 短信通知
             for (Map.Entry<Integer, StringBuffer> entry : currStatusAndMobile.entrySet()) {
-                SMSUtil.sendMsg(entry.getValue().toString(), "【军队采购网】审核通知：您好，您的信息" + SupplierConstants.STATUSMAP_SMS.get(entry.getKey()) + "。");
+                //SMSUtil.sendMsg(entry.getValue().toString(), "【军队采购网】审核通知：您好，您的信息" + SupplierConstants.STATUSMAP_SMS.get(entry.getKey()) + "。");
             }
         }
     }
