@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
@@ -15,7 +16,9 @@ import system.model.sms.SmsRecord;
 import system.service.sms.SmsRecordService;
 
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
+import common.utils.SMSUtil;
 
 /**
  * 
@@ -42,7 +45,7 @@ public class SmsRecordController {
 	 */
 	@RequestMapping("/list")
 	public String list(@CurrentUser User user, Model model,@RequestParam(defaultValue = "1") Integer page, SmsRecord smsRecord){
-		List<SmsRecord> list = smsRecordService.findAll(smsRecord, page);
+		List<SmsRecord> list = smsRecordService.findAll(smsRecord, page, user);
 		PageInfo<SmsRecord> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		//发送环节
@@ -52,6 +55,15 @@ public class SmsRecordController {
 		return "system/sms/list";
 	}
 	
+	/**
+	 * 
+	 * 
+	 * Description: 查看详情
+	 * 
+	 * @data 2017年12月7日
+	 * @param 
+	 * @return String
+	 */
 	@RequestMapping("/view")
 	public String view(@CurrentUser User user, Model model, String id){
 		SmsRecord smsRecord = smsRecordService.selectByPrimaryKey(id == null ? "" : id);

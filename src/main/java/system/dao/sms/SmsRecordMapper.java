@@ -2,6 +2,8 @@ package system.dao.sms;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import system.model.sms.SmsRecord;
 
 
@@ -65,4 +67,26 @@ public interface SmsRecordMapper {
      * @return List<SmsRecord>
      */
     List<SmsRecord> findAll(SmsRecord record);
+    
+    /**
+     * 
+     * 
+     * Description: 根据用户名模糊查询
+     * 
+     * @data 2017年12月7日
+     * @param 
+     * @return List<String>
+     */
+    List<String> selectByName(@Param("name") String name);
+    
+    /**
+     * 
+     * 
+     * Description: 根据id查询用户名
+     * 
+     * @data 2017年12月7日
+     * @param 
+     * @return String
+     */
+    String selectByUserId(@Param("id") String id);
 }

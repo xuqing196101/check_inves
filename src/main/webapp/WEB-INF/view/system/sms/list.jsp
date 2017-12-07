@@ -40,9 +40,9 @@
 	}
 	
 	/* 查看详情 */
-	function view(id){
+/* 	function view(id){
 		window.location.href = "${pageContext.request.contextPath}/smsRecord/view.html?id="+id;
-	}
+	} */
 </script>
 </head>
 <body>
@@ -110,7 +110,7 @@
       <table class="table table-striped table-bordered table-hover">
         <thead>
           <tr>
-            <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()" alt=""></th>
+            <th class="info w30"><input type="checkbox"></th>
             <th class="info w50">序号</th>
             <th class="info">发送环节</th>
             <th class="info">操作人</th>
@@ -125,19 +125,19 @@
         <c:forEach items="${info.list}" var="obj" varStatus="vs">
           <tr>
             <td class="tc w30"><input type="checkbox" name="chkItem" /></td>
-            <td class="tc w50" onclick="view('${obj.id}')">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-            <td class="tc" onclick="view('${obj.id}')">${obj.sendLink}</td>
-            <td class="tc" onclick="view('${obj.id}')">${obj.operator}</td>
-            <td class="" onclick="view('${obj.id}')" title="${obj.sendContent }">
+            <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+            <td class="tc">${obj.sendLink}</td>
+            <td class="tc">${obj.operator}</td>
+            <td class="" title="${obj.sendContent }">
               <c:if test="${fn:length(obj.sendContent) > 8 }">${fn:substring(obj.sendContent, 0, 8)}...</c:if>
               <c:if test="${fn:length(obj.sendContent) <= 8 }">${obj.sendContent }</c:if>
             </td>
-            <td class="tc" onclick="view('${obj.id}')">${obj.recipient}</td>
-            <td class="tc" onclick="view('${obj.id}')">${obj.receiveNumber}</td>
-            <td class="tc" onclick="view('${obj.id}')">
+            <td class="tc">${obj.recipient}</td>
+            <td class="tc">${obj.receiveNumber}</td>
+            <td class="tc">
               <fmt:formatDate value="${obj.sendTime }" pattern="yyyy-MM-dd HH:mm:ss" />
             </td>
-            <td class="tc" onclick="view('${obj.id}')">
+            <td class="tc">
               <c:if test="${obj.status == 0 }">发送成功</c:if>
               <c:if test="${obj.status == 1 }">发送失败</c:if>
             </td>

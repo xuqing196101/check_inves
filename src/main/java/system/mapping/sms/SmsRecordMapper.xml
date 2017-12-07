@@ -13,11 +13,12 @@
     <result column="FAIL_REASON" jdbcType="VARCHAR" property="failReason" />
     <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
     <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+    <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
   </resultMap>
   
   <sql id="Base_Column_List">
     ID, SEND_LINK, OPERATOR, SEND_CONTENT, RECIPIENT, RECEIVE_NUMBER, SEND_TIME, STATUS, 
-    FAIL_REASON, UPDATED_AT, IS_DELETED
+    FAIL_REASON, UPDATED_AT, IS_DELETED, ORG_ID
   </sql>
   
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -38,11 +39,11 @@
     insert into T_SYSTEM_SMS_RECORD (ID, SEND_LINK, OPERATOR, 
       SEND_CONTENT, RECIPIENT, RECEIVE_NUMBER, 
       SEND_TIME, STATUS, FAIL_REASON, 
-      UPDATED_AT, IS_DELETED)
+      UPDATED_AT, IS_DELETED, ORG_ID)
     values (#{id,jdbcType=VARCHAR}, #{sendLink,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
       #{sendContent,jdbcType=VARCHAR}, #{recipient,jdbcType=VARCHAR}, #{receiveNumber,jdbcType=VARCHAR}, 
       #{sendTime,jdbcType=DATE}, #{status,jdbcType=VARCHAR}, #{failReason,jdbcType=VARCHAR}, 
-      #{updatedAt,jdbcType=DATE}, #{isDeleted,jdbcType=DECIMAL})
+      #{updatedAt,jdbcType=DATE}, #{isDeleted,jdbcType=DECIMAL}, #{orgId,jdbcType=VARCHAR})
   </insert>
   
   <insert id="insertSelective" parameterType="system.model.sms.SmsRecord">
@@ -81,6 +82,9 @@
       <if test="isDeleted != null">
         IS_DELETED,
       </if>
+      <if test="orgId != null">
+        ORG_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -115,6 +119,9 @@
       </if>
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -152,6 +159,9 @@
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
       </if>
+      <if test="orgId != null">
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -167,7 +177,8 @@
       STATUS = #{status,jdbcType=VARCHAR},
       FAIL_REASON = #{failReason,jdbcType=VARCHAR},
       UPDATED_AT = #{updatedAt,jdbcType=DATE},
-      IS_DELETED = #{isDeleted,jdbcType=DECIMAL}
+      IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      ORG_ID = #{orgId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   
@@ -182,12 +193,18 @@
         AND SEND_LINK = #{sendLink}
       </if>
       <!-- 操作人 -->
-      <if test="operator != null and operator != ''">
-        AND OPERATOR = #{operator}
+      <if test="operatorList != null">
+        AND OPERATOR IN 
+       	  <foreach item="item" index="index" collection="operatorList" open="(" separator="," close=")">  
+            #{item}  
+          </foreach>
       </if>
       <!-- 接收人 -->
-      <if test="recipient != null and recipient != ''">
-        AND RECIPIENT = #{recipient}
+      <if test="recipientList != null">
+        AND RECIPIENT IN 
+          <foreach item="item" index="index" collection="recipientList" open="(" separator="," close=")">  
+            #{item}  
+          </foreach>
       </if>
       <!-- 接收号码 -->
       <if test="receiveNumber != null and receiveNumber != ''">
@@ -204,6 +221,22 @@
       <if test="endTime != null and endTime != ''">
         AND to_char(SEND_TIME,'yyyy-MM-dd HH:mm:ss') &lt;= #{endTime,jdbcType=VARCHAR} 
       </if>
-      ORDER BY SEND_TIME DESC
+      <if test="orgId != null and orgId != ''">
+        AND ORG_ID = #{orgId}
+      </if>
+      <if test="loginUser != null and loginUser != ''">
+        AND OPERATOR = #{loginUser}
+      </if>
+      ORDER BY SEND_TIME DESC,ID ASC
+  </select>
+  
+  <!-- 根据用户名模糊查询获取id集合 -->
+  <select id="selectByName" parameterType="String" resultType="String">
+      SELECT ID FROM T_SES_BMS_USER WHERE REL_NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
+  </select>
+  
+  <!-- 根据id查询用户名 -->
+  <select id="selectByUserId" parameterType="String" resultType="String">
+      SELECT REL_NAME FROM T_SES_BMS_USER WHERE ID = #{id}
   </select>
 </mapper>

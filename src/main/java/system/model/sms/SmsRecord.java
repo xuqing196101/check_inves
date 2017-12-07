@@ -1,6 +1,7 @@
 package system.model.sms;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -67,6 +68,11 @@ public class SmsRecord {
     private Short isDeleted;
     
     /**
+     * 机构ID
+     */
+    private String orgId;
+    
+    /**
      * 查询条件  开始时间
      */
     private String startTime;
@@ -76,7 +82,47 @@ public class SmsRecord {
      */
     private String endTime;
     
-    public String getStartTime() {
+    /**
+     * 查询条件  操作人集合
+     */
+    private List<String> operatorList;
+    
+    
+    /**
+     * 查询条件   接收人集合
+     */
+    private List<String> recipientList;
+    
+    /**
+     * 查询条件   当前登录人
+     */
+    private String loginUser;
+    
+    public String getLoginUser() {
+		return loginUser;
+	}
+
+	public void setLoginUser(String loginUser) {
+		this.loginUser = loginUser;
+	}
+
+	public List<String> getOperatorList() {
+		return operatorList;
+	}
+
+	public void setOperatorList(List<String> operatorList) {
+		this.operatorList = operatorList;
+	}
+
+	public List<String> getRecipientList() {
+		return recipientList;
+	}
+
+	public void setRecipientList(List<String> recipientList) {
+		this.recipientList = recipientList;
+	}
+
+	public String getStartTime() {
 		return startTime;
 	}
 
@@ -179,4 +225,13 @@ public class SmsRecord {
     public void setIsDeleted(Short isDeleted) {
         this.isDeleted = isDeleted;
     }
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
+    
 }
