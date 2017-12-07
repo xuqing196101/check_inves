@@ -33,6 +33,11 @@
       }
     });
   });
+  function restValue(){
+	  $(':input','#add_form') 
+	  .not(':button, :submit, :reset, :hidden') 
+	  .val('') 
+  }
   </script>
 </head>
 
@@ -65,29 +70,50 @@
 				<input type="hidden" name="page" id="page">
 				<ul class="demand_list">
 					<li><label class="fl"> 产品名称：</label><span> <input
-							type="text" name="fileName" value="${task.name }" />
+							type="text" name="goodsName" value="${detail.goodsName }" />
 					</span></li>
-					<li><label class="fl"> 需求部门：</label><span> <input
-							type="text" name="fileName" value="${task.name }" />
+					<li><label class="fl"> 需求部门：</label><span> 
+                        <select name="department" id="department" class="w170">
+                             <option value="">请选择</option>
+                             <c:forEach items="${allXq}" var="org" >
+                                <option value="${org.shortName}" <c:if test="${org.shortName==detail.department}">selected="selected"</c:if>>${org.shortName}</option>
+                             </c:forEach>
+                          
+                          </select>
+
+
 					</span></li>
-					<li><label class="fl"> 任务文号：</label><span> <input
-							type="text" name="fileName" value="${task.documentNumber }" />
+					<li><label class="fl"> 任务文号：</label><span> 
+					
+					<input
+							type="text" name="taskNumber" value="${detail.taskNumber }" />
 					</span></li>
-					<li><label class="fl"> 采购方式：</label><span> <input
-							type="text" name="fileName" value="${task.name }" />
+					<li><label class="fl"> 采购方式：</label><span> 
+                     <select name="purchaseType" id="purchaseTypes" class="w170">
+                         <option value="">请选择</option>
+                         <c:forEach items="${dataType}" var="d" >
+                              <option value="${d.id}" <c:if test="${d.id==detail.purchaseType}">selected="selected"</c:if>>${d.name}</option>
+                         </c:forEach>
+                     </select>
+
 					</span></li>
-					<li><label class="fl"> 采购机构：</label><span> <input
-							type="text" name="fileName" value="${task.name }" />
+					<li><label class="fl"> 采购机构：</label><span> 
+
+                          <select name="organization" id="organization" class="w170">
+                             <option value="">请选择</option>
+                             <c:forEach items="${allOrg}" var="org" >
+                                <option value="${org.id}" <c:if test="${org.id==detail.organization}">selected="selected"</c:if>>${org.shortName}</option>
+                             </c:forEach>
+                          
+                          </select>
 					</span></li>
-					<li><label class="fl"> 下达时间：</label> <input
-							type="text" name="fileName" value="${task.name }" />
-					<span class="fl" style="font-size: 14px;">至</span><span> <input
-							type="text" name="fileName" value="${task.name }" />
+					<li><label class="fl"> 下达时间：</label> <input type="text" name="beginDate" id="draftReviewedAt" value="${detail.beginDate}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w150"/>
+					<span class="fl" style="font-size: 14px;">至</span><span> <input type="text" name="endDate" id="draftReviewedAt" value="${detail.endDate}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w150"/>
 					</span></li>
 					</ul>
 					<div class="tc mt5 clear" width="100%">
 				<input class="btn" type="submit" name="" value="查询" /> <input
-					type="reset"  class="btn" value="重置" />
+					type="button"  class="btn" onclick="restValue();" value="重置" />
 					</div>
 					
 			</form>
@@ -107,7 +133,8 @@
 						<th class="info" width="13%">任务名称</th>
 						<th class="info" width="13%">任务文号</th>
 						<th class="info" width="5%">需求部门</th>
-						<th class="info" width="20%">产品名称</th>
+						<th class="info" width="5%">产品编号</th>
+						<th class="info" width="15%">产品名称</th>
 						<th class="info" width="4%">单位</th>
 						<th class="info" width="5%">采购数量</th>
 						<th class="info" width="6%">单价(元)</th>
@@ -118,7 +145,8 @@
 					</tr>
 				</thead>
 				<c:forEach items="${info.list}" var="obj" varStatus="vs">
-					<tr>
+				
+					<tr  <c:if test="${obj.isParent=='true'}">class="red" </c:if> >
 						<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 						<td title="${obj.taskName }">
 						    <c:if test="${fn:length (obj.taskName) > 15}">${fn:substring(obj.taskName,0,14)}...</c:if>
@@ -129,6 +157,7 @@
                             <c:if test="${fn:length(obj.taskNumber) <=15}">${obj.taskNumber}</c:if>
 						</td>
 						<td>${obj.department }</td>
+						<td>${obj.seq }</td>
 						<td title="${obj.goodsName }">
 						    <c:if test="${fn:length (obj.goodsName) > 18}">${fn:substring(obj.goodsName,0,17)}...</c:if>
                             <c:if test="${fn:length(obj.goodsName) <=18}">${obj.goodsName}</c:if>
@@ -137,7 +166,10 @@
 						<td>${obj.purchaseCount }</td>
 						<td>${obj.price }</td>
 						<td>${obj.budget }</td>
-						<td>${obj.purchaseType }</td>
+						<td>
+						   <c:if test="${obj.purchaseType eq '空值' }"></c:if>
+						   <c:if test="${obj.purchaseType ne '空值' }">${obj.purchaseType }</c:if>
+						</td>
 						<td>${obj.organization }</td>
 						<td><fmt:formatDate value="${obj.taskGiveTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 					</tr>

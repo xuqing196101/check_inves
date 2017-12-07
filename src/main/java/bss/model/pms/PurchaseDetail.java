@@ -113,6 +113,7 @@ public class PurchaseDetail {
   private String taskName;
   private String taskNumber;
   private Timestamp taskGiveTime;
+  private String orgId;
     
   /**
    * @Fields projectStatus : 0:未被项目立项引用  1：已被立项 2：暂被引用
@@ -127,8 +128,27 @@ public class PurchaseDetail {
   
   private String progressBar;
   
+  private String beginDate;
+  private String endDate;
   
   
+  
+  public String getBeginDate() {
+    return beginDate;
+  }
+
+  public void setBeginDate(String beginDate) {
+    this.beginDate = beginDate;
+  }
+
+  public String getEndDate() {
+    return endDate;
+  }
+
+  public void setEndDate(String endDate) {
+    this.endDate = endDate;
+  }
+
   public String getSign() {
 	return sign;
 }
@@ -584,6 +604,15 @@ public Integer getProjectStatus() {
     public void setTaskGiveTime(Timestamp taskGiveTime) {
       this.taskGiveTime = taskGiveTime;
     }
+
+    public String getOrgId() {
+      return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+      this.orgId = orgId;
+    }
+
 
     
 }

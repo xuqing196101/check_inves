@@ -105,7 +105,7 @@
 				<input class="btn-u" type="button" name="" value="按采购方式统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charType.html'" />
 				<input class="btn-u" type="button" name="" value="按月统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charMonth.html'" />
   </div>
-  <div id="funsionCharts" style="width:800px;height:450px;margin: 0 auto;overflow: auto;"></div>
+  <div id="funsionCharts" style="width:1000px;height:450px;margin: 0 auto;overflow: auto;"></div>
   </div>
 </body>
 </html>

@@ -379,10 +379,6 @@ public interface PurchaseDetailService {
     String selectByPurchaseType(String id);
     List<PurchaseDetail> selectByParentIdList(String id);
     List<PurchaseDetail> selectByTask(PurchaseDetail detail,Integer page);
-    List<PurchaseDetail> selectByDept();
-    List<PurchaseDetail> selectByType();
-    List<Map<String, Object>> selectByMonth();
-    
     /**
      * 
     * @Title: supervisionDetail
@@ -394,4 +390,7 @@ public interface PurchaseDetailService {
     * @return List<PurchaseDetail>
      */
     List<PurchaseDetail> supervisionDetail(HashMap<String, Object> map);
+    List<PurchaseDetail> selectByDept(String orgId);
+    List<PurchaseDetail> selectByType(String orgId);
+    List<Map<String, Object>> selectByMonth(String orgId);
 }

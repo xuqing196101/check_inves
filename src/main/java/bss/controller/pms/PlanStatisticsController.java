@@ -76,6 +76,7 @@ public class PlanStatisticsController extends BaseController {
 	private PurchaseDetailService purchaseDetailService;
 	@Autowired
   private TaskService taskservice;
+	
 	/**
 	 * 
 	* @Title: queryPlan
@@ -311,13 +312,27 @@ public class PlanStatisticsController extends BaseController {
 	@RequestMapping("/taskList")
   public String queryPlan(@CurrentUser User user,Model model,HttpServletResponse response,HttpServletRequest request,Integer page,Task task,String beginDate,String endDate){
 	  long begin=System.currentTimeMillis();
+    if(user.getTypeName().equals("2")){
+	  if(task.getName()!=null){
+	    task.setName(task.getName().trim());
+	  }
+	  if(task.getDocumentNumber()!=null){
+      task.setDocumentNumber(task.getDocumentNumber().trim());
+    }
+	  if(task.getName()!=null){
+      task.setName(task.getName().trim());
+    }
+	  if(task.getName()!=null){
+      task.setName(task.getName().trim());
+    }
 	  task.setCollectId("1");
 	  task.setTaskNature(0);
+	  task.setOrgId(user.getOrg().getId());
 	  if(beginDate!=null&&!"".equals(beginDate.trim())&&endDate!=null&&!"".equals(endDate.trim())){
 	    task.setBeginDate(beginDate);
 	    task.setEndDate(endDate);
 	  }
-	  List<Task> list = taskservice.listByTask(task,page==null?1:page);
+	  List<Task> list = taskservice.searchByTask(task,page==null?1:page);
 	  for (Task tk : list) {
 	    Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(tk.getPurchaseId());
 	    tk.setOrgName(org.getShortName());
@@ -331,20 +346,37 @@ public class PlanStatisticsController extends BaseController {
 	    }
 	     tk.setBudget(bug);
 	  }
-	  List<Orgnization>  allOrg = orgnizationServiceI.findPurchaseOrgByPosition(null);
-    model.addAttribute("allOrg", allOrg);
+	  List<PurchaseOrg> listOrg = purchaseOrgnizationServiceI.getOrg(user.getOrg().getId());
+	  List<Orgnization> list2=new ArrayList<Orgnization>();
+	  for (PurchaseOrg purchaseOrg : listOrg) {
+	    Orgnization orgByPrimaryKey = orgnizationServiceI.getOrgByPrimaryKey(purchaseOrg.getPurchaseDepId());
+      list2.add(orgByPrimaryKey);
+	  }
+    model.addAttribute("allOrg", list2);
 	  PageInfo<Task> info = new PageInfo<>(list);
 	  model.addAttribute("info", info);
 	  model.addAttribute("task", task);
-	  model.addAttribute("beginDate", beginDate);
-	  model.addAttribute("endDate", endDate);
 	  long end=System.currentTimeMillis();
 	  System.out.println("耗时："+(end-begin));
+    }
     return "bss/pms/statistic/task_list";
   }
 	@RequestMapping("/taskDetailList")
-  public String taskDetailList(@CurrentUser User user,Model model,HttpServletResponse response,HttpServletRequest request,Integer page,PurchaseDetail detail){
+  public String taskDetailList(@CurrentUser User user,Model model,HttpServletResponse response,HttpServletRequest request,Integer page,PurchaseDetail detail,String beginDate,String endDate){
 	  
+	  if(user.getTypeName().equals("2")){
+	    if(detail.getGoodsName()!=null){
+	      detail.setGoodsName(detail.getGoodsName().trim());
+	    }
+	    if(detail.getTaskNumber()!=null){
+        detail.setTaskNumber(detail.getTaskNumber().trim());
+      }
+	    
+	  if(beginDate!=null&&!"".equals(beginDate.trim())&&endDate!=null&&!"".equals(endDate.trim())){
+	    detail.setBeginDate(beginDate);
+	    detail.setEndDate(endDate);
+    }
+	  detail.setOrgId(user.getOrg().getId());
 	  List<PurchaseDetail> PurchaseDetailList = purchaseDetailService.selectByTask(detail,page==null?1:page);
 	  for (PurchaseDetail purchaseDetail : PurchaseDetailList) {
       if(purchaseDetail.getPurchaseType()!=null&&!"".equals(purchaseDetail.getPurchaseType())){
@@ -361,11 +393,36 @@ public class PlanStatisticsController extends BaseController {
 	  }
 	  PageInfo<PurchaseDetail> info = new PageInfo<>(PurchaseDetailList);
 	  model.addAttribute("info", info);
+	  model.addAttribute("detail", detail);
+	  model.addAttribute("dataType", DictionaryDataUtil.find(5));
+	  List<PurchaseOrg> listOrg = purchaseOrgnizationServiceI.getOrg(user.getOrg().getId());
+    List<Orgnization> list2=new ArrayList<Orgnization>();
+    for (PurchaseOrg purchaseOrg : listOrg) {
+      Orgnization orgByPrimaryKey = orgnizationServiceI.getOrgByPrimaryKey(purchaseOrg.getPurchaseDepId());
+      if(orgByPrimaryKey!=null){
+        list2.add(orgByPrimaryKey);
+      }
+    }
+    model.addAttribute("allOrg",list2);
+    HashMap<String, Object> map=new HashMap<String, Object>();
+    map.put("typeName", 0);
+    
+    List<PurchaseOrg> byPurchaseDepId = purchaseOrgnizationServiceI.getByPurchaseDepId(user.getOrg().getId());
+    List<Orgnization> list3=new ArrayList<Orgnization>();
+    for (PurchaseOrg purchaseOrg : byPurchaseDepId) {
+      Orgnization orgByPrimaryKey = orgnizationServiceI.getOrgByPrimaryKey(purchaseOrg.getOrgId());
+      if(orgByPrimaryKey!=null){
+        list3.add(orgByPrimaryKey);
+      }
+    }
+    model.addAttribute("allXq", list3);
+	  }
 	  return "bss/pms/statistic/task_detail";
 	}
 	@RequestMapping("/charDept")
   public String charDept(@CurrentUser User user,Model model,HttpServletResponse response,HttpServletRequest request){
-	  List<PurchaseDetail> selectByDept = purchaseDetailService.selectByDept();
+	  if(user.getTypeName().equals("2")){
+	  List<PurchaseDetail> selectByDept = purchaseDetailService.selectByDept(user.getOrg().getId());
 	  List<String> name=new ArrayList<String>();
 	  List<String> data=new ArrayList<String>();
 	  BigDecimal max=BigDecimal.ZERO;
@@ -381,11 +438,13 @@ public class PlanStatisticsController extends BaseController {
 	  model.addAttribute("name", JSON.toJSONString(name));
 	  model.addAttribute("data", JSON.toJSONString(data));
 	  model.addAttribute("max", max);
+	  }
 	 return "bss/pms/statistic/task_dept";
 	}
 	@RequestMapping("/charType")
   public String charType(@CurrentUser User user,Model model,HttpServletResponse response,HttpServletRequest request){
-    List<PurchaseDetail> selectByDept = purchaseDetailService.selectByType();
+	  if(user.getTypeName().equals("2")){
+	  List<PurchaseDetail> selectByDept = purchaseDetailService.selectByType(user.getOrg().getId());
     List<Map<String, Object>> list=new ArrayList<Map<String, Object>>();
     List<String> type=new ArrayList<String>();
     for (PurchaseDetail purchaseDetail : selectByDept) {
@@ -402,11 +461,13 @@ public class PlanStatisticsController extends BaseController {
     }
     model.addAttribute("type", JSON.toJSONString(type));
     model.addAttribute("data", JSON.toJSONString(list));
+	  }
    return "bss/pms/statistic/task_type";
   }
 	@RequestMapping("/charMonth")
   public String charMonth(@CurrentUser User user,Model model,HttpServletResponse response,HttpServletRequest request){
-    List<Map<String, Object>> selectByMonth = purchaseDetailService.selectByMonth();
+	  if(user.getTypeName().equals("2")){
+	  List<Map<String, Object>> selectByMonth = purchaseDetailService.selectByMonth(user.getOrg().getId());
     List<Map<String, Object>> list=new ArrayList<Map<String, Object>>();
     List<String> month=new ArrayList<String>();
     List<String> bud=new ArrayList<String>();
@@ -424,6 +485,7 @@ public class PlanStatisticsController extends BaseController {
     list.add(map);
     model.addAttribute("month", JSON.toJSONString(month));
     model.addAttribute("data", JSON.toJSONString(list));
+	  }
    return "bss/pms/statistic/task_month";
   }
 }

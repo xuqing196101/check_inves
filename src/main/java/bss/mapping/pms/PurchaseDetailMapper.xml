@@ -1537,30 +1537,111 @@
 	</select>
 	<select id="selectByTask" parameterType="bss.model.pms.PurchaseDetail" resultMap="PurchaseRequired_Map">
 		SELECT
-			DETAIL.*,TASK.NAME as taskName,TASK.DOCUMENT_NUMBER as taskNumber,TASK.GIVE_TIME AS taskGiveTime 
+	TAB1. ID,
+	TAB1.seq,
+	TAB1.plan_name,
+	TAB1.plan_no,
+	TAB1.plan_type,
+	TAB1.department,
+	TAB1.material_name,
+	TAB1.taskGiveTime,
+	TAB1.is_master,
+	TAB1.TASKNAME,
+	TAB1.TASKNUMBER,
+	TAB1.item,
+	TAB1.purchase_count,
+	TAB1.price,
+	TAB1.budget,
+	TAB1.organization_id,
+	TAB1.purchase_type,
+	TAB1.isParent
+FROM
+	(
+		SELECT
+			DETAIL.*, TASK. NAME AS taskName,
+			TASK.DOCUMENT_NUMBER AS taskNumber,
+			TASK.GIVE_TIME AS taskGiveTime,
+			DECODE (
+				(
+					SELECT
+						COUNT (*)
+					FROM
+						T_BSS_PMS_PURCHASE_DETAIL dt
+					WHERE
+						DT.PARENT_ID = detail. ID
+				),
+				0,
+				'false',
+				'true'
+			) AS isParent
 		FROM
 			(
 				SELECT
 					COLLECT_ID,
 					GIVE_TIME,
-		      NAME,
-		      DOCUMENT_NUMBER
+					NAME,
+					DOCUMENT_NUMBER
 				FROM
 					T_BSS_PPMS_TASK
 				WHERE
 					collect_id IS NOT NULL
-				AND TASK_NATURE = 0 and IS_DELETED=0
+				AND TASK_NATURE = 0
+				AND IS_DELETED = 0
 				GROUP BY
 					COLLECT_ID,
 					GIVE_TIME,
-		      NAME,
-		      DOCUMENT_NUMBER
+					NAME,
+					DOCUMENT_NUMBER
 			) task
-		inner JOIN T_BSS_PMS_PURCHASE_DETAIL detail ON TASK.COLLECT_ID = DETAIL.UNIQUE_ID
-		order by TASK.GIVE_TIME desc
+		INNER JOIN T_BSS_PMS_PURCHASE_DETAIL detail ON TASK.COLLECT_ID = DETAIL.UNIQUE_ID
+	) tab1 START WITH TAB1.ISPARENT = 'false'
+   <if test="goodsName!=null and goodsName!=''">
+   AND TAB1.material_name LIKE CONCAT(CONCAT('%', #{goodsName}), '%')
+   </if>	
+   <if test="beginDate!=null and endDate!=null">
+        and TAB1.taskGiveTime BETWEEN TO_DATE(#{beginDate},'yyyy-MM-dd HH24:mi:ss') and TO_DATE(#{endDate},'yyyy-MM-dd HH24:mi:ss')
+     </if>
+     <if test="purchaseType!=null and purchaseType!=''">
+        and TAB1.purchase_type=#{purchaseType}
+     </if>
+     <if test="orgId!=null and orgId!=''">
+        and TAB1.organization_id in (select PURCHASE_DEP_ID from T_SES_OMS_PURDEP_ORG where 1=1 and org_id=#{orgId})
+     </if>
+     <if test="organization!=null and organization!=''">
+        and TAB1.organization_id=#{organization}
+     </if>
+     <if test="taskNumber!=null and taskNumber!=''">
+        and TAB1.TASKNUMBER LIKE CONCAT(CONCAT('%', #{taskNumber}), '%')
+     </if>
+     <if test="department!=null and department!=''">
+        and TAB1.department LIKE CONCAT(CONCAT('%', #{department}), '%')
+     </if>
+ CONNECT BY PRIOR TAB1.parent_id = TAB1. ID
+GROUP BY
+	TAB1. ID,
+	TAB1.seq,
+	TAB1.plan_name,
+	TAB1.plan_no,
+	TAB1.plan_type,
+	TAB1.department,
+	TAB1.material_name,
+	TAB1.taskGiveTime,
+	TAB1.is_master,
+	TAB1.TASKNAME,
+	TAB1.TASKNUMBER,
+	TAB1.item,
+	TAB1.purchase_count,
+	TAB1.price,
+	TAB1.budget,
+	TAB1.organization_id,
+	TAB1.purchase_type,
+	TAB1.isParent
+ORDER BY
+	TAB1.taskGiveTime DESC,
+	TAB1.is_master ASC
 	</select>
 	
-	<select id="selectByDept"  resultMap="PurchaseRequired_Map">
+	<select id="selectByDept" parameterType="java.lang.String"  resultMap="PurchaseRequired_Map">
 	select tab.department,SUM(tab.budget) as budget from (
       SELECT
 			detail.*,(select count(*) from T_BSS_PMS_PURCHASE_DETAIL s where s.PARENT_ID=DETAIL.id) as cou
@@ -1577,10 +1658,18 @@
 				GROUP BY
 					COLLECT_ID
 			) task
-		inner JOIN T_BSS_PMS_PURCHASE_DETAIL detail ON TASK.COLLECT_ID = DETAIL.UNIQUE_ID ) tab where TAB.cou=0 and TAB.DEPARTMENT is not null group by tab.DEPARTMENT 
+		inner JOIN T_BSS_PMS_PURCHASE_DETAIL detail ON TASK.COLLECT_ID = DETAIL.UNIQUE_ID ) tab where TAB.cou=0 and TAB.DEPARTMENT is not null
+		  and TAB.DEPARTMENT in (SELECT
+				T2.SHORT_NAME
+			FROM
+				T_SES_OMS_PURDEP_ORG t1 INNER JOIN T_SES_OMS_ORG t2 on T1.ORG_ID=T2.ID
+			WHERE
+				1 = 1
+			AND t1.PURCHASE_DEP_ID =#{orgId} )
+		 group by tab.DEPARTMENT 
 	</select>
 	
-	<select id="selectByType"  resultMap="PurchaseRequired_Map">
+	<select id="selectByType" parameterType="java.lang.String"  resultMap="PurchaseRequired_Map">
 	select tab.PURCHASE_TYPE,SUM(tab.budget) as budget from (
        SELECT
 			detail.*,(select count(*) from T_BSS_PMS_PURCHASE_DETAIL s where s.PARENT_ID=DETAIL.id) as cou
@@ -1597,10 +1686,12 @@
 				GROUP BY
 					COLLECT_ID
 			) task
-		inner JOIN T_BSS_PMS_PURCHASE_DETAIL detail ON TASK.COLLECT_ID = DETAIL.UNIQUE_ID ) tab where TAB.cou=0 and TAB.PURCHASE_TYPE is not null group by tab.PURCHASE_TYPE 
+		inner JOIN T_BSS_PMS_PURCHASE_DETAIL detail ON TASK.COLLECT_ID = DETAIL.UNIQUE_ID ) tab where TAB.cou=0 and TAB.PURCHASE_TYPE is not null 
+		 and tab.organization_id  in (select PURCHASE_DEP_ID from T_SES_OMS_PURDEP_ORG where 1=1 and org_id=#{orgId})
+		group by tab.PURCHASE_TYPE 
 	</select>
 	
-	<select id="selectByMonth"  resultType="Map">
+	<select id="selectByMonth" parameterType="java.lang.String"  resultType="Map">
 	select TO_CHAR(tab.GIVE_TIME,'yyyy-mm') as taskGiveTime ,SUM(tab.budget) as budget from (
 		SELECT
 					detail.*,task.GIVE_TIME,(select count(*) from T_BSS_PMS_PURCHASE_DETAIL s where s.PARENT_ID=DETAIL.id) as cou
@@ -1619,7 +1710,9 @@
 							COLLECT_ID,
 		GIVE_TIME
 					) task
-		inner JOIN T_BSS_PMS_PURCHASE_DETAIL detail ON TASK.COLLECT_ID = DETAIL.UNIQUE_ID ) tab where TAB.cou=0 and  TO_CHAR(tab.GIVE_TIME,'yyyy')=TO_CHAR(SYSDATE,'yyyy') group by TO_CHAR(tab.GIVE_TIME,'yyyy-mm') order by taskGiveTime 
+		inner JOIN T_BSS_PMS_PURCHASE_DETAIL detail ON TASK.COLLECT_ID = DETAIL.UNIQUE_ID ) tab where TAB.cou=0 and
+		 tab.organization_id  in (select PURCHASE_DEP_ID from T_SES_OMS_PURDEP_ORG where 1=1 and org_id=#{orgId}) and
+		  TO_CHAR(tab.GIVE_TIME,'yyyy')=TO_CHAR(SYSDATE,'yyyy') group by TO_CHAR(tab.GIVE_TIME,'yyyy-mm') order by taskGiveTime 
 	 
 	</select>
 	

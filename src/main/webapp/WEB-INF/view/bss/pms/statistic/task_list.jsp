@@ -77,8 +77,8 @@
 							type="text" name="documentNumber" value="${task.documentNumber }" />
 					</span></li>
 					<li><label class="fl"> 下达时间：</label> 
-					<input type="text" name="beginDate" id="draftReviewedAt" value="${beginDate}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w150"/>
-					<span class="fl" style="font-size: 14px;">至</span><span> <input type="text" name="endDate" id="draftReviewedAt" value="${endDate}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w150"/>
+					<input type="text" name="beginDate" id="draftReviewedAt" value="${task.beginDate}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w150"/>
+					<span class="fl" style="font-size: 14px;">至</span><span> <input type="text" name="endDate" id="draftReviewedAt" value="${task.endDate}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w150"/>
 					</span></li>
 					<li><label class="fl"> 下达部门：</label><span> 
                           <select name="purchaseId" id="purchaseId" class="w220">

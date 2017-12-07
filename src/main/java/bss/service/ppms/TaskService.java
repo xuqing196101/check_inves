@@ -113,4 +113,5 @@ public interface TaskService {
 	 void updateDetail(List<PurchaseDetail> list, String taskId);
 	 
 	 List<Task> selectByProjectTask(String projectId);
+	 List<Task> searchByTask(Task record,Integer page);
 }
