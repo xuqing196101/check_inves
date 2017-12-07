@@ -186,14 +186,14 @@ public interface SupplierService {
 	/**
 	 * 
 	* @Title: queryCategoyrId
-	* @Description:查询出供应商所索要上传的资质文件
+	* @Description:查询出供应商所要上传的资质文件
 	* author: Li Xiaoxiao 
 	* @param @param list
 	* @param @return     
 	* @return List<QualificationBean>     
 	* @throws
 	 */
-   public List<QualificationBean>  queryCategoyrId(List<Category> list, Integer quaType);
+   public List<QualificationBean> getQuaList(List<Category> list, Integer quaType);
 
    /**
     * 

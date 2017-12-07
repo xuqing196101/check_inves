@@ -519,25 +519,25 @@ function showReason() {
 
 // 树节点展开的回调事件
 function zTreeOnExpand(event, treeId, treeNode) {
-	$("a[title='" + treeNode.name + "']").next("ul").removeAttr("style");
+	$("a[title='" + delHtmlTag(treeNode.name) + "']").next("ul").removeAttr("style");
 }
 
 function searchCate(cateId, treeId, type, seq, code) {
 	var zNodes;
 	var zTreeObj;
 	var setting = {
-		/*async : {
+		async : {
 			autoParam : [ "id", "code" ],
 			enable : true,
 			url : globalPath + "/supplier_item/loadCategory.do",
 			otherParam : {
-				"code" : code,
+				"code" : type,
 				"supplierId" : $("#supplierId").val(),
 				"status" : seq
 			},
 			dataType : "json",
 			type : "post",
-		},*/
+		},
 		view: {
             showLine: true,
             nameIsHTML: true
@@ -595,10 +595,10 @@ function searchCate(cateId, treeId, type, seq, code) {
 					var allNodes = zTreeObj.transformToArray(zTreeObj
 							.getNodes());
 					if (allNodes && allNodes.length > 0) {
-						// 最后一个节点
-						var lastNode = allNodes[allNodes.length - 1];
-						if (lastNode.isParent) {
-							zTreeObj.expandNode(lastNode, false);// 折叠最后一个节点
+						for(var i = 0, len = allNodes.length; i < len; i++) {
+							if (!allNodes[i].children) {// 
+								zTreeObj.expandNode(allNodes[i], false);// 折叠没有子节点的节点
+							}
 						}
 						/*// 高亮显示搜索文本
 						var tx = "工程";

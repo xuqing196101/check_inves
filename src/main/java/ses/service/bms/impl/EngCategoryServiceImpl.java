@@ -809,7 +809,7 @@ public class EngCategoryServiceImpl implements EngCategoryService {
 			// 所有等级List
 			List < Category > cateList = new ArrayList < Category > ();
 			cateList.add(categoryService.selectByPrimaryKey(cateTree.getSecondNodeID()));
-			List < QualificationBean > type = supplierService.queryCategoyrId(cateList, 4);
+			List < QualificationBean > type = supplierService.getQuaList(cateList, 4);
 			List < Qualification > typeList = new ArrayList < Qualification > ();
 			if(type != null && type.size() > 0 && type.get(0).getList() != null && type.get(0).getList().size() > 0) {
 				typeList = type.get(0).getList();

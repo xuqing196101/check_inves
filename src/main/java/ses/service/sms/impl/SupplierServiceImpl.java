@@ -783,13 +783,12 @@ public class SupplierServiceImpl implements SupplierService {
    */
   @Override
   public Integer getCountMobile(String mobile) {
-
     return supplierMapper.getCountMobile(mobile);
   }
 
 
   @Override
-  public List<QualificationBean> queryCategoyrId(List<Category> list, Integer quaType) {
+  public List<QualificationBean> getQuaList(List<Category> list, Integer quaType) {
     List<QualificationBean> quaList = new ArrayList<QualificationBean>();
     List<Category> newList = new ArrayList<Category>();
     for (int i = 0; i < list.size(); i++) {

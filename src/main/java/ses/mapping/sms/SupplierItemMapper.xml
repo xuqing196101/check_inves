@@ -427,7 +427,7 @@
 		<include refid="Base_Column_List"/>
 				from
 				T_SES_SMS_SUPPLIER_ITEM
-				where SUPPLIER_ID = #{supplierId} and SUPPLIER_TYPE_RELATE_ID=#{type}
+				where SUPPLIER_ID = #{supplierId} and SUPPLIER_TYPE_RELATE_ID = #{type}
 	</select> 
 	
 	<!-- 品目id查询类型 -->
@@ -629,20 +629,26 @@
 			WHERE SUPPLIER_ID = #{supplierId}
 			AND SUPPLIER_TYPE_RELATE_ID = #{code}
 			AND CATEGORY_ID IN(
-			SELECT ID
-				FROM T_SES_BMS_CATEGORY 
-				WHERE 1 = 1
-				AND IS_PUBLISH = 0 
-				AND IS_DELETED = 0 
+				SELECT ID
+				FROM(
+					SELECT ID,PARENT_ID
+					FROM T_SES_BMS_CATEGORY 
+					WHERE 1 = 1
+					AND IS_PUBLISH = 0 
+					AND IS_DELETED = 0 
+				)
 				START WITH (ID = #{categoryId}) 
 				CONNECT BY PRIOR ID = PARENT_ID 
 			)
 		) = (
 			SELECT COUNT(ID)
-			FROM T_SES_BMS_CATEGORY 
-			WHERE 1 = 1
-			AND IS_PUBLISH = 0 
-			AND IS_DELETED = 0 
+			FROM(
+				SELECT ID,PARENT_ID
+				FROM T_SES_BMS_CATEGORY 
+				WHERE 1 = 1
+				AND IS_PUBLISH = 0 
+				AND IS_DELETED = 0 
+			)
 			START WITH (ID = #{categoryId}) 
 			CONNECT BY PRIOR ID = PARENT_ID
 		)
@@ -724,6 +730,4 @@
 		</where>
 	</delete>
 	
-	<!-- countItemsInCate -->
-
 </mapper>
