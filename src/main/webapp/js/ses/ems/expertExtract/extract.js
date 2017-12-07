@@ -1200,11 +1200,13 @@ function savePerson(){
 
 //重置抽取条件
 function extractReset(){
+	var conId = $("#conditionId").val();
     $("#div_3").find("input").val("");
     var SelectArr = $("#div_3").find("select");
     for (var i = 0; i < SelectArr.length; i++) {
         SelectArr[i].options[0].selected = true; 
     }
+    $("#conditionId").val(conId);
     //清空校验提示信息
     $("#err_provincesel").html("");
     $("#err_extractNum").html("");
