@@ -488,6 +488,7 @@ public class ExpertQueryController {
         	expertAudit.setExpertId(expertId);
         	expertAudit.setAuditFalg(1);
             expertAudit.setSuggestType("six");
+            expertAudit.setAuditStatus("6");
             expertAudit.setAuditFieldId(cate.getItemsId());
             //初审理由
             ExpertAudit firstAuditInfo = expertAuditService.findAuditByExpertId(expertAudit);
