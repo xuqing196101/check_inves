@@ -1123,6 +1123,7 @@ public class ExpertAuditController{
             cate.setRootNode(cate.getRootNode());
             
             if(sign != null && sign==2){
+            	expertAudit.setAuditStatus("6");
             	expertAudit.setExpertId(expertId);
             	expertAudit.setAuditFalg(1);
             	
