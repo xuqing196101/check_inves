@@ -862,7 +862,7 @@ function opens(cate) {
     var ids = coUndifined($("#"+typeCode.toLowerCase()+"_type").val());
     var isSatisfy = coUndifined($("#"+typeCode.toLowerCase()+"_isSatisfy").val());
     //获取类别
-    cate.value = "";
+    //cate.value = "";
     //  iframe层
     var iframeWin;
     layer.open({

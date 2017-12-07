@@ -30,8 +30,8 @@ import bss.service.ppms.AdvancedProjectService;
 import bss.service.ppms.ProjectService;
 
 import com.alibaba.fastjson.JSON;
-import common.annotation.CurrentUser;
 
+import common.annotation.CurrentUser;
 import extract.model.expert.ExpertExtractCateInfo;
 import extract.model.expert.ExpertExtractCondition;
 import extract.model.expert.ExpertExtractProject;
@@ -300,6 +300,20 @@ public class ExtractExpertController {
         model.addAttribute("type", type);
         model.addAttribute("ids", id);
         model.addAttribute("isSatisfy", isSatisfy);
+        List<String> nameList = new ArrayList<String>();
+        for (String categoryId : id.split(",")) {
+        	Category category = categoryService.findById(categoryId == null ? "" : categoryId);
+			nameList.add(category == null ? "" : category.getName());
+		}
+        StringBuffer names = new StringBuffer();
+        for (String string : nameList) {
+        	names.append(string + ",");
+		}
+        String vname = "";
+        if(names != null && names.toString().length() > 0){
+        	vname = names.toString().substring(0, names.toString().length() - 1);
+        }
+        model.addAttribute("names", vname);
         return "ses/ems/exam/expert/extract/product";
     }
     

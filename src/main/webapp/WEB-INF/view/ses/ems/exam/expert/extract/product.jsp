@@ -2,13 +2,23 @@
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<%@ include file="/WEB-INF/view/common.jsp" %>
+<head>
+<%@ include file="/WEB-INF/view/common.jsp" %>
 <script type="text/javascript">
 	var key;
 	var zTreeObj;
 	var temp = new Array();
+	var idTemp = new Array();
+	var nameTemp = new Array();
 	$(function() {
+		var idArr = '${ids}';
+		var nameArr = '${names}';
+		if(idArr != ""){
+			Array.prototype.push.apply(idTemp, idArr.split(","));
+		}
+		if(nameArr != ""){
+			Array.prototype.push.apply(nameTemp, nameArr.split(","));
+		}
 		var zNodes;
 		loadZtree();
 		//加载目录树
@@ -64,6 +74,19 @@
 	          layer.msg("请在末节点上进行操作！");
 	          return false;
 	    }else{
+	    	if(treeNode.checked){
+	    		//取消勾选
+		    	if(contains(idTemp,treeNode.id)){
+		    		removeByValue(idTemp,treeNode.id);
+		    		removeByValue(nameTemp,treeNode.name);
+		    	}
+	    	}else{
+	    		//勾选
+	    		if(!contains(idTemp,treeNode.id)){
+		    		idTemp.push(treeNode.id);
+		    		nameTemp.push(treeNode.name);
+		    	}
+	    	}
 	    	return true;
 	    }
 	}
@@ -174,8 +197,8 @@
 		//是否满足
 		var issatisfy = $('input[name="radio"]:checked ').val();
 		if (cate != null) {
-			$(cate).val(names.toString());/* 将选中目录名称显示在输入框中 */
-			$(cate).parents("li").find(".categoryId").val(ids.toString());
+			$(cate).val(nameTemp.toString());/* 将选中目录名称显示在输入框中 */
+			$(cate).parents("li").find(".categoryId").val(idTemp.toString());
 			$(cate).parents("li").find(".isSatisfy").val(issatisfy);
 		}
 		var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
@@ -206,6 +229,15 @@
 		return false;
 	}
 	
+	//删除数组中元素
+	function removeByValue(arr, val) {
+		for (var i = 0; i < arr.length; i++) {
+			if (arr[i] == val) {
+				arr.splice(i, 1);
+				break;
+			}
+		}
+	}
 	function exptype() {
 		$("#ztree").css("display", "none");
 		$("#liradio").css("display", "none");
@@ -216,7 +248,7 @@
 			}
 		}
 	}
-	
+
 	function exptype1() {
 		$("#ztree").css("display", "block");
 		$("#liradio").css("display", "block");
@@ -227,7 +259,6 @@
 	//品目搜索
 	function searchCate() {
 		var code = '${type}';
-		var ids = '${ids}';
 		var zTreeObj;
 		var setting = {
 			check : {
@@ -249,6 +280,7 @@
 			},
 			callback : {
 				onCheck : onCheck,
+				beforeCheck: zTreeBeforeCheck,
 			},
 			view : {
 				fontCss : getFontCss,
@@ -264,23 +296,24 @@
 		if (cateName == "" && codeName == "") {
 			location.reload();
 		} else {
-			$.ajax({
-				url : "${pageContext.request.contextPath}/extractExpert/searchCate.do",
-				type : "post",
-				data : {
-					"code" : code,
-					"cateName" : cateName,
-					"ids" : ids,
-					"codeName" : codeName,
-				},
-				async : false,
-				dataType : "json",
-				success : function(data) {
-					zTreeObj = $.fn.zTree.init($("#ztree"), setting,
-							data);
-					zTreeObj.expandAll(true); //全部展开
-				}
-			});
+			$
+					.ajax({
+						url : "${pageContext.request.contextPath}/extractExpert/searchCate.do",
+						type : "post",
+						data : {
+							"code" : code,
+							"cateName" : cateName,
+							"ids" : idTemp.toString(),
+							"codeName" : codeName,
+						},
+						async : false,
+						dataType : "json",
+						success : function(data) {
+							zTreeObj = $.fn.zTree.init($("#ztree"), setting,
+									data);
+							zTreeObj.expandAll(true); //全部展开
+						}
+					});
 		}
 		layer.close(index);
 		// 过滤掉四级以下的节点
