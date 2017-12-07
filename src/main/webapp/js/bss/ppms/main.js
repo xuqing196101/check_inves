@@ -106,6 +106,8 @@ function jumpLoad(url, projectId, flowDefineId) {
 		success: function(data) {
 			if(data.next == '1') {
 				layer.alert(data.name + "环节未结束");
+			} else if (data.next == '3') {
+				layer.alert("请到基本信息填写最少供应商");
 			} else {
 				$.ajax({
 					url: globalPath+"/open_bidding/getNextFd.do?flowDefineId=" + flowDefineId + "&projectId=" + projectId,

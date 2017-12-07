@@ -129,6 +129,9 @@
 			$(".p0" + i).addClass("hide");
 		};
 	});
+	function printWordPrice(projectId,packId){
+		location.href='${pageContext.request.contextPath}/open_bidding/printWordPrice.html?projectId='+projectId+'&packId='+packId;
+	}
   </script>
   <body>
  <c:if test="${status == false }"> 
@@ -155,6 +158,10 @@
 			 	</h2>
 			 </c:if>
         </div>
+        <c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
+        <c:set value="${treemapValue.packages}" var="packsIds"></c:set>
+       </c:forEach>
+        <div class="fl"><button class="btn" onclick="printWordPrice('${project.id}','${packsIds}')">打印报价</button> </div>
         <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'YZZ'
          && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJZXTP'
           && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJTSHZ'
@@ -197,36 +204,31 @@
 		</c:forEach>
 		<c:if test="${dd.code eq 'JZXTP' || dd.code eq 'DYLY'}">
 	        <c:if test="${isEndPrice !=1 }">
-	        	
-        		 <button class="btn" <c:if test="${isEditFirst == 0 }">disabled="disabled"</c:if> onclick = "quoteAgain('${project.id}','${packId}',1)">再次报价</button>
+        		 <button class="btn" <c:if test="${isEditFirst == 1 }">disabled="disabled"</c:if> onclick = "quoteAgain('${project.id}','${packId}',1)"><c:if test="${empty treemap.value[0].dataList}">开始报价</c:if><c:if test="${fn:length(treemap.value[0].dataList)>=1}">再次报价</c:if></button>
         		 <span class="ml50">查看历史报价:</span>
 				 <select onchange="showQuoteHistory('${project.id}','${packId}',this.options[this.options.selectedIndex].value)">
-						<c:if test="${empty treemap.value[0].dataList or fn:length(treemap.value[0].dataList) == 1}">
+						<c:if test="${empty treemap.value[0].dataList}">
 							<option value=''>暂无报价历史</option>
 						</c:if>
 						<c:set value="${fn:length(treemap.value[0].dataList)}" var="length"></c:set>
-						<c:if test="${fn:length(treemap.value[0].dataList) > 1}">
 							<c:forEach items="${treemap.value[0].dataList}" var="ld" varStatus="vs">
 								<c:set value="${length - vs.index}" var="result"></c:set>
 								<option value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>'>第${result}轮报价</option>
 							</c:forEach>
-						</c:if>
 			 	 </select>
         	</c:if>
         	 <c:if test="${isEndPrice ==1 }">
-        		 <button class="btn">已结束唱标</button>
+        		 <button class="btn" disabled="disabled">已结束唱标</button>
         		 <span class="ml50">查看历史报价:</span>
 				 <select onchange="showQuoteHistory('${project.id}','${packId}',this.options[this.options.selectedIndex].value)">
-						<c:if test="${empty treemap.value[0].dataList or fn:length(treemap.value[0].dataList) == 1 }">
+						<c:if test="${empty treemap.value[0].dataList }">
 							<option value=''>暂无报价历史</option>
 						</c:if>
 						<c:set value="${fn:length(treemap.value[0].dataList)}" var="length"></c:set>
-						<c:if test="${fn:length(treemap.value[0].dataList) > 1}">
 							<c:forEach items="${treemap.value[0].dataList}" var="ld" varStatus="vs">
 								<c:set value="${length - vs.index}" var="result"></c:set>
 								<option value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>'>第${result}轮报价</option>
 							</c:forEach>
-						</c:if>
 			 	 </select>
         	</c:if>
 		 </c:if>
@@ -256,23 +258,21 @@
 				 </c:if>
 				 <c:if test="${dd.code eq 'JZXTP' || dd.code eq 'DYLY'}">
 			        	<c:if test="${listPackage.isEndPrice != 1 }">
-			        		<button class="btn" onclick = "quoteAgain('${project.id}','${listPackage.id}')">再次报价</button>
+			        		<button class="btn" onclick = "quoteAgain('${project.id}','${listPackage.id}')"><c:if test="${empty listPackage.dataList }">开始报价</c:if><c:if test="${fn:length(listPackage.dataList)>=1 }">再次报价</c:if></button>
 			        	</c:if>
 			        	 <c:if test="${listPackage.isEndPrice ==1 }">
-			        		<button class="btn">已结束唱标</button>
+			        		<button class="btn" disabled="disabled">已结束唱标</button>
 			        	</c:if>
 			        	<span class="ml50">查看历史报价:</span>
 						 <select onchange="showQuoteHistoryMingxi('${project.id}','${listPackage.id}',this.options[this.options.selectedIndex].value)">
 						 	<c:set value="${fn:length(listPackage.dataList)}" var="length"></c:set>
-						 	<c:if test="${empty listPackage.dataList or fn:length(listPackage.dataList) == 1 }">
+						 	<c:if test="${empty listPackage.dataList }">
 						 		<option value=''>暂无报价历史</option>
 						 	</c:if>
-						 	<c:if test="${not empty listPackage.dataList and fn:length(listPackage.dataList) > 1}">
 								<c:forEach items="${listPackage.dataList}" var="ld" varStatus="vs">
 									<c:set value="${length - vs.index}" var="result"></c:set>
 									<option value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>'>第${result}轮报价</option>
 								</c:forEach>
-							</c:if>
 					 	 </select>
 					 </c:if>
                </div>
@@ -283,7 +283,7 @@
 							<thead>
 								<tr>
 									<th class="info w50">序号</th>
-									<th class="info">物资名称</th>
+									<th class="info">产品名称</th>
 									<th class="info">规格<br/>型号</th>
 									<th class="info">质量技术<br/>标准</th>
 									<th class="info">计量<br/>单位</th>

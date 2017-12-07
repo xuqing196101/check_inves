@@ -26,6 +26,7 @@ import ses.model.bms.User;
 import ses.model.oms.PurchaseInfo;
 import ses.model.sms.Quote;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 import bss.dao.pms.PurchaseDetailMapper;
@@ -51,7 +52,6 @@ import com.github.pagehelper.PageHelper;
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
-import common.service.impl.UploadServiceImpl;
 
 /**
  * 
@@ -187,7 +187,7 @@ public class ProjectServiceImpl implements ProjectService {
      * @return
      */
     @Override
-    public List<Project>  provisionalList(Integer page, Project project){
+    public List<Project> provisionalList(Integer page, Project project){
         PropertiesUtil config = new PropertiesUtil("config.properties");
         PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
         List<Project> lists = projectMapper.provisionalList(project);
@@ -728,80 +728,86 @@ public class ProjectServiceImpl implements ProjectService {
       //判断是否要进入开标环节
         int count = 0;
         Project project = projectMapper.selectProjectByPrimaryKey(projectId);
-        FlowDefine fds = new FlowDefine();
-        fds.setPurchaseTypeId(project.getPurchaseType());
-        List<FlowDefine> find = flowDefineMapper.findList(fds);
-        for (FlowDefine flowDefine : find) {
-            if("KBCB".equals(flowDefine.getCode())){
-                count = flowDefine.getStep();
-                break;
-            }
-        }
-        FlowDefine define = flowDefineMapper.get(flowDefineId);
-        // 组织专家评审前判断开标唱标是否完成
-        if(define != null && "ZZZJPS".equals(define.getCode()) && define.getStep() >= count){
-            FlowExecute execute = new FlowExecute();
-            execute.setProjectId(projectId);
-            execute.setStep(8);
-            List<FlowExecute> executes = flowExecuteMapper.findList(execute);
-            StringBuffer sb = new StringBuffer();
-            if(executes != null && !executes.isEmpty()){
-                for (FlowExecute fe : executes){
-                    sb.append(fe.getStatus() + ",");
-                }
-                if(!sb.toString().contains("3")){
-                    FlowDefine define2 = flowDefineMapper.get(executes.get(0).getFlowDefineId());
-                    jsonObj.put("name", define2.getName());
-                    jsonObj.put("next", "1");
-                    return jsonObj;
-                }
-            }
-        }
+        if (project.getSupplierNumber() == null) {
+        	jsonObj.put("next", "3");
+            return jsonObj;
+		} else {
+			FlowDefine fds = new FlowDefine();
+	        fds.setPurchaseTypeId(project.getPurchaseType());
+	        List<FlowDefine> find = flowDefineMapper.findList(fds);
+	        for (FlowDefine flowDefine : find) {
+	            if("KBCB".equals(flowDefine.getCode())){
+	                count = flowDefine.getStep();
+	                break;
+	            }
+	        }
+	        FlowDefine define = flowDefineMapper.get(flowDefineId);
+	        // 组织专家评审前判断开标唱标是否完成
+	        if(define != null && "ZZZJPS".equals(define.getCode()) && define.getStep() >= count){
+	            FlowExecute execute = new FlowExecute();
+	            execute.setProjectId(projectId);
+	            execute.setStep(8);
+	            List<FlowExecute> executes = flowExecuteMapper.findList(execute);
+	            StringBuffer sb = new StringBuffer();
+	            if(executes != null && !executes.isEmpty()){
+	                for (FlowExecute fe : executes){
+	                    sb.append(fe.getStatus() + ",");
+	                }
+	                if(!sb.toString().contains("3")){
+	                    FlowDefine define2 = flowDefineMapper.get(executes.get(0).getFlowDefineId());
+	                    jsonObj.put("name", define2.getName());
+	                    jsonObj.put("next", "1");
+	                    return jsonObj;
+	                }
+	            }
+	        }
 
-        if(define != null && !"ZZZJPS".equals(define.getCode()) && define.getStep() >= count){
-            //根据采购方式获取当前所有的环节
-            FlowDefine fd = new FlowDefine();
-            fd.setPurchaseTypeId(project.getPurchaseType());
-            List<FlowDefine> defines = flowDefineMapper.findList(fd);
-            List<FlowDefine> list = new ArrayList<FlowDefine>();
-            if(defines != null && defines.size() > 0){
-               //根据当前环节的步骤获取前面的环节
-                for (FlowDefine flowDefine : defines) {
-                    if(flowDefine.getStep() < define.getStep()){
-                        if(!"CQPSZJ".equals(flowDefine.getCode()) && !"XMXX".equals(flowDefine.getCode())){
-                            list.add(flowDefine);
-                        }
-                    }
-                }
-            }
-            
-            //获取到所有小于当前环节的流程
-            if(list != null && list.size() > 0){
-                for (FlowDefine flowDefine : list) {
-                    FlowExecute execute = new FlowExecute();
-                    execute.setProjectId(projectId);
-                    execute.setFlowDefineId(flowDefine.getId());
-                    List<FlowExecute> executes = flowExecuteMapper.findList(execute);
-                    if(executes != null && executes.size() > 0){
-                        for (int i = 0; i < executes.size(); i++ ) {
-                            //判断每一个环节是否有环节结束的状态，有的话跳出循环
-                            if(executes.get(i).getStatus() == 3){
-                                break;
-                            } else if (i == executes.size() - 1){
-                                FlowDefine define2 = flowDefineMapper.get(executes.get(i).getFlowDefineId());
-                                if(!define2.getCode().equals("XMXX")){
-                                  jsonObj.put("name", define2.getName());
-                                  jsonObj.put("next", "1");
-                                }
-                                return jsonObj;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        jsonObj.put("next", "2");
-        return jsonObj;
+	        if(define != null && !"ZZZJPS".equals(define.getCode()) && define.getStep() >= count){
+	            //根据采购方式获取当前所有的环节
+	            FlowDefine fd = new FlowDefine();
+	            fd.setPurchaseTypeId(project.getPurchaseType());
+	            List<FlowDefine> defines = flowDefineMapper.findList(fd);
+	            List<FlowDefine> list = new ArrayList<FlowDefine>();
+	            if(defines != null && defines.size() > 0){
+	               //根据当前环节的步骤获取前面的环节
+	                for (FlowDefine flowDefine : defines) {
+	                    if(flowDefine.getStep() < define.getStep()){
+	                        if(!"CQPSZJ".equals(flowDefine.getCode()) && !"XMXX".equals(flowDefine.getCode())){
+	                            list.add(flowDefine);
+	                        }
+	                    }
+	                }
+	            }
+	            
+	            //获取到所有小于当前环节的流程
+	            if(list != null && list.size() > 0){
+	                for (FlowDefine flowDefine : list) {
+	                    FlowExecute execute = new FlowExecute();
+	                    execute.setProjectId(projectId);
+	                    execute.setFlowDefineId(flowDefine.getId());
+	                    List<FlowExecute> executes = flowExecuteMapper.findList(execute);
+	                    if(executes != null && executes.size() > 0){
+	                        for (int i = 0; i < executes.size(); i++ ) {
+	                            //判断每一个环节是否有环节结束的状态，有的话跳出循环
+	                            if(executes.get(i).getStatus() == 3){
+	                                break;
+	                            } else if (i == executes.size() - 1){
+	                                FlowDefine define2 = flowDefineMapper.get(executes.get(i).getFlowDefineId());
+	                                if(!define2.getCode().equals("XMXX")){
+	                                  jsonObj.put("name", define2.getName());
+	                                  jsonObj.put("next", "1");
+	                                }
+	                                return jsonObj;
+	                            }
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	        jsonObj.put("next", "2");
+	        return jsonObj;
+		}
+        
     }
 
     @Override
@@ -976,7 +982,6 @@ public class ProjectServiceImpl implements ProjectService {
         return projectMapper.selectByProject(map);
     }
 
-    @Override
     public String isUseForPlanDetail(String projectId, String detailId) {
         PurchaseDetail purchaseDetail = purchaseDetailMapper.selectByPrimaryKey(detailId);
         if (purchaseDetail != null && purchaseDetail.getProjectStatus() == 1) {
@@ -1101,5 +1106,17 @@ public class ProjectServiceImpl implements ProjectService {
 	public Project newSelectById(String id) {
 		
 		return projectMapper.newSelectById(id);
+	}
+
+	@Override
+	public List<Project> listByAll(HashMap<String, Object> map) {
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+		return projectMapper.listByAll(map);
+	}
+
+	@Override
+	public List<Project> supervisionProjectAll(HashMap<String, Object> map) {
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+		return projectMapper.supervisionProjectAll(map);
 	} 
   }

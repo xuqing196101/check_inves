@@ -1004,7 +1004,7 @@
 				<form id="myForm" action="${pageContext.request.contextPath}/purchaseContract/validAddRe.html">
 				  <ul class="list-unstyled">
 				    <li class="mt10 col-md-12 p0">
-		    	      <label class="col-md-12 pl20"><div class="red star_red">*</div>物资名称：</label>
+		    	      <label class="col-md-12 pl20"><div class="red star_red">*</div>产品名称：</label>
 		    	      <span class="col-md-12">
 		    	      <div class="input-long">
 	                   <input type="hidden" id="categorieId4" name="categoryId" value=""><!-- onclick=" showMenu(); return false;" -->

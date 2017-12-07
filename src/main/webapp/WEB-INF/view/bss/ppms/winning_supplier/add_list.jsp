@@ -201,7 +201,7 @@
             <input type="checkbox" id="checkAll" disabled="disabled" onclick="selectAll()" />
           </th>
           <th class="tc w50"><input type="hidden" name="cks" />编号</th>
-          <th>物资名称</th>
+          <th>产品名称</th>
           <th>规格型号</th>
           <th>品牌商标</th>
           <th>质量技术标准</th>
@@ -239,7 +239,7 @@
             <input type="checkbox" disabled="disabled" name="ck111s" />
           </th>
           <th >编号</th>
-          <th >物资名称</th>
+          <th >产品名称</th>
           <th >规格型号</th>
           <th width="">品牌商标</th>
           <th width="">质量技术标准</th>

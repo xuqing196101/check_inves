@@ -29,7 +29,6 @@ import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.service.pms.PurchaseRequiredService;
-
 import ses.dao.bms.UserMapper;
 import ses.dao.oms.OrgnizationMapper;
 import ses.dao.sms.SupplierMapper;
@@ -103,7 +102,7 @@ public class DemandSupervisionServiceImpl implements DemandSupervisionService {
 
     @Override
     public Integer projectStatus(String id) {
-        HashMap<String, Object> map = new HashMap<>();
+       /* HashMap<String, Object> map = new HashMap<>();
         map.put("fileId", id);
         List<PurchaseDetail> details = purchaseDetailMapper.getByMap(map);
         if(details != null && details.size() > 0){
@@ -148,7 +147,33 @@ public class DemandSupervisionServiceImpl implements DemandSupervisionService {
                 }
             }
         }
-        return null;
+        return null;*/
+    	List<String> supervisionProjectId = purchaseDetailMapper.supervisionProjectId(id);
+    	if (supervisionProjectId != null && !supervisionProjectId.isEmpty()) {
+    		List<String> status = new ArrayList<String>();
+			for (String string : supervisionProjectId) {
+				Project project = projectMapper.selectProjectByPrimaryKey(string);
+            	if(project != null && !"4".equals(project.getStatus())){
+                	DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
+                	if(!"YJFB".equals(findById.getCode())){
+                		String projectStatus = supervisionService.progressBarProject(project.getStatus());
+                        String proStatus = projectStatus + ".00";
+                        status.add(proStatus);
+                	}
+                }
+			}
+			if(status != null && status.size() > 0){
+                Integer num = 0;
+                for (String string : status) {
+                    double number = Double.valueOf(string)/status.size();
+                    BigDecimal b = new BigDecimal(number);
+                    double total = b.setScale(0,BigDecimal.ROUND_HALF_UP).doubleValue();
+                    num += (int)total;
+                }
+                return num;
+            }
+		}
+    	return null;
     }
 
     @Override

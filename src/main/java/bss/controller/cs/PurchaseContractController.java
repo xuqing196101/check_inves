@@ -2589,7 +2589,7 @@ public class PurchaseContractController extends BaseSupplierController {
         Map<String, Object> map = new HashMap<String, Object>();
         if (ValidateUtils.isNull(conRe.getGoodsName())) {
             flag = false;
-            map.put("wzmc", "物资名称不能为空");
+            map.put("wzmc", "产品名称不能为空");
         }
         if (ValidateUtils.isNull(conRe.getPlanNo())) {
             flag = false;
@@ -3124,7 +3124,7 @@ public class PurchaseContractController extends BaseSupplierController {
         List<String> headers = new ArrayList<String>();
         headers.add("序号");
         headers.add("编号");
-        headers.add("物资名称");
+        headers.add("产品名称");
         headers.add("品牌商标");
         headers.add("规格型号");
         headers.add("计量单位");

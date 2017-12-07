@@ -125,7 +125,7 @@
       function trimNull(notAttrtr,numb){
     	  var trimFlog=false;
     	  if($.trim($($(notAttrtr).children()[3]).children(":first").val()) == "") {
-              layer.alert("第"+(numb+1)+"行，需求明细中物资类别及物资名称不能为空");
+              layer.alert("第"+(numb+1)+"行，需求明细中产品名称不能为空");
               trimFlog=true;
             } /* else if($.trim($($(notAttrtr).children()[5]).children(":first").val()) == "") {
               layer.alert("第"+(numb+1)+"行，需求明细中质量技术标准不能为空");
@@ -1475,7 +1475,7 @@
                     <th class="w50">行号</th>
                     <th class="w50">序号</th>
                     <th class="w80">需求部门</th>
-                    <th class="w180">物资类别及物资名称</th>
+                    <th class="w180">产品名称</th>
                     <th class="w80">规格型号</th>
                     <th class="w180">质量技术标准（技术参数）</th>
                     <th class="w80">计量单位</th>

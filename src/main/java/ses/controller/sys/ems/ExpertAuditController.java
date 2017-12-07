@@ -1123,6 +1123,7 @@ public class ExpertAuditController{
             cate.setRootNode(cate.getRootNode());
             
             if(sign != null && sign==2){
+            	expertAudit.setAuditStatus("6");
             	expertAudit.setExpertId(expertId);
             	expertAudit.setAuditFalg(1);
             	
@@ -1605,7 +1606,7 @@ public class ExpertAuditController{
 				if("PROJECT".equals(data.getCode())||"GOODS_PROJECT".equals(data.getCode())){
 					model.addAttribute("isShow", "1");
 				}
-				}
+			}
 		}
 		// 产品类型数据字典
 		List < DictionaryData > spList = new ArrayList< DictionaryData >();
@@ -1798,7 +1799,14 @@ public class ExpertAuditController{
 					typeErrorField.append(beforeField + ",");
 				}
 				model.addAttribute("typeErrorField", typeErrorField);
+			}else{
+				
+				if(expertId!=null && types !=null && sign !=null){
+					typeErrorField = expertAuditService.noPassTypeId(expertId, types, sign);
+					model.addAttribute("typeErrorField", typeErrorField);
+				}
 			}
+			
 			
 			//不通过字段（执业资格）
 			expertAuditFor.setType("2");
@@ -1834,7 +1842,7 @@ public class ExpertAuditController{
 		model.addAttribute("isReviewRevision", isReviewRevision);
 		return "ses/ems/expertAudit/expertType";
 	}
-
+	
 
 	/**
 	 * @Title: showModify
@@ -2025,8 +2033,24 @@ public class ExpertAuditController{
 					//物资经济
 					DictionaryData  dictionaryData = DictionaryDataUtil.get("GOODS_SERVER");
 					String expertTypeId = expert.getExpertsTypeId();
-
-					if(passCount<=0 && !expertTypeId.contains(dictionaryData.getId())){
+					boolean ss=false;
+					if(expertTypeId.contains(dictionaryData.getId())){
+						if(sign==1){
+							audit.setAuditFalg(666);
+						}else{
+							audit.setAuditFalg(sign);
+						}
+						audit.setAuditFieldId(dictionaryData.getId());
+						List<ExpertAudit> lists = expertAuditService.getListByExpert(audit);
+						if(sign==1){
+							audit.setAuditFalg(1);
+						}
+						lists.addAll(expertAuditService.getListByExpert(audit));
+						if(lists.size()>0){
+							ss=true;
+						}
+					}
+					if(passCount<=0 && ss){
 						model.addAttribute("qualified", false);
 						model.addAttribute("message", "当前专家有目录下无通过产品");
 						break;

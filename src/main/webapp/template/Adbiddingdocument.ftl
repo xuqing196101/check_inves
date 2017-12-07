@@ -9021,7 +9021,7 @@ div.Section9 {
 								style="mso-pagination:widow-orphan;text-align:center;">
 								<span
 									style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:宋体;font-size:12.0000pt;mso-font-kerning:0.0000pt;">
-									 物资名称  </span> <span
+									 产品名称  </span> <span
 									style="font-family:'Times New Roman';mso-fareast-font-family:宋体;font-size:12.0000pt;mso-font-kerning:0.0000pt;">
 									<o:p>
 									</o:p> </span>
@@ -15612,7 +15612,7 @@ div.Section9 {
 								style="margin-right:-6.1000pt;margin-left:-6.1000pt;mso-para-margin-right:-0.5100gd;mso-para-margin-left:-0.5100gd;mso-layout-grid-align:none;layout-grid-mode:char;text-align:center;line-height:15.0000pt;mso-line-height-rule:exactly;">
 								<b> <span
 									style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:宋体;font-weight:bold;font-size:9.0000pt;mso-font-kerning:1.0000pt;">
-										物资名称 </span> </b> <b> <span
+										产品名称 </span> </b> <b> <span
 									style="font-family:'Times New Roman';mso-fareast-font-family:宋体;font-weight:bold;font-size:9.0000pt;mso-font-kerning:1.0000pt;">
 										<o:p>
 										</o:p> </span> </b>
@@ -23085,7 +23085,7 @@ div.Section9 {
 								style="margin-left:0.0000pt;text-indent:12.0000pt;mso-char-indent-count:1.0000;mso-pagination:widow-orphan;text-align:center;">
 								<span
 									style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:宋体;font-size:12.0000pt;mso-font-kerning:0.0000pt;">
-									物资名称 </span> <span
+									产品名称 </span> <span
 									style="font-family:'Times New Roman';mso-fareast-font-family:宋体;font-size:12.0000pt;mso-font-kerning:0.0000pt;">
 									<o:p>
 									</o:p> </span>

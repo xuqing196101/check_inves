@@ -431,4 +431,16 @@ public interface PurchaseRequiredMapper {
     * @return PurchaseRequired
      */
     PurchaseRequired supervisionByRequiredId(@Param("id") String id);
+    
+    /**
+     * 
+    * @Title: supervisionByDetail
+    * @author FengTian 
+    * @date 2017-12-7 下午3:03:15  
+    * @Description: 根据 uniqueId 查询明细
+    * @param @param uniqueId
+    * @param @return      
+    * @return List<PurchaseRequired>
+     */
+    List<PurchaseRequired> supervisionByDetail(String uniqueId);
 }

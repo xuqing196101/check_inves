@@ -488,6 +488,7 @@ public class ExpertQueryController {
         	expertAudit.setExpertId(expertId);
         	expertAudit.setAuditFalg(1);
             expertAudit.setSuggestType("six");
+            expertAudit.setAuditStatus("6");
             expertAudit.setAuditFieldId(cate.getItemsId());
             //初审理由
             ExpertAudit firstAuditInfo = expertAuditService.findAuditByExpertId(expertAudit);
@@ -884,8 +885,8 @@ public class ExpertQueryController {
 		map.put("expertId", expertId);
 		map.put("auditFalg", 1);
 		
-		//查询 有问题，未修改，审核不通过的状态
-		//map.put("statusQuery", "statusQuery");
+		//排除撤销项的信息
+		map.put("statusQuery", "statusQuery");
 		
 		//审核记录
 		List < ExpertAudit > auditList = expertAuditService.diySelect(map);
@@ -932,8 +933,8 @@ public class ExpertQueryController {
 		Expert expert = service.selectByPrimaryKey(expertId);
 		map.put("expertId", expertId);
 		map.put("auditFalg", 2);
-		//查询 有问题，未修改，审核不通过的状态
-		//map.put("statusQuery", "statusQuery");
+		//排除撤销项的信息
+		map.put("statusQuery", "statusQuery");
 		expertAuditOpinion.setFlagTime(1);
 		
 		//重新复审就不查看审核记录

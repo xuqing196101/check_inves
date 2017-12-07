@@ -26,6 +26,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
+import ses.util.PropertiesUtil;
 import bss.dao.pms.CollectPurchaseMapper;
 import bss.dao.pms.PurchaseDetailMapper;
 import bss.dao.pms.PurchaseRequiredMapper;
@@ -534,5 +535,44 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
 			details.addAll(foreach);
 		}
 		return details;
+	}
+
+	@Override
+	public String selectByPurchaseType(String id) {
+		
+		return purchaseDetailMapper.selectByPurchaseType(id);
+	}
+
+  @Override
+  public List<PurchaseDetail> selectByParentIdList(String id) {
+    return purchaseDetailMapper.selectByParentIdList(id);
+  }
+
+  @Override
+  public List<PurchaseDetail> selectByTask(PurchaseDetail detail,Integer page) {
+    PropertiesUtil config = new PropertiesUtil("config.properties");
+    PageHelper.startPage(page,Integer.parseInt(config.getString("pageSizeArticle")));
+    return purchaseDetailMapper.selectByTask(detail);
+  }
+
+  @Override
+  public List<PurchaseDetail> selectByDept(String orgId) {
+    return purchaseDetailMapper.selectByDept(orgId);
+  }
+
+  @Override
+  public List<PurchaseDetail> selectByType(String orgId) {
+    return purchaseDetailMapper.selectByType(orgId);
+  }
+
+  @Override
+  public List<Map<String, Object>> selectByMonth(String orgId) {
+    return purchaseDetailMapper.selectByMonth(orgId);
+  }
+
+	@Override
+	public List<PurchaseDetail> supervisionDetail(HashMap<String, Object> map) {
+		
+		return purchaseDetailMapper.supervisionDetail(map);
 	}
 }

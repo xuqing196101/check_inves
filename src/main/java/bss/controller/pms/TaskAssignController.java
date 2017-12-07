@@ -146,6 +146,7 @@ public class TaskAssignController extends BaseController{
 		}
 		
 		List<String> org = purchaseDetailService.queryOrg(cid);
+		Date date = new Date();
 		for(String str:org){
 				String id = UUID.randomUUID().toString().replaceAll("-", "");
 				task.setId(id);
@@ -163,16 +164,13 @@ public class TaskAssignController extends BaseController{
 				task.setPurchaseId(str);
 				task.setStatus(0);
 				task.setIsDeleted(0);
-				task.setGiveTime(new Date());
+				task.setGiveTime(date);
 				task.setMaterialsType(planType);
 				task.setNotDetail(0);
 				task.setCollectId(ids[0]);
 				task.setTaskNature(0);
 				task.setCreaterId(users.getId());
 				taskservice.add(task);
-				
-				
-				
 		}
 		
 		

@@ -554,40 +554,39 @@ public class DemandSupervisionController extends BaseController{
     
     @RequestMapping(value="/paixu",produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String paixu(Model model, String id, String fileId,Integer page){
+    public String paixu(Model model, String id, String type, String fileId,Integer page){
       JSONObject jsonObj = new JSONObject();
-      HashMap<String, Object> map = new HashMap<>();
-      map.put("fileId", fileId);
-      PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-      List<PurchaseDetail> details = purchaseDetailService.getByMap(map);
-      if(details != null && details.size() > 0){
-          for (PurchaseDetail detail : details) { 
-              if(detail.getPrice() == null){
-                  detail.setPurchaseType("");
-                  detail.setStatus(null);
-              }else{
-                  DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
-                  if(findById != null){
-                      detail.setPurchaseType(findById.getName());
+      if (StringUtils.isNotBlank(fileId) && StringUtils.equals("1", type)) {
+    	  PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+    	  HashMap<String, Object> map = new HashMap<>();
+    	  map.put("fileId", fileId);
+    	  List<PurchaseDetail> supervisionDetail = purchaseDetailService.supervisionDetail(map);
+    	  if (supervisionDetail != null && !supervisionDetail.isEmpty()) {
+    		  for (PurchaseDetail detail : supervisionDetail) {
+                  if(StringUtils.equals("true", detail.getIsParent())){
+                      detail.setPurchaseType("");
+                      detail.setStatus(null);
+                  }else{
+                      DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
+                      if(findById != null){
+                          detail.setPurchaseType(findById.getName());
+                      }
+                      String[] progressBarPlan = supervisionService.progressBar(detail.getId(), null);
+                      detail.setProgressBar(progressBarPlan[0]);
+                      detail.setStatus(progressBarPlan[1]);
+                      detail.setOneAdvice(findById.getCode());
                   }
-                  String[] progressBarPlan = supervisionService.progressBar(detail.getId(), null);
-                  detail.setProgressBar(progressBarPlan[0]);
-                  detail.setStatus(progressBarPlan[1]);
-                  detail.setOneAdvice(findById.getCode());
-              }
-          }
-          PageInfo<PurchaseDetail> pageInfo = new PageInfo<PurchaseDetail>(details);
-          jsonObj.put("pages", pageInfo.getPages());
-          jsonObj.put("data", pageInfo.getList());
-      } else {
-          PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-          List<PurchaseRequired> purchaseRequireds = purchaseRequiredService.getUnique(id);
-          if(purchaseRequireds != null && purchaseRequireds.size() > 0){
-              for (PurchaseRequired purchaseRequired : purchaseRequireds) {
-                  HashMap<String, Object> maps = new HashMap<>();
-                  maps.put("id", purchaseRequired.getId());
-                  List<PurchaseRequired> purchaseDetails = purchaseRequiredService.selectByParentId(maps);
-                  if(purchaseDetails.size() > 1){
+    		  }
+    		  PageInfo<PurchaseDetail> pageInfo = new PageInfo<PurchaseDetail>(supervisionDetail);
+              jsonObj.put("pages", pageInfo.getPages());
+              jsonObj.put("data", pageInfo.getList());
+    	  }
+      } else if (StringUtils.isNotBlank(id) && StringUtils.equals("0", type)) {
+    	  PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+    	  List<PurchaseRequired> supervisionByDetail = purchaseRequiredService.supervisionByDetail(id);
+    	  if (supervisionByDetail != null && !supervisionByDetail.isEmpty()) {
+    		  for (PurchaseRequired purchaseRequired : supervisionByDetail) {
+                  if(StringUtils.equals("true", purchaseRequired.getIsParent())){
                       purchaseRequired.setPurchaseType("");
                       purchaseRequired.setStatus(null);
                   }else{
@@ -600,13 +599,12 @@ public class DemandSupervisionController extends BaseController{
                       purchaseRequired.setStatus(progressBarPlan[1]);
                       purchaseRequired.setOneAdvice(findById.getCode());
                   }
-              }
-          }
-          PageInfo<PurchaseRequired> pageInfo = new PageInfo<PurchaseRequired>(purchaseRequireds);
-          jsonObj.put("pages", pageInfo.getPages());
-          jsonObj.put("data", pageInfo.getList());
+    		  }
+    		  PageInfo<PurchaseRequired> pageInfo = new PageInfo<PurchaseRequired>(supervisionByDetail);
+              jsonObj.put("pages", pageInfo.getPages());
+              jsonObj.put("data", pageInfo.getList());
+    	  }
       }
-      
       return jsonObj.toString();
   }
 

@@ -563,6 +563,7 @@
 		<if test="param2 != null">
 			AND CODE = #{param2}
 		</if> 
+		ORDER BY CODE
 	</select>
 	<!-- 根据名称模糊查询 -->
 	<select id="searchByNameAndCode" resultMap="CateMap">

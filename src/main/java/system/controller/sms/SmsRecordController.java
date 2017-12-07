@@ -7,18 +7,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageInfo;
+
+import common.annotation.CurrentUser;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.util.DictionaryDataUtil;
 import system.model.sms.SmsRecord;
 import system.service.sms.SmsRecordService;
-
-import com.github.pagehelper.PageInfo;
-
-import common.annotation.CurrentUser;
-import common.utils.SMSUtil;
 
 /**
  * 

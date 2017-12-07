@@ -38,16 +38,16 @@
               var lis = [];
               //以jQuery的Ajax请求为例，请求下一页数据
               $.ajax({
-                url: "${pageContext.request.contextPath}/supervision/paixu.do?id=${planId}&fileId=${demand.fileId}&page=" + page,
+                url: "${pageContext.request.contextPath}/supervision/paixu.do?id=${planId}&type=${type}&fileId=${demand.fileId}&page=" + page,
                 type: "get",
                 dataType: "json",
                 success: function(res) {
                   layui.each(res.data, function(index, item) {
                     var department = "";
                     var progress = "";
-                    if(item.price == null) {
+                    if(item.isParent == "true") {
                       department = "<div class='department'>" + item.department + "</div>";
-                    } else if(item.price != 0) {
+                    } else if(item.isParent == "false") {
                       progress = "<div class='progress-new'><input type='hidden' value='" + item.progressBar + "'/><div id='progress' class='progress-bar' style='background:#2c9fa6;width:" + item.progressBar + "%" + "'" +
                         "onmouseover='bigImg(this,\"" + item.progressBar + "\")' onmouseout='normalImg(this,\"" + item.progressBar + "\")'></div></div>";
                     }
@@ -181,7 +181,7 @@
                 <tr class="info">
                   <th class="w50">序号</th>
                   <th class="info department">需求部门</th>
-                  <th class="info " width="10%">物资类别及名称</th>
+                  <th class="info " width="10%">产品名称</th>
                   <th class="info ">规格型号</th>
                   <th class="info " width="15%">质量技术标准<br/>(技术参数)</th>
                   <th class="info item">计量<br/>单位</th>
