@@ -1042,7 +1042,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		if(cateTree.getSupplierAptitute() == null){// 如果没有查出供应商所选资质，则查出品目对应需要上传的资质（没有证书编号的）
 	    	List < Category > cateList = new ArrayList < Category > ();
 			cateList.add(categoryService.selectByPrimaryKey(cateTree.getCategoryId()));
-			List < QualificationBean > typeList = supplierService.queryCategoyrId(cateList, 4);
+			List < QualificationBean > typeList = supplierService.getQuaList(cateList, 4);
 			if(typeList != null && typeList.size() > 0 && typeList.get(0).getList() != null && typeList.get(0).getList().size() > 0) {
 				SupplierAptitute apt = new SupplierAptitute();
 				apt.setCertType(typeList.get(0).getList().get(0).getName());

@@ -14,9 +14,9 @@
 			td {
 				cursor: pointer;
 			}
-			.icon_edit,.icon_sc{
-       	padding: 5px;
-      }
+			.icon_edit,.icon_sc {
+				padding: 3px;
+			}
 		</style>
 		<script type="text/javascript">
 
