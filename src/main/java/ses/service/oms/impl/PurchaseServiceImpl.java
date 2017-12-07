@@ -73,13 +73,16 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 		user.setPublishType(purchaseInfo.getPublishType());
 		user.setOfficerCertNo(purchaseInfo.getOfficerCertNo());
 		user.setDataAccess(purchaseInfo.getDataAccess());
+		user.setMobile2(purchaseInfo.getMobile2());
+		user.setTelephone2(purchaseInfo.getTelephone2());
+		user.setId(purchaseInfo.getUserId());
 		Orgnization org = new Orgnization();
 		if(purchaseInfo.getOrgId()!=null && !purchaseInfo.getOrgId().equals("")){
 			org.setId(purchaseInfo.getOrgId());
 			user.setOrg(org);
 		}
-		
-		
+		Orgnization orgnization = orgService.getOrgByPrimaryKey(purchaseInfo.getOrgId());
+		user.setOrgName(orgnization.getName());
 		userServiceI.save(user,currUser);
 		//保存角色
 		saveRoles(user,purchaseInfo.getRoleId());
@@ -110,16 +113,21 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 			user.setTelephone(purchaseInfo.getTelephone());
 			user.setEmail(purchaseInfo.getEmail());
 			user.setDuties(purchaseInfo.getDuites());
-	    user.setTypeName("1");
-	    user.setCreatedAt(new Date());
-	    user.setIdNumber(purchaseInfo.getIdCard());
-	    user.setPublishType(purchaseInfo.getPublishType());
-	    user.setOfficerCertNo(purchaseInfo.getOfficerCertNo());
+		    user.setTypeName("1");
+		    user.setCreatedAt(new Date());
+		    user.setIdNumber(purchaseInfo.getIdCard());
+		    user.setPublishType(purchaseInfo.getPublishType());
+		    user.setOfficerCertNo(purchaseInfo.getOfficerCertNo());
+		    user.setDataAccess(purchaseInfo.getDataAccess());
+		    user.setMobile2(purchaseInfo.getMobile2());
+		    user.setTelephone2(purchaseInfo.getTelephone2());
 			Orgnization org = new Orgnization();
 			if(purchaseInfo.getOrgId()!=null && !purchaseInfo.getOrgId().equals("")){
 				org.setId(purchaseInfo.getOrgId());
 				user.setOrg(org);
 			}
+			Orgnization orgnization = orgService.getOrgByPrimaryKey(purchaseInfo.getOrgId());
+			user.setOrgName(orgnization.getName());
 			userServiceI.update(user);
 			//删除旧角色
 			deleteRoleAndPreMenu(user);

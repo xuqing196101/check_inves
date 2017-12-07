@@ -230,16 +230,12 @@ public class SupplierController extends BaseSupplierController {
     @RequestMapping("/basicInfo")
     public String basicInfo(Model model, String suppId){
     	
-    	/*boolean bool = checkSupplier(suppId);
-    	if(!bool){
-    		return null;
-    	}*/
-    	Supplier supplier = checkSupplier(suppId);
+    	Supplier supplier = checkSupplier(suppId, 1);
     	if(supplier == null){
     		return null;
     	}
     	
-    	supplier = supplierService.get(suppId, 1);
+    	//supplier = supplierService.get(suppId, 1);
 		
     	// 初始化常量
 		initBasicConstants(model, supplier);
@@ -259,11 +255,7 @@ public class SupplierController extends BaseSupplierController {
     @RequestMapping("/supplierType")
     public String supplierType(Model model, String suppId){
     	
-    	/*boolean bool = checkSupplier(suppId);
-    	if(!bool){
-    		return null;
-    	}*/
-    	Supplier supplier = checkSupplier(suppId);
+    	Supplier supplier = checkSupplier(suppId, 2);
     	if(supplier == null){
     		return null;
     	}
@@ -305,7 +297,7 @@ public class SupplierController extends BaseSupplierController {
         	}*/
     	}
     	
-    	supplier = supplierService.get(suppId, 2);
+    	//supplier = supplierService.get(suppId, 2);
     	
 		// 初始化常量
 		initSupplierTypeConstants(model, supplier);
@@ -327,16 +319,12 @@ public class SupplierController extends BaseSupplierController {
     @RequestMapping("/items")
     public String items(Model model, String suppId){
     	
-    	/*boolean bool = checkSupplier(suppId);
-    	if(!bool){
-    		return null;
-    	}*/
-    	Supplier supplier = checkSupplier(suppId);
+    	Supplier supplier = checkSupplier(suppId, 3);
     	if(supplier == null){
     		return null;
     	}
     	
-    	supplier = supplierService.get(suppId, 3);
+    	//supplier = supplierService.get(suppId, 3);
     	
     	model.addAttribute("currSupplier", supplier);
     	
@@ -351,16 +339,12 @@ public class SupplierController extends BaseSupplierController {
     @RequestMapping("/aptitude")
     public String aptitude(Model model, String suppId){
     	
-    	/*boolean bool = checkSupplier(suppId);
-    	if(!bool){
-    		return null;
-    	}*/
-    	Supplier supplier = checkSupplier(suppId);
+    	Supplier supplier = checkSupplier(suppId, 4);
     	if(supplier == null){
     		return null;
     	}
     	
-    	supplier = supplierService.get(suppId, 4);
+    	//supplier = supplierService.get(suppId, 4);
     	
 		initAptitudeConstants(model, supplier);
 		initAptitudeAudit(model, supplier);
@@ -379,16 +363,12 @@ public class SupplierController extends BaseSupplierController {
     @RequestMapping("/contract")
     public String contract(Model model, String suppId){
     	
-    	/*boolean bool = checkSupplier(suppId);
-    	if(!bool){
-    		return null;
-    	}*/
-    	Supplier supplier = checkSupplier(suppId);
+    	Supplier supplier = checkSupplier(suppId, 5);
     	if(supplier == null){
     		return null;
     	}
     	
-    	supplier = supplierService.get(suppId, 5);
+    	//supplier = supplierService.get(suppId, 5);
     	
     	model.addAttribute("supplierTypeIds", supplier.getSupplierTypeIds());
 		model.addAttribute("supplierId", suppId);
@@ -408,16 +388,12 @@ public class SupplierController extends BaseSupplierController {
     @RequestMapping("/procurement_dep")
     public String procurement_dep(Model model, String suppId){
     	
-    	/*boolean bool = checkSupplier(suppId);
-    	if(!bool){
-    		return null;
-    	}*/
-    	Supplier supplier = checkSupplier(suppId);
+    	Supplier supplier = checkSupplier(suppId, 6);
     	if(supplier == null){
     		return null;
     	}
     	
-    	supplier = supplierService.get(suppId, 6);
+    	//supplier = supplierService.get(suppId, 6);
     	
 		HashMap < String, Object > map = new HashMap < String, Object > ();
 		// 采购机构
@@ -478,16 +454,12 @@ public class SupplierController extends BaseSupplierController {
     @RequestMapping("/template_download")
     public String template_download(Model model, String suppId){
     	
-    	/*boolean bool = checkSupplier(suppId);
-    	if(!bool){
-    		return null;
-    	}*/
-    	Supplier supplier = checkSupplier(suppId);
+    	Supplier supplier = checkSupplier(suppId, 7);
     	if(supplier == null){
     		return null;
     	}
     	
-    	supplier = supplierService.get(suppId, 7);
+    	//supplier = supplierService.get(suppId, 7);
     	
 		model.addAttribute("currSupplier", supplier);
     	
@@ -502,16 +474,12 @@ public class SupplierController extends BaseSupplierController {
     @RequestMapping("/template_upload")
     public String template_upload(Model model, String suppId){
     	
-    	/*boolean bool = checkSupplier(suppId);
-    	if(!bool){
-    		return null;
-    	}*/
-    	Supplier supplier = checkSupplier(suppId);
+    	Supplier supplier = checkSupplier(suppId, 8);
     	if(supplier == null){
     		return null;
     	}
     	
-    	supplier = supplierService.get(suppId, 8);
+    	//supplier = supplierService.get(suppId, 8);
     	
     	initUploadConstants(model, supplier);
 		initUploadAudit(model, supplier);
@@ -899,7 +867,7 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping(value = "perfect_basic",method = RequestMethod.POST)
 	public String perfectBasic(HttpServletRequest request, Model model, Supplier supplier) throws Exception {
 		
-		Supplier checkSupplier = checkSupplier(supplier.getId());
+		Supplier checkSupplier = checkSupplier(supplier.getId(), 1);
 		if(checkSupplier == null){
 			return null;
 		}
@@ -1466,7 +1434,7 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping(value = "perfect_professional",method = RequestMethod.POST)
 	public String perfectProfessional(HttpServletRequest request, Model model, Supplier supplier, String old) throws IOException {
 		String supplierId = supplier.getId();
-		Supplier checkSupplier = checkSupplier(supplierId);
+		Supplier checkSupplier = checkSupplier(supplierId, 0);
 		if(checkSupplier == null){
 			return null;
 		}
@@ -1587,7 +1555,7 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@RequestMapping(value = "perfect_items",method = RequestMethod.POST)
 	public String perfectItems(HttpServletRequest request, Model model, String supplierId, String supplierTypeIds) {
-		Supplier checkSupplier = checkSupplier(supplierId);
+		Supplier checkSupplier = checkSupplier(supplierId, 0);
 		if(checkSupplier == null){
 			return null;
 		}
@@ -1669,7 +1637,7 @@ public class SupplierController extends BaseSupplierController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "perfect_aptitude",method = RequestMethod.POST)
 	public String perfectAptitude(HttpServletRequest request, Model model, Supplier supplier) {
-		Supplier checkSupplier = checkSupplier(supplier.getId());
+		Supplier checkSupplier = checkSupplier(supplier.getId(), 0);
 		if(checkSupplier == null){
 			return null;
 		}
@@ -1732,7 +1700,7 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@RequestMapping(value = "perfect_contract",method = RequestMethod.POST)
 	public String perfectContract(HttpServletRequest request, Model model, String supplierId, String supplierTypeIds) {
-		Supplier checkSupplier = checkSupplier(supplierId);
+		Supplier checkSupplier = checkSupplier(supplierId, 0);
 		if(checkSupplier == null){
 			return null;
 		}
@@ -1831,7 +1799,7 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@RequestMapping(value = "perfect_dep")
 	public String perfectDep(HttpServletRequest request, Supplier supplier, Model model) {
-		Supplier checkSupplier = checkSupplier(supplier.getId());
+		Supplier checkSupplier = checkSupplier(supplier.getId(), 0);
 		if(checkSupplier == null){
 			return null;
 		}
@@ -1851,7 +1819,7 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@RequestMapping(value = "perfect_download")
 	public String perfectDownload(HttpServletRequest request, Supplier supplier, Model model) {
-		Supplier checkSupplier = checkSupplier(supplier.getId());
+		Supplier checkSupplier = checkSupplier(supplier.getId(), 0);
 		if(checkSupplier == null){
 			return null;
 		}
@@ -1870,7 +1838,7 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@RequestMapping(value = "perfect_upload")
 	public String perfectUpload(HttpServletRequest request, Supplier supplier, Model model) {
-		Supplier checkSupplier = checkSupplier(supplier.getId());
+		Supplier checkSupplier = checkSupplier(supplier.getId(), 0);
 		if(checkSupplier == null){
 			return null;
 		}
@@ -1901,7 +1869,7 @@ public class SupplierController extends BaseSupplierController {
 	@ResponseBody
 	@RequestMapping(value="/isCommit",produces = "text/html;charset=UTF-8")
 	public String isCommit(Model model, Supplier supplier) {
-		Supplier checkSupplier = checkSupplier(supplier.getId());
+		Supplier checkSupplier = checkSupplier(supplier.getId(), 0);
 		if(checkSupplier == null){
 			return null;
 		}
@@ -3794,7 +3762,13 @@ public class SupplierController extends BaseSupplierController {
     	printOutMsg(response, builder.toString());
     }
     
-    private Supplier checkSupplier(String suppId){
+    /**
+     * 校验供应商
+     * @param suppId
+     * @param type
+     * @return
+     */
+    private Supplier checkSupplier(String suppId, int type){
 		// 非登录供应商访问
 		Object loginName = session.getAttribute("loginName");
 		if(loginName == null){
@@ -3826,7 +3800,7 @@ public class SupplierController extends BaseSupplierController {
 			printOutMsg(response, "<script>location.href='"+basicInfoUrl+"';</script>");
 			return null;
 		}
-		return supplier;
+		return supplierService.get(suppId, type);
     }
     
 }

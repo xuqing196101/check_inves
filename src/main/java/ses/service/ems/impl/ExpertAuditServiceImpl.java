@@ -501,14 +501,14 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	public void handlerPublictyExp() {
 		// 获取当前时间
 	    Date nowDate = new Date();
-	    // 查询所有公示供应商
-	    String nowDateString = DateUtils.getDateOfFormat(nowDate);
+	    // 查询所有公示专家
+	    String nowDateString = DateUtils.getDateByFormat(nowDate, "yyyyMMddHH");
 	    List<Expert> list = expertMapper.selectExpByPublicty();
 	    if(list != null && !list.isEmpty()){
 	        for (Expert expert : list) {
-	            // 将公示7天的拟入库供应商入库 
+	            // 将公示7天的拟入库专家入库
 	            // 获取七天后的今天
-	            String afterDateString = DateUtils.getDateOfFormat(DateUtils.addDayDate(expert.getAuditAt(), 7));
+	            String afterDateString = DateUtils.getDateByFormat(DateUtils.addDayDate(expert.getAuditAt(), 7), "yyyyMMddHH");
 	            if(nowDateString.equals(afterDateString)){
 	                // 审核通过，自动入库
 	            	expert.setStatus("6");
@@ -931,7 +931,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 			break;
 		}
 		if(msg !=null && !"".equals(msg) && mobile !=null && !"".equals(mobile)){
-			 SMSUtil.sendMsg(mobile, msg);			
+			/* SMSUtil.sendMsg(mobile, msg);			*/
 		}
 		return prompt;
 	}

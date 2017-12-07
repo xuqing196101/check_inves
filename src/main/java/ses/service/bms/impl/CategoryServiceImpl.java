@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -1256,36 +1257,40 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<CategoryTree> getTreeForExt(Category category,String supplierTypeCode,String categoryId) {
 		
 		List<CategoryTree> jList = new ArrayList<>();
-		List<Category> cateList = new ArrayList<>();
+		Set<Category> cateList = new LinkedHashSet<>();
+		
 		if(category.getId()==null){
 	    	   category.setId(dictionaryDataMapper.selectByCode(supplierTypeCode).get(0).getId());
+	    	   //回显
 	    	   if(StringUtils.isNotBlank(categoryId)){
-					int classifyType = 1;
-					String classifyStatus = "";
-					switch (supplierTypeCode) {
-						case "GOODS":
-							classifyType = 1;
-							break;
-						case "PROJECT":
-							classifyType = 2;
-							break;
-						case "SERVICE":
-							classifyType = 3;
-							break;
-						case "PRODUCT":
-							classifyType = 1;
-							classifyStatus = "1,3";
-							break;
-		
-						case "SALES":
-							classifyType = 1;
-							classifyStatus = "2,3";
-							break;
-					}
-					cateList.addAll(categoryMapper.selectParentNode(classifyType,classifyStatus,categoryId.split(",")));
-				}
+	    		   int classifyType = 1;
+	    		   String classifyStatus = "";
+	    		   switch (supplierTypeCode) {
+	    		   case "GOODS":
+	    			   classifyType = 1;
+	    			   break;
+	    		   case "PROJECT":
+	    			   classifyType = 2;
+	    			   break;
+	    		   case "SERVICE":
+	    			   classifyType = 3;
+	    			   break;
+	    		   case "PRODUCT":
+	    			   classifyType = 1;
+	    			   classifyStatus = "1,3";
+	    			   break;
+	    			   
+	    		   case "SALES":
+	    			   classifyType = 1;
+	    			   classifyStatus = "2,3";
+	    			   break;
+	    		   }
+	    		   cateList.addAll(categoryMapper.selectParentNode(classifyType,classifyStatus,categoryId.split(",")));
+	    	   }
 	    }
-		 cateList.addAll(getCateTreeForExt(category.getId()));
+		cateList.addAll(getCateTreeForExt(category.getId()));
+		
+		
          for(Category cate:cateList){
              CategoryTree ct=new CategoryTree();
              ct.setIsParent(cate.getIsParent());
@@ -1544,22 +1549,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
 	@Override
-	public List<Category> searchByName(String cateName, String flag,
-			String codeName) {
-		if (flag == null) {
-        	List<Category> list = categoryMapper.searchByName(cateName, codeName);
-        	List<Category> listNot = new LinkedList<Category>();
-        	for(Category cate:list){
-        		List<Category> pList = this.getPListById(cate.getId());
-        		if(pList != null && pList.size() > 0){
-        			listNot.add(cate);
-        		}
-        	}
-        	list.removeAll(listNot);
-            return list;
-        } else {
-            return engCategoryMapper.searchByName(cateName, codeName);
-        }
+	public List<Category> searchByName(String cateName, String codeName) {
+		return categoryMapper.searchByName(cateName, codeName);
+	}
+
+	@Override
+	public List<Category> searchList(int type, String cateName, String codeName) {
+		return categoryMapper.searchList(type, cateName, codeName);
 	}
 	
 	/**

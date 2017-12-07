@@ -582,7 +582,7 @@ function isJoin(select){
                             ddflag &= false;
                         }
                     }
-                	var hh = 0;
+                	/*var hh = 0;
                 	$("#"+code+"_result").find("tbody tr").each(function(){
                     	if(!$(this).find("td:eq(7)").html()){
                     		hh++;
@@ -590,7 +590,7 @@ function isJoin(select){
                     });
                 	if(hh > 0){
                 		ddflag = true;
-                	}
+                	}*/
                 	if(ddflag){
                 		var ww = parseInt(coUndifined($("#"+id).children("tbody").find("tr").length));
                         if(ww < codeCount + hb){
@@ -1200,11 +1200,13 @@ function savePerson(){
 
 //重置抽取条件
 function extractReset(){
+	var conId = $("#conditionId").val();
     $("#div_3").find("input").val("");
     var SelectArr = $("#div_3").find("select");
     for (var i = 0; i < SelectArr.length; i++) {
         SelectArr[i].options[0].selected = true; 
     }
+    $("#conditionId").val(conId);
     //清空校验提示信息
     $("#err_provincesel").html("");
     $("#err_extractNum").html("");

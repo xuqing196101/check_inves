@@ -88,7 +88,46 @@ function defaultLoadTab(id) {
 function loadZtree(code, kind, status) {
 	// 加载中的菊花图标
 	loading = layer.load(1);
-	if (code != 'PROJECT') {
+	var setting = {
+		async : {
+			autoParam : [ "id", "code" ],
+			enable : true,
+			url : globalPath + "/supplier_item/loadCategory.do",
+			otherParam : {
+				"code" : code,
+				"supplierId" : $("#supplierId").val(),
+				"status" : status
+			},
+			dataType : "json",
+			type : "post",
+		},
+		check : {
+			enable : true,
+			chkStyle : "checkbox",
+			chkboxType : {
+				"Y" : "ps",
+				"N" : "ps"
+			},
+		},
+		data : {
+			simpleData : {
+				enable : true,
+				idKey : "id",
+				pIdKey : "parentId",
+			}
+		},
+		callback : {
+			onCheck : saveCategory,
+			onAsyncSuccess : zTreeOnAsyncSuccess,
+			onExpand : zTreeOnExpand,
+			beforeCheck : zTreeBeforeCheck
+		},
+		view : {
+			showLine : true
+		}
+	};
+	$.fn.zTree.init($("#" + kind), setting, zNodes);
+	/*if (code != 'PROJECT') {
 		var setting = {
 			async : {
 				autoParam : [ "id", "code" ],
@@ -170,7 +209,7 @@ function loadZtree(code, kind, status) {
 				zTreeOnAsyncSuccess(null, kind, null, null);
 			}
 		});
-	}
+	}*/
 }
 
 function zTreeBeforeCheck(treeId, treeNode) {
@@ -241,8 +280,8 @@ function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
 			code = "SERVICE";
 		}
 		var supplierId = $("#supplierId").val();
-		var path = globalPath + "/supplier_item/getCategories.html?supplierId="
-				+ supplierId + "&supplierTypeRelateId=" + code;
+		var path = globalPath + "/supplier_item/loadCheckedCategory.html?supplierId="
+				+ supplierId + "&code=" + code;
 		$("#tbody_category").load(path);
 		// 关闭加载中的菊花图标
 		layer.close(loading);
@@ -350,7 +389,7 @@ function loadChildrenStr(treeNode) {
 
 function saveCategory(event, treeId, treeNode) {
 	// 对工程下工程勘察和工程设计进行特殊处理
-	if (treeId == 'tree_ul_id_3') {
+	/*if (treeId == 'tree_ul_id_3') {
 		if (treeNode.code.indexOf('B02') == 0
 				|| treeNode.code.indexOf('B03') == 0) {
 			var categoryIds = "";
@@ -369,14 +408,15 @@ function saveCategory(event, treeId, treeNode) {
 		}
 	} else {
 		$("#categoryId").val(treeNode.id);
-	}
+	}*/
+	$("#categoryId").val(treeNode.id);
 	var clickFlag;
 	if (treeNode.checked) {
 		clickFlag = "1";
 	} else {
 		clickFlag = "0";
 	}
-	$("#clickFlag").val(clickFlag);
+	//$("#clickFlag").val(clickFlag);
 
 	var treeObj = $.fn.zTree.getZTreeObj(treeId);
 	var nodes = treeObj.getSelectedNodes();
@@ -397,13 +437,26 @@ function saveCategory(event, treeId, treeNode) {
 	if (attr4 == 'active') {
 		$("#supplierTypeRelateId").val("SERVICE");
 	}
-	$("#flag").val("4");
+	//$("#flag").val("4");
 	var supplierId = $("#supplierId").val();
+	//var params = $("#items_info_form_id").serialize();
+	var params = {
+			supplierId : $("#supplierId").val(),
+			categoryId : $("#categoryId").val(),
+			supplierTypeRelateId : $("#supplierTypeRelateId").val(),
+			clickFlag : clickFlag
+	};
+	if (treeId == 'tree_ul_id_3') {
+		if (treeNode.code.indexOf('B02') == 0
+				|| treeNode.code.indexOf('B03') == 0) {
+			params.isParentChecked = true;
+		}
+	}
 	var index_loading = layer.load(1);
 	$.ajax({
 		url : globalPath + "/supplier_item/saveCategory.do",
 		async : false,
-		data : $("#items_info_form_id").serialize(),
+		data : params,
 		type: "post",
 		beforeSend : function() {
 			// 禁用按钮防止重复提交，发送前响应
@@ -473,10 +526,10 @@ function searchCate(cateId, treeId, type, seq, code) {
 	var zNodes;
 	var zTreeObj;
 	var setting = {
-		async : {
+		/*async : {
 			autoParam : [ "id", "code" ],
 			enable : true,
-			url : globalPath + "/supplier_item/category_type.do",
+			url : globalPath + "/supplier_item/loadCategory.do",
 			otherParam : {
 				"code" : code,
 				"supplierId" : $("#supplierId").val(),
@@ -484,7 +537,11 @@ function searchCate(cateId, treeId, type, seq, code) {
 			},
 			dataType : "json",
 			type : "post",
-		},
+		},*/
+		view: {
+            showLine: true,
+            nameIsHTML: true
+        },
 		check : {
 			enable : true,
 			chkStyle : "checkbox",
@@ -505,9 +562,6 @@ function searchCate(cateId, treeId, type, seq, code) {
 			onAsyncSuccess : zTreeOnAsyncSuccess,
 			onExpand : zTreeOnExpand,
 			beforeCheck : zTreeBeforeCheck
-		},
-		view : {
-			showLine : true
 		}
 	};
 	// 加载中的菊花图标
@@ -518,12 +572,11 @@ function searchCate(cateId, treeId, type, seq, code) {
 		loadTab(type, treeId, seq);
 	} else {
 		var supplierId = $("#supplierId").val();
-		var id = type;
 		$.ajax({
 			url : globalPath + "/supplier_item/searchCate.do",
 			type : "post",
 			data : {
-				"typeId" : id,
+				"type" : type,
 				"cateName" : cateName,
 				"supplierId" : supplierId,
 				"codeName" : codeName
@@ -547,6 +600,22 @@ function searchCate(cateId, treeId, type, seq, code) {
 						if (lastNode.isParent) {
 							zTreeObj.expandNode(lastNode, false);// 折叠最后一个节点
 						}
+						/*// 高亮显示搜索文本
+						var tx = "工程";
+						for(var i = 0, len = allNodes.length; i < len; i++) {
+							var t = allNodes[i].name;
+							t = t.replace(eval("/" + tx + "/gi"), "<span style='background-color: yellow; color: red;; margin-left: 0; margin-right: 0;'>" + tx + "</span>");
+							allNodes[i].name = t;
+							zTreeObj.updateNode(allNodes[i]);
+						}*/
+					}
+					// 去掉高亮显示的title的html标签
+					var tree_ul_a = $("a[id^='tree_ul_id_'][id$='_a']");
+					if (tree_ul_a) {
+						tree_ul_a.each(function() {
+							$(this).attr("title",
+									delHtmlTag($(this).attr("title")));
+						});
 					}
 				}
 				// 关闭加载中的菊花图标
@@ -554,6 +623,11 @@ function searchCate(cateId, treeId, type, seq, code) {
 			}
 		});
 	}
+}
+
+// 去掉所有html标记
+function delHtmlTag(str) {
+	return str.replace(/<[^>]+>/g, "");// 去掉所有的html标记
 }
 
 sessionStorage.locationC = true;

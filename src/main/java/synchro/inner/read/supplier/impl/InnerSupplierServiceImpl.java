@@ -560,7 +560,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     @Override
     public void importInner(File file, String flag) {
         AbstractMessageCommon supplierMessageCommon = new SupplierMessageCommon();
-        List<SupplierAuditFormBean> list = getSupplierFormBaean(file);
+        List<SupplierAuditFormBean> list = getSupplierFormBean(file);
         // 封装短信发送Map 格式：状态+电话号码集
         Map<Integer, StringBuffer> currSupStatusAndMobile = null;
         for (SupplierAuditFormBean sb : list) {
@@ -574,11 +574,11 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                 }
             }
             // 退回修改供应商基本信息导入外网
-            //supplierMapper.updateSupplierStatus(sb.getSupplierId(), sb.getStatus(), sb.getAuditDate());
+            // supplierMapper.updateSupplierStatus(sb.getSupplierId(), sb.getStatus(), sb.getAuditDate());
             Supplier supplier = sb.getSupplier();
             supplierMapper.updateByPrimaryKeySelectiveOfBack(supplier);
             // 开始封装短信发送Map 格式：状态+电话号码集
-            currSupStatusAndMobile = supplierMessageCommon.packageMessageInfo(supplier, currSupStatusAndMobile);
+            // currSupStatusAndMobile = supplierMessageCommon.packageMessageInfo(supplier, currSupStatusAndMobile);
             List<SupplierAuditNot> auditNots = sb.getSupplierAuditNot();
             for (SupplierAuditNot sa : auditNots) {
                 SupplierAuditNot not = supplierAuditNotMapper.selectById(sa.getId());
@@ -645,11 +645,12 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
         } else{
             synchRecordService.synchBidding(null, new Integer(list.size()).toString(), synchro.util.Constant.DATA_TYPE_SUPPLIER_CODE, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.NEW_COMMIT_SUPPLIER_IMPORT);
         }
-        supplierMessageCommon.beginSendMessage(currSupStatusAndMobile);
+        // 短信发送
+        // supplierMessageCommon.beginSendMessage(currSupStatusAndMobile);
     }
 
 
-    private List<SupplierAuditFormBean> getSupplierFormBaean(final File file) {
+    private List<SupplierAuditFormBean> getSupplierFormBean(final File file) {
         List<SupplierAuditFormBean> supplierList = FileUtils.getSupplier(file, SupplierAuditFormBean.class);
 
         return supplierList;

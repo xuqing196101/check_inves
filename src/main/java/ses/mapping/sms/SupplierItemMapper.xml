@@ -28,9 +28,9 @@
 		s.ID, s.SUPPLIER_ID, s.CATEGORY_ID, s.SUPPLIER_TYPE_RELATE_ID, s.STATUS, s.CREATED_AT, s.UPDATED_AT, s.CATE_LEVEL, s.CERT_CODE, s.DIY_LEVEL, s.QUALIFICATION_TYPE,s.PROFESS_TYPE, c.CODE
 	</sql>
 	
-	<select id="getSupplierItem" parameterType="java.lang.String" resultMap="BaseResultMap">
+	<select id="getItemListBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select
-        <include refid="Base_Column_List" />
+    <include refid="Base_Column_List" />
 		from T_SES_SMS_SUPPLIER_ITEM
 		where SUPPLIER_ID = #{supplierId}
 	</select>
@@ -44,10 +44,6 @@
 	<!--获取所有的供应商id  -->
    <select id="getSupplierId"  resultType="java.lang.String">
 		SELECT SUPPLIER_ID FROM T_SES_SMS_SUPPLIER_ITEM GROUP BY SUPPLIER_ID
-	</select>
-	<!--获取所有的品目和供应商id  -->
-	<select id="getItemBySupplierId"  resultType="java.lang.String">
-		SELECT wmsys.wm_concat(CATEGORY_ID) FROM T_SES_SMS_SUPPLIER_ITEM GROUP BY SUPPLIER_ID
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		delete from T_SES_SMS_SUPPLIER_ITEM
@@ -302,6 +298,28 @@
 		</where>
 	</select>
 	
+	<select id="countByMap" parameterType="java.util.Map" resultType="int">
+		select count(1) from T_SES_SMS_SUPPLIER_ITEM
+		<where>
+		1=1
+			<if test="categoryId != null and categoryId != ''">
+				and CATEGORY_ID = #{categoryId}
+			</if>
+			<if test="supplierId != null and supplierId != ''">
+				and SUPPLIER_ID = #{supplierId}
+			</if>
+			<if test="type != null and type != ''">
+				and SUPPLIER_TYPE_RELATE_ID = #{type}
+			</if>
+			<if test="isReturned != null">
+				and IS_RETURNED = #{isReturned}
+			</if>
+			<if test="isDeleted != null">
+				and IS_DELETED = #{isDeleted}
+			</if>
+		</where>
+	</select>
+	
 	<select id="findByMapByNull" parameterType="java.util.Map" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"/> from T_SES_SMS_SUPPLIER_ITEM
         <where>
@@ -389,6 +407,17 @@
 				and SUPPLIER_ID = #{supplierId} 
 				and SUPPLIER_TYPE_RELATE_ID = #{type}
 				and IS_RETURNED != 1
+				and IS_DELETED != 1
+	</select>
+	<select id="countBySupplierIdCategoryId"  resultType="int">
+		select
+		count(1)
+				from
+				T_SES_SMS_SUPPLIER_ITEM
+				where 
+				CATEGORY_ID = #{categoryId} 
+				and SUPPLIER_ID = #{supplierId} 
+				and SUPPLIER_TYPE_RELATE_ID = #{type}
 				and IS_DELETED != 1
 	</select>
 	
@@ -581,7 +610,7 @@
 	
 	<!--统计供应商品目-->
 	<select id="countItemsBySuppIdAndCateIds" resultType="int">
-		SELECT COUNT(*) FROM T_SES_SMS_SUPPLIER_ITEM
+		SELECT COUNT(ID) FROM T_SES_SMS_SUPPLIER_ITEM
 		WHERE SUPPLIER_ID = #{supplierId}
 		AND SUPPLIER_TYPE_RELATE_ID = #{code}
 		<if test="catIds != null and catIds.size != 0">
@@ -591,6 +620,32 @@
 			</foreach>
 		</if>
 		<!-- AND IS_RETURNED != 1 -->
+	</select>
+	
+	<!--在Category中统计Item-->
+	<select id="countItemsInCate" resultType="int">
+		SELECT COUNT(0) FROM DUAL WHERE(
+			SELECT COUNT(ID) FROM T_SES_SMS_SUPPLIER_ITEM
+			WHERE SUPPLIER_ID = #{supplierId}
+			AND SUPPLIER_TYPE_RELATE_ID = #{code}
+			AND CATEGORY_ID IN(
+			SELECT ID
+				FROM T_SES_BMS_CATEGORY 
+				WHERE 1 = 1
+				AND IS_PUBLISH = 0 
+				AND IS_DELETED = 0 
+				START WITH (ID = #{categoryId}) 
+				CONNECT BY PRIOR ID = PARENT_ID 
+			)
+		) = (
+			SELECT COUNT(ID)
+			FROM T_SES_BMS_CATEGORY 
+			WHERE 1 = 1
+			AND IS_PUBLISH = 0 
+			AND IS_DELETED = 0 
+			START WITH (ID = #{categoryId}) 
+			CONNECT BY PRIOR ID = PARENT_ID
+		)
 	</select>
 
 	<select id="findFinaSupplierByCategouryAndType" parameterType="ses.model.sms.Supplier" resultType="ses.model.sms.Supplier">
@@ -621,5 +676,54 @@
 		</set>
 		where SUPPLIER_ID = #{supplierId}
 	</update>
+	
+	<!-- 批量插入 -->
+	<insert id="batchInsert" parameterType="java.util.List">
+		INSERT INTO T_SES_SMS_SUPPLIER_ITEM
+		(ID, SUPPLIER_ID, CATEGORY_ID,
+		SUPPLIER_TYPE_RELATE_ID, STATUS, 
+		CREATED_AT, UPDATED_AT, NODE_LEVEL)
+		<foreach collection="list" item="item" index="index" separator="union all">
+			(SELECT 
+				#{item.id, jdbcType=VARCHAR}, 
+				#{item.supplierId, jdbcType=VARCHAR}, 
+				#{item.categoryId, jdbcType=VARCHAR},
+				#{item.supplierTypeRelateId, jdbcType=VARCHAR}, 
+				#{item.status, jdbcType=DECIMAL}, 
+				#{item.createdAt, jdbcType=TIMESTAMP},
+				#{item.updatedAt, jdbcType=TIMESTAMP}, 
+				#{item.nodeLevel, jdbcType=DECIMAL} 
+			FROM DUAL)
+    </foreach>
+	</insert>
+	
+	<!-- 批量删除 -->
+	<delete id="batchDelete" parameterType="java.util.List">
+		delete from T_SES_SMS_SUPPLIER_ITEM
+		<where>
+			<if test="list != null and list.size() > 0">
+				<foreach collection="list" item="item" index="index" open="(" separator="or" close=")">
+					(1 = 1
+					<if test="item.categoryId != null and item.categoryId != ''">
+						and CATEGORY_ID = #{item.categoryId}
+					</if>
+					<if test="item.supplierTypeRelateId != null and item.supplierTypeRelateId != ''">
+						and SUPPLIER_TYPE_RELATE_ID = #{item.supplierTypeRelateId}
+					</if>
+					<if test="item.supplierId != null and item.supplierId != ''">
+						and SUPPLIER_ID = #{item.supplierId}
+					</if>
+					<if test="item.isReturned != null">
+						and IS_RETURNED = #{item.isReturned}
+					</if>)
+				</foreach>
+			</if>
+			<if test="list == null or list.size() == 0">
+				1 = 2
+			</if>
+		</where>
+	</delete>
+	
+	<!-- countItemsInCate -->
 
 </mapper>

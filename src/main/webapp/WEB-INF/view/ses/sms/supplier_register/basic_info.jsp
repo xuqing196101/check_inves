@@ -567,18 +567,16 @@
 										<div class="cue"> ${err_isHavingConCert } </div>
 									</div>
 								</li>
-								<c:if test="${currSupplier.isHavingConCert eq '1'}">
-									<li class="col-md-6 col-sm-6 col-xs-12 mb25" id="bearchCertDiv">
-										<span class="col-md-6 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 保密资格证书</span>
-										<div class="col-md-6 col-sm-12 col-xs-12 p0"
-											<c:if test="${fn:contains(audit,'supplierBearchCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'supplierBearchCert','basic_page')"</c:if>>
-											<c:if test="${(fn:contains(audit,'supplierBearchCert')&&currSupplier.status==2 ) || currSupplier.status==-1 || currSupplier.status==1 || (fn:contains(audit,'isHavingConCert')&&currSupplier.status==2&&currSupplier.isHavingConCert==0)}"><u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="bearchcert_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" /></c:if>
-											<c:if test="${!fn:contains(audit,'supplierBearchCert')&&currSupplier.status==2}"> 	<u:show showId="bearchcert_show"  delete="false" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" /></c:if>
-											<c:if test="${currSupplier.status==-1 || currSupplier.status==1 ||fn:contains(audit,'supplierBearchCert')}"> <u:show showId="bearchcert_show"   businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" /></c:if>
-											<div class="cue"> ${err_bearch } </div>
-										</div>
-									</li>
-								</c:if>
+								<li class="col-md-6 col-sm-6 col-xs-12 mb25" id="bearchCertDiv" <c:if test="${currSupplier.isHavingConCert ne '1'}">style="display:none;"</c:if>>
+									<span class="col-md-6 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 保密资格证书</span>
+									<div class="col-md-6 col-sm-12 col-xs-12 p0"
+										<c:if test="${fn:contains(audit,'supplierBearchCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'supplierBearchCert','basic_page')"</c:if>>
+										<c:if test="${(fn:contains(audit,'supplierBearchCert')&&currSupplier.status==2 ) || currSupplier.status==-1 || currSupplier.status==1 || (fn:contains(audit,'isHavingConCert')&&currSupplier.status==2&&currSupplier.isHavingConCert==0)}"><u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="bearchcert_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" /></c:if>
+										<c:if test="${!fn:contains(audit,'supplierBearchCert')&&currSupplier.status==2}"> 	<u:show showId="bearchcert_show"  delete="false" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" /></c:if>
+										<c:if test="${currSupplier.status==-1 || currSupplier.status==1 ||fn:contains(audit,'supplierBearchCert')}"> <u:show showId="bearchcert_show"   businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" /></c:if>
+										<div class="cue"> ${err_bearch } </div>
+									</div>
+								</li>
 							</ul>
 						</fieldset>
 						
@@ -924,80 +922,78 @@
 									</div>
 								</li>
 							</ul>
-							<c:if test="${currSupplier.overseasBranch == '1'}">
-								<ul id="branch_list_body" class="list-unstyled clear">
-									<c:forEach items="${currSupplier.branchList }" var="bran" varStatus="vs">
-										<li class="col-md-3 col-sm-6 col-xs-12 pl10">
-											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">* </i>机构名称</span>
-											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input class= 'cBranchName' type="text" name="branchList[${vs.index }].organizationName" id="sup_branchName" required maxlength="50" value="${bran.organizationName}"  <c:if test="${!fn:contains(audit,'organizationName')&&currSupplier.status==2}">readonly="readonly"</c:if>  <c:if test="${fn:contains(audit,'organizationName_'.concat(bran.id))}">style="border: 1px solid red;" onmouseover="errorMsg(this,'organizationName_${bran.id }','basic_page')"</c:if>/>
-												<span class="add-on cur_point">i</span>
-												<span class="input-tip">不能为空</span>
-												<div class="cue">
-													<sf:errors path="branchList[${vs.index }].organizationName" />
-												</div>
+							<ul id="branch_list_body" class="list-unstyled clear" <c:if test="${currSupplier.overseasBranch ne '1'}">style="display:none;"</c:if>>
+								<c:forEach items="${currSupplier.branchList }" var="bran" varStatus="vs">
+									<li class="col-md-3 col-sm-6 col-xs-12 pl10">
+										<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">* </i>机构名称</span>
+										<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+											<input class= 'cBranchName' type="text" name="branchList[${vs.index }].organizationName" id="sup_branchName" required maxlength="50" value="${bran.organizationName}"  <c:if test="${!fn:contains(audit,'organizationName')&&currSupplier.status==2}">readonly="readonly"</c:if>  <c:if test="${fn:contains(audit,'organizationName_'.concat(bran.id))}">style="border: 1px solid red;" onmouseover="errorMsg(this,'organizationName_${bran.id }','basic_page')"</c:if>/>
+											<span class="add-on cur_point">i</span>
+											<span class="input-tip">不能为空</span>
+											<div class="cue">
+												<sf:errors path="branchList[${vs.index }].organizationName" />
 											</div>
-										</li>
-	
-										<li class="col-md-3 col-sm-6 col-xs-12">
-											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 "><i class="red">* </i>所在国家（地区）</span>
-											<div class="select_common col-md-12 col-sm-12 col-xs-12  p0">
-												<select class='cOverseas' name="branchList[${vs.index }].country" required <c:if test="${!fn:contains(audit,'overseasBranch')&&currSupplier.status==2}">onchange=""</c:if> <c:if test="${fn:contains(audit,'countryName_'.concat(bran.id))}">style="border: 1px solid red;" onmouseover="errorMsg(this,'countryName_${bran.id }','basic_page')"</c:if>>
-													<option value="">请选择</option>
-													<c:forEach items="${foreign }" var="fr">
-														<option value="${fr.id }" <c:if test="${bran.country==fr.id}">selected='selected' </c:if> >${fr.name }</option>
-													</c:forEach>
-												</select>
+										</div>
+									</li>
+
+									<li class="col-md-3 col-sm-6 col-xs-12">
+										<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 "><i class="red">* </i>所在国家（地区）</span>
+										<div class="select_common col-md-12 col-sm-12 col-xs-12  p0">
+											<select class='cOverseas' name="branchList[${vs.index }].country" required <c:if test="${!fn:contains(audit,'overseasBranch')&&currSupplier.status==2}">onchange=""</c:if> <c:if test="${fn:contains(audit,'countryName_'.concat(bran.id))}">style="border: 1px solid red;" onmouseover="errorMsg(this,'countryName_${bran.id }','basic_page')"</c:if>>
+												<option value="">请选择</option>
+												<c:forEach items="${foreign }" var="fr">
+													<option value="${fr.id }" <c:if test="${bran.country==fr.id}">selected='selected' </c:if> >${fr.name }</option>
+												</c:forEach>
+											</select>
+										</div>
+									</li>
+
+									<li class="col-md-3 col-sm-6 col-xs-12">
+										<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">* </i>详细地址</span>
+										<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+											<input class='cDetailAdddress' type="text" name="branchList[${vs.index }].detailAddress" required maxlength="50" id="sup_branchAddress" value="${bran.detailAddress}"
+												<c:if test="${!fn:contains(audit,'detailAddress_'.concat(bran.id))&&currSupplier.status==2}">readonly="readonly"</c:if>  
+												<c:if test="${fn:contains(audit,'detailAddress_'.concat(bran.id))}">style="border: 1px solid red;" onmouseover="errorMsg(this,'detailAddress_${bran.id }','basic_page')"</c:if>/>
+											<span class="add-on cur_point">i</span>
+											<span class="input-tip">不能为空</span>
+											<div class="cue">
+												<sf:errors path="branchList[${vs.index }].detailAddress" />
 											</div>
-										</li>
-	
-										<li class="col-md-3 col-sm-6 col-xs-12">
-											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">* </i>详细地址</span>
-											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input class='cDetailAdddress' type="text" name="branchList[${vs.index }].detailAddress" required maxlength="50" id="sup_branchAddress" value="${bran.detailAddress}"
-													<c:if test="${!fn:contains(audit,'detailAddress_'.concat(bran.id))&&currSupplier.status==2}">readonly="readonly"</c:if>  
-													<c:if test="${fn:contains(audit,'detailAddress_'.concat(bran.id))}">style="border: 1px solid red;" onmouseover="errorMsg(this,'detailAddress_${bran.id }','basic_page')"</c:if>/>
-												<span class="add-on cur_point">i</span>
-												<span class="input-tip">不能为空</span>
-												<div class="cue">
-													<sf:errors path="branchList[${vs.index }].detailAddress" />
-												</div>
+										</div>
+									</li>
+
+									<li class="col-md-3 col-sm-6 col-xs-12">
+										<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 white">操作</span>
+										<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
+											<c:choose>
+                         <c:when test="${currSupplier.status==2 }">
+                         	<input type="button" disabled="disabled" class="btn list_btn btn-Invalid" value="十" />
+                         </c:when>
+                         <c:otherwise>
+                           <input type="button" onclick="addBranch(this)" class="btn list_btn" value="十" />
+                         </c:otherwise>
+                       </c:choose>
+											<input type="button" onclick="delBranch(this)" class="btn list_btn" value="一" />
+										 	<input type="hidden" name="branchList[${vs.index }].id"  required  value="${bran.id}"/>
+										</div>
+									</li>
+
+									<li class="col-md-12 col-xs-12 col-sm-12 mb25">
+										<span class="col-md-12 c ol-xs-12 col-sm-12 padding-left-5"><i class="red">* </i>生产经营范围</span>
+										<div class="col-md-12 col-xs-12 col-sm-12 p0">
+											<textarea class="cPrdArea col-md-12 col-xs-12 col-sm-12 h80" maxlength="1000"
+												onkeyup="checkCharLimit('branchbusinessSope_${vs.index }','limit_char_branchbusinessSope_${vs.index }',1000);if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" 
+												id="branchbusinessSope_${vs.index }" required name="branchList[${vs.index }].businessSope" 
+												<c:if test="${!fn:contains(audit,'businessSope')&&currSupplier.status==2}">readonly="readonly"</c:if>
+												<c:if test="${fn:contains(audit,'businessSope_'.concat(bran.id))}">style="border: 1px solid red;" onmouseover="errorMsg(this,'businessSope_${bran.id }','basic_page')"</c:if>>${bran.businessSope}</textarea>
+											<span class="sm_tip fr">还可输入 <span id="limit_char_branchbusinessSope_${vs.index }">1000</span> 个字</span>
+											<div class="cue">
+												<sf:errors path="branchList[${vs.index }].businessSope" />
 											</div>
-										</li>
-	
-										<li class="col-md-3 col-sm-6 col-xs-12">
-											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 white">操作</span>
-											<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
-												<c:choose>
-	                         <c:when test="${currSupplier.status==2 }">
-	                         	<input type="button" disabled="disabled" class="btn list_btn btn-Invalid" value="十" />
-	                         </c:when>
-	                         <c:otherwise>
-	                           <input type="button" onclick="addBranch(this)" class="btn list_btn" value="十" />
-	                         </c:otherwise>
-	                       </c:choose>
-												<input type="button" onclick="delBranch(this)" class="btn list_btn" value="一" />
-											 	<input type="hidden" name="branchList[${vs.index }].id"  required  value="${bran.id}"/>
-											</div>
-										</li>
-	
-										<li class="col-md-12 col-xs-12 col-sm-12 mb25">
-											<span class="col-md-12 c ol-xs-12 col-sm-12 padding-left-5"><i class="red">* </i>生产经营范围</span>
-											<div class="col-md-12 col-xs-12 col-sm-12 p0">
-												<textarea class="cPrdArea col-md-12 col-xs-12 col-sm-12 h80" maxlength="1000"
-													onkeyup="checkCharLimit('branchbusinessSope_${vs.index }','limit_char_branchbusinessSope_${vs.index }',1000);if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" 
-													id="branchbusinessSope_${vs.index }" required name="branchList[${vs.index }].businessSope" 
-													<c:if test="${!fn:contains(audit,'businessSope')&&currSupplier.status==2}">readonly="readonly"</c:if>
-													<c:if test="${fn:contains(audit,'businessSope_'.concat(bran.id))}">style="border: 1px solid red;" onmouseover="errorMsg(this,'businessSope_${bran.id }','basic_page')"</c:if>>${bran.businessSope}</textarea>
-												<span class="sm_tip fr">还可输入 <span id="limit_char_branchbusinessSope_${vs.index }">1000</span> 个字</span>
-												<div class="cue">
-													<sf:errors path="branchList[${vs.index }].businessSope" />
-												</div>
-											</div>
-										</li>
-									</c:forEach>
-								</ul>
-							</c:if>
+										</div>
+									</li>
+								</c:forEach>
+							</ul>
 						</fieldset>
 						<!-- 财务信息 -->
 						<h2 class="count_flow clear pt20"> <i>3</i> 近三年财务信息

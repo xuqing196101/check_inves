@@ -122,7 +122,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
      * @return void
      */
 	@Override
-	public void insertModifyRecord (SupplierModify supplierModify){
+	public void insertModifyRecord(SupplierModify supplierModify){
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		SupplierHistory supplierHistory =new SupplierHistory();
 		String supplierId = supplierModify.getSupplierId();

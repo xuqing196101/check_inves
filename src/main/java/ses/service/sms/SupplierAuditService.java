@@ -53,30 +53,6 @@ public interface SupplierAuditService {
 	 */
 	List<Supplier> getAuditSupplierList(Supplier supplier, Integer page);
 	 
-    /**
-     * @Title: querysupplier
-     * @author Song Biaowei
-     * @date 2016-10-5 上午10:23:29  
-     * @Description: 查询表
-     * @param @param supplier
-     * @param @param page
-     * @param @return      
-     * @return List<Supplier>
-     */
-	 List<Supplier> querySupplier(Supplier supplier,Integer page);
-	 
-    /**
-     * @Title: querysupplier
-     * @author Song Biaowei
-     * @date 2016-10-5 上午10:23:29  
-     * @Description: 查询表
-     * @param @param supplier
-     * @param @param page
-     * @param @return      
-     * @return List<Supplier>
-     */
-	 List<Supplier> querySupplierbytypeAndCategoryIds(Supplier supplier,Integer page);
-	 
 	 /**
 	  * @Title: getAllSupplier
 	  * @author Song Biaowei
@@ -87,18 +63,7 @@ public interface SupplierAuditService {
 	  * @param @return      
 	  * @return List<Supplier>
 	  */
-	 List<Supplier> getAllSupplier(Supplier supplier,Integer page);
-	 /**
-	  * @Title: querySupplierbyCategory
-	  * @author Song Biaowei
-	  * @date 2016-10-6 下午5:22:49  
-	  * @Description: 品目查询
-	  * @param @param supplier
-	  * @param @param page
-	  * @param @return      
-	  * @return List<Supplier>
-	  */
-	 List<Supplier> querySupplierbyCategory(Supplier supplier,Integer page);
+	List<Supplier> getAllSupplier(Supplier supplier,Integer page);
 	
 	/**
 	 * @Title: supplierById
@@ -141,7 +106,7 @@ public interface SupplierAuditService {
 	 * @param @param supplierAudit      
 	 * @return void
 	 */
-	int auditReasons (SupplierAudit supplierAudit);
+	int auditReasons(SupplierAudit supplierAudit);
 	/**
 	 * 
 	 * Description:批量插入 审核数据

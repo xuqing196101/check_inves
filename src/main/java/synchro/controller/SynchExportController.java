@@ -212,6 +212,11 @@ public class SynchExportController {
 	    		  iter.remove();
 	              continue;
 	          }
+              // 过滤军队专家信息
+	          if (dd.getCode().equals(Constant.DATE_SYNCH_MILITARY_EXPERT)) {
+	              iter.remove();
+	              continue;
+	          }
 	          // 过滤供应商抽取信息  定时任务自动导入导出
              /* if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO)) {
               	iter.remove();
@@ -273,11 +278,6 @@ public class SynchExportController {
 	            	  iter.remove();
 	            	  continue;
 	              }
-	              // 过滤军队专家信息
-		          if (dd.getCode().equals(Constant.DATE_SYNCH_MILITARY_EXPERT)) {
-		              iter.remove();
-		              continue;
-		          }
 	          }
 	          //内网时
 	          if(ipAddressType.equals("0")){
