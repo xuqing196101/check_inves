@@ -2,6 +2,7 @@ package system.service.sms;
 
 import java.util.List;
 
+import ses.model.bms.User;
 import system.model.sms.SmsRecord;
 
 
@@ -16,7 +17,7 @@ public interface SmsRecordService {
      * @param 
      * @return List<SmsRecord>
      */
-    List<SmsRecord> findAll(SmsRecord record, Integer page);
+    List<SmsRecord> findAll(SmsRecord record, Integer page, User user);
     
     
 	/**

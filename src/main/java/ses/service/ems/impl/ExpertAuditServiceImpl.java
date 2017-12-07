@@ -932,6 +932,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 		}
 		if(msg !=null && !"".equals(msg) && mobile !=null && !"".equals(mobile)){
 			/* SMSUtil.sendMsg(mobile, msg);			*/
+
 		}
 		return prompt;
 	}
