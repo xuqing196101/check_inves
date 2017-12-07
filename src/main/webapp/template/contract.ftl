@@ -2392,7 +2392,7 @@
                                             <w:sz w:val="18" />
                                             <w:szCs w:val="22" />
                                         </w:rPr>
-                                        <w:t>物资名称</w:t>
+                                        <w:t>产品名称</w:t>
                                     </w:r>
                                 </w:p>
                             </w:tc>

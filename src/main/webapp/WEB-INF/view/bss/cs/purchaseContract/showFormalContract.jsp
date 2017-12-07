@@ -239,7 +239,7 @@
 									<tr>
 										<th class="info w50">序号</th>
 										<th class="info">编号</th>
-										<th class="info">物资名称</th>
+										<th class="info">产品名称</th>
 										<th class="info">品牌商标</th>
 										<th class="info">规格型号</th>
 										<th class="info">计量单位</th>

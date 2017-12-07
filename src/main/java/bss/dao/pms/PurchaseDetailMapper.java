@@ -428,4 +428,38 @@ public interface PurchaseDetailMapper {
     * @return List<PurchaseDetail>
      */
     List<PurchaseDetail> dynamicForeach(List<String> list);
+    
+    String selectByPurchaseType(String id);
+    
+    List<PurchaseDetail> selectByProjectStatus(String parentId);
+    
+    List<PurchaseDetail> selectByParentIdList(String id);
+    List<PurchaseDetail> selectByTask(PurchaseDetail detail);
+    List<PurchaseDetail> selectByDept(String orgId);
+    List<PurchaseDetail> selectByType(String orgId);
+    List<Map<String, Object>> selectByMonth(String orgId);
+    
+    /**
+     * 
+    * @Title: supervisionProjectId
+    * @author FengTian 
+    * @date 2017-12-7 下午2:40:25  
+    * @Description: 需求监督根据 fileId 查询项目
+    * @param @param fileId
+    * @param @return      
+    * @return List<String>
+     */
+    List<String> supervisionProjectId(String fileId);
+    
+    /**
+     * 
+    * @Title: supervisionDetail
+    * @author FengTian 
+    * @date 2017-12-7 下午2:43:43  
+    * @Description: 需求监督根据 条件 查询明细
+    * @param @param fileId
+    * @param @return      
+    * @return List<PurchaseDetail>
+     */
+    List<PurchaseDetail> supervisionDetail(HashMap<String, Object> map);
 }

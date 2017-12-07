@@ -1626,7 +1626,7 @@ public class OpenBiddingController extends BaseSupplierController{
     	  String id = DictionaryDataUtil.getId("JZXTP");
     	  Project project = projectService.selectById(projectId);
     	  if (id.equals(project.getPurchaseType()) || StringUtils.isNotBlank(project.getPurchaseNewType())) {
-    		  model.addAttribute("count", 1);
+    		  model.addAttribute("count", 0);
     	  }
       }
     }
@@ -4029,5 +4029,46 @@ public class OpenBiddingController extends BaseSupplierController{
     model.addAttribute("projectId",projectId);
     model.addAttribute("flowDefineId",flowDefineId);
     return "bss/ppms/open_bidding/project_view";
+  }
+  @RequestMapping("/printWordPrice")
+  public String printWordPrice(Model model,String projectId,String packId){
+    Project project = projectService.selectById(projectId);
+    Packages pack = packageService.selectByPrimaryKeyId(packId);
+    String type="";
+    if(project.getPurchaseNewType()!=null){
+      DictionaryData data = DictionaryDataUtil.findById(project.getPurchaseNewType());
+      if(data!=null&&"JZXTP".equals(data.getCode())){
+        type="JZXTP_DYLY";
+      }
+    }else{
+      DictionaryData data = DictionaryDataUtil.findById(project.getPurchaseType());
+      if(data!=null&&("JZXTP".equals(data.getCode())||"DYLY".equals(data.getCode()))){
+        type="JZXTP_DYLY";
+      }
+    }
+    Quote quote=new Quote();
+    quote.setProjectId(projectId);
+    quote.setPackageId(packId);
+    List<Date> quoteDate=null;
+    try {
+     quoteDate = supplierQuoteService.selectQuoteCount(quote);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    List<List<Quote>> list=new ArrayList<List<Quote>>(); 
+    for (Date date : quoteDate) {
+      quote.setCreatedAt(new Timestamp(date.getTime()));
+      List<Quote> qutes = supplierQuoteService.selectQuoteHistoryList(quote);
+      for (Quote quote2 : qutes) {
+        Supplier sup = supplierService.selectById(quote2.getSupplierId());
+        quote2.setSupplier(sup);
+      }
+      list.add(qutes);
+    }
+    model.addAttribute("list",list);
+    model.addAttribute("type",type);
+    model.addAttribute("project",project);
+    model.addAttribute("pack",pack);
+    return "bss/ppms/open_bidding/bid_file/print_price_word";
   }
 }

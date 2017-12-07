@@ -39,4 +39,5 @@ public interface TaskMapper {
     List<Task> selectByProject(String id);
     
     List<Task> listByProjectTask(HashMap<String,Object> map);
+    List<Task> searchByTask(Task record);
 }

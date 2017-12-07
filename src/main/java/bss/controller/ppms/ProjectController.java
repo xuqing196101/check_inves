@@ -222,7 +222,13 @@ public class ProjectController extends BaseController {
             Orgnization orgnization = orgnizationService.findByCategoryId(user.getOrg().getId());
             HashMap<String,Object> map = new HashMap<String,Object>();
             if(project.getName() !=null && !project.getName().equals("")){
-                map.put("name", project.getName());
+            	List<String> name = new ArrayList<String>();
+            	for (int i = 0; i < project.getName().length(); i++) {
+            		char charAt = project.getName().charAt(i);
+            		name.add(String.valueOf(charAt));
+				}
+            	String join = StringUtils.join(name, "%");
+                map.put("name", join);
             }
             if(project.getProjectNumber() != null && !project.getProjectNumber().equals("")){
                 map.put("projectNumber", project.getProjectNumber());
@@ -420,21 +426,43 @@ public class ProjectController extends BaseController {
      * @return
      */
     @RequestMapping("/projectByAll")
-    public String projectByAll(Project project,Integer page, Model model){
+    public String projectByAll(@CurrentUser User user, Project project, Integer page, Model model){
         HashMap<String,Object> map = new HashMap<String,Object>();
-        if(project.getName() !=null && !project.getName().equals("")){
+        if(StringUtils.isNotBlank(project.getName())){
             map.put("name", project.getName());
         }
-        if(project.getProjectNumber() != null && !project.getProjectNumber().equals("")){
+        if(StringUtils.isNotBlank(project.getProjectNumber())){
             map.put("projectNumber", project.getProjectNumber());
         }
-        if(project.getStatus() != null && !project.getStatus().equals("")){
+        if(StringUtils.isNotBlank(project.getStatus())){
             map.put("status", project.getStatus());
         }
+        if (user != null && !StringUtils.equals("4", user.getTypeName()) && user.getOrg() != null) {
+        	map.put("purchaseDepId", user.getOrg().getId());
+		} else {
+			map.put("purchaseDepId", project.getPurchaseDepId());
+		}
+        if (StringUtils.isNotBlank(project.getMaterialsType())) {
+        	map.put("goodsName", project.getMaterialsType());
+		}
+        if (StringUtils.isNotBlank(project.getSectorOfDemand())) {
+        	map.put("department", project.getSectorOfDemand());
+		}
+        if (StringUtils.isNotBlank(project.getPrIntroduce())) {
+        	map.put("documentNumber", project.getPrIntroduce());
+		}
         if(page==null){
             page = 1;
         }
-        PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+        List<Orgnization> orgByPosition = orgnizationService.findPurchaseOrgByPosition(null);
+        map.put("page", page);
+        List<Project> listByAll = projectService.listByAll(map);
+        if (listByAll != null && !listByAll.isEmpty()) {
+        	model.addAttribute("info", new PageInfo<Project>(listByAll));
+		}
+        model.addAttribute("typeName", user.getTypeName());
+        model.addAttribute("orgByPosition", orgByPosition);
+        /*PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
         List<Project> list = projectService.lists(map);
         for (int i = 0; i < list.size(); i++ ) {
             try {
@@ -444,7 +472,7 @@ public class ProjectController extends BaseController {
                 list.get(i).setProjectContractor("");
             }
             model.addAttribute("info", new PageInfo<Project>(list));
-        }
+        }*/
         model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
         model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
         model.addAttribute("projects", project);
@@ -588,7 +616,7 @@ public class ProjectController extends BaseController {
        * @param detailId
        * @return
        */
-      public String isUseForPlanDetail(String projectId, String detailId){
+     /* public String isUseForPlanDetail(String projectId, String detailId){
           JSONObject jsonObj = new JSONObject();
           String isUse = projectService.isUseForPlanDetail(projectId, detailId);
           if (isUse == null) {
@@ -597,7 +625,7 @@ public class ProjectController extends BaseController {
             jsonObj.put("isUse", isUse);
           }
           return jsonObj.toString();
-      }
+      }*/
       
       public List<ProjectDetail> paixu(List<ProjectDetail> newDetails, String id){
           HashMap<String, Object> map = new HashMap<>();
@@ -2604,14 +2632,18 @@ public class ProjectController extends BaseController {
         List<String> id2 = getIds(ids);
         Set<String> set = new HashSet<String>();
         for (String string : id2) {
-            HashMap<String, Object> map = new HashMap<>();
+        	String type = purchaseDetailService.selectByPurchaseType(string);
+        	if (StringUtils.isNotBlank(type)) {
+        		set.add(type);
+			}
+            /*HashMap<String, Object> map = new HashMap<>();
             PurchaseDetail detail = purchaseDetailService.queryById(string);
             map.put("id", detail.getId());
             List<PurchaseDetail> list = purchaseDetailService.selectByParentId(map);
             if(list.size() == 1){
                  String aa = detail.getPurchaseType();
                  set.add(aa);
-            }
+            }*/
         }
             
         if(set.size() == 1){

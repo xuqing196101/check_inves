@@ -108,7 +108,7 @@
                 <tr class="tc ">
                   <th class="hide"></th>
                   <th class="w30">序号</th>
-                  <th class="150">物资名称</th>
+                  <th class="150">产品名称</th>
                   <th>规格型号</th>
                   <th>质量技术标准</th>
                   <th>计量单位</th>

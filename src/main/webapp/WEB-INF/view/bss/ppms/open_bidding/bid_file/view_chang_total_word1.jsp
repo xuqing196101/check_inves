@@ -1,7 +1,5 @@
 <%@ page language="java" import="java.util.*,java.net.*" pageEncoding="utf-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
-
-
 <%@page contentType="application/vnd.ms-word;charset=GBK"%>
 
 <%
@@ -32,30 +30,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <meta http-equiv="description" content="This is my page">
 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
 <!--
 
 <link rel="stylesheet" type="text/css" href="styles.css">
 
 -->
-
-<style>
-
-@page
-    {mso-page-border-surround-header:no;
-    mso-page-border-surround-footer:no;}
-@page Section1
-    {size:841.9pt 595.3pt;
-    mso-page-orientation:landscape;
-    margin:89.85pt 72.0pt 89.85pt 72.0pt;
-    mso-header-margin:42.55pt;
-    mso-footer-margin:49.6pt;
-    mso-paper-source:0;
-    layout-grid:15.6pt;}
-div.Section1
-    {page:Section1;}
-
-</style>
-
 
 <%
 
@@ -81,13 +61,11 @@ String tem="";
   }    
 
 response.setHeader("Content-disposition", "attachment; filename=" + fileName);     
-    
+
 %>
-
 </head>
-
 <body>
-<div style="width:100%;" class = "Section1">
+<div style="width:100%;margin:auto;">
 	<c:forEach items="${treeMap }" var="treemap" varStatus="vsKey">
 		<div align="center" style="margin-top: 10px!important;text-align: center;">
 	   		<h2>${project.name}(${pack.name})</h2>
@@ -113,7 +91,5 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
 		</table>
 	</c:forEach>
 </div>
-
 </body>
-
 </html>

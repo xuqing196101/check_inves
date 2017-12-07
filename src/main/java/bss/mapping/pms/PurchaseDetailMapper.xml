@@ -1455,7 +1455,46 @@
 		UNIQUE_ID=#{uniqueId}
 	</select>
 	
-		<!-- 获取最底层明细 -->
+	<select id="selectByPurchaseType" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT
+				PURCHASE_TYPE
+			FROM
+				(
+					SELECT
+						detail.*, DECODE (
+							(
+								SELECT
+									COUNT (*)
+								FROM
+									T_BSS_PMS_PURCHASE_DETAIL
+								WHERE
+									PARENT_ID = detail.ID
+							),
+							0,
+							'false',
+							'true'
+						) AS isParent
+					FROM
+						T_BSS_PMS_PURCHASE_DETAIL detail
+					WHERE
+						detail.ID = #{id}
+				)
+			WHERE
+				isParent = 'false'
+	</select>
+	
+	<select id="selectByProjectStatus" parameterType="java.lang.String" resultMap="PurchaseRequired_Map">
+		SELECT
+			ID,PROJECT_STATUS
+		FROM
+			T_BSS_PMS_PURCHASE_DETAIL
+		WHERE
+			HISTORY_STATUS = '0'
+		AND IS_DELETE = 0  AND (PROJECT_STATUS = 2 OR PROJECT_STATUS = 1)
+		AND PARENT_ID = #{parentId}
+	</select>
+	
+		<!-- 获取最底层明细修改状态 -->
     <update id="selectByDetailId"  parameterType="bss.model.pms.PurchaseDetail">
     	UPDATE T_BSS_PMS_PURCHASE_DETAIL
 			SET PROJECT_STATUS = 2
@@ -1487,4 +1526,279 @@
 			WHERE
 				isParent = 'false')
     </update>
+    <select id="selectByParentIdList" parameterType="java.lang.String" resultMap="PurchaseRequired_Map">
+		SELECT
+			*
+		FROM
+			T_BSS_PMS_PURCHASE_DETAIL
+		WHERE
+		 IS_DELETE = 0  and
+		PARENT_ID=#{id}
+	</select>
+	<select id="selectByTask" parameterType="bss.model.pms.PurchaseDetail" resultMap="PurchaseRequired_Map">
+		SELECT
+	TAB1. ID,
+	TAB1.seq,
+	TAB1.plan_name,
+	TAB1.plan_no,
+	TAB1.plan_type,
+	TAB1.department,
+	TAB1.material_name,
+	TAB1.taskGiveTime,
+	TAB1.is_master,
+	TAB1.TASKNAME,
+	TAB1.TASKNUMBER,
+	TAB1.item,
+	TAB1.purchase_count,
+	TAB1.price,
+	TAB1.budget,
+	TAB1.organization_id,
+	TAB1.purchase_type,
+	TAB1.isParent
+FROM
+	(
+		SELECT
+			DETAIL.*, TASK. NAME AS taskName,
+			TASK.DOCUMENT_NUMBER AS taskNumber,
+			TASK.GIVE_TIME AS taskGiveTime,
+			DECODE (
+				(
+					SELECT
+						COUNT (*)
+					FROM
+						T_BSS_PMS_PURCHASE_DETAIL dt
+					WHERE
+						DT.PARENT_ID = detail. ID
+				),
+				0,
+				'false',
+				'true'
+			) AS isParent
+		FROM
+			(
+				SELECT
+					COLLECT_ID,
+					GIVE_TIME,
+					NAME,
+					DOCUMENT_NUMBER
+				FROM
+					T_BSS_PPMS_TASK
+				WHERE
+					collect_id IS NOT NULL
+				AND TASK_NATURE = 0
+				AND IS_DELETED = 0
+				GROUP BY
+					COLLECT_ID,
+					GIVE_TIME,
+					NAME,
+					DOCUMENT_NUMBER
+			) task
+		INNER JOIN T_BSS_PMS_PURCHASE_DETAIL detail ON TASK.COLLECT_ID = DETAIL.UNIQUE_ID
+	) tab1 START WITH TAB1.ISPARENT = 'false'
+   <if test="goodsName!=null and goodsName!=''">
+   AND TAB1.material_name LIKE CONCAT(CONCAT('%', #{goodsName}), '%')
+   </if>	
+   <if test="beginDate!=null and endDate!=null">
+        and TAB1.taskGiveTime BETWEEN TO_DATE(#{beginDate},'yyyy-MM-dd HH24:mi:ss') and TO_DATE(#{endDate},'yyyy-MM-dd HH24:mi:ss')
+     </if>
+     <if test="purchaseType!=null and purchaseType!=''">
+        and TAB1.purchase_type=#{purchaseType}
+     </if>
+     <if test="orgId!=null and orgId!=''">
+        and TAB1.organization_id in (select PURCHASE_DEP_ID from T_SES_OMS_PURDEP_ORG where 1=1 and org_id=#{orgId})
+     </if>
+     <if test="organization!=null and organization!=''">
+        and TAB1.organization_id=#{organization}
+     </if>
+     <if test="taskNumber!=null and taskNumber!=''">
+        and TAB1.TASKNUMBER LIKE CONCAT(CONCAT('%', #{taskNumber}), '%')
+     </if>
+     <if test="department!=null and department!=''">
+        and TAB1.department LIKE CONCAT(CONCAT('%', #{department}), '%')
+     </if>
+ CONNECT BY PRIOR TAB1.parent_id = TAB1. ID
+GROUP BY
+	TAB1. ID,
+	TAB1.seq,
+	TAB1.plan_name,
+	TAB1.plan_no,
+	TAB1.plan_type,
+	TAB1.department,
+	TAB1.material_name,
+	TAB1.taskGiveTime,
+	TAB1.is_master,
+	TAB1.TASKNAME,
+	TAB1.TASKNUMBER,
+	TAB1.item,
+	TAB1.purchase_count,
+	TAB1.price,
+	TAB1.budget,
+	TAB1.organization_id,
+	TAB1.purchase_type,
+	TAB1.isParent
+ORDER BY
+	TAB1.taskGiveTime DESC,
+	TAB1.is_master ASC
+	</select>
+	
+	<select id="selectByDept" parameterType="java.lang.String"  resultMap="PurchaseRequired_Map">
+	select tab.department,SUM(tab.budget) as budget from (
+      SELECT
+			detail.*,(select count(*) from T_BSS_PMS_PURCHASE_DETAIL s where s.PARENT_ID=DETAIL.id) as cou
+		FROM
+			(
+				SELECT
+					COLLECT_ID
+				FROM
+					T_BSS_PPMS_TASK
+				WHERE
+					collect_id IS NOT NULL
+				AND TASK_NATURE = 0
+				AND IS_DELETED = 0
+				GROUP BY
+					COLLECT_ID
+			) task
+		inner JOIN T_BSS_PMS_PURCHASE_DETAIL detail ON TASK.COLLECT_ID = DETAIL.UNIQUE_ID ) tab where TAB.cou=0 and TAB.DEPARTMENT is not null
+		  and TAB.DEPARTMENT in (SELECT
+				T2.SHORT_NAME
+			FROM
+				T_SES_OMS_PURDEP_ORG t1 INNER JOIN T_SES_OMS_ORG t2 on T1.ORG_ID=T2.ID
+			WHERE
+				1 = 1
+			AND t1.PURCHASE_DEP_ID =#{orgId} )
+		 group by tab.DEPARTMENT 
+	</select>
+	
+	<select id="selectByType" parameterType="java.lang.String"  resultMap="PurchaseRequired_Map">
+	select tab.PURCHASE_TYPE,SUM(tab.budget) as budget from (
+       SELECT
+			detail.*,(select count(*) from T_BSS_PMS_PURCHASE_DETAIL s where s.PARENT_ID=DETAIL.id) as cou
+		FROM
+			(
+				SELECT
+					COLLECT_ID
+				FROM
+					T_BSS_PPMS_TASK
+				WHERE
+					collect_id IS NOT NULL
+				AND TASK_NATURE = 0
+				AND IS_DELETED = 0
+				GROUP BY
+					COLLECT_ID
+			) task
+		inner JOIN T_BSS_PMS_PURCHASE_DETAIL detail ON TASK.COLLECT_ID = DETAIL.UNIQUE_ID ) tab where TAB.cou=0 and TAB.PURCHASE_TYPE is not null 
+		 and tab.organization_id  in (select PURCHASE_DEP_ID from T_SES_OMS_PURDEP_ORG where 1=1 and org_id=#{orgId})
+		group by tab.PURCHASE_TYPE 
+	</select>
+	
+	<select id="selectByMonth" parameterType="java.lang.String"  resultType="Map">
+	select TO_CHAR(tab.GIVE_TIME,'yyyy-mm') as taskGiveTime ,SUM(tab.budget) as budget from (
+		SELECT
+					detail.*,task.GIVE_TIME,(select count(*) from T_BSS_PMS_PURCHASE_DETAIL s where s.PARENT_ID=DETAIL.id) as cou
+				FROM
+					(
+						SELECT
+							COLLECT_ID,
+		          GIVE_TIME
+						FROM
+							T_BSS_PPMS_TASK
+						WHERE
+							collect_id IS NOT NULL
+						AND TASK_NATURE = 0
+						AND IS_DELETED = 0
+						GROUP BY
+							COLLECT_ID,
+		GIVE_TIME
+					) task
+		inner JOIN T_BSS_PMS_PURCHASE_DETAIL detail ON TASK.COLLECT_ID = DETAIL.UNIQUE_ID ) tab where TAB.cou=0 and
+		 tab.organization_id  in (select PURCHASE_DEP_ID from T_SES_OMS_PURDEP_ORG where 1=1 and org_id=#{orgId}) and
+		  TO_CHAR(tab.GIVE_TIME,'yyyy')=TO_CHAR(SYSDATE,'yyyy') group by TO_CHAR(tab.GIVE_TIME,'yyyy-mm') order by taskGiveTime 
+	 
+	</select>
+	
+	<select id="supervisionProjectId" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT
+			pd.PROJECT_ID
+		FROM
+			T_BSS_PPMS_PROJECTS_DETAIL pd
+		WHERE
+			EXISTS (
+				SELECT
+					AA. ID
+				FROM
+					(
+						SELECT
+							detail.*, DECODE (
+								(
+									SELECT
+										COUNT (*)
+									FROM
+										T_BSS_PMS_PURCHASE_DETAIL
+									WHERE
+										PARENT_ID = detail. ID
+								),
+								0,
+								'false',
+								'true'
+							) AS isParent
+						FROM
+							T_BSS_PMS_PURCHASE_DETAIL detail
+						WHERE
+							EXISTS (
+								SELECT
+									asd. ID
+								FROM
+									T_BSS_PMS_PURCHASE_DETAIL asd
+								WHERE
+									asd.FILE_ID = #{fileId}
+								AND detail. ID = asd. ID
+							)
+					) aa
+				WHERE
+					aa.ISPARENT = 'false'
+				AND aa. ID = pd.REQUIRED_ID
+			)
+		GROUP BY
+			PROJECT_ID
+	</select>
+	
+	<select id="supervisionDetail" parameterType="java.util.Map" resultMap="PurchaseRequired_Map">
+		SELECT
+			detail. ID, detail.PARENT_ID, detail.SEQ, detail.DEPARTMENT, detail.MATERIAL_NAME,
+			detail.STAND, detail.QUALIT_STAND, detail.ITEM, detail.PURCHASE_COUNT, detail.PRICE,
+			detail.BUDGET, detail.DELIVER_DATE, detail.SUPPLIER, detail.PURCHASE_TYPE,
+			detail.IS_MASTER, detail.STATUS,
+			DECODE (
+				(
+					SELECT
+						COUNT (*)
+					FROM
+						T_BSS_PMS_PURCHASE_DETAIL
+					WHERE
+						PARENT_ID = detail. ID
+				),
+				0,
+				'false',
+				'true'
+			) AS isParent
+		FROM
+			T_BSS_PMS_PURCHASE_DETAIL detail
+		WHERE
+			EXISTS (
+				SELECT
+					asd. ID
+				FROM
+					T_BSS_PMS_PURCHASE_DETAIL asd
+				WHERE
+					<if test="fileId != null and fileId != ''">
+						asd.FILE_ID = #{fileId}
+					</if>
+					<if test="uniqueId != null and uniqueId != ''">
+						asd.UNIQUE_ID = #{uniqueId}
+					</if>
+				AND detail. ID = asd. ID
+			)
+		ORDER BY
+			detail.IS_MASTER ASC
+	</select>
 </mapper>
