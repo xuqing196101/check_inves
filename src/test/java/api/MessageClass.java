@@ -68,7 +68,7 @@ public class MessageClass {
 
     @Test
     public void messageTest(){
-        SMSUtil.sendMsg("18513119027,15201290464,", "【军队采购网】审核通知：您好，您的信息退回修改。");
+        //SMSUtil.sendMsg("18513119027,15201290464,", "【军队采购网】审核通知：您好，您的信息退回修改。");
     }
 
     @Test
