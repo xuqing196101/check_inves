@@ -305,7 +305,7 @@
 												<thead>
 													<tr>
 														<th class="info w50">序号</th>
-														<th class="info">物资名称</th>
+														<th class="info">产品名称</th>
 														<th class="info">规格型号</th>
 														<th class="info">质量技术标准</th>
 														<th class="info">计量单位</th>
@@ -345,7 +345,7 @@
 												<thead>
 													<tr>
 														<th class="info w50">序号</th>
-														<th class="info">物资名称</th>
+														<th class="info">产品名称</th>
 														<th class="info">规格型号</th>
 														<th class="info">质量技术标准</th>
 														<th class="info">计量单位</th>

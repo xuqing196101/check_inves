@@ -541,7 +541,7 @@
                 <th class="choose"><input type="checkbox" id="selectAll" onclick="selectAll()"></th>
                 <th class="seq">序号</th>
                 <th class="department">需求部门</th>
-                <th class="goodsname">物资名称</th>
+                <th class="goodsname">产品名称</th>
                 <th class="stand">规格型号</th>
                 <th class="qualitstand">质量技术<br>标准</th>
                 <th class="item">计量<br>单位</th>
@@ -633,7 +633,7 @@
                 <th class="choose">选择</th>
                 <th class="seq">序号</th>
                 <th class="department">需求部门</th>
-                <th class="goodsname">物资名称</th>
+                <th class="goodsname">产品名称</th>
                 <th class="stand">规格型号</th>
                 <th class="qualitstand">质量技术<br>标准</th>
                 <th class="item">计量<br>单位</th>
@@ -694,7 +694,7 @@
               <th class="choose"><input type="checkbox" id="selectAddAll" onclick="selectAddAll()"></th>
               <th class="seq">序号</th>
               <th class="department">需求部门</th>
-              <th class="goodsname">物资名称</th>
+              <th class="goodsname">产品名称</th>
               <th class="stand">规格型号</th>
               <th class="qualitstand">质量技术标准</th>
               <th class="item">计量<br>单位</th>

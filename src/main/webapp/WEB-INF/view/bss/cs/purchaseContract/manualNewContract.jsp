@@ -184,7 +184,9 @@
 		 var as=doca.Selection;
 		 //goto参数，1：不知道，2：不知道，3：页数，4：当前页里面存在的字符串
 		 as.GoTo(1,2,as.Information(4),"条形码");
-		 obj.Add2DCodePic(1, data, true, 35, 460, 1, 100, 1, true); 
+		 obj.Add2DCodePic(1, data, true, 35, 460, 1, 100, 1, true);
+		 var  rangeWord = obj.ActiveDocument.Content; //获取当前文档文字部分
+	      rangeWord.Find.Execute("条形码：",false,false,false,false,false,true,1,false,"",2); //执行查找替换方法
 
 	 }
 	
@@ -1128,7 +1130,7 @@
 							<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 							<th class="info w50">序号</th>
 							<th class="info">编号</th>
-							<th class="info">物资名称</th>
+							<th class="info">产品名称</th>
 							<th class="info">品牌商标</th>
 							<th class="info">规格型号</th>
 							<th class="info">计量单位</th>
@@ -1167,7 +1169,7 @@
 				<form id="myForm" action="${pageContext.request.contextPath}/purchaseContract/validAddRe.html">
 				  <ul class="list-unstyled">
 				    <li class="mt10 col-md-12 p0">
-		    	      <label class="col-md-12 pl20"><div class="red star_red">*</div>物资名称：</label>
+		    	      <label class="col-md-12 pl20"><div class="red star_red">*</div>产品名称：</label>
 		    	      <span class="col-md-12">
 		    	      <div class="input-long">
 	                   <input type="hidden" id="categorieId4" name="categoryId" value="">

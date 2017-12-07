@@ -144,7 +144,7 @@
                 <tr class="info">
                   <th class="w50">序号</th>
                   <th class="info department">需求部门</th>
-                  <th class="info " width="10%">物资类别及名称</th>
+                  <th class="info " width="10%">产品名称</th>
                   <th class="info ">规格型号</th>
                   <th class="info " width="15%">质量技术标准<br/>(技术参数)</th>
                   <th class="info item">计量<br/>单位</th>

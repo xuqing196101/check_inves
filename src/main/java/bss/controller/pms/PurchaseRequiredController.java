@@ -1320,7 +1320,7 @@ public class PurchaseRequiredController extends BaseController {
 		style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 		style.setWrapText(true);
 		cell.setCellStyle(style);
-		cell.setCellValue("物资类别及名称");
+		cell.setCellValue("产品名称");
 		cell = row.createCell(3);
 		style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 		style.setWrapText(true);
