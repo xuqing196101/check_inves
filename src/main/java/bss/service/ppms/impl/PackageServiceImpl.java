@@ -486,4 +486,10 @@ public class PackageServiceImpl implements PackageService {
     return list;
   }
 
+	@Override
+	public List<Packages> selectBySupplier(HashMap<String, Object> map) {
+		
+		return packageMapper.selectBySupplier(map);
+	}
+
 }

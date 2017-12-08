@@ -8,13 +8,21 @@
 		<%@ include file="/WEB-INF/view/common.jsp"%>
 		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<script type="text/javascript">
-		 /* $(function(){
-			 if("${msg}"  == "1") {
+		 $(function(){
+			/*  if("${msg}"  == "1") {
 			    layer.alert("请先上传编报说明",{offset: '50px'});
 			}else if("${msg}" == "2"){
 				layer.alert("请先上传审批文件",{offset: '50px'});
-			}
-		 }); */
+			} */
+			//获取查看或操作权限
+        var isOperate = $('#isOperate', window.parent.document).val();
+        if(isOperate == 0) { 
+          //只具有查看权限，隐藏操作按钮
+          $(":button").each(function() {
+            $(this).hide();
+          });
+         }
+		 });
 		 function bidRegister(id,type) {
        window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
      }
@@ -22,21 +30,27 @@
 		 function saveFile(flag) {
 		 		var type = "${project.confirmFile}";
 		 		if(type){
-		 			//提交
-					$.ajax({
-	          url: "${pageContext.request.contextPath}/open_bidding/saveBidDocument.html?projectId=${project.id}&flowDefineId=${flowDefineId}&flag=" + flag,
-	          type: "post",
-	          dataType: "text",
-	          async:false,
-	          success: function(result) {
-	          	if(result == "ok"){
-	          		window.location.href = "${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${project.id}&flowDefineId=${flowDefineId}";
-	          	}
-	          },
-	          error: function() {
-	            layer.msg("失败");
-	          }
-	        });
+		 			var text = $("#f_disFileId").find("a");
+		 			if(text.length<=0){
+		 				layer.msg("请上传");
+		 			} else {
+		 				//提交
+						 $.ajax({
+		          url: "${pageContext.request.contextPath}/open_bidding/saveBidDocument.html?projectId=${project.id}&flowDefineId=${flowDefineId}&flag=" + flag,
+		          type: "post",
+		          dataType: "text",
+		          async:false,
+		          success: function(result) {
+		          	if(result == "ok"){
+		          		window.location.href = "${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${project.id}&flowDefineId=${flowDefineId}";
+		          	}
+		          },
+		          error: function() {
+		            layer.msg("失败");
+		          }
+		        });
+		 			}
+		 			
 		 		} else {
 		 			layer.msg("请提交采购文件");
 		 		}
@@ -118,7 +132,7 @@
 			<div class="col-md-12 tc col-sm-12 col-xs-12 mt20">
 					<p>采购文件是否需要提交至管理部门报批</p>
 	        <button class="btn btn-windows save" type="button" onclick="saveFile('1')"">报批</button>
-	        <button class="btn btn-windows back" type="button" onclick="saveFile('5')">不报批</button>
+	        <button class="btn" type="button" onclick="saveFile('5')">不报批</button>
 	     </div>
       </c:if>
 	</body>

@@ -437,10 +437,12 @@ public class ProjectController extends BaseController {
         if(StringUtils.isNotBlank(project.getStatus())){
             map.put("status", project.getStatus());
         }
-        if (user != null && !StringUtils.equals("4", user.getTypeName()) && user.getOrg() != null) {
-        	map.put("purchaseDepId", user.getOrg().getId());
-		} else {
-			map.put("purchaseDepId", project.getPurchaseDepId());
+        if (user != null && StringUtils.equals("4", user.getTypeName())) {
+        	map.put("purchaseDepId", project.getPurchaseDepId());
+		} else if (user != null && StringUtils.equals("2", user.getTypeName())) {
+			map.put("orgId", user.getOrg().getId());
+		} else if (user != null && StringUtils.equals("1", user.getTypeName())) {
+			map.put("purchaseDepId", user.getOrg().getId());
 		}
         if (StringUtils.isNotBlank(project.getMaterialsType())) {
         	map.put("goodsName", project.getMaterialsType());

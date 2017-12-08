@@ -1655,7 +1655,7 @@
       ORDER BY APPROVAL_TIME DESC
   </select>
   
-  <select id="listByAll" parameterType="java.util.Map" resultMap="BaseResultMap">
+  <!-- <select id="listByAll" parameterType="java.util.Map" resultMap="BaseResultMap">
   	SELECT
 			*
 		FROM
@@ -1756,6 +1756,70 @@
 			BB.PRINCIPAL, bb.PURCHASE_DEP_ID, bb.PURCHASE_TYPE,
 			bb.STATUS, bb.CREATED_AT, BB.DOCUMENT_NUMBER
 		ORDER BY bb.CREATED_AT DESC
+  </select> -->
+  
+  <select id="listByAll" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	SELECT
+			PP. ID, PP. NAME, PP.PROJECT_NUMBER, PP.PARENT_ID,
+			(SELECT REL_NAME FROM T_SES_BMS_USER WHERE ID = PP.PRINCIPAL ) AS PRINCIPAL,
+			PP.PURCHASE_DEP_ID, PP.PURCHASE_TYPE, PP.STATUS, PP.CREATED_AT
+		FROM
+			T_BSS_PPMS_PROJECTS pp
+		LEFT JOIN (
+			SELECT
+				TASK.DOCUMENT_NUMBER,TASK.ORG_ID, PT.PROJECT_ID
+			FROM
+				T_BSS_PPMS_PROJECT_TASK PT
+			LEFT JOIN T_BSS_PPMS_TASK TASK ON TASK. ID = PT.TASK_ID
+			WHERE
+				TASK.DOCUMENT_NUMBER IS NOT NULL
+		) AA ON AA.PROJECT_ID = PP.PARENT_ID
+		LEFT JOIN T_BSS_PPMS_PROJECTS_DETAIL PD ON PD.PROJECT_ID = PP. ID
+		WHERE
+			EXISTS (
+				SELECT
+					ID
+				FROM
+					T_BSS_PPMS_PROJECTS
+				WHERE
+					PP.PARENT_ID = ID
+			)
+		<if test="goodsName != null and goodsName != ''">
+			AND pd.GOODS_NAME like CONCAT(CONCAT('%', #{goodsName}), '%')
+		</if>
+		<if test="department != null and department != ''">
+			AND pd.DEPARTMENT like CONCAT(CONCAT('%', #{department}), '%')
+		</if>
+		<if test="orgId != null and orgId != ''">
+			AND AA.ORG_ID = #{orgId}
+		</if>
+		<if test="purchaseDepId != null and purchaseDepId != ''">
+			AND PP.PURCHASE_DEP_ID = #{purchaseDepId}
+		</if>
+		<if test="name != null and name != ''">
+     	AND PP.NAME like CONCAT(CONCAT('%', #{name}), '%')
+    </if>
+    <if test="projectNumber != null and projectNumber != ''">
+     	AND PP.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
+    </if>
+    <if test="status != null and status != ''">
+     	AND PP.STATUS = #{status}
+    </if>
+    <if test="documentNumber != null and documentNumber != ''">
+     	AND AA.DOCUMENT_NUMBER like CONCAT(CONCAT('%', #{documentNumber}), '%')
+    </if>
+		GROUP BY
+			PP. ID,
+			PP. NAME,
+			PP.PROJECT_NUMBER,
+			PP.PARENT_ID,
+			PP.PRINCIPAL,
+			PP.PURCHASE_DEP_ID,
+			PP.PURCHASE_TYPE,
+			PP.STATUS,
+			PP.CREATED_AT
+		ORDER BY
+			pp.CREATED_AT DESC
   </select>
   
   <select id="newSelectById" parameterType="java.lang.String" resultMap="BaseResultMap">
