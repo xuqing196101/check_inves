@@ -366,23 +366,21 @@
 					</button>
 				</h2>
 				<ul class="ul_list m0 pl5" id="condition" style="background-color: #fbfbfb">
-					<li class="col-md-3 col-sm-6 col-xs-12 pl10 category">
+					<li class="col-md-3 col-sm-6 col-xs-12  p0">
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">
+							<span class="star_red">*</span>供应商类型：</span>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<select id=supplierType name="supplierTypeCode" onchange="initCategoryAndLevel(this)" class="w100p"></select> 
+							<div class="cue" id="supplierTypeCodeError"></div>
+						</div>
+					</li>
+					<li class="col-md-3 col-sm-6 col-xs-12  category">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span>产品类别：</span>
 						<!--  满足多个条件 -->
 						<input type="hidden" name="isMulticondition" value="1" id="isSatisfy" class="isSatisfy"> <input type="hidden" name="categoryId" id="categoryIds" class="categoryId">
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input readonly value="${listCon.conTypes[0].categoryName}" id="categoryName" typeCode="" onclick="opens(this);" type="text"> <span class="add-on">i</span>
 							<div class="cue" id="categoryIdError"></div>
-						</div>
-					</li>
-					<li class="col-md-3 col-sm-6 col-xs-12">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">
-							<span class="star_red">*</span>供应商类型：
-						</span>
-						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<select id=supplierType name="supplierTypeCode" onchange="initCategoryAndLevel(this)" class="w100p"></select> 
-							<span class="add-on">i</span>
-							<div class="cue" id="supplierTypeCodeError"></div>
 						</div>
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12">

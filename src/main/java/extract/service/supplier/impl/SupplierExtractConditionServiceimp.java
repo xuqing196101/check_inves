@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
@@ -1146,6 +1147,7 @@ public class SupplierExtractConditionServiceimp implements
 			
 			//存储查询出的供应商
 			HashSet<Object> hashSet = new HashSet<>();
+			List<Supplier> suppliers = new ArrayList<>();
 			HashMap<String, Object> hashMap = new HashMap<>();
 			Set<String> keySet = cateAndLevelMap.keySet();
 			
@@ -1173,6 +1175,7 @@ public class SupplierExtractConditionServiceimp implements
 					//3 标记 查询的时候调用品目关联等级查询sql
 					Map<String, Object> supplierMap = selectLikeSupplier2(condition, 3);
 					hashSet.addAll((List<Supplier>) supplierMap.get("list"));
+					suppliers.addAll((List<Supplier>)supplierMap.get("list"));
 				}
 				//销售等级
 				for (String key : keySet2) {
@@ -1182,6 +1185,7 @@ public class SupplierExtractConditionServiceimp implements
 					//3 标记 查询的时候调用品目关联等级查询sql
 					Map<String, Object> supplierMap = selectLikeSupplier2(condition, 3);
 					hashSet.addAll((List<Supplier>) supplierMap.get("list"));
+					suppliers.addAll((List<Supplier>)supplierMap.get("list"));
 				}
 			}else{
 				for (String key : keySet) {
@@ -1195,7 +1199,14 @@ public class SupplierExtractConditionServiceimp implements
 			if(type == 0){
 				hashMap.put("count", hashSet.size());
 			}else if(type == 1){
-				hashMap.put("list", hashSet);
+				if(suppliers.size()>0){
+					Random random = new Random();
+					int nextInt = random.nextInt(suppliers.size());
+					hashSet.clear();
+					Supplier supplier = suppliers.get(nextInt);
+					hashSet.add(supplier);
+				}
+					hashMap.put("list", hashSet);
 			}
 			return hashMap;
 		}else{
