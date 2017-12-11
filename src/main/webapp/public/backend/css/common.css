@@ -1346,3 +1346,24 @@ text-align:center;
 .layui-layer-btn a:hover {
   color: #333 !important;
 }
+/* 重置栅格间距 */
+.m_row_5 .row {
+  margin-left: -5px;
+  margin-right: -5px;
+}
+.m_row_5 .col-xs-1, .m_row_5 .col-xs-2, .m_row_5 .col-xs-3, .m_row_5 .col-xs-4, .m_row_5 .col-xs-5, .m_row_5 .col-xs-6, .m_row_5 .col-xs-7, .m_row_5 .col-xs-8, .m_row_5 .col-xs-9, .m_row_5 .col-xs-10, .m_row_5 .col-xs-11, .m_row_5 .col-xs-12, 
+.m_row_5 .col-sm-1, .m_row_5 .col-sm-2, .m_row_5 .col-sm-3, .m_row_5 .col-sm-4, .m_row_5 .col-sm-5, .m_row_5 .col-sm-6, .m_row_5 .col-sm-7, .m_row_5 .col-sm-8, .m_row_5 .col-sm-9, .m_row_5 .col-sm-10, .m_row_5 .col-sm-11, .m_row_5 .col-sm-12, 
+.m_row_5 .col-md-1, .m_row_5 .col-md-2, .m_row_5 .col-md-3, .m_row_5 .col-md-4, .m_row_5 .col-md-5, .m_row_5 .col-md-6, .m_row_5 .col-md-7, .m_row_5 .col-md-8, .m_row_5 .col-md-9, .m_row_5 .col-md-10, .m_row_5 .col-md-11, .m_row_5 .col-md-12, 
+.m_row_5 .col-lg-1, .m_row_5 .col-lg-2, .m_row_5 .col-lg-3, .m_row_5 .col-lg-4, .m_row_5 .col-lg-5, .m_row_5 .col-lg-6, .m_row_5 .col-lg-7, .m_row_5 .col-lg-8, .m_row_5 .col-lg-9, .m_row_5 .col-lg-10, .m_row_5 .col-lg-11, .m_row_5 .col-lg-12 {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+/* 优化select2插件样式 */
+.m_select2 .select2-container-multi .select2-choices {
+  padding: 0;
+  border: solid 1px rgb(204, 204, 204);
+  background-image: none;
+}
+.m_select2 .select2-container-multi .select2-choices .select2-search-field input {
+  margin: 0;
+}
