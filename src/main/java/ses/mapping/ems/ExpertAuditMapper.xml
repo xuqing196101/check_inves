@@ -798,4 +798,19 @@
         </foreach>
     </if>
   </select>
+  
+  <!-- 不通过的类别 -->
+  <select id="selectNoPassType" parameterType="java.lang.String" resultType="java.lang.Integer">
+  	select
+  		count(*)
+  	from
+  		T_SES_EMS_EXPERT_AUDIT
+  	where
+  		EXPERT_ID = #{expertId}
+  	and AUDIT_FIELD_ID = #{auditFieldId}
+  	and AUDIT_FALG = 2
+  	and IS_DELETED = 0
+  	and AUDIT_STATUS = '6'
+  	and SUGGEST_TYPE = 'seven'
+  </select>
 </mapper>
