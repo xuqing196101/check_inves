@@ -58,7 +58,7 @@
           <li class="col-md-3 col-sm-4 col-xs-12">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span> 项目编号:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <input class="span5" id="projectCode" name="code" value="${expertExtractProject.code}" <c:if test="${expertExtractProject != null }">disabled="disabled"</c:if> type="text" onblur="vaCode()" maxlength="80">
+              <input class="span5" id="projectCode" name="code" value="${expertExtractProject.code}" <c:if test="${expertExtractProject != null }">disabled="disabled"</c:if> type="text" onblur="vaCode(1)" maxlength="80">
               <span class="add-on">i</span>
               <div class="cue" id="err_code"></div>
             </div>
