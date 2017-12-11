@@ -238,6 +238,10 @@
 			$("#show_table tbody tr").remove();
 			$("#model4B tbody tr").clone().appendTo("#show_table tbody");
 			$("#showbutton").show();
+		}else if(model=="10"){
+			$("#show_table tbody tr").remove();
+			$("#model1C tbody tr").clone().appendTo("#show_table tbody");
+			$("#showbutton").show();
 		}
 	}
 	function modelTwoAddSubstact21(){
@@ -958,6 +962,7 @@
 							<option value="">请选择</option>
 							<option value="0">模型一A（是否判断）</option>
 							<option value="8">模型一B（按项匹配分值）</option>
+							<!-- <option value="10">模型一C（正负偏离程度排名计算）</option> -->
 							<option value="1">模型二（按项加减分）</option>
 							<option value="2">模型三（以评审数额最高分值为基准排序递减）</option>
 							<option value="3">模型四A（以评审数额最低值为基准排序递增）</option>
@@ -1648,6 +1653,38 @@
 			<tr>
 				<td class=" w300 tc">当前模型标准解释</td>
 				<td colspan="2"><span class="blue">以评审数额最低值为基准排序递增。采购文件明确标准分值，排序分差和最高最低分值限制。评审系统按照绝对数值，自动识别由高到低进行排序，并按分差计分规则计算得分。(如：产品重量，包装品重量，某些工艺指标用品参数等)</span></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<table id="model1C" class="w499 hide">
+		<tbody>
+			 <tr>
+				<td class=" w300 tc"><span class="star_red">*</span>评审参数</td>
+				<td><input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }" type="text"></td>
+				<td><span class="blue">
+					该参数代表需要录入供应商的参数。<br/>
+				</td>
+			</tr>
+			<tr>
+				<td class=" w300 tc"><span class="star_red">*</span>偏离类型</td>
+				<td>
+					<select name="addSubtractTypeName" id="addSubtractTypeName" >
+						<option value="0" <c:if test="${scoreModel.addSubtractTypeName == 0}">selected="selected"</c:if> >负偏离</option>
+						<option value="1" <c:if test="${scoreModel.addSubtractTypeName == 1}">selected="selected"</c:if> >正偏离</option>
+					</select>
+				</td>
+				<td><span class="blue">选择正偏离还是负偏离</span></td>
+			</tr>
+			
+			<tr>
+				<td class=" w300 tc"><span class="star_red">*</span>标准分值</td>
+				<td><input name="standardScore" onkeyup="gernerator();" id="standardScore" value="${scoreModel.standardScore }" type="text"></td>
+				<td><span class="blue">指标的标准分值</span></td>
+			</tr>
+			<tr>
+				<td class=" w300 tc">当前模型标准解释</td>
+				<td colspan="2"><span class="blue">按照正负偏离程度排名计算。正偏离评分规则：按偏离程度由高到低排名，排名第一得标准分值，排名第二按标准分值的25%递减得分，依此类推，最低得分为0分。（三分之二以上技术专家认定正偏离对产品性能没有实质意义的指标，可以不再排名，得分一致，但须备注：正偏离无实质意义）负偏离评分规则：按偏离程度由低到高排名。只有1家负偏离的，得分为负标准分值；有2家负偏离的，排名第一得标准分值的负50%分，排名第二得负标准分值；有3家负偏离的，排名第一得标准分值的负33%分，排名第二得标准分值的负66%分，其余依次类推；有4家及以上负偏离的，排名第一得标准分值的负25%分，排名第二得标准分值的负50%分，其余依次类推，最低得负标准分值。</span></td>
 			</tr>
 		</tbody>
 	</table>
