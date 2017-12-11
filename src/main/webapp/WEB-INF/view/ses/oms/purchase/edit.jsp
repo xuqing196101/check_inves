@@ -152,6 +152,7 @@ function onCheck(e, treeId, treeNode) {
              dataType: "json",
              success: function(data){
                      if (!data.success) {
+                    	 $("#errMobile").html("");
             $("#ajax_mobile").html(data.msg);
             is_error = 1;
            } else {
@@ -162,23 +163,45 @@ function onCheck(e, treeId, treeNode) {
           return is_error;
     }
     
+    function ajaxMoblie2(){
+	       var is_error = 0;
+	       var mobile2 = $("#mobile2").val();
+	       if (mobile2 != null && mobile2 != "") {
+		       $.ajax({
+		             type: "GET",
+		             async: false, 
+		             url: "${pageContext.request.contextPath}/user/ajaxMoblie.do?mobile="+mobile2,
+		             dataType: "json",
+		             success: function(data){
+		                if (!data.success) {
+		                	$("#errMobile2").html("");
+				            $("#ajax_mobile2").html(data.msg);
+				            is_error = 1;
+			           	} else {
+			            	$("#ajax_mobile2").html("");
+			           	}
+		             }
+		        });
+		    }
+	          return is_error;
+	     }
+    
     $(document).ready(function(){  
         $("#formID").bind("submit", function(){  
           var error = 0;
-          debugger;
           if (ajaxIdNumber() == 1) {
-          error += 1;
-        } 
-        if (ajaxMoblie() == 1){
-          error += 1;
-        } 
-        if (error > 0) {
-          return false;
-        } else {
-          return true;
-        }
-        })
-      })
+	          error += 1;
+          } 
+          if (ajaxMoblie() == 1){
+              error += 1;
+          } 
+          if (error > 0) {
+              return false;
+          } else {
+              return true;
+          }
+	   })
+   })
 	
 </script>
 </head>
@@ -218,6 +241,7 @@ function onCheck(e, treeId, treeNode) {
 	  <input  name="password" value="${purchaseInfo.password}"  type="hidden" />
 	  <input  name="password2" value="${purchaseInfo.password}"  type="hidden" />
 	  <input type="hidden" name = "typeName" value="1">
+	  <input type="hidden" id="uId" name="userId" value="${purchaseInfo.userId}">
 	  <div>
 	    <h2 class="count_flow"><i>1</i>基本信息</h2>
 		  <ul class="ul_list m_ul_list">
@@ -293,6 +317,24 @@ function onCheck(e, treeId, treeNode) {
                 <span class="add-on">i</span>
               </div>
             </li> 
+            <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+			    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>数据查看权限</span>
+		        <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+			        <select name="dataAccess">
+			        	<option value="" >请选择</option>
+		        		<option value="1" <c:if test="${purchaseInfo.dataAccess == 1}">selected</c:if>>所有</option>
+				        <option value="2" <c:if test="${purchaseInfo.dataAccess == 2}">selected</c:if>>本单位</option>
+				        <option value="3" <c:if test="${purchaseInfo.dataAccess == 3}">selected</c:if>>本人</option>
+			        </select>
+			        <div class="cue"><sf:errors path="dataAccess"/></div>
+		        </div>
+		 	</li>
+		 	<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">上传用户注册申请表</span>
+              <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+               <u:upload id="fileApply"  multiple="true"  businessId="${purchaseInfo.userId}" sysKey="${sysKey}" typeId="${data.id}" auto="true" />
+		       <u:show showId="fileApplyShow"  businessId="${purchaseInfo.userId}" sysKey="${sysKey}" typeId="${data.id}" />
+              </div>
+            </li>
 		  </ul>
 		</div>
 		
@@ -467,23 +509,29 @@ function onCheck(e, treeId, treeNode) {
 			  </li>
 				                     
 			  <li class="col-md-3 col-sm-6 col-xs-12 pl15">  
-			    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>手机号码</span>
+			    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>手机(常用)</span>
 				<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 				  <input class="input_group" name="mobile" value="${purchaseInfo.mobile}" onblur="ajaxMoblie()" type="text"> 
 				  <span class="add-on">i</span>
-          <div class="cue"><sf:errors path="mobile"/></div>
-          <div id="ajax_mobile" class="cue"></div>
+		          <div class="cue" id="errMobile"><sf:errors path="mobile"/></div>
+		          <div id="ajax_mobile" class="cue"></div>
 				</div>
 			  </li>
 			  
 			  <li class="col-md-3 col-sm-6 col-xs-12"> 
-			    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">办公号码</span>
+			    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">座机电话（地方）</span>
 				<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 				  <input class="input_group" name="telephone" value="${purchaseInfo.telephone}" type="text"> 
 				  <span class="add-on">i</span>
 				</div>
 			  </li>
-			  
+			<li class="col-md-3 col-sm-6 col-xs-12"> 
+			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">座机电话（军线）</span>
+			  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+			    <input class="input_group" name="telephone2" value="${purchaseInfo.telephone2}" maxlength="50" type="text"> 
+			    <span class="add-on">i</span>
+			  </div>
+			</li>
 			  <li class="col-md-3 col-sm-6 col-xs-12"> 
 			    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">传真号码</span>
 				<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -491,6 +539,15 @@ function onCheck(e, treeId, treeNode) {
 				  <span class="add-on">i</span>
 				</div>
 			  </li>
+			  <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" >
+			  <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">手机(备用)</span>
+			  <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+				<input id="mobile2" class="input_group" name="mobile2"  maxlength="50" value="${purchaseInfo.mobile2}" type="text">
+				<span class="add-on">i</span>
+				<div class="cue" id="errMobile2"><sf:errors path="mobile2"/></div>
+			    <div class="cue"><sf:errors path="mobile2"/></div>
+			  </div>
+			</li>
 			  
 			  <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" >
 				<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><div class="star_red">*</div>邮箱</span>

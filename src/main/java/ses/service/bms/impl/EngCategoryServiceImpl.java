@@ -25,11 +25,8 @@ import ses.model.bms.Category;
 import ses.model.bms.CategoryQua;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
-import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierCateTree;
-import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierItem;
-import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierPorjectQua;
 import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.CategoryService;
@@ -809,7 +806,7 @@ public class EngCategoryServiceImpl implements EngCategoryService {
 			// 所有等级List
 			List < Category > cateList = new ArrayList < Category > ();
 			cateList.add(categoryService.selectByPrimaryKey(cateTree.getSecondNodeID()));
-			List < QualificationBean > type = supplierService.queryCategoyrId(cateList, 4);
+			List < QualificationBean > type = supplierService.getQuaList(cateList, 4);
 			List < Qualification > typeList = new ArrayList < Qualification > ();
 			if(type != null && type.size() > 0 && type.get(0).getList() != null && type.get(0).getList().size() > 0) {
 				typeList = type.get(0).getList();
@@ -832,5 +829,10 @@ public class EngCategoryServiceImpl implements EngCategoryService {
 		map.put("isPublish", 0);
 		map.put("parentId", parentId);
 		return engCcategoryMapper.findCategory(map);
+	}
+	
+	@Override
+	public Category selectById(String id){
+		return engCcategoryMapper.selectById(id);
 	}
 }

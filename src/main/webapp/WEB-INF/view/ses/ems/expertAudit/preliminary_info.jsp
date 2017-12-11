@@ -90,6 +90,24 @@
                 }
              }
           });
+        }else if(typeof(status) == "undefined"){
+        	$.ajax({
+                url: "${pageContext.request.contextPath}/expertAudit/findCategoryCount.do",
+                data: {
+                  "expertId" : expertId,
+                  "auditFalg" : 1
+                },
+                type: "post",
+                dataType: "json",
+                success: function(data) {
+                	//初审
+                    if(data.all == 0 && data.pass == 0){
+                      $("#check_opinion").html("初审合格，通过的是物资服务经济类别。");
+                    }else{
+                      $("#check_opinion").html("初审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。" + opinion);
+                    }
+                 }
+              });
         }
       }
     

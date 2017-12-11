@@ -14,6 +14,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+
+import common.constant.Constant;
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
+import common.service.UploadService;
+import extract.util.DateUtils;
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
@@ -279,7 +287,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
             	listSupplierCertSes.addAll(supp.getSupplierMatSe().getListSupplierCertSes());
             }
       
-//    		List < SupplierItem > itemsList = supplierItemService.getSupplierId(supp.getId());
+//    		List < SupplierItem > itemsList = supplierItemService.getItemListBySupplierId(supp.getId());
 //    		for(SupplierItem item: itemsList) {
 //    			 List<UploadFile> itemFiles = uploadService.substrBusniessI(item.getId());
 //    			Category cate = categoryService.findById(item.getCategoryId());
@@ -473,7 +481,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
         }
         
         List < Category > category = new ArrayList < Category > ();
-        List < SupplierItem > itemsList = supplierItemService.getSupplierId(supplier.getId());
+        List < SupplierItem > itemsList = supplierItemService.getItemListBySupplierId(supplier.getId());
 		for(SupplierItem item: itemsList) {
 			//资质文件的
 			 List<UploadFile> itemFiles = uploadService.substrBusniessI(item.getId());
@@ -690,7 +698,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
      * @return
      */
     private List<SupplierItem> getSupplierItems(String supplierId){
-    	List<SupplierItem> list = supplierItemService.getSupplierId(supplierId);
+    	List<SupplierItem> list = supplierItemService.getItemListBySupplierId(supplierId);
     	for(SupplierItem sc:list){
     		List<UploadFile> files = fileUploadMapper.findBybusinessId(sc.getCategoryId(), "T_SES_SMS_SUPPLIER_ATTACHMENT");
     		sc.setFileList(files);
@@ -821,7 +829,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
             	listSupplierCertSes.addAll(supp.getSupplierMatSe().getListSupplierCertSes());
             }
       
-    		List < SupplierItem > itemsList = supplierItemService.getSupplierId(supp.getId());
+    		List < SupplierItem > itemsList = supplierItemService.getItemListBySupplierId(supp.getId());
     		for(SupplierItem item: itemsList) {
     			List<UploadFile> itemFiles = uploadService.substrBusniessI(item.getId());
     			Category cate = categoryService.findById(item.getCategoryId());

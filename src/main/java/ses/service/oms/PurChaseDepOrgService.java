@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 /**
  * 
  * @Title: PurChaseDepOrg
@@ -48,5 +50,16 @@ public interface PurChaseDepOrgService {
    * @since JDK1.7
    */
   String selectOrgFullNameByPurchaseDepId(Map<String, Object> map);
+  
+	/**
+	 * 
+	 * 
+	 * Description: 专家审核查询采购机构简称
+	 * 
+	 * @data 2017年12月4日
+	 * @param 
+	 * @return String
+	 */
+	String selectShortNameByDepId(String purchaseDepId);
   
 }

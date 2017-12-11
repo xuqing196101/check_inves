@@ -640,10 +640,17 @@
       and T1.IS_DELETED = #{isDeleted}
     </if>
     <if test="auditFalg != '' and auditFalg != null">
-      and T1.AUDIT_FALG = #{auditFalg}
+    	<!-- 兼容老数据之前没存的 -->
+    	<if test="auditFalg == 1 ">
+    		AND (T1.AUDIT_FALG = #{auditFalg} OR t1.AUDIT_FALG is null)
+    	</if>
+    	<if test="auditFalg != 1 ">
+    		and T1.AUDIT_FALG = #{auditFalg}
+    	</if>
     </if>
     <if test="statusQuery !=null and statusQuery !=''">
-      AND (T1.AUDIT_STATUS = '1' OR T1.AUDIT_STATUS = '3' OR T1.AUDIT_STATUS = '6' OR ( T1.SUGGEST_TYPE = 'six' AND T1.AUDIT_STATUS = '2'))
+      <!-- AND (T1.AUDIT_STATUS = '1' OR T1.AUDIT_STATUS = '3' OR T1.AUDIT_STATUS = '6' OR ( T1.SUGGEST_TYPE = 'six' AND T1.AUDIT_STATUS = '2')) -->
+      AND NOT (T1.AUDIT_STATUS = '5' OR T1.AUDIT_STATUS = '4')
     </if>
     ORDER BY 
 	   	DECODE (t1.SUGGEST_TYPE,'one','1','seven','2','six','3','five','4'),
@@ -711,4 +718,84 @@
    <update id="updateAgainReview" parameterType="java.lang.String">
    	update T_SES_EMS_EXPERT_AUDIT SET AUDIT_STATUS='7' WHERE EXPERT_ID=#{expertId} and AUDIT_FALG='2' and AUDIT_STATUS !='7'
    </update>
+   
+   <select id="selectReasonByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    	ID,AUDIT_REASON
+    from 
+    	T_SES_EMS_EXPERT_AUDIT
+    where 
+    	EXPERT_ID = #{expertId}
+    <if test="isDeleted == null">
+    	and IS_DELETED = 0
+    </if>
+    <if test="suggestType != '' and suggestType != null">
+    	and SUGGEST_TYPE = #{suggestType}
+    </if>
+    <if test="auditField != '' and auditField != null">
+    	and AUDIT_FIELD = #{auditField}
+    </if>
+    <if test="auditFieldId != '' and auditFieldId != null">
+    	and AUDIT_FIELD_ID = #{auditFieldId}
+    </if>
+    <if test="auditFieldName != '' and auditFieldName != null">
+    	and AUDIT_FIELD_NAME = #{auditFieldName}
+    </if>
+    <if test="auditFalg !='' and auditFalg !=null">
+        and AUDIT_FALG = #{auditFalg}
+    </if>
+    <if test="type !=null ">
+    	and TYPE = #{type}
+    </if>
+    <if test="statusQuery!=null">
+    	AND (AUDIT_STATUS IN ('1','3','6') OR AUDIT_STATUS is null)
+    </if>
+    <if test="auditStatus != null and auditStatus != ''">
+        and AUDIT_STATUS = #{auditStatus}
+    </if>
+    <if test="statusList != null">
+        and AUDIT_STATUS IN 
+		<foreach item="item" index="index" collection="statusList" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+    </if>
+  </select>
+  
+  <!-- 审核记录查询末节点品目审核意见 -->
+  <select id="selectCatReason" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    	ID,AUDIT_REASON
+    from 
+    	T_SES_EMS_EXPERT_AUDIT
+    where 
+    	EXPERT_ID = #{expertId}
+    	and IS_DELETED = 0
+    <if test="type !=null ">
+    	and TYPE = #{type}
+    </if>
+    <if test="suggestType !=null ">
+        and SUGGEST_TYPE = #{suggestType}
+    </if>
+    <if test="auditField != '' and auditField != null">
+    	and AUDIT_FIELD = #{auditField}
+    </if>
+    <if test="auditFieldId != '' and auditFieldId != null">
+        and AUDIT_FIELD_ID = #{auditFieldId}
+    </if>
+    <if test="auditFalg !='' and auditFalg !=null">
+        and AUDIT_FALG = #{auditFalg}
+    </if>
+    <if test="statusQuery!=null">
+    	AND (AUDIT_STATUS IN ('1','3','6') OR AUDIT_STATUS is null)
+    </if>
+    <if test="auditStatus != null and auditStatus != ''">
+        and AUDIT_STATUS = #{auditStatus}
+    </if>
+    <if test="statusList != null">
+        and AUDIT_STATUS IN 
+		<foreach item="item" index="index" collection="statusList" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+    </if>
+  </select>
 </mapper>

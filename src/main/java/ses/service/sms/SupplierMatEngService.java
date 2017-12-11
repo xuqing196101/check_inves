@@ -19,4 +19,11 @@ public interface SupplierMatEngService {
     public String getMatEngIdBySupplierId(String supplierId);
     
     public SupplierMatEng init();
+
+    /**
+     * 获取工程信息的基本信息
+     * @param supplierId
+     * @return
+     */
+	public SupplierMatEng getMatEngBasicBySupplierId(String supplierId);
 }

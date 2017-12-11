@@ -16,6 +16,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +45,7 @@ import synchro.util.OperAttachment;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
+
 import common.bean.ResBean;
 import common.constant.Constant;
 import common.constant.StaticVariables;
@@ -1547,21 +1549,26 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
 	@Override
-	public List<Category> searchByName(String cateName, String flag,
-			String codeName) {
-		if (flag == null) {
-        	List<Category> list = categoryMapper.searchByName(cateName, codeName);
-        	List<Category> listNot = new LinkedList<Category>();
-        	for(Category cate:list){
-        		List<Category> pList = this.getPListById(cate.getId());
-        		if(pList != null && pList.size() > 0){
-        			listNot.add(cate);
-        		}
-        	}
-        	list.removeAll(listNot);
-            return list;
-        } else {
-            return engCategoryMapper.searchByName(cateName, codeName);
-        }
+	public List<Category> searchByName(String cateName, String codeName) {
+		return categoryMapper.searchByName(cateName, codeName);
+	}
+
+	@Override
+	public List<Category> searchList(int type, String cateName, String codeName) {
+		return categoryMapper.searchList(type, cateName, codeName);
+	}
+	
+	/**
+	 * 
+	 * 
+	 * Description: 根据id查询名称
+	 * 
+	 * @data 2017年12月4日
+	 * @param 
+	 * @return String
+	 */
+	@Override
+	public Category selectById(String id){
+		return categoryMapper.selectById(id);
 	}
 }

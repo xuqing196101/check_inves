@@ -704,6 +704,7 @@
 	 WHERE TYPE_NAME = #{typeName}
 	 AND IS_DELETED = 0
 	 AND PARENT_ID = #{pid} 
+	 ORDER BY POSITION ASC
 	</select>
 	<!-- 获取  0:需求部门  2:管理部门 类型查询 -->
 	<select id="selectByType" resultMap="baseOrgnization" parameterType="String">

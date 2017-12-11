@@ -592,26 +592,25 @@ Supplier implements Serializable {
 	
 	private List<String> itemType;
 	
-	private Integer sign;  //审核标志  1 代表审核，2代表复审 
+	private Integer sign; //审核标志  1 代表审核，2代表复审 
 	
 	private Integer page;
 	
 	private Integer rows;
 	
-	private String businessTypeName; //营业执照类型名字
-	
 	private String isExtract; //是否抽取
 
-	private String extractOrgid;//抽取的机构id
+	private String extractOrgid; //抽取的机构id
 	
 	private String orgName; //机构名称
-	private String orgId; // 机构ID
+	private String orgId; //机构ID
+	private String depPhone; //采购机构电话
 	
 	private Integer isDeleted; //0未删除，1已删除
 	
 	private String grade; //等级
 	
-	private String auditor;//审核人
+	private String auditor; //审核人
 	
 	/**
 	 * 审核暂存状态
@@ -626,6 +625,9 @@ Supplier implements Serializable {
 	/**获取所有数据库address的省级单位名称*/
 	private String name;
 	
+	/**area表查出来的区域名称*/
+	private String areaName;
+	
 	/**地址全名*/
 	private String addressName;
 
@@ -638,10 +640,10 @@ Supplier implements Serializable {
     /**是否为临时专家  0不是 1是*/
     private Short isProvisional;
 	//品目参数
-	private List<CategoryParameter>  categoryParam= new ArrayList<CategoryParameter>();
+	private List<CategoryParameter> categoryParam = new ArrayList<CategoryParameter>();
 	
 	
-	private List<ProductParam> paramVleu=new   ArrayList<ProductParam>();
+	private List<ProductParam> paramVleu = new ArrayList<ProductParam>();
 	/**
 	 * 公司详细地址
 	 */
@@ -736,20 +738,22 @@ Supplier implements Serializable {
     private String queryCategoryName;
 
 	/**供应商附件表**/
-    private List<UploadFile> attchList=new ArrayList<UploadFile>();
+    private List<UploadFile> attchList = new ArrayList<UploadFile>();
     
-    private List<SupplierHistory> historys=new ArrayList<SupplierHistory>();
+    private List<SupplierHistory> historys = new ArrayList<SupplierHistory>();
     
-    private List<SupplierModify> modifys=new ArrayList<SupplierModify>();
+    private List<SupplierModify> modifys = new ArrayList<SupplierModify>();
 
 	private List<SupplierAudit> supplierAudits = new ArrayList<>();
     
-    private  List<Todos> todoList=new LinkedList<Todos>();
+    private List<Todos> todoList = new LinkedList<Todos>();
     
-    private  List<RoleUser> userRoles=new LinkedList<RoleUser>();
+    private List<RoleUser> userRoles = new LinkedList<RoleUser>();
     
     // 新添属性
     private String qrcodeImage;// 供应商二维码图片
+    private Integer returnCount;// 退回修改次数
+    private Date lastReturnDate;// 最近一次退回修改时间
     
     /**
      * @Fields errorNum : 用户登录密码错误次数
@@ -994,12 +998,12 @@ Supplier implements Serializable {
 	public void setAddressName(String addressName) {
 		this.addressName = addressName;
 	}
-	public String getName() {
-		return name;
+	public String getAreaName() {
+		return areaName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setAreaName(String areaName) {
+		this.areaName = areaName;
 	}
 
 	public List<String> getItemType() {
@@ -1760,13 +1764,6 @@ Supplier implements Serializable {
 	public void setAddressList(List<SupplierAddress> addressList) {
 		this.addressList = addressList;
 	}
-	public String getBusinessTypeName() {
-		return businessTypeName;
-	}
-
-	public void setBusinessTypeName(String businessTypeName) {
-		this.businessTypeName = businessTypeName;
-	}
 
 	public String getIsExtract() {
 		return isExtract;
@@ -2061,16 +2058,14 @@ Supplier implements Serializable {
     public void setDetails(List<AdvancedDetail> details) {
         this.details = details;
     }
-	
 
     public Integer getErrorNum() {
         return errorNum;
     }
 
-	
-  public void setErrorNum(Integer errorNum) {
-    this.errorNum = errorNum;
-  }
+    public void setErrorNum(Integer errorNum) {
+    	this.errorNum = errorNum;
+    }
 
     public List<SupplierAudit> getSupplierAudits() {
         return supplierAudits;
@@ -2165,5 +2160,36 @@ Supplier implements Serializable {
 		return true;
 	}
 
+	public Integer getReturnCount() {
+		return returnCount;
+	}
+
+	public void setReturnCount(Integer returnCount) {
+		this.returnCount = returnCount;
+	}
+	
+	public Date getLastReturnDate() {
+		return lastReturnDate;
+	}
+
+	public void setLastReturnDate(Date lastReturnDate) {
+		this.lastReturnDate = lastReturnDate;
+	}
+
+	public String getDepPhone() {
+		return depPhone;
+	}
+
+	public void setDepPhone(String depPhone) {
+		this.depPhone = depPhone;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 	
 }

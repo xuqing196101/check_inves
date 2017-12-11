@@ -68,7 +68,7 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);
 				<thead>
 					<tr style="box-sizing: border-box; border:1px solid #dddddd; border-radius: 0px !important;">
 						<th width="30" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">序号</th>
-						<th width="120" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">物资名称</th>
+						<th width="120" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">产品名称</th>
 						<th width="120" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">规格型号</th>
 						<th width="120" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">质量技术标准</th>
 						<th width="120" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">计量单位</th>

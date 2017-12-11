@@ -23,7 +23,7 @@
 			 <thead>
 				<tr>
 				 <td class="info tc">编号</td>
-				 <td class="info tc">物资名称</td>
+				 <td class="info tc">产品名称</td>
 				 <td class="info tc">规格型号</td>
 				 <td class="info tc">质量技术标准</td>
 				 <td class="info tc">计量单位</td>

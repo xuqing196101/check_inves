@@ -175,6 +175,11 @@
 		<collection property="listSupplierRegPersons" select="ses.dao.sms.SupplierRegPersonMapper.findRegPersonByMatEngId" column="ID"></collection>
 	</resultMap>
 	
+	<select id="getMatEngBasicBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select * from(select <include refid="Base_Column_List" /> 
+		from T_SES_SMS_SUPPLIER_MAT_ENG where SUPPLIER_ID = #{supplierId}) where rownum = 1
+	</select>
+	
 	<select id="getMatEngIdBySupplierId" parameterType="java.lang.String" resultType="java.lang.String">
 		select ID from T_SES_SMS_SUPPLIER_MAT_ENG where SUPPLIER_ID = #{supplierId}
 	</select>

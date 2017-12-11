@@ -514,6 +514,45 @@ public class PreMenuController {
 				menu.setIsDeleted(0);
 				menu.setKind(pmenu.getKind());
 				preMenuService.save(menu);
+				//如果是供应商后台菜单,加到供应商SUPPLIER_R角色关联
+				if (pmenu.getKind() != null && pmenu.getKind() == 1) {
+					RolePreMenu rolePreMenu = new RolePreMenu();
+					Role r = new Role();
+					r.setCode("SUPPLIER_R");
+					r.setIsDeleted(0);
+					List<Role> supplierRole = roleService.find(r);
+					if (supplierRole != null && supplierRole.size() > 0) {
+						rolePreMenu.setRole(supplierRole.get(0));
+						rolePreMenu.setPreMenu(menu);
+						roleService.saveRolePreMenu(rolePreMenu);
+					}
+				}
+				//如果是专家后台菜单，加到专家EXPERT_R角色关联
+				if (pmenu.getKind() != null && pmenu.getKind() == 2) {
+					RolePreMenu rolePreMenu = new RolePreMenu();
+					Role r = new Role();
+					r.setCode("EXPERT_R");
+					r.setIsDeleted(0);
+					List<Role> supplierRole = roleService.find(r);
+					if (supplierRole != null && supplierRole.size() > 0) {
+						rolePreMenu.setRole(supplierRole.get(0));
+						rolePreMenu.setPreMenu(menu);
+						roleService.saveRolePreMenu(rolePreMenu);
+					}
+				}
+				//如果是进口代理商后台菜单，加到进口代理商IMPORT_AGENT_R角色关联
+				if (pmenu.getKind() != null && pmenu.getKind() == 3) {
+					RolePreMenu rolePreMenu = new RolePreMenu();
+					Role r = new Role();
+					r.setCode("IMPORT_AGENT_R");
+					r.setIsDeleted(0);
+					List<Role> supplierRole = roleService.find(r);
+					if (supplierRole != null && supplierRole.size() > 0) {
+						rolePreMenu.setRole(supplierRole.get(0));
+						rolePreMenu.setPreMenu(menu);
+						roleService.saveRolePreMenu(rolePreMenu);
+					}
+				}
 				String msg = "添加成功";
 				response.setContentType("text/html;charset=utf-8");
 				response.getWriter().print("{\"success\": " + true + ", \"msg\": \"" + msg + "\"}");
@@ -693,6 +732,45 @@ public class PreMenuController {
 					RolePreMenu rolePreMenu = new RolePreMenu();
 					rolePreMenu.setPreMenu(menu);
 					roleService.deleteRoelMenu(rolePreMenu);
+				}
+				//如果是供应商后台菜单,加到供应商SUPPLIER_R角色关联
+				if (pmenu.getKind() != null && pmenu.getKind() == 1) {
+					RolePreMenu rolePreMenu = new RolePreMenu();
+					Role r = new Role();
+					r.setCode("SUPPLIER_R");
+					r.setIsDeleted(0);
+					List<Role> supplierRole = roleService.find(r);
+					if (supplierRole != null && supplierRole.size() > 0) {
+						rolePreMenu.setRole(supplierRole.get(0));
+						rolePreMenu.setPreMenu(menu);
+						roleService.saveRolePreMenu(rolePreMenu);
+					}
+				}
+				//如果是专家后台菜单，加到专家EXPERT_R角色关联
+				if (pmenu.getKind() != null && pmenu.getKind() == 2) {
+					RolePreMenu rolePreMenu = new RolePreMenu();
+					Role r = new Role();
+					r.setCode("EXPERT_R");
+					r.setIsDeleted(0);
+					List<Role> supplierRole = roleService.find(r);
+					if (supplierRole != null && supplierRole.size() > 0) {
+						rolePreMenu.setRole(supplierRole.get(0));
+						rolePreMenu.setPreMenu(menu);
+						roleService.saveRolePreMenu(rolePreMenu);
+					}
+				}
+				//如果是进口代理商后台菜单，加到进口代理商IMPORT_AGENT_R角色关联
+				if (pmenu.getKind() != null && pmenu.getKind() == 3) {
+					RolePreMenu rolePreMenu = new RolePreMenu();
+					Role r = new Role();
+					r.setCode("IMPORT_AGENT_R");
+					r.setIsDeleted(0);
+					List<Role> supplierRole = roleService.find(r);
+					if (supplierRole != null && supplierRole.size() > 0) {
+						rolePreMenu.setRole(supplierRole.get(0));
+						rolePreMenu.setPreMenu(menu);
+						roleService.saveRolePreMenu(rolePreMenu);
+					}
 				}
 				String msg = "更新成功";
 				response.setContentType("text/html;charset=utf-8");

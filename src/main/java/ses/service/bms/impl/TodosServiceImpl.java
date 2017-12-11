@@ -134,7 +134,7 @@ public class TodosServiceImpl implements TodosService {
       pMap.put("db", db);
       User user = new User();
       user.setId(userId);
-      List<PreMenu> menu = preMenuServiceI.getMenu(user);
+      List<PreMenu> menu = preMenuServiceI.getMenu(user, null);
       if (menu != null && menu.size() != 0) {
         for (String str : db) {
           for (PreMenu preMenu : menu) {
@@ -180,7 +180,7 @@ public class TodosServiceImpl implements TodosService {
       pMap.put("db", db);
       User user = new User();
       user.setId(userId);
-      List<PreMenu> menu = preMenuServiceI.getMenu(user);
+      List<PreMenu> menu = preMenuServiceI.getMenu(user, null);
       if (menu != null && menu.size() != 0) {
         for (String str : db) {
           for (PreMenu preMenu : menu) {

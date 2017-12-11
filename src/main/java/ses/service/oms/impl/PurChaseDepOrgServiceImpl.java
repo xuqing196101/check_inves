@@ -1,16 +1,17 @@
 package ses.service.oms.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import ses.dao.oms.PurchaseDepMapper;
 import ses.dao.oms.PurchaseOrgMapper;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseOrg;
 import ses.service.oms.PurChaseDepOrgService;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 @Service("purChaseDepOrgService")
 public class PurChaseDepOrgServiceImpl implements PurChaseDepOrgService{
   @Autowired
@@ -80,4 +81,18 @@ public List<PurchaseDep> getDep() {
     public String selectOrgFullNameByPurchaseDepId(Map<String, Object> map) {
         return purchaseDepMapper.selectOrgFullNameByPurchaseDepId(map);
     }
+    
+	/**
+	 * 
+	 * 
+	 * Description: 专家审核查询采购机构简称
+	 * 
+	 * @data 2017年12月4日
+	 * @param 
+	 * @return String
+	 */
+    @Override
+	public String selectShortNameByDepId(String purchaseDepId){
+		return purchaseDepMapper.selectShortNameByDepId(purchaseDepId);
+	}
 }

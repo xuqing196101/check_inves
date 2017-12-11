@@ -33,7 +33,12 @@
        and PROJECT_ID=#{projectId}
     </if>
     <if test="status!=null and status!=''">
+      <if test="status==3">
+       and STATUS=0
+    </if>
+    <if test="status!=3">
        and STATUS=#{status}
+    </if>
     </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">

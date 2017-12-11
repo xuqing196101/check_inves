@@ -39,6 +39,8 @@
 	    <result column="unetType"  property="netType" />
 	    <result column="uerrorNum"  property="errorNum" />
 	    <result column="udataAccess"  property="dataAccess" />
+	    <result column="umobile2"  property="mobile2" />
+	    <result column="utelephone2"  property="telephone2" />
 	  	<!-- 查询机构 -->  
     	<association column="org"  property="org" select="ses.dao.oms.OrgnizationMapper.findOrgnizationById" />
 	    <!-- 查询创建人 -->
@@ -267,7 +269,13 @@
         and NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
       </if>
       <if test="status != null and status !=''">
-        and STATUS = #{status}
+        AND STATUS = #{status}
+      </if>
+      <if test="codes != null">
+      	AND CODE NOT IN 
+      	<foreach item="item" index="index" collection="codes" open="(" separator="," close=")">  
+		 	#{item}  
+		</foreach>
       </if>
     ORDER BY POSITION ASC
   </select>
@@ -310,6 +318,8 @@
 			U .NET_TYPE AS unetType,
 			U .ERROR_NUM AS uerrorNum,
 			U .DATA_ACCESS AS udataAccess,
+			U .MOBILE2 AS umobile2,
+			U .TELEPHONE2 AS utelephone2,
 			pm. ID AS mid,
 			pm. NAME AS mname,
 			pm.MENU_TYPE AS mtype,
@@ -490,6 +500,46 @@
    FROM 
    	T_SES_BMS_USER_PERMISSION
 	 WHERE USER_ID = #{userId} AND KIND = 0
+  </select>
+
+  <!-- 查询不分页角色（去除供应商、专家、进口代理商、专家复审审核组成员）列表-->
+  <select id="findList" resultMap="RoleBaseMap" parameterType="Object">
+	  SELECT
+		ID,
+		NAME,
+		(
+			SELECT
+				"COUNT" (DISTINCT(ur.USER_ID))
+			FROM
+				T_SES_BMS_USER U
+			LEFT JOIN T_SES_BMS_USER_ROLE ur ON U . ID = ur.USER_ID
+			WHERE
+				U .IS_DELETED = 0
+			AND ur.ROLE_ID = r.ID
+		) AS userNumber,
+		CREATED_AT,
+		DESCRIPTION,
+		STATUS,
+		CODE,
+		KIND,
+		POSITION
+	FROM
+			T_SES_BMS_ROLE r
+	WHERE
+			IS_DELETED = 0
+     	<if test="name != null and name != ''">
+        	AND NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
+      	</if>
+      	<if test="status != null and status !=''">
+        	AND STATUS = #{status}
+      	</if>
+      	<if test="codes != null">
+	      	AND CODE NOT IN 
+	      	<foreach item="item" index="index" collection="codes" open="(" separator="," close=")">  
+			 	#{item}  
+			</foreach>
+      	</if>
+      ORDER BY POSITION ASC
   </select>
 
 </mapper>

@@ -230,7 +230,9 @@ public class LoginController {
                             req.getSession().setAttribute("loginUser", u);
                             // loginLog记录
                             loginLog(u, req);
-                            List<PreMenu> resource = preMenuService.getMenu(u);
+                            //专家后台菜单
+                            Integer kind = 2;
+                            List<PreMenu> resource = preMenuService.getMenu(u, kind);
                             req.getSession().setAttribute("resource", resource);
                             //req.getSession().setAttribute("resource", u.getMenus());
                             req.getSession().setAttribute("loginUserType", "expert");
@@ -276,7 +278,9 @@ public class LoginController {
                                 req.getSession().setAttribute("loginUser", u);
                                 // loginLog记录
                                 loginLog(u, req);
-                                List<PreMenu> resource = preMenuService.getMenu(u);
+                                //供应商后台菜单
+                                Integer kind = 1;
+                                List<PreMenu> resource = preMenuService.getMenu(u, kind);
                                 req.getSession().setAttribute("resource", resource);
                                 //req.getSession().setAttribute("resource", u.getMenus());
                                 req.getSession().setAttribute("loginUserType", "supplier");
@@ -346,7 +350,9 @@ public class LoginController {
                       req.getSession().setAttribute("loginUser", u);
                       // loginLog记录
                       loginLog(u, req);
-                      List<PreMenu> resource = preMenuService.getMenu(u);	
+                      //系统后台菜单,进口代理商？
+                      Integer kind = 0;
+                      List<PreMenu> resource = preMenuService.getMenu(u, kind);	
                       req.getSession().setAttribute("resource", resource);
                       //req.getSession().setAttribute("resource", u.getMenus());
                       out.print("scuesslogin");

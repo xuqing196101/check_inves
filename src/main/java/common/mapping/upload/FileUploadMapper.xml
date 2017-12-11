@@ -13,11 +13,12 @@
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createDate" />
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updateDate" />
     <result column="IS_DELETED"  property="isDelete"/>
+    <result column="POSITION"  property="position"/>
   </resultMap> 
   
   <!-- 基础sql -->
   <sql id="BASE_FILE_LIST">
-  	ID,NAME,PATH,BUSINESS_ID,TYPE_ID,FILE_SIZE,CREATED_AT,UPDATED_AT,IS_DELETED
+  	ID,NAME,PATH,BUSINESS_ID,TYPE_ID,FILE_SIZE,CREATED_AT,UPDATED_AT,IS_DELETED,POSITION
   </sql>
   
   <!-- 插入 -->
@@ -27,20 +28,20 @@
     </selectKey>
     INSERT INTO ${tableName} (ID, NAME, PATH, 
       BUSINESS_ID, TYPE_ID, FILE_SIZE, 
-      CREATED_AT, UPDATED_AT,IS_DELETED)
+      CREATED_AT, UPDATED_AT,IS_DELETED,POSITION)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
       #{businessId,jdbcType=VARCHAR}, #{typeId,jdbcType=VARCHAR}, #{size,jdbcType=INTEGER}, 
-      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER})
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER}, #{position,jdbcType=INTEGER})
   </insert>
   
   <!-- 插入 -->
   <insert id="saveFile"    parameterType="common.model.UploadFile">
     INSERT INTO ${tableName} (ID, NAME, PATH, 
       BUSINESS_ID, TYPE_ID, FILE_SIZE, 
-      CREATED_AT, UPDATED_AT,IS_DELETED)
+      CREATED_AT, UPDATED_AT,IS_DELETED,POSITION)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
       #{businessId,jdbcType=VARCHAR}, #{typeId,jdbcType=VARCHAR}, #{size,jdbcType=INTEGER}, 
-      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER})
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER}, #{position,jdbcType=INTEGER})
   </insert>
   
   <!-- 获取文件 -->
@@ -55,7 +56,7 @@
   	 <if test="typeId != null">
   	 	AND TYPE_ID = #{typeId,jdbcType=VARCHAR}
   	 </if>
-  	 ORDER BY CREATED_AT
+  	 ORDER BY CREATED_AT,POSITION
   </select>
   
   <!-- 获取已经删除的文件 -->
@@ -101,6 +102,7 @@
   	 <if test="typeId != null">
   	 	AND TYPE_ID = #{typeId,jdbcType=VARCHAR}
   	 </if>
+  	 ORDER BY CREATED_AT,POSITION
   </select>
   
   <!-- 业务删除文件 -->
@@ -190,7 +192,10 @@
   	    UPDATED_AT = #{updateDate,jdbcType=TIMESTAMP},
   	  </if>
   	  <if test="isDelete != null">
-  	    IS_DELETED = #{isDelete,jdbcType=INTEGER}
+  	    IS_DELETED = #{isDelete,jdbcType=INTEGER},
+  	  </if>
+  	  <if test="position != null">
+  	    POSITION = #{position,jdbcType=INTEGER}
   	  </if>
   	</set>
   	WHERE ID = #{id,jdbcType=VARCHAR}

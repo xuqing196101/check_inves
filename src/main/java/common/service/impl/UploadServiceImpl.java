@@ -171,6 +171,7 @@ public class UploadServiceImpl implements UploadService {
         String fileRealName  = request.getParameter("fileName");
         String businessId = request.getParameter("businessId");
         String fileTypeId = request.getParameter("typeId") == null ? "" : request.getParameter("typeId");
+        String position = request.getParameter("position");
         boolean mutiple = Boolean.parseBoolean(request.getParameter("mutiple"));
         int systemKey = Integer.parseInt(request.getParameter("key"));
         String tableName = Constant.fileSystem.get(systemKey);
@@ -201,7 +202,6 @@ public class UploadServiceImpl implements UploadService {
             }
         }
 
-
         String[] file = moveFile(systemKey, FileEncryption.getDecrypted(filePath), fileRealName);
 
         if (file != null && file.length == 2){
@@ -215,6 +215,9 @@ public class UploadServiceImpl implements UploadService {
             model.setUpdateDate(new Date());
             model.setIsDelete(0);
             model.setTableName(tableName);
+            if (position != null && !"".equals(position)) {
+            	model.setPosition(Integer.parseInt(position)); 
+    		}
             uploadDao.insertFile(model);
             return OK;
         }

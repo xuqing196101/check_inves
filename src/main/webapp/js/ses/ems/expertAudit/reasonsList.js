@@ -218,6 +218,7 @@ function vartifyAuditCount(){
     var flags = false;
     // 获取审核意见
     var opinion  = $("#opinion").val();
+    opinion = trim(opinion);
     // 获取选择radio类型
     var checkVal = $("input:radio[name='selectOption']:checked").val();
     if(checkVal === undefined){
@@ -321,5 +322,9 @@ function seeItemsOpinion(expertId,opinion,status){
       $("#cate_result").html("复审不合格。" + opinion);
     }else if(checkVal == 10) {
       $("#cate_result").html("退回修改。" + opinion);
+    }
+    
+    function trim(str) { //删除左右两端的空格
+        return str.replace(/(^\s*)|(\s*$)/g, "");
     }
 }

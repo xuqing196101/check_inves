@@ -580,7 +580,7 @@
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 				<th class="info w50">序号</th>
 				<th class="info">编号</th>
-				<th class="info">物资名称</th>
+				<th class="info">产品名称</th>
 				<th class="info">品牌商标</th>
 				<th class="info">规格型号</th>
 				<th class="info">计量单位</th>
@@ -654,7 +654,7 @@
 			<form id="myForm" action="${pageContext.request.contextPath}/purchaseContract/validAddRe.html">
 			  <ul class="list-unstyled">
 			    <li class="mt10 col-md-12 col-sm-12 col-xs-12 p0">
-	    	      <label class="col-md-12 pl20"><div class="red star_red">*</div>物资名称：</label>
+	    	      <label class="col-md-12 pl20"><div class="red star_red">*</div>产品名称：</label>
 	    	      <span class="col-md-12">
 	    	      <div class="input-long">
                    <input type="hidden" id="categorieId4" name="categoryId" value="">

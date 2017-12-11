@@ -73,7 +73,7 @@
               $('.pic_upload').before('<button type="button" class="btn btn-windows group canDisable" onclick="jump_batchGroup()">批次分组</button>'
                 +'<button type="button" class="btn btn-windows config canDisable" onclick="jump_auditBatch()">审核配置</button>'
                 +'<button type="button" class="btn btn-windows reset" onclick="javascript: location.reload()">刷新</button>'
-                +'<button type="button" class="btn btn-windows input" onclick="downloadReviewTable()">下载专家复审统计表</button>'
+                +'<button type="button" class="btn btn-windows input" onclick="downloadReviewTable()">下载复审统计表</button>'
               );
               $('.pic_upload').after('<button type="button" class="btn btn-windows passed canDisable mr0 ml5" onclick="takeEffect()">生效</button>');
             }

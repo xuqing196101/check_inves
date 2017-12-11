@@ -3,11 +3,6 @@ package ses.controller.sys.sms;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -34,7 +29,6 @@ import ses.util.DictionaryDataUtil;
 import ses.util.SupplierLevelUtil;
 import bss.controller.base.BaseController;
 
-import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 @Controller
@@ -59,14 +53,240 @@ public class SupplierItemController extends BaseController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/saveCategory", method = RequestMethod.POST)
-	public String saveCategory(SupplierItem supplierItem, String flag, String clickFlag) {
+	public String saveCategory(SupplierItem supplierItem, boolean isParentChecked, String clickFlag) {
 		// 判断是否是取消选中
-		if("0".equals(clickFlag) && flag.equals("4")) {
-			supplierItemService.deleteItems(supplierItem);
-		} else if(flag.equals("4")) {
-			supplierItemService.saveOrUpdate(supplierItem);
+		if("0".equals(clickFlag)) {
+			supplierItemService.deleteItems(supplierItem, isParentChecked);
+		} else {
+			supplierItemService.saveOrUpdate(supplierItem, isParentChecked);
 		}
 		return "ok";
+	}
+	
+	/**
+	 *〈简述〉加载品目树
+	 *〈详细描述〉
+	 * @author myc
+	 * @param supplierId	供应商Id
+	 * @param code 		  	编码
+	 * @param id 		  	当前节点Id
+	 * @param status 		状态
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/loadCategory", produces = "application/json;charset=UTF-8")
+	public List < CategoryTree > loadCategory(String supplierId, String code, String id, Integer status) {
+		List < CategoryTree > categoryList = new ArrayList < CategoryTree > ();
+		//初始化跟节点
+		if(StringUtils.isEmpty(id)) {
+			if(StringUtils.isNotBlank(code)) {
+				CategoryTree ct = new CategoryTree();
+				ct.setCode(code);
+				ct.setIsParent("true");
+				DictionaryData dd = DictionaryDataUtil.get(code);
+				if(dd != null){
+					ct.setName(dd.getName());
+					if("PRODUCT".equals(code) || "SALES".equals(code)) {
+						dd = DictionaryDataUtil.get("GOODS");
+					}
+					if(dd != null){
+						ct.setId(dd.getId());
+						id = dd.getId();
+					}
+				}
+				int count = supplierItemService.countBySupplierIdCategoryId(supplierId, id, code);
+				if(count > 0){
+					ct.setChecked(true);
+				}
+				categoryList.add(ct);
+			}
+		}
+		//加载子集节点
+		if(StringUtils.isNotBlank(id)) {
+			List < Category > child = categoryService.findPublishTree(id, status);
+			Integer level = SupplierLevelUtil.getLevel(supplierId, code);
+			if (level != null) {
+			    for (int i = 0; i < child.size(); i++) {
+			        Category cate = child.get(i);
+			        if (cate.getLevel() != null && cate.getLevel() < level) {
+			            child.remove(i);
+			        }
+			    }
+			}
+			for(Category c: child) {
+				CategoryTree ct1 = new CategoryTree();
+				ct1.setName(c.getName());
+				ct1.setParentId(c.getParentId());
+				ct1.setId(c.getId());
+                ct1.setCode(c.getCode());
+                ct1.setIsParent(c.getIsParent());
+                int count = supplierItemService.countBySupplierIdCategoryId(supplierId, c.getId(), code);
+				if(count > 0){
+					ct1.setChecked(true);
+				}
+				categoryList.add(ct1);
+			}
+		}
+		return categoryList;
+	}
+	
+	/**
+	 * 品目搜索
+	 * @param supplierId
+	 * @param type
+	 * @param cateName
+	 * @param codeName
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/searchCate", produces = "application/json;charset=UTF-8")
+	public List < CategoryTree > searchCate(String supplierId, String type, String cateName, String codeName) {
+		List < CategoryTree > categoryList = new ArrayList < CategoryTree > ();
+		//初始化跟节点
+		String id = null;
+		int classifyType = 0;
+		if(StringUtils.isNotBlank(type)) {
+			CategoryTree ct = new CategoryTree();
+			ct.setCode(type);
+			ct.setIsParent("true");
+			DictionaryData dd = DictionaryDataUtil.get(type);
+			if(dd != null){
+				ct.setName(dd.getName());
+				if("PRODUCT".equals(type) || "SALES".equals(type)) {
+					dd = DictionaryDataUtil.get("GOODS");
+					classifyType = 1;
+				}else if("PROJECT".equals(type)){
+					classifyType = 2;
+				}else if("SERVICE".equals(type)){
+					classifyType = 3;
+				}
+				if(dd != null){
+					ct.setId(dd.getId());
+					id = dd.getId();
+				}
+			}
+			int count = supplierItemService.countBySupplierIdCategoryId(supplierId, id, type);
+			if(count > 0){
+				ct.setChecked(true);
+			}
+			categoryList.add(ct);
+		}
+		//加载子集节点
+		List < Category > child = categoryService.searchList(classifyType, cateName, codeName);
+		Integer level = SupplierLevelUtil.getLevel(supplierId, type);
+		if (level != null) {
+		    for (int i = 0; i < child.size(); i++) {
+		        Category cate = child.get(i);
+		        if (cate.getLevel() != null && cate.getLevel() < level) {
+		            child.remove(i);
+		        }
+		    }
+		}
+		for(Category c: child) {
+			CategoryTree ct1 = new CategoryTree();
+			//ct1.setName(c.getName());
+			ct1.setName((c.getName()+"").replaceAll(cateName, "<span style='background-color: yellow; color: red; margin-left: 0; margin-right: 0;'>"+cateName+"</span>"));
+			ct1.setParentId(c.getParentId());
+			ct1.setId(c.getId());
+            ct1.setCode(c.getCode());
+            ct1.setIsParent(c.getIsParent());
+            int count = supplierItemService.countBySupplierIdCategoryId(supplierId, c.getId(), type);
+			if(count > 0){
+				ct1.setChecked(true);
+			}
+			categoryList.add(ct1);
+		}
+		return categoryList;
+	}
+	
+	/**
+	 * 异步获取所有已选中的节点
+	 * @param model
+	 * @param supplierId
+	 * @param code
+	 * @param pageNum
+	 * @return
+	 */
+	@RequestMapping("/loadCheckedCategory")
+	public String loadCheckedCategory(Model model, String supplierId, String code, Integer pageNum){
+		String rootNode = null;
+		DictionaryData dd = DictionaryDataUtil.get(code);
+		if(dd != null){
+			rootNode = dd.getName();
+		}
+		// 查询已选中的节点信息
+		List < SupplierItem > listSupplierItems = supplierItemService.findCategoryList(supplierId, code, pageNum == null ? 1 : pageNum);
+		List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
+		for(SupplierItem item: listSupplierItems) {
+			String categoryId = item.getCategoryId();
+//			SupplierCateTree cateTree = getTreeListByCategoryId(categoryId, null);
+			SupplierCateTree cateTree = new SupplierCateTree();
+			cateTree.setCategoryId(categoryId);
+			cateTree.setRootNode(rootNode);
+			cateTree = supplierItemService.getSupplierCateTree(cateTree);
+			if(cateTree != null && cateTree.getRootNode() != null) {
+				cateTree.setItemsId(item.getId());
+				cateTree.setCategoryId(categoryId);
+				cateTree.setIsReturned(item.getIsReturned());
+				allTreeList.add(cateTree);
+			}
+		}
+		for(SupplierCateTree cate: allTreeList) {
+			cate.setRootNode(cate.getRootNode() == null ? "" : cate.getRootNode());
+			cate.setFirstNode(cate.getFirstNode() == null ? "" : cate.getFirstNode());
+			cate.setSecondNode(cate.getSecondNode() == null ? "" : cate.getSecondNode());
+			cate.setThirdNode(cate.getThirdNode() == null ? "" : cate.getThirdNode());
+			cate.setFourthNode(cate.getFourthNode() == null ? "" : cate.getFourthNode());
+			/*String typeName = "";
+			if(ses.util.Constant.SUPPLIER_PRODUCT.equals(supplierTypeRelateId)){
+				typeName = "生产";
+			}else if(ses.util.Constant.SUPPLIER_SALES.equals(supplierTypeRelateId)){
+				typeName = "销售";
+			}
+			cate.setRootNode(cate.getRootNode() + typeName);*/
+		}
+		
+		Supplier currSupplier = supplierService.selectById(supplierId);
+		
+		model.addAttribute("supplierId", supplierId);
+		model.addAttribute("supplierTypeRelateId", code);
+		model.addAttribute("currSupplier", currSupplier);
+		model.addAttribute("result", new PageInfo < > (listSupplierItems));
+		model.addAttribute("itemsList", allTreeList);
+
+		if(currSupplier != null && currSupplier.getStatus() != null && currSupplier.getStatus() == 2){
+			// 不通过字段的名字
+			SupplierAudit s = new SupplierAudit();
+			s.setSupplierId(supplierId);
+			//s.setAuditType("items_page");
+			String auditType = ses.util.Constant.ITEMS_PRODUCT_PAGE;
+			if(ses.util.Constant.SUPPLIER_PRODUCT.equals(code)){
+				auditType = ses.util.Constant.ITEMS_PRODUCT_PAGE;
+			}
+			if(ses.util.Constant.SUPPLIER_SALES.equals(code)){
+				auditType = ses.util.Constant.ITEMS_SALES_PAGE;
+			}
+			s.setAuditType(auditType);
+			List < SupplierAudit > auditLists = supplierAuditService.getAuditRecords(s, SupplierConstants.AUDIT_RETURN_STATUS);
+
+			StringBuffer errorField = new StringBuffer();
+			for(SupplierAudit audit: auditLists) {
+				errorField.append(audit.getAuditField() + ",");
+			}
+			// 判断该类型是否审核通过
+			s.setAuditType("supplierType_page");
+			if(dd != null){
+				s.setAuditField(dd.getId());
+			}
+			int supplierTypeAuditCount = supplierAuditService.countAuditRecords(s, new Integer[]{0,2});
+			if(supplierTypeAuditCount > 0){
+				model.addAttribute("isSupplierTypeAudited", true);
+			}
+			model.addAttribute("audit", errorField);
+			model.addAttribute("auditType", auditType);
+		}
+
+		return "ses/sms/supplier_register/ajax_items";
 	}
 
 	/**
@@ -76,7 +296,7 @@ public class SupplierItemController extends BaseController {
 	 * @param supplierItem
 	 * @return
 	 */
-	@RequestMapping("/getCategories")
+/*	@RequestMapping("/getCategories")
 	public String getCategoryList(SupplierItem supplierItem, Model model, Integer pageNum) {
 		String supplierId = supplierItem.getSupplierId();
 		String supplierTypeRelateId = supplierItem.getSupplierTypeRelateId();
@@ -108,13 +328,13 @@ public class SupplierItemController extends BaseController {
 			cate.setSecondNode(cate.getSecondNode() == null ? "" : cate.getSecondNode());
 			cate.setThirdNode(cate.getThirdNode() == null ? "" : cate.getThirdNode());
 			cate.setFourthNode(cate.getFourthNode() == null ? "" : cate.getFourthNode());
-			/*String typeName = "";
+			String typeName = "";
 			if(ses.util.Constant.SUPPLIER_PRODUCT.equals(supplierTypeRelateId)){
 				typeName = "生产";
 			}else if(ses.util.Constant.SUPPLIER_SALES.equals(supplierTypeRelateId)){
 				typeName = "销售";
 			}
-			cate.setRootNode(cate.getRootNode() + typeName);*/
+			cate.setRootNode(cate.getRootNode() + typeName);
 		}
 		
 		Supplier currSupplier = supplierService.selectById(supplierId);
@@ -158,7 +378,7 @@ public class SupplierItemController extends BaseController {
 		}
 
 		return "ses/sms/supplier_register/ajax_items";
-	}
+	}*/
 
 	/**
 	 *〈简述〉获取当前节点的所有父级节点(包括根节点)
@@ -213,7 +433,7 @@ public class SupplierItemController extends BaseController {
 	 * @param @param supplierId
 	 * @return String
 	 */
-	@RequestMapping(value = "/category_type", produces = "text/html;charset=UTF-8")
+/*	@RequestMapping(value = "/category_type", produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String getCategory(String code, String supplierId, String stype) {
 		List < CategoryTree > categoryList = new ArrayList < CategoryTree > ();
@@ -253,7 +473,7 @@ public class SupplierItemController extends BaseController {
 			}
 		}
 		return JSON.toJSONString(categoryList);
-	}
+	}*/
 
 	@RequestMapping(value = "/getSupplierCate", produces = "text/html;charset=UTF-8")
 	@ResponseBody
@@ -275,7 +495,7 @@ public class SupplierItemController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-    @ResponseBody
+/*    @ResponseBody
     @RequestMapping(value = "/searchCate", produces = "application/json;charset=utf-8")
     public String searchCate(String typeId, String cateName, String supplierId, String codeName) throws Exception {
     	
@@ -389,9 +609,9 @@ public class SupplierItemController extends BaseController {
             // 将筛选完的List转换为CategoryTreeList
             List < CategoryTree > treeList = new ArrayList < CategoryTree > ();
             for(Category category: allCateList) {
-            	/*if(category.getCode().length()>=9){
+            	if(category.getCode().length()>=9){
             		continue;
-            	}*/
+            	}
                 CategoryTree treeNode = new CategoryTree();
                 treeNode.setId(category.getId());
                 treeNode.setName(category.getName());
@@ -412,7 +632,7 @@ public class SupplierItemController extends BaseController {
             }
             return JSON.toJSONString(treeList);
         }
-    }
+    }*/
     
     /**
      * 判断该节点是否需要被选中
@@ -421,14 +641,14 @@ public class SupplierItemController extends BaseController {
      * @param type
      * @return
      */
-    private boolean isSupplierChecked(String categoryId, String supplierId, String type) {
+    /*private boolean isSupplierChecked(String categoryId, String supplierId, String type) {
         List < SupplierItem > category = supplierItemService.getSupplierIdCategoryId(supplierId, categoryId, type);
         if(category != null && category.size() > 0) {
             return true;
         } else {
             return false;
         }
-    }
+    }*/
     
     /**
      *〈简述〉品目去重
@@ -507,7 +727,7 @@ public class SupplierItemController extends BaseController {
 	 * @param status 状态
 	 * @return
 	 */
-	@ResponseBody
+/*	@ResponseBody
 	@RequestMapping(value = "/category_type", produces = "application/json;charset=UTF-8")
 	public List < CategoryTree > getCategory(String id, String code, String supplierId, Integer status, String stype, String shenhe) {
 		List < CategoryTree > categoryList = new ArrayList < CategoryTree > ();
@@ -590,9 +810,9 @@ public class SupplierItemController extends BaseController {
 		} else {
 			return categoryList;
 		}
-	}
+	}*/
 
-    @ResponseBody
+/*    @ResponseBody
     @RequestMapping(value = "/loadCategory", produces = "application/json;charset=UTF-8")
     public String loadCategory(HttpServletRequest request){
 	    JSONArray jsonArray = new JSONArray();
@@ -679,6 +899,6 @@ public class SupplierItemController extends BaseController {
             jsonArray.add(jsonObject);
         }
         return jsonArray;
-    }
+    }*/
 
 }

@@ -542,7 +542,7 @@
 							<th class="info" width="10%">计划名称</th>
 							<th class="info" width="9%">计划编号</th>
 							<th class="info" width="7%">计划类别</th>
-							<th class="info" width="9%">物资名称</th>
+							<th class="info" width="9%">产品名称</th>
 							<th class="info" width="9%">质量标准</th>
 							<th class="info" width="8%">质量参数</th>
 							<th class="info" width="5%">单位</th>

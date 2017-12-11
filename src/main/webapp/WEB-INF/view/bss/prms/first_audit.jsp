@@ -130,7 +130,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         		<tr class="info">
           			<th class="w50">序号</th>
          			<th>需求部门</th>
-			        <th>物资名称</th>
+			        <th>产品名称</th>
 			        <th>规格型号</th>
 			        <th>质量技术标准</th>
 			        <th>计量单位</th>

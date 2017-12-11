@@ -2433,7 +2433,7 @@ public class SupplierController_old extends BaseSupplierController {
 		//				cateList.addAll(list);
 		//			}
 		//		}
-		List < SupplierItem > itemList = supplierItemService.getSupplierId(sid);
+		List < SupplierItem > itemList = supplierItemService.getItemListBySupplierId(sid);
 
 		List < Category > chose = new LinkedList < Category > ();
 		//List<String> choseId=new LinkedList<String>();

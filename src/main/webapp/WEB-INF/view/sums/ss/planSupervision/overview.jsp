@@ -696,7 +696,7 @@
               <tr class="space_nowrap">
                 <th class="info w50">序号</th>
                 <th class="info w80">需求部门</th>
-                <th class="info w80">物资类别<br>及名称</th>
+                <th class="info w80">产品名称</th>
                 <th class="info w80">规格型号</th>
                 <th class="info w80">质量技术标准</br>（技术参数）</th>
                 <th class="info w80">计量<br>单位</th>

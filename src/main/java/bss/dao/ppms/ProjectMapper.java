@@ -80,4 +80,28 @@ public interface ProjectMapper {
     BigDecimal selectPurProjectByWay(@Param("dictId") String dictId);
     
     Project newSelectById(String id);
+    
+    /**
+     * 
+    * @Title: listByAll
+    * @author FengTian 
+    * @date 2017-11-27 下午6:06:38  
+    * @Description: 采购项目查询列表 
+    * @param @param map
+    * @param @return      
+    * @return List<Project>
+     */
+    List<Project> listByAll(HashMap<String, Object> map);
+    
+    /**
+     * 
+    * @Title: supervisionProjectAll
+    * @author FengTian 
+    * @date 2017-12-7 下午4:48:57  
+    * @Description: 资源管理中心查看全部采购项目  
+    * @param @param map
+    * @param @return      
+    * @return List<Project>
+     */
+    List<Project> supervisionProjectAll(HashMap<String, Object> map);
 }

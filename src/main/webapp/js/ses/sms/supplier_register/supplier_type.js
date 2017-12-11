@@ -633,10 +633,11 @@ function delEngQua() {
 	if (size > 0) {
 
 		// 退回修改审核通过的项不能删除
-		/*
-		 * var isDel = checkIsDelForTuihui(checkboxs, '${engPageField}');
-		 * if(!isDel){ layer.msg("审核通过的项不能删除！"); return; }
-		 */
+		var isDel = checkIsDelForTuihui(checkboxs, $("#engPageField").val());
+		if (!isDel) {
+			layer.msg("审核通过的项不能删除！");
+			return;
+		}
 
 		layer.confirm(
 			"已勾选" + size + "条记录，确定删除？",
@@ -742,7 +743,7 @@ function delRegPerson() {
 	if (size > 0) {
 
 		// 退回修改审核通过的项不能删除
-		var isDel = checkIsDelForTuihui(checkboxs, '${engPageField}');
+		var isDel = checkIsDelForTuihui(checkboxs, $("#engPageField").val());
 		if (!isDel) {
 			layer.msg("审核通过的项不能删除！");
 			return;
@@ -848,7 +849,7 @@ function delCertEng() {
 	if (size > 0) {
 
 		// 退回修改审核通过的项不能删除
-		var isDel = checkIsDelForTuihui(checkboxs, '${engPageField}');
+		var isDel = checkIsDelForTuihui(checkboxs, $("#engPageField").val());
 		if (!isDel) {
 			layer.msg("审核通过的项不能删除！");
 			return;
@@ -954,7 +955,7 @@ function delAptitute() {
 	if (size > 0) {
 
 		// 退回修改审核通过的项不能删除
-		var isDel = checkIsDelForTuihui(checkboxs, '${engPageField}');
+		var isDel = checkIsDelForTuihui(checkboxs, $("#engPageField").val());
 		if (!isDel) {
 			layer.msg("审核通过的项不能删除！");
 			return;
@@ -1079,7 +1080,7 @@ function delCertPro() {
 	if (size > 0) {
 
 		// 退回修改审核通过的项不能删除
-		var isDel = checkIsDelForTuihui(checkboxs, '${proPageField}');
+		var isDel = checkIsDelForTuihui(checkboxs, $("#proPageField").val());
 		if (!isDel) {
 			layer.msg("审核通过的项不能删除！");
 			return;
@@ -1185,7 +1186,7 @@ function delCertSell() {
 	if (size > 0) {
 
 		// 退回修改审核通过的项不能删除
-		var isDel = checkIsDelForTuihui(checkboxs, '${sellPageField}');
+		var isDel = checkIsDelForTuihui(checkboxs, $("#sellPageField").val());
 		if (!isDel) {
 			layer.msg("审核通过的项不能删除！");
 			return;
@@ -1284,7 +1285,7 @@ function delCertSe() {
 	if (size > 0) {
 
 		// 退回修改审核通过的项不能删除
-		var isDel = checkIsDelForTuihui(checkboxs, '${servePageField}');
+		var isDel = checkIsDelForTuihui(checkboxs, $("#servePageField").val());
 		if (!isDel) {
 			layer.msg("审核通过的项不能删除！");
 			return;

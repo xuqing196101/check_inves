@@ -4,6 +4,7 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
+		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<script type="text/javascript" src="${pageContext.request.contextPath}/public/common/RSA.js"></script>
 		<script src="${pageContext.request.contextPath}/js/ses/bms/user/add.js"></script>
 	<script type="text/javascript">
@@ -364,22 +365,59 @@
 		function ajaxMoblie(){
 			 var is_error = 0;
 			 var mobile = $("#mobile").val();
-			 $.ajax({
-             type: "GET",
-             async: false, 
-             url: "${pageContext.request.contextPath}/user/ajaxMoblie.do?mobile="+mobile,
-             dataType: "json",
-             success: function(data){
-                     if (!data.success) {
-                    	$("#errMobile").html("");
-						$("#ajax_mobile").html(data.msg);
-						is_error = 1;
-					 } else {
-					 	$("#ajax_mobile").html("");
-					 }
-               }
-         	});
+			 var mobile2 = $("#mobile2").val();
+			 if (mobile == mobile2) {
+				 $("#errMobile").html("");
+				 $("#ajax_mobile").html("两个手机号不能一致");
+				 is_error = 1;
+			 } else {
+				 $.ajax({
+	             type: "GET",
+	             async: false, 
+	             url: "${pageContext.request.contextPath}/user/ajaxMoblie.do?mobile="+mobile,
+	             dataType: "json",
+	             success: function(data){
+	                     if (!data.success) {
+	                    	$("#errMobile").html("");
+							$("#ajax_mobile").html(data.msg);
+							is_error = 1;
+						 } else {
+						 	$("#ajax_mobile").html("");
+						 }
+	               }
+	         	});
+			 }
          	return is_error;
+		}
+		
+		function ajaxMoblie2(){
+			var is_error = 0;
+		 	var mobile2 = $("#mobile2").val();
+			if (mobile2 != null && mobile2 != "") {
+				var mobile = $("#mobile").val();
+				if (mobile == mobile2) {
+					 $("#errMobile2").html("");
+					 $("#ajax_mobile2").html("两个手机号不能一致");
+					 is_error = 1;
+				} else {
+					$.ajax({
+			            type: "GET",
+			            async: false, 
+			            url: "${pageContext.request.contextPath}/user/ajaxMoblie.do?mobile="+mobile2,
+			            dataType: "json",
+			            success: function(data){
+		                    if (!data.success) {
+		                    	$("#errMobile2").html("");
+								$("#ajax_mobile2").html(data.msg);
+								is_error = 1;
+							 } else {
+							 	$("#ajax_mobile2").html("");
+							 }
+		                }
+			        });
+				}
+			}
+        	return is_error;
 		}
 		
 		function ajaxIdNumber(){
@@ -440,7 +478,7 @@
 				} 
 				if (ajaxMoblie() == 1){
 					error += 1;
-				} 
+				}
 				if (ajaxOfficerCertNo() == 1){
 					error += 1;
 				}
@@ -505,6 +543,7 @@
 		  <input type="hidden" name="personTypeName" value="${personTypeName}" /> --%>
 		  <input type="hidden" name="org_orgId" value="${orgId}" />
 		  <input type="hidden" name="deptTypeName" value="${typeName}"/>
+		  <input type="hidden" name="id" value="${userId}">
 		   <div>
 			   <h2 class="list_title">新增用户</h2>
 			   <ul class="ul_list">
@@ -558,7 +597,7 @@
 			        </div>
 			 	</li>
 		     	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
-				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>手机</span>
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>手机(常用)</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0" >
 				        <input id="mobile" name="mobile" value="${user.mobile}" maxlength="40" type="text" onblur="ajaxMoblie()">
 				        <span class="add-on">i</span>
@@ -566,14 +605,23 @@
 				        <div id="ajax_mobile" class="cue"></div>
 			        </div>
 			 	</li>
-		        <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" >
+			 	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">手机(备用)</span>
+				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0" >
+				        <input id="mobile2" name="mobile2" value="${user.mobile2}" maxlength="40" type="text">
+				        <span class="add-on">i</span>
+				        <div class="cue" id="errMobile2"><sf:errors path="mobile2"/></div>
+				        <div id="ajax_mobile2" class="cue"></div>
+			        </div>
+			 	</li>
+		       <%--  <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" >
 				   	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">邮箱</span>
 				   	<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 				        <input  name="email" id="email" value="${user.email}" maxlength="100" type="text" onblur="a()">
 				        <span class="add-on">i</span>
 				        <div class="cue"><span id="err_email"></span><sf:errors path="email"/>${err_email}</div>
 			       	</div>
-			 	</li>
+			 	</li> --%>
 		     	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">职务</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
@@ -607,9 +655,16 @@
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
-				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">座机电话</span>
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">座机电话(地方)</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 			        	<input  name="telephone" value="${user.telephone}" maxlength="40" type="text">
+			        	<span class="add-on">i</span>
+			        </div>
+			    </li> 
+			    <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">座机电话(军线)</span>
+				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+			        	<input  name="telephone2" value="${user.telephone2}" maxlength="40" type="text">
 			        	<span class="add-on">i</span>
 			        </div>
 			    </li> 
@@ -647,7 +702,7 @@
 						        		<c:if test="${typeName == '1'}">采购机构</c:if>
 						        		<c:if test="${typeName == '2'}">采购管理部门</c:if>
 						        		<c:if test="${typeName == '0'}">需求部门</c:if>
-						        		<c:if test="${typeName == '4'}">资源服务中心</c:if>
+						        		<c:if test="${typeName == '4'}">采购服务中心</c:if>
 						        		<c:if test="${typeName == '5'}">监管部门</c:if>
 						        		<c:if test="${typeName == '3'}">其他</c:if>
 						        	</option>
@@ -658,7 +713,7 @@
 						        	<option value="1" <c:if test="${user.typeName == '1'}">selected</c:if>>采购机构</option>
 						        	<option value="2" <c:if test="${user.typeName == '2'}">selected</c:if>>采购管理部门</option>
 						        	<option value="0" <c:if test="${user.typeName == '0'}">selected</c:if>>需求部门</option>
-						        	<option value="4" <c:if test="${user.typeName == '4'}">selected</c:if>>资源服务中心</option>
+						        	<option value="4" <c:if test="${user.typeName == '4'}">selected</c:if>>采购服务中心</option>
 						        	<option value="5" <c:if test="${user.typeName == '5'}">selected</c:if>>监管部门</option>
 						        	<option value="3" <c:if test="${user.typeName == '3'}">selected</c:if>>其他</option>	
 						        </select>
@@ -716,11 +771,20 @@
 				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>数据查看权限</span>
 			        <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 				        <select name="dataAccess">
+				        	<option value="">请选择</option>
 			        		<option value="1" <c:if test="${user.dataAccess == 1}">selected</c:if>>所有</option>
 					        <option value="2" <c:if test="${user.dataAccess == 2}">selected</c:if>>本单位</option>
 					        <option value="3" <c:if test="${user.dataAccess == 3}">selected</c:if>>本人</option>
 				        </select>
+				        <div class="cue"><sf:errors path="dataAccess"/></div>
 			        </div>
+			 	</li>
+			 	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+			 	   <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">上传用户注册申请表</span>
+				   <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">
+	                <u:upload id="fileApply"  multiple="true"  businessId="${userId}" sysKey="${sysKey}" typeId="${data.id}" auto="true" />
+	                <u:show showId="fileApplyShow"  businessId="${userId}" sysKey="${sysKey}" typeId="${data.id}" />
+	               </div>
 			 	</li>
 			 	<li class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
 			 	   <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">详细地址</span>

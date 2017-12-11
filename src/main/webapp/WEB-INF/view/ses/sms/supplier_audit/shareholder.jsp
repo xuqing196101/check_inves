@@ -11,11 +11,11 @@
 		<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/essential.js"></script>
 		<style type="text/css">
 			td {
-			  cursor:pointer;
+				cursor: pointer;
 			}
-			.icon_edit,.icon_sc{
-       	padding: 5px;
-      }
+			.icon_edit,.icon_sc {
+				padding: 3px;
+			}
 		</style>
   </head>
 
