@@ -1041,7 +1041,7 @@
 		) CONNECT BY PRIOR PARENT_ID = ID
 	</select> -->
 	
-<<<<<<< HEAD
+
 		<!-- 根据名称模糊查询 -->
 	<select id="searchByCodeandName" resultMap="CateMap">
 		SELECT
@@ -1055,12 +1055,12 @@
 			AND CODE = #{param2}
 		</if> 
 		ORDER BY CODE
-=======
+
 	<!-- 根据id查询 -->
 	<select id="selectById" parameterType="String" resultMap="resMap">
 		SELECT ID,NAME,PARENT_ID
 		FROM T_SES_BMS_CATEGORY
 		WHERE ID = #{id}
->>>>>>> master
+
 	</select>
 </mapper>

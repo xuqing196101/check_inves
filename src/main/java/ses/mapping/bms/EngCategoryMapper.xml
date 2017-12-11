@@ -528,7 +528,7 @@
 		</if>
 	</select>
 	
-<<<<<<< HEAD
+
 	<!-- 根据名称模糊查询 -->
 	<select id="searchByCodeandName" resultMap="CateMap">
 		SELECT
@@ -544,12 +544,12 @@
 		<if test="isjj != null and isjj != ''">
 			AND EXPERT_TYPE = #{isjj}
 		</if> 
-=======
+
 	<!-- 根据id查询 -->
 	<select id="selectById" parameterType="String" resultMap="resMap">
 		SELECT ID,NAME,PARENT_ID
 		FROM T_SES_BMS_ENG_CATEGORY
 		WHERE ID = #{id}
->>>>>>> master
+
 	</select>
 </mapper>
