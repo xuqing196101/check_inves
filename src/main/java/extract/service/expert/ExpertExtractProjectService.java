@@ -152,6 +152,6 @@ public interface ExpertExtractProjectService {
     
     void exportListExpertInfo(String start, String end, Date synchDate);
     
-    List<Category> searchByCodeandName(String cateName, String flag, String codeName);
+    List<Category> searchByCodeandName(String cateName, String flag, String codeName,String isjj);
     
 }

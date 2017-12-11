@@ -449,6 +449,16 @@ public class ExtractExpertController {
             return "";
         }
         String[] cheIds = ids.split(",");
+        String[] codeArr = code.split(",");
+        String isjj = "";
+        for (int i = 0; i < codeArr.length; i++) {
+			if("PROJECT".equals(codeArr[i])){
+				isjj = "1";
+			}
+			if("GOODS_PROJECT".equals(codeArr[i])){
+				isjj = "0";
+			}
+		}
         if(code.indexOf("ENG_INFO_ID") > 0){
             code = "ENG_INFO_ID";
         }
@@ -468,7 +478,7 @@ public class ExtractExpertController {
         }
         if (typeData != null && typeData.getCode().equals("ENG_INFO_ID")) {
             // 查询出所有满足条件的品目
-            List < Category > categoryList = expertExtractProjectService.searchByCodeandName(cateName, "ENG_INFO", codeName);
+            List < Category > categoryList = expertExtractProjectService.searchByCodeandName(cateName, "ENG_INFO", codeName,isjj);
             // 循环判断是不是当前树的节点
             List < Category > cateList = new ArrayList < Category > ();
             for(Category category: categoryList) {
@@ -517,7 +527,7 @@ public class ExtractExpertController {
         } else {
             String type = typeId;
             // 查询出所有满足条件的品目
-            List < Category > categoryList = expertExtractProjectService.searchByCodeandName(cateName, null, codeName);
+            List < Category > categoryList = expertExtractProjectService.searchByCodeandName(cateName, null, codeName,null);
             // 循环判断是不是当前树的节点
             List < Category > cateList = new ArrayList < Category > ();
             for(Category category: categoryList) {

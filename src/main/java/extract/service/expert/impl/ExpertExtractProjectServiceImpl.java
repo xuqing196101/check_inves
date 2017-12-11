@@ -707,7 +707,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 
 
 	@Override
-	public List<Category> searchByCodeandName(String cateName, String flag, String codeName) {
+	public List<Category> searchByCodeandName(String cateName, String flag, String codeName,String isjj) {
 		if (flag == null) {
         	List<Category> list = categoryMapper.searchByCodeandName(cateName, codeName);
         	List<Category> listNot =new  LinkedList<Category>();
@@ -720,7 +720,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
         	list.removeAll(listNot);
             return list;
         } else {
-            return engCategoryMapper.searchByCodeandName(cateName, codeName);
+            return engCategoryMapper.searchByCodeandName(cateName, codeName, isjj);
         }
 	}
 	
