@@ -37,7 +37,6 @@
         }else{
         	yu='';
         } */
-        
         if(status != null && typeof(status) != "undefined") {
         	if(status == 15){
         		$.ajax({
@@ -70,7 +69,7 @@
         		$("#check_opinion").html("初审不合格。" + opinion);
         	}else if(expertStatus == 3){
         		$("#check_opinion").html("退回修改。" + opinion);
-        	}else{
+        	}else if(expertStatus != -1){
 	       		$.ajax({
                    url:globalPath + "/expertAudit/findCategoryCount.do",
                    data: {
