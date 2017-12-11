@@ -48,7 +48,7 @@
         <a aria-expanded="false" href="#tab-1" data-toggle="tab">专家复审意见</a>
       </li>
     </c:if>
-    <c:if test="${sign == 1 and (expert.status != 0 and status != 0 and expert.status != 3 and status != 3 and expert.status != 9 and status != 9 and expert.status != 5 and status != 5 and expert.status != 10 and status != 10)}">
+    <c:if test="${sign == 1 and (expert.status != 0 and status != 0 and expert.status != 3 and status != 3 and expert.status != 9 and status != 9 and expert.status != 5 and status != 5 and expert.status != 10 and status != 10 and expert.status != 1 and status != 1)}">
 	    <li id="reverse_of_six" onclick="jump('uploadApproveFile')">
 	      <a aria-expanded="false" href="#tab-1" data-toggle="tab">上传批准初审表</a>
 	    </li>
