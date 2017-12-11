@@ -198,7 +198,7 @@
   height: 15px; }
 
 .h32 {
-  height: 32px; }
+  height: 32px !important; }
 
 .h37 {
   height: 37px!important;
@@ -1032,6 +1032,9 @@ border:1px solid #eeeeee;
 
 .lh30 {
   line-height: 30px!important; 
+}
+.lh32 {
+  line-height: 32px!important; 
 }
 
 .lh80 {

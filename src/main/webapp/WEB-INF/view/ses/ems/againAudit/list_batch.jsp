@@ -41,7 +41,7 @@
   <div class="container">
     <div class="headline-v2"><h2>专家复审批次列表</h2></div>
     
-    <div class="search_detail">
+    <div class="search_detail pb0">
       <form id="form_id" action="${pageContext.request.contextPath}/expertAudit/basicInfo.html" method="post">
         <input name="expertId" type="hidden" />
         <input name="sign" type="hidden" value="${sign }"/>
@@ -50,23 +50,36 @@
       <form action="${pageContext.request.contextPath}/expertAgainAudit/againAuditList.html" method="post" id="formSearch" class="mb0">
         <input type="hidden" name="pageNum" id="pageNum">
         <input type="hidden" name="sign" value="${sign }">
-        <ul class="demand_list">
-          <li>
-            <label class="fl">批次名称：</label>
-            <input type="text" name="batchName" value="${relName}">
-          </li>
-          <li>
-            <label class="fl">批次创建时间：</label>
-            <span>
-              <input id="auditAt" name="createdAt" class="Wdate w178 fl" value='<fmt:formatDate value="${auditAt}" pattern="YYYY-MM-dd"/>' type="text" onClick="WdatePicker()">
-            </span>
-          </li>
-          <li>
-            <button type="button" class="btn mb5" onclick="batchList_search()">查询</button>
-            <button type="reset" class="btn mb5">重置</button>
-          </li>
-        </ul>
-        <div class="clear"></div>
+        <div class="m_row_5">
+        <div class="row">
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+            <div class="row">
+              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">批次名称：</div>
+              <div class="col-xs-8 f0 lh0">
+                <input type="text" name="batchName" value="${relName}" class="w100p h32 mb0">
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+            <div class="row">
+              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">批次创建时间：</div>
+              <div class="col-xs-8 f0 lh0">
+                <input id="auditAt" name="createdAt" class="Wdate w100p h32 mb0" value='<fmt:formatDate value="${auditAt}" pattern="YYYY-MM-dd"/>' type="text" onClick="WdatePicker()">
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+            <div class="row">
+              <div class="col-xs-12 f0">
+                <button type="button" class="btn mb0 mr5 h32" onclick="batchList_search()">查询</button>
+                <button type="reset" class="btn mb0 mr0 h32">重置</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
       </form>
     </div>
       
