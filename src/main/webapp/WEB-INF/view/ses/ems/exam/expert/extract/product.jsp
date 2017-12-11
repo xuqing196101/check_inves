@@ -326,6 +326,12 @@
 			}
 		}, 200);
 	}
+	
+	//重置
+	function reset(){
+		$("#key").val("");
+		$("#codeName").val("");
+	}
 </script>
 </head>
 <body>
@@ -358,6 +364,7 @@
 				目录编码：<input type="text" id="codeName" class="mr3 empty w125" name="codeName">
 				<div class="tc">
 					<input type="button" id="search" class="btn" value="搜索" onclick="searchCate()">
+					<input type="button" id="search" class="btn" value="重置" onclick="reset()">
 				</div>
 				<div class="clear"></div>
 			</div>
