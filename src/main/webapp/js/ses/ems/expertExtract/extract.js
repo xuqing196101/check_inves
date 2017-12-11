@@ -152,7 +152,31 @@ function validationIsNull(code){
     //项目编号
     var xmProjectId = $("#xmProjectId").val();
     if(xmProjectId == null || xmProjectId == ''){
-    	vaCode(2);
+        var projectCode = $("#projectCode").val();
+        if(projectCode == null || projectCode == ""){
+            $("#err_code").html("项目编号不能为空");
+        }else{
+            // 验证项目编号重复校验
+            $.ajax({
+                url : globalPath + "/extractExpert/vaProjectCode.do",
+                data : {
+                    "code" : projectCode,
+                    "xmProjectId" : xmProjectId
+                },
+                dataType : "json",
+                async : false,
+                type : "POST",
+                success : function(data) {
+                    if(data.status == "no"){
+                        $("#err_code").html("项目编号已被使用");
+                        flag = false;
+                        layer.msg("请完善项目信息");
+                    }else{
+                        $("#err_code").html("");
+                    }
+                }
+            });
+        }
     }
     // 评审时间
     var reviewTime = $("#reviewTime").val();
@@ -1394,7 +1418,7 @@ function uuid() {
 }
 
 //验证项目编号
-function vaCode(ff){
+function vaCode(){
     var projectCode = $("#projectCode").val();
     var xmProjectId = $("#xmProjectId").val();
     if(projectCode == null || projectCode == ""){
@@ -1413,10 +1437,6 @@ function vaCode(ff){
             success : function(data) {
                 if(data.status == "no"){
                     $("#err_code").html("项目编号已被使用");
-                    flag = false;
-                    if(ff == "2"){
-                    	layer.msg("请完善项目信息");
-                    }
                 }else{
                     $("#err_code").html("");
                 }
