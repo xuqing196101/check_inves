@@ -748,4 +748,26 @@
 				isParent = 'false' AND PACKAGE_ID IS NULL
     </select>
     
+    <select id="selectDetailByProjectId"  parameterType="java.lang.String" resultMap="BaseResultMap">
+				SELECT
+					detail.*,
+					DECODE (
+						(
+							SELECT
+								COUNT (*)
+							FROM
+								T_BSS_PPMS_PROJECTS_DETAIL
+							WHERE
+								PARENT_ID = detail.REQUIRED_ID
+						),
+						0,
+						'false',
+						'true'
+					) AS isParent
+				FROM
+					T_BSS_PPMS_PROJECTS_DETAIL detail
+				WHERE
+					detail.PROJECT_ID = #{projectId} 
+    </select>
+    
 </mapper>

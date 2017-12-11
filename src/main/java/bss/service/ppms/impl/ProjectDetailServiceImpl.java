@@ -364,4 +364,10 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
 		return projectDetailMapper.selectByDetailPackNull(projectId);
 	}
 
+	@Override
+	public List<ProjectDetail> selectDetailByProjectId(String projectId) {
+		
+		return projectDetailMapper.selectDetailByProjectId(projectId);
+	}
+
 }

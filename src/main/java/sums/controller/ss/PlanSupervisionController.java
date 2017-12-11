@@ -459,7 +459,7 @@ public class PlanSupervisionController {
                     List<Packages> list = planSupervisionService.viewPack(project.getId());
                     model.addAttribute("packages", list);
                 } else {
-                    List<ProjectDetail> list = new ArrayList<ProjectDetail>();
+                    /*List<ProjectDetail> list = new ArrayList<ProjectDetail>();
                     HashMap<String, Object> maps = new HashMap<>();
                     maps.put("id", project.getId());
                     List<ProjectDetail> details = projectDetailService.selectById(maps);
@@ -475,7 +475,17 @@ public class PlanSupervisionController {
                             detail.setPurchaseType(null);
                             detail.setStatus(null);
                         }
-                    }
+                    }*/
+                	List<ProjectDetail> list = projectDetailService.selectByDetailRequired(project.getId());
+                	if (list != null && !list.isEmpty()) {
+						for (ProjectDetail projectDetail : list) {
+							DictionaryData findById = DictionaryDataUtil.findById(projectDetail.getPurchaseType());
+							projectDetail.setPurchaseType(findById.getName());
+                            String[] progressBarPlan = supervisionService.progressBar(projectDetail.getRequiredId(), project.getId());
+                            projectDetail.setProgressBar(progressBarPlan[0]);
+                            projectDetail.setStatus(progressBarPlan[1]);
+						}
+					}
                     model.addAttribute("details", list);
                 }
                 
@@ -616,12 +626,11 @@ public class PlanSupervisionController {
                 //项目信息
                 List<Project> view = planSupervisionService.view(detail.getId());
                 if (view != null && !view.isEmpty()) {
-                	sortDate(view);
                 	Project project = null;
                 	if(StringUtils.isNotBlank(projectId)){
                 		project = planSupervisionService.viewProjects(projectId);
                 	} else {
-                		project = planSupervisionService.viewProjects(view.get(0).getId());
+                		project = view.get(0);
                 	}
                 	HashMap<String, Object> flow = planSupervisionService.flow(view, detail.getId(), hashMap);
                 	List<Entry<String, Object>> sortsMap = sortsMap(flow);
@@ -1421,7 +1430,7 @@ public class PlanSupervisionController {
         return list;
     }
     
-    public void sortDate(List<Project> list){
+    /*public void sortDate(List<Project> list){
         Collections.sort(list, new Comparator<Project>(){
            @Override
            public int compare(Project o1, Project o2) {
@@ -1430,6 +1439,6 @@ public class PlanSupervisionController {
               return project.getCreateAt().compareTo(project2.getCreateAt());
            }
         });
-    }
+    }*/
 
 }

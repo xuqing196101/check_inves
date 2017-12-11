@@ -141,4 +141,6 @@ public interface ProjectDetailService {
 	 * @return List<ProjectDetail>
 	  */
 	 List<ProjectDetail> selectByDetailPackNull(String projectId);
+	 
+	 List<ProjectDetail> selectDetailByProjectId(String projectId);
 }

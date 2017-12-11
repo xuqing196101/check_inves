@@ -217,9 +217,29 @@
   </select>
   
   <select id="getJzxtp" parameterType="java.util.Map" resultMap="FlowDefineResult">
-  SELECT * from T_BSS_PPMS_FLOW_DEFINE where 
-  PURCHASE_TYPE_ID=#{id} and IS_DELETED=0 and 
-  step<![CDATA[<= ]]>(select step from T_BSS_PPMS_FLOW_DEFINE where 
-  PURCHASE_TYPE_ID=#{id} and code=#{code} ) order by STEP asc
+	  SELECT * from T_BSS_PPMS_FLOW_DEFINE where 
+	  PURCHASE_TYPE_ID=#{id} and IS_DELETED=0 and 
+	  step<![CDATA[<= ]]>(select step from T_BSS_PPMS_FLOW_DEFINE where 
+	  PURCHASE_TYPE_ID=#{id} and code=#{code} ) order by STEP asc
+  </select>
+  
+  <!-- 监督流程图吧分包流程查出来 -->
+  <select id="viewListByPack" parameterType="java.util.Map" resultMap="FlowDefineResult">
+  	SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			T_BSS_PPMS_FLOW_DEFINE
+		WHERE
+		(IS_DELETED = 0 OR CODE = 'XMFB')
+		<if test="step != null">
+      and STEP = #{step} 
+    </if>
+    <if test="purchaseTypeId != null and purchaseTypeId !='' ">
+      and PURCHASE_TYPE_ID = #{purchaseTypeId} 
+    </if>
+    <if test="code != null and code !='' ">
+      and CODE = #{code} 
+    </if>
+		ORDER BY STEP ASC
   </select>
 </mapper>

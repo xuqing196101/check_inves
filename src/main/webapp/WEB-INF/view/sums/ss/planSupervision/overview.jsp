@@ -36,8 +36,8 @@
             $($(".flow_tips")[i*6-6]).children(":last").prev().removeClass("tip_line col-md-5 col-sm-3 col-xs-4");
           }
         }
-        $(".flow_tips").each(function(i) {
-          /* if(i == 5) {
+       /*  $(".flow_tips").each(function(i) {
+         	if(i == 5) {
             $(this).addClass("round_tips round_l last_r");
             $(this).children(":last").prev().removeClass("tip_line col-md-5 col-sm-3 col-xs-4");
             $(this).children(":last").addClass("col-sm-offset-1 col-md-offset-1  col-md-offset-0");
@@ -61,9 +61,9 @@
           if(i > 17 && i < 24) {
           	alert(i);
             $(this).addClass("last_r");
-          } */
+          }
           
-          /* if((i+1)%6 == 0){
+           if((i+1)%6 == 0){
           	$(this).addClass("round_tips round_l last_r");
             $(this).children(":last").prev().removeClass("tip_line col-md-5 col-sm-3 col-xs-4");
             $(this).children(":last").addClass("col-sm-offset-1 col-md-offset-1  col-md-offset-0");
@@ -72,10 +72,10 @@
           if((i+1)%6 == 1){
           	$(this).children(":last").removeClass("tip_line col-md-5 col-sm-3 col-xs-4");
             $(this).children(":last").prev().removeClass("tip_line col-md-5 col-sm-3 col-xs-4");
-          } */
+          }
           
-        });
-       /*  if(flow > 12 || flow < 6){
+        }); 
+       	if(flow > 12 || flow < 6){
           $(".flow_tips").children(":last").parent().removeClass("last_r");
           $(".flow_tips").children(":last").prev().removeClass("tip_line col-md-5 col-sm-3 col-xs-4");
         } */
@@ -97,6 +97,16 @@
         $('.pre_btn').last().addClass("current_btn");
         $('.pre_btn').last().removeClass("pre_btn");
         $(".flow_tips").children(":last").hide();
+        
+        var num;
+        $(".flow_tips").each(function(i) {
+        	if($(this).hasClass("current_btn")){
+        		num = i;
+        	}
+        	if(i > num){
+        		$(this).addClass("hide");
+        	}
+        });
       });
       
       function viewDemand() {
