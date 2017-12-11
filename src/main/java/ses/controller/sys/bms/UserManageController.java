@@ -51,6 +51,7 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
+import common.constant.Constant;
 import common.utils.JdcgResult;
 import common.utils.RSAEncrypt;
 
@@ -187,6 +188,12 @@ public class UserManageController extends BaseController{
 	    //List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
 	    //model.addAttribute("typeNames", typeNames);
 	    model.addAttribute("genders", genders);
+	    //用户注册申请表
+  		DictionaryData data = DictionaryDataUtil.get("USER_REG_APPLY");
+  		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+  		model.addAttribute("data", data);
+  		String id = WfUtil.createUUID();
+  		model.addAttribute("userId", id);
 	    return "ses/bms/user/add";
 	}
 
@@ -205,14 +212,19 @@ public class UserManageController extends BaseController{
 	 */
 	@RequestMapping("/save")
 	public String save(@Valid User user, BindingResult result, @CurrentUser User loginUser, String roleName, String orgName, HttpServletRequest request, Model model) throws Exception {
-  		//校验字段
+		//校验字段
   		String origin = request.getParameter("origin");
   		String orgId = request.getParameter("org_orgId");
   		String deptTypeName = request.getParameter("deptTypeName");
   		String typeName = request.getParameter("typeName");
-  	//解密 密码
+  		//解密 密码
     	user.setPassword(RSAEncrypt.decryptPrivate(user.getPassword()));
     	user.setPassword2(RSAEncrypt.decryptPrivate(user.getPassword2()));
+    	//用户注册申请表
+		DictionaryData data = DictionaryDataUtil.get("USER_REG_APPLY");
+		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+		model.addAttribute("data", data);
+		model.addAttribute("userId", user.getId());
 	    if(result.hasErrors()){
 	      List<DictionaryData> genders = DictionaryDataUtil.find(13);
 //	    List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
@@ -380,8 +392,8 @@ public class UserManageController extends BaseController{
 		String PurTypeId = WfUtil.createUUID();
 		user.setTypeId(PurTypeId);
 		// 生成ID
-	    String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-	    user.setId(uuid);
+	    /*String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+	    user.setId(uuid);*/
 	    //判断 是否是 监管中心 或 资质中心 由于是一对多的关系 单独保存于关系表中 保存完后并且清空 orgid  orgname 防止字段精度超出
 		if( "5".equals(user.getTypeName())||"4".equals(user.getTypeName())){
 			if(StringUtils.isNotBlank(user.getOrgId())){
@@ -393,7 +405,7 @@ public class UserManageController extends BaseController{
 					rule.setCreatedAt(createDate);
 					rule.setCreaterId(currUser.getId());
 					rule.setOrgId(id);
-					rule.setUserId(uuid);
+					rule.setUserId(user.getId());
 					UserDataRuleService.insertSelective(rule);
 				}
 			}
@@ -549,6 +561,10 @@ public class UserManageController extends BaseController{
 			model.addAttribute("user", user);
 			model.addAttribute("currPage", page);
 		}
+		//用户注册申请表
+		DictionaryData data = DictionaryDataUtil.get("USER_REG_APPLY");
+		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+		model.addAttribute("data", data);
 		
 		  model.addAttribute("typeName", typeName);
 		  return "ses/bms/user/edit";
@@ -570,6 +586,10 @@ public class UserManageController extends BaseController{
         
 	    String origin = request.getParameter("origin");
 	    String deptTypeName = request.getParameter("deptTypeName");
+	    //用户注册申请表
+  		DictionaryData data = DictionaryDataUtil.get("USER_REG_APPLY");
+  		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+  		model.addAttribute("data", data);
 		//校验字段
 		if(result.hasErrors()){
 		    List<DictionaryData> genders = DictionaryDataUtil.find(13);
@@ -830,6 +850,10 @@ public class UserManageController extends BaseController{
 			
 			
 		}
+		//用户注册申请表
+  		DictionaryData data = DictionaryDataUtil.get("USER_REG_APPLY");
+  		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+  		model.addAttribute("data", data);
 		model.addAttribute("flag", 1);
 		return "ses/bms/user/view";
 	}

@@ -4,6 +4,7 @@
 <html>
 <head>
 	<%@ include file="/WEB-INF/view/common.jsp" %>
+	<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 </head>
 <script type="text/javascript">
 	function resetPaw(){
@@ -120,7 +121,8 @@
 		 			<td class="bggrey">手机：</td><td>${user.mobile }</td>
 		 		</tr>
 		 		<tr>
-		 			<td class="bggrey">邮箱：</td><td>${user.email }</td>
+		 			<td class="bggrey">手机2：</td><td>${user.mobile2 }</td>
+		 			<%-- <td class="bggrey">邮箱：</td><td>${user.email }</td> --%>
 		 			<td class="bggrey">职务：</td><td>${user.duties }</td>
 		 		</tr>
 		 		<%-- <tr>
@@ -139,12 +141,8 @@
 		 			<td class="bggrey">修改日期：</td><td><fmt:formatDate value='${user.updatedAt}' pattern='yyyy-MM-dd  HH:mm:ss'/></td>
 		 		</tr>
 		 		<tr>
-		 			<td class="bggrey">座机：</td><td>${user.telephone}</td>
-		 			<td class="bggrey">发布类型：</td>
-		 			<td >
-		 				<c:if test="${user.publishType == '1' }">部队采购</c:if>
-		 				<c:if test="${user.publishType == '0' }">集中采购</c:if>
-		 			</td>
+		 			<td class="bggrey">座机电话(地方)：</td><td>${user.telephone}</td>
+		 			<td class="bggrey">座机电话(军线)：</td><td>${user.telephone2}</td>
 		 		</tr>
 		 		<tr>
 		 			<td class="bggrey">身份证号：</td><td>${user.idNumber}</td>
@@ -156,7 +154,7 @@
 							        	<c:if test="${user.typeName == '1'}">采购机构</c:if>
 						        		<c:if test="${user.typeName == '2'}">采购管理部门</c:if>
 						        		<c:if test="${user.typeName == '0'}">需求部门</c:if>
-						        		<c:if test="${user.typeName == '4'}">资源服务中心</c:if>
+						        		<c:if test="${user.typeName == '4'}">采购服务中心</c:if>
 						        		<c:if test="${user.typeName == '5'}">监管部门</c:if>
 						        		<c:if test="${user.typeName == '3'}">其他</c:if>
 		 			</td>
@@ -175,6 +173,11 @@
 		 			<td class="bggrey">角色：</td><td colspan="3">${roleName}</td>
 		 		</tr>
 		 		<tr>
+		 			<td class="bggrey">发布类型：</td>
+		 			<td >
+		 				<c:if test="${user.publishType == '1' }">部队采购</c:if>
+		 				<c:if test="${user.publishType == '0' }">集中采购</c:if>
+		 			</td>
 		 			<td class="bggrey">数据查看权限：</td><td colspan="3">
 		 				<c:if test="${user.dataAccess == 1}">全部</c:if>
 		 				<c:if test="${user.dataAccess == 2}">本单位</c:if>
@@ -184,6 +187,10 @@
 		 		<tr>
 		 			<td class="bggrey w160">详细地址：</td><td colspan="3">${user.address}</td>
 		 		</tr>
+		 		<tr>
+		 			<td class="bggrey w160">用户注册申请表：</td>
+		 			<td colspan="3"><u:show showId="fileApplyShow"  delete="fasle" businessId="${user.id}" sysKey="${sysKey}" typeId="${data.id}" /></td>
+		 		</tr> 
 		 	</tbody>
 	 	</table>
    </div>

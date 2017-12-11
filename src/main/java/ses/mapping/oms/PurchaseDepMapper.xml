@@ -1121,4 +1121,13 @@
 			ON T1.ORG_ID = T2.ID
 		 WHERE T1.ID = #{purchaseDepId}
 	</select>
+	
+	<!-- 专家审核表查询采购机构简称 -->
+	<select id="selectShortNameByDepId" parameterType="String" resultType="String">
+		SELECT T2.SHORT_NAME
+		  FROM T_SES_OMS_PURCHASE_DEP T1
+		  LEFT JOIN T_SES_OMS_ORG T2
+			ON T1.ORG_ID = T2.ID
+		 WHERE T1.ID = #{purchaseDepId}
+	</select>
 </mapper>

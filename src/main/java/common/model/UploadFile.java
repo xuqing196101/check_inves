@@ -42,6 +42,8 @@ public class UploadFile implements Serializable {
     /** 状态 */
     private Integer status;
     
+    private Integer position;
+    
     public String getId() {
         return id;
     }
@@ -108,7 +110,11 @@ public class UploadFile implements Serializable {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-    
-    
+	public Integer getPosition() {
+		return position;
+	}
+	public void setPosition(Integer position) {
+		this.position = position;
+	}
     
 }

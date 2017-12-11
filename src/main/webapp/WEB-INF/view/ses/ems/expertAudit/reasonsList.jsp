@@ -68,7 +68,7 @@
                		$("#cate_result").html("复审不合格。");
                	}
                	if(checkVal == '10'){
-               		$("#cate_result").html("退回修改。");
+               		$("#cate_result").html("复审退回修改。");
                	}
            	}
            	
@@ -112,10 +112,12 @@
 					 $("input[name='updateStatusRadio']").removeAttr('checked');
 					 $("input[type='checkbox']").attr("disabled","disabled");
 					 if("有问题"==s||"未修改"==s){
+						$("#revokeStatus").val("4");
 						$("#revokeReturn").attr("disabled",false);
 					 }
 					 if("审核不通过"==s){
-						$("#revokeNotpass").attr("disabled",false);
+						$("#revokeStatus").val("5");
+						$("#revokeReturn").attr("disabled",false);
 					 }
 					 if(""==s){
 						$("input[name='updateStatusRadio']").attr("disabled",false);
@@ -124,6 +126,9 @@
 				 }
 			}
 			function updateStatus(status) {
+				if(status==0){
+					status=$("#revokeStatus").val();
+				}
 				var expertId = $("input[name='expertId']").val();
 		     var ids = "";
 		     $('input[name="chkItem"]:checked').each(function () {
@@ -207,7 +212,7 @@
                     shift: 4,
                     btn: ['确认', '取消']
                 }, function () {
-                	  zhancun();
+                	  zancun();
                     if (status == 3) {
                     	$("#status").val(status);
                       $("#form_shenhe").submit();
@@ -479,10 +484,10 @@
     }
 	
 	 //暂存
-    function zhancun(status) {
+    function zancun(status) {
         var opinion = document.getElementById('opinion').value;
-				var expertId = $("input[name='expertId']").val();
-				var sign = $("input[name='sign']").val();
+		var expertId = $("input[name='expertId']").val();
+		var sign = $("input[name='sign']").val();
         var radio = $(":radio:checked").val();
         var isDownLoadAttch = $("#isDownLoadAttch").val();
         if(sign == 1){
@@ -497,7 +502,7 @@
 	            	$.ajax({
 	                 url: "${pageContext.request.contextPath}/expertAudit/temporaryAudit.do",
 	                 dataType: "json",
-	                 data: {expertId: expertId},
+	                 data: {"expertId": expertId, "sign" : sign},
 	                 success: function (result) {
 	                     layer.msg(result, {offset: ['100px']});
 	                 }, error: function () {
@@ -559,8 +564,9 @@
  					<input type="radio" id="upd" onclick="updateStatus(1)" name="updateStatusRadio" >有问题
  					<input type="radio" id="yupd" onclick="updateStatus(2)" name="updateStatusRadio" >已修改
  					<input type="radio" id="nupd" onclick="updateStatus(3)" name="updateStatusRadio" >未修改
- 					<input type="radio" id="revokeReturn" onclick="updateStatus(4)" name="updateStatusRadio" >撤销退回
- 					<input type="radio" id="revokeNotpass" onclick="updateStatus(5)" name="updateStatusRadio">撤销不通过
+ 					<input type="radio" id="revokeReturn" onclick="updateStatus(0)" name="updateStatusRadio" >撤销审核
+ 					<!-- <input type="radio" id="revokeNotpass" onclick="updateStatus(0)" name="updateStatusRadio">撤销不通过 -->
+ 					<input type="hidden" id="revokeStatus">
  				</div>
                 <table class="table table-bordered table-condensed table-hover">
                     <thead>
@@ -686,7 +692,7 @@
 		                	<div class="select_check" id="selectOptionId">
 			                    <input type="radio" id="qualified" name="selectOption" value="-3">复审合格
 			                    <input type="radio"  name="selectOption" value="5">复审不合格
-			                    <input type="radio"  name="selectOption" value="10">退回修改
+			                    <input type="radio"  name="selectOption" value="10">复审退回修改
 		                    </div>
 		                </li>
 		                <div><span type="text" name="cate_result" id="cate_result"></span></div>
@@ -755,12 +761,12 @@
                        <!-- <input class="btn btn-windows end" type="button" onclick="shenhe();" value="初审结束" id="tuihui"> -->
                        <input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
                    	   <input class="btn btn-windows end" type="button" onclick="yuend(15);" value="预初审结束" id="yund">
-										  <a id="tempSave" class="btn" onclick="zhancun();">暂存</a>
+										  <a id="tempSave" class="btn" onclick="zancun();">暂存</a>
 										  <a id="nextStep" class="btn display-none" type="button" onclick="yuNext();">下一步</a>
                     </c:if>
                     <c:if test = "${status == '15' || status == '16'}" >
                       <c:if test="${isCheck eq 'no'}">
-                        <a id="tempSave" class="btn" onclick="zhancun();">暂存</a>
+                        <a id="tempSave" class="btn" onclick="zancun();">暂存</a>
                       </c:if>
                     	<a id="nextStep" class="btn" type="button" onclick="yuNext();">下一步</a>
                     </c:if>

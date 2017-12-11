@@ -125,10 +125,12 @@
 		  $("input[name='updateStatusRadio']").removeAttr('checked');
 		  $("input[type='checkbox']").attr("disabled","disabled");
           if("有问题"==s||"未修改"==s){
+           $("#revokeStatus").val("4");
            $("#revokeReturn").attr("disabled",false);
           }
           if("审核不通过"==s){
-           $("#revokeNotpass").attr("disabled",false);
+           $("#revokeStatus").val("5");
+           $("#revokeReturn").attr("disabled",false);
           }
           if(""==s){
            $("input[name='updateStatusRadio']").attr("disabled",false);
@@ -137,6 +139,9 @@
         }
       }
       function updateStatus(status) {
+    	  if(status==0){
+				status=$("#revokeStatus").val();
+			}
     	  var expertId = $("input[name='expertId']").val();
         var ids = "";
         $('input[name="chkItem"]:checked').each(function () {
@@ -225,8 +230,9 @@
 		          <input type="radio" id="upd" onclick="updateStatus(1)" name="updateStatusRadio" >有问题
 		          <input type="radio" id="yupd" onclick="updateStatus(2)" name="updateStatusRadio" >已修改
 		          <input type="radio" id="nupd" onclick="updateStatus(3)" name="updateStatusRadio" >未修改
-		          <input type="radio" id="revokeReturn" onclick="updateStatus(4)" name="updateStatusRadio" >撤销退回
-		          <input type="radio" id="revokeNotpass" onclick="updateStatus(5)" name="updateStatusRadio">撤销不通过
+		          <input type="radio" id="revokeReturn" onclick="updateStatus(0)" name="updateStatusRadio" >撤销审核
+		          <input type="hidden" id="revokeStatus">
+		          <!-- <input type="radio" id="revokeNotpass" onclick="updateStatus(5)" name="updateStatusRadio">撤销不通过 -->
 		         </div>
             <table class="table table-bordered table-condensed table-hover" id="fixed_table">
               <thead>

@@ -69,11 +69,8 @@
 				method="post">
 				<input type="hidden" name="page" id="page">
 				<ul class="demand_list">
-					<li><label class="fl"> 产品名称：</label><span> <input
-							type="text" name="goodsName" value="${detail.goodsName }" />
-					</span></li>
-					<li><label class="fl"> 需求部门：</label><span> 
-                        <select name="department" id="department" class="w170">
+				<li><label class="fl"> 需求部门：</label><span> 
+                        <select name="department" id="department" style="width: 173px;">
                              <option value="">请选择</option>
                              <c:forEach items="${allXq}" var="org" >
                                 <option value="${org.shortName}" <c:if test="${org.shortName==detail.department}">selected="selected"</c:if>>${org.shortName}</option>
@@ -83,13 +80,19 @@
 
 
 					</span></li>
+					<li><label class="fl"> 任务类型：</label><span> <input
+							type="text" name="" value="" />
+					</span></li>
+					<li><label class="fl"> 产品名称：</label><span> <input
+							type="text" name="goodsName" value="${detail.goodsName }" />
+					</span></li>
 					<li><label class="fl"> 任务文号：</label><span> 
 					
 					<input
 							type="text" name="taskNumber" value="${detail.taskNumber }" />
 					</span></li>
 					<li><label class="fl"> 采购方式：</label><span> 
-                     <select name="purchaseType" id="purchaseTypes" class="w170">
+                     <select name="purchaseType" id="purchaseTypes" style="width: 173px;">
                          <option value="">请选择</option>
                          <c:forEach items="${dataType}" var="d" >
                               <option value="${d.id}" <c:if test="${d.id==detail.purchaseType}">selected="selected"</c:if>>${d.name}</option>
@@ -99,7 +102,7 @@
 					</span></li>
 					<li><label class="fl"> 采购机构：</label><span> 
 
-                          <select name="organization" id="organization" class="w170">
+                          <select name="organization" id="organization" style="width: 173px;">
                              <option value="">请选择</option>
                              <c:forEach items="${allOrg}" var="org" >
                                 <option value="${org.id}" <c:if test="${org.id==detail.organization}">selected="selected"</c:if>>${org.shortName}</option>
@@ -109,6 +112,19 @@
 					</span></li>
 					<li><label class="fl"> 下达时间：</label> <input type="text" name="beginDate" id="draftReviewedAt" value="${detail.beginDate}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w150"/>
 					<span class="fl" style="font-size: 14px;">至</span><span> <input type="text" name="endDate" id="draftReviewedAt" value="${detail.endDate}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w150"/>
+					</span></li>
+					
+					<li><label class="fl"> 项目编号：</label><span> <input
+							type="text" name="" value="" />
+					</span></li>
+					<li><label class="fl"> 开标时间：</label><span> <input
+							type="text" name="" value="" />
+					</span></li>
+					<li><label class="fl"> 合同编号：</label><span> <input
+							type="text" name="" value="" />
+					</span></li>
+					<li><label class="fl"> 供应商名称：</label><span> <input
+							type="text" name="" value="" />
 					</span></li>
 					</ul>
 					<div class="tc mt5 clear" width="100%">

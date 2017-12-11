@@ -178,4 +178,5 @@ public interface ExpertCategoryService {
      * @return
      */
     List<ExpertCategory> selectPassCategoryByExpertId(String expertId, String typeId);
+
 }

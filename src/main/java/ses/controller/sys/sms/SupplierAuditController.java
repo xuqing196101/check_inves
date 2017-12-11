@@ -405,6 +405,8 @@ public class SupplierAuditController extends BaseSupplierController {
 		 */
 //		if(SupplierConstants.isAudit(loginName, supplierStatus)){
 		if(SupplierConstants.isStatusToAudit(supplierStatus)){
+			supplierModify = new SupplierModify();
+			supplierModify.setSupplierId(supplierId);
 			//基本信息
 			supplierModify.setListType(0);
 			List < SupplierModify > fieldList = supplierModifyService.selectBySupplierId(supplierModify);
@@ -417,10 +419,6 @@ public class SupplierAuditController extends BaseSupplierController {
 			
 			//地址信息
 			supplierModify.setListType(1);
-			supplierModify.setRelationId(null);
-			supplierModify.setId(null);
-			supplierModify.setBeforeField(null);
-			supplierModify.setBeforeContent(null);
 			List < SupplierModify > fieldAddressList = supplierModifyService.selectBySupplierId(supplierModify);
 			StringBuffer fieldAddress = new StringBuffer();
 			for(int i = 0; i < fieldAddressList.size(); i++) {
@@ -2235,7 +2233,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			// 所有等级List
 			List < Category > cateList = new ArrayList < Category > ();
 			cateList.add(categoryService.selectByPrimaryKey(categoryId));
-			List < QualificationBean > type = supplierService.queryCategoyrId(cateList, 4);
+			List < QualificationBean > type = supplierService.getQuaList(cateList, 4);
 			List < Qualification > typeList = new ArrayList < Qualification > ();
 			if(type != null && type.size() > 0 && type.get(0).getList() != null && type.get(0).getList().size() > 0) {
 				typeList = type.get(0).getList();
@@ -3059,10 +3057,10 @@ public class SupplierAuditController extends BaseSupplierController {
 	
 	/**
 	 * @Title: aptitude
-	 * @author XuQing 
-	 * @date 2016-12-28 上午11:12:26  
+	 * @author XuQing
+	 * @date 2016-12-28 上午11:12:26
 	 * @Description:资质文件维护
-	 * @param @return      
+	 * @param @return
 	 * @return String
 	 */
 	@RequestMapping(value = "aptitude")
@@ -3087,19 +3085,19 @@ public class SupplierAuditController extends BaseSupplierController {
 		List < Category > listPro = getSupplier(supplierId, supplierTypeIds);
 		removeSame(listPro);
 		//根据品目id查询所有的证书信息
-		List < QualificationBean > list3 = supplierService.queryCategoyrId(listPro, 2);
+		List < QualificationBean > list3 = supplierService.getQuaList(listPro, 2);
 
 		//查询所有的三级品目销售
 		List < Category > listSlae = getSale(supplierId, supplierTypeIds);
 		removeSame(listSlae);
 		//根据品目id查询所有的证书信息
-		List < QualificationBean > saleQua = supplierService.queryCategoyrId(listSlae, 3);
+		List < QualificationBean > saleQua = supplierService.getQuaList(listSlae, 3);
 
 		//查询所有的三级品目服务
 		List < Category > listService = getServer(supplierId, supplierTypeIds);
 		removeSame(listService);
 		//根据品目id查询所有的服务证书信息
-		List < QualificationBean > serviceQua = supplierService.queryCategoyrId(listService, 1);
+		List < QualificationBean > serviceQua = supplierService.getQuaList(listService, 1);
 
 		//生产证书
 		List < Qualification > qaList = new ArrayList < Qualification > ();

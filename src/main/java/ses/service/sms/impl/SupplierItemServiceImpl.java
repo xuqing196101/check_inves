@@ -1,14 +1,23 @@
 package ses.service.sms.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import common.utils.JdcgResult;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import ses.dao.bms.CategoryMapper;
 import ses.dao.sms.SupplierItemMapper;
 import ses.formbean.QualificationBean;
@@ -32,16 +41,9 @@ import ses.util.Constant;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import common.utils.JdcgResult;
 
 @Service(value = "supplierItemService")
 public class SupplierItemServiceImpl implements SupplierItemService {
@@ -94,7 +96,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
             	if(isParentChecked){// 如果是父节点被选中，则保存所有的子节点
             		List<Category> clist = categoryService.getCListById(categoryId);
             		if(clist != null && clist.size() > 0){
-            			clist.remove(0);
+            			//clist.remove(0);
             			saveOrUpdateOperation(categoryId, supplierItem, clist);
             		}
             	}else{
@@ -109,10 +111,15 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	public void saveOrUpdateOperation(String categoryId, SupplierItem supplierItem, List<Category> clist) throws Exception {
         List<Category> categoryList = new ArrayList<Category>();
         List<SupplierItem> itemList = new ArrayList<SupplierItem>();
-        categoryList.addAll(getAllParentNode(categoryId));
+        List<Category> plist = getAllParentNode(categoryId);
         if(clist != null && clist.size() > 0){
-        	categoryList.addAll(clist);
+            categoryList.addAll(clist);
+            if(plist != null && plist.size() > 0){
+                plist.remove(0);
+            }
         }
+        categoryList.addAll(plist);
+        //removeSame(categoryList);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("supplierId", supplierItem.getSupplierId());
         map.put("type", supplierItem.getSupplierTypeRelateId());
@@ -531,7 +538,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
             	if(isParentChecked){// 如果是父节点被选中，则保存所有的子节点
             		List<Category> clist = categoryService.getCListById(categoryId);
             		if(clist != null && clist.size() > 0){
-            			clist.remove(0);
+            			//clist.remove(0);
             			deleteItemsOpertion(categoryId, supplierItem, clist);
             		}
             	}else{
@@ -550,6 +557,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
         categoryList.add(current);
         if(clist != null && clist.size() > 0){
         	categoryList.addAll(clist);
+        	categoryList.remove(current);
         }
         //Map<String, String> map = new HashMap<String, String>();
         //map.put("supplierId", supplierItem.getSupplierId());
@@ -1145,6 +1153,10 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	private int countItemsBySuppIdAndCateIds(String supplierId, List<String> catIds, String code){
 		return supplierItemMapper.countItemsBySuppIdAndCateIds(supplierId, catIds, code);
 	}
+	
+	private int countItemsInCate(String supplierId, String categoryId, String code){
+		return supplierItemMapper.countItemsInCate(supplierId, categoryId, code);
+	}
 
 	@Override
 	public List<SupplierItem> getBySupplierIdCategoryIdIsNotReturned(
@@ -1278,17 +1290,21 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 //		String firstCateId = DictionaryDataUtil.getId("PROJECT");
 //		List < SupplierItem > listSupplierItems = this.getCategoryOther(supplierId, firstCateId, "PROJECT");
 //		removeSameItem(listSupplierItems);
-		List < SupplierItem > listSupplierItems = supplierItemMapper.queryBySupplierIdAndType(supplierId, "PROJECT");
 		
-		listSupplierItems = handlerItemList(supplierId, listSupplierItems);
-		
-		List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
-		String modifiedCertCodes = "";
 		String rootNode = null;
+		String rootNodeId = null;
 		DictionaryData dd = DictionaryDataUtil.get("PROJECT");
 		if(dd != null){
 			rootNode = dd.getName();
+			rootNodeId = dd.getId();
 		}
+		
+		List < SupplierItem > listSupplierItems = supplierItemMapper.queryBySupplierIdAndType(supplierId, "PROJECT");
+		
+		listSupplierItems = handlerItemList(supplierId, listSupplierItems, rootNodeId);
+		
+		//String modifiedCertCodes = "";
+		List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
 		for(SupplierItem item: listSupplierItems) {
 			String categoryId = item.getCategoryId();
 			SupplierCateTree cateTree = new SupplierCateTree();
@@ -1340,41 +1356,61 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 			}
 		}
 		resultMap.put("projectQua", allTreeList);
-		resultMap.put("modifiedCertCodes", modifiedCertCodes);
+		//resultMap.put("modifiedCertCodes", modifiedCertCodes);
 		return resultMap;
 	}
 	
-	private List<SupplierItem> handlerItemList(String supplierId, List<SupplierItem> listSupplierItems){
+	private List<SupplierItem> handlerItemList(String supplierId, List<SupplierItem> listSupplierItems, String rootNodeId){
+		if(listSupplierItems == null || listSupplierItems.size() == 0){
+			return null;
+		}
 		List < SupplierItem > resultList = new ArrayList<SupplierItem>();
+		Set<String> pCateIds = new HashSet<>();// 所有添加过的父节点
+		Set<String> pCateIdsOfLeaf = new HashSet<>();// 叶子节点的父节点
 		for(SupplierItem item: listSupplierItems) {
 			String categoryId = item.getCategoryId();
 			Category cateById = categoryService.findById(categoryId);
-			if(cateById != null && cateById.getCode() != null 
-					&& !cateById.getCode().startsWith("B02") 
-					&& !cateById.getCode().startsWith("B03")
-					&& "false".equals(cateById.getIsParent())){
-				resultList.add(item);
-				continue;
-			}
-			if(cateById != null && "true".equals(cateById.getIsParent())){
-				// 所有子节点
-				List<Category> clist = categoryService.getCListById(categoryId);
-				if(clist != null && clist.size() > 0){
-					List<String> catIds = new ArrayList<String>();
-					for(Category cate : clist){
-						catIds.add(cate.getId());
+			if(cateById != null){
+				if(cateById.getCode() != null 
+						&& !cateById.getCode().startsWith("B02") 
+						&& !cateById.getCode().startsWith("B03")){
+					if("false".equals(cateById.getIsParent())){
+						resultList.add(item);
 					}
-					if(!catIds.isEmpty()){
-						int countItems = this.countItemsBySuppIdAndCateIds(supplierId, catIds, "PROJECT");
-						if(countItems == clist.size()){
+					continue;
+				}
+//				if("true".equals(cateById.getIsParent())){
+				// 如果当前节点的父节点选过，则不选当前节点了
+				if(pCateIds.contains(cateById.getParentId())){
+					continue;
+				}
+				// 如果是子节点中的同级节点，则直接添加
+				if("false".equals(cateById.getIsParent()) && pCateIdsOfLeaf.contains(cateById.getParentId())){
+					resultList.add(item);
+					continue;
+				}
+				int count = this.countItemsInCate(supplierId, categoryId, "PROJECT");
+				if(count > 0){
+					if(!(rootNodeId+"").equals(cateById.getParentId()+"")){
+						count = this.countItemsInCate(supplierId, cateById.getParentId(), "PROJECT");
+						if(count == 0){
 							resultList.add(item);
+							if("false".equals(cateById.getIsParent())){
+								pCateIdsOfLeaf.add(cateById.getParentId());
+							}
 						}
+					}else{
+						resultList.add(item);
+					}
+					if("true".equals(cateById.getIsParent())){
+						pCateIds.add(categoryId);
 					}
 				}
+//				}
 			}
 		}
 		if(resultList.size() < listSupplierItems.size()){
-			handlerItemList(supplierId, resultList);
+			handlerItemList(supplierId, resultList, rootNodeId);
 		}
 		return resultList;
 	}
@@ -1395,6 +1431,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 						cateTree.setRootNode(rootNode.getName());
 					}
 				}
+				cateTree.setFirstNode(parentNodeList.get(0).getName());
 			}
 			if(parentNodeList.size() > 1){
 				cateTree.setFirstNode(parentNodeList.get(0).getName());
@@ -1485,6 +1522,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 				if(rootNode != null){
 					cateTree.setRootNode(rootNode.getName());
 				}
+				cateTree.setFirstNode(parentNodeList.get(0).getName());
 			}
 			if(parentNodeList.size() > 1){
 				cateTree.setFirstNode(parentNodeList.get(0).getName());
@@ -1612,11 +1650,14 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 				typeList = type.get(0).getList();
 			}*/
 			// 所有资质类型，包括父节点的资质
-			List < QualificationBean > qbList = supplierService.queryCategoyrId(cateTree.getParentNodeList(), 4);
+			List < QualificationBean > qbList = supplierService.getQuaList(cateTree.getParentNodeList(), 4);
 			List < Qualification > typeList = new ArrayList < Qualification > ();
 			if(qbList != null && qbList.size() > 0){
-				for(QualificationBean qb : qbList){
+				/*for(QualificationBean qb : qbList){
 					typeList.addAll(qb.getList());
+				}*/
+				for(int i=qbList.size()-1; i>=0; i--){
+					typeList.addAll(qbList.get(i).getList());
 				}
 			}
 			//自定义等级

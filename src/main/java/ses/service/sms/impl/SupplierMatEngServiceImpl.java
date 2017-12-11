@@ -288,5 +288,10 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
         eng.setListSupplierEngQuas(engQuas);
         return eng;
     }
+
+	@Override
+	public SupplierMatEng getMatEngBasicBySupplierId(String supplierId) {
+		return supplierMatEngMapper.getMatEngBasicBySupplierId(supplierId);
+	}
     
 }

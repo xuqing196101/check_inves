@@ -186,14 +186,14 @@ public interface SupplierService {
 	/**
 	 * 
 	* @Title: queryCategoyrId
-	* @Description:查询出供应商所索要上传的资质文件
+	* @Description:查询出供应商所要上传的资质文件
 	* author: Li Xiaoxiao 
 	* @param @param list
 	* @param @return     
 	* @return List<QualificationBean>     
 	* @throws
 	 */
-   public List<QualificationBean>  queryCategoyrId(List<Category> list, Integer quaType);
+   public List<QualificationBean> getQuaList(List<Category> list, Integer quaType);
 
    /**
     * 
@@ -564,6 +564,14 @@ public interface SupplierService {
 	 * @return
 	 */
 	public boolean checkIdCard(String id, String idCard);
+	
+	/**
+	 * 供应商查询（全部/入库）
+	 * @param supplier
+	 * @param page
+	 * @return
+	 */
+	public List<Supplier> querySupplierList(Supplier supplier, Integer page);
 
 	/**
 	 * 查询无产品供应商
@@ -582,7 +590,7 @@ public interface SupplierService {
 	 * @param 
 	 * @since JDK1.7
 	 */
-	List<Supplier> querySupplierbytypeAndCategoryIds(String flag, Supplier supplier);
+	List<Supplier> querySupplierList(String flag, Supplier supplier);
 	
 	/**
 	 * 供应商入库申请表数据处理
@@ -590,6 +598,5 @@ public interface SupplierService {
 	 * @return
 	 */
 	public Supplier handingDataSupplierApplicationForm(Supplier supplier);
-
 
 }

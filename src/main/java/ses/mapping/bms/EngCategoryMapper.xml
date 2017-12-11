@@ -38,6 +38,11 @@
 		<collection property="supplierTypes" ofType="ses.model.sms.SupplierType"
 			resultMap="ses.dao.sms.SupplierTypeMapper.BaseResultMap" />
 	</resultMap>
+	<resultMap id="resMap" type="ses.model.bms.Category">
+		<id column="ID" property="id" />
+		<result column="NAME" property="name" />
+		<result column="PARENT_ID" property="parentId" />
+	</resultMap>
 	<sql id="Base_Column_List">
 		ID, NAME, STATUS, PARENT_ID, CREATED_AT, UPDATED_AT,
 		DESCRIPTION, CLASSIFY_STATUS,CODE,POSITION,IS_DELETED,
@@ -521,5 +526,12 @@
 		<if test="auditStatus != null">
 			AND T2.AUDIT_STATUS = #{auditStatus}
 		</if>
+	</select>
+	
+	<!-- 根据id查询 -->
+	<select id="selectById" parameterType="String" resultMap="resMap">
+		SELECT ID,NAME,PARENT_ID
+		FROM T_SES_BMS_ENG_CATEGORY
+		WHERE ID = #{id}
 	</select>
 </mapper>

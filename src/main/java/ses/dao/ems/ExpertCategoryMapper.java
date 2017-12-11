@@ -215,4 +215,19 @@ public interface ExpertCategoryMapper {
      * @return
      */
     List<ExpertCategory> selectPassCategoryByExpertId(String expertId, String typeId);
+    
+    /**
+     * 查询全部根节点数量
+     * @param map
+     * @return
+     */
+    Integer findRootNoteCountByExpertId(Map<String, Object> map);
+    
+    /**
+     * 根据审核标识查询审核不通过的根节点数量
+     * @param map
+     * @return
+     */
+    Integer findNoPassCategoryCountByAuditFalg(Map<String, Object> map);
+    
 }

@@ -447,7 +447,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 		}
 		Expert expertInfo = expertMapper.selectByPrimaryKey(expertId);
 		String status = expertInfo.getStatus();
-		if("0".equals(status) || "9".equals(status)){
+		if("0".equals(status) || "9".equals(status) || "15".equals(status) || "16".equals(status)){
 			//初审中
 			expert.setAuditTemporary(1);
 		}else if("4".equals(status)){
@@ -501,14 +501,14 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	public void handlerPublictyExp() {
 		// 获取当前时间
 	    Date nowDate = new Date();
-	    // 查询所有公示供应商
-	    String nowDateString = DateUtils.getDateOfFormat(nowDate);
+	    // 查询所有公示专家
+	    String nowDateString = DateUtils.getDateByFormat(nowDate, "yyyyMMddHH");
 	    List<Expert> list = expertMapper.selectExpByPublicty();
 	    if(list != null && !list.isEmpty()){
 	        for (Expert expert : list) {
-	            // 将公示7天的拟入库供应商入库 
+	            // 将公示7天的拟入库专家入库
 	            // 获取七天后的今天
-	            String afterDateString = DateUtils.getDateOfFormat(DateUtils.addDayDate(expert.getAuditAt(), 7));
+	            String afterDateString = DateUtils.getDateByFormat(DateUtils.addDayDate(expert.getAuditAt(), 7), "yyyyMMddHH");
 	            if(nowDateString.equals(afterDateString)){
 	                // 审核通过，自动入库
 	            	expert.setStatus("6");
@@ -931,9 +931,115 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 			break;
 		}
 		if(msg !=null && !"".equals(msg) && mobile !=null && !"".equals(mobile)){
-			 SMSUtil.sendMsg(mobile, msg);			
+			/* SMSUtil.sendMsg(mobile, msg);			*/
+
 		}
 		return prompt;
 	}
 
+	@Override
+	public List<ExpertAudit> selectReasonByExpertId(ExpertAudit expertAudit){
+		return mapper.selectReasonByExpertId(expertAudit);
+	}
+	
+	@Override
+    public List<ExpertAudit> selectCatReason(ExpertAudit expertAudit){
+		return mapper.selectCatReason(expertAudit);
+	}
+	
+	
+	/**
+    * 全部参评类别不通过类别也标注不通过
+    * @param map
+    * @return
+    */
+	@Override
+	public StringBuffer noPassTypeId(String expertId, String[] types, Integer auditFalg) {
+		StringBuffer typeErrorField = new StringBuffer();
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("expertId", expertId);
+		map.put("auditFalg", auditFalg);
+		//现在勾选的类型
+		try {
+			for(String typeId : types){
+				if(typeId!=null && !"".equals(typeId)){
+					map.put("typeId", typeId);
+					//全部根节点
+					Integer allNumber = expertCategoryMapper.findRootNoteCountByExpertId(map);
+					
+					DictionaryData data = DictionaryDataUtil.findById(typeId);
+					//物资
+					if(data !=null && "GOODS".equals(data.getCode()) && allNumber !=0){
+						//不通过的根节点
+						Integer number = expertCategoryMapper.findNoPassCategoryCountByAuditFalg(map);
+						if(allNumber - number == 0){
+							typeErrorField.append(typeId + ",");
+						}
+					//服务
+					}else if(data !=null && "SERVICE".equals(data.getCode()) && allNumber !=0){
+						//不通过的根节点
+						Integer number = expertCategoryMapper.findNoPassCategoryCountByAuditFalg(map);
+						if(allNumber - number == 0){
+							typeErrorField.append(typeId + ",");
+						}
+					//工程技术
+					}else if(data !=null && "PROJECT".equals(data.getCode()) && allNumber !=0){
+						//工程专业id
+						String engId = DictionaryDataUtil.getId("ENG_INFO_ID");
+						//全部工程专业的数量
+						map.put("typeId", engId);
+						Integer engNumber = 0;
+						if(engId !=null && !"".equals(engId)){
+							engNumber = expertCategoryMapper.findRootNoteCountByExpertId(map);
+						}
+						
+						//工程专业不通过的根节点
+						Integer noPassNumber = expertCategoryMapper.findNoPassCategoryCountByAuditFalg(map);
+
+						//工程不通过的根节点
+						map.put("typeId", typeId);
+						Integer number = expertCategoryMapper.findNoPassCategoryCountByAuditFalg(map);
+						
+						//所有工程根节点数量
+						Integer all = allNumber + engNumber;
+						Integer engNoPassNumber = noPassNumber + number;
+						
+						if(all - engNoPassNumber == 0){
+							typeErrorField.append(typeId + ",");
+						}
+					//工程经济
+					}else if(data !=null && "GOODS_PROJECT".equals(data.getCode())){
+						//工程专业id
+						String engInfoId = DictionaryDataUtil.getId("ENG_INFO_ID");
+						//工程id
+						String engId = DictionaryDataUtil.getId("PROJECT");
+						
+						//全部工程专业根节点
+						map.put("typeId", engInfoId);
+						Integer jjNumber = expertCategoryMapper.findRootNoteCountByExpertId(map);
+						
+						//工程专业不通过根节点
+						Integer jjNoPassNumber = expertCategoryMapper.findNoPassCategoryCountByAuditFalg(map);
+						
+						//全部工程根节点
+						map.put("typeId", engId);
+						Integer engNumber = expertCategoryMapper.findRootNoteCountByExpertId(map);
+						
+						//工程不通过的根节点
+						Integer number = expertCategoryMapper.findNoPassCategoryCountByAuditFalg(map);
+						
+						//所有工程根节点数量
+						Integer all = engNumber + jjNumber;
+						Integer engNoPassNumber = jjNoPassNumber + number;
+						if(all - engNoPassNumber == 0){
+							typeErrorField.append(typeId + ",");
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return typeErrorField;
+	}
 }

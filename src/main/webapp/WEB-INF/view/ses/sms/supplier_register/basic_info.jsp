@@ -567,7 +567,7 @@
 										<div class="cue"> ${err_isHavingConCert } </div>
 									</div>
 								</li>
-								<li class="col-md-6 col-sm-6 col-xs-12 mb25" id="bearchCertDiv" <c:if test="${currSupplier.isHavingConCert eq '0'}">style="display:none;"</c:if>>
+								<li class="col-md-6 col-sm-6 col-xs-12 mb25" id="bearchCertDiv" <c:if test="${currSupplier.isHavingConCert ne '1'}">style="display:none;"</c:if>>
 									<span class="col-md-6 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 保密资格证书</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0"
 										<c:if test="${fn:contains(audit,'supplierBearchCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'supplierBearchCert','basic_page')"</c:if>>
@@ -922,7 +922,7 @@
 									</div>
 								</li>
 							</ul>
-							<ul id="branch_list_body" class="list-unstyled clear" <c:if test="${currSupplier.overseasBranch eq '0'}">style="display:none;"</c:if>>
+							<ul id="branch_list_body" class="list-unstyled clear" <c:if test="${currSupplier.overseasBranch ne '1'}">style="display:none;"</c:if>>
 								<c:forEach items="${currSupplier.branchList }" var="bran" varStatus="vs">
 									<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 										<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">* </i>机构名称</span>
@@ -1134,7 +1134,7 @@
 									<span class="red">${stock }</span>
 								</div>
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto">
-									<table id="share_table_id" class="table table-bordered table-condensed mt5 table_wrap table_input left_table">
+									<table id="share_table_id" class="table table-bordered table-condensed mt5 table_wrap table_input left_table m_table_fixed_border">
 										<thead>
 											<tr>
 												<th class="info"><input type="checkbox" onchange="checkAll(this, 'stockholder_list_tbody_id')" />

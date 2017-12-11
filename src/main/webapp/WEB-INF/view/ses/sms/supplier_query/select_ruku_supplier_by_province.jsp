@@ -600,12 +600,16 @@
             </div>--%>
             <ul class="demand_list">
                 <li>
-                    <label class="fl">供应商名称：</label><span><input class="w220" id="supplierName" name="supplierName"
-                                                                 value="${supplier.supplierName }" type="text"></span>
+                    <label class="fl">供应商名称：</label>
+                    <span>
+                    		<input class="w220" id="supplierName" name="supplierName" value="${supplier.supplierName }" type="text">
+                    </span>
                 </li>
                 <li>
-                    <label class="fl">联系人：</label><span><input class="w220" id="contactName" name="contactName"
-                                                               value="${supplier.contactName }" type="text"></span>
+                    <label class="fl">联系人：</label>
+                    <span>
+                    		<input class="w220" id="contactName" name="contactName" value="${supplier.contactName }" type="text">
+                    </span>
                 </li>
                 <li>
                     <label class="fl">企业性质：</label>
@@ -620,22 +624,24 @@
                     <label class="fl">供应商状态：</label>
                     <select id="status" name="status" class="w220">
                         <option selected="selected" value=''>全部</option>
-                        <c:forEach items="<%=SupplierConstants.STATUSMAP %>" var="item">
+                        <c:forEach items="<%=SupplierConstants.STATUSMAP_RUKU %>" var="item">
                             <option value="${item.key}">${item.value}</option>
                         </c:forEach>
                     </select>
                 </li>
                 <li>
-                    <label class="fl">审核日期：</label><span><input id="startAuditDate" name="startAuditDate"
-                                                                class="Wdate w110 fl" type="text"
-                                                                value='<fmt:formatDate value="${supplier.startAuditDate }" pattern="YYYY-MM-dd"/>'
-                                                                onFocus="var endDate=$dp.$('startAuditDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'startAuditDate\')}'})"/>
-                    <span class="f14">至</span>
-	                <input id="endAuditDate" name="endAuditDate"
-                           value='<fmt:formatDate value="${supplier.endAuditDate }" pattern="YYYY-MM-dd"/>'
-                           class="Wdate w100 fl" type="text"
-                           onFocus="WdatePicker({minDate:'#F{$dp.$D(\'endAuditDate\')}'})"/>
-	               </span>
+                    <label class="fl">审核日期：</label>
+                    <span class="w220">
+                    		<input id="startAuditDate" name="startAuditDate"
+                            class="Wdate w100 fl" type="text"
+                            value='<fmt:formatDate value="${supplier.startAuditDate }" pattern="YYYY-MM-dd"/>'
+                            onFocus="var endDate=$dp.$('startAuditDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'startAuditDate\')}'})"/>
+                    		<span class="f14 w20 tc">至</span>
+	                			<input id="endAuditDate" name="endAuditDate"
+                       			value='<fmt:formatDate value="${supplier.endAuditDate }" pattern="YYYY-MM-dd"/>'
+                           	class="Wdate w100 fl" type="text"
+                           	onFocus="WdatePicker({minDate:'#F{$dp.$D(\'endAuditDate\')}'})"/>
+	               		</span>
                 </li>
                 <li>
                     <label class="fl">采购机构：</label>
@@ -644,21 +650,22 @@
                         <c:forEach items="${allOrg}" var="org">
                             <c:if test="${org.isAuditSupplier == 1}">
                                 <option value="${org.shortName}"
-                                        <c:if test="${supplier.orgName eq org.shortName}">selected</c:if>>${org.shortName}</option>
+                                    <c:if test="${supplier.orgName eq org.shortName}">selected</c:if>>${org.shortName}</option>
                             </c:if>
                         </c:forEach>
                     </select>
                 </li>
                 <li>
                     <label class="fl">供应商品目：</label>
-                    <span><input class="w220" name="queryCategoryName" id="supplierGradeInput" class="span2 mt5"
-                                 type="text" name="" readonly value="${supplier.queryCategoryName }"
-                                 onclick="initZtree(true);"/>
-                            <input type="hidden" name="queryCategory" id="supplierGradeInputVal"
-                                   value="${supplier.queryCategory}"/>
-                            <input type="hidden" name="supplierTypeIds" id="supplierTypeIds"
-                                   value="${supplierTypeIds}"/>
-                          </span>
+                    <span>
+                    		<input class="w220" name="queryCategoryName" id="supplierGradeInput" class="span2 mt5"
+                            type="text" name="" readonly value="${supplier.queryCategoryName }"
+                            onclick="initZtree(true);"/>
+                        <input type="hidden" name="queryCategory" id="supplierGradeInputVal"
+                            value="${supplier.queryCategory}"/>
+                        <input type="hidden" name="supplierTypeIds" id="supplierTypeIds"
+                            value="${supplierTypeIds}"/>
+                    </span>
                 </li>
                 <li class="hide" id="supplierLevelLi">
                     <label class="fl">供应商等级：</label>
@@ -716,24 +723,24 @@
                 <th class="info w150">地区</th>
                 <th class="info w70">企业性质</th>
                 <th class="info w150">供应商类型</th>
-                <th class="info w90">注册日期</th>
-                <th class="info w90">最新提交日期</th>
-                <th class="info w90">最新审核日期</th>
-                <th class="info w90">入库日期</th>
+                <th class="info w100">注册日期</th>
+                <th class="info w100">最新提交日期</th>
+                <th class="info w100">最新审核日期</th>
+                <th class="info w100">入库日期</th>
                 <th class="info w100">状态</th>
                 <!--
-                                            <th class="info" width="15%">供应商名称</th>
-                                            <th class="info">用户名</th>
-                                            <th class="info" width="7%">联系人</th>
-                                            <th class="info" width="10%">手机号</th>
-                                            <th class="info" width="10%">注册日期</th>
-                                            <th class="info" width="10%">提交日期</th>
-                                            <th class="info" width="10%">审核日期</th>
-                                            <th class="info" width="7%">地区</th>
-                                            <th class="info" width="13%">供应商类型</th>
-                                            <th class="info" width="7%">企业性质</th>
-                                            <th class="info" width="15%">采购机构</th>
-                                            <th class="info">供应商状态</th>
+                <th class="info" width="15%">供应商名称</th>
+                <th class="info">用户名</th>
+                <th class="info" width="7%">联系人</th>
+                <th class="info" width="10%">手机号</th>
+                <th class="info" width="10%">注册日期</th>
+                <th class="info" width="10%">提交日期</th>
+                <th class="info" width="10%">审核日期</th>
+                <th class="info" width="7%">地区</th>
+                <th class="info" width="13%">供应商类型</th>
+                <th class="info" width="7%">企业性质</th>
+                <th class="info" width="15%">采购机构</th>
+                <th class="info">供应商状态</th>
                 -->
             </tr>
             </thead>
@@ -755,7 +762,7 @@
                             <c:if test="${fn:length (list.supplierName) <= 15}">${list.supplierName}</c:if>
                         </a>
                     </td>
-                    <td class="">${list.name}</td>
+                    <td class="">${list.areaName}</td>
                     <td class="tc">${list.businessNature}</td>
                     <td class="">${list.supplierType}</td>
                         <%-- <td class="hand" title="${list.supplierType}">

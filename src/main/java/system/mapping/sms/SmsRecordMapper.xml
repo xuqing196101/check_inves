@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="system.dao.sms.SmsRecordMapper">
+  <resultMap id="BaseResultMap" type="system.model.sms.SmsRecord">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="SEND_LINK" jdbcType="VARCHAR" property="sendLink" />
+    <result column="OPERATOR" jdbcType="VARCHAR" property="operator" />
+    <result column="SEND_CONTENT" jdbcType="VARCHAR" property="sendContent" />
+    <result column="RECIPIENT" jdbcType="VARCHAR" property="recipient" />
+    <result column="RECEIVE_NUMBER" jdbcType="VARCHAR" property="receiveNumber" />
+    <result column="SEND_TIME" property="sendTime" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="FAIL_REASON" jdbcType="VARCHAR" property="failReason" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+    <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, SEND_LINK, OPERATOR, SEND_CONTENT, RECIPIENT, RECEIVE_NUMBER, SEND_TIME, STATUS, 
+    FAIL_REASON, UPDATED_AT, IS_DELETED, ORG_ID
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYSTEM_SMS_RECORD
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 删除 修改删除标识 -->
+  <update id="deleteByPrimaryKey" parameterType="java.lang.String">
+    UPDATE T_SYSTEM_SMS_RECORD
+    SET IS_DELETED = 1
+    WHERE ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <insert id="insert" parameterType="system.model.sms.SmsRecord">
+    insert into T_SYSTEM_SMS_RECORD (ID, SEND_LINK, OPERATOR, 
+      SEND_CONTENT, RECIPIENT, RECEIVE_NUMBER, 
+      SEND_TIME, STATUS, FAIL_REASON, 
+      UPDATED_AT, IS_DELETED, ORG_ID)
+    values (#{id,jdbcType=VARCHAR}, #{sendLink,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
+      #{sendContent,jdbcType=VARCHAR}, #{recipient,jdbcType=VARCHAR}, #{receiveNumber,jdbcType=VARCHAR}, 
+      #{sendTime,jdbcType=DATE}, #{status,jdbcType=VARCHAR}, #{failReason,jdbcType=VARCHAR}, 
+      #{updatedAt,jdbcType=DATE}, #{isDeleted,jdbcType=DECIMAL}, #{orgId,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="system.model.sms.SmsRecord">
+    insert into T_SYSTEM_SMS_RECORD
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="sendLink != null">
+        SEND_LINK,
+      </if>
+      <if test="operator != null">
+        OPERATOR,
+      </if>
+      <if test="sendContent != null">
+        SEND_CONTENT,
+      </if>
+      <if test="recipient != null">
+        RECIPIENT,
+      </if>
+      <if test="receiveNumber != null">
+        RECEIVE_NUMBER,
+      </if>
+      <if test="sendTime != null">
+        SEND_TIME,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="failReason != null">
+        FAIL_REASON,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="orgId != null">
+        ORG_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="sendLink != null">
+        #{sendLink,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="sendContent != null">
+        #{sendContent,jdbcType=VARCHAR},
+      </if>
+      <if test="recipient != null">
+        #{recipient,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveNumber != null">
+        #{receiveNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null">
+        #{sendTime},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="failReason != null">
+        #{failReason,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="system.model.sms.SmsRecord">
+    update T_SYSTEM_SMS_RECORD
+    <set>
+      <if test="sendLink != null">
+        SEND_LINK = #{sendLink,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        OPERATOR = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="sendContent != null">
+        SEND_CONTENT = #{sendContent,jdbcType=VARCHAR},
+      </if>
+      <if test="recipient != null">
+        RECIPIENT = #{recipient,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveNumber != null">
+        RECEIVE_NUMBER = #{receiveNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null">
+        SEND_TIME = #{sendTime,jdbcType=DATE},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="failReason != null">
+        FAIL_REASON = #{failReason,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="orgId != null">
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="system.model.sms.SmsRecord">
+    update T_SYSTEM_SMS_RECORD
+    set SEND_LINK = #{sendLink,jdbcType=VARCHAR},
+      OPERATOR = #{operator,jdbcType=VARCHAR},
+      SEND_CONTENT = #{sendContent,jdbcType=VARCHAR},
+      RECIPIENT = #{recipient,jdbcType=VARCHAR},
+      RECEIVE_NUMBER = #{receiveNumber,jdbcType=VARCHAR},
+      SEND_TIME = #{sendTime,jdbcType=DATE},
+      STATUS = #{status,jdbcType=VARCHAR},
+      FAIL_REASON = #{failReason,jdbcType=VARCHAR},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      ORG_ID = #{orgId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 条件查询所有 -->
+  <select id="findAll" parameterType="system.model.sms.SmsRecord" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    FROM T_SYSTEM_SMS_RECORD
+    where IS_DELETED = 0
+      <!-- 发送环节 -->
+      <if test="sendLink != null and sendLink != ''">
+        AND SEND_LINK = #{sendLink}
+      </if>
+      <!-- 操作人 -->
+      <if test="operatorList != null">
+        AND OPERATOR IN 
+       	  <foreach item="item" index="index" collection="operatorList" open="(" separator="," close=")">  
+            #{item}  
+          </foreach>
+      </if>
+      <!-- 接收人 -->
+      <if test="recipientList != null">
+        AND RECIPIENT IN 
+          <foreach item="item" index="index" collection="recipientList" open="(" separator="," close=")">  
+            #{item}  
+          </foreach>
+      </if>
+      <!-- 接收号码 -->
+      <if test="receiveNumber != null and receiveNumber != ''">
+        AND RECEIVE_NUMBER LIKE CONCAT(CONCAT('%', #{receiveNumber}), '%')
+      </if>
+      <!-- 状态 -->
+      <if test="status != null and status != ''">
+        AND STATUS = #{status}
+      </if>
+      <!-- 发送时间 -->
+      <if test="startTime != null and startTime != ''">
+        AND to_char(SEND_TIME,'yyyy-MM-dd HH:mm:ss') &gt;= #{startTime,jdbcType=VARCHAR}
+      </if>
+      <if test="endTime != null and endTime != ''">
+        AND to_char(SEND_TIME,'yyyy-MM-dd HH:mm:ss') &lt;= #{endTime,jdbcType=VARCHAR} 
+      </if>
+      <if test="orgId != null and orgId != ''">
+        AND ORG_ID = #{orgId}
+      </if>
+      <if test="loginUser != null and loginUser != ''">
+        AND OPERATOR = #{loginUser}
+      </if>
+      ORDER BY SEND_TIME DESC,ID ASC
+  </select>
+  
+  <!-- 根据用户名模糊查询获取id集合 -->
+  <select id="selectByName" parameterType="String" resultType="String">
+      SELECT ID FROM T_SES_BMS_USER WHERE REL_NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
+  </select>
+  
+  <!-- 根据id查询用户名 -->
+  <select id="selectByUserId" parameterType="String" resultType="String">
+      SELECT REL_NAME FROM T_SES_BMS_USER WHERE ID = #{id}
+  </select>
+</mapper>

@@ -427,7 +427,7 @@
 		<include refid="Base_Column_List"/>
 				from
 				T_SES_SMS_SUPPLIER_ITEM
-				where SUPPLIER_ID = #{supplierId} and SUPPLIER_TYPE_RELATE_ID=#{type}
+				where SUPPLIER_ID = #{supplierId} and SUPPLIER_TYPE_RELATE_ID = #{type}
 	</select> 
 	
 	<!-- 品目id查询类型 -->
@@ -610,7 +610,7 @@
 	
 	<!--统计供应商品目-->
 	<select id="countItemsBySuppIdAndCateIds" resultType="int">
-		SELECT COUNT(*) FROM T_SES_SMS_SUPPLIER_ITEM
+		SELECT COUNT(ID) FROM T_SES_SMS_SUPPLIER_ITEM
 		WHERE SUPPLIER_ID = #{supplierId}
 		AND SUPPLIER_TYPE_RELATE_ID = #{code}
 		<if test="catIds != null and catIds.size != 0">
@@ -620,6 +620,38 @@
 			</foreach>
 		</if>
 		<!-- AND IS_RETURNED != 1 -->
+	</select>
+	
+	<!--在Category中统计Item-->
+	<select id="countItemsInCate" resultType="int">
+		SELECT COUNT(0) FROM DUAL WHERE(
+			SELECT COUNT(ID) FROM T_SES_SMS_SUPPLIER_ITEM
+			WHERE SUPPLIER_ID = #{supplierId}
+			AND SUPPLIER_TYPE_RELATE_ID = #{code}
+			AND CATEGORY_ID IN(
+				SELECT ID
+				FROM(
+					SELECT ID,PARENT_ID
+					FROM T_SES_BMS_CATEGORY 
+					WHERE 1 = 1
+					AND IS_PUBLISH = 0 
+					AND IS_DELETED = 0 
+				)
+				START WITH (ID = #{categoryId}) 
+				CONNECT BY PRIOR ID = PARENT_ID 
+			)
+		) = (
+			SELECT COUNT(ID)
+			FROM(
+				SELECT ID,PARENT_ID
+				FROM T_SES_BMS_CATEGORY 
+				WHERE 1 = 1
+				AND IS_PUBLISH = 0 
+				AND IS_DELETED = 0 
+			)
+			START WITH (ID = #{categoryId}) 
+			CONNECT BY PRIOR ID = PARENT_ID
+		)
 	</select>
 
 	<select id="findFinaSupplierByCategouryAndType" parameterType="ses.model.sms.Supplier" resultType="ses.model.sms.Supplier">
@@ -697,5 +729,5 @@
 			</if>
 		</where>
 	</delete>
-
+	
 </mapper>

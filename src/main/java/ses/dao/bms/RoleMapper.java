@@ -221,4 +221,13 @@ public interface RoleMapper {
    * @return
    */
   List<String> findByRoleName(@Param("roleName")String roleName);
+
+	/**
+	 *〈简述〉查询不分页角色（去除供应商、专家、进口代理商、专家复审审核组成员）列表
+	 *〈详细描述〉
+	 * @author Ye Maolin
+	 * @param role
+	 * @return
+	 */
+	List<Role> findList(Role role);
 }

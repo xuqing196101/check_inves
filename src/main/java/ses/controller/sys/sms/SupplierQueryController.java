@@ -235,7 +235,7 @@ public class SupplierQueryController extends BaseSupplierController {
             List<String> listSupplierTypeIds = Arrays.asList(supplierTypeIds.split(","));
             sup.setItemType(listSupplierTypeIds);
         }
-        List<Supplier>  listSupplier = supplierAuditService.querySupplierbytypeAndCategoryIds(sup, null);
+        List<Supplier> listSupplier = supplierService.querySupplierList(sup, null);
         
         //在数据字典里查询企业性质
  		List < DictionaryData > businessNature = DictionaryDataUtil.find(32);
@@ -358,10 +358,10 @@ public class SupplierQueryController extends BaseSupplierController {
 				sup.setAuditTemporary(null);
 				listSupplier = supplierService.querySupplierListByNoCate(sup, page == null ? 1 : page);
 	        }else{
-	        	listSupplier = supplierAuditService.querySupplierbytypeAndCategoryIds(sup, page == null ? 1 : page);
+	        	listSupplier = supplierService.querySupplierList(sup, page == null ? 1 : page);
 	        }
 		}else{
-			listSupplier = supplierAuditService.querySupplierbytypeAndCategoryIds(sup, page == null ? 1 : page);
+			listSupplier = supplierService.querySupplierList(sup, page == null ? 1 : page);
 		}
         
         //企业性质
@@ -377,8 +377,8 @@ public class SupplierQueryController extends BaseSupplierController {
         }
         
         //全部机构
-        /*List<PurchaseDep>  allOrg = purChaseDepOrgService.findAllOrg();*/
-        List<Orgnization>  allOrg = orgnizationServiceI.findPurchaseOrgByPosition(null);
+        /*List<PurchaseDep> allOrg = purChaseDepOrgService.findAllOrg();*/
+        List<Orgnization> allOrg = orgnizationServiceI.findPurchaseOrgByPosition(null);
         model.addAttribute("allOrg", allOrg);
         
         this.getSupplierType(listSupplier);
@@ -422,7 +422,7 @@ public class SupplierQueryController extends BaseSupplierController {
             List<String> listCategoryIds = Arrays.asList(categoryIds.split(","));
             sup.setItem(listCategoryIds);
         }
-        List<Supplier>  listSupplier = supplierAuditService.querySupplierbytypeAndCategoryIds(sup, page == null ? 1 : page);
+        List<Supplier>  listSupplier = supplierAuditService.querySupplierList(sup, page == null ? 1 : page);
         getSupplierType(listSupplier);
         model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
         model.addAttribute("supplier", sup);
@@ -456,7 +456,7 @@ public class SupplierQueryController extends BaseSupplierController {
              List<String> listCategoryIds = Arrays.asList(categoryIds.split(","));
              sup.setItem(listCategoryIds);
          }
-        List<Supplier>  listSupplier = supplierService.querySupplierbytypeAndCategoryIds(sup, categoryIds, page == null ? 1 : page);
+        List<Supplier>  listSupplier = supplierService.querySupplierList(sup, categoryIds, page == null ? 1 : page);
         
         getSupplierType(listSupplier);
         model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
@@ -1128,19 +1128,19 @@ public class SupplierQueryController extends BaseSupplierController {
 		List < Category > listPro = getSupplier(supplierId, supplierTypeIds);
 		removeSame(listPro);
 		//根据品目id查询所有的证书信息
-		List < QualificationBean > list3 = supplierService.queryCategoyrId(listPro, 2);
+		List < QualificationBean > list3 = supplierService.getQuaList(listPro, 2);
 
 		//查询所有的三级品目销售
 		List < Category > listSlae = getSale(supplierId, supplierTypeIds);
 		removeSame(listSlae);
 		//根据品目id查询所有的证书信息
-		List < QualificationBean > saleQua = supplierService.queryCategoyrId(listSlae, 3);
+		List < QualificationBean > saleQua = supplierService.getQuaList(listSlae, 3);
 
 		//查询所有的三级品目服务
 		List < Category > listService = getServer(supplierId, supplierTypeIds);
 		removeSame(listService);
 		//根据品目id查询所有的服务证书信息
-		List < QualificationBean > serviceQua = supplierService.queryCategoyrId(listService, 2);
+		List < QualificationBean > serviceQua = supplierService.getQuaList(listService, 2);
 
 		//生产证书
 		List < Qualification > qaList = new ArrayList < Qualification > ();
@@ -1398,7 +1398,7 @@ public class SupplierQueryController extends BaseSupplierController {
 			// 所有等级List
 			List < Category > cateList = new ArrayList < Category > ();
 			cateList.add(categoryService.selectByPrimaryKey(categoryId));
-			List < QualificationBean > type = supplierService.queryCategoyrId(cateList, 4);
+			List < QualificationBean > type = supplierService.getQuaList(cateList, 4);
 			List < Qualification > typeList = new ArrayList < Qualification > ();
 			if(type != null && type.size() > 0 && type.get(0).getList() != null && type.get(0).getList().size() > 0) {
 				typeList = type.get(0).getList();
@@ -2317,7 +2317,7 @@ public class SupplierQueryController extends BaseSupplierController {
 		List<DictionaryData> businessNature = DictionaryDataUtil.find(32);
 		model.addAttribute("businessNature", businessNature);
 
-		List<Supplier> listSupplier = supplierAuditService.querySupplierbytypeAndCategoryIds(sup, page == null ? 1 : page);
+		List<Supplier> listSupplier = supplierService.querySupplierList(sup, page == null ? 1 : page);
 
 		// 企业性质
 		for (Supplier s : listSupplier) {
@@ -2414,7 +2414,7 @@ public class SupplierQueryController extends BaseSupplierController {
         // 设置序号列
         excelUtils.setOrder(true);
         //ExcelUtils excelUtils = new ExcelUtils("./test.xls", "sheet1");
-        List<Supplier> dataList = supplierService.querySupplierbytypeAndCategoryIds(null, supplier);
+        List<Supplier> dataList = supplierService.querySupplierList(null, supplier);
         String titleColumn[] = {"orderNum", "supplierName", "businessNature", "supplierType",
                 "address", "contactName", "mobile", "contactMobile", "statusString", "supplierItemIds", "instorageAt"};
         String titleName[] = {"序号", "供应商名称", "企业性质", "供应商类型", "住所地址", "军队联系人",

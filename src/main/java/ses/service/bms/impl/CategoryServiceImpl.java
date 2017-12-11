@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +45,7 @@ import synchro.util.OperAttachment;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
+
 import common.bean.ResBean;
 import common.constant.Constant;
 import common.constant.StaticVariables;
@@ -1254,36 +1257,40 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<CategoryTree> getTreeForExt(Category category,String supplierTypeCode,String categoryId) {
 		
 		List<CategoryTree> jList = new ArrayList<>();
-		List<Category> cateList = new ArrayList<>();
+		Set<Category> cateList = new LinkedHashSet<>();
+		
 		if(category.getId()==null){
 	    	   category.setId(dictionaryDataMapper.selectByCode(supplierTypeCode).get(0).getId());
+	    	   //回显
 	    	   if(StringUtils.isNotBlank(categoryId)){
-					int classifyType = 1;
-					String classifyStatus = "";
-					switch (supplierTypeCode) {
-						case "GOODS":
-							classifyType = 1;
-							break;
-						case "PROJECT":
-							classifyType = 2;
-							break;
-						case "SERVICE":
-							classifyType = 3;
-							break;
-						case "PRODUCT":
-							classifyType = 1;
-							classifyStatus = "1,3";
-							break;
-		
-						case "SALES":
-							classifyType = 1;
-							classifyStatus = "2,3";
-							break;
-					}
-					cateList.addAll(categoryMapper.selectParentNode(classifyType,classifyStatus,categoryId.split(",")));
-				}
+	    		   int classifyType = 1;
+	    		   String classifyStatus = "";
+	    		   switch (supplierTypeCode) {
+	    		   case "GOODS":
+	    			   classifyType = 1;
+	    			   break;
+	    		   case "PROJECT":
+	    			   classifyType = 2;
+	    			   break;
+	    		   case "SERVICE":
+	    			   classifyType = 3;
+	    			   break;
+	    		   case "PRODUCT":
+	    			   classifyType = 1;
+	    			   classifyStatus = "1,3";
+	    			   break;
+	    			   
+	    		   case "SALES":
+	    			   classifyType = 1;
+	    			   classifyStatus = "2,3";
+	    			   break;
+	    		   }
+	    		   cateList.addAll(categoryMapper.selectParentNode(classifyType,classifyStatus,categoryId.split(",")));
+	    	   }
 	    }
-		 cateList.addAll(getCateTreeForExt(category.getId()));
+		cateList.addAll(getCateTreeForExt(category.getId()));
+		
+		
          for(Category cate:cateList){
              CategoryTree ct=new CategoryTree();
              ct.setIsParent(cate.getIsParent());
@@ -1549,5 +1556,19 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<Category> searchList(int type, String cateName, String codeName) {
 		return categoryMapper.searchList(type, cateName, codeName);
+	}
+	
+	/**
+	 * 
+	 * 
+	 * Description: 根据id查询名称
+	 * 
+	 * @data 2017年12月4日
+	 * @param 
+	 * @return String
+	 */
+	@Override
+	public Category selectById(String id){
+		return categoryMapper.selectById(id);
 	}
 }

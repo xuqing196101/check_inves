@@ -199,4 +199,18 @@ public interface ExpertAuditMapper {
     ExpertAudit findByExpertAuditObj(ExpertAudit expertAudit);
     void updateByAuditReason(ExpertAudit expertAudit);
     void updateAgainReview(String expertId);
+    
+    List<ExpertAudit> selectReasonByExpertId (ExpertAudit expertAudit);
+    
+    /**
+     * 
+     * 
+     * Description: 审核记录查询末节点品目审核意见
+     * 
+     * @data 2017年12月4日
+     * @param 
+     * @return List<ExpertAudit>
+     */
+    List<ExpertAudit> selectCatReason(ExpertAudit expertAudit);
+    
 }

@@ -354,4 +354,24 @@ public interface ExpertAuditService {
      * @return
      */
    String sendSms(String status, String mobile);
+   
+   List<ExpertAudit> selectReasonByExpertId (ExpertAudit expertAudit);
+   
+   /**
+    * 
+    * 
+    * Description: 审核记录查询末节点品目审核意见
+    * 
+    * @data 2017年12月4日
+    * @param 
+    * @return List<ExpertAudit>
+    */
+   List<ExpertAudit> selectCatReason(ExpertAudit expertAudit);
+   
+   /**
+    * 全部参评类别不通过类别也不通过
+    * @param map
+    * @return
+    */
+   StringBuffer noPassTypeId(String expertId, String[] types, Integer auditFalg);
 }

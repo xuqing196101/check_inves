@@ -66,8 +66,10 @@ import bss.formbean.Maps;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 import common.annotation.SystemControllerLog;
+import common.constant.Constant;
 import common.constant.StaticVariables;
 
 
@@ -474,6 +476,12 @@ public class PurchaseManageController {
 		Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(orgId);
 		List<DictionaryData> genders = DictionaryDataUtil.find(13);
         model.addAttribute("genders", genders);
+        //用户注册申请表
+  		DictionaryData data = DictionaryDataUtil.get("USER_REG_APPLY");
+  		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+  		model.addAttribute("data", data);
+  		String id = WfUtil.createUUID();
+  		model.addAttribute("userId", id);
 		if (org != null){
 		    
 		    String typeName = org.getTypeName().toString();

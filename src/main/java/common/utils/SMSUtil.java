@@ -1,8 +1,5 @@
 package common.utils;
 
-import com.alibaba.fastjson.JSON;
-import org.apache.commons.codec.binary.Base64;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,6 +12,18 @@ import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.annotation.PostConstruct;
+
+import org.apache.commons.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import system.model.sms.SmsRecord;
+import system.service.sms.SmsRecordService;
+
+import com.alibaba.fastjson.JSON;
 /**
  * 
  * Description: 短信工具类
@@ -22,6 +31,7 @@ import java.util.Map;
  * @version 2016-9-7
  * @since JDK1.7
  */
+@Component("smsUtil")
 public class SMSUtil {
 	
     /**
@@ -37,8 +47,22 @@ public class SMSUtil {
     /** 请求地址 **/
     public static final String SENDURL = "http://118.178.117.163/smsapi/SmsMt.php";
 
-    
-    /**
+	@Autowired
+	private SmsRecordService smsRecordService;
+	
+	private static SMSUtil smsUtil;
+	
+	public void setSmsRecordService(SmsRecordService smsRecordService) {
+		this.smsRecordService = smsRecordService;
+	}
+
+	@PostConstruct
+    public void init() {
+		smsUtil = this;
+		smsUtil.smsRecordService = this.smsRecordService;
+    }
+
+	/**
      * 
      * 
      * Description: 发送短信
@@ -47,11 +71,23 @@ public class SMSUtil {
      * @param 
      * @return String
      */
-    public static void sendMsg(String mobile, String msg){
+    public static void sendMsg(SmsRecord smsRecord){
     	// 创建一个线程池
         /*ExecutorService pool = Executors.newCachedThreadPool();
         pool.submit(new SMSRunnable(mobile, msg));
         pool.shutdown();*/
+    	String result = requestMsg(smsRecord.getReceiveNumber(),smsRecord.getSendContent());
+    	smsRecord.setId(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase());
+    	smsRecord.setSendTime(new Date());
+    	smsRecord.setUpdatedAt(new Date());
+    	smsRecord.setIsDeleted((short)0);
+    	if("0".equals(result)){
+    		smsRecord.setStatus("0");
+    	}else{
+    		smsRecord.setStatus("1");
+    		smsRecord.setFailReason(getResultStatus(result));
+    	}
+    	smsUtil.smsRecordService.insertSelective(smsRecord);
     }
     
     /**
@@ -185,4 +221,95 @@ public class SMSUtil {
         }
         return result;
     }
+    
+    /**
+     * 
+     * 
+     * Description: 短信发送返回状态值转换
+     * 
+     * @data 2017年12月6日
+     * @param 
+     * @return String
+     */
+	public static String getResultStatus(String status) {
+		String result = "其他错误";
+		switch (status) {
+			case "0" :
+				result = "成功返回";
+				break;
+			case "100" :
+				result = "系统忙（因平台侧原因，暂时无法处理提交的短信）";
+				break;
+			case "101" :
+				result = "无此用户/用户未登陆";
+				break;
+			case "102" :
+				result = "密码错";
+				break;
+			case "103" :
+				result = "提交过快（提交速度超过流速限制）";
+				break;
+			case "104" :
+				result = "未知错误";
+				break;
+			case "105" :
+				result = "敏感短信（短信内容包含敏感词）";
+				break;
+			case "106" :
+				result = "消息长度错误";
+				break;
+			case "107" :
+				result = "无合法手机号码";
+				break;
+			case "108" :
+				result = "手机号码个数错误";
+				break;
+			case "109" :
+				result = "无发送额度";
+				break;
+			case "111" :
+				result = "用户自定义扩展号超长";
+				break;
+			case "112" :
+				result = "无此产品，用户没有订购该产品";
+				break;
+			case "114" :
+				result = "签名在黑名单";
+				break;
+			case "115" :
+				result = "签名不合法，未带签名";
+				break;
+			case "116" :
+				result = "IP地址在黑名单内";
+				break;
+			case "117" :
+				result = "IP地址认证错,请求调用的IP地址不是系统登记的IP地址";
+				break;
+			case "118" :
+				result = "用户没有相应的发送权限";
+				break;
+			case "119" :
+				result = "用户已过期";
+				break;
+			case "121" :
+				result = "手机号码在黑名单";
+				break;
+			case "122" :
+				result = "手机号码不在白名单";
+				break;
+			case "124" :
+				result = "手机号码未找到对应运营商";
+				break;
+			case "125" :
+				result = "手机号码格式错误";
+				break;
+			case "126" :
+				result = "号码发送频率超速";
+				break;
+			case "199" :
+				result = "无此类型接口权限";
+				break;
+		}
+		return result;
+	}
 }
