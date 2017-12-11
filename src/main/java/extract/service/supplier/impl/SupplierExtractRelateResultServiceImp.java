@@ -93,7 +93,6 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 			for (SupplierExtractResult supplierExtractResult : setSupplierExtractResult) {
 				saveResult(supplierExtractResult,projectType);
 			}
-			
 		}
 	}
 
@@ -104,7 +103,7 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 	 * @author Jia Chengxiang
 	 * @dateTime 2017-11-2下午8:35:36
 	 * @param condition
-	 * @param suppliers
+	 * @param suppliers  
 	 * @param suppliers2
 	 * @return
 	 */
@@ -171,7 +170,6 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 	public void updateByPrimaryKeySelective(SupplierExtractResult result) {
 		supplierExtRelateMapper.updateByPrimaryKeySelective(result);
 	}
-
 
 	@Override
 	public void insertSelective(SupplierExtractResult result) {

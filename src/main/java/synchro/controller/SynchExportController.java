@@ -498,7 +498,7 @@ public class SynchExportController {
 	        if (synchType.contains(Constant.DATE_SYNCH_HOT_LINE)) {
 	        	serviceHotlineService.exportHotLine(startTime, endTime,date);
 	        } 
-	        if("1".equals(ipAddressType)){
+//	        if("1".equals(ipAddressType)){
 	        	/** 供应商抽取结果导出*/
 	        	if (synchType.contains(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_RESULT)) {
 	        		autoExtractSupplierService.exportSupplierExtractResult(startTime, endTime, date);
@@ -507,7 +507,7 @@ public class SynchExportController {
 	        	if (synchType.contains(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO)) {
 	        		autoExtractSupplierService.exportExtractProjectInfo(startTime, endTime, date);
 	        	} 
-	        }
+//	        }
 	        if("0".equals(ipAddressType)){
 	        	//军队专家内网导进外网 
 	        	if (synchType.contains(Constant.DATE_SYNCH_MILITARY_EXPERT)) {

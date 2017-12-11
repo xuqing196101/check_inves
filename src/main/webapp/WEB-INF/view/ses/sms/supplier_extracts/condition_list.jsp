@@ -355,13 +355,17 @@
 				<!-- 省 -->
 				<input type="hidden" name="province" id="province" value="0" /> 
 				<input type="hidden" name="addressId" id="addressId">
+				<!-- 品目等级组合 -->
+				<input type="hidden" name="cateAndLevel" class="cateAndLevel" id="cateAndLevel">
+				<!-- 销售品目等级组合 -->
+				<input type="hidden" name="salesCateAndLevel" class="cateAndLevel" id="salesCateAndLevel">
 				<h2 class="count_flow">
 					<i>3</i>抽取条件       
 					<button class="btn" type="button">
 						当前满足<span id="count">0</span>家
 					</button>
 				</h2>
-				<ul class="ul_list m0 pl5" style="background-color: #fbfbfb">
+				<ul class="ul_list m0 pl5" id="condition" style="background-color: #fbfbfb">
 					<li class="col-md-3 col-sm-6 col-xs-12 pl10 category">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span>产品类别：</span>
 						<!--  满足多个条件 -->
@@ -381,27 +385,28 @@
 							<div class="cue" id="supplierTypeCodeError"></div>
 						</div>
 					</li>
-					<li class="col-md-3 col-sm-6 col-xs-12 level">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">供应商等级：</span>
-						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<input type="hidden" name="levelTypeId"> 
-							<input type="text" readonly id="level" value="${listCon.supplierLevel == null? '':listCon.supplierLevel}" onclick="showLevel(this);" /> <span class="add-on">i</span>
-							<div class="cue" id="levelTypeIdError"></div>
-						</div>
-					</li>
-					<li class="col-md-3 col-sm-6 col-xs-12 level">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">销售类供应商等级：</span>
-						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<input type="hidden" name="salesLevelTypeId"> 
-							<input type="text" readonly id="salesLevel" value="${listCon.supplierLevel == null? '':listCon.supplierLevel}" onclick="showLevel(this);" /> <span class="add-on">i</span>
-							<div class="cue" id="salesLevelTypeIdError"></div>
-						</div>
-					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input class="title col-md-12" id='extractNum' name="extractNum" maxlength="11" type="text"> <span class="add-on">i</span>
 							<div class="cue" id="extractNumError">${loginPwdError}</div>
+						</div>
+					</li>
+					<li class="col-md-3 col-sm-6 col-xs-12 dnone projectOwn">
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">资质信息：</span>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<input type="hidden" name="quaId" id="quaId">
+							<input type="text" id="quaName" value="${listCon.supplierLevel == null? '全部资质':listCon.supplierLevel}" 	onkeyup="selectQua()" onclick="showQua(this);" /> <span
+								class="add-on">i</span>
+							<div class="cue" id="dCount"></div>
+						</div>
+					</li>
+					<li class="col-md-3 col-sm-6 col-xs-12 level" id="level_li">
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">供应商等级：</span>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<input type="hidden" name="levelTypeId"> 
+							<input type="text" readonly id="level" value="${listCon.supplierLevel == null? '':listCon.supplierLevel}" onclick="showLevel(this);" /> <span class="add-on">i</span>
+							<div class="cue" id="levelTypeIdError"></div>
 						</div>
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12 dnone projectOwn">
@@ -458,15 +463,6 @@
 							<div class="cue">${loginPwdError}</div>
 						</div>
 					</li>
-					<li class="col-md-3 col-sm-6 col-xs-12 dnone projectOwn">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">资质信息：</span>
-						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<input type="hidden" name="quaId" id="quaId">
-							<input type="text" id="quaName" value="${listCon.supplierLevel == null? '全部资质':listCon.supplierLevel}" 	onkeyup="selectQua()" onclick="showQua(this);" /> <span
-								class="add-on">i</span>
-							<div class="cue" id="dCount"></div>
-						</div>
-					</li>
 					<li class="col-md-12 col-sm-12 col-xs-12 dnone">
 						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span
 							class="red">*</span> 限制地区理由:</span>
@@ -495,7 +491,7 @@
 			</h2>
 			<div class="ul_list">
 				<div align="left" id="countdnone">
-					工程供应商：确认参加的供应商为<span class="f26 red" id="joinCount">0</span>家，确认不参加的有<span
+					<span id="typeName"></span>供应商：确认参加的供应商为<span class="f26 red" id="joinCount">0</span>家，确认不参加的有<span
 						class="notJoin">0</span>家
 				</div>
 				<!-- Begin Content -->
@@ -519,34 +515,35 @@
 
 			<div class="col-xs-12 tc mt20 dnone" id="end">
 				<button class="center btn" onclick="alterEndInfo(this)">结束</button>
+				<!-- <button class="center btn" onclick="extractAgain()">再次抽取</button> -->
 			</div>
 		</div>
 	</div>
 	<!-- 地区树 -->
-	<div id="areaContent" class="levelTypeContent"
+	<div id="areaContent"
 		style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 		<ul id="treeArea" class="ztree" style="margin-top:0;"></ul>
 	</div>
 	<!-- 类别树 -->
-	<div id=supplierTypeContent class="levelTypeContent"
+	<div id=supplierTypeContent 
 		style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 		<ul id=supplierTypeTree class="ztree" style="margin-top:0;"></ul>
 	</div>
 
 	<!-- 等级树 -->
-	<div id="levelContent" class="levelTypeContent"
+	<div id="levelContent" class="levelTypeTreeContent"
 		style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 		<ul id="levelTree" class="ztree" style="margin-top:0;"></ul>
 	</div>
 
 	<!-- 等级树 -->
-	<div id="salesLevelContent" class="levelTypeContent"
+	<div id="salesLevelContent" class="levelTypeTreeContent"
 		style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 		<ul id="salesLevelTree" class="ztree" style="margin-top:0;"></ul>
 	</div>
 
 	<!-- 资质树 -->
-	<div id="quaContent" class="levelTypeContent"
+	<div id="quaContent" class="levelTypeTreeContent"
 		style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 		<ul id="quaTree" class="ztree" style="margin-top:0;"></ul>
 	</div>

@@ -1,21 +1,22 @@
 package ses.model.sms;
 
-import bss.model.ppms.AdvancedDetail;
-import bss.model.ppms.ProjectDetail;
-import common.model.UploadFile;
-import ses.model.bms.Area;
-import ses.model.bms.CategoryParameter;
-import ses.model.bms.RoleUser;
-import ses.model.bms.Todos;
-import ses.model.bms.User;
-import ses.util.MyAnnotation;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+
+import ses.model.bms.Area;
+import ses.model.bms.CategoryParameter;
+import ses.model.bms.RoleUser;
+import ses.model.bms.Todos;
+import ses.model.bms.User;
+import ses.util.MyAnnotation;
+import bss.model.ppms.AdvancedDetail;
+import bss.model.ppms.ProjectDetail;
+
+import common.model.UploadFile;
 
 /**
  * @Title: Supplier
@@ -2125,4 +2126,44 @@ Supplier implements Serializable {
     public void setInstorageAt(Date instorageAt) {
         this.instorageAt = instorageAt;
     }
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result
+				+ ((loginName == null) ? 0 : loginName.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Supplier other = (Supplier) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (loginName == null) {
+			if (other.loginName != null)
+				return false;
+		} else if (!loginName.equals(other.loginName))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
+	}
+
+	
 }

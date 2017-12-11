@@ -424,4 +424,17 @@ public class ExtractSupplierController extends BaseController {
     	return JSON.toJSONString(saveOrUpdateProjectInfo);
     }
     
+    
+    /**
+     * 
+     * <简述> 再次抽取
+     *
+     * @author Jia Chengxiang
+     * @dateTime 2017-12-8下午3:21:55
+     */
+    @RequestMapping(value="/extractAgain")
+    @ResponseBody
+    public Map<String,String> extractAgain(String recordId,String conditionId) {
+    	return recordService.extractAgain(recordId,conditionId);
+	}
 }

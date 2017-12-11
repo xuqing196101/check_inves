@@ -89,7 +89,7 @@ public class ExtractUserController {
     		 return JSON.toJSONString(hashMap);
     	 }
     	 
-    	Map<String, String> error = null;;
+    	Map<String, String> error = null;
     	
     	if(null !=user2 && user2.getTypeName().equals("1")){
     		String orgId = user2.getOrg().getId();

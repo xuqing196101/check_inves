@@ -73,6 +73,17 @@ public class SuperviseController {
 		return "";
      }
      
+     /**
+      * 
+      * <简述> 添加人员信息
+      *
+      * @author Jia Chengxiang
+      * @dateTime 2017-12-11上午10:31:47
+      * @param user 监督人员
+      * @param result
+      * @param user2 当前登陆用户
+      * @return
+      */
      @RequestMapping("/addPerson")
      @ResponseBody
      public String addPerson(@Valid Supervise user,BindingResult result,@CurrentUser User user2){

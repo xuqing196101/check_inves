@@ -6,6 +6,7 @@ package extract.service.supplier.impl;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,18 +27,21 @@ import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
 import ses.util.PropUtil;
+import ses.util.UUIDUtils;
 import ses.util.WordUtil;
 import bss.dao.ppms.SaleTenderMapper;
 
 import com.github.pagehelper.PageHelper;
 
 import extract.dao.common.ExtractUserMapper;
+import extract.dao.common.PersonRelMapper;
 import extract.dao.common.SuperviseMapper;
 import extract.dao.supplier.ExtractConditionRelationMapper;
 import extract.dao.supplier.SupplierExtractConditionMapper;
 import extract.dao.supplier.SupplierExtractRecordMapper;
 import extract.dao.supplier.SupplierExtractRelateResultMapper;
 import extract.model.common.ExtractUser;
+import extract.model.supplier.ExtractConditionRelation;
 import extract.model.supplier.SupplierExtractCondition;
 import extract.model.supplier.SupplierExtractProjectInfo;
 import extract.model.supplier.SupplierExtractResult;
@@ -72,7 +76,6 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
     @Autowired
     private DictionaryDataMapper dictionaryDataMapper; 
     
-    
     @Autowired
     private SupplierExtractConditionMapper conditionMapper;
     
@@ -89,6 +92,9 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
     
     @Autowired
     private OrgnizationMapper orgnizationMapper;
+    
+    @Autowired
+    private PersonRelMapper personRelMapper;
     
 
     @Override
@@ -143,6 +149,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 	 */
 	@Override
 	public int saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo) {
+		projectInfo.setExtractionTime(new Date());
 		return recordMapper.saveOrUpdateProjectInfo(projectInfo);
 	}
 
@@ -614,7 +621,10 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 		}else{
 			//供应商类型
 			String supplierTypeCode = condition.getSupplierTypeCode();
-			if("GOODS".equals(supplierTypeCode)){
+			/*
+			 * 原打印记录表等级
+			 * 
+			 * if("GOODS".equals(supplierTypeCode)){
 				map.put("typeCode","物资生产，物资销售");
 				
 				//生产供应商等级
@@ -661,8 +671,55 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 					temp ="不限等级";
 				}
 				map.put("level",temp);
-			}
+			}*/
 			
+			
+			if("GOODS".equals(supplierTypeCode)){
+				map.put("typeCode","物资生产，物资销售");
+				
+				//生产供应商等级
+				hashMap.put("propertyName", "cateAndLevel");
+				List<ExtractConditionRelation> byMap = conditionRelationMapper.getCateAndLevelByMap(hashMap);
+				String productLevel = "物资生产：";
+				if(null!=byMap && byMap.size()>0){
+					for (ExtractConditionRelation cs : byMap) {
+						productLevel +=(cs.getPropertyValue()+":"+cs.getCateLevel() + ",");
+					}
+					productLevel = productLevel.substring(0,productLevel.lastIndexOf(","));
+				}else{
+					productLevel +="不限等级";
+				}
+				//销售供应商等级
+				hashMap.put("propertyName", "salesCateAndLevel");
+				List<ExtractConditionRelation> sales = conditionRelationMapper.getCateAndLevelByMap(hashMap);
+				String salesLevel = "物资销售：";
+				if(null!=sales && sales.size()>0){
+					for (ExtractConditionRelation cs : sales) {
+						salesLevel +=(cs.getPropertyValue()+":"+cs.getCateLevel() + ",");
+					}
+					salesLevel = salesLevel.substring(0,salesLevel.lastIndexOf(","));
+				}else{
+					salesLevel +="不限等级";
+				}
+				map.put("level",productLevel+"  "+salesLevel);
+				
+			}else{
+				map.put("typeCode",dictionaryDataMapper.selectByCode(supplierTypeCode).get(0).getName());
+				
+				//供应商等级
+				hashMap.put("propertyName", "cateAndLevel");
+				List<ExtractConditionRelation> byMap = conditionRelationMapper.getCateAndLevelByMap(hashMap);
+				temp = "";
+				if(null!=byMap && byMap.size()>0){
+					for (ExtractConditionRelation cs : byMap) {
+						temp +=(cs.getPropertyValue()+":"+cs.getCateLevel() + ",");
+					}
+					temp = temp.substring(0,temp.lastIndexOf(","));
+				}else{
+					temp ="不限等级";
+				}
+				map.put("level",temp);
+			}
 			
 			//抽取结果
 			HashMap<String,String> hashMap2 = new HashMap<>();
@@ -708,6 +765,21 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 	@Override
 	public List<SupplierExtractProjectInfo> selectRecordForExport(SupplierExtractProjectInfo projectInfo) {
 		return  recordMapper.getListByMap(projectInfo);
+	}
+
+
+	@Override
+	public Map<String, String> extractAgain(String recordId, String conditionId) {
+		String rid_new = UUIDUtils.getUUID32();
+    	String cid_new = UUIDUtils.getUUID32();
+    	//复制项目信息修改id再保存一条抽取记录
+    	recordMapper.copyRecordToAgainByRid(rid_new,cid_new,recordId);
+    	
+    	//复制人员信息在保存一份
+    	personRelMapper.copyPersonRelToAgainByRid(rid_new,recordId);
+    	
+    	//返回新的recordId conditioinId
+		return null;
 	}
 
 }

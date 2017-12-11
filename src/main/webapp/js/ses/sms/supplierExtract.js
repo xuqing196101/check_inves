@@ -1,6 +1,11 @@
 var successCount = 1;
 var proError = 0;
 var formData = "";
+var levelObj ={};
+var salesLevelObj ={};
+var tree_input;
+var level_li;
+
 
 /**
  * 定义供应商等级
@@ -23,9 +28,9 @@ var productLevel = [{id: "一级", pid: 0, name: "一级"},
  * 预加载函数
  */
 $(function () {
+	level_li = $("#level_li");
     loadAreaZtree();
     loadSupplierType();
-    
 	addPerson($("#eu"));
     addPerson($("#su"));
 });
@@ -267,6 +272,7 @@ function areas() {
 }
 
 
+
 /** 满足条件供应商人数查询 */
 function selectLikeSupplier() {
     var area = document.getElementById("area").value;
@@ -314,7 +320,6 @@ function checkEmptyAndspace(ele,count){
 /** 点击抽取--对参数进行校验 */
 function checkEmpty(){
 	$("#areaError").empty();
-	
 	var count = 0;
 	$(".star_red").each(function(){
 		$($(this).parents("li").find("input")).each(function(index, ele){
@@ -752,15 +757,19 @@ function opens(cate) {
         btn: ['保存', '重置']
         , yes: function () {
             iframeWin.getChildren(cate);
+            //追加等级框
             if(typeCode == "PROJECT"){
-            	initTypeLevelId(null);
+            	//initTypeLevelId(null);
             	emptyQuaInfo();
+            	//加载资质信息
             	loadQuaList(null);
+            }else{
+            	appendLevelInput(typeCode);
             }
             selectLikeSupplier();
         }
         , btn2: function () {
-        	initCategoryAndQua();
+        	initCategoryAndLevel();
         	 if(typeCode == "PROJECT"){
              	initTypeLevelId(null);
              }
@@ -769,7 +778,92 @@ function opens(cate) {
         }
     });
 }
+ 
+//判断数组中是否包含此元素
+function contains (arr,val) {
+  for (i in arr) {
+    if (arr[i] == val) 
+    return true;
+  }
+  return false;
+}
 
+
+ //追加等级输入框
+ function appendLevelInput(typeCode){
+	 
+	 var levelTempObj = {};
+	 var salesLevelTempObj = {};
+	 var categoryIds = $("#categoryIds").val();
+	 var cateName = $("#categoryName").val();
+	 var cateIdArr = categoryIds.split(",")
+	 var cateNameArr = cateName.split(",")
+	 $(".level").remove();
+	 $(".qua").remove();
+	 for ( var i in cateIdArr) {
+		 var cateId = cateIdArr[i];
+		 var levels = "";
+		 if(levelObj){
+			 for ( var k in levelObj) {
+				if(k==cateId){
+					levels = levelObj[k];
+				}
+			}
+		 }
+	//复制对象属性值
+		levelTempObj[cateId] = levels;
+		if(typeCode=="GOODS"){
+			 var salesLevel = "";
+			 if(salesLevelObj){
+				 for ( var k in salesLevelObj) {
+					if(k==cateId){
+						salesLevel = salesLevelObj[k];
+					}
+				}
+			 }
+			 salesLevelTempObj[cateId] = salesLevel;
+			 var level = '<li class="col-md-3 col-sm-6 col-xs-12 level" >'+
+				'<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">'+cateNameArr[i]+'生产等级：</span>'+
+				'<div class="input-append input_group col-sm-12 col-xs-12 p0">'+
+					'<input type="text" readonly id="'+cateId+'" value="'+(levels!=null?levels:"")+'" onclick="showLevel(this);" /> <span class="add-on">i</span>'+
+					'<div class="cue" id="levelTypeIdError"></div>'+
+				'</div>'+
+			'</li>';
+			$("#condition").append(level);
+			
+			 var level_sales = '<li class="col-md-3 col-sm-6 col-xs-12 level" >'+
+				'<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">'+cateNameArr[i]+'销售等级：</span>'+
+				'<div class="input-append input_group col-sm-12 col-xs-12 p0">'+
+					'<input type="text" readonly id="'+cateId+'" value="'+(salesLevel!=null?salesLevel:"")+'" levelType="GOODS_SALES" onclick="showLevel(this);" /> <span class="add-on">i</span>'+
+					'<div class="cue" id="levelTypeIdError"></div>'+
+				'</div>'+
+			'</li>';
+			$("#condition").append(level_sales);
+		}else{
+			 var level = '<li class="col-md-3 col-sm-6 col-xs-12 level" >'+
+				'<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">'+cateNameArr[i]+'等级：</span>'+
+				'<div class="input-append input_group col-sm-12 col-xs-12 p0">'+
+					'<input type="text" readonly id="'+cateId+'" value="'+(levels!=null?levels:"")+'" onclick="showLevel(this);" /> <span class="add-on">i</span>'+
+					'<div class="cue" id="levelTypeIdError"></div>'+
+				'</div>'+
+			'</li>';
+			$("#condition").append(level);
+		}
+		levelObj[cateId] ="";
+	}
+	 
+	 
+	if(typeCode=="GOODS"){
+		salesLevelObj = salesLevelTempObj;
+		var scl = JSON.stringify(salesLevelTempObj);
+		$("#salesCateAndLevel").val(scl);
+	}
+	levelObj = levelTempObj;
+	var cl = JSON.stringify(levelTempObj);
+	$("#cateAndLevel").val(cl);
+ }
+
+ //
  function showSupplierType() {
     var cityObj = $("#supplierType");
     var cityOffset = $("#supplierType").offset();
@@ -783,26 +877,8 @@ function opens(cate) {
  // 加载供应商类型下拉框
  function loadSupplierType(obj){ 
 	 var typeCode = $("#projectType").val();
-	 // 项目实施地区
-	 if("GOODS"==typeCode){
-		 $("#xmss").html("");
-		 $("#xmss").removeClass("star_red");
-	 }else{
-		 $("#xmss").html("*");
-		 $("#xmss").addClass("star_red");
-	 }
-	 
-	 if("PROJECT" == typeCode){
-		 $(".projectOwn").removeClass("dnone");
-		 $("#buildCompany").removeClass("dnone");
-		 $(".buildCompany").addClass("star_red");
-		 
-	 }else{
-		 $(".projectOwn").addClass("dnone");
-		 $("#buildCompany").addClass("dnone");
-		 $(".buildCompany").removeClass("star_red");
-	 }
-	 if(null!=typeCode&&''!=typeCode){
+	 $("#typeName").html($("#projectType [value='"+typeCode+"']").text());
+	 if(typeCode){
 		 $.ajax({
             type: "POST",
             async: false,
@@ -811,9 +887,31 @@ function opens(cate) {
             data:{typeCode:typeCode},
             success: function (data) {
             	$("#supplierType").empty();
-            	initCategoryAndQua(null);
-            	//初始化等级
-            	initTypeLevelId(typeCode);
+            	initCategoryAndLevel();
+        		 // 项目实施地区
+        		 if("GOODS"==typeCode){
+        			 $("#xmss").html("");
+        			 $("#xmss").removeClass("star_red");
+        		 }else{
+        			 $("#xmss").html("*");
+        			 $("#xmss").addClass("star_red");
+        		 }
+        		 
+        		 if("PROJECT" == typeCode){
+        			 $("[name='isHavingConCert']").parents("li").before("<li class='clear' id='classClear'>");
+        			 $(".projectOwn").removeClass("dnone");
+        			 $("#buildCompany").removeClass("dnone");
+        			 $(".buildCompany").addClass("star_red");
+        			 if($("#level_li").length<1){
+        				 $("#quaId").parents("li").after(level_li);
+        			 }
+        			 
+        		 }else{
+        			 $("#classClear").remove();
+        			 $(".projectOwn").addClass("dnone");
+        			 $("#buildCompany").addClass("dnone");
+        			 $(".buildCompany").removeClass("star_red");
+        		 }
             	if(data.length>1){
     				$("#supplierType").append("<option value='GOODS' selected> 不限 </option>");
     			}
@@ -829,23 +927,33 @@ function opens(cate) {
  
  //重置品目，资质，等级
  function initCategoryAndLevel(obj){
-	 var typeCode = $(obj).val();
-	 initCategoryAndQua(obj);
-	 initTypeLevelId(typeCode);
-	 selectLikeSupplier();
+	 initCategoryAndQua();
+	 initTypeLevelId();
  }
  
  // 根据初始化 品目 等级div
- function initCategoryAndQua(obj){
+ function initCategoryAndQua(){
 	//清空品目
 	$(".category").find("input").each(function(){
 		$(this).val("");
 	});
 	$("#isSatisfy").val(1);
+	$(".cateAndLevel").val("");
 	//清空资质
 	emptyQuaInfo();
+	$(".levelTypeTreeContent").find("ul").empty();
  }
  
+ //清空等级显示
+ function initTypeLevelId(){
+ 	$(".level").remove();
+ 	
+ }
+
+ // 清空资质显示
+ function emptyQuaInfo(){
+ 	$(".qua").remove();
+ }
 
 // 加载地区树形结构
 function loadAreaZtree(){
@@ -1057,33 +1165,6 @@ function selectTypeCount(code){
 	});
 }
 
-/** 供应商类别----eng---- */
-/** 抽取级别----begin---- */
-function initTypeLevelId(typeCode){
-	$(".level").find("input").each(function(){
-		$(this).val("");
-	});
-	
-	if("GOODS"==typeCode){
-		$("#level").parents("div").prev("span").text("生产类供应商等级");
-		$("#salesLevel").parents("li").removeClass("dnone");
-		$("#salesLevel").val("所有级别");
-	}else{
-		$("#level").parents("div").prev("span").text("供应商等级");
-		$("#salesLevel").parents("li").addClass("dnone");
-	}
-	//重新加载等级树
-	loadLevelTree(typeCode);
-	$("#level").val("所有级别");
-}
-
-// 清空资质显示
-function emptyQuaInfo(){
-	$(".level").find("input").each(function(){
-		$(this).val("");
-	});
-}
-
 
 // 加载资质信息
 function loadQuaList(nodes){
@@ -1091,8 +1172,9 @@ function loadQuaList(nodes){
 	var code = $("#supplierType").val().toLowerCase();
 	
 	if(nodes==null){
-		var cateId = $("#categoryIds").val();
+		var cateId = $("#categoryIds").val();//原展示加载资质方法（加载全部选中品目）
 		var parentId = null;//= $("[name='parentId']").val();
+		//var cateId = $(obj).attr("id");
 		
 		$.ajax({
 			url:globalPath+"/SupplierCondition_new/getQuaByCid.do",
@@ -1132,7 +1214,7 @@ function loadQuaList(nodes){
      }
    };
 
-	var quaTree = $.fn.zTree.init($("#quaTree"), setting,nodes);
+	var quaTree = $.fn.zTree.init($("#quaTree"),setting,nodes);
 }
 
 // 加载资质树时回显
@@ -1160,7 +1242,7 @@ function ajaxDataFilter(responseData) {
 
 // 加载工程等级树
 function loadprojectLevelTree(){
-	var qid = $("#projectQuaId").val();
+	var qid = $("#quaId").val();
 	var setting = {
         check: {
             enable: true,
@@ -1179,11 +1261,11 @@ function loadprojectLevelTree(){
             }
         },
         callback: {
-            beforeClick: beforeClickLevel,
+           // beforeClick: beforeClickLevel,
             onCheck: onCheckLevel
         }
     };
-	if(null==qid || ''==qid){
+	if(qid){
 		qid =$("#categoryIds").val();
 		if(null!=qid&&""!=qid){
 			$.ajax({
@@ -1208,7 +1290,6 @@ function loadprojectLevelTree(){
 			dataType:"json",
 			success:function(datas){
 					if(null != datas && "undefind"!= datas && ''!=datas){
-					
 						var treeLevelType = $.fn.zTree.init($("#levelTree"), setting, datas);
 				}else{
 					layer.msg("未能查询出结果");
@@ -1219,34 +1300,39 @@ function loadprojectLevelTree(){
 }
 // 加载等级树
 function loadLevelTree(typeCode){
-		var zNodes ;
-        var setting = {
-            check: {
-                enable: true,
-                chkboxType: {
-                    "Y": "",
-                    "N": ""
-                }
-            },
-            view: {
-                dblClickExpand: false
-            },
-            data: {
-                simpleData: {
-                    enable: true,
-                    idKey: "id",
-                }
-            },
-            callback: {
-                beforeClick: beforeClickLevel,
-                onCheck: onCheckLevel
+	var zNodes ;
+    var setting = {
+        check: {
+            enable: true,
+            chkStyle: "checkbox",
+            chkboxType: {
+                "Y": "",
+                "N": ""
             }
-        };
-        
-        switch (typeCode) {
-		case "GOODS":
-			zNodes= productLevel;
-			var treeLevelType2 = $.fn.zTree.init($("#salesLevelTree"), setting, salesLevel);
+        },
+        view: {
+            dblClickExpand: false
+        },
+        data: {
+            simpleData: {
+                enable: true,
+                idKey: "id",
+            }
+        },
+        callback: {
+            //beforeClick: beforeClickLevel,
+            onCheck: onCheckLevel,
+        }
+    };
+    
+    var treeHome = "levelTree";
+    switch (typeCode) {
+	    case "GOODS":
+	    	zNodes= productLevel;
+	    	break;
+		case "GOODS_SALES":
+			zNodes= salesLevel;
+			treeHome = "salesLevelTree";
 			break;
 		case "PRODUCT":
 			zNodes= productLevel;
@@ -1257,9 +1343,33 @@ function loadLevelTree(typeCode){
 		case "SERVICE":
 			zNodes= salesLevel;
 			break;
+	}
+    var treeLevel = $.fn.zTree.init($("#"+treeHome), setting, zNodes);
+    //回显已选择的等级
+    echoCheckedLevel(treeLevel);
+}
+
+//回显已经选择的等级
+function echoCheckedLevel(treeObj){
+	var cateId = tree_input.id;//当前的品目
+	var levelType = $(tree_input).attr("levelType");
+	if(levelType){
+		if(salesLevelObj[cateId].length>0){
+			var level = salesLevelObj[cateId].split(",");
+			for(var i in level){
+				var treeNode = treeObj.getNodeByParam("id",level[i], null);
+				treeObj.checkNode(treeNode, true, true);
+			}
 		}
-        var treeLevelType = $.fn.zTree.init($("#levelTree"), setting, zNodes);
-       
+	}else{
+		if(levelObj[cateId].length>0){
+			var level = levelObj[cateId].split(",");
+			for(var i in level){
+				var treeNode = treeObj.getNodeByParam("id",level[i], null);
+				treeObj.checkNode(treeNode, true, true);
+			}
+		}
+	}
 }
 
 // 等级树加载完成后全选等级
@@ -1272,6 +1382,10 @@ function checkAllNodes(treeName){
 // 展示等级树
 function showLevel(obj){
 	var typeCode = $("#supplierType").val();
+	var levelType = $(obj).attr("levelType");
+	
+	tree_input = obj;
+	
     var levelOffset = $(obj).offset();
     
     var quaId = $("#quaId").val();
@@ -1282,11 +1396,8 @@ function showLevel(obj){
     }
     
     //若是goods 则会有salesLevel 需要加载两颗等级树
-    if(obj.id=="salesLevel"){
-    	if(null == $.fn.zTree.getZTreeObj("salesLevelTree")){
-        	loadLevelTree(typeCode);
-    	}
-    	
+    if(levelType=="GOODS_SALES"){
+    	loadLevelTree(levelType==null?typeCode:levelType);
     	$("#salesLevelContent").css({
             left: levelOffset.left + "px",
             top: levelOffset.top + $(obj).outerHeight() + "px"
@@ -1294,11 +1405,9 @@ function showLevel(obj){
     	
     	$("body").bind("mousedown", onBodyDownSalesLevel);
     }else{
-    	
-    	if(null == $.fn.zTree.getZTreeObj("levelTree")){
-    		loadLevelTree(typeCode);
+    	if(typeCode!="PROJECT"){
+    		loadLevelTree(levelType==null?typeCode:levelType);
     	}
-    	
     	$("#levelContent").css({
             left: levelOffset.left + "px",
             top: levelOffset.top + $(obj).outerHeight() + "px"
@@ -1310,6 +1419,7 @@ function showLevel(obj){
 
 // 显示资质信息
 function showQua(obj){
+	//loadQuaList(null,obj);
 	var levelType = $(obj);
 	var levelOffset = $(obj).offset();
 	$("#quaContent").css({
@@ -1366,6 +1476,8 @@ function beforeClickQua(treeId, treeNode) {
     zTree.checkNode(treeNode, !treeNode.checked, null, true);
     return false;
 }
+
+
 // 等级树被选中后
 function onCheckLevel(event, treeId, treeNode) {
 	var zTree = $.fn.zTree.getZTreeObj(treeId);
@@ -1383,7 +1495,7 @@ function onCheckLevel(event, treeId, treeNode) {
 	}
 	
 	var nodes = zTree.getCheckedNodes(true);
-	var input = treeId.substring(0,treeId.lastIndexOf("T"));
+	//var input = treeId.substring(0,treeId.lastIndexOf("T"));
 	v = "";
 	var rid = "";
 	for (var i = 0, l = nodes.length; i < l; i++) {
@@ -1392,10 +1504,20 @@ function onCheckLevel(event, treeId, treeNode) {
 	}
 	if (v.length > 0) v = v.substring(0, v.length - 1);
 	if (rid.length > 0) rid = rid.substring(0, rid.length - 1);
-	var levelTypeObj = $("#"+input);
-	levelTypeObj.val(v);
-	levelTypeObj.attr("title", v);
-	$(levelTypeObj).parents("li").find("[name='"+input+"TypeId']").val(rid);
+	//var levelTypeObj = $("#"+input);
+	//$(levelTypeObj).parents("li").find("[name='"+input+"TypeId']").val(rid);
+	if(treeId=="salesLevelTree"){
+		salesLevelObj[tree_input.id]=rid;
+		var scl = JSON.stringify(salesLevelObj);
+		$("#salesCateAndLevel").val(scl);
+	}else if($("#supplierType").val()!="PROJECT"){
+		levelObj[tree_input.id]=rid;
+		var cl = JSON.stringify(levelObj);
+		$("#cateAndLevel").val(cl);
+	}
+	$(tree_input).val(v);
+	$(tree_input).attr("title", v);
+	$(tree_input).prev().val(rid);
 }
 
 //递归查找该节点之前的选中节点
@@ -1441,8 +1563,10 @@ function checkNext(treeNode,treeObj){
 	}
 }
 
-/**
+/***
  * 取消选中
+ * @param treeNode 节点数据
+ * @param treeObj ztree对象
  */
 function reNextCheck(treeNode,treeObj){
 	var next = treeNode.getNextNode();
@@ -1453,7 +1577,12 @@ function reNextCheck(treeNode,treeObj){
 }
 
 
-// 工程资质被选中后
+/**
+ * 选中工程资质
+ * @param event 当前的ztree对象
+ * @param treeId 工程资质ztreeId
+ * @param treeNode 当前选中的节点
+ */
 function choseQua(event, treeId, treeNode) {
 	var zTree = $.fn.zTree.getZTreeObj(treeId);
 	if(null != zTree){
@@ -1485,6 +1614,11 @@ function choseQua(event, treeId, treeNode) {
 	}
 }
 
+
+/***
+ * 选择参加状态
+ * @param select 当前选择的下拉框
+ */
 function operation(select) {
     var x, y;
     var oRect = select.getBoundingClientRect();
@@ -1552,10 +1686,15 @@ function operation(select) {
 
 // 存储成功
 var successCount = 0;
-/**
+
+
+/***
  * 存储抽取结果
+ * @param objTr 当前处理完成供应商信息、行 
+ * @param reason 不参加理由
+ * @param join 是否参加
  */
-function saveResult(objTr, reason,join) {// obj:当前处理完成供应商信息、行 v:不能参加理由
+function saveResult(objTr, reason,join) { 
 	// 成功通知次数
 	var successCount = 0;
 	var supplierType = objTr.attr("typeCode");
@@ -1587,7 +1726,10 @@ function saveResult(objTr, reason,join) {// obj:当前处理完成供应商信�
 	
 }
 
-// 点击结束
+/***
+ * 点击结束
+ * @param obj 结束按钮
+ */
 function alterEndInfo(obj){
 	
 	var flag = 0;
@@ -1648,12 +1790,32 @@ function alterEndInfo(obj){
 }
 
 
+/***
+ * 再次抽取
+ * 
+ */
+function extractAgain(){
+	var recordId = $("#recordId").val();
+	var conditionId = $("#conditionId").val();
+	$.ajax({
+		type: "POST",
+		url: globalPath+"/SupplierExtracts_new/extractAgain.do",
+		data:{recordId:recordId,conditionId:conditionId},
+		dataType: "json",
+		success: function (msg) {
+			
+		}
+	});
+}
+
+
 /**
  * 重置抽取条件
  * @param obj
  */
 function resetCondition(obj){
 	document.getElementById("form1").reset();
+	initCategoryAndLevel();
 	selectLikeSupplier();
 }
 

@@ -184,6 +184,9 @@ public interface SupplierExtractConditionService {
   Map<String, Object> selectLikeSupplier2(SupplierExtractCondition condition,
 		int type);
 
+
+  Map<String, Object> selectSupplier(SupplierExtractCondition condition, int type);
+
 }
 
 
