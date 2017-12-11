@@ -1055,12 +1055,12 @@
 			AND CODE = #{param2}
 		</if> 
 		ORDER BY CODE
-
+	</select>
+	
 	<!-- 根据id查询 -->
 	<select id="selectById" parameterType="String" resultMap="resMap">
 		SELECT ID,NAME,PARENT_ID
 		FROM T_SES_BMS_CATEGORY
 		WHERE ID = #{id}
-
 	</select>
 </mapper>
