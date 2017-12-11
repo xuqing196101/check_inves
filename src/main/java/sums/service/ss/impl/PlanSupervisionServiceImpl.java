@@ -70,6 +70,7 @@ import ses.dao.bms.UserMapper;
 import ses.dao.ems.ExpertMapper;
 import ses.dao.ems.ProExtSuperviseMapper;
 import ses.dao.oms.OrgnizationMapper;
+import ses.dao.sms.QuoteMapper;
 import ses.dao.sms.SupplierExtUserMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.model.bms.DictionaryData;
@@ -77,6 +78,7 @@ import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ProExtSupervise;
 import ses.model.oms.Orgnization;
+import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierExtUser;
 import ses.util.DictionaryDataUtil;
@@ -177,6 +179,9 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
     
     @Autowired
     private PurchaseRequiredMapper requiredMapper;
+    
+    @Autowired
+    private QuoteMapper quoteMapper;
 
     @Override
     public List<PurchaseRequired> viewDemand(String id) {
@@ -527,21 +532,8 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 
 	@Override
 	public List<Project> view(String id) {
-		List<Project> list = new ArrayList<Project>();
-		if(StringUtils.isNotBlank(id)){
-			HashMap<String, Object> map = new HashMap<>();
-            map.put("requiredId", id);
-            List<ProjectDetail> selectById = projectDetailMapper.selectById(map);
-            if(selectById != null && selectById.size() > 0){
-            	for (ProjectDetail projectDetail : selectById) {
-            		Project project = viewProjects(projectDetail.getProject().getId());
-                	if(project != null && !"4".equals(project.getStatus())){
-                        list.add(project);
-                	}
-				}
-            }
-		}
-		return list;
+		
+		return projectMapper.supervisionProjectList(id);
 	}
 
 	@Override
@@ -772,7 +764,22 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 	    					}
 	    				} else if (list.size() == 1){
 	    					//正常流程进这里
-	    					FlowDefine define = new FlowDefine();
+	    					HashMap<String, Object> map2 = new HashMap<>();
+	    					map2.put("purchaseTypeId", packages.getPurchaseType());
+	    					List<FlowDefine> viewListByPack = flowDefineMapper.viewListByPack(map2);
+	    					if (viewListByPack != null && !viewListByPack.isEmpty()) {
+	    						for (int i=0; i < viewListByPack.size();i++) {
+	    							DictionaryData data = new DictionaryData();
+	    							data.setDescription(viewListByPack.get(i).getCode());
+	    							List<DictionaryData> find2 = dictionaryDataMapper.findList(data);
+	    							if(find2 != null && find2.size() > 0){
+	    								flowChart(find2.get(0).getCode(),find2.get(0),project,detailId,packages);
+	    								map.put(find2.get(0).getId(), find2.get(0));
+	    							}
+	    						}
+							}
+	    					
+	    					/*FlowDefine define = new FlowDefine();
 	    					define.setPurchaseTypeId(packages.getPurchaseType());
 	    					define.setCode("XMXX");
 	    					List<FlowDefine> findList = flowDefineMapper.findList(define);
@@ -789,7 +796,7 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 	    								map.put(find2.get(0).getId(), find2.get(0));
 	    							}
 	    						}
-	    					}
+	    					}*/
 	    				} else if (!"CGLC_CGXMLX".equals(packages.getOldFlowId()) && !"CGLC_CGXMFB".equals(packages.getOldFlowId())) {
 	    					FlowDefine define = new FlowDefine();
 	    					define.setPurchaseTypeId(packages.getPurchaseType());
@@ -835,7 +842,7 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 	    				}*/
 					} else {
 						DictionaryData dictionaryData = DictionaryDataUtil.get("CGLC_CGXMLX");
-						dictionaryData.setPosition(num);
+						dictionaryData.setPosition(7);
 						flowChart(dictionaryData.getCode(),dictionaryData,project,detailId,null);
 						map.put(WfUtil.createUUID(), dictionaryData);
 					}
@@ -966,10 +973,10 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 				dictionaryData.setDescription(project.getId());
 			}
 		} else if ("CGLC_KB".equals(code)){
-			SaleTender saleTender = new SaleTender();
-            saleTender.setPackages(packages.getId());
-			List<SaleTender> packegeSupplier = saleTenderMapper.getPackegeSupplier(saleTender);
-			if (packegeSupplier != null && !packegeSupplier.isEmpty()) {
+			Quote quoteCondition = new Quote();
+		    quoteCondition.setPackageId(packages.getId());
+		    List<Date> listDate =  quoteMapper.selectQuoteCount(quoteCondition);
+			if (listDate != null && !listDate.isEmpty()) {
 				dictionaryData.setUpdatedAt(project.getBidDate());
 				dictionaryData.setDescription(project.getId());
 			}

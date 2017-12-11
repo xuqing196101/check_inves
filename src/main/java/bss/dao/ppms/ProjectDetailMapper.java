@@ -94,4 +94,6 @@ public interface ProjectDetailMapper {
 	  */
 	 List<ProjectDetail> selectByProjectIdAndPackageId(HashMap<String, Object> map);
 	 
+	 List<ProjectDetail> selectDetailByProjectId(String projectId);
+	 
 }

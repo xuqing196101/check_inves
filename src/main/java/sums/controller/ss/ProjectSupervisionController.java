@@ -160,6 +160,7 @@ public class ProjectSupervisionController {
             model.addAttribute("info", new PageInfo<Project>(list));
             model.addAttribute("kind", DictionaryDataUtil.find(5));// 获取数据字典数据
             model.addAttribute("yzz", DictionaryDataUtil.getId("YZZ"));
+            model.addAttribute("status", DictionaryDataUtil.find(2));
             model.addAttribute("project", project);
         }
         return "sums/ss/projectSupervision/list";
