@@ -457,4 +457,6 @@ public interface CategoryMapper {
 	 * @return
 	 */
 	List<Category> selectParentNode(@Param("classifyType") int classifyType,@Param("classifyStatus") String classifyStatus,@Param("categoryIds") String[] categoryIds);
+
+	List<Category> searchByCodeandName(String cateName, String codeName);
 }

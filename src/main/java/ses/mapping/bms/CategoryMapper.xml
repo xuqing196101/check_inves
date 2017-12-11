@@ -934,4 +934,19 @@
 			<foreach collection="categoryIds" item="it" index="in" separator=","> #{it}</foreach>
 		) CONNECT BY PRIOR PARENT_ID = ID
 	</select> -->
+	
+		<!-- 根据名称模糊查询 -->
+	<select id="searchByCodeandName" resultMap="CateMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_BMS_CATEGORY
+		WHERE 1 = 1 AND IS_DELETED=0 AND IS_PUBLISH = 0
+		<if test="param1 != null">
+			AND NAME like CONCAT(CONCAT('%', #{param1}), '%')
+		</if> 
+		<if test="param2 != null">
+			AND CODE = #{param2}
+		</if> 
+		ORDER BY CODE
+	</select>
 </mapper>

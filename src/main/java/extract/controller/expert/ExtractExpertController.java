@@ -468,7 +468,7 @@ public class ExtractExpertController {
         }
         if (typeData != null && typeData.getCode().equals("ENG_INFO_ID")) {
             // 查询出所有满足条件的品目
-            List < Category > categoryList = service.searchByName(cateName, "ENG_INFO", codeName);
+            List < Category > categoryList = expertExtractProjectService.searchByCodeandName(cateName, "ENG_INFO", codeName);
             // 循环判断是不是当前树的节点
             List < Category > cateList = new ArrayList < Category > ();
             for(Category category: categoryList) {
@@ -517,7 +517,7 @@ public class ExtractExpertController {
         } else {
             String type = typeId;
             // 查询出所有满足条件的品目
-            List < Category > categoryList = service.searchByName(cateName, null, codeName);
+            List < Category > categoryList = expertExtractProjectService.searchByCodeandName(cateName, null, codeName);
             // 循环判断是不是当前树的节点
             List < Category > cateList = new ArrayList < Category > ();
             for(Category category: categoryList) {

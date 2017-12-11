@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.ResponseEntity;
 
+import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import extract.model.expert.ExpertExtractProject;
@@ -150,5 +151,7 @@ public interface ExpertExtractProjectService {
     void exportExpertExtractResult(String start, String end, Date synchDate);
     
     void exportListExpertInfo(String start, String end, Date synchDate);
+    
+    List<Category> searchByCodeandName(String cateName, String flag, String codeName);
     
 }
