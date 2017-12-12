@@ -118,13 +118,13 @@ public class ExtractSupplierController extends BaseController {
     		
     		//采购方式
             List<DictionaryData> purchaseWayList = new ArrayList<>();
-            purchaseWayList.add(DictionaryDataUtil.get("GKZB"));
+        //  purchaseWayList.add(DictionaryDataUtil.get("GKZB"));
             purchaseWayList.add(DictionaryDataUtil.get("YQZB"));
             purchaseWayList.add(DictionaryDataUtil.get("JZXTP"));
         	DictionaryData xj = DictionaryDataUtil.get("XJCG");
         	xj.setName("询价");
         	purchaseWayList.add(xj);
-        	purchaseWayList.add(DictionaryDataUtil.get("DYLY"));
+        //	purchaseWayList.add(DictionaryDataUtil.get("DYLY"));
             model.addAttribute("purchaseTypeList",purchaseWayList);
             model.addAttribute("startTime",startTime);
             model.addAttribute("endTime",endTime);
@@ -217,13 +217,13 @@ public class ExtractSupplierController extends BaseController {
     		model.addAttribute("province", province);
     		//加载采购方式
     		List<DictionaryData> purchaseTypeList = new ArrayList<>();
-    		purchaseTypeList.add(DictionaryDataUtil.get("GKZB"));
+    	//	purchaseTypeList.add(DictionaryDataUtil.get("GKZB"));
     		purchaseTypeList.add(DictionaryDataUtil.get("YQZB"));
     		purchaseTypeList.add(DictionaryDataUtil.get("JZXTP"));
     		DictionaryData xj = DictionaryDataUtil.get("XJCG");
     		xj.setName("询价");
     		purchaseTypeList.add(xj);
-    		purchaseTypeList.add(DictionaryDataUtil.get("DYLY"));
+    	//	purchaseTypeList.add(DictionaryDataUtil.get("DYLY"));
     		model.addAttribute("purchaseTypeList", purchaseTypeList);
     		//model.addAttribute("address", areaService.findAreaByParentId(province.get(0).getId()));
     		return "ses/sms/supplier_extracts/condition_list";

@@ -261,7 +261,7 @@
 							<div class="cue" id="contactPhoneError"></div>
 						</div></li>
 					<li class="col-md-3 col-sm-4 col-xs-12"><span
-						class="col-md-12 col-sm-12 col-xs-12 padding-left-5">其他要求</span>
+						class="col-md-12 col-sm-12 col-xs-12 padding-left-5">其他信息</span>
 						<div
 							class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input name="remark" value="" type="text"> <span
@@ -407,7 +407,7 @@
 						</div>
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12 dnone projectOwn">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">承揽业务范围：</span>
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">承揽业务地域：</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="hidden"  name="businessScope"> 
 							<input type="text" readonly="readonly" id="businessScope"> 
@@ -417,7 +417,7 @@
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">
-							<span class="star_red">*</span>供应商所在地区：
+							<span class="star_red">*</span>供应商注册地区：
 						</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="text" readonly="readonly" name="areaName" id="area" onclick="showTree();"> 
@@ -474,8 +474,8 @@
 
 				<div class="clear"></div>
 				<div class="col-xs-12 tc mt20">
-					<button class="btn bu" onclick="extractVerify(1);" type="button">人工抽取</button>
 					<button class="btn bu" type="button"  onclick="extractVerify(0)" >自动抽取</button>
+					<button class="btn bu" onclick="extractVerify(1);" type="button">人工抽取</button>
 					<!-- onclick="extractVerify(0)" -->
 					<button class="btn bu" type="button" onclick="resetCondition(this)">重置</button>
 				</div>
