@@ -1,5 +1,4 @@
 package bss.controller.pms;
-
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -9,16 +8,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
@@ -39,11 +35,9 @@ import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.pms.impl.PurchaseDetailServiceImpl;
 import bss.service.ppms.TaskService;
-
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-
 import common.annotation.CurrentUser;
 import common.utils.DateUtils;
 import freemarker.core.BugException;
@@ -265,7 +259,6 @@ public class PlanStatisticsController extends BaseController {
 		return json;
 	}
 	
-
 	public  Map<String ,Object> getMap(){
 		Map<String,Object> map= new HashMap<String,Object>(40);
 		map.put("安徽", 0);

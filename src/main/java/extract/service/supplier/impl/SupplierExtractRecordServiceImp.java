@@ -106,7 +106,6 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 	@Override
 	public List<SupplierExtractProjectInfo> getList(int i,User user,SupplierExtractProjectInfo project) {
 		 PageHelper.startPage(i, PropUtil.getIntegerProperty("pageSize"));
-		 
 		 List<SupplierExtractProjectInfo> list = new ArrayList<>();
 		 //获取是否内网标识 1外网 0内网
 	     String ipAddressType= PropUtil.getProperty("ipAddressType");
