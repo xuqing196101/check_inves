@@ -563,6 +563,9 @@ function extractSupplier(code,status) {
 	    	}
 		});
     }else{
+    	//显示当前抽取类型
+    	var typeCode = $("#supplierType").val();
+    	$("#typeName").html($("#projectType [value='"+typeCode+"']").text());
     	// 显示抽取结果表
     	$("#result").removeClass("dnone");
     	// 追加抽取结果
@@ -613,7 +616,7 @@ function appendTd(num,obj,result){
 	
 	// 需要判断能参加，满足后不再追加
 	var agreeCount=0;
-	agreeCount = parseInt($(obj).parent().prev().find("span:first").html());
+	agreeCount = parseInt($("#joinCount").html());
 	if($("#extractNum").val()==agreeCount){
 		$("#end").removeClass("dnone");
 		return false;
@@ -877,7 +880,6 @@ function contains (arr,val) {
  // 加载供应商类型下拉框
  function loadSupplierType(obj){ 
 	 var typeCode = $("#projectType").val();
-	 $("#typeName").html($("#projectType [value='"+typeCode+"']").text());
 	 if(typeCode){
 		 $.ajax({
             type: "POST",
@@ -1668,8 +1670,8 @@ function operation(select) {
         } else if(v == "1"){
         	var parentsTr = objTr;
         	saveResult(parentsTr, '',1);
-        	var yes = $(obj).parents("table").prev().find("span:first").html();
-        	$(obj).parents("table").prev().find("span:first").html(parseInt(yes)+1);
+        	var yes = $("#joinCount").html();
+        	$("#joinCount").html(parseInt(yes)+1);
         	$(select).parents("td").html("能参加");
         	appendTd(req,obj,"能参加");
         }else{
@@ -1726,6 +1728,8 @@ function saveResult(objTr, reason,join) {
 	
 }
 
+
+
 /***
  * 点击结束
  * @param obj 结束按钮
@@ -1758,10 +1762,6 @@ function alterEndInfo(obj){
 	}
 	
 	var index = layer.alert("完成抽取,打印记录表",function(){
-		//window.open(globalPath+"/SupplierExtracts_new/printRecord.html?id="+$("[name='recordId']").val()+"&projectInto="+projectType);
-		
-		//window.location.href = globalPath+"/SupplierExtracts_new/printRecord.html?id="+$("[name='recordId']").val()+"&projectInto="+projectType;
-		
 		 try{ 
             var elemIF = document.createElement("iframe");   
             elemIF.src = globalPath+"/SupplierExtracts_new/printRecord.html?id="+$("[name='recordId']").val()+"&projectInto="+projectType;   
@@ -1777,15 +1777,9 @@ function alterEndInfo(obj){
 			}else{
 				window.location.href = globalPath+"/SupplierExtracts_new/projectList.html";
 			}
-		}, 1000);
+		}, 1500);
 	        
 		layer.close(index);
-		/*var a = document.getElementById("down");  
-        a.href=globalPath+"/SupplierExtracts_new/printRecord.html?id="+$("[name='recordId']").val()+"&projectInto="+projectType;  
-        a.click();  */
-		
-		
-		// 
 	});
 }
 
@@ -1863,6 +1857,20 @@ function checkResonContainSpace(value){
 		return false;
 	}
 	return true;
+}
+
+/**
+ * 校验满足人数是否满足抽取
+ * @param val
+ */
+function checkFuhe(val){
+	var count = parseInt($("#count").html());
+	val = val==null?0:parseInt(val);
+	if(val>count ||count == 0){
+		$("#count").parents("button").prop("style","background-color: red;");
+	}else{
+		$("#count").parents("button").removeAttr("style");
+	}
 }
 
 

@@ -196,7 +196,6 @@
 									<option value="SERVICE" ${projectInfo.projectType=='SERVICE' ? 'selected' : '' }>服务</option>
 								</select>
 							</c:if>
-							<span class="add-on">i</span>
 							<div class="cue" id="projectTypeError"></div>
 						</div></li>
 					<li class="col-md-3 col-sm-4 col-xs-12 dnone" id="buildCompany"><span
@@ -365,8 +364,8 @@
 						当前满足<span id="count">0</span>家
 					</button>
 				</h2>
-				<ul class="ul_list m0 pl5" id="condition" style="background-color: #fbfbfb">
-					<li class="col-md-3 col-sm-6 col-xs-12  p0">
+				<ul class="ul_list bggrey" id="condition">
+					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">
 							<span class="star_red">*</span>供应商类型：</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
@@ -386,7 +385,7 @@
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<input class="title col-md-12" id='extractNum' name="extractNum" maxlength="11" type="text"> <span class="add-on">i</span>
+							<input class="title col-md-12" id='extractNum' name="extractNum" onchange="checkFuhe(this.value)" maxlength="3" type="text"> <span class="add-on">i</span>
 							<div class="cue" id="extractNumError">${loginPwdError}</div>
 						</div>
 					</li>

@@ -115,7 +115,7 @@ import extract.service.supplier.SupplierExtractConditionService;
     *
     *〈简述〉获取品目树
     *〈详细描述〉
-    * @author Jia Chengxaing
+    * @author Jia Chengxiang
     * @return
     */
    @ResponseBody
@@ -139,7 +139,7 @@ import extract.service.supplier.SupplierExtractConditionService;
    
    /**
     * 根据工程品目ID 查询资质信息
-    * @author Jia Chengxaing
+    * @author Jia Chengxiang
     */
    @RequestMapping("/getQuaByCid")
    @ResponseBody
