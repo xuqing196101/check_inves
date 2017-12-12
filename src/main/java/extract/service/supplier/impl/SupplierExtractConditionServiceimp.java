@@ -318,10 +318,10 @@ public class SupplierExtractConditionServiceimp implements
 				List<Supplier> selectAllExpert = supplierExtRelateMapper.listExtractionSupplier(condition);
 				
 				//查询当前抽取到供应商的类型
-				//selectCurrSupplierLevel(condition, selectAllExpert, setExtractCondition2);
 				
 				//selectAllExpert.get(0).setSupplierType(dictionaryDataMapper.selectByCode(selectAllExpert.get(0).getSupplierTypeId()).get(0).getName());
 				if("PROJECT".equals(condition.getSupplierTypeCode())){
+					selectCurrSupplierLevel(condition, selectAllExpert, setExtractCondition2);
 					String supplierLevel = selectAllExpert.get(0).getSupplierLevel();
 					selectAllExpert.get(0).setSupplierLevel(StringUtils.isNotBlank(supplierLevel)?dictionaryDataMapper.selectByPrimaryKey(supplierLevel).getName():"");
 				}
