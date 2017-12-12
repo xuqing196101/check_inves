@@ -360,12 +360,14 @@ public class RoleManageController {
 			HttpServletResponse response, Model model, String userId, String name)
 			throws IOException {
 		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
-		User u = new User();
-		u.setId(userId);
-		List<User> ulist = userService.find(u);
 		List<Role> oldRoles = new ArrayList<Role>();
-		if(ulist.size() > 0 && ulist != null){
-			oldRoles = ulist.get(0).getRoles();
+		if (userId != null) {
+			User u = new User();
+			u.setId(userId);
+			List<User> ulist = userService.find(u);
+			if(ulist.size() > 0 && ulist != null){
+				oldRoles = ulist.get(0).getRoles();
+			}
 		}
 		Role temp = new Role();
 		temp.setStatus(0);

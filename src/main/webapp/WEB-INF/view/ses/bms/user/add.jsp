@@ -546,20 +546,20 @@
              url: "${pageContext.request.contextPath}/role/roletree.do?userId="+userId,
              dataType: "json",
              success: function(zNodes){
-                     for (var i = 0; i < zNodes.length; i++) { 
+                     /* for (var i = 0; i < zNodes.length; i++) { 
 			            if (zNodes[i].isParent) {  
 			 
 			            } else {  
 			                //zNodes[i].icon = "${ctxStatic}/images/532.ico";//设置图标  
 			            }  
-			        }  
+			        }   */
 			        tree = $.fn.zTree.init($("#treeRole"), setting, zNodes);  
 			        tree.expandAll(true);//全部展开
                }
          	});
 			
 			// 加载中的菊花图标
-			var loading = layer.load(1);
+			//var loading = layer.load(1);
 			
 			$.ajax({
 				url: "${pageContext.request.contextPath}/role/roletree.do",
@@ -575,7 +575,7 @@
 						zTreeObj.expandAll(true);//全部展开
 					}
 					// 关闭加载中的菊花图标
-					layer.close(loading);
+					//layer.close(loading);
 				}
 			});
 		}else{
