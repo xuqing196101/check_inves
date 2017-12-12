@@ -423,10 +423,10 @@ public class ExpertServiceImpl implements ExpertService {
 				if(expert.getIsSubmit().equals("0") && !expert.getIsBlack().equals("1") && !expert.getStatus().equals("3")){
 					//未提交
 					map.put("expert", "4");
-				} else if(expert.getStatus().equals("2") || expert.getStatus().equals("16")){
+				} else if(expert.getStatus().equals("2")){
 					//审核未通过
 					map.put("expert", "5");
-				} else if((expert.getStatus().equals("4")  && 0 == expert.getIsProvisional())|| expert.getStatus().equals("15")){
+				} else if((expert.getStatus().equals("4")  && 0 == expert.getIsProvisional())){
 					//初审已通过，待复审
 					map.put("expert", "8");
 				} else if(expert.getIsBlack().equals("1") || expert.getStatus().equals("12")){
@@ -468,6 +468,8 @@ public class ExpertServiceImpl implements ExpertService {
 				}else if(("11").equals(expert.getStatus()) || ("14").equals(expert.getStatus())){
 					//复审中的状态
 					map.put("expert", "inReview");
+				}else if("16".equals(expert.getStatus()) || "15".equals(expert.getStatus())){
+					map.put("expert", "firstAuditEnd");
 				}
 			}else{
 				//如果专家信息为空 证明还没有填写过个人信息

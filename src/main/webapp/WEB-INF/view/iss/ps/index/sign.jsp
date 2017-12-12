@@ -140,6 +140,10 @@
                             $("#divPrompt").removeClass("hide");
                             $("#spanPrompt").text("对不起，您正在复审中!");
                             layer.close(index);
+                        }else if(data == "firstAuditEnd"){
+                            $("#divPrompt").removeClass("hide");
+                            $("#spanPrompt").text("对不起，您正处于预初审结束状态!");
+                            layer.close(index);
                         }else if (flag[0] == "firset") {
     						//询问框
     						layer.confirm('您还未完善个人信息，是否前去完善？', {
