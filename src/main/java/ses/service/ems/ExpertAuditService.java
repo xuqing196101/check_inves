@@ -374,4 +374,11 @@ public interface ExpertAuditService {
     * @return
     */
    StringBuffer noPassTypeId(String expertId, String[] types, Integer auditFalg);
+   
+   
+   /**
+    *计算通过的类别数量
+    * @param expertId
+    */
+   Integer passTypeNumber(String expertId);
 }

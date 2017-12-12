@@ -2113,6 +2113,11 @@ public class ExpertAuditController{
 		
 		// 查询审核最终意见,是否有记录（复审退回修改给采购机构，采购机构确认后退回给专家，专家修改完再提交后，《显示专家复审意见标签及意见信息》的标识）
 		model.addAttribute("isReviewRevision", isReviewRevision);
+		
+		//计算通过的类别数量
+		Integer passTypeNumber = expertAuditService.passTypeNumber(expertId);
+		model.addAttribute("passTypeNumber", passTypeNumber);
+		
 		return "ses/ems/expertAudit/reasonsList";
 	}
 

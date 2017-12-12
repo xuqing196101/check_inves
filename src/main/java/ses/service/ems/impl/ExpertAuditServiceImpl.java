@@ -1045,4 +1045,24 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 		}
 		return typeErrorField;
 	}
+	
+	
+	 /**
+	    *计算通过的类别数量
+	    * @param expertId
+	    */
+	@Override
+	public Integer passTypeNumber(String expertId) {
+		Expert expert = expertMapper.selectByPrimaryKey(expertId);
+		String expertsTypeId = expert.getExpertsTypeId();
+		String[] types = expertsTypeId.split(",");
+		Integer typeNum = types.length;
+		for(String typeId : types){
+			Integer selectNoPassType = mapper.selectNoPassType(expertId, typeId);
+			if(selectNoPassType > 0){
+				typeNum -= 1;
+			}
+		}
+		return typeNum;
+	}
 }

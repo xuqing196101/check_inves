@@ -7,7 +7,14 @@ $(function () {
 
     // 将审核意见的radio选中
     var hiddenSelectOptionId = $("#hiddenSelectOptionId").val();
-    $("input[name='selectOption'][value='"+hiddenSelectOptionId+"']").prop("checked",true);
+    
+    var passTypeNumber = $("#passTypeNumber").val();
+    //计算通过的类别数量，全部类别不通过就不选中
+    if(passTypeNumber == 0 && hiddenSelectOptionId == -3){
+    	$("input[name='selectOption'][value='"+hiddenSelectOptionId+"']").prop("checked",false);
+    }else{
+    	$("input[name='selectOption'][value='"+hiddenSelectOptionId+"']").prop("checked",true);
+    }
     // 预复审合格状态
     if(status == -2 || status == -3 || status == 5 || (sign ==2 && status == 6)){
         /*$("#checkWord").show();*/
