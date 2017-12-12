@@ -194,6 +194,7 @@
     	                        	 result = eval("(" + result + ")");
     	                        	 if(result.msg=="true"){
     	                        		 $("#" + showId + "").css('visibility', 'hidden');
+    	                        		 $("#" + showId + "1").remove();
     	                        		 layer.msg('撤销成功', {
                                              shift: 4, //动画类型
                                              offset: '100px'
@@ -368,7 +369,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
                         <up:show showId="show50" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="50"/>
                         <a style="visibility:hidden" id="recentPhotos1" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-                        <c:if test="${fn:contains(conditionStr,'近期免冠彩色证件照')}"><p class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
+                        <c:if test="${fn:contains(conditionStr,'近期免冠彩色证件照')}"><p id="recentPhotos11" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12">
@@ -438,7 +439,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
                         <up:show showId="show3" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="3"/>
                         <a style="visibility:hidden" id="idCardNumberFile1" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-                        <c:if test="${fn:contains(conditionStr,'身份证复印件（正反面）')}"><p class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
+                        <c:if test="${fn:contains(conditionStr,'身份证复印件（正反面）')}"><p id="idCardNumberFile11" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
                     </div>
                 </li>
                 <%-- <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">缴纳社会保险证明：</span>
@@ -481,7 +482,7 @@
                             <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
                                 <up:show showId="show2" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="1"/>
                                 <a style="visibility:hidden" id="coverNoteFile1" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-                                <c:if test="${fn:contains(conditionStr,'缴纳社会保险证明')}"><p class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
+                                <c:if test="${fn:contains(conditionStr,'缴纳社会保险证明')}"><p  id="coverNoteFile11" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
                             </div>
                         </li>
                     </c:if>
@@ -491,7 +492,7 @@
                             <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
                                 <up:show showId="show2" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="2"/>
                                 <a style="visibility:hidden" id="coverNoteFile1" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-                                <c:if test="${fn:contains(conditionStr,'退休证书或退休证明')}"><p class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
+                                <c:if test="${fn:contains(conditionStr,'退休证书或退休证明')}"><p id="coverNoteFile11" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
                             </div>
                         </li>
                     </c:if>
@@ -522,7 +523,7 @@
                         <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
                             <up:show showId="show1" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="12"/>
                             <a style="visibility:hidden" id="idNumberFile1" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-                            <c:if test="${fn:contains(conditionStr,'军队人员身份证件')}"><p class='abolish'><img style="padding-left: 212px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
+                            <c:if test="${fn:contains(conditionStr,'军队人员身份证件')}"><p id="idNumberFile11" class='abolish'><img style="padding-left: 212px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
                         </div>
                     </li>
                 </c:if>
@@ -639,7 +640,7 @@
 	                        <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
 	                            <up:show showId="show4" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="4"/>
 	                            <a style="visibility:hidden" id="titleFile1" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-	                            <c:if test="${fn:contains(conditionStr,'专业技术职称证书')}"><p class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
+	                            <c:if test="${fn:contains(conditionStr,'专业技术职称证书')}"><p id="titleFile11" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
 	                        </div>
 	                    </li>
 	                    <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">取得技术职称时间：</span>
@@ -680,7 +681,7 @@
                           <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
                               <up:show showId="show4" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="4"/>
                               <a style="visibility:hidden" id="titleFile1" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-                              <c:if test="${fn:contains(conditionStr,'专业技术职称证书')}"><p class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
+                              <c:if test="${fn:contains(conditionStr,'专业技术职称证书')}"><p id="titleFile11" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
                           </div>
                       </li>
                       <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">取得技术职称时间：</span>
@@ -728,7 +729,7 @@
                         <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
                             <up:show showId="show5" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="5"/>
                             <a style="visibility:hidden" id="academic1" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-                            <c:if test="${fn:contains(conditionStr,'毕业证书')}"><p class='abolish'><img style="padding-left: 212px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
+                            <c:if test="${fn:contains(conditionStr,'毕业证书')}"><p id="academic11" class='abolish'><img style="padding-left: 212px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
                         </div>
                     </li>
                     <li class="col-md-3 col-sm-6 col-xs-12">
@@ -746,7 +747,7 @@
                         <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
                             <up:show showId="show6" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="6"/>
                             <a style="visibility:hidden" id="degreeFile1" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-                            <c:if test="${fn:contains(conditionStr,'学位证书')}"><p class='abolish'><img style="padding-left: 212px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
+                            <c:if test="${fn:contains(conditionStr,'学位证书')}"><p id="degreeFile11" class='abolish'><img style="padding-left: 212px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
                         </div>
                     </li>
                     <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 参加工作时间：</span>
@@ -790,7 +791,7 @@
                             <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
                                 <up:show showId="show8" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="8"/>
                                 <a style="visibility:hidden" id="recommend1" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-                                <c:if test="${fn:contains(conditionStr,'推荐信')}"><p class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
+                                <c:if test="${fn:contains(conditionStr,'推荐信')}"><p id="recommend11" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
                             </div>
                         </li>
                     </c:if>
@@ -817,8 +818,8 @@
                     <li class="col-md-3 col-sm-6 col-xs-12">
                         <span class="hand" <c:if test="${fn:contains(fileModify,'7')}"> style="border: 1px solid #FF8C00; height: 20px !important;"</c:if> id="degreeTypeid" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="titleType" onclick="reasonFile(this);">获奖证书：</span>
                         <div class="m_inline"><up:show showId="show7" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="7"/></div>
-                        <a id="degreeTypeid1" class='hide abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-                        <c:if test="${fn:contains(conditionStr,'获奖证书')}"> <div class='abolish t0 f0'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div></c:if>
+                        <a style="visibility:hidden" id="degreeTypeid1" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+                        <c:if test="${fn:contains(conditionStr,'获奖证书')}"> <div id="degreeTypeid11" class='abolish t0 f0'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div></c:if>
                     <li>
                 </ul>
 
