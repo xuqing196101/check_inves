@@ -1,6 +1,8 @@
 package ses.controller.sys.bms;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,7 +20,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Role;
 import ses.model.bms.User;
@@ -29,6 +33,7 @@ import ses.util.DictionaryDataUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 
 /**
@@ -352,7 +357,7 @@ public class RoleManageController {
 	 */
 	@RequestMapping("/roletree")
 	public void roletree(HttpServletRequest request,
-			HttpServletResponse response, Model model, String userId)
+			HttpServletResponse response, Model model, String userId, String name)
 			throws IOException {
 		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
 		User u = new User();
@@ -365,6 +370,13 @@ public class RoleManageController {
 		Role temp = new Role();
 		temp.setStatus(0);
 		temp.setKind(DictionaryDataUtil.getId("PURCHASE_BACK"));
+		if (name != null && !"".equals(name)) {
+			name = URLDecoder.decode(name,"UTF-8");
+			temp.setName(name);
+		}
+		//默认角色不显示
+		String[] codes = {"IMPORT_AGENT_R", "SUPPLIER_R", "EXPERT_R", "EXPERT_REVIEW_R"};
+		temp.setCodes(codes);
 		List<Role> list = roleService.find(temp);
 		for (int i = 0; i < list.size(); i++) {
 			Role e = list.get(i);
@@ -431,4 +443,5 @@ public class RoleManageController {
 			response.getWriter().close();
 		}
 	}
+	
 }

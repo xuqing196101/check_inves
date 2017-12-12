@@ -269,22 +269,29 @@
 			}
 		    
 			if (orgType == '3') {
+				$("#select_org").show();
 			   $("#isOrgShow").show();
 			   $("#orgTitle").html("所属机构");
 				$("#orgSel").hide();
                 $("#ajax_orgId").html("");
                 $("#tempOrg").hide();
 				$("#oId").attr("type","text");
-			} else if (orgType =='5'|| orgType == '4' ) {
+			} else if (orgType =='5') {
+				$("#select_org").show();
 			   $("#isOrgShow").hide();
 			   $("#orgTitle").html("监管对象");
 			   $("#orgSel").show();
                 $("#ajax_orgId").html("");
                 $("#tempOrg").show();
 			   $("#oId").attr("type","hidden");
+			}else if (  orgType == '4') {
+			   $("#select_org").hide();
+			   $("#oId").attr("type","hidden");
+			   $("#tempOrg").show();
 			}else{
-			  $("#isOrgShow").show();
-			   $("#orgTitle").html("所属机构");
+				$("#select_org").show();
+			  	$("#isOrgShow").show();
+			   	$("#orgTitle").html("所属机构");
 				$("#orgSel").show();
                 $("#ajax_orgId").html("");
                 $("#tempOrg").hide();
@@ -299,6 +306,9 @@
 				$("#orgSel").hide();
 				$("#oId").attr("type","text");
 				$("#oId").val("${user.orgName}");
+			}
+			if(orgTypeName == '4'){
+				$("#select_org").hide();
 			}
 		});
 		
@@ -633,15 +643,12 @@
 					        <div class="cue"><sf:errors path="typeName"/></div>
 				        </div>
 				 	</li>
-			 		<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+			 		<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" id="select_org">
 					    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">
 					  <c:if test="${ user.typeName == '5' }">
 					    <span class="red display-none" id="isOrgShow">*</span><span id="orgTitle">监管对象</span>
 					  </c:if>
-					    <c:if test="${user.typeName == '4' }">
-					   <span class="red display-none" id="isOrgShow">*</span><span id="orgTitle">监管对象</span>
-					  </c:if>
-					  <c:if test="${user.typeName != '5' && user.typeName != '4' }">  
+					  <c:if test="${user.typeName != '5'}">  
 					 <span class="red " id="isOrgShow">*</span><span id="orgTitle">所属机构</span>
 					  </c:if>
 					    </span>
@@ -675,6 +682,7 @@
 							 <div id="ajax_orgId" class="cue">${ajax_orgId }</div>
 						</div>
 			 		</li>
+			 		
 			 		<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" id="tempOrg">
 	                    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">单位</span>
 	                    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
