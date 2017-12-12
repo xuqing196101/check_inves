@@ -107,7 +107,7 @@
            	<jsp:param value="${sign }" name="sign"/>
           </jsp:include>
 					<!-- 供应商类型信息头 -->
-					<ul class="ul_list count_flow">
+					<ul class="ul_list count_flow w100p">
 						<li>
 							<div class="tc">
 			       		<c:forEach items="${scxsList }" var="obj">
@@ -324,6 +324,7 @@
 										</li>
 									</ul> --%>
 									
+									<div class="clear"></div>
 									<h2 class="count_flow"><i>2</i>资质证书信息</h2>
 									<div class="ul_list">
 										<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
@@ -426,7 +427,8 @@
 											</div>
 										</li>
 									</ul> --%>
-								
+									
+									<div class="clear"></div>
 									<!-- <h2 class="count_flow"><i>2</i>供应商物资销售资质证书</h2> -->
 									<div class="ul_list">
 										<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
@@ -530,6 +532,7 @@
 										</li>
 									</ul> --%>
 									
+									<div class="clear"></div>
 									<h2 class="count_flow"><i>1</i>保密工程业绩</h2>
 									<ul class="ul_list">
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -579,6 +582,7 @@
 										</c:if>
 									</ul>
 									
+									<div class="clear"></div>
 									<h2 class="count_flow"><i>2</i>承揽业务范围：省级行政区对应合同主要页 （体现甲乙双方盖章及工程名称、地点的相关页）</h2>
 									<ul class="ul_list">
 										<c:forEach items="${areas}" var="area" varStatus="st">
@@ -607,6 +611,7 @@
 										</c:forEach>
 									</ul>
 									
+									<div class="clear"></div>
 									<h2 class="count_flow"><i>3</i>资质证书信息</h2>
 									<div class="ul_list">
 										<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
@@ -672,6 +677,7 @@
 										</table>
 									</div>
 									
+									<div class="clear"></div>
 									<h2 class="count_flow"><i>4</i>取得注册资质的人员信息</h2>
 									<div class="ul_list">
 										<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
@@ -719,6 +725,7 @@
 										</table>
 									</div>
 									
+									<div class="clear"></div>
 									<h2 class="count_flow"><i>5</i>供应商资质（认证）证书信息</h2>
 									<div class="ul_list">
 										<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
@@ -795,6 +802,7 @@
 										</table>
 									</div>
 
+									<div class="clear"></div>
 									<h2 class="count_flow"><i>6</i>供应商资质证书详细信息</h2>
 									<div class="ul_list">
 										<table class="table table-bordered table-condensed table-hover m_table_fixed_border">

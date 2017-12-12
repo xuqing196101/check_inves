@@ -117,8 +117,8 @@
 		<c:if test="${project.confirmFile eq null or project.confirmFile == 0 or project.confirmFile == 2}">
 			<div class="col-md-12 tc col-sm-12 col-xs-12 mt20">
 					<p>采购文件是否需要提交至管理部门报批</p>
-	        <button class="btn btn-windows save" type="button" onclick="saveFile('5')"">报批</button>
-	        <button class="btn btn-windows back" type="button" onclick="saveFile('1')">不报批</button>
+	        <button class="btn btn-windows save" type="button" onclick="saveFile('1')"">报批</button>
+	        <button class="btn btn-windows back" type="button" onclick="saveFile('5')">不报批</button>
 	     </div>
       </c:if>
 	</body>

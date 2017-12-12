@@ -48,7 +48,7 @@
 		  <div class="drop_window">
 			  <ul class="list-unstyled">
 			    <li class="mt10 col-md-12 col-sm-12 col-xs-12 pl15">
-	    	      <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5">物资名称</label>
+	    	      <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5">产品名称</label>
 				  <span class="col-md-12 col-sm-12 col-xs-12 input-append input_group">
 				   <input id="citySel4" readonly="" name="categoryName" value="" class="title" type="text">
 				  </span>

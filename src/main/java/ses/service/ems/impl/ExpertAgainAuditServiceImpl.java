@@ -260,7 +260,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
         
         //全部机构
         HashMap<String,Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("isAuditSupplier", 0);
+        hashMap.put("isAuditSupplier", 1);
         List<Orgnization>  allOrg = orgniztionMapper.findPurchaseOrgByPosition(hashMap);
         jsTypeList.addAll(jjTypeList);
         map.put("allOrg", allOrg);//全部采购机构

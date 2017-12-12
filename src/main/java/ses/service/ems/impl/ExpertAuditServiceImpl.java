@@ -49,7 +49,7 @@ import java.util.Map;
 /**
  * <p>Title:ExpertAuditServiceImpl </p>
  * <p>Description: 专家审核</p>
- * @author XuQing
+ * @author 
  * @date 2016-12-27上午11:03:02
  */
 @Service("expertAuditService")
@@ -93,7 +93,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	/**
 	 * 
 	  * @Title: deleteByPrimaryKey
-	  * @author XuQing
+	  * @author 
 	  * @date 2016年12月15日 下午2:26:23  
 	  * @Description: TODO 根据主键删除
 	  * @param @param id
@@ -275,7 +275,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	
 	/**
      * @Title: updateByExpertId
-     * @author XuQing 
+     * @author  
      * @date 2016-12-27 上午11:00:46  
      * @Description:更新isdelete
      * @param @param expertId      
@@ -287,7 +287,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
     
     /**
      * @Title: downloadFile
-     * @author XuQing 
+     * @author  
      * @date 2016-12-27 下午2:21:18  
      * @Description:生成的word文件下载
      * @param @param fileName
@@ -314,7 +314,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	
     /**
      * @Title: deleteByExpertId
-     * @author XuQing 
+     * @author  
      * @date 2017-2-14 下午5:05:58  
      * @Description:删除记录
      * @param @param expertId      
@@ -345,7 +345,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	
 	/**
 	 * @Title: selectByExpertId
-	 * @author XuQing 
+	 * @author  
 	 * @date 2017-4-21 下午6:27:57  
 	 * @Description:查询附件修改记录
 	 * @param @param expertId
@@ -359,7 +359,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	
 	/**
 	 * @Title: deleteByExpertId
-	 * @author XuQing 
+	 * @author  
 	 * @date 2017-4-21 下午6:28:24  
 	 * @Description:删除附件修改记录
 	 * @param @param expertId      
@@ -373,7 +373,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 
 	/**
 	 * @Title: addFileInfo
-	 * @author XuQing 
+	 * @author  
 	 * @date 2017-4-26 下午5:30:54  
 	 * @Description:插入附件退回后修改记录
 	 * @param @param expertAuditFileModify      
@@ -404,7 +404,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	
 	/**
 	 * @Title: updateIsDeletedByExpertId
-	 * @author XuQing 
+	 * @author  
 	 * @date 2017-5-2 下午5:03:13  
 	 * @Description:软删除附件历史信息
 	 * @param @param expertId      
@@ -418,7 +418,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	
 	/**
      * @Title: findByObj
-     * @author XuQing 
+     * @author  
      * @date 2017-5-8 上午10:53:24  
      * @Description:唯一校验
      * @param @param expertAudit
@@ -447,13 +447,13 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 		}
 		Expert expertInfo = expertMapper.selectByPrimaryKey(expertId);
 		String status = expertInfo.getStatus();
-		if("0".equals(status) || "4".equals(status) || "15".equals(status) || "16".equals(status) || "9".equals(status) || "-2".equals(status) || (sign==2 && "6".equals(status))){
+		if("0".equals(status) || "9".equals(status) || "15".equals(status) || "16".equals(status)){
 			//初审中
 			expert.setAuditTemporary(1);
 		}else if("4".equals(status)){
 			//复审中
 			expert.setAuditTemporary(2);
-		}else if("6".equals(status)){
+		}else if(sign==2 && "6".equals(status)){
 			//复查中
 			expert.setAuditTemporary(3);
 		}else{
@@ -931,9 +931,115 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 			break;
 		}
 		if(msg !=null && !"".equals(msg) && mobile !=null && !"".equals(mobile)){
-			 //SMSUtil.sendMsg(mobile, msg);			
+			/* SMSUtil.sendMsg(mobile, msg);			*/
+
 		}
 		return prompt;
 	}
 
+	@Override
+	public List<ExpertAudit> selectReasonByExpertId(ExpertAudit expertAudit){
+		return mapper.selectReasonByExpertId(expertAudit);
+	}
+	
+	@Override
+    public List<ExpertAudit> selectCatReason(ExpertAudit expertAudit){
+		return mapper.selectCatReason(expertAudit);
+	}
+	
+	
+	/**
+    * 全部参评类别不通过类别也标注不通过
+    * @param map
+    * @return
+    */
+	@Override
+	public StringBuffer noPassTypeId(String expertId, String[] types, Integer auditFalg) {
+		StringBuffer typeErrorField = new StringBuffer();
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("expertId", expertId);
+		map.put("auditFalg", auditFalg);
+		//现在勾选的类型
+		try {
+			for(String typeId : types){
+				if(typeId!=null && !"".equals(typeId)){
+					map.put("typeId", typeId);
+					//全部根节点
+					Integer allNumber = expertCategoryMapper.findRootNoteCountByExpertId(map);
+					
+					DictionaryData data = DictionaryDataUtil.findById(typeId);
+					//物资
+					if(data !=null && "GOODS".equals(data.getCode()) && allNumber !=0){
+						//不通过的根节点
+						Integer number = expertCategoryMapper.findNoPassCategoryCountByAuditFalg(map);
+						if(allNumber - number == 0){
+							typeErrorField.append(typeId + ",");
+						}
+					//服务
+					}else if(data !=null && "SERVICE".equals(data.getCode()) && allNumber !=0){
+						//不通过的根节点
+						Integer number = expertCategoryMapper.findNoPassCategoryCountByAuditFalg(map);
+						if(allNumber - number == 0){
+							typeErrorField.append(typeId + ",");
+						}
+					//工程技术
+					}else if(data !=null && "PROJECT".equals(data.getCode()) && allNumber !=0){
+						//工程专业id
+						String engId = DictionaryDataUtil.getId("ENG_INFO_ID");
+						//全部工程专业的数量
+						map.put("typeId", engId);
+						Integer engNumber = 0;
+						if(engId !=null && !"".equals(engId)){
+							engNumber = expertCategoryMapper.findRootNoteCountByExpertId(map);
+						}
+						
+						//工程专业不通过的根节点
+						Integer noPassNumber = expertCategoryMapper.findNoPassCategoryCountByAuditFalg(map);
+
+						//工程不通过的根节点
+						map.put("typeId", typeId);
+						Integer number = expertCategoryMapper.findNoPassCategoryCountByAuditFalg(map);
+						
+						//所有工程根节点数量
+						Integer all = allNumber + engNumber;
+						Integer engNoPassNumber = noPassNumber + number;
+						
+						if(all - engNoPassNumber == 0){
+							typeErrorField.append(typeId + ",");
+						}
+					//工程经济
+					}else if(data !=null && "GOODS_PROJECT".equals(data.getCode())){
+						//工程专业id
+						String engInfoId = DictionaryDataUtil.getId("ENG_INFO_ID");
+						//工程id
+						String engId = DictionaryDataUtil.getId("PROJECT");
+						
+						//全部工程专业根节点
+						map.put("typeId", engInfoId);
+						Integer jjNumber = expertCategoryMapper.findRootNoteCountByExpertId(map);
+						
+						//工程专业不通过根节点
+						Integer jjNoPassNumber = expertCategoryMapper.findNoPassCategoryCountByAuditFalg(map);
+						
+						//全部工程根节点
+						map.put("typeId", engId);
+						Integer engNumber = expertCategoryMapper.findRootNoteCountByExpertId(map);
+						
+						//工程不通过的根节点
+						Integer number = expertCategoryMapper.findNoPassCategoryCountByAuditFalg(map);
+						
+						//所有工程根节点数量
+						Integer all = engNumber + jjNumber;
+						Integer engNoPassNumber = jjNoPassNumber + number;
+						if(all - engNoPassNumber == 0){
+							typeErrorField.append(typeId + ",");
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return typeErrorField;
+	}
 }

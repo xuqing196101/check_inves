@@ -1,5 +1,6 @@
 package sums.controller.oc;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,7 @@ import ses.model.sms.Supplier;
 import ses.service.bms.RoleServiceI;
 import ses.service.ems.ExpertService;
 import ses.service.sms.SupplierService;
+import ses.util.AuthorityUtil;
 import sums.model.oc.Complaint;
 import sums.service.oc.ComplaintService;
 
@@ -57,6 +60,7 @@ public class OnlineComplaintsController {
     private ExpertService expertService;//专家
 
     /**
+     * @throws IOException 
      * 
      * Description: 网上投诉
      * 
@@ -68,18 +72,24 @@ public class OnlineComplaintsController {
      */
     @RequestMapping("/complaints")
     @SystemControllerLog(description=StaticVariables.OC_COMPLAINTS_NAME)
-    public String complaints(@CurrentUser User user,@RequestParam(defaultValue="1")Integer page,Complaint complaint, Model model) {
-        //声明标识是否是资源服务中心
-        String authType = null;
-        //判断是否 是资源服务中心 
-        if(user != null && "4".equals(user.getTypeName())){
-            authType = "4";
-            List<Complaint> list = complaintService.selectAllComplaint(complaint,page);
-            PageInfo<Complaint> info = new PageInfo<>(list);
-            model.addAttribute("info", info);
-            model.addAttribute("complaint", complaint);
-            model.addAttribute("authType", authType);
-        }
+    public String complaints(@CurrentUser User user,@RequestParam(defaultValue="1")Integer page,Complaint complaint, Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    	//获取当前登录用户数据查看权限
+		Integer dataAccess = user.getDataAccess();
+		if (dataAccess == null) {
+			return AuthorityUtil.valiDataAccess(dataAccess, request, response);
+		}else {
+			if (dataAccess == 1) {
+				//查看所有数据
+			} else if (dataAccess == 2) {
+			} else if (dataAccess == 3) {
+				//查看本人数据
+				complaint.setCreaterId(user.getId());
+			}
+			List<Complaint> list = complaintService.selectAllComplaint(complaint,page);
+			PageInfo<Complaint> info = new PageInfo<>(list);
+			model.addAttribute("info", info);
+			model.addAttribute("complaint", complaint);
+		}
         return "sums/oc/inquire/list";
     }
     
@@ -162,12 +172,9 @@ public class OnlineComplaintsController {
     @RequestMapping("/view")
     @SystemControllerLog(description=StaticVariables.OC_COMPLAINTS_NAME)
     public String view(@CurrentUser User user,Model model, String id){
-    	if(user != null && "4".equals(user.getTypeName())){
-	        Complaint complaint = complaintService.selectByPrimaryKey(id);
-	        model.addAttribute("complaint", complaint);
-	        return "sums/oc/inquire/view";
-    	}
-    	return "";
+        Complaint complaint = complaintService.selectByPrimaryKey(id);
+        model.addAttribute("complaint", complaint);
+        return "sums/oc/inquire/view";
     }
     
     /**

@@ -43,9 +43,10 @@ $(document).ready(function(){
 	 	</c:if>
 	 </div>
 	 <div class="extra_file">
-	      <span id="extra_file" class="fl mt12"> 附件：</span>
-	      <div class="mt10">
+	      <span id="extra_file" class="fl mt12 f20 b"> 附件：</span>
+	      <div class="mt10 m_uploadFiles_big">
 	          <u:show showId="artice_file_show" delete="false" businessId="${articleId}" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
+	          <div class="clear"></div>
 	      </div>
 	 </div>
 	 </div>

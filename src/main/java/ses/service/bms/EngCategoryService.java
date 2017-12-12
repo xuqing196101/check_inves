@@ -331,4 +331,6 @@ import ses.model.sms.SupplierTypeTree;
 	 */
 	public List<Category> findPublishCategory (String parentId);
 	
+	public Category selectById(String id);
+	
 }

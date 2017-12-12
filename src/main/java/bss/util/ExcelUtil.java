@@ -460,7 +460,7 @@ public class ExcelUtil {
      		 }
 			 if(rq.getPurchaseCount()!=null&&rq.getPrice()!=null){
      				if(rq.getGoodsName()==null||StringUtils.isBlank(rq.getGoodsName().trim())){
-     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，物资类别及名称不能为空";
+     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，产品名称不能为空";
 	        				 map.put("errMsg", errMsg);
 	        				 bool=false;
 	        				 break;

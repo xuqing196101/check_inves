@@ -94,6 +94,18 @@ public class PackageAdviceController extends BaseController {
 				page = 1;
 			}
 			List<PackageAdvice> list = service.list(packageAdvice, user, page);
+			for (PackageAdvice pa : list) {
+			  String[] packageNames = pa.getPackageName().split(",");
+			  String names="";
+			  for (String string : packageNames) {
+			    Packages selectByPrimaryKeyId = packageService.selectByPrimaryKeyId(string);
+			    names+=selectByPrimaryKeyId.getName()+",";
+        }
+			  if(names.endsWith(",")){
+			    names=names.substring(0,names.length()-1);
+			  }
+			  pa.setPackageName(names);
+      }
 			if (list != null && !list.isEmpty()) {
 				model.addAttribute("info", new PageInfo<PackageAdvice>(list));
 				model.addAttribute("kind", DictionaryDataUtil.find(5));
@@ -280,7 +292,7 @@ public class PackageAdviceController extends BaseController {
 	public void initPackageAdvice(String projectId, HttpServletResponse response){
 		AdviceMessages am=new AdviceMessages();
 		am.setProjectId(projectId);
-		am.setStatus((short)0);
+		am.setStatus((short)3);
 		List<AdviceMessages> selectbyList = adviceMessagesService.selectbyList(am);
 		if(selectbyList!=null&&selectbyList.size()>0){
 			StringBuffer sb = new StringBuffer();
@@ -303,7 +315,7 @@ public class PackageAdviceController extends BaseController {
 						}
 						Packages pack = packageService.selectByPrimaryKeyId(PackageAdvices.get(0).getPackageId());
 						sb.append("{\"status\":\"" + status + "\",");
-						sb.append("\"packages\":[{\"id\":\"" + pack.getId() + "\",\"name\":\"" + pack.getName() + "\"}]},");
+						sb.append("\"packages\":[{\"id\":\"" + pack.getId() + "\",\"name\":\"" + pack.getName() + "\",\"cometId\":\""+ams.getId()+"\"}]},");
 					}else{
 						List<PackageAdvice> packAdviceCount = service.selectByStatus(ams.getCode());
 						if (packAdviceCount != null && packAdviceCount.size() == 1) {
@@ -317,7 +329,7 @@ public class PackageAdviceController extends BaseController {
 							sb.append("{\"status\":\"" + status + "\",\"packages\":[");
 							for (PackageAdvice pa : PackageAdvices) {
 								Packages pack = packageService.selectByPrimaryKeyId(pa.getPackageId());
-								sb.append("{\"id\":\"" + pack.getId() + "\",\"name\":\"" + pack.getName() + "\"},");
+								sb.append("{\"id\":\"" + pack.getId() + "\",\"name\":\"" + pack.getName() + "\",\"cometId\":\""+ams.getId()+"\"},");
 							}
 							if (sb.length() > 1) {
 								sb = sb.deleteCharAt(sb.length() - 1);
@@ -333,9 +345,9 @@ public class PackageAdviceController extends BaseController {
 								Packages pack = packageService.selectByPrimaryKeyId(pa.getPackageId());
 								// 通过
 								if (pa.getStatus() == 3) {
-									sb1.append("{\"id\":\"" + pack.getId() + "\",\"name\":\"" + pack.getName() + "\"},");
+									sb1.append("{\"id\":\"" + pack.getId() + "\",\"name\":\"" + pack.getName() + "\",\"cometId\":\""+ams.getId()+"\"},");
 								} else if (pa.getStatus() == 4) {
-									sb2.append("{\"id\":\"" + pack.getId() + "\",\"name\":\"" + pack.getName() + "\"},");
+									sb2.append("{\"id\":\"" + pack.getId() + "\",\"name\":\"" + pack.getName() + "\",\"cometId\":\""+ams.getId()+"\"},");
 								}
 							}
 							if (sb1.length() > 1) {
@@ -434,32 +446,33 @@ public class PackageAdviceController extends BaseController {
 
 	@RequestMapping("/cometPassCheck")
 	public void cometPassCheck(String cometId, HttpServletResponse response, Integer type) {
-		AdviceMessages ams = adviceMessagesService.selectByPrimaryKey(cometId);
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("code", ams.getCode());
-		map.put("type", 2);
-		if (type == 1) {
-			map.put("status", 3);
-		} else {
-			map.put("status", 4);
-		}
-		List<PackageAdvice> PackageAdvices = service.find(map);
-		List<Packages> listPackage = new ArrayList<Packages>();
-		for (PackageAdvice pa : PackageAdvices) {
-			Packages pack = packageService.selectByPrimaryKeyId(pa.getPackageId());
-			if (pack.getProjectStatus().equals(DictionaryDataUtil.getId("ZJZXTP")) || pack.getProjectStatus().equals(DictionaryDataUtil.getId("YZZ"))) {
-				continue;
-			}
-			Packages packages = new Packages();
-			packages.setId(pack.getId());
-			packages.setName(pack.getName());
-			listPackage.add(packages);
-		}
-		if (listPackage != null && listPackage.size() > 0) {
-			super.writeJson(response, listPackage);
-		} else {
-			super.printOutMsg(response, "[{\"msg\":\"no\"}]");
-		}
+	  AdviceMessages ams = adviceMessagesService.selectByPrimaryKey(cometId);
+    HashMap<String, Object> map = new HashMap<String, Object>();
+    map.put("code", ams.getCode());
+    map.put("type", 2);
+    if (type == 1) {
+      map.put("status", 3);
+    } else {
+      map.put("status", 4);
+    }
+    List<PackageAdvice> PackageAdvices = service.find(map);
+    List<Packages> listPackage = new ArrayList<Packages>();
+    for (PackageAdvice pa : PackageAdvices) {
+      Packages pack = packageService.selectByPrimaryKeyId(pa.getPackageId());
+      if (pack.getProjectStatus().equals(DictionaryDataUtil.getId("ZJZXTP")) || pack.getProjectStatus().equals(DictionaryDataUtil.getId("YZZ"))) {
+        continue;
+      }
+      Packages packages = new Packages();
+      packages.setId(pack.getId());
+      packages.setName(pack.getName());
+      packages.setCometId(ams.getId());
+      listPackage.add(packages);
+    }
+    if (listPackage != null && listPackage.size() > 0) {
+      super.writeJson(response, listPackage);
+    } else {
+      super.printOutMsg(response, "[{\"msg\":\"no\"}]");
+    }
 
 	}
 
@@ -484,7 +497,11 @@ public class PackageAdviceController extends BaseController {
 	        }
         }
 				Boolean flg = false;
-        for (PackageAdvice pa : PackageAdvices) {
+				HashMap<String, Object> map1 = new HashMap<String, Object>();
+	      map1.put("code", ams.getCode());
+	      map1.put("type", 2);
+	      List<PackageAdvice> PackageAdvices1 = service.find(map1);
+        for (PackageAdvice pa : PackageAdvices1) {
           if(pa.getProcessStatus()==null||pa.getProcessStatus()==0){
             flg=true;
             break;

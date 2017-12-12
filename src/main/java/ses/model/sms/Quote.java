@@ -2,6 +2,7 @@ package ses.model.sms;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import bss.model.ppms.AdvancedDetail;
@@ -242,14 +243,6 @@ public class Quote {
         this.id = id == null ? null : id.trim();
     }
 
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public BigDecimal getQuotePrice() {
         return quotePrice;
     }
@@ -289,5 +282,15 @@ public class Quote {
     public void setAdvancedDetail(AdvancedDetail advancedDetail) {
         this.advancedDetail = advancedDetail;
     }
+
+    public Timestamp getCreatedAt() {
+      return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+      this.createdAt = createdAt;
+    }
+
+
     
 }

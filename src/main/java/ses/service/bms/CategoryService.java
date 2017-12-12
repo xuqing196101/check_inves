@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import common.bean.ResBean;
+
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
@@ -23,6 +24,7 @@ import ses.model.sms.SupplierTypeTree;
  * @date 2017-11-29 下午7:36:03
  */
 public interface CategoryService {
+
 	/**   
 	* @Title: selectAll
 	* @author zhangxuefeng
@@ -498,5 +500,16 @@ public interface CategoryService {
 	 * @return
 	 */
 	List<Category> searchList(int type, String cateName, String codeName);
+	
+	/**
+	 * 
+	 * 
+	 * Description: 根据id查询名称
+	 * 
+	 * @data 2017年12月4日
+	 * @param 
+	 * @return String
+	 */
+	Category selectById(String id);
 	
 }

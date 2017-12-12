@@ -446,6 +446,12 @@ public class ExtractExpertController {
         if("".equals(codeName)){
         	codeName = null;
         }
+        if(cateName != null){
+        	cateName = cateName.trim();
+        }
+        if(codeName != null){
+        	codeName = codeName.trim();
+        }
         if (typeData != null && typeData.getCode().equals("ENG_INFO_ID")) {
             // 查询出所有满足条件的品目
             List < Category > categoryList = service.searchByName(cateName, "ENG_INFO", codeName);

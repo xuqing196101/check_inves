@@ -230,8 +230,12 @@ public class OuterExpertServiceImpl implements OuterExpertService {
                 // 查询专家选择的小类
                 // 查询军队专家类型
                 DictionaryData dict = DictionaryDataUtil.get("ARMY");
-                if (dict != null && dict.getId().equals(expert.getExpertsFrom()))
-                    expert.setExpertCategory(expertCategoryMapper.findByExpertId(expert.getId()));
+                if (dict != null && dict.getId().equals(expert.getExpertsFrom())){
+                	expert.setExpertCategory(expertCategoryMapper.findByExpertId(expert.getId()));
+                	//执业资格  T_SES_EMS_EXPERT_TITLE
+    				List<ExpertTitle> tList = expertTitleMapper.selectByExpertId(expert.getId());
+    				expert.setTitles(tList);
+                }
 
                 // 查询专家复审意见
                 ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();

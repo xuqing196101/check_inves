@@ -265,7 +265,7 @@
                   <tr>
                     <th class="info w50">序号</th>
                     <th class="info department">需求部门</th>
-                    <th class="info goodsname">物资名称</th>
+                    <th class="info goodsname">产品名称</th>
                     <th class="info stand">规格型号</th>
                     <th class="info qualitstand">质量技术标准</th>
                     <th class="info item">计量单位</th>
