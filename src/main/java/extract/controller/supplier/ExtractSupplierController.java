@@ -147,88 +147,88 @@ public class ExtractSupplierController extends BaseController {
     @RequestMapping("/Extraction")
    public String listExtraction(@CurrentUser User user,Model model, SupplierExtractProjectInfo eRecord,String conditionId){
     	//两个入口 1.项目实施进入 2.直接进行抽取
-    	if(!(null!=user && "1".equals(user.getTypeName()))){
-    		return "redirect:/qualifyError.jsp";
-    	}
-    	if(StringUtils.isEmpty(conditionId)){
-    		conditionId = WfUtil.createUUID();
-    		//生成一条查询条件
-    		SupplierExtractCondition supplierCondition = new SupplierExtractCondition();
-    		supplierCondition.setId(conditionId);
-    		conditionService.insert(supplierCondition);
-    		//将conditionId 插入记录表
-    		eRecord.setConditionId(conditionId);
-    	}else{
-    		//TUTO  抽取条件回显
-			model.addAttribute("condition",conditionService.show(conditionId));
-    	}
-    	
-    	//记录为空
-    	if(StringUtils.isBlank(eRecord.getId())){
-    		String recordId = WfUtil.createUUID();
-    		eRecord.setId(recordId);
-    		eRecord.setProcurementDepId(user.getOrg().getId());
-    		eRecord.setExtractUser(user.getId());
-    		recordService.insertProjectInfo(eRecord);
-    		
-    		if("advPro".equals(eRecord.getProjectInto())){
-    			//预研进入
-    			 AdvancedProject selectById = advancedProjectService.selectById(eRecord.getProjectId());
-    			 DictionaryData purchaseType = dictionaryDataServiceI.getDictionaryData(selectById.getPurchaseType());
-    			 eRecord.setProjectId(selectById.getId());
-    			 eRecord.setProjectName(selectById.getName());
-    			 eRecord.setProjectType(DictionaryDataUtil.findById(selectById.getPlanType()).getCode());
-    			 eRecord.setProjectTypeName(dictionaryDataServiceI.getDictionaryData(selectById.getPlanType()).getName());
-    			 eRecord.setPurchaseType(null !=purchaseType?purchaseType.getId():"");
-    			 eRecord.setPurchaseTypeName(null !=purchaseType?purchaseType.getName():"");
-    			 eRecord.setProjectCode(selectById.getProjectNumber());
-        	}else if("relPro".equals(eRecord.getProjectInto())){
-        		//真实项目
-        		Project selectById2 = projectService.selectById(eRecord.getProjectId());
-        		DictionaryData purchaseType = dictionaryDataServiceI.getDictionaryData(selectById2.getPurchaseType());
-        		eRecord.setProjectId(selectById2.getId());
-   			 	eRecord.setProjectName(selectById2.getName());
-   			 	eRecord.setProjectType(DictionaryDataUtil.findById(selectById2.getPlanType()).getCode());
-   			 	eRecord.setProjectTypeName(dictionaryDataServiceI.getDictionaryData(selectById2.getPlanType()).getName());
-   			 	eRecord.setPurchaseType(null !=purchaseType?purchaseType.getId():"");
-   			 	eRecord.setPurchaseTypeName(null !=purchaseType?purchaseType.getName():"");
-   			 	eRecord.setProjectCode(selectById2.getProjectNumber());
-        	}else{
-        		//随机抽取
-        		
-        		
-        	}
-    		model.addAttribute("projectInfo", eRecord);
-			model.addAttribute("typeclassId", "hidden");
-    		
-    		
-    	}else if(StringUtils.isNotBlank(eRecord.getId())){
-    		
-    		eRecord=recordService.selectByPrimaryKey(eRecord.getId());
-    		if(StringUtils.isEmpty(eRecord.getConditionId())){
+    	if(null!=user && ("1".equals(user.getTypeName()) || "4".equals(user.getTypeName()))){
+    		if(StringUtils.isEmpty(conditionId)){
+    			conditionId = WfUtil.createUUID();
+    			//生成一条查询条件
+    			SupplierExtractCondition supplierCondition = new SupplierExtractCondition();
+    			supplierCondition.setId(conditionId);
+    			conditionService.insert(supplierCondition);
+    			//将conditionId 插入记录表
     			eRecord.setConditionId(conditionId);
-    			recordService.update(eRecord);
+    		}else{
+    			//TUTO  抽取条件回显
+    			model.addAttribute("condition",conditionService.show(conditionId));
     		}
-    		//从记录列表进入 继续抽取 项目信息
-    		model.addAttribute("projectInfo",eRecord);
-    		//model.addAttribute("supervises",extUserServicel.getName(eRecord.getId()));
-    		//重新抽取  只携带项目信息
+    		
+    		//记录为空
+    		if(StringUtils.isBlank(eRecord.getId())){
+    			String recordId = WfUtil.createUUID();
+    			eRecord.setId(recordId);
+    			eRecord.setProcurementDepId(user.getTypeName().equals("4")?user.getTypeName():user.getOrg().getId());
+    			eRecord.setExtractUser(user.getId());
+    			recordService.insertProjectInfo(eRecord);
+    			
+    			if("advPro".equals(eRecord.getProjectInto())){
+    				//预研进入
+    				AdvancedProject selectById = advancedProjectService.selectById(eRecord.getProjectId());
+    				DictionaryData purchaseType = dictionaryDataServiceI.getDictionaryData(selectById.getPurchaseType());
+    				eRecord.setProjectId(selectById.getId());
+    				eRecord.setProjectName(selectById.getName());
+    				eRecord.setProjectType(DictionaryDataUtil.findById(selectById.getPlanType()).getCode());
+    				eRecord.setProjectTypeName(dictionaryDataServiceI.getDictionaryData(selectById.getPlanType()).getName());
+    				eRecord.setPurchaseType(null !=purchaseType?purchaseType.getId():"");
+    				eRecord.setPurchaseTypeName(null !=purchaseType?purchaseType.getName():"");
+    				eRecord.setProjectCode(selectById.getProjectNumber());
+    			}else if("relPro".equals(eRecord.getProjectInto())){
+    				//真实项目
+    				Project selectById2 = projectService.selectById(eRecord.getProjectId());
+    				DictionaryData purchaseType = dictionaryDataServiceI.getDictionaryData(selectById2.getPurchaseType());
+    				eRecord.setProjectId(selectById2.getId());
+    				eRecord.setProjectName(selectById2.getName());
+    				eRecord.setProjectType(DictionaryDataUtil.findById(selectById2.getPlanType()).getCode());
+    				eRecord.setProjectTypeName(dictionaryDataServiceI.getDictionaryData(selectById2.getPlanType()).getName());
+    				eRecord.setPurchaseType(null !=purchaseType?purchaseType.getId():"");
+    				eRecord.setPurchaseTypeName(null !=purchaseType?purchaseType.getName():"");
+    				eRecord.setProjectCode(selectById2.getProjectNumber());
+    			}else{
+    				//随机抽取
+    				
+    				
+    			}
+    			model.addAttribute("projectInfo", eRecord);
+    			model.addAttribute("typeclassId", "hidden");
+    			
+    			
+    		}else if(StringUtils.isNotBlank(eRecord.getId())){
+    			
+    			eRecord=recordService.selectByPrimaryKey(eRecord.getId());
+    			if(StringUtils.isEmpty(eRecord.getConditionId())){
+    				eRecord.setConditionId(conditionId);
+    				recordService.update(eRecord);
+    			}
+    			//从记录列表进入 继续抽取 项目信息
+    			model.addAttribute("projectInfo",eRecord);
+    			//model.addAttribute("supervises",extUserServicel.getName(eRecord.getId()));
+    			//重新抽取  只携带项目信息
+    		}
+    		List<Area> province = areaService.findRootArea();
+    		model.addAttribute("businessNature", conditionService.getBusinessNature());
+    		model.addAttribute("province", province);
+    		//加载采购方式
+    		List<DictionaryData> purchaseTypeList = new ArrayList<>();
+    		purchaseTypeList.add(DictionaryDataUtil.get("GKZB"));
+    		purchaseTypeList.add(DictionaryDataUtil.get("YQZB"));
+    		purchaseTypeList.add(DictionaryDataUtil.get("JZXTP"));
+    		DictionaryData xj = DictionaryDataUtil.get("XJCG");
+    		xj.setName("询价");
+    		purchaseTypeList.add(xj);
+    		purchaseTypeList.add(DictionaryDataUtil.get("DYLY"));
+    		model.addAttribute("purchaseTypeList", purchaseTypeList);
+    		//model.addAttribute("address", areaService.findAreaByParentId(province.get(0).getId()));
+    		return "ses/sms/supplier_extracts/condition_list";
     	}
-    	List<Area> province = areaService.findRootArea();
-    	model.addAttribute("businessNature", conditionService.getBusinessNature());
-    	model.addAttribute("province", province);
-    	//加载采购方式
-    	List<DictionaryData> purchaseTypeList = new ArrayList<>();
-    	purchaseTypeList.add(DictionaryDataUtil.get("GKZB"));
-    	purchaseTypeList.add(DictionaryDataUtil.get("YQZB"));
-    	purchaseTypeList.add(DictionaryDataUtil.get("JZXTP"));
-    	DictionaryData xj = DictionaryDataUtil.get("XJCG");
-    	xj.setName("询价");
-    	purchaseTypeList.add(xj);
-    	purchaseTypeList.add(DictionaryDataUtil.get("DYLY"));
-    	model.addAttribute("purchaseTypeList", purchaseTypeList);
-    	//model.addAttribute("address", areaService.findAreaByParentId(province.get(0).getId()));
-    	return "ses/sms/supplier_extracts/condition_list";
+    	return "redirect:/qualifyError.jsp";
     }
 
 
@@ -350,7 +350,7 @@ public class ExtractSupplierController extends BaseController {
 			}
     		return JSON.toJSONString(errMsg);
     	}
-    	projectInfo.setProcurementDepId(user.getOrg().getId());//存储采购机构
+    	projectInfo.setProcurementDepId(user.getTypeName().equals("4")?user.getTypeName():user.getOrg().getId());//存储采购机构
     	recordService.saveOrUpdateProjectInfo(projectInfo);
     	return JSON.toJSONString(null);
     }
