@@ -355,7 +355,7 @@
                              <option value="1" <c:if test="${user.typeName == '1'}">selected</c:if>>采购机构</option>
                              <option value="2" <c:if test="${user.typeName == '2'}">selected</c:if>>采购管理部门</option>
                              <option value="0" <c:if test="${user.typeName == '0'}">selected</c:if>>需求部门</option>
-                             <option value="4" <c:if test="${user.typeName == '4'}">selected</c:if>>资源服务中心</option>
+                             <option value="4" <c:if test="${user.typeName == '4'}">selected</c:if>>采购服务中心</option>
                              <option value="5" <c:if test="${user.typeName == '5'}">selected</c:if>>监管部门</option>
                              <option value="3" <c:if test="${user.typeName == '3'}">selected</c:if>>其他</option>  
                             </select>
@@ -414,7 +414,7 @@
 					  <td class="tl"> <c:if test="${user.typeName == '1'}">采购机构</c:if>
 						        		<c:if test="${user.typeName == '2'}">采购管理部门</c:if>
 						        		<c:if test="${user.typeName == '0'}">需求部门</c:if>
-						        		<c:if test="${user.typeName == '4'}">资源服务中心</c:if>
+						        		<c:if test="${user.typeName == '4'}">采购服务中心</c:if>
 						        		<c:if test="${user.typeName == '5'}">监管部门</c:if>
 						        		<c:if test="${user.typeName == '3'}">其他</c:if>
 						        	</td>

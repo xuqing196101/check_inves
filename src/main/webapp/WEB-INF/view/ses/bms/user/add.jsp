@@ -315,9 +315,7 @@
 			if(!origin){
 			   //$("#oId").val("");
 			}
-			
 			$("#orgParent").val("");
-			
 			if (orgType == '3' ) {
 			   $("#isOrgShow").show();
 			   $("#orgTitle").html("所属机构");
@@ -327,13 +325,19 @@
 				$("#tempOrg").hide();
 				$("#orgSel").hide();
 				$("#oId").attr("type","text"); 
-			} else if (  orgType == '5'||orgType == '4') {
+			} else if (  orgType == '5') {
+			   $("#select_org").show();
 			   $("#isOrgShow").hide();
 			   $("#orgTitle").html("监管对象");
 			   $("#orgSel").show();
 			   $("#oId").attr("type","hidden");
 			   $("#tempOrg").show();
+			}else if (  orgType == '4') {
+			   $("#select_org").hide();
+			   $("#oId").attr("type","hidden");
+			   $("#tempOrg").show();
 			}else{
+				$("#select_org").show();
 			    $("#isOrgShow").show();
 			    $("#orgTitle").html("所属机构");
 				$("#orgSel").show();
@@ -366,7 +370,7 @@
 			 var is_error = 0;
 			 var mobile = $("#mobile").val();
 			 var mobile2 = $("#mobile2").val();
-			 if (mobile == mobile2) {
+			 if (mobile2 != "" && mobile == mobile2) {
 				 $("#errMobile").html("");
 				 $("#ajax_mobile").html("两个手机号不能一致");
 				 is_error = 1;
@@ -512,9 +516,72 @@
 		 if(emaila.indexOf("。") > 0){
 			$("#err_email").text("不能包含 。");
 		}
-		
 	}
 	
+	function searchs(){
+		var name=$("#search").val();
+		if(name!=""){
+			var userId = $("#uId").val();
+			var setting = {
+			check: {
+					enable: true,
+					chkboxType: {"Y":"", "N":""}
+				},
+				view: {
+					dblClickExpand: false
+				},
+				data: {
+					simpleDatas: {
+						enable: true
+					}
+				},
+				callback: {
+					beforeClick: beforeClick,
+					onCheck: onCheck
+				}
+			};
+	        $.ajax({
+             type: "GET",
+             async: false, 
+             url: "${pageContext.request.contextPath}/role/roletree.do?userId="+userId,
+             dataType: "json",
+             success: function(zNodes){
+                     /* for (var i = 0; i < zNodes.length; i++) { 
+			            if (zNodes[i].isParent) {  
+			 
+			            } else {  
+			                //zNodes[i].icon = "${ctxStatic}/images/532.ico";//设置图标  
+			            }  
+			        }   */
+			        tree = $.fn.zTree.init($("#treeRole"), setting, zNodes);  
+			        tree.expandAll(true);//全部展开
+               }
+         	});
+			
+			// 加载中的菊花图标
+			//var loading = layer.load(1);
+			
+			$.ajax({
+				url: "${pageContext.request.contextPath}/role/roletree.do",
+				data: { "name" : encodeURI(name), "userId": userId},
+				async: false,
+				dataType: "json",
+				success: function(data){
+					if (data.length == 0) {
+						layer.msg("没有符合查询条件的角色！");
+					} else {
+						zNodes = data;
+						zTreeObj = $.fn.zTree.init($("#treeRole"), setting, zNodes);
+						zTreeObj.expandAll(true);//全部展开
+					}
+					// 关闭加载中的菊花图标
+					//layer.close(loading);
+				}
+			});
+		}else{
+			showRole();
+		}
+	}
 	</script>
 </head>
 <body>
@@ -535,7 +602,13 @@
 			<ul id="treeOrg" class="ztree"  ></ul>
 	   </div>
 	   <div id="roleContent" class="roleContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
-			<ul id="treeRole" class="ztree" style="margin-top:0;"></ul>
+			<div class=" input_group col-md-3 col-sm-6 col-xs-12 col-lg-12 p0">
+				<div class="w100p">
+			    	<input type="text" id="search" class="fl m0">
+				      <img alt="" style="position:absolute; top:8px;right:10px;" src="${pageContext.request.contextPath }/public/backend/images/view.png"  onclick="searchs()">
+			    </div>
+				<ul id="treeRole" class="ztree" style="margin-top:0;"></ul>
+			</div>
 	   </div>
    	   <sf:form id="form1" action="${pageContext.request.contextPath}/user/save.html" method="post" modelAttribute="user">
 		  <input type="hidden"  name="origin" value="${origin}" />
@@ -724,10 +797,10 @@
 			 	</li>
 			 	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" id="select_org">
 				   	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">
-				   	<c:if test="${typeName!=5&&typeName!=4 }">
+				   	<c:if test="${typeName!=5}">
 				   	<span class="red display-inline" id="isOrgShow">*</span><span id="orgTitle">所属机构</span>
 				   	</c:if>
-				   	<c:if test="${typeName==5||typeName==4 }">
+				   	<c:if test="${typeName==5}">
 				   	<span class="red display-inline" id="isOrgShow">*</span><span id="orgTitle">监管对象</span>
 				   	</c:if>
 				   	</span>
