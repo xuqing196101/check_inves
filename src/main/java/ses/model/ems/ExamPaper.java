@@ -82,6 +82,16 @@ public class ExamPaper {
      * @Fields status :考卷状态
      */
     private String status;
+    
+    /**
+     * @Fields createrId : 创建人
+     */
+    private String createrId;
+    
+    /**
+     * @Fields orgId : 创建单位
+     */
+    private String orgId;
 
 	public String getId() {
 		return id;
@@ -202,4 +212,21 @@ public class ExamPaper {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	public String getCreaterId() {
+		return createrId;
+	}
+
+	public void setCreaterId(String createrId) {
+		this.createrId = createrId;
+	}
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
+	
 }

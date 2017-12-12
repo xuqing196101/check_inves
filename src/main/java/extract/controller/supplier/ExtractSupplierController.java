@@ -106,6 +106,7 @@ public class ExtractSupplierController extends BaseController {
      * @param  model
      * @param  project
      * @return String
+     * @throws Exception 
      */
     @RequestMapping("/projectList")
     public String list(Integer page, Model model, SupplierExtractProjectInfo project,@CurrentUser User user,String startTime,String endTime){
