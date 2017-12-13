@@ -6,8 +6,10 @@
     var defaults = {
       type: 'POST',
       dataType: 'json',
-      url: '',
-      data: {},
+      url: root_url + '/expertAgainAudit/findBatchDetails.do',
+      data: {
+        batchId: $('[name=batchId]').val()
+      },
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
         var userType = data.userType;
@@ -287,9 +289,6 @@
               fixedNumber: 0
             });
           } else if (userType === '6') {
-            // $('#btn_group').html('<button type="button" class="btn btn-windows git" onclick="expert_auditBatch(\''+ root_url +'\')">审核</button>'
-            //   +'<button type="button" onclick="downloadTable(2)" class="btn btn-windows input">下载复审表</button>');
-            
             $('#btn_group').html('<button type="button" class="btn btn-windows reset" onclick="javascript: location.reload()">刷新</button>');
             
             $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped break-all againAudit_table fixedTable">'
@@ -421,7 +420,7 @@
                 }
                 
                 if (list_content.list.list[i].status != "公示中" && list_content.list.list[i].status != "复审合格" && list_content.list.list[i].status != "<span class=\"red\">复审结束</span>" && list_content.list.list[i].status != "复审不合格" && list_content.list.list[i].status != "复审退回修改" && list_content.list.list[i].status != "复查合格" && list_content.list.list[i].status != "复查未合格") {
-                  btn = '<button type="button" class="btn w100p mr0 mb5 canDisable" onclick="expert_auditBatch(\''+ root_url +'\', \''+ list_content.list.list[i].expertId +'\')">复审</button>' + btn;
+                  btn = '<button type="button" class="btn w100p mr0 mb5 canDisable" onclick="expert_auditBatch(\''+ list_content.list.list[i].expertId +'\')">复审</button>' + btn;
                 }
                 
                 $('#list_content').append('<tr>'
@@ -516,14 +515,9 @@
         }
         
         index_load(false);
-        
-        // 构造分页
-        // laypageConstructor();
       },
       error: function (data) {
-        layer.msg(data.message, {
-          offset: '100px'
-        });
+        layer.msg(data.message);
       }
     };
 

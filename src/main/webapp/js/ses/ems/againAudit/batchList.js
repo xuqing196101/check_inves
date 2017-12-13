@@ -6,8 +6,8 @@
     var defaults = {
       type: 'POST',
       dataType: 'json',
-      url: '',
-      batch_url: '',
+      url: root_url + '/expertAgainAudit/findBatch.do',
+      batch_url: root_url + '/expertAgainAudit/findBatchDetailsList.do',
       data: {},
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量

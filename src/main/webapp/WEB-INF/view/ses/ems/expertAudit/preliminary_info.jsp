@@ -36,8 +36,9 @@
       //上一步
       function lastStep() {
     	  var status = $("input[name='status']").val();
-        var sign = $("input[name='sign']").val();
-    	  if(sign == 1 && (status == 5 || status == 10)){
+          var sign = $("input[name='sign']").val();
+          var isReviewRevision = $("input[name='isReviewRevision']").val();
+    	  if(sign == 1 && (status == 5 || status == 10 || (isReviewRevision == 'yes' && status == '3'))){
     		  var action = "${pageContext.request.contextPath}/expertAudit/reasonsList.html";
     	  }else{
     		  var action = "${pageContext.request.contextPath}/expertAudit/expertFile.html";

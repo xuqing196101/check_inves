@@ -655,7 +655,7 @@
                 </div>
                 
                 <!-- 复审退回修改显示 状态为：10 -->
-                <c:if test="${sign == 1 && status eq '10'}">
+                <c:if test="${sign == 1 && (status eq '10' || (isReviewRevision eq 'yes' && status eq '3'))}">
 			            <h2 class="count_flow mt0"><i>3</i>批准初审表</h2>
 			            <ul class="ul_list">
 			              <li class="col-md-6 col-sm-6 col-xs-6">
@@ -774,7 +774,7 @@
                     <c:if test = "${status == '1' || status == '2' && sign eq '1'}" >
                     	<a id="nextStep" class="btn" type="button" onclick="yuNext();">下一步</a>
                     </c:if>
-                    <c:if test = "${sign eq '1' && (status eq '5' || status eq '10')}" >
+                    <c:if test = "${sign eq '1' && (status eq '5' || status eq '10' || (isReviewRevision eq 'yes' && status eq '3'))}" >
                     	<a id="nextStep" class="btn" type="button" onclick="nextStep();">下一步</a>
                     </c:if>
                     <c:if test="${(status eq '4' && sign eq '2' || status eq '-2') && isCheck eq 'no'}">
