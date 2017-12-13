@@ -213,18 +213,19 @@
 		var ids = new Array();
 		var names = new Array();
 		for (var i = 0; i < nodes.length; i++) {
-			if (nodes[i].level == 3 || nodes[i].isParent == false) {
-				//判断当前节点不存在存在于temp集合 就添加到cate集合中
-				/* if (!contains(temp, nodes[i].id)) { */
-				ids.push(nodes[i].id);
-				names.push(nodes[i].name);
-				//若是父节点查询当前的节点的所有子节点
-				/* temp.push(nodes[i].id);
-				if (nodes[i].isParent) {
-					//递归其全部子节点
-					selectAllChildNode(nodes[i]);
+			var rootNode = getCurrentRoot(nodes[i]).name;
+			if(rootNode == "工程"){
+				if(nodes[i].level == 3 || nodes[i].isParent == false || nodes[i].level == 2){
+					//判断当前节点不存在存在于temp集合 就添加到cate集合中
+					ids.push(nodes[i].id);
+					names.push(nodes[i].name);
 				}
-				} */
+			}else{
+				if (nodes[i].level == 3 || nodes[i].isParent == false) {
+					//判断当前节点不存在存在于temp集合 就添加到cate集合中
+					ids.push(nodes[i].id);
+					names.push(nodes[i].name);
+				}
 			}
 		}
 		//是否满足

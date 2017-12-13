@@ -2,6 +2,7 @@ package extract.service.supplier.impl;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -84,22 +85,21 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 			String projectInto) {
 		
 		HashMap<String, Object> map = new HashMap<>();
-		
-		
-		//排除供应商
-		conditionService.excludeSupplier(condition);
-		
-		String typeCode = condition.getSupplierTypeCode();
+				
 		try {
-			//设置抽取条件
-			conditionService.setExtractCondition2(condition, typeCode);
 			//查询当前应抽取人数
 			if(null == condition.getExtractNum()){
-				map.put("error","extractNumError");
+				map.put("error","抽取数量输入有误");
 				return map;
 			}
 			//查询供应商
-			List<Supplier> suppliers = supplierExtRelateMapper.autoExtractSupplierList(condition);
+			Map<String, Object> selectSupplier = conditionService.selectSupplier(condition,2);
+			ArrayList<Supplier> suppliers = new ArrayList<>();
+			if(null == selectSupplier.get("list")){
+				map.put("error","服务异常");
+				return map;
+			}
+			suppliers.addAll((Collection<? extends Supplier>) selectSupplier.get("list"));
 			if(suppliers.size()>0){
 				
 				//存储自动抽取结果
@@ -109,9 +109,8 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 				
 				//调用语音接口
 				String status = callVoiceService2(suppliers,projectInfo);
-				
 				if("500".equals(status)|| StringUtils.isBlank(status)){
-					map.put("error", "语音接口调用异常");
+					map.put("error", "语音服务异常");
 				}
 			}else{
 				//修改项目状态为不满足条件
@@ -122,6 +121,7 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 			}
 			
 		} catch (Exception e) {
+			map.put("error", "语音服务调用异常");
 			e.printStackTrace();
 		}
 		return map;

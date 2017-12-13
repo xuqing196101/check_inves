@@ -1127,10 +1127,11 @@ public class SupplierExtractConditionServiceimp implements
 	
 	/**
 	 * 
-	 * <简述> 查询满足条件的供应商（每个品目对应不同等级）
-	 *
+	 * <简述>查询满足条件的供应商（每个品目对应不同等级）
 	 * @author Jia Chengxiang
-	 * @dateTime 2017-11-29下午7:49:06
+	 * @dateTime 2017-12-13上午10:49:54
+	 * @param condition
+	 * @param type 0 表示查询满足供应商数量人数  1 返回抽取到的供应商（仅返回1人） 2 自动抽取
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
@@ -1198,8 +1199,8 @@ public class SupplierExtractConditionServiceimp implements
 			}
 			if(type == 0){
 				hashMap.put("count", hashSet.size());
-			}else if(type == 1){
-				if(suppliers.size()>0){
+			}else if(type == 1||type == 2){
+				if(suppliers.size()>0 && type == 1){
 					Random random = new Random();
 					int nextInt = random.nextInt(suppliers.size());
 					hashSet.clear();
@@ -1211,7 +1212,7 @@ public class SupplierExtractConditionServiceimp implements
 			return hashMap;
 		}else{
 			//未选择等级
-			 return selectLikeSupplier2(condition, type);
+			 return selectLikeSupplier2(condition, type==2?1:type);
 		}
 	}
 	
@@ -1266,59 +1267,7 @@ public class SupplierExtractConditionServiceimp implements
 						}
 					}
 				}
-			}/*else{
-			
-				for (SupplierItemLevel supplierLevel : setExtractCondition2) {
-					//找出同一个供应商id 
-					if(supplier.getId().equals(supplierLevel.getSupplierId())){
-						//非物资，非工程
-						if(condition.getSupplierTypeCodes().length<2){
-							if(null!=condition.getLevelTypeIds()){
-								//选择了等级约束
-								for (String level : condition.getLevelTypeIds()) {
-									if(supplierLevel.getSupplierLevel().equals(level)){
-										//查询满足条件的记录
-										supplier.setSupplierLevel(level);
-										break first ;
-									}
-								}
-							}else{
-								//并无等级约束
-								supplier.setSupplierLevel(supplierLevel.getSupplierLevel());
-								break first ;
-							}
-						}else if(condition.getSupplierTypeCodes().length==2){
-							//物资类型
-							if(null!=condition.getLevelTypeIds()){
-								supplier.setSupplierTypeId("PRODUCT");
-								//选择了生产等级
-								for (String level : condition.getLevelTypeIds()) {
-									if(supplierLevel.getSupplierLevel().equals(level) &&  supplierLevel.getSupplierTypeId().equals("PRODUCT") ){
-										supplier.setSupplierLevel(level);
-										break first ;
-									}
-								}
-							}else if(supplierLevel.getSupplierTypeId().equals("PRODUCT")){
-								supplier.setSupplierLevel(supplierLevel.getSupplierLevel());
-								break first ;
-							}
-							if(null!=condition.getSalesLevelTypeIds()){
-								supplier.setSupplierTypeId("SALES");
-								//选择了销售等级
-								for(String level : condition.getSalesLevelTypeIds()){
-									if(supplierLevel.getSupplierLevel().equals(level) &&  supplierLevel.getSupplierTypeId().equals("SALES") ){
-										supplier.setSupplierLevel(level);
-										break first ;
-									}
-								}
-							}else if(supplierLevel.getSupplierTypeId().equals("SALES")){
-								supplier.setSupplierLevel(supplierLevel.getSupplierLevel());
-								break first ;
-							}
-						}
-					}
-				}
-			}*/
+			}
 		}
 	}
 }
