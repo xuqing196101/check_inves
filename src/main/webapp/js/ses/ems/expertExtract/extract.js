@@ -907,11 +907,42 @@ function opens(cate) {
             getCount();
         }
         , btn2: function () {
-            opens(cate);
+        	categoryReset(cate);
         }
     });
 }
 
+//品目框重置
+function categoryReset(cate){
+	var typeCode = $(cate).attr("typeCode");
+    var ids = "";
+    var isSatisfy = "1";
+    //获取类别
+    //cate.value = "";
+    //  iframe层
+    var iframeWin;
+    layer.open({
+        type: 2,
+        title: "选择条件",
+        shadeClose: true,
+        shade: 0.01,
+        area: ['440px', '400px'],
+        offset: '20px',
+        skin: "aabbcc",
+        content: globalPath+'/extractExpert/addHeading.do?type='+typeCode+'&&id='+ids+'&&isSatisfy='+isSatisfy, //iframe的url
+        success: function (layero, index) {
+            iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+        },
+        btn: ['保存', '重置']
+        , yes: function () {
+            iframeWin.getChildren(cate);
+            getCount();
+        }
+        , btn2: function () {
+        	categoryReset(cate);
+        }
+    });
+}
 
 /**展示地区*/
 //加载地区树形结构
