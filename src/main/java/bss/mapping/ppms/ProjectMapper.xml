@@ -1341,6 +1341,12 @@
        <!-- <if test="appointMan != null and appointMan != ''">
         and (APPOINT_MAN = #{appointMan} OR APPOINT_MAN IS NULL)
       </if> --> 
+      <if test="purchaseDepIds != null and purchaseDepIds !=''">
+        and TT.PURCHASE_ID in 
+        <foreach item="item" index="index" collection="purchaseDepIds" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+      </if>
       <if test="userId != null and userId != ''">
        and principal=#{userId}
       </if>
@@ -1791,7 +1797,16 @@
 			AND pd.DEPARTMENT like CONCAT(CONCAT('%', #{department}), '%')
 		</if>
 		<if test="orgId != null and orgId != ''">
-			AND AA.ORG_ID = #{orgId}
+			AND AA.ORG_ID in
+			<foreach item="item" index="index" collection="orgId" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="purchaseDepIds != null and purchaseDepIds != ''">
+			AND PP.PURCHASE_DEP_ID in
+			<foreach item="item" index="index" collection="purchaseDepIds" open="(" separator="," close=")">
+				#{item}
+			</foreach>
 		</if>
 		<if test="purchaseDepId != null and purchaseDepId != ''">
 			AND PP.PURCHASE_DEP_ID = #{purchaseDepId}
