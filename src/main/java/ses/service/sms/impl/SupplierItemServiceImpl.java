@@ -529,7 +529,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                     String[] strArray = categoryId.split(",");
                     for(int i=0;i<strArray.length;i++){
                         if(!StringUtils.isEmpty(strArray[i])){
-                            deleteItemsOpertion(strArray[i], supplierItem);？
+                            deleteItemsOpertion(strArray[i], supplierItem);
                         }
                     }
                 }else{
@@ -585,7 +585,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
             while(true){
 
 //            没有同级节点删除父级节点
-                boolean bool = sameCategory(supplierItem.getSupplierId(),parentId,supplierItem.getSupplierTypeRelateId());
+                boolean bool = sameCategory(supplierItem.getSupplierId(),categoryId,parentId,supplierItem.getSupplierTypeRelateId());
                 if(bool==false){
                     Category category = categoryService.findById(parentId);
                     if(category != null){
@@ -599,6 +599,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                             item.setSupplierTypeRelateId(supplierItem.getSupplierTypeRelateId());
                     		item.setCategoryId(category.getId());
                             itemList.add(item);
+                            categoryId = category.getId();
                             parentId = category.getParentId();
                         }else{
                             break  ;
@@ -698,18 +699,20 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	}
 	
 	//查询供应商品目中间表是否还有同级
-	public boolean sameCategory(String supplierId,String categoryId,String supplierType){
-		boolean bool=false;
+	public boolean sameCategory(String supplierId,String currentId,String parentId,String supplierType){
+		boolean bool = false;
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("supplierId", supplierId);
 		param.put("type", supplierType);
-		List<SupplierItem> allCategory = supplierItemMapper.findByMap(param);
-		for (SupplierItem category : allCategory) {
-			Category node = categoryService.findById(category.getCategoryId());
-			if (node != null) {
-				if (categoryId.equals(node.getParentId())) {
-					bool = true;
-					break;
+		List<SupplierItem> allItems = supplierItemMapper.findByMap(param);
+		for (SupplierItem item : allItems) {
+			if(!currentId.equals(item.getCategoryId())){
+				Category node = categoryService.findById(item.getCategoryId());
+				if (node != null) {
+					if (parentId.equals(node.getParentId())) {
+						bool = true;
+						break;
+					}
 				}
 			}
 		}
