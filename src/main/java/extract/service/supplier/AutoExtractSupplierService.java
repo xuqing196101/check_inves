@@ -80,7 +80,4 @@ public interface AutoExtractSupplierService {
 		Date synchDate);
 
   void selectAutoExtractProject(Date start, Date end);
-
-
-
 }

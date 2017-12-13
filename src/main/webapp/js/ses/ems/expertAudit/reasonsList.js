@@ -7,7 +7,14 @@ $(function () {
 
     // 将审核意见的radio选中
     var hiddenSelectOptionId = $("#hiddenSelectOptionId").val();
-    $("input[name='selectOption'][value='"+hiddenSelectOptionId+"']").prop("checked",true);
+    
+    var passTypeNumber = $("#passTypeNumber").val();
+    //计算通过的类别数量，全部类别不通过就不选中
+    if(passTypeNumber == 0 && hiddenSelectOptionId == -3){
+    	$("input[name='selectOption'][value='"+hiddenSelectOptionId+"']").prop("checked",false);
+    }else{
+    	$("input[name='selectOption'][value='"+hiddenSelectOptionId+"']").prop("checked",true);
+    }
     // 预复审合格状态
     if(status == -2 || status == -3 || status == 5 || (sign ==2 && status == 6)){
         /*$("#checkWord").show();*/
@@ -33,7 +40,7 @@ $(function () {
             return;
         }
         if(selectedVal == '10'){
-       		$("#cate_result").html("退回修改 。");
+       		$("#cate_result").html("复审退回修改 。");
        	}
         
         // 判断意见是否已经获取，有的话不再发送请求
@@ -321,7 +328,7 @@ function seeItemsOpinion(expertId,opinion,status){
     }else if(checkVal == 5) {
       $("#cate_result").html("复审不合格。" + opinion);
     }else if(checkVal == 10) {
-      $("#cate_result").html("退回修改。" + opinion);
+      $("#cate_result").html("复审退回修改。" + opinion);
     }
     
     function trim(str) { //删除左右两端的空格

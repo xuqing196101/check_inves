@@ -276,5 +276,16 @@ public interface SupplierExtractRelateResultMapper {
 	 */
 	SupplierExtractResult selectAdvByPrimaryKey(String id);
 
+	/**
+	 * 
+	 * <简述>查询供应商（需求变更每个品目不同等级） 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-11-29下午8:43:17
+	 * @param condition
+	 * @return
+	 */
+	List<Supplier> selectSuppleir(SupplierExtractCondition condition);
+
 	
 }

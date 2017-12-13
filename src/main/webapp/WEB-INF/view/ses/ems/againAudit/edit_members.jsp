@@ -123,26 +123,15 @@
   </div>
   <!-- End 设置密码弹出窗 -->
   
-  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/editMembers.js"></script>
-  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
+  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/editMembers.js"></script><!-- 列表构造 -->
+  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script><!-- 公共方法库 -->
   <script>
-    var list_url = '${pageContext.request.contextPath}/expertAgainAudit/findExpertReviewTeam.do';  // 列表地址
-    var add_url = '${pageContext.request.contextPath}/expertAgainAudit/addExpertReviewTeam.do';  // 添加地址
-    var del_url = '${pageContext.request.contextPath}/expertAgainAudit/deleteExpertReviewTeam.do';  // 删除地址
-    var setPwd_url = '${pageContext.request.contextPath}/expertAgainAudit/setUpPassword.do';  // 设置密码地址
-    var usernameOnly_url = '${pageContext.request.contextPath}/expertAgainAudit/checkLoginName.do';  // 用户名唯一验证地址
-    var save_url = '${pageContext.request.contextPath}/expertAgainAudit/preservationExpertReviewTeam.do';  // 结束审核组成员配置
-    var history_url = '${pageContext.request.contextPath}/expertAgainAudit/selectReviewTeamAll.do';  // 导入历史人员地址
-    var select_ids = [];
+    var root_url = '${pageContext.request.contextPath}';  // 根目录地址
+    var select_ids = [];// 已选的专家id集合
     var list = [];  // 保存新增数组
     
     $(function () {
-      $('#list_content').listConstructor({
-        url: list_url,
-        data: {
-          groupId: getUrlParam('groupId')
-        }
-      });
+      $('#list_content').listConstructor();
     });
   </script>
     

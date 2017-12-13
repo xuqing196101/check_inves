@@ -273,5 +273,7 @@ public interface EngCategoryMapper {
 	 */
 	List<Category> selectExportExcelData(Map<String,Object> map);
 	
+    List<Category> searchByCodeandName(@Param("cateName") String cateName, @Param("codeName") String codeName, @Param("isjj")String isjj);
+    
 	Category selectById(@Param("id") String id);
 }

@@ -2,13 +2,23 @@
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<%@ include file="/WEB-INF/view/common.jsp" %>
+<head>
+<%@ include file="/WEB-INF/view/common.jsp" %>
 <script type="text/javascript">
 	var key;
 	var zTreeObj;
 	var temp = new Array();
+	var idTemp = new Array();
+	var nameTemp = new Array();
 	$(function() {
+		var idArr = '${ids}';
+		var nameArr = '${names}';
+		if(idArr != ""){
+			Array.prototype.push.apply(idTemp, idArr.split(","));
+		}
+		if(nameArr != ""){
+			Array.prototype.push.apply(nameTemp, nameArr.split(","));
+		}
 		var zNodes;
 		loadZtree();
 		//加载目录树
@@ -60,14 +70,59 @@
 	};
 	
 	function zTreeBeforeCheck(treeId, treeNode){
-		if (treeNode.level != 3 && treeNode.isParent == true) {
-	          layer.msg("请在末节点上进行操作！");
-	          return false;
-	    }else{
-	    	return true;
+		var rootNode = getCurrentRoot(treeNode).name;
+		if(rootNode == "工程"){
+			if(treeNode.level != 3 && treeNode.isParent == true && treeNode.level != 2){
+				layer.msg("不能选择当前节点！");
+				return false;
+			} else {
+				if (treeNode.checked) {
+					//取消勾选
+					if (contains(idTemp, treeNode.id)) {
+						removeByValue(idTemp, treeNode.id);
+						removeByValue(nameTemp, treeNode.name);
+					}
+				} else {
+					//勾选
+					if (!contains(idTemp, treeNode.id)) {
+						idTemp.push(treeNode.id);
+						nameTemp.push(treeNode.name);
+					}
+				}
+				return true;
+			}
+		}else{
+			if (treeNode.level != 3 && treeNode.isParent == true) {
+				layer.msg("不能选择当前节点！");
+				return false;
+			} else {
+				if (treeNode.checked) {
+					//取消勾选
+					if (contains(idTemp, treeNode.id)) {
+						removeByValue(idTemp, treeNode.id);
+						removeByValue(nameTemp, treeNode.name);
+					}
+				} else {
+					//勾选
+					if (!contains(idTemp, treeNode.id)) {
+						idTemp.push(treeNode.id);
+						nameTemp.push(treeNode.name);
+					}
+				}
+				return true;
+			}
+		}
+	}
+
+	function getCurrentRoot(treeNode) {
+	    if (treeNode.getParentNode() != null) {
+	        var parentNode = treeNode.getParentNode();
+	        return getCurrentRoot(parentNode);
+	    } else {
+	        return treeNode;
 	    }
 	}
-	
+
 	//过滤父节点选中子节点 默认选中
 	function ajaxDataFilter(treeId, parentNode, responseData) {
 		if (responseData[0].name != "物资" && responseData[0].name != "工程"
@@ -79,17 +134,18 @@
 			}
 		}
 		// 判断是否为空
-		if(responseData) {
+		if (responseData) {
 			// 判断如果父节点是第三级,则将查询出来的子节点全部改为isParent = false
-			if(parentNode != null && parentNode != "undefined" && parentNode.level == 2) {
-				for(var i = 0; i < responseData.length; i++) {
+			if (parentNode != null && parentNode != "undefined"
+					&& parentNode.level == 2) {
+				for (var i = 0; i < responseData.length; i++) {
 					responseData[i].isParent += false;
 				}
 			}
 		}
 		return responseData;
 	}
-	
+
 	function focusKey(e) {
 		if (key.hasClass("empty")) {
 			key.removeClass("empty");
@@ -101,7 +157,7 @@
 			key.addClass("empty");
 		}
 	}
-	
+
 	var lastValue = "", nodeList = [], fontCss = {};
 
 	function clickRadio(e) {
@@ -157,25 +213,26 @@
 		var ids = new Array();
 		var names = new Array();
 		for (var i = 0; i < nodes.length; i++) {
-			if (nodes[i].level == 3 || nodes[i].isParent == false) {
-				//判断当前节点不存在存在于temp集合 就添加到cate集合中
-				/* if (!contains(temp, nodes[i].id)) { */
+			var rootNode = getCurrentRoot(nodes[i]).name;
+			if(rootNode == "工程"){
+				if(nodes[i].level == 3 || nodes[i].isParent == false || nodes[i].level == 2){
+					//判断当前节点不存在存在于temp集合 就添加到cate集合中
 					ids.push(nodes[i].id);
 					names.push(nodes[i].name);
-					//若是父节点查询当前的节点的所有子节点
-					/* temp.push(nodes[i].id);
-					if (nodes[i].isParent) {
-						//递归其全部子节点
-						selectAllChildNode(nodes[i]);
-					}
-				} */
+				}
+			}else{
+				if (nodes[i].level == 3 || nodes[i].isParent == false) {
+					//判断当前节点不存在存在于temp集合 就添加到cate集合中
+					ids.push(nodes[i].id);
+					names.push(nodes[i].name);
+				}
 			}
 		}
 		//是否满足
 		var issatisfy = $('input[name="radio"]:checked ').val();
 		if (cate != null) {
-			$(cate).val(names.toString());/* 将选中目录名称显示在输入框中 */
-			$(cate).parents("li").find(".categoryId").val(ids.toString());
+			$(cate).val(nameTemp.toString());/* 将选中目录名称显示在输入框中 */
+			$(cate).parents("li").find(".categoryId").val(idTemp.toString());
 			$(cate).parents("li").find(".isSatisfy").val(issatisfy);
 		}
 		var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
@@ -196,7 +253,7 @@
 			}
 		}
 	}
-	
+
 	//判断数组中是否包含此元素
 	function contains(arr, val) {
 		for (i in arr) {
@@ -205,7 +262,16 @@
 		}
 		return false;
 	}
-	
+
+	//删除数组中元素
+	function removeByValue(arr, val) {
+		for (var i = 0; i < arr.length; i++) {
+			if (arr[i] == val) {
+				arr.splice(i, 1);
+				break;
+			}
+		}
+	}
 	function exptype() {
 		$("#ztree").css("display", "none");
 		$("#liradio").css("display", "none");
@@ -216,7 +282,7 @@
 			}
 		}
 	}
-	
+
 	function exptype1() {
 		$("#ztree").css("display", "block");
 		$("#liradio").css("display", "block");
@@ -227,7 +293,6 @@
 	//品目搜索
 	function searchCate() {
 		var code = '${type}';
-		var ids = '${ids}';
 		var zTreeObj;
 		var setting = {
 			check : {
@@ -249,6 +314,7 @@
 			},
 			callback : {
 				onCheck : onCheck,
+				beforeCheck : zTreeBeforeCheck,
 			},
 			view : {
 				fontCss : getFontCss,
@@ -264,23 +330,24 @@
 		if (cateName == "" && codeName == "") {
 			location.reload();
 		} else {
-			$.ajax({
-				url : "${pageContext.request.contextPath}/extractExpert/searchCate.do",
-				type : "post",
-				data : {
-					"code" : code,
-					"cateName" : cateName,
-					"ids" : ids,
-					"codeName" : codeName,
-				},
-				async : false,
-				dataType : "json",
-				success : function(data) {
-					zTreeObj = $.fn.zTree.init($("#ztree"), setting,
-							data);
-					zTreeObj.expandAll(true); //全部展开
-				}
-			});
+			$
+					.ajax({
+						url : "${pageContext.request.contextPath}/extractExpert/searchCate.do",
+						type : "post",
+						data : {
+							"code" : code,
+							"cateName" : cateName,
+							"ids" : idTemp.toString(),
+							"codeName" : codeName,
+						},
+						async : false,
+						dataType : "json",
+						success : function(data) {
+							zTreeObj = $.fn.zTree.init($("#ztree"), setting,
+									data);
+							zTreeObj.expandAll(true); //全部展开
+						}
+					});
 		}
 		layer.close(index);
 		// 过滤掉四级以下的节点
@@ -293,6 +360,12 @@
 				}
 			}
 		}, 200);
+	}
+
+	//重置
+	function reset() {
+		$("#key").val("");
+		$("#codeName").val("");
 	}
 </script>
 </head>
@@ -326,6 +399,7 @@
 				目录编码：<input type="text" id="codeName" class="mr3 empty w125" name="codeName">
 				<div class="tc">
 					<input type="button" id="search" class="btn" value="搜索" onclick="searchCate()">
+					<input type="button" id="search" class="btn" value="重置" onclick="reset()">
 				</div>
 				<div class="clear"></div>
 			</div>

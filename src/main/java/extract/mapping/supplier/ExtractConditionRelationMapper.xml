@@ -6,13 +6,46 @@
 		<result column="CONDITION_ID" jdbcType="TIMESTAMP" property="conditionId" />
 		<result column="PROPERTY_NAME" jdbcType="DECIMAL" property="propertyName" />
 		<result column="PROPERTY_VALUE" jdbcType="VARCHAR" property="propertyValue" />
+		<result column="CATE_LEVEL" jdbcType="VARCHAR" property="cateLevel" />
 	</resultMap>
+
+	<sql id="base_column">
+		CONDITION_ID,PROPERTY_NAME,PROPERTY_VALUE,CATE_LEVEL
+	</sql>
 
 	<insert id="insertConditionRelation" parameterType="java.util.List">
 		INSERT ALL
 		<foreach collection="list" item="item" separator="">
-			INTO T_SES_SMS_EXTRACT_CONDITIONS (CONDITION_ID,PROPERTY_NAME,PROPERTY_VALUE) VALUES
-			(#{item.conditionId,jdbcType=VARCHAR},#{item.propertyName,jdbcType=VARCHAR},#{item.propertyValue,jdbcType=VARCHAR})
+			INTO T_SES_SMS_EXTRACT_CONDITIONS 
+				<trim prefix="(" suffixOverrides="," suffix=")">
+					<if test="item.conditionId !='' and item.conditionId != null ">
+						CONDITION_ID,
+					</if>
+					<if test="item.propertyName !='' and item.propertyName != null ">
+						PROPERTY_NAME,
+					</if>
+					<if test="item.propertyValue !='' and item.propertyValue != null ">
+						PROPERTY_VALUE,
+					</if>
+					<if test="item.cateLevel !='' and item.cateLevel != null ">
+						CATE_LEVEL
+					</if>
+				</trim>
+			VALUES
+				<trim prefix="(" suffixOverrides="," suffix=")">
+					<if test="item.conditionId !='' and item.conditionId != null ">
+						#{item.conditionId,jdbcType=VARCHAR},
+					</if>
+					<if test="item.propertyName !='' and item.propertyName != null ">
+						#{item.propertyName,jdbcType=VARCHAR},
+					</if>
+					<if test="item.propertyValue !='' and item.propertyValue != null ">
+						#{item.propertyValue,jdbcType=VARCHAR},
+					</if>
+					<if test="item.cateLevel !='' and item.cateLevel != null ">
+						#{item.cateLevel,jdbcType=VARCHAR}
+					</if>
+				</trim>
 		</foreach>
 		SELECT 1 FROM DUAL
 	</insert>	
@@ -22,15 +55,20 @@
 	</delete>
 	
 	<!-- 按条件id 和 属性名查询 -->
-		<select id="getByMap" parameterType="map" resultType="java.lang.String">
-			SELECT PROPERTY_VALUE FROM T_SES_SMS_EXTRACT_CONDITIONS WHERE CONDITION_ID = #{conditionId} AND PROPERTY_NAME = #{propertyName}
-		</select>
+	<select id="getByMap" parameterType="map" resultType="java.lang.String">
+		SELECT PROPERTY_VALUE FROM T_SES_SMS_EXTRACT_CONDITIONS WHERE CONDITION_ID = #{conditionId} AND PROPERTY_NAME = #{propertyName}
+	</select>
 	<!-- 查询详细抽取条件 -->
-		<select id="getConTypeList" parameterType="java.lang.String" resultMap="base_info">
-			SELECT PROPERTY_NAME,PROPERTY_VALUE FROM  T_SES_SMS_EXTRACT_CONDITIONS WHERE CONDITION_ID = #{value}
-		</select>
+	<select id="getConTypeList" parameterType="java.lang.String" resultMap="base_info">
+		SELECT PROPERTY_NAME,PROPERTY_VALUE FROM  T_SES_SMS_EXTRACT_CONDITIONS WHERE CONDITION_ID = #{value} AND CATE_LEVEL IS NULL
+	</select>
 	<!-- 修改属性值 -->	
-		<update id="updateByMap" parameterType="map" >
-			UPDATE T_SES_SMS_EXTRACT_CONDITIONS SET PROPERTY_VALUE = #{propertyValue} WHERE CONDITION_ID = #{conditionId} AND PROPERTY_NAME = #{propertyName}
-		</update>
+	<update id="updateByMap" parameterType="map" >
+		UPDATE T_SES_SMS_EXTRACT_CONDITIONS SET PROPERTY_VALUE = #{propertyValue} WHERE CONDITION_ID = #{conditionId} AND PROPERTY_NAME = #{propertyName}
+	</update>
+	<select id="getCateAndLevelByMap" parameterType="map" resultMap="base_info">
+		SELECT CONDITION_ID,PROPERTY_NAME,CATE.NAME PROPERTY_VALUE,NVL(CATE_LEVEL,'全部级别') CATE_LEVEL FROM T_SES_SMS_EXTRACT_CONDITIONS C
+		LEFT JOIN T_SES_BMS_CATEGORY CATE ON C.PROPERTY_VALUE = CATE.ID
+		WHERE CONDITION_ID = #{conditionId} AND PROPERTY_NAME = #{propertyName}
+	</select>
 </mapper>

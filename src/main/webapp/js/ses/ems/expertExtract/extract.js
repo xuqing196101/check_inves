@@ -152,7 +152,31 @@ function validationIsNull(code){
     //项目编号
     var xmProjectId = $("#xmProjectId").val();
     if(xmProjectId == null || xmProjectId == ''){
-    	vaCode();
+        var projectCode = $("#projectCode").val();
+        if(projectCode == null || projectCode == ""){
+            $("#err_code").html("项目编号不能为空");
+        }else{
+            // 验证项目编号重复校验
+            $.ajax({
+                url : globalPath + "/extractExpert/vaProjectCode.do",
+                data : {
+                    "code" : projectCode,
+                    "xmProjectId" : xmProjectId
+                },
+                dataType : "json",
+                async : false,
+                type : "POST",
+                success : function(data) {
+                    if(data.status == "no"){
+                        $("#err_code").html("项目编号已被使用");
+                        flag = false;
+                        layer.msg("请完善项目信息");
+                    }else{
+                        $("#err_code").html("");
+                    }
+                }
+            });
+        }
     }
     // 评审时间
     var reviewTime = $("#reviewTime").val();
@@ -862,7 +886,7 @@ function opens(cate) {
     var ids = coUndifined($("#"+typeCode.toLowerCase()+"_type").val());
     var isSatisfy = coUndifined($("#"+typeCode.toLowerCase()+"_isSatisfy").val());
     //获取类别
-    cate.value = "";
+    //cate.value = "";
     //  iframe层
     var iframeWin;
     layer.open({
@@ -883,11 +907,42 @@ function opens(cate) {
             getCount();
         }
         , btn2: function () {
-            opens(cate);
+        	categoryReset(cate);
         }
     });
 }
 
+//品目框重置
+function categoryReset(cate){
+	var typeCode = $(cate).attr("typeCode");
+    var ids = "";
+    var isSatisfy = "1";
+    //获取类别
+    //cate.value = "";
+    //  iframe层
+    var iframeWin;
+    layer.open({
+        type: 2,
+        title: "选择条件",
+        shadeClose: true,
+        shade: 0.01,
+        area: ['440px', '400px'],
+        offset: '20px',
+        skin: "aabbcc",
+        content: globalPath+'/extractExpert/addHeading.do?type='+typeCode+'&&id='+ids+'&&isSatisfy='+isSatisfy, //iframe的url
+        success: function (layero, index) {
+            iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+        },
+        btn: ['保存', '重置']
+        , yes: function () {
+            iframeWin.getChildren(cate);
+            getCount();
+        }
+        , btn2: function () {
+        	categoryReset(cate);
+        }
+    });
+}
 
 /**展示地区*/
 //加载地区树形结构
@@ -1413,8 +1468,6 @@ function vaCode(){
             success : function(data) {
                 if(data.status == "no"){
                     $("#err_code").html("项目编号已被使用");
-                    flag = false;
-                    layer.msg("请完善项目信息");
                 }else{
                     $("#err_code").html("");
                 }

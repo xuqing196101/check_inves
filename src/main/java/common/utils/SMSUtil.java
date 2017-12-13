@@ -11,19 +11,18 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.codec.binary.Base64;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import system.model.sms.SmsRecord;
 import system.service.sms.SmsRecordService;
-
-import com.alibaba.fastjson.JSON;
 /**
  * 
  * Description: 短信工具类
@@ -77,15 +76,29 @@ public class SMSUtil {
         pool.submit(new SMSRunnable(mobile, msg));
         pool.shutdown();*/
     	String result = requestMsg(smsRecord.getReceiveNumber(),smsRecord.getSendContent());
+    	String restatus = "";
+    	String msgId = "";
+    	try {
+        	JSONObject obj = new JSONObject(result);
+        	restatus = obj.getString("RetCode");
+            JSONArray jsonArray = obj.getJSONArray("Rets");
+            if(jsonArray != null && jsonArray.length() > 0){
+            	JSONObject rets = (JSONObject)jsonArray.get(0);
+            	msgId = rets.getString("MsgId");
+            }
+		} catch (Exception e) {
+			System.out.println("JSON 解析异常");
+		}
     	smsRecord.setId(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase());
     	smsRecord.setSendTime(new Date());
     	smsRecord.setUpdatedAt(new Date());
     	smsRecord.setIsDeleted((short)0);
-    	if("0".equals(result)){
-    		smsRecord.setStatus("0");
+    	if("0".equals(restatus)){ 
+    		smsRecord.setStatus("2");
+    		smsRecord.setMsgId(msgId);
     	}else{
     		smsRecord.setStatus("1");
-    		smsRecord.setFailReason(getResultStatus(result));
+    		smsRecord.setFailReason(getResultStatus(restatus));
     	}
     	smsUtil.smsRecordService.insertSelective(smsRecord);
     }
@@ -116,9 +129,7 @@ public class SMSUtil {
         } catch (Exception e) {
             result = "send msg error!" + e;
         }
-        @SuppressWarnings("unchecked")
-		Map<String, Object> map = (Map<String, Object>)JSON.parse(result);
-        return (String)map.get("RetCode");
+       return result;
     }
 
     /**
@@ -308,6 +319,27 @@ public class SMSUtil {
 				break;
 			case "199" :
 				result = "无此类型接口权限";
+				break;
+			case "EXPIRED" :
+				result = "短消息超过有效期";
+				break;
+			case "UNDELIV" :
+				result = "短消息是不可达的";
+				break;
+			case "UNKNOWN" :
+				result = "未知短消息状态";
+				break;
+			case "REJECTD" :
+				result = "短消息被短信中心拒绝";
+				break;
+			case "DTBLACK" :
+				result = "目的号码是黑名单号码";
+				break;
+			case "ERR:104" :
+				result = "系统忙";
+				break;
+			case "REJECT" :
+				result = "审核驳回";
 				break;
 		}
 		return result;

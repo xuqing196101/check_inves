@@ -68,4 +68,17 @@ public interface SupplierExtractRecordMapper {
 	 * @return
 	 */
 	List<SupplierExtractProjectInfo> selectAutoExtractProject();
+
+
+	/**
+	 * 复制项目信息再生成一条新的记录
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-12-11上午9:59:04
+	 * @param rid_new 新纪录的id
+	 * @param cid_new 新记录抽取条件id
+	 * @param recordId 查询条件id
+	 */
+	void copyRecordToAgainByRid(@Param("rid")String rid_new, @Param("cid")String cid_new,@Param("recordId") String recordId);
 }

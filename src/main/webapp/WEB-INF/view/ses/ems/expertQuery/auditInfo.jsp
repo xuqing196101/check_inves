@@ -37,7 +37,6 @@
         }else{
         	yu='';
         } */
-        
         if(status != null && typeof(status) != "undefined") {
         	if(status == 15){
         		$.ajax({
@@ -57,9 +56,9 @@
                     }
                });
         	}else if(status == 16) {
-                $("#check_opinion").html("初审不合格。");
+                $("#check_opinion").html("初审不合格。" + opinion);
             }else if(status == 3) {
-                $("#check_opinion").html("退回修改。");
+                $("#check_opinion").html("退回修改。" + opinion);
             }
         	
         	/*
@@ -67,10 +66,10 @@
         	*/
         }else if(status == null || typeof(status) == "undefined"){
         	if(expertStatus == 2 || expertStatus == 16){
-        		$("#check_opinion").html("初审不合格。");
+        		$("#check_opinion").html("初审不合格。" + opinion);
         	}else if(expertStatus == 3){
-        		$("#check_opinion").html("退回修改。");
-        	}else{
+        		$("#check_opinion").html("退回修改。" + opinion);
+        	}else if(expertStatus != -1){
 	       		$.ajax({
                    url:globalPath + "/expertAudit/findCategoryCount.do",
                    data: {

@@ -547,16 +547,19 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 				// 查询专家类别
 				if(expertPublicity.getExpertsTypeId() != null){
 					for(String typeId: expertPublicity.getExpertsTypeId().split(",")) {
-	                    DictionaryData data = DictionaryDataUtil.findById(typeId);
-	                    if(data != null){
-	                    	if(6 == data.getKind()) {
-	                    		sb.append(data.getName() + "技术" + StaticVariables.COMMA_SPLLIT);
-	                        } else {
-	                        	sb.append(data.getName() + StaticVariables.COMMA_SPLLIT);
-	                        }
-	                    }
-	                    
-	                }
+						
+						Integer noPassTypeByExpertId = expertAuditMapper.selectNoPassType(expertPublicity.getId(), typeId);
+						if(noPassTypeByExpertId == 0 ){
+							DictionaryData data = DictionaryDataUtil.findById(typeId);
+		                    if(data != null){
+		                    	if(6 == data.getKind()) {
+		                    		sb.append(data.getName() + "技术" + StaticVariables.COMMA_SPLLIT);
+		                        } else {
+		                        	sb.append(data.getName() + StaticVariables.COMMA_SPLLIT);
+		                        }
+		                    }
+						}
+					}
 					if(sb.length() > 0){
 						String expertsType = sb.toString().substring(0, sb.length() - 1);
 						expertPublicity.setExpertsTypeId(expertsType);
@@ -1041,5 +1044,25 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 			e.printStackTrace();
 		}
 		return typeErrorField;
+	}
+	
+	
+	 /**
+	    *计算通过的类别数量
+	    * @param expertId
+	    */
+	@Override
+	public Integer passTypeNumber(String expertId) {
+		Expert expert = expertMapper.selectByPrimaryKey(expertId);
+		String expertsTypeId = expert.getExpertsTypeId();
+		String[] types = expertsTypeId.split(",");
+		Integer typeNum = types.length;
+		for(String typeId : types){
+			Integer selectNoPassType = mapper.selectNoPassType(expertId, typeId);
+			if(selectNoPassType > 0){
+				typeNum -= 1;
+			}
+		}
+		return typeNum;
 	}
 }

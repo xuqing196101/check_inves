@@ -55,6 +55,11 @@ public class SmsRecord {
      * 失败原因
      */
     private String failReason;
+    
+    /**
+     * 记录接口返回的短信id
+     */
+    private String msgId;
 
     /**
      * 修改时间
@@ -232,6 +237,14 @@ public class SmsRecord {
 
 	public void setOrgId(String orgId) {
 		this.orgId = orgId;
+	}
+
+	public String getMsgId() {
+		return msgId;
+	}
+
+	public void setMsgId(String msgId) {
+		this.msgId = msgId;
 	}
     
 }

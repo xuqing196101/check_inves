@@ -57,7 +57,7 @@ public class ExamPaperServiceImpl implements ExamPaperServiceI {
 	public List<ExamPaper> queryAllPaper(ExamPaper examPaper,Integer pageNum) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
-		return examPaperMapper.queryAllPaper(examPaper,pageNum);
+		return examPaperMapper.queryAllPaper(examPaper);
 	}
 
 

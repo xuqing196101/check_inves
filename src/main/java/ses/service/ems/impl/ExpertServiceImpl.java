@@ -33,6 +33,7 @@ import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.ems.ExpertAttachmentMapper;
 import ses.dao.ems.ExpertAuditMapper;
+import ses.dao.ems.ExpertBatchDetailsMapper;
 import ses.dao.ems.ExpertBlackListMapper;
 import ses.dao.ems.ExpertCategoryMapper;
 import ses.dao.ems.ExpertMapper;
@@ -50,6 +51,7 @@ import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAttachment;
 import ses.model.ems.ExpertAudit;
+import ses.model.ems.ExpertBatchDetails;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertHistory;
 import ses.model.ems.ExpertPictureType;
@@ -131,6 +133,9 @@ public class ExpertServiceImpl implements ExpertService {
     
    @Autowired
    private DeleteLogMapper deleteLogMapper;
+   
+   @Autowired
+   private ExpertBatchDetailsMapper expertbatchdetailsmapper;
    
 	@Override
 	public void deleteByPrimaryKey(String id) {
@@ -418,10 +423,10 @@ public class ExpertServiceImpl implements ExpertService {
 				if(expert.getIsSubmit().equals("0") && !expert.getIsBlack().equals("1") && !expert.getStatus().equals("3")){
 					//未提交
 					map.put("expert", "4");
-				} else if(expert.getStatus().equals("2") || expert.getStatus().equals("16")){
+				} else if(expert.getStatus().equals("2")){
 					//审核未通过
 					map.put("expert", "5");
-				} else if((expert.getStatus().equals("4")  && 0 == expert.getIsProvisional())|| expert.getStatus().equals("15")){
+				} else if((expert.getStatus().equals("4")  && 0 == expert.getIsProvisional())){
 					//初审已通过，待复审
 					map.put("expert", "8");
 				} else if(expert.getIsBlack().equals("1") || expert.getStatus().equals("12")){
@@ -463,6 +468,8 @@ public class ExpertServiceImpl implements ExpertService {
 				}else if(("11").equals(expert.getStatus()) || ("14").equals(expert.getStatus())){
 					//复审中的状态
 					map.put("expert", "inReview");
+				}else if("16".equals(expert.getStatus()) || "15".equals(expert.getStatus())){
+					map.put("expert", "firstAuditEnd");
 				}
 			}else{
 				//如果专家信息为空 证明还没有填写过个人信息
@@ -1413,7 +1420,7 @@ public class ExpertServiceImpl implements ExpertService {
 
 	/**
      * @Title: findLogoutList
-     * @author XuQing 
+     * @author  
      * @date 2017-4-11 下午4:08:04  
      * @Description:注销列表
      * @param @param expert
@@ -1433,7 +1440,7 @@ public class ExpertServiceImpl implements ExpertService {
 
 	 /**
      * @Title: updateExtractOrgidById
-     * @author XuQing 
+     * @author  
      * @date 2017-4-24 下午1:45:35  
      * @Description:抽取的机构id
      * @param @param expert      
@@ -1447,7 +1454,7 @@ public class ExpertServiceImpl implements ExpertService {
 
 	/**
      * @Title: updateIsDeleteById
-     * @author XuQing 
+     * @author  
      * @date 2017-5-2 下午5:25:39  
      * @Description:软删除历史信息
      * @param @param expertId      
@@ -1465,7 +1472,22 @@ public class ExpertServiceImpl implements ExpertService {
 			page = StaticVariables.DEFAULT_PAGE;
 		}
 		PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSize")));
-		return mapper.selectRuKuExpert(expert);
+		List<Expert> selectRuKuExpert = mapper.selectRuKuExpert(expert);
+		
+		//专家编号
+		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
+		try {
+			for(Expert e : selectRuKuExpert){
+				String expertId = e.getId();
+				expertBatchDetails.setExpertId(expertId);
+				ExpertBatchDetails findExpertBatchDetailsOfOne = expertbatchdetailsmapper.findExpertBatchDetailsOfOne(expertBatchDetails);
+				e.setBatchDetailsNumber(findExpertBatchDetailsOfOne.getBatchDetailsNumber());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return selectRuKuExpert;
 	}
 
     @Override

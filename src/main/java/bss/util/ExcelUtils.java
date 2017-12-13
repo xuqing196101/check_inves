@@ -2,6 +2,7 @@ package bss.util;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
@@ -95,7 +96,8 @@ public class ExcelUtils {
 
     DecimalFormat floatDecimalFormat = new DecimalFormat(floatDecimal);
     DecimalFormat doubleDecimalFormat = new DecimalFormat(doubleDecimal);
-    private SXSSFWorkbook workbook = null;
+    //private SXSSFWorkbook workbook = null;
+    private HSSFWorkbook workbook = null;
 
     // 内存中缓存记录行数
     private int size;
@@ -104,7 +106,7 @@ public class ExcelUtils {
         this.fileDir = fileDir;
         this.sheetName = sheetName;
         this.size = size;
-        workbook = new SXSSFWorkbook(size);
+        workbook = new HSSFWorkbook();
     }
 
     public ExcelUtils(HttpServletResponse response, String fileName, String sheetName, Integer size) {
@@ -112,7 +114,7 @@ public class ExcelUtils {
         this.sheetName = sheetName;
         this.fileName = fileName;
         this.size = size;
-        workbook = new SXSSFWorkbook(size);
+        workbook = new HSSFWorkbook();
     }
 
     public Integer[] getFreezePane() {
@@ -242,11 +244,10 @@ public class ExcelUtils {
      * @param hssfCell
      * @return
      */
-    @SuppressWarnings({"static-access", "deprecation"})
     public static String getHValue(HSSFCell hssfCell) {
-        if (hssfCell.getCellType() == hssfCell.CELL_TYPE_BOOLEAN) {
+        if (hssfCell.getCellType() == HSSFCell.CELL_TYPE_BOOLEAN) {
             return String.valueOf(hssfCell.getBooleanCellValue());
-        } else if (hssfCell.getCellType() == hssfCell.CELL_TYPE_NUMERIC) {
+        } else if (hssfCell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
             String cellValue = "";
             if (HSSFDateUtil.isCellDateFormatted(hssfCell)) {
                 Date date = HSSFDateUtil.getJavaDate(hssfCell.getNumericCellValue());
@@ -341,7 +342,7 @@ public class ExcelUtils {
             } else {
                 //否则，直接写到输出流中
                 out = response.getOutputStream();
-                fileName = fileName + OFFICE_EXCEL_2007_POSTFIX;
+                fileName = fileName + OFFICE_EXCEL_2003_POSTFIX;
                 response.setContentType("application/x-msdownload");
                 response.setHeader("Content-Disposition", "attachment; filename="
                         + URLEncoder.encode(fileName, "UTF-8"));

@@ -805,7 +805,7 @@
 						<li  id="zhiyezige" style="display: none;" class="col-md-3 col-sm-6 col-xs-12 pl10">
 						<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>有无执业资格</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<select class="w100p" name="isTitle" id="mySelect" onchange="isZhiye(this)" <c:if test="${fn:contains(typeErrorField,'isTitle')}">style="border: 1px solid red;"  onmouseover="errorMsg('isTitle')"</c:if>>
+								<select class="w100p" name="isTitle" id="mySelect" onchange="isZhiye(this)" <c:if test="${fn:contains(typeErrorField,'isTitle')}">style="border: 1px solid rgb(239, 0, 0);"  onmouseover="errorMsg('isTitle')"</c:if>>
 									<option  value="2" <c:if test="${expert.isTitle==2}">selected="selected"</c:if> >无 </option>
 									<option  value="1" <c:if test="${expert.isTitle==1}">selected="selected"</c:if> >有 </option>
 								</select>
@@ -829,17 +829,18 @@
 	     				  <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>执业资格</span>
 	       				<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(engErrorField,t.id.concat('_tieleFile'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('tieleFile','${t.id }')"</c:if>>
 	         		    <c:choose>
-										<c:when test="${expert.status == 3 and !fn:contains(engErrorField,t.id.concat('_tieleFile'))}">
-											<u:show showId="pro_${vs.index}" delete="false" businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
-										</c:when>
-										<c:otherwise>
-											<u:upload
+										<c:when test="${expert.status == 3 and (fn:contains(engErrorField,t.id.concat('_tieleFile'))||fn:contains(typeErrorField,'isTitle'))}">
+												<u:upload
                         singleFileSize="${properties['file.picture.upload.singleFileSize']}"
                         exts="${properties['file.picture.type']}" id="pro_${vs.index}"
                         groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
                         multiple="true" businessId="${t.id}" sysKey="${expertKey}"
                         typeId="9" auto="true" maxcount="20"/>
            	   				<u:show showId="pro_${vs.index}" businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
+											
+										</c:when>
+										<c:otherwise>
+										<u:show showId="pro_${vs.index}" delete="false" businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
 										</c:otherwise>
 									</c:choose>
                	</div>
@@ -862,7 +863,7 @@
         <li class="col-md-3 col-sm-6 col-xs-12">
 					<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 white">操作</span>
 					<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
-						<c:if test="${expert.status != 3}">
+						<c:if test="${expert.status != 3 || fn:contains(typeErrorField,'isTitle')}">
 							<input type="button" onclick="addPractice(1)" class="btn list_btn" value="十" />
 						</c:if>
 						<input type="button" onclick="delPractice(this)" class="btn list_btn" value="一" />
@@ -890,10 +891,7 @@
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>执业资格</span>
                     <div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(engErrorField,t.id.concat('_tieleFile'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('tieleFile','${t.id }')"</c:if>>
                       <c:choose>
-												<c:when test="${expert.status == 3 and !fn:contains(engErrorField,t.id.concat('_tieleFile'))}">
-													<u:show showId="pro_${vs.index+1}" delete="false" businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
-												</c:when>
-												<c:otherwise>
+												<c:when test="${expert.status == 3 and (fn:contains(engErrorField,t.id.concat('_tieleFile'))||fn:contains(typeErrorField,'isTitle'))}">
 													<u:upload
                             singleFileSize="${properties['file.picture.upload.singleFileSize']}"
                             exts="${properties['file.picture.type']}" id="eco_${vs.index}"
@@ -901,6 +899,9 @@
                             multiple="true" businessId="${t.id}" sysKey="${expertKey}"
                             typeId="9" auto="true" maxcount="20"/>
                         	<u:show showId="eco_${vs.index}" businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
+												</c:when>
+												<c:otherwise>
+													<u:show showId="pro_${vs.index+1}" delete="false" businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
 												</c:otherwise>
 											</c:choose>
                     </div>
@@ -922,11 +923,10 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
 					<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 white">操作</span>
 						<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
-							<c:if test="${expert.status != 3}">
-								<input type="button" onclick="addPractice(2)" class="btn list_btn" value="十" />
-							    <input type="button" onclick="delPractice(this)" class="btn list_btn" value="一" />
+							<c:if test="${expert.status != 3 || fn:contains(typeErrorField,'isTitle')}">
+							<input type="button" onclick="addPractice(2)" class="btn list_btn" value="十" />
 							</c:if>
-							
+							<input type="button" onclick="delPractice(this)" class="btn list_btn" value="一" />
 							<input type="hidden" name="ecoList[${vs.index }].id" value="${t.id}" />
 							<input type="hidden" name="ecoList[${vs.index }].expertId" value="${t.expertId}" />
 						</div>
@@ -1012,6 +1012,9 @@
 				// 或者$(this).css("border") == '1px solid rgb(239, 0, 0)'
 				if(this.style.border == '1px solid rgb(239, 0, 0)'){
 					$(this).attr('disabled',false);
+					if($(this).attr('name')=='isTitle'){
+						$("input[type='text']").attr('disabled',false);
+					}
 				}
 			});
 			// 控制5大类别的编辑性

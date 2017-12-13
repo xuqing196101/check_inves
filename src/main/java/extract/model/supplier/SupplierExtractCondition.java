@@ -35,6 +35,7 @@ public class SupplierExtractCondition {
 	 * 排除供应商
 	 */
 	private List<String> supplierIds;
+	
 	/**
 	 * <pre>
 	 * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.ID
@@ -80,7 +81,10 @@ public class SupplierExtractCondition {
 	 */
 	private int csize;
 
-	
+	/**
+	 * 每个品目对应的查询等级
+	 */
+	private String cateAndLevel;
 	
 	private int quaSize;
 
@@ -201,6 +205,7 @@ public class SupplierExtractCondition {
 	 */
 	private String salesLevelTypeId;
 	private String[] salesLevelTypeIds;
+	private String salesCateAndLevel;
 	
 	private List<String> supplierItemId = new ArrayList<>();
 	
@@ -575,7 +580,20 @@ public class SupplierExtractCondition {
 		this.supplierItemId = supplierItemId;
 	}
 
-	
-	
+	public String getCateAndLevel() {
+		return cateAndLevel;
+	}
+
+	public void setCateAndLevel(String cateAndLevel) {
+		this.cateAndLevel = cateAndLevel;
+	}
+
+	public String getSalesCateAndLevel() {
+		return salesCateAndLevel;
+	}
+
+	public void setSalesCateAndLevel(String salesCateAndLevel) {
+		this.salesCateAndLevel = salesCateAndLevel;
+	}
 	
 }

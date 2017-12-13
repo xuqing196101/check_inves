@@ -274,7 +274,9 @@
 									<li class="mt10">
 										<c:choose>
 											<c:when test="${isStatusToAudit}">
-												<textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinion.opinion }</textarea>
+												<textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="300"
+													onkeyup="checkCharLimit('opinion','limit_char_opinion',300);if(value.length==300){layer.msg('字数过多，不可超过300字！')}">${ supplierAuditOpinion.opinion }</textarea>
+												<span class="sm_tip fr">还可输入 <span id="limit_char_opinion">300</span> 个字</span>
 											</c:when>
 											<c:otherwise>
 												<textarea id="opinion" disabled="disabled" class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinion.opinion }</textarea>

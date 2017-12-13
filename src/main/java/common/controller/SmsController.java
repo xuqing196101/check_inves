@@ -3,13 +3,19 @@ package common.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import common.utils.SMSUtil;
+import system.model.sms.SmsRecord;
+import system.service.sms.SmsRecordService;
 
 /**
  * 
@@ -41,6 +47,10 @@ public class SmsController {
      * API文档地址   http://bcp.pro-group.cn:7002/Docs/#!easycloud-smsapi.md
      */
 
+	
+	@Autowired
+	private SmsRecordService smsRecordService;
+	
     /**
      * 
      * Description: 状态报告推送         接收短信发送的状态
@@ -59,8 +69,24 @@ public class SmsController {
     @RequestMapping("/statusReport")
     @ResponseBody
     public String statusReport(String IUser, String IPass, String MsgId, String Mobile, String RptTime, String Stat){
-        //此处仅供测试请求地址使用  具体的业务逻辑后续补加
-        return "0";
+        SmsRecord smsRecord = new SmsRecord();
+        smsRecord.setMsgId(MsgId);
+        smsRecord.setReceiveNumber(Mobile);
+    	if(MsgId != null && Stat != null){
+    		if("DELIVRD".equals(Stat)){
+    			smsRecord.setStatus("0");
+    			smsRecord.setFailReason("");
+    			smsRecord.setUpdatedAt(new Date());
+    		}else{
+    			smsRecord.setStatus("1");
+        		smsRecord.setFailReason(SMSUtil.getResultStatus(Stat));
+        		smsRecord.setUpdatedAt(new Date());
+    		}
+    		smsRecordService.updateBymsgId(smsRecord);
+    		return "0";
+    	}else{
+    		return "error";
+    	}
     }
 
     /**

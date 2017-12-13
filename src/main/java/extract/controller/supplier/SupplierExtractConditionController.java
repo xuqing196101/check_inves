@@ -84,7 +84,11 @@ import extract.service.supplier.SupplierExtractConditionService;
     @RequestMapping("selectLikeSupplier")
     public String selectLikeSupplier(SupplierExtractCondition condition,SupplierConType conType){
     	//Map<String, Object> supplierList = conditionService.selectLikeSupplier(condition,conType,1);
-    	Map<String, Object> supplierList = conditionService.selectLikeSupplier2(condition,1);
+    	//原抽取供应商方法
+    	//Map<String, Object> supplierList = conditionService.selectLikeSupplier2(condition,1);
+    	
+    	//需求变更为每个品目对应不同的等级进行抽取
+    	Map<String, Object> supplierList = conditionService.selectSupplier(condition,1);
     	return JSON.toJSONString(supplierList);
     }
     
@@ -111,7 +115,7 @@ import extract.service.supplier.SupplierExtractConditionService;
     *
     *〈简述〉获取品目树
     *〈详细描述〉
-    * @author Jia Chengxaing
+    * @author Jia Chengxiang
     * @return
     */
    @ResponseBody
@@ -120,7 +124,6 @@ import extract.service.supplier.SupplierExtractConditionService;
   	 //获取字典表中的根数据
    	List<CategoryTree> jList = 	conditionService.getTreeForExt(category,supplierTypeCode);
        return JSON.toJSONString(jList);
-
    }
    
    /**
@@ -136,7 +139,7 @@ import extract.service.supplier.SupplierExtractConditionService;
    
    /**
     * 根据工程品目ID 查询资质信息
-    * @author Jia Chengxaing
+    * @author Jia Chengxiang
     */
    @RequestMapping("/getQuaByCid")
    @ResponseBody

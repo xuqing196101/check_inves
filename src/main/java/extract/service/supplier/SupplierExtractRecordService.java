@@ -4,6 +4,7 @@
 package extract.service.supplier;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -123,5 +124,17 @@ public interface SupplierExtractRecordService {
    */
   List<SupplierExtractProjectInfo> selectRecordForExport(
 		SupplierExtractProjectInfo projectInfo);
+
+  /**
+   * 
+   * <简述>再次抽取 
+   *
+   * @author Jia Chengxiang
+   * @dateTime 2017-12-11上午9:51:23
+   * @param recordId
+   * @param conditionId
+   * @return
+   */
+  Map<String, String> extractAgain(String recordId, String conditionId);
 
 }
