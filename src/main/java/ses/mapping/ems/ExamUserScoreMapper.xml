@@ -221,6 +221,12 @@
 	        <if test="code != null and '' != code">
 	           	AND D.CODE LIKE CONCAT(CONCAT('%', #{code}), '%')
 	        </if>
+	        <if test="orgId != null and '' != orgId">
+	           	AND U.ORG_ID = #{orgId}
+	        </if>
+	        <if test="userId != null and '' != userId">
+	           	AND U.ID = #{userId}
+	        </if>
 			ORDER BY
 				testDate nulls last
   </select>

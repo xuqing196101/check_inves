@@ -4,7 +4,14 @@ var formData = "";
 var levelObj ={};
 var salesLevelObj ={};
 var tree_input;
-var level_li;
+var level_li = '<li class="col-md-3 col-sm-6 col-xs-12 level" id="level_li">'+
+					'<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">供应商等级：</span>'+
+					'<div class="input-append input_group col-sm-12 col-xs-12 p0">'+
+						'<input type="hidden" name="levelTypeId"> '+
+						'<input type="text" readonly id="level" value="" onclick="showLevel(this);" /> <span class="add-on">i</span>'+
+						'<div class="cue" id="levelTypeIdError"></div>'+
+					'</div>'+
+				'</li>';
 
 
 /**
@@ -28,7 +35,6 @@ var productLevel = [{id: "一级", pid: 0, name: "一级"},
  * 预加载函数
  */
 $(function () {
-	level_li = $("#level_li");
     loadAreaZtree();
     loadSupplierType();
 	addPerson($("#eu"));
@@ -772,9 +778,9 @@ function opens(cate) {
             selectLikeSupplier();
         }
         , btn2: function () {
-        	initCategoryAndLevel();
+        	initCategoryAndLevel(); 
         	 if(typeCode == "PROJECT"){
-             	initTypeLevelId(null);
+        		 $("#quaId").parents("li").after(level_li);
              }
         	selectLikeSupplier();
             opens(cate);
@@ -954,7 +960,7 @@ function contains (arr,val) {
 
  // 清空资质显示
  function emptyQuaInfo(){
- 	$(".qua").remove();
+ 	$("#quaId").val("");
  }
 
 // 加载地区树形结构
@@ -1268,6 +1274,20 @@ function loadprojectLevelTree(){
         }
     };
 	if(qid){
+		$.ajax({
+			url:globalPath+"/SupplierCondition_new/getLevelByQid.do",// 根据资质编号ID
+			data:{qid:qid},
+			async:false,
+			dataType:"json",
+			success:function(datas){
+					if(null != datas && "undefind"!= datas && ''!=datas){
+						var treeLevelType = $.fn.zTree.init($("#levelTree"), setting, datas);
+				}else{
+					layer.msg("未能查询出结果");
+				}
+			}
+		});
+	}else{
 		qid =$("#categoryIds").val();
 		if(null!=qid&&""!=qid){
 			$.ajax({
@@ -1284,20 +1304,7 @@ function loadprojectLevelTree(){
 				}
 			});
 		}
-	}else{
-		$.ajax({
-			url:globalPath+"/SupplierCondition_new/getLevelByQid.do",// 根据资质编号ID
-			data:{qid:qid},
-			async:false,
-			dataType:"json",
-			success:function(datas){
-					if(null != datas && "undefind"!= datas && ''!=datas){
-						var treeLevelType = $.fn.zTree.init($("#levelTree"), setting, datas);
-				}else{
-					layer.msg("未能查询出结果");
-				}
-			}
-		});
+		
 	}
 }
 // 加载等级树
@@ -1808,8 +1815,15 @@ function extractAgain(){
  * @param obj
  */
 function resetCondition(obj){
+	var bu = $("#businessScope").val();
 	document.getElementById("form1").reset();
 	initCategoryAndLevel();
+	loadAreaZtree();
+	//$("#area").val("全国");
+	$("#businessScope").val(bu);
+	if("PROJECT" == $("#supplierType").val()){
+		 $("#quaId").parents("li").after(level_li);
+	}
 	selectLikeSupplier();
 }
 

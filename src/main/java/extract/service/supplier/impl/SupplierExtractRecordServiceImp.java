@@ -86,7 +86,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
     private SupplierExtractRelateResultMapper resultMapper;
     
     @Autowired
-    private ExtractUserMapper userMapper;
+    private ExtractUserMapper extractUserMapper;
     @Autowired
     private SuperviseMapper superviseMapper;
     
@@ -112,7 +112,6 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 	@Override
 	public List<SupplierExtractProjectInfo> getList(int i,User user,SupplierExtractProjectInfo project) {
 		 PageHelper.startPage(i, PropUtil.getIntegerProperty("pageSize"));
-		 
 		 List<SupplierExtractProjectInfo> list = new ArrayList<>();
 		 //获取是否内网标识 1外网 0内网
 	     String ipAddressType= PropUtil.getProperty("ipAddressType");
@@ -129,7 +128,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 		for (SupplierExtractProjectInfo projectInfo : list) {
 			if(StringUtils.isBlank(projectInfo.getExtractUser())){
 				String temp = "";
-				List<ExtractUser> getlistByRid = userMapper.getlistByRid(projectInfo.getId());
+				List<ExtractUser> getlistByRid = extractUserMapper.getlistByRid(projectInfo.getId());
 				for (ExtractUser e : getlistByRid) {
 					temp += e.getName()+",";
 				}
@@ -282,7 +281,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 		
 		
 		//人员信息
-		map.put("extractUsers",  userMapper.getlistByRid(recordId));
+		map.put("extractUsers",  extractUserMapper.getlistByRid(recordId));
 		map.put("supervises",  superviseMapper.getlistByRid(recordId));
 		
 		String temp = "";
@@ -521,7 +520,13 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 		hashMap.put("conditionId", condition.getId());
 		
 		//采购机构
-		map.put("ProcurementDep",orgnizationMapper.findOrgByPrimaryKey(projectInfo.getProcurementDepId()).getName());
+		String ProcurementDep = "";
+		if(projectInfo.getProcurementDepId().equals("4")){
+			ProcurementDep = userServiceI.getUserById(projectInfo.getExtractUser()).getOrgName();
+		}else{
+			ProcurementDep = orgnizationMapper.findOrgByPrimaryKey(projectInfo.getProcurementDepId()).getName();
+		}
+		map.put("ProcurementDep",ProcurementDep);
 		
 		//项目实施地点
 		/*if(StringUtils.isNotBlank(projectInfo.getExtractionSites())){
@@ -547,7 +552,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 		
 		
 		//人员信息
-		map.put("extractUsers",  userMapper.getlistByRid(recordId));
+		map.put("extractUsers",  extractUserMapper.getlistByRid(recordId));
 		map.put("supervises",  superviseMapper.getlistByRid(recordId));
 		
 		//类别

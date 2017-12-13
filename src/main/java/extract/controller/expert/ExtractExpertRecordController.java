@@ -1,5 +1,6 @@
 package extract.controller.expert;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.util.DictionaryDataUtil;
@@ -32,7 +34,7 @@ import extract.service.expert.ExpertExtractProjectService;
 
 @Controller
 @RequestMapping("/extractExpertRecord")
-public class ExtractExpertRecordController {
+public class ExtractExpertRecordController extends BaseSupplierController{
 
     /** 专家抽取项目信息 **/
     @Autowired
@@ -46,6 +48,7 @@ public class ExtractExpertRecordController {
      * @data 2017年9月13日
      * @param
      * @return
+     * @throws IOException 
      */
     @RequestMapping("/getRecordList")
     public String getRecordList(@CurrentUser User user, Model model,@RequestParam(defaultValue = "1") Integer page, String startTime,String endTime, ExpertExtractProject expertExtractProject) {
@@ -82,9 +85,8 @@ public class ExtractExpertRecordController {
             model.addAttribute("startTime", startTime);
             model.addAttribute("endTime", endTime);
             model.addAttribute("authType", authType);
-            return "ses/ems/exam/expert/extract/project_list";
         }
-        return "redirect:/qualifyError.jsp";
+        return "ses/ems/exam/expert/extract/project_list";
     }
 
     /**
