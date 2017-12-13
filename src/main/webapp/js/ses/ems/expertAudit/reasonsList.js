@@ -40,7 +40,7 @@ $(function () {
             return;
         }
         if(selectedVal == '10'){
-       		$("#cate_result").html("退回修改 。");
+       		$("#cate_result").html("复审退回修改 。");
        	}
         
         // 判断意见是否已经获取，有的话不再发送请求
@@ -328,7 +328,7 @@ function seeItemsOpinion(expertId,opinion,status){
     }else if(checkVal == 5) {
       $("#cate_result").html("复审不合格。" + opinion);
     }else if(checkVal == 10) {
-      $("#cate_result").html("退回修改。" + opinion);
+      $("#cate_result").html("复审退回修改。" + opinion);
     }
     
     function trim(str) { //删除左右两端的空格
