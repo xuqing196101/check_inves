@@ -2286,19 +2286,19 @@ public class ExpertController extends BaseController {
         // 查询数据字典中的专家来源配置数据
         List < DictionaryData > lyTypeList = DictionaryDataUtil.find(12);
         request.setAttribute("lyTypeList", lyTypeList);
-        /*// 查询数据字典中的专家类别数据
+        // 查询数据字典中的专家类别数据
         List < DictionaryData > jsTypeList = DictionaryDataUtil.find(6);
         for(DictionaryData data: jsTypeList) {
             data.setName(data.getName() + "技术");
         }
-        List < DictionaryData > jjTypeList = DictionaryDataUtil.find(19);*/
+        List < DictionaryData > jjTypeList = DictionaryDataUtil.find(19);
         
         //全部机构
         List<Orgnization>  allOrg = orgnizationServiceI.findPurchaseOrgByPosition(null);
         request.setAttribute("allOrg", allOrg);
         
-        /*jsTypeList.addAll(jjTypeList);
-        request.setAttribute("expTypeList", jsTypeList);*/
+        jsTypeList.addAll(jjTypeList);
+        request.setAttribute("expTypeList", jsTypeList);
         request.setAttribute("result", new PageInfo < Expert > (allExpert));
         request.setAttribute("expert", expert);
         request.setAttribute("expertType", expertType);

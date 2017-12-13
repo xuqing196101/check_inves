@@ -36,7 +36,7 @@
         //还原select下拉列表只需要这一句
         $("#expertsFrom option:selected").removeAttr("selected");
         $("#status option:selected").removeAttr("selected");
-        /* $("#expertsTypeId option:selected").removeAttr("selected"); */
+        $("#expertTypeIds option:selected").removeAttr("selected");
         $("#mobile").attr("value", "");
         $("#graduateSchool").val("");
         $("#idCardNumber").val("");
@@ -412,22 +412,22 @@
           <label class="fl">毕业院校：</label><span><input class="w220"type="text" id="graduateSchool" name="graduateSchool" value="${expert.graduateSchool }"></span>
         </li> --%>
         
-        <%-- <li>
+        <li>
           <label class="fl">专家类别：</label>
           <span class="fl">
-            <select name="expertsTypeId" id="expertsTypeId" class="w220">
+            <select name="expertTypeIds" id="expertTypeIds" class="w220">
               <option selected="selected"  value=''>全部</option>
               <c:forEach items="${expTypeList}" var="exp">
                 <option <c:if test="${expert.expertsTypeId == exp.id}">selected</c:if> value="${exp.id}">${exp.name}</option>
               </c:forEach>          
             </select>
           </span>
-        </li> --%>
+        </li>
         
-        <li>
+        <%-- <li>
           <label class="fl">专家类别：</label><span><input  class="w220" id="expertType" class="span2 mt5" type="text" name="expertType"  readonly value="${expertType}" onclick="showExpertType();" />
           <input   type="hidden" name="expertTypeIds"  id="expertTypeIds" value="${expertTypeIds}" /></span>
-        </li>
+        </li> --%>
         <li>
         <li>
          <label class="fl">地区：</label>
