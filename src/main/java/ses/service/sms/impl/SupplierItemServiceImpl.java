@@ -1365,12 +1365,16 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 			return null;
 		}
 		List < SupplierItem > resultList = new ArrayList<SupplierItem>();
-		Set<String> pCateIds = new HashSet<>();// 所有添加过的父节点
-		Set<String> pCateIdsOfLeaf = new HashSet<>();// 叶子节点的父节点
+		Set<String> pCateIdsUnAddC = new HashSet<>();// 不可添加子节点的父节点集合
+		Set<String> pCateIdsToAddC = new HashSet<>();// 可以添加子节点的父节点集合
 		for(SupplierItem item: listSupplierItems) {
 			String categoryId = item.getCategoryId();
 			Category cateById = categoryService.findById(categoryId);
 			if(cateById != null){
+				// 跳过不可用/不公开的节点
+				if("1".equals(cateById.getIsDeleted()+"") || "1".equals(cateById.getIsPublish()+"")){
+					continue;
+				}
 				if(cateById.getCode() != null 
 						&& !cateById.getCode().startsWith("B02") 
 						&& !cateById.getCode().startsWith("B03")){
@@ -1381,11 +1385,12 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 				}
 //				if("true".equals(cateById.getIsParent())){
 				// 如果当前节点的父节点选过，则不选当前节点了
-				if(pCateIds.contains(cateById.getParentId())){
+				if(pCateIdsUnAddC.contains(cateById.getParentId())){
 					continue;
 				}
 				// 如果是子节点中的同级节点，则直接添加
-				if("false".equals(cateById.getIsParent()) && pCateIdsOfLeaf.contains(cateById.getParentId())){
+				/*"false".equals(cateById.getIsParent()) && */
+				if(pCateIdsToAddC.contains(cateById.getParentId())){
 					resultList.add(item);
 					continue;
 				}
@@ -1395,16 +1400,14 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 						count = this.countItemsInCate(supplierId, cateById.getParentId(), "PROJECT");
 						if(count == 0){
 							resultList.add(item);
-							if("false".equals(cateById.getIsParent())){
-								pCateIdsOfLeaf.add(cateById.getParentId());
-							}
+							pCateIdsToAddC.add(cateById.getParentId());
+						}else{
+							pCateIdsUnAddC.add(cateById.getParentId());
 						}
 					}else{
 						resultList.add(item);
 					}
-					if("true".equals(cateById.getIsParent())){
-						pCateIds.add(categoryId);
-					}
+					pCateIdsUnAddC.add(categoryId);
 				}
 //				}
 			}

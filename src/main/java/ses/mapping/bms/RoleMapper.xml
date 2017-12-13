@@ -77,7 +77,7 @@
         and ID = #{id}
       </if>
       <if test="name != null and name != ''">
-        and Name = #{name}
+        and NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
       </if>
       <if test="createdAt != null">
         and CREATED_AT = #{createdAt}
@@ -255,6 +255,12 @@
     <include refid="Base_Column_List" />
     from T_SES_BMS_ROLE 
     <include refid="Example_Where_Clause" />
+    <if test="codes != null">
+     	AND CODE NOT IN 
+     	<foreach item="item" index="index" collection="codes" open="(" separator="," close=")">  
+	 	#{item}  
+		</foreach>
+    </if>
     ORDER BY POSITION ASC
   </select>
   
@@ -530,7 +536,7 @@
      	<if test="name != null and name != ''">
         	AND NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
       	</if>
-      	<if test="status != null and status !=''">
+      	<if test="(status != null and status !='') or (0 == status)">
         	AND STATUS = #{status}
       	</if>
       	<if test="codes != null">

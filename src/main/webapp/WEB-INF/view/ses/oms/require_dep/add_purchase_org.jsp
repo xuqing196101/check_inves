@@ -45,10 +45,22 @@
 				selectedMulti : false,
 				showTitle : false,
 			},
+			callback : {
+				beforeCheck: zTreeBeforeCheck,
+			},
 		};
 		treeObj = $.fn.zTree.init($("#departTree"), setting, datas);
 		treeObj.expandAll(false);
 	});
+	
+	function zTreeBeforeCheck(treeId, treeNode){
+		if(treeNode.level == 0){
+			layer.msg("不能选择根节点！");
+	        return false;
+		}else{
+			return true;
+		}
+	}
 	
 	function ajaxDataFilter(treeId, parentNode, responseData) {
 		var notIds = $("#notIds").val();

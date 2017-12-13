@@ -89,4 +89,15 @@ public interface SmsRecordMapper {
      * @return String
      */
     String selectByUserId(@Param("id") String id);
+    
+    /**
+     * 
+     * 
+     * Description: 根据上行接口返回的短信id修改短信发送状态
+     * 
+     * @data 2017年12月11日
+     * @param 
+     * @return int
+     */
+    int updateBymsgId(SmsRecord record);
 }
