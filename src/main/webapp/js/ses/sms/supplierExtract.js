@@ -565,6 +565,7 @@ function extractSupplier(code,status) {
     			layer.alert("信息同步至外网状态成功，正在抽取中，请稍后查看结果。");
 	    		}else{
 	    			layer.alert("信息同步至外网状态失败。");
+	    			flag++;
 	    		}
 	    	}
 		});
@@ -578,7 +579,9 @@ function extractSupplier(code,status) {
     	appendTd(0,$("#result").find("tbody"),null);
     }
     
-   
+    if(flag!=0){
+    	return false;
+	}
 	
 	// 输入框设置只读
 	$('.extractVerify_disabled input,.extractVerify_disabled select').each(function() {
@@ -650,7 +653,6 @@ function appendTd(num,obj,result){
 			}else{
 				flag = true;
 			}
-			
 		}
 	});
 	
@@ -860,7 +862,6 @@ function contains (arr,val) {
 		}
 		levelObj[cateId] ="";
 	}
-	 
 	 
 	if(typeCode=="GOODS"){
 		salesLevelObj = salesLevelTempObj;

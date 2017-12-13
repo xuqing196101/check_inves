@@ -152,7 +152,7 @@
 						</div></li>
 					<li class="col-md-3 col-sm-4 col-xs-12"><span
 						class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span
-							class="star_red">*</span>售领地区</span>
+							class="star_red">*</span>售领文件地区</span>
 						<div
 							class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<select class="col-md-6 col-sm-6 col-xs-6 p0" id="sellProvince"
@@ -169,7 +169,7 @@
 						</div></li>
 					<li class="col-md-3 col-sm-4 col-xs-12"><span
 						class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span
-							class="star_red">*</span>售领详细地址</span>
+							class="star_red">*</span>售领文件详细地址</span>
 						<div
 							class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input id="sellSite" name="sellSite" type="text"> <span
