@@ -199,21 +199,6 @@ function create_review_batches() {
   }
 }
 
-// 初始化专家列表和批次列表
-function init_list(list_url, newGroup_url) {
-  $('#list_content').listConstructor({
-    url: list_url,
-    newGroup_url: newGroup_url,
-    data: {
-      batchId: getUrlParam('batchId'),
-      status: '14'
-    },
-    data_new: {
-      batchId: getUrlParam('batchId')
-    }
-  });
-}
-
 // 创建新分组
 function add_batch() {
   if (select_ids.length > 0) {
@@ -221,13 +206,13 @@ function add_batch() {
     $.ajax({
       type: 'POST',
       dataType: 'json',
-      url: root_url + '/expertAgainAudit/addExpertReviewTeam.do',
+      url: root_url + '/expertAgainAudit/expertGrouping.do',
       data:{
         batchId: batch_id,
         ids: ids
       },
       success: function () {
-        init_list(list_url, newGroup_url);
+        $('#list_content').listConstructor();
       }
     });
     
@@ -252,13 +237,13 @@ function del_group(el) {
     $.ajax({
       type: 'POST',
       dataType: 'json',
-      url: root_url + '/expertAgainAudit/deleteExpertReviewTeam.do',
+      url: root_url + '/expertAgainAudit/delExpertGroupDetails.do',
       data: {
         ids: str_group_ids
       },
       success: function (data) {
         if (data.status) {
-          init_list(list_url, newGroup_url);
+          $('#list_content').listConstructor();
         } else {
           layer.msg(data.message);
         }
@@ -275,7 +260,7 @@ function show_hasGroud() {
     $.ajax({
       type: 'POST',
       dataType: 'json',
-      url: getGroup_url,
+      url: root_url + '/expertAgainAudit/getGroups.do',
       data:{
         batchId: getUrlParam('batchId')
       },
@@ -322,7 +307,7 @@ function show_hasGroud() {
             $.ajax({
               type: 'POST',
               dataType: 'json',
-              url: addGroup_url,
+              url: root_url + '/expertAgainAudit/expertAddGroup.do',
               data: {
                 groupId: select_groupId,
                 ids: ids
@@ -331,7 +316,7 @@ function show_hasGroud() {
                 layer.msg(data.message);
                 select_ids = [];
                 select_groupId = '';
-                init_list(list_url, newGroup_url);
+                $('#list_content').listConstructor();
                 layer.close(index);
               }
             });
@@ -353,7 +338,7 @@ function finish_groupBatch() {
   $.ajax({
     type: 'POST',
     dataType: 'json',
-    url: finish_url,
+    url: root_url + '/expertAgainAudit/checkComplete.do',
     data: {
       batchId: getUrlParam('batchId')
     },
@@ -385,7 +370,7 @@ function cancel_groupBatch() {
         ids: str_group_ids
       },
       success: function (data) {
-        init_list(list_url, newGroup_url);
+        $('#list_content').listConstructor();
       }
     });
   }
@@ -658,14 +643,14 @@ function auto_group() {
   $.ajax({
     type: 'POST',
     dataType: 'json',
-    url: autoGroup_url,
+    url: root_url + '/expertAgainAudit/automaticGrouping.do',
     data:{
       batchId: batch_id,
       count: count
     },
     success: function (data) {
       layer.msg(data.message);
-      init_list(list_url, newGroup_url);
+      $('#list_content').listConstructor();
     }
   });
 }

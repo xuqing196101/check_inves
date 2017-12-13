@@ -90,20 +90,13 @@
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/batchGroup.js"></script>
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
   <script>
-    var list_url = '${pageContext.request.contextPath}/expertAgainAudit/findBatchDetails.do';  // 列表地址
-    var newGroup_url = '${pageContext.request.contextPath}/expertAgainAudit/findExpertGroupDetails.do';  // 新分组地址
-    var del_url = '${pageContext.request.contextPath}/expertAgainAudit/delExpertGroupDetails.do';  // 删除地址
-    var add_url = '${pageContext.request.contextPath}/expertAgainAudit/expertGrouping.do';  // 添加到新分组地址
-    var getGroup_url = '${pageContext.request.contextPath}/expertAgainAudit/getGroups.do';  // 获取已有分组
-    var addGroup_url = '${pageContext.request.contextPath}/expertAgainAudit/expertAddGroup.do';  // 添加到已有分组地址
-    var finish_url = '${pageContext.request.contextPath}/expertAgainAudit/checkComplete.do';  // 完成校验地址
-    var autoGroup_url = '${pageContext.request.contextPath}/expertAgainAudit/automaticGrouping.do';  // 自动分组地址
+    var root_url = '${pageContext.request.contextPath}';  // 根目录地址
     var select_ids = [];  // id集合
     var batch_id = '';  // 批次id
     var select_groupId = '';  // 选择的分组id
     
     $(function () {
-      init_list(list_url, newGroup_url);
+      $('#list_content').listConstructor();
     });
   </script>
     
