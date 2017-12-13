@@ -214,6 +214,9 @@ public class LoginController {
                             }else if (("inReview").equals(object)){
                             	//复审中的状态
                             	out.print("inReview");
+                            }else if("firstAuditEnd".equals(object)){
+                            	//预初审结束
+                            	out.print("firstAuditEnd");
                             }
                             }else {
                               // 实现单一登录 踢人效果
