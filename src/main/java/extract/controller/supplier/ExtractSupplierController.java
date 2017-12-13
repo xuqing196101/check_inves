@@ -110,29 +110,30 @@ public class ExtractSupplierController extends BaseController {
      */
     @RequestMapping("/projectList")
     public String list(Integer page, Model model, SupplierExtractProjectInfo project,@CurrentUser User user,String startTime,String endTime){
-    	if(null!=user && ("1".equals(user.getTypeName()) || "4".equals(user.getTypeName())) ){
-    		Map<String, Object> map = new HashMap<>();
-    		map.put("page", page);
-    		map.put("startTime", null == startTime ? "" : startTime.trim());
-    		map.put("endTime", null == endTime ? "" : endTime.trim());
-    		
-    		//采购方式
-            List<DictionaryData> purchaseWayList = new ArrayList<>();
-        //  purchaseWayList.add(DictionaryDataUtil.get("GKZB"));
-            purchaseWayList.add(DictionaryDataUtil.get("YQZB"));
-            purchaseWayList.add(DictionaryDataUtil.get("JZXTP"));
-        	DictionaryData xj = DictionaryDataUtil.get("XJCG");
-        	xj.setName("询价");
-        	purchaseWayList.add(xj);
-        //	purchaseWayList.add(DictionaryDataUtil.get("DYLY"));
-            model.addAttribute("purchaseTypeList",purchaseWayList);
-            model.addAttribute("startTime",startTime);
-            model.addAttribute("endTime",endTime);
-            model.addAttribute("project",project);
-            List<SupplierExtractProjectInfo> extractRecords = recordService.getList(page == null?1:page,user,project);
-            model.addAttribute("info", new PageInfo<SupplierExtractProjectInfo>(extractRecords));
-    		return "ses/sms/supplier_extracts/project_list";
-    	}
+    	
+    	try {
+    		if(null!=user && ("1".equals(user.getTypeName()) || "4".equals(user.getTypeName())) ){
+    	
+	    		//采购方式
+	            List<DictionaryData> purchaseWayList = new ArrayList<>();
+	        //  purchaseWayList.add(DictionaryDataUtil.get("GKZB"));
+	            purchaseWayList.add(DictionaryDataUtil.get("YQZB"));
+	            purchaseWayList.add(DictionaryDataUtil.get("JZXTP"));
+	        	DictionaryData xj = DictionaryDataUtil.get("XJCG");
+	        	xj.setName("询价");
+	        	purchaseWayList.add(xj);
+	        //	purchaseWayList.add(DictionaryDataUtil.get("DYLY"));
+	            model.addAttribute("purchaseTypeList",purchaseWayList);
+	            model.addAttribute("startTime",startTime);
+	            model.addAttribute("endTime",endTime);
+	            model.addAttribute("project",project);
+	            List<SupplierExtractProjectInfo> extractRecords = recordService.getList(page == null?1:page,user,project);
+	            model.addAttribute("info", new PageInfo<SupplierExtractProjectInfo>(extractRecords));
+	    		return "ses/sms/supplier_extracts/project_list";
+	    	}
+    	} catch (Exception e) {
+			e.printStackTrace();
+		}
     	return "redirect:/qualifyError.jsp";
     }
     
