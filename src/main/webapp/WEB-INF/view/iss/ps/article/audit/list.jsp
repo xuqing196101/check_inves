@@ -421,73 +421,93 @@
 
     <div class="container">
       <div class="headline-v2">
-        <h2>审核信息列表</h2>
+        <h2>审核信息ss列表</h2>
       </div>
 
       <div class="search_detail">
-        <form id="form1" action="${pageContext.request.contextPath }/article/auditlist.html" method="post" class="mb0">
-          <ul class="demand_list m_demand_list">
-            <li>
-              	<label class="fl">信息标题：</label>
-              	<span>
-		          <input type="text" id="name" name="name" maxlength="200" value="${articleName}" class="w200"/>
-		        </span>
-            </li>
-            <li>
-              	<label class="fl">信息栏目：</label>
-              	<span class="fl">
-        	  	<div class="w200" style="font-size: 0px;">
-          			<select id="articleTypes" name="articleTypeId" class="w200" onchange="typeInfo()">
-            		</select>
-          	  	</div>
-              	</span>
-            </li>
-            <li>
-              <label class="fl">发布范围：</label>
-              <span>
-              <select id ="range" name="range" class="w200">
-                <option value=""  <c:if test="${articlesRange == ''}">selected</c:if>>全部</option>
+      <form id="form1" action="${pageContext.request.contextPath }/article/auditlist.html" method="post" class="mb0">
+      <div class="m_row_5">
+      <div class="row">
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">信息标题：</div>
+            <div class="col-xs-8 f0 lh0">
+              <input type="text" id="name" name="name" maxlength="200" value="${articleName}" class="w100p h32 f14 mb0">
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">信息栏目：</div>
+            <div class="col-xs-8 f0 lh0">
+              <select id="articleTypes" name="articleTypeId" class="w100p h32 f14" onchange="typeInfo()"></select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">发布范围：</div>
+            <div class="col-xs-8 f0 lh0">
+              <select id ="range" name="range" class="w100p h32 f14">
+                <option value="" <c:if test="${articlesRange == ''}">selected</c:if>>全部</option>
                 <option value="0" <c:if test="${articlesRange == '0'}">selected</c:if>>内网</option>
                 <%-- <option value="1" <c:if test="${articlesRange == '1'}">selected</c:if>>外网</option> --%>
                 <option value="2" <c:if test="${articlesRange == '2'}">selected</c:if>>内外网</option>
-               </select>
-           	   </span>
-            </li>
-            <li id="publish_status">
-              <label class="fl">状态：</label>
-              <span>
-              <select id ="status" name="status" class="w200">
-                <option value=""  <c:if test="${articlesStatus == ''}">selected</c:if>>全部</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">状态：</div>
+            <div class="col-xs-8 f0 lh0">
+              <select id="status" name="status" class="w100p h32 f14">
+                <option value="" <c:if test="${articlesStatus == ''}">selected</c:if>>全部</option>
                 <option value="1" <c:if test="${articlesStatus == '1'}">selected</c:if>>待发布</option>
                 <option value="2" <c:if test="${articlesStatus == '2'}">selected</c:if>>已发布</option>
-               	<option value="4" <c:if test="${articlesStatus == '4'}">selected</c:if>>已取消发布</option>
-               </select>
-           </span>
-            </li>
-            <li class="clear" id="audit_date">
-            	<label class="fl">审核时间：</label>
-				<input id="startDate" name="publishStartDate" class="Wdate w110 fl" type="text"  value='<fmt:formatDate value="${publishStartDate}" pattern="YYYY-MM-dd"/>'
-                onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})" />
-                <span class="f13">至</span>
-                <input id="endDate" name="publishEndDate" value='<fmt:formatDate value="${publishEndDate}" pattern="YYYY-MM-dd"/>' class="Wdate w110" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
-          	</li>
-          	<li class="hide" id="second">
-                <label class="fl">栏目属性：</label>
-                <span class="fl">
-              <div class="w200" style="font-size: 0px;">
-                <select id="secondType" name="secondArticleTypeId" class="w200" >
-                </select>
-                </div>
-                </span>
-            </li>
-          </ul>
-            <div class="col-md-12 col-sm-12 col-xs-12 tc mt5">
-            <button type="submit" class="btn">查询</button>
-            <button type="button" class="btn" onclick="resetQuery()">重置</button>
+                <option value="4" <c:if test="${articlesStatus == '4'}">selected</c:if>>已取消发布</option>
+              </select>
+            </div>
           </div>
-          <div class="clear"></div>
-        </form>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">审核时间：</div>
+            <div class="col-xs-8 f0 lh0">
+              <div class="row">
+                <div class="col-xs-5">
+                  <input id="startDate" name="publishStartDate" class="Wdate w100p h32 f14 mb0" type="text"  value='<fmt:formatDate value="${publishStartDate}" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})">
+                </div>
+                <div class="col-xs-2 h32 lh32 f14 tc">至</div>
+                <div class="col-xs-5">
+                  <input id="endDate" name="publishEndDate" value='<fmt:formatDate value="${publishEndDate}" pattern="YYYY-MM-dd"/>' class="Wdate w100p h32 f14 mb0" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10 hide" id="second">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">栏目属性：</div>
+            <div class="col-xs-8 f0 lh0">
+              <select id="secondType" name="secondArticleTypeId" class="w100p h32 f14"></select>
+            </div>
+          </div>
+        </div>
       </div>
+      </div>
+      
+      <div class="tc">
+        <button type="submit" class="btn mb0">查询</button>
+        <button type="button" class="btn mr0 mb0" onclick="resetQuery()">重置</button>
+      </div>
+    </form>
+    </div>
 
       <input type="hidden" id="depid" name="depid">
 

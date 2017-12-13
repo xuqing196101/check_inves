@@ -108,7 +108,7 @@ scheduler.config.icons_select = ["icon_details","icon_delete"];
 			];
 
 			scheduler.config.lightbox.sections=[
-				{name:"description", height:33, map_to:"text", type:"textarea" , focus:true},
+				{name:"description", height:80, map_to:"text", type:"textarea" , focus:true},
 				 {name:"详细安排", height:80, type:"textarea", map_to:"details"  },
 				{name:"级别", height:40,type:"select", options: subject, map_to:"subject" },
 				{name:"time", height:72, type:"time", map_to:"auto" , time_format:["%Y","%m","%d","%H:%i"]}
@@ -157,7 +157,7 @@ scheduler.attachEvent("onEventChanged", function(event_id, event_object){
 
 
 scheduler.attachEvent("onEventAdded", function(event_id, event_object){
-	  
+	  alert('aa');
     var id = event_object.id;
     var text = event_object.text;
    

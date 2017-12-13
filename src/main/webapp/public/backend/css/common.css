@@ -1346,7 +1346,10 @@ text-align:center;
 	background-color: #FFF;
 }
 /* layer弹出框默认按钮选中状态文字颜色修改 */
-.layui-layer-btn a:hover {
+.layui-layer-btn .layui-layer-btn0:hover {
+  color: #FFF !important;
+}
+.layui-layer-btn .layui-layer-btn1:hover {
   color: #333 !important;
 }
 /* 重置栅格间距 */
