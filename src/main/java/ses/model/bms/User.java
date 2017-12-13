@@ -107,7 +107,7 @@ public class User implements Serializable{
      * 1:采购机构
      * 2:采购管理部门
      * 3:其他
-     * 4:资源服务中心  
+     * 4:采购服务中心  
      * 5:监管中心
      * 6:专家复审审核组成员
      * 其中 4 /5  都是多选 关联 表 T_SES_BMS_USER_DATA_RULE

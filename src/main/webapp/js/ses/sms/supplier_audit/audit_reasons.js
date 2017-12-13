@@ -66,7 +66,15 @@ $(function () {
 			}
 		}
 	});
+    checkCharLimit('opinion', 'limit_char_opinion', 300);// 审核意见字数范围
 });
+
+//核对字符长度
+function checkCharLimit(inputId, countId, limit) {
+	var inputVal = $("#" + inputId).val();
+	var inputLen = inputVal ? inputVal.length : 0;
+	$("#" + countId).text(limit - inputLen);
+}
 
 /**
  * 审核意见预审核通过类型判断

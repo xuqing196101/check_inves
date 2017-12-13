@@ -120,7 +120,7 @@
   	<div id="div-3" class="mt5">
   		<div class="col-md-3 com-sm-3 col-xs-3 mt5">名称:</div>
 	  	<div class="col-md-9 com-sm-9 col-xs-9">
-	  		<select id="nodeName" name="nodeName"  onchange="search(this.options[this.selectedIndex].value)"></select>
+	  		<select id="nodeName" name="nodeName" onchange="search(this.options[this.selectedIndex].value)" class="w100p"></select>
 	  	</div>
   	</div>
     <!-- 菜单树-->

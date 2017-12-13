@@ -50,35 +50,56 @@
       <form action="${pageContext.request.contextPath}/expertAgainAudit/againAuditList.html" method="post" id="formSearch" class="mb0">
         <input type="hidden" name="pageNum" id="pageNum">
         <input type="hidden" name="sign" value="${sign }">
-        <ul class="demand_list">
-          <li class="mb10">
-            <label class="fl">采购机构：</label>
-            <select class="w220" name="orgName"></select>
-          </li>
-          <li class="mb10">
-            <label class="fl">初审合格时间：</label>
-            <span>
-              <input id="startTime" name="startTime" class="Wdate w220" type="text" value="" onfocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){startTime.focus();},maxDate:'#F{$dp.$D(\'endTime\')}'})">
-              <span>-</span>
-              <input id="endTime" name="endTime" value="" class="Wdate w220" type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'startTime\')}'})">
-            </span>
-          </li>
-          <li class="mb10">
-            <label class="fl">专家类型：</label>
-            <select class="w220" name="expertsFrom"></select>
-          </li>
-          <li class="select2-nosearch mb10">
-            <label class="fl">专家类别：</label>
-            <div class="fl w220">
-            <select multiple name="expertsTypeId" class="w100p h30">
-            </select>
+        <div class="m_row_5">
+        <div class="row">
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+            <div class="row">
+              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购机构：</div>
+              <div class="col-xs-8 f0 lh0">
+                <select class="w100p h32 f14" name="orgName"></select>
+              </div>
             </div>
-          </li>
-        </ul>
-        <div class="clear"></div>
+          </div>
+          
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+            <div class="row">
+              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">初审合格时间：</div>
+              <div class="col-xs-8 f0 lh0">
+                <div class="row">
+                  <div class="col-xs-5">
+                    <input id="startTime" name="startTime" class="Wdate w100p h32 f14 mb0" type="text" value="" onfocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){startTime.focus();},maxDate:'#F{$dp.$D(\'endTime\')}'})">
+                  </div>
+                  <div class="col-xs-2 h32 lh32 f14 tc">至</div>
+                  <div class="col-xs-5">
+                    <input id="endTime" name="endTime" value="" class="Wdate w100p h32 f14 mb0" type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'startTime\')}'})">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+            <div class="row">
+              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">专家类型：</div>
+              <div class="col-xs-8 f0 lh0">
+                <select class="w100p h32 f14" name="expertsFrom"></select>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+            <div class="row">
+              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">专家类别：</div>
+              <div class="col-xs-8 f0 lh0 m_select2">
+                <select multiple name="expertsTypeId" class="w100p h32 f14"></select>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
         <div class="tc">
-          <button type="button" class="btn mb0" onclick="allotList_search()">查询</button>
-          <button type="reset" class="btn mb0 mr0" id="againAudit_reset">重置</button>
+          <button type="button" class="btn mb0 h32" onclick="allotList_search()">查询</button>
+          <button type="reset" class="btn mb0 mr0 h32" id="againAudit_reset">重置</button>
         </div>
       </form>
     </div>
@@ -95,7 +116,7 @@
           <div class="over_hidden">
             <button type="button" class="btn btn-windows reverse m0" onclick="againAudit_reverseSelection('list_content')">反选</button>
             <button type="button" class="btn btn-windows add mb0 ml5" onclick="addto_selected()">添加到已选分组</button>
-            <div class="fr h30 lh30">共有 <span id="unselect_expertTotal" class="red"></span> 名专家</div>
+            <div class="fr h32 lh32">共有 <span id="unselect_expertTotal" class="red"></span> 名专家</div>
           </div>
           <table class="table table-bordered table-hover mb0 mt10 againAudit_table fixed_columns">
             <thead>
@@ -123,7 +144,7 @@
             <button type="button" class="btn btn-windows reverse m0" onclick="againAudit_reverseSelection('selected_content')">反选</button>
             <button type="button" class="btn btn-windows withdraw mb0 ml5" onclick="remove_selected()">移除已选分组</button>
             <button type="button" class="btn btn-windows add mb0 ml5" onclick="create_review_batches()">创建复审批次</button>
-            <div class="fr h30 lh30">共有 <span id="select_expertTotal" class="red"></span> 名专家</div>
+            <div class="fr h32 lh32">共有 <span id="select_expertTotal" class="red"></span> 名专家</div>
           </div>
           <table class="table table-bordered table-hover mb0 mt10 againAudit_table fixed_columns" style="display: none;">
             <thead>
@@ -155,11 +176,11 @@
     <div class="search_detail m0">
       <ul class="demand_list">
         <li class="w100p mr0">
-          <label class="fl w130 h30 lh30"><i class="red">*</i> 批次名称：</label>
+          <label class="fl w130 h32 lh32"><i class="red">*</i> 批次名称：</label>
           <input type="text" name="batchName" value="">
         </li>
         <li class="w100p mr0 mt10">
-          <label class="fl w130 h30 lh30"><i class="red">*</i> 专家编号规则：</label>
+          <label class="fl w130 h32 lh32"><i class="red">*</i> 专家编号规则：</label>
           <input type="text" name="batchNumber" value="">
         </li>
       </ul>

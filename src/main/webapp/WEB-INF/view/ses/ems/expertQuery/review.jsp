@@ -54,9 +54,9 @@
              }
           });
         }else if(status == 5) {
-          $("#check_opinion").html("复审不合格。");
+          $("#check_opinion").html("复审不合格。" + opinion);
         }else if(status == 10) {
-          $("#check_opinion").html("复审退回修改。");
+          $("#check_opinion").html("复审退回修改。" + opinion);
         }
       }
     </script>

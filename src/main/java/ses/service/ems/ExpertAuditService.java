@@ -141,7 +141,7 @@ public interface ExpertAuditService {
     
    /**
     * @Title: downloadFile
-    * @author XuQing 
+    * @author  
     * @date 2016-12-27 下午2:21:18  
     * @Description:生成的word文件下载
     * @param @param fileName
@@ -154,7 +154,7 @@ public interface ExpertAuditService {
     
     /**
      * @Title: deleteByExpertId
-     * @author XuQing 
+     * @author  
      * @date 2017-2-14 下午5:05:58  
      * @Description:删除记录
      * @param @param expertId      
@@ -176,7 +176,7 @@ public interface ExpertAuditService {
 	
 	/**
 	 * @Title: selectByExpertId
-	 * @author XuQing 
+	 * @author  
 	 * @date 2017-4-21 下午6:27:57  
 	 * @Description:查询附件修改记录
 	 * @param @param expertId
@@ -187,7 +187,7 @@ public interface ExpertAuditService {
 
 	/**
 	 * @Title: deleteByExpertId
-	 * @author XuQing 
+	 * @author  
 	 * @date 2017-4-21 下午6:28:24  
 	 * @Description:删除附件修改记录
 	 * @param @param expertId      
@@ -198,7 +198,7 @@ public interface ExpertAuditService {
 	
 	/**
 	 * @Title: addFileInfo
-	 * @author XuQing 
+	 * @author  
 	 * @date 2017-4-26 下午5:30:54  
 	 * @Description:插入附件退回后修改记录
 	 * @param @param expertAuditFileModify      
@@ -208,7 +208,7 @@ public interface ExpertAuditService {
 	
 	/**
      * @Title: updateIsDeleteByExpertId
-     * @author XuQing 
+     * @author  
      * @date 2017-5-2 下午4:11:56  
      * @Description:软删除
      * @param @param expertId      
@@ -219,7 +219,7 @@ public interface ExpertAuditService {
     
     /**
 	 * @Title: updateIsDeletedByExpertId
-	 * @author XuQing 
+	 * @author  
 	 * @date 2017-5-2 下午5:03:13  
 	 * @Description:软删除附件历史信息
 	 * @param @param expertId      
@@ -229,7 +229,7 @@ public interface ExpertAuditService {
 	
 	/**
      * @Title: findByObj
-     * @author XuQing 
+     * @author  
      * @date 2017-5-8 上午10:53:24  
      * @Description:唯一校验
      * @param @param expertAudit
@@ -374,4 +374,11 @@ public interface ExpertAuditService {
     * @return
     */
    StringBuffer noPassTypeId(String expertId, String[] types, Integer auditFalg);
+   
+   
+   /**
+    *计算通过的类别数量
+    * @param expertId
+    */
+   Integer passTypeNumber(String expertId);
 }

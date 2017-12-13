@@ -82,6 +82,7 @@
 	    	                        	 result = eval("(" + result + ")");
 	    	                        	 if(result.msg=="true"){
 	    	                        		 $("#" + showId + "").css('visibility', 'hidden');
+	    	                        		 $("#" + showId + "1").remove();
 	    	                        		 layer.msg('撤销成功', {
 	                                             shift: 4, //动画类型
 	                                             offset: '100px'
@@ -188,7 +189,7 @@
 								<up:show showId="14" delete="false" businessId="${expertId}" sysKey="${expertKey}" typeId="14" />
 								<a style="visibility:hidden" id="application1" class='abolish'><img style="padding-right: 120px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 								<c:if test="${fn:contains(conditionStr,'军队评审专家承诺书')}">
-								  <a class='abolish'>
+								  <a id="application11" class='abolish'>
 								    <img style="padding-right: 120px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 								  </a>
 								</c:if>
@@ -198,7 +199,7 @@
 								<up:show showId="13"  delete="false" businessId="${expertId}" sysKey="${expertKey}" typeId="13" />
 								<a style="visibility:hidden" id="contract1" class='abolish'><img style="padding-right: 120px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 								<c:if test="${fn:contains(conditionStr,'军队评审专家入库申请表')}"> 
-								  <a class='abolish'>
+								  <a id="contract11" class='abolish'>
 								    <img style="padding-right: 120px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 								  </a>
 								</c:if>

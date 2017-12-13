@@ -213,4 +213,10 @@ public interface ExpertAuditMapper {
      */
     List<ExpertAudit> selectCatReason(ExpertAudit expertAudit);
     
+    /**
+     * 不通过的类别
+     * @param expertId
+     */
+    Integer selectNoPassType (@Param("expertId") String expertId, @Param("auditFieldId")String auditFieldId);
+    
 }

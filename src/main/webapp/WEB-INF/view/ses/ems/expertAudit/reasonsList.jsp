@@ -735,6 +735,7 @@
                   </ul>
               </div> --%>
               <input type="hidden" value="${auditOpinion.flagAudit}" id="hiddenSelectOptionId" />
+              <input type="hidden" value="${passTypeNumber}" id="passTypeNumber" />
               <form id="opinionForm" method="post">
                   <input name="id" value="${auditOpinion.id}" type="hidden">
                   <input name="flagTime" value="" id="flagTime" type="hidden"/>

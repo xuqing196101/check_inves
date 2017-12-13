@@ -81,4 +81,9 @@ public class SmsRecordServiceImpl implements SmsRecordService{
 		return smsRecordMapper.selectByPrimaryKey(id);
 	}
 
+	@Override
+	public void updateBymsgId(SmsRecord record) {
+		smsRecordMapper.updateBymsgId(record);
+	}
+
 }

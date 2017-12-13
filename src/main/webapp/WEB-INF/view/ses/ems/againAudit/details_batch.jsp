@@ -51,36 +51,59 @@
       <form action="${pageContext.request.contextPath}/expertAgainAudit/againAuditList.html" method="post" id="formSearch" class="mb0">
         <input type="hidden" name="pageNum" id="pageNum">
         <input type="hidden" name="sign" value="${sign }">
-        <ul class="demand_list">
-          <li class="mb10">
-            <label class="fl">采购机构：</label>
-            <select class="w220" name="orgName"></select>
-          </li>
-          <li class="mb10">
-            <label class="fl">专家类型：</label>
-            <select class="w220" name="expertsFrom"></select>
-          </li>
-          <li class="select2-nosearch mb10">
-            <label class="fl">专家类别：</label>
-            <div class="fl w220 h30">
-              <select class="w220 h30" name="expertsTypeId" multiple></select>
+        <div class="m_row_5">
+        <div class="row">
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+            <div class="row">
+              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购机构：</div>
+              <div class="col-xs-8 f0 lh0">
+                <select class="w100p h30 f14" name="orgName"></select>
+              </div>
             </div>
-          </li>
-          <li class="mb10">
-            <label class="fl">审核组：</label>
-            <select class="w220" name="groupId"></select>
-          </li>
-          <li class="mb10">
-            <label class="fl">审核结论：</label>
-            <select class="w220" name="status">
-              <option value="">全部</option>
-              <option value="-3">复审合格</option>
-              <option value="5">复审不合格</option>
-              <option value="10">复审退回修改</option>
-            </select>
-          </li>
-        </ul>
-        <div class="clear"></div>
+          </div>
+          
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+            <div class="row">
+              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">专家类型：</div>
+              <div class="col-xs-8 f0 lh0">
+                <select class="w100p h30 f14" name="expertsFrom"></select>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+            <div class="row">
+              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">专家类别：</div>
+              <div class="col-xs-8 f0 lh0 m_select2">
+                <select class="w100p f14" name="expertsTypeId" multiple></select>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+            <div class="row">
+              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">审核组：</div>
+              <div class="col-xs-8 f0 lh0">
+                <select class="w100p h30 f14" name="groupId"></select>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+            <div class="row">
+              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">审核结论：</div>
+              <div class="col-xs-8 f0 lh0">
+                <select class="w100p h30 f14" name="status">
+                  <option value="">全部</option>
+                  <option value="-3">复审合格</option>
+                  <option value="5">复审不合格</option>
+                  <option value="10">复审退回修改</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
         <div class="tc">
           <button type="button" class="btn mb0 canDisable" onclick="detailsBatch_search()">查询</button>
           <button type="reset" class="btn mb0 mr0 canDisable" id="againAudit_reset">重置</button>
