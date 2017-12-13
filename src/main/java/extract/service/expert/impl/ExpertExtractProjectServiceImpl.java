@@ -418,6 +418,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
         }
 
         //结果
+        //正式专家
         List<ExpertExtractResult> resultList = resultMapper.getResultListByrecordId(id);
         for (ExpertExtractResult expertExtractResult : resultList) {
             if(expertExtractResult.getExpertCode() != null){
@@ -438,6 +439,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
                 expertExtractResult.setProfessional(profi.length() > 1 ? profi.substring(0,profi.length() - 1) : profi);
             }
         }
+        //候补专家
         List<ExpertExtractResult> backList = resultMapper.getBackExpertListByrecordId(id);
         for (ExpertExtractResult expertExtractResult : backList) {
             if(expertExtractResult.getExpertCode() != null){
