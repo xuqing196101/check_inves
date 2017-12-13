@@ -152,7 +152,31 @@ function validationIsNull(code){
     //项目编号
     var xmProjectId = $("#xmProjectId").val();
     if(xmProjectId == null || xmProjectId == ''){
-    	vaCode();
+        var projectCode = $("#projectCode").val();
+        if(projectCode == null || projectCode == ""){
+            $("#err_code").html("项目编号不能为空");
+        }else{
+            // 验证项目编号重复校验
+            $.ajax({
+                url : globalPath + "/extractExpert/vaProjectCode.do",
+                data : {
+                    "code" : projectCode,
+                    "xmProjectId" : xmProjectId
+                },
+                dataType : "json",
+                async : false,
+                type : "POST",
+                success : function(data) {
+                    if(data.status == "no"){
+                        $("#err_code").html("项目编号已被使用");
+                        flag = false;
+                        layer.msg("请完善项目信息");
+                    }else{
+                        $("#err_code").html("");
+                    }
+                }
+            });
+        }
     }
     // 评审时间
     var reviewTime = $("#reviewTime").val();
@@ -862,7 +886,7 @@ function opens(cate) {
     var ids = coUndifined($("#"+typeCode.toLowerCase()+"_type").val());
     var isSatisfy = coUndifined($("#"+typeCode.toLowerCase()+"_isSatisfy").val());
     //获取类别
-    cate.value = "";
+    //cate.value = "";
     //  iframe层
     var iframeWin;
     layer.open({
@@ -1413,8 +1437,6 @@ function vaCode(){
             success : function(data) {
                 if(data.status == "no"){
                     $("#err_code").html("项目编号已被使用");
-                    flag = false;
-                    layer.msg("请完善项目信息");
                 }else{
                     $("#err_code").html("");
                 }

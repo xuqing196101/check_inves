@@ -170,7 +170,7 @@
             </div>
           </li>
           <li class="col-md-3 col-sm-4 col-xs-12 ">
-            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "> 其他要求:</span>
+            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "> 其他信息:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
               <input class="span5" type="text" name="remark" value = "${remark }"><span class="add-on">i</span>
               <div class="cue" id="extractionSitesError"></div>

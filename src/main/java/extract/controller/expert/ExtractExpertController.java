@@ -30,8 +30,8 @@ import bss.service.ppms.AdvancedProjectService;
 import bss.service.ppms.ProjectService;
 
 import com.alibaba.fastjson.JSON;
-import common.annotation.CurrentUser;
 
+import common.annotation.CurrentUser;
 import extract.model.expert.ExpertExtractCateInfo;
 import extract.model.expert.ExpertExtractCondition;
 import extract.model.expert.ExpertExtractProject;
@@ -115,7 +115,7 @@ public class ExtractExpertController {
     public String toExpertExtract(@CurrentUser User user,Model model,String projectId,String projectInto,String packageId,String packageName){
         //权限验证  采购机构  可以抽取
         String authType = null;
-        if(null != user && ("1".equals(user.getTypeName()))){
+        if(null != user && ("4".equals(user.getTypeName()) || "1".equals(user.getTypeName()))){
             authType = user.getTypeName();
             //采购方式
             List<DictionaryData> purchaseWayList = new ArrayList<DictionaryData>();
@@ -300,6 +300,20 @@ public class ExtractExpertController {
         model.addAttribute("type", type);
         model.addAttribute("ids", id);
         model.addAttribute("isSatisfy", isSatisfy);
+        List<String> nameList = new ArrayList<String>();
+        for (String categoryId : id.split(",")) {
+        	Category category = categoryService.findById(categoryId == null ? "" : categoryId);
+			nameList.add(category == null ? "" : category.getName());
+		}
+        StringBuffer names = new StringBuffer();
+        for (String string : nameList) {
+        	names.append(string + ",");
+		}
+        String vname = "";
+        if(names != null && names.toString().length() > 0){
+        	vname = names.toString().substring(0, names.toString().length() - 1);
+        }
+        model.addAttribute("names", vname);
         return "ses/ems/exam/expert/extract/product";
     }
     
@@ -435,6 +449,16 @@ public class ExtractExpertController {
             return "";
         }
         String[] cheIds = ids.split(",");
+        String[] codeArr = code.split(",");
+        String isjj = "";
+        for (int i = 0; i < codeArr.length; i++) {
+			if("PROJECT".equals(codeArr[i])){
+				isjj = "1";
+			}
+			if("GOODS_PROJECT".equals(codeArr[i])){
+				isjj = "0";
+			}
+		}
         if(code.indexOf("ENG_INFO_ID") > 0){
             code = "ENG_INFO_ID";
         }
@@ -454,7 +478,7 @@ public class ExtractExpertController {
         }
         if (typeData != null && typeData.getCode().equals("ENG_INFO_ID")) {
             // 查询出所有满足条件的品目
-            List < Category > categoryList = service.searchByName(cateName, "ENG_INFO", codeName);
+            List < Category > categoryList = expertExtractProjectService.searchByCodeandName(cateName, "ENG_INFO", codeName,isjj);
             // 循环判断是不是当前树的节点
             List < Category > cateList = new ArrayList < Category > ();
             for(Category category: categoryList) {
@@ -503,7 +527,7 @@ public class ExtractExpertController {
         } else {
             String type = typeId;
             // 查询出所有满足条件的品目
-            List < Category > categoryList = service.searchByName(cateName, null, codeName);
+            List < Category > categoryList = expertExtractProjectService.searchByCodeandName(cateName, null, codeName,null);
             // 循环判断是不是当前树的节点
             List < Category > cateList = new ArrayList < Category > ();
             for(Category category: categoryList) {

@@ -528,6 +528,24 @@
 		</if>
 	</select>
 	
+
+	<!-- 根据名称模糊查询 -->
+	<select id="searchByCodeandName" resultMap="CateMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_BMS_ENG_CATEGORY
+		WHERE IS_DELETED=0 AND IS_PUBLISH = 0
+		<if test="cateName != null">
+			AND NAME like CONCAT(CONCAT('%', #{cateName}), '%')
+		</if> 
+		<if test="codeName != null">
+			AND CODE = #{codeName}
+		</if> 
+		<if test="isjj != null and isjj != ''">
+			AND EXPERT_TYPE = #{isjj}
+		</if> 
+	</select>
+
 	<!-- 根据id查询 -->
 	<select id="selectById" parameterType="String" resultMap="resMap">
 		SELECT ID,NAME,PARENT_ID
