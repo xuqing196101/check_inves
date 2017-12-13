@@ -3,6 +3,8 @@ package extract.dao.common;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import extract.model.common.ExtractUser;
 
 public interface PersonRelMapper {
@@ -22,5 +24,14 @@ public interface PersonRelMapper {
 
 	void deleteByMap(HashMap<String, Object> map);
 
-	
+	/**
+	 * 
+	 * <简述>复制当前关联关系创建新记录关联关系
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-12-11上午10:34:29
+	 * @param rid_new   新的抽取记录Id
+	 * @param recordId 被复制的抽取记录ID
+	 */
+	void copyPersonRelToAgainByRid(@Param("rid")String rid_new, @Param("recordId")String recordId);
 }

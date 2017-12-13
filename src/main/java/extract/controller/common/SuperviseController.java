@@ -37,17 +37,11 @@ public class SuperviseController {
      */
      @RequestMapping("/toPeronList")
     public String toPeronList(Model model,String personType,Supervise suser,@CurrentUser User user2){
-    	 if("supervise".equals(personType) && null !=user2 && user2.getTypeName().equals("1")){
-       		String orgId = user2.getOrg().getId();
-       		if(StringUtils.isNotBlank(orgId)){
+    	 if("supervise".equals(personType) && null !=user2 && (user2.getTypeName().equals("1")||user2.getTypeName().equals("4"))){
+    		 String orgId = user2.getTypeName().equals("4")?user2.getTypeName():user2.getOrg().getId();
        			suser.setOrgId(orgId);
        			model.addAttribute("personType", personType);
        			model.addAttribute("personList", superviseService.getList(suser));
-       		}
-   		}else if(user2.getTypeName().equals("4")){
-   			suser.setOrgId("4");
-   			model.addAttribute("personType", personType);
-   			model.addAttribute("personList", superviseService.getList(suser));
    		}
         return "ses/extract/person_list";
     }
@@ -60,10 +54,9 @@ public class SuperviseController {
      @RequestMapping("/getPeronList")
      @ResponseBody
      public String getPeronList(Model model,String personType,Supervise user,@CurrentUser User user2){
-    	 
     	  if (personType != null && !"".equals(personType)) {
           	if("supervise".equals(personType) && null !=user2){
-          		String orgId = user2.getOrg().getId();
+          		String orgId = user2.getTypeName().equals("4")?user2.getTypeName():user2.getOrg().getId();
           		if(StringUtils.isNotBlank(orgId)){
           			user.setOrgId(orgId);
           			return JSON.toJSONString(superviseService.getList(user));
@@ -73,6 +66,17 @@ public class SuperviseController {
 		return "";
      }
      
+     /**
+      * 
+      * <简述> 添加人员信息
+      *
+      * @author Jia Chengxiang
+      * @dateTime 2017-12-11上午10:31:47
+      * @param user 监督人员
+      * @param result
+      * @param user2 当前登陆用户
+      * @return
+      */
      @RequestMapping("/addPerson")
      @ResponseBody
      public String addPerson(@Valid Supervise user,BindingResult result,@CurrentUser User user2){
@@ -86,15 +90,12 @@ public class SuperviseController {
     		 return JSON.toJSONString(err);
     	 }
     	 HashMap<String, String> addPerson = null;
-    	if(null!= user2 && user2.getTypeName().equals("1")){
-    		String orgId = user2.getOrg().getId();
+    	if(null!= user2 && (user2.getTypeName().equals("1")||user2.getTypeName().equals("4"))){
+    		String orgId = user2.getTypeName().equals("4")?user2.getTypeName():user2.getOrg().getId();
     		if(StringUtils.isNotBlank(orgId)){
     			user.setOrgId(orgId);
     			addPerson = superviseService.addPerson(user);
     		}
-    	}else if(user2.getTypeName().equals("4")){
-			user.setOrgId("4");
-			addPerson = superviseService.addPerson(user);
     	}
 		return JSON.toJSONString(addPerson);
      }

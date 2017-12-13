@@ -39,4 +39,10 @@
 	<select id="getlistByRid" parameterType="java.lang.String" resultType="java.lang.String">
 		SELECT wm_concat(U.NAME) FROM T_SES_EXTRACT_USER U  LEFT JOIN T_SES_EXT_RECORD_REL_PERSON P ON P.PERSON_ID = U.ID WHERE P.PERSON_TYPE = 'extractUser' AND P.IS_DELETE = '0' AND P.RECORD_ID = #{value}
 	</select>
+	
+	<insert id="copyPersonRelToAgainByRid">
+		INSERT INTO T_SES_EXT_RECORD_REL_PERSON
+		SELECT #{rid} RECORD_ID, PERSON_TYPE,PERSON_ID,SYSDATE CREATED_AT,IS_DELETE FROM T_SES_EXT_RECORD_REL_PERSON WHERE RECORD_ID = #{recordId}
+	</insert>
+	
 </mapper>

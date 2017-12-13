@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -703,4 +704,35 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
         }
         synchRecordService.synchBidding(new Date(), sum+"", Constant.DATE_SYNCH_EXPERT_EXTRACT, Constant.OPER_TYPE_EXPORT, Constant.EXPERT_EXTRACT_COMMIT);
 	}
+
+
+	@Override
+	public List<Category> searchByCodeandName(String cateName, String flag, String codeName,String isjj) {
+		if (flag == null) {
+        	List<Category> list = categoryMapper.searchByCodeandName(cateName, codeName);
+        	List<Category> listNot =new  LinkedList<Category>();
+        	for(Category cate:list){
+        		boolean bool = isPublish(cate.getId());
+        		if(bool!=true){
+        			listNot.add(cate);
+        		}
+        	}
+        	list.removeAll(listNot);
+            return list;
+        } else {
+            return engCategoryMapper.searchByCodeandName(cateName, codeName, isjj);
+        }
+	}
+	
+	public boolean isPublish(String id) {
+		boolean bool=true;
+	   List<Category> categorys = categoryMapper.getParentByChildren(id);
+	   for(Category cate:categorys ){
+		   if(cate.getIsPublish().equals(1)){
+			   bool=false;
+		   }
+	   }
+		return bool;
+	}
+
 }

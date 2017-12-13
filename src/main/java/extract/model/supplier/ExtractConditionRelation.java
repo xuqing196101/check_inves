@@ -17,6 +17,8 @@ public class ExtractConditionRelation {
 	 */
 	private String propertyValue;
 	
+	private String cateLevel;
+	
 	public String getConditionId() {
 		return conditionId;
 	}
@@ -35,6 +37,20 @@ public class ExtractConditionRelation {
 	public void setPropertyValue(String propertyValue) {
 		this.propertyValue = propertyValue;
 	}
+	
+	
+	public String getCateLevel() {
+		return cateLevel;
+	}
+	public void setCateLevel(String cateLevel) {
+		this.cateLevel = cateLevel;
+	}
+	/**
+	 * 不包含品目等级关系
+	 * @param conditionId
+	 * @param propertyName
+	 * @param propertyValue
+	 */
 	public ExtractConditionRelation(String conditionId, String propertyName,
 			String propertyValue) {
 		super();
@@ -42,9 +58,24 @@ public class ExtractConditionRelation {
 		this.propertyName = propertyName;
 		this.propertyValue = propertyValue;
 	}
+	
+	/**
+	 * 包含品目等级关系
+	 * @param conditionId
+	 * @param propertyName
+	 * @param propertyValue
+	 * @param levelType
+	 */
+	public ExtractConditionRelation(String conditionId, String propertyName,
+			String propertyValue, String catelevel) {
+		super();
+		this.conditionId = conditionId;
+		this.propertyName = propertyName;
+		this.propertyValue = propertyValue;
+		this.cateLevel = catelevel;
+	}
 	public ExtractConditionRelation() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 	

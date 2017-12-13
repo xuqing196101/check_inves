@@ -2257,7 +2257,7 @@
               </w:p>
             </w:tc>
           </w:tr>
-		  <#list extractUsers! as tree>
+		  <#list supervises! as tree>
           <w:tr>
             <w:trPr>
               <w:trHeight w:val="539"/>

@@ -25,7 +25,7 @@ public class MobileUtils {
     private static MobileUtils mobileUtils;
     
     /** 当前地区的区号 **/
-    public static final String AREACODE = "0512";//江苏苏州
+    public static final String AREACODE = PropUtil.getProperty("areaCode");
 
 	public void setMobileMapper(MobileMapper mobileMapper) {
 		this.mobileMapper = mobileMapper;
@@ -75,4 +75,5 @@ public class MobileUtils {
     	}
     	return mobileNum;
     }
+    
 }

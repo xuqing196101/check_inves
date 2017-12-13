@@ -140,6 +140,7 @@
             <td class="tc">
               <c:if test="${obj.status == 0 }">发送成功</c:if>
               <c:if test="${obj.status == 1 }">发送失败</c:if>
+              <c:if test="${obj.status == 2 }">发送失败</c:if>
             </td>
             <td class="tc">${obj.failReason}</td>
           </tr>

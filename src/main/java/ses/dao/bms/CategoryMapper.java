@@ -455,6 +455,8 @@ public interface CategoryMapper {
 	 */
 	List<Category> selectParentNode(@Param("classifyType") int classifyType,@Param("classifyStatus") String classifyStatus,@Param("categoryIds") String[] categoryIds);
 
+	
+	List<Category> searchByCodeandName(String cateName, String codeName);
 	/**
 	 * 根据父节点ID统计数量
 	 * @param categoryId

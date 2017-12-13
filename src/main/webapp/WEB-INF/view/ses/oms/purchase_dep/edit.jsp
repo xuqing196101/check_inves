@@ -702,7 +702,7 @@
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">联系电话</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="contactTelephone" maxlength="40" value="${purchaseDep.contactTelephone}" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text">
+                      <input class="input_group" name="contactTelephone" maxlength="40" value="${purchaseDep.contactTelephone}" type="text">
                       <span class="add-on">i</span>
                       <div class="cue">${ERR_contactTelephone}</div>
                     </div>

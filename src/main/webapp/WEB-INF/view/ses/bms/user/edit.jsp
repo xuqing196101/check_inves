@@ -269,22 +269,29 @@
 			}
 		    
 			if (orgType == '3') {
+				$("#select_org").show();
 			   $("#isOrgShow").show();
 			   $("#orgTitle").html("所属机构");
 				$("#orgSel").hide();
                 $("#ajax_orgId").html("");
                 $("#tempOrg").hide();
 				$("#oId").attr("type","text");
-			} else if (orgType =='5'|| orgType == '4' ) {
+			} else if (orgType =='5') {
+				$("#select_org").show();
 			   $("#isOrgShow").hide();
 			   $("#orgTitle").html("监管对象");
 			   $("#orgSel").show();
                 $("#ajax_orgId").html("");
                 $("#tempOrg").show();
 			   $("#oId").attr("type","hidden");
+			}else if (  orgType == '4') {
+			   $("#select_org").hide();
+			   $("#oId").attr("type","hidden");
+			   $("#tempOrg").show();
 			}else{
-			  $("#isOrgShow").show();
-			   $("#orgTitle").html("所属机构");
+				$("#select_org").show();
+			  	$("#isOrgShow").show();
+			   	$("#orgTitle").html("所属机构");
 				$("#orgSel").show();
                 $("#ajax_orgId").html("");
                 $("#tempOrg").hide();
@@ -299,6 +306,9 @@
 				$("#orgSel").hide();
 				$("#oId").attr("type","text");
 				$("#oId").val("${user.orgName}");
+			}
+			if(orgTypeName == '4'){
+				$("#select_org").hide();
 			}
 		});
 		
@@ -432,6 +442,71 @@
 				}
     		})
     	})
+    	
+    	function searchs(){
+		var name=$("#search").val();
+		if(name!=""){
+			var userId = $("#uId").val();
+			var setting = {
+			check: {
+					enable: true,
+					chkboxType: {"Y":"", "N":""}
+				},
+				view: {
+					dblClickExpand: false
+				},
+				data: {
+					simpleDatas: {
+						enable: true
+					}
+				},
+				callback: {
+					beforeClick: beforeClick,
+					onCheck: onCheck
+				}
+			};
+	        $.ajax({
+             type: "GET",
+             async: false, 
+             url: "${pageContext.request.contextPath}/role/roletree.do?userId="+userId,
+             dataType: "json",
+             success: function(zNodes){
+                     /* for (var i = 0; i < zNodes.length; i++) { 
+			            if (zNodes[i].isParent) {  
+			 
+			            } else {  
+			                //zNodes[i].icon = "${ctxStatic}/images/532.ico";//设置图标  
+			            }  
+			        }   */
+			        tree = $.fn.zTree.init($("#treeRole"), setting, zNodes);  
+			        tree.expandAll(true);//全部展开
+               }
+         	});
+			
+			// 加载中的菊花图标
+			//var loading = layer.load(1);
+			
+			$.ajax({
+				url: "${pageContext.request.contextPath}/role/roletree.do",
+				data: { "name" : encodeURI(name), "userId": userId},
+				async: false,
+				dataType: "json",
+				success: function(data){
+					if (data.length == 0) {
+						layer.msg("没有符合查询条件的角色！");
+					} else {
+						zNodes = data;
+						zTreeObj = $.fn.zTree.init($("#treeRole"), setting, zNodes);
+						zTreeObj.expandAll(true);//全部展开
+					}
+					// 关闭加载中的菊花图标
+					//layer.close(loading);
+				}
+			});
+		}else{
+			showRole();
+		}
+	}
 	</script>
 </head>
 <body>
@@ -454,7 +529,13 @@
 			<ul id="treeOrg" class="ztree"></ul>
 	   </div>
 	   <div id="roleContent" class="roleContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
-			<ul id="treeRole" class="ztree mt0"></ul>
+			<div class=" input_group col-md-3 col-sm-6 col-xs-12 col-lg-12 p0">
+				<div class="w100p">
+			    	<input type="text" id="search" class="fl m0">
+				      <img alt="" style="position:absolute; top:8px;right:10px;" src="${pageContext.request.contextPath }/public/backend/images/view.png"  onclick="searchs()">
+			    </div>
+				<ul id="treeRole" class="ztree mt0"></ul>
+			</div>
 	   </div>
 	   <sf:form id="form1" action="${pageContext.request.contextPath}/user/update.html" method="post" modelAttribute="user">
 	   	  	<input type="hidden" name="origin"  value="${origin}"/>
@@ -633,15 +714,12 @@
 					        <div class="cue"><sf:errors path="typeName"/></div>
 				        </div>
 				 	</li>
-			 		<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+			 		<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" id="select_org">
 					    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">
 					  <c:if test="${ user.typeName == '5' }">
 					    <span class="red display-none" id="isOrgShow">*</span><span id="orgTitle">监管对象</span>
 					  </c:if>
-					    <c:if test="${user.typeName == '4' }">
-					   <span class="red display-none" id="isOrgShow">*</span><span id="orgTitle">监管对象</span>
-					  </c:if>
-					  <c:if test="${user.typeName != '5' && user.typeName != '4' }">  
+					  <c:if test="${user.typeName != '5'}">  
 					 <span class="red " id="isOrgShow">*</span><span id="orgTitle">所属机构</span>
 					  </c:if>
 					    </span>
@@ -675,6 +753,7 @@
 							 <div id="ajax_orgId" class="cue">${ajax_orgId }</div>
 						</div>
 			 		</li>
+			 		
 			 		<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" id="tempOrg">
 	                    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">单位</span>
 	                    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">

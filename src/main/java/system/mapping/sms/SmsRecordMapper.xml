@@ -14,11 +14,12 @@
     <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
     <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
     <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
+    <result column="MSG_ID" jdbcType="VARCHAR" property="msgId" />
   </resultMap>
   
   <sql id="Base_Column_List">
     ID, SEND_LINK, OPERATOR, SEND_CONTENT, RECIPIENT, RECEIVE_NUMBER, SEND_TIME, STATUS, 
-    FAIL_REASON, UPDATED_AT, IS_DELETED, ORG_ID
+    FAIL_REASON, UPDATED_AT, IS_DELETED, ORG_ID, MSG_ID
   </sql>
   
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -39,11 +40,11 @@
     insert into T_SYSTEM_SMS_RECORD (ID, SEND_LINK, OPERATOR, 
       SEND_CONTENT, RECIPIENT, RECEIVE_NUMBER, 
       SEND_TIME, STATUS, FAIL_REASON, 
-      UPDATED_AT, IS_DELETED, ORG_ID)
+      UPDATED_AT, IS_DELETED, ORG_ID, MSG_ID)
     values (#{id,jdbcType=VARCHAR}, #{sendLink,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
       #{sendContent,jdbcType=VARCHAR}, #{recipient,jdbcType=VARCHAR}, #{receiveNumber,jdbcType=VARCHAR}, 
       #{sendTime,jdbcType=DATE}, #{status,jdbcType=VARCHAR}, #{failReason,jdbcType=VARCHAR}, 
-      #{updatedAt,jdbcType=DATE}, #{isDeleted,jdbcType=DECIMAL}, #{orgId,jdbcType=VARCHAR})
+      #{updatedAt,jdbcType=DATE}, #{isDeleted,jdbcType=DECIMAL}, #{orgId,jdbcType=VARCHAR}, #{msgId,jdbcType=VARCHAR})
   </insert>
   
   <insert id="insertSelective" parameterType="system.model.sms.SmsRecord">
@@ -85,6 +86,9 @@
       <if test="orgId != null">
         ORG_ID,
       </if>
+      <if test="msgId != null">
+        MSG_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -115,13 +119,16 @@
         #{failReason,jdbcType=VARCHAR},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt,jdbcType=DATE},
+        #{updatedAt},
       </if>
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=DECIMAL},
       </if>
       <if test="orgId != null">
         #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="msgId != null">
+        #{msgId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -162,6 +169,9 @@
       <if test="orgId != null">
         ORG_ID = #{orgId,jdbcType=VARCHAR},
       </if>
+      <if test="msgId != null">
+        MSG_ID = #{msgId,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -178,7 +188,8 @@
       FAIL_REASON = #{failReason,jdbcType=VARCHAR},
       UPDATED_AT = #{updatedAt,jdbcType=DATE},
       IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
-      ORG_ID = #{orgId,jdbcType=VARCHAR}
+      ORG_ID = #{orgId,jdbcType=VARCHAR},
+      MSG_ID = #{msgId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   
@@ -212,7 +223,12 @@
       </if>
       <!-- 状态 -->
       <if test="status != null and status != ''">
-        AND STATUS = #{status}
+		<if test="status == 0">
+			AND STATUS = #{status}
+		</if>
+		<if test="status == 1">
+			AND STATUS IN (1,2)
+		</if>
       </if>
       <!-- 发送时间 -->
       <if test="startTime != null and startTime != ''">
@@ -239,4 +255,14 @@
   <select id="selectByUserId" parameterType="String" resultType="String">
       SELECT REL_NAME FROM T_SES_BMS_USER WHERE ID = #{id}
   </select>
+  
+  <!-- 根据返回的短信id和手机号码修改短信发送状态 -->
+  <update id="updateBymsgId" parameterType="system.model.sms.SmsRecord">
+    UPDATE T_SYSTEM_SMS_RECORD
+    SET STATUS = #{status}, FAIL_REASON = #{failReason}, UPDATED_AT = #{updatedAt}
+    WHERE MSG_ID = #{msgId}
+    <if test="receiveNumber != null and receiveNumber != ''">
+        AND RECEIVE_NUMBER = #{receiveNumber}
+    </if>
+  </update>
 </mapper>
