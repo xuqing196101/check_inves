@@ -85,11 +85,16 @@
 			ids="";
 			pid="";
 			 for (var i=0, l=nodes.length; i<l; i++) {
-			    if(!nodes[i].isParent){
-			    v += nodes[i].name + ",";
+				v += nodes[i].name + ",";
 				ids +=nodes[i].id+",";
+				/* if(!nodes[i].isParent){
+			    	v += nodes[i].name + ",";
+					ids +=nodes[i].id+",";
 			    }else{
-			      pid +=nodes[i].id+",";
+			      	pid +=nodes[i].id+",";
+			    } */
+				if(nodes[i].isParent){
+			      	pid +=nodes[i].id+",";
 			    }
 			} 
 			

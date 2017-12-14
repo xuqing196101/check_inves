@@ -40,17 +40,24 @@
 			ids="";
 			pid="";
 			 for (var i=0, l=nodes.length; i<l; i++) {
-			    if(!nodes[i].isParent){
+				 v += nodes[i].name + ",";
+				ids +=nodes[i].id+",";
+			    /* if(!nodes[i].isParent){
 			    v += nodes[i].name + ",";
 				ids +=nodes[i].id+",";
 			    }else{
 			      pid +=nodes[i].id+",";
+			    } */
+				if(nodes[i].isParent){
+					 pid +=nodes[i].id+",";
+			    }else{
+			      
 			    }
 			} 
-			
 			if (v.length > 0 ) v = v.substring(0, v.length-1);
 			var cityObj = $("#orgSel");
 			cityObj.attr("value", v);
+			cityObj.attr("title", v);
 			$("#oId").val(ids);
 			$("#orgParent").val(pid);
 			
