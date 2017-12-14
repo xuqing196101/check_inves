@@ -2857,8 +2857,7 @@
 
 	<!-- 专家抽取根据条件查询专家 -->
   <select id="findExpertByExtract" parameterType="Map" resultMap="BaseResultMap">
-    SELECT 
-      <include refid="Base_Column_List" />
+    SELECT ID,REAL_NAME,MOBILE,EXPERTS_TYPE_ID,WORK_UNIT,PROFESS_TECH_TITLES,PROFESSIONAL
         FROM 
           T_SES_EMS_EXPERT
         WHERE 

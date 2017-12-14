@@ -301,10 +301,17 @@ public class ExtractExpertController {
         model.addAttribute("ids", id);
         model.addAttribute("isSatisfy", isSatisfy);
         List<String> nameList = new ArrayList<String>();
-        for (String categoryId : id.split(",")) {
-        	Category category = categoryService.findById(categoryId == null ? "" : categoryId);
-			nameList.add(category == null ? "" : category.getName());
-		}
+        if(type.indexOf("ENG_INFO_ID") > 0){
+            for (String categoryId : id.split(",")) {
+            	Category category = engCategoryService.findById(categoryId == null ? "" : categoryId);
+    			nameList.add(category == null ? "" : category.getName());
+    		}
+        }else{
+            for (String categoryId : id.split(",")) {
+            	Category category = categoryService.findById(categoryId == null ? "" : categoryId);
+    			nameList.add(category == null ? "" : category.getName());
+    		}
+        }
         StringBuffer names = new StringBuffer();
         for (String string : nameList) {
         	names.append(string + ",");

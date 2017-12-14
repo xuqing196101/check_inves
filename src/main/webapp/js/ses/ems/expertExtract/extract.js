@@ -883,8 +883,17 @@ function vaCount(cate){
 /**展示品目*/
 function opens(cate) {
     var typeCode = $(cate).attr("typeCode");
-    var ids = coUndifined($("#"+typeCode.toLowerCase()+"_type").val());
-    var isSatisfy = coUndifined($("#"+typeCode.toLowerCase()+"_isSatisfy").val());
+    var ids = "";
+    var isSatisfy = "";
+	if (typeCode.indexOf(",") > 0) {
+		var cs = typeCode.split(",");
+		if(cs.length > 0){
+			ids = coUndifined($("#"+cs[0].toLowerCase()+"_eng_info").val());
+		}
+	}else{
+		ids = coUndifined($("#"+typeCode.toLowerCase()+"_type").val());
+		isSatisfy = coUndifined($("#"+typeCode.toLowerCase()+"_isSatisfy").val());
+	}
     //获取类别
     //cate.value = "";
     //  iframe层
