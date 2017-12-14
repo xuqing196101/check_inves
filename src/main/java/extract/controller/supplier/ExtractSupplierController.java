@@ -30,6 +30,7 @@ import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.PreMenu;
 import ses.model.bms.User;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
@@ -110,9 +111,15 @@ public class ExtractSupplierController extends BaseController {
      */
     @RequestMapping("/projectList")
     public String list(Integer page, Model model, SupplierExtractProjectInfo project,@CurrentUser User user,String startTime,String endTime){
-    	
+    	List<PreMenu> resource = (List<PreMenu>) request.getSession().getAttribute("resource");
+    	boolean flag = false;
+    	for (PreMenu preMenu : resource) {
+			if(preMenu.getName().contains("供应商抽取记录") && preMenu.getUrl().contains("projectList")){
+				flag = true;
+			}
+		}
     	try {
-    		if(null!=user && ("1".equals(user.getTypeName()) || "4".equals(user.getTypeName())) ){
+    		if(null!=user && flag && ("1".equals(user.getTypeName()) || "4".equals(user.getTypeName())) ){
     	
 	    		//采购方式
 	            List<DictionaryData> purchaseWayList = new ArrayList<>();
