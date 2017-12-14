@@ -1197,6 +1197,13 @@
 								<w:p>
 									<w:pPr>
 										<w:jc w:val="center" /></w:pPr>
+									<w:r>
+										<w:rPr>
+											<w:rFonts w:hint="fareast" />
+											<wx:font wx:val="宋体" />
+										</w:rPr>
+										<w:t>${tree.remark!}</w:t>
+									</w:r>
 								</w:p>
 							</w:tc>
 						</w:tr>
