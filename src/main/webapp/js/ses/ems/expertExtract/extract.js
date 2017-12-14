@@ -1432,12 +1432,12 @@ function extract_end(){
 function alterEndInfo(){
     var packageId = $("#packageId").val();
     var projectId = $("#projectId").val();
-    layer.alert("是否需要发送短信至确认参加供应商");
+    layer.alert("是否需要发送短信至确认参加的专家");
     var index = layer.alert("完成抽取,打印记录表",function(){
         window.open(globalPath+"/extractExpertRecord/printRecord.html?id="+projectId,"下载抽取表");
         $("#extractEnd").prop("disabled",true);
         if(packageId == null || packageId == ""){
-            window.location.href=globalPath+"/extractExpertRecord/getRecordList.html";
+            window.location.href=globalPath+"/extractExpertRecord/pageJump.html";
         }else{
             window.open("","_self").close();
         }

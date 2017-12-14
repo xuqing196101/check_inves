@@ -56,7 +56,7 @@ public interface ExpertExtractProjectService {
      * @param 
      * @return
      */
-    List<ExpertExtractProject> findAll(Map<String, Object> map ,ExpertExtractProject expertExtractProject);
+    List<ExpertExtractProject> findAll(Map<String, Object> map ,ExpertExtractProject expertExtractProject,User loginUser)  throws Exception ;
     
     /**
      * 
