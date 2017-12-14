@@ -37,6 +37,7 @@ import common.utils.UploadUtil;
 import ses.service.ems.ExpertAuditService;
 import ses.service.sms.SupplierModifyService;
 import ses.util.PropUtil;
+import ses.util.WfUtil;
 import synchro.util.FileEncryption;
 
 /**
@@ -478,7 +479,8 @@ public class UploadServiceImpl implements UploadService {
         if (StringUtils.isNotBlank(fileSysPath)){
             finalPath = finalPath + fileSysPath + File.separator + UploadUtil.getDataFilePath();
             UploadUtil.createDir(finalPath);
-            String targetFileName = System.currentTimeMillis()+ "." + fileRealName.substring(fileRealName.lastIndexOf(".")+1) ;
+            //String targetFileName = System.currentTimeMillis()+ "." + fileRealName.substring(fileRealName.lastIndexOf(".")+1) ;
+            String targetFileName = WfUtil.createUUID() + "." + fileRealName.substring(fileRealName.lastIndexOf(".")+1) ;
             File tagetFile = new File(finalPath, targetFileName);
             File srcFile = new File(srcFilePath);
             if (!srcFile.exists()){
