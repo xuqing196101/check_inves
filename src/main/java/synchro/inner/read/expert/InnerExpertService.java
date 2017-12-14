@@ -46,5 +46,9 @@ public interface InnerExpertService {
      * @since JDK1.7
      */
     void importExpOfPublicity(final File file);
+    /**
+     * 将外网注销专家导入内网
+     * */
+    void delExpert(File file) ;
 
 }

@@ -222,7 +222,14 @@ public class Constant {
     public final static String EXPORT_SYNCH_LOGOUT_SUPPLIER="导出供应商注销信息数量:";
     /**供应商注销  导入信息描述 **/
     public final static String IMPORT_SYNCH_LOGOUT_SUPPLIER="导入供应商注销信息数量:";
-
+    
+    /**专家注销信息**/
+    public final static String SYNCH_LOGOUT_EXPERT="SYNCH_LOGOUT_EXPERT";
+    /**专家注销  导出信息描述 **/
+    public final static String EXPORT_SYNCH_LOGOUT_EXPERT="导出专家注销信息数量:";
+    /**专家注销  导入信息描述 **/
+    public final static String IMPORT_SYNCH_LOGOUT_EXPERT="导入专家注销信息数量:";
+    
     /**专家公示信息**/
     public final static String SYNCH_PUBLICITY_EXPERT="SYNCH_PUBLICITY_EXPERT";
     /**专家公示  导出信息描述 **/
