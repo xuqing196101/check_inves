@@ -62,10 +62,10 @@ public class SupplierExtractConditionServiceimp implements
 	ObjectMapper mapper = new ObjectMapper();
 
 	@Autowired
-	SupplierExtractConditionMapper conditionMapper;
+	SupplierExtractConditionMapper conditionMapper; //抽取条件表
 
 	@Autowired
-	SupplierExtractRelateResultMapper supplierExtRelateMapper;
+	SupplierExtractRelateResultMapper supplierExtRelateMapper;//抽取结果关联表
 
 	@Autowired
 	PackageService packageService;
@@ -74,7 +74,7 @@ public class SupplierExtractConditionServiceimp implements
 	private ProjectService projectService;
 
 	@Autowired
-	private ExtractConditionRelationMapper extractConditionRelationMapper;// 条件关联表
+	private ExtractConditionRelationMapper extractConditionRelationMapper;// 条件副表
 
 	@Autowired
 	private DictionaryDataMapper dictionaryDataMapper;
@@ -1269,5 +1269,10 @@ public class SupplierExtractConditionServiceimp implements
 				}
 			}
 		}
+	}
+
+	@Override
+	public List<Supplier> testVoiceExtract(String lastRow) {
+		return  supplierExtRelateMapper.testVoiceExtract(lastRow);
 	}
 }

@@ -130,8 +130,11 @@
    	  <if test="extractTheWay != null and extractTheWay != ''">
     	AND  E.EXTRACT_THE_WAY = #{extractTheWay}
       </if>
-   	  <if test="procurementDepId != null and procurementDepId != ''">
-    	AND E.PROCUREMENT_DEP_ID = #{procurementDepId}  
+   	  <if test="procurementDepIds != null ">
+    	AND E.PROCUREMENT_DEP_ID IN 
+    	<foreach collection="procurementDepIds" index="in" item="it" open="(" separator="," close=")">
+	    	 #{it}  
+    	</foreach>
       </if>
    	  <if test="projectName != null and projectName != ''">
         AND E.PROJECT_NAME like CONCAT(CONCAT('%', #{projectName}), '%')

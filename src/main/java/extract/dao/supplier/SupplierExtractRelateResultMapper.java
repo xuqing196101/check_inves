@@ -287,5 +287,16 @@ public interface SupplierExtractRelateResultMapper {
 	 */
 	List<Supplier> selectSuppleir(SupplierExtractCondition condition);
 
+	/**
+	 * 
+	 * <简述>语音抽取联调测试 
+	 *
+	 * @author Jia Chengxiang
+	 * @param lastRow 
+	 * @dateTime 2017-12-13下午8:32:43
+	 * @return
+	 */
+	List<Supplier> testVoiceExtract(String lastRow);
+
 	
 }
