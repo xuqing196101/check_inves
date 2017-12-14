@@ -79,8 +79,22 @@ public class ExpertExtractResult extends ExpertHistory implements Serializable {
      * 专家类别
      */
     private String expertCode;
+    
+    /**
+     * 备注
+     */
+    private String remark;
+    
 
-    public String getExpertCode() {
+    public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public String getExpertCode() {
         return expertCode;
     }
 
