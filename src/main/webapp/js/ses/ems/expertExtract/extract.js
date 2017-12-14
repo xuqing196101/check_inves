@@ -883,8 +883,17 @@ function vaCount(cate){
 /**展示品目*/
 function opens(cate) {
     var typeCode = $(cate).attr("typeCode");
-    var ids = coUndifined($("#"+typeCode.toLowerCase()+"_type").val());
-    var isSatisfy = coUndifined($("#"+typeCode.toLowerCase()+"_isSatisfy").val());
+    var ids = "";
+    var isSatisfy = "";
+	if (typeCode.indexOf(",") > 0) {
+		var cs = typeCode.split(",");
+		if(cs.length > 0){
+			ids = coUndifined($("#"+cs[0].toLowerCase()+"_eng_info").val());
+		}
+	}else{
+		ids = coUndifined($("#"+typeCode.toLowerCase()+"_type").val());
+		isSatisfy = coUndifined($("#"+typeCode.toLowerCase()+"_isSatisfy").val());
+	}
     //获取类别
     //cate.value = "";
     //  iframe层
@@ -907,11 +916,42 @@ function opens(cate) {
             getCount();
         }
         , btn2: function () {
-            opens(cate);
+        	categoryReset(cate);
         }
     });
 }
 
+//品目框重置
+function categoryReset(cate){
+	var typeCode = $(cate).attr("typeCode");
+    var ids = "";
+    var isSatisfy = "1";
+    //获取类别
+    //cate.value = "";
+    //  iframe层
+    var iframeWin;
+    layer.open({
+        type: 2,
+        title: "选择条件",
+        shadeClose: true,
+        shade: 0.01,
+        area: ['440px', '400px'],
+        offset: '20px',
+        skin: "aabbcc",
+        content: globalPath+'/extractExpert/addHeading.do?type='+typeCode+'&&id='+ids+'&&isSatisfy='+isSatisfy, //iframe的url
+        success: function (layero, index) {
+            iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+        },
+        btn: ['保存', '重置']
+        , yes: function () {
+            iframeWin.getChildren(cate);
+            getCount();
+        }
+        , btn2: function () {
+        	categoryReset(cate);
+        }
+    });
+}
 
 /**展示地区*/
 //加载地区树形结构
@@ -1392,12 +1432,12 @@ function extract_end(){
 function alterEndInfo(){
     var packageId = $("#packageId").val();
     var projectId = $("#projectId").val();
-    layer.alert("是否需要发送短信至确认参加供应商");
+    layer.alert("是否需要发送短信至确认参加的专家");
     var index = layer.alert("完成抽取,打印记录表",function(){
         window.open(globalPath+"/extractExpertRecord/printRecord.html?id="+projectId,"下载抽取表");
         $("#extractEnd").prop("disabled",true);
         if(packageId == null || packageId == ""){
-            window.location.href=globalPath+"/extractExpertRecord/getRecordList.html";
+            window.location.href=globalPath+"/extractExpertRecord/pageJump.html";
         }else{
             window.open("","_self").close();
         }

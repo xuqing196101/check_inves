@@ -549,14 +549,14 @@ function onCheck(e, treeId, treeNode) {
 			  </div>
 			</li>
 			  
-			  <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" >
+			  <%-- <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" >
 				<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><div class="star_red">*</div>邮箱</span>
 				<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 				  <input  name="email" value="${purchaseInfo.email}" maxlength="100" type="text">
 				  <span class="add-on">i</span>
 				  <div class="cue"><sf:errors path="email"/></div>
 				</div>
-			  </li>
+			  </li> --%>
 			  
 			  <li class="col-md-3 col-sm-6 col-xs-12"> 
 			    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮政编码</span>

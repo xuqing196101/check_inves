@@ -35,6 +35,7 @@ import ses.model.bms.User;
 import ses.model.ems.ProjectExtract;
 import ses.model.oms.Orgnization;
 import ses.service.ems.ExpertService;
+import ses.util.AuthorityUtil;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
@@ -152,7 +153,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
         expertExtractProject.setIsDeleted((short) 0);
         expertExtractProject.setStatus("1");
         expertExtractProject.setCreaterId(user == null ? "" : user.getId());
-        if(user != null){
+        if(user != null && user.getOrg() != null){
             expertExtractProject.setProcurementDepId(user.getOrg().getId());
         }
         return expertExtractProjectMapper.insertSelective(expertExtractProject);
@@ -195,9 +196,23 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 
     /**
      * 条件查询所有
+     * @throws Exception 
      */
     @Override
-    public List<ExpertExtractProject> findAll(Map<String, Object> map ,ExpertExtractProject extractProject) {
+    public List<ExpertExtractProject> findAll(Map<String, Object> map ,ExpertExtractProject extractProject,User loginUser) throws Exception {
+		HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(loginUser == null ? "" : loginUser.getId());
+		Integer dataAccess = (Integer)dataMap.get("dataAccess");
+		if(dataAccess == 1){
+			//查看全部
+		} else if(dataAccess == 2){
+			//查看本机构
+			@SuppressWarnings("unchecked")
+			List<String> orgIds = (List<String>) dataMap.get("superviseOrgs");
+			map.put("procurementDepId", orgIds);
+		} else if(dataAccess == 3){
+			//查看本人
+			map.put("createrId", loginUser == null ? "" : loginUser.getId());
+		}
         PropertiesUtil config = new PropertiesUtil("config.properties");
         PageHelper.startPage((int)map.get("page"),Integer.parseInt(config.getString("pageSize")));
         if(extractProject != null){
@@ -418,6 +433,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
         }
 
         //结果
+        //正式专家
         List<ExpertExtractResult> resultList = resultMapper.getResultListByrecordId(id);
         for (ExpertExtractResult expertExtractResult : resultList) {
             if(expertExtractResult.getExpertCode() != null){
@@ -438,6 +454,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
                 expertExtractResult.setProfessional(profi.length() > 1 ? profi.substring(0,profi.length() - 1) : profi);
             }
         }
+        //候补专家
         List<ExpertExtractResult> backList = resultMapper.getBackExpertListByrecordId(id);
         for (ExpertExtractResult expertExtractResult : backList) {
             if(expertExtractResult.getExpertCode() != null){

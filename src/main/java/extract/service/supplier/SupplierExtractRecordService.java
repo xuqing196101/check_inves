@@ -52,8 +52,9 @@ public interface SupplierExtractRecordService {
    * @param user
    * @param project
    * @return
+   * @throws Exception 
    */
-  List<SupplierExtractProjectInfo> getList(int i, User user, SupplierExtractProjectInfo project);
+  List<SupplierExtractProjectInfo> getList(int i, User user, SupplierExtractProjectInfo project) throws Exception;
 
   /**
    * 

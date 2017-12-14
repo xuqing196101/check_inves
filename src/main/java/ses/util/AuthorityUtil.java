@@ -9,14 +9,9 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import ses.model.bms.PreMenu;
 import ses.model.bms.User;
@@ -134,7 +129,7 @@ public class AuthorityUtil {
 				//如果当前登录用户的数据权限是本单位并且机构类型不是监管部门，则查询该用户所属机构的数据
 				map.put("dataAccess", 2);
 				List<String> orgId = new ArrayList<String>();
-				orgId.add(user.getOrgId());
+				orgId.add(user.getOrg()==null?user.getOrgId():user.getOrg().getId());
 				map.put("superviseOrgs", orgId);
 			}else if (dataAccess == 2 && "5".equals(user.getTypeName())) {
 				//如果当前登录用户的数据权限是本单位并且机构类型是监管部门，则查询该用户监管对象机构的数据(用户监管对象关联表：T_SES_BMS_USER_DATA_RULE)
