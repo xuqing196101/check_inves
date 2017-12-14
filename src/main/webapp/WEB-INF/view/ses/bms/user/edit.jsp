@@ -270,6 +270,8 @@
 			//获取机构类型
 			var orgType = $("#org_type").val();
 			if (flag == 1) {
+				
+				$("#tempOrgNameId").val("");
 				$("#orgSel").attr("value", "");
 				$("#orgParent").val("");
 				$("#oId").val("");
@@ -764,7 +766,7 @@
 			 		<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" id="tempOrg">
 	                    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">单位</span>
 	                    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-	                        <input  name="tempOrgName" value="${user.orgName}" maxlength="400" type="text">
+	                        <input id="tempOrgNameId" name="tempOrgName" value="${user.orgName}" maxlength="400" type="text">
 	                        <span class="add-on">i</span>
 	                    </div>
                     </li> 
