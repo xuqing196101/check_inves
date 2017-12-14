@@ -240,7 +240,7 @@
             </select>
           </li>
           <li>
-            <label class="fl">处罚类型：</label>
+            <label class="fl">处罚方式：</label>
             <select name="punishType" id="punishType" class="W178">
               <option value=''>-请选择-</option>
               <option <c:if test="${punisType =='1' }">selected</c:if> value="1">警告</option>
