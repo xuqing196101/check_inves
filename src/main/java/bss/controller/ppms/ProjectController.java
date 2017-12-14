@@ -333,11 +333,10 @@ public class ProjectController extends BaseController {
             if(project.getStatus() != null && !project.getStatus().equals("")){
                 map.put("status", project.getStatus());
             }
-            map.put("principal", user.getId());
             if(page==null){
                 page = 1;
             }
-            PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+            
             HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
 			List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
 			if (superviseOrgId != null && !superviseOrgId.isEmpty()) {
@@ -346,6 +345,7 @@ public class ProjectController extends BaseController {
 				} else if (StringUtils.equals("5", user.getTypeName())) {
 					map.put("purchaseDepIds", superviseOrgId);
 				}
+				PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
 				List<Project> list = projectService.selectProjectsByConition(map);
 				for (int i = 0; i < list.size(); i++ ) {
                     try {
@@ -398,7 +398,6 @@ public class ProjectController extends BaseController {
     			} else if (StringUtils.equals("1", user.getTypeName())) {
     				map.put("purchaseDepId", user.getOrg().getId());
     			} else {
-    				map.put("orgId", superviseOrgId);
     				map.put("purchaseDepIds", superviseOrgId);
     			}
 			} else {

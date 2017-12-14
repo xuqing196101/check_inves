@@ -1342,7 +1342,7 @@
         and (APPOINT_MAN = #{appointMan} OR APPOINT_MAN IS NULL)
       </if> --> 
       <if test="purchaseDepIds != null and purchaseDepIds !=''">
-        and TT.PURCHASE_ID in 
+        and PURCHASE_DEP_ID in
         <foreach item="item" index="index" collection="purchaseDepIds" open="(" separator="," close=")">
 					#{item}
 				</foreach>
@@ -1803,10 +1803,12 @@
 			</foreach>
 		</if>
 		<if test="purchaseDepIds != null and purchaseDepIds != ''">
-			AND PP.PURCHASE_DEP_ID in
+			AND (AA.ORG_ID in <foreach item="item" index="index" collection="purchaseDepIds" open="(" separator="," close=")">
+				#{item}
+			</foreach> OR PP.PURCHASE_DEP_ID in
 			<foreach item="item" index="index" collection="purchaseDepIds" open="(" separator="," close=")">
 				#{item}
-			</foreach>
+			</foreach>)
 		</if>
 		<if test="purchaseDepId != null and purchaseDepId != ''">
 			AND PP.PURCHASE_DEP_ID = #{purchaseDepId}
