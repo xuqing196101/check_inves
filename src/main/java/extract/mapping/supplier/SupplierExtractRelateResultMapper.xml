@@ -72,10 +72,10 @@
 	</sql>
 	
 	<sql id="extractResult">
-		 DISTINCT R.JOIN,R.REASON,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_TELEPHONE,S.ARMY_BUSINESS_MOBILE,R.SUPPLIER_LEVEL
+		 R.JOIN,R.REASON,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_TELEPHONE,S.ARMY_BUSINESS_MOBILE,R.SUPPLIER_LEVEL
 	</sql>
 	<sql id="extractResultAdv">
-		 DISTINCT R.OPERATING_TYPE JOIN,R.REASON,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_TELEPHONE,S.ARMY_BUSINESS_MOBILE,R.SUPPLIER_LEVEL
+		 R.OPERATING_TYPE JOIN,R.REASON,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_TELEPHONE,S.ARMY_BUSINESS_MOBILE,R.SUPPLIER_LEVEL
 	</sql>
 	
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
@@ -448,6 +448,11 @@
 			</foreach>
 		</if>
 	</sql>
+	
+	<!-- 语音抽取联调 -->
+	<select id="testVoiceExtract" parameterType="java.lang.String" resultMap="findSupplierMap">
+		SELECT * FROM (SELECT E.*,ROWNUM ROW_NUM FROM T_TEST_TEMP_EXTRACT E) A WHERE A.ROW_NUM BETWEEN 0 AND #{value}
+	</select>
 
 	<!-- 供应商个数 -->
 	<select id="listExtractionSupplierCount" parameterType="extract.model.supplier.SupplierExtractCondition" resultType="int">
@@ -492,7 +497,7 @@
 	<!-- 0 不能参加，1能参加 -->
 	<select id="getSupplierListByRid" parameterType="map" resultMap="BaseResultMap">
 		SELECT <include refid="extractResult"></include> FROM T_SES_SMS_EXTRACT_RESULT R LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
-		WHERE R.RECORD_ID = #{recordId} AND R.SUPPLIER_TYPE = #{supplierType}  AND R.JOIN IN (0,1) ORDER BY R.JOIN DESC
+		WHERE R.RECORD_ID = #{recordId} AND R.SUPPLIER_TYPE = #{supplierType}  AND R.JOIN IN (0,1) ORDER BY R.CREATED_AT ASC
 	</select>
 	
 	
@@ -500,7 +505,7 @@
 	<!-- 0 不能参加，1能参加 -->
 	<select id="getSupplierListByRidForRel" parameterType="map" resultMap="BaseResultMap">
 		SELECT <include refid="extractResultAdv"></include> FROM T_SES_SMS_SUPPLIER_EXT_RELATE R LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
-		WHERE R.RECORD_ID = #{recordId}  <!--AND R.SUPPLIER_TYPE = #{supplierType}  --> AND R.OPERATING_TYPE IN (0,1) ORDER BY R.OPERATING_TYPE DESC
+		WHERE R.RECORD_ID = #{recordId}  <!--AND R.SUPPLIER_TYPE = #{supplierType}  --> AND R.OPERATING_TYPE IN (0,1) ORDER BY R.CREATED_AT ASC
 	</select>
 	
 	
@@ -508,7 +513,7 @@
 	<!-- 0 不能参加，1能参加 -->
 	<select id="getSupplierListByRidForAdv" parameterType="map" resultMap="BaseResultMap">
 		SELECT<include refid="extractResultAdv"></include> FROM T_SES_SMS_SUPPLIER_EXT_RELATE R LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
-		WHERE R.RECORD_ID = #{recordId} <!-- AND R.SUPPLIER_TYPE = #{supplierType} -->  AND R.OPERATING_TYPE IN (0,1) ORDER BY R.OPERATING_TYPE DESC
+		WHERE R.RECORD_ID = #{recordId} <!-- AND R.SUPPLIER_TYPE = #{supplierType} -->  AND R.OPERATING_TYPE IN (0,1) ORDER BY R.CREATED_AT ASC
 	</select>
 	
 	
@@ -607,7 +612,7 @@
         </foreach>
          SELECT 1 FROM DUAL
 	</insert>
-	
+
 	<update id="updateSupplierJoin" parameterType="extract.model.supplier.SupplierExtractResult">
 		update 
 		(select t.* from  T_SES_SMS_EXTRACT_RESULT t left join t_ses_sms_supplier s on t.supplier_id = s.id  where s.army_business_telephone = #{armyBuinessTelephone})
@@ -690,7 +695,7 @@
 	<update id="updateAdvSupplierJoin" parameterType="extract.model.supplier.SupplierExtractResult">
 		update 
 		(select t.* from  T_SES_SMS_SUPPLIER_EXT_RELATE t left join t_ses_sms_supplier s on t.supplier_id = s.id  where s.army_business_telephone = #{armyBuinessTelephone})	
-		
+		re
 		<if test="supplierId != null">
 				re.SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
 			</if>

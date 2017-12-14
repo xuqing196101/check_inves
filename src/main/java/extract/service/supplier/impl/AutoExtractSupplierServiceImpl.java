@@ -80,6 +80,7 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 	/**
 	 * 自动抽取()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> autoExtract(SupplierExtractCondition condition,
 			String projectInto) {
@@ -100,6 +101,10 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 				return map;
 			}
 			suppliers.addAll((Collection<? extends Supplier>) selectSupplier.get("list"));
+			
+			//联调测试
+//			List<Supplier> suppliers = conditionService.testVoiceExtract(condition.getExtractNum().toString());
+			
 			if(suppliers.size()>0){
 				
 				//存储自动抽取结果
