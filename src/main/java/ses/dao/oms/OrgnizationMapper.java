@@ -360,4 +360,6 @@ public interface OrgnizationMapper {
 	 * @return
 	 */
 	String selOrgIdByDepId(String id);
+	
+	List<Orgnization> selectByIdList(HashMap<String, Object> map);
 }

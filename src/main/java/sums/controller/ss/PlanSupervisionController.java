@@ -3,6 +3,7 @@ package sums.controller.ss;
 import iss.model.ps.Article;
 import iss.service.ps.ArticleService;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -95,6 +96,7 @@ import ses.service.sms.SupplierExtUserServicel;
 import ses.service.sms.SupplierExtractsService;
 import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
+import ses.util.AuthorityUtil;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import sums.model.ss.Supervision;
@@ -218,38 +220,46 @@ public class PlanSupervisionController {
      * @param collectPlan
      * @param page
      * @return
+     * @throws IOException 
      */
     @RequestMapping(value="/list",produces = "text/html;charset=UTF-8")
-    public String list(Model model, @CurrentUser User user, CollectPlan collectPlan, Integer page){
-        if(user != null && user.getOrg() != null){
-            if(StringUtils.isNotBlank(user.getTypeName()) && "2".equals(user.getTypeName())){
-                if(collectPlan.getStatus() == null){
-                    collectPlan.setSign("0");
-                    collectPlan.setStatus(null);
-                }else if(collectPlan.getStatus() == 8){
-                    collectPlan.setSign("8");
-                    collectPlan.setStatus(null);
-                } else if(collectPlan.getStatus() == 12){
-                    collectPlan.setSign("12");
-                    collectPlan.setStatus(null);
-                }
-                if("".equals(collectPlan.getFileName())){
-                    collectPlan.setFileName(null);
-                }
-                collectPlan.setUserId(user.getOrg().getId());
-                List<CollectPlan> list = collectPlanService.querySupervision(collectPlan, page==null?1:page);
-                for (int i = 0; i < list.size(); i++ ) {
-                    try {
-                        User users = userService.getUserById(list.get(i).getUserId());
-                        list.get(i).setUserId(users.getRelName());
-                    } catch (Exception e) {
-                        list.get(i).setUserId("");
-                    }
-                }
-                PageInfo<CollectPlan> info = new PageInfo<>(list);
-                model.addAttribute("info", info);
-                model.addAttribute("collectPlan", collectPlan);
-            }
+    public String list(Model model, @CurrentUser User user, CollectPlan collectPlan, Integer page) throws IOException{
+        if(user != null && StringUtils.isNotBlank(user.getTypeName())){
+        	HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
+			List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
+			if (superviseOrgId != null && !superviseOrgId.isEmpty()) {
+				if(collectPlan.getStatus() == null){
+	                collectPlan.setSign("0");
+	                collectPlan.setStatus(null);
+	            }else if(collectPlan.getStatus() == 8){
+	                collectPlan.setSign("8");
+	                collectPlan.setStatus(null);
+	            } else if(collectPlan.getStatus() == 12){
+	                collectPlan.setSign("12");
+	                collectPlan.setStatus(null);
+	            }
+	            if("".equals(collectPlan.getFileName())){
+	                collectPlan.setFileName(null);
+	            }
+	            if (StringUtils.equals("2", user.getTypeName())) {
+	            	collectPlan.setUserId(user.getOrg().getId());
+	            } else if (StringUtils.equals("5", user.getTypeName())) {
+	            	collectPlan.setOrgId(superviseOrgId);
+	            }
+	            
+	            List<CollectPlan> list = collectPlanService.querySupervision(collectPlan, page==null?1:page);
+	            for (int i = 0; i < list.size(); i++ ) {
+	                try {
+	                    User users = userService.getUserById(list.get(i).getUserId());
+	                    list.get(i).setUserId(users.getRelName());
+	                } catch (Exception e) {
+	                    list.get(i).setUserId("");
+	                }
+	            }
+	            PageInfo<CollectPlan> info = new PageInfo<>(list);
+	            model.addAttribute("info", info);
+	            model.addAttribute("collectPlan", collectPlan);
+			}
         }
         return "sums/ss/planSupervision/list";
     }

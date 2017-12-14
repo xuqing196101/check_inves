@@ -1460,7 +1460,7 @@
 	    e.PROJECT_ID
 	    FROM
 	    T_BSS_PPMS_FLOW_EXECUTE e
-	    WHERE
+	    WHERE 1=1
 	    <if test="userId != null and userId != ''">
          e.OPERATOR_ID = #{userId}
       </if>
@@ -1471,6 +1471,12 @@
       ) AND p.IS_REHEARSE = 0 AND (p.PARENT_ID != '1' OR p.PARENT_ID IS NULL) AND STATUS != '4'
       <if test="purchaseDepId != null and purchaseDepId != ''">
         AND  p.PURCHASE_DEP_ID = #{purchaseDepId}
+      </if>
+      <if test="purchaseDepIds != null and purchaseDepIds != ''">
+        AND  p.PURCHASE_DEP_ID IN
+        <foreach item="item" index="index" collection="purchaseDepIds" open="(" separator="," close=")">
+				#{item}
+			</foreach> 
       </if>
       <if test="name != null and name != ''">
        AND p.NAME like CONCAT(CONCAT('%', #{name}), '%')
