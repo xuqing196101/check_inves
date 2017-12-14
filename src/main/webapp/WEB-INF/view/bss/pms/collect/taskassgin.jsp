@@ -237,42 +237,46 @@
 	  </h2>
    </div> 
    
-   <h2 class="search_detail">
-    <form id="add_form" action="${pageContext.request.contextPath }/taskassgin/list.html" method="post" >
-  
-	<input type="hidden" name="page" id="page">
-		 
-		  <ul class="demand_list">
-			    	  <li>
-				    	<label class="fl"> 计划名称：</label><span>
-				  	 <input type="text"   name="fileName" value="${inf.fileName }"/>  
-				    	
-				    	</span>
-				      </li>
-				   <%-- <li>
-				    	<label class="fl"> 计划编号：</label><span>
-				  	   <input type="text"  name="" value="${inf.planNo }"/>
-				    	
-				    	</span>
-				      </li> --%>
-				      <li>
-				    	<label class="fl">    计划类型：</label><span>
-				    	<select name="status">
-				  	      <option value="1" >全部</option>
-						  	<option value="12" <c:if test="${inf.status=='12'}"> selected</c:if> >未下达</option>
+		<h2 class="search_detail">
+		<form id="add_form" action="${pageContext.request.contextPath }/taskassgin/list.html" method="post" >
+		<input type="hidden" name="page" id="page">
+		<div class="m_row_5">
+    <div class="row">
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">计划名称：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input type="text" name="fileName" value="${inf.fileName }" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">计划类型：</div>
+          <div class="col-xs-8 f0 lh0">
+						<select name="status" class="w100p h32 f14">
+							<option value="1" >全部</option>
+							<option value="12" <c:if test="${inf.status=='12'}"> selected</c:if> >未下达</option>
 							<option value="2" <c:if test="${inf.status=='2'}"> selected</c:if> >已下达</option>
 							<option style="display: none;" id="afterReset" value="">
-					   </select>
-				    	
-				    	</span>
-				      </li>
-			    	</ul>
-		 
-	   	 <input class="btn fl"   type="submit" name="" value="查询" />
-	  <input type="button" onclick="resetQuery()" class="btn fl" value="重置"/>
-	  <div class="clear"></div>
-   </form>
-  </h2>
+						</select>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-12 f0">
+						<input class="btn mb0 h32" type="submit" name="" value="查询">
+		 	  		<input type="button" onclick="resetQuery()" class="btn mb0 mr0 h32" value="重置">
+					</div>
+        </div>
+      </div>
+    </div>
+    </div>
+		</form>
+		</h2>
  
      <div class="col-md-12 pl20 mt10">
 		 <c:if test="${auth == 'show'}">

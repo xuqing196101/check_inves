@@ -397,33 +397,55 @@
 	 <div class="headline-v2">
 		<h2>定型产品列表</h2>
 	 </div>
-    <div class="search_detail">
-       <form action="${pageContext.request.contextPath}/product/list.html" method="post" class="mb0" id = "form1">
-    	<ul class="demand_list">
-    	<li>
-	    	<label class="fl">产品名称：</label>
-			<input type="text" id="name" class="" name = "name" value="${productExample.name }"/>
-	      </li>
-    	  <li>
-	    	<label class="fl">产品代码：</label>
-			<input type="text" id="code" class="" name = "code" value="${productExample.code }"/>
-	      </li>
-    	  <li>
-	    	<label class="fl">产品状态：</label>
-	    	  <select class="w178" name="status" id = "status">
-	    	    <option value="0">全部</option>
-	    	    <option value="1" <c:if test="${'1'==productExample.status}">selected="selected"</c:if>>暂存</option>
-	    	    <option value="2" <c:if test="${'2'==productExample.status}">selected="selected"</c:if>>已发布</option>
-	    	    <option value="4" <c:if test="${'4'==productExample.status}">selected="selected"</c:if>>未发布</option>
-	    	    <option value="3" <c:if test="${'3'==productExample.status}">selected="selected"</c:if>>已撤回</option>
-	    	  </select>
-	      </li>
-	    	<input class="btn fl mt1" type="submit" value="查询" /> 
-	    	<input class="btn fl mt1" type="button" onclick="resetQuery()" value="重置"/>	
-    	</ul>
-    	  <div class="clear"></div>
-       </form>
-     </div>
+		<div class="search_detail">
+		<form action="${pageContext.request.contextPath}/product/list.html" method="post" class="mb0" id = "form1">
+		<div class="m_row_5">
+    <div class="row">
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">产品名称：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input type="text" id="name" class="w100p h32 f14 mb0" name="name" value="${productExample.name }">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">产品代码：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input type="text" id="code" class="w100p h32 f14 mb0" name="code" value="${productExample.code }">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">产品状态：</div>
+          <div class="col-xs-8 f0 lh0">
+						<select class="w100p h32 f14" name="status" id = "status">
+		    	    <option value="0">全部</option>
+		    	    <option value="1" <c:if test="${'1'==productExample.status}">selected="selected"</c:if>>暂存</option>
+		    	    <option value="2" <c:if test="${'2'==productExample.status}">selected="selected"</c:if>>已发布</option>
+		    	    <option value="4" <c:if test="${'4'==productExample.status}">selected="selected"</c:if>>未发布</option>
+		    	    <option value="3" <c:if test="${'3'==productExample.status}">selected="selected"</c:if>>已撤回</option>
+		    	  </select>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-12 f0">
+						<input class="btn mb0 h32" type="submit" value="查询">
+			    	<input class="btn mb0 mr0 h32" type="button" onclick="resetQuery()" value="重置">
+					</div>
+        </div>
+      </div>
+    </div>
+    </div>
+		</form>
+		</div>
      
 <!-- 表格开始 -->
 	<div class="col-md-12 pl20 mt10">

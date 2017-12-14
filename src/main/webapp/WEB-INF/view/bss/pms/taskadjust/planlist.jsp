@@ -201,35 +201,53 @@
    </div> 
    
    
-         <h2 class="search_detail">
+    <h2 class="search_detail">
     <form id="form1" action="${pageContext.request.contextPath}/adjust/list.html" method="post" class="mb0">
     <input type="hidden" name="page" id="page">
-    <ul class="demand_list">
-          <li>
-            <label class="fl">采购任务名称：</label>
-            <span><input type="text" name="name" id="name" value="${task.name}" /></span>
-          </li>
-          <li>
-            <label class="fl">采购任务文号：</label>
-            <span><input type="text" name="documentNumber" id="documentNumber" value="${task.documentNumber }" class=""/></span>
-          </li>
-          <li>
-            <label class="fl">状态：</label>
-            <span class="">
-              <select  name="status" id="status">
-                <option selected="selected" value="">请选择</option>
-                <option value="0" <c:if test="${'0'==task.status}">selected="selected"</c:if>>未受领</option>
-                <option value="1" <c:if test="${'1'==task.status}">selected="selected"</c:if>>已受领</option>
-                <option value="2" <c:if test="${'2'==task.status}">selected="selected"</c:if>>已取消</option>
-              </select>
-            </span>
-          </li>
-    </ul>
-    <div class="col-md-12 clear tc mt10">
-      <button class="btn" type="submit">查询</button>
-      <button class="btn" type="reset" onclick="clearSearch()">重置</button>
+		<div class="m_row_5">
+    <div class="row">
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购任务名称：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input type="text" name="name" id="name" value="${task.name}" class="w100p h32 f14 mb0">
+          </div>
+        </div>
       </div>
-    <div class="clear"></div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购任务文号：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input type="text" name="documentNumber" id="documentNumber" value="${task.documentNumber }" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">状态：</div>
+          <div class="col-xs-8 f0 lh0">
+						<select name="status" id="status" class="w100p h32 f14">
+							<option selected="selected" value="">请选择</option>
+							<option value="0" <c:if test="${'0'==task.status}">selected="selected"</c:if>>未受领</option>
+							<option value="1" <c:if test="${'1'==task.status}">selected="selected"</c:if>>已受领</option>
+							<option value="2" <c:if test="${'2'==task.status}">selected="selected"</c:if>>已取消</option>
+						</select>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-12 f0">
+						<button class="btn mb0 h32" type="submit">查询</button>
+			      <button class="btn mb0 mr0 h32" type="reset" onclick="clearSearch()">重置</button>
+					</div>
+        </div>
+      </div>
+    </div>
+    </div>
     </form>
   </h2>
   

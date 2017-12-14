@@ -80,32 +80,33 @@
       </div>
       <!-- 项目戳开始 -->
       <div class="search_detail">
-    <form action="${pageContext.request.contextPath}/project/projectByAll.html" id="form1" method="post" class="mb0">
+      <form action="${pageContext.request.contextPath}/project/projectByAll.html" id="form1" method="post" class="mb0">
+      <div class="m_row_5">
     	<div class="row">
     		<div class="col-md-3 col-sm-4 col-xs-6 mb10">
     			<div class="row">
-    				<div class="col-xs-4 tr text-nowrapEl">项目名称：</div>
-    				<div class="col-xs-8">
+    				<div class="col-xs-4 h32 lh32 tr text-nowrapEl">项目名称：</div>
+    				<div class="col-xs-8 f0 lh0">
     					<input type="hidden" name="page" id="page">
-          		<input type="text" name="name" id="proName" value="${projects.name}" class="w100p mb0" />
+          		<input type="text" name="name" id="proName" value="${projects.name}" class="w100p h32 mb0">
     				</div>
     			</div>
     		</div>
     		
     		<div class="col-md-3 col-sm-4 col-xs-6 mb10">
     			<div class="row">
-    				<div class="col-xs-4 tr text-nowrapEl">项目编号：</div>
-    				<div class="col-xs-8">
-          		<input type="text" name="projectNumber" id="projectNumber" value="${projects.projectNumber}" class="w100p mb0" />
+    				<div class="col-xs-4 h32 lh32 tr text-nowrapEl">项目编号：</div>
+    				<div class="col-xs-8 f0 lh0">
+          		<input type="text" name="projectNumber" id="projectNumber" value="${projects.projectNumber}" class="w100p h32 mb0">
     				</div>
     			</div>
     		</div>
     		
     		<div class="col-md-3 col-sm-4 col-xs-6 mb10">
     			<div class="row">
-    				<div class="col-xs-4 tr text-nowrapEl">状态：</div>
-    				<div class="col-xs-8">
-    					<select name="status" id="status" class="w100p">
+    				<div class="col-xs-4 h32 lh32 tr text-nowrapEl">状态：</div>
+    				<div class="col-xs-8 f0 lh0">
+    					<select name="status" id="status" class="w100p h32">
                 <option selected="selected" value="">请选择</option>
                 <c:forEach items="${status}" var="status" >
                   <option  value="${status.id}" <c:if test="${status.id eq projects.status}">selected="selected"</c:if>>${status.name}</option>
@@ -117,36 +118,36 @@
     		
     		<div class="col-md-3 col-sm-4 col-xs-6 mb10">
     			<div class="row">
-    				<div class="col-xs-4 tr text-nowrapEl">产品名称：</div>
-    				<div class="col-xs-8">
-    					<input type="text" name="materialsType" id="materialsType" value="${projects.materialsType}" class="w100p mb0" />
+    				<div class="col-xs-4 h32 lh32 tr text-nowrapEl">产品名称：</div>
+    				<div class="col-xs-8 f0 lh0">
+    					<input type="text" name="materialsType" id="materialsType" value="${projects.materialsType}" class="w100p h32 mb0">
     				</div>
     			</div>
     		</div>
     		
     		<div class="col-md-3 col-sm-4 col-xs-6 mb10">
     			<div class="row">
-    				<div class="col-xs-4 tr text-nowrapEl">需求部门：</div>
-    				<div class="col-xs-8">
-    					<input type="text" name="sectorOfDemand" id="sectorOfDemand" value="${projects.sectorOfDemand}" class="w100p mb0" />
+    				<div class="col-xs-4 h32 lh32 tr text-nowrapEl">需求部门：</div>
+    				<div class="col-xs-8 f0 lh0">
+    					<input type="text" name="sectorOfDemand" id="sectorOfDemand" value="${projects.sectorOfDemand}" class="w100p h32 mb0">
     				</div>
     			</div>
     		</div>
     		
     		<div class="col-md-3 col-sm-4 col-xs-6 mb10">
     			<div class="row">
-    				<div class="col-xs-4 tr text-nowrapEl">任务文号：</div>
-    				<div class="col-xs-8">
-    					<input type="text" name="prIntroduce" id="prIntroduce" value="${projects.prIntroduce}" class="w100p mb0" />
+    				<div class="col-xs-4 h32 lh32 tr text-nowrapEl">任务文号：</div>
+    				<div class="col-xs-8 f0 lh0">
+    					<input type="text" name="prIntroduce" id="prIntroduce" value="${projects.prIntroduce}" class="w100p h32 mb0">
     				</div>
     			</div>
     		</div>
     		
     		<div class="col-md-3 col-sm-4 col-xs-6 mb10">
     			<div class="row">
-    				<div class="col-xs-4 tr text-nowrapEl">采购方式：</div>
-    				<div class="col-xs-8">
-    					<select name="purchaseType" id="purchaseType" class="w100p">
+    				<div class="col-xs-4 h32 lh32 tr text-nowrapEl">采购方式：</div>
+    				<div class="col-xs-8 f0 lh0">
+    					<select name="purchaseType" id="purchaseType" class="w100p h32">
                 <option selected="selected" value="">请选择</option>
                 <c:forEach items="${kind}" var="type">
                   <option  value="${type.id}" <c:if test="${type.id eq projects.purchaseType}">selected="selected"</c:if>>${type.name}</option>
@@ -159,9 +160,9 @@
     		<c:if test="${typeName eq '4'}">
     		<div class="col-md-3 col-sm-4 col-xs-6 mb10">
     			<div class="row">
-    				<div class="col-xs-4 tr text-nowrapEl">采购机构：</div>
-    				<div class="col-xs-8">
-    					<select name="purchaseDepId" id="purchaseDepId" class="w100p">
+    				<div class="col-xs-4 h32 lh32 tr text-nowrapEl">采购机构：</div>
+    				<div class="col-xs-8 f0 lh0">
+    					<select name="purchaseDepId" id="purchaseDepId" class="w100p h32">
                 <option selected="selected" value="">请选择</option>
                 <c:forEach items="${orgByPosition}" var="org" >
                   <option  value="${org.id}" <c:if test="${org.id eq projects.purchaseDepId}">selected="selected"</c:if>>${org.shortName}</option>
@@ -172,6 +173,7 @@
     		</div>
     		</c:if>
     	</div>
+      </div>
       
 	    <div class="clear tc">
 	    	<button class="btn mb0" type="submit">查询</button>

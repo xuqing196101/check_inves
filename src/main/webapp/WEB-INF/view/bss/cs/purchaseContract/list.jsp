@@ -230,26 +230,52 @@
       </div>
       <!-- 项目戳开始 -->
       <div class="search_detail">
-        <form action="${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html" id="form1" method="post" class="mb0">
-          <input type="hidden" name="page" id="page">
-          <ul class="demand_list">
-            <li class="fl pl20"><label class="fl">采购项目名称：</label><span><input type="text" name="name" value="${projects.name}" id="projectName" class=""/></span></li>
-            <li class="fl pl50"><label class="fl">采购项目编号：</label><span><input type="text" name="projectNumber" value="${projects.projectNumber}" id="projectCode" class=""/></span></li>
-            <li class="fl pl20">
-              <label class="fl">采购项目状态：</label>
-              <span>
-                <select id="isCreate"  name="isCreate" class="mb0 mt5 w178">
-                  <option value="">请选择</option>
-                  <option value="0">未生成</option>
-                  <option value="1">已生成</option>
-                </select>
-              </span>
-            </li>
-          </ul>
-          <button type="button" onclick="query()" class="btn mt1 fl">查询</button>
-          <button type="button" onclick="resets()" class="btn mt1 fl">重置</button>
-          <div class="clear"></div>
-        </form>
+      <form action="${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html" id="form1" method="post" class="mb0">
+      <input type="hidden" name="page" id="page">
+      <div class="m_row_5">
+      <div class="row">
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购项目名称：</div>
+            <div class="col-xs-8 f0 lh0">
+              <input type="text" name="name" value="${projects.name}" id="projectName" class="w100p h32 f14 mb0">
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购项目编号：</div>
+            <div class="col-xs-8 f0 lh0">
+              <input type="text" name="projectNumber" value="${projects.projectNumber}" id="projectCode" class="w100p h32 f14 mb0">
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购项目状态：</div>
+            <div class="col-xs-8 f0 lh0">
+              <select id="isCreate" name="isCreate" class="w100p h32 f14">
+                <option value="">请选择</option>
+                <option value="0">未生成</option>
+                <option value="1">已生成</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+          <div class="row">
+            <div class="col-xs-12 f0">
+              <button type="button" onclick="query()" class="btn mb0 h32">查询</button>
+              <button type="button" onclick="resets()" class="btn mb0 mr0 h32">重置</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      </form>
       </div>
       <div class="col-md-12 pl20 mt10">
         <button class="btn" onclick="createContract()">生成</button>
