@@ -359,7 +359,7 @@
 					<foreach collection="categoryIds" open="(" close=")" separator="," index="index" item="item">
 						#{item}
 					</foreach>
-					CONNECT BY PRIOR CATE.id=CATE.PARENT_ID order by level desc ) TEM where TEM.is_publish = 0 and (TEM.is_parent is null or TEM.is_parent = 'false'))
+					CONNECT BY PRIOR CATE.id=CATE.PARENT_ID order by level desc ) TEM where TEM.is_publish = 0 )
 			</if>
 			<if test="isMulticondition == 2 and categoryId !=null and categoryId != '' ">
 				AND S.ID IN 
