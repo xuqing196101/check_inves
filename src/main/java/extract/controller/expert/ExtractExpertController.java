@@ -113,7 +113,7 @@ public class ExtractExpertController {
      */
     @RequestMapping("/toExpertExtract")
     public String toExpertExtract(@CurrentUser User user,Model model,String projectId,String projectInto,String packageId,String packageName){
-        //权限验证  采购机构  可以抽取
+        //权限验证  采购机构  资源服务中心 可以抽取
         String authType = null;
         if(null != user && ("4".equals(user.getTypeName()) || "1".equals(user.getTypeName()))){
             authType = user.getTypeName();
@@ -301,10 +301,17 @@ public class ExtractExpertController {
         model.addAttribute("ids", id);
         model.addAttribute("isSatisfy", isSatisfy);
         List<String> nameList = new ArrayList<String>();
-        for (String categoryId : id.split(",")) {
-        	Category category = categoryService.findById(categoryId == null ? "" : categoryId);
-			nameList.add(category == null ? "" : category.getName());
-		}
+        if(type.indexOf("ENG_INFO_ID") > 0){
+            for (String categoryId : id.split(",")) {
+            	Category category = engCategoryService.findById(categoryId == null ? "" : categoryId);
+    			nameList.add(category == null ? "" : category.getName());
+    		}
+        }else{
+            for (String categoryId : id.split(",")) {
+            	Category category = categoryService.findById(categoryId == null ? "" : categoryId);
+    			nameList.add(category == null ? "" : category.getName());
+    		}
+        }
         StringBuffer names = new StringBuffer();
         for (String string : nameList) {
         	names.append(string + ",");

@@ -113,9 +113,17 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 	@Override
 	public List<SupplierExtractProjectInfo> getList(int i,User user,SupplierExtractProjectInfo project) throws Exception {
 		
-		Map<String, Object> conditionMap = new HashMap<>();
-		HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
-		List<String> orgIds = (List<String>) dataMap.get("superviseOrgs");
+		
+		if(user.getDataAccess() == 3){
+			ArrayList<String> arrayList = new ArrayList<>();
+			arrayList.add(user.getId());
+			project.setProcurementDepIds(arrayList);
+		}else{
+			HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
+			List<String> orgIds = (List<String>) dataMap.get("superviseOrgs");
+			project.setProcurementDepIds(orgIds);
+		}
+		
 		
 		 PageHelper.startPage(i, PropUtil.getIntegerProperty("pageSize"));
 		 List<SupplierExtractProjectInfo> list = new ArrayList<>();
@@ -125,7 +133,6 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 	    	 project.setExtractTheWay((short)0);
 	     }
 	     
-	     project.setProcurementDepIds(orgIds);
 	     list = recordMapper.getList(project);
 	     
 		for (SupplierExtractProjectInfo projectInfo : list) {

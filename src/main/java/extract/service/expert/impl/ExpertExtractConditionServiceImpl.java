@@ -400,7 +400,6 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                         }
                     }
                 }
-                
                 map.put("notExpertIds",notExpertIds);
                 map.put("notSize",notExpertIds.size());
                 //技术职称

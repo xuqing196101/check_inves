@@ -22,13 +22,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.PreMenu;
 import ses.model.bms.User;
 import ses.util.DictionaryDataUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-import common.annotation.CurrentUser;
 
+import common.annotation.CurrentUser;
 import extract.model.expert.ExpertExtractProject;
 import extract.service.expert.ExpertExtractProjectService;
 
@@ -52,18 +53,12 @@ public class ExtractExpertRecordController extends BaseSupplierController{
      */
     @RequestMapping("/getRecordList")
     public String getRecordList(@CurrentUser User user, Model model,@RequestParam(defaultValue = "1") Integer page, String startTime,String endTime, ExpertExtractProject expertExtractProject) {
-        // 声明标识是否是资源服务中心
-        String authType = null;
-        if (null != user && ("4".equals(user.getTypeName()) || "1".equals(user.getTypeName()))) {
-            authType = user.getTypeName();
+    	try {
             Map<String, Object> map = new HashMap<>();
-            if (authType.equals("1")) {
-                map.put("procurementDepId", user.getOrg().getId());
-            }
             map.put("page", page);
             map.put("startTime", null == startTime ? "" : startTime.trim());
             map.put("endTime", null == endTime ? "" : endTime.trim());
-            List<ExpertExtractProject> list = expertExtractProjectService.findAll(map, expertExtractProject);
+            List<ExpertExtractProject> list = expertExtractProjectService.findAll(map, expertExtractProject,user);
             PageInfo<ExpertExtractProject> info = new PageInfo<>(list);
             model.addAttribute("info", info);
             // 采购方式
@@ -84,8 +79,9 @@ public class ExtractExpertRecordController extends BaseSupplierController{
             model.addAttribute("project", expertExtractProject);
             model.addAttribute("startTime", startTime);
             model.addAttribute("endTime", endTime);
-            model.addAttribute("authType", authType);
-        }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
         return "ses/ems/exam/expert/extract/project_list";
     }
 
@@ -130,4 +126,32 @@ public class ExtractExpertRecordController extends BaseSupplierController{
         int v = calendar.compareTo(cal2);
         return JSON.toJSONString(v);
     }
+    
+    /**
+     * 
+     * 
+     * Description: 页面跳转判断
+     * 
+     * @data 2017年12月14日
+     * @param 
+     * @return String
+     */
+    @RequestMapping("/pageJump")
+	public String pageJump(@CurrentUser User user, HttpServletRequest request) {
+		@SuppressWarnings("unchecked")
+		List<PreMenu> resource = (List<PreMenu>) request.getSession().getAttribute("resource");
+		boolean flag = false;
+		for (PreMenu preMenu : resource) {
+			if("专家抽取记录".equals(preMenu.getName()) || "extractExpertRecord/getRecordList.html".equals(preMenu.getUrl())){
+				flag = true;
+				break;
+			}
+		}
+		if(flag){
+			//跳转列表页面
+			return "redirect:getRecordList.html";
+		}else{
+			return "redirect:/extractExpert/toExpertExtract.html";
+		}
+	}
 }
