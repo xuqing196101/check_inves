@@ -421,7 +421,7 @@
 
     <div class="container">
       <div class="headline-v2">
-        <h2>审核信息ss列表</h2>
+        <h2>审核信息列表</h2>
       </div>
 
       <div class="search_detail">
