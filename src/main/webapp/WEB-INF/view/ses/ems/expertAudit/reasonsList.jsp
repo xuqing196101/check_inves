@@ -692,7 +692,7 @@
 		                	<div class="select_check" id="selectOptionId">
 			                    <input type="radio" id="qualified" name="selectOption" value="-3">复审合格
 			                    <input type="radio"  name="selectOption" value="5">复审不合格
-			                    <input type="radio"  name="selectOption" value="10">复审退回修改
+			                    <input type="radio"  name="selectOption" value="10" id="tuihui">复审退回修改
 		                    </div>
 		                </li>
 		                <div><span type="text" name="cate_result" id="cate_result"></span></div>

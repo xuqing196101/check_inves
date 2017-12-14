@@ -35,6 +35,13 @@ public interface OuterExpertService {
      * @param endTime
      */
     void backModifyExpert(String startTime, String endTime);
+
+    /**
+     * 注销专家导出到文件
+     * @param startTime
+     * @param endTime
+     */
+    void getDeleteExpertByDate(String startDate,String endDate);
     
     /**
      * 

@@ -497,6 +497,12 @@ public class SynchImportController {
                             }
                         }
                     }
+                    /**外网注销专家导入内网*/
+                    if(synchType.contains(Constant.SYNCH_LOGOUT_EXPERT)){
+                    	if (f.getName().contains(FileUtils.C_SYNCH_LOGOUT_EXPERT_FILENAME)) {
+                            innerExpertService.delExpert(f);
+                        }
+                    }
                     if (synchType.contains(Constant.DATE_SYNCH_BIDDING_PRODUCT)) {
                         /**竞价定型产品导入  只能是外网导入内网数据**/
                         if (f.getName().equals(Constant.PRODUCT_FILE_EXPERT)) {

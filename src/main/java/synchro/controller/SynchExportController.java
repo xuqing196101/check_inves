@@ -384,7 +384,10 @@ public class SynchExportController {
             if (synchType.contains("expert_out")) {
                 outerExpertService.backModifyExpert(startTime, endTime);
             }
-
+            /**注销专家导出外网*/
+            if (synchType.contains(Constant.SYNCH_LOGOUT_EXPERT)) {
+                outerExpertService.getDeleteExpertByDate(startTime, endTime);
+            }
 
             if (synchType.contains(Constant.DATE_SYNCH_BIDDING_PRODUCT)) {
                 /**竞价定型产品导出  只能是内网导出外网**/

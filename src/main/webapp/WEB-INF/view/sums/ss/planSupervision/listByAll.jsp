@@ -73,38 +73,56 @@
       <h2 class="search_detail">
       <form id="add_form" action="${pageContext.request.contextPath }/planSupervision/planSupervisionByAll.html" class="mb0" method="post" >
         <input type="hidden" name="page" id="page">
-        <ul class="demand_list">
-          <li>
-            <label class="fl">采购计划名称：</label>
-            <span><input type="text" name="fileName" value="${collectPlan.fileName}"/></span>
-          </li>
-               
-          <li>
-            <label class="fl">采购金额：</label>
-            <span><input type="text" name="budget" value="${collectPlan.budget}"/> </span>
-          </li>
+        <div class="m_row_5">
+        <div class="row">
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+            <div class="row">
+              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购计划名称：</div>
+              <div class="col-xs-8 f0 lh0">
+                <input type="text" name="fileName" value="${collectPlan.fileName}" class="w100p h32 f14 mb0">
+              </div>
+            </div>
+          </div>
           
-          <li>
-            <label class="fl">状态：</label>
-            <span>
-              <select name="status">
-                <option selected="selected" value="">请选择</option>
-                <option value="1" <c:if test="${collectPlan.status=='1'}"> selected</c:if> >审核轮次设置</option>
-		            <option value="3" <c:if test="${collectPlan.status=='3'}"> selected</c:if> > 第一轮审核</option>
-		            <option value="4" <c:if test="${collectPlan.status=='4'}"> selected</c:if> > 第二轮审核人员设置</option>
-		            <option value="5" <c:if test="${collectPlan.status=='5'}"> selected</c:if> > 第二轮审核</option>
-		            <option value="6" <c:if test="${collectPlan.status=='6'}"> selected</c:if> > 第三轮审核人员设置</option>
-		            <option value="7" <c:if test="${collectPlan.status=='7'}"> selected</c:if> > 第三轮审核</option>
-		            <option value="8" <c:if test="${collectPlan.status=='8'}"> selected</c:if> > 审核结束</option>
-		            <option value="12" <c:if test="${collectPlan.status=='12'}"> selected</c:if> > 未下达</option>
-		            <option value="2" <c:if test="${collectPlan.status=='2'}"> selected</c:if> > 已下达</option>
-              </select>
-            </span>
-          </li> 
-          <input class="btn fl mt1" type="submit" value="查询" /> 
-        <input class="btn fl mt1" type="button" value="重置" onclick="resetQuery()"  />       
-        </ul>
-        <div class="clear"></div>
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+            <div class="row">
+              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购金额：</div>
+              <div class="col-xs-8 f0 lh0">
+                <input type="text" name="budget" value="${collectPlan.budget}" class="w100p h32 f14 mb0">
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+            <div class="row">
+              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">状态：</div>
+              <div class="col-xs-8 f0 lh0">
+                <select name="status" class="w100p h32 f14">
+                  <option selected="selected" value="">请选择</option>
+                  <option value="1" <c:if test="${collectPlan.status=='1'}"> selected</c:if> >审核轮次设置</option>
+  		            <option value="3" <c:if test="${collectPlan.status=='3'}"> selected</c:if> > 第一轮审核</option>
+  		            <option value="4" <c:if test="${collectPlan.status=='4'}"> selected</c:if> > 第二轮审核人员设置</option>
+  		            <option value="5" <c:if test="${collectPlan.status=='5'}"> selected</c:if> > 第二轮审核</option>
+  		            <option value="6" <c:if test="${collectPlan.status=='6'}"> selected</c:if> > 第三轮审核人员设置</option>
+  		            <option value="7" <c:if test="${collectPlan.status=='7'}"> selected</c:if> > 第三轮审核</option>
+  		            <option value="8" <c:if test="${collectPlan.status=='8'}"> selected</c:if> > 审核结束</option>
+  		            <option value="12" <c:if test="${collectPlan.status=='12'}"> selected</c:if> > 未下达</option>
+  		            <option value="2" <c:if test="${collectPlan.status=='2'}"> selected</c:if> > 已下达</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+            <div class="row">
+              <div class="col-xs-12 f0">
+                <input class="btn mb0 h32" type="submit" value="查询"> 
+                <input class="btn mb0 mr0 h32" type="button" value="重置" onclick="resetQuery()"> 
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
       </form>
     </h2>
       <div class="content table_box">

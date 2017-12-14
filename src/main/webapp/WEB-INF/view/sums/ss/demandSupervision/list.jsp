@@ -89,34 +89,55 @@
       <div class="search_detail">
       <form id="add_form" action="${pageContext.request.contextPath }/supervision/demandSupervisionList.html" class="mb0" method="post" >
         <input type="hidden" name="page" id="page">
-        <ul class="demand_list">
-          <li>
-            <label class="fl">采购需求名称：</label>
-            <span><input type="text" name="planName" id="planName" value="${purchaseRequired.planName }" /></span>
-           </li>
-           <li>
-             <label class="fl">采购需求文号：</label>
-             <span><input  type="text" name="referenceNo" id="referenceNo" value="${purchaseRequired.referenceNo }" /> </span>
-           </li>
-           <li>
-             <label class="fl">需求填报日期：</label>
-             <span><input style="width: 120px;" id="createdAt" class="span2 Wdate w220"  value='<fmt:formatDate value="${purchaseRequired.createdAt }"/>' name="createdAt" type="text" onclick='WdatePicker()'> </span>
-           </li>
-           <li>
-             <label class="fl">状态：</label>
-             <select  name="status" id="status">
-               <option selected="selected" value="total">全部</option>
-               <option value="1" <c:if test="${'1'==purchaseRequired.status}">selected="selected"</c:if>>未提交</option>
-               <option value="4" <c:if test="${'4'==purchaseRequired.status}">selected="selected"</c:if>>受理退回</option>
-               <option value="5" <c:if test="${'5'==purchaseRequired.status}">selected="selected"</c:if>>已提交 </option>
-             </select>
-           </li>
-         </ul>
-         <div class="col-md-12 clear tc mt10">
-           <input class="btn" type="submit" value="查询" /> 
-           <input class="btn" type="reset" value="重置" onclick="resetQuery()" /> 
-         </div>
-         <div class="clear"></div>
+        <div class="m_row_5">
+        <div class="row">
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+            <div class="row">
+              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购需求名称：</div>
+              <div class="col-xs-8 f0 lh0">
+                <input type="text" name="planName" id="planName" value="${purchaseRequired.planName }" class="w100p h32 f14 mb0">
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+            <div class="row">
+              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购需求文号：</div>
+              <div class="col-xs-8 f0 lh0">
+                <input type="text" name="referenceNo" id="referenceNo" value="${purchaseRequired.referenceNo }" class="w100p h32 f14 mb0">
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+            <div class="row">
+              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">需求填报日期：</div>
+              <div class="col-xs-8 f0 lh0">
+                <input id="createdAt" class="Wdate w100p h32 f14 mb0" value='<fmt:formatDate value="${purchaseRequired.createdAt }"/>' name="createdAt" type="text" onclick='WdatePicker()'>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+            <div class="row">
+              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">状态：</div>
+              <div class="col-xs-8 f0 lh0 m_select2">
+                <select name="status" id="status" class="w100p h32 f14">
+                  <option selected="selected" value="total">全部</option>
+                  <option value="1" <c:if test="${'1'==purchaseRequired.status}">selected="selected"</c:if>>未提交</option>
+                  <option value="4" <c:if test="${'4'==purchaseRequired.status}">selected="selected"</c:if>>受理退回</option>
+                  <option value="5" <c:if test="${'5'==purchaseRequired.status}">selected="selected"</c:if>>已提交</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        
+        <div class="tc">
+          <input class="btn mb0" type="submit" value="查询"> 
+          <input class="btn mb0 mr0" type="reset" value="重置" onclick="resetQuery()">
+        </div>
        </form>
      </div>
 

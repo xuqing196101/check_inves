@@ -300,7 +300,14 @@ public interface ExpertMapper {
      * @return 专家集合
      */
     List<Expert> getAuditExpertByDate(@Param("startDate")String startDate,@Param("endDate")String endDate,@Param("netType")String netType);
-    
+    /**
+     *〈简述〉根据修改日期获取注销专家信息
+     *〈详细描述〉
+     * @param startDate 开始日期
+     * @param endDate 结束日期
+     * @return 专家集合
+     */
+     List<Expert> getDeleteExpertByDate(@Param("startDate")String startDate,@Param("endDate")String endDate,@Param("netType")String netType);
     /**
      * @Title: updateById
      * @date 2017-5-9 上午9:54:00  

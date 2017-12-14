@@ -87,48 +87,61 @@
       <!-- 项目戳开始 -->
       <h2 class="search_detail">
     <form action="${pageContext.request.contextPath}/projectSupervision/list.html" id="form1" method="post" class="mb0">
-      <ul class="demand_list">
-      <li>
-        <label class="fl">项目名称： </label>
-        <span>
-          <input type="hidden" name="page" id="page">
-          <input type="text" name="name" id="proName" value="${project.name }" /> 
-        </span>
-      </li>
-      <li>
-        <label class="fl">项目编号：</label> 
-        <span>
-          <input type="text" name="projectNumber" id="projectNumber" value="${project.projectNumber }" /> 
-        </span>
-      </li>
-      <li>
-        <label class="fl">采购方式：</label>
-            <span class="">
-              <select name="purchaseType" id="purchaseType">
-                <option selected="selected" value="">请选择</option>
-                <c:forEach items="${kind}" var="kinds" >
-                  <option  value="${kinds.id}" <c:if test="${kinds.id eq project.purchaseType}">selected="selected"</c:if>>${kinds.name}</option>
-                </c:forEach>
-              </select>
-            </span>
-      </li>
-      <li>
-        <label class="fl">状态：</label>
-            <span class="">
-              <select name="status" id="status">
-                <option selected="selected" value="">请选择</option>
-                <c:forEach items="${status}" var="status" >
-                  <option  value="${status.id}" <c:if test="${status.id eq project.status}">selected="selected"</c:if>>${status.name}</option>
-                </c:forEach>
-              </select>
-            </span>
-      </li>
-    </ul>
-    <div class="col-md-12 col-xs-12 col-sm-12 clear tc mt10">
-        <button class="btn mt1" type="submit">查询</button>
-        <button type="reset" class="btn mt1" onclick="clearSearch();">重置</button>
+    <div class="m_row_5">
+    <div class="row">
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">项目名称：</div>
+          <div class="col-xs-8 f0 lh0">
+            <input type="hidden" name="page" id="page">
+            <input type="text" name="name" id="proName" value="${project.name }" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">项目编号：</div>
+          <div class="col-xs-8 f0 lh0">
+            <input type="text" name="projectNumber" id="projectNumber" value="${project.projectNumber }" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购方式：</div>
+          <div class="col-xs-8 f0 lh0">
+            <select name="purchaseType" id="purchaseType" class="w100p h32 f14">
+              <option selected="selected" value="">请选择</option>
+              <c:forEach items="${kind}" var="kinds" >
+                <option  value="${kinds.id}" <c:if test="${kinds.id eq project.purchaseType}">selected="selected"</c:if>>${kinds.name}</option>
+              </c:forEach>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">状态：</div>
+          <div class="col-xs-8 f0 lh0 m_select2">
+            <select name="status" id="status" class="w100p h32 f14">
+              <option selected="selected" value="">请选择</option>
+              <c:forEach items="${status}" var="status" >
+                <option  value="${status.id}" <c:if test="${status.id eq project.status}">selected="selected"</c:if>>${status.name}</option>
+              </c:forEach>
+            </select>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="clear"></div>
+    </div>
+    
+    <div class="tc">
+      <button class="btn mb0" type="submit">查询</button>
+      <button type="reset" class="btn mb0 mr0" onclick="clearSearch();">重置</button>
+    </div>
     </form>
     </h2>
 

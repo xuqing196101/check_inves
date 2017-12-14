@@ -837,10 +837,18 @@
                         multiple="true" businessId="${t.id}" sysKey="${expertKey}"
                         typeId="9" auto="true" maxcount="20"/>
            	   				<u:show showId="pro_${vs.index}" businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
-											
+										</c:when>
+										<c:when test="${expert.status == 3 and !(fn:contains(engErrorField,t.id.concat('_tieleFile'))||fn:contains(typeErrorField,'isTitle'))}">
+												<u:show showId="pro_${vs.index}" delete="false" businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
 										</c:when>
 										<c:otherwise>
-										<u:show showId="pro_${vs.index}" delete="false" businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
+										<u:upload
+                        singleFileSize="${properties['file.picture.upload.singleFileSize']}"
+                        exts="${properties['file.picture.type']}" id="pro_${vs.index}"
+                        groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
+                        multiple="true" businessId="${t.id}" sysKey="${expertKey}"
+                        typeId="9" auto="true" maxcount="20"/>
+           	   				<u:show showId="pro_${vs.index}" businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
 										</c:otherwise>
 									</c:choose>
                	</div>
@@ -900,8 +908,18 @@
                             typeId="9" auto="true" maxcount="20"/>
                         	<u:show showId="eco_${vs.index}" businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
 												</c:when>
-												<c:otherwise>
+												<c:when test="${expert.status == 3 and !(fn:contains(engErrorField,t.id.concat('_tieleFile'))||fn:contains(typeErrorField,'isTitle'))}">
 													<u:show showId="pro_${vs.index+1}" delete="false" businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
+												</c:when>
+												<c:otherwise>
+												<u:upload
+                            singleFileSize="${properties['file.picture.upload.singleFileSize']}"
+                            exts="${properties['file.picture.type']}" id="eco_${vs.index}"
+                            groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
+                            multiple="true" businessId="${t.id}" sysKey="${expertKey}"
+                            typeId="9" auto="true" maxcount="20"/>
+                        	<u:show showId="eco_${vs.index}" businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
+													
 												</c:otherwise>
 											</c:choose>
                     </div>

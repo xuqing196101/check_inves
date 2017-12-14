@@ -723,6 +723,7 @@ public class UserManageController extends BaseController{
 					}
 				}
 				u.setOrgId(null);
+				u.setOrg(null);
 				//判断 临时 单位是否有输入 如果有那么赋值 orgName
 				if(StringUtils.isNotBlank(u.getTempOrgName())){
 					u.setOrgName(u.getTempOrgName());
