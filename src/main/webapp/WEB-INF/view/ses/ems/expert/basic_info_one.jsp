@@ -116,6 +116,7 @@
             }
 			function submitformExpert() {
 				var idCard = $("#idCardNumber").val().trim();
+				var checkStatus=true;
 				// 身份证唯一性验证
 				if(idCard != "") {
 					//15位和18位身份证号码的正则表达式
@@ -141,7 +142,7 @@
 				                	 layer.msg('身份证号码错误！', {
                                          offset: '300px'
                                      });
-                                    return false;
+				                	 checkStatus=false;
 				                }
 				            } else {
 				                //用计算出的验证码与最后一位身份证号码匹配，如果一致，说明通过，否则是无效的身份证号码
@@ -151,14 +152,14 @@
 				                    layer.msg('身份证号码错误！', {
 		                                 offset: '300px'
 		                             });
-		                            return false;
+				                    checkStatus=false;
 				                }
 				            }
 				        } else if (idCard.length > 0 && idCard.length < 18) {
 				            layer.msg('请输入正确的身份证号！', {
 	                             offset: '300px'
 	                         });
-	                        return false;
+				            checkStatus=false;
 				        } else if (idCard.length == 0) {
 				           // return "success";
 				        } else {
@@ -171,7 +172,10 @@
 				    	 layer.msg('身份证格式不正确!', {
                              offset: '300px'
                          });
-				        return false;
+				    	 checkStatus=false;
+				    }
+				    if(!checkStatus){
+				    	return false;
 				    }
                     //校验专家表身份证
                     $.ajax({
