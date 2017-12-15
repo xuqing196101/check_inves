@@ -257,22 +257,38 @@
 		</div>
 		<div class="container">
 
-			<div class="search_detail">
-				<ul class="demand_list ">
-					<li class="fl">
-						<label class="fl">版块名称：</label>
-						<span><input type="text" id="parkNameForSerach" class="" value="${parkNameForSerach }"/></span>
-					</li>
-
-					<li class="fl">
-						<label class="">版块介绍：</label>
-						<span><input type="text" id="parkContentForSerach" class="" value="${parkContentForSerach }"/></span>
-					</li>
-					<button class="btn fl mt1" onclick="search()">查询</button>
-					<button class="btn fl mt1" onclick="reset()">重置</button>
-				</ul>
-				<div class="clear"></div>
-			</div>
+		<div class="search_detail">
+		<div class="m_row_5">
+    <div class="row">
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">版块名称：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input type="text" id="parkNameForSerach" value="${parkNameForSerach }" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">版块介绍：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input type="text" id="parkContentForSerach" value="${parkContentForSerach }" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-12 f0">
+						<button class="btn mb0 h32" onclick="search()">查询</button>
+						<button class="btn mb0 mr0 h32" onclick="reset()">重置</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+		</div>
 
 			<!-- 表格开始-->
 			<div class="col-md-12 pl20 mt10">
