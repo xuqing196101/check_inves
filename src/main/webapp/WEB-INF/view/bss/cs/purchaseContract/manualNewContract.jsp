@@ -175,19 +175,33 @@
 	 //BeginOpenFromURL成功回调
 	 function OnComplete(type,code,html)
 	 {
-		 /* var doc=obj.ActiveDocument;
-		 var pageSetup=doc.PageSetup;
+		/* var pageSetup=doc.PageSetup;
 		 pageSetup.TogglePortrait(); */
-		 var data= "合同名称:"+$("#contract_code").val()+"编号:"+$("#contract_codes").val();
-		 var doc=obj.ActiveDocument;
-		 var doca=doc.Application;
-		 var as=doca.Selection;
+		 var data= $("#contract_codes").val();
+		 /* var selection=obj.ActiveDocument.Application.Selection;
+		 selection.GoTo(1,2,1,"条形码");
+		 objnew.Add2DCodePic(4, data, true, 35, 460, 1, 50, 1, true); */
+		 /* var sec=doc.Sections;
+		 alert(sec); */
+		 obj.ActiveDocument.ActiveWindow.ActivePane.View.Type = 3;
+		 obj.ActiveDocument.ActiveWindow.ActivePane.View.SeekView = 10;
+		 /* obj.ActiveDocument.select(); */
+		 /* obj.Add2DCodePic(4, data, true, 35, 460, 1, 50, 1, true); */
+		 /* var select=obj.ActiveDocument.Application.selection; */
+		 /* obj.AddPicture('${pageContext.request.contextPath }/template/git.jpg') */
+		 /* obj.Add2DCodePic(4, data, true, 35, 460, 1, 50, 1, true); */
+		 /* select.Find.Execute("条形码",false,false,false,false,false,true,1,false,"222",2); */
+		 obj.Add2DCodePic(3,data,true,-360,0,1,80,1,true);
+		 obj.ActiveDocument.ActiveWindow.ActivePane.View.SeekView = 0;
+		 /* obj.ActiveDocument.Sections(1)
+		    .Headers(1).Range.Text = "Header text"
+		    .Footers(1).Range.Text = "Footer text" */
 		 //goto参数，1：不知道，2：不知道，3：页数，4：当前页里面存在的字符串
-		 as.GoTo(1,2,as.Information(4),"条形码");
-		 obj.Add2DCodePic(1, data, true, 35, 460, 1, 100, 1, true);
-		 var  rangeWord = obj.ActiveDocument.Content; //获取当前文档文字部分
-	      rangeWord.Find.Execute("条形码：",false,false,false,false,false,true,1,false,"",2); //执行查找替换方法
-
+		 /* as.GoTo(1,2,as.Information(4)); */
+		  
+		/*  var  rangeWord = obj.ActiveDocument.Content; //获取当前文档文字部分
+	     rangeWord.Find.Execute("条形码",false,false,false,false,false,true,1,false,"",2); //执行查找替换方法 
+ */
 	 }
 	
 		function exportWord() {
@@ -271,8 +285,10 @@
 				layer.alert("请先上传授权书",{offset: ['222px', '390px'], shade:0.01});
 			}
 			if(flag){ */
+				if(purBudgetSum()){
 			 $("#contractForm").attr("action","${pageContext.request.contextPath}/purchaseContract/createTransFormal.html?ids=${id}");
 			 $("#contractForm").submit();
+				}
 			/* } */
 	 }
 	 
@@ -359,7 +375,11 @@
 		var checkedInp = $('input[name="chkItem"]:checked');
 		if(checkedInp.length>0){
 			$('input[name="chkItem"]:checked').each(function(){
-				$(this).parent().parent().remove();
+				if($(this).parent().parent().attr("id")!="transportFees_tr"){
+					$(this).parent().parent().remove();
+				}else{
+					layer.alert("运杂费不能被删除",{offset: ['50%', '390px'], shade:0.01});
+				}
 			})
 		}else{
 			layer.alert("请选择要删除的信息",{offset: ['50%', '390px'], shade:0.01});
@@ -456,30 +476,52 @@
 	}
 	
 	var index;
-	function openDetail(){
-	  /* index =  layer.open({
-	    shift: 1, //0-6的动画形式，-1不开启
-	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
-	    title: ['新增标的','border-bottom:1px solid #e5e5e5'],
-	    shade:0.01, //遮罩透明度
-		type : 1,
-		area : [ '55%', '400px' ], //宽高
-		content : $('#openDiv'),
-		offset: ['5%', '20%']
-	  }); */
-	  
+	function openDetail(vals){
 	  var trs=$('#trs').children();
-	  if(trs.length==0){
-		  html=htmlText(1,null);
-		  $('#trs').append(html);
-	   }else{
-		   var tr=trs[trs.length-1];
-		   var index=parseInt($($(tr).children()[1]).text());
-		   html=htmlText(index+1,null);
-		   $(tr).after(html);
-	   }
+	  if(vals=="1"){
+		  if(trs.length==0){
+			  html=htmlText(1,null,1);
+			  $('#trs').append(html);
+		   }else{
+			   var tr=trs[trs.length-1];
+			   var index=parseInt($($(tr).children()[1]).text());
+			   html=htmlText(index+1,null,1);
+			   $(tr).after(html);
+		   }
+	  }else{
+		  if(trs.length==0){
+			  html=htmlText(1,null,null);
+			  $('#trs').append(html);
+		   }else{
+			   if($("#transportFees_tr").length>0){
+				   var trIndex;
+				   if(trs.length==1){
+					   trIndex=0;
+				   }else{
+					   var tr=trs[trs.length-2];
+					   trIndex=parseInt($($(tr).children()[1]).text()); 
+				   }
+				   html=htmlText(trIndex+1,null,null);
+				   $("#transportFees_tr").before(html);
+				   $($("#transportFees_tr").children()[1]).text(trIndex+2);
+				   $("#transportFees_tr").find("input[type='text']").each(function(){
+					   var inputName=$(this).attr("name");
+					   if(inputName.substring(inputName.indexOf(".")+1,inputName.length)=="planNo"){
+						   var prevName=$(this).prev().attr("name");
+						   $(this).prev().attr("name","proList["+(trIndex+2)+"]."+prevName.substring(prevName.indexOf(".")+1,prevName.length))
+					   }
+					   $(this).attr("name","proList["+(trIndex+2)+"]."+inputName.substring(inputName.indexOf(".")+1,inputName.length))
+				   })
+			   }else{
+				   var tr=trs[trs.length-1];
+				   var index=parseInt($($(tr).children()[1]).text());
+				   html=htmlText(index+1,null,null);
+				   $(tr).after(html);
+			   }
+		   }
+	  }
     }
-	function htmlText(index,data){
+	function htmlText(index,data,vals){
 		var html="";
 		if(data!=null){
 			html += "<tr><td class='tc w30'><input onclick='check()' type='checkbox' name='chkItem' value='' /></td>";
@@ -496,17 +538,31 @@
 	          html += "<td class='tc'><input type='text' name='proList["+index+"].memo'  value='"+data.memo+"'/></td>"
 	          html += "<td class='tnone'></td></tr>";
 		}else{
-			html += "<tr><td class='tc w30'><input onclick='check()' type='checkbox' name='chkItem' value='' /></td>";
-	        html += "<td class='tc w50'>"+index+"</td>";
-	        html += "<td class='tc w50'><input type='text' name='proList["+index+"].planNo'  value='' class='w50'/></td>";
-	        html += "<td class='tc'><input type='text' name='proList["+index+"].goodsName'  value=''/></td>";
-	        html += "<td class='tc'><input type='text' name='proList["+index+"].brand'  value=''/></td>"
-	        html += "<td class='tc'><input type='text' name='proList["+index+"].stand'  value='' class='w60'/></td>"
-	        html += "<td class='tc w80'><input type='text' name='proList["+index+"].item'  value='' class='w50'/></td>"
-	        html += "<td class='tc'><input type='text' name='proList["+index+"].purchaseCount' onchange='change(this,\"1\")'  value='' class='w50'/></td>"
-	        html += "<td class='tc'><input type='text' name='proList["+index+"].price' onchange='change(this,\"2\")'   value='' class='w50'/></td>"
-	        html += "<td class='tc'><input type='text' name='proList["+index+"].amount' readonly='readonly' value='' class='w50'/></td>"
-	        html += "<td class='tc'><input type='text' name='proList["+index+"].deliverDate'  value='' class='w100'/></td>"
+			 if(vals=="1"){
+				 html += "<tr id='transportFees_tr'><td class='tc w30'><input onclick='check()' type='checkbox' name='chkItem' value='' /></td>";
+				 html += "<td class='tc w50'>"+index+"</td>";
+			     html += "<td class='tc w50'><input type='hidden' name='proList["+index+"].transportFees'  value='1' class='w50'/><input type='text' name='proList["+index+"].planNo'  value='' class='w50'/></td>";
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].goodsName'  value='运杂费'/></td>";
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].brand'  value='' readonly='readonly'/></td>"
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].stand'  value='' readonly='readonly' class='w60'/></td>"
+			     html += "<td class='tc w80'><input type='text' name='proList["+index+"].item'  value='' readonly='readonly' class='w50'/></td>"
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].purchaseCount' readonly='readonly'   value='' class='w50'/></td>"
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].price' readonly='readonly'   value='' class='w50'/></td>"
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].amount'   value='' class='w50'/></td>"
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].deliverDate' readonly='readonly'  value='' class='w100'/></td>"
+			 }else{
+				 html += "<tr><td class='tc w30'><input onclick='check()' type='checkbox' name='chkItem' value='' /></td>";
+				 html += "<td class='tc w50'>"+index+"</td>";
+			     html += "<td class='tc w50'><input type='text' name='proList["+index+"].planNo'  value='' class='w50'/></td>";
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].goodsName'  value=''/></td>";
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].brand'  value=''/></td>"
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].stand'  value='' class='w60'/></td>"
+			     html += "<td class='tc w80'><input type='text' name='proList["+index+"].item'  value='' class='w50'/></td>"
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].purchaseCount' onchange='change(this,\"1\")'  value='' class='w50'/></td>"
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].price' onchange='change(this,\"2\")'   value='' class='w50'/></td>"
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].amount' readonly='readonly' value='' class='w50'/></td>"
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].deliverDate'  value='' class='w100'/></td>"
+			 }
 	        html += "<td class='tc'><input type='text' name='proList["+index+"].memo'  value=''/></td>"
 	        html += "<td class='tnone'></td></tr>";
 		}
@@ -571,31 +627,33 @@
 	}
 	
 	function save(){
-		var draftGitAt = $("#draftGitAt").val();
-		var draftReviewedAt = $("#draftReviewedAt").val();
-		$.ajax({
-			url:"${pageContext.request.contextPath}/purchaseContract/addDraftGit.html",
-			type:"post",
-			dataType:"json",
-			data:{"draftGitAt":draftGitAt,"draftReviewedAt":draftReviewedAt},
-			success:function(data){
-				
-				if(data==1){
-					$("#status").val("1");
-					var draftGitAt = $("#draftGitAt").val();
-					var draftReviewedAt = $("#draftReviewedAt").val();
-					$("#dga").val(draftGitAt);
-					$("#dra").val(draftReviewedAt);
-					$("#contractForm").submit();
-				}else{
-					var obj = new Function("return" + data)();
-					$("#gitTime").text(obj.gitAt);
-					$("#reviewTime").text(obj.reviewAt);
-					$("#draftGitAt").val(obj.gitStr);
-					$("#draftReviewedAt").val(obj.reviewedStr);
+		if(purBudgetSum()){
+			var draftGitAt = $("#draftGitAt").val();
+			var draftReviewedAt = $("#draftReviewedAt").val();
+			$.ajax({
+				url:"${pageContext.request.contextPath}/purchaseContract/addDraftGit.html",
+				type:"post",
+				dataType:"json",
+				data:{"draftGitAt":draftGitAt,"draftReviewedAt":draftReviewedAt},
+				success:function(data){
+					
+					if(data==1){
+						$("#status").val("1");
+						var draftGitAt = $("#draftGitAt").val();
+						var draftReviewedAt = $("#draftReviewedAt").val();
+						$("#dga").val(draftGitAt);
+						$("#dra").val(draftReviewedAt);
+						$("#contractForm").submit();
+					}else{
+						var obj = new Function("return" + data)();
+						$("#gitTime").text(obj.gitAt);
+						$("#reviewTime").text(obj.reviewAt);
+						$("#draftGitAt").val(obj.gitStr);
+						$("#draftReviewedAt").val(obj.reviewedStr);
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 	
 	function cancel(){
@@ -691,23 +749,84 @@
             		 var tr="";
             		 var index="";
             		 if(trs.length>0){
-            			 tr=trs[trs.length-1];
-                   index=parseInt($($(tr).children()[1]).text());
+            			 if($("#transportFees_tr").length>0){
+            				 if(trs.length==1){
+            					 tr=trs[trs.length-1];
+            					 index=0;
+            				 }else{
+            					 tr=trs[trs.length-1];
+            					 index=parseInt($($(trs[trs.length-2]).children()[1]).text());
+            				 }
+            			 }else{
+            				 tr=trs[trs.length-1];
+                             index=parseInt($($(tr).children()[1]).text());
+            			 }
             		 }else{
             			 index=0;
             		 }
             		 for(var i=0;i<data.length;i++){
-            			 html+=htmlText(index+i+1,data[i]);
+            			 html+=htmlText(index+i+1,data[i],null);
             		 }
             		 if(trs.length==0){
-                    $('#trs').append(html);
+                      $('#trs').append(html);
                     }else{
-                      $(tr).after(html);
+                    	if($("#transportFees_tr").length>0){
+                    		$(tr).before(html);
+                    		var trIndex=parseInt($($(tr).prev().children()[1]).text())
+                    		$($("#transportFees_tr").children()[1]).text(trIndex+1);
+         				   $("#transportFees_tr").find("input[type='text']").each(function(){
+         					   var inputName=$(this).attr("name");
+         					   if(inputName.substring(inputName.indexOf(".")+1,inputName.length)=="planNo"){
+         						   var prevName=$(this).prev().attr("name");
+         						   $(this).prev().attr("name","proList["+(trIndex+1)+"]."+prevName.substring(prevName.indexOf(".")+1,prevName.length))
+         					   }
+         					   $(this).attr("name","proList["+(trIndex+1)+"]."+inputName.substring(inputName.indexOf(".")+1,inputName.length))
+         				   })
+                    	}else{
+                    		$(tr).after(html);
+                    	}
+                      
                    }
             	 }
              }
          })
     }
+    function numberType(objV, types) {
+		var val = $(objV).val();
+		if(types == "1") {
+			if(/^[0-9]{1,}(?:.[0-9]{0,2})?$/.test(val)) {
+			}else{
+				$(objV).val("");
+			}
+		} else {
+			if(/^[0-9]{1,}(?:.[0-9]{0,4})?$/.test(val)) {
+			}else{
+				$(objV).val("");
+			}
+		}
+	}
+    function transportFeeschange(objT){
+    	if($(objT).val()=="1"){
+    		openDetail('1');
+    	}else{
+    		if($("#transportFees_tr")){
+				$("#transportFees_tr").remove();
+    		}
+    	}
+    }
+  function purBudgetSum(){
+		/* var sumBudget=parseFloat($("#transactionAmount").val()).toFixed(4);
+		var budget=0;
+		var trs=$('#trs').children();
+		for(var i=0;i<trs.length;i++){
+			budget+=parseFloat($($(trs[i]).children()[9]).find("input").val()).toFixed(2);
+		}
+		if(budget/10000>sumBudget){
+			layer.alert("标的总价不得超过合同金额",{offset: ['50%', '40%'], shade:0.01});
+			return false;
+		} */
+		return true;
+}
 </script>
 <!-- ie中的回调 -->
 <script language="JScript" for="TANGER_OCX" event="ondocumentopened(File, Document)">
@@ -793,7 +912,7 @@
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>合同金额(万元)：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-			        	<input class=" contract_name" name="money_string" value="${transactionAmount}" type="text">
+			        	<input class=" contract_name" name="money_string" id="transactionAmount" value="${transactionAmount}" type="text">
 			        	<div class="cue">${ERR_money}</div>
 	       			</div>
 				 </li>
@@ -854,6 +973,54 @@
 			        		</c:forEach>
 			        	</select>
 			        	<div class="cue">${ERR_purchaseType}</div>
+			        </div>
+			 	</li>
+			 	<li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">预付比例(%)：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	<input class=" contract_name" name="prepaidRatio" value="" onkeyup="numberType(this,'1')" type="text">
+			        	<div class="cue">${ERR_prepaidRatio}</div>
+	       			</div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">预付金额(万元)：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	<input class=" contract_name" name="prepaymentAmount" value="" onkeyup="numberType(this,'2')" type="text">
+			        	<div class="cue">${ERR_prepaymentAmount}</div>
+	       			</div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">质保比例(%)：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	<input class=" contract_name" name="warrantyRatio" value="" onkeyup="numberType(this,'1')" type="text">
+			        	<div class="cue">${ERR_warrantyRatio}</div>
+	       			</div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">质保金额(万元)：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	<input class=" contract_name" name="warrantyAmount" value="" onkeyup="numberType(this,'2')" type="text">
+			        	<div class="cue">${ERR_warrantyAmount}</div>
+	       			</div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">是否审价：</span>
+				     <div class="select_common col-sm-12 col-xs-12 col-md-12 p0">
+			        	<select name="trialPrice" id="trialPrice" style="width: 100%;" class=" contract_name">
+			        		<option value="0" >否</option>
+			        		<option value="1" >是</option>
+			        	</select>
+			        	<div class="cue">${ERR_trialPrice}</div>
+			        </div>
+			 	</li>
+			 	<li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">有无运杂费：</span>
+				     <div class="select_common col-sm-12 col-xs-12 col-md-12 p0">
+			        	<select name="transportFees" id="transportFees" onchange="transportFeeschange(this)" style="width: 100%;" class=" contract_name">
+			        		<option value="0" >无</option>
+			        		<option value="1" >有</option>
+			        	</select>
+			        	<div class="cue">${ERR_trialPrice}</div>
 			        </div>
 			 	</li>
 			 	<li class="col-md-3 col-sm-6 col-xs-12">
@@ -1118,7 +1285,7 @@
             <div class="tab-pane fade " id="tab-2">
               <div class="margin-bottom-0  categories over_hideen">
 				<div class="col-md-12 col-xs-12 col-sm-12 p0">
-					<input type="button" class="btn btn-windows add" onclick="openDetail()" value="添加"/>
+					<input type="button" class="btn btn-windows add" onclick="openDetail('0')" value="添加"/>
 					<input type="button" class="btn btn-windows delete" onclick="delDetail()" value="删除"/>
 					<input type="button" class="btn btn-windows input" onclick="down()" value="下载模板"/>
 					<input type="button" class="btn btn-windows input" onclick="uploadExcel()" value="导入"/>
