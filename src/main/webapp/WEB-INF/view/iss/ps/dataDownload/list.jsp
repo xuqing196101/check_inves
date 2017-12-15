@@ -124,11 +124,25 @@
 						$(".layui-layer-shade").remove();
 						return;
 					}
+					var falseCount = 0;
 					for(var i = 0; i < info.length; i++) {
 						if(info[i].checked) {
+							var status = $("#"+info[i].value+"_status").val();
+							if (status == 2) {
+								falseCount++;
+							}
 							ids += info[i].value + ',';
+							
 						}
 					}
+					if (falseCount > 0) {
+						layer.alert("不能选择已发布的", {
+							offset: ['30%', '40%']
+						});
+						$(".layui-layer-shade").remove();
+						return;
+					}
+					
 					layer.confirm('您确定要发布吗?', {
 						title: '提示',
 						offset: ['30%', '40%'],
@@ -381,8 +395,11 @@
 								<td class="tc" onclick="view('${data.id }')">
 									<fmt:formatDate value="${data.createdAt}" pattern="yyyy-MM-dd HH:mm:ss" /> </td>
 								</td>
+								<input type="hidden" id="${data.id}_status" value="${data.status}">
 								<c:if test="${data.status==1}">
-									<td class="tl" onclick="view('${data.id }')">暂存</td>
+									<td class="tl" onclick="view('${data.id }')">
+									暂存
+									</td>
 								</c:if>
 								<c:if test="${data.status==2}">
 									<td class="tl" onclick="view('${data.id }')">已发布</td>
