@@ -65,8 +65,8 @@
 			<h2>两库审核状态列表</h2>
 		</div>
 		<input type="hidden" id="exportType" value="${exportType}">
-		<div class="tab-content mt10">
-			<div class="tab-v2">
+		<div class="tab-content mt20">
+			<div class="tab-v2 pl20">
 				<ul class="nav nav-tabs bgwhite">
 					<li class="active" id="liActive1" onclick="liActive('1');"><a href="#dep_tab-0" data-toggle="tab"
 						class="f18">供应商入库审核</a></li>
@@ -78,31 +78,41 @@
 				</ul>
 				<div class="tab-content" style="height: 100%;">
 					<div class="tab-pane fade in active" id="dep_tab-0">
-						<h2 class="search_detail">
-							<form id="form1"
-								action="${pageContext.request.contextPath}/supplierExport/supplier_check.html?type=1"
-								method="post" class="mb0">
-								<input type="hidden"  id="url" value="${pageContext.request.contextPath}/supplierExport/supplier_check.html?type=1" />
-								<input type="hidden" name="page" id="page"/>
-								<input type="hidden" name="type" id="type" value="1"/>
-								<ul class="demand_list">
-									<li class="fl"><label class="fl">采购机构：</label><span>
-									<select name="name" id="name" class="w220">
-										  <option value=''>全部</option>
-								           <c:forEach items="${allOrg}" var="org">
-								             <option value="${org.shortName}" >${org.shortName}</option>
-								           </c:forEach>
-						            </select>
-									</li>
-								</ul>
-								<button type="button" class="btn fl" onclick="search();">查询</button>
-								<button type="button" onclick="clearValue();" class="btn fl">重置</button>
-								<button type="button" onclick="exportExcel();" class="btn fl">导出</button>
-								<div class="clear"></div>
-							</form>
+						<h2 class="search_detail ml0">
+						<form id="form1" action="${pageContext.request.contextPath}/supplierExport/supplier_check.html?type=1" method="post" class="mb0">
+						<input type="hidden"  id="url" value="${pageContext.request.contextPath}/supplierExport/supplier_check.html?type=1" />
+						<input type="hidden" name="page" id="page"/>
+						<input type="hidden" name="type" id="type" value="1"/>
+						<div class="m_row_5">
+				    <div class="row">
+				      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+				        <div class="row">
+				          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购机构：</div>
+				          <div class="col-xs-8 f0 lh0">
+										<select name="name" id="name" class="w100p h32 f14">
+											<option value=''>全部</option>
+											<c:forEach items="${allOrg}" var="org">
+											<option value="${org.shortName}" >${org.shortName}</option>
+											</c:forEach>
+										</select>
+				          </div>
+				        </div>
+				      </div>
+				      
+				      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+				        <div class="row">
+				          <div class="col-xs-12 f0">
+										<button type="button" class="btn mb0 h32" onclick="search();">查询</button>
+										<button type="button" onclick="clearValue();" class="btn mb0 h32">重置</button>
+										<button type="button" onclick="exportExcel();" class="btn mb0 mr0 h32">导出</button>
+				          </div>
+				        </div>
+				      </div>
+				    </div>
+				    </div>
+						</form>
 						</h2>
-						<iframe  frameborder="0" name="actives" id="actives" scrolling="auto" marginheight="0" height="800"  width="100%"  src="">
-						</iframe>
+						<iframe frameborder="0" name="actives" id="actives" scrolling="auto" marginheight="0" height="800" width="100%" src=""></iframe>
 			</div>
 		</div>
 

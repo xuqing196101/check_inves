@@ -295,36 +295,54 @@
 	   	</div>
 		<!-- 查询 -->
 		<div class="search_detail">
-			<form action="${pageContext.request.contextPath}/auditTemplat/list.html" id="form1" method="post" class="mb0">
-				<input type="hidden" name="page" id="page">
-				<ul class="demand_list">
-					<li>
-					   <label class="fl">模板名称：</label><input type="text" id="name" name="name" value="${name}" />
-					</li>
-					<li>
-		               <label class="fl">模板类型：</label>
-		               <select class="w178" name="kind">
-			               <option value="">请选择</option>
-	                       <c:forEach items="${kinds}" var="k" varStatus="vs">
-                                  <option value="${k.id}" <c:if test="${k.id eq kind}">selected</c:if> >${k.name}</option>
-                           </c:forEach>
-		               </select>
-		            </li>
-		            <li>
-						<label class="fl">所属产品目录：</label>
-						<div class="input_group fl w200">
-							<input id="cId" name="categoryId"  type="hidden" value="${categoryId}">
-					        <input id="categorySel"  type="text" name="categoryName" readonly value="${categoryName}"  onclick="showCategory();" />
-							<%-- <div class="drop_up" onclick="showCategory();">
-							    <img src="${pageContext.request.contextPath}/public/backend/images/down.png" />
-					        </div> --%>
-						</div>
-					</li>
-				</ul>
-				<button class="btn mt1 fl" type="submit">查询</button>
-                <button type="button" onclick="resetQuery()" class="btn fl mt1">重置</button>
-				<div class="clear"></div>
-			</form>
+		<form action="${pageContext.request.contextPath}/auditTemplat/list.html" id="form1" method="post" class="mb0">
+		<input type="hidden" name="page" id="page">
+		<div class="m_row_5">
+    <div class="row">
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">模板名称：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input type="text" id="name" name="name" value="${name}" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">模板类型：</div>
+          <div class="col-xs-8 f0 lh0">
+						<select class="w100p h32 f14" name="kind">
+							<option value="">请选择</option>
+							<c:forEach items="${kinds}" var="k" varStatus="vs">
+							<option value="${k.id}" <c:if test="${k.id eq kind}">selected</c:if> >${k.name}</option>
+							</c:forEach>
+						</select>
+          </div>
+        </div>
+      </div>
+			
+			<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">所属产品目录：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input id="cId" name="categoryId" type="hidden" value="${categoryId}">
+						<input id="categorySel" type="text" name="categoryName" readonly value="${categoryName}" onclick="showCategory();" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-12 f0">
+						<button class="btn mb0 h32" type="submit">查询</button>
+            <button type="button" onclick="resetQuery()" class="btn mb0 mr0 h32">重置</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+		</form>
 		</div>
 
 		<!-- 表格开始-->

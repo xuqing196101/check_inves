@@ -360,22 +360,42 @@
 		    <div class="headline-v2">
 		     <h2>产品分配列表</h2>
 		    </div>
-		   <div class="search_detail">
-			   <form id="form" action="${pageContext.request.contextPath}/categoryparam/query_orgnization.html" method="post">
-			       	<input type="hidden"/>
-			   		<input type="hidden" name="page" value="" id="page"/>	
-			        <ul class="demand_list">
-			        	 <li>
-					    	<label class="fl">需求部门：</label><span><input type="text" id="orgId" value="${name}" name="name"  /></span>
-					     </li>
-					     <li>
-					    	<label class="fl">负责人：</label><span><input type="text" id="leadId" name="princinpal"  value="${princinpal}"/></span>
-					     </li>
-			        </ul>
-			        <button type="button"  onclick="query();"  class="btn">查询</button>
-			    	<button type="button"  onclick="resetSearch();"  class="btn">重置</button>  	
-		        </form>
-		      </div>
+        <div class="search_detail">
+        <form id="form" action="${pageContext.request.contextPath}/categoryparam/query_orgnization.html" method="post" class="mb0">
+        <input type="hidden"/>
+        <input type="hidden" name="page" value="" id="page"/>
+        <div class="m_row_5">
+        <div class="row">
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+            <div class="row">
+              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">需求部门：</div>
+              <div class="col-xs-8 f0 lh0">
+                <input type="text" id="orgId" value="${name}" name="name" class="w100p h32 f14 mb0">
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+            <div class="row">
+              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">负责人：</div>
+              <div class="col-xs-8 f0 lh0">
+                <input type="text" id="leadId" name="princinpal"  value="${princinpal}" class="w100p h32 f14 mb0">
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+            <div class="row">
+              <div class="col-xs-12 f0">
+                <button type="button"  onclick="query();" class="btn mb0 h32">查询</button>
+    			    	<button type="button"  onclick="resetSearch();" class="btn mb0 mr0 h32">重置</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        </form>
+        </div>
 		      <div class="col-md-12 pl20 mt10">
 		      		<button  type="button"  onclick="allocate();"class="btn">分配</button>
 		      		<button  type="button"  onclick="uAllocate();"class="btn">取消</button>
