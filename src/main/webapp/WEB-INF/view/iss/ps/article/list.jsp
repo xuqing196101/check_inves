@@ -407,55 +407,65 @@
       </div>
 
       <div class="search_detail">
-        <form id="form1" action="${pageContext.request.contextPath }/article/serch.html" method="post" class="mb0">
-          <ul class="demand_list">
-            <li>
-              <label class="fl">信息标题：</label>
-              <span>
-          <input type="text" id="name" name="name" value="${articleName }"/>
-        </span>
-            </li>
-            <li>
-              <label class="fl">信息栏目：</label>
-              <span class="fl mt5">
-        <div class="w200">
-          <select id="articleTypes" name="articleTypeId" class="w200" >
-            	<option value="">全部</option>
-            </select>
+      <form id="form1" action="${pageContext.request.contextPath }/article/serch.html" method="post" class="mb0">
+      <div class="m_row_5">
+      <div class="row">
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">信息标题：</div>
+            <div class="col-xs-8 f0 lh0">
+              <input type="text" id="name" name="name" value="${articleName }" class="w100p h32 f14 mb0">
+            </div>
           </div>
-            </span>
-            </li>
-            <li>
-              <label class="fl">发布范围：</label>
-              <span>
-              <select id ="range" name="range" class="w100"  >
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">信息栏目：</div>
+            <div class="col-xs-8 f0 lh0">
+              <select id="articleTypes" name="articleTypeId" class="w100p h32 f14">
+              	<option value="">全部</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">发布范围：</div>
+            <div class="col-xs-8 f0 lh0">
+              <select id ="range" name="range" class="w100p h32 f14">
                 <option value=""  <c:if test="${articlesRange == ''}">selected</c:if>>全部</option>
                 <option value="0" <c:if test="${articlesRange == '0'}">selected</c:if>>内网</option>
-                <%-- <option value="1" <c:if test="${articlesRange == '1'}">selected</c:if>>外网</option> --%>
                 <option value="2" <c:if test="${articlesRange == '2'}">selected</c:if>>内外网</option>
-               </select>
-           </span>
-            </li>
-            <li>
-              <label class="fl w100">状态：</label>
-              <span>
-              <select id ="status" name="status" class="w100">
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">状态：</div>
+            <div class="col-xs-8 f0 lh0">
+              <select id ="status" name="status" class="w100p h32 f14">
                 <option value="" <c:if test="${articlesStatus == ''}">selected</c:if>>全部</option>
                 <option value="0" <c:if test="${articlesStatus == '0'}">selected</c:if>>暂存</option>
                 <option value="1" <c:if test="${articlesStatus == '1'}">selected</c:if>>已提交</option>
                 <option value="2" <c:if test="${articlesStatus == '2'}">selected</c:if>>已发布</option>
                 <option value="3" <c:if test="${articlesStatus == '3'}">selected</c:if>>已退回</option>
                 <option value="4" <c:if test="${articlesStatus == '4'}">selected</c:if>>已取消发布</option>
-               </select>
-           </span>
-            </li>
-          </ul>
-          <div class="col-md-12 col-sm-12 col-xs-12 tc mt5">
-            <button type="submit" class="btn">查询</button>
-            <button type="button" class="btn" onclick="resetQuery()">重置</button>
+              </select>
+            </div>
           </div>
-          <div class="clear"></div>
-        </form>
+        </div>
+      </div>
+      </div>
+      
+      <div class="tc">
+        <button type="submit" class="btn mb0">查询</button>
+        <button type="button" class="btn mb0 mr0" onclick="resetQuery()">重置</button>
+      </div>
+      </form>
       </div>
 
       <input type="hidden" id="depid" name="depid">
