@@ -475,7 +475,7 @@ function extractSupplier(code,status) {
 		async:false,
 		success: function (msg) {
 			
-			if(null!=msg && "" !=msg){
+			if(msg){
 				flag ++;
 				for ( var k in msg) {
 					$("#"+k+"Error").html(msg[k]);
@@ -492,7 +492,7 @@ function extractSupplier(code,status) {
 		async:false,
 		success: function (msg) {
 			$("#supervise").find("span").empty();
-			if(null !=msg){
+			if(msg){
 				flag++;
 				for ( var k in msg) {
 					if("All"!=k){
@@ -515,7 +515,7 @@ function extractSupplier(code,status) {
 		async:false,
 		success: function (msg) {
 			$("#extractUser").find("span").empty();
-			if(null !=msg){
+			if(msg){
 				flag++;
 				for ( var k in msg) {
 					if("All"==k){

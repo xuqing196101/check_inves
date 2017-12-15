@@ -457,6 +457,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
         //候补专家
         List<ExpertExtractResult> backList = resultMapper.getBackExpertListByrecordId(id);
         for (ExpertExtractResult expertExtractResult : backList) {
+        	expertExtractResult.setRemark("候补");
             if(expertExtractResult.getExpertCode() != null){
             	DictionaryData dictionaryData = DictionaryDataUtil.get(expertExtractResult.getExpertCode() == null ? "" : expertExtractResult.getExpertCode());
                 if(dictionaryData != null){
@@ -475,8 +476,9 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
                 expertExtractResult.setProfessional(profi.length() > 1 ? profi.substring(0,profi.length() - 1) : profi);
             }
         }
+        resultList.addAll(backList == null ? new ArrayList<ExpertExtractResult>() : backList);
         map.put("result", resultList);
-        map.put("back", backList);
+        map.put("back",  new ArrayList<ExpertExtractResult>());
         return map;
     }
 
