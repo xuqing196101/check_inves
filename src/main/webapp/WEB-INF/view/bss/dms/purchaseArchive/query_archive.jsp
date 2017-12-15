@@ -88,21 +88,41 @@
 			</div>
 
 			<form action="${pageContext.request.contextPath }/purchaseArchive/queryArchive.html" method="post" id="form">
-				<h2 class="search_detail">
-			<ul class="demand_list">
-				<li>
-			    	<label class="fl">档案名称：</label><span><input type="text" id="name" name="name"/></span>
-			    </li>
-		  		<li>
-			    	<label class="fl">档案编号：</label><span><input type="text" id="archiveCode" name="archiveCode"/></span>
-			    </li>
-		  		<li>
-			    	<label class="fl">合同编号：</label><span><input type="text" id="contractCode" name="contractCode"/></span>
-			    </li>
-			    <li>
-			    	<label class="fl">采购方式：</label>
-			    	<span>
-			    		<select id="purchaseType" name="purchaseType">
+			<h2 class="search_detail">
+			<div class="m_row_5">
+	    <div class="row">
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">档案名称：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input type="text" id="name" name="name" class="w100p h32 f14 mb0">
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">档案编号：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input type="text" id="archiveCode" name="archiveCode" class="w100p h32 f14 mb0">
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">合同编号：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input type="text" id="contractCode" name="contractCode" class="w100p h32 f14 mb0">
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购方式：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<select id="purchaseType" name="purchaseType" class="w100p h32 f14">
 		  					<option value="">请选择</option>
 		  					<option value="单一来源">单一来源</option>
 		  					<option value="公开招标">公开招标</option>
@@ -110,21 +130,42 @@
 		  					<option value="询价">询价</option>
 		  					<option value="竞争性谈判">竞争性谈判</option>
 		  				</select>
-			    	</span>
-			    </li>
-			    <li>
-			    	<label class="fl">预算年度：</label><span><input type="text" id="year" name="year"/></span>
-			    </li>
-			    <li>
-			    	<label class="fl">采购机构：</label><span><input type="text" id="purchaseDep" name="purchaseDep"/></span>
-			    </li>
-		  		<li>
-			    	<label class="fl">供应商名称：</label><span><input type="text" id="supplierName" name="supplierName"/></span>
-			    </li>
-			    <li>
-			    	<label class="fl">状态：</label>
-			    	<span>
-			    		<select id="status" name="status">
+	          </div>
+	        </div>
+	      </div>
+				
+				<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">预算年度：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input type="text" id="year" name="year" class="w100p h32 f14 mb0">
+	          </div>
+	        </div>
+	      </div>
+				
+				<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购机构：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input type="text" id="purchaseDep" name="purchaseDep" class="w100p h32 f14 mb0">
+	          </div>
+	        </div>
+	      </div>
+				
+				<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">供应商名称：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input type="text" id="supplierName" name="supplierName" class="w100p h32 f14 mb0">
+	          </div>
+	        </div>
+	      </div>
+				
+				<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">状态：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<select id="status" name="status" class="w100p h32 f14">
 				  			<option value="">请选择</option>
 				  			<option value="1">暂存</option>
 				  			<option value="2">审核通过</option>
@@ -132,14 +173,16 @@
 				  			<option value="4">已归档</option>
 				  			<option value="5">已提交</option>
 				  		</select>
-			    	</span>
-			    </li>
-			    <div class="tc col-md-12">
-			  		<button class="btn" type="submit">查询</button>
-			  		<button class="btn" type="button" onclick="resetResult()">重置</button>
-		  		</div>
-	  		</ul>
-	  		<div class="clear"></div>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	    </div>
+			
+			<div class="tc">
+				<button class="btn mb0" type="submit">查询</button>
+				<button class="btn mb0 mr0" type="button" onclick="resetResult()">重置</button>
+			</div>
 	  	</h2>
 			</form>
 

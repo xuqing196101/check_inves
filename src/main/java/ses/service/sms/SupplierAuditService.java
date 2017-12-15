@@ -334,7 +334,7 @@ public interface SupplierAuditService {
 	 * @param supplierId
 	 * @return
 	 */
-	public SupplierCateTree countCategoyrId(SupplierCateTree cateTree,String supplierId,String supplierType);
+	public SupplierCateTree countCategoryId(SupplierCateTree cateTree,String supplierId,String supplierType);
     /**
 	 * 
 	 * Description:获取工程资质文件数量
@@ -345,7 +345,7 @@ public interface SupplierAuditService {
 	 * @param supplierId
 	 * @return
 	 */
-	public SupplierCateTree countEngCategoyrId(SupplierCateTree cateTree, String supplierId);
+	public SupplierCateTree countEngCategoryId(SupplierCateTree cateTree, String supplierId);
     /**
      * @Title: downloadFile
      * @author XuQing 

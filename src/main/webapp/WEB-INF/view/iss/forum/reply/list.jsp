@@ -188,15 +188,27 @@
 		<div class="container">
 			<!-- 项目戳开始 -->
 			<div class="search_detail">
-				<ul class="demand_list ">
-					<li class="fl">
-						<label class="fl">回复内容：</label>
-						<span><input type="text" id="replyCon" class="mb0 " value="${replyCon }"/></span>
-					</li>
-					<button class="btn fl" onclick="search()">查询</button>
-					<button class="btn fl" onclick="reset()">重置</button>
-				</ul>
-				<div class="clear"></div>
+			<div class="m_row_5">
+	    <div class="row">
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">回复内容：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input type="text" id="replyCon" class="w100p h32 f14 mb0" value="${replyCon }">
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-12 f0">
+							<button class="btn mb0 h32" onclick="search()">查询</button>
+							<button class="btn mb0 mr0 h32" onclick="reset()">重置</button>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	    </div>
 			</div>
 
 			<!-- 表格开始-->

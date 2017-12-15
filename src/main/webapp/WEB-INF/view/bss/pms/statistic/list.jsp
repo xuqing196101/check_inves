@@ -416,107 +416,44 @@
 			</div>
 
 			<div class="search_detail">
-				<form id="add_form" action="${pageContext.request.contextPath}/statistic/list.html" class="mb0" method="post">
-					<input type="hidden" name="page" id="page">
-
-					<%--  物资类别：<select name="planType" >
-	  	<option value="1" <c:if test="${inf.planType=='1'}"> selected</c:if> >货物</option>
-		<option value="2" <c:if test="${inf.planType=='2'}"> selected</c:if> >工程</option>
-		<option value="3" <c:if test="${inf.planType=='3'}"> selected</c:if> >服务</option>
-	  </select>
-	    年度： <input class="mt10" type="text" name="year" value="${year}" /> 
-	   需求部门： <input class="mt10" type="text" name="department" value="${inf.department }" /> 
-	
-	  采购方式：
-	  	<select  name="purchaseType" style="width:100px" id="select">
-              				    <option value="" >请选择</option>
-	                            <option value="公开招标" <c:if test="${'公开招标'==inf.purchaseType}">selected="selected"</c:if>>公开招标</option>
-	                            <option value="邀请招标" <c:if test="${'邀请招标'==inf.purchaseType}">selected="selected"</c:if>>邀请招标</option>
-	                            <option value="竞争性谈判" <c:if test="${'竞争性谈判'==inf.purchaseType}">selected="selected"</c:if>>竞争性谈判</option>
-	                            <option value="询价采购" <c:if test="${'询价采购'==inf.purchaseType}">selected="selected"</c:if>>询价采购</option>
-	                            <option value="单一来源" <c:if test="${'单一来源'==inf.purchaseType}">selected="selected"</c:if>>单一来源</option>
-			                </select>
-			                
-	   采购机构：  <input class="mt10"  value='${inf.organization }' name="organization" type="text" > 
-	   预算：  <input class="mt10"  value='${inf.budget }' name="budget" type="text" > 
-	   	 <input class="btn-u"   type="submit" name="" value="查询" /> 
-	   	 <input class="btn-u"   type="button" name="" value="按需求部门统计" onclick="bar(1)" /> 
-	   	 <input class="btn-u"   type="button" name="" value="按采购方式统计" onclick="pipe(1)" /> 
-	   	 <input class="btn-u"   type="button" name="" value="按月统计" onclick="line(1)" /> 
-	   	 <input class="btn-u"   type="button" name="" value="按采购省市统计" onclick="maps()" />  --%>
-
-					<ul class="demand_list">
-						<li>
-							<label class="fl">   计划名称：</label><span>
-				  	   		<input  type="text" name="fileName" value="${collectPlan.fileName }" /> 
-				    	
-				    	</span>
-						</li>
-
-						<li>
-							<label class="fl"> 计划类别：</label><span>
-				  	   <select name="goodsType" style="width: 152px;" >
-				  	     <option value="" >请选择</option>
-				  	      <c:forEach items="${dic}" var="dic">
-							       <option value="${dic.id}" <c:if test="${dic.id==collectPlan.goodsType}"> selected</c:if> >${dic.name }</option>
-							  </c:forEach>
-					   </select>
-				    	</span>
-						</li>
-						<%--  <li>
-				    	<label class="fl">年度：</label><span>
-				  	    <input   type="text" name="year" value="${year}" /> 
-				    	
-				    	</span>
-				      </li> --%>
-						<%--  <li>
-				    	<label class="fl">   需求部门：</label><span>
-				  	   		<input  type="text" name="department" value="${inf.department }" /> 
-				    	
-				    	</span>
-				      </li> --%>
-						<%--    <li>
-				    	<label class="fl">  采购方式：</label><span>
-							<select  name="purchaseType" style="width:100px" id="select">
-	              				    <option value="" >请选择</option>
-		                            <option value="公开招标" <c:if test="${'公开招标'==inf.purchaseType}">selected="selected"</c:if>>公开招标</option>
-		                            <option value="邀请招标" <c:if test="${'邀请招标'==inf.purchaseType}">selected="selected"</c:if>>邀请招标</option>
-		                            <option value="竞争性谈判" <c:if test="${'竞争性谈判'==inf.purchaseType}">selected="selected"</c:if>>竞争性谈判</option>
-		                            <option value="询价采购" <c:if test="${'询价'==inf.purchaseType}">selected="selected"</c:if>>询价</option>
-		                            <option value="单一来源" <c:if test="${'单一来源'==inf.purchaseType}">selected="selected"</c:if>>单一来源</option>
-				              </select>
-				    	
-				    	</span>
-				      </li> --%>
-
-						<%--    <li>
-				    	<label class="fl">采购机构：</label><span>
-				  	       <select name="organization" style="width: 152px;" >
-				  	        <option value="" >请选择</option>
-				  	       <c:forEach items="${org }" var="obj">
-				  	      
-						  	<option value="${obj.name }" <c:if test="${obj.name==inf.organization }"> selected</c:if> >${obj.name }</option>
-						  </c:forEach>
-					  	 </select>
-				    	
-				    	</span>
-				      </li> --%>
-						<%--     <li>
-				    	<label class="fl"> 预算：</label><span>
-				  	   		<input  type="text" name="budget" value="${inf.budget }" /> 
-				    	
-				    	</span>
-				      </li> --%>
-						<input class="btn" type="submit" name="" value="查询" />
-						<input type="button" onclick="resetQuery()" class="btn" value="重置" />
-
-					</ul>
-					<!-- <div class="col-md-12 col-sm-12 col-xs-2 clear tc mt10">
-			    	<input class="btn"   type="submit" name="" value="查询" /> 
-				      <input type="button" onclick="resetQuery()" class="btn" value="重置"/>	 	
-			    	</div> -->
-					<div class="clear"></div>
-				</form>
+			<form id="add_form" action="${pageContext.request.contextPath}/statistic/list.html" class="mb0" method="post">
+			<input type="hidden" name="page" id="page">
+			<div class="m_row_5">
+	    <div class="row">
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">计划名称：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input type="text" name="fileName" value="${collectPlan.fileName }" class="w100p h32 f14 mb0">
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">计划类别：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<select name="goodsType" class="w100p h32 f14">
+								<option value="" >请选择</option>
+								<c:forEach items="${dic}" var="dic">
+								<option value="${dic.id}" <c:if test="${dic.id==collectPlan.goodsType}"> selected</c:if> >${dic.name }</option>
+								</c:forEach>
+							</select>
+	          </div>
+	        </div>
+	      </div>
+				
+				<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-12 f0">
+							<input class="btn mb0 h32" type="submit" name="" value="查询">
+							<input type="button" onclick="resetQuery()" class="btn mb0 mr0 h32" value="重置">
+						</div>
+	        </div>
+	      </div>
+	    </div>
+	    </div>
+			</form>
 			</div>
 			<div class="col-md-12 pl20 mt10">
 				<input class="btn-u" type="button" name="" value="按计划查询" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/list.html'" />

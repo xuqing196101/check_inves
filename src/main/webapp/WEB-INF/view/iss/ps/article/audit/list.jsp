@@ -453,7 +453,6 @@
               <select id ="range" name="range" class="w100p h32 f14">
                 <option value="" <c:if test="${articlesRange == ''}">selected</c:if>>全部</option>
                 <option value="0" <c:if test="${articlesRange == '0'}">selected</c:if>>内网</option>
-                <%-- <option value="1" <c:if test="${articlesRange == '1'}">selected</c:if>>外网</option> --%>
                 <option value="2" <c:if test="${articlesRange == '2'}">selected</c:if>>内外网</option>
               </select>
             </div>
@@ -474,19 +473,29 @@
           </div>
         </div>
         
-        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10 hide" id="second">
           <div class="row">
-            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">审核时间：</div>
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">栏目属性：</div>
             <div class="col-xs-8 f0 lh0">
-              <div class="row">
-                <div class="col-xs-5">
-                  <input id="startDate" name="publishStartDate" class="Wdate w100p h32 f14 mb0" type="text"  value='<fmt:formatDate value="${publishStartDate}" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})">
-                </div>
-                <div class="col-xs-2 h32 lh32 f14 tc">至</div>
-                <div class="col-xs-5">
-                  <input id="endDate" name="publishEndDate" value='<fmt:formatDate value="${publishEndDate}" pattern="YYYY-MM-dd"/>' class="Wdate w100p h32 f14 mb0" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})">
-                </div>
-              </div>
+              <select id="secondType" name="secondArticleTypeId" class="w100p h32 f14"></select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10" id="audit_date">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">审核开始时间：</div>
+            <div class="col-xs-8 f0 lh0">
+              <input id="startDate" name="publishStartDate" class="Wdate w100p h32 f14 mb0" type="text"  value='<fmt:formatDate value="${publishStartDate}" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})">
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10" id="audit_date">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">审核结束时间：</div>
+            <div class="col-xs-8 f0 lh0">
+              <input id="endDate" name="publishEndDate" value='<fmt:formatDate value="${publishEndDate}" pattern="YYYY-MM-dd"/>' class="Wdate w100p h32 f14 mb0" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})">
             </div>
           </div>
         </div>
@@ -504,10 +513,10 @@
       
       <div class="tc">
         <button type="submit" class="btn mb0">查询</button>
-        <button type="button" class="btn mr0 mb0" onclick="resetQuery()">重置</button>
+        <button type="button" class="btn mb0 mr0" onclick="resetQuery()">重置</button>
       </div>
-    </form>
-    </div>
+      </form>
+      </div>
 
       <input type="hidden" id="depid" name="depid">
 

@@ -2739,11 +2739,11 @@ public class SupplierAuditController extends BaseSupplierController {
                 	// 工程类等级
                     if("工程".equals(cateTree.getRootNode())) {
                     	//--工程  	审核字段存储：末级节点ID关联的SupplierItem的ID
-                    	cateTree=supplierAuditService.countEngCategoyrId(cateTree, supplierId);
+                    	cateTree=supplierAuditService.countEngCategoryId(cateTree, supplierId);
                     }else{
     					//供应商物资 专业资质要求上传
     					//--物资生产/物资销售/服务 	审核字段存储：三级节点ID关联的SupplierItem的ID
-    					cateTree=supplierAuditService.countCategoyrId(cateTree,supplierId,supplierType);
+    					cateTree=supplierAuditService.countCategoryId(cateTree,supplierId,supplierType);
     					//是否有销售合同
     					cateTree=supplierService.contractCountCategoyrId(cateTree,supplierItem);
     					// 合同是否修改

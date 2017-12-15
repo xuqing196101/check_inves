@@ -361,21 +361,41 @@
 			</div>
 
 			<form action="${pageContext.request.contextPath }/purchaseArchive/archiveList.html" method="post">
-				<h2 class="search_detail">
-				<ul class="demand_list">
-					<li>
-			    	<label class="fl">档案名称：</label><span><input type="text" id="name" name="name" class=""/></span>
-			    </li>
-		  		<li>
-			    	<label class="fl">档案编号：</label><span><input type="text" id="archiveCode" name="archiveCode" class=""/></span>
-			    </li>
-		  		<li>
-			    	<label class="fl">合同编号：</label><span><input type="text" id="contractCode" name="contractCode" class=""/></span>
-			    </li>
-			    <li>
-			    	<label class="fl">状态：</label>
-			    	<span>
-			    		<select id="status" name="status">
+			<h2 class="search_detail">
+			<div class="m_row_5">
+	    <div class="row">
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">档案名称：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input type="text" id="name" name="name" class="w100p h32 f14 mb0">
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">档案编号：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input type="text" id="archiveCode" name="archiveCode" class="w100p h32 f14 mb0">
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">合同编号：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input type="text" id="contractCode" name="contractCode" class="w100p h32 f14 mb0">
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">状态：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<select id="status" name="status" class="w100p h32 f14">
 				  			<option value="">请选择</option>
 				  			<option value="1">暂存</option>
 				  			<option value="2">审核通过</option>
@@ -383,14 +403,16 @@
 				  			<option value="4">已归档</option>
 				  			<option value="5">已提交</option>
 				  		</select>
-			    	</span>
-			    </li>
-			    <div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
-			  		<button class="btn" type="submit">查询</button>
-			  		<button class="btn" type="button" onclick="resetResult()">重置</button>
-		  		</div>
-	  		</ul>
-	  		<div class="clear"></div>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	    </div>
+			
+			<div class="tc">
+				<button class="btn mb0" type="submit">查询</button>
+				<button class="btn mb0 mr0" type="button" onclick="resetResult()">重置</button>
+			</div>
 	  	</h2>
 			</form>
 
