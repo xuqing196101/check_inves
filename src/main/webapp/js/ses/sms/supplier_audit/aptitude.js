@@ -119,7 +119,7 @@ function findData(type,tablerId,pageNum) {
 			layer.close(index);
 		},
 		error : function(data) {
-			layer.msg("请求异常!");
+			layer.msg("请求异常！");
 			layer.close(index);
 		},
 	});
