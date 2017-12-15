@@ -251,32 +251,53 @@
 		<div class="container">
 			<!-- 搜索 -->
 			<h2 class="search_detail">
-	      <form action="${pageContext.request.contextPath}/expertDelete/logoutList.html"  method="post" id="form1" class="mb0"> 
-	      <input type="hidden" name="page" id="page">
-	      <ul class="demand_list">
-		      <li class="fl">
-			      <label class="fl">专家姓名：</label> 
-			      <input class="w220" name="relName" type="text" value="${expert.relName }">
-		      </li>
-		      <li class="fl">
-			      <label class="fl">身份证号：</label> 
-			      <input class="w220" name="idCardNumber" type="text" value="${expert.idCardNumber }">
-		      </li>
-		      <li class="fl">
-			      <label class="fl">用户名：</label> 
-			      <input class="w220" name="loginName" type="text" value="${expert.loginName }">
-		      </li>
-		      <li class="fl">
-			      <label class="fl">手机号：</label> 
-			      <input class="w220" name="mobile" type="text" value="${expert.mobile }">
-		      </li>
-	      </ul>
-	      <div class="col-md-12 clear tc mt10">
-	        <input type="submit" class="btn mt1" value="查询" />
-				  <button onclick="resetForm();" class="btn mt1" type="button">重置</button>
-				</div>
-				  <div class="clear"></div>
-	      </form>
+      <form action="${pageContext.request.contextPath}/expertDelete/logoutList.html"  method="post" id="form1" class="mb0"> 
+      <input type="hidden" name="page" id="page">
+			<div class="m_row_5">
+	    <div class="row">
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">专家姓名：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input class="w100p h32 f14 mb0" name="relName" type="text" value="${expert.relName }">
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">身份证号：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input class="w100p h32 f14" name="idCardNumber" type="text" value="${expert.idCardNumber }">
+	          </div>
+	        </div>
+	      </div>
+				
+				<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">身份证号：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input class="w100p h32 f14" name="loginName" type="text" value="${expert.loginName }">
+	          </div>
+	        </div>
+	      </div>
+				
+				<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">手机号：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input class="w100p h32 f14" name="mobile" type="text" value="${expert.mobile }">
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	    </div>
+			
+			<div class="tc">
+				<input type="submit" class="btn mb0" value="查询" />
+				<button onclick="resetForm();" class="btn mb0 mr0" type="button">重置</button>
+			</div>
+      </form>
     	</h2>
 			<!-- 表格开始-->
 			<div class="col-md-12 pl20 mt10">

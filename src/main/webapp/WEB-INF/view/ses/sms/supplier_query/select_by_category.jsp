@@ -322,11 +322,15 @@
 					</div>
 					<div class="col-md-3 col-sm-4 col-xs-12" id="show_tree_div">
 						<div class="tag-box tag-box-v3">
-							<ul class="p0">
-							 <input type="text" id="cateKey" class="w150 m0">
-							 <input class="btn m0 fr" type="button" value="搜索" onclick="searchCate()">
-							 <div class="clear"></div>
-							</ul>
+							<div class="p0 mb10">
+								<div class="col-xs-8 p0">
+									<input type="text" id="cateKey" class="w100p h32 mb0">
+								</div>
+							 	<div class="col-xs-4 p0">
+							 		<input class="btn mb0 mr0 h32 w100p" type="button" value="搜索" onclick="searchCate()">
+							 	</div>
+								<div class="clear"></div>
+						 	</div>
 							<ul id="treeDemo" class="ztree s_ztree" ></ul>
 						</div>
 					</div>

@@ -307,24 +307,40 @@
 			</div>
 
 			<div class="search_detail">
-				<ul class="demand_list">
-					<li>
-						<label class="fl">题干：</label><span><input type="text" id="topic" class=""/></span>
-					</li>
-					<li>
-						<label class="fl">题型：</label>
-						<span>
-				    	<select id="questionTypeId" class="w178">
+			<div class="m_row_5">
+	    <div class="row">
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">题干：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input type="text" id="topic" class="w100p h32 f14 mb0">
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">题型：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<select id="questionTypeId" class="w100p h32 f14">
 						    <option value="">请选择</option>
 						    <option value="1">单选题</option>
 						    <option value="2">多选题</option>
 				    	</select>
-			   		</span>
-					</li>
-					<button type="button" onclick="query()" class="btn fl mt1">查询</button>
-					<button type="button" onclick="reset()" class="btn fl mt1">重置</button>
-				</ul>
-				<div class="clear"></div>
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-12 f0">
+							<button type="button" onclick="query()" class="btn mb0 h32">查询</button>
+							<button type="button" onclick="reset()" class="btn mb0 mr0 h32">重置</button>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	    </div>
 			</div>
 
 			<!-- 表格开始-->

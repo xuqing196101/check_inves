@@ -169,20 +169,32 @@
 				<h2>供应商诚信形式列表</h2>
 			</div>
 		<!-- 表格开始-->
-			 <h2 class="search_detail">
-				<form id="search_form_id" class="mb0" action="${pageContext.request.contextPath}/supplier_credit/list.html" method="post">
-					<input name="page" type="hidden" />
-					<ul class="demand_list">
-						<li>
-							<label class="fl">形式名称：</label>
-							<span><input id="name" name="name" type="text" value="${name}" /></span>
-						</li>
-							<button type="button" onclick="searchSupplierCredit(1)" class="btn fl mt1">查询</button>
-							<button onclick="resetForm()" class="btn fl mt1">重置</button>
-					</ul>
-					<div class="clear"></div>
-				</form>
-			</h2>
+		<h2 class="search_detail">
+		<form id="search_form_id" class="mb0" action="${pageContext.request.contextPath}/supplier_credit/list.html" method="post">
+		<input name="page" type="hidden" />
+		<div class="m_row_5">
+    <div class="row">
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">形式名称：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input id="name" name="name" type="text" value="${name}" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-12 f0">
+						<button type="button" onclick="searchSupplierCredit(1)" class="btn mb0 h32">查询</button>
+						<button onclick="resetForm()" class="btn mb0 mr0 h32">重置</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+		</form>
+		</h2>
 		<div class="col-md-12 pl20 mt10">
                 <button class="btn btn-windows add" type="button" onclick="addCredit()">新增</button>
                 <button class="btn btn-windows edit" type="button" onclick="editSupplierCredit()">修改</button>
