@@ -918,7 +918,11 @@ public class ExpertAuditController{
 		expertAudit.setAuditAt(new Date());
 		ExpertAudit audit = expertAuditService.findByExpertAuditObj(expertAudit);
 		if(audit!=null){
-			expertAuditService.updateAuditStatus(audit.getId(), "4");
+			if("seven".equals(audit.getSuggestType()) && "1".equals(audit.getType()) && !"isTitle".equals(audit.getAuditFieldId())){
+				expertAuditService.updateAuditStatus(audit.getId(), "5");
+			}else{
+				expertAuditService.updateAuditStatus(audit.getId(), "4");
+			}
 			String msg = "{\"msg\":\"true\"}";
 			writeJson(response, msg);
 		}else{
