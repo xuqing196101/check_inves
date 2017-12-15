@@ -656,13 +656,15 @@
 
 	<select id="findFinaSupplierByCategouryAndType" parameterType="ses.model.sms.Supplier" resultType="ses.model.sms.Supplier">
 		select
-			s.ID AS id,
+			DISTINCT s.ID AS id,
 			s.FOUND_DATE AS foundDate
 		FROM
 			T_SES_SMS_SUPPLIER_ITEM i
 		LEFT JOIN T_SES_SMS_SUPPLIER s ON s."ID" = i.SUPPLIER_ID 
+		LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE r ON s."ID" = r.SUPPLIER_ID
 		WHERE
-			i.CATEGORY_ID = #{supplierTypeId}
+			r.SUPPLIER_TYPE_ID= #{supplierType}
+		AND	i.CATEGORY_ID = #{supplierTypeId}
 		AND i.SUPPLIER_TYPE_RELATE_ID = #{supplierType}
 		AND (
 				s.SUPPLIER_STATUS = 1
