@@ -549,10 +549,12 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
   }
 
   @Override
-  public List<PurchaseDetail> selectByTask(PurchaseDetail detail,Integer page) {
-    PropertiesUtil config = new PropertiesUtil("config.properties");
-    PageHelper.startPage(page,Integer.parseInt(config.getString("pageSizeArticle")));
-    return purchaseDetailMapper.selectByTask(detail);
+  public List<PurchaseDetail> selectByTask(HashMap<String, Object> map,Integer page) {
+	  if (page != null) {
+		  PropertiesUtil config = new PropertiesUtil("config.properties");
+		  PageHelper.startPage(page,Integer.parseInt(config.getString("pageSizeArticle")));
+	  }
+	  return purchaseDetailMapper.selectByTask(map);
   }
 
   @Override

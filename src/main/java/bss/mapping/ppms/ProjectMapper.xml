@@ -1462,7 +1462,7 @@
 	    T_BSS_PPMS_FLOW_EXECUTE e
 	    WHERE 1=1
 	    <if test="userId != null and userId != ''">
-         e.OPERATOR_ID = #{userId}
+         AND e.OPERATOR_ID = #{userId}
       </if>
       AND e.IS_DELETED = 0 AND e.STATUS = 0)
       <if test="principal != null and principal != ''">
@@ -1907,7 +1907,7 @@
    <!-- 根据项目明细requiredId查询项目 -->
    <select id="supervisionProjectList" parameterType="java.lang.String" resultMap="BaseResultMap">
    	 	SELECT
-				PP.ID, PP.NAME, PP.PROJECT_NUMBER,
+				PP.ID, PP.NAME, PP.PROJECT_NUMBER,PP.RELATION_ID,PP.PURCHASE_NEW_TYPE,
 				(SELECT REL_NAME FROM T_SES_BMS_USER WHERE ID = PP.APPOINT_MAN) AS APPOINT_MAN,
 				(SELECT MOBILE FROM T_SES_BMS_USER WHERE ID = PP.APPOINT_MAN) AS IPONE,
 				(SELECT REL_NAME FROM T_SES_BMS_USER WHERE ID = PP.PRINCIPAL) AS PRINCIPAL,

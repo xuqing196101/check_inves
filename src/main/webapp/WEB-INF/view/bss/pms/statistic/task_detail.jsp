@@ -38,6 +38,151 @@
 	  .not(':button, :submit, :reset, :hidden') 
 	  .val('') 
   }
+  
+  function exports(){
+  	var department = $("#department").val();
+  	var goodsName = $("input[name='goodsName']").val();
+  	var taskNumber = $("input[name='taskNumber']").val();
+  	var purchaseType = $("#purchaseTypes").val();
+  	var organization = $("#organization").val();
+  	var beginDate = $("input[name='beginDate']").val();
+  	var endDate = $("input[name='endDate']").val();
+  	var projectNumber = $("input[name='projectNumber']").val();
+  	var proBeginDate = $("input[name='proBeginDate']").val();
+  	var proEndDate = $("input[name='proEndDate']").val();
+  	var code = $("input[name='code']").val();
+  	var materialsType = $("#materialsType").val();
+  	var showName = $("#showName").val();
+  	var showValue = $("#showValue").val();
+  	window.location.href = "${pageContext.request.contextPath}/statistic/taskExcel.html?department=" + department + 
+  	"&goodsName=" +goodsName + "&taskNumber=" + taskNumber + "&purchaseType=" + purchaseType + "&organization=" + organization
+  	+ "&beginDate=" + beginDate + "&endDate=" + endDate + "&projectNumber=" + projectNumber + "&proBeginDate=" + proBeginDate
+  	+ "&proEndDate=" + proEndDate + "&code=" + code + "&materialsType=" + materialsType + "&showName=" + showName + "&showValue=" + showValue;
+  }
+  
+  /* function exports(){
+  	var department = $("#department").val();
+  	var goodsName = $("input[name='goodsName']").val();
+  	var taskNumber = $("input[name='taskNumber']").val();
+  	var purchaseType = $("#purchaseTypes").val();
+  	var organization = $("#organization").val();
+  	var beginDate = $("input[name='beginDate']").val();
+  	var endDate = $("input[name='endDate']").val();
+  	var projectNumber = $("input[name='projectNumber']").val();
+  	var proBeginDate = $("input[name='proBeginDate']").val();
+  	var proEndDate = $("input[name='proEndDate']").val();
+  	var code = $("input[name='code']").val();
+  	var materialsType = $("#materialsType").val();
+  	layer.open({
+        type: 2, //page层
+        area: ['800px', '500px'],
+        title: '请选择导入的内容',
+        shade: 0.01, //遮罩透明度
+        moveType: 1, //拖拽风格，0是默认，1是传统拖动
+        shift: 1, //0-6的动画形式，-1不开启
+        shadeClose: true,
+        content: '${pageContext.request.contextPath}/statistic/nextStep.html?department=' + department + 
+		  	'&goodsName=' +goodsName + '&taskNumber=' + taskNumber + '&purchaseType=' + purchaseType + '&organization=' + organization
+		  	+ '&beginDate=' + beginDate + '&endDate=' + endDate + '&projectNumber=' + projectNumber + '&proBeginDate=' + proBeginDate
+		  	+ '&proEndDate=' + proEndDate + '&code=' + code + '&materialsType=' + materialsType,
+		     });
+  } */
+  
+  var zTreeObj,
+	setting={
+        data:{
+            simpleData:{
+                enable:true,
+                idKey:"id",
+                pId:"pId",
+            }
+        },
+        check: {
+							enable: true,
+							chkStyle: "checkbox",
+							chkboxType: { "Y": "ps", "N": "ps" },
+						},
+				callback: {
+					onCheck: onCheck
+				}
+						
+    };
+	zTreeNodes = [
+			{"id":1, "pId":0, "name":"采购需求", "value":""},
+	    {"id":11, "pId":1, "name":"需求名称", "value":"demandName","checked":false},
+	    {"id":12, "pId":1, "name":"需求文号", "value":"demandNumber","checked":false},
+	    {"id":13, "pId":1, "name":"编报人", "value":"demandMan","checked":false},
+	    {"id":2, "pId":0, "name":"采购计划", "value":""},
+	    {"id":11, "pId":2, "name":"计划名称", "value":"planName","checked":false},
+	    {"id":12, "pId":2, "name":"计划文号", "value":"planNo","checked":false},
+	    /* {"id":22, "pId":2, "name":"采购管理部门", "value":"demandNumber","checked":false},
+	    {"id":23, "pId":2, "name":"下达人", "value":"demandNumber","checked":false},
+	    {"id":24, "pId":2, "name":"下达时间", "value":"demandNumber","checked":false}, */
+	    {"id":3, "pId":0, "name":"采购项目", "value":""},
+	    {"id":11, "pId":3, "name":"项目名称", "value":"projectName","checked":false},
+	    {"id":12, "pId":3, "name":"项目编号", "value":"projectNumber","checked":false},
+	    {"id":13, "pId":3, "name":"立项人", "value":"userId","checked":false},
+	    {"id":14, "pId":3, "name":"包名", "value":"packName","checked":false},
+	    {"id":15, "pId":3, "name":"包号", "value":"packNumber","checked":false},
+	    {"id":16, "pId":3, "name":"开标时间", "value":"bidDate","checked":false},
+	    {"id":17, "pId":3, "name":"开标地点", "value":"bidAddress","checked":false},
+	    {"id":18, "pId":3, "name":"评审专家", "value":"expertName","checked":false},
+	    {"id":19, "pId":3, "name":"中标供应商", "value":"supplier","checked":false},
+	    {"id":4, "pId":0, "name":"采购合同", "value":""},
+	    {"id":11, "pId":4, "name":"合同名称", "value":"contractName","checked":false},
+	    {"id":12, "pId":4, "name":"合同编号", "value":"contractCode","checked":false},
+	    
+	];
+	
+	function onCheck(e, treeId, treeNode) {
+				var zTree = $.fn.zTree.getZTreeObj("tree"),
+					nodes = zTree.getCheckedNodes(true),
+					v = "";
+				var rid = "";
+				var values = "";
+				for(var i = 0, l = nodes.length; i < l; i++) {
+					if(nodes[i].pId != null){
+						v += nodes[i].name + ",";
+						rid += nodes[i].id + ",";
+						values += nodes[i].value + ",";
+					}
+					
+				}
+				if(v.length > 0) v = v.substring(0, v.length - 1);
+				if(rid.length > 0) rid = rid.substring(0, rid.length - 1);
+				var cityObj = $("#showName");
+				cityObj.attr("value", v);
+				cityObj.attr("title", v);
+				$("#showValue").val(values);
+			}
+  
+  function show(){
+  	var cityObj = $("#showName");
+		var cityOffset = $("#showName").offset();
+  	$("#packageContent").css({
+					left: cityOffset.left + "px",
+					top: cityOffset.top + cityObj.outerHeight() + "px"
+		}).slideDown("fast");
+  	zTreeObj = $.fn.zTree.init($("#tree"), setting, zTreeNodes);
+  	//全部展开
+  	/* var treeObj = $.fn.zTree.getZTreeObj("tree");
+		treeObj.expandAll(true); */
+  	$("body").bind("mousedown", onBodyDownPackageType);
+  }
+  
+  function onBodyDownPackageType(event) {
+				if(!(event.target.id == "menuBtn" || $(event.target).parents("#packageContent").length > 0)) {
+					hidePackageType();
+				}
+			}
+
+			function hidePackageType() {
+				$("#packageContent").fadeOut("fast");
+				$("body").unbind("mousedown", onBodyDownPackageType);
+
+			}
+  
+  
   </script>
 </head>
 
@@ -62,7 +207,9 @@
 		<div class="headline-v2 fl">
 			<h2>按明细查询</h2>
 		</div>
-
+		<div id="packageContent" class="packageContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+			<ul id="tree" class="ztree" style="margin-top:0;"></ul>
+		</div>
 		<h2 class="search_detail">
 			<form id="add_form"
 				action="${pageContext.request.contextPath }/statistic/taskDetailList.html"
@@ -75,13 +222,15 @@
                              <c:forEach items="${allXq}" var="org" >
                                 <option value="${org.shortName}" <c:if test="${org.shortName==detail.department}">selected="selected"</c:if>>${org.shortName}</option>
                              </c:forEach>
-                          
                           </select>
-
-
 					</span></li>
-					<li><label class="fl"> 任务类型：</label><span> <input
-							type="text" name="" value="" />
+					<li><label class="fl"> 任务类型：</label>
+					<span> <select name="materialsType" id="materialsType" style="width: 173px;">
+                             <option value="">请选择</option>
+                             <c:forEach items="${planTypes}" var="type" >
+                                <option value="${type.id}" <c:if test="${type.id eq materialsType}">selected="selected"</c:if>>${type.name}</option>
+                             </c:forEach>
+                          </select>
 					</span></li>
 					<li><label class="fl"> 产品名称：</label><span> <input
 							type="text" name="goodsName" value="${detail.goodsName }" />
@@ -101,7 +250,6 @@
 
 					</span></li>
 					<li><label class="fl"> 采购机构：</label><span> 
-
                           <select name="organization" id="organization" style="width: 173px;">
                              <option value="">请选择</option>
                              <c:forEach items="${allOrg}" var="org" >
@@ -115,21 +263,27 @@
 					</span></li>
 					
 					<li><label class="fl"> 项目编号：</label><span> <input
-							type="text" name="" value="" />
+							type="text" name="projectNumber" value="${projectNumber}" />
 					</span></li>
-					<li><label class="fl"> 开标时间：</label><span> <input
-							type="text" name="" value="" />
-					</span></li>
+					<li><label class="fl"> 开标时间：</label><input type="text" name="proBeginDate" value="${proBeginDate}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate mb0 w150"/>
+					<span class="fl" style="font-size: 14px;">至</span><span> <input type="text" name="proEndDate" value="${proEndDate}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate mb0 w150"/>
+					</span></li></li>
 					<li><label class="fl"> 合同编号：</label><span> <input
-							type="text" name="" value="" />
+							type="text" name="code" value="${code}" />
 					</span></li>
-					<li><label class="fl"> 供应商名称：</label><span> <input
+					<!-- <li><label class="fl"> 供应商名称：</label><span> <input
 							type="text" name="" value="" />
-					</span></li>
+					</span></li> -->
+					<li>
+						<label class="fl">导出选项：</label>
+						<span><input class="" readonly id="showName" value="" placeholder="请选择" onclick="show();" type="text"></span>
+						<input readonly id="showValue" name="showValue" type="hidden">
+					</li>
 					</ul>
 					<div class="tc mt5 clear" width="100%">
 				<input class="btn" type="submit" name="" value="查询" /> <input
 					type="button"  class="btn" onclick="restValue();" value="重置" />
+					<button class="btn" type="button" onclick="exports();">导出excel</button>
 					</div>
 					
 			</form>

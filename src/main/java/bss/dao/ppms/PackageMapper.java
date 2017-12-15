@@ -237,4 +237,6 @@ public interface PackageMapper {
     * @return List<Packages>
      */
     List<Packages> selectBySupplier(HashMap<String, Object> map);
+    
+    List<Packages> selectByPack(HashMap<String, Object> map);
 }
