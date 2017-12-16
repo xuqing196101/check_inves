@@ -339,7 +339,7 @@
         EXPERT_ID
       FROM
         T_SES_EMS_EXPERT_CATEGORY
-      WHERE 1 = 1
+      WHERE AUDIT_STATUS = 0
       <if test="categoryId != null and categoryId != ''">
         AND CATEGORY_ID = #{categoryId}
       </if>
@@ -357,7 +357,7 @@
         EXPERT_ID
       FROM
         T_SES_EMS_EXPERT_CATEGORY
-      WHERE
+      WHERE AUDIT_STATUS = 0 AND
         TYPE_ID = #{typeId}
         <if test="engType != null and engType != ''">
           AND ENGIN_TYPE = #{engType}
