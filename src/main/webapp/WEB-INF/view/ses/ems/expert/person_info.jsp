@@ -5,6 +5,7 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/view/front.jsp"%>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/backend/css/common.css">
 <script src="${pageContext.request.contextPath}/js/ems/expert/validate_expert_basic_info.js"></script>
 <script src="${pageContext.request.contextPath}/js/ems/expert/validate_regester.js"></script>
 <%
@@ -101,7 +102,7 @@ session.setAttribute("tokenSession", tokenValue);
 </script>
 </head>
 <body onload="initData()">
-	<div id="reg_box_id_6" class="container clear margin-top-30 yinc">
+	<div id="reg_box_id_6" class="container bggrey border1 mt20">
 	<input type="hidden" name="id" id="id" value="${expert.id}"/>
   <!-- <div class="">	
 	 <button class="btn" type="button" onclick="resetPaw()">重置密码</button>
