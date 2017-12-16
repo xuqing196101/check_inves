@@ -74,24 +74,34 @@
       </div>
 
       <h2 class="search_detail">
-        <form id="param_form" action="${pageContext.request.contextPath}/taskassgin/viewPlan.html" method="post" >
-          <input type="hidden" name="page" id="page">
-          <ul class="demand_list">
-            <li>
-              <label class="fl"> 计划名称：</label>
-              <span>
-                <input type="text" name="fileName" id="fileName" value="${collectPlan.fileName }"/>  
-                <input type="hidden" name="orgId" value="${orgId}">
-                <input type="hidden" name="date" value="${date}">
-                <input type="hidden" name="orgnizationId" value="${orgnizationId}">
-              </span>
-            </li>
-          </ul>
-          <input class="btn fl" type="submit" value="查询" />
-          <input type="button" onclick="resetQuery()" class="btn fl" value="重置"/>
-          <button class="btn btn-windows back fl" onclick="back()" type="button">返回</button>
-          <div class="clear"></div>
-        </form>
+      <form id="param_form" action="${pageContext.request.contextPath}/taskassgin/viewPlan.html" method="post" >
+      <input type="hidden" name="page" id="page">
+      <div class="m_row_5">
+      <div class="row">
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">计划名称：</div>
+            <div class="col-xs-8 f0 lh0">
+              <input type="text" name="fileName" id="fileName" value="${collectPlan.fileName }" class="w100p h32 f14 mb0">  
+              <input type="hidden" name="orgId" value="${orgId}">
+              <input type="hidden" name="date" value="${date}">
+              <input type="hidden" name="orgnizationId" value="${orgnizationId}">
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+          <div class="row">
+            <div class="col-xs-12 f0">
+              <input class="btn mb0 h32" type="submit" value="查询" />
+              <input type="button" onclick="resetQuery()" class="btn mb0 h32" value="重置"/>
+              <button class="btn btn-windows back mb0 mr0 h32" onclick="back()" type="button">返回</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      </form>
       </h2>
 
       <div class="content table_box">
