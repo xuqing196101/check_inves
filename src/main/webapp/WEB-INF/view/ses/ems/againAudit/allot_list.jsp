@@ -63,17 +63,18 @@
           
           <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
             <div class="row">
-              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">初审合格时间：</div>
+              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">初审合格开始时间：</div>
               <div class="col-xs-8 f0 lh0">
-                <div class="row">
-                  <div class="col-xs-5">
-                    <input id="startTime" name="startTime" class="Wdate w100p h32 f14 mb0" type="text" value="" onfocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){startTime.focus();},maxDate:'#F{$dp.$D(\'endTime\')}'})">
-                  </div>
-                  <div class="col-xs-2 h32 lh32 f14 tc">至</div>
-                  <div class="col-xs-5">
-                    <input id="endTime" name="endTime" value="" class="Wdate w100p h32 f14 mb0" type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'startTime\')}'})">
-                  </div>
-                </div>
+                <input id="startTime" name="startTime" class="Wdate w100p h32 f14 mb0" type="text" value="" onfocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){startTime.focus();},maxDate:'#F{$dp.$D(\'endTime\')}'})">
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+            <div class="row">
+              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">初审合格结束时间：</div>
+              <div class="col-xs-8 f0 lh0">
+                <input id="endTime" name="endTime" value="" class="Wdate w100p h32 f14 mb0" type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'startTime\')}'})">
               </div>
             </div>
           </div>
