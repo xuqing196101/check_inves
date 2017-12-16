@@ -202,4 +202,14 @@
       EXPERT_ID  = #{expertId}
   </select>
   
+  <!-- 根据地区父节点查询所有子节点 -->
+	<select id="findAreaIdByParentId" resultType="java.lang.String">
+		SELECT ID
+		FROM T_SES_BMS_AREA where IS_DELETED = 0
+			AND PARENT_ID IN
+			<foreach item="item" index="index" collection="array" open="(" separator="," close=")" >
+        		#{item}
+			</foreach>
+		ORDER BY ID
+	</select>
 </mapper>

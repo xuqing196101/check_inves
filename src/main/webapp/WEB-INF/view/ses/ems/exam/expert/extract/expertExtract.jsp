@@ -276,7 +276,7 @@
           <li class="col-md-3 col-sm-4 col-xs-12 ">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 抽取总人数:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <input class="span5" type="text" name="extractNum" id="extractNum" onchange="getCount()" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"> <span class="add-on">i</span>
+              <input class="span5" type="text" name="extractNum" id="extractNum" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"> <span class="add-on">i</span>
               <div class="cue" id="err_extractNum"></div>
             </div>
           </li>
