@@ -353,7 +353,28 @@
 					}else{
 						layer.alert("运杂费不能被删除",{offset: ['50%', '390px'], shade:0.01});
 					}
-				})
+				});
+				var trs=$("#trs").find("tr");
+				if(trs.length>0){
+					$(trs).each(function(numTr){
+						$(this).find("td").each(function(numTd){
+							if(numTd==1){
+								$(this).text(numTr+1);
+							}else if(numTd>1){
+								$(this).find("input").each(function(){
+									var inputName=$(this).attr("name");
+									if(inputName.substring(inputName.indexOf(".")+1,inputName.length)=="planNo"){
+										if($(this).prev().length>0){
+											var prevName=$(this).prev().attr("name");
+											   $(this).prev().attr("name","proList["+(numTr+1)+"]."+prevName.substring(prevName.indexOf(".")+1,prevName.length))
+										}   
+									   }
+									   $(this).attr("name","proList["+(numTr+1)+"]."+inputName.substring(inputName.indexOf(".")+1,inputName.length))
+								});
+							}
+						});
+					});
+				}
 			} else {
 				layer.alert("请选择要删除的信息", {
 					offset: ['50%', '390px'],

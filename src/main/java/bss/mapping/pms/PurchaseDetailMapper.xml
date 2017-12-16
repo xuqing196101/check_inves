@@ -1133,6 +1133,7 @@
 						dl.DELIVER_DATE,
 						dl.PURCHASE_COUNT AS PURCHASE_COUNT,
 						DL.is_master AS is_master,
+						DL.supplier,
 						dl.PLAN_TYPE AS PLAN_TYPE,
 						DL.seq AS seq
 					FROM
@@ -1189,6 +1190,7 @@
 						dl.DELIVER_DATE,
 						DL.PURCHASE_COUNT,
 						DL.is_master,
+						DL.supplier,
 						DL.ISPARENT,
 						DL.PLAN_TYPE,
 						DL.seq
@@ -1263,6 +1265,7 @@
 							dlss.DELIVER_DATE,
 							dlss.PURCHASE_COUNT AS PURCHASE_COUNT,
 							dlss.is_master AS is_master,
+							dlss.supplier,
 							dlss.PLAN_TYPE AS PLAN_TYPE,
 							dlss.seq AS seq
 						FROM
