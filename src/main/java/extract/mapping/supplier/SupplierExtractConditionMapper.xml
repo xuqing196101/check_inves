@@ -26,6 +26,13 @@
 	    <result column="QUA_TYPE"  jdbcType="NUMERIC"  property="quaType" />
 	</resultMap>
 	
+	<resultMap type="extract.model.supplier.Continent" id="continentMap">
+		<result column="ID" jdbcType="VARCHAR"  property="id" />
+	    <result column="NAME"  jdbcType="VARCHAR"  property="name" />
+	    <result column="PARENT_ID"  jdbcType="VARCHAR"  property="parentId" />
+	    <result column="IS_PARENT"  jdbcType="VARCHAR"  property="isParent" />
+	    <result column="IS_CHECKED"  jdbcType="VARCHAR"  property="isChecked" />
+	</resultMap>
   	<resultMap id="supplierLevelResult" type="ses.model.sms.SupplierItemLevel" >
     	<id column="ID" property="id" jdbcType="VARCHAR" />
 	    <result column="SUPPLIER_ID" property="supplierId" jdbcType="VARCHAR" />
@@ -348,5 +355,35 @@
 			#{it}
 		</foreach>
 		GROUP BY SUPPLIER_LEVEL
+	</select>
+	<select id="selectContryTree" resultMap="continentMap">
+		WITH TEMP AS (
+			SELECT
+				D . ID,
+				D . NAME,
+				'0' PARENT_ID,
+				'true' IS_PARENT
+			FROM
+				T_SES_BMS_DICTIONARY_DATA D
+			WHERE
+				D .KIND = 66
+			UNION
+				SELECT
+					CN.NATION_ID ID,
+					CN.NATION_NAME NAME,
+					CN.CONTINENT_ID PARENT_ID,
+					'false' IS_PARENT
+				FROM
+					T_SES_BMS_CONTINENT_NATION_REL CN
+		) SELECT
+			*
+		FROM
+			TEMP
+		<if test="cname !=null and cname != '' ">
+			WHERE TEMP.NAME LIKE CONCAT(CONCAT('%', #{cname}), '%')
+		</if>		
+		<if test="cid !=null and cid != '' ">
+			WHERE TEMP.PARENT_ID = #{cid}
+		</if>		
 	</select>
 </mapper>

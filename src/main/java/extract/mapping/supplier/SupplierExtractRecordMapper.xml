@@ -514,7 +514,7 @@
 	    AND R.STATUS =  2
     </select>
     
-    <insert id="copyRecordToAgainByRid">
+    <insert id="copyRecordToAgainById">
     	INSERT INTO T_SES_SMS_EXTRACT_RECORD
     	(
     		ID,CONDITION_ID,
@@ -523,7 +523,7 @@
 		SELECT #{rid} ID,
 	    #{cid} CONDITION_ID,  
 	    <include refid="Project_Column"/> 
-	    FROM T_SES_EXT_RECORD_REL_PERSON WHERE RECORD_ID = #{recordId}
+	    FROM T_SES_SMS_EXTRACT_RECORD WHERE ID = #{recordId}
     </insert>
     
 </mapper>
