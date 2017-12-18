@@ -143,23 +143,25 @@ public class DemandSupervisionController extends BaseController{
 			HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
 			List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
 			if (superviseOrgId != null && !superviseOrgId.isEmpty()) {
-				if (StringUtils.equals("0", user.getTypeName())) {
-					purchaseRequired.setUserId(user.getId());
-				} else if (StringUtils.equals("5", user.getTypeName())) {
-					purchaseRequired.setUserList(superviseOrgId);
+				if (StringUtils.equals("0", user.getTypeName()) || StringUtils.equals("4", user.getTypeName()) || StringUtils.equals("5", user.getTypeName())) {
+					if (StringUtils.equals("0", user.getTypeName())) {
+						purchaseRequired.setUserId(user.getId());
+					} else if (StringUtils.equals("5", user.getTypeName())) {
+						purchaseRequired.setUserList(superviseOrgId);
+					}
+					List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page);
+					//获取用户的真实姓名
+			        for (int i = 0; i < list.size(); i++ ) {
+			             try {
+			                 User users = userService.getUserById(list.get(i).getUserId());
+			                 list.get(i).setUserName(users.getRelName());
+			             } catch (Exception e) {
+			                  list.get(i).setUserName("");
+			             }
+			         }
+			         model.addAttribute("list", new PageInfo<PurchaseRequired>(list));
+			         model.addAttribute("purchaseRequired", purchaseRequired);
 				}
-				List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page);
-				//获取用户的真实姓名
-		        for (int i = 0; i < list.size(); i++ ) {
-		             try {
-		                 User users = userService.getUserById(list.get(i).getUserId());
-		                 list.get(i).setUserName(users.getRelName());
-		             } catch (Exception e) {
-		                  list.get(i).setUserName("");
-		             }
-		         }
-		         model.addAttribute("list", new PageInfo<PurchaseRequired>(list));
-		         model.addAttribute("purchaseRequired", purchaseRequired);
 			}
 		}
 		return "sums/ss/demandSupervision/list";
@@ -178,35 +180,33 @@ public class DemandSupervisionController extends BaseController{
 	 */
 	@RequestMapping(value = "/demandSupervisionByAll", produces = "text/html;charset=UTF-8")
 	public String demandSupervisionByAll(@CurrentUser User user, PurchaseRequired purchaseRequired, Integer page, Model model){
-	    if(user != null && StringUtils.isNotBlank(user.getTypeName()) && "4".equals(user.getTypeName())){
-	        //是否是详细，1是主要，不是1为明细
-	        purchaseRequired.setIsMaster(1);
+        //是否是详细，1是主要，不是1为明细
+        purchaseRequired.setIsMaster(1);
+        
+        if(purchaseRequired.getStatus()==null){
+            purchaseRequired.setStatus("total");
+        } else if(purchaseRequired.getStatus().equals("5")){
+            purchaseRequired.setSign("5");
+        }
+        if(purchaseRequired.getStatus().equals("total")){
+            purchaseRequired.setStatus(null);
+        }
+        if (page == null ){
+            page = StaticVariables.DEFAULT_PAGE;
+        }
+        List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page);
+        //获取用户的真实姓名
+        for (int i = 0; i < list.size(); i++ ) {
+        	try {
+        		User users = userService.getUserById(list.get(i).getUserId());
+        		list.get(i).setUserName(users.getRelName());
+        	} catch (Exception e) {
+        		list.get(i).setUserName("");
+        	}
+        }
+        model.addAttribute("list", new PageInfo<PurchaseRequired>(list));
+        model.addAttribute("purchaseRequired", purchaseRequired);
 	        
-	        if(purchaseRequired.getStatus()==null){
-	            purchaseRequired.setStatus("total");
-	        } else if(purchaseRequired.getStatus().equals("5")){
-	            purchaseRequired.setSign("5");
-	        }
-	        if(purchaseRequired.getStatus().equals("total")){
-	            purchaseRequired.setStatus(null);
-	        }
-	        if (page == null ){
-	            page = StaticVariables.DEFAULT_PAGE;
-	        }
-	        List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page);
-	        //获取用户的真实姓名
-	         for (int i = 0; i < list.size(); i++ ) {
-	             try {
-	                 User users = userService.getUserById(list.get(i).getUserId());
-	                 list.get(i).setUserName(users.getRelName());
-	             } catch (Exception e) {
-	                  list.get(i).setUserName("");
-	             }
-	         }
-	         model.addAttribute("list", new PageInfo<PurchaseRequired>(list));
-	        model.addAttribute("purchaseRequired", purchaseRequired);
-	        
-	    }
 	    return "sums/ss/demandSupervision/listByAll";
 	}
 	
