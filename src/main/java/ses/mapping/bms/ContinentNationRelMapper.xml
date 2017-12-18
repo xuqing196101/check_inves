@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ses.dao.bms.ContinentNationRelMapper" >
+  <resultMap id="BaseResultMap" type="ses.model.bms.ContinentNationRel" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CONTINENT_ID" property="continentId" jdbcType="VARCHAR" />
+    <result column="CONTINENT_NAME" property="continentName" jdbcType="VARCHAR" />
+    <result column="NATION_ID" property="nationId" jdbcType="VARCHAR" />
+    <result column="NATION_NAME" property="nationName" jdbcType="VARCHAR" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="DATE" />
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="DATE" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL" />
+    <result column="POSITION" property="position" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, CONTINENT_ID, CONTINENT_NAME, NATION_ID, NATION_NAME, CREATED_AT, UPDATED_AT, 
+    IS_DELETED, POSITION
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="ses.model.bms.ContinentNationRelExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_CONTINENT_NATION_REL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_CONTINENT_NATION_REL
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_SES_BMS_CONTINENT_NATION_REL
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="ses.model.bms.ContinentNationRelExample" >
+    delete from T_SES_BMS_CONTINENT_NATION_REL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="ses.model.bms.ContinentNationRel" >
+    insert into T_SES_BMS_CONTINENT_NATION_REL (ID, CONTINENT_ID, CONTINENT_NAME, 
+      NATION_ID, NATION_NAME, CREATED_AT, 
+      UPDATED_AT, IS_DELETED, POSITION
+      )
+    values (#{id,jdbcType=VARCHAR}, #{continentId,jdbcType=VARCHAR}, #{continentName,jdbcType=VARCHAR}, 
+      #{nationId,jdbcType=VARCHAR}, #{nationName,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, 
+      #{updatedAt,jdbcType=DATE}, #{isDeleted,jdbcType=DECIMAL}, #{position,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.bms.ContinentNationRel" >
+    insert into T_SES_BMS_CONTINENT_NATION_REL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="continentId != null" >
+        CONTINENT_ID,
+      </if>
+      <if test="continentName != null" >
+        CONTINENT_NAME,
+      </if>
+      <if test="nationId != null" >
+        NATION_ID,
+      </if>
+      <if test="nationName != null" >
+        NATION_NAME,
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null" >
+        UPDATED_AT,
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
+      </if>
+      <if test="position != null" >
+        POSITION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="continentId != null" >
+        #{continentId,jdbcType=VARCHAR},
+      </if>
+      <if test="continentName != null" >
+        #{continentName,jdbcType=VARCHAR},
+      </if>
+      <if test="nationId != null" >
+        #{nationId,jdbcType=VARCHAR},
+      </if>
+      <if test="nationName != null" >
+        #{nationName,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="ses.model.bms.ContinentNationRelExample" resultType="java.lang.Integer" >
+    select count(*) from T_SES_BMS_CONTINENT_NATION_REL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_SES_BMS_CONTINENT_NATION_REL
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.continentId != null" >
+        CONTINENT_ID = #{record.continentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.continentName != null" >
+        CONTINENT_NAME = #{record.continentName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nationId != null" >
+        NATION_ID = #{record.nationId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nationName != null" >
+        NATION_NAME = #{record.nationName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdAt != null" >
+        CREATED_AT = #{record.createdAt,jdbcType=DATE},
+      </if>
+      <if test="record.updatedAt != null" >
+        UPDATED_AT = #{record.updatedAt,jdbcType=DATE},
+      </if>
+      <if test="record.isDeleted != null" >
+        IS_DELETED = #{record.isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="record.position != null" >
+        POSITION = #{record.position,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_SES_BMS_CONTINENT_NATION_REL
+    set ID = #{record.id,jdbcType=VARCHAR},
+      CONTINENT_ID = #{record.continentId,jdbcType=VARCHAR},
+      CONTINENT_NAME = #{record.continentName,jdbcType=VARCHAR},
+      NATION_ID = #{record.nationId,jdbcType=VARCHAR},
+      NATION_NAME = #{record.nationName,jdbcType=VARCHAR},
+      CREATED_AT = #{record.createdAt,jdbcType=DATE},
+      UPDATED_AT = #{record.updatedAt,jdbcType=DATE},
+      IS_DELETED = #{record.isDeleted,jdbcType=DECIMAL},
+      POSITION = #{record.position,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.bms.ContinentNationRel" >
+    update T_SES_BMS_CONTINENT_NATION_REL
+    <set >
+      <if test="continentId != null" >
+        CONTINENT_ID = #{continentId,jdbcType=VARCHAR},
+      </if>
+      <if test="continentName != null" >
+        CONTINENT_NAME = #{continentName,jdbcType=VARCHAR},
+      </if>
+      <if test="nationId != null" >
+        NATION_ID = #{nationId,jdbcType=VARCHAR},
+      </if>
+      <if test="nationName != null" >
+        NATION_NAME = #{nationName,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null" >
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="position != null" >
+        POSITION = #{position,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ses.model.bms.ContinentNationRel" >
+    update T_SES_BMS_CONTINENT_NATION_REL
+    set CONTINENT_ID = #{continentId,jdbcType=VARCHAR},
+      CONTINENT_NAME = #{continentName,jdbcType=VARCHAR},
+      NATION_ID = #{nationId,jdbcType=VARCHAR},
+      NATION_NAME = #{nationName,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      POSITION = #{position,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
