@@ -220,7 +220,6 @@
 
 	//下载记录表
 	function printRecord() {
-	debugger;
         	var id = [];
             $('input[name="chkItem"]:checked').each(function () {
                 id.push($(this).val());
