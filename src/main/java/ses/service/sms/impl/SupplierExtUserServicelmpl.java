@@ -191,8 +191,10 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
       //获取项目信息
       Project project = projectService.selectById(projectId);
       // 获取供应商信息
-      Supplier supplierInfo = supplierMapper.selectByPrimaryKey(suppliersID);
-
+      Supplier supplierInfo = null;
+      if(suppliersID != null){
+          supplierInfo = supplierMapper.selectByPrimaryKey(suppliersID);
+      }
 
       //获取项目下的明细
       HashMap<String, Object> map = new HashMap<String, Object>();
