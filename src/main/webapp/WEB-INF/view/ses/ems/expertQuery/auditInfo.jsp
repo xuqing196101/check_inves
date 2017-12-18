@@ -58,7 +58,7 @@
         	}else if(status == 16) {
                 $("#check_opinion").html("初审不合格。" + opinion);
             }else if(status == 3) {
-                $("#check_opinion").html("退回修改。" + opinion);
+                $("#check_opinion").html("初审退回修改。" + opinion);
             }
         	
         	/*
@@ -67,9 +67,9 @@
         }else if(status == null || typeof(status) == "undefined"){
         	if(expertStatus == 2 || expertStatus == 16){
         		$("#check_opinion").html("初审不合格。" + opinion);
-        	}else if(expertStatus == 3){
-        		$("#check_opinion").html("退回修改。" + opinion);
-        	}else if(expertStatus != -1){
+        	}else if(expertStatus == 3  || expertStatus == 9){
+        		$("#check_opinion").html("初审退回修改。" + opinion);
+        	}else if(expertStatus != -1 &&  expertStatus != 2 &&  expertStatus != 3 &&  expertStatus != 9 &&  expertStatus != 16){
 	       		$.ajax({
                    url:globalPath + "/expertAudit/findCategoryCount.do",
                    data: {
@@ -205,7 +205,7 @@
                 <div class="select_check" id="selectOptionId">
                     <input type="radio" class="hidden" disabled="disabled" name="selectOption" value="15" <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if>>
                     <input type="radio" class="hidden" disabled="disabled" value="16" <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if>>
-                    <%-- <input type="radio"  disabled="disabled" value="3" <c:if test="${auditOpinion.flagAudit eq '3'}">checked</c:if>>退回修改 --%>
+                    <input type="radio"   class="hidden" disabled="disabled" value="3" <c:if test="${auditOpinion.flagAudit eq '3'}">checked</c:if>>
                 </div>
               </li>
               
