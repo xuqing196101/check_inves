@@ -75,9 +75,28 @@
 		   }
 	}
 	
+	//反选
+	function reverseSelection(){
+		var count=0;
+		var checklist = document.getElementsByName("chkItem");
+		var checkAll = document.getElementById("checkAll");
+ 		for(var i=0;i<checklist.length;i++){
+		   if(checklist[i].checked == true){
+			   checklist[i].checked = false;
+			   checkAll.checked = false;
+			   count ++;
+		   }else{
+			   checklist[i].checked = true;
+		   }
+		}
+		if(count == 0){
+	  	 	checkAll.checked = true;
+   		}
+	}
 </script>
 </head>
 <body>
+  <input  class="btn btn-windows reverse m0" type="button" value="反选" onclick="reverseSelection();">
   <input  class="btn btn-windows check" type="button" value="不通过" onclick="batchSelection();">
   <c:if test="${sign == 2 || sign == 1}">
     <input  class="btn btn-windows edit" type="button" value="更新审核" onclick="revokeCategoryAudit();">
