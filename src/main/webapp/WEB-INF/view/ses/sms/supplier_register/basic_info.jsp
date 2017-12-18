@@ -378,11 +378,11 @@
 														<option value="${prov.id }">${prov.name }</option>
 													</c:if>
 												</c:forEach>
-
 											</select>
 										</div>
 										<div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
 											<select id="children_area_select_id_addr" name="address"  <c:if test="${!fn:contains(audit,'address')&&currSupplier.status==2}">onchange="this.selectedIndex=this.defaultIndex;"</c:if>  <c:if test="${fn:contains(audit,'address')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'address','basic_page')"</c:if>>
+												<option value="" >请选择</option>
 												<c:forEach items="${city }" var="city">
 													<c:if test="${city.id==currSupplier.address }">
 														<option value="${city.id }" selected="selected">${city.name }</option>
@@ -464,6 +464,7 @@
 									                    </div>
 									                    <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
 									                        <select id="children_area_select_id_${vs.index }" class="w100p" name="addressList[${vs.index }].address">
+									                        		<option value="">请选择</option>
 									                            <c:forEach items="${addr.areaList }" var="city">
 									                                <c:if test="${city.id==addr.address }">
 									                                    <option value="${city.id }" selected="selected">${city.name }</option>
@@ -668,7 +669,7 @@
 										</div>
 										<div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
 											<select id="children_area_select_id_concat" name="concatCity" <c:if test="${fn:contains(audit,'concatCity')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'concatCity','basic_page')"</c:if>>
-
+												<option value="">请选择</option>
 												<c:forEach items="${currSupplier.concatCityList }" var="city">
 													<c:if test="${city.id==currSupplier.concatCity}">
 														<option value="${city.id }" selected="selected">${city.name }</option>
@@ -785,7 +786,7 @@
 										</div>
 										<div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
 											<select id="children_area_select_id_army" name="armyBuinessCity" <c:if test="${fn:contains(audit,'armyBuinessCity')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'armyBuinessCity','basic_page')"</c:if>>
-
+												<option value="">请选择</option>
 												<c:forEach items="${currSupplier.armyCity }" var="city">
 													<c:if test="${city.id==currSupplier.armyBuinessCity }">
 														<option value="${city.id }" selected="selected">${city.name }</option>
@@ -935,8 +936,43 @@
 											</div>
 										</div>
 									</li>
+									
+									<%-- <li class="col-md-3 col-sm-6 col-xs-12">
+										<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 "><i class="red">* </i>所在洲</span>
+										<div class="select_common col-md-12 col-sm-12 col-xs-12  p0">
+											<select class='cOverseas' <c:if test="${!fn:contains(audit,'overseasBranch')&&currSupplier.status==2}">onchange=""</c:if> <c:if test="${fn:contains(audit,'countryName_'.concat(bran.id))}">style="border: 1px solid red;" onmouseover="errorMsg(this,'countryName_${bran.id }','basic_page')"</c:if>>
+												<option value="">请选择</option>
+												<c:forEach items="${continents }" var="continent">
+													<option value="${continent.id }" <c:if test="${bran.cnre.cnr.continentId==continent.id}">selected='selected' </c:if> >${continent.name }</option>
+												</c:forEach>
+											</select>
+										</div>
+									</li> --%>
+									
+									<li class="col-md-4 col-sm-6 col-xs-12">
+										<%-- <input type="hidden" name="branchList[${vs.index }].cnre" value="${bran.cnre }" /> --%>
+										<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 "><i class="red">* </i>所在国家（地区）</span>
+										<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+											<div class="col-md-3 col-xs-5 col-sm-5 mr5 p0">
+												<select class='cOverseas' id="select_continent_${vs.index}" onchange="loadCountrySelect(this,'#select_country_${vs.index}');" <c:if test="${!fn:contains(audit,'overseasBranch')&&currSupplier.status==2}">onchange=""</c:if> <c:if test="${fn:contains(audit,'countryName_'.concat(bran.id))}">style="border: 1px solid red;" onmouseover="errorMsg(this,'countryName_${bran.id }','basic_page')"</c:if>>
+													<option value="">请选择</option>
+													<c:forEach items="${continents }" var="continent">
+														<option value="${continent.id }" <c:if test="${bran.cnre.cnr.continentId eq continent.id}">selected='selected' </c:if> >${continent.name }</option>
+													</c:forEach>
+												</select>
+											</div>
+											<div class="col-md-8 col-xs-5 col-sm-5 mr5 p0">
+												<select class='cOverseas' id="select_country_${vs.index}" name="branchList[${vs.index }].country" required <c:if test="${!fn:contains(audit,'overseasBranch')&&currSupplier.status==2}">onchange=""</c:if> <c:if test="${fn:contains(audit,'countryName_'.concat(bran.id))}">style="border: 1px solid red;" onmouseover="errorMsg(this,'countryName_${bran.id }','basic_page')"</c:if>>
+													<option value="">请选择</option>
+													<c:forEach items="${bran.cnre.cnrList }" var="cnr">
+														<option value="${cnr.nationId }" <c:if test="${bran.country eq cnr.nationId}">selected='selected' </c:if> >${cnr.nationName }</option>
+													</c:forEach>
+												</select>
+											</div>
+										</div>
+									</li>
 
-									<li class="col-md-3 col-sm-6 col-xs-12">
+									<%-- <li class="col-md-3 col-sm-6 col-xs-12">
 										<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 "><i class="red">* </i>所在国家（地区）</span>
 										<div class="select_common col-md-12 col-sm-12 col-xs-12  p0">
 											<select class='cOverseas' name="branchList[${vs.index }].country" required <c:if test="${!fn:contains(audit,'overseasBranch')&&currSupplier.status==2}">onchange=""</c:if> <c:if test="${fn:contains(audit,'countryName_'.concat(bran.id))}">style="border: 1px solid red;" onmouseover="errorMsg(this,'countryName_${bran.id }','basic_page')"</c:if>>
@@ -946,7 +982,7 @@
 												</c:forEach>
 											</select>
 										</div>
-									</li>
+									</li> --%>
 
 									<li class="col-md-3 col-sm-6 col-xs-12">
 										<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">* </i>详细地址</span>
@@ -962,7 +998,7 @@
 										</div>
 									</li>
 
-									<li class="col-md-3 col-sm-6 col-xs-12">
+									<li class="col-md-2 col-sm-6 col-xs-12">
 										<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 white">操作</span>
 										<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
 											<c:choose>

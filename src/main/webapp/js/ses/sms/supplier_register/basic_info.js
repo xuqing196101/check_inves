@@ -42,19 +42,20 @@ $(function() {
 
 });
 
-// 加载地区下拉框
+// 异步加载地区下拉框
 function loadAreaSelect(_this, appendTarget){
 	var id = $(_this).val();
 	if (id == "") {
 		$(appendTarget).empty();
+		$(appendTarget).append('<option value="" >请选择</option>');
 	}
 	if (id) {
 		$.ajax({
-			url : globalPath + "/area/find_area_by_parent_id.do",
+			url : globalPath + "/basicData/ajaxAreaData.do",
 			type : "post",
 			dataType : "json",
 			data : {
-				id : id
+				pid : id
 			},
 			success : function(result) {
 				if(result){
@@ -64,6 +65,38 @@ function loadAreaSelect(_this, appendTarget){
 								+ result[i].name + "</option>";
 					}
 					$(appendTarget).empty();
+					$(appendTarget).append('<option value="" >请选择</option>');
+					$(appendTarget).append(html);
+				}
+			}
+		});
+	}
+}
+
+// 异步加载国家下拉框
+function loadCountrySelect(_this, appendTarget){
+	var id = $(_this).val();
+	if (id == "") {
+		$(appendTarget).empty();
+		$(appendTarget).append('<option value="" >请选择</option>');
+	}
+	if (id) {
+		$.ajax({
+			url : globalPath + "/basicData/ajaxCrnData.do",
+			type : "post",
+			dataType : "json",
+			data : {
+				continentId : id
+			},
+			success : function(result) {
+				if(result){
+					var html = "";
+					for ( var i = 0; i < result.length; i++) {
+						html += "<option value='" + result[i].nationId + "'>"
+						+ result[i].nationName + "</option>";
+					}
+					$(appendTarget).empty();
+					$(appendTarget).append('<option value="" >请选择</option>');
 					$(appendTarget).append(html);
 				}
 			}
@@ -365,7 +398,7 @@ function addStockholder() {
 		+ "].identity' maxlength='18' onkeyup='validateIdentity(this)' onchange='validateIdentity(this)' value=''> </td>"
 		+ "<td class='tc'><input type='text' style='border:0px;' name='listSupplierStockholders["
 		+ stocIndex
-		+ "].shares' value='' onchange='checkNumsSale(this, 3)'></td>"
+		+ "].shares' value='' onblur='validateMoney(this.value, 4, false)'></td>"
 		+ "<td class='tc'><input type='text' style='border:0px;' class='proportion_vali txtTempSave' name='listSupplierStockholders["
 		+ stocIndex
 		+ "].proportion' value='' onkeyup=\"value=value.replace(/[^\\d.]/g,'')\" onblur=\"validatePercentage2(this.value)\"> </td>"
@@ -801,14 +834,37 @@ function addBranch(obj) {
 				+ " <span class='add-on cur_point'>i</span>"
 				+ " </div>"
 				+ " </li>"
-				+ " <li name='branch'  class='col-md-3 col-sm-6 col-xs-12'>"
+//				+ " <li name='branch'  class='col-md-3 col-sm-6 col-xs-12'>"
+//				+ " <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>所在国家（地区）</span>"
+//				+ " <div class='select_common col-md-12 col-sm-12 col-xs-12 input_group p0'>"
+//				+ " <select  class ='cOverseas' name='branchList["
+//				+ branchIndex
+//				+ "].country'>"
+//				+ " <option value=''>请选择</option>"
+//				+ " </select>"
+//				+ " </div>"
+//				+ " </li>"
+				+ " <li name='branch'  class='col-md-4 col-sm-6 col-xs-12'>"
 				+ " <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>所在国家（地区）</span>"
 				+ " <div class='select_common col-md-12 col-sm-12 col-xs-12 input_group p0'>"
-				+ " <select  class ='cOverseas' name='branchList["
+				+ " <div class='col-md-3 col-xs-5 col-sm-5 mr5 p0'>"
+				+ " <select class='cOverseas' id='select_continent_"
+				+ branchIndex
+				+ "' onchange=\"loadCountrySelect(this,'#select_country_"
+				+ branchIndex
+				+ "');\">"
+				+ " <option value=''>请选择</option>"
+				+ " </select>"
+				+ " </div>"
+				+ " <div class='col-md-8 col-xs-5 col-sm-5 mr5 p0'>"
+				+ " <select class='cOverseas' id='select_country_"
+				+ branchIndex
+				+ "' name='branchList["
 				+ branchIndex
 				+ "].country'>"
 				+ " <option value=''>请选择</option>"
 				+ " </select>"
+				+ " </div>"
 				+ " </div>"
 				+ " </li>"
 				+
@@ -824,7 +880,7 @@ function addBranch(obj) {
 				+ " </li>"
 				+
 
-				" <li name='branch'  class='col-md-3 col-sm-6 col-xs-12'>"
+				" <li name='branch'  class='col-md-2 col-sm-6 col-xs-12'>"
 				+ " <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5 white'>操作</span>"
 				+ " <div class='col-md-12 col-xs-12 col-sm-12 p0 mb25 h30'>"
 				+ " <input type='button' onclick='addBranch(this)' class='btn list_btn' value='十'/>"
@@ -856,7 +912,8 @@ function addBranch(obj) {
 				+ " </div>" + " </li>");
 			branchIndex++;
 			$("#branchIndex").val(branchIndex);
-			appendBranchCountry(branchIndex-1);
+			//appendBranchCountry(branchIndex-1);
+			appendBranchContinent(branchIndex-1);
 		}
 	});
 }
@@ -885,6 +942,35 @@ function appendBranchCountry(branchIndex){
 							+ data[i].name + "</option>");
 				}
 				countryData = data;
+			}
+		}
+	});
+}
+
+var continentData = [];// 缓存分支国家所属洲数据
+function appendBranchContinent(branchIndex){
+	var target = $("#select_continent_" + branchIndex);
+	if(continentData && continentData.length > 0){
+		for ( var i = 0, len = countryData.length; i < len; i++) {
+			target.append("<option value='" + countryData[i].id + "'>"
+					+ continentData[i].name + "</option>");
+		}
+		return;
+	}
+	$.ajax({
+		url : globalPath + "/basicData/ajaxDicData.do",
+		type : "post",
+		dataType : "json",
+		data : {
+			kind : 66
+		},
+		success : function(data) {
+			if (data) {
+				for ( var i = 0, len = data.length; i < len; i++) {
+					target.append("<option value='" + data[i].id + "'>"
+							+ data[i].name + "</option>");
+				}
+				continentData = data;
 			}
 		}
 	});

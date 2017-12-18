@@ -1,17 +1,31 @@
 package ses.controller.sys.sms;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
-import common.constant.Constant;
-import common.constant.StaticVariables;
-import common.model.UploadFile;
-import common.service.DownloadService;
-import common.service.LoginLogService;
-import common.service.UploadService;
-import common.utils.Arith;
-import common.utils.IDCardUtil;
-import common.utils.QRCodeUtil;
-import common.utils.RSAEncrypt;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -36,6 +50,8 @@ import ses.formbean.ContractBean;
 import ses.formbean.QualificationBean;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
+import ses.model.bms.ContinentNationRel;
+import ses.model.bms.ContinentNationRelExt;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
 import ses.model.bms.User;
@@ -66,6 +82,7 @@ import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
+import ses.service.bms.ContinentNationRelService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.NoticeDocumentService;
 import ses.service.bms.QualificationLevelService;
@@ -97,33 +114,19 @@ import ses.util.PropUtil;
 import ses.util.ValidateUtils;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
-import sun.misc.BASE64Encoder;
 
-import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+import common.constant.Constant;
+import common.constant.StaticVariables;
+import common.model.UploadFile;
+import common.service.DownloadService;
+import common.service.LoginLogService;
+import common.service.UploadService;
+import common.utils.Arith;
+import common.utils.IDCardUtil;
+import common.utils.QRCodeUtil;
+import common.utils.RSAEncrypt;
 
 /**
  * 供应商控制类
@@ -196,6 +199,9 @@ public class SupplierController extends BaseSupplierController {
 
 	@Autowired
 	private SupplierBranchService supplierBranchService;// 境外分支
+	
+	@Autowired
+	private ContinentNationRelService continentNationRelService;// 洲-国家关系
 
 	@Autowired
 	private SupplierAuditService supplierAuditService;// 供应商审核
@@ -915,6 +921,22 @@ public class SupplierController extends BaseSupplierController {
 				}
 			}
 		}
+		if (supplier.getBranchList() != null && supplier.getBranchList().size() > 0) {
+			for (SupplierBranch branch : supplier.getBranchList()) {
+				if (StringUtils.isNotBlank(branch.getCountry())) {
+					ContinentNationRel cnr = continentNationRelService.findByNationId(branch.getCountry());
+					if(cnr != null){
+						ContinentNationRelExt cnre = new ContinentNationRelExt();
+						cnre.setCnr(cnr);
+						List<ContinentNationRel> cnrList = continentNationRelService.findByContinentId(cnr.getContinentId());
+						if(cnrList != null && cnrList.size() > 0){
+							cnre.setCnrList(cnrList);
+						}
+						branch.setCnre(cnre);
+					}
+				}
+			}
+		}
 		
 		// 去掉空的生产经营地址
 		List<SupplierAddress> addressList = supplier.getAddressList();
@@ -982,10 +1004,12 @@ public class SupplierController extends BaseSupplierController {
 		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		//初始化公司性质
-		model.addAttribute("company", DictionaryDataUtil.find(17));
+		//model.addAttribute("company", DictionaryDataUtil.find(17));
 		model.addAttribute("nature", DictionaryDataUtil.find(32));
 		//初始化所在国家
-		model.addAttribute("foreign", DictionaryDataUtil.find(24));
+		//model.addAttribute("foreign", DictionaryDataUtil.find(24));
+		//初始化所在洲
+		model.addAttribute("continents", DictionaryDataUtil.find(66));
 		//初始化地址
 		Area area = supplier.getArea();
 		if(area != null){
@@ -3654,10 +3678,11 @@ public class SupplierController extends BaseSupplierController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		BASE64Encoder encoder = new BASE64Encoder();
-		return encoder.encode(data);
+		return org.apache.commons.net.util.Base64.encodeBase64String(data);
+//		BASE64Encoder encoder = new BASE64Encoder();
+//		return encoder.encode(data);
 	}
-    
+	
 	@RequestMapping("/download_report")
 	public ResponseEntity<byte[]> download(HttpServletRequest request) throws IOException {
 		// filename = new String(filename.getBytes("iso8859-1"),"UTF-8");

@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.Area;
+import ses.model.bms.ContinentNationRel;
 import ses.model.bms.DictionaryData;
 import ses.service.bms.AreaServiceI;
+import ses.service.bms.ContinentNationRelService;
 import ses.util.DictionaryDataUtil;
 
 /**
@@ -25,6 +27,8 @@ public class BasicDataController {
 	
 	@Autowired
 	private AreaServiceI areaServiceI;
+	@Autowired
+	private ContinentNationRelService continentNationRelService;
 	
     /**
      * ajax获取字典数据
@@ -52,5 +56,19 @@ public class BasicDataController {
     		pid = "0";
     	}
     	return areaServiceI.findAreaByParentId(pid);
+    }
+    
+    /**
+     * 根据洲id获取对应国家
+     * @param continentId
+     * @return
+     */
+    @RequestMapping(value = "ajaxCrnData", method = RequestMethod.POST)
+    @ResponseBody
+    public List<ContinentNationRel> ajaxContinentNationRelData(String continentId){
+    	if(StringUtils.isBlank(continentId)){
+    		return null;
+    	}
+    	return continentNationRelService.findByContinentId(continentId);
     }
 }
