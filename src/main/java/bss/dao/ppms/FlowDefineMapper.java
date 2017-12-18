@@ -49,5 +49,7 @@ public interface FlowDefineMapper {
     * @return List<FlowDefine>
      */
     List<FlowDefine> viewListByPack(HashMap<String, Object> map);
+    
+    List<FlowDefine> viewFlowList(HashMap<String, Object> map);
 
 }

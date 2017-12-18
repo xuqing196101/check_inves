@@ -121,7 +121,7 @@
 	    {"id":3, "pId":0, "name":"采购项目", "value":""},
 	    {"id":11, "pId":3, "name":"项目名称", "value":"projectName","checked":false},
 	    {"id":12, "pId":3, "name":"项目编号", "value":"projectNumber","checked":false},
-	    {"id":13, "pId":3, "name":"立项人", "value":"userId","checked":false},
+	    {"id":13, "pId":3, "name":"负责人", "value":"userId","checked":false},
 	    {"id":14, "pId":3, "name":"包名", "value":"packName","checked":false},
 	    {"id":15, "pId":3, "name":"包号", "value":"packNumber","checked":false},
 	    {"id":16, "pId":3, "name":"开标时间", "value":"bidDate","checked":false},

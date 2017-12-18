@@ -86,14 +86,7 @@
             $(this).parent().parent().parent().addClass("pre_btn");
           }
         });
-        $("input[name='flowName']").each(function(){
-        	var name = $(this).val();
-          name = $.trim(name);
-          if(name.indexOf("XMFB") >= 0){
-            $(this).parent().parent().parent().removeClass("pre_btn");
-            $(this).parent().parent().parent().addClass("current_red");
-          }
-        });
+        
         $('.pre_btn').last().addClass("current_btn");
         $('.pre_btn').last().removeClass("pre_btn");
         $(".flow_tips").children(":last").hide();
@@ -102,10 +95,19 @@
         $(".flow_tips").each(function(i) {
         	if($(this).hasClass("current_btn")){
         		num = i;
+        		$(this).removeClass("round_l");
         	}
         	if(i > num){
         		$(this).addClass("hide");
         	}
+        });
+        $("input[name='flowName']").each(function(){
+        	var name = $(this).val();
+          name = $.trim(name);
+          if(name.indexOf("XMFB") >= 0){
+            $(this).parent().parent().parent().removeClass("pre_btn");
+            $(this).parent().parent().parent().addClass("current_red");
+          }
         });
       });
       
@@ -122,14 +124,21 @@
         });
       }
 
-      function viewUpload(id) {
-        var projectId = "${project.id}";
-        var uploadFile = "${uploadFile}";
+      function viewUpload(projectId, id) {
         if(!id){
           layer.msg("未上传附件!");
         }else{
         	var a = "2";
           openViewDIv(projectId, id, a, null, null);
+        }
+      }
+      
+      function packageAdvice(id,code) {
+      	if(!id){
+          layer.msg("未上传附件!");
+        }else{
+        	var a = "2";
+          openViewDIv(code, id, a, null, null);
         }
       }
 
@@ -536,7 +545,7 @@
 									<tr>
 									<c:if test="${obj.name eq '采购项目立项'}">
 										<td>${obj.project.name}</td>
-	                  <td class="tc"><button class="btn" onclick="viewUpload('${obj.uploadFile.id}');" type="button">查看</button></td>
+	                  <td class="tc"><button class="btn" onclick="viewUpload('${obj.project.id}','${obj.uploadFile.typeId}');" type="button">查看</button></td>
 	                  <td>${obj.project.purchaseDepName}</td>
 	                  <td class="tc">
 	                    <c:if test="${obj.project.isRehearse eq '0'}">正常</c:if>
@@ -690,6 +699,26 @@
 		                    </td>
 		                  </tr>
 		                </c:forEach>
+									</c:if>
+									<c:if test="${obj.name eq '中止'}">
+		                  <tr>
+		                    <td>${obj.packageAdvice.advice}</td>
+		                    <td class="tc"><button class="btn" onclick="packageAdvice('${obj.uploadFile.typeId}','${obj.packageAdvice.code}');" type="button">查看</button></td>
+		                    <td class="tc">${obj.packageAdvice.proposer}</td>
+		                    <td class="tc">
+		                      <fmt:formatDate value='${obj.packageAdvice.createdAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+		                    </td>
+		                  </tr>
+									</c:if>
+									<c:if test="${obj.name eq '转竞谈'}">
+		                  <tr>
+		                    <td>${obj.packageAdvice.advice}</td>
+		                    <td class="tc"><button class="btn" onclick="packageAdvice('${obj.uploadFile.typeId}','${obj.packageAdvice.code}');" type="button">查看</button></td>
+		                    <td class="tc">${obj.packageAdvice.proposer}</td>
+		                    <td class="tc">
+		                      <fmt:formatDate value='${obj.packageAdvice.createdAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+		                    </td>
+		                  </tr>
 									</c:if>
               	</tbody>
 							</table>

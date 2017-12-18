@@ -68,4 +68,6 @@ public interface PackageAdviceMapper {
 	
 	List<PackageAdvice> selectByStatus(String projectId);
 	
+	List<PackageAdvice> selectByUserId(HashMap<String, Object> map);
+	
 }

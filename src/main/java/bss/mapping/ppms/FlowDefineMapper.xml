@@ -200,6 +200,35 @@
     and ID = #{id,jdbcType=VARCHAR})  order by STEP asc
   </select>
   
+  <select id="viewFlowList" parameterType="java.util.Map" resultMap="FlowDefineResult">
+  	SELECT
+  	<include refid="Base_Column_List" />
+		FROM
+			T_BSS_PPMS_FLOW_DEFINE
+		WHERE
+		(IS_DELETED = 0 OR CODE = 'XMFB')
+		<if test="oldFlowId != null and oldFlowId != ''">
+     	AND STEP <![CDATA[ <= ]]> (select STEP from T_BSS_PPMS_FLOW_DEFINE 
+    	where IS_DELETED = 0 and ID = #{oldFlowId,jdbcType=VARCHAR})
+    </if>
+    <if test="editFlowId != null and editFlowId != ''">
+     	AND STEP <![CDATA[ <= ]]> (select STEP from T_BSS_PPMS_FLOW_DEFINE 
+    	where IS_DELETED = 0 and ID = #{editFlowId,jdbcType=VARCHAR})
+    </if>
+    <if test="newFlowId != null and newFlowId != ''">
+      AND STEP	<![CDATA[ >= ]]> (select STEP from T_BSS_PPMS_FLOW_DEFINE 
+    	where IS_DELETED = 0 and ID = #{newFlowId,jdbcType=VARCHAR})
+     </if>
+     <if test="code != null and code != ''">
+      AND STEP	<![CDATA[ > ]]> (select STEP from T_BSS_PPMS_FLOW_DEFINE 
+    	where IS_DELETED = 0 and CODE = #{code,jdbcType=VARCHAR} AND PURCHASE_TYPE_ID = #{purchaseType})
+     </if>
+    <if test="purchaseType != null and purchaseType != ''">
+    	AND PURCHASE_TYPE_ID = #{purchaseType}
+    </if>
+    ORDER BY STEP ASC
+  </select>
+  
   <!-- 根据包上的标示查询对应的流程 -->
   <select id="viewFlow" parameterType="java.util.Map" resultMap="FlowDefineResult">
      select * from  T_BSS_PPMS_FLOW_DEFINE where  IS_DELETED = 0

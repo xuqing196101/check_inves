@@ -822,8 +822,9 @@ public class OpenBiddingController extends BaseSupplierController{
    */
   @RequestMapping("saveBidNotice")
   @ResponseBody 
-  public AjaxJsonData saveBidNotice(HttpServletRequest request, Article article, String articleTypeId, String lastArticleTypeId, String flowDefineId, Integer flag) throws Exception{
+  public JSONObject saveBidNotice(HttpServletRequest request, Article article, String articleTypeId, String lastArticleTypeId, String flowDefineId, Integer flag) throws Exception{
     try {
+    	JSONObject jsonObj = new JSONObject();
       String[] ranges = request.getParameterValues("ranges");
       int count = 0;
       String msg = "请填写";
@@ -848,9 +849,9 @@ public class OpenBiddingController extends BaseSupplierController{
         count ++;
       }
       if (count > 0) {
-        jsonData.setSuccess(false);
-        jsonData.setMessage(msg);
-        return jsonData;
+    	  jsonObj.put("success", false);
+    	  jsonObj.put("message", msg);
+        return jsonObj;
       }
       if (count == 0) {
         String categoryIds = request.getParameter("categoryIds");
@@ -868,7 +869,7 @@ public class OpenBiddingController extends BaseSupplierController{
           //暂存
           article.setStatus(0);
           article.setUpdatedAt(new Date());
-          jsonData.setMessage("暂存成功");
+          jsonObj.put("message", "暂存成功");
           
           //更新项目状态
           String noticeType = request.getParameter("noticeType");
@@ -930,11 +931,13 @@ public class OpenBiddingController extends BaseSupplierController{
           article.setStatus(1);
           article.setUpdatedAt(new Date());
           article.setSubmitAt(new Date());
-          jsonData.setMessage("提交成功");
+          //jsonData.setMessage("提交成功");
+          jsonObj.put("message", "提交成功");
           //更新项目状态
           String noticeType = request.getParameter("noticeType");
           if ("purchase".equals(noticeType)) {
             Project project = projectService.selectById(article.getProjectId());
+            jsonObj.put("projectId", project.getId());
             String puchaseTypeCode = DictionaryDataUtil.findById(project.getPurchaseType()).getCode();
             if ("GKZB".equals(puchaseTypeCode)) {
                 //如果是公开招标更新项目状态为发售标书
@@ -1037,15 +1040,13 @@ public class OpenBiddingController extends BaseSupplierController{
           //该环节设置为执行中状态
           flowMangeService.flowExe(request, flowDefineId, article.getProjectId(), 1);
         }
-        
-        jsonData.setSuccess(true);
-
-        jsonData.setObj(article);
-        return jsonData;
+        	jsonObj.put("success", true);
+	  	  //jsonObj.put("message", "暂存成功");
+	      return jsonObj;
       }
-      jsonData.setSuccess(false);
-      jsonData.setMessage("保存失败");
-      return jsonData;
+      jsonObj.put("success", false);
+  	  jsonObj.put("message", "保存失败");
+      return jsonObj;
     } catch (Exception e) {
       throw new Exception("保存失败！");
     }
