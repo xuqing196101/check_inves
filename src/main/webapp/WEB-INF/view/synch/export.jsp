@@ -70,7 +70,7 @@
           <c:if test="${authType ==  '4'}">
 	          <label class="hand"><input type="checkbox" name="dataType" value="inner_out"/><span>供应商退回修改导出外网</span></label>
 	          <label class="hand"><input type="checkbox" name="dataType" value="temp_out"/><span>临时供应商导出外网</span></label>
-	          <label class="hand"><input type="checkbox" name="dataType" value="expert_out"/><span>专家退回修改导出外网</span></label>
+	          <label class="hand"><input type="checkbox" name="dataType" value="expert_out"/><span>专家退回修改导出内网</span></label>
 	          <label class="hand"><input type="checkbox" name="dataType" value="img_out"/><span>供应商，专家图片导出</span></label>
           </c:if>
         </div>
