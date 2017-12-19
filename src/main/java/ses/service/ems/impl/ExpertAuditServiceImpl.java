@@ -450,7 +450,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 		if("0".equals(status) || "9".equals(status) || "15".equals(status) || "16".equals(status)){
 			//初审中
 			expert.setAuditTemporary(1);
-		}else if("4".equals(status)){
+		}else if("4".equals(status) || "-2".equals(status)){
 			//复审中
 			expert.setAuditTemporary(2);
 		}else if(sign==2 && "6".equals(status)){

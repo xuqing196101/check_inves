@@ -202,9 +202,7 @@
             
             //退回
             if (status == 3) {
-                updateStepNumber("one");
-            }
-            if (status == 2 || status == 3 || status == 5  || status == 8) {
+            	updateStepNumber("one");
                 //询问框
                 layer.confirm('您确认吗？', {
                     closeBtn: 0,
@@ -212,7 +210,7 @@
                     shift: 4,
                     btn: ['确认', '取消']
                 }, function () {
-                	  zancun();
+                	  zancun(3);
                     if (status == 3) {
                     	$("#status").val(status);
                       $("#form_shenhe").submit();
@@ -492,6 +490,9 @@
         var isDownLoadAttch = $("#isDownLoadAttch").val();
         if(sign == 1){
             flagTime = 0;
+        }
+        if(status == 3){
+        	radio = 3;
         }
         $.ajax({
             url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",

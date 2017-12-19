@@ -13,6 +13,7 @@
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
         var userType = data.userType;
+        console.log(data);
         
         if (typeof(list_content) != null && typeof(list_content) != 'null' && typeof(list_content) != 'undefined') {
           $('#head_tit').html(list_content.batchName);
@@ -395,11 +396,11 @@
                 if (typeof(list_content.list.list[i].workUnit) === 'undefined') {
                   list_content.list.list[i].workUnit = '';
                 }
-                if (typeof(list_content.list[i].professTechTitles) === 'undefined' || list_content.list[i].professTechTitles == '') {
-                  if (typeof(list_content.list[i].atDuty) === 'undefined') {
-                    list_content.list[i].professTechTitles = '';
+                if (typeof(list_content.list.list[i].professTechTitles) === 'undefined' || list_content.list.list[i].professTechTitles == '') {
+                  if (typeof(list_content.list.list[i].atDuty) === 'undefined') {
+                    list_content.list.list[i].professTechTitles = '';
                   } else {
-                    list_content.list[i].professTechTitles = list_content.list[i].atDuty;
+                    list_content.list.list[i].professTechTitles = list_content.list.list[i].atDuty;
                   }
                 }
                 if (typeof(list_content.list.list[i].updateTime) === 'undefined') {
