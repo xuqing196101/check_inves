@@ -24,6 +24,9 @@ public class ExpertAuditOpinion implements Serializable{
 	private Integer flagAudit;
 	/**是否下载了入库复审表 1：已下载**/
 	private Integer isDownLoadAttch;
+	
+	/**0:未删除，1：已删除*/
+	private Integer isDeleted;
 
 	public String getId() {
 		return id;
@@ -87,4 +90,12 @@ public class ExpertAuditOpinion implements Serializable{
 	public void setCateResult(String cateResult) {
 		this.cateResult = cateResult;
 	}
+	public Integer getIsDeleted() {
+		return isDeleted;
+	}
+	public void setIsDeleted(Integer isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+	
+	
 }

@@ -967,8 +967,6 @@ public class ExpertQueryController {
 			model.addAttribute("auditOpinion", null);
 		}
 		
-		
-		
 		model.addAttribute("expertId", expertId);
 		model.addAttribute("sign", sign);
 		model.addAttribute("reqType", reqType);

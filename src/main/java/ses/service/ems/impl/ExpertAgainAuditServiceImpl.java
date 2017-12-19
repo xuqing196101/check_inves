@@ -1302,6 +1302,9 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	    		expertAuditOpinion.setFlagTime(1);
 	    		expertAuditOpinion = expertAuditOpinionMapper.selectByExpertId(expertAuditOpinion);
 	    		
+	    		//假删除复审的审核意见
+	    		expertAuditOpinionMapper.updateisDeletedByExpertId(e.getExpertId());
+	    		
 	    		//清空附件下载记录
 	    		if(expertAuditOpinion!=null && expertAuditOpinion.getId() !=null){
 	    			expertAuditOpinionMapper.updateDownloadAttch(expertAuditOpinion.getId());
