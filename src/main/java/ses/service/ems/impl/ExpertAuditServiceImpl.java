@@ -999,17 +999,23 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 						//工程专业不通过的根节点
 						Integer noPassNumber = expertCategoryMapper.findNoPassCategoryCountByAuditFalg(map);
 
-						//工程不通过的根节点
-						map.put("typeId", typeId);
-						Integer number = expertCategoryMapper.findNoPassCategoryCountByAuditFalg(map);
-						
-						//所有工程根节点数量
-						Integer all = allNumber + engNumber;
-						Integer engNoPassNumber = noPassNumber + number;
-						
-						if(all - engNoPassNumber == 0){
+						if(engNumber - noPassNumber  == 0 ){
+							//工程专业下面的参评全部不通过，类别也不通过
 							typeErrorField.append(typeId + ",");
-						}
+						}/*else{
+							//工程不通过的根节点
+							map.put("typeId", typeId);
+							Integer number = expertCategoryMapper.findNoPassCategoryCountByAuditFalg(map);
+							
+							//所有工程根节点数量
+							Integer all = allNumber + engNumber;
+							Integer engNoPassNumber = noPassNumber + number;
+							
+							if(all - engNoPassNumber == 0){
+								typeErrorField.append(typeId + ",");
+							}
+						}*/
+						
 					//工程经济
 					}else if(data !=null && "GOODS_PROJECT".equals(data.getCode())){
 						//工程专业id
@@ -1024,19 +1030,24 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 						//工程专业不通过根节点
 						Integer jjNoPassNumber = expertCategoryMapper.findNoPassCategoryCountByAuditFalg(map);
 						
-						//全部工程根节点
-						map.put("typeId", engId);
-						Integer engNumber = expertCategoryMapper.findRootNoteCountByExpertId(map);
-						
-						//工程不通过的根节点
-						Integer number = expertCategoryMapper.findNoPassCategoryCountByAuditFalg(map);
-						
-						//所有工程根节点数量
-						Integer all = engNumber + jjNumber;
-						Integer engNoPassNumber = jjNoPassNumber + number;
-						if(all - engNoPassNumber == 0){
+						if(jjNumber - jjNoPassNumber == 0){
+							//工程专业下面的参评全部不通过，类别也不通过
 							typeErrorField.append(typeId + ",");
-						}
+						}/*else{
+							//全部工程根节点
+							map.put("typeId", engId);
+							Integer engNumber = expertCategoryMapper.findRootNoteCountByExpertId(map);
+							
+							//工程不通过的根节点
+							Integer number = expertCategoryMapper.findNoPassCategoryCountByAuditFalg(map);
+							
+							//所有工程根节点数量
+							Integer all = engNumber + jjNumber;
+							Integer engNoPassNumber = jjNoPassNumber + number;
+							if(all - engNoPassNumber == 0){
+								typeErrorField.append(typeId + ",");
+							}
+						}*/
 					}
 				}
 			}
