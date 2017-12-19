@@ -4,6 +4,7 @@ import iss.model.ps.Article;
 import iss.service.ps.ArticleService;
 import iss.service.ps.ArticleTypeService;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,6 +38,7 @@ import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierService;
+import ses.util.AuthorityUtil;
 import ses.util.DictionaryDataUtil;
 import ses.util.ValidateUtils;
 import sums.service.ss.SupervisionService;
@@ -149,81 +151,69 @@ public class ContractSupervisionController {
     
     
 	@RequestMapping(value="/list",produces = "text/html;charset=UTF-8")
-    public String list(Model model, @CurrentUser User user,PurchaseContract purCon,Integer page, String reqType){
+    public String list(Model model, @CurrentUser User user,PurchaseContract contract,Integer page, String reqType) throws IOException{
 		if(page==null){
             page=1;
         }
-        Map<String,Object> map = new HashMap<String, Object>();
+		HashMap<String,Object> map = new HashMap<String, Object>();
         map.put("page", page);
-        if(purCon.getProjectName()!=null&&!"".equals(purCon.getProjectName())){
-            map.put("projectName", purCon.getProjectName());
+        if(StringUtils.isNotBlank(contract.getProjectName())){
+            map.put("projectName", contract.getProjectName());
         }
-        if(purCon.getCode()!=null&&!"".equals(purCon.getCode())){
-            map.put("code", purCon.getCode());
+        if(StringUtils.isNotBlank(contract.getCode())){
+            map.put("code", contract.getCode());
         }
-        if(purCon.getSupplierDepName()!=null&&!"".equals(purCon.getSupplierDepName())){
-            map.put("supplierDepName", purCon.getSupplierDepName());
+        if(StringUtils.isNotBlank(contract.getSupplierDepName())){
+            map.put("supplierName", contract.getSupplierDepName());
         }
-        if(purCon.getPurchaseDepName()!=null&&!"".equals(purCon.getPurchaseDepName())){
-            map.put("purchaseDepName", purCon.getPurchaseDepName());
+        if(StringUtils.isNotBlank(contract.getPurchaseDepName())){
+            map.put("purchaseDepName", contract.getPurchaseDepName());
         }
-        if(StringUtils.isNotEmpty(purCon.getPurchaseDepShortName())){
-        	map.put("purchaseDepShortName", purCon.getPurchaseDepShortName());
+        if(StringUtils.isNotBlank(contract.getDemandSector())){
+            map.put("demandSector", contract.getDemandSector());
         }
-        if(purCon.getDemandSector()!=null&&!"".equals(purCon.getDemandSector())){
-            map.put("demandSector", purCon.getDemandSector());
+        if(StringUtils.isNotBlank(contract.getDocumentNumber())){
+            map.put("documentNumber", contract.getDocumentNumber());
         }
-        if(purCon.getDocumentNumber()!=null&&!"".equals(purCon.getDocumentNumber())){
-            map.put("documentNumber", purCon.getDocumentNumber());
-        }
-        if(purCon.getYear_string()!=null&&!"".equals(purCon.getYear_string())){
-            if(ValidateUtils.Integer(purCon.getYear_string())){
-                map.put("year", new BigDecimal(purCon.getYear_string()));
-            }else{
-                map.put("year", 1234);
+        if(StringUtils.isNotBlank(contract.getYear_string())){
+            if(ValidateUtils.Integer(contract.getYear_string())){
+                map.put("year", new BigDecimal(contract.getYear_string()));
             }
         }
-        if(purCon.getBudgetSubjectItem()!=null){
-            map.put("budgetSubjectItem", purCon.getBudgetSubjectItem());
+        if(StringUtils.isNotBlank(contract.getBudgetSubjectItem())){
+            map.put("budgetSubjectItem", contract.getBudgetSubjectItem());
         }
-        //Orgnization orgnization = orgnizationServiceI.findByCategoryId(user.getOrg().getId());
-        List<PurchaseContract> draftConList = new ArrayList<PurchaseContract>();
-        if (StringUtils.equals("1", user.getTypeName()) || StringUtils.equals("4", user.getTypeName())) {
-        	if(purCon.getStatus()!=null){
-                draftConList = purchaseContractService.selectAllContractByStatus(map);
-            }else{
-                draftConList = purchaseContractService.selectAllContractByCode(map);
-            }
+        HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
+		List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
+		if (superviseOrgId != null && !superviseOrgId.isEmpty() || StringUtils.equals("4", user.getTypeName())) {
+			if (StringUtils.equals("1", user.getTypeName()) || StringUtils.equals("4", user.getTypeName()) || StringUtils.equals("5", user.getTypeName())) {
+				if (StringUtils.equals("1", user.getTypeName())) {
+					map.put("purchaseDepName", user.getOrg().getId());
+				} else if (StringUtils.equals("5", user.getTypeName())) {
+					map.put("purchaseDepIds", superviseOrgId);
+				}
+				List<PurchaseContract> list = purchaseContractService.contractSupervisionList(map);
+		        PageInfo<PurchaseContract> info = new PageInfo<PurchaseContract>(list);
+		        model.addAttribute("info", info);
+		        model.addAttribute("contract", contract);
+		        
+		        if (StringUtils.equals("4", user.getTypeName())) {
+		        	List<Orgnization> orgByPosition = orgnizationServiceI.findPurchaseOrgByPosition(null);
+		        	model.addAttribute("orgByPosition", orgByPosition);
+				} else if (StringUtils.equals("1", user.getTypeName())) {
+					List<Orgnization> org = new ArrayList<Orgnization>();
+					Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(user.getOrg().getId());
+					org.add(orgnization);
+					model.addAttribute("orgByPosition", org);
+				} else if (StringUtils.equals("5", user.getTypeName())) {
+					HashMap<String, Object> hashMap = new HashMap<>();
+					hashMap.put("userId", superviseOrgId);
+					hashMap.put("typeName", 1);
+					List<Orgnization> selectByIdList = orgnizationServiceI.selectByIdList(hashMap);
+					model.addAttribute("orgByPosition", selectByIdList);
+				}
+			}
 		}
-        for(PurchaseContract pur:draftConList){
-        	Supplier su = null;
-        	Orgnization org = null;
-        	if(pur.getSupplierDepName()!=null){
-        		su = supplierService.selectOne(pur.getSupplierDepName());
-        	}
-        	if(pur.getPurchaseDepName()!=null){
-        		org = orgnizationServiceI.getOrgByPrimaryKey(pur.getPurchaseDepName());
-        	}
-        	if(org!=null){
-                if(org.getName()==null){
-                    pur.setShowDemandSector("");
-                }else{
-                    pur.setShowDemandSector(org.getName());
-                }
-        	}
-            if(su!=null){
-                if(su.getSupplierName()!=null){
-                    pur.setShowSupplierDepName(su.getSupplierName());
-                }else{
-                    pur.setShowSupplierDepName("");
-                }
-            }
-            
-        }
-        PageInfo<PurchaseContract> list = new PageInfo<PurchaseContract>(draftConList);
-        model.addAttribute("list", list);
-        model.addAttribute("draftConList", draftConList);
-        model.addAttribute("purCon", purCon);
 		return "sums/ss/contractSupervision/draftlist";
 	}
 	

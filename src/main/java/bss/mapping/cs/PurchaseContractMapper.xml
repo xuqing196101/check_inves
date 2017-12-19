@@ -1505,4 +1505,67 @@
 		</where>
 	</select>
 	
+	<select id="contractSupervisionList" parameterType="java.util.Map" resultMap="purContractMap">
+		SELECT
+			pc. ID,
+			pc.CODE,
+			pc. NAME,
+			pc.MONEY,
+			pc.DEMAND_SECTOR,
+			pc.BUDGET,
+			pc. YEAR,
+			pc.PROJECT_ID,
+			pc.PROJECT_NAME,
+			pc.STATUS,
+			pc.DOCUMENT_NUMBER,
+			pc.BUDGET_SUBJECT_ITEM,
+			pc.SUPPLIER_DEP_NAME,
+			SUP.SUPPLIER_NAME AS showSupplierDepName,
+			PC.PURCHASE_DEP_NAME,
+			(SELECT SHORT_NAME FROM T_SES_OMS_ORG WHERE ID = PC.PURCHASE_DEP_NAME) AS showDemandSector
+		FROM
+			T_BSS_CS_PURCHASE_CONTRACT pc
+		LEFT JOIN T_SES_SMS_SUPPLIER sup ON pc.SUPPLIER_DEP_NAME = SUP. ID
+		WHERE
+			pc.IS_DELETED = 0
+		AND pc.STATUS = 2
+		AND pc.MANUAL_TYPE = 0
+		<if test="status != null">
+			and pc.STATUS = #{status}
+		</if>
+		<if test="projectName != null and projectName !=''">
+			and pc.PROJECT_NAME like  CONCAT(CONCAT('%', #{projectName}), '%')
+		</if>
+		<if test="code != null and code !=''">
+			and pc.CODE like  CONCAT(CONCAT('%', #{code}), '%')
+		</if>
+		<if test="demandSector != null and demandSector !=''">
+			and pc.DEMAND_SECTOR like  CONCAT(CONCAT('%', #{demandSector}), '%')
+		</if>
+		<if test="documentNumber != null and documentNumber !=''">
+			and pc.DOCUMENT_NUMBER like  CONCAT(CONCAT('%', #{documentNumber}), '%')
+		</if>
+		<if test="supplierName != null and supplierName !=''">
+			and sup.SUPPLIER_NAME like  CONCAT(CONCAT('%', #{supplierName}), '%')
+		</if>
+		<if test="purchaseDepName != null and purchaseDepName !=''">
+			and pc.PURCHASE_DEP_NAME = #{purchaseDepName}
+		</if>
+		<if test="purchaseDepIds != null and purchaseDepIds !=''">
+       and pc.PURCHASE_DEP_NAME in
+       <foreach item="item" index="index" collection="purchaseDepIds" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+    </if>
+		<if test="YEAR != null and YEAR !=''">
+			and pc.YEAR = #{year}
+		</if>
+		<if test="budgetSubjectItem != null">
+			and pc.BUDGET_SUBJECT_ITEM = #{budgetSubjectItem}
+		</if>
+		ORDER BY
+			pc.STATUS,
+			pc.CREATED_AT DESC
+	</select>
+	
 </mapper>

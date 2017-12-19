@@ -1366,9 +1366,15 @@
 	</select>
 	
 	<select id="selectByIdList" parameterType="java.util.Map" resultMap="baseOrgnization">
-		SELECT ID,TYPE_NAME,SHORT_NAME FROM T_SES_OMS_ORG WHERE ID IN
+		SELECT ID,TYPE_NAME,SHORT_NAME FROM T_SES_OMS_ORG WHERE
+		IS_DELETED = 0
+		 and ID IN
 		<foreach item="item" index="index" collection="userId" open="(" separator="," close=")">
 				#{item}
 		</foreach> 
+		<if test="typeName != null">
+			and TYPE_NAME= #{typeName}
+		</if>
+		ORDER BY POSITION ASC
 	</select>
 </mapper>

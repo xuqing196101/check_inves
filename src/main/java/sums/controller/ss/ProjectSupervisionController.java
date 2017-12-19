@@ -138,7 +138,7 @@ public class ProjectSupervisionController {
             }
         	HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
 			List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
-			if (superviseOrgId != null && !superviseOrgId.isEmpty()) {
+			if (superviseOrgId != null && !superviseOrgId.isEmpty() || StringUtils.equals("4", user.getTypeName())) {
 				if (StringUtils.equals("1", user.getTypeName()) || StringUtils.equals("4", user.getTypeName()) || StringUtils.equals("5", user.getTypeName())) {
 					if (StringUtils.equals("1", user.getTypeName())) {
 		            	map.put("userId", user.getId());

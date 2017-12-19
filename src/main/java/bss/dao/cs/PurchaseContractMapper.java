@@ -1,5 +1,6 @@
 package bss.dao.cs;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -275,4 +276,16 @@ public interface PurchaseContractMapper {
     List<PurchaseContract> selectAllContractBySupplierId(Map<String, Object> map);
     
     List<PurchaseContract> selectByProjectCode(String code);
+    
+    /**
+     * 
+    * @Title: selectAllContractByCode
+    * @author FengTian 
+    * @date 2017-12-18 下午6:12:51  
+    * @Description: 合同监督 
+    * @param @param map
+    * @param @return      
+    * @return List<PurchaseContract>
+     */
+    List<PurchaseContract> contractSupervisionList(HashMap<String, Object> map);
 }

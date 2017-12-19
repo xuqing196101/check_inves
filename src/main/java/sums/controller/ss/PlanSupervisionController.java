@@ -240,7 +240,7 @@ public class PlanSupervisionController {
             }
         	HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
 			List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
-			if (superviseOrgId != null && !superviseOrgId.isEmpty()) {
+			if (superviseOrgId != null && !superviseOrgId.isEmpty() || StringUtils.equals("4", user.getTypeName())) {
 				if (StringUtils.equals("2", user.getTypeName()) || StringUtils.equals("4", user.getTypeName()) || StringUtils.equals("5", user.getTypeName())) {
 					if (StringUtils.equals("2", user.getTypeName())) {
 		            	collectPlan.setUserId(user.getOrg().getId());

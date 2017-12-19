@@ -142,7 +142,7 @@ public class DemandSupervisionController extends BaseController{
 			purchaseRequired.setIsMaster(1);
 			HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
 			List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
-			if (superviseOrgId != null && !superviseOrgId.isEmpty()) {
+			if (superviseOrgId != null && !superviseOrgId.isEmpty() || StringUtils.equals("4", user.getTypeName())) {
 				if (StringUtils.equals("0", user.getTypeName()) || StringUtils.equals("4", user.getTypeName()) || StringUtils.equals("5", user.getTypeName())) {
 					if (StringUtils.equals("0", user.getTypeName())) {
 						purchaseRequired.setUserId(user.getId());
