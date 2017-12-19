@@ -1219,19 +1219,25 @@ public class ExpertQueryController {
             
             List<Category> cateList=categoryService.findTreeByPidIsPublish(category.getId());
               for(Category cate:cateList){
-                  List<Category> cList=categoryService.findTreeByPidIsPublish(cate.getId());
-                  CategoryTree ct=new CategoryTree();
-                  if(!cList.isEmpty()){
-                      ct.setIsParent("true");
-                  }else{
-                      ct.setIsParent("false");
-                  }
-                  ct.setId(cate.getId());
-                  ct.setName(cate.getName());
-                  ct.setpId(cate.getParentId());
-                  ct.setKind(cate.getKind());
-                  ct.setStatus(cate.getStatus());
-                  jList.add(ct);
+            	  CategoryTree ct=new CategoryTree();
+            	  if(cate.getLevel() !=null && cate.getLevel() <= 4){
+            		  List<Category> cList=categoryService.findTreeByPidIsPublish(cate.getId());
+                      if(!cList.isEmpty()){
+                          ct.setIsParent("true");
+                      }else{
+                          ct.setIsParent("false");
+                      }
+                      ct.setId(cate.getId());
+                      ct.setName(cate.getName());
+                      ct.setpId(cate.getParentId());
+                      ct.setKind(cate.getKind());
+                      ct.setStatus(cate.getStatus());
+                      jList.add(ct);
+            	  }
+            	  if(cate.getLevel() !=null && cate.getLevel() == 4){
+            		  ct.setIsParent("false");
+            	  }
+                  
               }
               
               //加入 工程专业类型
