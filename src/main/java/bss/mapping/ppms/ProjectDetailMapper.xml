@@ -770,4 +770,9 @@
 					detail.PROJECT_ID = #{projectId} 
     </select>
     
+    <update id="updateByPackNull" parameterType="java.lang.String">
+    	update T_BSS_PPMS_PROJECTS_DETAIL
+    	SET	PACKAGE_ID = NULL
+    	WHERE ID = #{id}
+    </update>
 </mapper>

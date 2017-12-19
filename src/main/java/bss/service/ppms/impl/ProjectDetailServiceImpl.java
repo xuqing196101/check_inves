@@ -370,4 +370,10 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
 		return projectDetailMapper.selectDetailByProjectId(projectId);
 	}
 
+	@Override
+	public void updateByPackNull(String id) {
+		
+		projectDetailMapper.updateByPackNull(id);
+	}
+
 }

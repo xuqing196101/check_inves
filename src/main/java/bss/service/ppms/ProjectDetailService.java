@@ -143,4 +143,15 @@ public interface ProjectDetailService {
 	 List<ProjectDetail> selectByDetailPackNull(String projectId);
 	 
 	 List<ProjectDetail> selectDetailByProjectId(String projectId);
+	 
+	 /**
+	  * 
+	 * @Title: updateByPackNull
+	 * @author FengTian 
+	 * @date 2017-12-19 下午3:42:50  
+	 * @Description: 移除明细 
+	 * @param @param map      
+	 * @return void
+	  */
+	 void updateByPackNull(String id);
 }

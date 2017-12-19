@@ -3690,5 +3690,30 @@ public class ProjectController extends BaseController {
     	return StaticVariables.FAILED;
     }
     
+    @RequestMapping("/packDetail")
+    public String packDetail(Model model, String flowDefineId, String projectId){
+    	if (StringUtils.isNotBlank(projectId)) {
+    		List<Packages> list = packageService.selectByPackList(projectId);
+        	model.addAttribute("list", list);
+        	model.addAttribute("kind", DictionaryDataUtil.find(5));
+        	model.addAttribute("flowDefineId", flowDefineId);
+        	model.addAttribute("projectId", projectId);
+		}
+    	return "bss/ppms/project/deleted_detail";
+    }
     
+    @RequestMapping("/deletedDetail")
+    @ResponseBody
+    public String deletedDetail(String id){
+    	if (StringUtils.isNotBlank(id)) {
+			String[] ids = id.split(StaticVariables.COMMA_SPLLIT);
+			for (String string : ids) {
+				detailService.updateByPackNull(string);
+			}
+			return StaticVariables.SUCCESS;
+		} else {
+			return StaticVariables.FAILED;
+		}
+    	
+    }
 }
