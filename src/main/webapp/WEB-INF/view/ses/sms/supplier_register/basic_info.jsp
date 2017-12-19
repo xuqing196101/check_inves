@@ -464,7 +464,7 @@
 									                    </div>
 									                    <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
 									                        <select id="children_area_select_id_${vs.index }" class="w100p" name="addressList[${vs.index }].address">
-									                        		<option value="">请选择</option>
+									                            <option value="">请选择</option>
 									                            <c:forEach items="${addr.areaList }" var="city">
 									                                <c:if test="${city.id==addr.address }">
 									                                    <option value="${city.id }" selected="selected">${city.name }</option>

@@ -82,7 +82,7 @@ function loadCountrySelect(_this, appendTarget){
 	}
 	if (id) {
 		$.ajax({
-			url : globalPath + "/basicData/ajaxCrnData.do",
+			url : globalPath + "/basicData/ajaxCnrData.do",
 			type : "post",
 			dataType : "json",
 			data : {
