@@ -183,7 +183,11 @@
 			if(ids.length>0){
 				layer.confirm('您确定要删除吗?', {title:'提示',offset: '222px',shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="${pageContext.request.contextPath}/role/delete.html?ids="+ids;
+				document.write("<form action=${pageContext.request.contextPath}/role/delete.html method=post name=form1 style='display:none'>");    
+				document.write("<input type='hidden' name='ids' value='"+ids+"'/>");    
+				document.write("</form>");    
+				document.form1.submit();    
+				//window.location.href="${pageContext.request.contextPath}/role/delete.html?ids="+ids;
 			});
 			}else{
 				layer.alert("请选择要删除的角色",{offset: '222px', shade:0.01});
