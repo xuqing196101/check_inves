@@ -648,41 +648,23 @@
                                               <td class="tc"></td>
                                               <td class="tc">
                                                   <c:choose>
-                                                      <%-- <c:when test="${item.status == -1}">
-                                                             未未提交审核
+                                                      <c:when test="${item.status == 1}">
+                                                          	入库（待复核）
                                                       </c:when>
-                                                <c:when test="${item.status == 0}">
-                                                            待审核
-                                                      </c:when> --%>
-                                                      <c:when test="${item.status == 1 or item.status == 4 or item.status == 6}">
-                                                          审核通过
+                                                      <c:when test="${item.status == -4}">
+                                                          	预复核结束
                                                       </c:when>
-                                                      <%--  <c:when test="${item.status == 2}">
-                                                             审核退回修改
-                                                       </c:when>
-                                                       <c:when test="${item.status == 3}">
-                                                            审核未通过
-                                                       </c:when>
-                                                       <c:when test="${item.status == 4}">
-                                                             待复核
-                                                       </c:when> --%>
-                                                      <c:when test="${item.status == 5 or item.status == 7 or item.status == 9}">
-                                                          复核通过
+                                                      <c:when test="${item.status == 5}">
+                                                          	复核合格（待考察）
                                                       </c:when>
-                                                      <%-- <c:when test="${item.status == 6}">
-                                                            复核未通过
+                                                      <c:when test="${item.status == -5}">
+                                                          	预考察结束
                                                       </c:when>
                                                       <c:when test="${item.status == 7}">
-                                                            待考察
-                                                      </c:when> --%>
-                                                      <c:when test="${item.status == 8}">
-                                                          考察合格
+                                                          	考察合格
                                                       </c:when>
-                                                      <%--  <c:when test="${item.status == 9}">
-                                                             考察不合格
-                                                       </c:when> --%>
                                                       <c:otherwise>
-                                                          无状态
+                                                          	无状态
                                                       </c:otherwise>
                                                   </c:choose>
                                               </td>
@@ -864,14 +846,14 @@
                                         <td class="tc">${item.batchDetailsNumber }</td>
                                         <td class="tc">
                                           <c:choose>
-                                            <c:when test="${'6' eq item.status}">
-                                                复审通过
+                                            <c:when test="${'6' eq item.status and expert.auditTemporary == 0}">
+                                               入库(待复查 )
                                             </c:when>
                                             <c:when test="${'7' eq item.status}">
                                                 复查合格
                                             </c:when>
-                                            <c:when test="${'8' eq item.status}">
-                                                复查不合格
+                                            <c:when test="${'17' eq item.status}">
+                                                资料不全
                                             </c:when>
                                             <c:otherwise>
                                             </c:otherwise>
