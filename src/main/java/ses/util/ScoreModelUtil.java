@@ -3,7 +3,9 @@ package ses.util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -99,22 +101,27 @@ public class ScoreModelUtil {
         if(number==null){
             return sc;
         }
-        if(scoreModel.getAddSubtractTypeName()!=null && scoreModel.getAddSubtractTypeName().equals("0")){
-          if(number!=null){
-                sc = number * (new Double(unitScore));
-                if (sc >= (new Double(scoreModel.getMaxScore()))) {
-                    sc = new Double(scoreModel.getMaxScore());
-                }
-            }
-            
-        }else if (scoreModel.getAddSubtractTypeName().equals("1")) {
+          if(scoreModel.getAddSubtractTypeName()!=null && scoreModel.getAddSubtractTypeName().equals("0")){
             if(number!=null){
+                  sc = number * (new Double(unitScore));
+                  if (sc >= (new Double(scoreModel.getMaxScore()))) {
+                      sc = new Double(scoreModel.getMaxScore());
+                  }
+              }
+              
+          }else if (scoreModel.getAddSubtractTypeName().equals("1")) {
+            if(scoreModel.getScoreType()!=0){
+              if(number!=null){
                 sc = new Double(scoreModel.getMaxScore()) - number * unitScore;
                 if (sc <= (new Double(scoreModel.getMinScore()))) {
                     sc = new Double(scoreModel.getMinScore());
                 }
+              }
+            }else{
+              sc = new Double(scoreModel.getMaxScore()) - number * unitScore;
             }
-        }
+          }
+       
         return sc;
     }
     
@@ -855,8 +862,138 @@ public class ScoreModelUtil {
         }
         return cuurScore;
     }
-    
-    
+    /**
+     * 模型一C算法
+     * @param model
+     * 按照正负偏离程度进行排名计算。若满足基本指标数量，则该项得0分。
+     * 正偏离评分规则：按偏离程度由高到低排名， 正偏离最高的视为第一名，
+     * 依次往后排名。若共有1家正偏离的，得分为标准分值；若共有2家正偏离的，
+     * 第一名得标准分值，第二名得正标准分值的50%；若共有3家正偏离的，
+     * 排名第一得标准分值，排名第二得标准分值的66%，排名第三得标准分值的33%；
+     * 若共有4家及以上正偏离的，第一名得标准分值，第二名得标准分值的75%，，
+     * 第三名得标准分值50%，第四名得标准分值25%。
+     * （三分之二以上技术专家认定正偏离对产品性能没有实质意义的指标，可以不再排名，得分一致，但须备注：
+     * 正偏离无实质意义）负偏离评分规则：按偏离程度由高到低排名，负偏离最高的视为第一名，
+     * 依次往后排名。若共有1家负偏离的，得分为负标准分值；若共有2家负偏离的，
+     * 第一名得负标准分值，第二名得负标准分值的50%；若共有3家负偏离的，排名第一名得负标准分值，
+     * 第二名得负标准分值的66%，第三名得标准分值的负33%；若共有4家及以上负偏离的，第一名得负标准分值，
+     * 第二名得负标准分值的75%，第三名得负标准分值50%，第四名得负标准分值25%。
+     * @param supplyMarks
+     * @return
+     */
+    public static List<SupplyMark> getScoreByModelEleven(ScoreModel model,ArrayList<SupplyMark> supplyMarks,Double deviation){
+      Double standardScore =Double.parseDouble(model.getStandardScore());//标准分值
+      final Double maxScore = Double.parseDouble(model.getMaxScore());//基本技术指标数量，如果专家评审超过此数量则为正偏离，否则为负偏离
+      Collections.sort(supplyMarks,new Comparator<SupplyMark>() {//从高到低排序
+        @Override
+        public int compare(SupplyMark o1, SupplyMark o2) {
+          double score1=o1.getPrarm()-maxScore;
+          double score2=o2.getPrarm()-maxScore;
+          return (int) (score2-score1);
+        }
+      });
+      List<SupplyMark> positiveList=new ArrayList<SupplyMark>();//正偏离
+      Set<Double> positiveSet=new HashSet<Double>();
+      List<SupplyMark> negativeList=new ArrayList<SupplyMark>();//负偏离
+      Set<Double> negativeSet=new HashSet<Double>();
+      List<SupplyMark> list=new ArrayList<SupplyMark>();
+       for (SupplyMark supplyMark : supplyMarks) {
+        if(supplyMark.getPrarm()-maxScore>=0){
+          positiveList.add(supplyMark);
+          positiveSet.add(supplyMark.getPrarm());
+        }else{
+          negativeList.add(supplyMark);
+          negativeSet.add(supplyMark.getPrarm());
+        }
+      }
+       
+      if(positiveList!=null){//正偏离计算
+        scoreList(positiveList,"+",standardScore,positiveSet);
+      }
+      if(negativeList!=null){//负偏离计算
+        Collections.sort(negativeList,new Comparator<SupplyMark>() {
+          @Override
+          public int compare(SupplyMark o1, SupplyMark o2) {
+            double score1=o1.getPrarm()-maxScore;
+            double score2=o2.getPrarm()-maxScore;
+            return (int) (score1-score2);
+          }
+        });
+        scoreList(negativeList,"-",standardScore,negativeSet);
+      }
+      list.addAll(positiveList);
+      list.addAll(negativeList);
+      return list;
+    }
+
+    private static void scoreList(List<SupplyMark> positiveList,String type,Double standardScore,Set<Double> sets) {
+      Double[] two={1.0,0.5};
+      Double[] three={1.0,0.66,0.33};
+      Double[] four={1.0,0.75,0.5,0.25};
+      Integer number=0;
+      if(sets.size()==1){
+        for (int i=0;i<positiveList.size();i++) {
+          if("+".equals(type)){
+            positiveList.get(i).setScore(standardScore);
+          }else{
+            positiveList.get(i).setScore(-standardScore);
+          }
+        }
+      }if(sets.size()==2){
+        number = scoreNumber(positiveList, type, standardScore, two, number);
+      }else if(sets.size()==3){
+        number = scoreNumber(positiveList, type, standardScore, three, number);
+      }else if(sets.size()>=4){
+        for (int i=0;i<positiveList.size();i++) {
+          if(number<=3){
+            if("+".equals(type)){
+              positiveList.get(i).setScore(standardScore*four[number]);
+              if(i!=positiveList.size()-1){
+                if(positiveList.get(i).getPrarm()!=positiveList.get(i+1).getPrarm()){
+                  number++;
+                }
+              }
+            }else{
+              positiveList.get(i).setScore(-standardScore*four[number]);
+              if(i!=positiveList.size()-1){
+                if(positiveList.get(i).getPrarm()!=positiveList.get(i+1).getPrarm()){
+                  number++;
+                }
+              }
+            }
+          }else{
+            positiveList.get(i).setScore(0);
+          }
+          
+        }
+      }
+          
+        
+        
+      
+    }
+
+    private static Integer scoreNumber(List<SupplyMark> positiveList,
+        String type, Double standardScore, Double[] two, Integer number) {
+      for (int i=0;i<positiveList.size();i++) {
+        if("+".equals(type)){
+          positiveList.get(i).setScore(standardScore*two[number]);
+          if(i!=positiveList.size()-1){
+            if(positiveList.get(i).getPrarm()!=positiveList.get(i+1).getPrarm()){
+              number++;
+            }
+          }
+        }else{
+          positiveList.get(i).setScore(-standardScore*two[number]);
+          if(i!=positiveList.size()-1){
+            if(positiveList.get(i).getPrarm()!=positiveList.get(i+1).getPrarm()){
+              number++;
+            }
+          }
+        }
+      }
+      return number;
+    }
 }
 /**
  * 
@@ -884,4 +1021,6 @@ class SortByParam implements Comparator {
         }
         return 0;
     }
+    
+    
 }

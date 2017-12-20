@@ -83,7 +83,17 @@ public class ScoreModel implements Serializable{
 	//展示模型一B
 	private List<String> model1BJudgeContent;
 	
+	private Integer scoreType;
+	
 	private String ischeck;
+
+    public Integer getScoreType() {
+    return scoreType;
+  }
+
+  public void setScoreType(Integer scoreType) {
+    this.scoreType = scoreType;
+  }
 
     public String getIscheck() {
         return ischeck;

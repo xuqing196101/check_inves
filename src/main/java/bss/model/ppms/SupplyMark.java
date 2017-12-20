@@ -13,10 +13,25 @@ public class SupplyMark {
 	private String packageId ;//包id
 	private int sort;//排名
 	private double score;//得分
-	public double getPrarm() {
+	private Integer scoreTotal;//总分是否为0分的标识
+	private String scoreContent;//总分是否为0分的标识
+	
+	public String getScoreContent() {
+    return scoreContent;
+  }
+  public void setScoreContent(String scoreContent) {
+    this.scoreContent = scoreContent;
+  }
+  public double getPrarm() {
 		return prarm;
 	}
-	public void setPrarm(double prarm) {
+	public Integer getScoreTotal() {
+    return scoreTotal;
+  }
+  public void setScoreTotal(Integer scoreTotal) {
+    this.scoreTotal = scoreTotal;
+  }
+  public void setPrarm(double prarm) {
 		this.prarm = prarm;
 	}
 	public String getSupplierId() {

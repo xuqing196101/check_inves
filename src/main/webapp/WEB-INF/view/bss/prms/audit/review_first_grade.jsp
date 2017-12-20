@@ -38,7 +38,7 @@
      });  
      
   	function audit(obj,id,supplierId,typeName,markTermId,quotaId) {
-  		if(typeName=='2' || typeName=='3' ||typeName=='4' ||typeName=='5' ||typeName=='9'){
+  		if(typeName=='2' || typeName=='3' ||typeName=='4' ||typeName=='5' ||typeName=='9'||typeName=='10'){
   			var flag = 0;
   			//填写的所有分数
   			var expertValues=[];
@@ -332,6 +332,7 @@
 		 	      <c:if test="${score.typeName == 7}"><c:set var="model" value="模型八"/></c:if>
 		 	      <c:if test="${score.typeName == 8}"><c:set var="model" value="模型一B"/></c:if>
 		 	      <c:if test="${score.typeName == 9}"><c:set var="model" value="模型四B"/></c:if>
+		 	      <c:if test="${score.typeName == 10}"><c:set var="model" value="模型一C"/></c:if>
     	      <td class="tc" rowspan="${score.count}" <c:if test="${score.count eq '0' or score.count == 0}">style="display: none"</c:if> >${markTerm.name}</td>
     	      <td class="tc">
     	        <a href="javascript:void();" title='所 属 模 型 : ${model}&#10;评 审 指 标 : ${score.name}&#10;评 审 内 容 : ${score.reviewContent}'>

@@ -40,6 +40,7 @@ import ses.util.WfUtil;
 import bss.controller.base.BaseController;
 import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
+import bss.model.ppms.BidMethod;
 import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
@@ -57,6 +58,7 @@ import bss.model.prms.ext.Extension;
 import bss.service.ppms.AduitQuotaService;
 import bss.service.ppms.AdvancedPackageService;
 import bss.service.ppms.AdvancedProjectService;
+import bss.service.ppms.BidMethodService;
 import bss.service.ppms.MarkTermService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
@@ -113,6 +115,9 @@ public class ReviewFirstAuditController extends BaseSupplierController {
     private SupplierQuoteService supplierQuoteService;
     @Autowired
     private SupplierCheckPassService checkPassService;
+    
+    @Autowired
+    private BidMethodService bidMethodService;  
     /**
      *〈简述〉
      * 项目评审list页面中的查看详情
@@ -776,7 +781,20 @@ public class ReviewFirstAuditController extends BaseSupplierController {
             smCondition.setPrarm(param);
 			list = ScoreModelUtil.getScoreByModelSix(scoreModel2, smList,smCondition);
 		}
-		
+		if(typeName=="10"|| typeName.equals("10")) {
+		  BidMethod bidMethod=new BidMethod();
+	    bidMethod.setProjectId(projectId);
+	    bidMethod.setPackageId(packageId);
+	    List<BidMethod> bms = bidMethodService.findScoreMethod(bidMethod);
+	    Double deviation=null;
+	    if(bms!=null&&bms.size()>0){
+	      BidMethod bm=bms.get(0);
+	      if("2".equals(bm.getTypeName())&&bm.getMedicalType()!=null&&bm.getMedicalType().intValue()==1){
+	        deviation=bm.getDeviation().doubleValue();
+	      }  
+	    }
+		  list=ScoreModelUtil.getScoreByModelEleven(scoreModel2, smList,deviation);
+		}
 		// 
 		ExpertScore expertScore = new ExpertScore();
 		expertScore.setExpertId(expertId);
@@ -811,7 +829,36 @@ public class ReviewFirstAuditController extends BaseSupplierController {
 		ScoreModel scoreModel = new ScoreModel();
 		scoreModel.setId(scoreModelId);
 		ScoreModel scoreModel2 = scoreModelService.findScoreModelByScoreModel(scoreModel );
-		double score = ScoreModelUtil.getQuantizateScore(scoreModel2, expertValues, expertValues);
+		/*BidMethod bidMethod=new BidMethod();
+		bidMethod.setProjectId(projectId);
+		bidMethod.setPackageId(packageId);
+		List<BidMethod> bms = bidMethodService.findScoreMethod(bidMethod);
+		Double deviation=null;
+		if(bms!=null&&bms.size()>0){
+		  BidMethod bm=bms.get(0);
+		  if("2".equals(bm.getTypeName())&&bm.getMedicalType()!=null&&bm.getMedicalType().intValue()==1){
+		    deviation=bm.getDeviation().doubleValue();
+		  }  
+		}
+		 double score=0.0;
+		if(deviation!=null){
+		  if(Double.parseDouble(scoreModel2.getMaxScore())>=expertValues){
+		    if(Double.parseDouble(scoreModel2.getMaxScore())-expertValues>5){
+		      score=0.0;
+		    }else{
+		      score= ScoreModelUtil.getQuantizateScore(scoreModel2, expertValues, expertValues);
+		    }
+		  }else{
+		    if(expertValues-Double.parseDouble(scoreModel2.getMaxScore())>5){
+          score=0.0;
+        }else{
+          score= ScoreModelUtil.getQuantizateScore(scoreModel2, expertValues, expertValues);
+        }
+		  }
+		}else{*/
+		double score= ScoreModelUtil.getQuantizateScore(scoreModel2, expertValues, expertValues);
+		/*}*/
+		
 		//保存结果 修改数据
 		ExpertScore expertScore = new ExpertScore();
 		expertScore.setExpertId(expertId);
