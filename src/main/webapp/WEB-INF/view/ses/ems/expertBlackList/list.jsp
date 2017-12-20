@@ -217,20 +217,24 @@
     </div>
 
     <div class="search_detail">
-      <form action="${pageContext.request.contextPath}/expertBlacklist/blacklist.html" method="post" id="form1" class="mb0">
-        <input type="hidden" name="page" id="page">
-        <ul class="demand_list">
-          <li><label class="fl">专家姓名：</label> <input type="text"
-            id="relName" name="relName" value="${relName }" class="">
-            <%-- <select name="relName" class="mb0 mt5" >
-                          <option value="">请选择</option>
-                          <c:forEach var="expert"  items="${expertName}">
-                          <option value="${expert.relName}">${expert.relName}</option>
-                          </c:forEach>
-                        </select>  --%></li>
-          <li>
-            <label class="fl">处罚时限：</label> 
-            <select name="punishDate" id="punishDate" class="W178">
+    <form action="${pageContext.request.contextPath}/expertBlacklist/blacklist.html" method="post" id="form1" class="mb0">
+    <input type="hidden" name="page" id="page">
+    <div class="m_row_5">
+    <div class="row">
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">专家姓名：</div>
+          <div class="col-xs-8 f0 lh0">
+            <input type="text" id="relName" name="relName" value="${relName }" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">处罚时限：</div>
+          <div class="col-xs-8 f0 lh0">
+            <select name="punishDate" id="punishDate" class="w100p h32 f14">
               <option value="">-请选择-</option>
               <option <c:if test="${punishDate =='3个月' }">selected</c:if> value="3个月">3个月</option>
               <option <c:if test="${punishDate =='6个月' }">selected</c:if> value="6个月">6个月</option>
@@ -238,23 +242,35 @@
               <option <c:if test="${punishDate =='两年' }">selected</c:if> value="两年">两年</option>
               <option <c:if test="${punishDate =='三年' }">selected</c:if> value="三年">三年</option>
             </select>
-          </li>
-          <li>
-            <label class="fl">处罚方式：</label>
-            <select name="punishType" id="punishType" class="W178">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">处罚方式：</div>
+          <div class="col-xs-8 f0 lh0">
+            <select name="punishType" id="punishType" class="w100p h32 f14">
               <option value=''>-请选择-</option>
               <option <c:if test="${punisType =='1' }">selected</c:if> value="1">警告</option>
               <option <c:if test="${punisType =='2' }">selected</c:if> value="2">严重警告</option>
               <option <c:if test="${punisType =='3' }">selected</c:if> value="3">取消资格</option>
             </select>
-          </li>
-          <li>
-            <input type="submit" class="btn  fl  mt1 " value="查询" />
-            <button onclick="resetAll()" class="btn fl mt1 ml5">重置</button>
-          </li>
-        </ul>
-        <div class="clear"></div>
-      </form>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-12 f0">
+            <input type="submit" class="btn mb0 h32" value="查询" />
+            <button onclick="resetAll()" class="btn mb0 mr0 h32">重置</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </form>
     </div>
     <div class="col-md-12 pl20 mt10">
       <button class="btn btn-windows add" type="button" onclick="add();">新增</button>

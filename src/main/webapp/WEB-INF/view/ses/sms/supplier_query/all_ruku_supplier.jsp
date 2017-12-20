@@ -402,93 +402,109 @@
 			<h2>供应商数量统计</h2>
 		</div>
 		<h2 class="search_detail">
-  		<form id="form1" action="${pageContext.request.contextPath}/supplierQuery/highmaps.html?judge=5" method="post" class="mb0">
-		  	<input type="hidden" name="page" id="page">
-		       <ul class="demand_list">
-             <li>
-               <label class="fl">供应商名称：</label><span><input id="supplierName"  class="w220" name="supplierName" value="${supplier.supplierName }" type="text"></span>
-             </li>
-             <%-- <li>
-		          <label class="fl">用户名：</label><span><input class="w220" id="loginName" name="loginName" value="${supplier.loginName }" type="text"></span>
-		         </li> --%>
-             <li>
-               <label class="fl">联系人：</label><span><input id="contactName"  class="w220" name="contactName" value="${supplier.contactName }" type="text"></span>
-             </li>
-             <%-- <li>
-								<label class="fl">手机号：</label>
-								<input id="mobile" class="w220" name="mobile" value="${supplier.mobile }" type="text">
-						</li> --%>
-						<li>
-            	<label class="fl">企业性质：</label>
-	            <select name="businessNature" id="businessNature" class="w220">
-	              <option value=''>全部</option>
-	              <c:forEach items="${businessNature}" var="list">
-	              	<option <c:if test="${supplier.businessNature eq list.id }">selected</c:if> value="${list.id }">${list.name }</option>
-	              </c:forEach>
-	            </select>
-	          </li>
-             <li>
-               <label class="fl">供应商类型：</label><span><input id="supplierType" class="w220" type="text" readonly name="supplierType" value="${supplierType }" onclick="showSupplierType();" />
-                <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" /></span>
-             </li>
-             <%-- <li>
-               <label class="fl">品目：</label><span> <input id="category" class="span2 mt5" type="text" readonly name="categoryNames" value="${categoryNames }" onclick="showCategory();" />
-               <input   type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds }"   /></span>
-             </li> --%>
-        		 <li>
-							<label class="fl">供应商状态：</label>
-							<select id="status" name="status" class="w220">
-								<option  value=''>全部</option>
-								<!-- <option value="1">审核通过</option>
-								<option value="4">待复核</option>
-								<option value="5">复核通过</option>
-								<option value="6">复核未通过</option>
-								<option value="7">考察合格</option>
-								<option value="8">考察不合格</option> -->
-								<c:forEach items="<%=SupplierConstants.STATUSMAP_RUKU %>" var="item">
-									<option value="${item.key}">${item.value}</option>
-								</c:forEach>
-							</select>
-						 </li>
-             <%-- <li>
-            	<label class="fl">临时供应商：</label>
-	            <select name="isProvisional" id="isProvisional" class="w220">
-	              <option value=''>全部</option>
-	              <option value='1' <c:if test="${supplier.isProvisional eq '1' }">selected</c:if>>是</option>
-	              <option value='0' <c:if test="${supplier.isProvisional eq '0' }">selected</c:if>>否</option>
-	            </select>
-	         	</li> --%>
-	         	<li>
-	          	<label class="fl">审核日期：</label>
-	          	<span>
-	          		<input id="startAuditDate" name="startAuditDate" class="Wdate w100 fl" type="text" value='<fmt:formatDate value="${supplier.startAuditDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('startAuditDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'startAuditDate\')}'})"/>
-	            	<span class="f14 w20 tc">至</span>
-	            	<input id="endAuditDate" name="endAuditDate" value='<fmt:formatDate value="${supplier.endAuditDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100 fl" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'endAuditDate\')}'})"/>
-	            </span>
-	          </li>
-	          <%-- <li>
-              <label class="fl">采购机构：</label><span><input class="w220" id="orgName" name="orgName" value="${supplier.orgName }" type="text"></span>
-            </li> --%>
-            <li>
-                <label class="fl">采购机构：</label>
-                <select name="orgName" id="orgName" class="w220">
-                  <option value=''>全部</option>
-                  <c:forEach items="${allOrg}" var="org">
-	                  <c:if test="${org.isAuditSupplier == 1}">
-	                    <option value="${org.shortName}" <c:if test="${supplier.orgName eq org.shortName}">selected</c:if>>${org.shortName}</option>
-                    </c:if>
-                  </c:forEach>
-                </select>
-              </li>
-          </ul>
-          <div class="col-md-12 clear tc">
-	          <button type="button" onclick="submit()" class="btn">查询</button>
-	          <button type="button" onclick="chongzhi()" class="btn">重置</button>
-	          <a href="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?judge=5&sign=2" class="btn">切换到列表</a>
+		<form id="form1" action="${pageContext.request.contextPath}/supplierQuery/highmaps.html?judge=5" method="post" class="mb0">
+  	<input type="hidden" name="page" id="page">
+		<div class="m_row_5">
+    <div class="row">
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">供应商名称：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input id="supplierName" class="w100p h32 f14 mb0" name="supplierName" value="${supplier.supplierName }" type="text">
           </div>
-          <div class="clear"></div>
-		     </form>
-		  </h2>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">联系人：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input id="contactName" class="w100p h32 f14 mb0" name="contactName" value="${supplier.contactName }" type="text">
+          </div>
+        </div>
+      </div>
+			
+			<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">企业性质：</div>
+          <div class="col-xs-8 f0 lh0">
+						<select name="businessNature" id="businessNature" class="w100p h32 f14">
+							<option value=''>全部</option>
+							<c:forEach items="${businessNature}" var="list">
+								<option <c:if test="${supplier.businessNature eq list.id }">selected</c:if> value="${list.id }">${list.name }</option>
+							</c:forEach>
+						</select>
+          </div>
+        </div>
+      </div>
+			
+			<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">供应商类型：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input id="supplierType" class="w100p h32 f14 mb0" type="text" readonly name="supplierType" value="${supplierType }" onclick="showSupplierType();" />
+						<input type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" />
+          </div>
+        </div>
+      </div>
+			
+			<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">供应商状态：</div>
+          <div class="col-xs-8 f0 lh0">
+						<select id="status" name="status" class="w100p h32 f14">
+							<option  value=''>全部</option>
+							<c:forEach items="<%=SupplierConstants.STATUSMAP_RUKU %>" var="item">
+								<option value="${item.key}">${item.value}</option>
+							</c:forEach>
+						</select>
+          </div>
+        </div>
+      </div>
+			
+			<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">审核开始日期：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input id="startAuditDate" name="startAuditDate" class="Wdate w100p h32 f14 mb0" type="text" value='<fmt:formatDate value="${supplier.startAuditDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('startAuditDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'startAuditDate\')}'})"/>
+          </div>
+        </div>
+      </div>
+			
+			<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">审核结束日期：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input id="endAuditDate" name="endAuditDate" value='<fmt:formatDate value="${supplier.endAuditDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100p h32 f14 mb0" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'endAuditDate\')}'})"/>
+          </div>
+        </div>
+      </div>
+			
+			<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购机构：</div>
+          <div class="col-xs-8 f0 lh0">
+						<select name="orgName" id="orgName" class="w100p h32 f14">
+							<option value=''>全部</option>
+							<c:forEach items="${allOrg}" var="org">
+								<c:if test="${org.isAuditSupplier == 1}">
+									<option value="${org.shortName}" <c:if test="${supplier.orgName eq org.shortName}">selected</c:if>>${org.shortName}</option>
+								</c:if>
+							</c:forEach>
+						</select>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+		
+		<div class="tc">
+			<button type="button" onclick="submit()" class="btn mb0">查询</button>
+			<button type="button" onclick="chongzhi()" class="btn mb0">重置</button>
+			<a href="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?judge=5&sign=2" class="btn mb0 mr0">切换到列表</a>
+		</div>
+		</form>
+		</h2>
 		</div>
 		<div id="container" style="height: 700px;min-width: 310px;margin: 0 auto;width: 800px;"></div>
 	</body>

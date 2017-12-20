@@ -130,30 +130,54 @@
    
    <!-- 查询 -->
 
-     <div class="search_detail">
-	 	<form action="" name="queryForm" id="queryForm" method="post">
-			 <ul class="demand_list">
-			   <li><label class="fl">名称：</label><span><input type="text" value="${ name }" name="name" id="name" class="mb0" /></span></li>
-			   <li>
-			   	<label class="fl">审核状态：</label>
-		    	  <select style="width: 150px" id="status" name="status" class="w178">
-		    	    <option value="">--请选择--</option>
-		    	    <option value="1" <c:if test="${'1' eq status}">selected</c:if>>待审核</option>
-		    	    <option value="2" <c:if test="${'2' eq status}">selected</c:if>>审核未通过</option>
-		    	    <option value="3" <c:if test="${'3' eq status}">selected</c:if>>审核通过</option>
-		   	  	  </select>
-			   </li>
-			   <li>
-			   		<label class="fl">供应商名称：</label>
-					<select style="width: 200px" id="supplierId" name="createrId">
+    <div class="search_detail">
+    <form action="" name="queryForm" id="queryForm" method="post">
+    <div class="m_row_5">
+    <div class="row">
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">名称：</div>
+          <div class="col-xs-8 f0 lh0">
+            <input type="text" value="${ name }" name="name" id="name" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">审核状态：</div>
+          <div class="col-xs-8 f0 lh0">
+            <select id="status" name="status" class="w100p h32 f14">
+              <option value="">--请选择--</option>
+              <option value="1" <c:if test="${'1' eq status}">selected</c:if>>待审核</option>
+              <option value="2" <c:if test="${'2' eq status}">selected</c:if>>审核未通过</option>
+              <option value="3" <c:if test="${'3' eq status}">selected</c:if>>审核通过</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">供应商名称：</div>
+          <div class="col-xs-8 f0 lh0">
+            <select id="supplierId" name="createrId" class="w100p h32 f14">
 			  			<option value="">--请选择--</option>
-					</select>
-				</li>
-			   <button type="button" onclick="query()" class="btn fl mt1">查询</button>
-	    	   <button onclick="resetAll()" class="btn fl ml5 mt1">重置</button> 
-			 </ul>
-		 </form>
-	 <div class="clear"></div>
+  					</select>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-12 f0">
+            <button type="button" onclick="query()" class="btn mb0 h32">查询</button>
+   	    	  <button onclick="resetAll()" class="btn mb0 mr0 h32">重置</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
     </div>
 
    

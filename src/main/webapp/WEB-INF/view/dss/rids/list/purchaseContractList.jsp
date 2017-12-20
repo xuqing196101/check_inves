@@ -85,26 +85,75 @@
    </div> 
 		<!-- 项目戳开始 -->
     <form id="form1" action="${pageContext.request.contextPath}/purchaseContract/readOnlyList.html" method="post">
-    	<input type="hidden" name="page" value="" id="page"/>
-    	<input type="hidden" name="purchaseDepName" value="${ purCon.purchaseDepName }" id="purchaseDepName"/>
-    	<input type="hidden" name="status" value="${ purCon.status }" id="status"/>
-     	<div class="search_detail">
-    	<ul class="demand_list">
-        <li class="fl"><label class="fl">采购项目：</label><span><input type="text" value="${purCon.projectName }" id="projectName" name="projectName" class="mb0 mt5 w200"/></span></li>
-	      <li class="fl"><label class="fl">合同编号：</label><span><input type="text" value="${purCon.code }" id="code" name="code" class="mb0 mt5 w200"/></span></li>
-	      <li class="fl"><label class="fl">计划文件号：</label><span><input type="text" value="${purCon.documentNumber }" id="documentNumber" name="documentNumber" class="mb0 mt5 w200"/></span></li>
-	      <li class="fl"><label class="fl">供应商：</label><span><input type="text" value="${purCon.supplierDepName }" id="supplierDepName" name="supplierDepName" class="mb0 mt5 w200"/></span></li>
-	      <li class="fl"><label class="fl">年度：</label><span><input type="text" value="${purCon.year_string }" id="year" name="year_string" class="mb0 mt5 w200"/></span></li>
-	      <li class="fl"><label class="fl">项级预算科目：</label><span><input type="text" value="${purCon.budgetSubjectItem }" id="budgetSubjectItem" name="budgetSubjectItem" class="mb0 mt5 w200"/></span></li>
-    	  <div class="fl col-md-12 tc mt10">
-    	    <input type="submit" class="btn" value="查询"/>
-    	    <input type="button" onclick="resetForm()" class="btn" value="重置"/>
-    	    <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
-    	  </div>
-    	</ul>
-    	  <div class="clear"></div>
-    	  </div>
-      </form>
+  	<input type="hidden" name="page" value="" id="page"/>
+  	<input type="hidden" name="purchaseDepName" value="${ purCon.purchaseDepName }" id="purchaseDepName"/>
+  	<input type="hidden" name="status" value="${ purCon.status }" id="status"/>
+   	<div class="search_detail">
+    <div class="m_row_5">
+    <div class="row">
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购项目：</div>
+          <div class="col-xs-8 f0 lh0">
+            <input type="text" value="${purCon.projectName }" id="projectName" name="projectName" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">合同编号：</div>
+          <div class="col-xs-8 f0 lh0">
+            <input type="text" value="${purCon.code }" id="code" name="code" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">计划文件号：</div>
+          <div class="col-xs-8 f0 lh0">
+            <input type="text" value="${purCon.documentNumber }" id="documentNumber" name="documentNumber" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">供应商：</div>
+          <div class="col-xs-8 f0 lh0">
+            <input type="text" value="${purCon.supplierDepName }" id="supplierDepName" name="supplierDepName" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">年度：</div>
+          <div class="col-xs-8 f0 lh0">
+            <input type="text" value="${purCon.year_string }" id="year" name="year_string" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">项级预算科目：</div>
+          <div class="col-xs-8 f0 lh0">
+            <input type="text" value="${purCon.budgetSubjectItem }" id="budgetSubjectItem" name="budgetSubjectItem" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="tc">
+      <input type="submit" class="btn mb0 h32" value="查询"/>
+      <input type="button" onclick="resetForm()" class="btn mb0 h32" value="重置"/>
+      <button class="btn btn-windows back mb0 mr0 h32" onclick="back()" type="button">返回</button>
+    </div>
+    </div>
+    </form>
   
    <div class="fr mt5 b">
     	项目总金额(万元)：${contractSum}

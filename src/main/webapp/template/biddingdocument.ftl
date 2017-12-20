@@ -18264,6 +18264,7 @@ div.Section9 {
 				<br clear=all
 				style='page-break-before:always;mso-break-type:section-break'>
 		</span>
+		<a name="BID_PRICE_TABLE_START"></a>
 			<div class="Section7">
 				<p class=MsoNormal>
 					<span
@@ -20143,7 +20144,10 @@ div.Section9 {
 						<o:p>
 						</o:p> </span>
 				</p>
-			</div> <span
+			</div> 
+			<a name="BID_PRICE_TABLE_END"></a>
+			
+			<span
 			style="mso-spacerun:'yes';font-family:黑体;mso-hansi-font-family:宋体;font-size:14.0000pt;mso-font-kerning:0.0000pt;">
 				<br clear=all
 				style='page-break-before:always;mso-break-type:section-break'>

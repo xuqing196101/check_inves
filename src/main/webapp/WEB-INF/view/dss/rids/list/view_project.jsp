@@ -79,27 +79,40 @@
       </div>
       <!-- 项目戳开始 -->
       <h2 class="search_detail">
-    <form action="${pageContext.request.contextPath}/project/selectByProject.html" id="form1" method="post" class="mb0">
-      <ul class="demand_list">
-      <li>
-        <label class="fl">项目名称： </label>
-        <span>
-          <input type="hidden" name="page" id="page">
-          <input type="text" name="name" id="proName" value="${projects.name }" /> 
-        </span>
-      </li>
-      <li>
-        <label class="fl">项目编号：</label> 
-        <span>
-          <input type="text" name="projectNumber" id="projectNumber" value="${projects.projectNumber }" /> 
-        </span>
-        <input type="hidden" name="purchaseType" value="${projects.purchaseType}"/>
-      </li>
-      <button class="btn fl mt1" type="submit">查询</button>
-      <button type="reset" class="btn fl mt1" onclick="clearSearch();">重置</button>
-      <button class="btn btn-windows back fl mt1" onclick="back()" type="button">返回</button>
-    </ul>
-    <div class="clear"></div>
+      <form action="${pageContext.request.contextPath}/project/selectByProject.html" id="form1" method="post" class="mb0">
+      <div class="m_row_5">
+      <div class="row">
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">项目名称：</div>
+            <div class="col-xs-8 f0 lh0">
+              <input type="hidden" name="page" id="page">
+              <input type="text" name="name" id="proName" value="${projects.name }" class="w100p h32 f14 mb0">
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">项目编号：</div>
+            <div class="col-xs-8 f0 lh0">
+              <input type="text" name="projectNumber" id="projectNumber" value="${projects.projectNumber }" class="w100p h32 f14 mb0">
+              <input type="hidden" name="purchaseType" value="${projects.purchaseType}"/>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+          <div class="row">
+            <div class="col-xs-12 f0">
+              <button class="btn mb0 h32" type="submit">查询</button>
+              <button type="reset" class="btn mb0 h32" onclick="clearSearch();">重置</button>
+              <button class="btn btn-windows back mb0 mr0 h32" onclick="back()" type="button">返回</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
     </form>
     </h2>
       <div class="content table_box">

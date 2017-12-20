@@ -100,36 +100,55 @@
 			</div>
 
 			<h2 class="search_detail">
-		<ul class="demand_list">
-			<li>
-			    <label class="fl">专家姓名：</label><span><input type="text" id="userName" class=""/></span>
-			</li>
-	  		<li>
-			    <label class="fl">专家类型：</label>
-			    <span>
-				   	<select id="userType" class="w80">
-			  			<option value="">请选择</option>
-			  			<option value="1">技术</option>
-			  			<option value="2">法律</option>
-			  			<option value="3">商务</option>
-			  		</select>
-			   	</span>
-			</li>
-	  		<li>
-			    <label class="fl">考试状态：</label>
-			    <span>
-				   	<select id="status" class="w80">
-			  			<option value="">请选择</option>
-			  			<option value="及格">及格</option>
-			  			<option value="不及格">不及格</option>
-			  		</select>
-			   	</span>
-			</li>
-		  	<button class="btn fl mt1" type="button" onclick="queryResult()">查询</button>
-		  	<button class="btn fl mt1" type="button" onclick="resetResult()">重置</button>
-  		</ul>
-  		<div class="clear"></div>
-  	</h2>
+			<div class="m_row_5">
+	    <div class="row">
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">专家姓名：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input type="text" id="userName" class="w100p h32 f14 mb0">
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">专家类型：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<select id="userType" class="w100p h32 f14">
+				  			<option value="">请选择</option>
+				  			<option value="1">技术</option>
+				  			<option value="2">法律</option>
+				  			<option value="3">商务</option>
+				  		</select>
+	          </div>
+	        </div>
+	      </div>
+				
+				<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">考试状态：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<select id="status" class="w100p h32 f14">
+				  			<option value="">请选择</option>
+				  			<option value="及格">及格</option>
+				  			<option value="不及格">不及格</option>
+				  		</select>
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-12 f0">
+							<button class="btn mb0 h32" type="button" onclick="queryResult()">查询</button>
+					  	<button class="btn mb0 mr0 h32" type="button" onclick="resetResult()">重置</button>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	    </div>
+	  	</h2>
 
 			<div class="content table_box">
 				<table class="table table-bordered table-condensed table-hover">

@@ -180,33 +180,45 @@
 	   </div>
 
     <!-- 查询 -->
-       <div class="search_detail">
-       	<form id="submitForm" action="${ pageContext.request.contextPath }/noticeDocument/search.html"
-				method="post" enctype="multipart/form-data" class="mb0">
-       	<ul class="demand_list">
-    	  <li>
-	    	<label class="fl">须知文档名称：</label>
-	    	<span>
-	    		<input type="text" id="tname" name="name" value="${noticeDocument.name }" />
-	    	</span>
-	      </li>
-	      <li>
-	    	<label class="fl">须知文档类型：</label>
-	    	<span>
-	  			<select id="searchType" name ="docType" class="w150">
-	  			  <option value="">-请选择-</option>
-       			    <c:forEach items="${noticeType}" var="type">
-       			      <option value="${type.id}" <c:if test="${type.id == noticeDocument.docType}"> selected="selected"</c:if>>${type.name}</option>
-       			    </c:forEach>
- 				 </select>
-	  		</span>
-	      </li>
-	    	<button type="button" class="btn fl mt1" onclick="search()">查询</button>
-	    	<button type="reset" onclick="resets()" class="btn fl mt1">重置</button>  	
-    	</ul>
-    	</form>
-    	  <div class="clear"></div>
-     </div>
+		<div class="search_detail">
+		<form id="submitForm" action="${ pageContext.request.contextPath }/noticeDocument/search.html" method="post" enctype="multipart/form-data" class="mb0">
+		<div class="m_row_5">
+    <div class="row">
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">须知文档名称：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input type="text" id="tname" name="name" value="${noticeDocument.name }" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">须知文档类型：</div>
+          <div class="col-xs-8 f0 lh0">
+						<select id="searchType" name ="docType" class="w100p h32 f14">
+							<option value="">-请选择-</option>
+							<c:forEach items="${noticeType}" var="type">
+							<option value="${type.id}" <c:if test="${type.id == noticeDocument.docType}"> selected="selected"</c:if>>${type.name}</option>
+							</c:forEach>
+						</select>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-12 f0">
+						<button type="button" class="btn mb0 h32" onclick="search()">查询</button>
+			    	<button type="reset" onclick="resets()" class="btn mb0 mr0 h32">重置</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+		</form>
+		</div>
     
 <!-- 表格开始-->
    

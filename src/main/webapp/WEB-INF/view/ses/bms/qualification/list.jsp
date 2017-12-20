@@ -66,17 +66,27 @@
 	          <h2 id="titleId"></h2>
 	        </div>
 		      <h2 class="search_detail">
-				<ul class="demand_list">
-		    	  <li>
-			    	<label class="fl">资质名称：</label>
-			    	<span>
-			    	  <input type="text" id="name"  name="name" />
-			    	</span>
-			      </li>
-			    	<button type="button" onclick="search();" class="btn fl mt1">查询</button>
-			    	<button type="button" onclick="resetQuery()" class="btn fl mt1">重置</button>  	
-				  </ul>
-				  <div class="clear"></div>
+          <div class="m_row_5">
+          <div class="row">
+            <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+              <div class="row">
+                <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">资质名称：</div>
+                <div class="col-xs-8 f0 lh0">
+                  <input type="text" id="name" name="name" class="w100p h32 f14 mb0">
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+              <div class="row">
+                <div class="col-xs-12 f0">
+                  <button type="button" onclick="search();" class="btn mb0 h32">查询</button>
+      			    	<button type="button" onclick="resetQuery()" class="btn mb0 mr0 h32">重置</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
 			  </h2>
 	      
 		   	  <!-- 操作按钮-->

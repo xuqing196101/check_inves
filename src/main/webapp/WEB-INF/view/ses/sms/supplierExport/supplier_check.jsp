@@ -22,7 +22,7 @@
 </head>
 
 <body>
-				<div class="content table_box">
+				<div class="content table_box pl0">
 						<table id="supTable"
 								class="table table-bordered table-condensed table-hover table-striped">
 								<thead >

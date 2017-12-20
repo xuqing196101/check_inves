@@ -55,37 +55,63 @@
 		   <div class="headline-v2">
 		     <h2>采购机构信息</h2>
 		   </div>  
-		   <h2 class="search_detail">
-  				<form id="form1" action="${pageContext.request.contextPath}/purchaseManage/readOnlyList.html" method="post" class="mb0">
-					<input type="hidden" name="page" id="page">
-					<input type="hidden" name="provinceId" value="${purchaseDep.provinceId }">
-					<input type="hidden" name="orgId" value="${purchaseDep.orgId }">
-					<ul class="demand_list">
-						<li><label class="fl">采购机构名称：</label><span><input id="name" name="name" value="${purchaseDep.name }" type="text"></span></li>
-						<li>
-							<label class="fl">资质起止日期：</label>
-							<input id="quaStartDate" name="quaStartDate" class="Wdate w120" type="text"  value='<fmt:formatDate value="${purchaseDep.quaStartDate }" pattern="YYYY-MM-dd"/>'
-							onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){quaStartDate.focus();},maxDate:'#F{$dp.$D(\'quaStartDate\')}'})"/>
-							<span class="f14">至</span>
-						  <input id="quaEdndate" name="quaEdndate" value='<fmt:formatDate value="${purchaseDep.quaEdndate }" pattern="YYYY-MM-dd"/>' class="Wdate w120" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'quaEdndate\')}'})"/>
-						</li>
-						<li>
-							<label class="fl">上级监管部门：</label>
-							<div class="fl">
-								<select name="" class="w100">
+			<h2 class="search_detail">
+			<form id="form1" action="${pageContext.request.contextPath}/purchaseManage/readOnlyList.html" method="post" class="mb0">
+			<input type="hidden" name="page" id="page">
+			<input type="hidden" name="provinceId" value="${purchaseDep.provinceId }">
+			<input type="hidden" name="orgId" value="${purchaseDep.orgId }">
+			<div class="m_row_5">
+	    <div class="row">
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购机构名称：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input id="name" name="name" value="${purchaseDep.name }" type="text" class="w100p h32 f14 mb0">
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">资质起始日期：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input id="quaStartDate" name="quaStartDate" class="Wdate w100p h32 f14 mb0" type="text" value='<fmt:formatDate value="${purchaseDep.quaStartDate }" pattern="YYYY-MM-dd"/>'
+							onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){quaStartDate.focus();},maxDate:'#F{$dp.$D(\'quaStartDate\')}'})">
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">资质结束日期：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input id="quaEdndate" name="quaEdndate" value='<fmt:formatDate value="${purchaseDep.quaEdndate }" pattern="YYYY-MM-dd"/>' class="Wdate w100p h32 f14 mb0" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'quaEdndate\')}'})">
+	          </div>
+	        </div>
+	      </div>
+				
+				<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">上级监管部门：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<select name="" class="w100p h32 f14">
 								<option selected="selected" value=''>-请选择-</option>
-								<option  value="生产型">部门1</option>
-								<option  value="销售型">部门2</option>
-								</select>
-							</div>
-						</li>
-					</ul>
-					<input class="btn fl mt1" onclick="submit()" type="button" value="查询">
-					<input class="btn fl mt1" onclick="chongzhi()" type="button" value="重置">
-					<input class="btn back fl mt1" onclick="back()" value="返回" type="button">
-					<div class="clear"></div>
-		     </form>
-		     </h2>
+								<option value="生产型">部门1</option>
+								<option value="销售型">部门2</option>
+							</select>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	    </div>
+			
+			<div class="tc">
+				<input class="btn mb0" onclick="submit()" type="button" value="查询">
+				<input class="btn mb0" onclick="chongzhi()" type="button" value="重置">
+				<input class="btn back mb0 mr0" onclick="back()" value="返回" type="button">
+			</div>
+			</form>
+			</h2>
 		      <div class="content table_box">
                  <table id="tb1" class="table table-bordered table-condensed table-hover table-striped">
 		      <thead>

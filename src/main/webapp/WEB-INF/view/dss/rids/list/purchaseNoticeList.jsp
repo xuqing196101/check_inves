@@ -117,38 +117,29 @@
             if(typeId == "工作动态") {
             	$("#second").show();
             	$("#publish_status").attr("class","clear mt5");
-	  			$("#audit_date").attr("class","mt5");
             } else if(typeId == "采购公告") {
               	$("#second").show();
               	$("#publish_status").attr("class","clear mt5");
-	  			$("#audit_date").attr("class","mt5");
             } else if(typeId == "中标公示") {
               	$("#second").show();
               	$("#publish_status").attr("class","clear mt5");
-	  			$("#audit_date").attr("class","mt5");
             } else if(typeId == "单一来源公示") {
               	$("#second").show();
               	$("#publish_status").attr("class","clear mt5");
-	  			$("#audit_date").attr("class","mt5");
             } else if(typeId == "商城竞价公告") {
               	$("#second").show();
               	$("#publish_status").attr("class","clear mt5");
-	  			$("#audit_date").attr("class","mt5");
             } else if(typeId == "网上竞价公告") {
               	$("#second").show();
               	$("#publish_status").attr("class","clear mt5");
-	  			$("#audit_date").attr("class","mt5");
             } else if(typeId == "采购法规") {
               	$("#second").show();
               	$("#publish_status").attr("class","clear mt5");
-	  			$("#audit_date").attr("class","mt5");
             } else if(typeId == "处罚公告") {
               	$("#second").show();
               	$("#publish_status").attr("class","clear mt5");
-	  			$("#audit_date").attr("class","mt5");
             } else {
 				$("#publish_status").attr("class","");
-	  			$("#audit_date").attr("class","clear mt5");
 			}
           }
         });
@@ -176,7 +167,6 @@
 
 	  function typeInfo() {
 	  	$("#publish_status").attr("class","clear mt5");
-	  	$("#audit_date").attr("class","mt5");
         var typeId = $("#articleTypes").select2("data").text;
         var parentId = $("#articleTypes").select2("val");
         $("#secondType").empty();
@@ -207,7 +197,6 @@
               getSencond(parentId);
          }else {
          	  $("#publish_status").attr("class","");
-	  		  $("#audit_date").attr("class","clear mt5");
 	          $("#second").hide();
 	          $("#secondType").empty();
         }
@@ -287,63 +276,80 @@
       </div>
 
       <div class="search_detail">
-        <form id="form1" action="${pageContext.request.contextPath }/article/readOnlyList.html" method="post" class="mb0">
-        	<input type="hidden" id="publishYear" name="publishYear" value="${ articleAnalyzeVo.publishYear }" />
-        	<input type="hidden" id="status" name="status" value="${ articlesStatus }" />
-        	<input type="hidden" id="threeArticleTypeId" name="threeArticleTypeId" value="${ articleAnalyzeVo.threeArticleTypeId }" />
-        	<input type="hidden" id="categoryId" name="categoryId" value="${ articleAnalyzeVo.categoryId }" />
-        	<input type="hidden" id="fourArticleTypeId" name="fourArticleTypeId" value="${ articleAnalyzeVo.fourArticleTypeId }" />
-          <ul class="demand_list">
-            <li>
-              	<label class="fl">信息标题：</label>
-              	<span>
-		          <input type="text" id="name" name="name" maxlength="200" value="${articleName}"/>
-		        </span>
-            </li>
-            <li>
-              	<label class="fl">信息栏目：</label>
-              	<span class="fl">
-        	  	<div class="w200">
-          			<select id="articleTypes" name="articleTypeId" class="w200" onchange="typeInfo()">
-            		</select>
-          	  	</div>
-              	</span>
-            </li>
-            <li class="hide" id="second">
-              	<label class="fl">栏目属性：</label>
-              	<span class="fl">
-        	  	<div class="w200">
-          			<select id="secondType" name="secondArticleTypeId" class="w200" >
-            		</select>
-          	  	</div>
-              	</span>
-            </li>
-            <li class="">
-              <label class="fl">发布范围：</label>
-              <span>
-              <select id ="range" name="range" class=""  >
+      <form id="form1" action="${pageContext.request.contextPath }/article/readOnlyList.html" method="post" class="mb0">
+    	<input type="hidden" id="publishYear" name="publishYear" value="${ articleAnalyzeVo.publishYear }" />
+    	<input type="hidden" id="status" name="status" value="${ articlesStatus }" />
+    	<input type="hidden" id="threeArticleTypeId" name="threeArticleTypeId" value="${ articleAnalyzeVo.threeArticleTypeId }" />
+    	<input type="hidden" id="categoryId" name="categoryId" value="${ articleAnalyzeVo.categoryId }" />
+    	<input type="hidden" id="fourArticleTypeId" name="fourArticleTypeId" value="${ articleAnalyzeVo.fourArticleTypeId }" />
+      <div class="m_row_5">
+      <div class="row">
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">信息标题：</div>
+            <div class="col-xs-8 f0 lh0">
+              <input type="text" id="name" name="name" maxlength="200" value="${articleName}" class="w100p h32 f14 mb0">
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">信息栏目：</div>
+            <div class="col-xs-8 f0 lh0">
+              <select id="articleTypes" name="articleTypeId" class="w100p h32 f14" onchange="typeInfo()"></select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">栏目属性：</div>
+            <div class="col-xs-8 f0 lh0">
+              <select id="secondType" name="secondArticleTypeId" class="w100p h32 f14"></select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">发布范围：</div>
+            <div class="col-xs-8 f0 lh0">
+              <select id ="range" name="range" class="w100p h32 f14">
                 <option value=""  <c:if test="${articlesRange == ''}">selected</c:if>>全部</option>
                 <option value="0" <c:if test="${articlesRange == '0'}">selected</c:if>>内网</option>
-                <%-- <option value="1" <c:if test="${articlesRange == '1'}">selected</c:if>>外网</option> --%>
                 <option value="2" <c:if test="${articlesRange == '2'}">selected</c:if>>内外网</option>
-               </select>
-           	   </span>
-            </li>
-            <li class="clear mt5" id="audit_date">
-            	<label class="fl">审核时间：</label>
-				<input id="startDate" name="publishStartDate" class="Wdate w110 fl" type="text"  value='<fmt:formatDate value="${publishStartDate}" pattern="YYYY-MM-dd"/>'
-                onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})" />
-                <span class="f13">至</span>
-                <input id="endDate" name="publishEndDate" value='<fmt:formatDate value="${publishEndDate}" pattern="YYYY-MM-dd"/>' class="Wdate w110" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
-          	</li>
-          </ul>
-            <div class="col-md-12 col-sm-12 col-xs-12 tc mt5">
-            <button type="submit" class="btn">查询</button>
-            <button type="button" class="btn" onclick="resetQuery()">重置</button>
-            <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
+              </select>
+            </div>
           </div>
-          <div class="clear"></div>
-        </form>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10" id="audit_date">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">审核开始时间：</div>
+            <div class="col-xs-8 f0 lh0">
+              <input id="startDate" name="publishStartDate" class="Wdate w100p h32 f14" type="text"  value='<fmt:formatDate value="${publishStartDate}" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})">
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10" id="audit_date">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">审核结束时间：</div>
+            <div class="col-xs-8 f0 lh0">
+              <input id="endDate" name="publishEndDate" value='<fmt:formatDate value="${publishEndDate}" pattern="YYYY-MM-dd"/>' class="Wdate w100p h32 f14" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      
+      <div class="tc">
+        <button type="submit" class="btn mb0">查询</button>
+        <button type="button" class="btn mb0" onclick="resetQuery()">重置</button>
+        <button class="btn btn-windows back mb0 mr0" onclick="back()" type="button">返回</button>
+      </div>
+      </form>
       </div>
 
       <input type="hidden" id="depid" name="depid">
