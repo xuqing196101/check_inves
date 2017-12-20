@@ -483,7 +483,7 @@ public class AutoExtractServiceImpl implements AutoExtractService {
                 int zs = (int)countMap.get(code);
                 if(zs > 0){
                     for (int i = 0; i < zs; i++) {
-                    	if(reList.size() > i){
+                    	if(reList != null && reList.size() > i){
                     		PeopleYytz peopleYytz = new PeopleYytz();
 	                        Expert expert = reList.get(i);
 	                        peopleYytz.setMobile(MobileUtils.getMobile(expert.getMobile()));

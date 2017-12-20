@@ -26,6 +26,7 @@ import ses.model.bms.User;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
+import ses.util.AuthorityUtil;
 import ses.util.PropUtil;
 import ses.util.UUIDUtils;
 import ses.util.WordUtil;
@@ -110,7 +111,20 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 
 	
 	@Override
-	public List<SupplierExtractProjectInfo> getList(int i,User user,SupplierExtractProjectInfo project) {
+	public List<SupplierExtractProjectInfo> getList(int i,User user,SupplierExtractProjectInfo project) throws Exception {
+		
+		
+		if(user.getDataAccess() == 3){
+			ArrayList<String> arrayList = new ArrayList<>();
+			arrayList.add(user.getId());
+			project.setProcurementDepIds(arrayList);
+		}else{
+			HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
+			List<String> orgIds = (List<String>) dataMap.get("superviseOrgs");
+			project.setProcurementDepIds(orgIds);
+		}
+		
+		
 		 PageHelper.startPage(i, PropUtil.getIntegerProperty("pageSize"));
 		 List<SupplierExtractProjectInfo> list = new ArrayList<>();
 		 //获取是否内网标识 1外网 0内网
@@ -118,13 +132,9 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 	     if(ipAddressType.equals("1")){
 	    	 project.setExtractTheWay((short)0);
 	     }
-		 if("1".equals(user.getTypeName())){
-			project.setProcurementDepId(user.getOrg().getId());
-			list = recordMapper.getList(project);
-		 }else if("4".equals(user.getTypeName())){
-			 project.setProcurementDepId(null);
-			 list = recordMapper.getList(project);
-		 }
+	     
+	     list = recordMapper.getList(project);
+	     
 		for (SupplierExtractProjectInfo projectInfo : list) {
 			if(StringUtils.isBlank(projectInfo.getExtractUser())){
 				String temp = "";
@@ -778,13 +788,16 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 		String rid_new = UUIDUtils.getUUID32();
     	String cid_new = UUIDUtils.getUUID32();
     	//复制项目信息修改id再保存一条抽取记录
-    	recordMapper.copyRecordToAgainByRid(rid_new,cid_new,recordId);
+    	recordMapper.copyRecordToAgainById(rid_new,cid_new,recordId);
     	
     	//复制人员信息在保存一份
     	personRelMapper.copyPersonRelToAgainByRid(rid_new,recordId);
     	
     	//返回新的recordId conditioinId
-		return null;
+    	Map<String, String> hashMap = new HashMap<>();
+    	hashMap.put("conditionId",cid_new);
+    	hashMap.put("recordId", rid_new);
+		return hashMap;
 	}
 
 }

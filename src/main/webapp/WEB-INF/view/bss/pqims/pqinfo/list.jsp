@@ -158,44 +158,63 @@
       <!-- 查询 -->
 
       <div class="search_detail">
-        <form id="form1" action="${pageContext.request.contextPath}/pqinfo/getAll.html" method="post" class="mb0">
-          <input type="hidden" name="page" id="page">
-          <ul class="demand_list">
-            <li class="fl">
-              <label class="fl">合同名称： </label>
-              <span><input type="text" id="contractName" name="contract.name" value="${pqInfo.contract.name}" class="mb0"/></span>
-            </li>
-            <li class="fl">
-              <label class="fl">合同编号：</label>
-              <span><input type="text" id="contractCode" name="contract.code" value="${pqInfo.contract.code}" class="mb0"/></span>
-            </li>
-            <li class="fl"><label class="fl">验收类型：</label>
-              <span>
-                  <select id="searchType" name="type" class="w100">
-                    <option value="" selected="selected">请选择</option>
-                    <option value="0" <c:if test="${'0' eq pqInfo.type}">selected="selected"</c:if>>首件检验</option>
-                    <option value="1" <c:if test="${'1' eq pqInfo.type}">selected="selected"</c:if>>生产验收</option>
-                    <option value="2" <c:if test="${'2' eq pqInfo.type}">selected="selected"</c:if>>出厂验收</option>
-                    <option value="3" <c:if test="${'3' eq pqInfo.type}">selected="selected"</c:if>>到货验收</option>
-                  </select>
-                </span>
-            </li>
-            <li class="fl mr15"><label class="fl">质检结论：</label>
-              <span>
-                  <select id="searchConclusion" name="conclusion" class="w80">
-                    <option value="" selected="selected">请选择</option>
-                    <option value="0" <c:if test="${'0' eq pqInfo.conclusion}">selected="selected"</c:if>>合格</option>
-                    <option value="1" <c:if test="${'1' eq pqInfo.conclusion}">selected="selected"</c:if>>不合格</option>
-                  </select>
-                </span>
-            </li>
-          </ul>
-          <div class="col-md-12 clear tc mt10">
-			      <button class="btn" type="submit">查询</button>
-			      <button class="btn" type="button" onclick="clearSearch()">重置</button>
-		      </div>
-		      <div class="clear"></div>
-        </form>
+      <form id="form1" action="${pageContext.request.contextPath}/pqinfo/getAll.html" method="post" class="mb0">
+      <input type="hidden" name="page" id="page">
+      <div class="m_row_5">
+      <div class="row">
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">合同名称：</div>
+            <div class="col-xs-8 f0 lh0">
+              <input type="text" id="contractName" name="contract.name" value="${pqInfo.contract.name}" class="w100p h32 f14 mb0">
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">合同编号：</div>
+            <div class="col-xs-8 f0 lh0">
+              <input type="text" id="contractCode" name="contract.code" value="${pqInfo.contract.code}" class="w100p h32 f14 mb0">
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">验收类型：</div>
+            <div class="col-xs-8 f0 lh0">
+              <select id="searchType" name="type" class="w100p h32 f14">
+                <option value="" selected="selected">请选择</option>
+                <option value="0" <c:if test="${'0' eq pqInfo.type}">selected="selected"</c:if>>首件检验</option>
+                <option value="1" <c:if test="${'1' eq pqInfo.type}">selected="selected"</c:if>>生产验收</option>
+                <option value="2" <c:if test="${'2' eq pqInfo.type}">selected="selected"</c:if>>出厂验收</option>
+                <option value="3" <c:if test="${'3' eq pqInfo.type}">selected="selected"</c:if>>到货验收</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">质检结论：</div>
+            <div class="col-xs-8 f0 lh0">
+              <select id="searchConclusion" name="conclusion" class="w100p h32 f14">
+                <option value="" selected="selected">请选择</option>
+                <option value="0" <c:if test="${'0' eq pqInfo.conclusion}">selected="selected"</c:if>>合格</option>
+                <option value="1" <c:if test="${'1' eq pqInfo.conclusion}">selected="selected"</c:if>>不合格</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      
+      <div class="tc">
+        <button class="btn mb" type="submit">查询</button>
+        <button class="btn mb0 mr0" type="button" onclick="clearSearch()">重置</button>
+      </div>
+      </form>
       </div>
 
       <!-- 表格开始-->

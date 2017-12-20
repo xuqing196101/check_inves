@@ -321,57 +321,89 @@
 		  <div class="headline-v2">
 			  <h2>用户管理</h2>
 		  </div>
-		     <h2 class="search_detail">
-		       	<form action="${pageContext.request.contextPath}/user/list.html" id="form1" method="post" class="mb0">
-		       		<input type="hidden" name="page" id="page">
-			    	<ul class="demand_list">
-			    	  <li>
-				    	<label class="fl">用户名：</label><span><input type="text" id="loginName" value="${user.loginName}" name="loginName" class="w220"/></span>
-				      </li>
-			    	  <li>
-				    	<label class="fl">姓名：</label><span><input type="text" id="relName" value="${user.relName}" name="relName" class="w220"/></span>
-				      </li>
-				      <li>
-				    	<label class="fl">单位：</label><span><input type="text" id="orgName" value="${user.orgName}" name="orgName" class="w220"/></span>
-				      </li>
-			    	  <li>
-				    	<label class="fl">角色：</label>
-				    	   <span class="fl">
-					        <select id="" name="roleId" class="w220">
-					        	<option value="">全部</option>
-					        	<c:forEach items="${roles}" var="r" varStatus="vs">
-					        		<c:if test="${r.code != 'SUPPLIER_R' && r.code != 'EXPERT_R' && r.code != 'IMPORT_AGENT_R'}">
-						        		<option value="${r.id}" <c:if test="${r.id eq user.roleId}">selected</c:if> >${r.name}</option>
-					        		</c:if>
-					        	</c:forEach>
-					        </select>
-					        </span>
-				      </li>
-			    	  <li>
-				    	<label class="fl">机构类型：</label>
-				    	   <span class="fl">
-					        <select id="" name="typeName" class="w220" >
-                             <option value="" >全部</option>
-                             <option value="1" <c:if test="${user.typeName == '1'}">selected</c:if>>采购机构</option>
-                             <option value="2" <c:if test="${user.typeName == '2'}">selected</c:if>>采购管理部门</option>
-                             <option value="0" <c:if test="${user.typeName == '0'}">selected</c:if>>需求部门</option>
-                             <option value="4" <c:if test="${user.typeName == '4'}">selected</c:if>>采购服务中心</option>
-                             <option value="5" <c:if test="${user.typeName == '5'}">selected</c:if>>监管部门</option>
-                             <option value="3" <c:if test="${user.typeName == '3'}">selected</c:if>>其他</option>  
-                            </select>
-					        </span>
-				      </li>
-				      <li>
-				    	<label class="fl">联系电话：</label><span><input type="text" id="mobile" value="${user.mobile}" name="mobile" class="w220"/></span>
-				      </li>
-			    	</ul>
-			    	<div class="col-md-12 col-xs-12 col-sm-12 tc">
-				      	<button type="submit"  class="btn mt1">查询</button>
-				    		<button type="button" onclick="resetQuery()" class="btn mt1">重置</button>  	
-				      </div>
-		    	  	<div class="clear"></div>
-		        </form>
-		     </h2>
+			
+			<h2 class="search_detail">
+			<form action="${pageContext.request.contextPath}/user/list.html" id="form1" method="post" class="mb0">
+			<input type="hidden" name="page" id="page">
+			<div class="m_row_5">
+	    <div class="row">
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">用户名：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input type="text" id="loginName" value="${user.loginName}" name="loginName" class="w100p h32 f14 mb0">
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">姓名：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input type="text" id="relName" value="${user.relName}" name="relName" class="w100p h32 f14 mb0">
+	          </div>
+	        </div>
+	      </div>
+				
+				<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">单位：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input type="text" id="orgName" value="${user.orgName}" name="orgName" class="w100p h32 f14 mb0">
+	          </div>
+	        </div>
+	      </div>
+				
+				<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">角色：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<select id="" name="roleId" class="w100p h32 f14">
+								<option value="">全部</option>
+								<c:forEach items="${roles}" var="r" varStatus="vs">
+									<c:if test="${r.code != 'SUPPLIER_R' && r.code != 'EXPERT_R' && r.code != 'IMPORT_AGENT_R'}">
+										<option value="${r.id}" <c:if test="${r.id eq user.roleId}">selected</c:if> >${r.name}</option>
+									</c:if>
+								</c:forEach>
+							</select>
+	          </div>
+	        </div>
+	      </div>
+				
+				<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">机构类型：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<select id="" name="typeName" class="w100p h32 f14">
+								<option value="" >全部</option>
+								<option value="1" <c:if test="${user.typeName == '1'}">selected</c:if>>采购机构</option>
+								<option value="2" <c:if test="${user.typeName == '2'}">selected</c:if>>采购管理部门</option>
+								<option value="0" <c:if test="${user.typeName == '0'}">selected</c:if>>需求部门</option>
+								<option value="4" <c:if test="${user.typeName == '4'}">selected</c:if>>采购服务中心</option>
+								<option value="5" <c:if test="${user.typeName == '5'}">selected</c:if>>监管部门</option>
+								<option value="3" <c:if test="${user.typeName == '3'}">selected</c:if>>其他</option>  
+							</select>
+	          </div>
+	        </div>
+	      </div>
+				
+				<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">联系电话：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input type="text" id="mobile" value="${user.mobile}" name="mobile" class="w100p h32 f14 mb0">
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	    </div>
+			
+			<div class="tc">
+				<button type="submit" class="btn mb0">查询</button>
+				<button type="button" onclick="resetQuery()" class="btn mb0 mr0">重置</button>
+			</div>
+			</form>
+			</h2>
       
    	  <!-- 表格开始-->
 	  <div class="col-md-12 pl20 mt10">

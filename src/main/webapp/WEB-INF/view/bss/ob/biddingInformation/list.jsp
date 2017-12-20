@@ -220,26 +220,42 @@
 	 <div class="headline-v2">
 		<h2>竞价信息列表</h2>
 	 </div>
-    <div class="search_detail">
-       <form action="${pageContext.request.contextPath}/ob_project/list.html" method="post" id="form1" class="mb0">
-         <input type="hidden" name="page" id="page">
-         <input type="hidden" name="projectId" id="projectId"/>
-    	<ul class="demand_list">
-    	  <li>
-	    	<label class="fl">竞价项目名称：</label>
-	    	  <input id="name" name="name" value="${name }" type="text" maxlength="180" class="w230 mb0">
-	      </li>
-    	  <li>
-	    	<label class="fl">竞价开始时间：</label>
-			<input name="startTime" id="startTime" type="text" maxlength="19" 
-			 onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly" value='<fmt:formatDate value="${startTime}" pattern="yyyy-MM-dd HH:mm:ss"/>' class="Wdate" />
-	      </li> 
-	    	<input type="submit" class="btn fl mt1" value="查询">
-	    	<button onclick="resetAll()" class="btn fl mt1 ml5">重置</button>   	
-    	</ul>
-    	  <div class="clear"></div>
-       </form>
-     </div>
+		<div class="search_detail">
+		<form action="${pageContext.request.contextPath}/ob_project/list.html" method="post" id="form1" class="mb0">
+		<input type="hidden" name="page" id="page">
+		<input type="hidden" name="projectId" id="projectId"/>
+		<div class="m_row_5">
+    <div class="row">
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">竞价项目名称：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input id="name" name="name" value="${name }" type="text" maxlength="180" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">竞价开始时间：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input name="startTime" id="startTime" type="text" maxlength="19" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly" value='<fmt:formatDate value="${startTime}" pattern="yyyy-MM-dd HH:mm:ss"/>' class="Wdate w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-12 f0">
+						<input type="submit" class="btn mb0 h32" value="查询">
+			    	<button onclick="resetAll()" class="btn mb0 mr0 h32">重置</button>
+					</div>
+        </div>
+      </div>
+    </div>
+    </div>
+		</form>
+		</div>
      
 <!-- 表格开始 -->
 	<div class="col-md-12 pl20 mt10">

@@ -11,6 +11,7 @@
         //验证登陆用户名
         function validataLoginName(){
             var loginName = $("#loginName").val();
+            $("#browserRemeber").val(loginName);
             var patrn=/[`~!@#$%^&*()+<>?:"{},.\/;'[\]]/im;
             //var patrn2=/^(?=.*[a-z])[a-z0-9]+/ig;
             if(loginName.replace(/\s/g,"")==null || loginName.replace(/\s/g,"")==""){
@@ -56,6 +57,7 @@
                     }
                 }
             });
+           
         }
 		/* 机构树 */
 		function onClickOrg(e, treeId, treeNode) {
@@ -85,11 +87,16 @@
 			ids="";
 			pid="";
 			 for (var i=0, l=nodes.length; i<l; i++) {
-			    if(!nodes[i].isParent){
-			    v += nodes[i].name + ",";
+				v += nodes[i].name + ",";
 				ids +=nodes[i].id+",";
+				/* if(!nodes[i].isParent){
+			    	v += nodes[i].name + ",";
+					ids +=nodes[i].id+",";
 			    }else{
-			      pid +=nodes[i].id+",";
+			      	pid +=nodes[i].id+",";
+			    } */
+				if(nodes[i].isParent){
+			      	pid +=nodes[i].id+",";
 			    }
 			} 
 			
@@ -637,6 +644,8 @@
 				        <div class="cue"><sf:errors path="relName"/></div>
 			       	</div>
 			 	 </li>
+			 	 <!-- 浏览器记住用户名密码提示 -->
+			 	 <input id="browserRemeber"   value=""  type="text" class="tphide">
 			 	 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 			   		<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>密码</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">

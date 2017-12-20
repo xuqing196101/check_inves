@@ -31,7 +31,9 @@
     s.SUPPLIER_NAME as supplierName,
     s.ARMY_BUSINESS_NAME as armyBusinessName,
     s.ARMY_BUSINESS_TELEPHONE as armyBuinessTelephone,org.SHORT_NAME as orgName
-    from T_SES_SMS_SUPPLIER_ITEM l LEFT JOIN T_SES_SMS_SUPPLIER s
+    from T_SES_SMS_SUPPLIER_ITEM l 
+    	LEFT JOIN T_SES_SMS_SUPPLIER s
+    	LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE r ON s.ID = r.SUPPLIER_ID
         LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON s.PROCUREMENT_DEP_ID = dep.ID
         LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
         ON l.SUPPLIER_ID=s.ID
@@ -40,7 +42,8 @@
         AND l.supplier_type_relate_id = ll.SUPPLIER_TYPE_ID 
         AND l.CATEGORY_ID = ll.CATEGORY_ID       
     where 
-        l.SUPPLIER_TYPE_RELATE_ID = #{supplierTypeRelateId,jdbcType=VARCHAR}
+    	r.SUPPLIER_TYPE_ID= #{supplierTypeRelateId,jdbcType=VARCHAR}
+		AND	l.SUPPLIER_TYPE_RELATE_ID = #{supplierTypeRelateId,jdbcType=VARCHAR}
         <if test="categoryId != null and categoryId !=''">
 	      AND l.CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
         </if>

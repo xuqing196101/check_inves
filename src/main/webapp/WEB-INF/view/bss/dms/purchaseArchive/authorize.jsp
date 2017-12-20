@@ -192,25 +192,41 @@
 			</div>
 
 			<h2 class="search_detail">
-			<ul class="demand_list">
-				<li>
-			    	<label class="fl">姓名：</label><span><input type="text" id="name" name="name" class=""/></span>
-			    </li>
-		  		<li>
-			    	<label class="fl">采购机构：</label>
-					<span>
-			    		<select id="depName" name="depName">
-		  					<option value="">--请选择--</option>
-                            <c:forEach items="${purchaseOrgList}" var="p">
-                                <option value="${p.id}">${p.name}</option>
-                            </c:forEach>
-		  				</select>
-			    	</span>
-			    </li>
-		  		<button class="btn" type="button" onclick="queryResult()">查询</button>
-		  		<button class="btn" type="button" onclick="resetResult()">重置</button>
-	  		</ul>
-	  		<div class="clear"></div>
+			<div class="m_row_5">
+	    <div class="row">
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">姓名：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input type="text" id="name" name="name" class="w100p h32 f14 mb0">
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购机构：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<select id="depName" name="depName" class="w100p h32 f14">
+								<option value="">--请选择--</option>
+								<c:forEach items="${purchaseOrgList}" var="p">
+								<option value="${p.id}">${p.name}</option>
+								</c:forEach>
+							</select>
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-12 f0">
+							<button class="btn mb0 h32" type="button" onclick="queryResult()">查询</button>
+				  		<button class="btn mb0 mr0 h32" type="button" onclick="resetResult()">重置</button>
+						</div>
+	        </div>
+	      </div>
+	    </div>
+	    </div>
 	  	</h2>
 
 			<!-- 按钮开始-->

@@ -267,30 +267,45 @@
 		  </h2>
 			</div>
 			<h2 class="search_detail">
-    		<form id="add_form" action="${pageContext.request.contextPath }/accept/list.html" class="mb0" method="post" >
-	 				<ul class="demand_list">
-			    	<li>
-				    	<label class="fl">采购需求名称：</label>
-				    		<span>
-				  	  		<input type="text" name="planName" value="${inf.planName }"/> 
-				    	 		<input type="hidden" name="page" id="page">
-				    		</span>
-				    </li>
-				     <li>  	
-						  <label class="fl">状态：</label>
-			              <select  name="status" id="status">
-			                <option selected="selected" value="total">全部</option>
-			                <option value="2" <c:if test="${'2'==status}">selected="selected"</c:if>>待受理</option>
-			                <option value="3" <c:if test="${'3'==status}">selected="selected"</c:if>>已受理 </option>
-			                <option value="4" <c:if test="${'4'==status}">selected="selected"</c:if>>受理退回</option>
-			                <option style="display: none;" id="afterReset" value="">
-			              </select>
-			          </li>
-		  		</ul>
- 					<input class="btn fl mt1" type="submit" value="查询" /> 
- 					<input class="btn fl mt1" type="button" onclick="resetQuery()" value="重置"/>	
- 					<div class="clear"></div>
-   			</form>
+  		<form id="add_form" action="${pageContext.request.contextPath }/accept/list.html" class="mb0" method="post">
+			<div class="m_row_5">
+	    <div class="row">
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购需求名称：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input type="text" name="planName" value="${inf.planName }" class="w100p h32 f14 mb0"> 
+							<input type="hidden" name="page" id="page">
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">状态：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<select name="status" id="status" class="w100p h32 f14">
+								<option selected="selected" value="total">全部</option>
+								<option value="2" <c:if test="${'2'==status}">selected="selected"</c:if>>待受理</option>
+								<option value="3" <c:if test="${'3'==status}">selected="selected"</c:if>>已受理 </option>
+								<option value="4" <c:if test="${'4'==status}">selected="selected"</c:if>>受理退回</option>
+								<option style="display: none;" id="afterReset" value="">
+							</select>
+	          </div>
+	        </div>
+	      </div>
+				
+				<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-12 f0">
+							<input class="btn mb0 h32" type="submit" value="查询"> 
+							<input class="btn mb0 mr0 h32" type="button" onclick="resetQuery()" value="重置">
+						</div>
+	        </div>
+	      </div>
+	    </div>
+	    </div>
+ 			</form>
    			
  			</h2>
 

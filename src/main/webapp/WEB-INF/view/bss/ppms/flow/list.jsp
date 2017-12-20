@@ -203,23 +203,40 @@
 
 		<!-- 查询 -->
 		<h2 class="search_detail">
-			<form action="${pageContext.request.contextPath}/flow/list.html" id="form1" method="post" class="mb0">
-				<input type="hidden" name="purchaseTypeId" id="typeId" value="${fd.purchaseTypeId }">
-				<input type="hidden" name="page" id="page">
-				<ul class="demand_list">
-					<li>
-						<label class="fl">流程名称：</label>
-						<span><input type="text" name="name" value="${fd.name }" class="mb0" /></span>
-					</li>
-					<li>
-						<label class="fl">实施步骤：</label>
-						<span><input type="text" name="step" value="${fd.step }" class="mb0" /></span>
-					</li>
-					<button class="btn fl mt1 " type="submit">查询</button>
-					<button type="button" onclick="resetQuery()" class="btn fl mt1">重置</button>
-				</ul>
-				<div class="clear"></div>
-			</form>
+		<form action="${pageContext.request.contextPath}/flow/list.html" id="form1" method="post" class="mb0">
+		<input type="hidden" name="purchaseTypeId" id="typeId" value="${fd.purchaseTypeId }">
+		<input type="hidden" name="page" id="page">
+		<div class="m_row_5">
+    <div class="row">
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">流程名称：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input type="text" name="name" value="${fd.name }" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">实施步骤：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input type="text" name="step" value="${fd.step }" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-12 f0">
+						<button class="btn mb0 h32" type="submit">查询</button>
+						<button type="button" onclick="resetQuery()" class="btn mb0 mr0 h32">重置</button>
+					</div>
+        </div>
+      </div>
+    </div>
+    </div>
+		</form>
 		</h2>
 		<!-- 表格开始-->
 		<div class="col-md-12 pl20 mt10">

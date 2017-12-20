@@ -70,7 +70,7 @@
           <c:if test="${authType ==  '4'}">
 	          <label class="hand"><input type="checkbox" name="dataType" value="inner_out"/><span>供应商退回修改导出外网</span></label>
 	          <label class="hand"><input type="checkbox" name="dataType" value="temp_out"/><span>临时供应商导出外网</span></label>
-	          <label class="hand"><input type="checkbox" name="dataType" value="expert_out"/><span>专家退回修改导出外网</span></label>
+	          <label class="hand"><input type="checkbox" name="dataType" value="expert_out"/><span>专家退回修改导出内网</span></label>
 	          <label class="hand"><input type="checkbox" name="dataType" value="img_out"/><span>供应商，专家图片导出</span></label>
           </c:if>
         </div>
@@ -87,28 +87,50 @@
     <h2 class="count_flow"><i>2</i>导出日志</h2>
     <ul class="m_boxS1">
       <div class="search_detail ml0 mt0">
-        <ul class="demand_list">
-          <li>
-            <label class="fl">类型：</label>
-            <select name="searchType" id="searchType">
-              <option value="">请选择</option>
-              <c:forEach items="${dataTypeList}" var="dataType">
-                <option value="${dataType.id}">${dataType.name}</option>
-              </c:forEach>
-            </select>
-          </li>
-
-          <li>
-            <label>导出时间：</label>
-            <input type="text" class="Wdate" id="searchStartTime" name="searchStartTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
-            <span>至</span>
-            <input type="text" class="Wdate" id="searchEndTime" name="searchEndTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
-          </li>
-
-          <button type="button" onclick="query();" class="btn fl mt1">查询</button>
-          <button type="reset" class="btn fl mt1" onclick="reset();">重置</button>
-        </ul>
-        <div class="clear"></div>
+      <div class="m_row_5">
+      <div class="row">
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">类型：</div>
+            <div class="col-xs-8 f0 lh0">
+              <select name="searchType" id="searchType" class="w100p h32 f14">
+                <option value="">请选择</option>
+                <c:forEach items="${dataTypeList}" var="dataType">
+                  <option value="${dataType.id}">${dataType.name}</option>
+                </c:forEach>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">开始导出时间：</div>
+            <div class="col-xs-8 f0 lh0">
+              <input type="text" class="Wdate w100p h32 f14 mb0" id="searchStartTime" name="searchStartTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">结束导出时间：</div>
+            <div class="col-xs-8 f0 lh0">
+              <input type="text" class="Wdate w100p h32 f14 mb0" id="searchEndTime" name="searchEndTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+          <div class="row">
+            <div class="col-xs-12 f0">
+              <button type="button" onclick="query();" class="btn mb0 h32">查询</button>
+              <button type="reset" class="btn mb0 mr0 h32" onclick="reset();">重置</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
       </div>
 
       <div class="content pt10">

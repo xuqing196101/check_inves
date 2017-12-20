@@ -30,9 +30,35 @@
                 if (data) {
                     var tabhtml = "";
                     tabhtml +='<h2 class="search_detail ml0">'; 
-                    tabhtml +='<ul class="demand_list" id = "form1"><li class="fl"><label class="fl">编码：</label><span><input type="text" id="code" value="" name="code" class=""/></span></li>'; 
-                    tabhtml +='<li class="fl"><label class="fl">名称：</label><span><input type="text" id="name" value="" name="name" /></span></li>'; 
-                    tabhtml +='<button type="button" onclick="search(1,'+kind+')" class="btn">查询</button><button type="button" onclick="resetQuery()" class="btn">重置</button></ul><div class="clear"></div></h2>';
+										tabhtml +='<div class="m_row_5" id="form1">'
+										+'  <div class="row">'
+										+'    <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">'
+										+'      <div class="row">'
+										+'        <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">编码：</div>'
+										+'        <div class="col-xs-8 f0 lh0">'
+										+'					<input type="text" id="code" value="" name="code" class="w100p h32 f14 mb0">'
+										+'        </div>'
+										+'      </div>'
+										+'    </div>'
+										+'    <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">'
+										+'      <div class="row">'
+										+'        <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">名称：</div>'
+										+'        <div class="col-xs-8 f0 lh0">'
+										+'					<input type="text" id="name" value="" name="name" class="w100p h32 f14 mb0">'
+										+'        </div>'
+										+'      </div>'
+										+'    </div>'
+										+'    <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">'
+										+'      <div class="row">'
+										+'        <div class="col-xs-12 f0">'
+										+'					<button type="button" onclick="search(1,'+kind+')" class="btn mb0 h32">查询</button>'
+										+'					<button type="button" onclick="resetQuery()" class="btn mb0 mr0 h32">重置</button>'
+										+'        </div>'
+										+'      </div>'
+										+'    </div>'
+										+'  </div>'
+										+'  </div>';
+										tabhtml +='</h2>';
                     tabhtml +='<div class="col-md-12 col-xs-12 col-sm-12 p0"><button class="btn btn-windows add" type="button" onclick="add()">新增</button><button class="btn btn-windows edit" type="button" onclick="edit()">修改</button><button class="btn btn-windows delete" type="button" onclick="del();">删除</button></div>';
                     tabhtml +='<div class="content table_box pl0"><table class="table table-bordered table-condensed table-hover table-striped">';
            			tabhtml +='<thead><tr><th class="info w30 tc"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>';
@@ -105,10 +131,36 @@
   	    	    	$("#pageNum").val(pageInfo.pageNum);
   	                if (data) {
   	                    var tabhtml = "";
-  	                    tabhtml +='<h2 class="search_detail ml0">'; 
-  	                    tabhtml +='<ul class="demand_list" id = "form1"><li class="fl"><label class="fl">编码：</label><span><input type="text" id="code" value="" name="code" class=""/></span></li>'; 
-  	                    tabhtml +='<li class="fl"><label class="fl">名称：</label><span><input type="text" id="name" value="" name="name" /></span></li>'; 
-  	                    tabhtml +='<button type="button" onclick="search(1,'+kind+')" class="btn">查询</button><button type="button" onclick="resetQuery()" class="btn">重置</button></ul><div class="clear"></div></h2>';
+  	                    tabhtml +='<h2 class="search_detail ml0">';
+												tabhtml +='<div class="m_row_5" id="form1">'
+											  +'  <div class="row">'
+											  +'    <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">'
+											  +'      <div class="row">'
+											  +'        <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">编码：</div>'
+											  +'        <div class="col-xs-8 f0 lh0">'
+												+'					<input type="text" id="code" value="" name="code" class="w100p h32 f14 mb0">'
+											  +'        </div>'
+											  +'      </div>'
+											  +'    </div>'
+											  +'    <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">'
+											  +'      <div class="row">'
+											  +'        <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">名称：</div>'
+											  +'        <div class="col-xs-8 f0 lh0">'
+												+'					<input type="text" id="name" value="" name="name" class="w100p h32 f14 mb0">'
+											  +'        </div>'
+											  +'      </div>'
+											  +'    </div>'
+											  +'    <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">'
+											  +'      <div class="row">'
+											  +'        <div class="col-xs-12 f0">'
+												+'					<button type="button" onclick="search(1,'+kind+')" class="btn mb0 h32">查询</button>'
+												+'					<button type="button" onclick="resetQuery()" class="btn mb0 mr0 h32">重置</button>'
+											  +'        </div>'
+											  +'      </div>'
+											  +'    </div>'
+											  +'  </div>'
+											  +'  </div>';
+  	                    tabhtml +='</h2>';
   	                    tabhtml +='<div class="col-md-12 col-xs-12 col-sm-12 p0"><button class="btn btn-windows add" type="button" onclick="add()">新增</button><button class="btn btn-windows edit" type="button" onclick="edit()">修改</button><button class="btn btn-windows delete" type="button" onclick="del();">删除</button></div>';
   	                    tabhtml +='<div class="content table_box pl0"><table class="table table-bordered table-condensed table-hover table-striped">';
   	           			tabhtml +='<thead><tr><th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>';

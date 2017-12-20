@@ -1441,6 +1441,13 @@
 										<w:rPr>
 											<w:sz-cs w:val="21" /></w:rPr>
 									</w:pPr>
+									<w:r>
+										<w:rPr>
+											<w:rFonts w:hint="fareast" />
+											<wx:font wx:val="宋体" />
+										</w:rPr>
+										<w:t>${tree.remark!}</w:t>
+									</w:r>
 								</w:p>
 							</w:tc>
 						</w:tr>

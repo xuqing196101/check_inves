@@ -188,7 +188,10 @@ public class FileUtils {
     public final static String C_SYNCH_PUBLICITY_EXPERT_FILENAME = "_c_publicity_expert.dat";
     /**导出文件目录**/
     public final static String C_SYNCH_PUBLICITY_EXPERT_FILE_DIRECTORY= PropUtil.getProperty("file.t_ses_sms_expert_publicity_path.system.path");
-
+    
+    /**注销专家 导出创建数据名称**/
+    public final static String C_SYNCH_LOGOUT_EXPERT_FILENAME = "_c_delete_expert.dat";
+    
     /** 网上投诉新建数据名称 **/
     public final static String C_ONLINE_COMPLAINTS_PATH_FILENAME="_c_online_complaints.dat";
     /** 网上投诉更新数据名称 **/
@@ -454,7 +457,19 @@ public class FileUtils {
         final File file = new File(path,fileName);
         return file;
     }
-    
+    /**
+    *
+    *〈简述〉注销专家
+    *〈详细描述〉
+    * @author myc
+    * @return
+    */
+   public static final File getExpertLogout(){
+       String fileName = System.currentTimeMillis() +C_SYNCH_LOGOUT_EXPERT_FILENAME;
+       String path = getBackUpPath();
+       final File file = new File(path,fileName);
+       return file;
+   }
     
     /**
      * 

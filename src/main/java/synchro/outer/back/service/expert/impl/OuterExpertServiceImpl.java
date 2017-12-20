@@ -1,5 +1,6 @@
 package synchro.outer.back.service.expert.impl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -271,7 +272,16 @@ public class OuterExpertServiceImpl implements OuterExpertService {
         }
         recordService.synchBidding(null, new Integer(experts.size()).toString(), synchro.util.Constant.SYNCH_PUBLICITY_EXPERT, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.COMMIT_SYNCH_PUBLICITY_EXPERT);
     }
-
+    /**
+     *查询注销专家导出外网 
+     */
+    public void getDeleteExpertByDate(String startDate,String endDate) {
+		List<Expert> list = expertService.getDeleteExpertByDate(startDate, endDate);
+		if(list.size()>0){
+			 FileUtils.writeFile(FileUtils.getExpertLogout(), JSON.toJSONString(list));
+		}
+		 recordService.synchBidding(null, new Integer(list.size()).toString(), synchro.util.Constant.SYNCH_LOGOUT_EXPERT, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.EXPORT_SYNCH_LOGOUT_EXPERT);
+	}
     /**
      * 〈简述〉获取专家与用户信息
      * 〈详细描述〉

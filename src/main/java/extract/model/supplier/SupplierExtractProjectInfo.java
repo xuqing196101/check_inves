@@ -1,6 +1,7 @@
 package extract.model.supplier;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
@@ -90,6 +91,8 @@ public class SupplierExtractProjectInfo {
      * </pre>
      */
     private String procurementDepId;
+    
+    private List<String> procurementDepIds;
     
     /**
      * 条件id  若是抽取中或者暂存 状态，会获取到上一次的条件信息
@@ -687,6 +690,16 @@ public class SupplierExtractProjectInfo {
 
 	public void setExtractNum(int extractNum) {
 		this.extractNum = extractNum;
+	}
+
+
+	public List<String> getProcurementDepIds() {
+		return procurementDepIds;
+	}
+
+
+	public void setProcurementDepIds(List<String> procurementDepIds) {
+		this.procurementDepIds = procurementDepIds;
 	}
 
 	

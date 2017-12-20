@@ -188,34 +188,50 @@
 	 <div class="headline-v2">
 		<h2>竞价信息列表</h2>
 	 </div>
-    <div class="search_detail">
-       <form id="queryForm" action="" method="post" class="mb0">
-    	<ul class="demand_list">
-    	  <li>
-	    	<label class="fl">竞价标题：</label>
-			<input id="name" name="name" value="${ name }" type="text" id="topic" class=""/>
-	      </li>
-    	  <li>
-	    	<label class="fl">竞价开始时间：</label>
-	    	<input id="startTimeStr" name="startTimeStr" type="text"  readonly="readonly"   maxlength="19" 
-			 onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-			  value="<fmt:formatDate value="${startTimeStr}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-			   class="Wdate" />
-	    	<%--  <input id="startTime" name="startTime" value="${ startTimeStr }"  class="Wdate" type="text" id="d17" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'d18\')}',dateFmt:'yyyy-MM-dd HH:mm:ss',firstDayOfWeek:1})"/> --%>
-	      </li>
-    	  <li>
-	    	<label class="fl">竞价结束时间：</label>
-	    	<input id="endTimeStr" name="endTimeStr" type="text"  readonly="readonly"   maxlength="19" 
-			 onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" 
-			 value="<fmt:formatDate value="${endTimeStr}" pattern="yyyy-MM-dd HH:mm:ss"/>" class="Wdate" />
-			<%-- <input id="endTime" name="endTime" value="${ endTimeStr }" class="Wdate" type="text" id="d18" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'d17\')}',dateFmt:'yyyy-MM-dd HH:mm:ss',firstDayOfWeek:1})"/> --%>
-	      </li> 
-	    	<button type="button" onclick="query()" class="btn fl mt1">查询</button>
-	    	<button onclick="resetAll()" class="btn fl mt1 ml5">重置</button>  	
-    	</ul>
-    	  <div class="clear"></div>
-       </form>
-     </div>
+		<div class="search_detail">
+		<form id="queryForm" action="" method="post" class="mb0">
+		<div class="m_row_5">
+    <div class="row">
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">竞价标题：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input id="name" name="name" value="${ name }" type="text" id="topic" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">竞价开始时间：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input id="startTimeStr" name="startTimeStr" type="text" readonly="readonly" maxlength="19" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+					  value="<fmt:formatDate value="${startTimeStr}" pattern="yyyy-MM-dd HH:mm:ss"/>" class="Wdate w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">竞价结束时间：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input id="endTimeStr" name="endTimeStr" type="text" readonly="readonly" maxlength="19" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="<fmt:formatDate value="${endTimeStr}" pattern="yyyy-MM-dd HH:mm:ss"/>" class="Wdate w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-12 f0">
+						<button type="button" onclick="query()" class="btn mb0 h32">查询</button>
+			    	<button onclick="resetAll()" class="btn mb0 mr0 h32">重置</button>
+					</div>
+        </div>
+      </div>
+    </div>
+    </div>
+		</form>
+		</div>
     <div class="col-md-12 pl20 mt10">
 		<button class="btn btn-windows apply" type="submit" onclick="findIssueInfo()">查看</button>
 		<button class="btn btn-windows apply" type="submit" onclick="findResult()">查看结果</button>

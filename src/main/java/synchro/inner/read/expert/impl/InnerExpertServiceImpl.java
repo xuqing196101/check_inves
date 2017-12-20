@@ -40,6 +40,7 @@ import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -227,7 +228,27 @@ public class InnerExpertServiceImpl implements InnerExpertService {
 
         }
     }
-
+    public void delExpert(File file) {
+    	List<Expert> expertList = getExpert(file);
+    	if(null != expertList && !expertList.isEmpty()){
+    		try{
+                for(Expert e:expertList){
+                	Expert expert = expertMapper.selectByPrimaryKey(e.getId());
+                	if(expert != null){
+                		expert.setRelName(e.getRelName());
+                		expert.setMobile(e.getMobile());
+                		expert.setIdCardNumber(e.getIdCardNumber());
+                		expert.setIdNumber(e.getIdNumber());
+                		expert.setUpdatedAt(e.getUpdatedAt());
+                		expertMapper.updateById(expert);
+                		userService.updateByTypeId(e.getId());
+                	}       	
+                }
+            }catch (RuntimeException e){
+                e.printStackTrace();
+            }
+    	}
+	}
     /**
      *
      * Description: 导入公示的专家 到外网展示

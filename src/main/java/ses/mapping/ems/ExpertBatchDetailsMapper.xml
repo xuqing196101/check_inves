@@ -40,6 +40,7 @@
         T1.GROUP_NAME,
         T1.GROUP_ID,
         T1.BATCH_ID,
+        T2.AT_DUTY AS atDuty,
         T2.REAL_NAME AS realName,<!-- 真实姓名 -->
         data.NAME AS gender,<!-- 性别 -->
         T2.WORK_UNIT AS workUnit,<!-- 工作单位 -->
@@ -144,6 +145,7 @@
         T1.GROUP_NAME,
         T1.GROUP_ID,
         T1.BATCH_ID,
+        T2.AT_DUTY AS atDuty,
         T2.REAL_NAME AS realName,<!-- 真实姓名 -->
         data.NAME AS gender,<!-- 性别 -->
         T2.WORK_UNIT AS workUnit,<!-- 工作单位 -->

@@ -208,4 +208,9 @@ import extract.service.supplier.SupplierExtractConditionService;
 	return JSON.toJSONString(categoryService.selectCategoryByName(typeId, cateName,cateCode));
    }
    
+   @ResponseBody
+   @RequestMapping("/branchTree")
+   public String branchTree(String id,String cname,String[] alreadyId){
+	   return JSON.toJSONString(conditionService.selectBranchTree(id,cname,alreadyId));
+   }
 }

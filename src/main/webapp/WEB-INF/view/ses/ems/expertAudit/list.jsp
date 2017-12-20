@@ -423,56 +423,74 @@
         <form action="${pageContext.request.contextPath}/expertAudit/list.html" method="post" id="formSearch" class="mb0">
           <input type="hidden" name="pageNum" id="pageNum">
           <input type="hidden" name="sign" value="${sign }">
-          <ul class="demand_list">
-            <li>
-              <label class="fl">专家姓名：</label>
-              <input type="text" name="relName" value="${relName }">
-            </li>
-            <li>
-              <label class="fl">状态：</label>
-              <select name="status" class="w178" id="status">
-                <option value="">全部</option>
-                <c:if test="${sign == 1}">
-                  <option <c:if test="${state eq '0'}">selected</c:if> value="0">待初审</option>
-                  <option <c:if test="${state eq '9'}">selected</c:if> value="9">退回再初审</option>
-                  <option <c:if test="${state eq '0' and auditTemporary == 1}">selected</c:if> value="first">初审中</option>
-                  <option <c:if test="${state eq '1'}">selected</c:if> value="1">初审合格(待复审)</option>
-                  <option <c:if test="${state eq '3'}">selected</c:if> value="3">初审退回修改</option>
-                  <option <c:if test="${state eq '2'}">selected</c:if> value="2">初审未合格</option>
-                  <option <c:if test="${state eq '10'}">selected</c:if> value="10">复审退回修改</option>
-                  <option <c:if test="${state eq '5'}">selected</c:if> value="5">复审不合格</option>
-                  <option <c:if test="${state eq 'trialEnd'}">selected</c:if> value="trialEnd">预初审结束</option>
-                  
-                </c:if>
-                <c:if test="${sign == 2}">
-                  <option <c:if test="${state eq '4'}">selected</c:if> value="4">复审已分配</option>
-                  <option <c:if test="${state eq '-2'}">selected</c:if> value="-2">复审预合格</option>
-                  <option <c:if test="${state eq '-3'}">selected</c:if> value="-3">公示中</option>
-                  <option <c:if test="${state eq '6'}">selected</c:if> value="6">复审合格</option>
-                  <option <c:if test="${state eq '5'}">selected</c:if> value="5">复审不合格</option>
-                  <option <c:if test="${state eq '10'}">selected</c:if> value="10">复审退回修改</option>
-                </c:if>
-                <c:if test="${sign == 3}">
-                  <option <c:if test="${state eq '6'}">selected</c:if> value="6">入库(待复查)</option>
-                  <option <c:if test="${state eq '7'}">selected</c:if> value="7">复查合格</option>
-                  <option <c:if test="${state eq '8'}">selected</c:if> value="8">复查未合格</option>
-                </c:if>
-              </select>
-            </li>
-            <li>
-              <label class="fl">审核时间：</label>
-                <span>
-                  <input id="auditAt" name="auditAt" class="Wdate w178 fl" value='<fmt:formatDate value="${auditAt}" pattern="YYYY-MM-dd"/>' type="text" onClick="WdatePicker()" />
-                </span>
-            </li>
-          </ul>
-          <div class="col-md-12 clear tc mt10">
-            <input class="btn" value="查询" type="submit">
-          <button onclick="resetForm();" class="btn" type="button">重置</button>
+          <div class="m_row_5">
+          <div class="row">
+            <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+              <div class="row">
+                <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">专家姓名：</div>
+                <div class="col-xs-8 f0 lh0">
+                  <input type="text" name="relName" value="${relName }" class="w100p h32 f14 mb0">
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+              <div class="row">
+                <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">状态：</div>
+                <div class="col-xs-8 f0 lh0">
+                  <select name="status" class="w100p h32 f14" id="status">
+                    <option value="">全部</option>
+                    <c:if test="${sign == 1}">
+                      <option <c:if test="${state eq '0'}">selected</c:if> value="0">待初审</option>
+                      <option <c:if test="${state eq '9'}">selected</c:if> value="9">退回再初审</option>
+                      <option <c:if test="${state eq '0' and auditTemporary == 1}">selected</c:if> value="first">初审中</option>
+                      <option <c:if test="${state eq '1'}">selected</c:if> value="1">初审合格(待复审)</option>
+                      <option <c:if test="${state eq '3'}">selected</c:if> value="3">初审退回修改</option>
+                      <option <c:if test="${state eq '2'}">selected</c:if> value="2">初审未合格</option>
+                      <option <c:if test="${state eq '10'}">selected</c:if> value="10">复审退回修改</option>
+                      <option <c:if test="${state eq '5'}">selected</c:if> value="5">复审不合格</option>
+                      <option <c:if test="${state eq 'trialEnd'}">selected</c:if> value="trialEnd">预初审结束</option>
+                      
+                    </c:if>
+                    <c:if test="${sign == 2}">
+                      <option <c:if test="${state eq '4'}">selected</c:if> value="4">复审已分配</option>
+                      <option <c:if test="${state eq '-2'}">selected</c:if> value="-2">复审预合格</option>
+                      <option <c:if test="${state eq '-3'}">selected</c:if> value="-3">公示中</option>
+                      <option <c:if test="${state eq '6'}">selected</c:if> value="6">复审合格</option>
+                      <option <c:if test="${state eq '5'}">selected</c:if> value="5">复审不合格</option>
+                      <option <c:if test="${state eq '10'}">selected</c:if> value="10">复审退回修改</option>
+                    </c:if>
+                    <c:if test="${sign == 3}">
+                      <option <c:if test="${state eq '6'}">selected</c:if> value="6">入库(待复查)</option>
+                      <option <c:if test="${state eq '7'}">selected</c:if> value="7">复查合格</option>
+                      <option <c:if test="${state eq '8'}">selected</c:if> value="8">复查未合格</option>
+                    </c:if>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+              <div class="row">
+                <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">审核时间：</div>
+                <div class="col-xs-8 f0 lh0">
+                  <input id="auditAt" name="auditAt" class="Wdate w100p h32 f14 mb0" value='<fmt:formatDate value="${auditAt}" pattern="YYYY-MM-dd"/>' type="text" onClick="WdatePicker()">
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+              <div class="row">
+                <div class="col-xs-12 f0">
+                  <input class="btn mb0 h32" value="查询" type="submit">
+                  <button onclick="resetForm();" class="btn mb0 mr0 h32" type="button">重置</button>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="clear"></div>
+          </div>
         </form>
-      </h2>
+        </h2>
       <!-- 表格开始-->
       <div class="col-md-12 pl20 mt10" id="btn_group">
         <button class="btn btn-windows check" type="button" onclick="shenhe();">初审</button>

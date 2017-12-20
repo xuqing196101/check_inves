@@ -41,11 +41,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import extract.dao.supplier.ExtractConditionRelationMapper;
 import extract.dao.supplier.SupplierExtractConditionMapper;
 import extract.dao.supplier.SupplierExtractRelateResultMapper;
+import extract.model.supplier.Continent;
 import extract.model.supplier.ExtractConditionRelation;
 import extract.model.supplier.Qua;
 import extract.model.supplier.SupplierConType;
 import extract.model.supplier.SupplierExtractCondition;
 import extract.service.supplier.SupplierExtractConditionService;
+
+
 
 /**
  *  @Description:    @author Wang Wenshuai  @version 2016年9月28日上午10:39:57
@@ -62,10 +65,10 @@ public class SupplierExtractConditionServiceimp implements
 	ObjectMapper mapper = new ObjectMapper();
 
 	@Autowired
-	SupplierExtractConditionMapper conditionMapper;
+	SupplierExtractConditionMapper conditionMapper; //抽取条件表
 
 	@Autowired
-	SupplierExtractRelateResultMapper supplierExtRelateMapper;
+	SupplierExtractRelateResultMapper supplierExtRelateMapper;//抽取结果关联表
 
 	@Autowired
 	PackageService packageService;
@@ -74,7 +77,7 @@ public class SupplierExtractConditionServiceimp implements
 	private ProjectService projectService;
 
 	@Autowired
-	private ExtractConditionRelationMapper extractConditionRelationMapper;// 条件关联表
+	private ExtractConditionRelationMapper extractConditionRelationMapper;// 条件副表
 
 	@Autowired
 	private DictionaryDataMapper dictionaryDataMapper;
@@ -443,7 +446,12 @@ public class SupplierExtractConditionServiceimp implements
 	public int saveOrUpdateCondition(SupplierExtractCondition condition,
 			SupplierConType conType) {
 		if (StringUtils.isNotBlank(condition.getId())) {
-			conditionMapper.updateConditionByPrimaryKeySelective(condition);
+			SupplierExtractCondition selectByPrimaryKey = conditionMapper.selectByPrimaryKey(condition.getId());
+			if(null!=selectByPrimaryKey){
+				conditionMapper.updateConditionByPrimaryKeySelective(condition);
+			}else{
+				conditionMapper.insertSelective(condition);
+			}
 			//return saveContype(condition, conType);
 			return saveContype2(condition);
 		}
@@ -1012,6 +1020,11 @@ public class SupplierExtractConditionServiceimp implements
 				list.add(new ExtractConditionRelation(cid, "salesLevelTypeId", sl));
 			}
 		}
+		if(null!=condition.getBranchCountry()){
+			for (String bc : condition.getBranchCountry()) {
+				list.add(new ExtractConditionRelation(cid, "branchCountry", bc));
+			}
+		}
 		
 		if (list.size() > 0) {
 			try {
@@ -1090,7 +1103,7 @@ public class SupplierExtractConditionServiceimp implements
 	 *
 	 * @author Jia Chengxiang
 	 * @dateTime 2017-11-20上午11:26:18
-	 * @param listExtractionSupplierOfLogicIsAnd
+	 * @param 
 	 * @param condition
 	 * @param setExtractCondition2 供应商等级，品目关系
 	 */
@@ -1269,5 +1282,24 @@ public class SupplierExtractConditionServiceimp implements
 				}
 			}
 		}
+	}
+
+	@Override
+	public List<Supplier> testVoiceExtract(String lastRow) {
+		return  supplierExtRelateMapper.testVoiceExtract(lastRow);
+	}
+	@Override
+	public List<Continent> selectBranchTree(String cid,String cname,String[] alreadyId) {
+		List<Continent> selectContryTree = conditionMapper.selectContryTree(cid,cname);
+		if(null != alreadyId && alreadyId.length>0){
+			for (Continent continent : selectContryTree) {
+				for (String id : alreadyId) {
+					if(continent.getId().equals(id)){
+						continent.setChecked("true");
+					}
+				}
+			}
+		}
+		return selectContryTree;
 	}
 }

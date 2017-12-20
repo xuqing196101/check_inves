@@ -369,6 +369,12 @@ public class ExpertAuditController{
 		expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("batchId", batchId);
 		model.addAttribute("isCheck", isCheck == null? "no" : isCheck);
+		
+		if("4".equals(expert.getStatus()) && !"yes".equals(isCheck)){
+			//还原重新复审标记
+			expertService.updateReviewStatus(expertId);
+		}
+		
 		//暂存中和记录审核人
 		if("0".equals(expert.getStatus()) || "4".equals(expert.getStatus()) || "6".equals(expert.getStatus()) || "9".equals(expert.getStatus())){
 			temporaryAudit(expertId,user.getRelName(),sign);
@@ -918,7 +924,11 @@ public class ExpertAuditController{
 		expertAudit.setAuditAt(new Date());
 		ExpertAudit audit = expertAuditService.findByExpertAuditObj(expertAudit);
 		if(audit!=null){
-			expertAuditService.updateAuditStatus(audit.getId(), "4");
+			if("seven".equals(audit.getSuggestType()) && "1".equals(audit.getType()) && !"isTitle".equals(audit.getAuditFieldId())){
+				expertAuditService.updateAuditStatus(audit.getId(), "5");
+			}else{
+				expertAuditService.updateAuditStatus(audit.getId(), "4");
+			}
 			String msg = "{\"msg\":\"true\"}";
 			writeJson(response, msg);
 		}else{
@@ -1971,10 +1981,6 @@ public class ExpertAuditController{
 			selectEao.setFlagTime(1);
 		}
 		auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
-		//如果当前专家为重新复审专家清空复审意见
-		if(sign==2 && "1".equals(expert.getReviewStatus()) && "no".equals(isCheck)){
-			auditOpinion.setOpinion("");
-		}
 		model.addAttribute("qualified", true);
 		JdcgResult result =null;
 		if(expertAudit.getAuditFalg()==2){

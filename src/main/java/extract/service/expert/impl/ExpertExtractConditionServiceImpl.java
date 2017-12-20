@@ -20,7 +20,6 @@ import ses.dao.bms.AreaMapper;
 import ses.dao.ems.ExpertBlackListMapper;
 import ses.dao.ems.ExpertCategoryMapper;
 import ses.dao.ems.ExpertMapper;
-import ses.model.bms.Area;
 import ses.model.bms.DictionaryData;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertBlackList;
@@ -232,13 +231,9 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
             }
             if(!"".equals(expertExtractCondition.getAreaName())){
                 String[] pids = expertExtractCondition.getAreaName().split(",");
-                for (String str : pids) {
-                    List<Area> list = areaMapper.findAreaByParentId(str);
-                    if(list != null && list.size() > 0){
-                        for (Area area : list) {
-                            areaNames.add(area.getId());
-                        }
-                    }
+                List<String> childrenIds = expertExtractConditionMapper.findAreaIdByParentId(pids);
+                if(childrenIds != null && childrenIds.size() > 0){
+                	areaNames.addAll(childrenIds);
                 }
             }
             map.put("areaNames", areaNames);
@@ -400,7 +395,6 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                         }
                     }
                 }
-                
                 map.put("notExpertIds",notExpertIds);
                 map.put("notSize",notExpertIds.size());
                 //技术职称

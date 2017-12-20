@@ -130,7 +130,7 @@ public class PreMenuServiceImpl implements PreMenuServiceI {
 	@Override
   public List<PreMenu> getMenu(User u, Integer kind) {
 	  List<String> mIds = findByUids(u.getId());
-	  if (mIds != null && mIds.size() > 0) {
+	  if (mIds != null && mIds.size() > 0 && kind != null) {
 	    List<PreMenu> menus = preMenuMapper.findByMids(mIds, kind);
 	    return menus;
     } else {

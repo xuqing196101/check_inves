@@ -1890,6 +1890,47 @@ public class ExpertController extends BaseController {
                     // Constant.EXPERT_SYS_VALUE;
                     model.addAttribute("expertKey", expertKey);
                     model.addAttribute("expert", expert);
+                    //军队人员身份证件类型
+            		if(expert.getIdType() != null) {
+            			DictionaryData idType = dictionaryDataServiceI.getDictionaryData(expert.getIdType());
+            			model.addAttribute("idType", idType.getName());
+            		}
+            		//专家来源
+            		if(expert.getExpertsFrom() != null) {
+            			DictionaryData expertsFrom = dictionaryDataServiceI.getDictionaryData(expert.getExpertsFrom());
+            			model.addAttribute("expertsFrom", expertsFrom.getName());
+            			// 专家来源
+            			model.addAttribute("froms", expertsFrom.getCode());
+            		}
+            		//地区查询
+            		List < Area > privnce = areaServiceI.findRootArea();
+            		model.addAttribute("privnce", privnce);
+
+            		if(expert.getAddress() !=null ){
+            			Area area = areaServiceI.listById(expert.getAddress());
+            			String sonName = area.getName();
+            			model.addAttribute("sonName", sonName);
+            			for(int i = 0; i < privnce.size(); i++) {
+            				if(area.getParentId().equals(privnce.get(i).getId())) {
+            					String parentName = privnce.get(i).getName();
+            					model.addAttribute("parentName", parentName);
+            				}
+            			}
+            		}
+            		
+            		//最高学历
+            		if(expert.getHightEducation() != null) {
+            			DictionaryData hightEducation = dictionaryDataServiceI.getDictionaryData(expert.getHightEducation());
+            			model.addAttribute("hightEducation", hightEducation.getName());
+            		}
+            		
+            		//最高学位
+            		if(expert.getDegree() != null) {
+            			DictionaryData degree = dictionaryDataServiceI.getDictionaryData(expert.getDegree());
+            			if(degree != null){
+            				model.addAttribute("degree", degree.getName());
+            			}
+            		}
                 }
             }
         }
@@ -2286,19 +2327,19 @@ public class ExpertController extends BaseController {
         // 查询数据字典中的专家来源配置数据
         List < DictionaryData > lyTypeList = DictionaryDataUtil.find(12);
         request.setAttribute("lyTypeList", lyTypeList);
-        /*// 查询数据字典中的专家类别数据
+        // 查询数据字典中的专家类别数据
         List < DictionaryData > jsTypeList = DictionaryDataUtil.find(6);
         for(DictionaryData data: jsTypeList) {
             data.setName(data.getName() + "技术");
         }
-        List < DictionaryData > jjTypeList = DictionaryDataUtil.find(19);*/
+        List < DictionaryData > jjTypeList = DictionaryDataUtil.find(19);
         
         //全部机构
         List<Orgnization>  allOrg = orgnizationServiceI.findPurchaseOrgByPosition(null);
         request.setAttribute("allOrg", allOrg);
         
-        /*jsTypeList.addAll(jjTypeList);
-        request.setAttribute("expTypeList", jsTypeList);*/
+        jsTypeList.addAll(jjTypeList);
+        request.setAttribute("expTypeList", jsTypeList);
         request.setAttribute("result", new PageInfo < Expert > (allExpert));
         request.setAttribute("expert", expert);
         request.setAttribute("expertType", expertType);

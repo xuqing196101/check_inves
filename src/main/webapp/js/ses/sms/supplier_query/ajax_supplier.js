@@ -25,14 +25,14 @@ function listPage(pages, total, startRow, endRow, pageNum) {
 }
 function addButton(){
 	$("#addButton").empty();
-	$("#addButton").append("<input class=\"btn fl mt1\" onclick=\"findSupplier(3)\" type=\"button\" value=\"查询\"> "
-			+" <input type=\"button\" class=\"btn fl mt1\" onclick=\"resetQuery()\" value=\"重置\">"
-			+" <input type=\"button\" class=\"btn fl mt1\" onclick=\"resetAgain()\" value=\"重新计算\">");
+	$("#addButton").append("<input class=\"btn mb0\" onclick=\"findSupplier(3)\" type=\"button\" value=\"查询\"> "
+			+" <input type=\"button\" class=\"btn mb0\" onclick=\"resetQuery()\" value=\"重置\">"
+			+" <input type=\"button\" class=\"btn mb0 mr0\" onclick=\"resetAgain()\" value=\"重新计算\">");
 }
 function addButtonProject(){
 	$("#addButton").empty();
-	$("#addButton").append("<input class=\"btn fl mt1\" onclick=\"findSupplier()\" type=\"button\" value=\"查询\"> "
-			+" <input type=\"button\" class=\"btn fl mt1\" onclick=\"resetQuery()\" value=\"重置\">"
+	$("#addButton").append("<input class=\"btn mb0\" onclick=\"findSupplier()\" type=\"button\" value=\"查询\"> "
+			+" <input type=\"button\" class=\"btn mb0 mr0\" onclick=\"resetQuery()\" value=\"重置\">"
 			);
 }
 /*******************************************************************************

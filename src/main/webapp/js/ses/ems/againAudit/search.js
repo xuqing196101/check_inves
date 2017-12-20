@@ -10,7 +10,7 @@ function allotList_search() {
   }
   
   // 默认情况为未选列表搜索，反之为已选列表搜索
-  if ($('#list_content').parents('table').css('display') != 'none') {
+  if ($('#selected_tab li.active').index() == 0) {
     $('#list_content').listConstructor({
       data: {
         orgName: orgName,

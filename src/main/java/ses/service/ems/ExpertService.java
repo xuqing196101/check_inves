@@ -585,4 +585,13 @@ public interface ExpertService {
     List<Expert> exportExcel (Expert expert, String expertTypeIds, String expertType, String categoryIds, Integer flag);
     
     void updateReviewStatus(String expertId);
+    /**
+     *〈简述〉根据修改日期获取注销专家信息
+     *〈详细描述〉
+     * @param startDate 开始日期
+     * @param endDate 结束日期
+     * @return 专家集合
+     */
+    List<Expert> getDeleteExpertByDate(String startDate,String endDate);
+    
 }

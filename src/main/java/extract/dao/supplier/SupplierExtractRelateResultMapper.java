@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ses.model.ems.Expert;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierExtRelate;
 import extract.model.supplier.SupplierExtractCondition;
@@ -287,5 +288,36 @@ public interface SupplierExtractRelateResultMapper {
 	 */
 	List<Supplier> selectSuppleir(SupplierExtractCondition condition);
 
-	
+	/**
+	 * 
+	 * <简述>语音抽取联调测试 
+	 *
+	 * @author Jia Chengxiang
+	 * @param lastRow 
+	 * @dateTime 2017-12-13下午8:32:43
+	 * @return
+	 */
+	List<Supplier> testVoiceExtract(String lastRow);
+
+	/**
+	 * 
+	 * 
+	 * Description: 专家抽取测试
+	 * 
+	 * @data 2017年12月15日
+	 * @param 
+	 * @return List<Expert>
+	 */
+	List<Expert> tesExpertVoice();
+
+	/**
+	 * 
+	 * 
+	 * Description: 专家抽取测试根据电话查询id、
+	 * 
+	 * @data 2017年12月15日
+	 * @param 
+	 * @return String
+	 */
+	String testFindIdByMobile(String mobile);
 }

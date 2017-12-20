@@ -116,6 +116,7 @@
             }
 			function submitformExpert() {
 				var idCard = $("#idCardNumber").val().trim();
+				var checkStatus=true;
 				// 身份证唯一性验证
 				if(idCard != "") {
 					//15位和18位身份证号码的正则表达式
@@ -141,7 +142,7 @@
 				                	 layer.msg('身份证号码错误！', {
                                          offset: '300px'
                                      });
-                                    return false;
+				                	 checkStatus=false;
 				                }
 				            } else {
 				                //用计算出的验证码与最后一位身份证号码匹配，如果一致，说明通过，否则是无效的身份证号码
@@ -151,14 +152,14 @@
 				                    layer.msg('身份证号码错误！', {
 		                                 offset: '300px'
 		                             });
-		                            return false;
+				                    checkStatus=false;
 				                }
 				            }
 				        } else if (idCard.length > 0 && idCard.length < 18) {
 				            layer.msg('请输入正确的身份证号！', {
 	                             offset: '300px'
 	                         });
-	                        return false;
+				            checkStatus=false;
 				        } else if (idCard.length == 0) {
 				           // return "success";
 				        } else {
@@ -171,7 +172,10 @@
 				    	 layer.msg('身份证格式不正确!', {
                              offset: '300px'
                          });
-				        return false;
+				    	 checkStatus=false;
+				    }
+				    if(!checkStatus){
+				    	return false;
 				    }
                     //校验专家表身份证
                     $.ajax({
@@ -1245,8 +1249,12 @@
 	                  	<u:show showId="show1"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" />
 											
 										</c:when>
+										<c:when test="${expert.status == 3 and !(fn:contains(errorField,'缴纳社会保险证明')|| fn:contains(errorField,'退休证书或退休证明'))}">
+												<u:show showId="show1" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" />										
+										</c:when>
 										<c:otherwise>
-											<u:show showId="show1" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" />
+										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert1" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" auto="true" />
+	                  	<u:show showId="show1"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" />
 										</c:otherwise>
 									</c:choose>
                 </c:if>
@@ -1256,8 +1264,12 @@
 											<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert1_2" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="2" auto="true" />
                     	<u:show showId="show1_2"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="2" />
 										</c:when>
-										<c:otherwise>
+										<c:when test="${expert.status == 3 and !(fn:contains(errorField,'缴纳社会保险证明')||fn:contains(errorField,'退休证书或退休证明'))}">
 											<u:show showId="show1_2" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="2" />
+										</c:when>
+										<c:otherwise>
+										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert1_2" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="2" auto="true" />
+                    	<u:show showId="show1_2"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="2" />
 										</c:otherwise>
 									</c:choose>
                 </c:if>
@@ -1472,7 +1484,7 @@
 							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'专业技术职称证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('专业技术职称证书')"
 								</c:if>>
 								 <c:choose>
-									<c:when test="${(expert.status == 3 and !fn:contains(errorField,'专业技术职称证书'))||fn:contains(errorField,'专业技术职称')}">
+									<c:when test="${(expert.status == 3 and !fn:contains(errorField,'专业技术职称证书'))||(expert.status == 3 and !fn:contains(errorField,'专业技术职称'))}">
 										<u:show showId="show4" delete="false" groups="show9,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="4" />
 									</c:when>
 									<c:otherwise> 

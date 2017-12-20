@@ -212,8 +212,12 @@
                 if (typeof(list_content.list[i].workUnit) === 'undefined') {
                   list_content.list[i].workUnit = '';
                 }
-                if (typeof(list_content.list[i].professTechTitles) === 'undefined') {
-                  list_content.list[i].professTechTitles = '';
+                if (typeof(list_content.list[i].professTechTitles) === 'undefined' || list_content.list[i].professTechTitles == '') {
+                  if (typeof(list_content.list[i].atDuty) === 'undefined') {
+                    list_content.list[i].professTechTitles = '';
+                  } else {
+                    list_content.list[i].professTechTitles = list_content.list[i].atDuty;
+                  }
                 }
                 if (typeof(list_content.list[i].groupName) === 'undefined') {
                   list_content.list[i].groupName = '';
@@ -391,8 +395,12 @@
                 if (typeof(list_content.list.list[i].workUnit) === 'undefined') {
                   list_content.list.list[i].workUnit = '';
                 }
-                if (typeof(list_content.list.list[i].professTechTitles) === 'undefined') {
-                  list_content.list.list[i].professTechTitles = '';
+                if (typeof(list_content.list.list[i].professTechTitles) === 'undefined' || list_content.list.list[i].professTechTitles == '') {
+                  if (typeof(list_content.list.list[i].atDuty) === 'undefined') {
+                    list_content.list.list[i].professTechTitles = '';
+                  } else {
+                    list_content.list.list[i].professTechTitles = list_content.list.list[i].atDuty;
+                  }
                 }
                 if (typeof(list_content.list.list[i].updateTime) === 'undefined') {
                   list_content.list.list[i].updateTime = '';

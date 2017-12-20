@@ -18,6 +18,11 @@
 			if (value == procurementDepId) {
 				$(this).prop("checked", true);
 			}
+			var tdOrgName = $(this).parent().next().next();
+			if(tdOrgName && tdOrgName.text() == '北京采购站'){
+				$(this).prop("disabled", true);
+				tdOrgName.text(tdOrgName.text() + "（因工作需要，暂停选择）");
+			}
 		});
 //		showJiGou($("#children_area_select_id"));
 		//根据状态来判断是否可选择
@@ -126,7 +131,7 @@
 												<th class="info w100">待审核数量</th>
 											</tr>
 										</thead>
-										<tbody id="purchase_orgs2">
+										<tbody id="purchase_orgs1">
 											<c:set var="vs" value="1"/>
 											<c:forEach items="${allPurList}" var="org1" varStatus="vs1">
 											  <c:if test="${org1.cityId eq currSupplier.address}">

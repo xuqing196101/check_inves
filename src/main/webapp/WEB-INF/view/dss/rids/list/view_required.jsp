@@ -74,40 +74,58 @@
       </div>
 
       <h2 class="search_detail">
-            <form id="param_form" action="${pageContext.request.contextPath }/purchaser/viewDetamd.html"  method="post" class="mb0">
-            <input type="hidden" name="page" id="page">
-            <ul class="demand_list">
-              <li>
-                <label class="fl">采购需求名称：</label><span>
-                <input type="text" name="planName" value="${purchaseRequired.planName }" />
-              </span>
-              </li>
-              <li>
-                <label class="fl">采购需求文号：</label><span>
-                <input  type="text" name="referenceNo" value="${purchaseRequired.referenceNo }" /> 
-                <input type="hidden" name="date" value="<fmt:formatDate value='${purchaseRequired.createdAt }' pattern='yyyy' />" />
-                <input type="hidden" name="orgId" value="${orgId}"/>
-                <input type="hidden" name="planType" value="${purchaseRequired.planType}"/>
-              </span>
-              </li>
-              <li>
-                <label class="fl">状态：</label>
-                <select  name="status" id="status">
-                  <option selected="selected" value="">全部</option>
-                  <option value="1" <c:if test="${'1'==purchaseRequired.status}">selected="selected"</c:if>>未提交</option>
-                  <option value="4" <c:if test="${'4'==purchaseRequired.status}">selected="selected"</c:if>>受理退回</option>
-                  <option value="5" <c:if test="${'5'==purchaseRequired.status}">selected="selected"</c:if>>已提交 </option>
-                </select>
-              </li>
-            </ul>
-            <div class="col-md-12 clear tc mt10">
-              <input class="btn" type="submit" value="查询" /> 
-              <input class="btn" type="button" value="重置" onclick="resetQuery()" /> 
-              <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
+      <form id="param_form" action="${pageContext.request.contextPath }/purchaser/viewDetamd.html"  method="post" class="mb0">
+      <input type="hidden" name="page" id="page">
+      <div class="m_row_5">
+      <div class="row">
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购需求名称：</div>
+            <div class="col-xs-8 f0 lh0">
+              <input type="text" name="planName" value="${purchaseRequired.planName }" class="w100p h32 f14 mb0">
             </div>
-            <div class="clear"></div>
-            </form>
-         </h2>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购需求文号：</div>
+            <div class="col-xs-8 f0 lh0">
+              <input type="text" name="referenceNo" value="${purchaseRequired.referenceNo }" class="w100p h32 f14 mb0"> 
+              <input type="hidden" name="date" value="<fmt:formatDate value='${purchaseRequired.createdAt }' pattern='yyyy' />" />
+              <input type="hidden" name="orgId" value="${orgId}"/>
+              <input type="hidden" name="planType" value="${purchaseRequired.planType}"/>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">状态：</div>
+            <div class="col-xs-8 f0 lh0">
+              <select name="status" id="status" class="w100p h32 f14">
+                <option selected="selected" value="">全部</option>
+                <option value="1" <c:if test="${'1'==purchaseRequired.status}">selected="selected"</c:if>>未提交</option>
+                <option value="4" <c:if test="${'4'==purchaseRequired.status}">selected="selected"</c:if>>受理退回</option>
+                <option value="5" <c:if test="${'5'==purchaseRequired.status}">selected="selected"</c:if>>已提交 </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+          <div class="row">
+            <div class="col-xs-12 f0">
+              <input class="btn mb0 h32" type="submit" value="查询" /> 
+              <input class="btn mb0 h32" type="button" value="重置" onclick="resetQuery()" /> 
+              <button class="btn btn-windows back mb0 mr0 h32" onclick="back()" type="button">返回</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      </form>
+      </h2>
 
       <div class="clear"></div>
       <div class="content table_box">

@@ -63,5 +63,16 @@ public interface ExpertExtractConditionMapper {
      * @return
      */
     List<String> selProfessionalByExpertId(String expertId);
+    
+    /**
+     * 
+     * 
+     * Description: 根据地区父节点查询所有子节点
+     * 
+     * @data 2017年12月16日
+     * @param 
+     * @return List<String>
+     */
+    List<String> findAreaIdByParentId(String[] array);
 
 }

@@ -144,16 +144,29 @@
    </div>
    
    
-   <div class="container content">
-        <h2>
-            <ul class="demand_list fl pr20 ">
-                <li class="pr20">
-                 <label class="">地区名称：</label><input class="w110" type="text" id="search_condition" name="name" /> 
-                <button  class="btn  ml5 fl mt1 " onclick="selectTree();">查询</button>
-                </li>
-            </ul>
-            <br>
-         </h2>
+		<div class="container content">
+		<h2 class="search_detail">
+		<div class="m_row_5">
+    <div class="row">
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">地区名称：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input type="text" id="search_condition" name="name" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-12 f0">
+						<button  class="btn mb0 mr0 h32" onclick="selectTree();">查询</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+		</h2>
        <div class="row">
                 <!-- Begin Content -->
                 <div class="col-md-12" style="min-height:400px;">

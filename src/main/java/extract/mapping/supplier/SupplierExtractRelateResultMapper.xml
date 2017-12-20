@@ -72,10 +72,10 @@
 	</sql>
 	
 	<sql id="extractResult">
-		 DISTINCT R.JOIN,R.REASON,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_TELEPHONE,S.ARMY_BUSINESS_MOBILE,R.SUPPLIER_LEVEL
+		 R.JOIN,R.REASON,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_TELEPHONE,S.ARMY_BUSINESS_MOBILE,R.SUPPLIER_LEVEL
 	</sql>
 	<sql id="extractResultAdv">
-		 DISTINCT R.OPERATING_TYPE JOIN,R.REASON,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_TELEPHONE,S.ARMY_BUSINESS_MOBILE,R.SUPPLIER_LEVEL
+		 R.OPERATING_TYPE JOIN,R.REASON,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_TELEPHONE,S.ARMY_BUSINESS_MOBILE,R.SUPPLIER_LEVEL
 	</sql>
 	
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
@@ -330,25 +330,71 @@
 		<if test="supplierTypeCode !=null and supplierTypeCode !='' ">
 			LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE T ON T.SUPPLIER_ID = S.ID
 			LEFT JOIN T_SES_SMS_SUPPLIER_ITEM I ON I.SUPPLIER_ID = S.ID
-			LEFT JOIN T_SES_BMS_DICTIONARY_DATA DA ON T.SUPPLIER_TYPE_ID = DA.CODE
 			<choose>
 				<when test="supplierTypeCode == 'PROJECT'.toString()">
 					LEFT JOIN T_SES_BMS_CATEGORY_QUA QUA ON I.CATEGORY_ID = QUA.CATEGORY_ID
 					LEFT JOIN T_SES_SMS_SUPPLIER_MAT_ENG E ON E.SUPPLIER_ID = S.ID
+					LEFT JOIN T_SES_BMS_DICTIONARY_DATA DA ON I.SUPPLIER_TYPE_RELATE_ID = DA.CODE
 				</when>
 				<otherwise>
 					LEFT JOIN T_SES_SMS_SUPPLIER_ITEM_LEVEL L ON S.ID = L.SUPPLIER_ID
+					LEFT JOIN T_SES_BMS_DICTIONARY_DATA DA ON L.SUPPLIER_TYPE_ID = DA.CODE
 				</otherwise>
 			</choose>
 		</if>
-		WHERE S.IS_PROVISIONAL = 0 AND S.IS_DELETED = 0 AND S.SUPPLIER_STATUS in ( 1,5,7) 
+		<if test="branchCountry !=null and branchCountry != '' ">
+			LEFT JOIN T_SES_SMS_SUPPLIER_BRANCH B ON S.ID = B.SUPPLIER_ID
+		</if>
+			WHERE S.IS_PROVISIONAL = 0 AND S.IS_DELETED = 0 AND S.SUPPLIER_STATUS in ( 1,5,7) 
 		<!-- 查询地址 -->
 		<if test="addressId != null and addressId != '' ">
 			AND S.ADDRESS in 	<foreach collection="addressIds"  open="(" item="index" close=")" separator=",">	#{index}	</foreach>
 		</if>
+		<if test="isHavingConCert !=null and isHavingConCert != '' ">
+			AND S.IS_HAVING_CON_CERT = #{isHavingConCert}
+		</if>
+		<if test="businessNature !=null and businessNature != '' ">
+			AND S.BUSINESS_NATURE = #{businessNature}
+		</if>
+		<if test="overseasBranch !=null and overseasBranch != '' ">
+			AND S.OVERSEAS_BRANCH = #{overseasBranch}
+		</if>
+		<if test="branchCountry !=null and branchCountry != '' ">
+			AND B.COUNTRY IN (
+			  WITH TEMP AS (
+				SELECT
+					D . ID,
+					D . NAME,
+					'0' PARENT_ID,
+					'true' IS_PARENT
+				FROM
+					T_SES_BMS_DICTIONARY_DATA D
+				WHERE
+					D .KIND = 66
+			  UNION
+				SELECT
+					CN.NATION_ID ID,
+					CN.NATION_NAME NAME,
+					CN.CONTINENT_ID PARENT_ID,
+					'false' IS_PARENT
+				FROM
+					T_SES_BMS_CONTINENT_NATION_REL CN
+				) SELECT
+					ID
+				FROM
+					TEMP
+				WHERE
+					TEMP.PARENT_ID <![CDATA[ <> ]]> '0' START WITH TEMP. ID IN (
+						<foreach collection="branchCountry" index="in" item="it" separator=",">
+							#{it}
+						</foreach>
+					) CONNECT BY PRIOR TEMP. ID = TEMP.PARENT_ID
+			)
+		</if>
 		<!-- 查询类型 -->
 		<if test="supplierTypeCode !=null and supplierTypeCode != '' ">
 			 AND T.SUPPLIER_TYPE_ID  IN  <foreach collection="supplierTypeCodes" open="(" separator="," item="code" close=")"> #{code} </foreach> 
+			 AND I.SUPPLIER_TYPE_RELATE_ID  IN  <foreach collection="supplierTypeCodes" open="(" separator="," item="code" close=")"> #{code} </foreach> 
 		</if>	 
 		<!-- 查询品目 -->
 		<if test="isMulticondition !=null and isMulticondition != ''">
@@ -359,7 +405,7 @@
 					<foreach collection="categoryIds" open="(" close=")" separator="," index="index" item="item">
 						#{item}
 					</foreach>
-					CONNECT BY PRIOR CATE.id=CATE.PARENT_ID order by level desc ) TEM where TEM.is_publish = 0 and (TEM.is_parent is null or TEM.is_parent = 'false'))
+					CONNECT BY PRIOR CATE.id=CATE.PARENT_ID order by level desc ) TEM where TEM.is_publish = 0 )
 			</if>
 			<if test="isMulticondition == 2 and categoryId !=null and categoryId != '' ">
 				AND S.ID IN 
@@ -375,7 +421,6 @@
 		                            CONNECT BY PRIOR CATE.id = CATE.PARENT_ID
 		                             order by level desc) TEM
 		                     where TEM.is_publish = 0
-		                       and (TEM.is_parent is null or TEM.is_parent = 'false')
 		                     group by TEM.id) ts
 		            on ts.id = IT.Category_Id
 		         GROUP BY IT.SUPPLIER_ID
@@ -397,47 +442,40 @@
 				)
 			</if>
 		</if>
-		<!-- 查询等级 或关系 -->
-		<if test="supplierTypeCode != 'PROJECT'.toString() and supplierTypeCodes.length == 1">
-			<if test="null != supplierItemId and isMulticondition == 1">
-				AND L.CATEGORY_ID  IN <foreach collection="supplierItemId" item="sid" open="(" close=")" separator=","> #{sid}  </foreach>
-			</if>
-			AND L.SUPPLIER_TYPE_ID = #{supplierTypeCode}
-			<if test="levelTypeId !=null and levelTypeId != '' ">
-				AND L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
+		<if test="categoryIds !=null and categoryIds != ''">
+			<!-- 查询等级 或关系 -->
+			<if test="supplierTypeCode != 'PROJECT'.toString() and supplierTypeCodes.length == 1">
+				<if test="null != supplierItemId and isMulticondition == 1">
+					AND L.CATEGORY_ID  IN <foreach collection="supplierItemId" item="sid" open="(" close=")" separator=","> #{sid}  </foreach>
+				</if>
+				AND L.SUPPLIER_TYPE_ID = #{supplierTypeCode}
+				<if test="levelTypeId !=null and levelTypeId != '' ">
+					AND L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
+				</if>
 			</if>
 			
-		</if>
-		<if test="supplierTypeCodes.length == 2">
-			<!-- 或关系 -->
-			<if test="isMulticondition == 1">
-				<if test="null != supplierItemId">
-					AND L.CATEGORY_ID  IN <foreach collection="supplierItemId" item="sid" open="(" close=")" separator=","> #{sid}  </foreach>
-					AND ( L.SUPPLIER_TYPE_ID = 'PRODUCT'               
+			<if test="supplierTypeCodes.length == 2">
+				<!-- 或关系 -->
+				<if test="isMulticondition == 1">
+					<if test="null != supplierItemId">
+						AND L.CATEGORY_ID  IN <foreach collection="supplierItemId" item="sid" open="(" close=")" separator=","> #{sid}  </foreach>
+						AND ( L.SUPPLIER_TYPE_ID = 'PRODUCT'               
+					</if>
+					<if test="levelTypeId !=null and levelTypeId != '' ">
+						AND  L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
+					</if>
+					OR
+					<if test="salesLevelTypeId !=null and salesLevelTypeId != '' ">
+						 L.SUPPLIER_LEVEL IN <foreach collection="salesLevelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
+						 AND 
+					</if>
+						L.SUPPLIER_TYPE_ID ='SALES')
 				</if>
-				<if test="levelTypeId !=null and levelTypeId != '' ">
-					AND  L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
-				</if>
-				OR
-				<if test="salesLevelTypeId !=null and salesLevelTypeId != '' ">
-					 L.SUPPLIER_LEVEL IN <foreach collection="salesLevelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
-					 AND 
-				</if>
-					L.SUPPLIER_TYPE_ID ='SALES')
 			</if>
 		</if>
 		<!-- 保密要求 -->
-		<if test="isHavingConCert !=null and isHavingConCert != '' ">
-			AND S.IS_HAVING_CON_CERT = #{isHavingConCert}
-		</if>
 		<!-- 企业性质 -->
-		<if test="businessNature !=null and businessNature != '' ">
-			AND S.BUSINESS_NATURE = #{businessNature}
-		</if>
 		<!-- 境外分支 -->
-		<if test="overseasBranch !=null and overseasBranch != '' ">
-			AND S.OVERSEAS_BRANCH = #{overseasBranch}
-		</if>
 		<if test="businessScope !=null and businessScope != '' and supplierTypeCode == 'PROJECT'.toString()">
 			AND E.BUSINESS_SCOPE LIKE CONCAT(CONCAT('%', #{businessScope}), '%')
 		</if>
@@ -448,6 +486,11 @@
 			</foreach>
 		</if>
 	</sql>
+	
+	<!-- 语音抽取联调 -->
+	<select id="testVoiceExtract" parameterType="java.lang.String" resultMap="findSupplierMap">
+		SELECT * FROM (SELECT E.*,ROWNUM ROW_NUM FROM T_TEST_TEMP_EXTRACT E) A WHERE A.ROW_NUM BETWEEN 0 AND #{value}
+	</select>
 
 	<!-- 供应商个数 -->
 	<select id="listExtractionSupplierCount" parameterType="extract.model.supplier.SupplierExtractCondition" resultType="int">
@@ -472,7 +515,7 @@
 		ORDER BY dbms_random.random) SP 
 	</select>
 	
-	
+	<!--  -->
 	<select id="selectSuppleir" parameterType="extract.model.supplier.SupplierExtractCondition" resultMap="findSupplierMap">
 		SELECT DISTINCT S.ID,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_MOBILE,S.ARMY_BUSINESS_TELEPHONE,DA.NAME SUPPLIER_TYPE,L.SUPPLIER_LEVEL  
 		FROM T_SES_SMS_SUPPLIER S
@@ -492,7 +535,7 @@
 	<!-- 0 不能参加，1能参加 -->
 	<select id="getSupplierListByRid" parameterType="map" resultMap="BaseResultMap">
 		SELECT <include refid="extractResult"></include> FROM T_SES_SMS_EXTRACT_RESULT R LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
-		WHERE R.RECORD_ID = #{recordId} AND R.SUPPLIER_TYPE = #{supplierType}  AND R.JOIN IN (0,1) ORDER BY R.JOIN DESC
+		WHERE R.RECORD_ID = #{recordId} AND R.SUPPLIER_TYPE = #{supplierType}  AND R.JOIN IN (0,1) ORDER BY R.CREATED_AT ASC
 	</select>
 	
 	
@@ -500,7 +543,7 @@
 	<!-- 0 不能参加，1能参加 -->
 	<select id="getSupplierListByRidForRel" parameterType="map" resultMap="BaseResultMap">
 		SELECT <include refid="extractResultAdv"></include> FROM T_SES_SMS_SUPPLIER_EXT_RELATE R LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
-		WHERE R.RECORD_ID = #{recordId}  <!--AND R.SUPPLIER_TYPE = #{supplierType}  --> AND R.OPERATING_TYPE IN (0,1) ORDER BY R.OPERATING_TYPE DESC
+		WHERE R.RECORD_ID = #{recordId}  <!--AND R.SUPPLIER_TYPE = #{supplierType}  --> AND R.OPERATING_TYPE IN (0,1) ORDER BY R.CREATED_AT ASC
 	</select>
 	
 	
@@ -508,7 +551,7 @@
 	<!-- 0 不能参加，1能参加 -->
 	<select id="getSupplierListByRidForAdv" parameterType="map" resultMap="BaseResultMap">
 		SELECT<include refid="extractResultAdv"></include> FROM T_SES_SMS_SUPPLIER_EXT_RELATE R LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
-		WHERE R.RECORD_ID = #{recordId} <!-- AND R.SUPPLIER_TYPE = #{supplierType} -->  AND R.OPERATING_TYPE IN (0,1) ORDER BY R.OPERATING_TYPE DESC
+		WHERE R.RECORD_ID = #{recordId} <!-- AND R.SUPPLIER_TYPE = #{supplierType} -->  AND R.OPERATING_TYPE IN (0,1) ORDER BY R.CREATED_AT ASC
 	</select>
 	
 	
@@ -607,7 +650,7 @@
         </foreach>
          SELECT 1 FROM DUAL
 	</insert>
-	
+
 	<update id="updateSupplierJoin" parameterType="extract.model.supplier.SupplierExtractResult">
 		update 
 		(select t.* from  T_SES_SMS_EXTRACT_RESULT t left join t_ses_sms_supplier s on t.supplier_id = s.id  where s.army_business_telephone = #{armyBuinessTelephone})
@@ -690,7 +733,7 @@
 	<update id="updateAdvSupplierJoin" parameterType="extract.model.supplier.SupplierExtractResult">
 		update 
 		(select t.* from  T_SES_SMS_SUPPLIER_EXT_RELATE t left join t_ses_sms_supplier s on t.supplier_id = s.id  where s.army_business_telephone = #{armyBuinessTelephone})	
-		
+		re
 		<if test="supplierId != null">
 				re.SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
 			</if>

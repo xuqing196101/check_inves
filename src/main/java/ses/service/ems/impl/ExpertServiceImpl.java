@@ -1536,7 +1536,7 @@ public class ExpertServiceImpl implements ExpertService {
     public List<Expert> getAuditExpertByDate(String startDate, String endDate) {
         return mapper.getAuditExpertByDate(startDate, endDate,DictionaryDataUtil.getId("LOCAL"));
     }
-
+    
     /**
      * @Title: updateById
      * @date 2017-5-9 上午9:54:00  
@@ -1559,6 +1559,7 @@ public class ExpertServiceImpl implements ExpertService {
 		expert.setMobile(info.getMobile() + buff);
 		expert.setIdCardNumber(info.getIdCardNumber() + buff);
 		expert.setIdNumber(info.getIdNumber() + buff);
+		expert.setUpdatedAt(new Date());
 		mapper.updateById(expert);
 		
 	}
@@ -1572,7 +1573,17 @@ public class ExpertServiceImpl implements ExpertService {
 		List<ExpertAttachment> attList = attachmentMapper.selectListByMap(attachmentMap);
 		return attList;
 	}
-
+	 /**
+     *〈简述〉根据修改日期获取注销专家信息
+     *〈详细描述〉
+     * @param startDate 开始日期
+     * @param endDate 结束日期
+     * @return 专家集合
+     */
+	public List<Expert> getDeleteExpertByDate(String startDate,String endDate) {
+		return mapper.getDeleteExpertByDate(startDate, endDate, DictionaryDataUtil.getId("LOCAL"));
+		
+	}
 	@Override
 	public boolean isPublish(String id) {
 		boolean bool=true;

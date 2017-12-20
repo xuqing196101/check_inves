@@ -36,7 +36,7 @@
         //还原select下拉列表只需要这一句
         $("#expertsFrom option:selected").removeAttr("selected");
         $("#status option:selected").removeAttr("selected");
-        /* $("#expertsTypeId option:selected").removeAttr("selected"); */
+        $("#expertTypeIds option:selected").removeAttr("selected");
         $("#mobile").attr("value", "");
         $("#graduateSchool").val("");
         $("#idCardNumber").val("");
@@ -334,123 +334,149 @@
       </div>
       <h2 class="search_detail">
       <form action="${pageContext.request.contextPath}/expert/findAllExpert.html"  method="post" id="formSearch"  class="mb0"> 
-        <input type="hidden" name="page" id="page">
-        <input type="hidden" name="flag" value="0">
-        <ul class="demand_list">
-        <li>
-          <label class="fl">专家姓名：</label><span><input type="text" id="relName" name="relName" value="${expert.relName}" class="w220"></span>
-        </li>
-        <li>
-          <label class="fl">手机号：</label><span><input type="text" id="mobile" name="mobile" value="${expert.mobile }" class="w220"></span>
-        </li>
-        <li>
-          <label class="fl">专家类型：</label>
-          <span class="fl">
-            <select  name="expertsFrom" id="expertsFrom" class="w220">
-              <option selected="selected" value="">全部</option>
-              <c:forEach items="${lyTypeList }" var="ly" varStatus="vs"> 
-                <option <c:if test="${expert.expertsFrom eq ly.id }">selected="selected"</c:if> value="${ly.id}">${ly.name}</option>
-              </c:forEach>
-            </select>          
-          </span>
-        </li>
-        <li>
-          <label class="fl">专家状态：</label>
-          <span class="fl">
-            <select name="status" id="status" class="w220">
-               <option selected="selected" value=''>全部</option>
-               <option <c:if test="${expert.status eq '-1' }">selected</c:if> value="-1">暂存</option>
-               <option <c:if test="${expert.status eq 'temporary' }">selected</c:if> value="temporary">临时</option>
-               <option <c:if test="${expert.status eq '0' and expert.auditTemporary == 0}">selected</c:if> value="0">待初审</option>
-               <option <c:if test="${expert.status eq '9' }">selected</c:if> value="9">退回再初审</option>
-               <option <c:if test="${expert.status eq '0' and expert.auditTemporary == 1}">selected</c:if> value="firstInstance">初审中</option>
-               <option <c:if test="${expert.status eq 'endOfTrial' }">selected</c:if> value="endOfTrial">预初审结束</option>
-               <option <c:if test="${expert.status eq '1' }">selected</c:if> value="1">初审合格(待复审)</option>
-               <option <c:if test="${expert.status eq '2' }">selected</c:if> value="2">初审不合格</option>
-               <option <c:if test="${expert.status eq '3' }">selected</c:if> value="3">初审退回修改</option>
-               
-               
-               <option <c:if test="${expert.status eq '11' }">selected</c:if> value="11">待分配</option>
-               <option <c:if test="${expert.status eq '14' }">selected</c:if> value="14">复审待分组专家</option>
-               <option <c:if test="${expert.status eq '4' and expert.auditTemporary == 0}">selected</c:if> value="4">复审已分配</option>
-               <option <c:if test="${expert.status eq '4' and expert.auditTemporary == 2}">selected</c:if> value="review">复审中</option>
-               <option <c:if test="${expert.status eq '-2' }">selected</c:if> value="-2">预复审结束</option>
-               <option <c:if test="${expert.status eq '5' }">selected</c:if> value="5">复审不合格</option>
-               <option <c:if test="${expert.status eq '10' }">selected</c:if> value="10">复审退回修改</option>
-               <option <c:if test="${expert.status eq '-3' }">selected</c:if> value="-3">公示中</option>
-               
-               
-               <option <c:if test="${expert.status eq '6' and expert.auditTemporary == 0}">selected</c:if> value="6">入库(待复查 )</option>
-               <option <c:if test="${expert.status eq '6' and expert.auditTemporary == 3}">selected</c:if> value="reviewLook">复查中</option>
-               <option <c:if test="${expert.status eq '19' and expert.auditTemporary == 19}">selected</c:if> value="19">预复查结束</option>
-               <option <c:if test="${expert.status eq '7' }">selected</c:if> value="7">复查合格</option>
-               <option <c:if test="${expert.status eq '8' }">selected</c:if> value="8">复查不合格</option>
-               
-               
-               <option <c:if test="${expert.status eq '17' }">selected</c:if> value="17">资料不全</option>
-               <option <c:if test="${expert.status eq '18' }">selected</c:if> value="18">异议处理</option>
-               <option <c:if test="${expert.status eq '12' }">selected</c:if> value="12">处罚中</option>
-               <option <c:if test="${expert.status eq '13' }">selected</c:if> value="13">无产品专家</option>
-             </select>
-          </span>
-       </li>
-        <li>
-          <label class="fl">身份证号：</label><span><input class="w220" type="text" id="idCardNumber" name="idCardNumber" value="${expert.idCardNumber }"></span>
-        </li>
-        <li>
-         <label class="fl">采购机构：</label>
-         <select name="orgName" id="orgName" class="w220">
-           <option value=''>全部</option>
-           <c:forEach items="${allOrg}" var="org">
-             <c:if test="${org.isAuditSupplier == 1}">
-               <option value="${org.shortName}" <c:if test="${expert.orgName eq org.shortName}">selected</c:if>>${org.shortName}</option>
-             </c:if>
-           </c:forEach>
-         </select>
-       </li>
-       <%--  <li>
-          <label class="fl">毕业院校：</label><span><input class="w220"type="text" id="graduateSchool" name="graduateSchool" value="${expert.graduateSchool }"></span>
-        </li> --%>
+      <input type="hidden" name="page" id="page">
+      <input type="hidden" name="flag" value="0">
+      <div class="m_row_5">
+      <div class="row">
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">专家姓名：</div>
+            <div class="col-xs-8 f0 lh0">
+              <input type="text" id="relName" name="relName" value="${expert.relName}" class="w100p h32 f14 mb0">
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">手机号：</div>
+            <div class="col-xs-8 f0 lh0">
+              <input type="text" id="mobile" name="mobile" value="${expert.mobile }" class="w100p h32 f14 mb0">
+            </div>
+          </div>
+        </div>
         
-        <%-- <li>
-          <label class="fl">专家类别：</label>
-          <span class="fl">
-            <select name="expertsTypeId" id="expertsTypeId" class="w220">
-              <option selected="selected"  value=''>全部</option>
-              <c:forEach items="${expTypeList}" var="exp">
-                <option <c:if test="${expert.expertsTypeId == exp.id}">selected</c:if> value="${exp.id}">${exp.name}</option>
-              </c:forEach>          
-            </select>
-          </span>
-        </li> --%>
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">专家类型：</div>
+            <div class="col-xs-8 f0 lh0">
+              <select  name="expertsFrom" id="expertsFrom" class="w100p h32 f14">
+                <option selected="selected" value="">全部</option>
+                <c:forEach items="${lyTypeList }" var="ly" varStatus="vs"> 
+                  <option <c:if test="${expert.expertsFrom eq ly.id }">selected="selected"</c:if> value="${ly.id}">${ly.name}</option>
+                </c:forEach>
+              </select>
+            </div>
+          </div>
+        </div>
         
-        <li>
-          <label class="fl">专家类别：</label><span><input  class="w220" id="expertType" class="span2 mt5" type="text" name="expertType"  readonly value="${expertType}" onclick="showExpertType();" />
-          <input   type="hidden" name="expertTypeIds"  id="expertTypeIds" value="${expertTypeIds}" /></span>
-        </li>
-        <li>
-        <li>
-         <label class="fl">地区：</label>
-         <select name="address" id="address" class="w220">
-           <option value=''>全部</option>
-           <c:forEach items="${privnce}" var="list">
-             <option <c:if test="${expert.address eq list.id }">selected</c:if> value="${list.id }">${list.name }</option>
-           </c:forEach>
-         </select>
-        </li>
-        <li>
-          <label class="fl">品目：</label><span><input id="category" type="text" name="categoryNames" value="${categoryNames}" readonly onclick="showCategory();" class="w220"/>
-          <input type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds}" /></span>
-        </li>
-      </ul>
-      <div class="col-md-12 clear tc mt10">
-        <input class="btn mt1"  value="查询" type="submit">
-        <input class="btn mt1" onclick="clearSearch();" value="重置" type="reset">
-        <input class="btn mt1" onclick="exportExcel();" value="导出" type="reset">
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">专家状态：</div>
+            <div class="col-xs-8 f0 lh0">
+              <select name="status" id="status" class="w100p h32 f14">
+                <option selected="selected" value=''>全部</option>
+                <option <c:if test="${expert.status eq '-1' }">selected</c:if> value="-1">暂存</option>
+                <option <c:if test="${expert.status eq 'temporary' }">selected</c:if> value="temporary">临时</option>
+                <option <c:if test="${expert.status eq '0' and expert.auditTemporary == 0}">selected</c:if> value="0">待初审</option>
+                <option <c:if test="${expert.status eq '9' }">selected</c:if> value="9">退回再初审</option>
+                <option <c:if test="${expert.status eq '0' and expert.auditTemporary == 1}">selected</c:if> value="firstInstance">初审中</option>
+                <option <c:if test="${expert.status eq 'endOfTrial' }">selected</c:if> value="endOfTrial">预初审结束</option>
+                <option <c:if test="${expert.status eq '1' }">selected</c:if> value="1">初审合格(待复审)</option>
+                <option <c:if test="${expert.status eq '2' }">selected</c:if> value="2">初审不合格</option>
+                <option <c:if test="${expert.status eq '3' }">selected</c:if> value="3">初审退回修改</option>
+
+                <option <c:if test="${expert.status eq '11' }">selected</c:if> value="11">待分配</option>
+                <option <c:if test="${expert.status eq '14' }">selected</c:if> value="14">复审待分组专家</option>
+                <option <c:if test="${expert.status eq '4' and expert.auditTemporary == 0}">selected</c:if> value="4">复审已分配</option>
+                <option <c:if test="${expert.status eq '4' and expert.auditTemporary == 2}">selected</c:if> value="review">复审中</option>
+                <option <c:if test="${expert.status eq '-2' }">selected</c:if> value="-2">预复审结束</option>
+                <option <c:if test="${expert.status eq '5' }">selected</c:if> value="5">复审不合格</option>
+                <option <c:if test="${expert.status eq '10' }">selected</c:if> value="10">复审退回修改</option>
+                <option <c:if test="${expert.status eq '-3' }">selected</c:if> value="-3">公示中</option>
+
+                <option <c:if test="${expert.status eq '6' and expert.auditTemporary == 0}">selected</c:if> value="6">入库(待复查 )</option>
+                <option <c:if test="${expert.status eq '6' and expert.auditTemporary == 3}">selected</c:if> value="reviewLook">复查中</option>
+                <option <c:if test="${expert.status eq '19' and expert.auditTemporary == 19}">selected</c:if> value="19">预复查结束</option>
+                <option <c:if test="${expert.status eq '7' }">selected</c:if> value="7">复查合格</option>
+                <option <c:if test="${expert.status eq '8' }">selected</c:if> value="8">复查不合格</option>
+
+                <option <c:if test="${expert.status eq '17' }">selected</c:if> value="17">资料不全</option>
+                <option <c:if test="${expert.status eq '18' }">selected</c:if> value="18">异议处理</option>
+                <option <c:if test="${expert.status eq '12' }">selected</c:if> value="12">处罚中</option>
+                <option <c:if test="${expert.status eq '13' }">selected</c:if> value="13">无产品专家</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">身份证号：</div>
+            <div class="col-xs-8 f0 lh0">
+              <input class="w100p h32 f14 mb0" type="text" id="idCardNumber" name="idCardNumber" value="${expert.idCardNumber }">
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购机构：</div>
+            <div class="col-xs-8 f0 lh0">
+              <select name="orgName" id="orgName" class="w100p h32 f14">
+                <option value=''>全部</option>
+                <c:forEach items="${allOrg}" var="org">
+                  <c:if test="${org.isAuditSupplier == 1}">
+                    <option value="${org.shortName}" <c:if test="${expert.orgName eq org.shortName}">selected</c:if>>${org.shortName}</option>
+                  </c:if>
+                </c:forEach>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">专家类别：</div>
+            <div class="col-xs-8 f0 lh0">
+              <input id="expertType" class="w100p h32 f14 mb0" type="text" name="expertType" readonly value="${expertType}" onclick="showExpertType();">
+              <input type="hidden" name="expertTypeIds"  id="expertTypeIds" value="${expertTypeIds}">
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">地区：</div>
+            <div class="col-xs-8 f0 lh0">
+              <select name="address" id="address" class="w100p h32 f14">
+                <option value=''>全部</option>
+                <c:forEach items="${privnce}" var="list">
+                  <option <c:if test="${expert.address eq list.id }">selected</c:if> value="${list.id }">${list.name }</option>
+                </c:forEach>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">品目：</div>
+            <div class="col-xs-8 f0 lh0">
+              <input id="category" type="text" name="categoryNames" value="${categoryNames}" readonly onclick="showCategory();" class="w100p h32 f14 mb0">
+              <input type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds}">
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="clear"></div>
-    </form>
-   </h2>
+      </div>
+      
+      <div class="tc">
+        <input class="btn mb0" value="查询" type="submit">
+        <input class="btn mb0" onclick="clearSearch();" value="重置" type="reset">
+        <input class="btn mb0 mr0" onclick="exportExcel();" value="导出" type="reset">
+      </div>
+      </form>
+      </h2>
       <!-- 表格开始-->
 
       <div class="content table_box">

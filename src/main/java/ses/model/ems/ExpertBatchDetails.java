@@ -35,6 +35,8 @@ public class ExpertBatchDetails {
 	private String workUnit;
 	/**专业职称*/
 	private String professTechTitles;
+	/**职务*/
+	private String atDuty;
 	/**所属采购机构*/
 	private String orgName;
 	/**专家类型*/
@@ -65,6 +67,12 @@ public class ExpertBatchDetails {
 	private String notReviewStatus;
 	private String expertStatus;//评审专家结论
 	
+	public String getAtDuty() {
+		return atDuty;
+	}
+	public void setAtDuty(String atDuty) {
+		this.atDuty = atDuty;
+	}
 	public String getExpertStatus() {
 		return expertStatus;
 	}
