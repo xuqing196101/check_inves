@@ -54,6 +54,18 @@
 			)
 		AND s.IS_PROVISIONAL = '0'
 		AND s.IS_DELETED = 0
+		AND s."ID" NOT IN (
+				SELECT
+					SUPPLIER_ID
+				FROM
+					T_SES_SMS_SUPPLIER_AUDIT sa
+				WHERE 1=1
+				<if test="categoryId != null and categoryId !=''">
+				AND sa.AUDIT_FIELD = #{categoryId,jdbcType=VARCHAR}
+				</if>
+				AND sa.AUDIT_TYPE = #{auditType,jdbcType=VARCHAR}
+				AND sa.RETURN_STATUS IN (0, 1, 2, 4 )
+			)
         <if test="supplierName != null and supplierName !=''">
             and s.SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
         </if>
@@ -248,13 +260,15 @@
 				FROM
 					T_SES_SMS_SUPPLIER_ITEM l
 				LEFT JOIN T_SES_SMS_SUPPLIER s
+				LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE r ON s.ID = r.SUPPLIER_ID
 				LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON s.PROCUREMENT_DEP_ID = dep.ID
 				LEFT JOIN T_SES_OMS_ORG org ON org. ID = dep.ORG_ID ON l.SUPPLIER_ID = s.ID
 				LEFT JOIN T_SES_SMS_SUPPLIER_ITEM_LEVEL ll ON l.SUPPLIER_ID = ll.supplier_id
 				AND l.supplier_type_relate_id = ll.SUPPLIER_TYPE_ID
 				AND l.CATEGORY_ID = ll.CATEGORY_ID
 				WHERE
-					l.SUPPLIER_TYPE_RELATE_ID = #{supplierTypeRelateId,jdbcType=VARCHAR}
+				r.SUPPLIER_TYPE_ID= #{supplierTypeRelateId,jdbcType=VARCHAR}
+				AND	l.SUPPLIER_TYPE_RELATE_ID = #{supplierTypeRelateId,jdbcType=VARCHAR}
 				AND l.CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
 				AND (
 					s.SUPPLIER_STATUS = 1
@@ -263,6 +277,16 @@
 				)
 				AND s.IS_PROVISIONAL = '0'
 				AND s.IS_DELETED = 0
+				AND s."ID" NOT IN (
+					SELECT
+						SUPPLIER_ID
+					FROM
+						T_SES_SMS_SUPPLIER_AUDIT sa
+					WHERE
+						sa.AUDIT_FIELD = #{categoryId,jdbcType=VARCHAR}
+					AND sa.AUDIT_TYPE = #{auditType,jdbcType=VARCHAR}
+					AND sa.RETURN_STATUS IN (0, 1, 2, 4 )
+				)
 				<if test="supplierName != null and supplierName !=''">
 		            and s.SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
 		        </if>
@@ -343,10 +367,12 @@
 			FROM
 				T_SES_SMS_SUPPLIER_ITEM l
 			LEFT JOIN T_SES_SMS_SUPPLIER s
+			LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE r ON s.ID = r.SUPPLIER_ID
 			LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON s.PROCUREMENT_DEP_ID = dep. ID
 			LEFT JOIN T_SES_OMS_ORG org ON org. ID = dep.ORG_ID ON l.SUPPLIER_ID = s. ID
 			WHERE
-				l.SUPPLIER_TYPE_RELATE_ID = #{supplierTypeRelateId,jdbcType=VARCHAR}
+			r.SUPPLIER_TYPE_ID= #{supplierTypeRelateId,jdbcType=VARCHAR}
+			AND	l.SUPPLIER_TYPE_RELATE_ID = #{supplierTypeRelateId,jdbcType=VARCHAR}
 			AND l.CATEGORY_ID = #{clickCategoryId,jdbcType=VARCHAR}
 			AND (
 				s.SUPPLIER_STATUS = 1
@@ -355,6 +381,16 @@
 			)
 			AND s.IS_PROVISIONAL = '0'
 			AND s.IS_DELETED = 0
+			AND s."ID" NOT IN (
+				SELECT
+					SUPPLIER_ID
+				FROM
+					T_SES_SMS_SUPPLIER_AUDIT sa
+				WHERE
+					sa.AUDIT_FIELD = #{clickCategoryId,jdbcType=VARCHAR}
+				AND sa.AUDIT_TYPE = #{auditType,jdbcType=VARCHAR}
+				AND sa.RETURN_STATUS IN (0, 1, 2, 4 )
+			)
 			<if test="supplierName != null and supplierName !=''">
 	            AND s.SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
 	        </if>
