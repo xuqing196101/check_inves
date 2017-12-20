@@ -75,15 +75,40 @@
           <div class="section-focus-pic" id="section-focus-pic">
             <div class="pages" data-scro="list">
               <ul>
-	              	<li class="item" style="left:0px;">
-	                  <a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/1.png" width="100%" height="100%"></a>
-	                </li>
-	                <li class="item">
-	                  <a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/2.png" width="100%" height="100%"></a>
-	                </li>
-	                <li class="item">
-	                  <a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/3.png" width="100%" height="100%"></a>
-	                </li>
+              	<c:if test="${nums=='0'}">
+              	  <li class="item" style="left:0px;">
+	                <a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/1.png" width="100%" height="100%"></a>
+	              </li>
+	              <li class="item">
+	                <a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/2.png" width="100%" height="100%"></a>
+	              </li>
+	              <li class="item">
+	                <a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/3.png" width="100%" height="100%"></a>
+	              </li>
+              	</c:if>
+              	<c:if test="${nums!='0'}">
+              		<c:forEach items="${indexMapper['picList']}"  var="img" varStatus="status">
+              			<c:if test="${status.index == 0}">
+              				<li class="item" style="left:0px;">
+			                  <a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/file/viewFile.html?id=${img.uploadId}&key=2" width="100%" height="100%"></a>
+			                </li>
+              			</c:if>
+              			<c:if test="${status.index > 0}">
+              				<li class="item">
+			                  <a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/file/viewFile.html?id=${img.uploadId}&key=2" width="100%" height="100%"></a>
+			                </li>
+              			</c:if>
+					</c:forEach>
+              	</c:if>
+            	  <%-- <li class="item">
+	                <a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/1.png" width="100%" height="100%"></a>
+	              </li>
+	              <li class="item">
+	                <a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/2.png" width="100%" height="100%"></a>
+	              </li>
+	              <li class="item">
+	                <a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/3.png" width="100%" height="100%"></a>
+	              </li> --%>
 	           
               </ul>
             </div>
@@ -104,6 +129,27 @@
               <b class="down">1</b>
               <b>2</b>
               <b>3</b>
+            </c:if>
+            <c:if test="${nums=='4'}">
+              <b class="down">1</b>
+              <b>2</b>
+              <b>3</b>
+              <b>4</b>
+            </c:if>
+            <c:if test="${nums=='5'}">
+              <b class="down">1</b>
+              <b>2</b>
+              <b>3</b>
+              <b>4</b>
+              <b>5</b>
+            </c:if>
+            <c:if test="${nums=='6'}">
+              <b class="down">1</b>
+              <b>2</b>
+              <b>3</b>
+              <b>4</b>
+              <b>5</b>
+              <b>6</b>
             </c:if>
             
             </div>

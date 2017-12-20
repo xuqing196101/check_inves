@@ -93,42 +93,55 @@
 				<h2>供应商信息</h2>
 			</div>
 			<h2 class="search_detail">
-  			<form id="form1" action="${pageContext.request.contextPath}/supplierQuery/readOnlyList.html" method="post">
-		    	<input type="hidden" name="page" id="page">
-		      <input type="hidden" name="judge" value="5">
-		      <input type="hidden" name="orgId" value="${ supplier.orgId }">
-		      <input type="hidden" name="reqType" value="${ reqType }">
-		      <input type="hidden" name="supplierTypeIds" value="${ supplierAnalyzeVo.supplierTypeIds }">
-		      <c:if test="${sign != 2 }">
-		      	<input type="hidden" name="address" value="${ supplierAnalyzeVo.address }">
-		      </c:if>
-		      <input type="hidden" name="sign" value="${sign }">
-		      <ul class="demand_list">
-		      	<li>
-            	<label class="fl">供应商名称：</label><span><input id="supplierName" class="w220" name="supplierName" value="${supplier.supplierName }" type="text"></span>
-            </li>
-            <%-- <li>
-		          <label class="fl">用户名：</label><span><input class="w220" id="loginName" name="loginName" value="${supplier.loginName }" type="text"></span>
-		        </li> --%>
-            <li>
-              <label class="fl">联系人：</label><span><input id="contactName" class="w220" name="contactName" value="${supplier.contactName }" type="text"></span>
-            </li>
-            <%-- <li>
-							<label class="fl">手机号：</label>
-							<input id="mobile" class="w220" name="mobile" value="${supplier.mobile }" type="text">
-						</li> --%>
-						<li>
-            	<label class="fl">企业性质：</label>
-	            <select name="businessNature" id="businessNature" class="w220">
+			<form id="form1" action="${pageContext.request.contextPath}/supplierQuery/readOnlyList.html" method="post">
+    	<input type="hidden" name="page" id="page">
+      <input type="hidden" name="judge" value="5">
+      <input type="hidden" name="orgId" value="${ supplier.orgId }">
+      <input type="hidden" name="reqType" value="${ reqType }">
+      <input type="hidden" name="supplierTypeIds" value="${ supplierAnalyzeVo.supplierTypeIds }">
+      <c:if test="${sign != 2 }">
+      	<input type="hidden" name="address" value="${ supplierAnalyzeVo.address }">
+      </c:if>
+      <input type="hidden" name="sign" value="${sign }">
+			<div class="m_row_5">
+	    <div class="row">
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">供应商名称：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input id="supplierName" class="w100p h32 f14 mb0" name="supplierName" value="${supplier.supplierName }" type="text">
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">联系人：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input id="contactName" class="w100p h32 f14 mb0" name="contactName" value="${supplier.contactName }" type="text">
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">企业性质：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<select name="businessNature" id="businessNature" class="w100p h32 f14">
 	              <option value=''>全部</option>
 	              <c:forEach items="${businessNature}" var="list">
 	              	<option <c:if test="${supplier.businessNature eq list.id }">selected</c:if> value="${list.id }">${list.name }</option>
 	              </c:forEach>
 	            </select>
-	          </li>  
-		         <li>
-							<label class="fl">供应商状态：</label>
-							<select id="status" name="status" class="w220">
+	          </div>
+	        </div>
+	      </div>
+				
+				<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">供应商状态：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<select id="status" name="status" class="w100p h32 f14">
 								<option value=''>全部</option>
 								<option value="1">审核通过</option>
 								<option value="4">待复核</option>
@@ -138,33 +151,51 @@
 								<option value="8">考察合格</option>
 								<option value="9">考察不合格</option>
 							</select>
-						 </li>
-         		 <li>
-	          	<label class="fl">审核日期：</label><span><input id="startAuditDate" name="startAuditDate" class="Wdate w110 fl" type="text"  value='<fmt:formatDate value="${supplier.startAuditDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('startAuditDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'startAuditDate\')}'})"/>
-	            <span class="f14">至</span>
-	            <input id="endAuditDate" name="endAuditDate" value='<fmt:formatDate value="${supplier.endAuditDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100 fl" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'endAuditDate\')}'})"/>
-	            </span>
-	          </li>
-	          <c:if test ="${sign == 2 }">
-              <li>
-                <label class="fl">地区：</label>
-                <select name="address" id="address" class="w220">
-                  <option value=''>全部</option>
-                  <c:forEach items="${privnce}" var="list">
-                    <option <c:if test="${supplier.address eq list.name }">selected</c:if> value="${list.name }">${list.name }</option>
-                  </c:forEach>
-                </select>
-              </li>
-            </c:if>
-		       </ul>
-		       <div class="col-md-12 clear tc mt10">
-	           <button type="button" onclick="submit()" class="btn">查询</button>
-	           <button type="button" class="btn" onclick="chongzhi()">重置</button>
-	           <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
-           </div>
-           <div class="clear"></div>
-		     </form>
-		   </h2>
+	          </div>
+	        </div>
+	      </div>
+				
+				<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">审核开始日期：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input id="startAuditDate" name="startAuditDate" class="Wdate w100p h32 f14 mb0" type="text" value='<fmt:formatDate value="${supplier.startAuditDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('startAuditDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'startAuditDate\')}'})">
+	          </div>
+	        </div>
+	      </div>
+				
+				<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">审核结束日期：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input id="endAuditDate" name="endAuditDate" value='<fmt:formatDate value="${supplier.endAuditDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100p h32 f14 mb0" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'endAuditDate\')}'})">
+	          </div>
+	        </div>
+	      </div>
+				
+				<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">地区：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<select name="address" id="address" class="w100p h32 f14">
+								<option value=''>全部</option>
+								<c:forEach items="${privnce}" var="list">
+									<option <c:if test="${supplier.address eq list.name }">selected</c:if> value="${list.name }">${list.name }</option>
+								</c:forEach>
+							</select>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	    </div>
+			
+			<div class="tc">
+				<button type="button" onclick="submit()" class="btn mb0">查询</button>
+				<button type="button" class="btn mb0" onclick="chongzhi()">重置</button>
+				<button class="btn btn-windows back mb0 mr0" onclick="back()" type="button">返回</button>
+			</div>
+			</form>
+			</h2>
 			<div class="content table_box">
 				<table id="tb1" class="table table-bordered table-condensed table-hover table-striped">
 					<thead>

@@ -95,31 +95,50 @@
 			</div>
 
 			<h2 class="search_detail">
-			<ul class="demand_list">
-		    	<li>
-			    	<label class="fl">采购人员姓名：</label><span><input type="text" id="relName" name="relName" class=""/></span>
-			    </li>
-			    <li>
-			    	<label class="fl">试卷编号：</label>
-			    	<span>
-				    	<input type="text" id="code" name="code" class=""/>
-			   		</span>
-			    </li>
-			    <li>
-			    	<label class="fl">考试状态：</label>
-			    	<span>
-				    	<select name="status" id="status" class="w178">
+			<div class="m_row_5">
+	    <div class="row">
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购人员姓名：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input type="text" id="relName" name="relName" class="w100p h32 f14 mb0">
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">试卷编号：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input type="text" id="code" name="code" class="w100p h32 f14 mb0">
+	          </div>
+	        </div>
+	      </div>
+				
+				<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">考试状态：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<select name="status" id="status" class="w100p h32 f14">
 				    		<option value="">请选择</option>
 				    		<option value="及格">及格</option>
 				    		<option value="不及格">不及格</option>
 				    	</select>
-			   		</span>
-			    </li>
-			    <button type="button" onclick="query()" class="btn fl mt1">查询</button>
-			    <button type="button" onclick="reset()" class="btn fl mt1">重置</button>
-		    </ul>
-		    <div class="clear"></div>
-	 	</h2>
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-12 f0">
+							<button type="button" onclick="query()" class="btn mb0 h32">查询</button>
+					    <button type="button" onclick="reset()" class="btn mb0 mr0 h32">重置</button>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	    </div>
+		 	</h2>
 
 			<div class="content table_box">
 				<table class="table table-bordered table-condensed table-hover">

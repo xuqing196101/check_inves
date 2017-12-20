@@ -201,24 +201,42 @@
 				<h2>采购机构人员列表</h2>
 			</div>
 				<h2 class="search_detail">
-					<form action="${pageContext.request.contextPath}/purchase/list.html" method="post" id="form1" class="mb0">
-						<input type="hidden" name="page" id="page"/> 
-						<input type="hidden" name="purchaseDepId" id="purchaseDepId" value="${purchaseInfo.purchaseDepId }"/> 
-						<ul class="demand_list">
-							<li><label class="fl">姓名：</label><span><input type="text" name="relName" id="relName"
-							value="${purchaseInfo.relName }"/>
-							</span></li>
-							<c:if test="${purchaseInfo.purchaseDepId == null || purchaseInfo.purchaseDepId == ''}">
-							<li><label class="fl">采购机构名称：</label><span><input type="text" name="purchaseDepName" id="purchaseDepName"
-							value="${purchaseInfo.purchaseDepName }"/>
-							</span>
-							</li>
-							</c:if>
-							<button type="button" onclick="submit();" class="btn fl mt1">查询</button>
-                            <button type="button" onclick="resetQuery();" class="btn fl mt1">重置</button>
-						</ul>
-						<div class="clear"></div>
-					</form>
+				<form action="${pageContext.request.contextPath}/purchase/list.html" method="post" id="form1" class="mb0">
+				<input type="hidden" name="page" id="page"/> 
+				<input type="hidden" name="purchaseDepId" id="purchaseDepId" value="${purchaseInfo.purchaseDepId }"/>
+        <div class="m_row_5">
+        <div class="row">
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+            <div class="row">
+              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">姓名：</div>
+              <div class="col-xs-8 f0 lh0">
+                <input type="text" name="relName" id="relName" value="${purchaseInfo.relName }" class="w100p h32 f14 mb0">
+              </div>
+            </div>
+          </div>
+          
+          <c:if test="${purchaseInfo.purchaseDepId == null || purchaseInfo.purchaseDepId == ''}">
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+            <div class="row">
+              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购机构名称：</div>
+              <div class="col-xs-8 f0 lh0">
+                <input type="text" name="purchaseDepName" id="purchaseDepName" value="${purchaseInfo.purchaseDepName }" class="w100p h32 f14 mb0">
+              </div>
+            </div>
+          </div>
+          </c:if>
+          
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+            <div class="row">
+              <div class="col-xs-12 f0">
+                <button type="button" onclick="submit();" class="btn mb0 h32">查询</button>
+                <button type="button" onclick="resetQuery();" class="btn mb0 mr0 h32">重置</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+				</form>
 				</h2>
 			<!-- 表格开始-->
 				<div class="col-md-12 pl20 mt10">

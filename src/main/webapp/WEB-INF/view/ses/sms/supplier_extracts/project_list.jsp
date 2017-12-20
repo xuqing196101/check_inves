@@ -121,41 +121,67 @@
     </div>
     <!-- 项目戳开始 -->
     <h2 class="search_detail">
-        <form action="${pageContext.request.contextPath}/SupplierExtracts_new/projectList.html" id="form1" method="post" class="mb0">
-            <input type="hidden" name="page" id="page" value="1">
-	        <ul class="demand_list">
-	          <li>
-	            <label>项目名称：</label>
-	            <input type="text" name="projectName" id="projectName" value="${project.projectName }" />
-	          </li>
-	          <li>
-	            <label class="fl">项目编号：</label>
-	            <input type="text" name="projectCode" id="projectCode" value="${project.projectCode }" />
-	          </li>
-	          <li>
-	            <label class="fl">采购方式：</label>
-	            <select class="w178" name="purchaseType">
-	              <option value="" <c:if test="${project.purchaseType == '' }">selected="selected"</c:if> >全部</option>
-	              <c:forEach items="${purchaseTypeList}" var="map">
-	                <option value="${map.id}" <c:if test="${project.purchaseType == map.id }">selected="selected"</c:if> >${map.name}</option>
-	              </c:forEach>
-	            </select>
-	          </li>
-	          <li>
-	            <label class="fl">起始时间：</label>
-	            <input id="startTime" name="startTime" type="text" value="${startTime}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" type="text" readonly="readonly">
-	          </li>
-	          <li>
-	            <label class="fl">结束时间：</label>
-	            <input id="endTime" name="endTime" type="text" value="${endTime}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" type="text" readonly="readonly">
-	          </li>
-	          <li>
-		          <button class="btn fl mt1" type="submit">查询</button>
-		          <button type="button" class="btn fl mt1" onclick="form_reset()">重置</button>
-	          </li>
-	        </ul>
-	        <div class="clear"></div>
-        </form>
+    <form action="${pageContext.request.contextPath}/SupplierExtracts_new/projectList.html" id="form1" method="post" class="mb0">
+    <input type="hidden" name="page" id="page" value="1">
+    <div class="m_row_5">
+    <div class="row">
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">项目名称：</div>
+          <div class="col-xs-8 f0 lh0">
+            <input type="text" name="projectName" id="projectName" value="${project.projectName }" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">项目编号：</div>
+          <div class="col-xs-8 f0 lh0">
+            <input type="text" name="projectCode" id="projectCode" value="${project.projectCode }" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购方式：</div>
+          <div class="col-xs-8 f0 lh0">
+            <select class="w100p h32 f14" name="purchaseType">
+              <option value="" <c:if test="${project.purchaseType == '' }">selected="selected"</c:if> >全部</option>
+              <c:forEach items="${purchaseTypeList}" var="map">
+                <option value="${map.id}" <c:if test="${project.purchaseType == map.id }">selected="selected"</c:if> >${map.name}</option>
+              </c:forEach>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">起始时间：</div>
+          <div class="col-xs-8 f0 lh0">
+            <input id="startTime" name="startTime" type="text" value="${startTime}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" type="text" readonly="readonly" class="Wdate w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">结束时间：</div>
+          <div class="col-xs-8 f0 lh0">
+            <input id="endTime" name="endTime" type="text" value="${endTime}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" type="text" readonly="readonly" class="Wdate w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="tc">
+      <button class="btn mb0" type="submit">查询</button>
+      <button type="button" class="btn mb0 mr0" onclick="form_reset()">重置</button>
+    </div>
+    </form>
     </h2>
     <div class="col-md-12 pl20 mt10">
         <!-- <button class="btn"

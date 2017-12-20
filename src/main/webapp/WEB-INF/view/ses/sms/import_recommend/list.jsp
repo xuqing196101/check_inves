@@ -252,17 +252,30 @@
 				<h2>进口代理商列表</h2>
 			</div>
 			<h2 class="search_detail">
-       <form id="form1" action="${pageContext.request.contextPath}/importRecommend/list.html" method="post" class="mb0">
-    	<ul class="demand_list">
-    	  <li class="fl">
-	    	<label class="fl">代理商名称：</label><span><input type="text" id="name" name="name" value="${ir.name }" class=""/></span>
-	      </li> 	
-    	</ul>
-	    	<button type="button" onclick="query()" class="btn fl">查询</button>
-	    	<button type="button" class="btn fl" onclick="resetQuery()">重置</button> 
-    	  <div class="clear"></div>
-       </form>
-     </h2>
+			<form id="form1" action="${pageContext.request.contextPath}/importRecommend/list.html" method="post" class="mb0">
+			<div class="m_row_5">
+	    <div class="row">
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">代理商名称：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input type="text" id="name" name="name" value="${ir.name }" class="w100p h32 f14 mb0">
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-12 f0">
+							<button type="button" onclick="query()" class="btn mb0 h32">查询</button>
+				    	<button type="button" class="btn mb0 mr0 h32" onclick="resetQuery()">重置</button>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	    </div>
+			</form>
+			</h2>
 			<!-- 表格开始-->
 			<div class="col-md-12 pl20 mt10">
 				<button class="btn btn-windows add" type="submit" onclick="add()">新增</button>

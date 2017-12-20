@@ -41,6 +41,8 @@ import ses.formbean.SupplierItemCategoryBean;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryQua;
+import ses.model.bms.ContinentNationRel;
+import ses.model.bms.ContinentNationRelExt;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
 import ses.model.bms.Role;
@@ -73,6 +75,7 @@ import ses.model.sms.SupplierModify;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
+import ses.service.bms.ContinentNationRelService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.QualificationService;
 import ses.service.bms.RoleServiceI;
@@ -230,6 +233,9 @@ public class SupplierServiceImpl implements SupplierService {
   
   @Autowired
   private QualificationService qualificationService;
+  
+  @Autowired
+  private ContinentNationRelService continentNationRelService; 
   
   
   @Override
@@ -1853,6 +1859,20 @@ public class SupplierServiceImpl implements SupplierService {
 			// 设置境外分支机构信息
 			List<SupplierBranch> branchList = supplierBranchService.findSupplierBranch(id);
 			if (branchList != null && branchList.size() > 0) {
+				for (SupplierBranch branch : branchList) {
+					if (StringUtils.isNotBlank(branch.getCountry())) {
+						ContinentNationRel cnr = continentNationRelService.findByNationId(branch.getCountry());
+						if(cnr != null){
+							ContinentNationRelExt cnre = new ContinentNationRelExt();
+							cnre.setCnr(cnr);
+							List<ContinentNationRel> cnrList = continentNationRelService.findByContinentId(cnr.getContinentId());
+							if(cnrList != null && cnrList.size() > 0){
+								cnre.setCnrList(cnrList);
+							}
+							branch.setCnre(cnre);
+						}
+					}
+				}
 				supplier.setBranchList(branchList);
 			} else {
 				branchList = new ArrayList<SupplierBranch>();
