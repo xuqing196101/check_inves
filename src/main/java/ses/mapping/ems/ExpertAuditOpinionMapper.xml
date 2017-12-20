@@ -10,9 +10,10 @@
     <result column="FLAG_TIME"  property="flagTime" />
     <result column="FLAG_AUDIT"  property="flagAudit" />
     <result column="IS_DOWNLOAD_ATTCH"  property="isDownLoadAttch" />
+    <result column="IS_DELETED"  property="isDeleted" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, EXPERT_ID, OPINION, CREATED_AT, UPDATED_AT, FLAG_TIME, FLAG_AUDIT, IS_DOWNLOAD_ATTCH
+    ID, EXPERT_ID, OPINION, CREATED_AT, UPDATED_AT, FLAG_TIME, FLAG_AUDIT, IS_DOWNLOAD_ATTCH, IS_DELETED
   </sql>
   <select id="selectByPrimaryKey" parameterType="ses.model.ems.ExpertAuditOpinion" resultMap="BaseResultMap">
     select 
@@ -122,6 +123,7 @@
         FROM (SELECT <include refid="Base_Column_List" />
           FROM T_SES_EMS_EXPERT_AUDIT_OPINION T
           WHERE T.EXPERT_ID = #{expertId}
+          and IS_DELETED = 0
           <if test="flagTime != null ">
             AND T.FLAG_TIME = #{flagTime}
           </if>
@@ -163,5 +165,9 @@
   
   <update id="updateDownloadAttch" parameterType="java.lang.String">
   	UPDATE T_SES_EMS_EXPERT_AUDIT_OPINION SET IS_DOWNLOAD_ATTCH = 0 WHERE ID = #{id}
+  </update>
+  
+  <update id="updateisDeletedByExpertId" parameterType="java.lang.String">
+    update T_SES_EMS_EXPERT_AUDIT_OPINION SET IS_DELETED = 1 where EXPERT_ID = #{expertId} and FLAG_TIME = 1
   </update>
 </mapper>

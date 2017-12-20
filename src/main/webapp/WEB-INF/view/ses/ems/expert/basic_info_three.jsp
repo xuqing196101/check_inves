@@ -258,10 +258,10 @@
                     <c:if test="${org1.cityId ne expert.address}">
                     	<c:set value="${count+1}" var="count"/>
                         <tr <c:if test="${fn:contains(org1.shortName, '北京')}"> style="dispaly:none" </c:if>>
-                            <td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)" <c:if test="${-1!=expert.status}"> disabled="disabled" </c:if>
+                            <td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)" <c:if test="${-1!=expert.status || org1.id=='6bca3c841a2b49819727e7516254e9e6'}"> disabled="disabled" </c:if>
                                                   name="procurementDepId" <c:if test="${org1.id ==expert.purchaseDepId}"> checked='checked' </c:if> /></td>
                             <td class="tc">${count}</td>
-                            <td class="tc">${org1.shortName}</td>
+                            <td class="tc">${org1.shortName}<c:if test="${org1.id=='6bca3c841a2b49819727e7516254e9e6'}"><i class="red">(因工作需要，暂停选择)</i></c:if></td>
                                 <%-- <td class="tc">${org1.supplierContact}</td>
                                 <td class="tc">${org1.supplierPhone}</td>--%>
                             <td class="tc">${org1.address}</td>

@@ -45,7 +45,7 @@
 </head>
 <body>
 	<input type="hidden" value="${errorField}" id="errorField" >
-  <h1 class="f18">已选产品类别</h1>
+  <h1 class="f18">已选参评类别</h1>
   <table class="table table-bordered table-hover">
     <tr>
       <td class="info tc w50">序号</td>

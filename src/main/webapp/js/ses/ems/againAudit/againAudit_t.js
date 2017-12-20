@@ -30,8 +30,12 @@
           if (typeof(list_content[i].workUnit) === 'undefined') {
             list_content[i].workUnit = '';
           }
-          if (typeof(list_content[i].professTechTitles) === 'undefined') {
-            list_content[i].professTechTitles = '';
+          if (typeof(list_content[i].professTechTitles) === 'undefined' || list_content[i].professTechTitles == '') {
+            if (typeof(list_content[i].atDuty) === 'undefined') {
+              list_content[i].professTechTitles = '';
+            } else {
+              list_content[i].professTechTitles = list_content[i].atDuty;
+            }
           }
           if (typeof(list_content[i].updateTime) === 'undefined') {
             list_content[i].updateTime = '';

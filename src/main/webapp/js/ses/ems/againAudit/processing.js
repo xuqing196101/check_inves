@@ -917,20 +917,26 @@ function downloadReviewTable() {
 
 // 复审结束（审核专家操作）
 function reviewEnd(expertId) {
-  $.ajax({
-    url: root_url + "/expertAgainAudit/reviewEnd.do",
-    data: {
-      expertId: expertId
-    },
-    success: function(data) {
-      if(data.status == 200) {
-        layer.msg("操作成功");
-        $('#table_content').listConstructor();
-      }
-    },
-    error: function() {
-      layer.msg("操作失败");
-    }
+	layer.confirm('您确定要复审结束吗?', {
+		title: '提示！',
+		offset: ['200px']
+	}, function(index) {
+		layer.close(index);
+	    $.ajax({
+		  url: root_url + "/expertAgainAudit/reviewEnd.do",
+	      data: {
+	    	  expertId: expertId
+	      },
+	      success: function(data) {
+			  if(data.status == 200) {
+				  layer.msg("操作成功");
+				  $('#table_content').listConstructor();
+			  }
+	    },
+	    error: function() {
+	    	layer.msg("操作失败");
+	    }
+	 });
   });
 }
 
