@@ -236,5 +236,15 @@ public interface PackageExpertService {
         
         List<SaleTender> rejectByScore(String packageId, String projectId,
             HashMap<String, Object> rejectByPriceMap);
-        
+        /**
+         * 
+        * @Title: selectByExpertName
+        * @author FengTian 
+        * @date 2017-12-14 下午6:02:50  
+        * @Description: 根据包ID查询专家名字用逗号隔开 
+        * @param @param packageId
+        * @param @return      
+        * @return String
+         */
+        String selectByExpertName(String packageId);
 }

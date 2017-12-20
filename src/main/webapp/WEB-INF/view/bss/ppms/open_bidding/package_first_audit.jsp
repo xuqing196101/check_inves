@@ -89,8 +89,12 @@
 							   <i></i>
 							 </li>
 							 <li>
+							   <a  href="${pageContext.request.contextPath}/project/packDetail.html?projectId=${projectId}&flowDefineId=${flowDefineId}">03、移除明细</a>
+							   <i></i>
+							 </li>
+							 <li>
 							   <a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${projectId}&flowDefineId=${flowDefineId}" >
-							     03、招标文件
+							     04、招标文件
 							     <%-- <c:if test="${project.dictionary.code eq 'GKZB' }">
 							     03、招标文件
 							     </c:if>

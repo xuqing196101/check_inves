@@ -38,6 +38,8 @@
 			};
 			$("#funsionCharts").html("");
 			var myChart = echarts.init(document.getElementById("funsionCharts"));
+			/* myChart.on('click', function(params){
+			}) */
 			myChart.setOption(option);
 			myChart.hideLoading();
     });

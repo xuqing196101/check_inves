@@ -273,11 +273,9 @@
         </div>
         </form>
       </h2>
-      <c:if test="${admin!=1 }">
+      <c:if test="${typeName eq '1' }">
         <div class="col-md-12 pl20 mt10">
-        	<c:if test="${auth eq 'show'}">
 	          <button class="btn btn-windows git" onclick="start()">受领</button>
-	        </c:if>
         </div>
       </c:if>
       <div class="content table_box">
@@ -295,7 +293,6 @@
             </tr>
           </thead>
           <c:forEach items="${info.list}" var="obj" varStatus="vs">
-            <c:if test="${orgId eq obj.purchaseId}"></c:if>
             <tr class="pointer">
               <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"></td>
               <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>

@@ -2,6 +2,7 @@ package bss.model.pms;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -58,6 +59,8 @@ public class CollectPlan {
     private String userId;
     
     private String sign;
+    
+    private List<String> orgId;
     
     public String getSign() {
 		return sign;
@@ -209,6 +212,14 @@ public class CollectPlan {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public List<String> getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(List<String> orgId) {
+		this.orgId = orgId;
 	}
    
 	

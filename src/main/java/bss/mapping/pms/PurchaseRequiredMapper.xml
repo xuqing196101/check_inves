@@ -724,7 +724,14 @@
 			<if test="userId != null">
 				 and USER_ID = #{userId}
 			</if>
-			
+			<if test="userList != null and userList != ''">
+         and USER_ID in (
+         select ID FROM T_SES_BMS_USER WHERE ORG_ID IN
+         	<foreach item="item" index="index" collection="userList" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+         )
+     </if> 
 		</where>
 	<!-- 	<if test="status== 1">
 			ORDER BY decode(STATUS,'1',1,'4',2,'2',3,'3',4,'5',5), CREATED_AT DESC

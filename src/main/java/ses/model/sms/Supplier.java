@@ -1,5 +1,9 @@
 package ses.model.sms;
 
+import bss.model.ppms.AdvancedDetail;
+import bss.model.ppms.Packages;
+import bss.model.ppms.ProjectDetail;
+import common.model.UploadFile;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -13,10 +17,6 @@ import ses.model.bms.RoleUser;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.util.MyAnnotation;
-import bss.model.ppms.AdvancedDetail;
-import bss.model.ppms.ProjectDetail;
-
-import common.model.UploadFile;
 
 /**
  * @Title: Supplier
@@ -676,6 +676,8 @@ Supplier implements Serializable {
 	private List<SupplierAddress> addressList=new ArrayList<SupplierAddress>();
 	
 	private List<SupplierBranch> branchList=new ArrayList<SupplierBranch>();
+	
+	private List<Packages> pack = new ArrayList<Packages>();
 	
 	private String concatProvince;
 	
@@ -2121,6 +2123,14 @@ Supplier implements Serializable {
     public void setInstorageAt(Date instorageAt) {
         this.instorageAt = instorageAt;
     }
+
+	public List<Packages> getPack() {
+		return pack;
+	}
+
+	public void setPack(List<Packages> pack) {
+		this.pack = pack;
+	}
 
 	@Override
 	public int hashCode() {

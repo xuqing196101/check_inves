@@ -131,6 +131,20 @@ public class PurchaseDetail {
   private String beginDate;
   private String endDate;
   
+  private String projectName;
+  private String projectNumber;
+  private String contractName;
+  private String contractCode;
+  private String demandName;
+  private String demandNumber;
+  private String demandMan;
+  private String packName;
+  private String packNumber;
+  private Date bidDate;
+  private String bidAddress;
+  private String expertName;
+  private String projectId;
+  private String packId;
   
   
   public String getBeginDate() {
@@ -613,6 +627,116 @@ public Integer getProjectStatus() {
       this.orgId = orgId;
     }
 
+	public String getProjectName() {
+		return projectName;
+	}
 
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
+	public String getProjectNumber() {
+		return projectNumber;
+	}
+
+	public void setProjectNumber(String projectNumber) {
+		this.projectNumber = projectNumber;
+	}
+
+	public String getContractName() {
+		return contractName;
+	}
+
+	public void setContractName(String contractName) {
+		this.contractName = contractName;
+	}
+
+	public String getContractCode() {
+		return contractCode;
+	}
+
+	public void setContractCode(String contractCode) {
+		this.contractCode = contractCode;
+	}
+
+	public String getDemandName() {
+		return demandName;
+	}
+
+	public void setDemandName(String demandName) {
+		this.demandName = demandName;
+	}
+
+	public String getDemandNumber() {
+		return demandNumber;
+	}
+
+	public void setDemandNumber(String demandNumber) {
+		this.demandNumber = demandNumber;
+	}
+
+	public String getDemandMan() {
+		return demandMan;
+	}
+
+	public void setDemandMan(String demandMan) {
+		this.demandMan = demandMan;
+	}
+
+	public String getPackName() {
+		return packName;
+	}
+
+	public void setPackName(String packName) {
+		this.packName = packName;
+	}
+
+	public String getPackNumber() {
+		return packNumber;
+	}
+
+	public void setPackNumber(String packNumber) {
+		this.packNumber = packNumber;
+	}
+
+	public Date getBidDate() {
+		return bidDate;
+	}
+
+	public void setBidDate(Date bidDate) {
+		this.bidDate = bidDate;
+	}
+
+	public String getBidAddress() {
+		return bidAddress;
+	}
+
+	public void setBidAddress(String bidAddress) {
+		this.bidAddress = bidAddress;
+	}
+
+	public String getExpertName() {
+		return expertName;
+	}
+
+	public void setExpertName(String expertName) {
+		this.expertName = expertName;
+	}
+
+	public String getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(String projectId) {
+		this.projectId = projectId;
+	}
+
+	public String getPackId() {
+		return packId;
+	}
+
+	public void setPackId(String packId) {
+		this.packId = packId;
+	}
     
 }

@@ -160,6 +160,17 @@ public class PurchaseContract implements Serializable{
 	private String orgId;
 	
 	private String createId;
+	private Double prepaidRatio;  //预付比例
+	
+	private BigDecimal prepaymentAmount;  //预付金额
+	
+	private Double warrantyRatio;  //质保比例
+	
+	private BigDecimal warrantyAmount;  //预付金额
+	
+	private Integer trialPrice;  //是否审价 1是 0 否
+	
+	private Integer transportFees; //有无运杂费 1有 0 无
 	
 	private List<AfterSaleSer> afterSaleSers;
 	
@@ -756,6 +767,58 @@ public class PurchaseContract implements Serializable{
 
   public void setCreateId(String createId) {
     this.createId = createId;
+  }
+
+  public Double getPrepaidRatio() {
+    return prepaidRatio;
+  }
+
+  public void setPrepaidRatio(Double prepaidRatio) {
+    this.prepaidRatio = prepaidRatio;
+  }
+
+  public BigDecimal getPrepaymentAmount() {
+    return prepaymentAmount;
+  }
+
+  public void setPrepaymentAmount(BigDecimal prepaymentAmount) {
+    this.prepaymentAmount = prepaymentAmount;
+  }
+
+  public Double getWarrantyRatio() {
+    return warrantyRatio;
+  }
+
+  public void setWarrantyRatio(Double warrantyRatio) {
+    this.warrantyRatio = warrantyRatio;
+  }
+
+  public BigDecimal getWarrantyAmount() {
+    return warrantyAmount;
+  }
+
+  public void setWarrantyAmount(BigDecimal warrantyAmount) {
+    this.warrantyAmount = warrantyAmount;
+  }
+
+  public Integer getTrialPrice() {
+    return trialPrice;
+  }
+
+  public void setTrialPrice(Integer trialPrice) {
+    this.trialPrice = trialPrice;
+  }
+
+  public Integer getTransportFees() {
+    return transportFees;
+  }
+
+  public void setTransportFees(Integer transportFees) {
+    this.transportFees = transportFees;
+  }
+
+  public static long getSerialversionuid() {
+    return serialVersionUID;
   }
 	
 }

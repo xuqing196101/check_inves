@@ -393,4 +393,10 @@ public class SupplierCheckPassServiceImpl implements SupplierCheckPassService {
     
         return listSupplierCheckPass;
     }
+
+	@Override
+	public String selectBySupplierName(String packageId) {
+		
+		return checkPassMapper.selectBySupplierName(packageId);
+	}
 }

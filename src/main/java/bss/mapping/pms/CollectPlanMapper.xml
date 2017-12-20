@@ -347,6 +347,14 @@
       <if test="userId != null">
        and  USER_ID IN (SELECT ID FROM T_SES_BMS_USER WHERE ORG_ID = #{userId})
       </if>
+      <if test="orgId != null">
+       and  USER_ID IN (
+       	SELECT ID FROM T_SES_BMS_USER WHERE ORG_ID in 
+       	<foreach item="item" index="index" collection="orgId" open="(" separator="," close=")">
+					#{item}
+				</foreach> 
+       )
+      </if>
        <if test="planNo != null">
          and  PLAN_NUMBER = #{planNo}
       </if>

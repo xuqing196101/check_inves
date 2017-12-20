@@ -246,9 +246,9 @@
 		                    }else{
 		                        parent.window.setTimeout(function(){
 		                        	if (noticeType == 'win') {
-										window.location.href = "${pageContext.request.contextPath}/open_bidding/winNotice.html?projectId="+result.obj.projectId+"&flowDefineId="+flowDefineId;
+										window.location.href = "${pageContext.request.contextPath}/open_bidding/winNotice.html?projectId="+result.projectId+"&flowDefineId="+flowDefineId;
 									} else if (noticeType == 'purchase' ) {
-		                            	window.location.href = "${pageContext.request.contextPath}/open_bidding/bidNotice.html?projectId="+result.obj.projectId+"&flowDefineId="+flowDefineId;
+		                            	window.location.href = "${pageContext.request.contextPath}/open_bidding/bidNotice.html?projectId="+result.projectId+"&flowDefineId="+flowDefineId;
 									}
 		                        }, 500);
 		                        //layer.msg(result.message,{offset: ['220px']});
@@ -287,6 +287,7 @@
 				    url: "${pageContext.request.contextPath}/open_bidding/saveBidNotice.do?flag=0",
 				    dataType:'json',
 				    data : $('#form').serialize(),
+				    async: false,
 				    success: function(data) {
 				    	if(!data.success){
 	                        layer.msg(data.message,{offset: ['220px']});

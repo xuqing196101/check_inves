@@ -517,4 +517,14 @@
 		FROM T_BSS_CS_PURCHASE_CONTRACT T
 		WHERE T.STATUS = 2
 	</select>
+	
+	<select id="selectBySupplierName" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT
+			LISTAGG (sup.SUPPLIER_NAME, ',') WITHIN GROUP (ORDER BY sup.SUPPLIER_NAME) AS SUPPLIER_ID
+		FROM
+			T_SES_SMS_SUPPLIER sup
+		LEFT JOIN T_BSS_PPMS_SUPPLIER_CHECK_PASS PE ON PE.SUPPLIER_ID = sup. ID
+		WHERE
+			PE.PACKAGE_ID = #{packageId} AND PE.IS_WON_BID = 1
+	</select>
 </mapper>

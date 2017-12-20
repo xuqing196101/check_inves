@@ -1439,5 +1439,10 @@ public class PackageExpertServiceImpl implements PackageExpertService {
         }
         return score;
     }
+	@Override
+	public String selectByExpertName(String packageId) {
+		
+		return packageExpertMapper.selectByExpertName(packageId);
+	}
  
 }

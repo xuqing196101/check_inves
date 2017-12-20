@@ -31,6 +31,7 @@
 		<result column="HISTORY_STATUS" jdbcType="VARCHAR" property="historyStatus" />
 		<result column="MATERIAL_TYPE" jdbcType="VARCHAR" property="goodsType" />
 		<result column="AUDIT_DATE" jdbcType="TIMESTAMP" property="auditDate" />
+		<result column="BID_DATE" jdbcType="TIMESTAMP" property="bidDate" />
 		<result column="ORGANIZATION_ID" jdbcType="VARCHAR" property="organization" />
 		<result column="IS_MASTER" jdbcType="DECIMAL" property="isMaster" />
 		<result column="IS_DELETE" jdbcType="INTEGER" property="isDelete" />
@@ -1132,6 +1133,7 @@
 						dl.DELIVER_DATE,
 						dl.PURCHASE_COUNT AS PURCHASE_COUNT,
 						DL.is_master AS is_master,
+						DL.supplier,
 						dl.PLAN_TYPE AS PLAN_TYPE,
 						DL.seq AS seq
 					FROM
@@ -1188,6 +1190,7 @@
 						dl.DELIVER_DATE,
 						DL.PURCHASE_COUNT,
 						DL.is_master,
+						DL.supplier,
 						DL.ISPARENT,
 						DL.PLAN_TYPE,
 						DL.seq
@@ -1262,6 +1265,7 @@
 							dlss.DELIVER_DATE,
 							dlss.PURCHASE_COUNT AS PURCHASE_COUNT,
 							dlss.is_master AS is_master,
+							dlss.supplier,
 							dlss.PLAN_TYPE AS PLAN_TYPE,
 							dlss.seq AS seq
 						FROM
@@ -1535,7 +1539,7 @@
 		 IS_DELETE = 0  and
 		PARENT_ID=#{id}
 	</select>
-	<select id="selectByTask" parameterType="bss.model.pms.PurchaseDetail" resultMap="PurchaseRequired_Map">
+	<select id="selectByTask" parameterType="java.util.Map" resultMap="PurchaseRequired_Map">
 		SELECT
 	TAB1. ID,
 	TAB1.seq,
@@ -1552,15 +1556,34 @@
 	TAB1.purchase_count,
 	TAB1.price,
 	TAB1.budget,
-	TAB1.organization_id,
-	TAB1.purchase_type,
+	(SELECT SHORT_NAME FROM T_SES_OMS_ORG WHERE ID = TAB1.organization_id) AS organization_id,
+	(SELECT name FROM T_SES_BMS_DICTIONARY_DATA WHERE id = DECODE(isParent,'true',NULL,TAB1.purchase_type)) as purchase_type,
+	DECODE(isParent,'true',NULL,ps.name) AS projectName,
+	DECODE(isParent,'true',NULL,ps.project_number) AS projectNumber,
+	DECODE(isParent,'true',NULL,contract.name) as contractName,
+	DECODE(isParent,'true',NULL,contract.code) as contractCode,
+	DECODE(isParent,'true',NULL,rre.PLAN_NAME) as demandName,
+	DECODE(isParent,'true',NULL,rre.PLAN_NO) as demandNumber,
+	(SELECT rel_name FROM T_SES_BMS_USER WHERE id = DECODE(isParent,'true',NULL,rre.user_id)) as demandMan,
+	(SELECT rel_name FROM T_SES_BMS_USER WHERE id = DECODE(isParent,'true',NULL,ps.PRINCIPAL)) as userId,
+	DECODE(isParent,'true',NULL,TAB1.packName) as packName,
+	DECODE(isParent,'true',NULL,TAB1.packNumber) as packNumber,
+	 CASE WHEN isParent = 'true' THEN NULL ELSE ps.BID_DATE END AS BID_DATE,
+	DECODE(isParent,'true',NULL,ps.BID_ADDRESS) as bidAddress,
+	DECODE(isParent,'true',NULL,ps.ID) AS projectId,
+	DECODE(isParent,'true',NULL,TAB1.packId) as packId,
 	TAB1.isParent
 FROM
 	(
 		SELECT
 			DETAIL.*, TASK. NAME AS taskName,
+			TASK.MATERIALS_TYPE AS MATERIALS_TYPE,
+			prodd.PROJECT_ID,
 			TASK.DOCUMENT_NUMBER AS taskNumber,
 			TASK.GIVE_TIME AS taskGiveTime,
+			pack.name AS packName,
+			pack.PACKAGE_NUMBER as packNumber,
+			pack.ID as packId,
 			DECODE (
 				(
 					SELECT
@@ -1580,6 +1603,7 @@ FROM
 					COLLECT_ID,
 					GIVE_TIME,
 					NAME,
+					MATERIALS_TYPE,
 					DOCUMENT_NUMBER
 				FROM
 					T_BSS_PPMS_TASK
@@ -1591,31 +1615,55 @@ FROM
 					COLLECT_ID,
 					GIVE_TIME,
 					NAME,
+					MATERIALS_TYPE,
 					DOCUMENT_NUMBER
 			) task
 		INNER JOIN T_BSS_PMS_PURCHASE_DETAIL detail ON TASK.COLLECT_ID = DETAIL.UNIQUE_ID
-	) tab1 START WITH TAB1.ISPARENT = 'false'
+		LEFT JOIN T_BSS_PPMS_PROJECTS_DETAIL prodd ON prodd.REQUIRED_ID = DETAIL.ID
+		LEFT JOIN T_BSS_PPMS_PACKAGE pack ON prodd.PACKAGE_ID = pack.ID
+	) tab1 LEFT JOIN T_BSS_PPMS_PROJECTS ps ON PS.ID = TAB1.PROJECT_ID
+	LEFT JOIN T_BSS_CS_PURCHASE_CONTRACT contract ON contract.PROJECT_ID = TAB1.PROJECT_ID
+	LEFT JOIN T_BSS_PMS_PURCHASE_REQUIRED rre ON TAB1.ID = rre.ID
+	 START WITH TAB1.ISPARENT = 'false'
    <if test="goodsName!=null and goodsName!=''">
-   AND TAB1.material_name LIKE CONCAT(CONCAT('%', #{goodsName}), '%')
+   	AND TAB1.material_name LIKE CONCAT(CONCAT('%', #{goodsName}), '%')
    </if>	
    <if test="beginDate!=null and endDate!=null">
-        and TAB1.taskGiveTime BETWEEN TO_DATE(#{beginDate},'yyyy-MM-dd HH24:mi:ss') and TO_DATE(#{endDate},'yyyy-MM-dd HH24:mi:ss')
-     </if>
-     <if test="purchaseType!=null and purchaseType!=''">
-        and TAB1.purchase_type=#{purchaseType}
-     </if>
-     <if test="orgId!=null and orgId!=''">
-        and TAB1.organization_id in (select PURCHASE_DEP_ID from T_SES_OMS_PURDEP_ORG where 1=1 and org_id=#{orgId})
-     </if>
-     <if test="organization!=null and organization!=''">
-        and TAB1.organization_id=#{organization}
-     </if>
-     <if test="taskNumber!=null and taskNumber!=''">
-        and TAB1.TASKNUMBER LIKE CONCAT(CONCAT('%', #{taskNumber}), '%')
-     </if>
-     <if test="department!=null and department!=''">
-        and TAB1.department LIKE CONCAT(CONCAT('%', #{department}), '%')
-     </if>
+      and TAB1.taskGiveTime BETWEEN TO_DATE(#{beginDate},'yyyy-MM-dd HH24:mi:ss') and TO_DATE(#{endDate},'yyyy-MM-dd HH24:mi:ss')
+   </if>
+   <if test="projectNumber != null and projectNumber != ''">
+   	AND PS.PROJECT_NUMBER LIKE CONCAT(CONCAT('%', #{projectNumber}), '%') 
+   </if>
+   <if test="proBeginDate != null and proEndDate != null">
+      and  TO_CHAR(ps.BID_DATE,'yyyy-MM-dd') BETWEEN #{proBeginDate} and #{proEndDate}
+   </if>
+   <if test="code !=null and code != ''">
+   	AND contract.CODE LIKE CONCAT(CONCAT('%', #{code}), '%')
+   </if>
+   <if test="materialsType !=null and materialsType != ''">
+   	AND TAB1.MATERIALS_TYPE = #{materialsType}
+   </if>
+   <if test="purchaseType!=null and purchaseType!=''">
+      and TAB1.purchase_type=#{purchaseType}
+   </if>
+   <if test="orgId!=null and orgId!=''">
+      and TAB1.organization_id in (select PURCHASE_DEP_ID from T_SES_OMS_PURDEP_ORG where 1=1 and org_id=#{orgId})
+   </if>
+   <if test="orgList != null and orgList !=''">
+      and TAB1.organization_id in 
+      <foreach item="item" index="index" collection="orgList" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+   </if>
+   <if test="organization!=null and organization!=''">
+      and TAB1.organization_id=#{organization}
+   </if>
+   <if test="taskNumber!=null and taskNumber!=''">
+      and TAB1.TASKNUMBER LIKE CONCAT(CONCAT('%', #{taskNumber}), '%')
+   </if>
+   <if test="department!=null and department!=''">
+      and TAB1.department LIKE CONCAT(CONCAT('%', #{department}), '%')
+   </if>
  CONNECT BY PRIOR TAB1.parent_id = TAB1. ID
 GROUP BY
 	TAB1. ID,
@@ -1635,6 +1683,20 @@ GROUP BY
 	TAB1.budget,
 	TAB1.organization_id,
 	TAB1.purchase_type,
+	DECODE(isParent,'true',NULL,ps.name),
+	DECODE(isParent,'true',NULL,ps.project_number),
+	DECODE(isParent,'true',NULL,contract.name),
+	DECODE(isParent,'true',NULL,contract.code),
+	DECODE(isParent,'true',NULL,rre.PLAN_NAME),
+	DECODE(isParent,'true',NULL,rre.PLAN_NO),
+	DECODE(isParent,'true',NULL,rre.user_id),
+	DECODE(isParent,'true',NULL,ps.PRINCIPAL),
+	DECODE(isParent,'true',NULL,TAB1.packName),
+	DECODE(isParent,'true',NULL,TAB1.packNumber),
+	CASE WHEN isParent = 'true' THEN NULL ELSE ps.BID_DATE END,
+	DECODE(isParent,'true',NULL,ps.BID_ADDRESS),
+	DECODE(isParent,'true',NULL,ps.ID),
+	DECODE(isParent,'true',NULL,TAB1.packId),
 	TAB1.isParent
 ORDER BY
 	TAB1.taskGiveTime DESC,

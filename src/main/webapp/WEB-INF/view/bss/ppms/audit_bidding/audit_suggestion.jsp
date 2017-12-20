@@ -53,22 +53,26 @@
 			   <a  href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${project.id}&flowDefineId=${flowDefineId}">02、经济和技术评审细则</a>
 			   <i></i>
 			 </li>
+			 <li>
+		   <a  href="${pageContext.request.contextPath}/project/packDetail.html?projectId=${projectId}&flowDefineId=${flowDefineId}">03、移除明细</a>
+		   <i></i>
+		 </li>
 		 <li>
-						   <a  href="${pageContext.request.contextPath}/open_bidding/projectView.html?projectId=${project.id}&flowDefineId=${flowDefineId}">03、评审项预览</a>
+						   <a  href="${pageContext.request.contextPath}/open_bidding/projectView.html?projectId=${project.id}&flowDefineId=${flowDefineId}">04、评审项预览</a>
 						   <i></i>
 						 </li>
 			 <li>
 			   <a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${project.id}&flowDefineId=${flowDefineId}" >
-			     04、采购文件
+			     05、采购文件
 			   </a>
 			   <i></i>
 			 </li>
 			 <li>
-		   <a  href="${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${project.id}&flowDefineId=${flowDefineId}">05、编报说明</a>
+		   <a  href="${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${project.id}&flowDefineId=${flowDefineId}">06、编报说明</a>
 		   <i></i>
 		 </li>
 			 <li class="active">
-			   <a  href="${pageContext.request.contextPath}/Auditbidding/viewAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}">06、审核意见</a>
+			   <a  href="${pageContext.request.contextPath}/Auditbidding/viewAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}">07、审核意见</a>
 			 </li>
 		</ul>
 	 </div>

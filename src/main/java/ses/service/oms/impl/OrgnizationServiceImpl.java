@@ -886,4 +886,10 @@ public List<Orgnization> findManageOfOrg(HashMap<String, Object> map) {
 public String selOrgIdByDepId(String id) {
 	return orgniztionMapper.selOrgIdByDepId(id);
 }
+
+@Override
+public List<Orgnization> selectByIdList(HashMap<String, Object> map) {
+	
+	return orgniztionMapper.selectByIdList(map);
+}
 }

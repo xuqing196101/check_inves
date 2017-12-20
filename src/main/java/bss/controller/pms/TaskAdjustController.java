@@ -1,5 +1,6 @@
 package bss.controller.pms;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,6 +27,7 @@ import ses.model.oms.PurchaseDep;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
+import ses.util.AuthorityUtil;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import bss.controller.base.BaseController;
@@ -125,6 +127,7 @@ public class TaskAdjustController extends BaseController{
 	
 	
 	/**
+	 * @throws IOException 
 	 * 
 	 * 
 	* @Title: list
@@ -138,8 +141,8 @@ public class TaskAdjustController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/list")
-	public String list(@CurrentUser User user,Model model,Task task,Integer page){
-	    if(user != null && user.getOrg() != null){
+	public String list(@CurrentUser User user,Model model,Task task,Integer page) throws IOException{
+	    if(user != null){
 	        HashMap<String, Object> map1 = new HashMap<>();
             if(task.getName() !=null && !task.getName().equals("")){
                 map1.put("name", task.getName());
@@ -153,19 +156,23 @@ public class TaskAdjustController extends BaseController{
             if(task.getTaskNature() != null){
                 map1.put("taskNature", task.getTaskNature());
             }
-            map1.put("userId", user.getId());
             if(page==null){
                 page = 1;
             }
-            map1.put("page", page.toString());
-            PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-            List<Task> list = taskService.likeByName(map1);
-            model.addAttribute("info", new PageInfo<Task>(list));
-            
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("typeName", "2");
-            List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map);
-            model.addAttribute("list2",orgnizations);
+            HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
+			List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
+			if (superviseOrgId != null && !superviseOrgId.isEmpty()) {
+				map1.put("userId", superviseOrgId);
+				map1.put("page", page.toString());
+	            PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+	            List<Task> list = taskService.likeByName(map1);
+	            model.addAttribute("info", new PageInfo<Task>(list));
+	            
+	            HashMap<String, Object> map = new HashMap<>();
+	            map.put("typeName", "2");
+	            List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map);
+	            model.addAttribute("list2",orgnizations);
+			}
 	    }
 	    
 	    //只有采购机构才能操作

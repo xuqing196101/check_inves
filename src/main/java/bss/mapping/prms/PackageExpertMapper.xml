@@ -202,4 +202,14 @@
 		and PROJECT_ID = #{projectId}
 		and EXPERT_ID = #{expertId}
 	</update>
+	
+	<select id="selectByExpertName" resultType="java.lang.String" parameterType="java.lang.String">
+		SELECT
+			LISTAGG (EE.REAL_NAME, ',') WITHIN GROUP (ORDER BY EE.REAL_NAME) AS EXPERT_ID
+		FROM
+			T_SES_EMS_EXPERT EE
+		LEFT JOIN T_BSS_PRMS_PACKAGE_EXPERT PE ON PE.EXPERT_ID = EE. ID
+		WHERE
+			PE.PACKAGE_ID = #{packageId}
+	</select>
 </mapper>
