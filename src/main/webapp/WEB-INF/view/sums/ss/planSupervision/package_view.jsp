@@ -115,7 +115,7 @@
         <h2 class="count_flow"><i>2</i>项目明细</h2>
         <ul class="ul_list">
         <!-- 包明细 -->
-        <c:if test="${packages != null}">
+        <c:if test="${packages ne null}">
           <c:forEach items="${packages}" var="list" varStatus="vs">
             <c:set value="${vs.index}" var="index"></c:set>
             <h2 onclick="ycDiv(this,'${index}')" class="count_flow shrink hand" id="package">
@@ -188,7 +188,7 @@
           </c:forEach>
         </c:if>
         <!-- 项目明细 -->
-        <c:if test="${details != null}">
+        <c:if test="${details ne null}">
           <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" id="content">
             <table id="table" class="table table-bordered table-condensed lockout">
               <thead>

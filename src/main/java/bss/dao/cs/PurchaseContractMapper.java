@@ -288,4 +288,16 @@ public interface PurchaseContractMapper {
     * @return List<PurchaseContract>
      */
     List<PurchaseContract> contractSupervisionList(HashMap<String, Object> map);
+    
+    /**
+     * 
+    * @Title: contractSupervisionByFileId
+    * @author FengTian 
+    * @date 2017-12-20 上午11:58:56  
+    * @Description: 需求监督查出合同 
+    * @param @param id
+    * @param @return      
+    * @return List<PurchaseContract>
+     */
+    List<PurchaseContract> contractSupervisionByFileId(String id);
 }
