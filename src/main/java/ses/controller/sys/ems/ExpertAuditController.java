@@ -4156,6 +4156,7 @@ public class ExpertAuditController{
 		expertAudit.setExpertId(expertId);
 		expertAudit.setAuditFalg(2);
 		expertAudit.setStatusQuery("notPass");
+		expertAudit.setIsDeleted(3);
 		List<ExpertAudit> reasonsList = expertAuditService.getListByExpert(expertAudit);
 		Map<String,Integer> map = new HashMap<String,Integer>();
 		map.put("GOODS", 0);
