@@ -55,7 +55,7 @@ function functionArea() {
     });
 }
 
-//人工抽取
+//抽取
 function artificial_extracting(isAuto){
 	//加载菊花图标
 	var ae_load = layer.load();

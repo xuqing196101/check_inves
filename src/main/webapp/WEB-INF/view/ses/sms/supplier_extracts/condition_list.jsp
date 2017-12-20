@@ -71,6 +71,7 @@
 				<input type="hidden" id="projectInto" value="${projectInfo.projectInto}" name="projectInto"> 
 				<input name="sellBeginTime" type="hidden" id="sellBeginTime">
 				<input name="sellEndTime" type="hidden" id="sellEndTime">
+				<input name="extractTheWay" type="hidden" id="extractTheWay" >
 				<!-- 记录id -->
 				<input type="hidden" value="${projectInfo.id}" name="id">
 				<h2 class="count_flow">
@@ -343,8 +344,7 @@
 			</form>
 		</div>
 		<!-- 条件开始 -->
-		<div
-			class="container_box col-md-12 col-sm-12 col-xs-12 extractVerify_disabled">
+		<div class="container_box col-md-12 col-sm-12 col-xs-12 extractVerify_disabled">
 			<form id="form1" method="post">
 				<!--  项目id -->
 				<input type="hidden" id="projectId" value="${projectInfo.projectId }" name="projectId">
@@ -369,7 +369,7 @@
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">
 							<span class="star_red">*</span>供应商类型：</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<select id=supplierType name="supplierTypeCode" onchange="initCategoryAndLevel(this)" class="w100p"></select> 
+							<select id=supplierType name="supplierTypeCode" onchange="changeGoods(this)" class="w100p"></select> 
 							<div class="cue" id="supplierTypeCodeError"></div>
 						</div>
 					</li>
@@ -393,7 +393,7 @@
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">资质信息：</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="hidden" name="quaId" id="quaId">
-							<input type="text" id="quaName" value="${listCon.supplierLevel == null? '全部资质':listCon.supplierLevel}" 	onkeyup="selectQua()" onclick="showQua(this);" /> <span
+							<input type="text" id="quaName"  value="${listCon.supplierLevel == null? '全部资质':listCon.supplierLevel}" 	onkeyup="selectQua()" onclick="showQua(this);" /> <span
 								class="add-on">i</span>
 							<div class="cue" id="dCount"></div>
 						</div>
@@ -451,12 +451,22 @@
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">境外分支机构：</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<select name="overseasBranch" class="w100p"
-								onchange="selectLikeSupplier()">
+							<select name="overseasBranch"  class="w100p"
+								onchange="selectOverseasBranch(this)">
 								<option value="">不限</option>
 								<option value="1">有</option>
 								<option value="0">无</option>
 							</select>
+							<div class="cue">${loginPwdError}</div>
+						</div>
+					</li>
+					<li class="col-md-3 col-sm-6 dnone col-xs-12">
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span
+							id="branch">*</span>境外分支机构所在地域：</span>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<input type="hidden" name="branchCountry" id="branchCountry">
+							<input type="text"  onclick="showBranchTree(this)" onkeydown="searchBranchByName()" id="branchName">
+							<span class="add-on">i</span>
 							<div class="cue">${loginPwdError}</div>
 						</div>
 					</li>
@@ -510,16 +520,17 @@
 				</table>
 			</div>
 
+				
 			<div class="col-xs-12 tc mt20 dnone" id="end">
 				<button class="center btn" onclick="alterEndInfo(this)">结束</button>
-				<!-- <button class="center btn" onclick="extractAgain()">再次抽取</button> -->
+				<button class="center btn" onclick="extractAgain(this)">再次抽取</button>
 			</div>
 		</div>
 	</div>
 	<!-- 地区树 -->
 	<div id="areaContent"
 		style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
-		<ul id="treeArea" class="ztree" style="margin-top:0;"></ul>
+		<ul id="areaTree" class="ztree" style="margin-top:0;"></ul>
 	</div>
 	<!-- 类别树 -->
 	<div id=supplierTypeContent 
@@ -543,6 +554,11 @@
 	<div id="quaContent" class="levelTypeTreeContent"
 		style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 		<ul id="quaTree" class="ztree" style="margin-top:0;"></ul>
+	</div>
+	<!-- 境外分支树 -->
+	<div id="branchCountryContent" class="levelTypeTreeContent"
+		style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+		<ul id="branchCountryTree" class="ztree" style="margin-top:0;"></ul>
 	</div>
 	<a href="" target="blank" hidden="hidden" id="down"></a>  
 </body>

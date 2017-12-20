@@ -788,13 +788,16 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 		String rid_new = UUIDUtils.getUUID32();
     	String cid_new = UUIDUtils.getUUID32();
     	//复制项目信息修改id再保存一条抽取记录
-    	recordMapper.copyRecordToAgainByRid(rid_new,cid_new,recordId);
+    	recordMapper.copyRecordToAgainById(rid_new,cid_new,recordId);
     	
     	//复制人员信息在保存一份
     	personRelMapper.copyPersonRelToAgainByRid(rid_new,recordId);
     	
     	//返回新的recordId conditioinId
-		return null;
+    	Map<String, String> hashMap = new HashMap<>();
+    	hashMap.put("conditionId",cid_new);
+    	hashMap.put("recordId", rid_new);
+		return hashMap;
 	}
 
 }

@@ -88,6 +88,7 @@ public class SupplierExtractCondition {
 	
 	private int quaSize;
 
+	private String[] branchCountry;
 	/**
 	 * 业务承揽范围
 	 */
@@ -594,6 +595,12 @@ public class SupplierExtractCondition {
 
 	public void setSalesCateAndLevel(String salesCateAndLevel) {
 		this.salesCateAndLevel = salesCateAndLevel;
+	}
+	public String[] getBranchCountry() {
+		return branchCountry.length>0?branchCountry:null;
+	}
+	public void setBranchCountry(String[] branchCountry) {
+		this.branchCountry = branchCountry;
 	}
 	
 }

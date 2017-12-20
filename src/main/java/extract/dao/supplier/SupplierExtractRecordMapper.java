@@ -80,5 +80,6 @@ public interface SupplierExtractRecordMapper {
 	 * @param cid_new 新记录抽取条件id
 	 * @param recordId 查询条件id
 	 */
-	void copyRecordToAgainByRid(@Param("rid")String rid_new, @Param("cid")String cid_new,@Param("recordId") String recordId);
+	void copyRecordToAgainById(@Param("rid")String rid_new, @Param("cid")String cid_new,@Param("recordId") String recordId);
+
 }
