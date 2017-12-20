@@ -13,7 +13,6 @@
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
         var userType = data.userType;
-        console.log(data);
         
         if (typeof(list_content) != null && typeof(list_content) != 'null' && typeof(list_content) != 'undefined') {
           $('#head_tit').html(list_content.batchName);
