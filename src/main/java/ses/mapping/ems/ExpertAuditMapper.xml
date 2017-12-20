@@ -69,7 +69,7 @@
     and t1.IS_DELETED = 0
     </if>
     <if test="statusQuery!=null">
-    AND (t1.AUDIT_STATUS IN ('1','3','6') OR t1.AUDIT_STATUS is null)
+    AND (t1.AUDIT_STATUS IN ('1','2','3','6') OR t1.AUDIT_STATUS is null)
     </if>
     <if test="suggestType != '' and suggestType != null">
     	and t1.SUGGEST_TYPE = #{suggestType}

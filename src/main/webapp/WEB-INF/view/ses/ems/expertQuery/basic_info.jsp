@@ -207,7 +207,7 @@
 							<tr>
 								<td width="12%" class="bggrey">从事专业起始年月</td>
 								<td width="25%">
-									<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM-dd' />
+									<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM' />
 								</td>
 								<td width="12%" class="bggrey">有无专业技术职称</td>
 								<c:if test="${expert.teachTitle eq '2'}">
@@ -230,7 +230,7 @@
 				                <tr>
 				                  <td width="12%" class="bggrey">取得技术职称时间</td>
 				                  <td width="25%">
-				                    <fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM-dd' />
+				                    <fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM' />
 				                  </td>
 				                </tr>
 							<%-- </c:if> --%>
@@ -258,7 +258,7 @@
 								</td>
 								<td width="12%" class="bggrey">参加工作时间</td>
 								<td width="25%">
-									<fmt:formatDate type='date' value='${expert.timeToWork}' dateStyle='default' pattern='yyyy-MM-dd' />
+									<fmt:formatDate type='date' value='${expert.timeToWork}' dateStyle='default' pattern='yyyy-MM' />
 								</td>
 							</tr>
 						</table>
