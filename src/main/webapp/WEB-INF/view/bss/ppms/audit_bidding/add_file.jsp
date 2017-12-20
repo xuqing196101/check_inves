@@ -122,9 +122,13 @@
 			   <a  href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${project.id}&flowDefineId=${flowDefineId}">02、经济和技术评审细则</a>
 			   <i></i>
 			 </li>
+			 <li>
+			   <a  href="${pageContext.request.contextPath}/project/packDetail.html?projectId=${projectId}&flowDefineId=${flowDefineId}">03、移除明细</a>
+			   <i></i>
+			 </li>
 			 <li class="active">
 			   <a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${project.id}&flowDefineId=${flowDefineId}" >
-			     03、招标文件
+			     04、招标文件
 		         <%-- <c:if test="${project.dictionary.code eq 'GKZB' }">
 			     03、招标文件
 			     </c:if>
@@ -156,9 +160,13 @@
 		   <a  href="${pageContext.request.contextPath}/intelligentScore/packageListView.html?projectId=${project.id}&flowDefineId=${flowDefineId }">02、经济和技术评审细则</a>
 		   <i></i>
 		 </li>
+		 <li>
+		   <a  href="${pageContext.request.contextPath}/project/packDetail.html?projectId=${projectId}&flowDefineId=${flowDefineId}">03、移除明细</a>
+		   <i></i>
+		 </li>
 		 <li class="active">
 		   <a  href="${pageContext.request.contextPath}/open_bidding/bidFileView.html?id=${project.id}&flowDefineId=${flowDefineId }" >
-		         03、招标文件
+		         04、招标文件
 		         <%-- <c:if test="${project.dictionary.code eq 'GKZB' }">
 			     03、招标文件
 			     </c:if>

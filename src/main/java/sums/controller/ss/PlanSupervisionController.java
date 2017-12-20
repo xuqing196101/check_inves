@@ -3,6 +3,7 @@ package sums.controller.ss;
 import iss.model.ps.Article;
 import iss.service.ps.ArticleService;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -95,6 +96,7 @@ import ses.service.sms.SupplierExtUserServicel;
 import ses.service.sms.SupplierExtractsService;
 import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
+import ses.util.AuthorityUtil;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import sums.model.ss.Supervision;
@@ -218,38 +220,48 @@ public class PlanSupervisionController {
      * @param collectPlan
      * @param page
      * @return
+     * @throws IOException 
      */
     @RequestMapping(value="/list",produces = "text/html;charset=UTF-8")
-    public String list(Model model, @CurrentUser User user, CollectPlan collectPlan, Integer page){
-        if(user != null && user.getOrg() != null){
-            if(StringUtils.isNotBlank(user.getTypeName()) && "2".equals(user.getTypeName())){
-                if(collectPlan.getStatus() == null){
-                    collectPlan.setSign("0");
-                    collectPlan.setStatus(null);
-                }else if(collectPlan.getStatus() == 8){
-                    collectPlan.setSign("8");
-                    collectPlan.setStatus(null);
-                } else if(collectPlan.getStatus() == 12){
-                    collectPlan.setSign("12");
-                    collectPlan.setStatus(null);
-                }
-                if("".equals(collectPlan.getFileName())){
-                    collectPlan.setFileName(null);
-                }
-                collectPlan.setUserId(user.getOrg().getId());
-                List<CollectPlan> list = collectPlanService.querySupervision(collectPlan, page==null?1:page);
-                for (int i = 0; i < list.size(); i++ ) {
-                    try {
-                        User users = userService.getUserById(list.get(i).getUserId());
-                        list.get(i).setUserId(users.getRelName());
-                    } catch (Exception e) {
-                        list.get(i).setUserId("");
-                    }
-                }
-                PageInfo<CollectPlan> info = new PageInfo<>(list);
-                model.addAttribute("info", info);
-                model.addAttribute("collectPlan", collectPlan);
+    public String list(Model model, @CurrentUser User user, CollectPlan collectPlan, Integer page) throws IOException{
+        if(user != null && StringUtils.isNotBlank(user.getTypeName())){
+        	if(collectPlan.getStatus() == null){
+                collectPlan.setSign("0");
+                collectPlan.setStatus(null);
+            }else if(collectPlan.getStatus() == 8){
+                collectPlan.setSign("8");
+                collectPlan.setStatus(null);
+            } else if(collectPlan.getStatus() == 12){
+                collectPlan.setSign("12");
+                collectPlan.setStatus(null);
             }
+            if("".equals(collectPlan.getFileName())){
+                collectPlan.setFileName(null);
+            }
+        	HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
+			List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
+			if (superviseOrgId != null && !superviseOrgId.isEmpty() || StringUtils.equals("4", user.getTypeName())) {
+				if (StringUtils.equals("2", user.getTypeName()) || StringUtils.equals("4", user.getTypeName()) || StringUtils.equals("5", user.getTypeName())) {
+					if (StringUtils.equals("2", user.getTypeName())) {
+		            	collectPlan.setUserId(user.getOrg().getId());
+		            } else if (StringUtils.equals("5", user.getTypeName())) {
+		            	collectPlan.setOrgId(superviseOrgId);
+		            }
+					List<CollectPlan> list = collectPlanService.querySupervision(collectPlan, page==null?1:page);
+		            for (int i = 0; i < list.size(); i++ ) {
+		                try {
+		                    User users = userService.getUserById(list.get(i).getUserId());
+		                    list.get(i).setUserId(users.getRelName());
+		                } catch (Exception e) {
+		                    list.get(i).setUserId("");
+		                }
+		            }
+		            PageInfo<CollectPlan> info = new PageInfo<>(list);
+		            model.addAttribute("info", info);
+		            model.addAttribute("collectPlan", collectPlan);
+				}
+			}
+			
         }
         return "sums/ss/planSupervision/list";
     }
@@ -267,33 +279,31 @@ public class PlanSupervisionController {
      */
     @RequestMapping(value="/planSupervisionByAll",produces = "text/html;charset=UTF-8")
     public String planSupervisionByAll(Model model, @CurrentUser User user, CollectPlan collectPlan, Integer page){
-        if(user != null && StringUtils.isNotBlank(user.getTypeName()) && "4".equals(user.getTypeName())){
-            if(collectPlan.getStatus() == null){
-                collectPlan.setSign("0");
-                collectPlan.setStatus(null);
-            }else if(collectPlan.getStatus() == 8){
-                collectPlan.setSign("8");
-                collectPlan.setStatus(null);
-            } else if(collectPlan.getStatus() == 12){
-                collectPlan.setSign("12");
-                collectPlan.setStatus(null);
-            }
-            if("".equals(collectPlan.getFileName())){
-                collectPlan.setFileName(null);
-            }
-            List<CollectPlan> list = collectPlanService.querySupervision(collectPlan, page==null?1:page);
-            for (int i = 0; i < list.size(); i++ ) {
-                try {
-                    User users = userService.getUserById(list.get(i).getUserId());
-                    list.get(i).setUserId(users.getRelName());
-                } catch (Exception e) {
-                    list.get(i).setUserId("");
-                }
-            }
-            PageInfo<CollectPlan> info = new PageInfo<>(list);
-            model.addAttribute("info", info);
-            model.addAttribute("collectPlan", collectPlan);
+        if(collectPlan.getStatus() == null){
+            collectPlan.setSign("0");
+            collectPlan.setStatus(null);
+        }else if(collectPlan.getStatus() == 8){
+            collectPlan.setSign("8");
+            collectPlan.setStatus(null);
+        } else if(collectPlan.getStatus() == 12){
+            collectPlan.setSign("12");
+            collectPlan.setStatus(null);
         }
+        if("".equals(collectPlan.getFileName())){
+            collectPlan.setFileName(null);
+        }
+        List<CollectPlan> list = collectPlanService.querySupervision(collectPlan, page==null?1:page);
+        for (int i = 0; i < list.size(); i++ ) {
+            try {
+                User users = userService.getUserById(list.get(i).getUserId());
+                list.get(i).setUserId(users.getRelName());
+            } catch (Exception e) {
+                list.get(i).setUserId("");
+            }
+        }
+        PageInfo<CollectPlan> info = new PageInfo<>(list);
+        model.addAttribute("info", info);
+        model.addAttribute("collectPlan", collectPlan);
         return "sums/ss/planSupervision/listByAll";
     }
     
@@ -459,7 +469,7 @@ public class PlanSupervisionController {
                     List<Packages> list = planSupervisionService.viewPack(project.getId());
                     model.addAttribute("packages", list);
                 } else {
-                    List<ProjectDetail> list = new ArrayList<ProjectDetail>();
+                    /*List<ProjectDetail> list = new ArrayList<ProjectDetail>();
                     HashMap<String, Object> maps = new HashMap<>();
                     maps.put("id", project.getId());
                     List<ProjectDetail> details = projectDetailService.selectById(maps);
@@ -475,7 +485,17 @@ public class PlanSupervisionController {
                             detail.setPurchaseType(null);
                             detail.setStatus(null);
                         }
-                    }
+                    }*/
+                	List<ProjectDetail> list = projectDetailService.selectByDetailRequired(project.getId());
+                	if (list != null && !list.isEmpty()) {
+						for (ProjectDetail projectDetail : list) {
+							DictionaryData findById = DictionaryDataUtil.findById(projectDetail.getPurchaseType());
+							projectDetail.setPurchaseType(findById.getName());
+                            String[] progressBarPlan = supervisionService.progressBar(projectDetail.getRequiredId(), project.getId());
+                            projectDetail.setProgressBar(progressBarPlan[0]);
+                            projectDetail.setStatus(progressBarPlan[1]);
+						}
+					}
                     model.addAttribute("details", list);
                 }
                 
@@ -616,12 +636,11 @@ public class PlanSupervisionController {
                 //项目信息
                 List<Project> view = planSupervisionService.view(detail.getId());
                 if (view != null && !view.isEmpty()) {
-                	sortDate(view);
                 	Project project = null;
                 	if(StringUtils.isNotBlank(projectId)){
                 		project = planSupervisionService.viewProjects(projectId);
                 	} else {
-                		project = planSupervisionService.viewProjects(view.get(0).getId());
+                		project = view.get(0);
                 	}
                 	HashMap<String, Object> flow = planSupervisionService.flow(view, detail.getId(), hashMap);
                 	List<Entry<String, Object>> sortsMap = sortsMap(flow);
@@ -1421,7 +1440,7 @@ public class PlanSupervisionController {
         return list;
     }
     
-    public void sortDate(List<Project> list){
+    /*public void sortDate(List<Project> list){
         Collections.sort(list, new Comparator<Project>(){
            @Override
            public int compare(Project o1, Project o2) {
@@ -1430,6 +1449,6 @@ public class PlanSupervisionController {
               return project.getCreateAt().compareTo(project2.getCreateAt());
            }
         });
-    }
+    }*/
 
 }

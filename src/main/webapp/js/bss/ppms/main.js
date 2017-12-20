@@ -14,6 +14,7 @@ $(function() {
 		});
 	});
 	var projectId = $("#projectId").val();
+	var types = $("#type").val();
 	$.ajax({
 		url: globalPath+"/open_bidding/getNextFd.do?flowDefineId=0&projectId=" + projectId,
 		contentType: "application/json;charset=UTF-8",
@@ -34,19 +35,19 @@ $(function() {
 				$("#currPrincipal").select2();
 				$("#currPrincipal").select2("val", data.currOperatorId);
 				$("#currPrincipalId").val(data.currOperatorId);
-				$("#isOperate").val(data.isOperate);
+				if(types){
+					$("#isOperate").val(0);
+				} else {
+					$("#isOperate").val(data.isOperate);
+				}
+				
 				//禁止变更经办人操作
 				if(data.isOperate == 0) {
 					$("#submitdiv").attr("disabled", true);
 					$("#principal").attr("disabled", true);
 					$("#currPrincipal").attr("disabled", true);
 				} else {
-					$("#submitdiv").attr("disabled", false);
-					$("#principal").attr("disabled", false);
-					$("#currPrincipal").attr("disabled", false);
-					
-					//环节结束
-					if(data.isFes == 1) {
+					if(types){
 						$("#submitdiv").attr("disabled", true);
 						$("#principal").attr("disabled", true);
 						$("#currPrincipal").attr("disabled", true);
@@ -54,6 +55,24 @@ $(function() {
 						$("#submitdiv").attr("disabled", false);
 						$("#principal").attr("disabled", false);
 						$("#currPrincipal").attr("disabled", false);
+					}
+					
+					//环节结束
+					if(data.isFes == 1) {
+						$("#submitdiv").attr("disabled", true);
+						$("#principal").attr("disabled", true);
+						$("#currPrincipal").attr("disabled", true);
+					} else {
+						if(types){
+							$("#submitdiv").attr("disabled", true);
+							$("#principal").attr("disabled", true);
+							$("#currPrincipal").attr("disabled", true);
+						} else {
+							$("#submitdiv").attr("disabled", false);
+							$("#principal").attr("disabled", false);
+							$("#currPrincipal").attr("disabled", false);
+						}
+						
 					}
 				}
 				if(!data.isEnd) {
@@ -97,6 +116,7 @@ function back() {
 }
 
 function jumpLoad(url, projectId, flowDefineId) {
+	var types = $("#type").val();
 	$.ajax({
 		url: globalPath+"/open_bidding/getNextKb.do?flowDefineId=" + flowDefineId + "&projectId=" + projectId,
 		contentType: "application/json;charset=UTF-8",
@@ -129,19 +149,19 @@ function jumpLoad(url, projectId, flowDefineId) {
 							$("#currPrincipal").select2();
 							$("#currPrincipal").select2("val", data.currOperatorId);
 							$("#currPrincipalId").val(data.currOperatorId);
-							$("#isOperate").val(data.isOperate);
+							if(types){
+								$("#isOperate").val(0);
+							} else {
+								$("#isOperate").val(data.isOperate);
+							}
+							
 							//禁止变更经办人操作
 							if(data.isOperate == 0) {
 								$("#submitdiv").attr("disabled", true);
 								$("#principal").attr("disabled", true);
 								$("#currPrincipal").attr("disabled", true);
 							} else {
-								$("#submitdiv").attr("disabled", false);
-								$("#principal").attr("disabled", false);
-								$("#currPrincipal").attr("disabled", false);
-								
-								//环节结束
-								if(data.isFes == 1) {
+								if(types){
 									$("#submitdiv").attr("disabled", true);
 									$("#principal").attr("disabled", true);
 									$("#currPrincipal").attr("disabled", true);
@@ -149,6 +169,23 @@ function jumpLoad(url, projectId, flowDefineId) {
 									$("#submitdiv").attr("disabled", false);
 									$("#principal").attr("disabled", false);
 									$("#currPrincipal").attr("disabled", false);
+								}
+								
+								//环节结束
+								if(data.isFes == 1) {
+									$("#submitdiv").attr("disabled", true);
+									$("#principal").attr("disabled", true);
+									$("#currPrincipal").attr("disabled", true);
+								} else {
+									if(types){
+										$("#submitdiv").attr("disabled", true);
+										$("#principal").attr("disabled", true);
+										$("#currPrincipal").attr("disabled", true);
+									} else {
+										$("#submitdiv").attr("disabled", false);
+										$("#principal").attr("disabled", false);
+										$("#currPrincipal").attr("disabled", false);
+									}
 								}
 							}
 							if(!data.isEnd) {

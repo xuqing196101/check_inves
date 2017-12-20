@@ -157,7 +157,7 @@
     			</div>
     		</div>
     		
-    		<c:if test="${typeName eq '4'}">
+    		<c:if test="${typeName eq '4' || typeName eq '2'}">
     		<div class="col-md-3 col-sm-4 col-xs-6 mb10">
     			<div class="row">
     				<div class="col-xs-4 h32 lh32 tr text-nowrapEl">采购机构：</div>

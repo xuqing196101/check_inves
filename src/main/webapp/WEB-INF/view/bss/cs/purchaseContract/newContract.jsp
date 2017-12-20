@@ -16,9 +16,12 @@
 	-->
   </head>
   
+  	<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
   	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
     <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
-  	
+  	<script src="${pageContext.request.contextPath}/public/easyui/jquery.easyui.min.js"></script>
+    <link href="${pageContext.request.contextPath}/public/easyui/themes/icon.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
     <script type="text/javascript">
     var treeid = null , nodeName=null;
 	var datas;
@@ -452,18 +455,99 @@
 	}
 	
 	var index;
-	function openDetail(){
-	  index =  layer.open({
-	    shift: 1, //0-6的动画形式，-1不开启
-	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
-	    title: ['新增明细','border-bottom:1px solid #e5e5e5'],
-	    shade:0.01, //遮罩透明度
-		type : 1,
-		area : [ '50%', '400px' ], //宽高
-		content : $('#openDiv'),
-		offset: ['10%', '10%']
-	  });
+	var index;
+	function openDetail(vals){
+	  var trs=$('#trs').children();
+	  if(vals=="1"){
+		  if(trs.length==0){
+			  html=htmlText(1,null,1);
+			  $('#trs').append(html);
+		   }else{
+			   var tr=trs[trs.length-1];
+			   var index=parseInt($($(tr).children()[0]).text());
+			   html=htmlText(index+1,null,1);
+			   $(tr).after(html);
+		   }
+	  }else{
+		  if(trs.length==0){
+			  html=htmlText(1,null,null);
+			  $('#trs').append(html);
+		   }else{
+			   if($("#transportFees_tr").length>0){
+				   var trIndex;
+				   if(trs.length==1){
+					   trIndex=0;
+				   }else{
+					   var tr=trs[trs.length-2];
+					   trIndex=parseInt($($(tr).children()[0]).text()); 
+				   }
+				   html=htmlText(trIndex+1,null,null);
+				   $("#transportFees_tr").before(html);
+				   $($("#transportFees_tr").children()[0]).text(trIndex+2);
+				   $("#transportFees_tr").find("input[type='text']").each(function(){
+					   var inputName=$(this).attr("name");
+					   if(inputName.substring(inputName.indexOf(".")+1,inputName.length)=="planNo"){
+						   var prevName=$(this).prev().attr("name");
+						   $(this).prev().attr("name","proList["+(trIndex+2)+"]."+prevName.substring(prevName.indexOf(".")+1,prevName.length))
+					   }
+					   $(this).attr("name","proList["+(trIndex+2)+"]."+inputName.substring(inputName.indexOf(".")+1,inputName.length))
+				   })
+			   }else{
+				   var tr=trs[trs.length-1];
+				   var index=parseInt($($(tr).children()[0]).text());
+				   html=htmlText(index+1,null,null);
+				   $(tr).after(html);
+			   }
+		   }
+	  }
     }
+	function htmlText(index,data,vals){
+		var html="";
+		if(data!=null){
+			html += "<tr>";
+	          html += "<td class='tc w50'>"+index+"</td>";
+	          html += "<td class='tc w50'><input type='text' name='proList["+index+"].planNo'  value='"+data.planNo+"' class='w50'/></td>";
+	          html += "<td class='tc'><input type='text' name='proList["+index+"].goodsName'  value='"+data.goodsName+"'/></td>";
+	          html += "<td class='tc'><input type='text' name='proList["+index+"].brand'  value='"+data.brand+"'/></td>"
+	          html += "<td class='tc'><input type='text' name='proList["+index+"].stand'  value='"+data.stand+"' class='w60'/></td>"
+	          html += "<td class='tc w80'><input type='text' name='proList["+index+"].item'  value='"+data.item+"' class='w50'/></td>"
+	          html += "<td class='tc'><input type='text' name='proList["+index+"].purchaseCount' value='"+data.purchaseCount+"' onchange='change(this,\"1\")'   class='w50'/></td>"
+	          html += "<td class='tc'><input type='text' name='proList["+index+"].price' onchange='change(this,\"2\")'   value='"+data.price+"' class='w50'/></td>"
+	          html += "<td class='tc'><input type='text' name='proList["+index+"].amount' readonly='readonly' value='"+data.amount+"' class='w50'/></td>"
+	          html += "<td class='tc'><input type='text' name='proList["+index+"].deliverDate'  value='"+data.deliverDate+"' class='w100'/></td>"
+	          html += "<td class='tc'><input type='text' name='proList["+index+"].memo'  value='"+data.memo+"'/></td>"
+	          html += "</tr>";
+		}else{
+			 if(vals=="1"){
+				 html += "<tr id='transportFees_tr'>";
+				 html += "<td class='tc w50'>"+index+"</td>";
+			     html += "<td class='tc w50'><input type='hidden' name='proList["+index+"].transportFees'  value='1' class='w50'/><input type='text' name='proList["+index+"].planNo'  value='' class='w50'/></td>";
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].goodsName'  value='运杂费'/></td>";
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].brand'  value='' readonly='readonly'/></td>"
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].stand'  value='' readonly='readonly' class='w60'/></td>"
+			     html += "<td class='tc w80'><input type='text' name='proList["+index+"].item'  value='' readonly='readonly' class='w50'/></td>"
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].purchaseCount' readonly='readonly'   value='' class='w50'/></td>"
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].price' readonly='readonly'   value='' class='w50'/></td>"
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].amount'   value='' class='w50'/></td>"
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].deliverDate' readonly='readonly'  value='' class='w100'/></td>"
+			 }else{
+				 html += "<tr>";
+				 html += "<td class='tc w50'>"+index+"</td>";
+			     html += "<td class='tc w50'><input type='text' name='proList["+index+"].planNo'  value='' class='w50'/></td>";
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].goodsName'  value=''/></td>";
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].brand'  value=''/></td>"
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].stand'  value='' class='w60'/></td>"
+			     html += "<td class='tc w80'><input type='text' name='proList["+index+"].item'  value='' class='w50'/></td>"
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].purchaseCount' onchange='change(this,\"1\")'  value='' class='w50'/></td>"
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].price' onchange='change(this,\"2\")'   value='' class='w50'/></td>"
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].amount' readonly='readonly' value='' class='w50'/></td>"
+			     html += "<td class='tc'><input type='text' name='proList["+index+"].deliverDate'  value='' class='w100'/></td>"
+			 }
+	        html += "<td class='tc'><input type='text' name='proList["+index+"].memo'  value=''/></td>"
+	        html += "</tr>";
+		}
+    return html;
+	}
 	
 	function staging(){
 		/* var text = $("#post_attach_show_disFileId").find("a");
@@ -580,6 +664,29 @@
 	function abandoned(){
 		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectDraftContract.html";
 	}
+	function numberType(objV, types) {
+		var val = $(objV).val();
+		if(types == "1") {
+			if(/^[0-9]{1,}(?:.[0-9]{0,2})?$/.test(val)) {
+			}else{
+				$(objV).val("");
+			}
+		} else {
+			if(/^[0-9]{1,}(?:.[0-9]{0,4})?$/.test(val)) {
+			}else{
+				$(objV).val("");
+			}
+		}
+	}
+	function transportFeeschange(objT){
+    	if($(objT).val()=="1"){
+    		openDetail('1');
+    	}else{
+    		if($("#transportFees_tr")){
+				$("#transportFees_tr").remove();
+    		}
+    	}
+    }
 </script>
 <script language="JScript" for="TANGER_OCX" event="ondocumentopened(File, Document)">
   /* var activeDeoc=obj.ActiveDocument;
@@ -720,6 +827,55 @@
 			        		</c:forEach>
 			        	</select>
 			        	<div class="cue">${ERR_purchaseType}</div>
+			        </div>
+			 	</li>
+			 	<li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">预付比例(%)：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	<input class=" contract_name" name="prepaidRatio" value="${purCon.prepaidRatio}" onkeyup="numberType(this,'1')" type="text">
+			        	<div class="cue">${ERR_prepaidRatio}</div>
+	       			</div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">预付金额(万元)：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	<input class=" contract_name" name="prepaymentAmount" value="${purCon.prepaymentAmount}" onkeyup="numberType(this,'2')" type="text">
+			        	<div class="cue">${ERR_prepaymentAmount}</div>
+	       			</div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">质保比例(%)：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	<input class=" contract_name" name="warrantyRatio" value="${purCon.warrantyRatio}" onkeyup="numberType(this,'1')" type="text">
+			        	<div class="cue">${ERR_warrantyRatio}</div>
+	       			</div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">质保金额(万元)：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	<input class=" contract_name" name="warrantyAmount" value="${purCon.warrantyAmount}" onkeyup="numberType(this,'2')" type="text">
+			        	<div class="cue">${ERR_warrantyAmount}</div>
+	       			</div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">是否审价：</span>
+				     <div class="select_common col-sm-12 col-xs-12 col-md-12 p0">
+			        	<select name="trialPrice" id="trialPrice" style="width: 100%;" class=" contract_name">
+			        		
+			        		<option value="0"  <c:if test="${purCon.trialPrice==0}">selected="selected"</c:if>>否</option>
+			        		<option value="1" <c:if test="${purCon.trialPrice==1}">selected="selected"</c:if>>是</option>
+			        	</select>
+			        	<div class="cue">${ERR_trialPrice}</div>
+			        </div>
+			 	</li>
+			 	<li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">有无运杂费：</span>
+				     <div class="select_common col-sm-12 col-xs-12 col-md-12 p0">
+			        	<select name="transportFees" id="transportFees" onchange="transportFeeschange(this)" style="width: 100%;" class=" contract_name">
+			        		<option value="0" <c:if test="${purCon.transportFees==0}">selected="selected"</c:if>>无</option>
+			        		<option value="1" <c:if test="${purCon.transportFees==1}">selected="selected"</c:if>>有</option>
+			        	</select>
+			        	<div class="cue">${ERR_trialPrice}</div>
 			        </div>
 			 	</li>
 			 	<li class="col-md-3 col-sm-6 col-xs-12">
@@ -944,10 +1100,9 @@
 					<input type="button" class="btn btn-windows delete" onclick="delDetail()" value="删除"/>
 				</div> -->
 					<div class="col-md-12 col-sm-12 col-xs-12 p0">
-			    	<table id="detailtable" name="proList" class="table table-bordered table-condensed mb0 mt10 ">
+			    	<table id="detailtable" name="proList" class="table table-bordered table-condensed table_input left_table mb0 mt10 ">
 					 <thead>
 						<tr>
-							
 							<th class="info w50">序号</th>
 							<th class="info w50">编号</th>
 							<th class="info" width="15%">名称</th>
@@ -961,6 +1116,7 @@
 							<th class="info">备注</th>
 						</tr>
 					</thead>
+					<tbody id="trs">
 					<c:forEach items="${requList}" var="reque" varStatus="vs">
 					    <c:forEach items="${reque.subjectList}" var="subject" varStatus="vss">
 						<tr>
@@ -978,6 +1134,7 @@
 						</tr>
 						</c:forEach>
 			   		</c:forEach>
+			   		</tbody>
 					<%-- <c:forEach items="${requList}" var="reque" varStatus="vs">
 						<tr>
 							<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>

@@ -1,7 +1,7 @@
 package bss.controller.pms;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,27 +22,30 @@ import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseOrg;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
+import ses.util.AuthorityUtil;
 import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
-import bss.formbean.Line;
 import bss.formbean.Maps;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseRequired;
+import bss.model.ppms.Project;
 import bss.model.ppms.Task;
+import bss.model.prms.PackageExpert;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseRequiredService;
-import bss.service.pms.impl.PurchaseDetailServiceImpl;
+import bss.service.ppms.SupplierCheckPassService;
 import bss.service.ppms.TaskService;
+import bss.service.prms.PackageExpertService;
+
 import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
-import common.utils.DateUtils;
-import freemarker.core.BugException;
+import common.constant.StaticVariables;
 /**
  * 
  * @Title: PlanStatisticsController
@@ -55,6 +60,7 @@ public class PlanStatisticsController extends BaseController {
 	
 	@Autowired
     private PurchaseOrgnizationServiceI purchaseOrgnizationServiceI;
+	
 	@Autowired
 	private OrgnizationServiceI orgnizationServiceI;
 	
@@ -66,10 +72,21 @@ public class PlanStatisticsController extends BaseController {
 	
 	@Autowired
 	private PurchaseRequiredService purchaseRequiredService;
+	
 	@Autowired
 	private PurchaseDetailService purchaseDetailService;
+	
 	@Autowired
-  private TaskService taskservice;
+	private TaskService taskservice;
+	
+	@Autowired
+	private UserServiceI userService;
+	
+	@Autowired
+	private PackageExpertService packageExpertService;
+	
+	@Autowired
+	private SupplierCheckPassService checkPassService;
 	
 	/**
 	 * 
@@ -303,114 +320,136 @@ public class PlanStatisticsController extends BaseController {
 	
 	
 	@RequestMapping("/taskList")
-  public String queryPlan(@CurrentUser User user,Model model,HttpServletResponse response,HttpServletRequest request,Integer page,Task task,String beginDate,String endDate){
+  public String queryPlan(@CurrentUser User user,Model model,HttpServletResponse response,HttpServletRequest request,Integer page,Task task,String beginDate,String endDate) throws IOException{
 	  long begin=System.currentTimeMillis();
-    if(user.getTypeName().equals("2")){
-	  if(task.getName()!=null){
-	    task.setName(task.getName().trim());
+	  if (user != null) {
+		  HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
+		  List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
+		  if (superviseOrgId != null && !superviseOrgId.isEmpty()) {
+			  if (StringUtils.isNotBlank(task.getName())) {
+				  task.setName(task.getName().trim());
+			  }
+			  if (StringUtils.isNotBlank(task.getDocumentNumber())) {
+				  task.setDocumentNumber(task.getDocumentNumber().trim());
+			  }
+			  if (StringUtils.isNotBlank(beginDate) && StringUtils.isNotBlank(endDate)) {
+				  task.setBeginDate(beginDate.trim());
+				  task.setEndDate(endDate.trim());
+			  }
+			  if (StringUtils.equals("2", user.getTypeName())) {
+				  task.setOrgId(user.getOrg().getId());
+			  } else if (StringUtils.equals("5", user.getTypeName())) {
+				  task.setOrgList(superviseOrgId);
+			  }
+			  List<Task> list = taskservice.searchByTask(task,page==null?1:page);
+			  List<PurchaseOrg> listOrg = purchaseOrgnizationServiceI.getOrg(user.getOrg().getId());
+			  List<Orgnization> list2=new ArrayList<Orgnization>();
+			  for (PurchaseOrg purchaseOrg : listOrg) {
+				  Orgnization orgByPrimaryKey = orgnizationServiceI.getOrgByPrimaryKey(purchaseOrg.getPurchaseDepId());
+				  list2.add(orgByPrimaryKey);
+			  }
+			  model.addAttribute("allOrg", list2);
+			  PageInfo<Task> info = new PageInfo<>(list);
+			  model.addAttribute("info", info);
+			  model.addAttribute("task", task);
+			  long end=System.currentTimeMillis();
+			  System.out.println("耗时："+(end-begin));
+		  }
 	  }
-	  if(task.getDocumentNumber()!=null){
-      task.setDocumentNumber(task.getDocumentNumber().trim());
-    }
-	  if(task.getName()!=null){
-      task.setName(task.getName().trim());
-    }
-	  if(task.getName()!=null){
-      task.setName(task.getName().trim());
-    }
-	  task.setCollectId("1");
-	  task.setTaskNature(0);
-	  task.setOrgId(user.getOrg().getId());
-	  if(beginDate!=null&&!"".equals(beginDate.trim())&&endDate!=null&&!"".equals(endDate.trim())){
-	    task.setBeginDate(beginDate);
-	    task.setEndDate(endDate);
-	  }
-	  List<Task> list = taskservice.searchByTask(task,page==null?1:page);
-	  for (Task tk : list) {
-	    Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(tk.getPurchaseId());
-	    tk.setOrgName(org.getShortName());
-	    List<PurchaseDetail> listp = purchaseDetailService.getUnique(tk.getCollectId(),tk.getPurchaseId(),null);
-	    BigDecimal bug=new BigDecimal(0);
-	    for(PurchaseDetail pd:listp){
-	      List<PurchaseDetail> lis = purchaseDetailService.selectByParentIdList(pd.getId());
-	      if(lis==null||lis.size()==0){
-	        bug=bug.add(pd.getBudget());
-	      }
-	    }
-	     tk.setBudget(bug);
-	  }
-	  List<PurchaseOrg> listOrg = purchaseOrgnizationServiceI.getOrg(user.getOrg().getId());
-	  List<Orgnization> list2=new ArrayList<Orgnization>();
-	  for (PurchaseOrg purchaseOrg : listOrg) {
-	    Orgnization orgByPrimaryKey = orgnizationServiceI.getOrgByPrimaryKey(purchaseOrg.getPurchaseDepId());
-      list2.add(orgByPrimaryKey);
-	  }
-    model.addAttribute("allOrg", list2);
-	  PageInfo<Task> info = new PageInfo<>(list);
-	  model.addAttribute("info", info);
-	  model.addAttribute("task", task);
-	  long end=System.currentTimeMillis();
-	  System.out.println("耗时："+(end-begin));
-    }
-    return "bss/pms/statistic/task_list";
+	  return "bss/pms/statistic/task_list";
   }
 	@RequestMapping("/taskDetailList")
-  public String taskDetailList(@CurrentUser User user,Model model,HttpServletResponse response,HttpServletRequest request,Integer page,PurchaseDetail detail,String beginDate,String endDate){
-	  
-	  if(user.getTypeName().equals("2")){
-	    if(detail.getGoodsName()!=null){
-	      detail.setGoodsName(detail.getGoodsName().trim());
-	    }
-	    if(detail.getTaskNumber()!=null){
-        detail.setTaskNumber(detail.getTaskNumber().trim());
-      }
-	    
-	  if(beginDate!=null&&!"".equals(beginDate.trim())&&endDate!=null&&!"".equals(endDate.trim())){
-	    detail.setBeginDate(beginDate);
-	    detail.setEndDate(endDate);
-    }
-	  detail.setOrgId(user.getOrg().getId());
-	  List<PurchaseDetail> PurchaseDetailList = purchaseDetailService.selectByTask(detail,page==null?1:page);
-	  for (PurchaseDetail purchaseDetail : PurchaseDetailList) {
-      if(purchaseDetail.getPurchaseType()!=null&&!"".equals(purchaseDetail.getPurchaseType())){
-        DictionaryData findById = DictionaryDataUtil.findById(purchaseDetail.getPurchaseType());
-        if(findById!=null){
-          purchaseDetail.setPurchaseType(findById.getName());
-        }
-      }
-      if(purchaseDetail.getOrganization()!=null&&!"".equals(purchaseDetail.getOrganization())){
-        Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(purchaseDetail.getOrganization());
-        purchaseDetail.setOrganization(org.getShortName());
-      }
-      
-	  }
-	  PageInfo<PurchaseDetail> info = new PageInfo<>(PurchaseDetailList);
-	  model.addAttribute("info", info);
-	  model.addAttribute("detail", detail);
-	  model.addAttribute("dataType", DictionaryDataUtil.find(5));
-	  List<PurchaseOrg> listOrg = purchaseOrgnizationServiceI.getOrg(user.getOrg().getId());
-    List<Orgnization> list2=new ArrayList<Orgnization>();
-    for (PurchaseOrg purchaseOrg : listOrg) {
-      Orgnization orgByPrimaryKey = orgnizationServiceI.getOrgByPrimaryKey(purchaseOrg.getPurchaseDepId());
-      if(orgByPrimaryKey!=null){
-        list2.add(orgByPrimaryKey);
-      }
-    }
-    model.addAttribute("allOrg",list2);
-    HashMap<String, Object> map=new HashMap<String, Object>();
-    map.put("typeName", 0);
-    
-    List<PurchaseOrg> byPurchaseDepId = purchaseOrgnizationServiceI.getByPurchaseDepId(user.getOrg().getId());
-    List<Orgnization> list3=new ArrayList<Orgnization>();
-    for (PurchaseOrg purchaseOrg : byPurchaseDepId) {
-      Orgnization orgByPrimaryKey = orgnizationServiceI.getOrgByPrimaryKey(purchaseOrg.getOrgId());
-      if(orgByPrimaryKey!=null){
-        list3.add(orgByPrimaryKey);
-      }
-    }
-    model.addAttribute("allXq", list3);
-	  }
-	  return "bss/pms/statistic/task_detail";
+  public String taskDetailList(@CurrentUser User user,Model model,HttpServletResponse response,HttpServletRequest request,Integer page, PurchaseDetail detail,
+		  String beginDate,String endDate,String projectNumber,String proBeginDate, String proEndDate,String code, String materialsType) throws IOException{
+		if (user != null) {
+			  HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
+			  List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
+			  if (superviseOrgId != null && !superviseOrgId.isEmpty()) {
+				  HashMap<String, Object> hashMap = new HashMap<>();
+				  if(detail.getGoodsName()!=null){
+					  hashMap.put("goodsName", detail.getGoodsName().trim());
+				  }
+				  if(detail.getTaskNumber()!=null){
+					  hashMap.put("taskNumber", detail.getTaskNumber().trim());
+				  }
+				  if (detail != null && StringUtils.isNotBlank(detail.getDepartment())) {
+					  hashMap.put("department", detail.getDepartment());
+				  }
+				  if (detail != null && StringUtils.isNotBlank(detail.getPurchaseType())) {
+					  hashMap.put("purchaseType", detail.getPurchaseType());
+				  }
+				  if(beginDate!=null&&!"".equals(beginDate.trim())&&endDate!=null&&!"".equals(endDate.trim())){
+					  hashMap.put("beginDate", beginDate);
+					  hashMap.put("endDate", endDate);
+				  }
+				  if (StringUtils.isNotBlank(materialsType)) {
+					  hashMap.put("materialsType", materialsType);
+				  }
+				  if (StringUtils.isNotBlank(projectNumber)) {
+					  hashMap.put("projectNumber", projectNumber.trim());
+				  }
+				  if (StringUtils.isNotBlank(proBeginDate) && StringUtils.isNotBlank(proEndDate)) {
+					  hashMap.put("proEndDate", proEndDate.trim());
+					  hashMap.put("proBeginDate", proBeginDate.trim());
+				  }
+				  if (StringUtils.isNotBlank(code)) {
+					  hashMap.put("code", code.trim());
+				  }
+				  if (detail != null && StringUtils.isNotBlank(detail.getOrganization())) {
+					  hashMap.put("organization", detail.getOrganization());
+				  }
+				  if (StringUtils.equals("2", user.getTypeName())) {
+					  hashMap.put("orgId", user.getOrg().getId());
+				  } else if (StringUtils.equals("5", user.getTypeName())) {
+					  hashMap.put("orgList", superviseOrgId);
+				  }
+				  List<PurchaseDetail> PurchaseDetailList = purchaseDetailService.selectByTask(hashMap,page==null?1:page);
+				  PageInfo<PurchaseDetail> info = new PageInfo<>(PurchaseDetailList);
+				  model.addAttribute("info", info);
+				  model.addAttribute("detail", detail);
+				  model.addAttribute("projectNumber", projectNumber);
+				  model.addAttribute("proEndDate", proEndDate);
+				  model.addAttribute("proBeginDate", proBeginDate);
+				  model.addAttribute("code", code);
+				  model.addAttribute("materialsType", materialsType);
+				  model.addAttribute("planTypes", DictionaryDataUtil.find(6));
+				  model.addAttribute("dataType", DictionaryDataUtil.find(5));
+				  List<Orgnization> list2=new ArrayList<Orgnization>();
+				  List<Orgnization> list3=new ArrayList<Orgnization>();
+				  if (user.getOrg() != null) {
+					  List<PurchaseOrg> listOrg = purchaseOrgnizationServiceI.getOrg(user.getOrg().getId());
+					  for (PurchaseOrg purchaseOrg : listOrg) {
+						  Orgnization orgByPrimaryKey = orgnizationServiceI.getOrgByPrimaryKey(purchaseOrg.getPurchaseDepId());
+						  if(orgByPrimaryKey!=null){
+							  list2.add(orgByPrimaryKey);
+						  }
+					  }
+					  
+					  List<PurchaseOrg> byPurchaseDepId = purchaseOrgnizationServiceI.getByPurchaseDepId(user.getOrg().getId());
+					  for (PurchaseOrg purchaseOrg : byPurchaseDepId) {
+						  Orgnization orgByPrimaryKey = orgnizationServiceI.getOrgByPrimaryKey(purchaseOrg.getOrgId());
+						  if(orgByPrimaryKey!=null){
+							  list3.add(orgByPrimaryKey);
+						  }
+					  }
+					  
+				  } else {
+					  HashMap<String, Object> map = new HashMap<>();
+					  map.put("userId", superviseOrgId);
+					  List<Orgnization> selectByIdList = orgnizationServiceI.selectByIdList(map);
+					  for (Orgnization orgnization : selectByIdList) {
+						  if (StringUtils.equals("0", orgnization.getTypeName())) {
+							  list3.add(orgnization);
+						  } else if (StringUtils.equals("1", orgnization.getTypeName())) {
+							  list2.add(orgnization);
+						  }
+					  }
+				  }
+				  model.addAttribute("allOrg",list2);
+				  model.addAttribute("allXq", list3);
+			  }
+		}
+		return "bss/pms/statistic/task_detail";
 	}
 	@RequestMapping("/charDept")
   public String charDept(@CurrentUser User user,Model model,HttpServletResponse response,HttpServletRequest request){
@@ -481,4 +520,176 @@ public class PlanStatisticsController extends BaseController {
 	  }
    return "bss/pms/statistic/task_month";
   }
+	
+	/**
+	 * 
+	* @Title: taskExcel
+	* @author FengTian 
+	* @date 2017-12-11 上午10:40:18  
+	* @Description: 导出Excel 
+	* @param @param user
+	* @param @param response
+	* @param @param request
+	* @param @param detail
+	* @param @param beginDate
+	* @param @param endDate      
+	* @return void
+	 */
+	/*@RequestMapping("/taskExcel")
+	public void taskExcel(@CurrentUser User user, HttpServletResponse response, HttpServletRequest request,
+			PurchaseDetail detail,String beginDate,String endDate,String projectNumber,String proBeginDate, 
+			String proEndDate,String code, String materialsType, String type, String name){
+		if(StringUtils.equals("2", user.getTypeName())){
+			HashMap<String, Object> map = new HashMap<>();
+		    if(detail != null && StringUtils.isNotBlank(detail.getGoodsName())){
+		    	map.put("goodsName", detail.getGoodsName().trim());
+		    }
+		    if(detail != null && StringUtils.isNotBlank(detail.getTaskNumber())){
+		    	map.put("taskNumber", detail.getTaskNumber().trim());
+		    }
+		    if (detail != null && StringUtils.isNotBlank(detail.getDepartment())) {
+		    	map.put("department", detail.getDepartment());
+			}
+		    if (detail != null && StringUtils.isNotBlank(detail.getPurchaseType())) {
+		    	map.put("purchaseType", detail.getPurchaseType());
+			}
+		    if (detail != null && StringUtils.isNotBlank(detail.getOrganization())) {
+		    	map.put("organization", detail.getOrganization());
+			}
+		    if (StringUtils.isNotBlank(materialsType)) {
+				map.put("materialsType", materialsType);
+			}
+		    if(StringUtils.isNotBlank(beginDate) && StringUtils.isNotBlank(endDate)){
+		    	map.put("beginDate", beginDate);
+		    	map.put("endDate", endDate);
+		    }
+		    if (StringUtils.isNotBlank(projectNumber)) {
+		    	map.put("projectNumber", projectNumber.trim());
+		    }
+		    if (StringUtils.isNotBlank(proBeginDate) && StringUtils.isNotBlank(proEndDate)) {
+		    	map.put("proEndDate", proEndDate.trim());
+				  map.put("proBeginDate", proBeginDate.trim());
+			}
+		    if (StringUtils.isNotBlank(code)) {
+		    	map.put("code", code.trim());
+		    }
+		    detail.setOrgId(user.getOrg().getId());
+		    List<PurchaseDetail> list = purchaseDetailService.selectByTask(map, null);
+		    if (list != null && !list.isEmpty()) {
+		    	for (PurchaseDetail purchaseDetail : list) {
+					if (StringUtils.isBlank(purchaseDetail.getPurchaseType()) || StringUtils.equals("空值", purchaseDetail.getPurchaseType())) {
+						purchaseDetail.setPurchaseType(null);
+					} else {
+						purchaseDetail.setPurchaseType(DictionaryDataUtil.findById(purchaseDetail.getPurchaseType()).getName());
+					}
+					if (StringUtils.isNotBlank(purchaseDetail.getOrganization())) {
+						Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(purchaseDetail.getOrganization());
+						if (orgnization != null) {
+							purchaseDetail.setOrganization(orgnization.getShortName());
+						} else {
+							purchaseDetail.setOrganization(null);
+						}
+					}
+				}
+		    	ExcelUtils excelUtils = new ExcelUtils(response, "明细信息", "sheet1", 3000);
+		    	// 设置冻结行
+		        excelUtils.setFreezePane(true);
+		        excelUtils.setFreezePane(new Integer[]{0, 1, 0, 1});
+		        // 设置序号列
+		        excelUtils.setOrder(true);
+		        String titleColumn[] = {"orderNum", "seq", type, "department", "goodsName",
+		                "item", "purchaseCount", "price", "budget", "purchaseType", "organization", "taskGiveTime"};
+		        String titleName[] = {"序号", "产品编号", name, "需求部门", "产品名称", "单位", "采购数量",
+		                "单价(元)", "金额(万元)", "采购方式", "采购机构", "下达时间"};
+		        //int titleSize[] = {5, 10, 10, 70, 10, 13, 13, 16, 20, 20, 22};
+		        excelUtils.wirteExcel(titleColumn, titleName, null, list);
+			}
+		}
+	}*/
+	
+	
+	/*@RequestMapping("/nextStep")
+	public String nextStep(Model model, PurchaseDetail detail, Project project, String proBeginDate, 
+			String proEndDate,String code, String materialsType){
+		model.addAttribute("detail", detail);
+		model.addAttribute("project", project);
+		model.addAttribute("proBeginDate", proBeginDate);
+		model.addAttribute("proEndDate", proEndDate);
+		model.addAttribute("code", code);
+		model.addAttribute("materialsType", materialsType);
+		return "bss/pms/statistic/task_select";
+	}*/
+	
+	@RequestMapping("/taskExcel")
+	public String taskExcel(@CurrentUser User user, Model model, HttpServletResponse response, HttpServletRequest request,
+			PurchaseDetail detail,String beginDate,String endDate,String projectNumber,String proBeginDate, 
+			String proEndDate,String code, String materialsType, String showValue, String showName){
+		if(StringUtils.equals("2", user.getTypeName())){
+			HashMap<String, Object> map = new HashMap<>();
+		    if(detail != null && StringUtils.isNotBlank(detail.getGoodsName())){
+		    	map.put("goodsName", detail.getGoodsName().trim());
+		    }
+		    if(detail != null && StringUtils.isNotBlank(detail.getTaskNumber())){
+		    	map.put("taskNumber", detail.getTaskNumber().trim());
+		    }
+		    if (detail != null && StringUtils.isNotBlank(detail.getDepartment())) {
+		    	map.put("department", detail.getDepartment());
+			}
+		    if (detail != null && StringUtils.isNotBlank(detail.getPurchaseType())) {
+		    	map.put("purchaseType", detail.getPurchaseType());
+			}
+		    if (detail != null && StringUtils.isNotBlank(detail.getOrganization())) {
+		    	map.put("organization", detail.getOrganization());
+			}
+		    if (StringUtils.isNotBlank(materialsType)) {
+				map.put("materialsType", materialsType);
+			}
+		    if(StringUtils.isNotBlank(beginDate) && StringUtils.isNotBlank(endDate)){
+		    	map.put("beginDate", beginDate);
+		    	map.put("endDate", endDate);
+		    }
+		    if (StringUtils.isNotBlank(projectNumber)) {
+		    	map.put("projectNumber", projectNumber.trim());
+		    }
+		    if (StringUtils.isNotBlank(proBeginDate) && StringUtils.isNotBlank(proEndDate)) {
+		    	map.put("proEndDate", proEndDate.trim());
+				map.put("proBeginDate", proBeginDate.trim());
+			}
+		    if (StringUtils.isNotBlank(code)) {
+		    	map.put("code", code.trim());
+		    }
+		    detail.setOrgId(user.getOrg().getId());
+		    List<PurchaseDetail> list = purchaseDetailService.selectByTask(map, null);
+		    if (list != null && !list.isEmpty()) {
+		    	for (PurchaseDetail purchaseDetail : list) {
+		    		if (StringUtils.isNotBlank(showValue)) {
+		    			if (showValue.indexOf("expertName") > -1) {
+							if (StringUtils.isNotBlank(purchaseDetail.getPackId())) {
+								String expertName = packageExpertService.selectByExpertName(purchaseDetail.getPackId());
+								if (StringUtils.isNotBlank(expertName)) {
+									purchaseDetail.setExpertName(expertName);
+								}
+							}
+						}
+						if (showValue.indexOf("supplier") > -1) {
+							if (StringUtils.isNotBlank(purchaseDetail.getPackId())) {
+								String supplierName = checkPassService.selectBySupplierName(purchaseDetail.getPackId());
+								if (StringUtils.isNotBlank(supplierName)) {
+									purchaseDetail.setSupplier(supplierName);
+								}
+							}
+						}
+					}
+				}
+		    	if (StringUtils.isNotBlank(showValue) && StringUtils.isNotBlank(showName)) {
+		    		String[] types = showValue.split(StaticVariables.COMMA_SPLLIT);
+			    	String[] names = showName.split(StaticVariables.COMMA_SPLLIT);
+			    	model.addAttribute("types", types);
+			    	model.addAttribute("names", names);
+				}
+		    	model.addAttribute("list", list);
+			}
+		}
+		return "bss/pms/statistic/task_excel";
+	}
 }

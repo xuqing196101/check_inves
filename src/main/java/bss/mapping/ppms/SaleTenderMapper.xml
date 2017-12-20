@@ -682,4 +682,15 @@
       AND st.IS_TURN_UP = #{isTurnUp}
     </if>
   </select>
+  
+  <select id="selectByIsTurnUp" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	SELECT
+			IS_TURN_UP
+		FROM
+			T_BSS_PPMS_SALE_TENDER
+		WHERE
+			SUPPLIER_ID = #{supplierId}
+		AND PROJECT_ID = #{projectId}
+		AND IS_TURN_UP IS NOT NULL GROUP BY IS_TURN_UP ORDER BY IS_TURN_UP ASC
+  </select>
 </mapper>

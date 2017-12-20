@@ -469,7 +469,8 @@ public class PlanLookController extends BaseController {
 		}
 		
 		   model.addAttribute("detail", detail);
-		
+		   String typeId = DictionaryDataUtil.getId("PURCHASE_DETAIL");
+		   model.addAttribute("typeId", typeId);
 		model.addAttribute("status", collectPlan.getStatus());
 //		model.addAttribute("depList", depList);
 		return "bss/pms/collect/audit";
