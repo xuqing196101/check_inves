@@ -1,20 +1,22 @@
 package ses.service.sms;
 
-import ses.formbean.ContractBean;
-import ses.formbean.QualificationBean;
-import ses.formbean.SupplierItemCategoryBean;
-import ses.model.bms.Category;
-import ses.model.sms.Supplier;
-import ses.model.sms.SupplierCateTree;
-import ses.model.sms.SupplierFinance;
-import ses.model.sms.SupplierItem;
-
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import ses.formbean.ContractBean;
+import ses.formbean.QualificationBean;
+import ses.formbean.SupplierItemCategoryBean;
+import ses.model.bms.Category;
+import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAptituteRecy;
+import ses.model.sms.SupplierCateTree;
+import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierStockholderRecy;
 /**
  * @Title: SupplierInfoService
  * @Description: Supplier 接口
@@ -598,5 +600,26 @@ public interface SupplierService {
 	 * @return
 	 */
 	public Supplier handingDataSupplierApplicationForm(Supplier supplier);
+	
+	/**
+	 * 根据id获取供应商状态
+	 * @param supplierId
+	 * @return
+	 */
+	public String getStatusById(String id);
+
+	/**
+	 * 撤销删除股东信息
+	 * @param supplierId
+	 * @return
+	 */
+	public List<SupplierStockholderRecy> undoDelStockholder(String supplierId);
+
+	/**
+	 * 撤销删除工程资质证书信息
+	 * @param supplierId
+	 * @return
+	 */
+	public List<SupplierAptituteRecy> undoDelAptitude(String supplierId);
 
 }

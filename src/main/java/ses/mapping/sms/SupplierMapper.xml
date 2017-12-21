@@ -2526,5 +2526,10 @@
 	<select id="selectSupMobileById" parameterType="string" resultType="string">
 		SELECT T.MOBILE FROM T_SES_SMS_SUPPLIER T WHERE T.ID = #{supplierId}
 	</select>
+	
+	<!--根据供应商id查询状态-->
+	<select id="selectStatusById" parameterType="string" resultType="string">
+		SELECT SUPPLIER_STATUS FROM T_SES_SMS_SUPPLIER WHERE ID = #{id}
+	</select>
     
 </mapper>
