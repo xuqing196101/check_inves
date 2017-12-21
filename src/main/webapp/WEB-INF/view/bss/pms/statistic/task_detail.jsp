@@ -362,60 +362,60 @@
     </div>
 		</form>
 		</h2>
-		<div class="col-md-12 pl20 mt10">
-				<input class="btn-u" type="button" name="" value="按任务查询" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/taskList.html'" />
-				<input class="btn-u" type="button" name="" value="按明细查询" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/taskDetailList.html'" />
-				<input class="btn-u" type="button" name="" value="按需求部门统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charDept.html'" />
-				<input class="btn-u" type="button" name="" value="按采购方式统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charType.html'" />
-				<input class="btn-u" type="button" name="" value="按月统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charMonth.html'" />
-			</div>
-		<div class="content table_box">
+		<div class="pl20">
+			<input class="btn-u" type="button" name="" value="按任务查询" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/taskList.html'" />
+			<input class="btn-u" type="button" name="" value="按明细查询" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/taskDetailList.html'" />
+			<input class="btn-u" type="button" name="" value="按需求部门统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charDept.html'" />
+			<input class="btn-u" type="button" name="" value="按采购方式统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charType.html'" />
+			<input class="btn-u" type="button" name="" value="按月统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charMonth.html'" />
+		</div>
+		<div class="content table_box pt10">
 			<table class="table table-bordered table-condensed table-hover">
 				<thead>
 					<tr>
-						<th class="info w50">序号</th>
-						<th class="info" width="13%">任务名称</th>
-						<th class="info" width="13%">任务文号</th>
-						<th class="info" width="5%">需求部门</th>
-						<th class="info" width="5%">产品编号</th>
-						<th class="info" width="15%">产品名称</th>
-						<th class="info" width="4%">单位</th>
-						<th class="info" width="5%">采购数量</th>
-						<th class="info" width="6%">单价(元)</th>
-						<th class="info" width="6%">金额(万元)</th>
-						<th class="info" width="6%">采购方式</th>
-						<th class="info" width="7%">采购机构</th>
-						<th class="info" width="11%">下达时间</th>
+						<th class="w50">序号</th>
+						<th class="w80">任务名称</th>
+						<th class="w80">任务文号</th>
+						<th class="w80">需求部门</th>
+						<th class="w80">产品编号</th>
+						<th>产品名称</th>
+						<th class="w80">单位</th>
+						<th class="w80">采购数量</th>
+						<th class="w80">单价(元)</th>
+						<th class="w80">金额(万元)</th>
+						<th class="w100">采购方式</th>
+						<th class="w120">采购机构</th>
+						<th class="w100">下达时间</th>
 					</tr>
 				</thead>
 				<c:forEach items="${info.list}" var="obj" varStatus="vs">
 				
 					<tr  <c:if test="${obj.isParent=='true'}">class="red" </c:if> >
-						<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-						<td title="${obj.taskName }">
-						    <c:if test="${fn:length (obj.taskName) > 15}">${fn:substring(obj.taskName,0,14)}...</c:if>
-                            <c:if test="${fn:length(obj.taskName) <=15}">${obj.taskName}</c:if>
+						<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+						<td class="tc" title="${obj.taskName }">
+					    <c:if test="${fn:length (obj.taskName) > 15}">${fn:substring(obj.taskName,0,14)}...</c:if>
+              <c:if test="${fn:length(obj.taskName) <=15}">${obj.taskName}</c:if>
 						</td>
-						<td title="${obj.taskNumber }">
-						   <c:if test="${fn:length (obj.taskNumber) > 15}">${fn:substring(obj.taskNumber,0,14)}...</c:if>
-                            <c:if test="${fn:length(obj.taskNumber) <=15}">${obj.taskNumber}</c:if>
+						<td class="tc" title="${obj.taskNumber }">
+              <c:if test="${fn:length (obj.taskNumber) > 15}">${fn:substring(obj.taskNumber,0,14)}...</c:if>
+              <c:if test="${fn:length(obj.taskNumber) <=15}">${obj.taskNumber}</c:if>
 						</td>
-						<td>${obj.department }</td>
-						<td>${obj.seq }</td>
+						<td class="tc">${obj.department }</td>
+						<td class="tc">${obj.seq }</td>
 						<td title="${obj.goodsName }">
-						    <c:if test="${fn:length (obj.goodsName) > 18}">${fn:substring(obj.goodsName,0,17)}...</c:if>
-                            <c:if test="${fn:length(obj.goodsName) <=18}">${obj.goodsName}</c:if>
+					    <c:if test="${fn:length (obj.goodsName) > 18}">${fn:substring(obj.goodsName,0,17)}...</c:if>
+              <c:if test="${fn:length(obj.goodsName) <=18}">${obj.goodsName}</c:if>
 						</td>
-						<td>${obj.item}</td>
-						<td>${obj.purchaseCount }</td>
-						<td>${obj.price }</td>
-						<td>${obj.budget }</td>
-						<td>
+						<td class="tc">${obj.item}</td>
+						<td class="tc">${obj.purchaseCount }</td>
+						<td class="tr">${obj.price }</td>
+						<td class="tr">${obj.budget }</td>
+						<td class="tc">
 						   <c:if test="${obj.purchaseType eq '空值' }"></c:if>
 						   <c:if test="${obj.purchaseType ne '空值' }">${obj.purchaseType }</c:if>
 						</td>
-						<td>${obj.organization }</td>
-						<td><fmt:formatDate value="${obj.taskGiveTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+						<td class="tc">${obj.organization }</td>
+						<td class="tc"><fmt:formatDate value="${obj.taskGiveTime}" pattern="yyyy-MM-dd"/></td>
 					</tr>
 				</c:forEach>
 
