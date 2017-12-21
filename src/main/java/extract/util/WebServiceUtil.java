@@ -6,7 +6,7 @@ import extract.autoVoiceExtract.Epoint005WebService;
 
 public class WebServiceUtil {
 
-	public static final String VOICE_URL = "http://218.4.136.118:81/05557WebService/services/Epoint005WebService";
+	public static final String VOICE_URL = "http://172.16.2.57:81/05557WebService/services/Epoint005WebService";
 	
 	public static Epoint005WebService getService() {
 		JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
