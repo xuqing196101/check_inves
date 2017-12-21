@@ -249,7 +249,7 @@
 		<div class="">
 			<!-- 表格开始-->
 				<input type="hidden" id="jsonString" value="">
-				<table class="table table-bordered table-condensed table-hover table-striped table_input">
+				<table class="table table-bordered table-condensed table-hover table-striped">
 					<thead>
 						<tr>
 							<th class="w50">序号</th>
