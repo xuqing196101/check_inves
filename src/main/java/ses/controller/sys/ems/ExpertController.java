@@ -93,6 +93,7 @@ import ses.service.ems.DeleteLogService;
 import ses.service.ems.ExpExtractRecordService;
 import ses.service.ems.ExpertAttachmentService;
 import ses.service.ems.ExpertAuditNotService;
+import ses.service.ems.ExpertAuditOpinionService;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
@@ -224,6 +225,9 @@ public class ExpertController extends BaseController {
     
     @Autowired
     private AdvancedPackageService advancedPackageService;
+    
+	@Autowired
+	private ExpertAuditOpinionService expertAuditOpinionService;
     
     /**
      * 
@@ -2111,6 +2115,11 @@ public class ExpertController extends BaseController {
                     	
                     	//退回修改再审核的状态
                     	expert.setStatus("9");
+                    	
+                    	//假删除意见表
+                		Map<String , Object> map = new HashMap<String , Object>();
+                		map.put("expertId", expertId);
+                		expertAuditOpinionService.updateisDeletedByExpertId(map);
                     }
                     
                     //修改时间

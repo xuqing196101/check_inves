@@ -67,7 +67,7 @@
         
         //复审退回
         if(status == '10'){
-            $("#check_opinion").html("退回修改。" + opinion);
+            $("#check_opinion").html("复审退回修改。" + opinion);
         }
         
         if(status == '5'){
