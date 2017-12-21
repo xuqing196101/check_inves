@@ -97,6 +97,7 @@
                 $("#supplierLevel").val(supplierLevel);
             }
             // 回显地区
+            loadAreaSelect("#pAddress", "#address");
             $("#address").val('${supplier.address}');
         });
     </script>
@@ -384,6 +385,7 @@
           <input type="hidden" name="creditCode" value="${supplier.creditCode}"/>
           <input type="hidden" name="orgName" value="${supplier.orgName}"/>
           <input type="hidden" name="address" value="${supplier.address}"/>
+          <input type="hidden" name="parentAddress" value="${supplier.parentAddress}"/>
           <input type="hidden" name="queryCategory" value="${supplier.queryCategory }"/>
           <input type="hidden" name="supplierTypeIds" value="${supplierTypeIds}" />
           <input type="hidden" name="supplierLevel" value="${supplier.supplierLevel }"/>
@@ -519,18 +521,28 @@
           </div>
           
           <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
-            <div class="row">
-              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">地区：</div>
-              <div class="col-xs-8 f0 lh0">
-                <select name="address" id="address" class="w100p h32 f14">
-                  <option value=''>全部</option>
-                  <c:forEach items="${privnce}" var="list">
-                    <option value="${list.id}">${list.name }</option>
-                  </c:forEach>
-                </select>
-              </div>
-            </div>
-          </div>
+		        <div class="row">
+		          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">地区（省）：</div>
+		          <div class="col-xs-8 f0 lh0">
+								<select id="pAddress" name="parentAddress" class="w100p h32 f14" onchange="loadAreaSelect(this,'#address')">
+									<option value=''>全部</option>
+									<c:forEach items="${privnce}" var="list">
+											<option value="${list.id}" <c:if test="${supplier.parentAddress eq list.id}">selected</c:if>>${list.name }</option>
+									</c:forEach>
+								</select>
+		          </div>
+		        </div>
+		      </div>
+		      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+		        <div class="row">
+		          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">地区（市）：</div>
+		          <div class="col-xs-8 f0 lh0">
+								<select name="address" id="address" class="w100p h32 f14">
+									<option value=''>全部</option>
+								</select>
+		          </div>
+		        </div>
+		      </div>
           <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
 		        <div class="row">
 		          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">工程业务地域：</div>

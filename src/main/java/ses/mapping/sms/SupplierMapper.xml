@@ -16,6 +16,7 @@
 		<result column="BUSINESS_TYPE" property="businessType" />
 		<result column="BUSINESS_CERT" property="businessCert" />
 		<result column="ADDRESS" property="address" />
+		<result column="PARENT_ADDRESS" property="parentAddress" />
 		<result column="COUNT" property="count" />
 		<result column="BANK_NAME" property="bankName" />
 		<result column="LEVEL_SCORE_PRODUCT" property="levelScoreProduct" />
@@ -115,6 +116,7 @@
 		<result column="BUSINESS_TYPE" property="businessType" />
 		<result column="BUSINESS_CERT" property="businessCert" />
 		<result column="ADDRESS" property="address" />
+		<result column="PARENT_ADDRESS" property="parentAddress" />
 		<result column="COUNT" property="count" />
 		<result column="BANK_NAME" property="bankName" />
 		<result column="LEVEL_SCORE_PRODUCT" property="levelScoreProduct" />
@@ -1614,8 +1616,11 @@
 			OR SUPPLIER_STATUS = 7 OR SUPPLIER_STATUS = 8)
 			AND IS_PROVISIONAL = '0'
 		</if>
-		<if test="address != null and address != ''">
-			AND AREA.PARENT_ID = #{address}
+		<if test="parentAddress != null and parentAddress != ''">
+			AND AREA.PARENT_ID = #{parentAddress}
+		</if>
+		<if test="address != null and address != '' and parentAddress != null and parentAddress != ''">
+			AND AREA.ID = #{address} 
 		</if>
 		<if test="businessScope != null and businessScope != ''">
 			AND INSTR(matEng.BUSINESS_SCOPE, #{businessScope}) > 0 
@@ -1750,8 +1755,11 @@
 			OR SUPPLIER_STATUS = -4 OR SUPPLIER_STATUS = -5)
 			AND IS_PROVISIONAL = '0'
 		</if>
-		<if test="address != null and address != ''">
-			AND AREA.PARENT_ID = #{address}
+		<if test="parentAddress != null and parentAddress != ''">
+			AND AREA.PARENT_ID = #{parentAddress}
+		</if>
+		<if test="address != null and address != '' and parentAddress != null and parentAddress != ''">
+			AND AREA.ID = #{address} 
 		</if>
 		<if test="businessScope != null and businessScope != ''">
 			AND INSTR(matEng.BUSINESS_SCOPE, #{businessScope}) > 0 
