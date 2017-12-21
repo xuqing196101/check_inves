@@ -113,6 +113,7 @@
 						
 						initCombo();// 初始化combo下拉
 						init_web_upload_in('#file_${vs.index+ind}');// 初始化附件上传
+						showInit('eng_show_${vs.index+ind}');// 初始化附件显示
 						getAptLevel($("select[id='certType_${vs.index+ind}']"));// 初始化资质等级
 					</script>
 				</td>

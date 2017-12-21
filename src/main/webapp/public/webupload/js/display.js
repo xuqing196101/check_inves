@@ -8,11 +8,15 @@ $(function(){
 /**
  * 初始化
  */
-function showInit(){
-	$(".uploaded_file_show").each(function(){
-		var id = $(this).prev()[0].value;
-		packParam(id);
-	});
+function showInit(showId){
+	if(showId){
+		packParam(showId);
+	}else{
+		$(".uploaded_file_show").each(function(){
+			var id = $(this).prev()[0].value;
+			packParam(id);
+		});
+	}
 	
 	/*
 	var singleId = $("#showId").val();
