@@ -249,14 +249,14 @@
 		<div class="">
 			<!-- 表格开始-->
 				<input type="hidden" id="jsonString" value="">
-				<table class="table table-bordered table-condensed table-hover table-striped">
+				<table class="table table-bordered table-condensed table-hover table-striped table_input">
 					<thead>
 						<tr>
 							<th class="w50">序号</th>
 							<th>供应商名称</th>
 							<th class="w200">关联的包名</th>
-							<th class="w120">是否到场</th>
-							<th class="w180">投标文件</th>
+							<th class="w80">是否到场</th>
+							<th class="w280">投标文件</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -269,7 +269,7 @@
 								</td>
 								<td>
 									<c:if test="${empty supplier.isturnUp}">
-										<input class=" " readonly id="packageName${vs.index}" value="" placeholder="请选择包" onclick="showPackageType('${supplier.id}','${vs.index}');" type="text">
+										<input class="w100p" readonly id="packageName${vs.index}" value="" placeholder="请选择包" onclick="showPackageType('${supplier.id}','${vs.index}');" type="text">
 										<input readonly id="packageId${vs.index}" name="packageId" type="hidden">
 									</c:if>
 									<c:if test="${not empty supplier.isturnUp and supplier.isturnUp == 0}">
@@ -278,7 +278,7 @@
 								</td>
 								<td class="tc p0">
 									<c:if test="${empty supplier.isturnUp}">
-										<input readonly class="m0 border0" id="isturnUp${vs.index}" type="text" value=""/>
+										<input readonly class="w100p" id="isturnUp${vs.index}" type="text" value=""/>
 									</c:if>
 									<c:if test="${not empty supplier.isturnUp and supplier.isturnUp == 0}">已到场</c:if>
 									<c:if test="${not empty supplier.isturnUp and supplier.isturnUp == 1}">未到场</c:if>
