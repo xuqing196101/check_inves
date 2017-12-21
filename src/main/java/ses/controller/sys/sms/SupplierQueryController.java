@@ -240,6 +240,10 @@ public class SupplierQueryController extends BaseSupplierController {
         //在数据字典里查询企业性质
  		List < DictionaryData > businessNature = DictionaryDataUtil.find(32);
  		model.addAttribute("businessNature", businessNature);
+ 		
+ 		//地区
+        List < Area > province = areaService.findRootArea();
+        model.addAttribute("province", province);
         
         //开始循环 判断地址是否
         Map<String, Object> map = supplierEditService.getMapArea();
@@ -325,8 +329,8 @@ public class SupplierQueryController extends BaseSupplierController {
         }
 
         //地区
-        List < Area > privnce = areaService.findRootArea();
-        model.addAttribute("privnce", privnce);
+        List < Area > province = areaService.findRootArea();
+        model.addAttribute("province", province);
 		
   		//在数据字典里查询企业性质
  		List < DictionaryData > businessNature = DictionaryDataUtil.find(32);
@@ -634,9 +638,9 @@ public class SupplierQueryController extends BaseSupplierController {
 		request.setAttribute("supplierBranchList", supplierBranchList);
 		
 		//生产经营地址
-		List<Area> privnce = areaService.findRootArea();
+		List<Area> province = areaService.findRootArea();
 		List<SupplierAddress> supplierAddress= supplierAddressService.queryBySupplierId(supplierId);
-		for(Area a : privnce){
+		for(Area a : province){
 			for(SupplierAddress s : supplierAddress){
 				if(a.getId().equals(s.getParentId())){
 					s.setParentName(a.getName());
@@ -2310,8 +2314,8 @@ public class SupplierQueryController extends BaseSupplierController {
 		}
 
 		// 地区
-		List<Area> privnce = areaService.findRootArea();
-		model.addAttribute("privnce", privnce);
+		List<Area> province = areaService.findRootArea();
+		model.addAttribute("province", province);
 
 		// 在数据字典里查询企业性质
 		List<DictionaryData> businessNature = DictionaryDataUtil.find(32);

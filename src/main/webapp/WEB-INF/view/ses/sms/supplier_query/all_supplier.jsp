@@ -16,6 +16,7 @@
 		<script src="${pageContext.request.contextPath}/public/highmap/js/cn-china-by-peng8.js"></script>
 		<script src="${pageContext.request.contextPath}/public/echarts/china.js"></script>
 		<link href="${pageContext.request.contextPath}/public/highmap/js/font-awesome.css" media="screen" rel="stylesheet">
+		<script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/supplier_query/select_supplier_common.js"></script>
 		<script type="text/javascript">
 			function submit() {
 				form1.submit();
@@ -472,6 +473,19 @@
 									<c:if test="${org.isAuditSupplier == 1}">
 										<option value="${org.shortName}" <c:if test="${supplier.orgName eq org.shortName}">selected</c:if>>${org.shortName}</option>
 									</c:if>
+								</c:forEach>
+							</select>
+	          </div>
+	        </div>
+	      </div>
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">工程业务地域：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<select name="businessScope" id="businessScope" class="w100p h32 f14">
+								<option value=''>全部</option>
+								<c:forEach items="${province}" var="list">
+										<option value="${list.id}" <c:if test="${supplier.businessScope eq list.id}">selected</c:if>>${list.name }</option>
 								</c:forEach>
 							</select>
 	          </div>

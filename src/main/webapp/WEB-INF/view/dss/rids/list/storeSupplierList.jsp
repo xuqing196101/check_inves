@@ -179,7 +179,7 @@
 	          <div class="col-xs-8 f0 lh0">
 							<select name="address" id="address" class="w100p h32 f14">
 								<option value=''>全部</option>
-								<c:forEach items="${privnce}" var="list">
+								<c:forEach items="${province}" var="list">
 									<option <c:if test="${supplier.address eq list.name }">selected</c:if> value="${list.name }">${list.name }</option>
 								</c:forEach>
 							</select>
