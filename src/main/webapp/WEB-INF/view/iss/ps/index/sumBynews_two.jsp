@@ -4,11 +4,6 @@
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
 <head>
 <jsp:include page="/index_head.jsp"></jsp:include>
-<link
-	href="${pageContext.request.contextPath }/public/select2/css/select2.css"
-	rel="stylesheet" />
-<%@ include file="/WEB-INF/view/common.jsp"%>
-<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
 
 <script type="text/javascript">
 var id = "${id}";
