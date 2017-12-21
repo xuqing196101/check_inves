@@ -36,6 +36,29 @@
 		for (var i = 1; i < 20; i++) {
 			$(".p0" + i).addClass("hide");
 		};
+		
+		var ix = "${ix}";
+		if(ix != "null"){
+			$("h2").each(function() {
+				$(this).removeClass("count_flow");
+				$(this).addClass("counts_flow");
+			});
+			$(".f14").each(function() {
+				$(this).removeClass("f14");
+				$(this).addClass("f25");
+			});
+			$(".star_red").each(function() {
+				$(this).addClass("f25");
+			});
+			
+			$("th").each(function() {
+				$(this).addClass("f25");
+			});
+			$("td").each(function() {
+				$(this).addClass("f25");
+			});
+			$("#jscb").addClass("f16");
+		}
 	});
 	
 	 function openMax(){
@@ -110,10 +133,10 @@
 		<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
 				<input type="hidden" id="packId${vsKey.index}" value="${treemapValue.packages}"/>
 				<tr>
-				    <td class="tc w50">${vs.index+1 }</td>
-				    <td class="tl">${treemapValue.suppliers.supplierName}</td>
-				    <td class="tr">${treemapValue.total}</td>
-				    <td class="tc">${treemapValue.deliveryTime }</td>
+				    <td class="tc w50 f14">${vs.index+1 }</td>
+				    <td class="tl f14">${treemapValue.suppliers.supplierName}</td>
+				    <td class="tr f14">${treemapValue.total}</td>
+				    <td class="tc f14">${treemapValue.deliveryTime }</td>
 			<%-- 	    <td class="tc">${treemapValue.isRemoved}</td>
 					<td class="tc">${treemapValue.removedReason}</td> --%>
 			    </tr>

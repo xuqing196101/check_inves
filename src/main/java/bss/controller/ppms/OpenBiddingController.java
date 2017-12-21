@@ -1592,7 +1592,7 @@ public class OpenBiddingController extends BaseSupplierController{
     List<Date> listDate =  supplierQuoteService.selectQuoteCount(quoteCondition);
     if (listDate != null && listDate.size() > 0 && packId == null) {
       //如果有明细就是查看了
-      return "redirect:viewChangtotal.html?projectId=" + projectId;
+      return "redirect:viewChangtotal.html?projectId=" + projectId+"&ix=" + ix;
     }
     //记录报价的轮次
     Integer countBid = 0;
@@ -1697,7 +1697,7 @@ public class OpenBiddingController extends BaseSupplierController{
   }
 
   @RequestMapping("/viewChangtotal")
-  public String viewChangtotal(String projectId, String packId, String timestamp, Model model, HttpServletRequest req) throws ParseException{
+  public String viewChangtotal(String projectId, String packId, String timestamp, Model model, HttpServletRequest req, String ix) throws ParseException{
     Project project = projectService.selectById(projectId);
     DictionaryData dictionaryData = null;
     if (project != null && project.getPurchaseType() != null ){
@@ -1808,6 +1808,7 @@ public class OpenBiddingController extends BaseSupplierController{
     model.addAttribute("projectId", projectId);
     model.addAttribute("dd", dictionaryData);
     model.addAttribute("mapPackageName", mapPackageName);
+    model.addAttribute("ix", ix);
     return "bss/ppms/open_bidding/bid_file/view_chang_total";
   }
   
