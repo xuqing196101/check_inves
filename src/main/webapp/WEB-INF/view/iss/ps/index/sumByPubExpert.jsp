@@ -72,7 +72,7 @@
                 <option value="">全部</option>
                 <option value="6">入库(待复查)</option>
                 <option value="7">复查合格</option>
-                <option value="8">复查不合格</option>
+                <option value="17">资料不全</option>
             </select>
         </div>
         <div class="form-group">

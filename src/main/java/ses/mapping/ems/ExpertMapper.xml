@@ -2649,6 +2649,9 @@
         <if test="batchDetailsNumber != null and batchDetailsNumber != ''">
             AND INSTR(ENT.BATCH_DETAILS_NUMBER, #{batchDetailsNumber}) > 0
         </if>
+        <if test="auditTemporary != null">
+        	AND T.AUDIT_TEMPORARY = #{auditTemporary}
+        </if>
         <!--ORDER BY T.AUDIT_AT DESC-->
         ORDER BY ENT.BATCH_DETAILS_NUMBER
     </select>

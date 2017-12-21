@@ -1253,12 +1253,60 @@ public class SupplierServiceImpl implements SupplierService {
     Supplier supplier = new Supplier();
     //生产&& 销售
     if (!SupplierToolUtil.PRODUCT_ID.equals(categoryIds) && !SupplierToolUtil.SALES_ID.equals(categoryIds)) {
-      supplier.setSupplierTypeId(categoryIds);
+    	//品目id
+    	supplier.setSupplierTypeId(categoryIds);
     }
+    //供应商类型数据字典code
     supplier.setSupplierType(supplierType);
-    //查询类型下品目入库供应商
-    List<Supplier> listSupplier = supplierItemMapper.findFinaSupplierByCategouryAndType(supplier);
     
+    //供应商类型数据字典id
+    supplier.setSupplierTypeNames(supplierTypeId);
+    
+    //供应商审核字段AUDIT_FIELD类别
+    String categoryTypeAuditField = "";
+    if ("SALES".equals(supplierType)) {
+    	categoryTypeAuditField = "items_sales_page";
+	}else {
+		categoryTypeAuditField = "items_product_page";
+	}
+    supplier.setSupplierTypeIds(categoryTypeAuditField);
+    
+    //查询当前品目及其子节点
+    List<String> cCategorieIds = new ArrayList<String>();
+    List<Category> clist = categoryMapper.selectCListById(categoryIds);
+    if (clist != null && clist.size() == 1) {
+    	cCategorieIds.add(clist.get(0) == null ? "" : clist.get(0).getId());
+	} else if(clist != null && clist.size() > 1){
+		for (int i = 1; i < clist.size(); i++) {
+			cCategorieIds.add(clist.get(i) == null ? "" : clist.get(i).getId());
+		}
+	}
+    supplier.setQueryCategorys(cCategorieIds);
+    supplier.setReturnCount(cCategorieIds.size());
+    //查询类型下品目入库供应商
+    List<Supplier> listSupplier0 = supplierItemMapper.findFinaSupplierByCategouryAndType(supplier);
+    
+    List<Supplier> listSupplier = new ArrayList<Supplier>();
+    if (clist != null && clist.size() > 1) {
+    	//剔除所选子级品目全不通过的供应商
+		for (Supplier supplier2 : listSupplier0) {
+			//判断供应商所选四级品目下的品目是否全部不通过
+			Supplier supplierCondition = new Supplier();
+			//供应商类型数据字典code
+			supplierCondition.setSupplierType(supplierType);
+			//四级品目下的品目
+			supplierCondition.setQueryCategorys(cCategorieIds);
+			//供应商审核字段AUDIT_FIELD类别
+			supplierCondition.setSupplierTypeIds(categoryTypeAuditField);
+			supplierCondition.setId(supplier2.getId());
+			Integer isFailed = supplierItemMapper.findCategoryisAllFailed(supplierCondition);
+			if (isFailed == 0) {
+				listSupplier.add(supplier2);
+			}
+		}
+	}else {
+		listSupplier.addAll(listSupplier0);
+	}
     //List<Supplier> listSupplier = supplierMapper.findSupplierByCategoryId(supplier);
     if (listSupplier.isEmpty()) {
       return rutDate;

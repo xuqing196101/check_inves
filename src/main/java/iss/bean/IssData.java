@@ -32,9 +32,10 @@ public class IssData {
 		 //只显示公开的
 		//expert.setIsPublish(1);
         Map<String, Object> expertMap = new HashMap<>();
-        int statusArray[] = {6,7,8};
+        int statusArray[] = {6,7,17};
         expertMap.put("size", statusArray.length);
         expertMap.put("statusArray", statusArray);
+        expertMap.put("auditTemporary", 0);
         List<ExpertVO> expertList = expertService.selectIndexExpert(1, expertMap);
         return expertList;
 	}
@@ -46,9 +47,10 @@ public class IssData {
 
         //只显示公开的
         //sMap.put("IS_PUBLISH", 1);
-        int statusArray[] = {1,4,5,6,7,8};
+        int statusArray[] = {1,4,5,-5,7};
         sMap.put("size", statusArray.length);
         sMap.put("statusArray", statusArray);
+        sMap.put("auditTemporary", 0);
         List<Supplier> supplierList = suppService.query(sMap);
         return supplierList;
 	}
