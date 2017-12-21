@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ses.dao.sms.SupplierStockholderRecyExtMapper">
+  <resultMap id="BaseResultMap" type="ses.model.sms.SupplierStockholderRecy" >
+    <result column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="NATURE" jdbcType="VARCHAR" property="nature" />
+    <result column="IDENTITY" jdbcType="VARCHAR" property="identity" />
+    <result column="SHARES" jdbcType="VARCHAR" property="shares" />
+    <result column="PROPORTION" jdbcType="VARCHAR" property="proportion" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="IDENTITY_TYPE" jdbcType="DECIMAL" property="identityType" />
+    <result column="RECY_TIME" jdbcType="DATE" property="recyTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, SUPPLIER_ID, NAME, NATURE, IDENTITY, SHARES, PROPORTION, CREATED_AT, UPDATED_AT, 
+    IDENTITY_TYPE, RECY_TIME
+  </sql>
+  
+  <!-- 根据供应商id查询最新时间的记录 -->
+  <select id="selectBySupplierIdAtLast" resultMap="BaseResultMap" parameterType="string">
+  	SELECT recy1.* 
+  	FROM T_SES_SMS_SUPPLIER_STKHOR_RECY recy1 
+		RIGHT JOIN(
+			SELECT MAX(RECY_TIME) CT FROM T_SES_SMS_SUPPLIER_STKHOR_RECY
+		) recy2 ON recy1.RECY_TIME = recy2.CT
+		WHERE recy1.SUPPLIER_ID = #{supplierId}
+  </select>
+
+</mapper>

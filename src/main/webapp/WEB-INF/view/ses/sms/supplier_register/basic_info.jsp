@@ -1159,7 +1159,7 @@
 							<div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
 									<c:choose>
-                    <c:when test="${currSupplier.status==2 }">
+                    <c:when test="${currSupplier.status==2 and currSupplier.id ne '74c51d4cdafd433db49f00b610ba9102' }">
                     	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
                     </c:when>
                     <c:otherwise>
@@ -1167,6 +1167,9 @@
                			</c:otherwise>
                   </c:choose>
 									<button class="btn btn-windows delete" type="button" onclick="delStockholder()">删除</button>
+									<c:if test="${currSupplier.status==2 and currSupplier.id ne '74c51d4cdafd433db49f00b610ba9102' }">
+                  	<button class="btn btn-windows add"  type="button" onclick="undoDelStockholder()">撤销删除</button>
+                  </c:if>
 									<span class="red">${stock }</span>
 								</div>
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto">

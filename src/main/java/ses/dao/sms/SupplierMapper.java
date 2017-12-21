@@ -691,4 +691,11 @@ public interface SupplierMapper {
      * @since JDK1.7
      */
     String selectSupMobileById(String supplierId);
+
+    /**
+     * 根据供应商id查询状态
+     * @param id
+     * @return
+     */
+	String selectStatusById(String id);
 }

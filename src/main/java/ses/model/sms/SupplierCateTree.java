@@ -104,14 +104,14 @@ public class SupplierCateTree implements Serializable{
     private String reviewAudit;
     
     // 是否被退回
-    private byte isReturned;
+    private Integer isReturned;
     //记录一条有资质的节点id
     private String aptitudeId;
     //记录一条有销售合同节点id
     private String contractId;
-    private byte isContractModified;// 合同是否修改过
-    private byte isAptitudeModified;// 资质是否修改过
-    private byte isEngAptitudeModified;// 工程资质是否修改过
+    private int isContractModified;// 合同是否修改过
+    private int isAptitudeModified;// 资质是否修改过
+    private int isEngAptitudeModified;// 工程资质是否修改过
     
     /** 所有父级节点集合 */
     private List<Category> parentNodeList;
@@ -464,35 +464,35 @@ public class SupplierCateTree implements Serializable{
 		this.categoryId = categoryId;
 	}
 
-	public byte getIsReturned() {
+	public Integer getIsReturned() {
 		return isReturned;
 	}
 
-	public void setIsReturned(byte isReturned) {
+	public void setIsReturned(Integer isReturned) {
 		this.isReturned = isReturned;
 	}
 
-	public byte getIsContractModified() {
+	public int getIsContractModified() {
 		return isContractModified;
 	}
 
-	public void setIsContractModified(byte isContractModified) {
+	public void setIsContractModified(int isContractModified) {
 		this.isContractModified = isContractModified;
 	}
 
-	public byte getIsAptitudeModified() {
+	public int getIsAptitudeModified() {
 		return isAptitudeModified;
 	}
 
-	public void setIsAptitudeModified(byte isAptitudeModified) {
+	public void setIsAptitudeModified(int isAptitudeModified) {
 		this.isAptitudeModified = isAptitudeModified;
 	}
 
-	public byte getIsEngAptitudeModified() {
+	public int getIsEngAptitudeModified() {
 		return isEngAptitudeModified;
 	}
 
-	public void setIsEngAptitudeModified(byte isEngAptitudeModified) {
+	public void setIsEngAptitudeModified(int isEngAptitudeModified) {
 		this.isEngAptitudeModified = isEngAptitudeModified;
 	}
 

@@ -14,7 +14,6 @@ import com.github.pagehelper.PageHelper;
 
 import common.constant.StaticVariables;
 import ses.dao.bms.QualificationMapper;
-import ses.model.bms.CategoryQua;
 import ses.model.bms.Qualification;
 import ses.service.bms.QualificationService;
 import ses.util.PropUtil;

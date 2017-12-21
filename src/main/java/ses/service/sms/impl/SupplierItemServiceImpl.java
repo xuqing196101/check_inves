@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ses.dao.bms.CategoryMapper;
 import ses.dao.sms.SupplierItemMapper;
+import ses.dao.sms.SupplierItemRecyMapper;
 import ses.formbean.QualificationBean;
 import ses.formbean.SupplierItemCategoryBean;
 import ses.model.bms.Category;
@@ -29,10 +30,12 @@ import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierItemRecy;
 import ses.model.sms.SupplierPorjectQua;
 import ses.service.bms.CategoryService;
 import ses.service.sms.SupplierAptituteService;
 import ses.service.sms.SupplierAuditService;
+import ses.service.sms.SupplierItemRecyService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierMatEngService;
 import ses.service.sms.SupplierPorjectQuaService;
@@ -71,6 +74,12 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	
 	@Autowired
 	private SupplierAptituteService supplierAptituteService;
+	
+	@Autowired
+	private SupplierItemRecyMapper supplierItemRecyMapper;
+	
+	@Autowired
+	private SupplierItemRecyService supplierItemRecyService;
 	
 	@Override
 	public List<SupplierItem> getItemListBySupplierId(String supplierId) {
@@ -521,7 +530,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
      */
     @Override
     //@Transactional
-    public void deleteItems(SupplierItem supplierItem, boolean isParentChecked) {
+    public void deleteItems(SupplierItem supplierItem, boolean isParentChecked, String recyAptId) {
         String categoryId = supplierItem.getCategoryId();
         try{
             if(!StringUtils.isEmpty(categoryId)){
@@ -539,10 +548,10 @@ public class SupplierItemServiceImpl implements SupplierItemService {
             		List<Category> clist = categoryService.getCListById(categoryId);
             		if(clist != null && clist.size() > 0){
             			//clist.remove(0);
-            			deleteItemsOpertion(categoryId, supplierItem, clist);
+            			deleteItemsOpertion(categoryId, supplierItem, clist, recyAptId);
             		}
             	}else{
-            		deleteItemsOpertion(categoryId, supplierItem, null);
+            		deleteItemsOpertion(categoryId, supplierItem, null, recyAptId);
             	}
             }
         }catch (Exception e){
@@ -550,7 +559,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
             //TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         }
     }
-    public void deleteItemsOpertion(String categoryId, SupplierItem supplierItem, List<Category> clist) throws Exception{
+    public List<SupplierItem> deleteItemsOpertion(String categoryId, SupplierItem supplierItem, List<Category> clist, String recyAptId) {
         List<Category> categoryList = new ArrayList<Category>();
         List<SupplierItem> itemList = new ArrayList<SupplierItem>();
         Category current = categoryService.findById(categoryId);
@@ -660,8 +669,27 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 //        }
         }
         if(itemList.size() > 0){
+        	// 回收关联品目信息
+        	if(StringUtils.isNotBlank(recyAptId)){
+        		supplierItemRecyService.recyItems(itemList, recyAptId);
+        		/*for(SupplierItem item : itemList){
+					Map<String, Object> param = new HashMap<String, Object>();
+					param.put("supplierId", item.getSupplierId());
+					param.put("type", item.getSupplierTypeRelateId());
+					param.put("categoryId", item.getCategoryId());
+					List<SupplierItem> itemListByMap = this.findByMap(param);
+					if(itemListByMap != null && itemListByMap.size() > 0){
+						SupplierItemRecy supplierItemRecy = new SupplierItemRecy();
+						BeanUtils.copyProperties(itemListByMap.get(0), supplierItemRecy);
+						supplierItemRecy.setRecyAptId(recyAptId);
+						supplierItemRecyMapper.insertSelective(supplierItemRecy);
+					}
+				}*/
+        	}
+			// 执行删除
         	supplierItemMapper.batchDelete(itemList);
         }
+        return itemList;
     }
 
     @Override
@@ -1042,7 +1070,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 			
 			// 先清空IS_RETURNED状态值
 			SupplierItem itemParam = new SupplierItem();
-			itemParam.setIsReturned((byte)0);
+			itemParam.setIsReturned(0);
 			supplierItemMapper.updateBySupplierId(itemParam, supplierId);
 			
 			SupplierAudit supplierAudit = new SupplierAudit();
@@ -1068,12 +1096,12 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 					String cateId = item.getCategoryId();
 					if(errorField.indexOf(cateId) != -1){
 						if(item.getIsReturned() != 1){
-							item.setIsReturned((byte)1);
+							item.setIsReturned(1);
 							supplierItemMapper.updateByPrimaryKeySelective(item);
 							// 或者
 							/*SupplierItem updateItem = new SupplierItem();
 							updateItem.setId(item.getId());
-							updateItem.setIsReturned((byte)1);
+							updateItem.setIsReturned(1);
 							supplierItemMapper.updateByPrimaryKeySelective(updateItem);*/
 						}
 						itr.remove();//这里删除的是末级节点
@@ -1113,7 +1141,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 					String cateId = item.getCategoryId();
 					if(pSb.indexOf(cateId) != -1 && errorField.indexOf(cateId) == -1){
 						if(item.getIsReturned() != 1){
-							item.setIsReturned((byte)1);
+							item.setIsReturned(1);
 							supplierItemMapper.updateByPrimaryKeySelective(item);
 						}
 						itr.remove();
@@ -1126,7 +1154,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 				Category rootCate = categoryService.findById(rootItem.getCategoryId());
 				if(rootCate == null){// 如果最后只剩下一个根节点（如：物资生产）则清空节点
 					if(rootItem.getIsReturned() != 1){
-						rootItem.setIsReturned((byte)1);
+						rootItem.setIsReturned(1);
 						supplierItemMapper.updateByPrimaryKeySelective(rootItem);
 					}
 					items.clear();

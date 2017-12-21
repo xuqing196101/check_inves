@@ -56,7 +56,7 @@ public class SupplierItemController extends BaseController {
 	public String saveCategory(SupplierItem supplierItem, boolean isParentChecked, String clickFlag) {
 		// 判断是否是取消选中
 		if("0".equals(clickFlag)) {
-			supplierItemService.deleteItems(supplierItem, isParentChecked);
+			supplierItemService.deleteItems(supplierItem, isParentChecked, null);
 		} else {
 			supplierItemService.saveOrUpdate(supplierItem, isParentChecked);
 		}
