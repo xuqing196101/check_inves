@@ -1582,7 +1582,7 @@
 			AND AUDIT_DATE &lt;= #{endAuditDate}
 		</if>
 		<if test="contactName != null and contactName != ''">
-			AND T2.CONTACT_NAME LIKE CONCAT(CONCAT('%', #{contactName}), '%')
+			AND sup.CONTACT_NAME LIKE CONCAT(CONCAT('%', #{contactName}), '%')
 		</if>
 		<if test="businessType != null and businessType != ''">
 			AND BUSINESS_TYPE = #{businessType}
