@@ -854,13 +854,13 @@ function myReSet(){
 				 <div class="form-group">
 					<label> 发布时间：</label>
 					<input class="form-group"
-				name="publishStartDate" type="text" id="publishStartDate" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})" value="${publishStartDate }" />-<input class="w80 mt1" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+				name="publishStartDate" type="text" id="publishStartDate" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})" value="${publishStartDate }" class="form-control" />-<input class="form-control" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"
 				name="publishEndDate" type="text" id="publishEndDate" value="${publishEndDate }" />
 				</div>
-			<span class="ml5">
+			<div class="tc mt10">
 				<button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
 				<button type="button" onclick="myReSet()" class="btn btn-u-light-grey">重置</button>
-			</span>
+			</div>
 		</div>
 		<div class="report_list_box">
             <div class="col-md-12 col-sm-12 col-xs-12 report_list_title">
