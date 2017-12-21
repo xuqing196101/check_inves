@@ -434,12 +434,27 @@
           </div>
         </div>
         
-        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <%-- <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
           <div class="row">
             <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">专家类别：</div>
             <div class="col-xs-8 f0 lh0">
               <input id="expertType" class="w100p h32 f14 mb0" type="text" name="expertType" readonly value="${expertType}" onclick="showExpertType();">
               <input type="hidden" name="expertTypeIds"  id="expertTypeIds" value="${expertTypeIds}">
+            </div>
+          </div>
+        </div> --%>
+        
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">专家类别：</div>
+            <div class="col-xs-8 f0 lh0">
+              <select name="expertTypeIds" id="expertTypeIds" class="w100p h32 f14">
+                <option selected="selected"  value=''>全部</option>
+                <c:forEach items="${expTypeList}" var="exp">
+                  <option <c:if test="${expert.expertsTypeId == exp.id}">selected</c:if> value="${exp.id}">${exp.name}</option>
+                </c:forEach>
+              </select>
             </div>
           </div>
         </div>

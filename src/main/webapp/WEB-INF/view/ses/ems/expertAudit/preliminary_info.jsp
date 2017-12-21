@@ -53,6 +53,7 @@
         var status = $(":radio:checked").val();
         var expertId = "${expertId}";
         var opinion = '${auditOpinion.opinion}';
+        var expertStatus = $("#status").val();
         var itemType;
         var item
         if(status == 15){
@@ -91,7 +92,7 @@
                 }
              }
           });
-        }else if(typeof(status) == "undefined"){
+        }else if(typeof(status) == "undefined" && expertStatus !=10){
         	$.ajax({
                 url: "${pageContext.request.contextPath}/expertAudit/findCategoryCount.do",
                 data: {
