@@ -1551,6 +1551,7 @@
 		<!--LEFT JOIN T_SES_BMS_AREA T4 ON AREA.PARENT_ID = T4.ID -->
 		LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON sup.PROCUREMENT_DEP_ID = dep.ID
 		LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
+		LEFT JOIN T_SES_SMS_SUPPLIER_MAT_ENG matEng ON matEng.SUPPLIER_ID = sup.ID
 		WHERE
 		sup.IS_DELETED = 0
 		<if test="itemType != null and itemType != ''">
@@ -1616,6 +1617,10 @@
 		<if test="address != null and address != ''">
 			AND AREA.PARENT_ID = #{address}
 		</if>
+		<if test="businessScope != null and businessScope != ''">
+			AND INSTR(matEng.BUSINESS_SCOPE, #{businessScope}) > 0 
+			AND INSTR(subQ.typeId, 'PROJECT') > 0
+		</if>
 		<if test="loginName != null and loginName != ''">
 			AND LOGIN_NAME LIKE CONCAT(CONCAT('%', #{loginName}), '%')
 		</if>
@@ -1677,6 +1682,7 @@
 		LEFT JOIN T_SES_BMS_AREA AREA ON sup.ADDRESS = AREA.ID
 		LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON sup.PROCUREMENT_DEP_ID = dep.ID
 		LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
+		LEFT JOIN T_SES_SMS_SUPPLIER_MAT_ENG matEng ON matEng.SUPPLIER_ID = sup.ID
 		WHERE
 		sup.IS_DELETED = 0
 		AND sup.ID NOT IN(
@@ -1746,6 +1752,10 @@
 		</if>
 		<if test="address != null and address != ''">
 			AND AREA.PARENT_ID = #{address}
+		</if>
+		<if test="businessScope != null and businessScope != ''">
+			AND INSTR(matEng.BUSINESS_SCOPE, #{businessScope}) > 0 
+			AND INSTR(subQ.typeId, 'PROJECT') > 0
 		</if>
 		<if test="loginName != null and loginName != ''">
 			AND LOGIN_NAME LIKE CONCAT(CONCAT('%', #{loginName}), '%')

@@ -531,6 +531,19 @@
               </div>
             </div>
           </div>
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+		        <div class="row">
+		          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">工程业务地域：</div>
+		          <div class="col-xs-8 f0 lh0">
+								<select name="businessScope" id="businessScope" class="w100p h32 f14">
+									<option value=''>全部</option>
+									<c:forEach items="${privnce}" var="list">
+											<option value="${list.id}" <c:if test="${supplier.businessScope eq list.id}">selected</c:if>>${list.name }</option>
+									</c:forEach>
+								</select>
+		          </div>
+		        </div>
+		      </div>
         </div>
         </div>
         
