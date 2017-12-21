@@ -380,6 +380,7 @@
       <form id="exportExcelCond">
           <input type="hidden" name="supplierName" value="${supplier.supplierName}"/>
           <input type="hidden" name="businessNature" value="${supplier.businessNature}"/>
+          <input type="hidden" name="armyBusinessName" value="${supplier.armyBusinessName}"/>
           <input type="hidden" name="status" value="${supplier.status}"/>
           <input type="hidden" name="isProvisional" value="${supplier.isProvisional}"/>
           <input type="hidden" name="creditCode" value="${supplier.creditCode}"/>
@@ -414,9 +415,9 @@
           
           <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
             <div class="row">
-              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">联系人：</div>
+              <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">军队联系人：</div>
               <div class="col-xs-8 f0 lh0">
-                <input class="w100p h32 f14 mb0" id="contactName" name="contactName" value="${supplier.contactName }" type="text">
+                <input class="w100p h32 f14 mb0" id="contactName" name="armyBusinessName" value="${supplier.armyBusinessName }" type="text">
               </div>
             </div>
           </div>

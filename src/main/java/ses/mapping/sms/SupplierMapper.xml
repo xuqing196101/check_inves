@@ -1586,6 +1586,9 @@
 		<if test="contactName != null and contactName != ''">
 			AND sup.CONTACT_NAME LIKE CONCAT(CONCAT('%', #{contactName}), '%')
 		</if>
+		<if test="armyBusinessName != null and armyBusinessName != ''">
+			AND sup.ARMY_BUSINESS_NAME LIKE CONCAT(CONCAT('%', #{armyBusinessName}), '%')
+		</if>
 		<if test="businessType != null and businessType != ''">
 			AND BUSINESS_TYPE = #{businessType}
 		</if>
@@ -1725,6 +1728,9 @@
 		</if>
 		<if test="contactName != null and contactName != ''">
 			AND sup.CONTACT_NAME LIKE CONCAT(CONCAT('%', #{contactName}), '%')
+		</if>
+		<if test="armyBusinessName != null and armyBusinessName != ''">
+			AND sup.ARMY_BUSINESS_NAME LIKE CONCAT(CONCAT('%', #{armyBusinessName}), '%')
 		</if>
 		<if test="businessType != null and businessType != ''">
 			AND BUSINESS_TYPE = #{businessType}
