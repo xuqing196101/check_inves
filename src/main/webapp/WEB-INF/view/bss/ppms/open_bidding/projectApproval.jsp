@@ -22,12 +22,26 @@
             $(this).hide();
           });
          }
+         
+         var isCharges = "${project.confirmFile}";
+	        if(isCharges){
+	          if(isCharges == 1  || isCharges == 3 || isCharges == 4){
+	            var isCharge = $("input[name='fileName']");
+	            isCharge[0].checked=true;
+	            $(isCharge).attr("disabled","disabled");
+	          } else if (isCharges == 5){
+	            var isCharge = $("input[name='fileName']");
+	            isCharge[1].checked=true;
+	            $(isCharge).attr("disabled","disabled");
+	          }
+	        }
 		 });
 		 function bidRegister(id,type) {
        window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
      }
 		      
-		 function saveFile(flag) {
+		 function saveFile() {
+		 		var flag = $("input[name='fileName']:checked").val();
 		 		var type = "${project.confirmFile}";
 		 		if(type){
 		 			var text = $("#f_disFileId").find("a");
@@ -111,13 +125,19 @@
 			</c:if>
 			<div class="clear"></div>
 		</div>
-		<c:if test="${project.confirmFile eq null or project.confirmFile == 0 or project.confirmFile == 2}">
-			<div class="col-md-12 col-sm-12 col-xs-12 m_boxS1 mt20">
-			<p><span class="star_red">采购文件是否需要提交至管理部门报批</span></p>
-	        <button class="btn btn-windows save" type="button" onclick="saveFile('1')"">报批</button>
-	        <button class="btn" type="button" onclick="saveFile('5')">不报批</button>
-	     </div>
-      </c:if>
+		
+		<div class="col-md-12 col-sm-12 col-xs-12 m_boxS1 mt20">
+			<div class="clear">
+				<input type="radio" name="fileName" value="1" id="fileName_1"><label for="fileName_1" class="m_inline hand ml5">报批</label>
+				<input type="radio" name="fileName" value="5" id="fileName_2" class="ml10"><label for="fileName_2" class="m_inline hand ml5">不报批</label>
+			</div>
+			<c:if test="${project.confirmFile eq null or project.confirmFile == 0 or project.confirmFile == 2}">
+			<p>采购文件是否需要提交至管理部门报批</p>
+			 <button class="btn btn-windows save" type="button" onclick="saveFile()"">完成</button>
+       <!-- <button class="btn btn-windows save" type="button" onclick="saveFile('1')"">报批</button>
+       <button class="btn" type="button" onclick="saveFile('5')">不报批</button> -->
+       </c:if>
+     </div>
 	</body>
 
 </html>
