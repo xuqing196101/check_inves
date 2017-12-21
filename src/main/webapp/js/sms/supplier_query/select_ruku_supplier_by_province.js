@@ -47,7 +47,7 @@ function showSupplierType() {
     $.ajax({
         type: "GET",
         async: false,
-        url: globalPath + "/find_supplier_type.do?supplierId=''",
+        url: globalPath + "/supplierQuery/find_supplier_type.do?supplierId=''",
         dataType: "json",
         success: function (zNodes) {
             for (var i = 0; i < zNodes.length; i++) {
@@ -90,9 +90,9 @@ function showCategory() {
         async: {
             autoParam: ["id"],
             enable: true,
-            url: "${pageContext.request.contextPath}/category/createtree.do",
+            url: globalPath + "/category/createtree.do",
             otherParam: {
-                categoryIds: "${categoryIds}",
+                categoryIds: $("#categoryIds").val(),
             },
             dataType: "json",
             type: "post",
@@ -251,6 +251,6 @@ function chongzhi() {
 }
 
 function fanhui() {
-    window.location.href = globalPath + "/highmaps.html?judge=5";
+    window.location.href = globalPath + "/supplierQuery/highmaps.html?judge=5";
 }
 

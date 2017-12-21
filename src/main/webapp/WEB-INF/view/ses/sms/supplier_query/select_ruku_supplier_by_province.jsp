@@ -139,6 +139,7 @@
         <input type="hidden" name="address" value="${address }">
         </c:if>
         <input type="hidden" name="sign" value="${sign }">
+        <input type="hidden" id="categoryIds" value="${categoryIds }">
         <div class="m_row_5">
         <div class="row">
           <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
