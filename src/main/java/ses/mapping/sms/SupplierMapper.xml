@@ -1694,7 +1694,7 @@
 		<if test="itemType != null and itemType != ''">
 			<foreach item="itemType" index="index" collection="itemType"
 				open="and(" separator="or" close=")">
-				T1.typeId LIKE CONCAT(CONCAT('%', #{itemType}), '%')
+				subQ.typeId LIKE CONCAT(CONCAT('%', #{itemType}), '%')
 			</foreach>
 		</if>
 		<if test="supplierName != null and supplierName != ''">
