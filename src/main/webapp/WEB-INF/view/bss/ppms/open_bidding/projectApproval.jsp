@@ -95,45 +95,25 @@
 			</ul>
 		</div>
 		<div class="clear"></div>
-		<table class="mt20">
+		<div class="m_boxS1 mt20">
 			<c:if test="${project.confirmFile eq null or project.confirmFile == 0 or project.confirmFile == 2}">
-				<tr>
-					<td> <span class="star_red">*</span>编报说明：</td>
-					<td class="w100"><button class="btn btn-windows input m0 w50p" type="button" onclick="bidRegister('${project.id}','16')">模板下载</button></td>
-					<td class="w200">
-						<u:upload id="c"  buttonName="上传彩色扫描件" exts="jpg,jpeg,gif,png,bmp,pdf" multiple="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeApproval}" auto="true" />
-						<u:show showId="f"  businessId="${project.id}" sysKey="${sysKey}" typeId="${typeApproval}" />
-					</td>
-				</tr>
-				<%-- <tr class="h50">
-					<td><span class="star_red">*</span>审批单：</td>
-					<td ><button class="btn btn-windows input m0 w50p" type="button" onclick="bidRegister('${project.id}','17')"> 模板下载</button></td>
-					<td class="w200">
-						<u:upload id="a" buttonName="上传彩色扫描件" exts="jpg,jpeg,gif,png,bmp,pdf" multiple="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-						<u:show showId="b"  businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
-					</td>
-				</tr> --%>
+			<div class="mb10"><span class="star_red">*</span>编报说明：</div>
+			<button class="btn btn-windows input h28 mr10 mb0 fl w50p" type="button" onclick="bidRegister('${project.id}','16')">模板下载</button>
+			<div class="m_uploadFiles fl">
+				<u:upload id="c" buttonName="上传彩色扫描件" exts="jpg,jpeg,gif,png,bmp,pdf" multiple="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeApproval}" auto="true" />
+				<u:show showId="f" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeApproval}" />
+				<div class="clear"></div>
+			</div>
 			</c:if>
 			<c:if test="${project.confirmFile == 1 or project.confirmFile == 3 or project.confirmFile == 4 or project.confirmFile == 5 }">
-				<tr>
-				    
-					<td>编报说明：</td>
-					<td class="w200">
-						<u:show showId="f" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeApproval}" />
-					</td>
-				</tr>
-				<%-- <tr class="h50">
-				    
-					<td>审批单：</td>
-					<td class="w200">
-						<u:show showId="b"  delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
-					</td>
-				</tr> --%>
+			<p><span class="star_red">*</span>编报说明：</p>
+			<u:show showId="f" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeApproval}" />
 			</c:if>
-		</table>
+			<div class="clear"></div>
+		</div>
 		<c:if test="${project.confirmFile eq null or project.confirmFile == 0 or project.confirmFile == 2}">
-			<div class="col-md-12 tc col-sm-12 col-xs-12 mt20">
-					<p>采购文件是否需要提交至管理部门报批</p>
+			<div class="col-md-12 col-sm-12 col-xs-12 m_boxS1 mt20">
+			<p><span class="star_red">采购文件是否需要提交至管理部门报批</span></p>
 	        <button class="btn btn-windows save" type="button" onclick="saveFile('1')"">报批</button>
 	        <button class="btn" type="button" onclick="saveFile('5')">不报批</button>
 	     </div>
