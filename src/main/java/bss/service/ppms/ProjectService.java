@@ -309,4 +309,6 @@ public interface ProjectService {
      */
     List<Project> supervisionProjectAll(HashMap<String, Object> map);
     
+    List<Project> selectByPurchaseDep(HashMap<String, Object> map);
+    
 }

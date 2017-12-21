@@ -160,19 +160,24 @@ public class TaskAdjustController extends BaseController{
                 page = 1;
             }
             HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
-			List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
-			if (superviseOrgId != null && !superviseOrgId.isEmpty()) {
-				map1.put("userId", superviseOrgId);
-				map1.put("page", page.toString());
-	            PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-	            List<Task> list = taskService.likeByName(map1);
-	            model.addAttribute("info", new PageInfo<Task>(list));
-	            
-	            HashMap<String, Object> map = new HashMap<>();
-	            map.put("typeName", "2");
-	            List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map);
-	            model.addAttribute("list2",orgnizations);
+			Integer dataAccess = (Integer) dataMap.get("dataAccess");
+			if (dataAccess == 2) {
+				List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
+				if (superviseOrgId != null && !superviseOrgId.isEmpty()) {
+					map1.put("userId", superviseOrgId);
+				}
+			} else if (dataAccess == 3) {
+				map1.put("userIds", user.getId());
 			}
+			map1.put("page", page.toString());
+            PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+            List<Task> list = taskService.likeByName(map1);
+            model.addAttribute("info", new PageInfo<Task>(list));
+            
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("typeName", "2");
+            List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map);
+            model.addAttribute("list2",orgnizations);
 	    }
 	    
 	    //只有采购机构才能操作

@@ -2,7 +2,6 @@ package bss.controller.ppms;
 
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -33,7 +32,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
-import ses.service.bms.RoleServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.AuthorityUtil;
 import ses.util.DictionaryDataUtil;
@@ -88,8 +86,6 @@ public class TackController extends BaseController{
 	private AdvancedDetailService detailService;
 	@Autowired
 	private AdvancedProjectService advancedProjectService;
-	@Autowired
-	private RoleServiceI roleService;
 	
     @Autowired
     private ProjectService projectService;

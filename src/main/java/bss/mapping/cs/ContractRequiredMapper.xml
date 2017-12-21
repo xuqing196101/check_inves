@@ -279,7 +279,4 @@
 					core.CONTRACT_ID
 			)
 	</select>
-	
-	<select id="purchaseContractSupervision" parameterType="java.lang.String" resultType="java.lang.Integer">
-	</select>
 </mapper>

@@ -148,6 +148,9 @@
 				#{item}
 			</foreach>                         
      </if> 
+     <if test="userIds != null">
+       and  t.USER_ID = #{userIds}
+     </if>
      ORDER BY GIVE_TIME DESC, STATUS ASC
   </select>
   
