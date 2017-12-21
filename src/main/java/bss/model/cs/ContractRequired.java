@@ -36,6 +36,9 @@ public class ContractRequired {
     private Integer isDeleted;
 
     private String detailId;
+    
+    private Integer transportFees;
+    
     public String getPurchaseCount_string() {
 		return purchaseCount_string;
 	}
@@ -172,5 +175,13 @@ public class ContractRequired {
 	public void setDetailId(String detailId) {
 		this.detailId = detailId;
 	}
+
+  public Integer getTransportFees() {
+    return transportFees;
+  }
+
+  public void setTransportFees(Integer transportFees) {
+    this.transportFees = transportFees;
+  }
 	
 }

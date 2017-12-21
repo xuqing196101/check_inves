@@ -1873,7 +1873,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		return countAuditRecords(audit, SupplierConstants.AUDIT_RETURN_STATUS);
 	}
 	@Override
-	public SupplierCateTree countEngCategoyrId(SupplierCateTree cateTree, String supplierId) {
+	public SupplierCateTree countEngCategoryId(SupplierCateTree cateTree, String supplierId) {
 		long product=0,sales=0,temp=0;
 		String ids="";
 		/*SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
@@ -1910,7 +1910,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 							}
 						/*}*/
 						for(SupplierAptitute apt: apts){
-							if(apt.getCertCode().equals(supplierItem.getCertCode()) && apt.getCertType().equals(supplierItem.getQualificationType())){
+							if((apt.getCertCode()+"").equals(supplierItem.getCertCode()) && (apt.getCertType()+"").equals(supplierItem.getQualificationType())){
 								// 工程资质是否修改
 								cateTree.setIsEngAptitudeModified(isEngAptitudeModified(supplierItem, apt) ? (byte)1 : (byte)0);
 								break;
@@ -2106,7 +2106,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		return cateTree;
 	}
 	@Override
-	public SupplierCateTree countCategoyrId(SupplierCateTree cateTree, String supplierId,String supplierType) {
+	public SupplierCateTree countCategoryId(SupplierCateTree cateTree, String supplierId,String supplierType) {
 		//根据第三节目录节点 id(也就是中级目录 id) 品目id查询所要上传的资质文件
       /*  if(StringUtils.isEmpty(cateTree.getSecondNodeID())){
           return cateTree;

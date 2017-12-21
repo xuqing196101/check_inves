@@ -1,5 +1,7 @@
 package ses.model.sms;
 
+import ses.model.bms.ContinentNationRelExt;
+
 public class SupplierBranch {
     private String id;
 
@@ -12,10 +14,10 @@ public class SupplierBranch {
     private String organizationName;
 
     private String businessSope;
-
-    private String defaultValue;
     
     private String countryName;  //境外分支中的国家
+    
+    private ContinentNationRelExt cnre;// 洲-国家关系
     
     public String getId() {
         return id;
@@ -65,14 +67,6 @@ public class SupplierBranch {
         this.businessSope = businessSope == null ? null : businessSope.trim();
     }
 
-	public String getDefaultValue() {
-		return defaultValue;
-	}
-
-	public void setDefaultValue(String defaultValue) {
-		this.defaultValue = defaultValue;
-	}
-
 	public String getCountryName() {
 		return countryName;
 	}
@@ -80,7 +74,13 @@ public class SupplierBranch {
 	public void setCountryName(String countryName) {
 		this.countryName = countryName;
 	}
-    
-    
+
+	public ContinentNationRelExt getCnre() {
+		return cnre;
+	}
+
+	public void setCnre(ContinentNationRelExt cnre) {
+		this.cnre = cnre;
+	}
     
 }

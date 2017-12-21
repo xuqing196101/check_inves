@@ -86,6 +86,7 @@
     <include refid="Base_Column_List" />
     FROM T_BSS_PPMS_PACKAGE_ADVICE pa
     <include refid="Example_Where_Clause"/>
+    ORDER BY PA.CREATED_AT ASC
   </select>
   
   <!-- 3.插入数据 -->
@@ -290,6 +291,26 @@
   </select>
   <select id="selectByStatus" parameterType="java.lang.String" resultMap="PackageAdviceResult">
   	select status from T_BSS_PPMS_PACKAGE_ADVICE where code=#{code} group by status
+  </select>
+  
+  <select id="selectByUserId" parameterType="java.util.Map" resultMap="PackageAdviceResult">
+  	select
+  	  AD.ID, AD.PROJECT_ID, AD.PACKAGE_ID, AD.CREATED_AT, AD.TYPE, AD.FLOW_DEFINE_ID, AD.ADVICE, AD.ADUIT_TIME,
+  	  (SELECT REL_NAME FROM T_SES_BMS_USER WHERE ID = AD.USER_ID) AS USER_ID,
+  	  AD.STATUS, AD.CODE, AD.REASON, AD.IS_DELETED,AD.PROCESS_STATUS,
+  	  (SELECT REL_NAME FROM T_SES_BMS_USER WHERE ID = AD.PROPOSER) AS PROPOSER
+    from T_BSS_PPMS_PACKAGE_ADVICE AD
+     where 1=1
+     <if test="projectId != null">
+        AND AD.PROJECT_ID = #{projectId} 
+      </if>
+      <if test="packageId != null">
+        AND AD.PACKAGE_ID = #{packageId} 
+      </if>
+      <if test="type != null">
+        AND AD.TYPE = #{type} 
+      </if>
+      ORDER BY AD.CREATED_AT DESC
   </select>
   
 </mapper>

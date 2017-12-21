@@ -110,6 +110,8 @@ public class ProjectDetail {
     
     private String progressBar;
     
+    private String isParent;
+    
 	public List<theSubject> getSubjectList() {
 		return subjectList;
 	}
@@ -423,8 +425,16 @@ public class ProjectDetail {
     public void setProgressBar(String progressBar) {
         this.progressBar = progressBar;
     }
+    
+    public String getIsParent() {
+		return isParent;
+	}
 
-    @Override
+	public void setIsParent(String isParent) {
+		this.isParent = isParent;
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

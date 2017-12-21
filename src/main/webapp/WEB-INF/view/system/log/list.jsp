@@ -39,39 +39,60 @@
 	          <h2 id="titleId"></h2>
 	        </div>
 		      <h2 class="search_detail">
-				<ul class="demand_list">
-		    	  <li>
-			    	<label class="fl">操作人：</label>
-			    	<span>
-			    	  <input type="text" id="operPerson"  name="name" />
-			    	</span>
-			      </li>
-			       <li>
-			    	 <label class="fl">操作：</label>
-			    	 <span>
-			    	   <input type="text" id="desc"  name="desc" />
-			    	 </span>
-			       </li>
-			       <li>
-			    	 <label class="fl">请求IP：</label>
-			    	 <span>
-			    	   <input type="text" id="ip"  name="ip" />
-			    	 </span>
-			       </li>
-			       <li>
-			    	 <label class="fl">操作时间：</label>
-			    	   <input type="text" id="startTime" class="Wdate w180"  name="startTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'endTime\')}'});" />
-			    	   <span class="f12">至 </span>
-			    	   <input type="text" id="endTime" class="Wdate w180"  name="endTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'startTime\')}'});" />
-				    </li>
-				    
-				    <div class="col-md-12 col-sm-12 col-xs-12 tc">
-				      <button type="button" onclick="search();" class="btn  mt1">查询</button>
-			    	  <button type="button" onclick="resetQuery()" class="btn mt1">重置</button>  
-				    </div>
-				  </ul>
-				  <div class="clear"></div>
-			  </h2>
+          <div class="m_row_5">
+          <div class="row">
+            <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+              <div class="row">
+                <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">操作人：</div>
+                <div class="col-xs-8 f0 lh0">
+                  <input type="text" id="operPerson" name="name" class="w100p h32 f14 mb0">
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+              <div class="row">
+                <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">操作：</div>
+                <div class="col-xs-8 f0 lh0">
+                  <input type="text" id="desc" name="desc" class="w100p h32 f14 mb0">
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+              <div class="row">
+                <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">请求IP：</div>
+                <div class="col-xs-8 f0 lh0">
+                  <input type="text" id="ip" name="ip" class="w100p h32 f14 mb0">
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+              <div class="row">
+                <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">开始操作时间：</div>
+                <div class="col-xs-8 f0 lh0">
+                  <input type="text" id="startTime" class="Wdate w100p h32 f14 mb0" name="startTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'endTime\')}'});">
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+              <div class="row">
+                <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">结束操作时间：</div>
+                <div class="col-xs-8 f0 lh0">
+                  <input type="text" id="endTime" class="Wdate w100p h32 f14 mb0" name="endTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'startTime\')}'});">
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+          
+          <div class="tc">
+            <button type="button" onclick="search();" class="btn mb0">查询</button>
+            <button type="button" onclick="resetQuery()" class="btn mb0 mr0">重置</button>
+          </div>
+			    </h2>
 	      
 			  <div class="content table_box">
 		        <table class="table table-bordered table-condensed table-hover table-striped" id="dataTable">

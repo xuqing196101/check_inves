@@ -168,18 +168,30 @@
 		<h2>热线电话列表</h2>
 	 </div>
     <div class="search_detail">
-    	<form action="${pageContext.request.contextPath }/serviceHotline/list.html" method="post" class="mb0" id = "form1">
-    	<ul class="demand_list">
-    		<li>
-	    		<label class="fl">服务内容：</label>
-					<input type="text" id="" class="" name = "servicecontent" value="${serviceHotline.servicecontent }"/>
-	      </li>
-	      <input class="btn fl mt1" type="submit" value="查询" /> 
-	      <input class="btn fl mt1" type="button" onclick="resetQuery()" value="重置"/>	
-    	</ul>
-    	  <div class="clear"></div>
-       </form>
-     </div>
+  	<form action="${pageContext.request.contextPath }/serviceHotline/list.html" method="post" class="mb0" id="form1">
+    <div class="m_row_5">
+    <div class="row">
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">服务内容：</div>
+          <div class="col-xs-8 f0 lh0">
+            <input type="text" id="" class="w100p h32 f14 mb0" name="servicecontent" value="${serviceHotline.servicecontent }">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-12 f0">
+            <input class="btn mb0 h32" type="submit" value="查询"> 
+            <input class="btn mb0 mr0 h32" type="button" onclick="resetQuery()" value="重置">
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </form>
+    </div>
      
 <!-- 表格开始 -->
 	<div class="col-md-12 pl20 mt10">

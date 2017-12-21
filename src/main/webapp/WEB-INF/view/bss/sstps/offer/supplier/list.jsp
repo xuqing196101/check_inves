@@ -114,25 +114,47 @@
     </div>
 
     <div class="search_detail">
-        <form id="form1" action="${pageContext.request.contextPath }/offer/search.html" method="post" class="mb0">
-            <ul class="demand_list">
-                <li class="fl">
-                    <label class="fl">合同名称：</label><span><input type="text" name="name" value="${name }"
-                                                                class=""/></span>
-                </li>
-                <li class="fl">
-                    <label class="fl">合同编号：</label><span><input type="text" name="code" value="${code }"
-                                                                class=""/></span>
-                </li>
-                <li class="fl">
-                    <label class="fl">供应商名称：</label><span><input type="text" name="supplierName"
-                                                                 value="${supplierName }" class=""/></span>
-                </li>
-                <button type="submit" class="btn fl">查询</button>
-                <button type="button" class="btn fl" onclick="resetQuery()">重置</button>
-            </ul>
-            <div class="clear"></div>
-        </form>
+    <form id="form1" action="${pageContext.request.contextPath }/offer/search.html" method="post" class="mb0">
+    <div class="m_row_5">
+    <div class="row">
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">合同名称：</div>
+          <div class="col-xs-8 f0 lh0">
+            <input type="text" name="name" value="${name }" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">合同编号：</div>
+          <div class="col-xs-8 f0 lh0">
+            <input type="text" name="code" value="${code }" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">供应商名称：</div>
+          <div class="col-xs-8 f0 lh0">
+            <input type="text" name="supplierName" value="${supplierName }" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-12 f0">
+            <button type="submit" class="btn mb0 h32">查询</button>
+            <button type="button" class="btn mb0 mr0 h32" onclick="resetQuery()">重置</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </form>
     </div>
 
     <div class="col-md-12 pl20 mt10">

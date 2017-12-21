@@ -130,4 +130,16 @@ public interface SupplierCheckPassMapper {
      * @return
      */
     BigDecimal selectPurContractTotalMoney();
+    
+    /**
+     * 
+    * @Title: selectBySupplierName
+    * @author FengTian 
+    * @date 2017-12-14 下午7:08:37  
+    * @Description: 根据 packageId查询中标供应商用逗号隔开
+    * @param @param packageId
+    * @param @return      
+    * @return String
+     */
+    String selectBySupplierName(String packageId);
 }

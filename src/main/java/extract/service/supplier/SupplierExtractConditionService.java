@@ -9,6 +9,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierItemLevel;
+import extract.model.supplier.Continent;
 import extract.model.supplier.Qua;
 import extract.model.supplier.SupplierConType;
 import extract.model.supplier.SupplierExtractCondition;
@@ -198,6 +199,7 @@ public interface SupplierExtractConditionService {
    */
   List<Supplier> testVoiceExtract(String lastRow);
 
+  List<Continent> selectBranchTree(String cid, String cname, String[] alreadyId);
 }
 
 

@@ -71,21 +71,30 @@
 
       <!-- 查询 -->
       <div class="search_detail">
-        <form id="form1" action="${pageContext.request.contextPath}/pqinfo/getAllSupplierPqInfo.html" method="post" enctype="multipart/form-data" class="mb0">
-          <ul class="demand_list">
-            <li class="fl">
-              <label class="fl">供应商名称：</label>
-              <span>
-                <input type="text" name="supplierName" id="supplierName" class="mb0" value="${supplierName}"/>
-              </span>
-              <input type="hidden" name="page" id="page">
-            </li>
-            <button class="btn fl mt1" type="submit">查询</button>
-            <button type="reset" class="btn fl mt1" onclick="clearSearch();">重置</button>
-          </ul>
-
-          <div class="clear"></div>
-        </form>
+      <form id="form1" action="${pageContext.request.contextPath}/pqinfo/getAllSupplierPqInfo.html" method="post" enctype="multipart/form-data" class="mb0">
+      <input type="hidden" name="page" id="page">
+      <div class="m_row_5">
+      <div class="row">
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">供应商名称：</div>
+            <div class="col-xs-8 f0 lh0">
+              <input type="text" name="supplierName" id="supplierName" class="w100p h32 f14 mb0" value="${supplierName}">
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+          <div class="row">
+            <div class="col-xs-12 f0">
+              <button class="btn mb0 h32" type="submit">查询</button>
+              <button type="reset" class="btn mb0 mr0 h32" onclick="clearSearch();">重置</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      </form>
       </div>
 
       <!-- 表格开始-->

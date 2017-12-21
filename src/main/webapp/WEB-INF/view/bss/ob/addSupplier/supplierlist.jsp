@@ -582,44 +582,66 @@ var authType='${authType}';
 	<div class="headline-v2">
 		<h2>质检供应商列表</h2>
 	 </div>
-    <div class="search_detail">
-       <form action="${pageContext.request.contextPath}/obSupplier/supplier.html" method="post" class="mb0" id = "form1">
-    	<input id = "prodid" name = "prodid" value = "${prodid }" style="display: none;">
-    	<ul class="demand_list">
-    	<li>
-	    	<label class="fl">供应商名称：</label>
-			<input type="text" id="supplierName" class="" name = "supplierName" value="${supplierName }"/>
-	     </li>
-	     <li>
-	    	<label class="fl">产品目录：</label>
-	    	 <div class="fl pr">
-        		<input class="input_group" id="citySel4" type="text" value="${catName }" onclick=" showMenu(); return false;" readonly="readonly" >
-        		<input id="categorieId4" name="smallPointsId" value="${smallPointsId }" type="hidden">
-        		<!-- 目录框 -->
-				<div id="menuContent" class="menuContent col-md-12 col-xs-12 col-sm-12 p0 tree_drop" style="z-index:10000;position:absolute;top:30px;left:0px" hidden="hidden">
-					<div class="col-md-12 col-xs-8 col-sm-8 p0">
-			    		<input type="text" id="search" class="input_group">
-			    		<img alt="" src="${pageContext.request.contextPath }/public/backend/images/view.png" style="position: absolute; right: 10px;top: 5px;" onclick="searchs()">
+		<div class="search_detail">
+		<form action="${pageContext.request.contextPath}/obSupplier/supplier.html" method="post" class="mb0" id = "form1">
+  	<input id = "prodid" name = "prodid" value = "${prodid }" style="display: none;">
+		<div class="m_row_5">
+    <div class="row">
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">供应商名称：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input type="text" id="supplierName" class="w100p h32 f14 mb0" name = "supplierName" value="${supplierName }">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">产品目录：</div>
+          <div class="col-xs-8 f0 lh0">
+						<div class="pr">
+	         		<input class="input_group w100p h32 f14 mb0" id="citySel4" type="text" value="${catName }" onclick=" showMenu(); return false;" readonly="readonly">
+	         		<input id="categorieId4" name="smallPointsId" value="${smallPointsId }" type="hidden">
+	         		<!-- 目录框 -->
+			 				<div id="menuContent" class="menuContent tree_drop" style="z-index: 1; position: absolute; top: 30px; left: 0px; width: 100%" hidden="hidden">
+			 					<div class="clear">
+		 			    		<input type="text" id="search" class="input_group w100p mb0">
+		 			    		<img alt="" src="${pageContext.request.contextPath }/public/backend/images/view.png" style="position: absolute; right: 10px;top: 5px;" onclick="searchs()">
+			 					</div>
+			 					<ul id="treeDemo" class="ztree slect_option clear m0" style="max-height: 340px;"></ul>
+			 				</div>
+						</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">供应商证书状态：</div>
+          <div class="col-xs-8 f0 lh0">
+						<select class="w100p h32 f14" name="status" id="supplierStatus">
+							<option value="0" <c:if test="${'0'==status}">selected="selected"</c:if>>-请选择-</option>
+							<option value="1" <c:if test="${'1'==status}">selected="selected"</c:if>>已过期</option>
+							<option value="2" <c:if test="${'2'==status}">selected="selected"</c:if>>未过期</option>
+							<option value="3" <c:if test="${'3'==status}">selected="selected"</c:if>>已暂停</option>
+						</select>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-12 f0">
+						<button type="submit" class="btn mb0 h32">查询</button>
+						<button type="reset" class="btn mb0 mr0 h32" onclick="resetQuery()">重置</button>
 					</div>
-					<ul id="treeDemo" class="ztree slect_option clear" style="max-height: 340px;"></ul>
-				</div>
-			</div>	
-	     </li>
-		<li>
-			<label class="fl">供应商证书状态：</label>
-			<select class="w178" name = "status" id = "supplierStatus">
-				<option value="0" <c:if test="${'0'==status}">selected="selected"</c:if>>-请选择-</option>
-	    	    <option value="1" <c:if test="${'1'==status}">selected="selected"</c:if>>已过期</option>
-	    	    <option value="2" <c:if test="${'2'==status}">selected="selected"</c:if>>未过期</option>
-	    	    <option value="3" <c:if test="${'3'==status}">selected="selected"</c:if>>已暂停</option>
-			</select>
-		</li>
-		<button type="submit" class="btn">查询</button>
-		<button type="reset" class="btn" onclick="resetQuery()">重置</button>  	
-		</ul>
-    	  <div class="clear"></div>
-       </form>
-     </div>
+        </div>
+      </div>
+    </div>
+    </div>
+		</form>
+		</div>
      
 <!-- 表格开始 -->
 	<div class="col-md-12 pl20 mt10">

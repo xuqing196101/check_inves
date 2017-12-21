@@ -102,7 +102,7 @@
     	<form action="${pageContext.request.contextPath }/onlineComplaints/complaints.html" method="post" class="mb0" id = "form1">
       <div class="m_row_5">
       <div class="row">
-        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
           <div class="row">
             <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">标题：</div>
             <div class="col-xs-8 f0 lh0">
@@ -111,7 +111,7 @@
           </div>
         </div>
         
-        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
           <div class="row">
             <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">投诉人姓名：</div>
             <div class="col-xs-8 f0 lh0">
@@ -120,7 +120,7 @@
           </div>
         </div>
         
-        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
           <div class="row">
             <div class="col-xs-12 f0">
               <input class="btn h32 mb0" type="submit" value="查询"> 

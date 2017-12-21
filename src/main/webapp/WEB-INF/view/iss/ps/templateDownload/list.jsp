@@ -349,18 +349,31 @@
 				<h2>采购模板列表</h2>
 			</div>
 			
-				<form action="${pageContext.request.contextPath }/templateDownload/getList.html" method="post" id="form">
-					<input type="hidden" name="page" value="" id="page"/>
-					<h2 class="search_detail">
-						<ul class="demand_list">
-				    	<li>
-					    	<label class="fl">采购模板名称：</label><span><input type="text" id="name" name="name" value="${name }"/></span>
-					    </li>
-					    <button type="submit" class="btn fl mt1">查询</button>
-					    <button type="button" onclick="resetResult()" class="btn fl mt1">重置</button>
-				    </ul>
-				    <div class="clear"></div>
-			 	</h2>
+			<form action="${pageContext.request.contextPath }/templateDownload/getList.html" method="post" id="form">
+			<input type="hidden" name="page" value="" id="page"/>
+			<h2 class="search_detail">
+      <div class="m_row_5">
+      <div class="row">
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购模板名称：</div>
+            <div class="col-xs-8 f0 lh0">
+              <input type="text" id="name" name="name" value="${name }" class="w100p h32 f14 mb0">
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+          <div class="row">
+            <div class="col-xs-12 f0">
+              <button type="submit" class="btn mb0 h32">查询</button>
+  				    <button type="button" onclick="resetResult()" class="btn mb0 mr0 h32">重置</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+		 	</h2>
 			</form>	
 			
 			<!-- 按钮开始-->

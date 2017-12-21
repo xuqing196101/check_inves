@@ -36,8 +36,8 @@
             $($(".flow_tips")[i*6-6]).children(":last").prev().removeClass("tip_line col-md-5 col-sm-3 col-xs-4");
           }
         }
-        $(".flow_tips").each(function(i) {
-          /* if(i == 5) {
+       /*  $(".flow_tips").each(function(i) {
+         	if(i == 5) {
             $(this).addClass("round_tips round_l last_r");
             $(this).children(":last").prev().removeClass("tip_line col-md-5 col-sm-3 col-xs-4");
             $(this).children(":last").addClass("col-sm-offset-1 col-md-offset-1  col-md-offset-0");
@@ -61,9 +61,9 @@
           if(i > 17 && i < 24) {
           	alert(i);
             $(this).addClass("last_r");
-          } */
+          }
           
-          /* if((i+1)%6 == 0){
+           if((i+1)%6 == 0){
           	$(this).addClass("round_tips round_l last_r");
             $(this).children(":last").prev().removeClass("tip_line col-md-5 col-sm-3 col-xs-4");
             $(this).children(":last").addClass("col-sm-offset-1 col-md-offset-1  col-md-offset-0");
@@ -72,10 +72,10 @@
           if((i+1)%6 == 1){
           	$(this).children(":last").removeClass("tip_line col-md-5 col-sm-3 col-xs-4");
             $(this).children(":last").prev().removeClass("tip_line col-md-5 col-sm-3 col-xs-4");
-          } */
+          }
           
-        });
-       /*  if(flow > 12 || flow < 6){
+        }); 
+       	if(flow > 12 || flow < 6){
           $(".flow_tips").children(":last").parent().removeClass("last_r");
           $(".flow_tips").children(":last").prev().removeClass("tip_line col-md-5 col-sm-3 col-xs-4");
         } */
@@ -86,6 +86,21 @@
             $(this).parent().parent().parent().addClass("pre_btn");
           }
         });
+        
+        $('.pre_btn').last().addClass("current_btn");
+        $('.pre_btn').last().removeClass("pre_btn");
+        $(".flow_tips").children(":last").hide();
+        
+        var num;
+        $(".flow_tips").each(function(i) {
+        	if($(this).hasClass("current_btn")){
+        		num = i;
+        		$(this).removeClass("round_l");
+        	}
+        	if(i > num){
+        		$(this).addClass("hide");
+        	}
+        });
         $("input[name='flowName']").each(function(){
         	var name = $(this).val();
           name = $.trim(name);
@@ -94,9 +109,6 @@
             $(this).parent().parent().parent().addClass("current_red");
           }
         });
-        $('.pre_btn').last().addClass("current_btn");
-        $('.pre_btn').last().removeClass("pre_btn");
-        $(".flow_tips").children(":last").hide();
       });
       
       function viewDemand() {
@@ -112,14 +124,21 @@
         });
       }
 
-      function viewUpload(id) {
-        var projectId = "${project.id}";
-        var uploadFile = "${uploadFile}";
+      function viewUpload(projectId, id) {
         if(!id){
           layer.msg("未上传附件!");
         }else{
         	var a = "2";
           openViewDIv(projectId, id, a, null, null);
+        }
+      }
+      
+      function packageAdvice(id,code) {
+      	if(!id){
+          layer.msg("未上传附件!");
+        }else{
+        	var a = "2";
+          openViewDIv(code, id, a, null, null);
         }
       }
 
@@ -526,7 +545,7 @@
 									<tr>
 									<c:if test="${obj.name eq '采购项目立项'}">
 										<td>${obj.project.name}</td>
-	                  <td class="tc"><button class="btn" onclick="viewUpload('${obj.uploadFile.id}');" type="button">查看</button></td>
+	                  <td class="tc"><button class="btn" onclick="viewUpload('${obj.project.id}','${obj.uploadFile.typeId}');" type="button">查看</button></td>
 	                  <td>${obj.project.purchaseDepName}</td>
 	                  <td class="tc">
 	                    <c:if test="${obj.project.isRehearse eq '0'}">正常</c:if>
@@ -680,6 +699,26 @@
 		                    </td>
 		                  </tr>
 		                </c:forEach>
+									</c:if>
+									<c:if test="${obj.name eq '中止'}">
+		                  <tr>
+		                    <td>${obj.packageAdvice.advice}</td>
+		                    <td class="tc"><button class="btn" onclick="packageAdvice('${obj.uploadFile.typeId}','${obj.packageAdvice.code}');" type="button">查看</button></td>
+		                    <td class="tc">${obj.packageAdvice.proposer}</td>
+		                    <td class="tc">
+		                      <fmt:formatDate value='${obj.packageAdvice.createdAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+		                    </td>
+		                  </tr>
+									</c:if>
+									<c:if test="${obj.name eq '转竞谈'}">
+		                  <tr>
+		                    <td>${obj.packageAdvice.advice}</td>
+		                    <td class="tc"><button class="btn" onclick="packageAdvice('${obj.uploadFile.typeId}','${obj.packageAdvice.code}');" type="button">查看</button></td>
+		                    <td class="tc">${obj.packageAdvice.proposer}</td>
+		                    <td class="tc">
+		                      <fmt:formatDate value='${obj.packageAdvice.createdAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+		                    </td>
+		                  </tr>
 									</c:if>
               	</tbody>
 							</table>

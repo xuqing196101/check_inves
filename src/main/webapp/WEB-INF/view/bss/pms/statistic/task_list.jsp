@@ -65,9 +65,7 @@
 		</div>
 
 		<h2 class="search_detail">
-			<form id="add_form"
-				action="${pageContext.request.contextPath }/statistic/taskList.html"
-				method="post">
+			<form id="add_form" action="${pageContext.request.contextPath }/statistic/taskList.html" method="post">
 				<input type="hidden" name="page" id="page">
 				<ul class="demand_list">
 					<li><label class="fl"> 任务名称：</label><span> <input
@@ -132,9 +130,9 @@
 						<td class="tc">${obj.orgName }</td>
 						<td class="tc"><fmt:formatDate value="${obj.giveTime }" pattern="yyyy-MM-dd HH:mm:ss"/>  </td>
 						<td>
-						<c:if test="${obj.status=='0'}"> 未受领</c:if>
-		                <c:if test="${obj.status=='1'}">已受领</c:if>
-		                <c:if test="${obj.status=='2'}">已取消</c:if>
+						<c:if test="${obj.status eq '0'}"> 未受领</c:if>
+		                <c:if test="${obj.status eq '1'}">已受领</c:if>
+		                <c:if test="${obj.status eq '2'}">已取消</c:if>
 						</td>
 					</tr>
 				</c:forEach>

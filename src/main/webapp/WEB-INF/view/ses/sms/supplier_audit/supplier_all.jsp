@@ -106,97 +106,108 @@
     </div>
     <!-- 搜索 -->
     <h2 class="search_detail">
-        <form action="${pageContext.request.contextPath}/supplierAudit/supplierAll.html" method="post" id="form1"
-              class="mb0">
-            <input type="hidden" name="page" id="page">
-            <input type="hidden" name="sign" value="${sign}">
-            <ul class="demand_list">
-                <li class="fl">
-                    <label class="fl">供应商名称：</label>
-                    <input class="w220" name="supplierName" type="text" value="${supplierName }">
-                </li>
-                <li class="fl">
-                    <label class="fl">状态：</label>
-                    <select name="status" class="span2" id="status">
-                        <option value="">全部</option>
-                        <c:if test="${sign eq '1' }">
-                            <%-- <option <c:if test="${state == 0 }">selected</c:if> value="0">待审核</option>
-                            <option <c:if test="${state == 9 }">selected</c:if> value="9">退回再审核</option>
-                            <option <c:if test="${state == -1 }">selected</c:if> value="-1">审核中</option>
-                            <option <c:if test="${state == -2 }">selected</c:if> value="-2">预审核结束</option>
-                           	<option <c:if test="${state == -3 }">selected</c:if> value="-3">公示中</option>
-                           	<option <c:if test="${state == 1 }">selected</c:if> value="1">审核通过 </option>
-                           	<option <c:if test="${state == 2 }">selected</c:if> value="2">退回修改</option>
-                           	<option <c:if test="${state == 3 }">selected</c:if> value="3">审核未通过</option> --%>
-                            <c:forEach items="<%=SupplierConstants.STATUSMAP_SHENHE %>" var="item">
-                                <option value="${item.key}" <c:if test="${state == item.key }">selected</c:if>>${item.value}</option>
-                            </c:forEach>
-                            <option value="100"
-                            		<c:if test="${state == 100 }">selected</c:if>><%=SupplierConstants.STATUSMAP_AUDITTEMPORARY.get(1) %>
-                            </option>
-                        </c:if>
-                        <c:if test="${sign eq '2' }">
-                            <%-- <option <c:if test="${state == 4 }">selected</c:if> value="4">待复核</option>
-                        		<option <c:if test="${state == 5 }">selected</c:if> value="5">复核通过</option>
-                        		<option <c:if test="${state == 6 }">selected</c:if> value="6">复核未通过 </option> --%>
-                            <c:forEach items="<%=SupplierConstants.STATUSMAP_FUHE %>" var="item">
-                                <option value="${item.key}" <c:if test="${state == item.key }">selected</c:if>>${item.value}</option>
-                            </c:forEach>
-                            <option value="200"
-                            		<c:if test="${state == 200 }">selected</c:if>><%=SupplierConstants.STATUSMAP_AUDITTEMPORARY.get(2) %>
-                            </option>
-                        </c:if>
-                        <c:if test="${sign eq '3' }">
-                            <%-- <option <c:if test="${state == 5 }">selected</c:if> value="5">待考察</option>
-                            <option <c:if test="${state == 7 }">selected</c:if> value="7">合格</option>
-                           	<option <c:if test="${state == 8 }">selected</c:if> value="8">不合格</option> --%>
-                            <c:forEach items="<%=SupplierConstants.STATUSMAP_KAOCHA %>" var="item">
-                                <option value="${item.key}" <c:if test="${state == item.key }">selected</c:if>>${item.value}</option>
-                            </c:forEach>
-                            <option value="300"
-                            		<c:if test="${state == 300 }">selected</c:if>><%=SupplierConstants.STATUSMAP_AUDITTEMPORARY.get(3) %>
-                            </option>
-                        </c:if>
-                    </select>
-                </li>
-                <li class="fl">
-                    <label class="fl">企业性质：</label>
-                    <select name="businessNature" id="businessNature" class="span2">
-                        <option value="">全部</option>
-                        <c:forEach var="business" varStatus="vs" items="${businessNatureList}">
-                            <option <c:if test="${businessNature eq business.id }">selected</c:if>
-		                            value="${business.id}">${business.name}</option>
-                        </c:forEach>
-                    </select>
-                </li>
-                <li class="fl">
-                    <label class="fl">生产经营地址：</label>
-                    <input class="w220" name="addressName" type="text" value="${addressName}">
-                </li>
-                <li>
-                    <label class="fl">审核时间：</label>
-                    <span>
-												<input id="auditDate" name="auditDate" class="Wdate w220 fl"
-                        		value='<fmt:formatDate value="${auditDate}" pattern="YYYY-MM-dd"/>' type="text"
-														onClick="WdatePicker()"/>
-		            		</span>
-                </li>
-                <%-- <li class="fl">
-                   <label class="fl">企业类型：</label>
-                     <select name="supplierType" class="mb0 mt5">
-                       <option value="">全部</option>
-                       <c:forEach var="type" varStatus="vs" items="${supplierType}">
-                         <option value="${type.name}">${type.name}</option>
-                       </c:forEach>
-                    </select>
-                 </li> --%>
-            </ul>
-            <div class="col-md-12 clear tc mt10">
-                <input type="submit" class="btn" value="查询"/>
-                <button onclick="resetForm();" class="btn" type="button">重置</button>
-            </div>
-            <div class="clear"></div>
-        </form>
+    <form action="${pageContext.request.contextPath}/supplierAudit/supplierAll.html" method="post" id="form1" class="mb0">
+    <input type="hidden" name="page" id="page">
+    <input type="hidden" name="sign" value="${sign}">
+    <div class="m_row_5">
+    <div class="row">
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">供应商名称：</div>
+          <div class="col-xs-8 f0 lh0">
+            <input class="w100p h32 f14 mb0" name="supplierName" type="text" value="${supplierName }">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">状态：</div>
+          <div class="col-xs-8 f0 lh0">
+            <select name="status" class="w100p h32 f14" id="status">
+                <option value="">全部</option>
+                <c:if test="${sign eq '1' }">
+                    <%-- <option <c:if test="${state == 0 }">selected</c:if> value="0">待审核</option>
+                    <option <c:if test="${state == 9 }">selected</c:if> value="9">退回再审核</option>
+                    <option <c:if test="${state == -1 }">selected</c:if> value="-1">审核中</option>
+                    <option <c:if test="${state == -2 }">selected</c:if> value="-2">预审核结束</option>
+                    <option <c:if test="${state == -3 }">selected</c:if> value="-3">公示中</option>
+                    <option <c:if test="${state == 1 }">selected</c:if> value="1">审核通过 </option>
+                    <option <c:if test="${state == 2 }">selected</c:if> value="2">退回修改</option>
+                    <option <c:if test="${state == 3 }">selected</c:if> value="3">审核未通过</option> --%>
+                    <c:forEach items="<%=SupplierConstants.STATUSMAP_SHENHE %>" var="item">
+                        <option value="${item.key}" <c:if test="${state == item.key }">selected</c:if>>${item.value}</option>
+                    </c:forEach>
+                    <option value="100"
+                        <c:if test="${state == 100 }">selected</c:if>><%=SupplierConstants.STATUSMAP_AUDITTEMPORARY.get(1) %>
+                    </option>
+                </c:if>
+                <c:if test="${sign eq '2' }">
+                    <%-- <option <c:if test="${state == 4 }">selected</c:if> value="4">待复核</option>
+                    <option <c:if test="${state == 5 }">selected</c:if> value="5">复核通过</option>
+                    <option <c:if test="${state == 6 }">selected</c:if> value="6">复核未通过 </option> --%>
+                    <c:forEach items="<%=SupplierConstants.STATUSMAP_FUHE %>" var="item">
+                        <option value="${item.key}" <c:if test="${state == item.key }">selected</c:if>>${item.value}</option>
+                    </c:forEach>
+                    <option value="200"
+                        <c:if test="${state == 200 }">selected</c:if>><%=SupplierConstants.STATUSMAP_AUDITTEMPORARY.get(2) %>
+                    </option>
+                </c:if>
+                <c:if test="${sign eq '3' }">
+                    <%-- <option <c:if test="${state == 5 }">selected</c:if> value="5">待考察</option>
+                    <option <c:if test="${state == 7 }">selected</c:if> value="7">合格</option>
+                    <option <c:if test="${state == 8 }">selected</c:if> value="8">不合格</option> --%>
+                    <c:forEach items="<%=SupplierConstants.STATUSMAP_KAOCHA %>" var="item">
+                        <option value="${item.key}" <c:if test="${state == item.key }">selected</c:if>>${item.value}</option>
+                    </c:forEach>
+                    <option value="300"
+                        <c:if test="${state == 300 }">selected</c:if>><%=SupplierConstants.STATUSMAP_AUDITTEMPORARY.get(3) %>
+                    </option>
+                </c:if>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">企业性质：</div>
+          <div class="col-xs-8 f0 lh0">
+            <select name="businessNature" id="businessNature" class="w100p h32 f14">
+              <option value="">全部</option>
+              <c:forEach var="business" varStatus="vs" items="${businessNatureList}">
+                <option <c:if test="${businessNature eq business.id }">selected</c:if> value="${business.id}">${business.name}</option>
+              </c:forEach>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">生产经营地址：</div>
+          <div class="col-xs-8 f0 lh0">
+            <input class="w100p h32 f14 mb0" name="addressName" type="text" value="${addressName}">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">审核时间：</div>
+          <div class="col-xs-8 f0 lh0">
+            <input id="auditDate" name="auditDate" class="Wdate w100p h32 f14 mb0" value='<fmt:formatDate value="${auditDate}" pattern="YYYY-MM-dd"/>' type="text" onClick="WdatePicker()">
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="tc">
+      <input type="submit" class="btn mb0" value="查询"/>
+      <button onclick="resetForm();" class="btn mb0 mr0" type="button">重置</button>
+    </div>
+    </form>
     </h2>
     <!-- 表格开始-->
     <div class="col-md-12 pl20 mt10">

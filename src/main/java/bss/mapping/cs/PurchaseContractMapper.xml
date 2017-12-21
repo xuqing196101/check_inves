@@ -62,6 +62,12 @@
     <result column="FORMAL_AT" jdbcType="TIMESTAMP" property="formalAt" />
     <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
     <result column="CREATE_ID" jdbcType="VARCHAR" property="createId" />
+    <result column="PREPAID_RATIO" jdbcType="DECIMAL" property="prepaidRatio" />
+    <result column="PREPAYMENT_AMOUNT" jdbcType="DECIMAL" property="prepaymentAmount" />
+    <result column="WARRANTY_RATIO" jdbcType="DECIMAL" property="warrantyRatio" />
+    <result column="WARRANTY_AMOUNT" jdbcType="DECIMAL" property="warrantyAmount" />
+    <result column="TRIAL_PRICE" jdbcType="DECIMAL" property="trialPrice" />
+    <result column="TRANSPORT_FEES" jdbcType="DECIMAL" property="transportFees" />
     <association property="supplier" column="SUPPLIER_DEP_NAME" select="ses.dao.sms.SupplierMapper.selectOne"/>
   </resultMap>
   
@@ -78,7 +84,9 @@
     SUPPLIER_UNITPOST_CODE, SUPPLIER_BANK, SUPPLIER_BANK_ACCOUNT, SUPPLIER_BANK_NAME,SUPPLIER_PUR_ID,PROJECT_NAME,
     IS_APPEAL,APPROVE_PIC,CREATED_AT,UPDATED_AT,IS_DELETED,CONTRACT_TYPE,DRAFT_GIT_AT,DRAFT_REVIEWED_AT,
     FORMAL_GIT_AT,FORMAL_REVIEWED_AT,IS_IMPORT,IS_DECLARE,PURCHASE_TYPE,PROJECT_ID,FINALLY_CLOSED,
-    BING_DEP_NAME,BING_CONTACT,BING_CONTACT_TELEPHONE,BING_CONTACT_ADDRESS,BING_UNITPOST_CODE,SUPPLIER_CHECK_IDS,PROJECT_CODE,MANUAL_TYPE,FORMAL_AT,ORG_ID,CREATE_ID
+    BING_DEP_NAME,BING_CONTACT,BING_CONTACT_TELEPHONE,BING_CONTACT_ADDRESS,BING_UNITPOST_CODE,
+    SUPPLIER_CHECK_IDS,PROJECT_CODE,MANUAL_TYPE,FORMAL_AT,ORG_ID,CREATE_ID,PREPAID_RATIO,PREPAYMENT_AMOUNT,
+    WARRANTY_RATIO,WARRANTY_AMOUNT,TRIAL_PRICE,TRANSPORT_FEES
   </sql>
   <sql id="PurCon_BlOB_Column_List">
   	CONTENT
@@ -601,6 +609,24 @@
       <if test="createId != null">
         CREATE_ID,
       </if>
+      <if test="prepaidRatio != null">
+        PREPAID_RATIO,
+      </if>
+      <if test="prepaymentAmount != null">
+        PREPAYMENT_AMOUNT,
+      </if>
+      <if test="warrantyRatio != null">
+        WARRANTY_RATIO,
+      </if>
+      <if test="warrantyAmount != null">
+        WARRANTY_AMOUNT,
+      </if>
+      <if test="trialPrice != null">
+        TRIAL_PRICE,
+      </if>
+      <if test="transportFees != null">
+        TRANSPORT_FEES,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -786,6 +812,24 @@
       <if test="createId != null">
         #{createId},
       </if>
+      <if test="prepaidRatio != null">
+        #{prepaidRatio},
+      </if>
+      <if test="prepaymentAmount != null">
+        #{prepaymentAmount},
+      </if>
+      <if test="warrantyRatio != null">
+        #{warrantyRatio},
+      </if>
+      <if test="warrantyAmount != null">
+        #{warrantyAmount},
+      </if>
+      <if test="trialPrice != null">
+        #{trialPrice},
+      </if>
+      <if test="transportFees != null">
+        #{transportFees},
+      </if>
     </trim>
   </insert>
   
@@ -966,6 +1010,24 @@
       <if test="formalAt != null">
         FORMAL_AT,
       </if>
+      <if test="prepaidRatio != null">
+        PREPAID_RATIO,
+      </if>
+      <if test="prepaymentAmount != null">
+        PREPAYMENT_AMOUNT,
+      </if>
+      <if test="warrantyRatio != null">
+        WARRANTY_RATIO,
+      </if>
+      <if test="warrantyAmount != null">
+        WARRANTY_AMOUNT,
+      </if>
+      <if test="trialPrice != null">
+        TRIAL_PRICE,
+      </if>
+      <if test="transportFees != null">
+        TRANSPORT_FEES,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -1142,6 +1204,24 @@
      <if test="formalAt != null">
         #{formalAt,jdbcType=TIMESTAMP},
       </if>
+      <if test="prepaidRatio != null">
+        #{prepaidRatio},
+      </if>
+      <if test="prepaymentAmount != null">
+        #{prepaymentAmount},
+      </if>
+      <if test="warrantyRatio != null">
+        #{warrantyRatio},
+      </if>
+      <if test="warrantyAmount != null">
+        #{warrantyAmount},
+      </if>
+      <if test="trialPrice != null">
+        #{trialPrice},
+      </if>
+      <if test="transportFees != null">
+        #{transportFees},
+      </if>
     </trim>
   </insert>
   
@@ -1314,7 +1394,25 @@
         MANUAL_TYPE = #{manualType},
       </if>
      <if test="formalAt != null">
-        FORMAL_AT=#{formalAt,jdbcType=TIMESTAMP}
+        FORMAL_AT=#{formalAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prepaidRatio != null">
+        PREPAID_RATIO=#{prepaidRatio},
+      </if>
+      <if test="prepaymentAmount != null">
+        PREPAYMENT_AMOUNT=#{prepaymentAmount},
+      </if>
+      <if test="warrantyRatio != null">
+        WARRANTY_RATIO=#{warrantyRatio},
+      </if>
+      <if test="warrantyAmount != null">
+        WARRANTY_AMOUNT=#{warrantyAmount},
+      </if>
+      <if test="trialPrice != null">
+        TRIAL_PRICE=#{trialPrice},
+      </if>
+      <if test="transportFees != null">
+        TRANSPORT_FEES=#{transportFees}
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -1377,10 +1475,16 @@
       BING_UNITPOST_CODE = ${bingUnitpostCode},
       PROJECT_CODE = #{projectCode,jdbcType=VARCHAR},
       MANUAL_TYPE = #{manualType},
-      FORMAL_AT=#{formalAt,jdbcType=TIMESTAMP}
+      FORMAL_AT=#{formalAt,jdbcType=TIMESTAMP},
+      PREPAID_RATIO=#{prepaidRatio},
+      PREPAYMENT_AMOUNT=#{prepaymentAmount},
+      WARRANTY_RATIO=#{warrantyRatio},
+      WARRANTY_AMOUNT=#{warrantyAmount},
+      TRIAL_PRICE=#{trialPrice},
+      TRANSPORT_FEES=#{transportFees}
     where ID = #{id,jdbcType=VARCHAR}
+    
   </update>
-  
 	<select id="findPurchaseContractByMap" parameterType="java.util.Map" resultMap="purContractMap">
 		select 
 			<include refid="Base_Column_List"/>
@@ -1399,6 +1503,69 @@
 				and t1.PROJECT_NAME like  CONCAT(CONCAT('%', #{projectName}), '%')
 			</if>
 		</where>
+	</select>
+	
+	<select id="contractSupervisionList" parameterType="java.util.Map" resultMap="purContractMap">
+		SELECT
+			pc. ID,
+			pc.CODE,
+			pc. NAME,
+			pc.MONEY,
+			pc.DEMAND_SECTOR,
+			pc.BUDGET,
+			pc. YEAR,
+			pc.PROJECT_ID,
+			pc.PROJECT_NAME,
+			pc.STATUS,
+			pc.DOCUMENT_NUMBER,
+			pc.BUDGET_SUBJECT_ITEM,
+			pc.SUPPLIER_DEP_NAME,
+			SUP.SUPPLIER_NAME AS showSupplierDepName,
+			PC.PURCHASE_DEP_NAME,
+			(SELECT SHORT_NAME FROM T_SES_OMS_ORG WHERE ID = PC.PURCHASE_DEP_NAME) AS showDemandSector
+		FROM
+			T_BSS_CS_PURCHASE_CONTRACT pc
+		LEFT JOIN T_SES_SMS_SUPPLIER sup ON pc.SUPPLIER_DEP_NAME = SUP. ID
+		WHERE
+			pc.IS_DELETED = 0
+		AND pc.STATUS = 2
+		AND pc.MANUAL_TYPE = 0
+		<if test="status != null">
+			and pc.STATUS = #{status}
+		</if>
+		<if test="projectName != null and projectName !=''">
+			and pc.PROJECT_NAME like  CONCAT(CONCAT('%', #{projectName}), '%')
+		</if>
+		<if test="code != null and code !=''">
+			and pc.CODE like  CONCAT(CONCAT('%', #{code}), '%')
+		</if>
+		<if test="demandSector != null and demandSector !=''">
+			and pc.DEMAND_SECTOR like  CONCAT(CONCAT('%', #{demandSector}), '%')
+		</if>
+		<if test="documentNumber != null and documentNumber !=''">
+			and pc.DOCUMENT_NUMBER like  CONCAT(CONCAT('%', #{documentNumber}), '%')
+		</if>
+		<if test="supplierName != null and supplierName !=''">
+			and sup.SUPPLIER_NAME like  CONCAT(CONCAT('%', #{supplierName}), '%')
+		</if>
+		<if test="purchaseDepName != null and purchaseDepName !=''">
+			and pc.PURCHASE_DEP_NAME = #{purchaseDepName}
+		</if>
+		<if test="purchaseDepIds != null and purchaseDepIds !=''">
+       and pc.PURCHASE_DEP_NAME in
+       <foreach item="item" index="index" collection="purchaseDepIds" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+    </if>
+		<if test="YEAR != null and YEAR !=''">
+			and pc.YEAR = #{year}
+		</if>
+		<if test="budgetSubjectItem != null">
+			and pc.BUDGET_SUBJECT_ITEM = #{budgetSubjectItem}
+		</if>
+		ORDER BY
+			pc.STATUS,
+			pc.CREATED_AT DESC
 	</select>
 	
 </mapper>

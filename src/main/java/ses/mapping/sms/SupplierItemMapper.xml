@@ -656,13 +656,15 @@
 
 	<select id="findFinaSupplierByCategouryAndType" parameterType="ses.model.sms.Supplier" resultType="ses.model.sms.Supplier">
 		select
-			s.ID AS id,
+			DISTINCT s.ID AS id,
 			s.FOUND_DATE AS foundDate
 		FROM
 			T_SES_SMS_SUPPLIER_ITEM i
 		LEFT JOIN T_SES_SMS_SUPPLIER s ON s."ID" = i.SUPPLIER_ID 
+		LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE r ON s."ID" = r.SUPPLIER_ID
 		WHERE
-			i.CATEGORY_ID = #{supplierTypeId}
+			r.SUPPLIER_TYPE_ID= #{supplierType}
+		AND	i.CATEGORY_ID = #{supplierTypeId}
 		AND i.SUPPLIER_TYPE_RELATE_ID = #{supplierType}
 		AND (
 				s.SUPPLIER_STATUS = 1
@@ -671,6 +673,78 @@
 			)
 		AND s.IS_PROVISIONAL = '0'
 		AND s.IS_DELETED = 0
+		<!-- 排除该品目审核不通过的供应商 -->
+		AND s.ID NOT IN (
+			SELECT
+				SUPPLIER_ID
+			FROM
+				T_SES_SMS_SUPPLIER_AUDIT
+			WHERE
+				1 = 1 
+			AND AUDIT_FIELD IN 
+			<foreach item="item" index="index" collection="queryCategorys" open="(" separator="," close=")">
+	            #{item}
+	        </foreach>
+			AND AUDIT_TYPE = #{supplierTypeIds}
+			AND RETURN_STATUS IN (0, 1, 2, 4)
+			GROUP BY SUPPLIER_ID
+		  	HAVING COUNT(*) >= #{returnCount}
+		)
+		<!-- 排除该供应商类型审核不通过的供应商 -->
+		AND s.ID NOT IN (
+			SELECT
+				SUPPLIER_ID
+			FROM
+				T_SES_SMS_SUPPLIER_AUDIT 
+			WHERE
+				AUDIT_FIELD = #{supplierTypeNames}
+			AND AUDIT_TYPE = 'supplierType_page'
+			AND RETURN_STATUS IN (0, 1, 2, 4)
+		)
+	</select>
+	
+	<select id="findCategoryisAllFailed" parameterType="ses.model.sms.Supplier" resultType="Integer">
+		SELECT
+			"COUNT"(*)
+		FROM
+			(
+				SELECT
+					wm_concat (i.CATEGORY_ID) AS ids
+				FROM
+					T_SES_SMS_SUPPLIER_ITEM i
+				WHERE
+					i.SUPPLIER_TYPE_RELATE_ID = #{supplierType}
+				AND i.IS_DELETED = 0
+				AND i.CATEGORY_ID IN 
+					<foreach item="item" index="index" collection="queryCategorys" open="(" separator="," close=")">
+			            #{item}
+			        </foreach>
+				AND i.SUPPLIER_ID = #{id}
+				ORDER BY
+					i.CATEGORY_ID DESC
+			)tb1,
+			(
+				SELECT
+					wm_concat (A .AUDIT_FIELD) AS ids
+				FROM
+					T_SES_SMS_SUPPLIER_AUDIT A
+				LEFT JOIN T_SES_SMS_SUPPLIER_ITEM i ON i.SUPPLIER_ID = A .SUPPLIER_ID
+				AND i.CATEGORY_ID = A .AUDIT_FIELD
+				WHERE
+					i.SUPPLIER_TYPE_RELATE_ID = #{supplierType}
+				AND i.IS_DELETED = 0
+				AND i.CATEGORY_ID IN 
+					<foreach item="item2" index="index" collection="queryCategorys" open="(" separator="," close=")">
+			            #{item2}
+			        </foreach>
+				AND i.SUPPLIER_ID = #{id}
+				AND A .SUPPLIER_ID = #{id}
+				AND A .AUDIT_TYPE = #{supplierTypeIds}
+				AND A .RETURN_STATUS IN (0, 1, 2, 4)
+				ORDER BY
+					A .AUDIT_FIELD DESC
+			)tb2
+		WHERE tb1.ids = tb2.ids
 	</select>
 	
 	<update id="updateBySupplierId">

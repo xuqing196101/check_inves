@@ -514,6 +514,19 @@ public class PreMenuController {
 				menu.setIsDeleted(0);
 				menu.setKind(pmenu.getKind());
 				preMenuService.save(menu);
+				//如果是后台菜单,加到管理员ADMIN_R角色关联
+				if (pmenu.getKind() != null && pmenu.getKind() == 0) {
+					RolePreMenu rolePreMenu = new RolePreMenu();
+					Role r = new Role();
+					r.setCode("ADMIN_R");
+					r.setIsDeleted(0);
+					List<Role> supplierRole = roleService.find(r);
+					if (supplierRole != null && supplierRole.size() > 0) {
+						rolePreMenu.setRole(supplierRole.get(0));
+						rolePreMenu.setPreMenu(menu);
+						roleService.saveRolePreMenu(rolePreMenu);
+					}
+				}
 				//如果是供应商后台菜单,加到供应商SUPPLIER_R角色关联
 				if (pmenu.getKind() != null && pmenu.getKind() == 1) {
 					RolePreMenu rolePreMenu = new RolePreMenu();
@@ -725,13 +738,26 @@ public class PreMenuController {
 				menu.setUpdatedAt(new Date());
 				preMenuService.update(menu);
 				//如果是将可用改为暂停,删除相应的关联关系
-				if(old.getStatus() == 0 && menu.getStatus() == 1){
+				/*if(old.getStatus() == 0 && menu.getStatus() == 1){
 					UserPreMenu userPreMenu = new UserPreMenu(); 
 					userPreMenu.setPreMenu(menu);
 					userService.deleteUserMenu(userPreMenu);
 					RolePreMenu rolePreMenu = new RolePreMenu();
 					rolePreMenu.setPreMenu(menu);
 					roleService.deleteRoelMenu(rolePreMenu);
+				}*/
+				//如果是后台菜单,加到管理员ADMIN_R角色关联
+				if (pmenu.getKind() != null && pmenu.getKind() == 0) {
+					RolePreMenu rolePreMenu = new RolePreMenu();
+					Role r = new Role();
+					r.setCode("ADMIN_R");
+					r.setIsDeleted(0);
+					List<Role> supplierRole = roleService.find(r);
+					if (supplierRole != null && supplierRole.size() > 0) {
+						rolePreMenu.setRole(supplierRole.get(0));
+						rolePreMenu.setPreMenu(menu);
+						roleService.saveRolePreMenu(rolePreMenu);
+					}
 				}
 				//如果是供应商后台菜单,加到供应商SUPPLIER_R角色关联
 				if (pmenu.getKind() != null && pmenu.getKind() == 1) {
@@ -797,7 +823,10 @@ public class PreMenuController {
 	public String delete(String ids){
 		String[] idarry = ids.split(",");
 		for (String id : idarry) {
-			preMenuService.delete(id);
+			PreMenu preMenu = preMenuService.get(id);
+			preMenu.setIsDeleted(1);
+			preMenuService.update(preMenu);
+			/*preMenuService.delete(id);
 			//同时删除用户-权限，角色-权限关联数据
 			PreMenu menu = new PreMenu();
 			menu.setId(id);
@@ -806,7 +835,7 @@ public class PreMenuController {
 			userService.deleteUserMenu(userPreMenu);
 			RolePreMenu rolePreMenu = new RolePreMenu();
 			rolePreMenu.setPreMenu(menu);
-			roleService.deleteRoelMenu(rolePreMenu);
+			roleService.deleteRoelMenu(rolePreMenu);*/
 		}
 		return "redirect:list.html";
 	}

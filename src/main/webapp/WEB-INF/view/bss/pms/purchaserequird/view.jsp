@@ -88,7 +88,8 @@
           <u:show showId="detailshow" delete="false" businessId="${fileId}" sysKey="2" typeId="${detailId}" />
         </li>
       </ul>
-
+      
+      <div class="clear"></div>
       <h2 class="count_flow"><i>2</i>需求明细</h2>
       <div class="content require_ul_list" id="content">
         <table id="table" class="table table-bordered table-condensed lockout">

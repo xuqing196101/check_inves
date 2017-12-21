@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.ibatis.annotations.Param;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryQua;
 import ses.model.bms.DictionaryData;
 import ses.model.sms.SupplierItemLevel;
+import extract.model.supplier.Continent;
 import extract.model.supplier.Qua;
 import extract.model.supplier.SupplierExtractCondition;
 
@@ -123,4 +125,5 @@ public interface SupplierExtractConditionMapper {
 
 	List<String> selectLevelOfLogicIsAnd(Map<String, Object> hashMap);
 
+	List<Continent> selectContryTree(@Param("cid") String cid, @Param("cname")String cname);
 }

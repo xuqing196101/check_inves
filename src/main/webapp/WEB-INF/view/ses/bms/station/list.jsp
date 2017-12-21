@@ -132,25 +132,43 @@
         <h2>通知管理</h2>
       </div>
       <div class="search_detail">
-        <form action="${pageContext.request.contextPath}/StationMessage/listStationMessage.html" id="form1" method="post" class="mb0">
-          <input id="pages" name="page" type="hidden" />
-          <ul class="demand_list">
-            <li>
-              <label class="fl">标题：</label><span><input type="text" id="name" value="${stationMessage.name }" name="name" class=""/></span>
-            </li>
-            <li>
-              <label class="fl">操作类型：</label>
-              <select class="w180 " id="isFinish" name="isFinish">
+      <form action="${pageContext.request.contextPath}/StationMessage/listStationMessage.html" id="form1" method="post" class="mb0">
+      <input id="pages" name="page" type="hidden" />
+			<div class="m_row_5">
+	    <div class="row">
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">标题：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input type="text" id="name" value="${stationMessage.name }" name="name" class="w100p h32 f14 mb0">
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">操作类型：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<select class="w100p h32 f14" id="isFinish" name="isFinish">
                 <option value="">请选择</option>
                 <option value="0">已操作</option>
                 <option value="1">未操作</option>
               </select>
-            </li>
-            <button type="submit" class="btn fl mt1">查询</button>
-            <button type="button" onclick="resetQuery()" class="btn fl mt1">重置</button>
-          </ul>
-          <div class="clear"></div>
-        </form>
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-12 f0">
+							<button type="submit" class="btn mb0 h32">查询</button>
+	            <button type="button" onclick="resetQuery()" class="btn mb0 mr0 h32">重置</button>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	    </div>
+      </form>
       </div>
       <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">

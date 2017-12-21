@@ -179,37 +179,49 @@
 
 		<!-- 查询 -->
 		<div class="search_detail">
-			<form action="${pageContext.request.contextPath}/templet/search.html"
-				method="post" enctype="multipart/form-data" class="mb0">
-				<ul class="demand_list">
-					<li><label class="fl">模板名称：</label>
-					<span>
-					<input type="text" name="name" id="tname" class="mb0" />
-					</span>
-					</li>
-					<li>
-					 <label class="fl">模板类型：</label>
-					 <span> 
-					     <select id="searchType" name=temType class="w150">
-								<option value="">-请选择-</option>
-								<option value="0">采购公告-公开招标</option>
-								<option value="1">采购公告-邀请招标</option>
-								<option value="2">采购公告-询价采购</option>
-								<option value="3">采购公告-竞争性谈判</option>
-								<option value="4">单一来源公示</option>
-								<option value="5">中标公示-公开招标</option>
-								<option value="6">中标公示-邀请招标</option>
-								<option value="7">中标公示-询价采购</option>
-								<option value="8">中标公示-竞争性谈判</option>
-						</select> 
-					</span>
-				   </li>
-
-				</ul>
-					<button class="btn fl mt1" type="submit">查询</button>
-					<button type="reset" class="btn  fl mt1">重置</button>
-				<div class="clear"></div>
-			</form>
+		<form action="${pageContext.request.contextPath}/templet/search.html" method="post" enctype="multipart/form-data" class="mb0">
+		<div class="m_row_5">
+    <div class="row">
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">模板名称：</div>
+          <div class="col-xs-8 f0 lh0">
+						<input type="text" name="name" id="tname" class="w100p h32 f14 mb0">
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">模板类型：</div>
+          <div class="col-xs-8 f0 lh0">
+						<select id="searchType" name=temType class="w100p h32 f14">
+							<option value="">-请选择-</option>
+							<option value="0">采购公告-公开招标</option>
+							<option value="1">采购公告-邀请招标</option>
+							<option value="2">采购公告-询价采购</option>
+							<option value="3">采购公告-竞争性谈判</option>
+							<option value="4">单一来源公示</option>
+							<option value="5">中标公示-公开招标</option>
+							<option value="6">中标公示-邀请招标</option>
+							<option value="7">中标公示-询价采购</option>
+							<option value="8">中标公示-竞争性谈判</option>
+						</select>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-12 f0">
+						<button class="btn mb0 h32" type="submit">查询</button>
+						<button type="reset" class="btn mb0 mr0 h32">重置</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+		</form>
 		</div>
 		<!-- 表格开始-->
 			<div class="col-md-12 pl20 mt10">

@@ -8,8 +8,6 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
-		<%@ include file="/WEB-INF/view/ses/ems/expertQuery/common.jsp"%>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ems/expertQuery/merge_jump.js"></script>
 		<script type="text/javascript">
 			function backOld() {
 				window.location.href = "${pageContext.request.contextPath}/expert/findAllExpert.html";
@@ -40,7 +38,6 @@
 
 	<body onload="initData()">
 		<!--面包屑导航开始-->
-		<%-- <jsp:include page="navigation.jsp" flush="ture" /> --%>
 		<div class="margin-top-10 breadcrumbs ">
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">

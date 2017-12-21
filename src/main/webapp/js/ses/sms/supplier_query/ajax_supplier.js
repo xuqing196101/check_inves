@@ -18,21 +18,22 @@ function listPage(pages, total, startRow, endRow, pageNum) {
 		jump : function(e, first) { // 触发分页后的回调
 			if (!first) { // 一定要加此判断，否则初始时会无限刷新
 				$("#page").val(e.curr);
-				findSupplier();
+				var nodeLevel = $("#nodeLevel").val();
+				findSupplier(nodeLevel);
 			}
 		}
 	});
 }
 function addButton(){
 	$("#addButton").empty();
-	$("#addButton").append("<input class=\"btn fl mt1\" onclick=\"findSupplier(3)\" type=\"button\" value=\"查询\"> "
-			+" <input type=\"button\" class=\"btn fl mt1\" onclick=\"resetQuery()\" value=\"重置\">"
-			+" <input type=\"button\" class=\"btn fl mt1\" onclick=\"resetAgain()\" value=\"重新计算\">");
+	$("#addButton").append("<input class=\"btn mb0\" onclick=\"findSupplier(3)\" type=\"button\" value=\"查询\"> "
+			+" <input type=\"button\" class=\"btn mb0\" onclick=\"resetQuery()\" value=\"重置\">"
+			+" <input type=\"button\" class=\"btn mb0 mr0\" onclick=\"resetAgain()\" value=\"重新计算\">");
 }
 function addButtonProject(){
 	$("#addButton").empty();
-	$("#addButton").append("<input class=\"btn fl mt1\" onclick=\"findSupplier()\" type=\"button\" value=\"查询\"> "
-			+" <input type=\"button\" class=\"btn fl mt1\" onclick=\"resetQuery()\" value=\"重置\">"
+	$("#addButton").append("<input class=\"btn mb0\" onclick=\"findSupplier()\" type=\"button\" value=\"查询\"> "
+			+" <input type=\"button\" class=\"btn mb0 mr0\" onclick=\"resetQuery()\" value=\"重置\">"
 			);
 }
 /*******************************************************************************

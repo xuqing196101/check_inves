@@ -252,32 +252,52 @@
 		<div class="container">
 			<!-- 搜索 -->
 			<div class="search_detail">
-	      <form action="${pageContext.request.contextPath}/suppliertDelete/logoutList.html"  method="post" id="form1" class="mb0"> 
-	      <input type="hidden" name="page" id="page">
-	      <ul class="demand_list">
-		      <li class="fl">
-			      <label class="fl">供应商名称：</label> 
-			      <input class="" name="supplierName" type="text" value="${supplier.supplierName }">
-		      </li>
-		      <li class="fl">
-			      <label class="fl">用户名：</label> 
-			      <input class="" name="loginName" type="text" value="${supplier.loginName }">
-		      </li>
-		      <li class="fl">
-			      <label class="fl">手机号：</label> 
-			      <input class="" name="mobile" type="text" value="${supplier.mobile }">
-		      </li>
-		      <li class="fl">
-			      <label class="fl">社会统一代码：</label> 
-			      <input class="" name="creditCode" type="text" value="${supplier.creditCode }">
-		      </li>
-	      </ul>
-	       
-				<div class="col-md-12 clear tc mt10">
-					<input type="submit" class="btn" value="查询" />
-					<button onclick="resetForm();" class="btn" type="button">重置</button> 
+      <form action="${pageContext.request.contextPath}/suppliertDelete/logoutList.html"  method="post" id="form1" class="mb0"> 
+      <input type="hidden" name="page" id="page">
+				<div class="m_row_5">
+		    <div class="row">
+		      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+		        <div class="row">
+		          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">供应商名称：</div>
+		          <div class="col-xs-8 f0 lh0">
+								<input name="supplierName" type="text" value="${supplier.supplierName }" class="w100p h32 f14 mb0">
+		          </div>
+		        </div>
+		      </div>
+		      
+		      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+		        <div class="row">
+		          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">用户名：</div>
+		          <div class="col-xs-8 f0 lh0">
+								<input name="loginName" type="text" value="${supplier.loginName }" class="w100p h32 f14 mb0">
+		          </div>
+		        </div>
+		      </div>
+					
+					<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+		        <div class="row">
+		          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">手机号：</div>
+		          <div class="col-xs-8 f0 lh0">
+								<input class="w100p h32 f14 mb0" name="mobile" type="text" value="${supplier.mobile }">
+		          </div>
+		        </div>
+		      </div>
+					
+					<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+		        <div class="row">
+		          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">社会统一代码：</div>
+		          <div class="col-xs-8 f0 lh0">
+								<input class="w100p h32 f14 mb0" name="creditCode" type="text" value="${supplier.creditCode }">
+		          </div>
+		        </div>
+		      </div>
+		    </div>
+		    </div>
+				
+				<div class="tc">
+					<input type="submit" class="btn mb0" value="查询" />
+					<button onclick="resetForm();" class="btn mb0 mr0" type="button">重置</button>
 				</div>
-				<div class="clear"></div>
 	      </form>
     	</div>
 			<!-- 表格开始-->

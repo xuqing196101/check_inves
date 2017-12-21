@@ -112,11 +112,11 @@
 		<ul id="treeSupplierType" class="ztree" style="margin-top:0;"></ul>
 	</div>
     <div id="supplierGradeTreeContent" class="supplierTypeContent" style="display:none; width: 250px; position: absolute;left:0px; top:0px; z-index:999;">
-        <div class="col-md-12 col-xs-8 col-sm-8 p0">
-            <input type="text" id="search" class="input_group" value="">
-            <img src="${pageContext.request.contextPath }/public/backend/images/view.png" onclick="loadZtree()">
-        </div>
-        <ul id="supplierGradeTree" class="ztree" style="margin-top:0;"></ul>
+      <div class="clear">
+        <input type="text" id="search" class="input_group f14 mb0" value="">
+        <img src="${pageContext.request.contextPath }/public/backend/images/view.png" onclick="loadZtree()">
+      </div>
+      <ul id="supplierGradeTree" class="ztree" style="margin-top:0;"></ul>
     </div>
 
 	<body>
@@ -125,162 +125,165 @@
 				<h2>供应商信息</h2>
 			</div>
 			<h2 class="search_detail">
-                <!--下载Excel查询条件表单-->
-                <form id="exportExcelCond">
-                    <input type="hidden" name="supplierName" value="${supplier.supplierName}"/>
-                    <input type="hidden" name="businessNature" value="${supplier.businessNature}"/>
-                    <input type="hidden" name="status" value="${supplier.status}"/>
-                    <input type="hidden" name="isProvisional" value="${supplier.isProvisional}"/>
-                    <input type="hidden" name="creditCode" value="${supplier.creditCode}"/>
-                    <input type="hidden" name="orgName" value="${supplier.orgName}"/>
-                    <input type="hidden" name="address" value="${supplier.address}"/>
-                    <input type="hidden" name="queryCategory" value="${supplier.queryCategory }"/>
+				<!--下载Excel查询条件表单-->
+				<form id="exportExcelCond">
+					<input type="hidden" name="supplierName" value="${supplier.supplierName}"/>
+					<input type="hidden" name="businessNature" value="${supplier.businessNature}"/>
+					<input type="hidden" name="status" value="${supplier.status}"/>
+					<input type="hidden" name="isProvisional" value="${supplier.isProvisional}"/>
+					<input type="hidden" name="creditCode" value="${supplier.creditCode}"/>
+					<input type="hidden" name="orgName" value="${supplier.orgName}"/>
+					<input type="hidden" name="address" value="${supplier.address}"/>
+					<input type="hidden" name="queryCategory" value="${supplier.queryCategory }"/>
 					<input type="hidden" name="supplierTypeIds" value="${supplierTypeIds}" />
 					<input type="hidden" name="supplierLevel" value="${supplier.supplierLevel }"/>
-                    <input type="hidden" name="sign" value="${sign}"/>
-                </form>
+					<input type="hidden" name="sign" value="${sign}"/>
+				</form>
 	      <form id="form1" action="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?sign=${sign}" method="post" class="mb0">
 	      	<c:if test="${sign != 1 }">
 	      		<input type="hidden" name="address" value="${address }">
 	      	</c:if>
 	        <input type="hidden" name="page" id="page">
-	        <ul class="demand_list">
-	        	<li>
-	          	<label class="fl">供应商名称：</label><span><input class="w220" id="supplierName" name="supplierName" value="${supplier.supplierName }" type="text"></span>
-	          </li>
-	          <%-- <li>
-	          	<label class="fl">用户名：</label><span><input class="w220" id="loginName" name="loginName" value="${supplier.loginName }" type="text"></span>
-	          </li> --%>
-	          <%-- <li>
-	            <label class="fl">联系人：</label><span><input class="w220" id="contactName" name="contactName" value="${supplier.contactName }" type="text"></span>
-	          </li>
-	          <li>
-							<label class="fl">手机号：</label>
-							<input id="mobile" class="w220" name="mobile" value="${supplier.mobile }" type="text">
-						</li> --%>
-            <li>
-            	<label class="fl">企业性质：</label>
-	            <select name="businessNature" id="businessNature" class="w220">
-	              <option value=''>全部</option>
-	              <c:forEach items="${businessNature}" var="list">
-	              	<option <c:if test="${supplier.businessNature eq list.id }">selected</c:if> value="${list.id }">${list.name }</option>
-	              </c:forEach>
-	            </select>
-         	  </li>
-         	  <%--<li>
-              <label class="fl">供应商类型：</label><span><input  class="w220" id="supplierType" class="span2 mt5" type="text" name="supplierType"  readonly value="${supplierType }" onclick="showSupplierType();" />
-              <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" /></span>
-            </li>--%>
-                <li>
-                    <label class="fl">供应商状态：</label>
-                    <span>
-                <select id="status" name="status" class="w220">
-	                <option  selected="selected" value=''>全部</option>
-									<c:forEach items="<%=SupplierConstants.STATUSMAP %>" var="item">
-                                        <option value="${item.key}">${item.value}</option>
-                                    </c:forEach>
-                </select>
-              </span>
-                </li>
-            <%-- <li>
-              <label class="fl">品目：</label><span><input id="category" type="text" name="categoryNames" value="${categoryNames }" readonly onclick="showCategory();" class="w220"/>
-              <input type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds }" /></span>
-            </li> --%>
-	          <!-- <li>
-			        <label class="fl">供应商级别:</label>
-			        	<span>
-			          	<select id="score" name="score" class="w220">
-	                  <option  selected="selected" value=''>-请选择-</option>
-	                  <option  value="1">一级</option>
-	                  <option  value="2">二级</option>
-	                  <option  value="3">三级</option>
-	                  <option  value="4">四级</option>
-	                  <option  value="5">五级</option>
+					<div class="m_row_5">
+			    <div class="row">
+			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			        <div class="row">
+			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">供应商名称：</div>
+			          <div class="col-xs-8 f0 lh0">
+									<input class="w100p h32 f14 mb0" id="supplierName" name="supplierName" value="${supplier.supplierName }" type="text">
+			          </div>
+			        </div>
+			      </div>
+			      
+			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			        <div class="row">
+			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">企业性质：</div>
+			          <div class="col-xs-8 f0 lh0">
+									<select name="businessNature" id="businessNature" class="w100p h32 f14">
+			              <option value=''>全部</option>
+			              <c:forEach items="${businessNature}" var="list">
+			              	<option <c:if test="${supplier.businessNature eq list.id }">selected</c:if> value="${list.id }">${list.name }</option>
+			              </c:forEach>
 			            </select>
-			       	 </span>
-	      		</li> -->
-	          <li>
-            	<label class="fl">临时供应商：</label>
-	            <select name="isProvisional" id="isProvisional" class="w220">
-	              <option value=''>全部</option>
-	              <option value='1' <c:if test="${supplier.isProvisional eq '1' }">selected</c:if>>是</option>
-	              <option value='0' <c:if test="${supplier.isProvisional eq '0' }">selected</c:if>>否</option>
-	            </select>
-	         	</li>
-	         	<li>
-	          	<label class="fl">社会信用代码：</label><span><input class="w220" id="creditCode" name="creditCode" value="${supplier.creditCode }" type="text"></span>
-	          </li>
-	          <%-- <li>
-              <label class="fl">采购机构：</label><span><input class="w220" id="orgName" name="orgName" value="${supplier.orgName }" type="text"></span>
-            </li> --%>
-            <li>
-              <label class="fl">采购机构：</label>
-              <select name="orgName" id="orgName" class="w220">
-                <option value=''>全部</option>
-                <c:forEach items="${allOrg}" var="org">
-                  <c:if test="${org.isAuditSupplier == 1}">
-                    <option value="${org.shortName}" <c:if test="${supplier.orgName eq org.shortName}">selected</c:if>>${org.shortName}</option>
-                  </c:if>
-                </c:forEach>
-              </select>
-            </li>
-                <c:if test ="${sign == 1 }">
-                    <li>
-                        <label class="fl">供应商品目：</label>
-                          <span><input  class="w220" name="queryCategoryName" id="supplierGradeInput" class="span2 mt5" type="text" name=""  readonly value="${supplier.queryCategoryName }" onclick="initZtree(true);" />
-                            <input type="hidden" name="queryCategory" id="supplierGradeInputVal" value="${supplier.queryCategory}"/>
-                            <input type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds}" />
-                          </span>
-                    </li>
-                    <li class="hide"  id="supplierLevelLi">
-                        <label class="fl">供应商等级：</label>
-                        <select name="supplierLevel" id="supplierLevel" class="w220">
-                            <option selected="selected" value=''>全部</option>
-                            <option value="一级">一级</option>
-                            <option value="二级">二级</option>
-                            <option value="三级">三级</option>
-                            <option value="四级">四级</option>
-                            <option value="五级">五级</option>
-                            <option value="六级">六级</option>
-                            <option value="七级">七级</option>
-                            <option value="八级">八级</option>
-                        </select>
-                    </li>
-                    <li>
-                        <label class="fl">地区：</label>
-                        <select name="address" id="address" class="w220">
-                            <option value=''>全部</option>
-                            <c:forEach items="${privnce}" var="list">
-                                <option value="${list.id}">${list.name }</option>
-                            </c:forEach>
-                        </select>
-                    </li>
-                </c:if>
-	        </ul>
-	          <div class="col-md-12 clear tc mt10">
-            	<button type="button" onclick="submit()" class="btn">查询</button>
-              <button type="reset" onclick="chongzhi()" class="btn">重置</button>
-
-              <!-- <button type="reset" onclick="openDiy()" class="btn">自定义查询</button> -->
-              <c:choose>
-								<c:when test="${sign == 1 }">
-								 		<a href="${pageContext.request.contextPath}/supplierQuery/highmaps.html" class="btn">切换到地图</a>
-								 		<a href="javascript:;" class="btn" id="export_result">将结果导出Excel</a>
-								</c:when>
-								<c:otherwise>
-										<button class="btn btn-windows back" type="button" onclick="location.href='${pageContext.request.contextPath}/supplierQuery/highmaps.html'">返回</button>
-										<!-- <button class="btn btn-windows delete" type="button" onclick="cancellation();">注销</button> -->
-								</c:otherwise>
-							</c:choose>
-							<!-- <button class="btn btn-windows edit" type="button" onclick="resetPwd()">重置密码</button> -->
-							<!-- <button class="btn btn-windows delete" type="button" onclick="cancellation();">注销</button> -->
-	          </div>
-	          <div class="clear"></div>
+			          </div>
+			        </div>
+			      </div>
+						
+						<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			        <div class="row">
+			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">供应商状态：</div>
+			          <div class="col-xs-8 f0 lh0">
+									<select id="status" name="status" class="w100p h32 f14">
+										<option  selected="selected" value=''>全部</option>
+										<c:forEach items="<%=SupplierConstants.STATUSMAP %>" var="item">
+										<option value="${item.key}">${item.value}</option>
+										</c:forEach>
+									</select>
+			          </div>
+			        </div>
+			      </div>
+						
+						<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			        <div class="row">
+			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">临时供应商：</div>
+			          <div class="col-xs-8 f0 lh0">
+									<select name="isProvisional" id="isProvisional" class="w100p h32 f14">
+			              <option value=''>全部</option>
+			              <option value='1' <c:if test="${supplier.isProvisional eq '1' }">selected</c:if>>是</option>
+			              <option value='0' <c:if test="${supplier.isProvisional eq '0' }">selected</c:if>>否</option>
+			            </select>
+			          </div>
+			        </div>
+			      </div>
+						
+						<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			        <div class="row">
+			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">社会信用代码：</div>
+			          <div class="col-xs-8 f0 lh0">
+									<input class="w100p h32 f14 mb0" id="creditCode" name="creditCode" value="${supplier.creditCode }" type="text">
+			          </div>
+			        </div>
+			      </div>
+						
+						<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			        <div class="row">
+			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购机构：</div>
+			          <div class="col-xs-8 f0 lh0">
+									<select name="orgName" id="orgName" class="w100p h32 f14">
+		                <option value=''>全部</option>
+		                <c:forEach items="${allOrg}" var="org">
+		                  <c:if test="${org.isAuditSupplier == 1}">
+		                    <option value="${org.shortName}" <c:if test="${supplier.orgName eq org.shortName}">selected</c:if>>${org.shortName}</option>
+		                  </c:if>
+		                </c:forEach>
+		              </select>
+			          </div>
+			        </div>
+			      </div>
+						
+						<c:if test ="${sign == 1 }">
+						<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			        <div class="row">
+			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">供应商品目：</div>
+			          <div class="col-xs-8 f0 lh0">
+									<input class="w100p h32 f14 mb0" name="queryCategoryName" id="supplierGradeInput" type="text" name="" readonly value="${supplier.queryCategoryName }" onclick="initZtree(true);">
+									<input type="hidden" name="queryCategory" id="supplierGradeInputVal" value="${supplier.queryCategory}">
+									<input type="hidden" name="supplierTypeIds" id="supplierTypeIds" value="${supplierTypeIds}">
+			          </div>
+			        </div>
+			      </div>
+						
+						<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10 hide" id="supplierLevelLi">
+			        <div class="row">
+			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">供应商等级：</div>
+			          <div class="col-xs-8 f0 lh0">
+									<select name="supplierLevel" id="supplierLevel" class="w100p h32 f14">
+										<option selected="selected" value=''>全部</option>
+										<option value="一级">一级</option>
+										<option value="二级">二级</option>
+										<option value="三级">三级</option>
+										<option value="四级">四级</option>
+										<option value="五级">五级</option>
+										<option value="六级">六级</option>
+										<option value="七级">七级</option>
+										<option value="八级">八级</option>
+									</select>
+			          </div>
+			        </div>
+			      </div>
+						
+						<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			        <div class="row">
+			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">地区：</div>
+			          <div class="col-xs-8 f0 lh0">
+									<select name="address" id="address" class="w100p h32 f14">
+										<option value=''>全部</option>
+										<c:forEach items="${privnce}" var="list">
+												<option value="${list.id}">${list.name }</option>
+										</c:forEach>
+									</select>
+			          </div>
+			        </div>
+			      </div>
+						</c:if>
+			    </div>
+			    </div>
+					
+					<div class="tc">
+						<button type="button" onclick="submit()" class="btn mb0">查询</button>
+						<button type="reset" onclick="chongzhi()" class="btn mb0">重置</button>
+						<c:choose>
+							<c:when test="${sign == 1 }">
+								<a href="${pageContext.request.contextPath}/supplierQuery/highmaps.html" class="btn mb0">切换到地图</a>
+								<a href="javascript:;" class="btn mb0" id="export_result">将结果导出Excel</a>
+							</c:when>
+							<c:otherwise>
+								<button class="btn btn-windows back mb0 mr0" type="button" onclick="location.href='${pageContext.request.contextPath}/supplierQuery/highmaps.html'">返回</button>
+							</c:otherwise>
+						</c:choose>
+					</div>
 	       </form>
      </h2>
-			<div class="col-md-12 pl20 mt10">
-
-			</div>
 
 			<div class="content table_box">
 				<table class="table table-bordered table-condensed table-hover table-striped">

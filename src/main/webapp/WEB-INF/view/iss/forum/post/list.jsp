@@ -252,37 +252,53 @@
 		<div class="container">
 			<!-- 项目戳开始 -->
 			<div class="search_detail">
-     		<ul class="demand_list">
-       		<li class="fl">
-	       		<label class="fl">帖子名称：</label>
-	       		<span><input type="text" id="postName" class="" value="${postName }"/></span>
-       		</li>
-        
-       		<li class="fl">
-         		<label class="fl">所属版块：</label>
-            	<span>
-	            	<select id ="parkId" class="w178" onchange="change(this.options[this.selectedIndex].value)" >
-	             	<option></option>
-	             	<c:forEach items="${parks}" var="park">
-	                  <option  value="${park.id}">${park.name}</option>
-	              </c:forEach> 
-	             	</select>
-            	</span>
-       		</li>
-       		
-        	<li class="fl">
-         		<label class="fl">所属主题：</label>
-            	<span>
-	            	<select id ="topicId" class="w178 " >
-	             	<option></option>
-	             	</select>
-            	</span>
-       		</li>
-         	<button class="btn fl" onclick="search()">查询</button>
-         	<button class="btn fl" onclick="reset()">重置</button>
-     	</ul>
-     	<div class="clear"></div>
-  </div>
+			<div class="m_row_5">
+	    <div class="row">
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">帖子名称：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<input type="text" id="postName" class="w100p h32 f14 mb0" value="${postName }">
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">所属版块：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<select id="parkId" class="w100p h32 f14" onchange="change(this.options[this.selectedIndex].value)">
+								<option></option>
+								<c:forEach items="${parks}" var="park">
+								<option  value="${park.id}">${park.name}</option>
+								</c:forEach> 
+							</select>
+	          </div>
+	        </div>
+	      </div>
+				
+				<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">所属主题：</div>
+	          <div class="col-xs-8 f0 lh0">
+							<select id="topicId" class="w100p h32 f14">
+								<option></option>
+							</select>
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	        <div class="row">
+	          <div class="col-xs-12 f0">
+							<button class="btn mb0 h32" onclick="search()">查询</button>
+		         	<button class="btn mb0 mr0 h32" onclick="reset()">重置</button>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	    </div>
+  		</div>
 
 			<div class="col-md-12 pl20 mt10">
 				<button class="btn btn-windows add" type="button" onclick="add()">新增</button>

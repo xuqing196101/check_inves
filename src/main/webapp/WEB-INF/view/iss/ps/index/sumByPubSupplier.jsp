@@ -67,13 +67,11 @@
             <label>状态：</label>
             <select name="status" id="status" class="form-control">
                 <option value="">全部</option>
-                <option value="1">审核通过</option>
-                <option value="4">待复核</option>
-                <option value="5">复核通过</option>
-                <option value="6">复核未通过</option>
-                <!-- <option value="5">待考察</option> -->
+                <option value="1">入库（待复核）</option>
+               	<option value="-4">预复核结束</option>
+                <option value="5">复核合格（待考察）</option>
+                <option value="-5">预考察结束</option>
                 <option value="7">考察合格</option>
-                <option value="8">考察不合格</option>
                 <%--<c:choose>
                    <c:when test="${!empty status && fn:contains('1,4,6',status)}">
                        <option value="1,4,6" selected="selected">审核通过</option>
@@ -142,12 +140,11 @@
                                         无状态
                                     </c:otherwise>
                                 </c:choose>--%>
-                                <c:if test="${item.status==1 }">审核通过</c:if>
-                                <c:if test="${item.status==4 }">待复核</c:if>
-                                <c:if test="${item.status==5 }">复核通过</c:if>
-                                <c:if test="${item.status==6 }">复核未通过</c:if>
+                                <c:if test="${item.status==1 }">入库（待复核）</c:if>
+                                <c:if test="${item.status==-4 }">预复核结束</c:if>
+                                <c:if test="${item.status==5 }">复核合格（待考察）</c:if>
+                                <c:if test="${item.status==-5 }">预考察结束</c:if>
                                 <c:if test="${item.status==7 }">考察合格</c:if>
-                                <c:if test="${item.status==8 }">考察不合格</c:if>
                             </span>
                         </li>
                     </c:forEach>
