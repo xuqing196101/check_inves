@@ -14,6 +14,7 @@ import ses.service.ems.ExpertAuditOpinionService;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>Title:ExpertAuditOpinionServiceImpl </p>
@@ -196,5 +197,19 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 	public void updata(ExpertAuditOpinion expertAuditOpinion) {
 		 mapper.updateByPrimaryKeySelective(expertAuditOpinion);
 		
+	}
+
+	/**
+	 * 假删除
+	 */
+	@Override
+	public void updateisDeletedByExpertId(Map<String, Object> map) {
+		mapper.updateisDeletedByExpertId(map);
+		
+	}
+
+	@Override
+	public ExpertAuditOpinion selectAllByExpertId(ExpertAuditOpinion expertAuditOpinion) {
+		return mapper.selectAllByExpertId(expertAuditOpinion);
 	}
 }
