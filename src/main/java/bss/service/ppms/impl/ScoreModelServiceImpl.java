@@ -126,4 +126,10 @@ public class ScoreModelServiceImpl implements ScoreModelService{
       return scoreModelMapper.findListByScoreModelByTime(scoreModel);
     }
 
+    @Override
+    public List<ScoreModel> find(ScoreModel scoreModel) {
+      // TODO Auto-generated method stub
+      return scoreModelMapper.find(scoreModel);
+    }
+
 }

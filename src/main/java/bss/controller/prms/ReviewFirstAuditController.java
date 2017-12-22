@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -414,15 +415,67 @@ public class ReviewFirstAuditController extends BaseSupplierController {
         hashMap.put("isRemoved", "0");
         hashMap.put("isTurnUp", 0);
         List<SaleTender> supplierList = saleTenderService.getAdPackegeSuppliers(hashMap);
-		model.addAttribute("supplierList", supplierList);
+		
 		// 回显
 		map.put("expertId", expertId);
 		List<ExpertScore> scores = expertScoreService.selectInfoByMap(map);
 		model.addAttribute("scores", scores);
+		DictionaryData findById = DictionaryDataUtil.findById(typeId);
+		if(findById!=null&&"TECHNOLOGY".equals(findById.getCode())){
+      BidMethod bidMethod=new BidMethod();
+      bidMethod.setProjectId(projectId);
+      bidMethod.setPackageId(packageId);
+      List<BidMethod> bms = bidMethodService.findScoreMethod(bidMethod);
+      Double deviation=null;
+      if(bms!=null&&bms.size()>0){
+        BidMethod bm=bms.get(0);
+        if("2".equals(bm.getTypeName())){
+          deviation=bm.getDeviation().doubleValue();
+        }  
+      }
+      if(deviation!=null){
+        for (SaleTender sl : supplierList) {
+          ExpertScore expertScore=new ExpertScore();
+          expertScore.setExpertId(expertId);
+          expertScore.setPackageId(packageId);
+          expertScore.setProjectId(projectId);
+          expertScore.setSupplierId(sl.getSupplierId());
+          List<ExpertScore> selectByScore = expertScoreService.selectByScore(expertScore);
+          Boolean flg=false;
+          BigDecimal total=BigDecimal.ZERO;
+          for (ExpertScore ep : selectByScore) {
+            ScoreModel scoreModel1=new ScoreModel();
+            scoreModel1.setId(ep.getScoreModelId());
+            List<ScoreModel> findListByScoreModel = scoreModelService.find(scoreModel1);
+            if(findListByScoreModel!=null&&findListByScoreModel.size()>0){
+              ScoreModel scoreModel2 = findListByScoreModel.get(0);
+              if("10".equals(scoreModel2.getTypeName())){
+                if(ep.getScore().doubleValue()<0){
+                  if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
+                    flg=true;
+                  }else{
+                    total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
+                  }
+                }
+              }
+            }
+          }
+          if(total.doubleValue()>deviation){
+            flg=true;
+          }
+          if(flg){
+            sl.setMessage("(最高技术指标数量限制)");
+          }
+        }
+      }
+    }
+		model.addAttribute("supplierList", supplierList);
 		// 新增参数
         model.addAttribute("size", supplierList.size());
 		model.addAttribute("projectId", projectId);
 		model.addAttribute("packageId", packageId);
+		model.addAttribute("typeId", typeId);
+		model.addAttribute("expertId", expertId);
 		return "bss/prms/audit/review_first_grade";
 	}
 	/**
@@ -614,6 +667,7 @@ public class ReviewFirstAuditController extends BaseSupplierController {
     expertScore.setPackageId(packId);
     expertScore.setScoreModelId(smodel.getId());
     expertScoreService.saveScore(expertScore, list,smodel.getId());
+    expertScore.setSupplierId(null);
     List<ExpertScore> es = expertScoreService.selectByScore(expertScore);
     StringBuffer buffer=new StringBuffer();
     buffer.append("{\"spriceScore\":[");
@@ -653,12 +707,14 @@ public class ReviewFirstAuditController extends BaseSupplierController {
    
     //往saleTener插入最终供应商排名
     packageExpertService.rank(packId, projectId, finalSupplier);
+    String reviewResults="";
     for (int i = 0; i < finalSupplier.size(); i++) {
       SaleTender st = finalSupplier.get(i);
       String reviewResult = st.getReviewResult();
       int rank = st.getRanking();
       
       reviewResult += rank;
+      reviewResults=reviewResult;
       //插入排名
       HashMap<String, Object> ranMap = new HashMap<String, Object>();
       ranMap.put("reviewResult", reviewResult);
@@ -696,6 +752,8 @@ public class ReviewFirstAuditController extends BaseSupplierController {
     ranks.append("\"ranks\":[");
     StringBuffer score=new StringBuffer();
     score.append("\"scores\":[");
+    StringBuffer rb=new StringBuffer();
+    rb.append("\"reviewResults\":\""+reviewResults+"\",");
     for(ExpertScore ets:es){
       SaleTender st=new SaleTender();
       st.setSupplierId(ets.getSupplierId());
@@ -708,6 +766,7 @@ public class ReviewFirstAuditController extends BaseSupplierController {
           score.append("\"score\":\""+sts.get(0).getPriceScore().setScale(2)+"(价格)+"+sts.get(0).getEconomicScore().setScale(2)+"(经济)+"+sts.get(0).getTechnologyScore().setScale(2)+"(技术)="+sts.get(0).getPriceScore().add(sts.get(0).getEconomicScore()).add(sts.get(0).getTechnologyScore()).setScale(2)+"\"},");
       }
     }
+    buffer.append(rb);
     ranks=ranks.replace(ranks.lastIndexOf(","), ranks.lastIndexOf(",")+1, "],");
     score=score.replace(score.lastIndexOf(","), score.lastIndexOf(",")+1, "]}");
     buffer.append(ranks);
@@ -789,7 +848,7 @@ public class ReviewFirstAuditController extends BaseSupplierController {
 	    Double deviation=null;
 	    if(bms!=null&&bms.size()>0){
 	      BidMethod bm=bms.get(0);
-	      if("2".equals(bm.getTypeName())&&bm.getMedicalType()!=null&&bm.getMedicalType().intValue()==1){
+	      if("2".equals(bm.getTypeName())){
 	        deviation=bm.getDeviation().doubleValue();
 	      }  
 	    }
@@ -885,8 +944,7 @@ public class ReviewFirstAuditController extends BaseSupplierController {
 	 * @return
 	 */
 	@RequestMapping("supplierTotal")
-	@ResponseBody
-	public String supplierTotal(String supplierIds, String projectId, String packageId, HttpSession session){
+	public void supplierTotal(HttpServletResponse response,String supplierIds, String projectId, String packageId, HttpSession session,String typeId){
 	    //当前登录用户
       User user = (User)session.getAttribute("loginUser");
       String expertId = user.getTypeId();
@@ -895,8 +953,58 @@ public class ReviewFirstAuditController extends BaseSupplierController {
       map.put("projectId", projectId);
       map.put("packageId", packageId);
       map.put("supplierId", supplierIds);
-      BigDecimal score = expertScoreService.selectSumByMap(map);
-	    return JSON.toJSONString(score);
+      DictionaryData findById = DictionaryDataUtil.findById(typeId);
+      BigDecimal score=BigDecimal.ZERO;
+      String str="";
+      if(findById!=null&&"TECHNOLOGY".equals(findById.getCode())){
+        BidMethod bidMethod=new BidMethod();
+        bidMethod.setProjectId(projectId);
+        bidMethod.setPackageId(packageId);
+        List<BidMethod> bms = bidMethodService.findScoreMethod(bidMethod);
+        Double deviation=null;
+        if(bms!=null&&bms.size()>0){
+          BidMethod bm=bms.get(0);
+          if("2".equals(bm.getTypeName())){
+            deviation=bm.getDeviation().doubleValue();
+          }  
+        }
+        Boolean flg=false;
+        if(deviation!=null){
+          ExpertScore expertScore=new ExpertScore();
+          expertScore.setExpertId(expertId);
+          expertScore.setPackageId(packageId);
+          expertScore.setProjectId(projectId);
+          expertScore.setSupplierId(supplierIds);
+          List<ExpertScore> selectByScore = expertScoreService.selectByScore(expertScore);
+          BigDecimal total=BigDecimal.ZERO;
+          for (ExpertScore ep : selectByScore) {
+            ScoreModel scoreModel=new ScoreModel();
+            scoreModel.setId(ep.getScoreModelId());
+            List<ScoreModel> findListByScoreModel = scoreModelService.find(scoreModel);
+            if(findListByScoreModel!=null&&findListByScoreModel.size()>0){
+              ScoreModel scoreModel2 = findListByScoreModel.get(0);
+              if("10".equals(scoreModel2.getTypeName())){
+                if(ep.getScore().doubleValue()<0){
+                  if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
+                    flg=true;
+                  }else{
+                    total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
+                  }
+                }
+              }
+            }
+          }
+          if(total.doubleValue()>deviation){
+            flg=true;
+          }
+        }
+        if(!flg){
+          score= expertScoreService.selectSumByMap(map);
+        }
+      }else{
+        score= expertScoreService.selectSumByMap(map);
+      }
+	   super.printOutMsg(response, score+"");
 	}
 	  
 	/**

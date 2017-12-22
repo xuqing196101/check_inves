@@ -898,17 +898,20 @@ public class ScoreModelUtil {
       Set<Double> negativeSet=new HashSet<Double>();
       List<SupplyMark> list=new ArrayList<SupplyMark>();
        for (SupplyMark supplyMark : supplyMarks) {
-        if(supplyMark.getPrarm()-maxScore>=0){
+        if(supplyMark.getPrarm()-maxScore>0){
           positiveList.add(supplyMark);
           positiveSet.add(supplyMark.getPrarm());
-        }else{
+        }else if(supplyMark.getPrarm()-maxScore<0){
           negativeList.add(supplyMark);
           negativeSet.add(supplyMark.getPrarm());
+        }else{
+          supplyMark.setScore(0);
+          list.add(supplyMark);
         }
       }
        
       if(positiveList!=null){//正偏离计算
-        scoreList(positiveList,"+",standardScore,positiveSet);
+        scoreList(positiveList,"+",standardScore,positiveSet,deviation,maxScore);
       }
       if(negativeList!=null){//负偏离计算
         Collections.sort(negativeList,new Comparator<SupplyMark>() {
@@ -919,14 +922,22 @@ public class ScoreModelUtil {
             return (int) (score1-score2);
           }
         });
-        scoreList(negativeList,"-",standardScore,negativeSet);
+        scoreList(negativeList,"-",standardScore,negativeSet,deviation,maxScore);
       }
       list.addAll(positiveList);
       list.addAll(negativeList);
       return list;
     }
-
-    private static void scoreList(List<SupplyMark> positiveList,String type,Double standardScore,Set<Double> sets) {
+  /**
+   * 
+   * @param positiveList
+   * @param type +正偏离，-负偏离
+   * @param standardScore 标准分值
+   * @param sets set去重后的得分
+   * @param deviation 综合评分法最高次数,负偏离都不能超过此数值,超过则技术评分总分直接0分，
+   * @param maxScore 基本技术指标数量
+   */
+    private static void scoreList(List<SupplyMark> positiveList,String type,Double standardScore,Set<Double> sets,Double deviation,Double maxScore) {
       Double[] two={1.0,0.5};
       Double[] three={1.0,0.66,0.33};
       Double[] four={1.0,0.75,0.5,0.25};
@@ -936,13 +947,17 @@ public class ScoreModelUtil {
           if("+".equals(type)){
             positiveList.get(i).setScore(standardScore);
           }else{
+            if(Math.abs(maxScore)-Math.abs(positiveList.get(i).getPrarm())>deviation){
+              positiveList.get(i).setScoreTotal(1);
+              positiveList.get(i).setScoreContent("超过基本技术指标数量");
+            }
             positiveList.get(i).setScore(-standardScore);
           }
         }
       }if(sets.size()==2){
-        number = scoreNumber(positiveList, type, standardScore, two, number);
+        number = scoreNumber(positiveList, type, standardScore, two, number, deviation, maxScore);
       }else if(sets.size()==3){
-        number = scoreNumber(positiveList, type, standardScore, three, number);
+        number = scoreNumber(positiveList, type, standardScore, three, number, deviation, maxScore);
       }else if(sets.size()>=4){
         for (int i=0;i<positiveList.size();i++) {
           if(number<=3){
@@ -954,6 +969,10 @@ public class ScoreModelUtil {
                 }
               }
             }else{
+              if(Math.abs(maxScore)-Math.abs(positiveList.get(i).getPrarm())>deviation){
+                positiveList.get(i).setScoreTotal(1);
+                positiveList.get(i).setScoreContent("超过基本技术指标数量");
+              }
               positiveList.get(i).setScore(-standardScore*four[number]);
               if(i!=positiveList.size()-1){
                 if(positiveList.get(i).getPrarm()!=positiveList.get(i+1).getPrarm()){
@@ -974,7 +993,7 @@ public class ScoreModelUtil {
     }
 
     private static Integer scoreNumber(List<SupplyMark> positiveList,
-        String type, Double standardScore, Double[] two, Integer number) {
+        String type, Double standardScore, Double[] two, Integer number,Double deviation,Double maxScore) {
       for (int i=0;i<positiveList.size();i++) {
         if("+".equals(type)){
           positiveList.get(i).setScore(standardScore*two[number]);
@@ -984,6 +1003,10 @@ public class ScoreModelUtil {
             }
           }
         }else{
+          if(Math.abs(maxScore)-Math.abs(positiveList.get(i).getPrarm())>deviation){
+            positiveList.get(i).setScoreTotal(1);
+            positiveList.get(i).setScoreContent("超过基本技术指标数量");
+          }
           positiveList.get(i).setScore(-standardScore*two[number]);
           if(i!=positiveList.size()-1){
             if(positiveList.get(i).getPrarm()!=positiveList.get(i+1).getPrarm()){

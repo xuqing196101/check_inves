@@ -84,12 +84,12 @@
   									var supplierId_sum = data[i].supplierId;
   									$.ajax({
   										url:'${pageContext.request.contextPath}/reviewFirstAudit/supplierTotal.html',
-  										data:{supplierIds : supplierId_sum, projectId : projectId, packageId : packageId},
+  										data:{supplierIds : supplierId_sum, projectId : projectId, packageId : packageId,typeId:'${typeId}',expertId:'${expertId}'},
   										type:"post",
   										dataType:"JSON",
   										success:function(data){
-  											$("input[name='"+supplierId_sum+"_total']").each(function(index,item){
-  												$(this).next().html("<font color='red' class='f18'>" + data + "</font>");
+											$("input[name='"+supplierId_sum+"_total']").each(function(index,item){
+  												$(this).next().html("<font color='red' class='f18'>" + data+ "</font>");
   											});
   										}
   									});
@@ -123,9 +123,9 @@
     						type:"post",
     						dataType:"JSON",
     						success:function(data) {
-    							$("input[name='"+supplierId+"_total']").each(function(index,item){
-    								$(this).next().html("<font color='red' class='f18'>" + data + "</font>");
-    							});
+								$("input[name='"+supplierId_sum+"_total']").each(function(index,item){
+									$(this).next().html("<font color='red' class='f18'>" + data + "</font>");
+								});
     						}
     					});
     				}
@@ -422,7 +422,12 @@
 			      	  <c:set var="sum_score" value="0"/>
 			      		<c:forEach items="${scores}" var="sco">
 			 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.supplierId}">
-			 	          	<c:set var="sum_score" value="${sum_score+sco.score}"/>
+			 	          	 <c:if test="${supplier.message!=null}">
+			 	          	    <c:set var="sum_score" value="0"/>
+			 	          	 </c:if>
+			 	          	 <c:if test="${supplier.message==null}">
+			 	          	    <c:set var="sum_score" value="${sum_score+sco.score}"/>
+			 	          	 </c:if>
 			 	          </c:if>
 			 	        </c:forEach>
 			 	        <font color="red" class="f18">${sum_score}</font>
