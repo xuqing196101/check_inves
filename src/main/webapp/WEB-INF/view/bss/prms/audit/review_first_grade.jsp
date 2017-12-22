@@ -88,13 +88,8 @@
   										type:"post",
   										dataType:"JSON",
   										success:function(data){
-<<<<<<< HEAD
   											$("input[name='"+supplierId_sum+"_total']").each(function(index,item){
   												$(this).next().html("<font color='red'>" + data + "</font>");
-=======
-											$("input[name='"+supplierId_sum+"_total']").each(function(index,item){
-  												$(this).next().html("<font color='red' class='f18'>" + data+ "</font>");
->>>>>>> 0b0df598495e26cdfaee15155bc224463b197d8c
   											});
   										}
   									});
@@ -128,15 +123,9 @@
     						type:"post",
     						dataType:"JSON",
     						success:function(data) {
-<<<<<<< HEAD
     							$("input[name='"+supplierId+"_total']").each(function(index,item){
     								$(this).next().html("<font color='red'>" + data + "</font>");
     							});
-=======
-								$("input[name='"+supplierId_sum+"_total']").each(function(index,item){
-									$(this).next().html("<font color='red' class='f18'>" + data + "</font>");
-								});
->>>>>>> 0b0df598495e26cdfaee15155bc224463b197d8c
     						}
     					});
     				}
