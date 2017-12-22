@@ -573,4 +573,18 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 	public List<PurchaseContract> selectByProjectCode(String code) {
 		return purchaseContractMapper.selectByProjectCode(code);
 	}
+
+	@Override
+	public List<PurchaseContract> contractSupervisionList(
+			HashMap<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		return purchaseContractMapper.contractSupervisionList(map);
+	}
+
+	@Override
+	public List<PurchaseContract> viewContract(String fileId) {
+		
+		return purchaseContractMapper.contractSupervisionByFileId(fileId);
+	}
 }

@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "Epoint005WebServiceService", targetNamespace = "http://service_005.epoint.com/", wsdlLocation = "http://218.4.136.118:81/05557WebService/services/Epoint005WebService?wsdl")
+@WebServiceClient(name = "Epoint005WebServiceService", targetNamespace = "http://service_005.epoint.com/", wsdlLocation = "http://172.16.2.57:81/05557WebService/services/Epoint005WebService?wsdl")
 public class Epoint005WebServiceService
     extends Service
 {
@@ -30,7 +30,7 @@ public class Epoint005WebServiceService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("http://218.4.136.118:81/05557WebService/services/Epoint005WebService?wsdl");
+            url = new URL("http://172.16.2.57:81/05557WebService/services/Epoint005WebService?wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }

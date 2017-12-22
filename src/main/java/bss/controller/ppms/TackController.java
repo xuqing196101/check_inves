@@ -2,7 +2,6 @@ package bss.controller.ppms;
 
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -33,8 +32,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
-import ses.service.bms.RoleServiceI;
 import ses.service.oms.OrgnizationServiceI;
+import ses.util.AuthorityUtil;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 
@@ -87,8 +86,6 @@ public class TackController extends BaseController{
 	private AdvancedDetailService detailService;
 	@Autowired
 	private AdvancedProjectService advancedProjectService;
-	@Autowired
-	private RoleServiceI roleService;
 	
     @Autowired
     private ProjectService projectService;
@@ -107,10 +104,11 @@ public class TackController extends BaseController{
 	* @param @param model
 	* @param @return      
 	* @return String
+	 * @throws IOException 
 	 */
 	@RequestMapping("/list")
-	public String list(@CurrentUser User user, Integer page,Model model,Task task){
-	    if(user != null && user.getOrg() != null){
+	public String list(@CurrentUser User user, Integer page,Model model,Task task) throws IOException{
+	    if(user != null){
 	        HashMap<String, Object> map1 = new HashMap<>();
 	        if(task.getName() !=null && !task.getName().equals("")){
 	        	map1.put("name", task.getName());
@@ -124,34 +122,25 @@ public class TackController extends BaseController{
 			if(task.getTaskNature() != null){
 				map1.put("taskNature", task.getTaskNature());
 			}
-			map1.put("userId", user.getId());
-	        if(page==null){
-				page = 1;
+			HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
+			List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
+			if (superviseOrgId != null && !superviseOrgId.isEmpty()) {
+				map1.put("userId", superviseOrgId);
+		        if(page==null){
+					page = 1;
+				}
+		        map1.put("page", page.toString());
+				PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+		        List<Task> list = taskservice.likeByName(map1);
+	            HashMap<String, Object> map = new HashMap<>();
+	            map.put("typeName", "2");
+	            List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map);
+	            model.addAttribute("list2",orgnizations);
+	            model.addAttribute("info", new PageInfo<Task>(list));
+	            model.addAttribute("task", task);
+	            model.addAttribute("typeName", user.getTypeName());
 			}
-	        map1.put("page", page.toString());
-			PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-	        List<Task> list = taskservice.likeByName(map1);
-	        //判断是不是监管人员
-	        HashMap<String,Object> roleMap = new HashMap<String,Object>();
-			roleMap.put("userId", user.getId());
-			roleMap.put("code", "SUPERVISER_R");
-			BigDecimal i = roleService.checkRolesByUserId(roleMap);
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("typeName", "2");
-            List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map);
-            model.addAttribute("list2",orgnizations);
-            model.addAttribute("info", new PageInfo<Task>(list));
-            model.addAttribute("orgId", user.getOrg().getId());
-            model.addAttribute("task", task);
-            model.addAttribute("admin", i);//判断是不是监管人员
 	    }
-	    
-	    //只有采购机构才能操作
-      if("1".equals(user.getTypeName())){
-        model.addAttribute("auth", "show");
-      }else {
-        model.addAttribute("auth", "hidden");
-      }
 		return "bss/ppms/task/list";
 	}
 	

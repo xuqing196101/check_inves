@@ -7,7 +7,9 @@ import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
+import ses.model.sms.Supplier;
 import ses.model.sms.SupplierItemLevel;
+import extract.model.supplier.Continent;
 import extract.model.supplier.Qua;
 import extract.model.supplier.SupplierConType;
 import extract.model.supplier.SupplierExtractCondition;
@@ -170,7 +172,6 @@ public interface SupplierExtractConditionService {
   String setExtractCondition(String typeCode, SupplierExtractCondition condition,
 		SupplierConType conType) throws Exception;
 
-
   
   int saveContype(SupplierExtractCondition condition, SupplierConType conType);
 
@@ -187,6 +188,18 @@ public interface SupplierExtractConditionService {
 
   Map<String, Object> selectSupplier(SupplierExtractCondition condition, int type);
 
+  /**
+   * 
+   * <简述>语音抽取联调测试 
+   *
+   * @author Jia Chengxiang
+ * @param string 
+   * @dateTime 2017-12-13下午8:27:39
+   * @return
+   */
+  List<Supplier> testVoiceExtract(String lastRow);
+
+  List<Continent> selectBranchTree(String cid, String cname, String[] alreadyId);
 }
 
 

@@ -37,6 +37,7 @@ import bss.dao.ppms.AdvancedProjectMapper;
 import bss.dao.ppms.FlowDefineMapper;
 import bss.dao.ppms.FlowExecuteMapper;
 import bss.dao.ppms.NegotiationReportMapper;
+import bss.dao.ppms.PackageAdviceMapper;
 import bss.dao.ppms.PackageMapper;
 import bss.dao.ppms.ProjectDetailMapper;
 import bss.dao.ppms.ProjectMapper;
@@ -55,6 +56,7 @@ import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.FlowDefine;
 import bss.model.ppms.FlowExecute;
 import bss.model.ppms.NegotiationReport;
+import bss.model.ppms.PackageAdvice;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
@@ -70,6 +72,7 @@ import ses.dao.bms.UserMapper;
 import ses.dao.ems.ExpertMapper;
 import ses.dao.ems.ProExtSuperviseMapper;
 import ses.dao.oms.OrgnizationMapper;
+import ses.dao.sms.QuoteMapper;
 import ses.dao.sms.SupplierExtUserMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.model.bms.DictionaryData;
@@ -77,6 +80,7 @@ import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ProExtSupervise;
 import ses.model.oms.Orgnization;
+import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierExtUser;
 import ses.util.DictionaryDataUtil;
@@ -177,6 +181,12 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
     
     @Autowired
     private PurchaseRequiredMapper requiredMapper;
+    
+    @Autowired
+    private QuoteMapper quoteMapper;
+    
+    @Autowired
+    private PackageAdviceMapper packageAdviceMapper;
 
     @Override
     public List<PurchaseRequired> viewDemand(String id) {
@@ -527,21 +537,8 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 
 	@Override
 	public List<Project> view(String id) {
-		List<Project> list = new ArrayList<Project>();
-		if(StringUtils.isNotBlank(id)){
-			HashMap<String, Object> map = new HashMap<>();
-            map.put("requiredId", id);
-            List<ProjectDetail> selectById = projectDetailMapper.selectById(map);
-            if(selectById != null && selectById.size() > 0){
-            	for (ProjectDetail projectDetail : selectById) {
-            		Project project = viewProjects(projectDetail.getProject().getId());
-                	if(project != null && !"4".equals(project.getStatus())){
-                        list.add(project);
-                	}
-				}
-            }
-		}
-		return list;
+		
+		return projectMapper.supervisionProjectList(id);
 	}
 
 	@Override
@@ -739,170 +736,253 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 			//先判断relationId是否为空，为空的话说明项目是中止（转竟谈）之前的项目或者正常项目
 			if(StringUtils.isBlank(project.getRelationId())){
 				HashMap<String, Object> hashMap = new HashMap<>();
-				hashMap.put("id", project.getId());
+				hashMap.put("projectId", project.getId());
 				hashMap.put("requiredId", detailId);
-				List<ProjectDetail> selectById = projectDetailMapper.selectById(hashMap);
-				if(selectById != null && selectById.size() > 0){
-					//判断项目下面这条明细有没有分包，没有的话就只有立项这个环节
-					if(StringUtils.isNotBlank(selectById.get(0).getPackageId())){
-						Packages packages = packageMapper.selectByPrimaryKeyId(selectById.get(0).getPackageId());
-						FlowDefine flowDefine = new FlowDefine();
-						flowDefine.setId(packages.getOldFlowId());
-						flowDefine.setUrl("gt");
-	    				List<FlowDefine> flows = flowDefineMapper.getFlow(flowDefine);//获取小于等于中止的环节
-	    				if(flows != null && flows.size() > 0){
-	    					for (int i=0; i<flows.size();i++) {
-	    						DictionaryData data = new DictionaryData();
-	    						data.setDescription(flows.get(i).getCode());
-	    						List<DictionaryData> find2 = dictionaryDataMapper.findList(data);
-	    						if(find2 != null && find2.size() > 0){
-	    							if(num != 0){
-	    								find2.get(0).setPosition(num);
-	    								num++;
-	    							}
-	    							flowChart(find2.get(0).getCode(),find2.get(0),project,detailId,packages);
-	    							if(i == flows.size()-1){
-	    								//给最后一个流程加一个标示
-	    								map.put(WfUtil.createUUID() + "XMFB", find2.get(0));
-	    								num = find2.get(0).getPosition()+1;
-	    							}else{
-	    								map.put(WfUtil.createUUID(), find2.get(0));
-	    							}
-	    						}
-	    					}
-	    				} else if (list.size() == 1){
-	    					//正常流程进这里
-	    					FlowDefine define = new FlowDefine();
-	    					define.setPurchaseTypeId(packages.getPurchaseType());
-	    					define.setCode("XMXX");
-	    					List<FlowDefine> findList = flowDefineMapper.findList(define);
-	    					if(findList != null && findList.size() > 0){
-	    						flowDefine.setId(findList.get(0).getId());
-	    						flowDefine.setUrl("lt");
-	    						List<FlowDefine> defines = flowDefineMapper.getFlow(flowDefine);
-	    						for (int i=0; i<defines.size();i++) {
-	    							DictionaryData data = new DictionaryData();
-	    							data.setDescription(defines.get(i).getCode());
-	    							List<DictionaryData> find2 = dictionaryDataMapper.findList(data);
-	    							if(find2 != null && find2.size() > 0){
-	    								flowChart(find2.get(0).getCode(),find2.get(0),project,detailId,packages);
-	    								map.put(find2.get(0).getId(), find2.get(0));
-	    							}
-	    						}
-	    					}
-	    				} else if (!"CGLC_CGXMLX".equals(packages.getOldFlowId()) && !"CGLC_CGXMFB".equals(packages.getOldFlowId())) {
-	    					FlowDefine define = new FlowDefine();
-	    					define.setPurchaseTypeId(packages.getPurchaseType());
-	    					define.setCode("XMXX");
-	    					List<FlowDefine> findList = flowDefineMapper.findList(define);
-	    					if(findList != null && findList.size() > 0){
-	    						flowDefine.setId(findList.get(0).getId());
-	    						flowDefine.setUrl("lt");
-	    						List<FlowDefine> defines = flowDefineMapper.getFlow(flowDefine);
-	    						for (int i=0; i<defines.size();i++) {
-	    							DictionaryData data = new DictionaryData();
-	    							data.setDescription(defines.get(i).getCode());
-	    							List<DictionaryData> find2 = dictionaryDataMapper.findList(data);
-	    							if(find2 != null && find2.size() > 0){
-	    								if(num != 0){
-	    									find2.get(0).setPosition(num);
-	    									num++;
-	    								} else {
-	    									num = find2.get(0).getPosition()+1;
-	    								}
-	    								flowChart(find2.get(0).getCode(),find2.get(0),project,detailId,packages);
-	    								map.put(WfUtil.createUUID(), find2.get(0));
-	    							}
-	    						}
-	    					}
-	    				}/* else if ("CGLC_CGXMLX".equals(packages.getOldFlowId()) || "CGLC_CGXMFB".equals(packages.getOldFlowId())) {
-	    					HashMap<String, Object> flowMap = new HashMap<>();
-	    					flowMap.put("lt", packages.getOldFlowId());
-	    					List<DictionaryData> viewFlows = dictionaryDataMapper.viewFlows(flowMap);
-	    					if(viewFlows != null && viewFlows.size() > 0){
-	    						for (int i = 0; i < viewFlows.size(); i++) {
-	    							viewFlows.get(i).setPosition(num);
-	    							flowChart(viewFlows.get(i).getCode(),viewFlows.get(i),project,detailId,packages);
-	    							if(i == viewFlows.size()-1){
-    									map.put(WfUtil.createUUID() + "XMFB", viewFlows.get(i));
+				List<Packages> selectByPack = packageMapper.selectByPack(hashMap);
+				//判断项目下面这条明细有没有分包，没有的话就只有立项这个环节
+				if(selectByPack != null && !selectByPack.isEmpty()){
+					Packages packages = selectByPack.get(0);
+					if (StringUtils.isNotBlank(packages.getOldFlowId())) {
+						//获取中止前的环节
+						num = leFlowAbandoned(map, packages, num, project, detailId);
+					} else if (list.size() == 1){
+						//如果这条明细只有一个项目的时候说明是正常流程
+    					HashMap<String, Object> map2 = new HashMap<>();
+    					map2.put("purchaseTypeId", packages.getPurchaseType());
+    					List<FlowDefine> viewListByPack = flowDefineMapper.viewListByPack(map2);
+    					if (viewListByPack != null && !viewListByPack.isEmpty()) {
+    						for (int i=0; i < viewListByPack.size();i++) {
+    							DictionaryData data = new DictionaryData();
+    							data.setDescription(viewListByPack.get(i).getCode());
+    							List<DictionaryData> find2 = dictionaryDataMapper.findList(data);
+    							if(find2 != null && find2.size() > 0){
+    								flowChart(find2.get(0).getCode(),find2.get(0),project,detailId,packages);
+    								map.put(find2.get(0).getId(), find2.get(0));
+    							}
+    						}
+						}
+					} else if (StringUtils.isNotBlank(packages.getEditFlowId())){
+						//获取转竞谈之前的流程
+						num = leEditFlowId(map, packages, num, project, detailId);
+					} else if (!"CGLC_CGXMLX".equals(packages.getOldFlowId()) && !"CGLC_CGXMFB".equals(packages.getOldFlowId())) {/*
+    					FlowDefine define = new FlowDefine();
+    					define.setPurchaseTypeId(packages.getPurchaseType());
+    					define.setCode("XMXX");
+    					List<FlowDefine> findList = flowDefineMapper.findList(define);
+    					if(findList != null && findList.size() > 0){
+    						flowDefine.setId(findList.get(0).getId());
+    						flowDefine.setUrl("lt");
+    						List<FlowDefine> defines = flowDefineMapper.getFlow(flowDefine);
+    						for (int i=0; i<defines.size();i++) {
+    							DictionaryData data = new DictionaryData();
+    							data.setDescription(defines.get(i).getCode());
+    							List<DictionaryData> find2 = dictionaryDataMapper.findList(data);
+    							if(find2 != null && find2.size() > 0){
+    								if(num != 0){
+    									find2.get(0).setPosition(num);
     									num++;
     								} else {
-    									map.put(WfUtil.createUUID(), viewFlows.get(i));
-    									num++;
+    									num = find2.get(0).getPosition()+1;
     								}
+    								flowChart(find2.get(0).getCode(),find2.get(0),project,detailId,packages);
+    								map.put(WfUtil.createUUID(), find2.get(0));
+    							}
+    						}
+    					}
+    				*/}/* else if ("CGLC_CGXMLX".equals(packages.getOldFlowId()) || "CGLC_CGXMFB".equals(packages.getOldFlowId())) {
+    					HashMap<String, Object> flowMap = new HashMap<>();
+    					flowMap.put("lt", packages.getOldFlowId());
+    					List<DictionaryData> viewFlows = dictionaryDataMapper.viewFlows(flowMap);
+    					if(viewFlows != null && viewFlows.size() > 0){
+    						for (int i = 0; i < viewFlows.size(); i++) {
+    							viewFlows.get(i).setPosition(num);
+    							flowChart(viewFlows.get(i).getCode(),viewFlows.get(i),project,detailId,packages);
+    							if(i == viewFlows.size()-1){
+									map.put(WfUtil.createUUID() + "XMFB", viewFlows.get(i));
+									num++;
+								} else {
+									map.put(WfUtil.createUUID(), viewFlows.get(i));
+									num++;
 								}
-	    					}
-	    				}*/
-					} else {
-						DictionaryData dictionaryData = DictionaryDataUtil.get("CGLC_CGXMLX");
-						dictionaryData.setPosition(num);
-						flowChart(dictionaryData.getCode(),dictionaryData,project,detailId,null);
-						map.put(WfUtil.createUUID(), dictionaryData);
-					}
+							}
+    					}
+    				}*/
+					
+				} else {
+					DictionaryData dictionaryData = DictionaryDataUtil.get("CGLC_CGXMLX");
+					dictionaryData.setPosition(7);
+					flowChart(dictionaryData.getCode(),dictionaryData,project,detailId,null);
+					map.put(WfUtil.createUUID(), dictionaryData);
 				}
 			} else {
 				HashMap<String, Object> hashMap = new HashMap<>();
-				hashMap.put("id", project.getId());
+				hashMap.put("projectId", project.getId());
 				hashMap.put("requiredId", detailId);
-				List<ProjectDetail> selectById = projectDetailMapper.selectById(hashMap);
-				if(selectById != null && selectById.size() > 0){
-					Packages packages = packageMapper.selectByPrimaryKeyId(selectById.get(0).getPackageId());
-					HashMap<String, Object> maps = new HashMap<>();
-					if(StringUtils.isNotBlank(packages.getNewFlowId())){
-						maps.put("newFlowId", packages.getNewFlowId());
-						maps.put("id", packages.getNewFlowId());
+				List<Packages> selectByPack = packageMapper.selectByPack(hashMap);
+				if(selectByPack != null && selectByPack.size() > 0){
+					Packages packages = selectByPack.get(0);
+					if (StringUtils.isNotBlank(packages.getNewFlowId())) {
+						//获取中止之后的环节
+						num = getNewFlowId(map, packages, num, project, detailId);
+					} else {
+						HashMap<String, Object> hashMap2 = new HashMap<>();
+						hashMap2.put("projectId", project.getRelationId());
+						hashMap2.put("requiredId", detailId);
+						List<Packages> findByID = packageMapper.selectByPack(hashMap2);
+						if (findByID != null && !findByID.isEmpty()) {
+							HashMap<String, Object> flowMap = new HashMap<>();
+							FlowDefine flowDefine = flowDefineMapper.get(findByID.get(0).getEditFlowId());
+	    					flowMap.put("code", flowDefine.getCode());
+	    					flowMap.put("purchaseType", packages.getPurchaseType());
+	    					List<FlowDefine> viewFlow = flowDefineMapper.viewFlowList(flowMap);
+	    					if(viewFlow != null && viewFlow.size() > 0){
+	    						for (int i=0; i<viewFlow.size();i++) {
+	    							DictionaryData data = new DictionaryData();
+	    							data.setDescription(viewFlow.get(i).getCode());
+	    							List<DictionaryData> find2 = dictionaryDataMapper.findList(data);
+	    							if(find2 != null && find2.size() > 0){
+	    								find2.get(0).setPosition(num);
+	    								flowChart(find2.get(0).getCode(),find2.get(0),project,detailId,packages);
+	    								if(StringUtils.isNotBlank(packages.getOldFlowId())){
+	    									if(i==viewFlow.size()-1){
+	    										map.put(WfUtil.createUUID() + "XMFB", find2.get(0));
+	    										num++;
+	    									}else{
+	    										map.put(WfUtil.createUUID(), find2.get(0));
+	    										num++;
+	    									}
+	    								} else {
+	    									map.put(WfUtil.createUUID(), find2.get(0));
+	    									num++;
+	    								}
+	    								
+	    							}
+	    						}
+	    					
+	    					}
+						}
 					}
-					if(StringUtils.isNotBlank(packages.getOldFlowId())){
-						maps.put("oldFlowId", packages.getOldFlowId());
-					}
-    				List<FlowDefine> flows = flowDefineMapper.viewFlow(maps);
-    				if(flows != null && flows.size() > 0){
-    					for (int i=0; i<flows.size();i++) {
-    						DictionaryData data = new DictionaryData();
-    						data.setDescription(flows.get(i).getCode());
-    						List<DictionaryData> find2 = dictionaryDataMapper.findList(data);
-    						if(find2 != null && find2.size() > 0){
-    							find2.get(0).setPosition(num);
-    							flowChart(find2.get(0).getCode(),find2.get(0),project,detailId,packages);
-    							if(StringUtils.isNotBlank(packages.getOldFlowId())){
-    								if(i==flows.size()-1){
-    									map.put(WfUtil.createUUID() + "XMFB", find2.get(0));
-    									num++;
-    								}else{
-    									map.put(WfUtil.createUUID(), find2.get(0));
-    									num++;
-    								}
-    							} else {
-    								map.put(WfUtil.createUUID(), find2.get(0));
-    								num++;
-    							}
-    							
-    						}
-    					}
-    				} else {
-    					HashMap<String, Object> flowMap = new HashMap<>();
-    					if(StringUtils.isNotBlank(packages.getNewFlowId())){/*
-    						flowMap.put("gt", packages.getNewFlowId());
-    						List<DictionaryData> viewFlows = dictionaryDataMapper.viewFlows(flowMap);
-        					if(viewFlows != null && viewFlows.size() > 0){
-        						for (int i = 0; i < viewFlows.size(); i++) {
-        							viewFlows.get(i).setPosition(num);
-        							flowChart(viewFlows.get(i).getCode(),viewFlows.get(i),project,detailId,packages);
-    								map.put(WfUtil.createUUID(), viewFlows.get(i));
-    								num++;
-    							}
-        					}
-    					*/}
-    				}
 				}
-			
 			}
-				
 		}
 		return map;
 	}
 	
 	
+	private Integer getNewFlowId(HashMap<String, Object> map, Packages packages,
+			int num, Project project, String detailId) {
+		HashMap<String, Object> maps = new HashMap<>();
+		if(StringUtils.isNotBlank(packages.getNewFlowId())){
+			maps.put("newFlowId", packages.getNewFlowId());
+		}
+		if(StringUtils.isNotBlank(packages.getOldFlowId())){
+			maps.put("oldFlowId", packages.getOldFlowId());
+		}
+		maps.put("purchaseType", packages.getPurchaseType());
+		List<FlowDefine> flows = flowDefineMapper.viewFlowList(maps);
+		if(flows != null && flows.size() > 0){
+			if(StringUtils.isNotBlank(packages.getOldFlowId())){
+				FlowDefine define = new FlowDefine();
+				define.setStep(flows.size());
+				define.setCode("CGLC_XMFB");
+				flows.add(define);
+			}
+			for (int i=0; i<flows.size();i++) {
+				DictionaryData data = new DictionaryData();
+				data.setDescription(flows.get(i).getCode());
+				List<DictionaryData> find2 = dictionaryDataMapper.findList(data);
+				if(find2 != null && find2.size() > 0){
+					find2.get(0).setPosition(num);
+					flowChart(find2.get(0).getCode(),find2.get(0),project,detailId,packages);
+					if(StringUtils.isNotBlank(packages.getOldFlowId())){
+						if(i==flows.size()-1){
+							map.put(WfUtil.createUUID() + "XMFB", find2.get(0));
+							num++;
+						}else{
+							map.put(WfUtil.createUUID(), find2.get(0));
+							num++;
+						}
+					} else {
+						map.put(WfUtil.createUUID(), find2.get(0));
+						num++;
+					}
+					
+				}
+			}
+		}
+		 return num;
+	}
+
+	private Integer leEditFlowId(HashMap<String, Object> map, Packages packages,
+			int num, Project project, String detailId) {
+		HashMap<String, Object> mapList = new HashMap<>();
+		mapList.put("editFlowId", packages.getEditFlowId());
+		mapList.put("purchaseType", packages.getPurchaseType());
+		List<FlowDefine> flows = flowDefineMapper.viewFlowList(mapList);
+		if(flows != null && !flows.isEmpty()){
+			//添加一个转竞谈环节
+			FlowDefine define = new FlowDefine();
+			define.setStep(flows.size());
+			define.setCode("CGLC_ZJT");
+			flows.add(define);
+			for (int i=0; i<flows.size();i++) {
+				DictionaryData data = new DictionaryData();
+				data.setDescription(flows.get(i).getCode());
+				List<DictionaryData> find2 = dictionaryDataMapper.findList(data);
+				if(find2 != null && find2.size() > 0){
+					if(num != 0){
+						find2.get(0).setPosition(num);
+						num++;
+					}
+					flowChart(find2.get(0).getCode(),find2.get(0),project,detailId,packages);
+					if(i == flows.size()-1){
+						//给最后一个流程加一个标示
+						map.put(WfUtil.createUUID() + "XMFB", find2.get(0));
+						num = find2.get(0).getPosition()+1;
+					}else{
+						map.put(WfUtil.createUUID(), find2.get(0));
+					}
+				}
+			}
+		
+		}
+		return num;
+	}
+
+	private Integer leFlowAbandoned(HashMap<String, Object> map, Packages packages, int num, Project project, String detailId) {
+		HashMap<String, Object> mapList = new HashMap<>();
+		mapList.put("oldFlowId", packages.getOldFlowId());
+		mapList.put("purchaseType", packages.getPurchaseType());
+		List<FlowDefine> flows = flowDefineMapper.viewFlowList(mapList);
+		if(flows != null && !flows.isEmpty()){
+			//添加一个中止环节
+			FlowDefine define = new FlowDefine();
+			define.setStep(flows.size());
+			define.setCode("CGLC_XMFB");
+			flows.add(define);
+			for (int i=0; i<flows.size();i++) {
+				DictionaryData data = new DictionaryData();
+				data.setDescription(flows.get(i).getCode());
+				List<DictionaryData> find2 = dictionaryDataMapper.findList(data);
+				if(find2 != null && find2.size() > 0){
+					if(num != 0){
+						find2.get(0).setPosition(num);
+						num++;
+					}
+					flowChart(find2.get(0).getCode(),find2.get(0),project,detailId,packages);
+					if(i == flows.size()-1){
+						//给最后一个流程加一个标示
+						map.put(WfUtil.createUUID() + "XMFB", find2.get(0));
+						num = find2.get(0).getPosition()+1;
+					}else{
+						map.put(WfUtil.createUUID(), find2.get(0));
+					}
+				}
+			}
+		}
+		return num;
+	}
+
 	public void flowChart(String code,DictionaryData dictionaryData, Project project, String detailId, Packages packages){
     	if("CGLC_CGXMLX".equals(code)){
     		dictionaryData.setUpdatedAt(project.getCreateAt());
@@ -966,10 +1046,10 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 				dictionaryData.setDescription(project.getId());
 			}
 		} else if ("CGLC_KB".equals(code)){
-			SaleTender saleTender = new SaleTender();
-            saleTender.setPackages(packages.getId());
-			List<SaleTender> packegeSupplier = saleTenderMapper.getPackegeSupplier(saleTender);
-			if (packegeSupplier != null && !packegeSupplier.isEmpty()) {
+			Quote quoteCondition = new Quote();
+		    quoteCondition.setPackageId(packages.getId());
+		    List<Date> listDate =  quoteMapper.selectQuoteCount(quoteCondition);
+			if (listDate != null && !listDate.isEmpty()) {
 				dictionaryData.setUpdatedAt(project.getBidDate());
 				dictionaryData.setDescription(project.getId());
 			}
@@ -1000,8 +1080,26 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
             	dictionaryData.setDescription(project.getId());
                 dictionaryData.setUpdatedAt(listCheckPass.get(0).getConfirmTime());
             }
+		} else if ("CGLC_XMFB".equals(code)){
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("packageId", packages.getId());
+			map.put("type", 1);
+			List<PackageAdvice> findByList = packageAdviceMapper.findByList(map);
+			if (findByList != null && !findByList.isEmpty()) {
+				dictionaryData.setDescription(project.getId());
+                dictionaryData.setUpdatedAt(findByList.get(0).getCreatedAt());
+			}
+		} else if ("CGLC_ZJT".equals(code)){
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("packageId", packages.getId());
+			map.put("type", 2);
+			List<PackageAdvice> findByList = packageAdviceMapper.findByList(map);
+			if (findByList != null && !findByList.isEmpty()) {
+				dictionaryData.setDescription(project.getId());
+                dictionaryData.setUpdatedAt(findByList.get(0).getCreatedAt());
+			}
 		}
-    	if(packages != null && StringUtils.isNotBlank(packages.getEditFlowId())){
+    	/*if(packages != null && StringUtils.isNotBlank(packages.getEditFlowId())){
     		FlowDefine flowDefine = flowDefineMapper.get(packages.getEditFlowId());
     		DictionaryData data = new DictionaryData();
     		data.setDescription(flowDefine.getCode());
@@ -1013,7 +1111,7 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
     				dictionaryData.setName(name);
     			}
     		}
-    	}
+    	}*/
     }
 
 	@Override
@@ -1029,7 +1127,10 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 				if(StringUtils.isNotBlank(selectById.get(0).getPackageId())){
 					packages = packageMapper.selectByPrimaryKeyId(selectById.get(0).getPackageId());
 					DictionaryData data = DictionaryDataUtil.findById(packages.getProjectStatus());
-					packages.setProjectStatus(data.getName());
+					if (data != null) {
+						packages.setProjectStatus(data.getName());
+					}
+					
 				}
 			}
 			for (Entry<String, Object> entry : sortsMap) {
@@ -1375,6 +1476,56 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 	                    	supervision.setPqInfo(selectByCondition.get(0));
 	                    	list.add(supervision);
 	                    }
+	                }
+				} else if (data != null && project.getId().equals(data.getDescription()) && "CGLC_XMFB".equals(data.getCode()) && data.getUpdatedAt() != null) {
+					Supervision supervision = new Supervision();
+					HashMap<String, Object> hashMap2 = new HashMap<>();
+					hashMap2.put("projectId", project.getId());
+					hashMap2.put("packageId", selectById.get(0).getPackageId());
+					hashMap2.put("type", 1);
+					List<PackageAdvice> findByList = packageAdviceMapper.selectByUserId(hashMap2);
+	                if(findByList != null && !findByList.isEmpty()){
+	                	//中止信息
+                    	HashMap<String, Object> map = new HashMap<>();
+						map.put("1中止原因", "");
+						map.put("2中止附件", "");
+						map.put("3申请人", "");
+						map.put("4中止时间", "20%");
+						List<Map.Entry<String, Object>> lists = sorts(map);
+						supervision.setMap(lists);
+                    	supervision.setName(data.getName());
+                    	supervision.setPackageAdvice(findByList.get(0));
+                    	String approval = DictionaryDataUtil.getId("ZZFJ");
+    					List<UploadFile> files = uploadService.getFilesOther(findByList.get(0).getCode(), approval, "2");
+    					if(files != null && files.size() > 0){
+    						supervision.setUploadFile(files.get(0));
+    					}
+                    	list.add(supervision);
+	                }
+				} else if (data != null && project.getId().equals(data.getDescription()) && "CGLC_ZJT".equals(data.getCode()) && data.getUpdatedAt() != null) {
+					Supervision supervision = new Supervision();
+					HashMap<String, Object> hashMap2 = new HashMap<>();
+					hashMap2.put("projectId", project.getId());
+					hashMap2.put("packageId", selectById.get(0).getPackageId());
+					hashMap2.put("type", 2);
+					List<PackageAdvice> findByList = packageAdviceMapper.selectByUserId(hashMap2);
+	                if(findByList != null && !findByList.isEmpty()){
+	                	//转竞谈信息
+                    	HashMap<String, Object> map = new HashMap<>();
+						map.put("1转竞谈原因", "");
+						map.put("2转竞谈附件", "");
+						map.put("3申请人", "");
+						map.put("4转竞谈时间", "20%");
+						List<Map.Entry<String, Object>> lists = sorts(map);
+						supervision.setMap(lists);
+                    	supervision.setName(data.getName());
+                    	supervision.setPackageAdvice(findByList.get(0));
+                    	String approval = DictionaryDataUtil.getId("ZJTFJ");
+    					List<UploadFile> files = uploadService.getFilesOther(findByList.get(0).getCode(), approval, "2");
+    					if(files != null && files.size() > 0){
+    						supervision.setUploadFile(files.get(0));
+    					}
+                    	list.add(supervision);
 	                }
 				}
 			}

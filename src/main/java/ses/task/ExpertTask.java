@@ -124,5 +124,40 @@ public class ExpertTask {
              }
          }
     }
-    
+    /**
+     * 
+    * @Title: exportLogoutExpert
+    * @Description: 专家注销外网导出 
+    * @param      
+    * @return void     
+    * @throws
+     */
+     public void exportLogoutExpert(){
+        	Date date=new Date();
+     		Date addDate = supplierService.addDate(date, 3, -1);
+     		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+     		String fat = sdf.format(addDate);
+     		String startTime=fat+" 00:00:00";
+     		String endTime=fat+" 23:59:59";
+         	outerExpertService.getDeleteExpertByDate(startTime, endTime);
+     }
+     /**
+      * 
+     * @Title: importLogoutExpert
+     * @Description: 专家注销内网导入 
+     * @param      
+     * @return void     
+     * @throws
+      */
+     public void importLogoutExpert(){
+      	 File file = FileUtils.getImportFile();
+      	if (file != null && file.exists()){
+              File [] files = file.listFiles();
+              for (File f : files){
+             		if (f.getName().contains(FileUtils.C_SYNCH_LOGOUT_EXPERT_FILENAME)) {
+             			innerExpertService.delExpert(f);
+ 					}
+              }
+          }
+     }
 }

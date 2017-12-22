@@ -47,8 +47,18 @@ public class PackageExpert implements Serializable{
     private List<MarkTerm> markTerms;
     
     private List<ExpertScore> expertScores;
+    
+    private String message;
 
-	public Short getIsGrade() {
+	public String getMessage() {
+      return message;
+    }
+
+    public void setMessage(String message) {
+      this.message = message;
+    }
+
+  public Short getIsGrade() {
 		return isGrade;
 	}
 

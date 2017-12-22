@@ -1,5 +1,6 @@
 package bss.service.cs;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -301,4 +302,8 @@ public interface PurchaseContractService {
      * @return
      */
     List<PurchaseContract> selectByProjectCode(String code);
+    
+    List<PurchaseContract> contractSupervisionList(HashMap<String,Object> map);
+
+	List<PurchaseContract> viewContract(String fileId);
 }

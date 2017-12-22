@@ -475,6 +475,20 @@ public class ExpertQueryController {
             }
         }
         
+        
+		
+		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+		expertAuditOpinion.setExpertId(expertId);
+		
+		//查询初审最终意见
+		expertAuditOpinion.setFlagTime(0);
+		ExpertAuditOpinion firstAudit = expertAuditOpinionService.findByExpertId(expertAuditOpinion);
+		
+		//查询复审最终意见
+		expertAuditOpinion.setFlagTime(1);
+		ExpertAuditOpinion reviewAudit = expertAuditOpinionService.findByExpertId(expertAuditOpinion);
+        
+        
         ExpertAudit expertAudit = new ExpertAudit();
         for(SupplierCateTree cate: allTreeList) {
             cate.setRootNode(cate.getRootNode() == null ? "" : cate.getRootNode());
@@ -491,7 +505,7 @@ public class ExpertQueryController {
             expertAudit.setAuditStatus("6");
             expertAudit.setAuditFieldId(cate.getItemsId());
             //初审理由
-            ExpertAudit firstAuditInfo = expertAuditService.findAuditByExpertId(expertAudit);
+        	ExpertAudit firstAuditInfo = expertAuditService.findAuditByExpertId(expertAudit);
             if(firstAuditInfo !=null && firstAuditInfo.getAuditReason() !=null){
             	cate.setAuditReason("不通过，原因：" + firstAuditInfo.getAuditReason());
             }else{
@@ -500,17 +514,17 @@ public class ExpertQueryController {
             	ExpertAudit a = expertAuditService.findAuditByExpertId(expertAudit);
             	if(a !=null && a.getAuditReason() !=null){
             		cate.setAuditReason("不通过，原因：" + a.getAuditReason());
-            	}else{
+            	}else if(firstAudit !=null){
                 	cate.setAuditReason("通过。");
                 }
             }
             
             //复审理由
-            expertAudit.setAuditFalg(2);
+        	expertAudit.setAuditFalg(2);
             ExpertAudit reviewAuditInfo = expertAuditService.findAuditByExpertId(expertAudit);
             if(reviewAuditInfo !=null && reviewAuditInfo.getAuditReason() !=null){
             	cate.setReviewAudit("不通过，原因：" + reviewAuditInfo.getAuditReason());
-            }else{
+            }else if(reviewAudit !=null){
             	cate.setReviewAudit("通过。");
             }
         }
@@ -953,8 +967,6 @@ public class ExpertQueryController {
 			model.addAttribute("auditOpinion", null);
 		}
 		
-		
-		
 		model.addAttribute("expertId", expertId);
 		model.addAttribute("sign", sign);
 		model.addAttribute("reqType", reqType);
@@ -1207,19 +1219,25 @@ public class ExpertQueryController {
             
             List<Category> cateList=categoryService.findTreeByPidIsPublish(category.getId());
               for(Category cate:cateList){
-                  List<Category> cList=categoryService.findTreeByPidIsPublish(cate.getId());
-                  CategoryTree ct=new CategoryTree();
-                  if(!cList.isEmpty()){
-                      ct.setIsParent("true");
-                  }else{
-                      ct.setIsParent("false");
-                  }
-                  ct.setId(cate.getId());
-                  ct.setName(cate.getName());
-                  ct.setpId(cate.getParentId());
-                  ct.setKind(cate.getKind());
-                  ct.setStatus(cate.getStatus());
-                  jList.add(ct);
+            	  CategoryTree ct=new CategoryTree();
+            	  if(cate.getLevel() !=null && cate.getLevel() <= 4){
+            		  List<Category> cList=categoryService.findTreeByPidIsPublish(cate.getId());
+                      if(!cList.isEmpty()){
+                          ct.setIsParent("true");
+                      }else{
+                          ct.setIsParent("false");
+                      }
+                      ct.setId(cate.getId());
+                      ct.setName(cate.getName());
+                      ct.setpId(cate.getParentId());
+                      ct.setKind(cate.getKind());
+                      ct.setStatus(cate.getStatus());
+                      jList.add(ct);
+            	  }
+            	  if(cate.getLevel() !=null && cate.getLevel() == 4){
+            		  ct.setIsParent("false");
+            	  }
+                  
               }
               
               //加入 工程专业类型

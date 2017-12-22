@@ -303,6 +303,7 @@
       <input name="status" id="status" value="${status}" type="hidden">
       <input name="batchId" value="${batchId}" type="hidden">
       <input name="isCheck" value="${isCheck}" type="hidden">
+      <input name="isReviewRevision" value="${isReviewRevision}" type="hidden">
     </form>
     
     <link rel="stylesheet" href="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.css">

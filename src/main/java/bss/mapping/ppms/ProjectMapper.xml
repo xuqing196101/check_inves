@@ -1333,16 +1333,22 @@
       <include refid="Base_Column_List" />
       FROM
         T_BSS_PPMS_PROJECTS s
-      WHERE 1=1 and IS_REHEARSE = 0 and STATUS != '4'
+      WHERE  IS_REHEARSE = 0 and STATUS != '4'
       and (PARENT_ID = '1' OR PARENT_ID IS NULL)
       <if test="purchaseDepId != null and purchaseDepId != ''">
         and  PURCHASE_DEP_ID = #{purchaseDepId}
       </if>
-       <!-- <if test="appointMan != null and appointMan != ''">
-        and (APPOINT_MAN = #{appointMan} OR APPOINT_MAN IS NULL)
-      </if> --> 
+      <if test="appointMan != null and appointMan != ''">
+        and  APPOINT_MAN = #{appointMan}
+      </if>
+      <if test="purchaseDepIds != null and purchaseDepIds !=''">
+        and PURCHASE_DEP_ID in
+        <foreach item="item" index="index" collection="purchaseDepIds" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+      </if>
       <if test="userId != null and userId != ''">
-       and principal=#{userId}
+       and principal = #{userId}
       </if>
       <if test="name != null and name != ''">
        and NAME like CONCAT(CONCAT('%', #{name}), '%')
@@ -1454,9 +1460,9 @@
 	    e.PROJECT_ID
 	    FROM
 	    T_BSS_PPMS_FLOW_EXECUTE e
-	    WHERE
+	    WHERE 1=1
 	    <if test="userId != null and userId != ''">
-         e.OPERATOR_ID = #{userId}
+         AND e.OPERATOR_ID = #{userId}
       </if>
       AND e.IS_DELETED = 0 AND e.STATUS = 0)
       <if test="principal != null and principal != ''">
@@ -1465,6 +1471,12 @@
       ) AND p.IS_REHEARSE = 0 AND (p.PARENT_ID != '1' OR p.PARENT_ID IS NULL) AND STATUS != '4'
       <if test="purchaseDepId != null and purchaseDepId != ''">
         AND  p.PURCHASE_DEP_ID = #{purchaseDepId}
+      </if>
+      <if test="purchaseDepIds != null and purchaseDepIds != ''">
+        AND  p.PURCHASE_DEP_ID IN
+        <foreach item="item" index="index" collection="purchaseDepIds" open="(" separator="," close=")">
+				#{item}
+			</foreach> 
       </if>
       <if test="name != null and name != ''">
        AND p.NAME like CONCAT(CONCAT('%', #{name}), '%')
@@ -1480,6 +1492,47 @@
       </if>
       ORDER BY p.CREATED_AT DESC
   </select> 
+  
+  <!-- 新实施采购机构登录 -->
+  <select id="selectByPurchaseDep" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	SELECT
+			PP. ID, PP. NAME,PP.PROJECT_NUMBER,PP.STATUS,PP.CREATED_AT,
+		(SELECT NAME FROM T_SES_BMS_DICTIONARY_DATA WHERE ID = PP.PURCHASE_NEW_TYPE) AS PURCHASE_NEW_TYPE,
+		(SELECT NAME FROM T_SES_BMS_DICTIONARY_DATA WHERE ID = PP.PURCHASE_TYPE) AS PURCHASE_TYPE,
+		(SELECT REL_NAME FROM T_SES_BMS_USER WHERE ID = PP.PRINCIPAL) AS PRINCIPAL
+		FROM
+			T_BSS_PPMS_PROJECTS pp
+		LEFT JOIN T_BSS_PPMS_FLOW_EXECUTE EE ON PP. ID = EE.PROJECT_ID
+		WHERE
+			pp.IS_REHEARSE = 0
+		AND (
+			pp.PARENT_ID != '1'
+			OR pp.PARENT_ID IS NULL
+		)
+		AND pp.STATUS != '4' AND PP.PRINCIPAL IS NOT NULL
+		AND EE.IS_DELETED = 0 AND EE.STATUS = 0
+		<if test="userId != null and userId != ''">
+			AND EE.OPERATOR_ID = #{userId}
+		</if>
+		<if test="purchaseDepId != null and purchaseDepId != ''">
+			AND PP.PURCHASE_DEP_ID = #{purchaseDepId}
+		</if>
+		<if test="name != null and name != ''">
+     	AND PP.NAME like CONCAT(CONCAT('%', #{name}), '%')
+    </if>
+    <if test="projectNumber != null and projectNumber != ''">
+    	AND PP.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
+    </if>
+    <if test="status != null and status != ''">
+     	AND PP.STATUS = #{status}
+    </if>
+    <if test="parentId != null and parentId != ''">
+     	AND PP.PARENT_ID = #{parentId}
+    </if>
+		GROUP BY
+			PP. ID, PP. NAME,PP.PROJECT_NUMBER,PP.STATUS,PP.PURCHASE_TYPE,PP.CREATED_AT,PP.PRINCIPAL,PP.PURCHASE_NEW_TYPE
+		ORDER BY pp.CREATED_AT DESC
+  </select>
   
   <!-- 立项管理部门登录 -->
   <!-- <select id="selectByOrgnization" parameterType="java.util.Map" resultMap="BaseResultMap">
@@ -1655,7 +1708,7 @@
       ORDER BY APPROVAL_TIME DESC
   </select>
   
-  <select id="listByAll" parameterType="java.util.Map" resultMap="BaseResultMap">
+  <!-- <select id="listByAll" parameterType="java.util.Map" resultMap="BaseResultMap">
   	SELECT
 			*
 		FROM
@@ -1756,6 +1809,84 @@
 			BB.PRINCIPAL, bb.PURCHASE_DEP_ID, bb.PURCHASE_TYPE,
 			bb.STATUS, bb.CREATED_AT, BB.DOCUMENT_NUMBER
 		ORDER BY bb.CREATED_AT DESC
+  </select> -->
+  
+  <select id="listByAll" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	SELECT
+			PP. ID, PP. NAME, PP.PROJECT_NUMBER, PP.PARENT_ID,
+			(SELECT REL_NAME FROM T_SES_BMS_USER WHERE ID = PP.PRINCIPAL ) AS PRINCIPAL,
+			PP.PURCHASE_DEP_ID, PP.PURCHASE_TYPE, PP.STATUS, PP.CREATED_AT
+		FROM
+			T_BSS_PPMS_PROJECTS pp
+		LEFT JOIN (
+			SELECT
+				TASK.DOCUMENT_NUMBER,TASK.ORG_ID, PT.PROJECT_ID
+			FROM
+				T_BSS_PPMS_PROJECT_TASK PT
+			LEFT JOIN T_BSS_PPMS_TASK TASK ON TASK. ID = PT.TASK_ID
+			WHERE
+				TASK.DOCUMENT_NUMBER IS NOT NULL
+		) AA ON AA.PROJECT_ID = PP.PARENT_ID
+		LEFT JOIN T_BSS_PPMS_PROJECTS_DETAIL PD ON PD.PROJECT_ID = PP. ID
+		WHERE
+			EXISTS (
+				SELECT
+					ID
+				FROM
+					T_BSS_PPMS_PROJECTS
+				WHERE
+					PP.PARENT_ID = ID
+			)
+		<if test="goodsName != null and goodsName != ''">
+			AND pd.GOODS_NAME like CONCAT(CONCAT('%', #{goodsName}), '%')
+		</if>
+		<if test="department != null and department != ''">
+			AND pd.DEPARTMENT like CONCAT(CONCAT('%', #{department}), '%')
+		</if>
+		<if test="orgId != null and orgId != ''">
+			AND AA.ORG_ID in
+			<foreach item="item" index="index" collection="orgId" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="purchaseDepIds != null and purchaseDepIds != ''">
+			AND (AA.ORG_ID in <foreach item="item" index="index" collection="purchaseDepIds" open="(" separator="," close=")">
+				#{item}
+			</foreach> OR PP.PURCHASE_DEP_ID in
+			<foreach item="item" index="index" collection="purchaseDepIds" open="(" separator="," close=")">
+				#{item}
+			</foreach>)
+		</if>
+		<if test="purchaseDepId != null and purchaseDepId != ''">
+			AND PP.PURCHASE_DEP_ID = #{purchaseDepId}
+		</if>
+		<if test="principal != null and principal != ''">
+			AND PP.PRINCIPAL = #{principal}
+		</if>
+		<if test="name != null and name != ''">
+     	AND PP.NAME like CONCAT(CONCAT('%', #{name}), '%')
+    </if>
+    <if test="projectNumber != null and projectNumber != ''">
+     	AND PP.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
+    </if>
+    <if test="status != null and status != ''">
+     	AND PP.STATUS = #{status}
+    </if>
+    <if test="documentNumber != null and documentNumber != ''">
+     	AND AA.DOCUMENT_NUMBER like CONCAT(CONCAT('%', #{documentNumber}), '%')
+    </if>
+		GROUP BY
+			PP. ID,
+			PP. NAME,
+			PP.PROJECT_NUMBER,
+			PP.PARENT_ID,
+			PP.PRINCIPAL,
+			PP.PURCHASE_DEP_ID,
+			PP.PURCHASE_TYPE,
+			PP.STATUS,
+			PP.CREATED_AT
+		ORDER BY
+			pp.CREATED_AT DESC
   </select>
   
   <select id="newSelectById" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -1815,5 +1946,24 @@
 	     	AND STATUS = #{status}
 	    </if>
 			ORDER BY CREATED_AT DESC
+   </select>
+   
+   <!-- 根据项目明细requiredId查询项目 -->
+   <select id="supervisionProjectList" parameterType="java.lang.String" resultMap="BaseResultMap">
+   	 	SELECT
+				PP.ID, PP.NAME, PP.PROJECT_NUMBER,PP.RELATION_ID,PP.PURCHASE_NEW_TYPE,PP.PURCHASE_TYPE,
+				(SELECT REL_NAME FROM T_SES_BMS_USER WHERE ID = PP.APPOINT_MAN) AS APPOINT_MAN,
+				(SELECT MOBILE FROM T_SES_BMS_USER WHERE ID = PP.APPOINT_MAN) AS IPONE,
+				(SELECT REL_NAME FROM T_SES_BMS_USER WHERE ID = PP.PRINCIPAL) AS PRINCIPAL,
+				(SELECT SHORT_NAME FROM T_SES_OMS_ORG WHERE ID = PP.PURCHASE_DEP_ID) AS PURCHASE_DEP_NAME,
+				(SELECT NAME FROM T_SES_BMS_DICTIONARY_DATA WHERE ID = PP.STATUS) AS STATUS,
+				PP.CREATED_AT,PP.BID_DATE,PP.BID_ADDRESS
+			FROM
+				T_BSS_PPMS_PROJECTS pp
+			LEFT JOIN T_BSS_PPMS_PROJECTS_DETAIL detail ON pp.ID = DETAIL.PROJECT_ID
+			WHERE
+				DETAIL.REQUIRED_ID = #{requiredId}
+			AND PP.STATUS != '4' AND IS_REHEARSE = 0 AND IS_PROVISIONAL=0
+			ORDER BY PP.CREATED_AT ASC
    </select>
 </mapper>

@@ -2,6 +2,7 @@ package bss.model.ppms;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -53,6 +54,8 @@ public class Task {
     
     private String beginDate;
     private String endDate;
+    
+    private List<String> orgList;
 
 	public Task(String id) {
 		super();
@@ -247,6 +250,14 @@ public class Task {
     public void setEndDate(String endDate) {
       this.endDate = endDate;
     }
+
+	public List<String> getOrgList() {
+		return orgList;
+	}
+
+	public void setOrgList(List<String> orgList) {
+		this.orgList = orgList;
+	}
 
     
 }

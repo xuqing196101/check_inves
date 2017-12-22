@@ -70,7 +70,7 @@
             <label>状态：</label>
             <select name="status" id="status" class="form-control">
                 <option value="">全部</option>
-                <option value="6">复审通过(待复查)</option>
+                <option value="6">入库(待复查)</option>
                 <option value="7">复查合格</option>
                 <option value="17">资料不全</option>
             </select>
@@ -104,7 +104,7 @@
                             <span class="col-xs-3 tc">
 					   <c:choose>
                            <c:when test="${item.status eq '4' or item.status == '6' or item.status == '8'}">
-                               复审通过
+                               入库(待复查)
                            </c:when>
                            <c:when test="${item.status eq '7'}">
                                复查通过

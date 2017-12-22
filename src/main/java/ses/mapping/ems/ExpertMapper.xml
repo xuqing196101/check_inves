@@ -2481,7 +2481,18 @@
         AND
         AUDIT_AT &lt;= to_date(#{endDate,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
     </select>
-    
+     <!-- 根据修改时间获取注销专家 -->
+    <select id="getDeleteExpertByDate" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM T_SES_EMS_EXPERT
+        WHERE  EXPERTS_FROM=#{netType} AND
+        UPDATED_AT &gt;=
+        to_date(#{startDate,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+        AND
+        UPDATED_AT &lt;= to_date(#{endDate,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+        AND IS_DELETE='1'
+    </select>
     
     	<!-- 假删除专家-->
 	<update id="updateById" parameterType="ses.model.ems.Expert">
@@ -2501,6 +2512,9 @@
 		  <if test="idNumber !=null">
 		    ID_NUMBER =#{idNumber},
 		  </if>
+		   <if test="updatedAt != null">
+                UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
 		</set>
 		WHERE ID = #{id}
 	</update>
@@ -2759,6 +2773,7 @@
         t1.AUDIT_AT,
         t1.WORK_UNIT,
         t1.PROFESS_TECH_TITLES,
+        t1.AT_DUTY,
         t1.REVIEW_STATUS as reviewStatus,
         t2.NAME as sex,
         org.SHORT_NAME AS orgName
@@ -2860,8 +2875,7 @@
 
 	<!-- 专家抽取根据条件查询专家 -->
   <select id="findExpertByExtract" parameterType="Map" resultMap="BaseResultMap">
-    SELECT 
-      <include refid="Base_Column_List" />
+    SELECT ID,REAL_NAME,MOBILE,EXPERTS_TYPE_ID,WORK_UNIT,PROFESS_TECH_TITLES,PROFESSIONAL
         FROM 
           T_SES_EMS_EXPERT
         WHERE 

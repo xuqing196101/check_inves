@@ -369,6 +369,12 @@ public class ExpertAuditController{
 		expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("batchId", batchId);
 		model.addAttribute("isCheck", isCheck == null? "no" : isCheck);
+		
+		if("4".equals(expert.getStatus()) && !"yes".equals(isCheck)){
+			//还原重新复审标记
+			expertService.updateReviewStatus(expertId);
+		}
+		
 		//暂存中和记录审核人
 		if("0".equals(expert.getStatus()) || "4".equals(expert.getStatus()) || "6".equals(expert.getStatus()) || "9".equals(expert.getStatus())){
 			temporaryAudit(expertId,user.getRelName(),sign);
@@ -703,7 +709,7 @@ public class ExpertAuditController{
 		expertAuditOpinion.setFlagAudit(10);
 		expertAuditOpinion.setFlagTime(1);
 		expertAuditOpinion.setExpertId(expertId);
-		expertAuditOpinion = expertAuditOpinionService.findByExpertId(expertAuditOpinion);
+		expertAuditOpinion = expertAuditOpinionService.selectAllByExpertId(expertAuditOpinion);
 		model.addAttribute("isReviewRevision", expertAuditOpinion == null ? "no" : "yes");
 		
 		return "ses/ems/expertAudit/basic_info";
@@ -918,7 +924,11 @@ public class ExpertAuditController{
 		expertAudit.setAuditAt(new Date());
 		ExpertAudit audit = expertAuditService.findByExpertAuditObj(expertAudit);
 		if(audit!=null){
-			expertAuditService.updateAuditStatus(audit.getId(), "4");
+			if("seven".equals(audit.getSuggestType()) && "1".equals(audit.getType()) && !"isTitle".equals(audit.getAuditFieldId())){
+				expertAuditService.updateAuditStatus(audit.getId(), "5");
+			}else{
+				expertAuditService.updateAuditStatus(audit.getId(), "4");
+			}
 			String msg = "{\"msg\":\"true\"}";
 			writeJson(response, msg);
 		}else{
@@ -1961,7 +1971,7 @@ public class ExpertAuditController{
 				}
 			}
 		}
-		// 查询审核最终意见
+		
 		ExpertAuditOpinion selectEao = new ExpertAuditOpinion();
 		ExpertAuditOpinion auditOpinion = null;
 		selectEao.setExpertId(expertId);
@@ -1970,11 +1980,14 @@ public class ExpertAuditController{
 		}else if (sign != null && sign == 2){
 			selectEao.setFlagTime(1);
 		}
+		// 查询审核最终意见
 		auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
-		//如果当前专家为重新复审专家清空复审意见
-		if(sign==2 && "1".equals(expert.getReviewStatus()) && "no".equals(isCheck)){
-			auditOpinion.setOpinion("");
+		
+		//兼容老数据重新审核的专家就清空意见
+		if((sign ==1 && "9".equals(expert.getStatus()))){
+			auditOpinion = null;
 		}
+		
 		model.addAttribute("qualified", true);
 		JdcgResult result =null;
 		if(expertAudit.getAuditFalg()==2){
@@ -2118,6 +2131,14 @@ public class ExpertAuditController{
 		Integer passTypeNumber = expertAuditService.passTypeNumber(expertId);
 		model.addAttribute("passTypeNumber", passTypeNumber);
 		
+		//如果是复审退回修改就查旧数据
+		/*ExpertAuditOpinion historyOpinion = new ExpertAuditOpinion();
+		historyOpinion.setExpertId(expertId);
+		historyOpinion.setIsDeleted(1);
+		historyOpinion.setFlagAudit(10);
+		historyOpinion.setFlagTime(1);
+		ExpertAuditOpinion selectAllByExpertId = expertAuditOpinionService.selectAllByExpertId(historyOpinion);
+		model.addAttribute("historyOpinion", selectAllByExpertId);*/
 		return "ses/ems/expertAudit/reasonsList";
 	}
 
@@ -2139,30 +2160,8 @@ public class ExpertAuditController{
 		 */
 		int sign=expert.getSign();
 		if("3".equals(expert.getStatus())) {
-			//删除旧的专家input信息
-			/*service.deleteExpertHistory(expert.getId());*/
-			service.updateIsDeleteById(expert.getId());
-			
-			//重新插入新的信息
-			Expert exp = service.selectByPrimaryKey(expert.getId());
-			service.insertExpertHistory(exp);
-			
-			/**
-			 * 删除工程下的职业资格之前的历史记录
-			 */
-			ExpertEngHistory expertEngHistory = new ExpertEngHistory();
-			expertEngHistory.setExpertId(expert.getId());
-			/*expertEngHistorySerivce.deleteByExpertId(expertEngHistory);*/
-			//软删除历史信息
-			expertEngHistorySerivce.updateIsDeletedByExpertId(expertEngHistory);
-			// 新增历史记录
-			expertEngHistorySerivce.insertSelective(expertEngHistory);
-			//软删除之前的对比记录
-			expertEngModifySerivce.updateIsDeletedByExpertId(expert.getId());
-			
-			//软删除附件修改的记录
-			/*expertAuditService.delFileModifyByExpertId(expert.getId());*/
-			expertAuditService.updateIsDeleted(expert.getId());
+			//退回修改需要处理的数据
+			reversionProcessingData(expert.getId());
 			
 			expert.setIsSubmit("0");
 		}
@@ -4140,7 +4139,7 @@ public class ExpertAuditController{
      * @return
      */
     @RequestMapping(value = "/auditSummary")
-    public String auditSummary(Model model, String expertId, Integer sign, String batchId, String isCheck){
+    public String auditSummary(Model model, String expertId, Integer sign, String batchId, String isCheck, String isReviewRevision){
     	//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
 		model.addAttribute("batchId", batchId);
@@ -4150,6 +4149,7 @@ public class ExpertAuditController{
 		expertAudit.setExpertId(expertId);
 		expertAudit.setAuditFalg(2);
 		expertAudit.setStatusQuery("notPass");
+		expertAudit.setIsDeleted(3);
 		List<ExpertAudit> reasonsList = expertAuditService.getListByExpert(expertAudit);
 		Map<String,Integer> map = new HashMap<String,Integer>();
 		map.put("GOODS", 0);
@@ -4208,6 +4208,9 @@ public class ExpertAuditController{
 		
 		Expert expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("status", expert.getStatus());
+		
+		// 查询审核最终意见,是否有记录（复审退回修改给采购机构，采购机构确认后退回给专家，专家修改完再提交后，《显示专家复审意见标签及意见信息》的标识）
+		model.addAttribute("isReviewRevision", isReviewRevision);
     	return "ses/ems/expertAudit/audit_summary";
     }
     
@@ -4253,30 +4256,8 @@ public class ExpertAuditController{
 				 *  如果是退回修改就保存历史信息
 				 */
 				if(expertAuditOpinion.getFlagAudit() == 10) {
-					//删除旧的专家input信息
-					/*service.deleteExpertHistory(expert.getId());*/
-					service.updateIsDeleteById(expert.getId());
-					
-					//重新插入新的信息
-					Expert exp = service.selectByPrimaryKey(expert.getId());
-					service.insertExpertHistory(exp);
-					
-					/**
-					 * 删除工程下的职业资格之前的历史记录
-					 */
-					ExpertEngHistory expertEngHistory = new ExpertEngHistory();
-					expertEngHistory.setExpertId(expert.getId());
-					/*expertEngHistorySerivce.deleteByExpertId(expertEngHistory);*/
-					//软删除历史信息
-					expertEngHistorySerivce.updateIsDeletedByExpertId(expertEngHistory);
-					// 新增历史记录
-					expertEngHistorySerivce.insertSelective(expertEngHistory);
-					//软删除之前的对比记录
-					expertEngModifySerivce.updateIsDeletedByExpertId(expert.getId());
-					
-					//软删除附件修改的记录
-					/*expertAuditService.delFileModifyByExpertId(expert.getId());*/
-					expertAuditService.updateIsDeleted(expert.getId());
+					//退回修改需要处理的数据
+					reversionProcessingData(expertId);
 					
 					//还原复审结束状态
 					expert.setIsReviewEnd(0);
@@ -4287,6 +4268,38 @@ public class ExpertAuditController{
 		return "redirect:list.html";
     }
     
+    
+    /**
+     * 退回修改需要处理的数据
+     * @param expertId
+     */
+    public void reversionProcessingData(String expertId){
+    	//删除旧的专家input信息
+		/*service.deleteExpertHistory(expert.getId());*/
+		service.updateIsDeleteById(expertId);
+		
+		//重新插入新的信息
+		Expert exp = service.selectByPrimaryKey(expertId);
+		service.insertExpertHistory(exp);
+		
+		/**
+		 * 删除工程下的职业资格之前的历史记录
+		 */
+		ExpertEngHistory expertEngHistory = new ExpertEngHistory();
+		expertEngHistory.setExpertId(expertId);
+		/*expertEngHistorySerivce.deleteByExpertId(expertEngHistory);*/
+		//软删除历史信息
+		expertEngHistorySerivce.updateIsDeletedByExpertId(expertEngHistory);
+		// 新增历史记录
+		expertEngHistorySerivce.insertSelective(expertEngHistory);
+		//软删除之前的对比记录
+		expertEngModifySerivce.updateIsDeletedByExpertId(expertId);
+		
+		//软删除附件修改的记录
+		/*expertAuditService.delFileModifyByExpertId(expert.getId());*/
+		expertAuditService.updateIsDeleted(expertId);
+		
+    }
     
     /**
      * 查询专家信息

@@ -2,6 +2,7 @@ package bss.model.pms;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 /**
  * 
  * @Title: PurchaseRequired
@@ -121,6 +122,8 @@ public class PurchaseRequired {
   private String progressBar;
   
   private Integer enterPort;
+  
+  private List<String> userList;
   
   
   private String isParent;
@@ -571,8 +574,18 @@ public String getSign() {
   public void setIsParent(String isParent) {
     this.isParent = isParent;
   }
+  
+  
 
-  @Override
+  public List<String> getUserList() {
+	return userList;
+}
+
+public void setUserList(List<String> userList) {
+	this.userList = userList;
+}
+
+@Override
 	public String toString() {
 		return "PurchaseRequired [id=" + id + ", planName=" + planName + ", planNo=" + planNo + ", referenceNo="
 				+ referenceNo + ", planType=" + planType + ", department=" + department + ", goodsName=" + goodsName

@@ -202,9 +202,7 @@
             
             //退回
             if (status == 3) {
-                updateStepNumber("one");
-            }
-            if (status == 2 || status == 3 || status == 5  || status == 8) {
+            	updateStepNumber("one");
                 //询问框
                 layer.confirm('您确认吗？', {
                     closeBtn: 0,
@@ -212,7 +210,7 @@
                     shift: 4,
                     btn: ['确认', '取消']
                 }, function () {
-                	  zancun();
+                	  zancun(3);
                     if (status == 3) {
                     	$("#status").val(status);
                       $("#form_shenhe").submit();
@@ -493,6 +491,9 @@
         if(sign == 1){
             flagTime = 0;
         }
+        if(status == 3){
+        	radio = 3;
+        }
         $.ajax({
             url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
             data: {"opinion": opinion, "expertId": expertId,"flagTime":flagTime,"flagAudit":radio,"isDownLoadAttch":isDownLoadAttch},
@@ -655,7 +656,7 @@
                 </div>
                 
                 <!-- 复审退回修改显示 状态为：10 -->
-                <c:if test="${sign == 1 && status eq '10'}">
+                <c:if test="${sign == 1 && (status eq '10' || (isReviewRevision eq 'yes' && status eq '3'))}">
 			            <h2 class="count_flow mt0"><i>3</i>批准初审表</h2>
 			            <ul class="ul_list">
 			              <li class="col-md-6 col-sm-6 col-xs-6">
@@ -692,7 +693,7 @@
 		                	<div class="select_check" id="selectOptionId">
 			                    <input type="radio" id="qualified" name="selectOption" value="-3">复审合格
 			                    <input type="radio"  name="selectOption" value="5">复审不合格
-			                    <input type="radio"  name="selectOption" value="10">复审退回修改
+			                    <input type="radio"  name="selectOption" value="10" id="tuihui">复审退回修改
 		                    </div>
 		                </li>
 		                <div><span type="text" name="cate_result" id="cate_result"></span></div>
@@ -774,7 +775,7 @@
                     <c:if test = "${status == '1' || status == '2' && sign eq '1'}" >
                     	<a id="nextStep" class="btn" type="button" onclick="yuNext();">下一步</a>
                     </c:if>
-                    <c:if test = "${sign eq '1' && (status eq '5' || status eq '10')}" >
+                    <c:if test = "${sign eq '1' && (status eq '5' || status eq '10' || (isReviewRevision eq 'yes' && status eq '3'))}" >
                     	<a id="nextStep" class="btn" type="button" onclick="nextStep();">下一步</a>
                     </c:if>
                     <c:if test="${(status eq '4' && sign eq '2' || status eq '-2') && isCheck eq 'no'}">

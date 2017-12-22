@@ -1,5 +1,7 @@
 package ses.service.ems;
 
+import java.util.Map;
+
 import common.utils.JdcgResult;
 import ses.model.ems.ExpertAuditOpinion;
 
@@ -88,4 +90,12 @@ public interface ExpertAuditOpinionService {
 	
 	
 	void updata(ExpertAuditOpinion expertAuditOpinion);
+	
+    /**
+     *假删除
+     * @param id
+     */
+    void updateisDeletedByExpertId (Map<String, Object> map);
+    
+    ExpertAuditOpinion selectAllByExpertId(ExpertAuditOpinion expertAuditOpinion);
 }

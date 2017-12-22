@@ -52,45 +52,19 @@
   </div>
   <!-- 内容结束 -->
   
-  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/auditBatch.js"></script>
-  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
+  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/auditBatch.js"></script><!-- 列表构造 -->
+  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script><!-- 公共方法库 -->
   <script>
-    var list_url = '${pageContext.request.contextPath}/expertAgainAudit/findExpertGroupDetails.do';  // 列表地址
-    var members_url = '${pageContext.request.contextPath}/expertAgainAudit/findExpertReviewTeam.do';  // 审核组成员地址
+    var root_url = '${pageContext.request.contextPath}';  // 根目录地址
+    
+    // loading
     var index_load = layer.load(1, {
       shade: [1, '#FFF']
     });
     
     $(function () {
-      $('#group_batch_box').listConstructor({
-        url: list_url,
-        data: {
-          batchId: getUrlParam('batchId'),
-          status: '14'
-        }
-      });
+      $('#group_batch_box').listConstructor();
     });
-    
-    function jump_members(groupId) {
-      $.ajax({
-        type: 'POST',
-        dataType: 'json',
-        url: members_url,
-        data: {
-          groupId: groupId
-        },
-        success: function (data) {
-          // if (data.status) {
-          //   window.location.href = '${pageContext.request.contextPath}/expertAgainAudit/editMembers.html?groupId='+ groupId +'';
-          // } else {
-          //   layer.msg(data.message, {
-          //     offset: '100px'
-          //   });
-          // }
-          window.location.href = '${pageContext.request.contextPath}/expertAgainAudit/editMembers.html?groupId='+ groupId +'';
-        }
-      });
-    }
   </script>
     
 </body>

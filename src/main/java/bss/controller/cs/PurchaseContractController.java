@@ -777,14 +777,20 @@ public class PurchaseContractController extends BaseSupplierController {
         String url = "";
         if (flag == false) {
             List<ContractRequired> requList = proList.getProList();
-            if (requList != null) {
-                for (int i = 0; i < requList.size(); i++ ) {
-                    if (requList.get(i).getPlanNo() == null) {
-                        requList.remove(i);
-                    }
+            List<ContractRequired> requListNew=new ArrayList<ContractRequired>();
+            if(requList!=null){
+              for (int i = 0; i < requList.size(); i++ ) {
+                if(requList.get(i)!=null){
+                   if(requList.get(i).getTransportFees()!=null&&requList.get(i).getTransportFees()==1){
+                     requListNew.add(requList.get(i));
+                   }else{
+                     if (requList.get(i).getGoodsName() != null) {
+                       requListNew.add(requList.get(i));
+                   }
+                   }
                 }
+             }
             }
-
             /* 授权书 */
             DictionaryData ddbook = new DictionaryData();
             ddbook.setCode("CONTRACT_WARRANT");
@@ -798,7 +804,7 @@ public class PurchaseContractController extends BaseSupplierController {
             model.addAttribute("supcheckid", supcheckid);
             model.addAttribute("kinds", DictionaryDataUtil.find(5));
             model.addAttribute("purCon", purCon);
-            model.addAttribute("requList", requList);
+            model.addAttribute("requList", requListNew);
             model.addAttribute("planNos", purCon.getDocumentNumber());
             model.addAttribute("id", ids);
             model.addAttribute("user", user);
@@ -834,12 +840,19 @@ public class PurchaseContractController extends BaseSupplierController {
                 if (conRequList.size() > 0) {
                     contractRequiredService.deleteByContractId(purCon.getId());
                 }
-                for (int i = 0; i < requList.size(); i++ ) {
-                    if (requList.get(i).getPlanNo() == null) {
-                        requList.remove(i);
+                List<ContractRequired> requListNew=new ArrayList<ContractRequired>();
+                  for (int i = 0; i < requList.size(); i++ ) {
+                    if(requList.get(i)!=null){
+                       if(requList.get(i).getTransportFees()!=null&&requList.get(i).getTransportFees()==1){
+                         requListNew.add(requList.get(i));
+                       }else{
+                         if (requList.get(i).getGoodsName() != null) {
+                           requListNew.add(requList.get(i));
+                       }
+                       }
                     }
-                }
-                for (ContractRequired conRequ : requList) {
+                 }
+                for (ContractRequired conRequ : requListNew) {
                     conRequ.setContractId(id);
                     contractRequiredService.insertSelective(conRequ);
                 }
@@ -924,16 +937,23 @@ public class PurchaseContractController extends BaseSupplierController {
         String id = purCon.getId();
         List<ContractRequired> requList = proList.getProList();
         List<ContractRequired> conRequList = contractRequiredService.selectConRequeByContractId(purCon.getId());
+        List<ContractRequired> requListNew=new ArrayList<ContractRequired>();
         if (requList != null) {
-            for (int i = 0; i < requList.size(); i++ ) {
-                if (requList.get(i).getPlanNo() == null) {
-                    requList.remove(i);
-                }
+          for (int i = 0; i < requList.size(); i++ ) {
+            if(requList.get(i)!=null){
+               if(requList.get(i).getTransportFees()!=null&&requList.get(i).getTransportFees()==1){
+                 requListNew.add(requList.get(i));
+               }else{
+                 if (requList.get(i).getGoodsName() != null) {
+                   requListNew.add(requList.get(i));
+               }
+               }
             }
+         }
             if (conRequList.size() > 0) {
                 contractRequiredService.deleteByContractId(purCon.getId());
             }
-            for (ContractRequired conRequ : requList) {
+            for (ContractRequired conRequ : requListNew) {
                 conRequ.setContractId(id);
                 contractRequiredService.insertSelective(conRequ);
             }
@@ -1262,13 +1282,20 @@ public class PurchaseContractController extends BaseSupplierController {
         String url = "";
         if (flag == false) {
             List<ContractRequired> requList = proList.getProList();
+            List<ContractRequired> requListNew=new ArrayList<ContractRequired>();
             model.addAttribute("purCon", purCon);
-            if (requList != null) {
-                for (int i = 0; i < requList.size(); i++ ) {
-                    if (requList.get(i).getPlanNo() == null) {
-                        requList.remove(i);
-                    }
+            if(requList!=null){
+              for (int i = 0; i < requList.size(); i++ ) {
+                if(requList.get(i)!=null){
+                   if(requList.get(i).getTransportFees()!=null&&requList.get(i).getTransportFees()==1){
+                     requListNew.add(requList.get(i));
+                   }else{
+                     if (requList.get(i).getGoodsName() != null) {
+                       requListNew.add(requList.get(i));
+                   }
+                   }
                 }
+             }
             }
             Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(purCon.getPurchaseDepName());
             /* purCon.setContractReList(requList); */
@@ -1282,7 +1309,7 @@ public class PurchaseContractController extends BaseSupplierController {
             }
             PurchaseDep purchaseDep = chaseDepOrgService.findByOrgId(purCon.getPurchaseDepName());
             model.addAttribute("attachuuid", purCon.getId());
-            model.addAttribute("requList", requList);
+            model.addAttribute("requList", requListNew);
             model.addAttribute("kinds", DictionaryDataUtil.find(5));
             model.addAttribute("org", orgnization);
             model.addAttribute("purchaseDep", purchaseDep);
@@ -1299,13 +1326,20 @@ public class PurchaseContractController extends BaseSupplierController {
             String id = purCon.getId();
             contractRequiredService.deleteByContractId(id);
             List<ContractRequired> requList = proList.getProList();
+            List<ContractRequired> requListNew=new ArrayList<ContractRequired>();
             if (requList != null) {
-                for (int i = 0; i < requList.size(); i++ ) {
-                    if (requList.get(i).getPlanNo() == null) {
-                        requList.remove(i);
-                    }
+              for (int i = 0; i < requList.size(); i++ ) {
+                if(requList.get(i)!=null){
+                   if(requList.get(i).getTransportFees()!=null&&requList.get(i).getTransportFees()==1){
+                     requListNew.add(requList.get(i));
+                   }else{
+                     if (requList.get(i).getGoodsName() != null) {
+                       requListNew.add(requList.get(i));
+                   }
+                   }
                 }
-                for (ContractRequired conRequ : requList) {
+             }
+                for (ContractRequired conRequ : requListNew) {
                     if (conRequ.getId() == null) {
                         conRequ.setContractId(id);
                         contractRequiredService.insertSelective(conRequ);
@@ -1399,6 +1433,23 @@ public class PurchaseContractController extends BaseSupplierController {
                 flag = false;
                 model.addAttribute("ERR_purchaseDepName", "甲方单位不能为空");
             }
+        }
+        if (ValidateUtils.isNull(purCon.getPrepaidRatio()+"")&&ValidateUtils.isNull(purCon.getWarrantyRatio()+"")) {
+          flag = false;
+          model.addAttribute("ERR_prepaidRatio", "预付比例和质保比例必须填写一个");
+          model.addAttribute("ERR_warrantyRatio", "预付比例和质保比例必须填写一个");
+        } 
+        if (!ValidateUtils.isNull(purCon.getPrepaidRatio()+"")) {
+          if(ValidateUtils.isNull(purCon.getPrepaymentAmount()+"")){
+            flag = false;
+            model.addAttribute("ERR_prepaymentAmount", "预付金额不能为空");
+          }
+        }
+        if (!ValidateUtils.isNull(purCon.getWarrantyRatio()+"")) {
+          if(ValidateUtils.isNull(purCon.getWarrantyAmount()+"")){
+            flag = false;
+            model.addAttribute("ERR_warrantyAmount", "质保金额不能为空");
+          }
         }
         /*
          * if(ValidateUtils.isNull(purCon.getBingDepName())){ flag = false;
@@ -2393,11 +2444,19 @@ public class PurchaseContractController extends BaseSupplierController {
             }
 
             if (requList != null) {
-                for (int i = 0; i < requList.size(); i++ ) {
-                    if (requList.get(i).getPlanNo() == null) {
-                        requList.remove(i);
-                    }
+              for (int i = 0; i < requList.size(); i++ ) {
+                if(requList.get(i)!=null){
+                   if(requList.get(i).getTransportFees()!=null&&requList.get(i).getTransportFees()==1){
+                     continue;
+                   }else{
+                     if (requList.get(i).getGoodsName() == null) {
+                       requList.remove(i);
+                   }
+                   }
+                }else{
+                  requList.remove(i);
                 }
+             }
             }
             PurchaseDep purchaseDep = chaseDepOrgService.findByOrgId(purCon.getPurchaseDepName());
             model.addAttribute("requList", requList);

@@ -36,8 +36,9 @@
       //上一步
       function lastStep() {
     	  var status = $("input[name='status']").val();
-        var sign = $("input[name='sign']").val();
-    	  if(sign == 1 && (status == 5 || status == 10)){
+          var sign = $("input[name='sign']").val();
+          var isReviewRevision = $("input[name='isReviewRevision']").val();
+    	  if(sign == 1 && (status == 5 || status == 10 || (isReviewRevision == 'yes' && status == '3'))){
     		  var action = "${pageContext.request.contextPath}/expertAudit/reasonsList.html";
     	  }else{
     		  var action = "${pageContext.request.contextPath}/expertAudit/expertFile.html";
@@ -52,6 +53,7 @@
         var status = $(":radio:checked").val();
         var expertId = "${expertId}";
         var opinion = '${auditOpinion.opinion}';
+        var expertStatus = $("#status").val();
         var itemType;
         var item
         if(status == 15){
@@ -66,7 +68,7 @@
         
         //复审退回
         if(status == '10'){
-            $("#check_opinion").html("退回修改。" + opinion);
+            $("#check_opinion").html("复审退回修改。" + opinion);
         }
         
         if(status == '5'){
@@ -90,7 +92,7 @@
                 }
              }
           });
-        }else if(typeof(status) == "undefined"){
+        }else if(typeof(status) == "undefined" && expertStatus !=10){
         	$.ajax({
                 url: "${pageContext.request.contextPath}/expertAudit/findCategoryCount.do",
                 data: {

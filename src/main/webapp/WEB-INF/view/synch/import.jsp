@@ -96,8 +96,8 @@
 				<label class="hand"><input type="checkbox" name="dataType" value="inner_out"/><span>供应商退回修改导入外网</span></label>
 				<%--<input type="checkbox" name="dataType" value="outter_in"/> 供应商退回修改导入内网--%>
 				<label class="hand"><input type="checkbox" name="dataType" value="temp_in"/><span>临时供应商退回修改导入内网</span></label>
-				<label class="hand"><input type="checkbox" name="dataType" value="expert_out"/><span>专家退回修改导出外网</span></label>
-				<label class="hand"><input type="checkbox" name="dataType" value="expert_again_inner"/><span>专家退回修改导入内网</span></label>
+				<label class="hand"><input type="checkbox" name="dataType" value="expert_out"/><span>专家退回修改导出内网</span></label>
+				<label class="hand"><input type="checkbox" name="dataType" value="expert_again_inner"/><span>专家退回修改导入外网</span></label>
 				<label class="hand"><input type="checkbox" name="dataType" value="img_inner"/><span>供应商，专家图片导入</span></label>
 				</c:if>
 			</div>

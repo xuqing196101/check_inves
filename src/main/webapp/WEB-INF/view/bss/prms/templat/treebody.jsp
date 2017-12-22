@@ -238,6 +238,10 @@
 			$("#show_table tbody tr").remove();
 			$("#model4B tbody tr").clone().appendTo("#show_table tbody");
 			$("#showbutton").show();
+		}else if(model=="10"){
+			$("#show_table tbody tr").remove();
+			$("#model1C tbody tr").clone().appendTo("#show_table tbody");
+			$("#showbutton").show();
 		}
 	}
 	function modelTwoAddSubstact21(){
@@ -350,6 +354,8 @@
 			gerneratorNine();
 		}else if(model=="9"){
 			gerneratorTen();
+		}else if(model=="10"){
+			gerneratorEleven();
 		}
 	}
 	//动态添加参数区间
@@ -473,11 +479,18 @@
 		var minScore = $("#minScore").val();
 		var unitScore = $("#unitScore").val();
 		var unit = $("#unit").val();
+		var scoretype=$("#scoreType").val();
+		var stype="";
+		if(scoretype=='0'){
+			stype="最低分无下限";
+		}else{
+			stype="最低分为" +minScore +"分";
+		}
 		if(addSubtractTypeName=="0"){
-			var str = " 加分类型：" + reviewParam + " 最低分为" +minScore +"分" + " 每" + unit + "加" + unitScore+"分"+" 最高分为"+maxScore+"分";
+			var str = " 加分类型：" + reviewParam + stype + " 每" + unit + "加" + unitScore+"分"+" 最高分为"+maxScore+"分";
 			$("#easyUnderstandContent21").text(str);
 		}else{
-			var str = " 减分类型：" + reviewParam + "最高分为"+maxScore+"分" +" 每" + unit + "减"+unitScore+"分"+" 最低分值为"+minScore+"分";
+			var str = " 减分类型：" + reviewParam + "最高分为"+maxScore+"分" +" 每" + unit + "减"+unitScore+"分"+stype;
 			$("#easyUnderstandContent21").text(str);
 		}
 		
@@ -650,6 +663,12 @@
 		}
 	}
 
+	function gerneratorEleven(){
+		var reviewParam = $("#reviewParam").val();
+		var score = $("#standardScore").val();
+		var maxScore = $("#maxScore").val();
+		$("#easyUnderstandContent4").text(reviewParam+",基本技术指标数量"+maxScore+",超过"+maxScore+"为正偏离,小于"+maxScore+"为负偏离,"+"最高分为"+score+"分");
+	}
 	function associate(){
 		var text = $("#show_table").find("tr").eq("1").find("td:last").text();
 		if (text == '删除') {
@@ -689,7 +708,15 @@
 	    var maxScore = $("#maxScore").val();
 	    var id = $("#id").val();
 	    var isChecked = $("#check").val();
-		var s = validteModel().form();
+	    if($("#model").val()=="1"){
+	    	if($("#scoreType").val()=="1"){
+	    		var s = validteModel().form();
+	    	}else{
+	    		var s = validteModel(1).form();
+	    	}
+	    }else{
+	    	var s = validteModel().form();
+	    }
 		console.dir(s);
 		if(s){
 			$.ajax({   
@@ -849,71 +876,152 @@
 			}
 			$("#showbutton").show();
 			gernerator();
+		}else if (model == "10") {
+			$("#show_table tbody tr").remove();
+			if('${addStatus}' !=1){
+				$("#model1C tbody tr").clone().appendTo("#show_table tbody");
+			}
+			$("#showbutton").show();
+			gernerator();
 		}
 		
+	}
+	function isHaveChang(objs){
+	   if($(objs).val()=="1"){
+	    $("#minScore_two").show();
+	   }else{
+		$("#minScore_two").hide();
+		$("#minScore").val("0");
+	   }
+	}
+	function isTypeName(objs){
+		if($(objs).val()=="1"){
+		    $("#scoreType_two").show();
+		   }else{
+			$("#scoreType_two").hide();
+			$("#scoreType").val("0");
+		   }
 	}
 </script>
 
 <script type="text/javascript">
 	//validate
-	function validteModel(){
-		return $("#formID").validate({
-			ignore: [],
-			focusInvalid : false, //当为false时，验证无效时，没有焦点响应  
-			onkeyup : false,
-			rules : {
-				standardScore : {required : true,number:true},
-				judgeContent : {required : true},
-				judgeNumber :{required : true,number:true},
-				reviewParam : {required : true},
-				reviewStandScore : {required : true,number:true},
-				maxScore : {required : true,number:true},
-				unitScore : {required : true,number:true},
-				minScore : {required : true,number:true},
-				intervalNumber : {required : true,number:true},
-				"pi.startParam" : {required : true,number:true},
-			    "pi.endParam" : {required : true,number:true}, 
-				"pi.score" : {required : true,number:true},
-				reviewContent : {required : true},
-				name : {required : true},
-				unit : {required : true}
-			},
-			messages : {
-				standardScore : {required : "该项满分值为必填项",number:"必须为数字"},
-				judgeContent : {required : "该项内容为必填项"},
-				judgeNumber :{required : "该项内容为必填项",number:"必须为数字"},
-				reviewParam : {required : "该项内容为必填项"},
-				reviewStandScore : {required : "该项内容为必填项",number:"必须为数字"},
-				maxScore : {required : "该项内容为必填项",number:"必须为数字"},
-				unitScore : {required : "该项内容为必填项",number:"必须为数字"},
-				unit : {required : "该项内容为必填项"},
-				minScore : {required : "该项内容为必填项",number:"必须为数字"},
-				intervalNumber : {required : "该项内容为必填项",number:"必须为数字"},
-			    "pi.startParam" : {required : "必填",number:"数字项"},
-				"pi.endParam" : {required : "必填",number:"数字项"},  
-				"pi.score" : {required : "必填",number:"数字项"},
-				reviewContent : {required : "必填"},
-				name : {required : "必填"},
-				unit : {required : "必填"}
-			},
-			showErrors: function(errorMap, errorList) {
-	           $.each(this.successList, function(index, value) {
-	             return $(value).popover("hide");
+	function validteModel(type){
+		if(type=="1"){
+			return $("#formID").validate({
+				ignore: [],
+				focusInvalid : false, //当为false时，验证无效时，没有焦点响应  
+				onkeyup : false,
+				rules : {
+					standardScore : {required : true,number:true},
+					judgeContent : {required : true},
+					judgeNumber :{required : true,number:true},
+					reviewParam : {required : true},
+					reviewStandScore : {required : true,number:true},
+					maxScore : {required : true,number:true},
+					unitScore : {required : true,number:true},
+					intervalNumber : {required : true,number:true},
+					"pi.startParam" : {required : true,number:true},
+				    "pi.endParam" : {required : true,number:true}, 
+					"pi.score" : {required : true,number:true},
+					reviewContent : {required : true},
+					name : {required : true},
+					unit : {required : true}
+				},
+				messages : {
+					standardScore : {required : "该项满分值为必填项",number:"必须为数字"},
+					judgeContent : {required : "该项内容为必填项"},
+					judgeNumber :{required : "该项内容为必填项",number:"必须为数字"},
+					reviewParam : {required : "该项内容为必填项"},
+					reviewStandScore : {required : "该项内容为必填项",number:"必须为数字"},
+					maxScore : {required : "该项内容为必填项",number:"必须为数字"},
+					unitScore : {required : "该项内容为必填项",number:"必须为数字"},
+					unit : {required : "该项内容为必填项"},
+					intervalNumber : {required : "该项内容为必填项",number:"必须为数字"},
+				    "pi.startParam" : {required : "必填",number:"数字项"},
+					"pi.endParam" : {required : "必填",number:"数字项"},  
+					"pi.score" : {required : "必填",number:"数字项"},
+					reviewContent : {required : "必填"},
+					name : {required : "必填"},
+					unit : {required : "必填"}
+				},
+				showErrors: function(errorMap, errorList) {
+		           $.each(this.successList, function(index, value) {
+		             return $(value).popover("hide");
+		           });
+	           	   return $.each(errorList, function(index, value) {
+	             		var _popover;
+	             		_popover = $(value.element).popover({
+	                    trigger: "manual",
+	                    placement: "top",
+	                    content: value.message,
+	                    template: "<div class=\"popover\"><div class=\"arrow\"></div> <div class=\"popover-inner\"><div class=\"popover-content\"><p></p></div></div></div>"
+	               });
+	             _popover.data("bs.popover").options.content = value.message;
+	             return _popover.popover("show");
 	           });
-           	   return $.each(errorList, function(index, value) {
-             		var _popover;
-             		_popover = $(value.element).popover({
-                    trigger: "manual",
-                    placement: "top",
-                    content: value.message,
-                    template: "<div class=\"popover\"><div class=\"arrow\"></div> <div class=\"popover-inner\"><div class=\"popover-content\"><p></p></div></div></div>"
-               });
-             _popover.data("bs.popover").options.content = value.message;
-             return _popover.popover("show");
-           });
-         }
-		}); 
+	         }
+			}); 
+		}else{
+			return $("#formID").validate({
+				ignore: [],
+				focusInvalid : false, //当为false时，验证无效时，没有焦点响应  
+				onkeyup : false,
+				rules : {
+					standardScore : {required : true,number:true},
+					judgeContent : {required : true},
+					judgeNumber :{required : true,number:true},
+					reviewParam : {required : true},
+					reviewStandScore : {required : true,number:true},
+					maxScore : {required : true,number:true},
+					unitScore : {required : true,number:true},
+					minScore : {required : true,number:true},
+					intervalNumber : {required : true,number:true},
+					"pi.startParam" : {required : true,number:true},
+				    "pi.endParam" : {required : true,number:true}, 
+					"pi.score" : {required : true,number:true},
+					reviewContent : {required : true},
+					name : {required : true},
+					unit : {required : true}
+				},
+				messages : {
+					standardScore : {required : "该项满分值为必填项",number:"必须为数字"},
+					judgeContent : {required : "该项内容为必填项"},
+					judgeNumber :{required : "该项内容为必填项",number:"必须为数字"},
+					reviewParam : {required : "该项内容为必填项"},
+					reviewStandScore : {required : "该项内容为必填项",number:"必须为数字"},
+					maxScore : {required : "该项内容为必填项",number:"必须为数字"},
+					unitScore : {required : "该项内容为必填项",number:"必须为数字"},
+					unit : {required : "该项内容为必填项"},
+					minScore : {required : "该项内容为必填项",number:"必须为数字"},
+					intervalNumber : {required : "该项内容为必填项",number:"必须为数字"},
+				    "pi.startParam" : {required : "必填",number:"数字项"},
+					"pi.endParam" : {required : "必填",number:"数字项"},  
+					"pi.score" : {required : "必填",number:"数字项"},
+					reviewContent : {required : "必填"},
+					name : {required : "必填"},
+					unit : {required : "必填"}
+				},
+				showErrors: function(errorMap, errorList) {
+		           $.each(this.successList, function(index, value) {
+		             return $(value).popover("hide");
+		           });
+	           	   return $.each(errorList, function(index, value) {
+	             		var _popover;
+	             		_popover = $(value.element).popover({
+	                    trigger: "manual",
+	                    placement: "top",
+	                    content: value.message,
+	                    template: "<div class=\"popover\"><div class=\"arrow\"></div> <div class=\"popover-inner\"><div class=\"popover-content\"><p></p></div></div></div>"
+	               });
+	             _popover.data("bs.popover").options.content = value.message;
+	             return _popover.popover("show");
+	           });
+	         }
+			}); 
+		}
 	}
+	
 </script>
     </head>
 <body onload="pageOnLoad();">
@@ -958,6 +1066,7 @@
 							<option value="">请选择</option>
 							<option value="0">模型一A（是否判断）</option>
 							<option value="8">模型一B（按项匹配分值）</option>
+							<option value="10">模型一C（正负偏离程度排名计算）</option>
 							<option value="1">模型二（按项加减分）</option>
 							<option value="2">模型三（以评审数额最高分值为基准排序递减）</option>
 							<option value="3">模型四A（以评审数额最低值为基准排序递增）</option>
@@ -1064,7 +1173,7 @@
 			<tr>
 				<td class=" w300 tc"><span class="star_red">*</span>加减分类型<input type="hidden" name="judgeModel" value="2"  type="text"/></td>
 				<td>
-					<select name="addSubtractTypeName" id="addSubtractTypeName">
+					<select name="addSubtractTypeName" id="addSubtractTypeName" onchange="isTypeName(this)">
 						<option value="0" <c:if test="${scoreModel.addSubtractTypeName == 0}">selected="selected"</c:if> >加分</option>
 						<option value="1" <c:if test="${scoreModel.addSubtractTypeName == 1}">selected="selected"</c:if> >减分</option>
 					</select>
@@ -1079,7 +1188,19 @@
 				</td>
 				<td><span class="blue">最高分为多少分,[加分]类型时起始分为[最低分],最高分为此分数,[减分]类型此分数为减分基准分,依次递减</span></td>
 			</tr>
-			<tr>
+			
+			<tr id="scoreType_two" <c:if test="${scoreModel.addSubtractTypeName != 1}">class="hide"</c:if>>
+				<td class=" w300 tc"><span class="star_red">*</span>是否有最低分下限</td>
+				<td>
+					<select name="scoreType" id="scoreType" onchange="isHaveChang(this)">
+		    			<option value="0" <c:if test="${scoreModel.scoreType == 0}"> selected="selected"</c:if>>无</option>
+		    			<option value="1" <c:if test="${scoreModel.scoreType == 1}"> selected="selected"</c:if>>有</option>
+		    		</select>
+				</td>
+				
+				<td><span class="blue">当选择无，根据每个单位分值递减，且无下限。选择有，根据每个单位分值递减至最低分值</span></td>
+			</tr>
+			<tr id="minScore_two"   <c:if test="${scoreModel.scoreType != 1}">class="hide"</c:if>>
 				<td class=" w300 tc"><span class="star_red">*</span>最低分</td>
 				<td><input name="minScore" id="minScore" onkeyup="gernerator();"  value="${scoreModel.minScore }" type="text""></td>
 				<td><span class="blue">最低分为多少分,通常为0分,[加分]类型是此分数为起始分,[减分]类型时此分数为最低得分</span></td>
@@ -1648,6 +1769,46 @@
 			<tr>
 				<td class=" w300 tc">当前模型标准解释</td>
 				<td colspan="2"><span class="blue">以评审数额最低值为基准排序递增。采购文件明确标准分值，排序分差和最高最低分值限制。评审系统按照绝对数值，自动识别由高到低进行排序，并按分差计分规则计算得分。(如：产品重量，包装品重量，某些工艺指标用品参数等)</span></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<table id="model1C" class="w499 hide">
+		<tbody>
+			 <tr>
+				<td class=" w300 tc"><span class="star_red">*</span>评审参数</td>
+				<td><input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }" type="text"></td>
+				<td><span class="blue">
+					该参数代表需要录入供应商的参数。<br/>
+				</td>
+			</tr>
+			<%-- <tr>
+				<td class=" w300 tc"><span class="star_red">*</span>偏离类型</td>
+				<td>
+					<select name="addSubtractTypeName" id="addSubtractTypeName" >
+						<option value="0" <c:if test="${scoreModel.addSubtractTypeName == 0}">selected="selected"</c:if> >负偏离</option>
+						<option value="1" <c:if test="${scoreModel.addSubtractTypeName == 1}">selected="selected"</c:if> >正偏离</option>
+					</select>
+				</td>
+				<td><span class="blue">选择正偏离还是负偏离</span></td>
+			</tr> --%>
+			<tr>
+				<td class=" w300 tc"><span class="star_red">*</span>基本技术指标数量</td>
+				<td><input name="maxScore" id="maxScore"  value="${scoreModel.maxScore }" type="text"></td>
+				<td><span class="blue">改数量表示应满足技术指标的数量值大小</span></td>
+			</tr>
+			<tr>
+				<td class=" w300 tc"><span class="star_red">*</span>标准分值</td>
+				<td><input name="standardScore" onkeyup="gernerator();" id="standardScore" value="${scoreModel.standardScore }" type="text"></td>
+				<td><span class="blue">指标的标准分值</span></td>
+			</tr>
+			<tr>
+				<td class=" w300 tc">翻译成白话文内容</td>
+				<td colspan="2" id="easyUnderstandContent4"></td>
+			</tr>
+			<tr>
+				<td class=" w300 tc">当前模型标准解释</td>
+				<td colspan="2"><span class="blue">按照正负偏离程度进行排名计算。若满足基本指标数量，则该项得0分。正偏离评分规则：按偏离程度由高到低排名， 正偏离最高的视为第一名，依次往后排名。若共有1家正偏离的，得分为标准分值；若共有2家正偏离的，第一名得标准分值，第二名得正标准分值的50%；若共有3家正偏离的，排名第一得标准分值，排名第二得标准分值的66%，排名第三得标准分值的33%；若共有4家及以上正偏离的，第一名得标准分值，第二名得标准分值的75%，，第三名得标准分值50%，第四名得标准分值25%。（三分之二以上技术专家认定正偏离对产品性能没有实质意义的指标，可以不再排名，得分一致，但须备注：正偏离无实质意义）负偏离评分规则：按偏离程度由高到低排名，负偏离最高的视为第一名，依次往后排名。若共有1家负偏离的，得分为负标准分值；若共有2家负偏离的，第一名得负标准分值，第二名得负标准分值的50%；若共有3家负偏离的，排名第一名得负标准分值，第二名得负标准分值的66%，第三名得标准分值的负33%；若共有4家及以上负偏离的，第一名得负标准分值，第二名得负标准分值的75%，第三名得负标准分值50%，第四名得负标准分值25%。</span></td>
 			</tr>
 		</tbody>
 	</table>

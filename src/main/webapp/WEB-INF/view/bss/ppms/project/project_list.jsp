@@ -202,15 +202,13 @@
       </div>
     </form>
     </h2>
-      <c:if test="${admin!=1 }">
         <div class="col-md-12 pl20 mt10">
-          <c:if test="${auth == 'show'}">
+          <c:if test="${typeName eq '1'}">
 	          <button class="btn btn-windows add" onclick="typeName()">立项</button>
 	          <button class="btn btn-windows edit" onclick="edit();">修改</button>
-	          <input type="hidden" id="orgn" value="${orgnization.typeName}"/>
           </c:if>
+          <input type="hidden" id="orgn" value="${typeName}"/>
         </div>
-      </c:if>
 
       <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">

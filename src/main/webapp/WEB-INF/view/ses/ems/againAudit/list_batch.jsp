@@ -88,9 +88,9 @@
       <table class="table table-bordered table-condensed table-hover table-striped againAudit_table">
         <thead>
           <tr>
-            <th class="info w100">序号</th>
-            <th class="info">批次名称</th>
-            <th class="info">批次创建时间</th>
+            <th class="w50">序号</th>
+            <th>批次名称</th>
+            <th class="w180">批次创建时间</th>
           </tr>
         </thead>
         <tbody id="list_content"></tbody>
@@ -105,14 +105,10 @@
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/search.js"></script>
   <script>
-    var list_url = '${pageContext.request.contextPath}/expertAgainAudit/findBatch.do';  // 列表地址
-    var batch_url = '${pageContext.request.contextPath}/expertAgainAudit/findBatchDetailsList.do';
+    var root_url = '${pageContext.request.contextPath}';  // 根目录
     
     $(function () {
-      $('#list_content').listConstructor({
-        url: list_url,
-        batch_url: batch_url
-      });
+      $('#list_content').listConstructor();
     });
   </script>
     

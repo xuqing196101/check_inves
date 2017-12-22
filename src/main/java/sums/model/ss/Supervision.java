@@ -15,6 +15,7 @@ import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.FlowExecute;
 import bss.model.ppms.NegotiationReport;
+import bss.model.ppms.PackageAdvice;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.SupplierCheckPass;
@@ -109,6 +110,11 @@ public class Supervision {
 	 * 质检实体
 	 */
 	private PqInfo pqInfo;
+	
+	/**
+	 * 中止/转竞谈 实体
+	 */
+	private PackageAdvice packageAdvice;
 	
 	private String begin;
 	
@@ -266,6 +272,14 @@ public class Supervision {
 
 	public void setMap(List<Entry<String, Object>> map) {
 		this.map = map;
+	}
+
+	public PackageAdvice getPackageAdvice() {
+		return packageAdvice;
+	}
+
+	public void setPackageAdvice(PackageAdvice packageAdvice) {
+		this.packageAdvice = packageAdvice;
 	}
 
 }

@@ -453,12 +453,21 @@
           <div class="row">
             <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">状态：</div>
             <div class="col-xs-8 f0 lh0">
-              <select id ="status" name="status" class="w100p h32 f14">
+              <select id="status" name="status" class="w100p h32 f14">
                 <option value="" <c:if test="${articlesStatus == ''}">selected</c:if>>全部</option>
                 <option value="1" <c:if test="${articlesStatus == '1'}">selected</c:if>>待发布</option>
                 <option value="2" <c:if test="${articlesStatus == '2'}">selected</c:if>>已发布</option>
                 <option value="4" <c:if test="${articlesStatus == '4'}">selected</c:if>>已取消发布</option>
               </select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10 hide" id="second">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">栏目属性：</div>
+            <div class="col-xs-8 f0 lh0">
+              <select id="secondType" name="secondArticleTypeId" class="w100p h32 f14"></select>
             </div>
           </div>
         </div>

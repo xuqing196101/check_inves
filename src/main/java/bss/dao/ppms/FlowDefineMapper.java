@@ -37,5 +37,19 @@ public interface FlowDefineMapper {
      * @return
      */
     List<FlowDefine> getJzxtp(HashMap<String, Object> map);
+    
+    /**
+     * 
+    * @Title: viewListByPack
+    * @author FengTian 
+    * @date 2017-12-8 下午4:47:08  
+    * @Description: 监督流程图吧分包流程查出来 
+    * @param @param map
+    * @param @return      
+    * @return List<FlowDefine>
+     */
+    List<FlowDefine> viewListByPack(HashMap<String, Object> map);
+    
+    List<FlowDefine> viewFlowList(HashMap<String, Object> map);
 
 }

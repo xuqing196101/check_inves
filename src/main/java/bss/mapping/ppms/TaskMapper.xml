@@ -143,14 +143,14 @@
        and  t.TASK_NATURE = #{taskNature}
      </if>
      <if test="userId != null and userId != ''">
-           and t.PURCHASE_ID in (
-                 SELECT ORG_ID FROM T_SES_BMS_USER 
-                  <if test="userId != '' and userId != null">
-	                 	WHERE ID = #{userId} 
-	              	</if>      
-              )                         
+           and t.PURCHASE_ID in
+			<foreach item="item" index="index" collection="userId" open="(" separator="," close=")">
+				#{item}
+			</foreach>                         
      </if> 
-    
+     <if test="userIds != null">
+       and  t.USER_ID = #{userIds}
+     </if>
      ORDER BY GIVE_TIME DESC, STATUS ASC
   </select>
   
@@ -509,52 +509,45 @@
   </select>
   
   <select id="searchByTask" parameterType="bss.model.ppms.Task" resultMap="BaseResultMap">
-    select 
-    *
-    from T_BSS_PPMS_TASK
-     where 1=1
+    SELECT
+				TT.ID,TT.NAME,TT.PURCHASE_ID,
+			(SELECT SHORT_NAME FROM T_SES_OMS_ORG WHERE ID = TT.PURCHASE_ID) AS orgName,
+			TT.DOCUMENT_NUMBER,TT.GIVE_TIME,TT.STATUS,TT.MATERIALS_TYPE,TT.ACCEPT_TIME,
+			(
+					SELECT
+						BUDGET
+					FROM
+						DETAIL_BUDGET DD
+					WHERE
+						DD.UNIQUE_ID = tt.COLLECT_ID) as BUDGET,
+			tt.COLLECT_ID,
+			TT.ORG_ID,TT.CREATER_ID,TT.USER_ID
+			FROM
+				T_BSS_PPMS_TASK TT
+			WHERE
+				TT.TASK_NATURE = 0
+			AND TT.COLLECT_ID IS NOT NULL 
      <if test="beginDate!=null and endDate!=null">
-        and GIVE_TIME BETWEEN TO_DATE(#{beginDate},'yyyy-MM-dd HH24:mi:ss') and TO_DATE(#{endDate},'yyyy-MM-dd HH24:mi:ss')
-     </if>
-     <if test="taskNature!=null||taskNature!=''">
-      and TASK_NATURE = #{taskNature}
-     </if>
-    <if test=" collectId == null ||collectId==''">
-       and STATUS = 0
-     </if>
-    <if test="id != null">
-       and  ID = #{id}
+        and TT.GIVE_TIME BETWEEN TO_DATE(#{beginDate},'yyyy-MM-dd HH24:mi:ss') and TO_DATE(#{endDate},'yyyy-MM-dd HH24:mi:ss')
      </if>
      <if test="name != null and name != ''">
-       and  NAME like CONCAT(CONCAT('%', #{name}), '%')
+       	and  TT.NAME like CONCAT(CONCAT('%', #{name}), '%')
      </if>
-      <if test="status != null">
-       and  STATUS = #{status}
-     </if>
-      <if test="procurementMethod != null">
-        and PROCUREMENT_METHOD = #{procurementMethod} 
-      </if>
-      <if test="year != null">
-        and YEAR like CONCAT(CONCAT('%', #{year}), '%')
-      </if>
-      <if test="giveTime != null">
-        and GIVE_TIME =  #{giveTime}
-      </if>
       <if test="orgId != null and orgId !=''">
-        and PURCHASE_ID in (select PURCHASE_DEP_ID from T_SES_OMS_PURDEP_ORG where 1=1 and org_id=#{orgId})
+        and TT.PURCHASE_ID in (select PURCHASE_DEP_ID from T_SES_OMS_PURDEP_ORG where 1=1 and org_id=#{orgId})
+      </if> 
+      <if test="orgList != null and orgList !=''">
+        and TT.PURCHASE_ID in 
+        <foreach item="item" index="index" collection="orgList" open="(" separator="," close=")">
+					#{item}
+				</foreach>
       </if> 
       <if test="purchaseId != null and purchaseId !=''">
-        and PURCHASE_ID like  CONCAT(CONCAT('%', #{purchaseId}), '%')
+        and TT.PURCHASE_ID like  CONCAT(CONCAT('%', #{purchaseId}), '%')
       </if> 
       <if test="documentNumber != null and documentNumber !=''">
-        and DOCUMENT_NUMBER like  CONCAT(CONCAT('%', #{documentNumber}), '%')
+        and TT.DOCUMENT_NUMBER like  CONCAT(CONCAT('%', #{documentNumber}), '%')
       </if>
-       <if test="purchaseRequiredId != null">
-        and PURCHASE_REQUIRED_ID = #{purchaseRequiredId}
-      </if>
-      <if test="materialsType != null">
-        and MATERIALS_TYPE = #{materialsType}
-      </if>
-     ORDER BY GIVE_TIME DESC, STATUS ASC
+     ORDER BY TT.GIVE_TIME DESC, TT.STATUS ASC
   </select>
 </mapper>

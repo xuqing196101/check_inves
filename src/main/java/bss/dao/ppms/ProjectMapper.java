@@ -104,4 +104,18 @@ public interface ProjectMapper {
     * @return List<Project>
      */
     List<Project> supervisionProjectAll(HashMap<String, Object> map);
+    
+    /**
+     * 
+    * @Title: supervisionProjectList
+    * @author FengTian 
+    * @date 2017-12-8 下午2:21:12  
+    * @Description: 根据项目明细requiredId查询项目 
+    * @param @param requiredId
+    * @param @return      
+    * @return List<Project>
+     */
+    List<Project> supervisionProjectList(String requiredId);
+    
+    List<Project> selectByPurchaseDep(HashMap<String, Object> map);
 }

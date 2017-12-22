@@ -363,11 +363,17 @@
       <if test="endTime != null and endTime != ''">
         AND to_char(CREATED_AT,'yyyy-MM-dd') &lt;= #{endTime,jdbcType=VARCHAR} 
       </if>
-      <if test="procurementDepId != null and procurementDepId != ''">
-        AND PROCUREMENT_DEP_ID = #{procurementDepId,jdbcType=VARCHAR}
-      </if>
+	  <if test="procurementDepId != null">
+	  	AND PROCUREMENT_DEP_ID IN
+		  <foreach collection="procurementDepId" item="id" open="(" close=")" separator=",">
+			  #{id}
+		  </foreach>
+	  </if>
       <if test="isAuto != null and isAuto != ''">
         AND IS_AUTO = #{isAuto}
+      </if>
+      <if test="createrId != null and createrId != ''">
+        AND CREATER_ID = #{createrId}
       </if>
     ORDER BY CREATED_AT DESC
   </select>

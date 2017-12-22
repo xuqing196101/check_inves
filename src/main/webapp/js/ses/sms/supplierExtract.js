@@ -1,5 +1,6 @@
-var successCount = 1;
+var firstExtract = true;
 var proError = 0;
+var extractTheWay = 0;
 var formData = "";
 var levelObj ={};
 var salesLevelObj ={};
@@ -92,7 +93,7 @@ function uuid() {
 function selectArea(obj){
 	var city = "";
 	var provinceId = $(obj).val();
-	var provinceName = obj.selectedOptions[0].innerText;
+	var provinceName = obj.selectedOptions[0].innerHTML;
 	$("[name='businessScope']").val(provinceId);
 	$("#businessScope").val(provinceName);
 	var typeCode = $("#projectType").val();
@@ -445,6 +446,7 @@ function checkExtractNum(){
  * @returns {Boolean}
  */
 function extractVerify(status) {
+	extractTheWay = status;
 	// 清空错误提示
 	$("#extractUser").find("span").remove();
 	$("#supervise").find("span").remove();
@@ -456,16 +458,32 @@ function extractVerify(status) {
 		}
 		return false;
 	}
-	$("#status").val(1);// 修改状态为抽取中
 	if(checkExtractNum()){
+		$("#extractTheWay").val(status);// 设置抽取方式
+		var flag = true; 
+		if(firstExtract){
+			if(!saveExtractInfo()){
+				layer.msg("存在错误信息，请检查。");
+				return;	
+			}
+		}
+		if(!saveConditions()){
+			layer.msg("抽取条件存储时发生异常，请检查。");
+			return;	
+		}
 		extractSupplier(code,status);
 	}
 	
 }
 
-function extractSupplier(code,status) {
+/**
+ * 存储抽取信息（项目信息，人员信息）
+ * @param flag
+ * @returns
+ */
+function saveExtractInfo(){
 	
-	var flag = 0;
+	var flag = true;
 	// 存储项目信息
 	$.ajax({
 		type: "POST",
@@ -474,9 +492,8 @@ function extractSupplier(code,status) {
 		dataType: "json",
 		async:false,
 		success: function (msg) {
-			
-			if(null!=msg && "" !=msg){
-				flag ++;
+			if(msg){
+				flag = false;
 				for ( var k in msg) {
 					$("#"+k+"Error").html(msg[k]);
 				}
@@ -492,8 +509,8 @@ function extractSupplier(code,status) {
 		async:false,
 		success: function (msg) {
 			$("#supervise").find("span").empty();
-			if(null !=msg){
-				flag++;
+			if(msg){
+				flag = false;
 				for ( var k in msg) {
 					if("All"!=k){
 						$("#supervise").find("[name='"+k+"']").parent().append("<span class='red'>"+msg[k]+"</span>");
@@ -515,8 +532,8 @@ function extractSupplier(code,status) {
 		async:false,
 		success: function (msg) {
 			$("#extractUser").find("span").empty();
-			if(null !=msg){
-				flag++;
+			if(msg){
+				flag = false;
 				for ( var k in msg) {
 					if("All"==k){
 						$("#eError").html(msg[k]);
@@ -529,7 +546,17 @@ function extractSupplier(code,status) {
 			}
 		}
 	});	
-	
+	return flag;
+}
+
+
+/**
+ * 存储抽取条件
+ * @param flag
+ * @returns
+ */
+function saveConditions(){
+	var flag = true;
 	formData = $('#form1').serialize();
 	// 存储条件
 	$.ajax({
@@ -541,16 +568,22 @@ function extractSupplier(code,status) {
 		success: function (msg) {
 			if(msg==0){
 				layer.alert("条件存储失败");
-				flag++;
+				flag = false;
 			}
 		}
 	});	
-    if(flag!=0){
-    	layer.msg("存在错误信息，检查及修改");
-    	return false;
-	}
-    
-    
+	return flag;
+}
+
+/**
+ * 开始抽取
+ * @param code 
+ * @param status 0自动抽取，1人工抽取
+ * @param flag 信息保存成功标志
+ * @returns {Boolean}
+ */
+function extractSupplier(code,status) {
+	var flag = true;
     if(0==status){
     	// 自动抽取
     	$.ajax({
@@ -562,10 +595,10 @@ function extractSupplier(code,status) {
     		async:false,
     		success: function (msg) {
     			if(msg=="OK"){
-    			layer.alert("信息同步至外网状态成功，正在抽取中，请稍后查看结果。");
+    				layer.alert("信息同步至外网状态成功，正在抽取中，请稍后查看结果。");
 	    		}else{
 	    			layer.alert("信息同步至外网状态失败。");
-	    			flag++;
+	    			flag = false;
 	    		}
 	    	}
 		});
@@ -578,10 +611,9 @@ function extractSupplier(code,status) {
     	// 追加抽取结果
     	appendTd(0,$("#result").find("tbody"),null);
     }
-    
-    if(flag!=0){
-    	return false;
-	}
+    if(!flag){
+    	return flag;
+    }
 	
 	// 输入框设置只读
 	$('.extractVerify_disabled input,.extractVerify_disabled select').each(function() {
@@ -593,17 +625,34 @@ function extractSupplier(code,status) {
 	});
 	
 	//设置抽取状态为抽取中
+	if(!updateExtractStatus(2)){
+		return;
+	}
+}
+
+/**
+ * 设置抽取状态
+ * @param extractStatus  项目当前抽取状态
+ * @param extractTheWay  抽取方式 0自动 1 人工
+ */
+function updateExtractStatus(extractStatus){
+	flag = true;
 	var recordId = $("#recordId").val();
 	$.ajax({
 		type: "POST",
 		url: globalPath+'/SupplierExtracts_new/updateExtractStatus.do',
-		data: {"id":recordId,"status":2,extractTheWay:status} ,
+		data: {"id":recordId,"status":extractStatus,"extractTheWay":extractTheWay} ,
 		dataType: "json",
 		async:false,
 		success: function (msg) {
-			
+			if(msg<1){
+    			layer.alert("结束状态异常");
+    			flag = false;
+    		}
 		}
 	});
+	
+	return flag;
 }
 
 // 显示结果 obj 是当前操作的行所在的tbody
@@ -799,6 +848,15 @@ function contains (arr,val) {
   return false;
 }
 
+//删除数组中元素
+function removeByValue(arr, val) {
+	for(var i=0; i<arr.length; i++) {
+	    if(arr[i] == val) {
+	    	arr.splice(i, 1);
+	   	break;
+	    }
+	}
+}
 
  //追加等级输入框
  function appendLevelInput(typeCode){
@@ -934,6 +992,11 @@ function contains (arr,val) {
 	 }
  }
  
+ function changeGoods(obj){
+	 initCategoryAndLevel();
+	 selectLikeSupplier();
+ }
+ 
  //重置品目，资质，等级
  function initCategoryAndLevel(obj){
 	 initCategoryAndQua();
@@ -1002,7 +1065,7 @@ function loadAreaZtree(){
             dblClickExpand: false
       }        
     };
-    treeArea = $.fn.zTree.init($("#treeArea"), setting, treeNodes);
+    var areaTree = $.fn.zTree.init($("#areaTree"), setting, treeNodes);
 }
 
 // 显示地区树
@@ -1018,33 +1081,38 @@ function showTree(){
 
 // 默认选中全国
 function selectAllArea(){
-	var treeObj=$.fn.zTree.getZTreeObj("treeArea");
+	var treeObj=$.fn.zTree.getZTreeObj("areaTree");
 	treeObj.checkAllNodes(true);
 	showCheckArea(treeObj);
 	
 }
 
 // 地区树选中处理
+var alreadyId;
+var alreadyName;
 function showCheckArea(treeObj){
 	var areas=treeObj.getCheckedNodes(true);
+	var treeId = treeObj.setting.treeId;
     // 省，直辖市
-   	var pids = "";
+   	var pids = new Array();
    	// 二级 市 区
-   	var ids = "";
+   	var ids = new Array();
    	var idArr = new Array();
-   	var names = "";
+   	var names = new Array();
    	
    	for(var i=0; i<areas.length;i++){
    		if(areas[i].isParent){
-			pids += areas[i].id + ",";
-			names += areas[i].name + ",";
+			pids.push(areas[i].id);
+			names.push(areas[i].name);
 			idArr.push(areas[i].id);
+			if(treeId == "areaTree"){
 			if(areas[i].id == "0"){
 				// 隐藏地区限制理由
 				$("#areaReson").parents("li").addClass("dnone");
 				break;
 			}else{
 				$("#areaReson").parents("li").removeClass("dnone");
+				}
 			}
    		}else{
    			var flag = true;
@@ -1057,14 +1125,35 @@ function showCheckArea(treeObj){
 			}
    			
    			if(flag){
-   				ids += areas[i].id + ",";
-   				names += areas[i].name + ",";
+   				ids.push(areas[i].id);
+   				names.push(areas[i].name);
    			}
    		}
    	}
-	$("#province").val(pids.substring(0,pids.lastIndexOf(",")));
-	$("#addressId").val(ids.substring(0,ids.lastIndexOf(",")));
-	$("#area").val(names.substring(0,names.lastIndexOf(",")));
+   	if(treeId == "areaTree"){
+		$("#province").val(pids.toString());
+		$("#addressId").val(ids.toString());
+		$("#area").val(names.toString());
+   	}else{
+   		Array.prototype.push.apply(pids, ids);
+		for ( var i in pids) {
+			//去除已经选中
+			if(alreadyId){
+				removeByValue(alreadyId,pids[i])
+			}
+		}
+		Array.prototype.push.apply(pids,alreadyId);
+		for ( var i in names) {
+		//去除已经选中
+			if(alreadyName){
+				removeByValue(alreadyName,names[i]);
+			}
+		}
+		Array.prototype.push.apply(names,alreadyName);
+   		
+   		$("#branchCountry").val(pids.toString());
+   		$("#branchName").val(names.toString());
+   	}
 }
 
 // 递归取消父节点选中状态
@@ -1077,13 +1166,20 @@ function dischecked(treeNode,treeObj){
 }
 // 获取选中节点地区
 function choseArea(event,treeId,treeNode){
-	var treeObj=$.fn.zTree.getZTreeObj("treeArea");
+	var treeObj=$.fn.zTree.getZTreeObj(treeId);
 	dischecked(treeNode,treeObj);
 	
 	if(treeNode.checked){
 		checkAllChildCheckParent(treeNode,treeObj);
 	}
 	
+	//去除取消选中的节点
+	if(alreadyId){
+		removeByValue(alreadyId,treeNode.id)
+	}
+	if(alreadyName){
+		removeByValue(alreadyName,treeNode.name);
+	}
 	showCheckArea(treeObj);
 }
 
@@ -1694,10 +1790,6 @@ function operation(select) {
 }
 
 
-// 存储成功
-var successCount = 0;
-
-
 /***
  * 存储抽取结果
  * @param objTr 当前处理完成供应商信息、行 
@@ -1737,6 +1829,86 @@ function saveResult(objTr, reason,join) {
 }
 
 
+/***
+ * 加载境外分支地域树
+ */
+function loadBranchTree(nodes){
+	 var setting = {
+     async: {
+       autoParam: ["id"],
+       enable: true, 
+       url: globalPath+"/SupplierCondition_new/branchTree.do?alreadyId="+$("#branchCountry").val(),
+       dataType: "json",
+       type: "post",
+     },
+     check: {
+       enable: true,
+       chkboxType: {
+         "Y": "s",
+         "N": "ps"
+       },
+       chkStyle : "checkbox" 
+     },
+     data: {
+       simpleData: {
+         enable: true,
+         idKey: "id",
+         pIdKey: "parentId"
+       }
+     },
+     callback: {
+           onCheck: choseArea
+     }       
+   };
+	 var treeObj = $.fn.zTree.init($("#branchCountryTree"), setting, nodes);
+}
+
+
+
+//显示境外国家树
+function showBranchTree(obj){
+	var contryId = $("#branchCountry").val();
+	var contryName = $("#branchName").val();
+	if(contryId.length>0){
+		alreadyId = contryId.split(",");
+	}
+	if(contryName.length>0){
+		alreadyName = contryName.split(",");
+	}
+	//加载境外分支树
+	loadBranchTree();
+	var branchObj = $(obj);
+    var branchOffset = branchObj.offset();
+    $("#branchCountryContent").css({
+        left: branchOffset.left + "px",
+        top: branchOffset.top + branchObj.outerHeight() + "px"
+    }).slideDown("fast");
+     $("body").bind("mousedown", onBodyDownBranch);
+}
+//境外分支树绑定事件
+function onBodyDownBranch(event) {
+    if (!(event.target.id == "branchName" || $(event.target).parents("#branchCountryContent").length > 0)) {
+        hideBranch();
+    }
+}
+function hideBranch() {
+    $("#branchCountryContent").fadeOut("fast");
+    $("body").unbind("mousedown", onBodyDownBranch);
+    selectLikeSupplier();
+}
+/**
+ * 按名称搜索境外分支地域
+ */
+function searchBranchByName(){
+	if(event.keyCode==13){
+		var name = $("#branchName").val();
+		if(""!=name && null!=name){
+			var treeObj = $.fn.zTree.getZTreeObj("branchCountryTree");
+			var nodes = treeObj.getNodesByParamFuzzy("name", name, null);
+			loadBranchTree(nodes);
+		}
+	}
+}
 
 /***
  * 点击结束
@@ -1744,30 +1916,14 @@ function saveResult(objTr, reason,join) {
  */
 function alterEndInfo(obj){
 	
-	var flag = 0;
-	var recordId = $("#recordId").val();
-	// 修改抽取状态
-	$.ajax({
-		type: "POST",
-		url: globalPath+"/SupplierExtracts_new/updateExtractStatus.do",
-		data:{id:recordId,status:1},
-		dataType: "json",
-		async:false,
-		success: function (msg) {
-    		if(msg<1){
-    			layer.alert("结束状态异常");
-    			flag++;
-    		}
-		}
-	});
+	//修改本次抽取结束
+	if(!updateExtractStatus(1)){
+		return;
+	}
 	
 	var index_1 = layer.alert("是否需要发送短信至确认参加供应商",function(){
 		layer.close(index_1);
 	});
-	
-	if(flag>0){
-		return;
-	}
 	
 	var index = layer.alert("完成抽取,打印记录表",function(){
 		 try{ 
@@ -1779,7 +1935,7 @@ function alterEndInfo(obj){
 	 
 	    } 
 		setTimeout(function(){
-			$(obj).prop("disabled",true);
+			$(obj).siblings().prop("disabled",true);
 			if(projectType){
 				window.open("","_self").close();
 			}else{
@@ -1796,16 +1952,50 @@ function alterEndInfo(obj){
  * 再次抽取
  * 
  */
-function extractAgain(){
+function extractAgain(obj){
+	firstExtract = false;
+	//修改当前抽取记录状态
+	if(!updateExtractStatus(1)){
+		return;
+	}
+	
 	var recordId = $("#recordId").val();
 	var conditionId = $("#conditionId").val();
+	
 	$.ajax({
 		type: "POST",
 		url: globalPath+"/SupplierExtracts_new/extractAgain.do",
 		data:{recordId:recordId,conditionId:conditionId},
 		dataType: "json",
+		async:false,
 		success: function (msg) {
-			
+			if(msg){
+				//条件form去掉disabled
+				$("#form1 input").removeAttr("disabled");
+				$("#form1 select").removeAttr("disabled");
+				//显示抽取按钮可用
+				$(".bu").each(function(){
+					$(this).removeAttr("disabled");
+				});
+				
+				//隐藏结束按钮
+				$("#end").addClass("dnone");
+				
+				//清空已追加结果
+				$("#result").find("#joinCount").html("0");
+				$("#result").find(".notJoin").html("0");
+				
+				//隐藏抽取结果
+				$("#result").addClass("dnone");
+				
+				//重置conditionForm
+				resetCondition(null);
+				
+				//修改recordId 和 conditionId
+				for ( var k in msg) {
+					$("#"+k).val(msg[k]);
+				}
+			}
 		}
 	});
 }
@@ -1867,6 +2057,26 @@ function checkSpase(obj){
 	$(obj).val();
 }
 
+/**
+ * 有境外分支选择地域
+ * @param obj
+ */
+function selectOverseasBranch(obj){
+	var haveOverseasBranch = $(obj).val();
+	if(haveOverseasBranch==1){
+		$("#branchCountry").parents("li").removeClass("dnone");
+		$("#branchCountry").removeAttr("disabled");
+		$("#branch").addClass("star_red");
+		loadBranchTree();
+	}else{
+		$("#branchCountry").parents("li").addClass("dnone");
+		$("#branchCountry").prop('disabled', true);
+		$("#branch").removeClass("star_red");
+	}
+	selectLikeSupplier();
+}
+
+
 function checkResonContainSpace(value){
 	if(value.split(" ").length>1){
 		return false;
@@ -1899,3 +2109,28 @@ function size(par) {
 	str = max - par.value.length;
 	$("#textCount").html(str.toString()); 
 } 
+
+
+//克隆数组
+function cloneArray(array) {
+  if (typeof array === 'undefined' || array === null)
+    return [];
+
+  if (!(array instanceof Array))
+    return [];
+
+  result = [];
+
+  var i;
+  for(i in array) {
+    if (typeof array[i] !== 'object') {
+      result[i] = array[i];
+      continue;
+    }
+
+    //clone object
+    result[i] = cloneOwn(array[i]);
+  }
+
+  return result;
+}

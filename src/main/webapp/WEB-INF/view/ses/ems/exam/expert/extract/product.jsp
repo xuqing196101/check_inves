@@ -328,26 +328,26 @@
 		var cateName = $("#key").val();
 		var codeName = $("#codeName").val();
 		if (cateName == "" && codeName == "") {
-			location.reload();
+			var isSatisfy = '${isSatisfy}';
+			window.location.href = "${pageContext.request.contextPath}/extractExpert/addHeading.do?type="+code+"&&id="+idTemp.toString()+"&&isSatisfy="+isSatisfy;
 		} else {
-			$
-					.ajax({
-						url : "${pageContext.request.contextPath}/extractExpert/searchCate.do",
-						type : "post",
-						data : {
-							"code" : code,
-							"cateName" : cateName,
-							"ids" : idTemp.toString(),
-							"codeName" : codeName,
-						},
-						async : false,
-						dataType : "json",
-						success : function(data) {
-							zTreeObj = $.fn.zTree.init($("#ztree"), setting,
-									data);
-							zTreeObj.expandAll(true); //全部展开
-						}
-					});
+			$.ajax({
+				url : "${pageContext.request.contextPath}/extractExpert/searchCate.do",
+				type : "post",
+				data : {
+					"code" : code,
+					"cateName" : cateName,
+					"ids" : idTemp.toString(),
+					"codeName" : codeName,
+				},
+				async : false,
+				dataType : "json",
+				success : function(data) {
+					zTreeObj = $.fn.zTree.init($("#ztree"), setting,
+							data);
+					zTreeObj.expandAll(true); //全部展开
+				}
+			});
 		}
 		layer.close(index);
 		// 过滤掉四级以下的节点

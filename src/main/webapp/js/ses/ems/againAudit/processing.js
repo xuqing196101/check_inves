@@ -5,6 +5,16 @@ function getUrlParam(name) {
   if (r!=null) return unescape(r[2]); return null;
 }
 
+// 去除空格
+function Trim(str, is_global) {
+  var result;
+  result = str.replace(/(^\s+)|(\s+$)/g,"");
+  if(is_global.toLowerCase()=="g") {
+    result = result.replace(/\s/g,"");
+  }
+  return result;
+}
+
 //  全选操作
 function checkAll(el, className) {
   var temp_list = [];
@@ -120,19 +130,19 @@ function create_review_batches() {
   var batchName_obj = $('[name=batchName]');  // 批次名称
   var batchNumber_obj = $('[name=batchNumber]');  // 批次编号
   
+  // 将已选项添加到最终数组
   $('#selected_content .select_item').each(function () {
     ids.push($(this).val());
   });
   
+  // 如果最终数组中无值则弹出提示信息，否则进行提交操作
   if (ids.length <= 0) {
-    layer.msg('请至少选择一名专家', {
-      offset: '100px'
-    });
+    layer.msg('请至少选择一名专家');
   } else {
     $.ajax({
       type: 'POST',
       dataType: 'json',
-      url: list_url,
+      url: root_url + '/expertAgainAudit/againAuditList.do',
       data: {
         batchIds: ids
       },
@@ -145,51 +155,40 @@ function create_review_batches() {
           content : $('#create_review_batches'),
           btn: ['创建复审批次', '取消'],
           yes: function() {
+            // 验证批次名称和批次编号是否为空
             if (batchName_obj.val() === '') {
-              layer.msg('请填写批次名称', {
-                offset: '100px'
-              });
+              layer.msg('请填写批次名称');
               return false;
             } else if (batchNumber_obj.val() === '') {
-              layer.msg('请填写批次编号', {
-                offset: '100px'
-              });
+              layer.msg('请填写批次编号');
               return false;
             } else {
               $.ajax({
                 type: 'POST',
                 dataType: 'json',
-                url: batch_url,
+                url: root_url + '/expertAgainAudit/createBatch.do',
                 data: {
                   ids: ids.join(','),
                   batchName: batchName_obj.val(),
                   batchNumber: batchNumber_obj.val()
                 },
                 success: function (data) {
-                  layer.msg(data.message, {
-                    offset: '100px'
-                  });
-                  batchName_obj.val('');
-                  batchNumber_obj.val('');
-                  $('#list_content').listConstructor({
-                    url: list_url
-                  });
-                  $('#selected_content').listConstructor_t({
-                    url: temporary_init_url
-                  });
-                  select_ids = [];
-                  unselect_ids = [];
-                  layer.close(index);
+                  layer.msg(data.message);
+                  batchName_obj.val('');  // 清空批次名称
+                  batchNumber_obj.val('');  // 清空批次编号
+                  $('#list_content').listConstructor();  // 重新加载未选数据
+                  $('#selected_content').listConstructor_t();  // 重新初始化已选分组数据
+                  select_ids = [];  // 清空已选数组
+                  unselect_ids = [];  // 清空未选数组
+                  layer.close(index);  // 关闭弹出框
                 },
                 error: function (data) {
-                  layer.msg(data.message, {
-                    offset: '100px'
-                  });
+                  layer.msg(data.message);
                 }
               });
             }
           },
-          btn2: function() {
+          btn2: function() { // 取消操作
             batchName_obj.val('');
             batchNumber_obj.val('');
             layer.close(index);
@@ -200,21 +199,6 @@ function create_review_batches() {
   }
 }
 
-// 初始化专家列表和批次列表
-function init_list(list_url, newGroup_url) {
-  $('#list_content').listConstructor({
-    url: list_url,
-    newGroup_url: newGroup_url,
-    data: {
-      batchId: getUrlParam('batchId'),
-      status: '14'
-    },
-    data_new: {
-      batchId: getUrlParam('batchId')
-    }
-  });
-}
-
 // 创建新分组
 function add_batch() {
   if (select_ids.length > 0) {
@@ -222,21 +206,19 @@ function add_batch() {
     $.ajax({
       type: 'POST',
       dataType: 'json',
-      url: add_url,
+      url: root_url + '/expertAgainAudit/expertGrouping.do',
       data:{
         batchId: batch_id,
         ids: ids
       },
       success: function () {
-        init_list(list_url, newGroup_url);
+        $('#list_content').listConstructor();
       }
     });
     
     select_ids = [];
   } else {
-    layer.msg('请选择专家', {
-      offset: '100px'
-    });
+    layer.msg('请选择专家');
   }
 }
 
@@ -255,24 +237,20 @@ function del_group(el) {
     $.ajax({
       type: 'POST',
       dataType: 'json',
-      url: del_url,
+      url: root_url + '/expertAgainAudit/delExpertGroupDetails.do',
       data: {
         ids: str_group_ids
       },
       success: function (data) {
         if (data.status) {
-          init_list(list_url, newGroup_url);
+          $('#list_content').listConstructor();
         } else {
-          layer.msg(data.message, {
-            offset: '100px'
-          });
+          layer.msg(data.message);
         }
       }
     });
   } else {
-    layer.msg('请选择专家', {
-      offset: '100px'
-    });
+    layer.msg('请选择专家');
   }
 }
 
@@ -282,7 +260,7 @@ function show_hasGroud() {
     $.ajax({
       type: 'POST',
       dataType: 'json',
-      url: getGroup_url,
+      url: root_url + '/expertAgainAudit/getGroups.do',
       data:{
         batchId: getUrlParam('batchId')
       },
@@ -329,18 +307,16 @@ function show_hasGroud() {
             $.ajax({
               type: 'POST',
               dataType: 'json',
-              url: addGroup_url,
+              url: root_url + '/expertAgainAudit/expertAddGroup.do',
               data: {
                 groupId: select_groupId,
                 ids: ids
               },
               success: function (data) {
-                layer.msg(data.message, {
-                  offset: '100px'
-                });
+                layer.msg(data.message);
                 select_ids = [];
                 select_groupId = '';
-                init_list(list_url, newGroup_url);
+                $('#list_content').listConstructor();
                 layer.close(index);
               }
             });
@@ -353,9 +329,7 @@ function show_hasGroud() {
       }
     });
   } else {
-    layer.msg('请选择专家', {
-      offset: '100px'
-    });
+    layer.msg('请选择专家');
   }
 }
 
@@ -364,20 +338,16 @@ function finish_groupBatch() {
   $.ajax({
     type: 'POST',
     dataType: 'json',
-    url: finish_url,
+    url: root_url + '/expertAgainAudit/checkComplete.do',
     data: {
       batchId: getUrlParam('batchId')
     },
     success: function (data) {
-      layer.msg(data.message, {
-        offset: '100px'
-      });
+      layer.msg(data.message);
       window.history.back();
     },
     error: function (data) {
-      layer.msg(data.message, {
-        offset: '100px'
-      });
+      layer.msg(data.message);
     }
   });
 }
@@ -395,12 +365,12 @@ function cancel_groupBatch() {
     $.ajax({
       type: 'POST',
       dataType: 'json',
-      url: del_url,
+      url: root_url + '/expertAgainAudit/deleteExpertReviewTeam.do',
       data: {
         ids: str_group_ids
       },
       success: function (data) {
-        init_list(list_url, newGroup_url);
+        $('#list_content').listConstructor();
       }
     });
   }
@@ -453,16 +423,14 @@ function set_password() {
     btn: ['确定', '取消'],
     yes: function() {
       if (password.val() != password2.val()) {
-        layer.msg('请确认两次密码一致！', {
-          offset: '100px'
-        });
+        layer.msg('请确认两次密码一致！');
         password2.val('').focus();
         return false;
       } else {
         $.ajax({
           type: 'POST',
           dataType: 'json',
-          url: setPwd_url,
+          url: root_url + '/expertAgainAudit/setUpPassword.do',
           data: {
             groupId: getUrlParam('groupId'),
             password: password.val(),
@@ -471,7 +439,6 @@ function set_password() {
           success: function (data) {
             if (data.status) {
               layer.msg(data.message, {
-                offset: '100px',
                 time: 1000
               }, function() {
                 password.val('');
@@ -480,9 +447,7 @@ function set_password() {
                 location.reload();
               });
             } else {
-              layer.msg(data.message, {
-                offset: '100px'
-              });
+              layer.msg(data.message);
               return false;
             }
           }
@@ -505,7 +470,6 @@ function save_editMembers() {
   
   if (loginName === '') {
     layer.msg('用户名不能为空', {
-      offset: '100px',
       time: 1000
     });
   } else {
@@ -516,28 +480,24 @@ function save_editMembers() {
       
       if (relName === '') {
         layer.msg('专家姓名不能为空', {
-          offset: '100px',
           time: 1000
         });
         empty_sum = 1;
         return false;
       } else if (relName === '') {
         layer.msg('专家姓名不能为空', {
-          offset: '100px',
           time: 1000
         });
         empty_sum = 1;
         return false;
       } else if (orgName === '') {
         layer.msg('单位不能为空', {
-          offset: '100px',
           time: 1000
         });
         empty_sum = 1;
         return false;
       } else if (duties === '') {
         layer.msg('职务不能为空', {
-          offset: '100px',
           time: 1000
         });
         empty_sum = 1;
@@ -558,7 +518,7 @@ function save_editMembers() {
         $.ajax({
           type: 'POST',
           dataType: 'json',
-          url: add_url,
+          url: root_url + '/expertAgainAudit/addExpertReviewTeam.do',
           data: {
             userName: loginName,
             password: password,
@@ -566,7 +526,6 @@ function save_editMembers() {
           },
           success: function (data) {
             layer.msg(data.message, {
-              offset: '100px',
               time: 1000
             }, function () {
               location.reload();
@@ -585,106 +544,97 @@ function checkOnly(el) {
   $.ajax({
     type: 'POST',
     dataType: 'json',
-    url: usernameOnly_url,
+    url: root_url + '/expertAgainAudit/checkLoginName.do',
     data: {
       loginName: loginname.val()
     },
     success: function (data) {
       if (!data.status) {
         loginname.val('');
-        layer.msg(data.message, {
-          offset: '100px'
-        });
+        layer.msg(data.message);
       }
     }
   });
 }
 
 // 专家批次复审
-function expert_auditBatch(url, expertId) {
+function expert_auditBatch(expertId) {
   var win = window.open();
   $.ajax({
     type: 'POST',
     dataType: 'json',
-    url: audit_url,
+    url: root_url + '/expertAgainAudit/checkGroupStatus.do',
     data: {
       expertId: expertId
     },
     success: function (data) {
       if (data.status) {
-        win.location = url + "/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2";
+        win.location = root_url + "/expertAudit/basicInfo.html?expertId="+ expertId +"&sign=2";
       } else {
-        layer.msg(data.message, {
-          offset: '100px'
-        });
+        layer.msg(data.message);
       }
     },
     error: function (data) {
       win.close();
-      layer.msg(data.status + '错误', {
-        offset: '100px'
-      });
+      layer.msg(data.status + '错误');
     }
   });
 }
 
 //  创建复审批次列表反选操作
 function againAudit_reverseSelection(id) {
-  var select_num = 0;
+  var select_num = 0;  // 选中总数
   
-  if (typeof(id) == 'string') {
-    $('#' + id + ' .select_item').each(function () {
-      if (id == 'list_content') {
-        if (!$(this).parents('tr').hasClass('hide')) {
-          if (!$(this).is(':checked')) {
-            $(this).prop('checked', true);
-            select_ids.push($(this).val());
-            select_num++;
-          } else {
-            for (var i in select_ids) {
-              if (select_ids[i] == $(this).val()) {
-                select_ids.splice(i, 1);
-                break;
-              }
+  // 防止传参错误
+  $('#' + id + ' .select_item').each(function () {
+    if (id == 'list_content') {
+      if (!$(this).parents('tr').hasClass('hide')) {
+        if (!$(this).is(':checked')) {
+          $(this).prop('checked', true);
+          select_ids.push($(this).val());
+          select_num++;
+        } else {
+          for (var i in select_ids) {
+            if (select_ids[i] == $(this).val()) {
+              select_ids.splice(i, 1);
+              break;
             }
-            $(this).prop('checked', false);
           }
-        }
-      } else {
-        if (!$(this).parents('tr').hasClass('hide')) {
-          if (!$(this).is(':checked')) {
-            $(this).prop('checked', true);
-            unselect_ids.push($(this).val());
-            select_num++;
-          } else {
-            for (var i in unselect_ids) {
-              if (unselect_ids[i] == $(this).val()) {
-                unselect_ids.splice(i, 1);
-                break;
-              }
-            }
-            $(this).prop('checked', false);
-          }
+          $(this).prop('checked', false);
         }
       }
-    });
-    
-    if (select_num === $('#' + id + ' .select_item').length) {
-      $('#' + id).siblings('thead').find('[name=checkAll]').prop('checked', true);
     } else {
-      $('#' + id).siblings('thead').find('[name=checkAll]').prop('checked', false);
+      if (!$(this).parents('tr').hasClass('hide')) {
+        if (!$(this).is(':checked')) {
+          $(this).prop('checked', true);
+          unselect_ids.push($(this).val());
+          select_num++;
+        } else {
+          for (var i in unselect_ids) {
+            if (unselect_ids[i] == $(this).val()) {
+              unselect_ids.splice(i, 1);
+              break;
+            }
+          }
+          $(this).prop('checked', false);
+        }
+      }
+    }
+  });
+  
+  if (select_num === $('#' + id + ' .select_item').length) {
+    if (id == 'list_content') {
+      $('.unselected_checkAll').prop('checked', true);
+    } else {
+      $('.selected_checkAll').prop('checked', true);
+    }
+  } else {
+    if (id == 'list_content') {
+      $('.unselected_checkAll').prop('checked', false);
+    } else {
+      $('.selected_checkAll').prop('checked', false);
     }
   }
-}
-
-// 去除空格
-function Trim(str, is_global) {
-  var result;
-  result = str.replace(/(^\s+)|(\s+$)/g,"");
-  if(is_global.toLowerCase()=="g") {
-    result = result.replace(/\s/g,"");
-  }
-  return result;
 }
 
 // 自动分组
@@ -693,16 +643,14 @@ function auto_group() {
   $.ajax({
     type: 'POST',
     dataType: 'json',
-    url: autoGroup_url,
+    url: root_url + '/expertAgainAudit/automaticGrouping.do',
     data:{
       batchId: batch_id,
       count: count
     },
     success: function (data) {
-      layer.msg(data.message, {
-        offset: '100px'
-      });
-      init_list(list_url, newGroup_url);
+      layer.msg(data.message);
+      $('#list_content').listConstructor();
     }
   });
 }
@@ -712,18 +660,16 @@ function jump_batchGroup() {
   $.ajax({
     type: 'POST',
     dataType: 'json',
-    url: list_url,
+    url: root_url + '/expertAgainAudit/findBatchDetails.do',
     data:{
       batchId: getUrlParam('batchId'),
       status: '14'
     },
     success: function (data) {
       if (data.status) {
-        window.location.href = jump_auditBatch_url;
+        window.location.href = root_url + '/expertAgainAudit/groupBatch.html?batchId=' + getUrlParam('batchId');
       } else {
-        layer.msg(data.message, {
-          offset: '100px'
-        });
+        layer.msg(data.message);
       }
     }
   });
@@ -757,7 +703,7 @@ function import_history(el) {
       $.ajax({
         type: 'POST',
         dataType: 'json',
-        url: history_url,
+        url: root_url + '/expertAgainAudit/selectReviewTeamAll.do',
         data: {},
         success: function (data) {
           var list_content = data.object;
@@ -800,9 +746,7 @@ function import_history(el) {
           
           layer.close(index);
         } else {
-          layer.msg('您选择的人员已存在，请重新选择', {
-            offset: '100px'
-          });
+          layer.msg('您选择的人员已存在，请重新选择');
         }
       }
     },
@@ -817,29 +761,19 @@ function addto_selected() {
   $.ajax({
     type: 'POST',
     dataType: 'json',
-    url: temporary_url,
+    url: root_url + '/expertAgainAudit/addBatchTemporary.do',
     data: {
       ids: select_ids.join(',')
     },
     success: function (data) {
-      // 重新初始化已选分组数据
-      $('#selected_content').listConstructor_t({
-        url: temporary_init_url
-      });
-      
-      // 重新加载未选数据
-      $('#list_content').listConstructor({
-        url: list_url
-      });
-      $('.unselected_checkAll').prop('checked', false);
-      select_ids = [];
-      unselect_ids = [];
-      
+      $('#list_content').listConstructor();  // 重新加载未选数据
+      $('#selected_content').listConstructor_t();  // 重新初始化已选分组数据
+      $('.unselected_checkAll').prop('checked', false);  // 清除多选选中状态
+      select_ids = [];  // 清空已选数组
+      unselect_ids = [];  // 清空未选数组
       $('#selected_tab li').eq(1).find('a').tab('show');  // 打开已选分组标签
       select_total();  // 统计专家人数总数
-      layer.msg(data.message, {
-        offset: '100px'
-      });
+      layer.msg(data.message);
     }
   });
 }
@@ -849,28 +783,18 @@ function remove_selected() {
   $.ajax({
     type: 'POST',
     dataType: 'json',
-    url: remove_temporary_url,
+    url: root_url + '/expertAgainAudit/deleteBatchTemporary.do',
     data: {
       ids: unselect_ids.join(',')
     },
     success: function (data) {
-      // 重新初始化已选分组数据
-      $('#selected_content').listConstructor_t({
-        url: temporary_init_url
-      });
-      $('.selected_checkAll').prop('checked', false);
-      select_ids = [];
-      unselect_ids = [];
-      
-      // 重新加载未选数据
-      $('#list_content').listConstructor({
-        url: list_url
-      });
-      
+      $('#list_content').listConstructor();  // 重新加载未选数据
+      $('#selected_content').listConstructor_t();  // 重新初始化已选分组数据
+      $('.selected_checkAll').prop('checked', false);  // 清除多选选中状态
+      select_ids = [];  // 清空已选数组
+      unselect_ids = [];  // 清空未选数组
       select_total();  // 统计专家人数总数
-      layer.msg(data.message, {
-        offset: '100px'
-      });
+      layer.msg(data.message);
     }
   });
 }
@@ -897,21 +821,17 @@ function takeEffect() {
   $.ajax({
     type: 'POST',
     dataType: 'json',
-    url: take_effect_url,
+    url: root_url + '/expertAgainAudit/takeEffect.do',
     data: {
       batchId: getUrlParam('batchId')
     },
     success: function (data) {
       $('#table_content').listConstructor({
-        url: list_url,
         data: {
           batchId: getUrlParam('batchId')
         }
       });
-      
-      layer.msg(data.message, {
-        offset: '100px'
-      });
+      layer.msg(data.message);
     }
   });
 }
@@ -921,20 +841,17 @@ function reexamination(expertId) {
   $.ajax({
     type: 'POST',
     dataType: 'json',
-    url: reexamination_url,
+    url: root_url + '/expertAgainAudit/againReview.do',
     data: {
       id: expertId
     },
     success: function (data) {
       $('#table_content').listConstructor({
-        url: list_url,
         data: {
           batchId: getUrlParam('batchId')
         }
       });
-      layer.msg(data.message, {
-        offset: '100px'
-      });
+      layer.msg(data.message);
     }
   });
 }
@@ -944,20 +861,101 @@ function cancel_reexamination(expertId) {
   $.ajax({
     type: 'POST',
     dataType: 'json',
-    url: cancel_reexamination_url,
+    url: root_url + '/expertAgainAudit/cancelReview.do',
     data: {
       id: expertId
     },
     success: function (data) {
       $('#table_content').listConstructor({
-        url: list_url,
         data: {
           batchId: getUrlParam('batchId')
         }
       });
-      layer.msg(data.message, {
-        offset: '100px'
-      });
+      layer.msg(data.message);
+    }
+  });
+}
+
+// 跳转批次审核
+function jump_auditBatch() {
+  window.location.href = root_url + '/expertAgainAudit/auditBatch.html?batchId=' + getUrlParam('batchId');
+}
+
+// 下载
+function downloadTable(id) {
+  var state = $("#" + id + "").parent("tr").find("td").eq(10).text();
+  state = Trim(state, 'g');
+  if(state == "预复审结束") {
+    $.ajax({
+      url: root_url + "/expertAudit/findExpertInfo.do",
+      data: {
+        id: id
+      },
+      type: "post",
+      success: function(data) {
+        if(data.isReviewEnd != 1){
+          $("input[name='tableType']").val('2');
+          $("input[name='expertId']").val(id);
+          $("#form_id").attr("action", root_url + "/expertAudit/download.html");
+          $("#form_id").submit();
+        } else {
+          layer.msg("该专家已复审结束，请刷新页面 !");
+        }
+      }
+    });
+  } else {
+    layer.msg("请选择预复审结束的专家 !");
+  }
+}
+
+// 下载复审统计表
+function downloadReviewTable() {
+  $("input[name='batchId']").val(getUrlParam('batchId'));
+  $("#form_expertReview").attr("action", root_url + "/expertAgainAudit/downloadExpertReview.html");
+  $("#form_expertReview").submit();
+}
+
+// 复审结束（审核专家操作）
+function reviewEnd(expertId) {
+	layer.confirm('您确定要复审结束吗?', {
+		title: '提示！',
+		offset: ['200px']
+	}, function(index) {
+		layer.close(index);
+	    $.ajax({
+		  url: root_url + "/expertAgainAudit/reviewEnd.do",
+	      data: {
+	    	  expertId: expertId
+	      },
+	      success: function(data) {
+			  if(data.status == 200) {
+				  layer.msg("操作成功");
+				  $('#table_content').listConstructor();
+			  }
+	    },
+	    error: function() {
+	    	layer.msg("操作失败");
+	    }
+	 });
+  });
+}
+
+// 批次详情页查看
+function viewDetails(expertId) {
+  window.open(root_url + "/expertAudit/basicInfo.html?expertId="+ expertId +"&sign=2&isCheck=yes");
+}
+
+// 配置审核组成员
+function jump_members(groupId) {
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: root_url + '/expertAgainAudit/findExpertReviewTeam.do',
+    data: {
+      groupId: groupId
+    },
+    success: function (data) {
+      window.location.href = root_url + '/expertAgainAudit/editMembers.html?groupId='+ groupId +'';
     }
   });
 }

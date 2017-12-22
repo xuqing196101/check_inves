@@ -1,3 +1,7 @@
+/**
+  *** 专家复审分配列表 - 未选列表
+*/
+
 (function($) {
   $.fn.listConstructor = function(options) {
     var list_content = [];  // 初始化数据
@@ -6,7 +10,7 @@
     var defaults = {
       type: 'POST',
       dataType: 'json',
-      url: '',
+      url: root_url + '/expertAgainAudit/againAuditList.do',
       data: {},
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
@@ -51,8 +55,12 @@
             if (typeof(list_content.expertList[i].workUnit) === 'undefined') {
               list_content.expertList[i].workUnit = '';
             }
-            if (typeof(list_content.expertList[i].professTechTitles) === 'undefined') {
-              list_content.expertList[i].professTechTitles = '';
+            if (typeof(list_content.expertList[i].professTechTitles) === 'undefined' || list_content.expertList[i].professTechTitles == '') {
+              if (typeof(list_content.expertList[i].atDuty) === 'undefined') {
+                list_content.expertList[i].professTechTitles = '';
+              } else {
+                list_content.expertList[i].professTechTitles = list_content.expertList[i].atDuty;
+              }
             }
             if (typeof(list_content.expertList[i].updateTime) === 'undefined') {
               list_content.expertList[i].updateTime = '';
@@ -64,7 +72,7 @@
               list_content.expertList[i].expertsFrom = '';
             }
             
-            // 判断是否为重新复审状态
+            // 默认为重新复审状态
             if (typeof(list_content.expertList[i].reviewStatus) != null && typeof(list_content.expertList[i].reviewStatus) != 'null' && typeof(list_content.expertList[i].reviewStatus) != 'undefined') {
               $('#list_content').append('<tr class="red">'
                 +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content.expertList[i].id +'" class="select_item"></td>'
@@ -72,8 +80,8 @@
                 +'<td>'+ list_content.expertList[i].orgName +'</td>'
                 +'<td>'+ list_content.expertList[i].relName +'</td>'
                 +'<td class="text-center">'+ list_content.expertList[i].sex +'</td>'
-                +'<td>'+ list_content.expertList[i].expertsTypeId +'</td>'
-                +'<td class="text-center">'+ list_content.expertList[i].expertsFrom +'</td>'
+                +'<td>'+ list_content.expertList[i].expertsFrom +'</td>'
+                +'<td class="text-center">'+ list_content.expertList[i].expertsTypeId +'</td>'
                 +'<td>'+ list_content.expertList[i].workUnit +'</td>'
                 +'<td>'+ list_content.expertList[i].professTechTitles +'</td>'
                 +'<td class="text-center">'+ list_content.expertList[i].updateTime +'</td>'
@@ -93,18 +101,6 @@
               +'</tr>');
             }
           }
-          
-          // 处理未选数据
-          /*$('#list_content tr').each(function () {
-            var _this = $(this);
-            $('#selected_content tr').each(function () {
-              if (_this.find('input[type="checkbox"]').val() == $(this).find('input[type="checkbox"]').val()) {
-                _this.find('.select_item').prop('checked', false);
-                _this.addClass('hide');
-                return false;
-              }
-            });
-          });*/
           
           // 绑定列表框点击事件，获取选中id集合
           var select_checkbox = $('#list_content').find('.select_item');
@@ -149,6 +145,9 @@
           
           select_total();  // 统计专家人数总数
           unselected_sort();  // 未选序号重新排序
+          
+          // 锁表头锁表列
+          $('.fixed_columns').m_fixedTable();
         }
       }
     };

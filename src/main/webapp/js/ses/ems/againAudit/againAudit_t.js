@@ -1,3 +1,7 @@
+/**
+  *** 专家复审分配列表 - 已选列表
+*/
+
 (function($) {
   $.fn.listConstructor_t = function(options) {
     var list_content = [];  // 初始化数据
@@ -6,7 +10,7 @@
     var defaults = {
       type: 'POST',
       dataType: 'json',
-      url: '',
+      url: root_url + '/expertAgainAudit/selectBatchTemporary.do',
       data: {},
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
@@ -26,8 +30,12 @@
           if (typeof(list_content[i].workUnit) === 'undefined') {
             list_content[i].workUnit = '';
           }
-          if (typeof(list_content[i].professTechTitles) === 'undefined') {
-            list_content[i].professTechTitles = '';
+          if (typeof(list_content[i].professTechTitles) === 'undefined' || list_content[i].professTechTitles == '') {
+            if (typeof(list_content[i].atDuty) === 'undefined') {
+              list_content[i].professTechTitles = '';
+            } else {
+              list_content[i].professTechTitles = list_content[i].atDuty;
+            }
           }
           if (typeof(list_content[i].updateTime) === 'undefined') {
             list_content[i].updateTime = '';
@@ -60,8 +68,8 @@
                 +'  <td>'+ list_content[i].orgName +'</td>'
                 +'  <td>'+ list_content[i].relName +'</td>'
                 +'  <td class="text-center">'+ list_content[i].sex +'</td>'
-                +'  <td>'+ list_content[i].expertsTypeId +'</td>'
-                +'  <td class="text-center">'+ list_content[i].expertsFrom +'</td>'
+                +'  <td>'+ list_content[i].expertsFrom +'</td>'
+                +'  <td class="text-center">'+ list_content[i].expertsTypeId +'</td>'
                 +'  <td>'+ list_content[i].workUnit +'</td>'
                 +'  <td>'+ list_content[i].professTechTitles +'</td>'
                 +'  <td class="text-center">'+ list_content[i].updateTime +'</td>'
@@ -111,6 +119,9 @@
         }
         
         select_total();  // 统计专家人数总数
+        
+        // 锁表头锁表列
+        $('.fixed_columns').m_fixedTable();
       }
     };
 

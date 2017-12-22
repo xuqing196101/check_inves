@@ -9,7 +9,8 @@ function allotList_search() {
     expertsTypeId = expertsTypeId.join(',');
   }
   
-  if ($('#list_content').parents('table').css('display') != 'none') {
+  // 默认情况为未选列表搜索，反之为已选列表搜索
+  if ($('#selected_tab li.active').index() == 0) {
     $('#list_content').listConstructor({
       data: {
         orgName: orgName,
@@ -17,8 +18,7 @@ function allotList_search() {
         expertsTypeId: expertsTypeId,
         startTime: startTime,
         endTime: endTime
-      },
-      url: list_url
+      }
     });
   } else {
     $('#selected_content').listConstructor_t({
@@ -28,37 +28,9 @@ function allotList_search() {
         expertsTypeId: expertsTypeId,
         startTime: startTime,
         endTime: endTime
-      },
-      url: search_temporary_url
+      }
     });
   }
-}
-
-// 搜索
-function batchList_search() {
-  var batchName = $('[name=batchName]').val();  // 获取批次名称
-  var createdAt = $('[name=createdAt]').val();  // 获取批次创建时间
-  $('#list_content').listConstructor({
-    data: {
-      batchName: batchName,
-      createdAt: createdAt
-    },
-    url: list_url,
-    batch_url: batch_url
-  });
-}
-
-// 专家批次列表搜索
-function expert_auditBatch_search() {
-  var batchName = $('[name=batchName]').val();  // 获取批次名称
-  var createdAt = $('[name=createdAt]').val();  // 获取批次创建时间
-  $('#list_content').listConstructor({
-    data: {
-      batchName: batchName,
-      createdAt: createdAt
-    },
-    url: list_url
-  });
 }
 
 // 复审分配列表搜索
@@ -79,9 +51,33 @@ function detailsBatch_search() {
       expertsTypeId: expertsTypeId,
       groupId: groupId,
       status: status,
-      batchId: batchId,
+      batchId: getUrlParam('batchId'),
       requestType: 'select'
-    },
-    url: list_url
+    }
+  });
+}
+
+// 复审批次列表搜索
+function batchList_search() {
+  var batchName = $('[name=batchName]').val();  // 获取批次名称
+  var createdAt = $('[name=createdAt]').val();  // 获取批次创建时间
+  
+  $('#list_content').listConstructor({
+    data: {
+      batchName: batchName,
+      createdAt: createdAt
+    }
+  });
+}
+
+// 专家批次列表搜索
+function expert_auditBatch_search() {
+  var batchName = $('[name=batchName]').val();  // 获取批次名称
+  var createdAt = $('[name=createdAt]').val();  // 获取批次创建时间
+  $('#list_content').listConstructor({
+    data: {
+      batchName: batchName,
+      createdAt: createdAt
+    }
   });
 }

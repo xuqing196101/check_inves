@@ -1015,12 +1015,11 @@
 															<input type="hidden" class="ptype" name="ptype" value="${obj.purchaseType}" />
 															<input type="hidden" class="org" name="org" value="${obj.organization}" />
 
-															<a class="mt3 color7171C6" href='javascript:downFiles("${obj.id }");'> 下载</a>
+															<%-- <a class="mt3 color7171C6" href='javascript:downFiles("${obj.id }");'> 下载</a> --%>
 
-															<%-- <div class="w160">
-														<u:upload id="pUp${vs.index}" businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
-														<u:show showId="pShow${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
-												   </div> --%>
+															<div class="w160">
+														<u:show showId="pShow${vs.index}" delete="false"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
+												   </div> 
 														</td>
 														<!-- <td> -->
 														<%-- 	<input type="hidden" name="list[${vs.index }].planName" value="${obj.planName }">

@@ -33,7 +33,7 @@
                   var checkDoc = []; //保存被选中的节点
                   layui.each(res.data, function(index, item) {
                     var code = "";
-                    if(item.oneAdvice == "DYLY") {
+                    if(item.purchaseType == "单一来源") {
                       code = item.supplier;
                     }
                     if(item.purchaseCount == 0) {

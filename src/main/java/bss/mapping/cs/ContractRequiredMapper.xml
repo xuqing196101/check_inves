@@ -16,10 +16,11 @@
     <result column="CONTRACT_ID" jdbcType="VARCHAR" property="contractId" />
     <result column="DETAIL_ID" jdbcType="VARCHAR" property="detailId" />
     <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+    <result column="TRANSPORT_FEES" jdbcType="DECIMAL" property="transportFees" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, PLAN_NO, GOODS_NAME, BRAND, STAND, ITEM, PURCHASE_COUNT, PRICE, AMOUNT, DELIVER_DATE, 
-    MEMO, CONTRACT_ID,IS_DELETED,DETAIL_ID
+    MEMO, CONTRACT_ID,IS_DELETED,DETAIL_ID,TRANSPORT_FEES
   </sql>
   <select id="selectConRequByPrimaryKey" parameterType="java.lang.String" resultMap="ConRequ">
     select 
@@ -54,13 +55,13 @@
     insert into T_BSS_CS_CONTRACT_REQUIRED (ID, PLAN_NO, GOODS_NAME, 
       BRAND, STAND, ITEM, 
       PURCHASE_COUNT, PRICE, AMOUNT, 
-      DELIVER_DATE, MEMO, CONTRACT_ID,IS_DELETED,DETAIL_ID
+      DELIVER_DATE, MEMO, CONTRACT_ID,IS_DELETED,DETAIL_ID,TRANSPORT_FEES
       )
     values (#{id,jdbcType=VARCHAR}, #{planNo,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, 
       #{brand,jdbcType=VARCHAR}, #{stand,jdbcType=VARCHAR}, #{item,jdbcType=VARCHAR}, 
       #{purchaseCount,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL}, 
       #{deliverDate,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, #{purchaseContract.id,jdbcType=VARCHAR},
-      #{isDeleted},#{detailId}
+      #{isDeleted},#{detailId},#{transportFees}
       )
   </insert>
   <insert id="insertSelective" parameterType="bss.model.cs.ContractRequired">
@@ -111,6 +112,9 @@
       <if test="detailId != null">
         DETAIL_ID,
       </if>
+      <if test="transportFees != null">
+        TRANSPORT_FEES,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -154,6 +158,9 @@
       </if>
       <if test="detailId != null">
         #{detailId},
+      </if>
+      <if test="transportFees != null">
+        #{transportFees},
       </if>
     </trim>
   </insert>
@@ -199,6 +206,9 @@
       <if test="detailId != null">
         DETAIL_ID=#{detailId},
       </if>
+      <if test="transportFees != null">
+        TRANSPORT_FEES=#{transportFees},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -217,6 +227,7 @@
       CONTRACT_ID = #{contractId,jdbcType=VARCHAR},
       IS_DELETED = #{isDeleted},
       DETAIL_ID=#{detailId},
+      TRANSPORT_FEES=#{transportFees}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 	
@@ -232,5 +243,40 @@
 				</foreach>
 			</if>
 		</where>
+	</select>
+	
+	<select id="contractStatusSupervision" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT
+			cc.STATUS
+		FROM
+			T_BSS_CS_PURCHASE_CONTRACT cc
+		WHERE
+			EXISTS (
+				SELECT
+					core.CONTRACT_ID
+				FROM
+					T_BSS_CS_CONTRACT_REQUIRED core
+				WHERE
+					EXISTS (
+						SELECT
+							PD. ID
+						FROM
+							T_BSS_PPMS_PROJECTS_DETAIL PD
+						WHERE
+							EXISTS (
+								SELECT
+									DD. ID
+								FROM
+									T_BSS_PMS_PURCHASE_DETAIL DD
+								WHERE
+									DD.FILE_ID = #{id}
+								AND PD.REQUIRED_ID = DD. ID
+							)
+						AND CORE.DETAIL_ID = pd. ID
+					)
+				AND CC. ID = core.CONTRACT_ID
+				GROUP BY
+					core.CONTRACT_ID
+			)
 	</select>
 </mapper>

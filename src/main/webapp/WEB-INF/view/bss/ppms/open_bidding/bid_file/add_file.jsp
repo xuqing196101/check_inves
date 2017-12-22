@@ -454,22 +454,26 @@
 							<a href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${project.id}&flowDefineId=${flowDefineId}">02、经济和技术评审细则</a>
 							<i></i>
 						</li>
+						<li>
+						   <a  href="${pageContext.request.contextPath}/project/packDetail.html?projectId=${projectId}&flowDefineId=${flowDefineId}">03、移除明细</a>
+						   <i></i>
+						 </li>
 						 <li>
-						   <a  href="${pageContext.request.contextPath}/open_bidding/projectView.html?projectId=${project.id}&flowDefineId=${flowDefineId}">03、评审项预览</a>
+						   <a  href="${pageContext.request.contextPath}/open_bidding/projectView.html?projectId=${project.id}&flowDefineId=${flowDefineId}">04、评审项预览</a>
 						   <i></i>
 						 </li>
 						<li class="active">
 							<a href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${project.id}&flowDefineId=${flowDefineId}">
-								04、采购文件
+								05、采购文件
 							</a>
 							<i></i>
 						</li>
 						 <li>
-						   <a  href="${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${project.id}&flowDefineId=${flowDefineId}">03、编报说明</a>
+						   <a  href="${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${project.id}&flowDefineId=${flowDefineId}">06、编报说明</a>
 						   <i></i>
 						 </li>
 						<li>
-							<a href="${pageContext.request.contextPath}/Auditbidding/viewAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}">06、审核意见</a>
+							<a href="${pageContext.request.contextPath}/Auditbidding/viewAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}">07、审核意见</a>
 						</li>
 					</c:if>
 					<c:if test="${ope == 'view' }">
@@ -481,26 +485,30 @@
 							<a href="${pageContext.request.contextPath}/intelligentScore/packageListView.html?projectId=${project.id}&flowDefineId=${flowDefineId }">02、经济和技术评审细则</a>
 							<i></i>
 						</li>
+						<li>
+						   <a  href="${pageContext.request.contextPath}/project/packDetail.html?projectId=${projectId}&flowDefineId=${flowDefineId}">03、移除明细</a>
+						   <i></i>
+						 </li>
 							 <li>
-						   <a  href="${pageContext.request.contextPath}/open_bidding/projectView.html?projectId=${project.id}&flowDefineId=${flowDefineId}">03、评审项预览</a>
+						   <a  href="${pageContext.request.contextPath}/open_bidding/projectView.html?projectId=${project.id}&flowDefineId=${flowDefineId}">04、评审项预览</a>
 						   <i></i>
 						 </li>
 							<li class="active">
 							<a href="${pageContext.request.contextPath}/open_bidding/bidFileView.html?id=${project.id}&flowDefineId=${flowDefineId }">
-								04、采购文件
+								05、采购文件
 							</a>
 							<i></i>
 						</li>
 						<li>
-							   <a  href="${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${project.id}&flowDefineId=${flowDefineId}">05、编报说明</a>
+							   <a  href="${pageContext.request.contextPath}/open_bidding/projectApproval.html?projectId=${project.id}&flowDefineId=${flowDefineId}">06、编报说明</a>
 							   <i></i>
 							 </li>
 						<li>
 							<c:if test="${project.confirmFile == 0 || project.confirmFile==null}">
-								<a onclick="confirmOk(this,'${projectId}','${flowDefineId }');" id="queren">06、确认</a>
+								<a onclick="confirmOk(this,'${projectId}','${flowDefineId }');" id="queren">07、确认</a>
 							</c:if>
 							<c:if test="${project.confirmFile == 1 }">
-								<a>06、已确认</a>
+								<a>07、已确认</a>
 							</c:if>
 						</li>
 					</c:if>
@@ -612,22 +620,24 @@
 									</div>
 								</div>
 							</div> --%>
+							
+							<div class="mt20 fw f14">
+								审批单：
+								<div class="m_inline m_uploadFiles">
+									<u:show showId="ff1" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
+								</div>
+							</div>
+							
+							<div class="mt20 fw f14">
+								最终意见附件：
+								<div class="m_inline m_uploadFiles f0">
+									<u:show delete="false" showId="ff" businessId="${MapPa['finalId'].id}" sysKey="${sysKey}" typeId="${finalTypeId}" />
+								</div>
+							</div>
 
 							<div class="mt20 fw f14" id="cgspan">最终意见</div>
 							<div class="mt10">
 								<textarea class="w100p h80 resizen" disabled="disabled" id="finalreason" maxlength="2000" name="finalReason" title="不超过2000个字">${MapPa['finalId'].content}</textarea>
-								<div class="fl f0 mt10">
-										<span class="m_inline f14 lh16">审批单：</span>
-										<div class="m_inline m_uploadFiles">
-											<u:show showId="ff1" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
-										</div>
-									</div>
-								<div class="m_uploadFiles mt10">
-									<span class="m_inline f14 lh16">最终意见附件：</span>
-									<div class="m_inline m_uploadFiles f0">
-										<u:show delete="false" showId="ff" businessId="${MapPa['finalId'].id}" sysKey="${sysKey}" typeId="${finalTypeId}" />
-									</div>
-								</div>
 							</div>
 							
 							<div class="clear"></div>
@@ -690,26 +700,28 @@
 									<div class="clear"></div>
 								</div> --%>
 								
+								<div class="mt20 fw f14">
+									<span class="red">*</span>审批单：
+									<div class="m_inline m_uploadFiles">
+										<u:upload id="aa1"  multiple="true" buttonName="文件上传" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+										<u:show showId="ff1" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
+									</div>
+								</div>
+								
+								<div class="mt20 fw f14">
+									<span class="red">*</span>其他部门意见附件：
+									<div class="m_inline m_uploadFiles">
+										<u:upload id="kk" exts=".jpg,.png" multiple="true" businessId="${finalId}" sysKey="${sysKey}" typeId="${finalTypeId}" auto="true" />
+										<u:show showId="ii" businessId="${finalId}" sysKey="${sysKey}" typeId="${finalTypeId}" />
+									</div>
+								</div>
+								
 								<div class="mt20 fw f14" id="cgspan"><span class="red">*</span>最终意见</div>
 								<div class="mt10">
 									<textarea class="w100p h80 resizen" id="finalreason" maxlength="2000" onkeyup="lengthStr('4',this)" name="projectAdviceList[0].content" title="不超过2000个字">${reasons.finalReason}</textarea>
 									<input type="hidden" name="projectAdviceList[0].typeId" value="${finalTypeId}"/>
 									<input type="hidden" name="projectAdviceList[0].id" value="${finalId}"/>
 									<input type="hidden" name="projectAdviceList[0].seq" value="4"/>
-									<div class="fl f0 mt10">
-										<span class="m_inline f14 lh16"><span class="red">*</span>审批单：</span>
-										<div class="m_inline m_uploadFiles">
-											<u:upload id="aa1"  multiple="true" buttonName="文件上传" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-											<u:show showId="ff1" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
-										</div>
-									</div>
-									<div class="fl f0 mt10">
-										<span class="m_inline f14 lh16"><span class="red">*</span>其他部门意见附件：</span>
-										<div class="m_inline m_uploadFiles">
-											<u:upload id="kk" exts=".jpg,.png" multiple="true" businessId="${finalId}" sysKey="${sysKey}" typeId="${finalTypeId}" auto="true" />
-											<u:show showId="ii" businessId="${finalId}" sysKey="${sysKey}" typeId="${finalTypeId}" />
-										</div>
-									</div>
 									<div class="fr mt10">当前已经输入<span class="red" id="in4"></span>字，还可以输入<span class="red" id="into4"></span>字</div>
 									<div class="clear"></div>
 								</div>
