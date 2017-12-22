@@ -369,16 +369,18 @@ public class SupplierQueryController extends BaseSupplierController {
 		}
         
         //企业性质
-        for(Supplier s : listSupplier){
-        	if(s.getBusinessNature() !=null ){
-        		for(int i = 0; i < businessNature.size(); i++) {
-        			if(s.getBusinessNature().equals(businessNature.get(i).getId())) {
-      					String business = businessNature.get(i).getName();
-      					s.setBusinessNature(business);
-      				}
-        		}
-        	}
-        }
+		if(listSupplier != null){
+			for(Supplier s : listSupplier){
+				if(s.getBusinessNature() != null){
+					for(int i = 0; i < businessNature.size(); i++) {
+						if(s.getBusinessNature().equals(businessNature.get(i).getId())) {
+							String business = businessNature.get(i).getName();
+							s.setBusinessNature(business);
+						}
+					}
+				}
+			}
+		}
         
         //全部机构
         /*List<PurchaseDep> allOrg = purChaseDepOrgService.findAllOrg();*/
@@ -1063,16 +1065,18 @@ public class SupplierQueryController extends BaseSupplierController {
      * @param listSupplier 供应商基本信息集合
      */
     public void getSupplierType(List<Supplier> listSupplier){
-        for (Supplier sup : listSupplier) {
-            String supplierTypes = supplierService.selectSupplierTypes(sup);
-            sup.setSupplierType(supplierTypes);
-            DictionaryData dd = DictionaryDataUtil.findById(sup.getBusinessType());
-            String business = null;
-            if (dd != null) {
-                business = dd.getName();
-            }
-            sup.setBusinessType(business);
-        }
+		if(listSupplier != null){
+			for (Supplier sup : listSupplier) {
+		        String supplierTypes = supplierService.selectSupplierTypes(sup);
+		        sup.setSupplierType(supplierTypes);
+		        DictionaryData dd = DictionaryDataUtil.findById(sup.getBusinessType());
+		        String business = null;
+		        if (dd != null) {
+		            business = dd.getName();
+		        }
+		        sup.setBusinessType(business);
+		    }
+		}
     }
 
     /**

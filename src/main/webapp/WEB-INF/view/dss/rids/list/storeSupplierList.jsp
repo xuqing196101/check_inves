@@ -226,7 +226,7 @@
 								<td class="tc">
 									<fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd" />
 								</td>
-								<td class="">${list.areaName }</td>							
+								<td class="">${list.areaName }</td>
 								<td class="">${list.supplierType }</td>
 								<td class="tc">${list.businessNature}</td>
 								<td class="tl">${list.orgName}</td>
