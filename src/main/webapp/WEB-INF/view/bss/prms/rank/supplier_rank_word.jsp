@@ -180,7 +180,7 @@ div.Section1
 		                <td style="border: 1px solid #ddd;padding: 5px 10px;text-align: center;" colspan="2" id="score_${supplier.suppliers.id}_${pack.id}">
 		                  <c:forEach items="${rankList}" var="rank">
 		                    <c:if test="${rank.packageId eq pack.id && rank.supplierId eq supplier.suppliers.id}">
-		                       <c:if test="${rank.econScore!=0&&rank.techScore!=0&&rank.sumScore!=0&&rank.econScore!=null&&rank.techScore!=null}">
+		                       <c:if test="${rank.econScore!=0&&rank.sumScore!=0&&rank.econScore!=null&&rank.techScore!=null}">
 		                         <fmt:formatNumber value="${rank.priceScore}" pattern="0.00"></fmt:formatNumber>(价格)+<fmt:formatNumber value="${rank.econScore}" pattern="0.00"></fmt:formatNumber>(经济)+<fmt:formatNumber value="${rank.techScore}" pattern="0.00"></fmt:formatNumber>(技术)=<fmt:formatNumber value="${rank.sumScore}" pattern="0.00"></fmt:formatNumber>
 		                       </c:if>
 		                    </c:if>

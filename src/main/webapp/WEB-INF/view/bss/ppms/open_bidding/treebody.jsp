@@ -935,6 +935,14 @@ function judge(index) {
 			$("#minScore").val("0");
 		   }
 		}
+	function isTypeName(objs){
+		if($(objs).val()=="1"){
+		    $("#scoreType_two").show();
+		   }else{
+			$("#scoreType_two").hide();
+			$("#scoreType").val("0");
+		   }
+	}
 </script>  
 <script type="text/javascript">
 	//validate
@@ -1352,7 +1360,7 @@ function judge(index) {
 			<tr>
 				<td class="w180 tc"><span class="star_red">*</span>加减分类型<input type="hidden" name="judgeModel" value="2" /></td>
 				<td>
-					<select name="addSubtractTypeName" id="addSubtractTypeName">
+					<select name="addSubtractTypeName" id="addSubtractTypeName" onchange="isTypeName(this)">
 						<option value="0" <c:if test="${scoreModel.addSubtractTypeName == 0}">selected="selected"</c:if> >加分</option>
 						<option value="1" <c:if test="${scoreModel.addSubtractTypeName == 1}">selected="selected"</c:if> >减分</option></select>
 				</td>
@@ -1366,7 +1374,7 @@ function judge(index) {
 				</td>
 				<td><span class="blue">最高分为多少分,[加分]类型时起始分为[最低分],最高分为此分数,[减分]类型此分数为减分基准分,依次递减</span></td>
 			</tr>
-			<tr>
+			<tr id="scoreType_two" <c:if test="${scoreModel.addSubtractTypeName != 1}">class="hide"</c:if>>
 				<td class=" w300 tc"><span class="star_red">*</span>是否有最低分下限</td>
 				<td>
 					<select name="scoreType" id="scoreType" onchange="isHaveChang(this)">
