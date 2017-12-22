@@ -30,17 +30,34 @@
       $(obj).parent().siblings('.mfixed-header').css({
         width: $(obj).parents('.mfixed-main').width()
       });
-      $(obj).find('thead th').each(function (index) {
-        if ($(this).attr('style') != undefined) {
-          header_html += '<th style="'+ $(this).attr('style') +'width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'px">'+ $(this).html() +'</th>';
-          if (index < opts.fixedNumber) {
-            header_columns_html += '<th style="'+ $(this).attr('style') +'width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'px">'+ $(this).html() +'</th>';
+      $(obj).find('thead tr').each(function (index_tr) {
+        var header_html_temp = '';
+        var header_columns_html_temp = '';
+        $(this).find('th').each(function (index) {
+          var colspan = 0;
+          var rowspan = 0;
+          if (typeof($(this).attr('colspan')) != 'undefined') {
+            colspan = $(this).attr('colspan');
           }
-        } else {
-          header_html += '<th style="width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'px">'+ $(this).html() +'</th>';
-          if (index < opts.fixedNumber) {
-            header_columns_html += '<th style="width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'px">'+ $(this).html() +'</th>';
+          if (typeof($(this).attr('rowspan')) != 'undefined') {
+            rowspan = $(this).attr('rowspan');
           }
+          
+          if ($(this).attr('style') != undefined) {
+            header_html_temp += '<th colspan="'+ colspan +'" rowspan="'+ rowspan +'" style="'+ $(this).attr('style') +'width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'px">'+ $(this).html() +'</th>';
+            if (index < opts.fixedNumber && index_tr == 0) {
+              header_columns_html_temp += '<th colspan="'+ colspan +'" rowspan="'+ rowspan +'" style="'+ $(this).attr('style') +'width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'px">'+ $(this).html() +'</th>';
+            }
+          } else {
+            header_html_temp += '<th colspan="'+ colspan +'" rowspan="'+ rowspan +'" style="width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'px">'+ $(this).html() +'</th>';
+            if (index < opts.fixedNumber && index_tr == 0) {
+              header_columns_html_temp += '<th colspan="'+ colspan +'" rowspan="'+ rowspan +'" style="width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'px">'+ $(this).html() +'</th>';
+            }
+          }
+        });
+        header_html += '<tr>'+ header_html_temp +'</tr>';
+        if (header_columns_html_temp != '') {
+          header_columns_html = '<tr>'+ header_columns_html_temp +'</tr>';
         }
       });
       header_html = '<table class="table table-hover table-bordered" style="width: '+ $(obj).width() +'px"><thead>'+ header_html +'</thead></table>';
@@ -48,30 +65,54 @@
       
       // 构造冻结列html
       var columns_startIndex = 0;
+      var mfixed_columns_width = 0;
       if ($(obj).parent().siblings('.mfixed-columns').find('tbody').html() != '') {
         columns_startIndex = $(obj).parent().siblings('.mfixed-columns').find('tbody tr').length;
       }
       $(obj).find('tbody tr').each(function (index) {
-        var td_html = '';
-        if (columns_startIndex != 0) {
-          // console.log(columns_startIndex+','+index);
-          if (index >= columns_startIndex) {
-            $(this).find('td').each(function (td_index) {
-              if (td_index < opts.fixedNumber) {
-                // console.log($(this).html());
-                td_html += '<td class="'+ $(this).attr('class') +'">'+ $(this).html() +'</td>';
-              }
-            });
-            columns_html += '<tr>'+ td_html +'</tr>';
-          }
-        } else {
+        if (index == 0) {
           $(this).find('td').each(function (td_index) {
             if (td_index < opts.fixedNumber) {
-              td_html += '<td class="'+ $(this).attr('class') +'">'+ $(this).html() +'</td>';
+              mfixed_columns_width += parseInt($(this).outerWidth(true));
             }
           });
-          columns_html += '<tr>'+ td_html +'</tr>';
         }
+        // var td_html = '';
+        // if (columns_startIndex != 0) {
+        //   if (index >= columns_startIndex) {
+        //     $(this).find('td').each(function (td_index) {
+        //       var colspan = 0;
+        //       var rowspan = 0;
+        //       if (typeof($(this).attr('colspan')) != 'undefined') {
+        //         colspan = columns_colspan = $(this).attr('colspan');
+        //       }
+        //       if (typeof($(this).attr('rowspan')) != 'undefined') {
+        //         rowspan = $(this).attr('rowspan');
+        //       }
+        // 
+        //       if (td_index < opts.fixedNumber) {
+        //         td_html += '<td colspan="'+ colspan +'" rowspan="'+ rowspan +'" class="'+ $(this).attr('class') +'">'+ $(this).html() +'</td>';
+        //       }
+        //     });
+        //     columns_html += '<tr>'+ td_html +'</tr>';
+        //   }
+        // } else {
+        //   $(this).find('td').each(function (td_index) {
+        //     var colspan = 0;
+        //     var rowspan = 0;
+        //     if (typeof($(this).attr('colspan')) != 'undefined') {
+        //       colspan = $(this).attr('colspan');
+        //     }
+        //     if (typeof($(this).attr('rowspan')) != 'undefined') {
+        //       rowspan = $(this).attr('rowspan');
+        //     }
+        // 
+        //     if (td_index < opts.fixedNumber) {
+        //       td_html += '<td colspan="'+ colspan +'" rowspan="'+ rowspan +'" class="'+ $(this).attr('class') +'">'+ $(this).html() +'</td>';
+        //     }
+        //   });
+        //   columns_html += '<tr>'+ td_html +'</tr>';
+        // }
       });
       $(obj).parent().siblings('.mfixed-columns').css({
         top: $(obj).find('thead th').outerHeight()
@@ -80,7 +121,9 @@
       // 填充生成的html
       $(obj).parent().siblings('.mfixed-header').html(header_html);
       $(obj).parent().siblings('.mfixed-header-columns').html(header_columns_html);
-      $(obj).parent().siblings('.mfixed-columns').find('tbody').append(columns_html);
+      $(obj).parent().siblings('.mfixed-columns').find('table').css('width', $(obj).width());
+      $(obj).parent().siblings('.mfixed-columns').find('tbody').html($(obj).find('tbody').html());
+      $(obj).parent().siblings('.mfixed-columns').css('width', mfixed_columns_width + 1);
       
       // 添加冻结列宽度高度
       $(obj).find('tbody tr').each(function (index) {
