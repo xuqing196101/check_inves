@@ -824,20 +824,62 @@ li:first-child {
 }
 
 
-.flow_step {
+.flow_step{
+  list-style-type:none;
+  padding:0px;
+  overflow:hidden;
+}
+.flow_step li{
+  padding:5px 13px!important;
+  float:left;
+  line-height:20px;
+  height:30px;
+  margin-right:35px;
+  background:#F6BC24;
+  color:#ffffff;
+  cursor:pointer;
+  position:relative;
+}
+.step_cont{
+  overflow:hidden;
+  border:1px solid #eeeeee;
+  padding:20px 10px;
+  margin-top:20px;
+ }
+.flow_step li a{
+  color:#ffffff;
+}
+.flow_step li.active{
+  background:#99CC33;
+}
+.flow_step li i{
+  width:11px;
+  height:20px;
+  background:url(../images/arr-arrow.png) #F6BC24;
+  background-repeat:no-repeat;
+  position:absolute;
+  right:-25px;
+  top:5px;
+}
+.flow_step li.active i{
+  background-color:#99CC33;
+}
+
+/* flow_step对齐模式 */
+.m_flow_step {
 	padding: 0px;
 	margin-top: -10px;
 	list-style: none;
   overflow: hidden;
 }
-.flow_step li {
+.m_flow_step li {
   float: left;
   padding-right: 23px;
 	margin-top: 10px;
 	margin-right: 12px;
   position: relative;
 }
-.flow_step li a {
+.m_flow_step li a {
 	display: block;
 	width: 180px;
   color: #FFF;
@@ -849,10 +891,10 @@ li:first-child {
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
-.flow_step li.active a {
+.m_flow_step li.active a {
   background: #99CC33;
 }
-.flow_step li i {
+.m_flow_step li i {
 	position: absolute;
   top: 5px;
 	right: 0;
@@ -860,14 +902,8 @@ li:first-child {
   height: 20px;
   background: url(../images/arr-arrow.png) #F6BC24 no-repeat center center;
 }
-.flow_step li.active i {
+.m_flow_step li.active i {
   background-color: #99CC33;
-}
-.step_cont {
-	overflow:hidden;
-	border:1px solid #eeeeee;
-	padding:20px 10px;
-	margin-top:20px;
 }
 
 .light_list{
