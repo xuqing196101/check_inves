@@ -99,7 +99,8 @@ public class CollectPlanController extends BaseController {
 		 */
 	    @RequestMapping("/list")
 	    public String queryPlan(@CurrentUser User user,PurchaseRequired purchaseRequired,Integer page,Model model,String status){
-			    Map<String,Object> map=new HashMap<String,Object>();
+	    	if (user != null && user.getOrg() != null) {
+	    		Map<String,Object> map=new HashMap<String,Object>();
 			    if(purchaseRequired.getStatus()==null){
 			    	//map.put("status", 4);
 			    }
@@ -165,6 +166,7 @@ public class CollectPlanController extends BaseController {
 		    }else {
 		      model.addAttribute("auth", "hidden");
 		    }
+			}
 	        return "bss/pms/collect/collectlist";
 	    }
     

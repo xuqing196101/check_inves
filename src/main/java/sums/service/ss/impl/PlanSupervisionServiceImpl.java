@@ -220,47 +220,36 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 
     @Override
     public List<Project> viewProject(String id) {
-        List<Project> listProject = new ArrayList<Project>();
-        //任务信息
-        HashMap<String, Object> mapTask = new HashMap<>();
-        mapTask.put("collectId", id);
-        List<Task> task = taskMapper.listBycollect(mapTask);
-        if(task != null && task.size() > 0){
-            for (Task task2 : task) {
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("taskId", task2.getId());
-                List<ProjectTask> projectTasks = projectTaskMapper.queryByNo(map);
-                HashSet<String> set = new HashSet<>();
-                if(projectTasks != null && projectTasks.size() > 0){
-                    for (ProjectTask projectTask : projectTasks) {
-                        set.add(projectTask.getProjectId());
-                    }
-                }
-                for (String string : set) {
-                	HashMap<String, Object> maps = new HashMap<>();
-                	maps.put("parentId", string);
-                	List<Project> selectByList = projectMapper.selectByList(maps);
-                	if(selectByList != null && selectByList.size() > 0){
-                		for (Project project : selectByList) {
-                			if(!"4".equals(project.getStatus())){
-                                DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
-                                if(StringUtils.isNotBlank(project.getAppointMan())){
-                                    List<User> users = userMapper.selectByPrimaryKey(project.getAppointMan());
-                                    project.setAppointMan(users.get(0).getRelName());
-                                    project.setAddress(users.get(0).getAddress());
-                                }
-                                if(StringUtils.isNotBlank(project.getPurchaseDepId())){
-                                    Orgnization org = orgnizationMapper.findOrgByPrimaryKey(project.getPurchaseDepId());
-                                    project.setPurchaseDepId(org.getName());
-                                }
-                                project.setStatus(findById.getName());
-                                listProject.add(project);
+    	List<Project> listProject = new ArrayList<Project>();
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	map.put("planNo", id);
+    	map.put("isMaster", 1);
+    	List<PurchaseDetail> byMap = purchaseDetailMapper.getByMap(map);
+    	if (byMap != null && !byMap.isEmpty()) {
+    		if (StringUtils.isNotBlank(byMap.get(0).getFileId())) {
+    			List<String> supervisionProjectId = purchaseDetailMapper.supervisionProjectId(byMap.get(0).getFileId());
+        		if (supervisionProjectId != null && !supervisionProjectId.isEmpty()) {
+        			for (String string : supervisionProjectId) {
+        				Project project = projectMapper.selectProjectByPrimaryKey(string);
+    					if (project != null && !StringUtils.equals("4", project.getStatus())) {
+                            DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
+                            if(StringUtils.isNotBlank(project.getAppointMan())){
+                                List<User> users = userMapper.selectByPrimaryKey(project.getAppointMan());
+                                project.setAppointMan(users.get(0).getRelName());
+                                project.setAddress(users.get(0).getAddress());
                             }
-						}
-                	}
-                }
-            }
-        }
+                            if(StringUtils.isNotBlank(project.getPurchaseDepId())){
+                                Orgnization org = orgnizationMapper.findOrgByPrimaryKey(project.getPurchaseDepId());
+                                project.setPurchaseDepId(org.getName());
+                            }
+                            project.setStatus(findById.getName());
+                            listProject.add(project);
+    					}
+    				}
+        		}
+    		}
+    		
+		}
         return listProject;
     }
 
@@ -334,37 +323,29 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 
     @Override
     public Integer projectStatus(String id) {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("collectId", id);
-        List<Task> listBycollect = taskMapper.listBycollect(map);
-        List<String> status = new ArrayList<String>();
-        List<Project> projectList = new ArrayList<Project>();
-        if(listBycollect != null && listBycollect.size() > 0){
-            for (Task task : listBycollect) {
-                map.put("taskId", task.getId());
-                List<ProjectTask> projectTasks = projectTaskMapper.queryByNo(map);
-                for (ProjectTask projectTask : projectTasks) {
-                	HashMap<String, Object> hashMap = new HashMap<>();
-                	hashMap.put("parentId", projectTask.getProjectId());
-                	List<Project> selectByList = projectMapper.selectByList(hashMap);
-                	if(selectByList != null && selectByList.size() > 0){
-                		projectList.addAll(selectByList);
-                	}
-                }
-            }
-        }
-        if(projectList != null && projectList.size() > 0){
-        	for (Project project : projectList) {
-                if(project != null && !"4".equals(project.getStatus())){
-                	DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
-                	if(!"YJFB".equals(findById.getCode())){
-                		String projectStatus = supervisionService.progressBarProject(project.getStatus());
-                        String proStatus = projectStatus + ".00";
-                        status.add(proStatus);
-                	}
-                }
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	map.put("planNo", id);
+    	map.put("isMaster", 1);
+    	List<PurchaseDetail> byMap = purchaseDetailMapper.getByMap(map);
+    	List<String> status = new ArrayList<String>();
+    	if (byMap != null && !byMap.isEmpty()) {
+    		if (StringUtils.isNotBlank(byMap.get(0).getFileId())) {
+    			List<String> supervisionProjectId = purchaseDetailMapper.supervisionProjectId(byMap.get(0).getFileId());
+        		if (supervisionProjectId != null && !supervisionProjectId.isEmpty()) {
+    				for (String string : supervisionProjectId) {
+    					Project project = projectMapper.selectProjectByPrimaryKey(string);
+    					if (project != null && !StringUtils.equals("4", project.getStatus())) {
+    		            	DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
+    		            	if(!"YJFB".equals(findById.getCode())){
+    		            		String projectStatus = supervisionService.progressBarProject(project.getStatus());
+    		                    String proStatus = projectStatus + ".00";
+    		                    status.add(proStatus);
+    		            	}
+    					}
+    				}
+    			}
 			}
-        }
+		}
         if(status != null && status.size() > 0){
             Integer num = 0;
             for (String string : status) {
@@ -380,34 +361,22 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 
     @Override
     public Integer contractStatus(String id) {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("collectId", id);
-        List<Task> listBycollect = taskMapper.listBycollect(map);
-        List<Integer> status = new ArrayList<Integer>();
-        if(listBycollect != null && listBycollect.size() > 0){
-            for (Task task : listBycollect) {
-                map.put("taskId", task.getId());
-                List<ProjectTask> projectTasks = projectTaskMapper.queryByNo(map);
-                for (ProjectTask projectTask : projectTasks) {
-                    Project project = projectMapper.selectProjectByPrimaryKey(projectTask.getProjectId());
-                    if(project != null && !"4".equals(project.getStatus())){
-                        HashMap<String, Object> maps = new HashMap<>();
-                        maps.put("id", project.getId());
-                        List<ProjectDetail> selectById = projectDetailMapper.selectById(maps);
-                        if(selectById != null && selectById.size() > 0){
-                            for (ProjectDetail projectDetail : selectById) {
-                                List<ContractRequired> contractRequireds = contractRequiredMapper.selectConRequByDetailId(projectDetail.getId());
-                                if(contractRequireds != null && contractRequireds.size()>0){
-                                    PurchaseContract purchaseContract = contractMapper.selectContractByid(contractRequireds.get(0).getContractId());
-                                    Integer progressBarContract = supervisionService.progressBarContract(purchaseContract.getStatus());
-                                    status.add(progressBarContract);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	map.put("planNo", id);
+    	map.put("isMaster", 1);
+    	List<PurchaseDetail> byMap = purchaseDetailMapper.getByMap(map);
+    	List<Integer> status = new ArrayList<Integer>();
+    	if (byMap != null && !byMap.isEmpty()) {
+    		if (StringUtils.isNotBlank(byMap.get(0).getFileId())) {
+    			List<Integer> contractStatusSupervision = contractRequiredMapper.contractStatusSupervision(byMap.get(0).getFileId());
+        		if (contractStatusSupervision != null && !contractStatusSupervision.isEmpty()) {
+    				for (Integer integer : contractStatusSupervision) {
+    					Integer progressBarContract = supervisionService.progressBarContract(integer);
+                        status.add(progressBarContract);
+    				}
+    			}
+			}
+		}
         if(status != null && status.size() > 0){
             Integer num = 0;
             for (Integer integer : status) {

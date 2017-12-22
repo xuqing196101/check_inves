@@ -184,35 +184,35 @@ public class ContractSupervisionController {
             map.put("budgetSubjectItem", contract.getBudgetSubjectItem());
         }
         HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
-		List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
-		if (superviseOrgId != null && !superviseOrgId.isEmpty() || StringUtils.equals("4", user.getTypeName())) {
-			if (StringUtils.equals("1", user.getTypeName()) || StringUtils.equals("4", user.getTypeName()) || StringUtils.equals("5", user.getTypeName())) {
-				if (StringUtils.equals("1", user.getTypeName())) {
-					map.put("purchaseDepName", user.getOrg().getId());
-				} else if (StringUtils.equals("5", user.getTypeName())) {
-					map.put("purchaseDepIds", superviseOrgId);
-				}
-				List<PurchaseContract> list = purchaseContractService.contractSupervisionList(map);
-		        PageInfo<PurchaseContract> info = new PageInfo<PurchaseContract>(list);
-		        model.addAttribute("info", info);
-		        model.addAttribute("contract", contract);
-		        
-		        if (StringUtils.equals("4", user.getTypeName())) {
-		        	List<Orgnization> orgByPosition = orgnizationServiceI.findPurchaseOrgByPosition(null);
-		        	model.addAttribute("orgByPosition", orgByPosition);
-				} else if (StringUtils.equals("1", user.getTypeName())) {
-					List<Orgnization> org = new ArrayList<Orgnization>();
-					Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(user.getOrg().getId());
-					org.add(orgnization);
-					model.addAttribute("orgByPosition", org);
-				} else if (StringUtils.equals("5", user.getTypeName())) {
-					HashMap<String, Object> hashMap = new HashMap<>();
-					hashMap.put("userId", superviseOrgId);
-					hashMap.put("typeName", 1);
-					List<Orgnization> selectByIdList = orgnizationServiceI.selectByIdList(hashMap);
-					model.addAttribute("orgByPosition", selectByIdList);
-				}
-			}
+        Integer dataAccess = (Integer) dataMap.get("dataAccess");
+    	if (dataAccess == 2){
+    		List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
+    		map.put("purchaseDepIds", superviseOrgId);
+    		if (StringUtils.equals("5", user.getTypeName())) {
+    			HashMap<String, Object> hashMap = new HashMap<>();
+    			hashMap.put("userId", superviseOrgId);
+    			hashMap.put("typeName", 1);
+    			List<Orgnization> selectByIdList = orgnizationServiceI.selectByIdList(hashMap);
+    			model.addAttribute("orgByPosition", selectByIdList);
+    		}
+    		
+    	} else if (dataAccess == 3){
+			//查看本人数据
+			map.put("purchaseDepName", user.getOrg().getId());
+		}
+    	List<PurchaseContract> list = purchaseContractService.contractSupervisionList(map);
+        PageInfo<PurchaseContract> info = new PageInfo<PurchaseContract>(list);
+        model.addAttribute("info", info);
+        model.addAttribute("contract", contract);
+        
+        if (StringUtils.equals("4", user.getTypeName())) {
+        	List<Orgnization> orgByPosition = orgnizationServiceI.findPurchaseOrgByPosition(null);
+        	model.addAttribute("orgByPosition", orgByPosition);
+		} else if (StringUtils.equals("1", user.getTypeName())) {
+			List<Orgnization> org = new ArrayList<Orgnization>();
+			Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(user.getOrg().getId());
+			org.add(orgnization);
+			model.addAttribute("orgByPosition", org);
 		}
 		return "sums/ss/contractSupervision/draftlist";
 	}

@@ -123,28 +123,25 @@ public class DemandSupervisionController extends BaseController{
 	        //是否是详细，1是主要，不是1为明细
 			purchaseRequired.setIsMaster(1);
 			HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
-			List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
-			if (superviseOrgId != null && !superviseOrgId.isEmpty() || StringUtils.equals("4", user.getTypeName())) {
-				if (StringUtils.equals("0", user.getTypeName()) || StringUtils.equals("4", user.getTypeName()) || StringUtils.equals("5", user.getTypeName())) {
-					if (StringUtils.equals("0", user.getTypeName())) {
-						purchaseRequired.setUserId(user.getId());
-					} else if (StringUtils.equals("5", user.getTypeName())) {
-						purchaseRequired.setUserList(superviseOrgId);
-					}
-					List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page);
-					//获取用户的真实姓名
-			        for (int i = 0; i < list.size(); i++ ) {
-			             try {
-			                 User users = userService.getUserById(list.get(i).getUserId());
-			                 list.get(i).setUserName(users.getRelName());
-			             } catch (Exception e) {
-			                  list.get(i).setUserName("");
-			             }
-			         }
-			         model.addAttribute("list", new PageInfo<PurchaseRequired>(list));
-			         model.addAttribute("purchaseRequired", purchaseRequired);
-				}
+			Integer dataAccess = (Integer) dataMap.get("dataAccess");
+			if (dataAccess == 2){
+				List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
+				purchaseRequired.setUserList(superviseOrgId);
+			} else if (dataAccess == 3){
+				purchaseRequired.setUserId(user.getId());
 			}
+			List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page);
+			//获取用户的真实姓名
+	        for (int i = 0; i < list.size(); i++ ) {
+	             try {
+	                 User users = userService.getUserById(list.get(i).getUserId());
+	                 list.get(i).setUserName(users.getRelName());
+	             } catch (Exception e) {
+	                  list.get(i).setUserName("");
+	             }
+	         }
+	         model.addAttribute("list", new PageInfo<PurchaseRequired>(list));
+	         model.addAttribute("purchaseRequired", purchaseRequired);
 		}
 		return "sums/ss/demandSupervision/list";
 	}
