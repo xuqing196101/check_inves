@@ -112,20 +112,26 @@
          </div>
        </div>
      </div> --%>
-
-     <div class="mt20 fw f14" id="cgspan">最终意见</div>
-     <div class="mt10">
-       <textarea class="w100p h80 resizen" disabled="disabled">${MapPa['finalId'].content}</textarea>
-       <div class="fl f0 mt10">
-			<span class="m_inline f14 lh16">审批单：</span>
-			<div class="m_inline m_uploadFiles">
-				<u:show showId="ff1" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
-			</div>
-		</div>
-       <div class="m_uploadFiles mt10">
-         <span class="m_inline f14 lh16">最终意见附件：</span>
-         <div class="m_inline m_uploadFiles f0">
+     
+     <div class="m_boxS1">
+       <div class="clear">
+         <div class="m_inline">审批单：</div>
+         <div class="m_inline m_uploadFiles">
+           <u:show showId="ff1" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
+         </div>
+       </div>
+       
+       <div class="mt20 clear">
+         <div class="m_inline">最终意见附件：</div>
+         <div class="m_inline m_uploadFiles">
            <u:show showId="kk" delete="flase" businessId="${MapPa['finalId'].id}" sysKey="${sysKey}" typeId="${finalTypeId}"/>
+         </div>
+       </div>
+       
+       <div class="mt20 clear">
+         <div id="cgspan">最终意见：</div>
+         <div class="mt10">
+           <textarea class="w100p h80 resizen" disabled="disabled">${MapPa['finalId'].content}</textarea>
          </div>
        </div>
      </div>

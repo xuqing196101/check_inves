@@ -1333,14 +1333,14 @@
       <include refid="Base_Column_List" />
       FROM
         T_BSS_PPMS_PROJECTS s
-      WHERE 1=1 and IS_REHEARSE = 0 and STATUS != '4'
+      WHERE  IS_REHEARSE = 0 and STATUS != '4'
       and (PARENT_ID = '1' OR PARENT_ID IS NULL)
       <if test="purchaseDepId != null and purchaseDepId != ''">
         and  PURCHASE_DEP_ID = #{purchaseDepId}
       </if>
-       <!-- <if test="appointMan != null and appointMan != ''">
-        and (APPOINT_MAN = #{appointMan} OR APPOINT_MAN IS NULL)
-      </if> --> 
+      <if test="appointMan != null and appointMan != ''">
+        and  APPOINT_MAN = #{appointMan}
+      </if>
       <if test="purchaseDepIds != null and purchaseDepIds !=''">
         and PURCHASE_DEP_ID in
         <foreach item="item" index="index" collection="purchaseDepIds" open="(" separator="," close=")">
@@ -1348,7 +1348,7 @@
 				</foreach>
       </if>
       <if test="userId != null and userId != ''">
-       and principal=#{userId}
+       and principal = #{userId}
       </if>
       <if test="name != null and name != ''">
        and NAME like CONCAT(CONCAT('%', #{name}), '%')
@@ -1492,6 +1492,47 @@
       </if>
       ORDER BY p.CREATED_AT DESC
   </select> 
+  
+  <!-- 新实施采购机构登录 -->
+  <select id="selectByPurchaseDep" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	SELECT
+			PP. ID, PP. NAME,PP.PROJECT_NUMBER,PP.STATUS,PP.CREATED_AT,
+		(SELECT NAME FROM T_SES_BMS_DICTIONARY_DATA WHERE ID = PP.PURCHASE_NEW_TYPE) AS PURCHASE_NEW_TYPE,
+		(SELECT NAME FROM T_SES_BMS_DICTIONARY_DATA WHERE ID = PP.PURCHASE_TYPE) AS PURCHASE_TYPE,
+		(SELECT REL_NAME FROM T_SES_BMS_USER WHERE ID = PP.PRINCIPAL) AS PRINCIPAL
+		FROM
+			T_BSS_PPMS_PROJECTS pp
+		LEFT JOIN T_BSS_PPMS_FLOW_EXECUTE EE ON PP. ID = EE.PROJECT_ID
+		WHERE
+			pp.IS_REHEARSE = 0
+		AND (
+			pp.PARENT_ID != '1'
+			OR pp.PARENT_ID IS NULL
+		)
+		AND pp.STATUS != '4' AND PP.PRINCIPAL IS NOT NULL
+		AND EE.IS_DELETED = 0 AND EE.STATUS = 0
+		<if test="userId != null and userId != ''">
+			AND EE.OPERATOR_ID = #{userId}
+		</if>
+		<if test="purchaseDepId != null and purchaseDepId != ''">
+			AND PP.PURCHASE_DEP_ID = #{purchaseDepId}
+		</if>
+		<if test="name != null and name != ''">
+     	AND PP.NAME like CONCAT(CONCAT('%', #{name}), '%')
+    </if>
+    <if test="projectNumber != null and projectNumber != ''">
+    	AND PP.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
+    </if>
+    <if test="status != null and status != ''">
+     	AND PP.STATUS = #{status}
+    </if>
+    <if test="parentId != null and parentId != ''">
+     	AND PP.PARENT_ID = #{parentId}
+    </if>
+		GROUP BY
+			PP. ID, PP. NAME,PP.PROJECT_NUMBER,PP.STATUS,PP.PURCHASE_TYPE,PP.CREATED_AT,PP.PRINCIPAL,PP.PURCHASE_NEW_TYPE
+		ORDER BY pp.CREATED_AT DESC
+  </select>
   
   <!-- 立项管理部门登录 -->
   <!-- <select id="selectByOrgnization" parameterType="java.util.Map" resultMap="BaseResultMap">
@@ -1818,6 +1859,9 @@
 		</if>
 		<if test="purchaseDepId != null and purchaseDepId != ''">
 			AND PP.PURCHASE_DEP_ID = #{purchaseDepId}
+		</if>
+		<if test="principal != null and principal != ''">
+			AND PP.PRINCIPAL = #{principal}
 		</if>
 		<if test="name != null and name != ''">
      	AND PP.NAME like CONCAT(CONCAT('%', #{name}), '%')

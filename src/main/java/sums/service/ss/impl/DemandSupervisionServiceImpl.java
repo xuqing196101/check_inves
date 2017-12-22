@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -89,15 +90,13 @@ public class DemandSupervisionServiceImpl implements DemandSupervisionService {
 
     @Override
     public Integer planStatus(String id) {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("fileId", id);
-        List<PurchaseDetail> details = purchaseDetailMapper.getByMap(map);
-        if(details != null && details.size() > 0){
-            CollectPlan collectPlan = collectPlanMapper.selectByPrimaryKey(details.get(0).getUniqueId());
-            Integer progressBarPlan = supervisionService.progressBarPlan(collectPlan.getStatus());
-            return progressBarPlan;
-        }
-        return null;
+    	Integer status = collectPlanMapper.collectStatusBySupervision(id);
+    	if (status != null) {
+    		Integer progressBarPlan = supervisionService.progressBarPlan(status);
+    		return progressBarPlan;
+		} else {
+			return null;
+		}
     }
 
     @Override
@@ -178,7 +177,27 @@ public class DemandSupervisionServiceImpl implements DemandSupervisionService {
 
     @Override
     public Integer contractStatus(String id) {
-        List<Integer> statusContract = new ArrayList<Integer>();
+    	List<Integer> statusContract = new ArrayList<Integer>();
+    	List<Integer> status = contractRequiredMapper.contractStatusSupervision(id);
+    	if (status != null && !status.isEmpty()) {
+			for (Integer integer : status) {
+				Integer progressBarContract = supervisionService.progressBarContract(integer);
+				statusContract.add(progressBarContract);
+			}
+		}
+    	if (statusContract != null && !statusContract.isEmpty()) {
+    		Integer num = 0;
+            for (Integer integer : statusContract) {
+                double number = integer/statusContract.size();
+                BigDecimal b = new BigDecimal(number);
+                double total = b.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
+                num += (int)total;
+            }
+            return num;
+		} else {
+			return null;
+		}
+        /*List<Integer> statusContract = new ArrayList<Integer>();
         HashMap<String, Object> map = new HashMap<>();
         map.put("fileId", id);
         List<PurchaseDetail> details = purchaseDetailMapper.getByMap(map);
@@ -209,48 +228,32 @@ public class DemandSupervisionServiceImpl implements DemandSupervisionService {
                 }
                 return num;
             }
-        }
-        return null;
+        }*/
     }
 
     @Override
     public List<Project> viewProject(String id) {
-        HashMap<String, Object> map=new HashMap<String, Object>();
-        map.put("id", id);
-        List<PurchaseRequired> requireds = requiredMapper.selectByParentId(map);
-        if(requireds != null && requireds.size()>0){
-            HashSet<String> set = new HashSet<>();
-            List<Project> list = new ArrayList<>();
-            for (PurchaseRequired purchaseRequired : requireds) {
-                if(purchaseRequired.getPrice() != null){
-                    HashMap<String, Object> maps = new HashMap<String, Object>();
-                    maps.put("requiredId", purchaseRequired.getId());
-                    List<ProjectDetail> selectById = projectDetailMapper.selectById(maps);
-                    if(selectById != null && selectById.size() > 0){
-                        for (ProjectDetail projectDetail : selectById) {
-                            set.add(projectDetail.getProject().getId());
-                        }
-                    }
-                }
-            }
-            for (String string : set) {
-                Project project = projectMapper.selectProjectByPrimaryKey(string);
-                if(project != null){
-                    List<User> users = userMapper.selectByPrimaryKey(project.getAppointMan());
+    	List<String> list = purchaseDetailMapper.supervisionProjectId(id);
+    	List<Project> projects = new ArrayList<Project>();
+    	if (list != null && !list.isEmpty()) {
+			for (String string : list) {
+				Project project = projectMapper.selectProjectByPrimaryKey(string);
+                if(project != null && !StringUtils.equals("4", project.getStatus())){
+                	List<User> users = userMapper.selectByPrimaryKey(project.getAppointMan());
                     project.setAppointMan(users.get(0).getRelName());
                     Orgnization org = orgnizationMapper.findOrgByPrimaryKey(project.getPurchaseDepId());
                     project.setPurchaseDepId(org.getName());
                     DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
                     project.setStatus(findById.getName());
-                    list.add(project);
-                    
-                } 
-            }
-            if(list != null && list.size() > 0){
-                return list;
-            }
-        }
-        return null;
+                    projects.add(project);
+                }
+			}
+		}
+    	if (projects != null && !projects.isEmpty()) {
+			return projects;
+		} else {
+			return null;
+		}
     }
 
     @Override

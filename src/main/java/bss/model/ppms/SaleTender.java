@@ -215,6 +215,8 @@ public class SaleTender {
     
     private List<SaleTender> lists;
     
+    private String message;
+    
     public Integer getIsEndPrice() {
         return isEndPrice;
     }
@@ -807,6 +809,16 @@ public class SaleTender {
 
   public void setLists(List<SaleTender> lists) {
     this.lists = lists;
+  }
+
+
+  public String getMessage() {
+    return message;
+  }
+
+
+  public void setMessage(String message) {
+    this.message = message;
   }
     
 }

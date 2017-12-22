@@ -251,5 +251,8 @@
       <if test="scoreModelId != null and scoreModelId != ''">
        AND SCORE_MODEL_ID = #{scoreModelId,jdbcType=VARCHAR}
       </if>
+      <if test="supplierId != null and supplierId != ''">
+       AND SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
+      </if>
       </select>
 </mapper>

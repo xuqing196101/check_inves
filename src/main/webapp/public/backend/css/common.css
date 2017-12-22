@@ -539,7 +539,7 @@
   margin-left: 6px; }
 
 .ml10 {
-  margin-left: 10px; }
+  margin-left: 10px !important; }
 
 .ml12 {
   margin-left: 12px; }

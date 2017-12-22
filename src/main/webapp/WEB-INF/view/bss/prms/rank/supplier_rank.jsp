@@ -46,6 +46,8 @@
 				 var spriceScore=datas.spriceScore;
 				 var ranks=datas.ranks;
 				 var scores=datas.scores;
+				 var reviewResults=datas.reviewResults;
+				 $("#reviewResults").text("有效平均报价："+parseFloat(reviewResults.split("_")[0]).toFixed(4)+"有效经济技术平均分（不含价格因素）："+parseFloat(reviewResults.split("_")[1]).toFixed(4));
 				 if(spriceScore.length>0){
 					 for(var i=0;i<spriceScore.length;i++){
 							$("#price_"+spriceScore[i].id).text(spriceScore[i].pScore);
@@ -104,6 +106,7 @@
            <button class="btn" onclick="rankView('${pack.id}','${pack.projectId}');" type="button">下载供应商排名</button>
           </div> 
            	<div class="clear"></div>
+           	<span id="reviewResults">
          		<c:set var="isDone1" value="0" scope="page"></c:set>
          		<c:forEach items="${supplierList}" var="supplier">
                   <c:if test="${isDone1 ne '1' && supplier.packages eq pack.id}">
@@ -121,7 +124,7 @@
                   	<c:set var="isDone1" value="1" scope="page"></c:set>
                   </c:if>
                 </c:forEach>
-           
+           </span>
           </c:if>
           <%-- <c:if test="${'OPEN_ZHPFF' ne pack.bidMethodTypeName}">
           <div class="fl mt20 ml10">
@@ -190,7 +193,7 @@
 		                <td class="tc" colspan="2" id="score_${supplier.suppliers.id}_${pack.id}">
 		                  <c:forEach items="${rankList}" var="rank">
 		                    <c:if test="${rank.packageId eq pack.id && rank.supplierId eq supplier.suppliers.id}">
-		                       <c:if test="${rank.econScore!=0&&rank.techScore!=0&&rank.sumScore!=0&&rank.econScore!=null&&rank.techScore!=null}">
+		                       <c:if test="${rank.econScore!=0&&rank.sumScore!=0&&rank.econScore!=null&&rank.techScore!=null}">
 		                         <fmt:formatNumber value="${rank.priceScore}" pattern="0.00"></fmt:formatNumber>(价格)+<fmt:formatNumber value="${rank.econScore}" pattern="0.00"></fmt:formatNumber>(经济)+<fmt:formatNumber value="${rank.techScore}" pattern="0.00"></fmt:formatNumber>(技术)=<fmt:formatNumber value="${rank.sumScore}" pattern="0.00"></fmt:formatNumber>
 		                       </c:if>
 		                    </c:if>

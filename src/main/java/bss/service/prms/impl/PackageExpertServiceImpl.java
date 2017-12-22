@@ -35,7 +35,6 @@ import ses.service.ems.ExpertService;
 import ses.service.ems.ProjectExtractService;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
-
 import bss.dao.ppms.BidMethodMapper;
 import bss.dao.ppms.MarkTermMapper;
 import bss.dao.ppms.SaleTenderMapper;
@@ -639,12 +638,55 @@ public class PackageExpertServiceImpl implements PackageExpertService {
               economicScore = economicScore.add(supplierEconomicScore);
             }
             if (technologyExperts != null && technologyExperts.size() > 0) {
-              Map<String, Object> map4 = new HashMap<String, Object>();
-              map4.put("expertId", technologyExperts.get(0).getExpert().getId());
-              map4.put("packageId", packageId);
-              map4.put("supplierId", saleTender.getSuppliers().getId());
-              BigDecimal supplierTechnologyScore = expertScoremapper.selectSumByMap(map4);
-              technologyScore = technologyScore.add(supplierTechnologyScore);
+              BidMethod bidMethod=new BidMethod();
+              bidMethod.setPackageId(packageId);
+              List<BidMethod> bms = bidMethodMapper.findScoreMethod(bidMethod);
+              Double deviation=null;
+              if(bms!=null&&bms.size()>0){
+                BidMethod bm=bms.get(0);
+                if("2".equals(bm.getTypeName())){
+                  deviation=bm.getDeviation().doubleValue();
+                }  
+              }
+              Boolean flg=false;
+              BigDecimal total=BigDecimal.ZERO;
+              if(deviation!=null){
+                ExpertScore expertScore=new ExpertScore();
+                expertScore.setExpertId(technologyExperts.get(0).getExpert().getId());
+                expertScore.setPackageId(packageId);
+                expertScore.setSupplierId(saleTender.getSuppliers().getId());
+                List<ExpertScore> selectByScore = expertScoreMapper.selectByScore(expertScore);
+                for (ExpertScore ep : selectByScore) {
+                  ScoreModel scoreModel=new ScoreModel();
+                  scoreModel.setId(ep.getScoreModelId());
+                  List<ScoreModel> findListByScoreModel = scoreModelMapper.find(scoreModel);
+                  if(findListByScoreModel!=null&&findListByScoreModel.size()>0){
+                    ScoreModel scoreModel2 = findListByScoreModel.get(0);
+                    if("10".equals(scoreModel2.getTypeName())){
+                      if(ep.getScore().doubleValue()<0){
+                        if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
+                          flg=true;
+                        }else{
+                          total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
+                        }
+                      }
+                    }
+                  }
+                }
+                if(total.doubleValue()>deviation){
+                  flg=true;
+                }
+              }
+              if(flg){
+                technologyScore=BigDecimal.ZERO;
+              }else{
+                Map<String, Object> map4 = new HashMap<String, Object>();
+                map4.put("expertId", technologyExperts.get(0).getExpert().getId());
+                map4.put("packageId", packageId);
+                map4.put("supplierId", saleTender.getSuppliers().getId());
+                BigDecimal supplierTechnologyScore = expertScoremapper.selectSumByMap(map4);
+                technologyScore = technologyScore.add(supplierTechnologyScore);
+              }
             }
         }
         totalScore = totalScore.add(economicScore);
@@ -712,7 +754,54 @@ public class PackageExpertServiceImpl implements PackageExpertService {
       //综合评分法
       if ("OPEN_ZHPFF".equals(aduitMethodCode)) {
         for (SaleTender obj : finalSupplier) {
-          System.out.println(obj.getEconomicScore()+"--"+obj.getTechnologyScore());
+          Map<String, Object> map2 = new HashMap<String, Object>();
+          map2.put("packageId", packageId);
+          map2.put("reviewTypeId", DictionaryDataUtil.getId("TECHNOLOGY"));
+          List<PackageExpert> technologyExperts = packageExpertMapper.selectList(map2);
+          if (technologyExperts != null && technologyExperts.size() > 0) {
+            BidMethod bidMethod=new BidMethod();
+            bidMethod.setPackageId(packageId);
+            List<BidMethod> bms = bidMethodMapper.findScoreMethod(bidMethod);
+            Double deviation=null;
+            if(bms!=null&&bms.size()>0){
+              BidMethod bm=bms.get(0);
+              if("2".equals(bm.getTypeName())){
+                deviation=bm.getDeviation().doubleValue();
+              }  
+            }
+            Boolean flg=false;
+            BigDecimal total=BigDecimal.ZERO;
+            if(deviation!=null){
+              ExpertScore expertScore=new ExpertScore();
+              expertScore.setExpertId(technologyExperts.get(0).getExpert().getId());
+              expertScore.setPackageId(packageId);
+              expertScore.setSupplierId(obj.getSuppliers().getId());
+              List<ExpertScore> selectByScore = expertScoreMapper.selectByScore(expertScore);
+              for (ExpertScore ep : selectByScore) {
+                ScoreModel scoreModel=new ScoreModel();
+                scoreModel.setId(ep.getScoreModelId());
+                List<ScoreModel> findListByScoreModel = scoreModelMapper.find(scoreModel);
+                if(findListByScoreModel!=null&&findListByScoreModel.size()>0){
+                  ScoreModel scoreModel2 = findListByScoreModel.get(0);
+                  if("10".equals(scoreModel2.getTypeName())){
+                    if(ep.getScore().doubleValue()<0){
+                      if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
+                        flg=true;
+                      }else{
+                        total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
+                      }
+                    }
+                  }
+                }
+              }
+              if(total.doubleValue()>deviation){
+                flg=true;
+              }
+            }
+            if(flg){
+              obj.setTechnologyScore(BigDecimal.ZERO);
+            }
+          }
         }
         //根据总得分排名
         Collections.sort(finalSupplier,new Comparator<SaleTender>(){
@@ -725,18 +814,18 @@ public class PackageExpertServiceImpl implements PackageExpertService {
             totalScore2 = totalScore2.add(o2.getEconomicScore());
             totalScore2 = totalScore2.add(o2.getTechnologyScore());
             /*totalScore2 = totalScore2.add(o2.getPriceScore());*/
-            if(totalScore1.doubleValue()-totalScore2.doubleValue() >= 1){  
+            if(totalScore1.doubleValue()-totalScore2.doubleValue() > 0){  
                 return -1;
             }else if(totalScore1.doubleValue()-totalScore2.doubleValue() == 0){
                 BigDecimal price1 = o1.getTotalPrice();
                 BigDecimal price2 = o2.getTotalPrice();
-                if(price1.doubleValue()-price2.doubleValue() >=1){ 
-                  return 1;
+                if(price1.doubleValue()-price2.doubleValue() >0){ 
+                  return -1;
                 }else if(price1.doubleValue()-price2.doubleValue() == 0){ 
                   return 0;
                 }
                 else{ 
-                  return -1;
+                  return 1;
                 }
             }else{  
               return 1;  
@@ -744,7 +833,7 @@ public class PackageExpertServiceImpl implements PackageExpertService {
           }
         });   
         for (SaleTender obj : finalSupplier) {
-            System.out.println(obj.getEconomicScore()+"--"+obj.getTechnologyScore()+"-=-="+obj.getRanking()+"-=-="+obj.getTotalPrice());
+            System.out.println(obj.getEconomicScore()+"--"+obj.getTechnologyScore()+"-=-="+obj.getRanking()+"-=-="+obj.getTotalPrice()+"-----"+(obj.getEconomicScore().doubleValue()+obj.getTechnologyScore().doubleValue()));
           }
         Integer ranking=1;
         if(finalSupplier!=null&&finalSupplier.size()>0){
@@ -1248,16 +1337,59 @@ public class PackageExpertServiceImpl implements PackageExpertService {
               economicScore = economicScore.add(supplierEconomicScore);
             }
             if (technologyExperts != null && technologyExperts.size() > 0) {
-              Map<String, Object> map4 = new HashMap<String, Object>();
-              map4.put("expertId", technologyExperts.get(0).getExpert().getId());
-              map4.put("packageId", packageId);
-              map4.put("supplierId", saleTender.getSuppliers().getId());
-              if (markTerms != null && markTerms.size() > 0) {
-                map4.put("isReject", 1);
-                map4.put("scoreModelId", markTerms.get(0).getSmId());
+              BidMethod bidMethod=new BidMethod();
+              bidMethod.setPackageId(packageId);
+              List<BidMethod> bms = bidMethodMapper.findScoreMethod(bidMethod);
+              Double deviation=null;
+              if(bms!=null&&bms.size()>0){
+                BidMethod bm=bms.get(0);
+                if("2".equals(bm.getTypeName())){
+                  deviation=bm.getDeviation().doubleValue();
+                }  
               }
-              BigDecimal supplierTechnologyScore = expertScoremapper.selectSumByMap(map4);
-              technologyScore = technologyScore.add(supplierTechnologyScore);
+              Boolean flg=false;
+              BigDecimal total=BigDecimal.ZERO;
+              if(deviation!=null){
+                ExpertScore expertScore=new ExpertScore();
+                expertScore.setExpertId(technologyExperts.get(0).getExpert().getId());
+                expertScore.setPackageId(packageId);
+                expertScore.setSupplierId(saleTender.getSuppliers().getId());
+                List<ExpertScore> selectByScore = expertScoreMapper.selectByScore(expertScore);
+                for (ExpertScore ep : selectByScore) {
+                  ScoreModel scoreModel=new ScoreModel();
+                  scoreModel.setId(ep.getScoreModelId());
+                  List<ScoreModel> findListByScoreModel = scoreModelMapper.find(scoreModel);
+                  if(findListByScoreModel!=null&&findListByScoreModel.size()>0){
+                    ScoreModel scoreModel2 = findListByScoreModel.get(0);
+                    if("10".equals(scoreModel2.getTypeName())){
+                      if(ep.getScore().doubleValue()<0){
+                        if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
+                          flg=true;
+                        }else{
+                          total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
+                        }
+                      }
+                    }
+                  }
+                }
+                if(total.doubleValue()>deviation){
+                  flg=true;
+                }
+              }
+              if(flg){
+                technologyScore=BigDecimal.ZERO;
+              }else{
+                Map<String, Object> map4 = new HashMap<String, Object>();
+                map4.put("expertId", technologyExperts.get(0).getExpert().getId());
+                map4.put("packageId", packageId);
+                map4.put("supplierId", saleTender.getSuppliers().getId());
+                if (markTerms != null && markTerms.size() > 0) {
+                  map4.put("isReject", 1);
+                  map4.put("scoreModelId", markTerms.get(0).getSmId());
+                }
+                BigDecimal supplierTechnologyScore = expertScoremapper.selectSumByMap(map4);
+                technologyScore = technologyScore.add(supplierTechnologyScore);
+              }
             }
         }
         totalScore = totalScore.add(economicScore);
@@ -1425,6 +1557,49 @@ public class PackageExpertServiceImpl implements PackageExpertService {
             score = expertScoremapper.selectSumByMap(map3);
         }
         if (technologyExperts != null && technologyExperts.size() > 0 && "TECHNOLOGY".equals(str)) {
+           
+          BidMethod bidMethod=new BidMethod();
+          bidMethod.setPackageId(packageId);
+          List<BidMethod> bms = bidMethodMapper.findScoreMethod(bidMethod);
+          Double deviation=null;
+          if(bms!=null&&bms.size()>0){
+            BidMethod bm=bms.get(0);
+            if("2".equals(bm.getTypeName())){
+              deviation=bm.getDeviation().doubleValue();
+            }  
+          }
+          Boolean flg=false;
+          BigDecimal total=BigDecimal.ZERO;
+          if(deviation!=null){
+            ExpertScore expertScore=new ExpertScore();
+            expertScore.setExpertId(technologyExperts.get(0).getExpert().getId());
+            expertScore.setPackageId(packageId);
+            expertScore.setSupplierId(saleTender.getSuppliers().getId());
+            List<ExpertScore> selectByScore = expertScoreMapper.selectByScore(expertScore);
+            for (ExpertScore ep : selectByScore) {
+              ScoreModel scoreModel=new ScoreModel();
+              scoreModel.setId(ep.getScoreModelId());
+              List<ScoreModel> findListByScoreModel = scoreModelMapper.find(scoreModel);
+              if(findListByScoreModel!=null&&findListByScoreModel.size()>0){
+                ScoreModel scoreModel2 = findListByScoreModel.get(0);
+                if("10".equals(scoreModel2.getTypeName())){
+                  if(ep.getScore().doubleValue()<0){
+                    if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
+                      flg=true;
+                    }else{
+                      total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
+                    }
+                  }
+                }
+              }
+            }
+            if(total.doubleValue()>deviation){
+              flg=true;
+            }
+          }
+          if(flg){
+            score=BigDecimal.ZERO;
+          }else{
             Map<String, Object> map3 = new HashMap<String, Object>();
             map3.put("expertId", technologyExperts.get(0).getExpert().getId());
             map3.put("packageId", packageId);
@@ -1436,6 +1611,11 @@ public class PackageExpertServiceImpl implements PackageExpertService {
           }
             //获取供应商技术得分
             score = expertScoremapper.selectSumByMap(map3);
+          }
+          
+            
+          
+           
         }
         return score;
     }

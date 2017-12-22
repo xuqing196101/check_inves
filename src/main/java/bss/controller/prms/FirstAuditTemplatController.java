@@ -557,6 +557,9 @@ public class FirstAuditTemplatController extends BaseController{
             if (typename == 9) {
                 typeName = "模型四B";
             }
+            if (typename == 10) {
+              typeName = "模型一C";
+          }
         }
         return typeName;
     }

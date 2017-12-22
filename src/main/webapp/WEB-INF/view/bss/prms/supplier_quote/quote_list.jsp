@@ -140,9 +140,9 @@
 <c:set value="1" var ="count"></c:set>
 <c:forEach items="${treeMap }" var="treemap" varStatus="vsKey">
 	<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
-		<div>
+		<div class="over_hideen">
 			 <c:if test="${vsKey.index == 0}">
-			 	<h2 onclick="ycDiv(this,'${vsKey.index}')" class="count_flow spread hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
+			 	<h2 onclick="ycDiv(this,'${vsKey.index}')" class="count_flow spread fl hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
 			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ'}"><span class="star_red">[该包已终止]</span></c:if>
 			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP'}"><span class="star_red">[该包已转竞谈]</span></c:if>
 			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHZ'}"><span class="star_red">[该包转竞谈审核中]</span></c:if>
@@ -150,18 +150,17 @@
 			 	</h2>
 			 </c:if>
 			 <c:if test="${vsKey.index != 0}">
-			 	<h2  onclick="ycDiv(this,'${vsKey.index}')" class="count_flow shrink hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
+			 	<h2  onclick="ycDiv(this,'${vsKey.index}')" class="count_flow shrink fl hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
 			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ'}"><span class="star_red">[该包已终止]</span></c:if>
 			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP'}"><span class="star_red">[该包已转竞谈]</span></c:if>
 			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHZ'}"><span class="star_red">[该包转竞谈审核中]</span></c:if>
 			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHBTG'}"><span class="star_red">[该包转竞谈审核不通过]</span></c:if>
 			 	</h2>
 			 </c:if>
-        </div>
+			 <div class="fl mt20 ml10"><button class="btn" onclick="printWordPrice('${project.id}','${packsIds}')">打印报价</button> </div>
         <c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
         <c:set value="${treemapValue.packages}" var="packsIds"></c:set>
        </c:forEach>
-        <div class="fl"><button class="btn" onclick="printWordPrice('${project.id}','${packsIds}')">打印报价</button> </div>
         <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'YZZ'
          && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJZXTP'
           && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJTSHZ'
