@@ -1140,83 +1140,94 @@ public class ExpertQueryController {
     @RequestMapping(value="/createtree", produces = "application/json;charset=utf-8")
     public String getAll(Category category,String param,Integer isCreate,String code){
       List<CategoryTree> jList=new ArrayList<CategoryTree>();
-      String name="";
-      if((param!=null&&!"".equals(param))||(code!=null&&!"".equals(code))||isCreate!=null){
-      try {
-        if(param!=null&&!"".equals(param)){
-          name=java.net.URLDecoder.decode(param, "UTF-8");
-        } 
-      } catch (UnsupportedEncodingException e) {
-        e.printStackTrace();
+      if(category.getId() != null){
+    	  param = "" ;
       }
-      //查询所有匹配的数据
-      category.setId("0");
-          DictionaryData data=new DictionaryData();
-          data.setKind(6);
-          List<DictionaryData> listByPage = dictionaryDataServiceI.listByPage(data, 1);
-          for (DictionaryData dictionaryData : listByPage) {
-              CategoryTree ct=new CategoryTree();
-              ct.setId(dictionaryData.getId());
-              ct.setName(dictionaryData.getName());
-              ct.setIsParent("true");
-              ct.setClassify(dictionaryData.getCode());
-              jList.add(ct);
-          }
-      List < Category > categoryList = categoryService.searchByNameAndCode(name.trim(),code,isCreate);
-      List < Category > cateList = new ArrayList < Category > ();
-      Set<Category> set=new HashSet<Category>();
-      for(int i=0;i<categoryList.size();i++){
-        Category catego = categoryList.get(i);
-        List<Category> cList=categoryService.findTreeByPid(catego.getId());
-        if(cList==null||cList.size()<=0){
-          cateList.add(catego);
-        }
-      }
-      for(int i=0;i<cateList.size();i++){
-        HashMap<String,Object> map=new HashMap<String, Object>();
-        map.put("id", cateList.get(i).getId());
-        List<Category> catego = categoryService.findCategoryByParentNode(map);
-        for(int j=0;j<catego.size();j++){
-          set.add(catego.get(j));
-        }
-      }
-      Iterator<Category> it = set.iterator();  
-      while(it.hasNext()){
-        Category cate = it.next();
-        List<Category> cList=categoryService.findTreeByPid(cate.getId());
-              CategoryTree ct=new CategoryTree();
-              if(!cList.isEmpty()){
-                  ct.setIsParent("true");
-              }else{
-                  ct.setIsParent("false");
-              }
-              ct.setId(cate.getId());
-              ct.setName(cate.getName());
-              ct.setParentId(cate.getParentId());
-              ct.setKind(cate.getKind());
-              ct.setStatus(cate.getStatus());
-              jList.add(ct);
-      }
-        
-        return JSON.toJSONString(jList);
-      }else{
-         //获取字典表中的根数据
-            if(category.getId()==null){
-                category.setId("0");
-                DictionaryData data=new DictionaryData();
-                data.setKind(6);
-                List<DictionaryData> listByPage = dictionaryDataServiceI.listByPage(data, 1);
-                for (DictionaryData dictionaryData : listByPage) {
-                    CategoryTree ct=new CategoryTree();
-                    ct.setId(dictionaryData.getId());
-                    ct.setName(dictionaryData.getName());
-                    ct.setIsParent("true");
-                    ct.setClassify(dictionaryData.getCode());
-                    jList.add(ct);
-                }  
+      
+      if((param!=null&&!"".equals(param)) || isCreate!=null){
+          List < Category > cateList = categoryService.searchByNameAndCode(param.trim(),code,isCreate);
+          Set<Category> set=new HashSet<Category>();
+          for(int i=0;i<cateList.size();i++){
+            HashMap<String,Object> map=new HashMap<String, Object>();
+            map.put("id", cateList.get(i).getId());
+            List<Category> catego = categoryService.findCategoryByParentNode(map);
+            for(int j=0;j<catego.size();j++){
+              set.add(catego.get(j));
             }
+          }
+          Iterator<Category> it = set.iterator();
+          Integer goods_num = 0;
+          Integer project_num = 0;
+          Integer service_num = 0;
+          while(it.hasNext()){
+        	  Category cate = it.next();
+        	  List<Category> cList= categoryService.findTreeByPid(cate.getId());
+	          CategoryTree ct=new CategoryTree();
+	          if(!cList.isEmpty()){
+	              ct.setIsParent("true");
+	              
+	              //加入物资根节点
+		          DictionaryData goods = DictionaryDataUtil.get("GOODS");
+		          if(goods.getId().equals(cate.getParentId()) && goods_num == 0){
+		        	  CategoryTree categoryTree=new CategoryTree();
+		        	  categoryTree.setId(goods.getId());
+		        	  categoryTree.setName(goods.getName());
+		        	  categoryTree.setIsParent("true");
+		        	  categoryTree.setClassify(goods.getCode());
+		              jList.add(categoryTree);
+		              goods_num ++;
+		          }
+		          //加入工程根节点
+		          DictionaryData project = DictionaryDataUtil.get("PROJECT");
+		          if(project.getId().equals(cate.getParentId()) && project_num == 0){
+		        	  CategoryTree categoryTree=new CategoryTree();
+		        	  categoryTree.setId(project.getId());
+		        	  categoryTree.setName(project.getName());
+		        	  categoryTree.setIsParent("true");
+		        	  categoryTree.setClassify(project.getCode());
+		        	  jList.add(categoryTree);
+		        	  project_num ++;
+		          }
+		          //加入工程根节点
+		          DictionaryData service = DictionaryDataUtil.get("SERVICE");
+		          if(service.getId().equals(cate.getParentId()) && service_num == 0){
+		        	  CategoryTree categoryTree=new CategoryTree();
+		        	  categoryTree.setId(service.getId());
+		        	  categoryTree.setName(service.getName());
+		        	  categoryTree.setIsParent("true");
+		        	  categoryTree.setClassify(service.getCode());
+		        	  jList.add(categoryTree);
+		        	  service_num ++;
+		          }
+	          }else{
+	              ct.setIsParent("false");
+	          }
+	          ct.setId(cate.getId());
+	          ct.setName(cate.getName());
+	          ct.setParentId(cate.getParentId());
+	          ct.setKind(cate.getKind());
+	          ct.setStatus(cate.getStatus());
+	          jList.add(ct);
+          }
+            return JSON.toJSONString(jList);
+      }else{
+			//获取字典表中的根数据
+		      if(category.getId()==null){
+		          category.setId("0");
+		          DictionaryData data=new DictionaryData();
+		          data.setKind(6);
+		          List<DictionaryData> listByPage = dictionaryDataServiceI.listByPage(data, 1);
+		          for (DictionaryData dictionaryData : listByPage) {
+		              CategoryTree ct=new CategoryTree();
+		              ct.setId(dictionaryData.getId());
+		              ct.setName(dictionaryData.getName());
+		              ct.setIsParent("true");
+		              ct.setClassify(dictionaryData.getCode());
+		              jList.add(ct);
+		          }  
+		      }
+    	  
             String list="";
-            
             List<Category> cateList=categoryService.findTreeByPidIsPublish(category.getId());
               for(Category cate:cateList){
             	  CategoryTree ct=new CategoryTree();
@@ -1240,22 +1251,21 @@ public class ExpertQueryController {
                   
               }
               
-              //加入 工程专业类型
+             //加入 工程专业类型
               DictionaryData dic = DictionaryDataUtil.get("PROJECT");
               if(dic !=null && category.getId() !=null){
             	  String id = category.getId();
             	  if(id.equals(dic.getId())){
-	                  DictionaryData dictionaryData = DictionaryDataUtil.get("ENG_INFO_ID");
-	                  CategoryTree engCategory=new CategoryTree();
-	            	  engCategory.setIsParent("true");
-	                  engCategory.setId(dictionaryData.getId());
-	                  engCategory.setName(dictionaryData.getName()+"专业");
-	                  engCategory.setpId(dic.getId());
-	                  jList.add(engCategory);
+                      DictionaryData dictionaryData = DictionaryDataUtil.get("ENG_INFO_ID");
+                      CategoryTree engCategory=new CategoryTree();
+                	  engCategory.setIsParent("true");
+                      engCategory.setId(dictionaryData.getId());
+                      engCategory.setName(dictionaryData.getName()+"专业");
+                      engCategory.setpId(dic.getId());
+                      jList.add(engCategory);
             	  }
               }
               
-
               //工程专业产品
               List<Category> engCateList=engCategoryService.findPublishCategory(category.getId());
               for(Category cate:engCateList){
