@@ -250,7 +250,8 @@ public class SupplierQueryController extends BaseSupplierController {
         Integer maxCount = 0;
         for (Supplier supplier:listSupplier) {
             for (Map.Entry<String, Object> entry:map.entrySet()) {
-                if(supplier.getArea() != null && !"".equals(supplier.getArea().getName()) && supplier.getArea().getName().indexOf(entry.getKey().split(",")[0]) != -1){
+                //if(supplier.getArea() != null && !"".equals(supplier.getArea().getName()) && supplier.getArea().getName().indexOf(entry.getKey().split(",")[0]) != -1){
+                if(supplier.getAreaName() != null && !"".equals(supplier.getAreaName()) && supplier.getAreaName().indexOf(entry.getKey().split(",")[0]) != -1){
                     map.put(entry.getKey(), (Integer)map.get(entry.getKey()) + 1);
                     if (maxCount < (Integer)map.get(entry.getKey())) {
                         maxCount = (Integer)map.get(entry.getKey());
