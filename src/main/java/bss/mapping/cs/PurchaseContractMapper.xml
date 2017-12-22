@@ -1568,4 +1568,66 @@
 			pc.CREATED_AT DESC
 	</select>
 	
+	
+	<select id="contractSupervisionByFileId" parameterType="java.lang.String" resultMap="purContractMap">
+		SELECT
+			pc. ID, pc.CODE, pc. NAME, pc.MONEY, pc.DEMAND_SECTOR, pc.BUDGET, pc. YEAR, pc.PROJECT_ID,PC.PURCHASE_DEP_NAME,
+			pc.PROJECT_NAME, pc.STATUS, pc.DOCUMENT_NUMBER, pc.BUDGET_SUBJECT_ITEM, pc.SUPPLIER_DEP_NAME,
+			(SELECT SUPPLIER_NAME FROM T_SES_SMS_SUPPLIER WHERE ID = PC.SUPPLIER_DEP_NAME) AS showSupplierDepName,
+			(SELECT SHORT_NAME FROM T_SES_OMS_ORG WHERE ID = PC.PURCHASE_DEP_NAME) AS showDemandSector
+		FROM
+			T_BSS_CS_PURCHASE_CONTRACT PC
+		WHERE
+			EXISTS (
+				SELECT
+					CRQ.CONTRACT_ID
+				FROM
+					T_BSS_CS_CONTRACT_REQUIRED CRQ
+				WHERE
+					EXISTS (
+						SELECT
+							pd. ID
+						FROM
+							T_BSS_PPMS_PROJECTS_DETAIL pd
+						WHERE
+							EXISTS (
+								SELECT
+									AA. ID
+								FROM
+									(
+										SELECT
+											detail.*, DECODE (
+												(
+													SELECT
+														COUNT (*)
+													FROM
+														T_BSS_PMS_PURCHASE_DETAIL
+													WHERE
+														PARENT_ID = detail. ID
+												),
+												0,
+												'false',
+												'true'
+											) AS isParent
+										FROM
+											T_BSS_PMS_PURCHASE_DETAIL detail
+										WHERE
+											EXISTS (
+												SELECT
+													asd. ID
+												FROM
+													T_BSS_PMS_PURCHASE_DETAIL asd
+												WHERE
+													ASD.FILE_ID = #{id} AND detail. ID = asd. ID
+											)
+									) aa
+								WHERE
+									aa.ISPARENT = 'false' AND aa. ID = pd.REQUIRED_ID
+							)
+						AND PD. ID = CRQ.DETAIL_ID
+						GROUP BY pd. ID
+					)
+				AND CRQ.CONTRACT_ID = PC. ID
+			)
+	</select>
 </mapper>

@@ -1,6 +1,7 @@
 package ses.dao.ems;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -92,5 +93,7 @@ public interface ExpertAuditOpinionMapper {
      *假删除
      * @param id
      */
-    void updateisDeletedByExpertId (String expertId);
+    void updateisDeletedByExpertId (Map<String, Object> map);
+    
+    ExpertAuditOpinion selectAllByExpertId(ExpertAuditOpinion expertAuditOpinion);
 }

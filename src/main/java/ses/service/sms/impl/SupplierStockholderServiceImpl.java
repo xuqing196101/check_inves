@@ -4,12 +4,16 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import ses.dao.sms.SupplierStockholderMapper;
+import ses.dao.sms.SupplierStockholderRecyMapper;
 import ses.model.sms.SupplierStockholder;
+import ses.model.sms.SupplierStockholderRecy;
+import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierStockholderService;
 
 /**
@@ -23,6 +27,10 @@ public class SupplierStockholderServiceImpl implements SupplierStockholderServic
 
 	@Autowired
 	private SupplierStockholderMapper supplierStockholderMapper;
+	@Autowired
+	private SupplierStockholderRecyMapper supplierStockholderRecyMapper;
+	@Autowired
+	private SupplierService supplierService;
 
 	@Override
 	public int saveOrUpdateStockholder(SupplierStockholder supplierStockholder) {
@@ -50,6 +58,7 @@ public class SupplierStockholderServiceImpl implements SupplierStockholderServic
 				String[] idArray = ids.split(",");
 				int delCount = 0;
 				int hasCount = 0;
+				String supplierSt = null;
 				for (int i = 0; i < idArray.length; i++) {
 					String id = idArray[i];
 					if (StringUtils.isNotBlank(id)) {
@@ -58,6 +67,16 @@ public class SupplierStockholderServiceImpl implements SupplierStockholderServic
 							int key = supplierStockholderMapper.deleteByPrimaryKey(id);
 							if (key == 1) {
 								delCount++;
+								// 将删除的记录保存至回收站
+								if(supplierSt == null){
+									String supplierId = stockholder.getSupplierId();
+									supplierSt = supplierService.getStatusById(supplierId);
+								}
+								if("2".equals(supplierSt)){
+									SupplierStockholderRecy supplierStockholderRecy = new SupplierStockholderRecy();
+									BeanUtils.copyProperties(stockholder, supplierStockholderRecy);
+									supplierStockholderRecyMapper.insertSelective(supplierStockholderRecy);
+								}
 							}
 							hasCount++;
 						}

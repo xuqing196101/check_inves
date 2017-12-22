@@ -80,7 +80,7 @@ public class SupplierItem implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER_ITEMS.IS_RETURNED
 	 * </pre>
 	 */
-	private byte isReturned;
+	private Integer isReturned;
 	
 	/**
 	 * <pre>
@@ -88,7 +88,7 @@ public class SupplierItem implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER_ITEMS.IS_DELETED
 	 * </pre>
 	 */
-	private byte isDeleted;
+	private Integer isDeleted;
 
 	private String categoryName;
 
@@ -317,19 +317,19 @@ public class SupplierItem implements Serializable {
         this.nodeLevel = nodeLevel;
     }
 
-	public byte getIsReturned() {
+	public Integer getIsReturned() {
 		return isReturned;
 	}
 
-	public void setIsReturned(byte isReturned) {
+	public void setIsReturned(Integer isReturned) {
 		this.isReturned = isReturned;
 	}
 
-	public byte getIsDeleted() {
+	public Integer getIsDeleted() {
 		return isDeleted;
 	}
 
-	public void setIsDeleted(byte isDeleted) {
+	public void setIsDeleted(Integer isDeleted) {
 		this.isDeleted = isDeleted;
 	}
     

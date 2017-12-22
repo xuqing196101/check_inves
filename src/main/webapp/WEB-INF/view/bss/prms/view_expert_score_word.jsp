@@ -171,7 +171,12 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
 		      		<c:set var="sum_score" value="0"/>
 		      		<c:forEach items="${scores}" var="sco">
 		 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id}">
-		 	          	<c:set var="sum_score" value="${sum_score+sco.score}"/>
+		 	          	 <c:if test="${supplier.message!=null}">
+			 	          	    <c:set var="sum_score" value="0"/>
+			 	          	 </c:if>
+			 	          	 <c:if test="${supplier.message==null}">
+			 	          	    <c:set var="sum_score" value="${sum_score+sco.score}"/>
+			 	          	 </c:if>
 		 	          </c:if>
 		 	        </c:forEach>
 		 	        <font color="red" class="f18">${sum_score}</font>

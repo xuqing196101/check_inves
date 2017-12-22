@@ -18,7 +18,8 @@ function listPage(pages, total, startRow, endRow, pageNum) {
 		jump : function(e, first) { // 触发分页后的回调
 			if (!first) { // 一定要加此判断，否则初始时会无限刷新
 				$("#page").val(e.curr);
-				findSupplier();
+				var nodeLevel = $("#nodeLevel").val();
+				findSupplier(nodeLevel);
 			}
 		}
 	});

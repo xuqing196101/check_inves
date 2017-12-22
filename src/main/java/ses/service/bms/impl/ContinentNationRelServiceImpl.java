@@ -31,7 +31,9 @@ public class ContinentNationRelServiceImpl implements ContinentNationRelService 
 	public List<ContinentNationRel> findByContinentId(String continentId) {
 		ContinentNationRelExample example = new ContinentNationRelExample();
 		example.setOrderByClause("position asc");
-		example.createCriteria().andContinentIdEqualTo(continentId);
+		example.createCriteria()
+		.andContinentIdEqualTo(continentId)
+		.andIsDeletedEqualTo((short)0);
 		return continentNationRelMapper.selectByExample(example);
 	}
 

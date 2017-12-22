@@ -32,7 +32,6 @@ import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.TaskService;
-import bss.service.ppms.impl.PackageAdviceServiceImpl;
 import bss.service.prms.PackageExpertService;
 
 import com.alibaba.fastjson.JSON;
@@ -71,7 +70,6 @@ import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierExtUser;
 import ses.model.sms.SupplierExtracts;
-import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpExtractRecordService;
 import ses.service.ems.ProjectSupervisorServicel;
@@ -82,7 +80,6 @@ import ses.service.sms.SupplierExtractsService;
 import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.AuthorityUtil;
-import ses.util.ComparatorDetail;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.WfUtil;
@@ -157,9 +154,6 @@ public class ProjectController extends BaseController {
     private OrgnizationServiceI orgnizationService;
     
     @Autowired
-    private RoleServiceI roleService;
-    
-    @Autowired
     private PurchaseDetailService purchaseDetailService;
     
     @Autowired
@@ -215,12 +209,12 @@ public class ProjectController extends BaseController {
      * @param model 内置对象
      * @param project 项目实体
      * @return 跳转list页面
+     * @throws IOException 
      */
     @RequestMapping(value="/list",produces = "text/html;charset=UTF-8")
-    public String list(@CurrentUser User user,Project project,Integer page, Model model, HttpServletRequest request) {      
-        if(user != null && StringUtils.isNotBlank(user.getTypeName()) && user.getOrg() != null){
-            //根据id查询部门
-            Orgnization orgnization = orgnizationService.findByCategoryId(user.getOrg().getId());
+    public String list(@CurrentUser User user,Project project,Integer page, Model model, HttpServletRequest request) throws IOException {      
+        if(user != null && StringUtils.equals("1", user.getTypeName()) && user.getOrg() != null){
+        	//根据id查询部门
             HashMap<String,Object> map = new HashMap<String,Object>();
             if(StringUtils.isNotBlank(project.getName())){
             	List<String> name = new ArrayList<String>();
@@ -231,80 +225,32 @@ public class ProjectController extends BaseController {
             	String join = StringUtils.join(name, "%");
                 map.put("name", join);
             }
-            if(project.getProjectNumber() != null && !project.getProjectNumber().equals("")){
+            if(StringUtils.isNotBlank(project.getProjectNumber())){
                 map.put("projectNumber", project.getProjectNumber());
             }
-            if(project.getStatus() != null && !project.getStatus().equals("")){
+            if(StringUtils.isNotBlank(project.getStatus())){
                 map.put("status", project.getStatus());
             }
-            map.put("principal", user.getId());
+        	HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
+    		Integer dataAccess = (Integer) dataMap.get("dataAccess");
+    		if (dataAccess == 2){
+    			//有权限查看的机构数据
+    			map.put("purchaseDepId", user.getOrg().getId());
+    		}else if (dataAccess == 3){
+    			//查看本人数据
+    			map.put("userId", user.getId());
+    			map.put("purchaseDepId", user.getOrg().getId());
+    		}
             if(page==null){
                 page = 1;
             }
-            PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-           /* //判断如果是管理部门
-            if("2".equals(orgnization.getTypeName())){
-                map.put("orgId", user.getOrg().getId());
-                List<Project> list = projectService.selectByOrgnization(map);
-                for (int i = 0; i < list.size(); i++ ) {
-                    try {
-                        User contractor = userService.getUserById(list.get(i).getPrincipal());
-                        list.get(i).setProjectContractor(contractor.getRelName());
-                    } catch (Exception e) {
-                        list.get(i).setProjectContractor("");
-                    }
-                }
-                model.addAttribute("info", new PageInfo<Project>(list));
-            }
-            
-            */
-          //判断如果是采购机构
-            if("1".equals(orgnization.getTypeName())){
-                map.put("purchaseDepId", user.getOrg().getId());
-                map.put("userId", user.getId());
-                List<Project> list = projectService.selectByConition(map);
-                removeProject(list);
-                for (int i = 0; i < list.size(); i++ ) {
-                    try {
-                        User contractor = userService.getUserById(list.get(i).getPrincipal());
-                        if(list.get(i).getPurchaseNewType()!=null){
-                          DictionaryData findById = DictionaryDataUtil.findById(list.get(i).getPurchaseNewType());
-                          list.get(i).setPurchaseNewType(findById.getName());
-                        }
-                        list.get(i).setProjectContractor(contractor.getRelName());
-                    } catch (Exception e) {
-                        list.get(i).setProjectContractor("");
-                    }
-                }
-                model.addAttribute("info", new PageInfo<Project>(list));
-            }
-            
-           /* //判断如果是需求部门
-            if("0".equals(orgnization.getTypeName())){
-                map.put("userId", user.getId());
-                List<Project> list = projectService.selectByDemand(map);
-                for (int i = 0; i < list.size(); i++ ) {
-                    try {
-                        User contractor = userService.getUserById(list.get(i).getPrincipal());
-                        list.get(i).setProjectContractor(contractor.getRelName());
-                    } catch (Exception e) {
-                        list.get(i).setProjectContractor("");
-                    }
-                }
-                model.addAttribute("info", new PageInfo<Project>(list));
-            }*/
-                
-            model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
+            map.put("page", page);
+            List<Project> list = projectService.selectByPurchaseDep(map);
+            model.addAttribute("info", new PageInfo<Project>(list));
             model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
             model.addAttribute("projects", project);
+            model.addAttribute("authType", user.getTypeName());
         }
-        //判断是不是监管人员(采购管理人员)
-        HashMap<String,Object> roleMap = new HashMap<String,Object>();
-        roleMap.put("userId", user.getId());
-        roleMap.put("code", "SUPERVISER_R");
-        BigDecimal i = roleService.checkRolesByUserId(roleMap);
-        model.addAttribute("admin", i);
-        model.addAttribute("authType", user.getTypeName());
         return "bss/ppms/project/list";
     }
     
@@ -336,18 +282,23 @@ public class ProjectController extends BaseController {
             if(page==null){
                 page = 1;
             }
-            
             HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
-			List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
-			if (superviseOrgId != null && !superviseOrgId.isEmpty()) {
-				if (StringUtils.equals("1", user.getTypeName())) {
-	            	map.put("purchaseDepId", user.getOrg().getId());
-				} else if (StringUtils.equals("5", user.getTypeName())) {
-					map.put("purchaseDepIds", superviseOrgId);
-				}
-				PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-				List<Project> list = projectService.selectProjectsByConition(map);
-				for (int i = 0; i < list.size(); i++ ) {
+            Integer dataAccess = (Integer) dataMap.get("dataAccess");
+            if (dataAccess != 1) {
+            	if (dataAccess == 2){
+                	List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
+                	if (StringUtils.equals("1", user.getTypeName())) {
+    	            	map.put("purchaseDepId", user.getOrg().getId());
+    				} else if (StringUtils.equals("5", user.getTypeName())) {
+    					map.put("purchaseDepIds", superviseOrgId);
+    				}
+        		}else if (dataAccess == 3){
+        			//查看本人数据
+        			map.put("appointMan", user.getId());
+        		}
+    			PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+    			List<Project> list = projectService.selectProjectsByConition(map);
+    			for (int i = 0; i < list.size(); i++ ) {
                     try {
                         User contractor = userService.getUserById(list.get(i).getPrincipal());
                         list.get(i).setProjectContractor(contractor.getRelName());
@@ -356,10 +307,10 @@ public class ProjectController extends BaseController {
                     }
                 }
                 model.addAttribute("info", new PageInfo<Project>(list));
+                model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
+                model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
+                model.addAttribute("projects", project);
 			}
-            model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
-            model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
-            model.addAttribute("projects", project);
         }
         //只有采购机构才能操作
         model.addAttribute("typeName", user.getTypeName());
@@ -379,67 +330,63 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping("/projectByAll")
     public String projectByAll(@CurrentUser User user, Project project, Integer page, Model model) throws IOException{
-        HashMap<String,Object> map = new HashMap<String,Object>();
-        if(StringUtils.isNotBlank(project.getName())){
-            map.put("name", project.getName());
-        }
-        if(StringUtils.isNotBlank(project.getProjectNumber())){
-            map.put("projectNumber", project.getProjectNumber());
-        }
-        if(StringUtils.isNotBlank(project.getStatus())){
-            map.put("status", project.getStatus());
-        }
-        if (user != null) {
-        	HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
-    		List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
-    		if (superviseOrgId != null && !superviseOrgId.isEmpty()) {
-    			if (StringUtils.equals("2", user.getTypeName())) {
-    				map.put("orgId", superviseOrgId);
-    			} else if (StringUtils.equals("1", user.getTypeName())) {
-    				map.put("purchaseDepId", user.getOrg().getId());
-    			} else {
-    				map.put("purchaseDepIds", superviseOrgId);
-    			}
-			} else {
-				map.put("purchaseDepId", project.getPurchaseDepId());
-			}
-		}
-        if (StringUtils.isNotBlank(project.getMaterialsType())) {
-        	map.put("goodsName", project.getMaterialsType());
-		}
-        if (StringUtils.isNotBlank(project.getSectorOfDemand())) {
-        	map.put("department", project.getSectorOfDemand());
-		}
-        if (StringUtils.isNotBlank(project.getPrIntroduce())) {
-        	map.put("documentNumber", project.getPrIntroduce());
-		}
-        if(page==null){
-            page = 1;
-        }
-        List<Orgnization> orgByPosition = orgnizationService.findPurchaseOrgByPosition(null);
-        map.put("page", page);
-		
-        List<Project> listByAll = projectService.listByAll(map);
-        if (listByAll != null && !listByAll.isEmpty()) {
-        	model.addAttribute("info", new PageInfo<Project>(listByAll));
-		}
-        model.addAttribute("typeName", user.getTypeName());
-        model.addAttribute("orgByPosition", orgByPosition);
-        /*PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-        List<Project> list = projectService.lists(map);
-        for (int i = 0; i < list.size(); i++ ) {
-            try {
-                User contractor = userService.getUserById(list.get(i).getPrincipal());
-                list.get(i).setProjectContractor(contractor.getRelName());
-            } catch (Exception e) {
-                list.get(i).setProjectContractor("");
+    	if (user != null && StringUtils.equals("1", user.getTypeName()) ||
+    		StringUtils.equals("2", user.getTypeName()) || StringUtils.equals("4", user.getTypeName()) || 
+    		StringUtils.equals("5", user.getTypeName())) {
+    		HashMap<String,Object> map = new HashMap<String,Object>();
+            if(StringUtils.isNotBlank(project.getName())){
+                map.put("name", project.getName());
             }
-            model.addAttribute("info", new PageInfo<Project>(list));
-        }*/
-        model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
-        model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
-        model.addAttribute("projects", project);
-        return "bss/ppms/project/project_all";
+            if(StringUtils.isNotBlank(project.getProjectNumber())){
+                map.put("projectNumber", project.getProjectNumber());
+            }
+            if(StringUtils.isNotBlank(project.getStatus())){
+                map.put("status", project.getStatus());
+            }
+            if (StringUtils.isNotBlank(project.getMaterialsType())) {
+            	map.put("goodsName", project.getMaterialsType());
+    		}
+            if (StringUtils.isNotBlank(project.getSectorOfDemand())) {
+            	map.put("department", project.getSectorOfDemand());
+    		}
+            if (StringUtils.isNotBlank(project.getPrIntroduce())) {
+            	map.put("documentNumber", project.getPrIntroduce());
+    		}
+            if (StringUtils.isNotBlank(project.getPurchaseDepId())) {
+            	map.put("purchaseDepId", project.getPurchaseDepId());
+			}
+            HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
+        	Integer dataAccess = (Integer) dataMap.get("dataAccess");
+        	if (dataAccess == 2) {
+        		List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
+        		if (superviseOrgId != null && !superviseOrgId.isEmpty()) {
+        			if (StringUtils.equals("2", user.getTypeName())) {
+        				map.put("orgId", superviseOrgId);
+        			} else if (StringUtils.equals("1", user.getTypeName())) {
+        				map.put("purchaseDepId", user.getOrg().getId());
+        			} else {
+        				map.put("purchaseDepIds", superviseOrgId);
+        			}
+        		}
+        	} else if (dataAccess == 3) {
+        		map.put("principal", user.getId());
+        	}
+        	if(page==null){
+        		page = 1;
+        	}
+        	map.put("page", page);
+        	List<Project> listByAll = projectService.listByAll(map);
+        	if (listByAll != null && !listByAll.isEmpty()) {
+        		model.addAttribute("info", new PageInfo<Project>(listByAll));
+        	}
+        	List<Orgnization> orgByPosition = orgnizationService.findPurchaseOrgByPosition(null);
+            model.addAttribute("typeName", user.getTypeName());
+            model.addAttribute("orgByPosition", orgByPosition);
+            model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
+            model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
+            model.addAttribute("projects", project);
+		}
+    	return "bss/ppms/project/project_all";
     }
     
     
@@ -3434,45 +3381,51 @@ public class ProjectController extends BaseController {
     @RequestMapping(value="/findByPackage",produces = "text/html;charset=UTF-8")
     public String findByPackage(@CurrentUser User user, Integer page, Project project, Model model) throws IOException{
     	if(user != null){
-    		HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
-			List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
-			if (superviseOrgId != null && !superviseOrgId.isEmpty()) {
-				//根据id查询部门
-	            HashMap<String,Object> map = new HashMap<String,Object>();
-	            if(StringUtils.isNotBlank(project.getName())){
-	                map.put("name", project.getName());
-	            }
-	            if(StringUtils.isNotBlank(project.getProjectNumber())){
-	                map.put("projectNumber", project.getProjectNumber());
-	            }
-	            if(StringUtils.isNotBlank(project.getStatus())){
-	            	if ("1".equals(project.getStatus())) {
-	            		map.put("status", DictionaryDataUtil.getId("YJLX"));
-					} else {
-						List<String> statusAll = new ArrayList<String>();
-						List<DictionaryData> find = DictionaryDataUtil.find(2);
-						for (DictionaryData dictionaryData : find) {
-							if (!"YJLX".equals(dictionaryData.getCode())) {
-								statusAll.add("'"+dictionaryData.getId()+"'");
-							}
+    		//根据id查询部门
+            HashMap<String,Object> map = new HashMap<String,Object>();
+            if(StringUtils.isNotBlank(project.getName())){
+                map.put("name", project.getName());
+            }
+            if(StringUtils.isNotBlank(project.getProjectNumber())){
+                map.put("projectNumber", project.getProjectNumber());
+            }
+            if(StringUtils.isNotBlank(project.getStatus())){
+            	if ("1".equals(project.getStatus())) {
+            		map.put("status", DictionaryDataUtil.getId("YJLX"));
+				} else {
+					List<String> statusAll = new ArrayList<String>();
+					List<DictionaryData> find = DictionaryDataUtil.find(2);
+					for (DictionaryData dictionaryData : find) {
+						if (!"YJLX".equals(dictionaryData.getCode())) {
+							statusAll.add("'"+dictionaryData.getId()+"'");
 						}
-						map.put("statusAll", StringUtils.join(statusAll, ","));
 					}
-	                
-	            }
-	            if(page==null){
-	                page = 1;
-	            }
-	            map.put("hold", "0");
-	            PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-	            if (StringUtils.equals("1", user.getTypeName())) {
-	            	map.put("purchaseDepId", user.getOrg().getId());
-	                map.put("userId", user.getId());
-				} else if (StringUtils.equals("5", user.getTypeName())) {
-					map.put("purchaseDepIds", superviseOrgId);
+					map.put("statusAll", StringUtils.join(statusAll, ","));
 				}
-	            List<Project> list = projectService.selectProjectsByConition(map);
-	            removeProject(list);
+                
+            }
+            if(page==null){
+                page = 1;
+            }
+            map.put("hold", "0");
+            HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
+            Integer dataAccess = (Integer) dataMap.get("dataAccess");
+            if (dataAccess != 1) {
+            	if (dataAccess == 2){
+        			List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
+        			if (superviseOrgId != null && !superviseOrgId.isEmpty()) {
+        				if (StringUtils.equals("1", user.getTypeName())) {
+        	            	map.put("purchaseDepId", user.getOrg().getId());
+        				} else if (StringUtils.equals("5", user.getTypeName())) {
+        					map.put("purchaseDepIds", superviseOrgId);
+        				}
+        			}
+        		}else if (dataAccess == 3){
+        			//查看本人数据
+        			map.put("userId", user.getId());
+        		}
+                PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+                List<Project> list = projectService.selectProjectsByConition(map);
                 for (int i = 0; i < list.size(); i++ ) {
                     try {
                         User contractor = userService.getUserById(list.get(i).getPrincipal());
@@ -3483,10 +3436,10 @@ public class ProjectController extends BaseController {
                 }
                 model.addAttribute("info", new PageInfo<Project>(list));
                 model.addAttribute("projects", project);
+    			model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
+                model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
+                model.addAttribute("typeName", user.getTypeName());
 			}
-			model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
-            model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
-            model.addAttribute("typeName", user.getTypeName());
         }
         return "bss/ppms/project/view_package";
     }

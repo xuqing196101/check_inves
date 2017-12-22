@@ -161,7 +161,12 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
                   <c:set var="sum_score" value="0"/>
                   <c:forEach items="${lis.expertScores}" var="sco">
                     <c:if test="${sco.packageId eq lis.packageId and sco.expertId eq lis.expertId and sco.supplierId eq supplier.suppliers.id}">
-                      <c:set var="sum_score" value="${sum_score+sco.score}"/>
+                      <c:if test="${supplier.message eq '最高技术指标数量限制' and lis.message eq '最高技术指标数量限制'}">
+			 	          	<c:set var="sum_score" value="0"/>
+			 	         </c:if>
+			 	        <c:if test="${supplier.message ne '最高技术指标数量限制' or lis.message ne '最高技术指标数量限制'}">
+			 	          	<c:set var="sum_score" value="${sum_score+sco.score}"/>
+			 	        </c:if>
                     </c:if>
                   </c:forEach>
                   <font color="red" class="f18">${sum_score}</font>

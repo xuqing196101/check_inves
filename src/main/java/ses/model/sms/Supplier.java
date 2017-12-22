@@ -622,6 +622,8 @@ Supplier implements Serializable {
 	 */
 	private Integer auditTemporary; //审核暂存
 	
+	private String parentAddress;//上一级地址
+	
 	/**获取所有数据库address的省级单位名称*/
 	private String name;
 	
@@ -2200,6 +2202,14 @@ Supplier implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getParentAddress() {
+		return parentAddress;
+	}
+
+	public void setParentAddress(String parentAddress) {
+		this.parentAddress = parentAddress;
 	}
 	
 }

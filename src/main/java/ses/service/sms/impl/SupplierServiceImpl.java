@@ -1,19 +1,33 @@
 package ses.service.sms.impl;
 
-import com.github.pagehelper.PageHelper;
-import common.constant.StaticVariables;
-import common.model.UploadFile;
-import common.service.UploadService;
-import common.utils.DateUtils;
-import common.utils.ListSortUtil;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+
 import ses.constants.SupplierConstants;
 import ses.dao.bms.AreaMapper;
 import ses.dao.bms.CategoryMapper;
@@ -23,6 +37,7 @@ import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.sms.DeleteLogMapper;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
+import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierAuditMapper;
 import ses.dao.sms.SupplierAuditOpinionMapper;
 import ses.dao.sms.SupplierCertEngMapper;
@@ -55,6 +70,7 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierAptitute;
+import ses.model.sms.SupplierAptituteRecy;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierAuditOpinion;
 import ses.model.sms.SupplierBranch;
@@ -67,12 +83,14 @@ import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierEngQua;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierItemRecy;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierModify;
 import ses.model.sms.SupplierStockholder;
+import ses.model.sms.SupplierStockholderRecy;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.ContinentNationRelService;
@@ -82,9 +100,11 @@ import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierAddressService;
+import ses.service.sms.SupplierAptituteRecyService;
 import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierFinanceService;
 import ses.service.sms.SupplierItemLevelServer;
+import ses.service.sms.SupplierItemRecyService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierMatEngService;
 import ses.service.sms.SupplierMatProService;
@@ -92,6 +112,7 @@ import ses.service.sms.SupplierMatSeService;
 import ses.service.sms.SupplierMatSellService;
 import ses.service.sms.SupplierModifyService;
 import ses.service.sms.SupplierService;
+import ses.service.sms.SupplierStockholderRecyService;
 import ses.util.Constant;
 import ses.util.DictionaryDataUtil;
 import ses.util.Encrypt;
@@ -101,23 +122,12 @@ import ses.util.SupplierLevelSort;
 import ses.util.SupplierToolUtil;
 import ses.util.WfUtil;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import com.github.pagehelper.PageHelper;
+import common.constant.StaticVariables;
+import common.model.UploadFile;
+import common.service.UploadService;
+import common.utils.DateUtils;
+import common.utils.ListSortUtil;
 
 /**
  * @Title: SupplierServiceImpl
@@ -236,6 +246,18 @@ public class SupplierServiceImpl implements SupplierService {
   
   @Autowired
   private ContinentNationRelService continentNationRelService; 
+  
+  @Autowired
+  private SupplierStockholderRecyService supplierStockholderRecyService;
+  
+  @Autowired
+  private SupplierAptituteMapper supplierAptituteMapper;
+  
+  @Autowired
+  private SupplierAptituteRecyService supplierAptituteRecyService;
+  
+  @Autowired
+  private SupplierItemRecyService supplierItemRecyService;
   
   
   @Override
@@ -1253,12 +1275,60 @@ public class SupplierServiceImpl implements SupplierService {
     Supplier supplier = new Supplier();
     //生产&& 销售
     if (!SupplierToolUtil.PRODUCT_ID.equals(categoryIds) && !SupplierToolUtil.SALES_ID.equals(categoryIds)) {
-      supplier.setSupplierTypeId(categoryIds);
+    	//品目id
+    	supplier.setSupplierTypeId(categoryIds);
     }
+    //供应商类型数据字典code
     supplier.setSupplierType(supplierType);
-    //查询类型下品目入库供应商
-    List<Supplier> listSupplier = supplierItemMapper.findFinaSupplierByCategouryAndType(supplier);
     
+    //供应商类型数据字典id
+    supplier.setSupplierTypeNames(supplierTypeId);
+    
+    //供应商审核字段AUDIT_FIELD类别
+    String categoryTypeAuditField = "";
+    if ("SALES".equals(supplierType)) {
+    	categoryTypeAuditField = "items_sales_page";
+	}else {
+		categoryTypeAuditField = "items_product_page";
+	}
+    supplier.setSupplierTypeIds(categoryTypeAuditField);
+    
+    //查询当前品目及其子节点
+    List<String> cCategorieIds = new ArrayList<String>();
+    List<Category> clist = categoryMapper.selectCListById(categoryIds);
+    if (clist != null && clist.size() == 1) {
+    	cCategorieIds.add(clist.get(0) == null ? "" : clist.get(0).getId());
+	} else if(clist != null && clist.size() > 1){
+		for (int i = 1; i < clist.size(); i++) {
+			cCategorieIds.add(clist.get(i) == null ? "" : clist.get(i).getId());
+		}
+	}
+    supplier.setQueryCategorys(cCategorieIds);
+    supplier.setReturnCount(cCategorieIds.size());
+    //查询类型下品目入库供应商
+    List<Supplier> listSupplier0 = supplierItemMapper.findFinaSupplierByCategouryAndType(supplier);
+    
+    List<Supplier> listSupplier = new ArrayList<Supplier>();
+    if (clist != null && clist.size() > 1) {
+    	//剔除所选子级品目全不通过的供应商
+		for (Supplier supplier2 : listSupplier0) {
+			//判断供应商所选四级品目下的品目是否全部不通过
+			Supplier supplierCondition = new Supplier();
+			//供应商类型数据字典code
+			supplierCondition.setSupplierType(supplierType);
+			//四级品目下的品目
+			supplierCondition.setQueryCategorys(cCategorieIds);
+			//供应商审核字段AUDIT_FIELD类别
+			supplierCondition.setSupplierTypeIds(categoryTypeAuditField);
+			supplierCondition.setId(supplier2.getId());
+			Integer isFailed = supplierItemMapper.findCategoryisAllFailed(supplierCondition);
+			if (isFailed == 0) {
+				listSupplier.add(supplier2);
+			}
+		}
+	}else {
+		listSupplier.addAll(listSupplier0);
+	}
     //List<Supplier> listSupplier = supplierMapper.findSupplierByCategoryId(supplier);
     if (listSupplier.isEmpty()) {
       return rutDate;
@@ -2614,4 +2684,72 @@ public class SupplierServiceImpl implements SupplierService {
         this.initFinance(supplier);
         return supplier;
 	}
+	
+	@Override
+	public String getStatusById(String id) {
+		return supplierMapper.selectStatusById(id);
+	}
+
+	@Override
+	public List<SupplierStockholderRecy> undoDelStockholder(String supplierId) {
+		List<SupplierStockholderRecy> recyList = supplierStockholderRecyService.getBySupplierIdAtLast(supplierId);
+    	if(recyList != null && recyList.size() > 0){
+    		for(SupplierStockholderRecy recy : recyList){
+    			SupplierStockholder stockholder = new SupplierStockholder();
+    			BeanUtils.copyProperties(recy, stockholder);
+    			int insertResult = supplierStockholderMapper.insertSelective(stockholder);
+    			if(insertResult > 0){
+    				supplierStockholderRecyService.delSupplierStockholderRecyById(recy.getId());
+    			}
+    		}
+    	}
+		return recyList;
+	}
+
+	@Override
+	public List<SupplierAptituteRecy> undoDelAptitude(String supplierId) {
+		// 撤销资质证书
+		List<SupplierAptituteRecy> recyList = supplierAptituteRecyService.getBySupplierIdAtLast(supplierId);
+    	if(recyList != null && recyList.size() > 0){
+    		for(SupplierAptituteRecy recy : recyList){
+    			SupplierAptitute aptitute = new SupplierAptitute();
+    			BeanUtils.copyProperties(recy, aptitute);
+    			int insertResult = supplierAptituteMapper.insertSelective(aptitute);
+    			if(insertResult > 0){
+    				supplierAptituteRecyService.delSupplierAptituteRecyById(recy.getId());
+    			}
+    			// 撤销关联品目
+    			int undoResult = supplierItemRecyService.undoItemsFromRecy(supplierId, recy.getId());
+    			if(undoResult > 0){
+    				SupplierItemRecy itemRecy = new SupplierItemRecy();
+        			itemRecy.setSupplierId(supplierId);
+        			itemRecy.setRecyAptId(recy.getId());
+        			supplierItemRecyService.delSupplierItemRecy(itemRecy);
+    			}
+    	    	/*List<SupplierItemRecy> itemRecyList = supplierItemRecyService.getByRecyAptId(recy.getId());
+    	    	if(itemRecyList != null && itemRecyList.size() > 0){
+    	    		//supplierItemMapper.batchInsert(records);
+    	    		//supplierItemRecyService.delSupplierItemRecyByAptId();
+    	    		for(SupplierItemRecy itemRecy : itemRecyList){
+    	    			SupplierItem item = new SupplierItem();
+    	    			BeanUtils.copyProperties(itemRecy, item);
+    	    			supplierItemMapper.insertSelective(item);
+    	    			supplierItemRecyService.delSupplierItemRecyById(itemRecy.getId());
+    	    		}
+    	    	}*/
+    		}
+    	}
+    	/*// 撤销关联品目
+    	List<SupplierItemRecy> itemRecyList = supplierItemRecyService.getBySupplierIdAtLast(supplierId);
+    	if(itemRecyList != null && itemRecyList.size() > 0){
+    		for(SupplierItemRecy recy : itemRecyList){
+    			SupplierItem item = new SupplierItem();
+    			BeanUtils.copyProperties(recy, item);
+    			supplierItemMapper.insertSelective(item);
+    			supplierItemRecyService.delSupplierItemRecyById(recy.getId());
+    		}
+    	}*/
+		return recyList;
+	}
+
 }

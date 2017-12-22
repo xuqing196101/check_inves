@@ -281,4 +281,13 @@ public interface SupplierItemMapper {
 			@Param("categoryId")String categoryId,
 			@Param("code")String code);
 
+	/**
+	 *〈简述〉判断供应商所选四级品目下的品目是否全部不通过
+	 *〈详细描述〉
+	 * @author Ye Maolin
+	 * @param supplierCondition
+	 * @return 
+	 */
+	Integer findCategoryisAllFailed(Supplier supplierCondition);
+
 }

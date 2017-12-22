@@ -67,6 +67,12 @@ public class SupplierItemLevelServiceImpl implements SupplierItemLevelServer {
 		page=page==null?0:page;
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		String auditType = "";
+		if (SupplierToolUtil.TOOL_SALES.equals(supplierType)) {
+			auditType = "items_sales_page";
+		} else {
+			auditType = "items_product_page";
+		}
 		 //判断 是否是工程
         if(SupplierToolUtil.TOOL_PROJECT.equals(supplierType)){
 			Supplier sup =new Supplier();
@@ -81,9 +87,9 @@ public class SupplierItemLevelServiceImpl implements SupplierItemLevelServer {
 			List<SupplierItemLevel> supplierItemLevels = new ArrayList<SupplierItemLevel>();
 			if (categoryIds == null || "".equals(categoryIds)) {
 				//查询工程品目下所有入库供应商
-				supplierItemLevels = supplierItemLevelMapper.selectByCategoryId(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(), null);
+				supplierItemLevels = supplierItemLevelMapper.selectByCategoryId(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(), null, auditType);
 			} else {
-				supplierItemLevels = supplierItemLevelMapper.selectProjectSupplierByCategory(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(), supplier.getSupplierLevel());
+				supplierItemLevels = supplierItemLevelMapper.selectProjectSupplierByCategory(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(), supplier.getSupplierLevel(), auditType);
 			}
 			
 			/*//根据资质和供应商查询供应商等级
@@ -136,9 +142,9 @@ public class SupplierItemLevelServiceImpl implements SupplierItemLevelServer {
 	    	Integer nLevel = Integer.parseInt(nodeLevel);
 	    	if (nLevel != null && nLevel >= 4) {
 	    		//如果是大于或等于五级的品目，就查其父级四级目录的等级
-				return supplierItemLevelMapper.selectFourCategoryLevelOutfour(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(), supplier.getSupplierLevelName(), clickCategoryId);
+				return supplierItemLevelMapper.selectFourCategoryLevelOutfour(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(), supplier.getSupplierLevelName(), clickCategoryId, auditType);
 			} else {
-				return supplierItemLevelMapper.selectByCategoryId(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(), supplier.getSupplierLevelName());
+				return supplierItemLevelMapper.selectByCategoryId(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(), supplier.getSupplierLevelName(), auditType);
 			}
 	    }
 	}

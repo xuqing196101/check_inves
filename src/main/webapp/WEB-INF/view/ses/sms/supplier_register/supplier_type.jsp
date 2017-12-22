@@ -1011,6 +1011,9 @@
                          </c:otherwise>
                        </c:choose>
 											<button type="button" class="btn" onclick="delAptitute()">删除</button>
+											<c:if test="${currSupplier.status==2 }">
+		                  	<button class="btn btn-windows add"  type="button" onclick="undoDelAptitute()">撤销删除</button>
+		                  </c:if>
 											<span class="red">${eng_aptitutes }</span>
 										</div>
 										<div class="over_auto clear col-md-12 col-xs-12 col-sm-12 p0">
