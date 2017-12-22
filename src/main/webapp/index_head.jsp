@@ -846,7 +846,7 @@
                                         <td class="tc">${item.batchDetailsNumber }</td>
                                         <td class="tc">
                                           <c:choose>
-                                            <c:when test="${'6' eq item.status and expert.auditTemporary == 0}">
+                                            <c:when test="${'6' eq item.status}">
                                                入库(待复查 )
                                             </c:when>
                                             <c:when test="${'7' eq item.status}">
