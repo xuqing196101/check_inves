@@ -383,9 +383,13 @@ public class DemandSupervisionController extends BaseController{
     public String viewContract(String requiredId, Model model){
         if(StringUtils.isNotBlank(requiredId)){
         	PurchaseRequired required = purchaseRequiredService.selectById(requiredId);
-        	List<PurchaseContract> list = contractService.viewContract(required.getFileId());
-        	if (list != null && !list.isEmpty()) {
-				model.addAttribute("listContract", list);
+        	if (required != null && StringUtils.isNotBlank(required.getFileId())) {
+        		HashMap<String, Object> map = new HashMap<>();
+            	map.put("fileId", required.getFileId());
+            	List<PurchaseContract> list = contractService.viewContract(map);
+            	if (list != null && !list.isEmpty()) {
+    				model.addAttribute("listContract", list);
+    			}
 			}
         }
         return "sums/ss/planSupervision/contract_view";

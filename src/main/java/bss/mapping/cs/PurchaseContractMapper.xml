@@ -1569,7 +1569,7 @@
 	</select>
 	
 	
-	<select id="contractSupervisionByFileId" parameterType="java.lang.String" resultMap="purContractMap">
+	<select id="contractSupervisionByFileId" parameterType="java.util.Map" resultMap="purContractMap">
 		SELECT
 			pc. ID, pc.CODE, pc. NAME, pc.MONEY, pc.DEMAND_SECTOR, pc.BUDGET, pc. YEAR, pc.PROJECT_ID,PC.PURCHASE_DEP_NAME,
 			pc.PROJECT_NAME, pc.STATUS, pc.DOCUMENT_NUMBER, pc.BUDGET_SUBJECT_ITEM, pc.SUPPLIER_DEP_NAME,
@@ -1618,7 +1618,12 @@
 												FROM
 													T_BSS_PMS_PURCHASE_DETAIL asd
 												WHERE
-													ASD.FILE_ID = #{id} AND detail. ID = asd. ID
+													<if test="fileId != null and fileId != ''">
+														ASD.FILE_ID = #{fileId} AND detail. ID = asd. ID
+													</if>
+													<if test="uniqueId != null and uniqueId != ''">
+														ASD.UNIQUE_ID = #{uniqueId} AND detail. ID = asd. ID
+													</if>
 											)
 									) aa
 								WHERE

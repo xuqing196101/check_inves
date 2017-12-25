@@ -305,5 +305,15 @@ public interface PurchaseContractService {
     
     List<PurchaseContract> contractSupervisionList(HashMap<String,Object> map);
 
-	List<PurchaseContract> viewContract(String fileId);
+    /**
+     * 
+    * @Title: viewContract
+    * @author FengTian 
+    * @date 2017-12-25 上午10:20:29  
+    * @Description: 明细查看合同 
+    * @param @param map
+    * @param @return      
+    * @return List<PurchaseContract>
+     */
+	List<PurchaseContract> viewContract(HashMap<String,Object> map);
 }

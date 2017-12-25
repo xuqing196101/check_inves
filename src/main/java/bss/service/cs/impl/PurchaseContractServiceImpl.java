@@ -583,8 +583,8 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 	}
 
 	@Override
-	public List<PurchaseContract> viewContract(String fileId) {
+	public List<PurchaseContract> viewContract(HashMap<String, Object> map) {
 		
-		return purchaseContractMapper.contractSupervisionByFileId(fileId);
+		return purchaseContractMapper.contractSupervisionByFileId(map);
 	}
 }

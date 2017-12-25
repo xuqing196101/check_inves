@@ -231,7 +231,10 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 
     @Override
     public List<PurchaseContract> viewContract(String id) {
-        List<PurchaseContract> listContract = new ArrayList<PurchaseContract>();
+    	HashMap<String, Object> map = new HashMap<>();
+    	map.put("uniqueId", id);
+    	List<PurchaseContract> list = contractMapper.contractSupervisionByFileId(map);
+       /* List<PurchaseContract> listContract = new ArrayList<PurchaseContract>();
         //任务信息
         HashMap<String, Object> mapTask = new HashMap<>();
         mapTask.put("collectId", id);
@@ -293,8 +296,8 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
                     }
                 }
             }
-        }
-        return listContract;
+        }*/
+        return list;
     }
 
     @Override
