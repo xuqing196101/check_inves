@@ -1308,4 +1308,23 @@
 		ORDER BY
 			detail.IS_MASTER ASC
 	</select>
+	
+	<select id="supervisionByDemand" parameterType="java.lang.String" resultMap="PurchaseRequired_Map">
+			SELECT
+				ID,UNIQUE_ID,PLAN_NAME,CREATED_AT,BUDGET,STATUS,
+			(SELECT REL_NAME FROM T_SES_BMS_USER WHERE ID = P.USER_ID) AS USER_ID
+			FROM
+				T_BSS_PMS_PURCHASE_REQUIRED P
+			WHERE
+				FILE_ID IN (
+					SELECT
+						FILE_ID
+					FROM
+						T_BSS_PMS_PURCHASE_DETAIL
+					WHERE
+						UNIQUE_ID = #{uniqueId}
+					GROUP BY
+						FILE_ID
+				) AND IS_MASTER = 1 ORDER BY CREATED_AT ASC
+	</select>
 </mapper>

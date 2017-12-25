@@ -443,4 +443,6 @@ public interface PurchaseRequiredMapper {
     * @return List<PurchaseRequired>
      */
     List<PurchaseRequired> supervisionByDetail(String uniqueId);
+    
+    List<PurchaseRequired> supervisionByDemand(String uniqueId);
 }

@@ -190,31 +190,7 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 
     @Override
     public List<PurchaseRequired> viewDemand(String id) {
-        List<PurchaseRequired> listRequired = new ArrayList<>();
-        List<PurchaseDetail> details = purchaseDetailMapper.getByUinuqeId(id, null, null);
-        if(details != null && details.size() > 0){
-            HashSet<String> set = new HashSet<>();
-            for (PurchaseDetail detail : details) { 
-                set.add(detail.getFileId());
-            }
-            for (String string : set) {
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("fileId", string);
-                List<PurchaseRequired> lists = requiredService.getByMap(map);
-                if(lists != null && lists.size() > 0){
-                    for (PurchaseRequired purchaseRequired : lists) {
-                        if("1".equals(purchaseRequired.getParentId())){
-                            List<User> users = userMapper.selectByPrimaryKey(purchaseRequired.getUserId());
-                            if(users != null && users.size() > 0){
-                                purchaseRequired.setUserId(users.get(0).getRelName());
-                            }
-                            listRequired.add(purchaseRequired);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
+        List<PurchaseRequired> listRequired = requiredMapper.supervisionByDemand(id);
         return listRequired;
     }
 
