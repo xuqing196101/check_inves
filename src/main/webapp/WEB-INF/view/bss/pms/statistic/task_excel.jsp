@@ -102,7 +102,7 @@ div.Section1 {
 			<tbody>
 				<c:forEach items="${list}" var="obj" varStatus="vs">
 					<tr style="cursor: pointer;">
-						<td class="tc w50" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">${obj.seq}</td>
+						<td class="tc w50" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd; vnd.ms-excel.numberformat:@">${obj.seq}</td>
 						<c:if test="${types ne null}">
 							<c:forEach items="${types}" var="type">
 							<td class="tl" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd; vnd.ms-excel.numberformat:@">
