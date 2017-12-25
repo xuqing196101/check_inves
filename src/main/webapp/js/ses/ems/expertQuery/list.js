@@ -54,14 +54,14 @@ function showCategory(parm) {
   }).slideDown("fast");
   $("body").bind("mousedown", onBodyDownOrg);
 
-  if(parm) {
+/*  if() {
     // 加载下拉搜索框
     $("#gradeTreeContent").css({
       left: cityOffset.left + "px",
       top: cityOffset.top + cityObj.outerHeight() + "px"
     }).slideDown("fast");
     $("body").bind("mousedown", onBodyDownOrg);
-  }
+  }*/
 }
 
 //搜索
@@ -109,7 +109,7 @@ function searchCategory() {
       type: "post",
       success: function(data) {
         if(data.length == 0) {
-          layer.msg("没有符合查询条件的产品类别信息！");
+          layer.msg("未匹配到！");
         } else {
           zNodes = data;
           zTreeObj = $.fn.zTree.init($("#treeRole"), setting, zNodes);

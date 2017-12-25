@@ -330,7 +330,7 @@
           <div class="row">
             <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">品目：</div>
             <div class="col-xs-8 f0 lh0">
-              <input id="category" type="text" name="categoryNames" value="${categoryNames}" readonly onclick="showCategory();" class="w100p h32 f14 mb0">
+              <input id="category" type="text" name="categoryNames" value="${categoryNames}" readonly onclick="showCategory();" class="w100p h32 f14 mb0 hand">
               <input type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds}">
             </div>
           </div>
