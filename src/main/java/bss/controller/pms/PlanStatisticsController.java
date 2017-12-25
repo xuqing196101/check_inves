@@ -323,38 +323,43 @@ public class PlanStatisticsController extends BaseController {
   public String queryPlan(@CurrentUser User user,Model model,HttpServletResponse response,HttpServletRequest request,Integer page,Task task,String beginDate,String endDate) throws IOException{
 	  long begin=System.currentTimeMillis();
 	  if (user != null) {
-		  HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
-		  List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
-		  if (superviseOrgId != null && !superviseOrgId.isEmpty()) {
-			  if (StringUtils.isNotBlank(task.getName())) {
-				  task.setName(task.getName().trim());
-			  }
-			  if (StringUtils.isNotBlank(task.getDocumentNumber())) {
-				  task.setDocumentNumber(task.getDocumentNumber().trim());
-			  }
-			  if (StringUtils.isNotBlank(beginDate) && StringUtils.isNotBlank(endDate)) {
-				  task.setBeginDate(beginDate.trim());
-				  task.setEndDate(endDate.trim());
-			  }
-			  if (StringUtils.equals("2", user.getTypeName())) {
-				  task.setOrgId(user.getOrg().getId());
-			  } else if (StringUtils.equals("5", user.getTypeName())) {
-				  task.setOrgList(superviseOrgId);
-			  }
-			  List<Task> list = taskservice.searchByTask(task,page==null?1:page);
-			  List<PurchaseOrg> listOrg = purchaseOrgnizationServiceI.getOrg(user.getOrg().getId());
-			  List<Orgnization> list2=new ArrayList<Orgnization>();
-			  for (PurchaseOrg purchaseOrg : listOrg) {
-				  Orgnization orgByPrimaryKey = orgnizationServiceI.getOrgByPrimaryKey(purchaseOrg.getPurchaseDepId());
-				  list2.add(orgByPrimaryKey);
-			  }
-			  model.addAttribute("allOrg", list2);
-			  PageInfo<Task> info = new PageInfo<>(list);
-			  model.addAttribute("info", info);
-			  model.addAttribute("task", task);
-			  long end=System.currentTimeMillis();
-			  System.out.println("耗时："+(end-begin));
+		  if (StringUtils.isNotBlank(task.getName())) {
+			  task.setName(task.getName().trim());
 		  }
+		  if (StringUtils.isNotBlank(task.getDocumentNumber())) {
+			  task.setDocumentNumber(task.getDocumentNumber().trim());
+		  }
+		  if (StringUtils.isNotBlank(beginDate) && StringUtils.isNotBlank(endDate)) {
+			  task.setBeginDate(beginDate.trim());
+			  task.setEndDate(endDate.trim());
+		  }
+		  HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
+		  Integer dataAccess = (Integer) dataMap.get("dataAccess");
+		  if (dataAccess == 2){
+			  List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
+			  if (superviseOrgId != null && !superviseOrgId.isEmpty()) {
+				  if (StringUtils.equals("2", user.getTypeName())) {
+					  task.setOrgId(user.getOrg().getId());
+				  } else if (StringUtils.equals("5", user.getTypeName())) {
+					  task.setOrgList(superviseOrgId);
+				  }
+			  }
+		  } else if (dataAccess == 3) {
+			  task.setOrgId(user.getOrg().getId());
+		  }
+		  List<Task> list = taskservice.searchByTask(task,page==null?1:page);
+		  List<PurchaseOrg> listOrg = purchaseOrgnizationServiceI.getOrg(user.getOrg().getId());
+		  List<Orgnization> list2=new ArrayList<Orgnization>();
+		  for (PurchaseOrg purchaseOrg : listOrg) {
+			  Orgnization orgByPrimaryKey = orgnizationServiceI.getOrgByPrimaryKey(purchaseOrg.getPurchaseDepId());
+			  list2.add(orgByPrimaryKey);
+		  }
+		  model.addAttribute("allOrg", list2);
+		  PageInfo<Task> info = new PageInfo<>(list);
+		  model.addAttribute("info", info);
+		  model.addAttribute("task", task);
+		  long end=System.currentTimeMillis();
+		  System.out.println("耗时："+(end-begin));
 	  }
 	  return "bss/pms/statistic/task_list";
   }
