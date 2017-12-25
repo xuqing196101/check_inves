@@ -3640,7 +3640,7 @@ public class SupplierController extends BaseSupplierController {
             "UTF-8");
 //        Supplier supplier = JSON.parseObject(supplierJson, Supplier.class);
         /** 创建word文件 **/
-        String fileName = WordUtil.createWord(supplier, "supplier2.ftl",
+        String fileName = WordUtil.createWord(supplier, "supplier3.ftl",
             name, request);
 //        String fileName = WordUtil.createWord(supplier, "test2.ftl",
 //        		name, request);
