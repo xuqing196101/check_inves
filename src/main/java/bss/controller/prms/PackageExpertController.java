@@ -2188,17 +2188,17 @@ public class PackageExpertController {
                               if(ep.getScore().doubleValue()<0){
                                 if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                                   ess.setScore(0+"");
-                                }else{
+                                }/*else{
                                   total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
-                                }
+                                }*/
                               }
                             }
                           }
                         }
                       }
-                      if(total.doubleValue()>deviation){
+                      /*if(total.doubleValue()>deviation){
                         ess.setScore(0+"");
-                      }
+                      }*/
                     }
                   }
               }
@@ -2505,16 +2505,16 @@ public class PackageExpertController {
                             if(ep.getScore().doubleValue()<0){
                               if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                                 ess.setScore(0+"");
-                              }else{
+                              }/*else{
                                 total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
-                              }
+                              }*/
                             }
                           }
                         }
                       }
-                      if(total.doubleValue()>deviation){
+                      /*if(total.doubleValue()>deviation){
                         ess.setScore(0+"");
-                      }
+                      }*/
                     }
                   }
                 }
@@ -2658,17 +2658,17 @@ public class PackageExpertController {
                         if(ep.getScore().doubleValue()<0){
                           if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                             flg=true;
-                          }else{
+                          }/*else{
                             total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
-                          }
+                          }*/
                         }
                       }
                     }
                   }
                 }
-                if(total.doubleValue()>deviation){
+                /*if(total.doubleValue()>deviation){
                   flg=true;
-                }
+                }*/
                 if(flg){
                   score.setScore(0+"");
                 }
@@ -2824,16 +2824,16 @@ public class PackageExpertController {
                       if(ep.getScore().doubleValue()<0){
                         if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                           flg=true;
-                        }else{
+                        }/*else{
                           total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
-                        }
+                        }*/
                       }
                     }
                   }
                 }
-                if(total.doubleValue()>deviation){
+                /*if(total.doubleValue()>deviation){
                   flg=true;
-                }
+                }*/
                 if(flg){
                   sl.setMessage("(最高技术指标数量限制)");
                 }
@@ -3066,16 +3066,16 @@ public class PackageExpertController {
                     if(ep.getScore().doubleValue()<0){
                       if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                         flg=true;
-                      }else{
+                      }/*else{
                         total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
-                      }
+                      }*/
                     }
                   }
                 }
               }
-              if(total.doubleValue()>deviation){
+              /*if(total.doubleValue()>deviation){
                 flg=true;
-              }
+              }*/
             }
             if(flg){
               saleTender.setMessage("最高技术指标数量限制");
@@ -3255,16 +3255,16 @@ public class PackageExpertController {
                     if(ep.getScore().doubleValue()<0){
                       if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                         flg=true;
-                      }else{
+                      }/*else{
                         total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
-                      }
+                      }*/
                     }
                   }
                 }
               }
-              if(total.doubleValue()>deviation){
+              /*if(total.doubleValue()>deviation){
                 flg=true;
-              }
+              }*/
             }
             if(flg){
               saleTender.setMessage("最高技术指标数量限制");
@@ -3439,16 +3439,16 @@ public class PackageExpertController {
                         if(ep.getScore().doubleValue()<0){
                           if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                             flg=true;
-                          }else{
+                          }/*else{
                             total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
-                          }
+                          }*/
                         }
                       }
                     }
                   }
-                  if(total.doubleValue()>deviation){
+                  /*if(total.doubleValue()>deviation){
                     flg=true;
-                  }
+                  }*/
                   if(flg){
                     sl.setMessage("(最高技术指标数量限制)");
                   }
@@ -4765,16 +4765,16 @@ public class PackageExpertController {
                           if(ep.getScore().doubleValue()<0){
                             if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                               ess.setScore(0+"");
-                            }else{
+                            }/*else{
                               total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
-                            }
+                            }*/
                           }
                         }
                       }
                     }
-                    if(total.doubleValue()>deviation){
+                    /*if(total.doubleValue()>deviation){
                       ess.setScore(0+"");
-                    }
+                    }*/
                   }
                 }
               }
@@ -4986,16 +4986,16 @@ public class PackageExpertController {
                           if(ep.getScore().doubleValue()<0){
                             if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                               ess.setScore(0+"");
-                            }else{
+                            }/*else{
                               total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
-                            }
+                            }*/
                           }
                         }
                       }
                     }
-                    if(total.doubleValue()>deviation){
+                    /*if(total.doubleValue()>deviation){
                       ess.setScore(0+"");
-                    }
+                    }*/
                   }
                 }
               }
