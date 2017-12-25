@@ -85,8 +85,10 @@
 	              <tr>
 		              <td class="tc">${vs.index + 1}</td>
 		              <td class="tc" id="nature_${s.id }" <c:if test="${fn:contains(field,s.id.concat('_nature'))}">style="border: 1px solid #FF8C00;" onMouseOver="showModifyList(this,'shareholder_page','nature','${s.id}','4');"</c:if>>
-		              	<c:if test="${s.nature eq '1'}">法人</c:if>
-		              	<c:if test="${s.nature eq '2'}">自然人</c:if>
+		              	<%-- <c:if test="${s.nature eq '1'}">法人</c:if>
+		              	<c:if test="${s.nature eq '2'}">自然人</c:if> --%>
+		              	<c:if test="${s.nature eq '1'}">单位投资</c:if>
+		              	<c:if test="${s.nature eq '2'}">个人投资</c:if>
 		              </td>
 		              <td class="tl" id="name_${s.id }" <c:if test="${fn:contains(field,s.id.concat('_name'))}">style="border: 1px solid #FF8C00;" onMouseOver="showModifyList(this,'shareholder_page','name','${s.id}','4');"</c:if> >${s.name}</td>
 		              <td class="tl" id="nature_${s.id }" >
