@@ -1,6 +1,7 @@
 package bss.controller.cs;
 
 
+import ses.util.AuthorityUtil;
 import ses.util.DictionaryDataUtil;
 
 import java.io.File;
@@ -178,6 +179,57 @@ public class PurchaseContractController extends BaseSupplierController {
      */
     @RequestMapping("/selectAllPuCon")
     public String selectAllPurchaseContract(@CurrentUser User user, Project projects, String isCreate, Model model, Integer page) {
+    	if (user != null && StringUtils.isNotBlank(user.getTypeName()) && user.getOrg() != null) {
+    		HashMap<String, Object> hashMap = new HashMap<String, Object>();
+    		if(projects != null){
+                if(StringUtils.isNotBlank(projects.getName())){
+                    hashMap.put("projectName", projects.getName());
+                }
+                if(StringUtils.isNotBlank(projects.getProjectNumber())){
+                    hashMap.put("projectCode", projects.getProjectNumber());
+                }
+            }
+    		if(StringUtils.isNotBlank(isCreate)){
+                hashMap.put("isCreateContract", isCreate);
+            }
+    		if (page == null) {
+                page = 1;
+            }
+    		hashMap.put("page", page);
+    		if (StringUtils.equals("1", user.getTypeName())) {
+    			hashMap.put("purchaseDepId", user.getOrg().getId());
+    			List<SupplierCheckPass> list = supplierCheckPassService.selectByAll(hashMap);
+    			if (list != null && !list.isEmpty()) {
+					for (SupplierCheckPass supplierCheckPass : list) {
+						//标的信息
+                        HashMap<String, Object> map = new HashMap<String, Object>();
+                        map.put("supplierId", supplierCheckPass.getSupplierId());
+                        map.put("packageId", supplierCheckPass.getPackageId());
+                        List<theSubject> theSubject = theSubjectService.selectBysupplierIdAndPackagesId(map);
+                        BigDecimal sum = new BigDecimal(0);
+                        if (theSubject != null && theSubject.size() > 0) {
+                            for (theSubject ts : theSubject) {
+                                if (ts.getDetailId() != null) {
+                                    BigDecimal count = new BigDecimal(ts.getPurchaseCount());
+                                    BigDecimal price = count.multiply(ts.getUnitPrice());
+                                    sum = sum.add(price);
+                                }
+                            }
+                        }
+                        sum = sum.divide(new BigDecimal(10000));
+                        supplierCheckPass.setWonPrice(sum);
+					}
+				}
+    			PageInfo<SupplierCheckPass> info = new PageInfo<SupplierCheckPass>(list);
+                model.addAttribute("list", info);
+                model.addAttribute("projects", projects);
+                model.addAttribute("authType", user.getTypeName());
+                model.addAttribute("isCreate", isCreate);
+			}
+		}
+    	return "bss/cs/purchaseContract/list"; 
+    }
+    /*public String selectAllPurchaseContract(@CurrentUser User user, Project projects, String isCreate, Model model, Integer page) {
         if(user != null && StringUtils.isNotBlank(user.getTypeName()) && user.getOrg() != null){
             if (page == null) {
                 page = 1;
@@ -252,7 +304,7 @@ public class PurchaseContractController extends BaseSupplierController {
             }
         }
         return "bss/cs/purchaseContract/list";
-    }
+    }*/
 
 
     /**
@@ -1612,9 +1664,58 @@ public class PurchaseContractController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("/selectDraftContract")
-    public String selectDraftContract(@CurrentUser
-    User user, HttpServletRequest request, Integer page, Model model, PurchaseContract purCon)
-        throws Exception {
+    public String selectDraftContract(@CurrentUser User user, Integer page, Model model, PurchaseContract contract)  {
+    	if(page==null){
+            page=1;
+        }
+		HashMap<String,Object> map = new HashMap<String, Object>();
+        map.put("page", page);
+        if(StringUtils.isNotBlank(contract.getProjectName())){
+            map.put("projectName", contract.getProjectName());
+        }
+        if(StringUtils.isNotBlank(contract.getCode())){
+            map.put("code", contract.getCode());
+        }
+        if(StringUtils.isNotBlank(contract.getSupplierDepName())){
+            map.put("supplierName", contract.getSupplierDepName());
+        }
+        if(StringUtils.isNotBlank(contract.getPurchaseDepName())){
+            map.put("purchaseDepName", contract.getPurchaseDepName());
+        }
+        if(StringUtils.isNotBlank(contract.getDemandSector())){
+            map.put("demandSector", contract.getDemandSector());
+        }
+        if(StringUtils.isNotBlank(contract.getDocumentNumber())){
+            map.put("documentNumber", contract.getDocumentNumber());
+        }
+        if(StringUtils.isNotBlank(contract.getYear_string())){
+            if(ValidateUtils.Integer(contract.getYear_string())){
+                map.put("year", new BigDecimal(contract.getYear_string()));
+            }
+        }
+        if(StringUtils.isNotBlank(contract.getBudgetSubjectItem())){
+            map.put("budgetSubjectItem", contract.getBudgetSubjectItem());
+        }
+        if (contract.getStatus() != null) {
+        	map.put("status", contract.getStatus());
+		}
+        map.put("purchaseDepName", user.getOrg().getId());
+        List<PurchaseContract> list = purchaseContractService.contractSupervisionList(map);
+        BigDecimal contractSum = new BigDecimal(0);
+        for (PurchaseContract purchaseContract : list) {
+        	 if (purchaseContract.getMoney() != null) {
+                 contractSum = contractSum.add(purchaseContract.getMoney());
+             }
+		}
+        PageInfo<PurchaseContract> info = new PageInfo<PurchaseContract>(list);
+        model.addAttribute("info", info);
+        model.addAttribute("contract", contract);
+        model.addAttribute("authType", user.getTypeName());
+        model.addAttribute("contractSum", contractSum);
+    	return "bss/cs/purchaseContract/draftlist";
+    }
+    /*public String selectDraftContract(@CurrentUser
+    User user, HttpServletRequest request, Integer page, Model model, PurchaseContract purCon) throws Exception {
         if (page == null) {
             page = 1;
         }
@@ -1665,9 +1766,9 @@ public class PurchaseContractController extends BaseSupplierController {
             }
 
         }
-        /*
+        
          * 判断如果是管理部门
-         */
+         
         if ("2".equals(typeName)) {
 
             List<PurchaseOrg> list = purchaseOrgnizationServiceI.get(user.getOrg().getId());
@@ -1757,7 +1858,7 @@ public class PurchaseContractController extends BaseSupplierController {
         model.addAttribute("purCon", purCon);
         model.addAttribute("authType", user.getTypeName());
         return "bss/cs/purchaseContract/draftlist";
-    }
+    }*/
 
     /**
      * 〈简述〉 〈详细描述〉
@@ -1994,7 +2095,6 @@ public class PurchaseContractController extends BaseSupplierController {
     public String showDraftContract(HttpServletRequest request, Model model)
         throws Exception {
         String ids = request.getParameter("ids");
-        String status = request.getParameter("status");
         String url = "";
         PurchaseContract draftCon = purchaseContractService.selectDraftById(ids);
         List<ContractRequired> conRequList = contractRequiredService.selectConRequeByContractId(draftCon.getId());
@@ -2033,11 +2133,11 @@ public class PurchaseContractController extends BaseSupplierController {
         if (datas.size() > 0) {
             model.addAttribute("contractattachId", datass.get(0).getId());
         }
-        if (status.equals("0")) {
+        if (draftCon.getStatus() == 0) {
             url = "bss/cs/purchaseContract/showRoughContract";
-        } else if (status.equals("1")) {
+        } else if (draftCon.getStatus() == 1) {
             url = "bss/cs/purchaseContract/showDraftContract";
-        } else if (status.equals("2")) {
+        } else if (draftCon.getStatus() == 2) {
             url = "bss/cs/purchaseContract/showFormalContract";
         }
         return url;

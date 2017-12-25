@@ -200,6 +200,8 @@ public class ContractSupervisionController {
 			//查看本人数据
 			map.put("purchaseDepName", user.getOrg().getId());
 		}
+    	map.put("status", 2);
+    	map.put("manualType", 0);
     	List<PurchaseContract> list = purchaseContractService.contractSupervisionList(map);
         PageInfo<PurchaseContract> info = new PageInfo<PurchaseContract>(list);
         model.addAttribute("info", info);

@@ -128,11 +128,15 @@
         }
       }
 
-      function showDraftContract(id, type, status) {
+      function showDraftContract(id, type) {
         if(type == '1') {
-          window.location.href = "${pageContext.request.contextPath}/purchaseContract/showDraftContract.html?ids=" + id + "&status=" + status;
+        	if (id) {
+        		window.location.href = "${pageContext.request.contextPath}/purchaseContract/showDraftContract.html?ids=" + id;
+        	} else {
+        		layer.msg("还没有生成合同");
+        	}
         } else {
-          alert("还没有生成合同");
+          layer.msg("还没有生成合同");
         }
 
       }
@@ -254,12 +258,12 @@
         
         <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
           <div class="row">
-            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购项目状态：</div>
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">状态：</div>
             <div class="col-xs-8 f0 lh0">
               <select id="isCreate" name="isCreate" class="w100p h32 f14">
                 <option value="">请选择</option>
-                <option value="0">未生成</option>
-                <option value="1">已生成</option>
+                <option value="0" <c:if test="${'0' eq isCreate}">selected="selected"</c:if>>未生成</option>
+                <option value="1" <c:if test="${'1' eq isCreate}">selected="selected"</c:if>>已生成</option>
               </select>
             </div>
           </div>
@@ -291,8 +295,8 @@
               <th class="tnone"></th>
               <th class="tnone"></th>
               <th class="info w50">序号</th>
-              <th class="info" width="20%">采购项目名称</th>
-              <th class="info" width="12%">编号</th>
+              <th class="info" width="20%">项目名称</th>
+              <th class="info" width="12%">项目编号</th>
               <th class="info" width="7%">包名</th>
               <th class="info" width="8%">成交金额</th>
               <th class="info" width="19%">成交供应商</th>
@@ -308,27 +312,27 @@
               <td class="tnone">${pass.isCreateContract}</td>
               <td class="tnone">${pass.packages.wonPrice}</td>
               <td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-              <c:set value="${pass.project.name}" var="name"></c:set>
+              <c:set value="${pass.projectName}" var="name"></c:set>
               <c:set value="${fn:length(name)}" var="length"></c:set>
               <c:if test="${length>10}">
-                <td class="tl pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')" title="${name}">${fn:substring(name,0,10)}...</td>
+                <td class="tl pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}')" title="${name}">${fn:substring(name,0,10)}...</td>
               </c:if>
               <c:if test="${length<=10}">
-                <td class="tl pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')" title="${name}">${name}</td>
+                <td class="tl pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}')" title="${name}">${name}</td>
               </c:if>
-              <c:set value="${pass.project.projectNumber}" var="code"></c:set>
+              <c:set value="${pass.projectNumber}" var="code"></c:set>
               <c:set value="${fn:length(code)}" var="length"></c:set>
               <c:if test="${length>10}">
-                <td class=" tl pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')" title="${code}">${fn:substring(code,0,10)}...</td>
+                <td class=" tl pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}')" title="${code}">${fn:substring(code,0,10)}...</td>
               </c:if>
               <c:if test="${length<=10}">
-                <td class=" tl pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')" title="${code}">${code}</td>
+                <td class=" tl pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}')" title="${code}">${code}</td>
               </c:if>
-              <td class="tc pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">${pass.packages.name}</td>
-              <td class="tr pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">${pass.packages.wonPrice }</td>
-              <td class="tl pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">${pass.supplier.supplierName}</td>
-              <td class="tl pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">${pass.purchaseDep}</td>
-              <td class="tc" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">
+              <td class="tc pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}')">${pass.packName}</td>
+              <td class="tr pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}')">${pass.wonPrice}</td>
+              <td class="tl pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}')">${pass.supplier.supplierName}</td>
+              <td class="tl pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}')">${pass.purchaseDep}</td>
+              <td class="tc" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}')">
                 <c:if test="${pass.isCreateContract==1}">已生成</c:if>
                 <c:if test="${pass.isCreateContract!=1}">未生成</c:if>
               </td>

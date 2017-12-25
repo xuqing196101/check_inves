@@ -148,7 +148,7 @@
   	<include refid="Base_Column_List"/>
   	from T_BSS_CS_PURCHASE_CONTRACT
   	where STATUS = '1'
-  	and IS_DELETED = '0'
+  	and IS_DELETED = 0
   	<if test="projectName != null and projectName != ''">
   		and PROJECT_NAME like CONCAT(CONCAT('%', #{projectName}), '%') 
   	</if>
@@ -180,14 +180,14 @@
   	select 
   	<include refid="Base_Column_List"/>
   	from T_BSS_CS_PURCHASE_CONTRACT
-  	where IS_DELETED = '0'
+  	where IS_DELETED = 0
   </select>
   
   <select id="selectContractByCode" resultMap="purContractMap">
   	select 
   	<include refid="Base_Column_List"/>
   	from T_BSS_CS_PURCHASE_CONTRACT
-  	where IS_DELETED = '0'
+  	where IS_DELETED = 0
   	and status in (1,2,0)
   </select>
    <!--  IN (SELECT ID FROM T_SES_OMS_ORG WHERE NAME like  CONCAT(CONCAT('%', #{purchaseDepName}), '%')) -->
@@ -195,7 +195,7 @@
   	select 
   	<include refid="Base_Column_List"/>
   	from T_BSS_CS_PURCHASE_CONTRACT where
-  	IS_DELETED = '0'
+  	IS_DELETED = 0
   	<if test="projectName != null and projectName != ''">
   		and PROJECT_NAME like  CONCAT(CONCAT('%', #{projectName}), '%') 
   	</if>
@@ -233,7 +233,7 @@
   	select 
   	<include refid="Base_Column_List"/>
   	from T_BSS_CS_PURCHASE_CONTRACT where
-  	IS_DELETED = '0'
+  	IS_DELETED = 0
   	<if test="projectName != null and projectName != ''">
   		and PROJECT_NAME like CONCAT(CONCAT('%', #{projectName}), '%') 
   	</if>
@@ -271,7 +271,7 @@
   	select 
   	<include refid="Base_Column_List"/>
   	from T_BSS_CS_PURCHASE_CONTRACT where
-  	IS_DELETED = '0'
+  	IS_DELETED = 0
   	<if test="projectName != null and projectName != ''">
   		and PROJECT_NAME like  CONCAT(CONCAT('%', #{projectName}), '%') 
   	</if>
@@ -378,7 +378,7 @@
   </select>
   
   <update id="deleteDraftByPrimaryKey" parameterType="java.lang.String">
-    update T_BSS_CS_PURCHASE_CONTRACT set IS_DELETED = '1'
+    update T_BSS_CS_PURCHASE_CONTRACT set IS_DELETED = 1
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   
@@ -1528,10 +1528,13 @@
 		LEFT JOIN T_SES_SMS_SUPPLIER sup ON pc.SUPPLIER_DEP_NAME = SUP. ID
 		WHERE
 			pc.IS_DELETED = 0
-		AND pc.STATUS = 2
-		AND pc.MANUAL_TYPE = 0
+		<!-- AND pc.STATUS = 2
+		AND pc.MANUAL_TYPE = 0 -->
 		<if test="status != null">
 			and pc.STATUS = #{status}
+		</if>
+		<if test="manualType != null">
+			and pc.MANUAL_TYPE = #{manualType}
 		</if>
 		<if test="projectName != null and projectName !=''">
 			and pc.PROJECT_NAME like  CONCAT(CONCAT('%', #{projectName}), '%')
@@ -1557,7 +1560,7 @@
 				#{item}
 			</foreach>
     </if>
-		<if test="YEAR != null and YEAR !=''">
+		<if test="year != null and year !=''">
 			and pc.YEAR = #{year}
 		</if>
 		<if test="budgetSubjectItem != null">
