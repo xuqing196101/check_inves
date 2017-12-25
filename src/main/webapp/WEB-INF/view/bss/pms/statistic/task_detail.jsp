@@ -282,7 +282,7 @@
             <select name="organization" id="organization" class="w100p h32 f14">
               <option value="">请选择</option>
               <c:forEach items="${allOrg}" var="org" >
-              <option value="${org.id}" <c:if test="${org.id==detail.organization}">selected="selected"</c:if>>${org.shortName}</option>
+              <option value="${org.id}" <c:if test="${org.id eq detail.organization}">selected="selected"</c:if>>${org.shortName}</option>
               </c:forEach>
             </select>
           </div>
