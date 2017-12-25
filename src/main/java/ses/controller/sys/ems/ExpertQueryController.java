@@ -514,7 +514,8 @@ public class ExpertQueryController {
             	ExpertAudit a = expertAuditService.findAuditByExpertId(expertAudit);
             	if(a !=null && a.getAuditReason() !=null){
             		cate.setAuditReason("不通过，原因：" + a.getAuditReason());
-            	}else if(firstAudit !=null){
+            		//审核记录没有审核记录并且意见表里有意见才“通过”
+            	}else if(firstAudit !=null && firstAuditInfo == null){
                 	cate.setAuditReason("通过。");
                 }
             }
@@ -524,7 +525,9 @@ public class ExpertQueryController {
             ExpertAudit reviewAuditInfo = expertAuditService.findAuditByExpertId(expertAudit);
             if(reviewAuditInfo !=null && reviewAuditInfo.getAuditReason() !=null){
             	cate.setReviewAudit("不通过，原因：" + reviewAuditInfo.getAuditReason());
-            }else if(reviewAudit !=null){
+            	
+            	//审核记录没有审核记录并且意见表里有意见才“通过”
+            }else if(reviewAudit !=null && reviewAuditInfo == null){
             	cate.setReviewAudit("通过。");
             }
         }
