@@ -107,8 +107,6 @@ import ses.service.sms.SupplierMatSeService;
 import ses.service.sms.SupplierMatSellService;
 import ses.service.sms.SupplierPorjectQuaService;
 import ses.service.sms.SupplierService;
-import ses.service.sms.SupplierStockholderRecyService;
-import ses.service.sms.SupplierStockholderService;
 import ses.service.sms.SupplierTypeRelateService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
@@ -230,15 +228,6 @@ public class SupplierController extends BaseSupplierController {
     
     @Autowired
     private DownloadService downloadService;// 文件下载
-    
-    @Autowired
-    private SupplierStockholderService supplierStockholderService;
-    @Autowired
-    private SupplierStockholderRecyService supplierStockholderRecyService;
-    /*@Autowired
-    private SupplierItemRecyService supplierItemRecyService;
-    @Autowired
-    private SupplierAptituteRecyService supplierAptituteRecyService;*/
     
     /**
      * 基本信息（第一步）
@@ -3651,7 +3640,7 @@ public class SupplierController extends BaseSupplierController {
             "UTF-8");
 //        Supplier supplier = JSON.parseObject(supplierJson, Supplier.class);
         /** 创建word文件 **/
-        String fileName = WordUtil.createWord(supplier, "supplier2.ftl",
+        String fileName = WordUtil.createWord(supplier, "supplier3.ftl",
             name, request);
 //        String fileName = WordUtil.createWord(supplier, "test2.ftl",
 //        		name, request);

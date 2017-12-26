@@ -970,10 +970,18 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		map.put("type", isType(type));
 		List<SupplierItem> itemsList=supplierItemService.findByMap(map);*/
 		//--工程 审核字段存储：目录末级节点ID关联的SupplierItem的ID
+		String itemCertCode = null;
+		String itemProfessType = null;
+		String itemQualificationType = null;
+		String itemLevel = null;
 		if(null!=itemsList && !itemsList.isEmpty()){
+			SupplierMatEng matEng = supplierMatEngService.getMatEng(itemsList.get(0).getSupplierId());
 			for (SupplierItem supplierItem : itemsList) {
-				SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierItem.getSupplierId());
 				cateTree.setSupplierItemId(supplierItem.getId());
+				itemCertCode = itemCertCode == null ? supplierItem.getCertCode() : itemCertCode;
+				itemProfessType = itemProfessType == null ? supplierItem.getProfessType() : itemProfessType;
+				itemQualificationType = itemQualificationType == null ? supplierItem.getQualificationType() : itemQualificationType;
+				itemLevel = itemLevel == null ? supplierItem.getLevel() : itemLevel;
 //				if(null != matEng && StringUtils.isNotBlank(supplierItem.getQualificationType()) && StringUtils.isNotBlank(supplierItem.getCertCode()) && StringUtils.isNotBlank(supplierItem.getProfessType())){
 				if(null != matEng){
 					/*List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(supplierItem.getQualificationType(), matEng.getId(), supplierItem.getCertCode(), supplierItem.getProfessType());
@@ -996,60 +1004,85 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 					List<SupplierAptitute> apts = matEng.getListSupplierAptitutes();
 					if(apts != null && apts.size() > 0){
 						for(SupplierAptitute apt: apts){
-							if(apt.getCertCode().equals(supplierItem.getCertCode()) && apt.getCertType().equals(supplierItem.getQualificationType())){
-								Qualification qua = qualificationService.getQualification(apt.getCertType());
-								if(qua != null){
-									apt.setCertType(qua.getName());
-								}else{
-									apt.setCertType("");
+							if((apt.getCertCode()+"").equals(supplierItem.getCertCode()) && (apt.getCertType()+"").equals(supplierItem.getQualificationType())){
+								if(StringUtils.isNotBlank(apt.getCertType())){
+									Qualification qua = qualificationService.getQualification(apt.getCertType());
+									if(qua != null){
+										apt.setCertType(qua.getName());
+									}else{
+										apt.setCertType("");
+									}
 								}
-								DictionaryData dd = DictionaryDataUtil.findById(apt.getAptituteLevel());
-								if(dd != null){
-									apt.setAptituteLevel(dd.getName());
-								}else{
-									apt.setAptituteLevel("");
+								if(StringUtils.isNotBlank(apt.getAptituteLevel())){
+									DictionaryData dd = DictionaryDataUtil.findById(apt.getAptituteLevel());
+									if(dd != null){
+										apt.setAptituteLevel(dd.getName());
+									}else{
+										apt.setAptituteLevel("");
+									}
 								}
 								cateTree.setFileId(apt.getId());
 								cateTree.setSupplierAptitute(apt);
-								cateTreeList.add(cateTree);
+								//cateTreeList.add(cateTree);
 								break;
 							}
 						}
 					}
 			    }
-				if(cateTree.getSupplierAptitute() == null){// 如果没有查出供应商所选资质，则查出品目对应需要上传的资质
-					SupplierAptitute apt = new SupplierAptitute();
-					Qualification qua = qualificationService.getQualification(supplierItem.getQualificationType());
-					if(qua != null){
-						apt.setCertType(qua.getName());
-					}else{
-						apt.setCertType("");
-					}
-					DictionaryData dd = DictionaryDataUtil.findById(supplierItem.getLevel());
-					if(dd != null){
-						apt.setAptituteLevel(dd.getName());
-					}else{
-						apt.setAptituteLevel("");
-					}
-					apt.setCertCode(supplierItem.getCertCode());
-					apt.setProfessType(supplierItem.getProfessType());
-					cateTree.setFileId("");
-					cateTree.setSupplierAptitute(apt);
-					cateTreeList.add(cateTree);
-			    }
 			}
 		}
-		if(cateTree.getSupplierAptitute() == null){// 如果没有查出供应商所选资质，则查出品目对应需要上传的资质（没有证书编号的）
-	    	List < Category > cateList = new ArrayList < Category > ();
-			cateList.add(categoryService.selectByPrimaryKey(cateTree.getCategoryId()));
-			List < QualificationBean > typeList = supplierService.getQuaList(cateList, 4);
-			if(typeList != null && typeList.size() > 0 && typeList.get(0).getList() != null && typeList.get(0).getList().size() > 0) {
-				SupplierAptitute apt = new SupplierAptitute();
-				apt.setCertType(typeList.get(0).getList().get(0).getName());
-				cateTree.setSupplierAptitute(apt);
-				cateTreeList.add(cateTree);
+		if(cateTree.getSupplierAptitute() == null 
+				|| StringUtils.isBlank(cateTree.getSupplierAptitute().getCertType())){
+			// 如果没有查出供应商所选资质，则查出品目对应需要上传的资质
+			SupplierAptitute apt = new SupplierAptitute();
+			apt.setCertCode(itemCertCode);
+			apt.setProfessType(itemProfessType);
+			cateTree.setFileId("");
+			if(StringUtils.isNotBlank(itemQualificationType)){
+				Qualification qua = qualificationService.getQualification(itemQualificationType);
+				if(qua != null){
+					apt.setCertType(qua.getName());
+				}else{
+					apt.setCertType("");
+				}
 			}
+			if(StringUtils.isNotBlank(itemLevel)){
+				DictionaryData dd = DictionaryDataUtil.findById(itemLevel);
+				if(dd != null){
+					apt.setAptituteLevel(dd.getName());
+				}else{
+					apt.setAptituteLevel("");
+				}
+			}
+			if(StringUtils.isBlank(apt.getCertType())){
+				String categoryId = cateTree.getCategoryId();
+				if("工程设计".equals(cateTree.getFirstNode()) || "工程勘察".equals(cateTree.getFirstNode())){
+					List < Category > plist = categoryService.getPListById(categoryId);
+					if(plist != null && plist.size() > 0){
+						for(Category c : plist){
+							int countItemsInCate = supplierItemMapper.countItemsInCate(supplierId, c.getId(), "PROJECT");
+							if(countItemsInCate > 0){
+								categoryId = c.getId();
+								break;
+							}
+						}
+						List<SupplierItem> itemList = supplierItemService.getSupplierIdCategoryId(supplierId, categoryId, "PROJECT");
+						if(itemList != null && itemList.size() > 0){
+							cateTree.setSupplierItemId(itemList.get(0).getId());
+						}
+					}
+				}
+				// 如果没有查出供应商所选资质，则查出品目对应需要上传的资质（没有证书编号的/或没有选择资质的）
+				List < Category > cateList = new ArrayList < Category > ();
+				cateList.add(categoryService.selectByPrimaryKey(categoryId));
+				List < QualificationBean > typeList = supplierService.getQuaList(cateList, 4);
+				if(typeList != null && typeList.size() > 0 && typeList.get(0).getList() != null && typeList.get(0).getList().size() > 0) {
+					apt.setCertType(typeList.get(0).getList().get(0).getName());
+				}
+			}
+			cateTree.setSupplierAptitute(apt);
 	    }
+		cateTreeList.add(cateTree);
 		return cateTreeList;
 	}
 
@@ -1891,8 +1924,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		List<SupplierItem> itemsList=supplierItemService.findByMap(map);*/
 		//--工程 审核字段存储：目录末级节点ID关联的SupplierItem的ID
 		if(null!=itemsList && !itemsList.isEmpty()){
+			SupplierMatEng matEng = supplierMatEngService.getMatEng(itemsList.get(0).getSupplierId());
 			for (SupplierItem supplierItem : itemsList) {
-				SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierItem.getSupplierId());
 				if(null != matEng/* || StringUtils.isNotBlank(supplierItem.getCertCode()) || StringUtils.isNotBlank(supplierItem.getProfessType())*/){
 					//List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(supplierItem.getQualificationType(), matEng.getId(), supplierItem.getCertCode(), supplierItem.getProfessType());
 					List<SupplierAptitute> apts = matEng.getListSupplierAptitutes();
@@ -1923,6 +1956,23 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		
 		// 无证书编号的品目标红...
 		if(null==itemsList || itemsList.isEmpty() && (product == 0 || sales == 0)){
+			String categoryId = cateTree.getCategoryId();
+			if("工程设计".equals(cateTree.getFirstNode()) || "工程勘察".equals(cateTree.getFirstNode())){
+				List < Category > plist = categoryService.getPListById(categoryId);
+				if(plist != null && plist.size() > 0){
+					for(Category c : plist){
+						int countItemsInCate = supplierItemMapper.countItemsInCate(supplierId, c.getId(), "PROJECT");
+						if(countItemsInCate > 0){
+							categoryId = c.getId();
+							break;
+						}
+					}
+					List<SupplierItem> itemList = supplierItemService.getSupplierIdCategoryId(supplierId, categoryId, "PROJECT");
+					if(itemList != null && itemList.size() > 0){
+						cateTree.setSupplierItemId(itemList.get(0).getId());
+					}
+				}
+			}
 			temp=countData(supplierId, cateTree.getSupplierItemId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE);
 			if(temp>0){
 				product+=temp;
