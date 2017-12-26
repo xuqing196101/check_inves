@@ -32,6 +32,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *         &lt;element name="reviewdays" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="sellend" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
  *         &lt;element name="site" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="specexpnum" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="starttime" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -54,8 +55,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "reviewdays",
     "sellend",
     "site",
-    "starttime",
     "specexpnum",
+    "starttime"
 })
 public class ProjectYytz {
 
@@ -72,9 +73,9 @@ public class ProjectYytz {
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar sellend;
     protected String site;
+    protected int specexpnum;
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar starttime;
-    protected int specexpnum;
 
     /**
      * Gets the value of the address property.
@@ -338,6 +339,22 @@ public class ProjectYytz {
     }
 
     /**
+     * Gets the value of the specexpnum property.
+     * 
+     */
+    public int getSpecexpnum() {
+        return specexpnum;
+    }
+
+    /**
+     * Sets the value of the specexpnum property.
+     * 
+     */
+    public void setSpecexpnum(int value) {
+        this.specexpnum = value;
+    }
+
+    /**
      * Gets the value of the starttime property.
      * 
      * @return
@@ -360,13 +377,5 @@ public class ProjectYytz {
     public void setStarttime(XMLGregorianCalendar value) {
         this.starttime = value;
     }
-
-	public int getSpecexpnum() {
-		return specexpnum;
-	}
-
-	public void setSpecexpnum(int specexpnum) {
-		this.specexpnum = specexpnum;
-	}
 
 }

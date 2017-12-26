@@ -2133,11 +2133,11 @@ public class IndexNewsController extends BaseSupplierController{
 				sMap.put("statusArray", statusArray);
 				model.addAttribute("status", status );
 			}else{
-				int statusArray[] = {1,4,5,6,7,8};
+				int statusArray[] = {1,-4,5,-5,7};
                 sMap.put("size", statusArray.length);
 				sMap.put("statusArray", statusArray);
 			}
-			
+			sMap.put("auditTemporary", 0);
 	        List<Supplier> list = suppService.query(page == null ? 1 : page,sMap);
 	        model.addAttribute("list",  new PageInfo<Supplier>(list));
 	        return "iss/ps/index/sumByPubSupplier";
@@ -2162,7 +2162,7 @@ public class IndexNewsController extends BaseSupplierController{
 				expertMap.put("size", statusArray.length);
 				model.addAttribute("status", status );
 			}else {
-                int statusArray[] = {6,7,8};
+                int statusArray[] = {6,7,17};
                 expertMap.put("size", statusArray.length);
                 expertMap.put("statusArray", statusArray);
             }
@@ -2170,6 +2170,7 @@ public class IndexNewsController extends BaseSupplierController{
 			//expert.setIsPublish(1);
 			//expertMap.put("isPublish", 1);
 			//分页
+			expertMap.put("auditTemporary", 0);
 	        List<ExpertVO> list = expertService.selectIndexExpert(page == null ? 1 : page, expertMap);
 	        model.addAttribute("list",  new PageInfo<>(list));
 	        return "iss/ps/index/sumByPubExpert";

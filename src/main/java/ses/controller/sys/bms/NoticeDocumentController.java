@@ -56,13 +56,39 @@ public class NoticeDocumentController {
 			//判断是否 是资源服务中心 
 			if("4".equals(user.getTypeName())){
 				authType=user.getTypeName();
-	    initDocType(model);
-		List<NoticeDocument> noticeDocuments = noticeDocumentService.getAll(page==null?1:page);
-		model.addAttribute("list",new PageInfo<NoticeDocument>(noticeDocuments));
+			    initDocType(model);
+				List<NoticeDocument> noticeDocuments = noticeDocumentService.getAll(page==null?1:page);
+				model.addAttribute("list",new PageInfo<NoticeDocument>(noticeDocuments));
 			}
 		}
 		model.addAttribute("authType", authType);
 		
+		return "ses/bms/noticeDocument/list";
+	}
+	
+	/**
+	 * 
+	 * @Title: search
+	 * @author Liyi 
+	 * @date 2016-10-18 下午5:07:37  
+	 * @Description:条件查询, 这块写的实在是不忍直视,以后有空再优化吧mmp!!!
+	 * @param:     
+	 * @return:
+	 */
+	@RequestMapping("/search")
+	public String search(@CurrentUser User user,Model model,HttpServletRequest request,NoticeDocument noticeDocument,Integer page){
+		String authType=null;
+		if(user!= null){
+			//判断是否 是资源服务中心 
+			if("4".equals(user.getTypeName())){
+				authType=user.getTypeName();
+			    initDocType(model);
+			    List<NoticeDocument> noticeDocuments = noticeDocumentService.search(page==null?1:page,noticeDocument);
+				model.addAttribute("list",new PageInfo<NoticeDocument>(noticeDocuments));
+				model.addAttribute("noticeDocument",noticeDocument);
+			}
+		}
+		model.addAttribute("authType", authType);
 		return "ses/bms/noticeDocument/list";
 	}
 	
@@ -259,21 +285,4 @@ public class NoticeDocumentController {
 		return "ses/bms/noticeDocument/view";
 	}
 	
-	/**
-	 * 
-	 * @Title: search
-	 * @author Liyi 
-	 * @date 2016-10-18 下午5:07:37  
-	 * @Description:条件查询
-	 * @param:     
-	 * @return:
-	 */
-	@RequestMapping("/search")
-	public String search(Model model,HttpServletRequest request,NoticeDocument noticeDocument,Integer page){
-	    initDocType(model);
-		List<NoticeDocument> noticeDocuments = noticeDocumentService.search(page==null?1:page,noticeDocument);
-		model.addAttribute("list",new PageInfo<NoticeDocument>(noticeDocuments));
-		model.addAttribute("noticeDocument",noticeDocument);
-		return "ses/bms/noticeDocument/list";
-	}
 }

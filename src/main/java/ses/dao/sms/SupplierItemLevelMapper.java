@@ -43,7 +43,7 @@ public interface SupplierItemLevelMapper {
      * @param id
      * @return
      */
-    List<SupplierItemLevel> selectByCategoryId(@Param("categoryId")String categoryId, @Param("supplierTypeRelateId")String supplierTypeRelateId , @Param("armyBusinessName")String armyBusinessName, @Param("supplierName")String supplierName, @Param("supplierLevel")String supplierLevel);
+    List<SupplierItemLevel> selectByCategoryId(@Param("categoryId")String categoryId, @Param("supplierTypeRelateId")String supplierTypeRelateId , @Param("armyBusinessName")String armyBusinessName, @Param("supplierName")String supplierName, @Param("supplierLevel")String supplierLevel, @Param("auditType")String auditType);
     /**
      * 
      * Description:根据条件更新数据
@@ -96,7 +96,7 @@ public interface SupplierItemLevelMapper {
 	 * @param supplierLevel
 	 * @return
 	 */
-	List<SupplierItemLevel> selectProjectSupplierByCategory(@Param("categoryId")String categoryId, @Param("supplierTypeRelateId")String supplierTypeRelateId , @Param("armyBusinessName")String armyBusinessName, @Param("supplierName")String supplierName, @Param("supplierLevel")String supplierLevel);
+	List<SupplierItemLevel> selectProjectSupplierByCategory(@Param("categoryId")String categoryId, @Param("supplierTypeRelateId")String supplierTypeRelateId , @Param("armyBusinessName")String armyBusinessName, @Param("supplierName")String supplierName, @Param("supplierLevel")String supplierLevel, @Param("auditType")String auditType);
 	
 	
 	/**
@@ -124,7 +124,7 @@ public interface SupplierItemLevelMapper {
 	 */
 	List<SupplierItemLevel> selectFourCategoryLevelOutfour(@Param("categoryId")String categoryIds,
 			@Param("supplierTypeRelateId")String supplierType, @Param("armyBusinessName")String armyBusinessName, @Param("supplierName")String supplierName,
-			@Param("supplierLevel")String supplierLevelName, @Param("clickCategoryId")String clickCategoryId);
+			@Param("supplierLevel")String supplierLevelName, @Param("clickCategoryId")String clickCategoryId, @Param("auditType")String auditType);
 	
 	/**
 	 * 

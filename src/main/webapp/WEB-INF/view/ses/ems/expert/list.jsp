@@ -5,6 +5,7 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp" %>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ems/expertQuery/list.js"></script>
     <script type="text/javascript">
       $(function() {
         laypage({
@@ -30,7 +31,6 @@
         });
       });
 
-
       function clearSearch() {
         $("#relName").attr("value", "");
         //还原select下拉列表只需要这一句
@@ -52,8 +52,6 @@
       function view(id) {
         window.location.href = "${pageContext.request.contextPath}/expertQuery/view.html?expertId=" + id;
       }
-
-
 
     </script>
     <script type="text/javascript">
@@ -142,153 +140,7 @@
         }
     </script>
     
-    <!-- 品目 -->
-    <script type="text/javascript">
-      var key;
-      function showCategory() {
-        var zTreeObj;
-        var zNodes;
-        var setting = {
-          async: {
-            autoParam: ["id"],
-            enable: true,
-            url: "${pageContext.request.contextPath}/expertQuery/createtree.do",
-            otherParam: {
-              categoryIds: "${categoryIds}",
-            },
-            dataType: "json",
-            type: "post",
-          },
-          check: {
-            enable: true,
-            chkboxType: {
-              "Y": "s",
-              "N": "s"
-            }
-          },
-          callback: {
-            beforeClick: beforeClickCategory,
-            onCheck: onCheckCategory
-          },
-          data: {
-            simpleData: {
-              enable: true,
-              idKey: "id",
-              pIdKey: "parentId"
-            }
-          },
-          view: {
-            fontCss: getFontCss
-          }
-        };
-        zTreeObj = $.fn.zTree.init($("#treeRole"), setting, zNodes);
-        key = $("#key");
-        key.bind("focus", focusKey)
-          .bind("blur", blurKey)
-          .bind("propertychange", searchNode)
-          .bind("input", searchNode);
-
-        var cityObj = $("#category");
-        var cityOffset = $("#category").offset();
-        $("#roleContent").css({
-          left: cityOffset.left + "px",
-          top: cityOffset.top + cityObj.outerHeight() + "px"
-        }).slideDown("fast");
-        $("body").bind("mousedown", onBodyDownOrg);
-      }
-
-      function focusKey(e) {
-        if(key.hasClass("empty")) {
-          key.removeClass("empty");
-        }
-      }
-
-      function blurKey(e) {
-        if(key.get(0).value === "") {
-          key.addClass("empty");
-        }
-      }
-      var lastValue = "",
-        nodeList = [],
-        fontCss = {};
-
-      function clickRadio(e) {
-        lastValue = "";
-        searchNode(e);
-      }
-
-      function searchNode(e) {
-        var zTree = $.fn.zTree.getZTreeObj("treeRole");
-        var value = $.trim(key.get(0).value);
-        var keyType = "name";
-        if(key.hasClass("empty")) {
-          value = "";
-        }
-        if(lastValue === value) return;
-        lastValue = value;
-        if(value === "") return;
-        updateNodes(false);
-        nodeList = zTree.getNodesByParamFuzzy(keyType, value);
-        updateNodes(true);
-      }
-
-      function updateNodes(highlight) {
-        var zTree = $.fn.zTree.getZTreeObj("treeRole");
-        for(var i = 0, l = nodeList.length; i < l; i++) {
-          nodeList[i].highlight = highlight;
-          zTree.updateNode(nodeList[i]);
-        }
-      }
-
-      function getFontCss(treeId, treeNode) {
-        return(!!treeNode.highlight) ? {
-          color: "#A60000",
-          "font-weight": "bold"
-        } : {
-          color: "#333",
-          "font-weight": "normal"
-        };
-      }
-
-      function filter(node) {
-        return !node.isParent && node.isFirstNode;
-      }
-
-      function beforeClickCategory(treeId, treeNode) {
-        var zTree = $.fn.zTree.getZTreeObj("treeRole");
-        zTree.checkNode(treeNode, !treeNode.checked, null, true);
-        return false;
-      }
-
-      function onCheckCategory(e, treeId, treeNode) {
-        var zTree = $.fn.zTree.getZTreeObj("treeRole"),
-          nodes = zTree.getCheckedNodes(true),
-          v = "";
-        var rid = "";
-        for(var i = 0, l = nodes.length; i < l; i++) {
-          v += nodes[i].name + ",";
-          rid += nodes[i].id + ",";
-        }
-        if(v.length > 0) v = v.substring(0, v.length - 1);
-        if(rid.length > 0) rid = rid.substring(0, rid.length - 1);
-        var cityObj = $("#category");
-        cityObj.attr("value", v);
-        $("#categoryIds").val(rid);
-      }
-
-      function onBodyDownOrg(event) {
-        if(!(event.target.id == "menuBtn" || event.target.id == "roleSel" || event.target.id == "roleContent" || $(event.target).parents("#roleContent").length > 0)) {
-          hideRole();
-        }
-      }
-
-      function hideRole() {
-        $("#roleContent").fadeOut("fast");
-        $("body").unbind("mousedown", onBodyDownOrg);
-
-      }
-    </script>
-    <script type="text/javascript">
+  <script type="text/javascript">
     function exportExcel(){
     	$("#formSearch").attr("action", "${pageContext.request.contextPath}/expertQuery/exportExcel.html?flag=1");
         $("#formSearch").submit();
@@ -321,7 +173,8 @@
     </div>
     
     <div id="roleContent" class="roleContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
-	    <!-- <input type="text" id="key" value="" class="empty" /><br/> -->
+	    <input type="text" id="search" value="" class="empty" />
+	    <img src="${pageContext.request.contextPath }/public/backend/images/view.png" onclick="searchCategory()" class="hand">
 	    <ul id="treeRole" class="ztree" style="margin-top:0;"></ul>
 	  </div>
 	  <div id="expertTypeContent" class="expertTypeContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
@@ -434,12 +287,27 @@
           </div>
         </div>
         
-        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+        <%-- <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
           <div class="row">
             <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">专家类别：</div>
             <div class="col-xs-8 f0 lh0">
               <input id="expertType" class="w100p h32 f14 mb0" type="text" name="expertType" readonly value="${expertType}" onclick="showExpertType();">
               <input type="hidden" name="expertTypeIds"  id="expertTypeIds" value="${expertTypeIds}">
+            </div>
+          </div>
+        </div> --%>
+        
+        
+        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+          <div class="row">
+            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">专家类别：</div>
+            <div class="col-xs-8 f0 lh0">
+              <select name="expertTypeIds" id="expertTypeIds" class="w100p h32 f14">
+                <option selected="selected"  value=''>全部</option>
+                <c:forEach items="${expTypeList}" var="exp">
+                  <option <c:if test="${expert.expertsTypeId == exp.id}">selected</c:if> value="${exp.id}">${exp.name}</option>
+                </c:forEach>
+              </select>
             </div>
           </div>
         </div>
@@ -462,7 +330,7 @@
           <div class="row">
             <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">品目：</div>
             <div class="col-xs-8 f0 lh0">
-              <input id="category" type="text" name="categoryNames" value="${categoryNames}" readonly onclick="showCategory();" class="w100p h32 f14 mb0">
+              <input id="category" type="text" name="categoryNames" value="${categoryNames}" readonly onclick="showCategory();" class="w100p h32 f14 mb0 hand">
               <input type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds}">
             </div>
           </div>

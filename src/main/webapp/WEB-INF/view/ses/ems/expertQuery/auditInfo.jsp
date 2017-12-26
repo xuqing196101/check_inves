@@ -37,7 +37,9 @@
         }else{
         	yu='';
         } */
-        if(status != null && typeof(status) != "undefined") {
+        if(expertStatus == 3) {
+            $("#check_opinion").html("初审退回修改。" + opinion);
+        }else if(status != null && typeof(status) != "undefined") {
         	if(status == 15){
         		$.ajax({
                     url:globalPath + "/expertAudit/findCategoryCount.do",
@@ -67,8 +69,8 @@
         }else if(status == null || typeof(status) == "undefined"){
         	if(expertStatus == 2 || expertStatus == 16){
         		$("#check_opinion").html("初审不合格。" + opinion);
-        	}else if(expertStatus == 3  || expertStatus == 9){
-        		$("#check_opinion").html("初审退回修改。" + opinion);
+        	/* }else if(expertStatus == 3){
+        		$("#check_opinion").html("初审退回修改。" + opinion); */
         	}else if(expertStatus != -1 &&  expertStatus != 2 &&  expertStatus != 3 &&  expertStatus != 9 &&  expertStatus != 16){
 	       		$.ajax({
                    url:globalPath + "/expertAudit/findCategoryCount.do",
@@ -168,7 +170,7 @@
 	                  <c:if test="${audit.suggestType eq 'one'}">基本信息</c:if>
 	                  <%-- <c:if test="${audit.suggestType eq 'two'}">经历经验</c:if> --%>
 	                  <c:if test="${audit.suggestType eq 'seven'}">参评类别</c:if>
-	                  <c:if test="${audit.suggestType eq 'six'}">产品类别</c:if>
+	                  <c:if test="${audit.suggestType eq 'six'}">参评类别</c:if>
 	                  <c:if test="${audit.suggestType eq 'five'}">承诺书和申请表</c:if>
 	                </td>
 	                <td class="">${audit.auditField }</td>

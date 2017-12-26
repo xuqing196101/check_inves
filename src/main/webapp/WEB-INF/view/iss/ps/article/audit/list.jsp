@@ -150,35 +150,27 @@
             if(typeId == "工作动态") {
             	$("#second").show();
             	//$("#publish_status").attr("class","mt5");
-	  			$("#audit_date").attr("class","clear");
             } else if(typeId == "采购公告") {
               	$("#second").show();
               	//$("#publish_status").attr("class","mt5");
-	  			$("#audit_date").attr("class","clear");
             } else if(typeId == "中标公示") {
               	$("#second").show();
               	//$("#publish_status").attr("class","mt5");
-	  			$("#audit_date").attr("class","clear");
             } else if(typeId == "单一来源公示") {
               	$("#second").show();
               	//$("#publish_status").attr("class","mt5");
-	  			$("#audit_date").attr("class","clear");
             } else if(typeId == "商城竞价公告") {
               	$("#second").show();
               	//$("#publish_status").attr("class","mt5");
-	  			$("#audit_date").attr("class","clear");
             } else if(typeId == "网上竞价公告") {
               	$("#second").show();
               	//$("#publish_status").attr("class","mt5");
-	  			$("#audit_date").attr("class","clear");
             } else if(typeId == "采购法规") {
               	$("#second").show();
               	//$("#publish_status").attr("class","mt5");
-	  			$("#audit_date").attr("class","clear");
             } else if(typeId == "处罚公告") {
               	$("#second").show();
               	//$("#publish_status").attr("class","mt5");
-	  			$("#audit_date").attr("class","clear");
             } else {
 				//$("#publish_status").attr("class","");
 	  			//$("#audit_date").attr("class","mt5");
@@ -209,7 +201,6 @@
 
 	  function typeInfo() {
 	  	//$("#publish_status").attr("class","mt5");
-	  	$("#audit_date").attr("class","clear");
         var typeId = $("#articleTypes").select2("data").text;
         var parentId = $("#articleTypes").select2("val");
         $("#secondType").empty();
@@ -240,7 +231,6 @@
               getSencond(parentId);
          }else {
          	  //$("#publish_status").attr("class","");
-	  		  $("#audit_date").attr("class","clear mt5");
 	          $("#second").hide();
 	          $("#secondType").empty();
         }

@@ -1943,8 +1943,8 @@
 		<where>
 			IS_PROVISIONAL = 0 AND IS_DELETED = 0
 			<if test="supplierName != null and supplierName !=''">
-		    and SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
-	    </if>
+			    and SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
+		    </if>
 			<if test="mobile != null">
 				and MOBILE = #{mobile}
 			</if>
@@ -1968,6 +1968,9 @@
 				<foreach item="item" index="index" collection="statusArray" open="(" separator="," close=")">
 					#{item}
 				</foreach>
+			</if>
+			<if test="auditTemporary != null">
+				and AUDIT_TEMPORARY=0
 			</if>
 			ORDER BY AUDIT_DATE DESC
 		</where>
