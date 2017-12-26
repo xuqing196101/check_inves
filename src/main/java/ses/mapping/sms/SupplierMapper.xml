@@ -1478,7 +1478,7 @@
 
 	<!-- 全部/入库供应商查询 -->
 	<select id="querySupplierList" 
-		parameterType="ses.model.sms.Supplier" resultMap="findSupplierMap">
+		parameterType="ses.model.sms.Supplier" resultMap="BaseResultMapSimple">
 		SELECT
 		subQ.typeId,
 		sup.ID,
@@ -1505,9 +1505,11 @@
 		org.SHORT_NAME AS ORG_NAME,
 		dep.SUPPLIER_PHONE AS DEP_PHONE,
 		<!--省 -->
-		area.PARENT_ID AS ADDRESS,
+		pArea.ID AS PARENT_ADDRESS,
 		<!--区 -->
-		area.NAME AS AREA_NAME
+		area.ID AS ADDRESS,
+		<!--全部 -->
+		pArea.NAME || ' ' || area.NAME AS AREA_NAME
 		FROM
 		(SELECT
 		ID,
@@ -1550,7 +1552,7 @@
 		GROUP BY ID) subQ
 		LEFT JOIN T_SES_SMS_SUPPLIER sup ON subQ.ID = sup.ID
 		LEFT JOIN T_SES_BMS_AREA area ON sup.ADDRESS = area.ID
-		<!--LEFT JOIN T_SES_BMS_AREA T4 ON AREA.PARENT_ID = T4.ID -->
+		LEFT JOIN T_SES_BMS_AREA pArea ON area.PARENT_ID = pArea.ID
 		LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON sup.PROCUREMENT_DEP_ID = dep.ID
 		LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
 		LEFT JOIN T_SES_SMS_SUPPLIER_MAT_ENG matEng ON matEng.SUPPLIER_ID = sup.ID
@@ -1649,7 +1651,7 @@
 
 	<!-- 查询无产品供应商 -->
 	<select id="selectSupplierListByNoCate" 
-		parameterType="ses.model.sms.Supplier" resultMap="findSupplierMap">
+		parameterType="ses.model.sms.Supplier" resultMap="BaseResultMapSimple">
 		SELECT
 		subQ.typeId,
 		sup.ID,
@@ -1668,9 +1670,11 @@
 		sup.CONTACT_MOBILE,
 		org.SHORT_NAME AS ORG_NAME,
 		<!--省 -->
-		area.PARENT_ID AS ADDRESS,
+		pArea.ID AS PARENT_ADDRESS,
 		<!--区 -->
-		area.NAME AS AREA_NAME,
+		area.ID AS ADDRESS,
+		<!--全部 -->
+		pArea.NAME || ' ' || area.NAME AS AREA_NAME,
 		400 AS SUPPLIER_STATUS
 		FROM
 		(SELECT
@@ -1688,6 +1692,7 @@
 		) subQ
 		LEFT JOIN T_SES_SMS_SUPPLIER sup ON subQ.ID = sup.ID
 		LEFT JOIN T_SES_BMS_AREA AREA ON sup.ADDRESS = AREA.ID
+		LEFT JOIN T_SES_BMS_AREA pArea ON area.PARENT_ID = pArea.ID
 		LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON sup.PROCUREMENT_DEP_ID = dep.ID
 		LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
 		LEFT JOIN T_SES_SMS_SUPPLIER_MAT_ENG matEng ON matEng.SUPPLIER_ID = sup.ID
