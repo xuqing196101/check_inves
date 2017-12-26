@@ -25,7 +25,7 @@ public class WordUtil {
 	* @param templateName word模板名称，例如：test.ftl
 	* @param fileName 生成的文件名称，例如：test.doc
 	*/
-    public static String createWord(Object dataMap,String templateName,String fileName ,HttpServletRequest request){
+    public static String createWord(Object dataMap,String templateName,String fileName,HttpServletRequest request){
         //存放路径
 	    //String url = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
 	    //String url="";
@@ -40,7 +40,7 @@ public class WordUtil {
 	        configuration.setDefaultEncoding("UTF-8");
 	            
 	        //ftl模板文件统一放至 ses.document.template 包下面
-	        TemplateLoader templateLoader=new ClassTemplateLoader(WordUtil.class,"/ses/document/template/"); 
+	        TemplateLoader templateLoader = new ClassTemplateLoader(WordUtil.class,"/ses/document/template/"); 
 	            
 	        //设置Configuration的模板
 	        configuration.setTemplateLoader(templateLoader);
@@ -56,13 +56,15 @@ public class WordUtil {
 				context = context.replace("<w:doNotTrackMoves/>", "<w:doNotTrackMoves/><w:documentProtection w:edit='readOnly' w:formatting='1' w:enforcement='1' w:cryptProviderType='rsaAES' w:cryptAlgorithmClass='hash' w:cryptAlgorithmType='typeAny' w:cryptAlgorithmSid='14' w:cryptSpinCount='100000' w:hash='gGLyhzLRCE/TOwg/5KQId6H8skrr3fZ0B07ndW890k7gMAt+SDnT+wqbA7Un2mrgGhRf1VnkTGi2eEQw8bHsuw==' w:salt='YTL2T3pOPNkRfbvKGPv71Q=='/>");
 		    }
 	        context = context.replace("<w:documentProtection w:enforcement=\"0\" />", "<w:documentProtection w:edit='readOnly' w:formatting='1' w:enforcement='1' w:cryptProviderType='rsaAES' w:cryptAlgorithmClass='hash' w:cryptAlgorithmType='typeAny' w:cryptAlgorithmSid='14' w:cryptSpinCount='100000' w:hash='gGLyhzLRCE/TOwg/5KQId6H8skrr3fZ0B07ndW890k7gMAt+SDnT+wqbA7Un2mrgGhRf1VnkTGi2eEQw8bHsuw==' w:salt='YTL2T3pOPNkRfbvKGPv71Q=='/>");
-	        if (context.indexOf("<w:body>") >= 0) {
+	        if (context.indexOf("<w:body>") >= 0 && context.indexOf("<w:docPr>") < 0) {
 	        	context = context.replace("<w:body>", "<w:body><w:documentProtection w:edit='readOnly' w:formatting='1' w:enforcement='1' w:cryptProviderType='rsaAES' w:cryptAlgorithmClass='hash' w:cryptAlgorithmType='typeAny' w:cryptAlgorithmSid='14' w:cryptSpinCount='100000' w:hash='gGLyhzLRCE/TOwg/5KQId6H8skrr3fZ0B07ndW890k7gMAt+SDnT+wqbA7Un2mrgGhRf1VnkTGi2eEQw8bHsuw==' w:salt='YTL2T3pOPNkRfbvKGPv71Q=='/>");
 	        } else if (context.indexOf("<w:WordDocument>") >= 0) {
 		    	context = context.replace("<w:WordDocument>", "<w:WordDocument><w:DocumentProtection>ReadOnly</w:DocumentProtection><w:UnprotectPassword>88A0AC12</w:UnprotectPassword><w:StyleLock/><w:StyleLockEnforced/>");
 		    } else if (context.indexOf("<w:documentProtection w:enforcement=\"0\" />") >= 0){
 		    	context = context.replace("<w:documentProtection w:enforcement=\"0\" />", "<w:documentProtection w:edit='readOnly' w:formatting='1' w:enforcement='1' w:cryptProviderType='rsaAES' w:cryptAlgorithmClass='hash' w:cryptAlgorithmType='typeAny' w:cryptAlgorithmSid='14' w:cryptSpinCount='100000' w:hash='gGLyhzLRCE/TOwg/5KQId6H8skrr3fZ0B07ndW890k7gMAt+SDnT+wqbA7Un2mrgGhRf1VnkTGi2eEQw8bHsuw==' w:salt='YTL2T3pOPNkRfbvKGPv71Q=='/>");
 		    }
+	        // w:unprotectPassword='jdcg$20171225'
+	        context = context.replace("<w:docPr>", "<w:docPr><w:documentProtection w:edit='read-only' w:enforcement='on' w:unprotectPassword='FFCFD163'/>");
 	        
 	        String fileNam = UUID.randomUUID().toString() + ".ftl";
 	        

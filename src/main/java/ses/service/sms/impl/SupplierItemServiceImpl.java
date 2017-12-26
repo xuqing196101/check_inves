@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ses.dao.bms.CategoryMapper;
 import ses.dao.sms.SupplierItemMapper;
-import ses.dao.sms.SupplierItemRecyMapper;
 import ses.formbean.QualificationBean;
 import ses.formbean.SupplierItemCategoryBean;
 import ses.model.bms.Category;
@@ -30,7 +29,6 @@ import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierItem;
-import ses.model.sms.SupplierItemRecy;
 import ses.model.sms.SupplierPorjectQua;
 import ses.service.bms.CategoryService;
 import ses.service.sms.SupplierAptituteService;
@@ -74,9 +72,6 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	
 	@Autowired
 	private SupplierAptituteService supplierAptituteService;
-	
-	@Autowired
-	private SupplierItemRecyMapper supplierItemRecyMapper;
 	
 	@Autowired
 	private SupplierItemRecyService supplierItemRecyService;
@@ -1431,7 +1426,9 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 						count = this.countItemsInCate(supplierId, cateById.getParentId(), "PROJECT");
 						if(count == 0){
 							resultList.add(item);
-							pCateIdsToAddC.add(cateById.getParentId());
+							if("false".equals(cateById.getIsParent())){
+								pCateIdsToAddC.add(cateById.getParentId());
+							}
 						}else{
 							pCateIdsUnAddC.add(cateById.getParentId());
 						}

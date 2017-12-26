@@ -103,11 +103,14 @@
                             <div class="col-xs-6 tc">${item.batchDetailsNumber}</div>
                             <span class="col-xs-3 tc">
 					   <c:choose>
-                           <c:when test="${item.status eq '4' or item.status == '6' or item.status == '8'}">
+                           <c:when test="${item.status == '6'}">
                                入库(待复查)
                            </c:when>
                            <c:when test="${item.status eq '7'}">
                                复查通过
+                           </c:when>
+                           <c:when test="${item.status eq '17'}">
+                               资料不全
                            </c:when>
                            <c:otherwise>
                            </c:otherwise>
