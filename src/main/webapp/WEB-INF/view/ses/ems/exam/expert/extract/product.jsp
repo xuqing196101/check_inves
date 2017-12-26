@@ -82,11 +82,83 @@
 						removeByValue(idTemp, treeNode.id);
 						removeByValue(nameTemp, treeNode.name);
 					}
+					//如果取消的是3级节点  就要删除里面所有的子节点
+					if(treeNode.level == 2){
+						var treeObj = $.fn.zTree.getZTreeObj("ztree");
+						var code = '${type}';
+						var idTT = new Array();
+						var nameTT = new Array();
+						for(var k = 0; k < idTemp.length; k++){
+							$.ajax({
+								url : "${pageContext.request.contextPath}/extractExpert/findNodesById.do",
+								type : "post",
+								data : {
+									"code" : code,
+									"id" : idTemp[k]
+								},
+								async : false,
+								dataType : "json",
+								success : function(data) {
+									if(data != ''){
+										if(data.parentId == treeNode.id){
+											idTT.push(data.id);
+											nameTT.push(data.name);
+										}
+									}
+								}
+							});
+						}
+						for(var i=0; i<idTT.length;i++){
+							removeByValue(idTemp, idTT[i]);
+						}
+						for(var i=0; i<nameTT.length;i++){
+							removeByValue(nameTemp, nameTT[i]);
+						}
+					}else{
+						//如果取消的是4级节点  就要删除里面的父节点
+						var node = treeNode.getParentNode();
+						if (contains(idTemp, node.id)) {
+							removeByValue(idTemp, node.id);
+							removeByValue(nameTemp, node.name);
+						}
+					}
 				} else {
-					//勾选
-					if (!contains(idTemp, treeNode.id)) {
-						idTemp.push(treeNode.id);
-						nameTemp.push(treeNode.name);
+					//勾选操作
+					if(treeNode.level == 2){
+						//勾选的三级节点就保存他所有的子节点
+						var code = '${type}';
+						var id = treeNode.id;
+						$.ajax({
+							url : "${pageContext.request.contextPath}/extractExpert/getTree.do",
+							type : "post",
+							data : {
+								"code" : code,
+								"id" : id,
+								"ids" : "",
+							},
+							async : false,
+							dataType : "json",
+							success : function(data) {
+								if(data != null && data != ""){
+									for(var i=0;i<data.length;i++){
+										if (!contains(idTemp, data[i].id)) {
+											idTemp.push(data[i].id);
+											nameTemp.push(data[i].name);
+										}
+									}
+								}else{
+									if (!contains(idTemp, treeNode.id)) {
+										idTemp.push(treeNode.id);
+										nameTemp.push(treeNode.name);
+									}
+								}
+							}
+						});
+					}else{
+						if (!contains(idTemp, treeNode.id)) {
+							idTemp.push(treeNode.id);
+							nameTemp.push(treeNode.name);
+						}
 					}
 				}
 				return true;
