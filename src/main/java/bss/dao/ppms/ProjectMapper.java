@@ -116,4 +116,6 @@ public interface ProjectMapper {
     * @return List<Project>
      */
     List<Project> supervisionProjectList(String requiredId);
+    
+    List<Project> selectByPurchaseDep(HashMap<String, Object> map);
 }

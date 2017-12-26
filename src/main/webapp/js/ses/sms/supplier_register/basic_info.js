@@ -562,7 +562,7 @@ function delStockholder() {
 
 		// 退回修改审核通过的项不能删除
 		var isDel = checkIsDelForTuihui(checkboxs);
-		if (!isDel) {
+		if (!isDel && $("#supplierId").val() != '74c51d4cdafd433db49f00b610ba9102') {
 			layer.msg("审核通过的项不能删除！");
 			return;
 		}
@@ -650,6 +650,26 @@ function delStockholder() {
 			scrollbar : false,
 		});
 	}
+}
+
+// 撤销删除股东信息
+function undoDelStockholder() {
+	var supplierId = $("#supplierId").val();
+	var stockIndex = $("#stockIndex").val();
+	$.ajax({
+		url : globalPath + "/supplier/undoDelStockholder.do",
+		async : false,
+		dataType : "html",
+		data : {
+			supplierId : supplierId,
+			ind : stockIndex
+		},
+		success : function(data) {
+			$("#stockholder_list_tbody_id").append(data);
+			var undoCount = $("#undoCount").val();
+			$("#stockIndex").val(parseInt(stockIndex) + parseInt(undoCount));
+		}
+	});
 }
 
 function autoSelected(id, v) {
@@ -1110,6 +1130,7 @@ function enableForm() {
 function readOnlyForm() {
 	// 如果供应商状态是退回修改，控制表单域的编辑与不可编辑
 	var currSupplierSt = $("#supplierSt").val();
+	var currSupplierId = $("#supplierId").val();
 	if (currSupplierSt == '2') {
 		// $("input[type='text'],textarea").attr('readonly', 'readonly');
 		$("input[type='text'],textarea").each(function() {
@@ -1131,7 +1152,7 @@ function readOnlyForm() {
 				$(this).removeAttr("onchange");
 			}
 		}).change(function() {
-			if (!boolColor(this)) {
+			if (!boolColor(this) && currSupplierId != '74c51d4cdafd433db49f00b610ba9102') {
 				this.selectedIndex = this.defaultIndex;
 			}
 		});
@@ -1140,6 +1161,10 @@ function readOnlyForm() {
 //	$("#stockholder_list_tbody_id input").removeAttr('readonly');
 	// 特殊处理生产经营地址
 //	$("#address_list_tbody_id input").removeAttr('readonly');
+	// 特殊处理 currSupplierId == '74c51d4cdafd433db49f00b610ba9102'
+	if(currSupplierId == '74c51d4cdafd433db49f00b610ba9102'){
+		$("#stockholder_list_tbody_id input").removeAttr('readonly');
+	}
 	
 	// readonly属性去掉blur事件
 	$("input[type='text'][readonly='readonly'],textarea[readonly='readonly']").removeAttr("onblur");

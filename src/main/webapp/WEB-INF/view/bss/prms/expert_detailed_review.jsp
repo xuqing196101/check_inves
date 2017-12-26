@@ -196,7 +196,9 @@
 			  	  </c:forEach>
 			  	  <!-- 根据flag的值判断有没有分数值 -->
 			  	  <c:if test="${flag eq '1'}">
-			  	    <td class="tc">${scores}</td>
+			  	    <td class="tc">
+			  	      ${scores}
+			  	    </td>
 			  	  </c:if>
 			  	  <c:if test="${flag eq '0'}">
 			  	    <td class="tc">暂无分数</td>

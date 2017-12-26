@@ -28,5 +28,6 @@ public interface BidMethodService {
 	public String getMethod(String projectId, String packageId);
 	
 	Boolean saveLoadPackage(String id, String projectId, String packageId);
+	public int updateByPrimaryKey(BidMethod bidMethod);
   
 }

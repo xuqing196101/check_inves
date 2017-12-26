@@ -15,25 +15,25 @@
 	
 	<!-- 查询基础 -->
 	<sql id="BASE_COLUMN_SQL">
-		    ID, CATEGORY_ID, QUA_ID, QUA_TYPE,CREATED_AT,UPDATED_AT,IS_DELETED  
-    </sql>
-    
-    <!-- 查询 -->
-    <select id="findList" resultMap="categoryQuaMap">
-      SELECT 
-      <include refid="BASE_COLUMN_SQL" />
-      FROM T_SES_BMS_CATEGORY_QUA
-      WHERE CATEGORY_ID = #{categoryId} AND IS_DELETED=0
-    </select>
-    
-    <!-- 查询 -->
-    <select id="findListSupplier" resultMap="categoryQuaMap">
-      SELECT 
-      <include refid="BASE_COLUMN_SQL" />
-      FROM T_SES_BMS_CATEGORY_QUA
-      WHERE CATEGORY_ID = #{param1}
-      AND QUA_TYPE = #{param2} AND IS_DELETED=0
-    </select>
+	  ID, CATEGORY_ID, QUA_ID, QUA_TYPE,CREATED_AT,UPDATED_AT,IS_DELETED  
+	</sql>
+	
+	<!-- 查询 -->
+	<select id="findList" resultMap="categoryQuaMap">
+	  SELECT 
+	  <include refid="BASE_COLUMN_SQL" />
+	  FROM T_SES_BMS_CATEGORY_QUA
+	  WHERE CATEGORY_ID = #{categoryId} AND IS_DELETED=0
+	</select>
+	
+	<!-- 查询 -->
+	<select id="findListSupplier" resultMap="categoryQuaMap">
+	  SELECT 
+	  <include refid="BASE_COLUMN_SQL" />
+	  FROM T_SES_BMS_CATEGORY_QUA
+	  WHERE CATEGORY_ID = #{param1}
+	  AND QUA_TYPE = #{param2} AND IS_DELETED=0
+	</select>
 	
 	<!-- 保存 -->
 	<insert id="save" parameterType="ses.model.bms.CategoryQua" >

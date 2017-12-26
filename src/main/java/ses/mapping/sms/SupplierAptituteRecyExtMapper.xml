@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplierAptituteRecyExtMapper">
+  <resultMap id="BaseResultMap" type="ses.model.sms.SupplierAptituteRecy">
+    <result column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="MAT_ENG_ID" jdbcType="VARCHAR" property="matEngId" />
+    <result column="CERT_TYPE" jdbcType="VARCHAR" property="certType" />
+    <result column="CERT_CODE" jdbcType="VARCHAR" property="certCode" />
+    <result column="APTITUTE_SEQUENCE" jdbcType="VARCHAR" property="aptituteSequence" />
+    <result column="PROFESS_TYPE" jdbcType="VARCHAR" property="professType" />
+    <result column="IS_MAJOR_FUND" jdbcType="DECIMAL" property="isMajorFund" />
+    <result column="APTITUTE_CONTENT" jdbcType="VARCHAR" property="aptituteContent" />
+    <result column="APTITUTE_CODE" jdbcType="VARCHAR" property="aptituteCode" />
+    <result column="APTITUTE_DATE" jdbcType="DATE" property="aptituteDate" />
+    <result column="APTITUTE_WAY" jdbcType="VARCHAR" property="aptituteWay" />
+    <result column="APTITUTE_STATUS" jdbcType="DECIMAL" property="aptituteStatus" />
+    <result column="APTITUTE_CHANGE_AT" jdbcType="DATE" property="aptituteChangeAt" />
+    <result column="APTITUTE_CHANGE_REASON" jdbcType="VARCHAR" property="aptituteChangeReason" />
+    <result column="ATTACH_CERT" jdbcType="VARCHAR" property="attachCert" />
+    <result column="CERT_NAME" jdbcType="VARCHAR" property="certName" />
+    <result column="APTITUTE_ LEVEL" jdbcType="VARCHAR" property="aptituteLevel" />
+    <result column="RECY_TIME" jdbcType="DATE" property="recyTime" />
+  </resultMap>
+  <resultMap id="AptituteResultMap" type="ses.model.sms.SupplierAptitute" extends="ses.dao.sms.SupplierAptituteMapper.BaseResultMap">
+  	
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, MAT_ENG_ID, CERT_TYPE, CERT_CODE, APTITUTE_SEQUENCE, PROFESS_TYPE, IS_MAJOR_FUND, 
+    APTITUTE_CONTENT, APTITUTE_CODE, APTITUTE_DATE, APTITUTE_WAY, APTITUTE_STATUS, APTITUTE_CHANGE_AT, 
+    APTITUTE_CHANGE_REASON, ATTACH_CERT, CERT_NAME, "APTITUTE_ LEVEL", RECY_TIME
+  </sql>
+  
+  <!-- 根据供应商id查询最新时间的记录 -->
+  <select id="selectBySupplierIdAtLast" resultMap="BaseResultMap" parameterType="string">
+  	SELECT recy1.* 
+  	FROM T_SES_SMS_SUPPLIER_APT_RECY recy1 
+		RIGHT JOIN(
+			SELECT MAX(RECY_TIME) CT FROM T_SES_SMS_SUPPLIER_APT_RECY
+		) recy2 ON recy1.RECY_TIME = recy2.CT
+		WHERE recy1.MAT_ENG_ID = (SELECT ID FROM T_SES_SMS_SUPPLIER_MAT_ENG WHERE SUPPLIER_ID = #{supplierId} AND ROWNUM = 1)
+  </select>
+
+</mapper>

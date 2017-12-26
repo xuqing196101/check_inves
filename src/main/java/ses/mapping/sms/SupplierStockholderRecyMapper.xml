@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplierStockholderRecyMapper">
+  <resultMap id="BaseResultMap" type="ses.model.sms.SupplierStockholderRecy">
+    <result column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="NATURE" jdbcType="VARCHAR" property="nature" />
+    <result column="IDENTITY" jdbcType="VARCHAR" property="identity" />
+    <result column="SHARES" jdbcType="VARCHAR" property="shares" />
+    <result column="PROPORTION" jdbcType="VARCHAR" property="proportion" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="IDENTITY_TYPE" jdbcType="DECIMAL" property="identityType" />
+    <result column="RECY_TIME" jdbcType="DATE" property="recyTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, SUPPLIER_ID, NAME, NATURE, IDENTITY, SHARES, PROPORTION, CREATED_AT, UPDATED_AT, 
+    IDENTITY_TYPE, RECY_TIME
+  </sql>
+  <select id="selectByExample" parameterType="ses.model.sms.SupplierStockholderRecyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_STKHOR_RECY
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="ses.model.sms.SupplierStockholderRecyExample">
+    delete from T_SES_SMS_SUPPLIER_STKHOR_RECY
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="ses.model.sms.SupplierStockholderRecy">
+    insert into T_SES_SMS_SUPPLIER_STKHOR_RECY (ID, SUPPLIER_ID, NAME, 
+      NATURE, IDENTITY, SHARES, 
+      PROPORTION, CREATED_AT, UPDATED_AT, 
+      IDENTITY_TYPE, RECY_TIME)
+    values (#{id,jdbcType=VARCHAR}, #{supplierId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{nature,jdbcType=VARCHAR}, #{identity,jdbcType=VARCHAR}, #{shares,jdbcType=VARCHAR}, 
+      #{proportion,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}, 
+      #{identityType,jdbcType=DECIMAL}, #{recyTime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.sms.SupplierStockholderRecy">
+    insert into T_SES_SMS_SUPPLIER_STKHOR_RECY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="nature != null">
+        NATURE,
+      </if>
+      <if test="identity != null">
+        IDENTITY,
+      </if>
+      <if test="shares != null">
+        SHARES,
+      </if>
+      <if test="proportion != null">
+        PROPORTION,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="identityType != null">
+        IDENTITY_TYPE,
+      </if>
+      <if test="recyTime != null">
+        RECY_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nature != null">
+        #{nature,jdbcType=VARCHAR},
+      </if>
+      <if test="identity != null">
+        #{identity,jdbcType=VARCHAR},
+      </if>
+      <if test="shares != null">
+        #{shares,jdbcType=VARCHAR},
+      </if>
+      <if test="proportion != null">
+        #{proportion,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="identityType != null">
+        #{identityType,jdbcType=DECIMAL},
+      </if>
+      <if test="recyTime != null">
+        #{recyTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="ses.model.sms.SupplierStockholderRecyExample" resultType="java.lang.Integer">
+    select count(*) from T_SES_SMS_SUPPLIER_STKHOR_RECY
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update T_SES_SMS_SUPPLIER_STKHOR_RECY
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierId != null">
+        SUPPLIER_ID = #{record.supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nature != null">
+        NATURE = #{record.nature,jdbcType=VARCHAR},
+      </if>
+      <if test="record.identity != null">
+        IDENTITY = #{record.identity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shares != null">
+        SHARES = #{record.shares,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proportion != null">
+        PROPORTION = #{record.proportion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdAt != null">
+        CREATED_AT = #{record.createdAt,jdbcType=DATE},
+      </if>
+      <if test="record.updatedAt != null">
+        UPDATED_AT = #{record.updatedAt,jdbcType=DATE},
+      </if>
+      <if test="record.identityType != null">
+        IDENTITY_TYPE = #{record.identityType,jdbcType=DECIMAL},
+      </if>
+      <if test="record.recyTime != null">
+        RECY_TIME = #{record.recyTime,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update T_SES_SMS_SUPPLIER_STKHOR_RECY
+    set ID = #{record.id,jdbcType=VARCHAR},
+      SUPPLIER_ID = #{record.supplierId,jdbcType=VARCHAR},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      NATURE = #{record.nature,jdbcType=VARCHAR},
+      IDENTITY = #{record.identity,jdbcType=VARCHAR},
+      SHARES = #{record.shares,jdbcType=VARCHAR},
+      PROPORTION = #{record.proportion,jdbcType=VARCHAR},
+      CREATED_AT = #{record.createdAt,jdbcType=DATE},
+      UPDATED_AT = #{record.updatedAt,jdbcType=DATE},
+      IDENTITY_TYPE = #{record.identityType,jdbcType=DECIMAL},
+      RECY_TIME = #{record.recyTime,jdbcType=DATE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

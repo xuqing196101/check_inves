@@ -78,7 +78,7 @@
                 <td class="tc " onclick="view('${obj.id}')">${obj.purchaseDepId}</td>
                 <td class="tc " onclick="view('${obj.id}')">
                   <c:forEach items="${kind}" var="kind">
-                    <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                    <c:if test="${kind.id eq obj.purchaseType}">${kind.name}</c:if>
                   </c:forEach>
                 </td>
                 <td class="tl pl20" onclick="view('${obj.id}')">

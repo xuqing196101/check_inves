@@ -962,7 +962,7 @@ function delAptitute() {
 		}
 
 		layer.confirm(
-			"已勾选" + size + "条记录，确定删除？",
+			"已勾选" + size + "条记录，删除资质证书，将删除关联的产品类别，确定删除？",
 			{
 				offset : '200px',
 				scrollbar : false,
@@ -1026,6 +1026,27 @@ function delAptitute() {
 			scrollbar : false,
 		});
 	}
+}
+
+// 撤销删除资质信息
+function undoDelAptitute() {
+	var supplierId = $("#supplierId").val();
+	var certAptNumber = $("#certAptNumber").val();
+	$.ajax({
+		url : globalPath + "/supplier/undoDelAptitude.do",
+		async : false,
+		dataType : "html",
+		data : {
+			supplierId : supplierId,
+			ind : certAptNumber
+		},
+		success : function(data) {
+			$("#aptitute_list_tbody_id").append(data);
+			//init_web_upload();
+			var undoCount = $("#undoCount").val();
+			$("#certAptNumber").val(parseInt(certAptNumber) + parseInt(undoCount));
+		}
+	});
 }
 
 function addCertPro() {
@@ -1407,7 +1428,6 @@ function setBusinessScope() {
 var tempText = "";
 function getAptLevelSelect(record) {
 	tempText = record.text;
-
 }
 // 资质类型下拉框改变时调用的方法
 function getAptLevel(obj, isSelect) {

@@ -19,6 +19,8 @@ public class BidMethod {
 	private String packageId ;//
 	private String markTermId;//瞬态属性  评分项id
 	private String type;
+	private BigDecimal medicalType;//是否为医疗类
+	private BigDecimal deviation; //最高偏离项
 	
 	public String getType() {
         return type;
@@ -116,5 +118,17 @@ public class BidMethod {
 	public void setRemainScore(String remainScore) {
 		this.remainScore = remainScore;
 	}
+  public BigDecimal getMedicalType() {
+    return medicalType;
+  }
+  public void setMedicalType(BigDecimal medicalType) {
+    this.medicalType = medicalType;
+  }
+  public BigDecimal getDeviation() {
+    return deviation;
+  }
+  public void setDeviation(BigDecimal deviation) {
+    this.deviation = deviation;
+  }
 	
 }

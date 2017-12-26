@@ -244,4 +244,39 @@
 			</if>
 		</where>
 	</select>
+	
+	<select id="contractStatusSupervision" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT
+			cc.STATUS
+		FROM
+			T_BSS_CS_PURCHASE_CONTRACT cc
+		WHERE
+			EXISTS (
+				SELECT
+					core.CONTRACT_ID
+				FROM
+					T_BSS_CS_CONTRACT_REQUIRED core
+				WHERE
+					EXISTS (
+						SELECT
+							PD. ID
+						FROM
+							T_BSS_PPMS_PROJECTS_DETAIL PD
+						WHERE
+							EXISTS (
+								SELECT
+									DD. ID
+								FROM
+									T_BSS_PMS_PURCHASE_DETAIL DD
+								WHERE
+									DD.FILE_ID = #{id}
+								AND PD.REQUIRED_ID = DD. ID
+							)
+						AND CORE.DETAIL_ID = pd. ID
+					)
+				AND CC. ID = core.CONTRACT_ID
+				GROUP BY
+					core.CONTRACT_ID
+			)
+	</select>
 </mapper>

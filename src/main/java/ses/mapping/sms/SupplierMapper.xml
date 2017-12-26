@@ -16,6 +16,7 @@
 		<result column="BUSINESS_TYPE" property="businessType" />
 		<result column="BUSINESS_CERT" property="businessCert" />
 		<result column="ADDRESS" property="address" />
+		<result column="PARENT_ADDRESS" property="parentAddress" />
 		<result column="COUNT" property="count" />
 		<result column="BANK_NAME" property="bankName" />
 		<result column="LEVEL_SCORE_PRODUCT" property="levelScoreProduct" />
@@ -115,6 +116,7 @@
 		<result column="BUSINESS_TYPE" property="businessType" />
 		<result column="BUSINESS_CERT" property="businessCert" />
 		<result column="ADDRESS" property="address" />
+		<result column="PARENT_ADDRESS" property="parentAddress" />
 		<result column="COUNT" property="count" />
 		<result column="BANK_NAME" property="bankName" />
 		<result column="LEVEL_SCORE_PRODUCT" property="levelScoreProduct" />
@@ -1551,6 +1553,7 @@
 		<!--LEFT JOIN T_SES_BMS_AREA T4 ON AREA.PARENT_ID = T4.ID -->
 		LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON sup.PROCUREMENT_DEP_ID = dep.ID
 		LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
+		LEFT JOIN T_SES_SMS_SUPPLIER_MAT_ENG matEng ON matEng.SUPPLIER_ID = sup.ID
 		WHERE
 		sup.IS_DELETED = 0
 		<if test="itemType != null and itemType != ''">
@@ -1581,7 +1584,10 @@
 			AND AUDIT_DATE &lt;= #{endAuditDate}
 		</if>
 		<if test="contactName != null and contactName != ''">
-			AND T2.CONTACT_NAME LIKE CONCAT(CONCAT('%', #{contactName}), '%')
+			AND sup.CONTACT_NAME LIKE CONCAT(CONCAT('%', #{contactName}), '%')
+		</if>
+		<if test="armyBusinessName != null and armyBusinessName != ''">
+			AND sup.ARMY_BUSINESS_NAME LIKE CONCAT(CONCAT('%', #{armyBusinessName}), '%')
 		</if>
 		<if test="businessType != null and businessType != ''">
 			AND BUSINESS_TYPE = #{businessType}
@@ -1613,8 +1619,15 @@
 			OR SUPPLIER_STATUS = 7 OR SUPPLIER_STATUS = 8)
 			AND IS_PROVISIONAL = '0'
 		</if>
-		<if test="address != null and address != ''">
-			AND AREA.PARENT_ID = #{address}
+		<if test="parentAddress != null and parentAddress != ''">
+			AND AREA.PARENT_ID = #{parentAddress}
+		</if>
+		<if test="address != null and address != '' and parentAddress != null and parentAddress != ''">
+			AND AREA.ID = #{address} 
+		</if>
+		<if test="businessScope != null and businessScope != ''">
+			AND INSTR(matEng.BUSINESS_SCOPE, #{businessScope}) > 0 
+			AND INSTR(subQ.typeId, 'PROJECT') > 0
 		</if>
 		<if test="loginName != null and loginName != ''">
 			AND LOGIN_NAME LIKE CONCAT(CONCAT('%', #{loginName}), '%')
@@ -1677,6 +1690,7 @@
 		LEFT JOIN T_SES_BMS_AREA AREA ON sup.ADDRESS = AREA.ID
 		LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON sup.PROCUREMENT_DEP_ID = dep.ID
 		LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
+		LEFT JOIN T_SES_SMS_SUPPLIER_MAT_ENG matEng ON matEng.SUPPLIER_ID = sup.ID
 		WHERE
 		sup.IS_DELETED = 0
 		AND sup.ID NOT IN(
@@ -1688,7 +1702,7 @@
 		<if test="itemType != null and itemType != ''">
 			<foreach item="itemType" index="index" collection="itemType"
 				open="and(" separator="or" close=")">
-				T1.typeId LIKE CONCAT(CONCAT('%', #{itemType}), '%')
+				subQ.typeId LIKE CONCAT(CONCAT('%', #{itemType}), '%')
 			</foreach>
 		</if>
 		<if test="supplierName != null and supplierName != ''">
@@ -1714,6 +1728,9 @@
 		</if>
 		<if test="contactName != null and contactName != ''">
 			AND sup.CONTACT_NAME LIKE CONCAT(CONCAT('%', #{contactName}), '%')
+		</if>
+		<if test="armyBusinessName != null and armyBusinessName != ''">
+			AND sup.ARMY_BUSINESS_NAME LIKE CONCAT(CONCAT('%', #{armyBusinessName}), '%')
 		</if>
 		<if test="businessType != null and businessType != ''">
 			AND BUSINESS_TYPE = #{businessType}
@@ -1744,8 +1761,15 @@
 			OR SUPPLIER_STATUS = -4 OR SUPPLIER_STATUS = -5)
 			AND IS_PROVISIONAL = '0'
 		</if>
-		<if test="address != null and address != ''">
-			AND AREA.PARENT_ID = #{address}
+		<if test="parentAddress != null and parentAddress != ''">
+			AND AREA.PARENT_ID = #{parentAddress}
+		</if>
+		<if test="address != null and address != '' and parentAddress != null and parentAddress != ''">
+			AND AREA.ID = #{address} 
+		</if>
+		<if test="businessScope != null and businessScope != ''">
+			AND INSTR(matEng.BUSINESS_SCOPE, #{businessScope}) > 0 
+			AND INSTR(subQ.typeId, 'PROJECT') > 0
 		</if>
 		<if test="loginName != null and loginName != ''">
 			AND LOGIN_NAME LIKE CONCAT(CONCAT('%', #{loginName}), '%')
@@ -2525,6 +2549,11 @@
 	<!--根据供应商ID查询联系号码-->
 	<select id="selectSupMobileById" parameterType="string" resultType="string">
 		SELECT T.MOBILE FROM T_SES_SMS_SUPPLIER T WHERE T.ID = #{supplierId}
+	</select>
+	
+	<!--根据供应商id查询状态-->
+	<select id="selectStatusById" parameterType="string" resultType="string">
+		SELECT SUPPLIER_STATUS FROM T_SES_SMS_SUPPLIER WHERE ID = #{id}
 	</select>
     
 </mapper>

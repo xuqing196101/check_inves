@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplierAptituteRecyMapper">
+  <resultMap id="BaseResultMap" type="ses.model.sms.SupplierAptituteRecy">
+    <result column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="MAT_ENG_ID" jdbcType="VARCHAR" property="matEngId" />
+    <result column="CERT_TYPE" jdbcType="VARCHAR" property="certType" />
+    <result column="CERT_CODE" jdbcType="VARCHAR" property="certCode" />
+    <result column="APTITUTE_SEQUENCE" jdbcType="VARCHAR" property="aptituteSequence" />
+    <result column="PROFESS_TYPE" jdbcType="VARCHAR" property="professType" />
+    <result column="IS_MAJOR_FUND" jdbcType="DECIMAL" property="isMajorFund" />
+    <result column="APTITUTE_CONTENT" jdbcType="VARCHAR" property="aptituteContent" />
+    <result column="APTITUTE_CODE" jdbcType="VARCHAR" property="aptituteCode" />
+    <result column="APTITUTE_DATE" jdbcType="DATE" property="aptituteDate" />
+    <result column="APTITUTE_WAY" jdbcType="VARCHAR" property="aptituteWay" />
+    <result column="APTITUTE_STATUS" jdbcType="DECIMAL" property="aptituteStatus" />
+    <result column="APTITUTE_CHANGE_AT" jdbcType="DATE" property="aptituteChangeAt" />
+    <result column="APTITUTE_CHANGE_REASON" jdbcType="VARCHAR" property="aptituteChangeReason" />
+    <result column="ATTACH_CERT" jdbcType="VARCHAR" property="attachCert" />
+    <result column="CERT_NAME" jdbcType="VARCHAR" property="certName" />
+    <result column="APTITUTE_ LEVEL" jdbcType="VARCHAR" property="aptituteLevel" />
+    <result column="RECY_TIME" jdbcType="DATE" property="recyTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, MAT_ENG_ID, CERT_TYPE, CERT_CODE, APTITUTE_SEQUENCE, PROFESS_TYPE, IS_MAJOR_FUND, 
+    APTITUTE_CONTENT, APTITUTE_CODE, APTITUTE_DATE, APTITUTE_WAY, APTITUTE_STATUS, APTITUTE_CHANGE_AT, 
+    APTITUTE_CHANGE_REASON, ATTACH_CERT, CERT_NAME, "APTITUTE_ LEVEL", RECY_TIME
+  </sql>
+  <select id="selectByExample" parameterType="ses.model.sms.SupplierAptituteRecyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_APT_RECY
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="ses.model.sms.SupplierAptituteRecyExample">
+    delete from T_SES_SMS_SUPPLIER_APT_RECY
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="ses.model.sms.SupplierAptituteRecy">
+    insert into T_SES_SMS_SUPPLIER_APT_RECY (ID, MAT_ENG_ID, CERT_TYPE, 
+      CERT_CODE, APTITUTE_SEQUENCE, PROFESS_TYPE, 
+      IS_MAJOR_FUND, APTITUTE_CONTENT, APTITUTE_CODE, 
+      APTITUTE_DATE, APTITUTE_WAY, APTITUTE_STATUS, 
+      APTITUTE_CHANGE_AT, APTITUTE_CHANGE_REASON, ATTACH_CERT, 
+      CERT_NAME, "APTITUTE_ LEVEL", RECY_TIME
+      )
+    values (#{id,jdbcType=VARCHAR}, #{matEngId,jdbcType=VARCHAR}, #{certType,jdbcType=VARCHAR}, 
+      #{certCode,jdbcType=VARCHAR}, #{aptituteSequence,jdbcType=VARCHAR}, #{professType,jdbcType=VARCHAR}, 
+      #{isMajorFund,jdbcType=DECIMAL}, #{aptituteContent,jdbcType=VARCHAR}, #{aptituteCode,jdbcType=VARCHAR}, 
+      #{aptituteDate,jdbcType=DATE}, #{aptituteWay,jdbcType=VARCHAR}, #{aptituteStatus,jdbcType=DECIMAL}, 
+      #{aptituteChangeAt,jdbcType=DATE}, #{aptituteChangeReason,jdbcType=VARCHAR}, #{attachCert,jdbcType=VARCHAR}, 
+      #{certName,jdbcType=VARCHAR}, #{aptituteLevel,jdbcType=VARCHAR}, #{recyTime,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.sms.SupplierAptituteRecy">
+    insert into T_SES_SMS_SUPPLIER_APT_RECY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="matEngId != null">
+        MAT_ENG_ID,
+      </if>
+      <if test="certType != null">
+        CERT_TYPE,
+      </if>
+      <if test="certCode != null">
+        CERT_CODE,
+      </if>
+      <if test="aptituteSequence != null">
+        APTITUTE_SEQUENCE,
+      </if>
+      <if test="professType != null">
+        PROFESS_TYPE,
+      </if>
+      <if test="isMajorFund != null">
+        IS_MAJOR_FUND,
+      </if>
+      <if test="aptituteContent != null">
+        APTITUTE_CONTENT,
+      </if>
+      <if test="aptituteCode != null">
+        APTITUTE_CODE,
+      </if>
+      <if test="aptituteDate != null">
+        APTITUTE_DATE,
+      </if>
+      <if test="aptituteWay != null">
+        APTITUTE_WAY,
+      </if>
+      <if test="aptituteStatus != null">
+        APTITUTE_STATUS,
+      </if>
+      <if test="aptituteChangeAt != null">
+        APTITUTE_CHANGE_AT,
+      </if>
+      <if test="aptituteChangeReason != null">
+        APTITUTE_CHANGE_REASON,
+      </if>
+      <if test="attachCert != null">
+        ATTACH_CERT,
+      </if>
+      <if test="certName != null">
+        CERT_NAME,
+      </if>
+      <if test="aptituteLevel != null">
+        "APTITUTE_ LEVEL",
+      </if>
+      <if test="recyTime != null">
+        RECY_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="matEngId != null">
+        #{matEngId,jdbcType=VARCHAR},
+      </if>
+      <if test="certType != null">
+        #{certType,jdbcType=VARCHAR},
+      </if>
+      <if test="certCode != null">
+        #{certCode,jdbcType=VARCHAR},
+      </if>
+      <if test="aptituteSequence != null">
+        #{aptituteSequence,jdbcType=VARCHAR},
+      </if>
+      <if test="professType != null">
+        #{professType,jdbcType=VARCHAR},
+      </if>
+      <if test="isMajorFund != null">
+        #{isMajorFund,jdbcType=DECIMAL},
+      </if>
+      <if test="aptituteContent != null">
+        #{aptituteContent,jdbcType=VARCHAR},
+      </if>
+      <if test="aptituteCode != null">
+        #{aptituteCode,jdbcType=VARCHAR},
+      </if>
+      <if test="aptituteDate != null">
+        #{aptituteDate,jdbcType=DATE},
+      </if>
+      <if test="aptituteWay != null">
+        #{aptituteWay,jdbcType=VARCHAR},
+      </if>
+      <if test="aptituteStatus != null">
+        #{aptituteStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="aptituteChangeAt != null">
+        #{aptituteChangeAt,jdbcType=DATE},
+      </if>
+      <if test="aptituteChangeReason != null">
+        #{aptituteChangeReason,jdbcType=VARCHAR},
+      </if>
+      <if test="attachCert != null">
+        #{attachCert,jdbcType=VARCHAR},
+      </if>
+      <if test="certName != null">
+        #{certName,jdbcType=VARCHAR},
+      </if>
+      <if test="aptituteLevel != null">
+        #{aptituteLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="recyTime != null">
+        #{recyTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="ses.model.sms.SupplierAptituteRecyExample" resultType="java.lang.Integer">
+    select count(*) from T_SES_SMS_SUPPLIER_APT_RECY
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update T_SES_SMS_SUPPLIER_APT_RECY
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matEngId != null">
+        MAT_ENG_ID = #{record.matEngId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.certType != null">
+        CERT_TYPE = #{record.certType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.certCode != null">
+        CERT_CODE = #{record.certCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.aptituteSequence != null">
+        APTITUTE_SEQUENCE = #{record.aptituteSequence,jdbcType=VARCHAR},
+      </if>
+      <if test="record.professType != null">
+        PROFESS_TYPE = #{record.professType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isMajorFund != null">
+        IS_MAJOR_FUND = #{record.isMajorFund,jdbcType=DECIMAL},
+      </if>
+      <if test="record.aptituteContent != null">
+        APTITUTE_CONTENT = #{record.aptituteContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.aptituteCode != null">
+        APTITUTE_CODE = #{record.aptituteCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.aptituteDate != null">
+        APTITUTE_DATE = #{record.aptituteDate,jdbcType=DATE},
+      </if>
+      <if test="record.aptituteWay != null">
+        APTITUTE_WAY = #{record.aptituteWay,jdbcType=VARCHAR},
+      </if>
+      <if test="record.aptituteStatus != null">
+        APTITUTE_STATUS = #{record.aptituteStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.aptituteChangeAt != null">
+        APTITUTE_CHANGE_AT = #{record.aptituteChangeAt,jdbcType=DATE},
+      </if>
+      <if test="record.aptituteChangeReason != null">
+        APTITUTE_CHANGE_REASON = #{record.aptituteChangeReason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attachCert != null">
+        ATTACH_CERT = #{record.attachCert,jdbcType=VARCHAR},
+      </if>
+      <if test="record.certName != null">
+        CERT_NAME = #{record.certName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.aptituteLevel != null">
+        "APTITUTE_ LEVEL" = #{record.aptituteLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recyTime != null">
+        RECY_TIME = #{record.recyTime,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update T_SES_SMS_SUPPLIER_APT_RECY
+    set ID = #{record.id,jdbcType=VARCHAR},
+      MAT_ENG_ID = #{record.matEngId,jdbcType=VARCHAR},
+      CERT_TYPE = #{record.certType,jdbcType=VARCHAR},
+      CERT_CODE = #{record.certCode,jdbcType=VARCHAR},
+      APTITUTE_SEQUENCE = #{record.aptituteSequence,jdbcType=VARCHAR},
+      PROFESS_TYPE = #{record.professType,jdbcType=VARCHAR},
+      IS_MAJOR_FUND = #{record.isMajorFund,jdbcType=DECIMAL},
+      APTITUTE_CONTENT = #{record.aptituteContent,jdbcType=VARCHAR},
+      APTITUTE_CODE = #{record.aptituteCode,jdbcType=VARCHAR},
+      APTITUTE_DATE = #{record.aptituteDate,jdbcType=DATE},
+      APTITUTE_WAY = #{record.aptituteWay,jdbcType=VARCHAR},
+      APTITUTE_STATUS = #{record.aptituteStatus,jdbcType=DECIMAL},
+      APTITUTE_CHANGE_AT = #{record.aptituteChangeAt,jdbcType=DATE},
+      APTITUTE_CHANGE_REASON = #{record.aptituteChangeReason,jdbcType=VARCHAR},
+      ATTACH_CERT = #{record.attachCert,jdbcType=VARCHAR},
+      CERT_NAME = #{record.certName,jdbcType=VARCHAR},
+      "APTITUTE_ LEVEL" = #{record.aptituteLevel,jdbcType=VARCHAR},
+      RECY_TIME = #{record.recyTime,jdbcType=DATE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

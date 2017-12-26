@@ -1974,7 +1974,7 @@ public class SupplierQueryController extends BaseSupplierController {
  			if(s != null) {
  				if(s.equals("PROJECT")) {
  					categoryId = DictionaryDataUtil.getId("PROJECT");
-                     return supplierItemService.getCategoryOther(supplierId, categoryId, s);
+ 					return supplierItemService.getCategoryOther(supplierId, categoryId, s);
  				}
  			}
 

@@ -329,7 +329,7 @@ public class IntelligentScoringController extends BaseController{
     public String updateScoreMethod(BidMethod bm, String packageId, String projectId, String flowDefineId) {
 	    bm.setProjectId(projectId);
 	    bm.setPackageId(packageId);
-	    bidMethodService.updateBidMethod(bm);
+	    bidMethodService.updateByPrimaryKey(bm);
         return "redirect:packageList.html?flowDefineId=" + flowDefineId + "&projectId=" + projectId;
     }
 	
@@ -987,6 +987,9 @@ public class IntelligentScoringController extends BaseController{
             if (typename == 9) {
                 typeName = "模型四B";
             }
+            if (typename == 10) {
+              typeName = "模型一C";
+          }
         }
         return typeName;
 	}
