@@ -97,6 +97,9 @@
 		<result column="INSTORAGE_AT" property="instorageAt" jdbcType="TIMESTAMP"/>
 		<result column="RETURN_COUNT" property="returnCount"/>
 		<result column="LAST_RETURN_DATE" property="lastReturnDate" jdbcType="TIMESTAMP"/>
+		<result column="REVIEW_PEOPLE" property="reviewPeople"/>
+		<result column="REVIEW_STATUS" property="reviewStatus"/>
+		<result column="REVIEW_AT" property="reviewAt"/>
     <association property="area" column="ADDRESS" select="ses.dao.bms.AreaMapper.selectById"/>
 	</resultMap>
 
@@ -2561,4 +2564,20 @@
 		SELECT SUPPLIER_STATUS FROM T_SES_SMS_SUPPLIER WHERE ID = #{id}
 	</select>
     
+    <!-- 供应商复核列表 -->
+    <select id="selectReviewList" resultMap="BaseResultMap">
+      SELECT 
+        DISTINCT T1.ID,
+			  T1.SUPPLIER_NAME,
+			  T1.SUPPLIER_TYPE_ID,
+			  T1.BUSINESS_NATURE,
+			  T1.REVIEW_AT,
+			  T1.REVIEW_PEOPLE,
+			  T1.SUPPLIER_STATUS
+			FROM
+			  T_SES_SMS_SUPPLIER T1
+			LEFT JOIN T_SES_SMS_EXTRACT_RESULT T2 ON T2.SUPPLIER_ID = T1. ID
+			WHERE
+			  T2.JOIN = 1
+    </select>
 </mapper>

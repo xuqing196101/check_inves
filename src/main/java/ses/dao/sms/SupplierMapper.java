@@ -698,4 +698,11 @@ public interface SupplierMapper {
      * @return
      */
 	String selectStatusById(String id);
+	
+	
+	/**
+	 * 复核列表
+	 * @return
+	 */
+	List<Supplier> selectReviewList ();
 }

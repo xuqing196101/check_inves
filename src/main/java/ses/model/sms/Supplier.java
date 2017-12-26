@@ -764,6 +764,12 @@ Supplier implements Serializable {
      */
     private Integer errorNum;
     
+    private String reviewPeople; //复核人
+    
+    private Integer reviewStatus; // 1：重新复核
+    
+    private Date reviewAt; //复核时间
+    
     public String getQrcodeImage() {
 		return qrcodeImage;
 	}
@@ -2210,6 +2216,30 @@ Supplier implements Serializable {
 
 	public void setParentAddress(String parentAddress) {
 		this.parentAddress = parentAddress;
+	}
+
+	public String getReviewPeople() {
+		return reviewPeople;
+	}
+
+	public void setReviewPeople(String reviewPeople) {
+		this.reviewPeople = reviewPeople;
+	}
+
+	public Integer getReviewStatus() {
+		return reviewStatus;
+	}
+
+	public void setReviewStatus(Integer reviewStatus) {
+		this.reviewStatus = reviewStatus;
+	}
+
+	public Date getReviewAt() {
+		return reviewAt;
+	}
+
+	public void setReviewAt(Date reviewAt) {
+		this.reviewAt = reviewAt;
 	}
 	
 }
