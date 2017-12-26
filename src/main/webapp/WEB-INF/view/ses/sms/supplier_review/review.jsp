@@ -4,6 +4,16 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp" %>
+    <script type="text/javascript">
+      function reviewEnd(){
+    	  //显示重新复审、返回按钮
+    	  $("#checkList").removeClass("hidden");
+    	  //显示重新复审、返回按钮
+    	  $("#review").removeClass("hidden");
+    	  //隐藏复核结束、暂存按钮
+    	  $("#reviewEnd").addClass("hidden");
+      }
+    </script>
   </head>
 
   <body>
@@ -47,30 +57,47 @@
                   <th class="info">理由</th>
                 </tr>
               </thead>
-              <tr>
-                <td>1</td>
-                <td>基本账户开户许可证</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>营业执照（副本）</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>法人代表人身份证</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>生产或经营地址的房产证明或租赁协议</td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>近三个月完税凭证</td>
-              </tr>
             </table>
           </ul>
+          
+          <h2 class="count_flow"><i>2</i>复核意见</h2>
+          <ul class="ul_list hand">
+            <li>
+              <div class="select_check">
+					      <input type="radio" value="1">复核合格
+					      <input type="radio" value="0">复核不合格
+				      </div>
+            </li>
+            <div><span type="text" name="cate_result" id="cate_result"></span></div>
+						<li class="mt10">
+						  <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${auditOpinion.opinion}</textarea>
+						</li>
+          </ul>
+          
+          <h2 class="count_flow"><i>3</i>下载供应商复核表</h2>
+          <ul class="ul_list hand">
+          
+          </ul>
+          
+          <div id="checkList" class="hidden">
+            <h2 class="count_flow"><i>4</i>上传供应商复核表</h2>
+	          <ul class="ul_list hand">
+	          
+	          </ul>
+          </div>
         </div>
       </div>
+    </div>
+    
+    <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc" id="reviewEnd">
+      <a class="btn padding-left-20 padding-right-20 btn_back margin-5">上一步</a>
+      <a class="btn padding-left-20 padding-right-20 btn_back margin-5">暂存</a>
+      <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="reviewEnd();">复核结束</a>
+    </div>
+    
+    <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc hidden" id="review">
+      <a class="btn padding-left-20 padding-right-20 btn_back margin-5">重新复核</a>
+      <a class="btn padding-left-20 padding-right-20 btn_back margin-5">返回</a>
     </div>
   </body>
 
