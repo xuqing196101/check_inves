@@ -345,7 +345,7 @@ public class InnerExpertServiceImpl implements InnerExpertService {
                             expertAuditOpinionMapper.updateByPrimaryKeySelective(expertAuditOpinion);
                         } else {
                             // 插入数据
-                            expertAuditOpinionMapper.insertSelective(expertAuditOpinion);
+                            expertAuditOpinionMapper.insertSel(expertAuditOpinion);
                         }
                     }
                 }

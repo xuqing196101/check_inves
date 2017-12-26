@@ -22,7 +22,8 @@ public interface ExpertAuditOpinionMapper {
 	 * @return void
 	 */
 	void insertSelective (ExpertAuditOpinion expertAuditOpinion );
-	
+	void insertSel (ExpertAuditOpinion expertAuditOpinion );
+
 	/**
 	 * @Title: selectByPrimaryKey
 	 * @date 2017-4-1 下午5:39:20  

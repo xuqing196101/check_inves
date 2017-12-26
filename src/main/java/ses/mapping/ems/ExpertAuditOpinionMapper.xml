@@ -54,6 +54,9 @@
       <if test="isDownLoadAttch != null" >
         IS_DOWNLOAD_ATTCH = #{isDownLoadAttch,jdbcType=DECIMAL},
       </if>
+      <if test="isDeleted != null" >
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -85,6 +88,9 @@
       <if test="isDownLoadAttch != null" >
         IS_DOWNLOAD_ATTCH,
       </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -111,11 +117,76 @@
       <if test="isDownLoadAttch != null" >
         #{isDownLoadAttch},
       </if>
+      <if test="isDeleted != null" >
+        #{isDeleted},
+      </if>
     </trim>
     <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
 			select sys_guid() from dual
     </selectKey>
   </insert>
+
+    <insert id="insertSel" parameterType="ses.model.ems.ExpertAuditOpinion">
+        insert into T_SES_EMS_EXPERT_AUDIT_OPINION
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="expertId != null">
+                EXPERT_ID,
+            </if>
+            <if test="opinion != null">
+                OPINION,
+            </if>
+            <if test="createdAt != null">
+                CREATED_AT,
+            </if>
+            <if test="updatedAt != null">
+                UPDATED_AT,
+            </if>
+            <if test="flagTime != null">
+                FLAG_TIME,
+            </if>
+            <if test="flagAudit != null">
+                FLAG_AUDIT,
+            </if>
+            <if test="isDownLoadAttch != null" >
+                IS_DOWNLOAD_ATTCH,
+            </if>
+            <if test="isDeleted != null" >
+                IS_DELETED,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="expertId != null">
+                #{expertId},
+            </if>
+            <if test="opinion != null">
+                #{opinion},
+            </if>
+            <if test="createdAt != null">
+                #{createdAt},
+            </if>
+            <if test="updatedAt != null">
+                #{updatedAt},
+            </if>
+            <if test="flagTime != null">
+                #{flagTime},
+            </if>
+            <if test="flagAudit != null">
+                #{flagAudit},
+            </if>
+            <if test="isDownLoadAttch != null" >
+                #{isDownLoadAttch},
+            </if>
+            <if test="isDeleted != null" >
+                #{isDeleted},
+            </if>
+        </trim>
+    </insert>
 
   <!-- 根据专家ID查询信息 -->
   <select id="selectByExpertId" parameterType="ses.model.ems.ExpertAuditOpinion" resultMap="BaseResultMap">
