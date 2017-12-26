@@ -129,6 +129,6 @@
 
   <form id="shenhe_form" action="" method="post">
     <input name="supplierId" type="hidden"/>
-    <input type="hidden" name="sign" value="1">
+    <input type="hidden" name="sign" value="2">
   </form>
 </html>

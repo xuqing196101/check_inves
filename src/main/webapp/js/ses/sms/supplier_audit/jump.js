@@ -77,6 +77,13 @@ function jump(str) {
 
         }*/
     }
+    
+    if (str == "review") {
+        action = globalPath + "/supplierReview/review.html";
+    }
+    if (str == "inves") {
+        action = globalPath + "/supplierInves/inves.html";
+    }
     submitJumpForm(action);
 }
 
