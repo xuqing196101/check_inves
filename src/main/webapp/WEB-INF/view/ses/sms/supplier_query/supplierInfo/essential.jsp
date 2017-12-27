@@ -113,7 +113,7 @@
           <div class="tab-pane fade active in">
             <h2 class="count_flow"><i>2</i>营业执照</h2>
             <ul class="ul_list">
-              <table class="table table-bordered">
+              <table class="table table-bordered break-all">
                 <tbody>
                   <tr>
                     <td class="bggrey" width="20%">营业执照登记类型：</td>
