@@ -1004,11 +1004,11 @@
 								<a class="btn" type="button" onclick="toStep('five');">下一步</a>
 								
 								<c:if test="${sign == 2}">
-		              <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="jump('review');">转至复核</a>
-		             </c:if>
-		             <c:if test="${sign == 3}">
-		              <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="jump('inves');">转至考察</a>
-		             </c:if>
+			           <a class="btn" type="button" onclick="toStep('nine');">转至复核</a>
+			          </c:if>
+			          <c:if test="${sign == 3}">
+			           <a class="btn" type="button" onclick="toStep('ten');">转至考察</a>
+			          </c:if>
 							</div>
 						</div>
 					</div>

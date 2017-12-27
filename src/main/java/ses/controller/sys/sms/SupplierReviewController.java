@@ -53,6 +53,11 @@ public class SupplierReviewController {
 		SupplierAuditOpinion supplierAuditOpinion = supplierAuditOpinionService.selectByExpertIdAndflagTime(supplierId, 1);
 		model.addAttribute("auditOpinion", supplierAuditOpinion == null? "" : supplierAuditOpinion.getOpinion());
 		model.addAttribute("flagAduit", supplierAuditOpinion == null? "" : supplierAuditOpinion.getFlagAduit());
+		if(supplierAuditOpinion !=null){
+			model.addAttribute("isRecord", "yes");
+		}else{
+			model.addAttribute("isRecord", "no");
+		}
 		return "ses/sms/supplier_review/review";
 	}
 	

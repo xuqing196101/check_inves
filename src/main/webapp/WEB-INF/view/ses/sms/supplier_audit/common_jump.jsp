@@ -3,6 +3,7 @@
 <%@ page import="org.apache.commons.lang3.math.NumberUtils"%>
 <%@ page import="ses.constants.SupplierConstants"%>
 <%@ page import="ses.model.bms.User" %>
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
 <% 
 	String ipAddressType = SupplierConstants.IP_ADDRESS_TYPE;
 	String ipInner = SupplierConstants.IP_INNER;
@@ -80,8 +81,8 @@
     </li>
     <li onclick = "jump('contract')" >
       <a aria-expanded="false" href="#tab-4">销售合同</a>
-       <i></i>-->
-    </li>
+       <i></i>
+    </li>-->
     <li id="reverse_of_five" onclick="jump('aptitude')">
         <a aria-expanded="false" href="#tab-4">产品类别及资质合同</a>
         <i></i>
@@ -90,13 +91,25 @@
         <a aria-expanded="false" href="#tab-4">承诺书和申请表</a>
         <i></i>
     </li>
-    <li id="reverse_of_seven" onclick="jump('reasonsList')">
-        <a aria-expanded="false" href="#tab-4">审核汇总</a>
-        <i id="reverse_of_seven_i" class="display-none"></i>
-    </li>
-    <li id="reverse_of_eight" onclick="jump('uploadApproveFile')" class="display-none">
-        <a aria-expanded="false" href="#tab-4">上传批准审核表</a>
-    </li>
+    <c:if test="${sign == 1}">
+	    <li id="reverse_of_seven" onclick="jump('reasonsList')">
+	        <a aria-expanded="false" href="#tab-4">审核汇总</a>
+	        <i id="reverse_of_seven_i" class="display-none"></i>
+	    </li>
+	    <li id="reverse_of_eight" onclick="jump('uploadApproveFile')" class="display-none">
+	        <a aria-expanded="false" href="#tab-4">上传批准审核表</a>
+	    </li>
+	  </c:if>
+    <c:if test="${sign == 2}">
+      <li id="reverse_of_nine" onclick="jump('review')">
+        <a aria-expanded="false" href="#tab-4">供应商复核</a>
+      </li>
+    </c:if>
+    <c:if test="${sign == 3}">
+      <li id="reverse_of_ten" onclick="jump('inves')">
+        <a aria-expanded="false" href="#tab-4">供应商实地考察</a>
+      </li>
+    </c:if>
 </ul>
 <style type="text/css">
   .border_red{

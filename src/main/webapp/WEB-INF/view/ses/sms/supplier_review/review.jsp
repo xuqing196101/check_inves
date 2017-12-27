@@ -4,7 +4,7 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp" %>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/jump.js"></script>
+    <%-- <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/jump.js"></script> --%>
     <script type="text/javascript">
       $(function(){
     	  //绑定事件
@@ -29,6 +29,12 @@
         if(flagAduit !="" && flagAduit == 0){
         	$("#unqualified").attr("checked", "checked");
         	$("#cate_result").html("复核不合格 。");
+        }
+        
+        var isRecord = "${isRecord}";
+        //如果有意见就显示"重新复核"按钮
+        if(isRecord == "yes"){
+        	$("#review").removeClass("hidden");
         }
       }); 
     </script>
@@ -95,12 +101,12 @@
     <div class="container container_box">
       <div class=" content height-350">
         <div class="col-md-12 tab-v2 job-content">
-          <%-- <jsp:include page="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp">
-            <jsp:param value="one" name="currentStep"/>
-            <jsp:param value="${currSupplier.id }" name="supplierId"/>
-            <jsp:param value="${currSupplier.status }" name="supplierStatus"/>
+          <jsp:include page="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp">
+            <jsp:param value="nine" name="currentStep"/>
+            <jsp:param value="${supplierId}" name="supplierId"/>
+            <jsp:param value="${supplierStatus}" name="supplierStatus"/>
             <jsp:param value="${sign }" name="sign"/>
-           </jsp:include> --%>
+           </jsp:include>
           <h2 class="count_flow"><i>1</i>审核信息</h2>
           <ul class="ul_list hand">
             <table class="table table-bordered table-condensed table-hover">
@@ -147,12 +153,13 @@
       </div>
     </div>
     
-    <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc" id="reviewEnd">
-      <a class="btn padding-left-20 padding-right-20 btn_back margin-5">上一步</a>
-      <a class="btn padding-left-20 padding-right-20 btn_back margin-5">暂存</a>
-      <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="reviewEnd();">复核结束</a>
-    </div>
-    
+    <c:if test="${isRecord eq 'no'}">
+      <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc" id="reviewEnd">
+	      <a class="btn padding-left-20 padding-right-20 btn_back margin-5">上一步</a>
+	      <a class="btn padding-left-20 padding-right-20 btn_back margin-5">暂存</a>
+	      <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="reviewEnd();">复核结束</a>
+      </div>
+    </c:if>
     <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc hidden" id="review">
       <a class="btn padding-left-20 padding-right-20 btn_back margin-5">重新复核</a>
       <a class="btn padding-left-20 padding-right-20 btn_back margin-5">返回</a>
