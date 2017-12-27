@@ -4275,6 +4275,8 @@ public class PackageExpertController {
 					saleTender = new SaleTender();
 					saleTender.setPackages(packages.getId());
 					saleTender.setIsTurnUp(0);
+					saleTender.setIsFirstPass(1);
+					saleTender.setIsRemoved("0");
 					List<SaleTender> supplierList = saleTenderService.findByCon(saleTender);
 		            if (supplierList != null && !supplierList.isEmpty()) {
 		            	for (SaleTender sale : supplierList) {

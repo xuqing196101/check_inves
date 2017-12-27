@@ -1511,8 +1511,10 @@
 		)
 		AND pp.STATUS != '4' AND PP.PRINCIPAL IS NOT NULL
 		<if test="userId != null and userId != ''">
-			AND (EE.OPERATOR_ID = #{userId} OR PP.PRINCIPAL = #{userId})
-			AND EE.IS_DELETED = 0 AND EE.STATUS = 0
+			AND (
+			(EE.OPERATOR_ID = #{userId} AND EE.IS_DELETED = 0 AND EE.STATUS = 0)
+			OR PP.PRINCIPAL = #{userId}
+		)
 		</if>
 		<if test="purchaseDepId != null and purchaseDepId != ''">
 			AND PP.PURCHASE_DEP_ID = #{purchaseDepId}
