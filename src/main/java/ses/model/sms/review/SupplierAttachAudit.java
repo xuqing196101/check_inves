@@ -17,6 +17,11 @@ public class SupplierAttachAudit {
     private String id;
 
     /**
+     * 供应商ID
+     */
+    private String supplierId;
+
+    /**
      * 附件类型ID
      */
     private String typeId;
@@ -75,6 +80,22 @@ public class SupplierAttachAudit {
      */
     public void setId(String id) {
         this.id = id;
+    }
+
+    /**
+     * 供应商ID
+     * @return SUPPLIER_ID 供应商ID
+     */
+    public String getSupplierId() {
+        return supplierId;
+    }
+
+    /**
+     * 供应商ID
+     * @param supplierId 供应商ID
+     */
+    public void setSupplierId(String supplierId) {
+        this.supplierId = supplierId;
     }
 
     /**
