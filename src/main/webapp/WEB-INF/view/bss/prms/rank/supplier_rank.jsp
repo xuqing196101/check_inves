@@ -78,7 +78,7 @@
     <h2 class="list_title">供应商排名</h2>
 	  <div class="tab-pane fade active in" id="tab-1">
         <c:forEach items="${packagesList}" var="pack" varStatus="vs">
-          <div class="over_scroll col-md-12 col-xs-12 col-sm-12 p0 m0">
+          <div class="col-md-12 col-xs-12 col-sm-12 p0 m0">
           <h2 onclick="ycDiv(this,'${vs.index}')" class="count_flow hand fl clear spread">${pack.name}   </h2>
           <c:if test="${'OPEN_ZHPFF' ne pack.bidMethodTypeName}">
 	          <div class="fl mt20 ml10">
