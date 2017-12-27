@@ -60,7 +60,7 @@
 	</select>
 	<!-- 查询详细抽取条件 -->
 	<select id="getConTypeList" parameterType="java.lang.String" resultMap="base_info">
-		SELECT PROPERTY_NAME,PROPERTY_VALUE FROM  T_SES_SMS_EXTRACT_CONDITIONS WHERE CONDITION_ID = #{value} AND CATE_LEVEL IS NULL
+		SELECT PROPERTY_NAME,PROPERTY_VALUE,CATE_LEVEL FROM  T_SES_SMS_EXTRACT_CONDITIONS WHERE CONDITION_ID = #{value}
 	</select>
 	<!-- 修改属性值 -->	
 	<update id="updateByMap" parameterType="map" >
