@@ -14,4 +14,5 @@ public interface SupplierReviewService {
 	 * @return
 	 */
 	List<Supplier> selectReviewList (Supplier supplier, Integer page);
+	
 }
