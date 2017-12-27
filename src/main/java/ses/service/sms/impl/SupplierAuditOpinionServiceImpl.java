@@ -13,6 +13,7 @@ import ses.service.sms.SupplierAuditOpinionService;
 import ses.service.sms.SupplierAuditService;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service("supplierAuditOpinionService")
@@ -144,4 +145,24 @@ public class SupplierAuditOpinionServiceImpl implements SupplierAuditOpinionServ
 		return supplierAuditOpinionMapper.selectByExpertId(supplierId);
 	}
 
+	@Override
+	public String saveOpinion(SupplierAuditOpinion supplierAuditOpinion) {
+		supplierAuditOpinion.setCreatedAt(new Date());
+		supplierAuditOpinion.setFlagTime(1);
+		
+		//查询是否有历史意见
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("supplierId", supplierAuditOpinion.getSupplierId());
+		map.put("flagTime", 1);
+		SupplierAuditOpinion historyOpinion = supplierAuditOpinionMapper.selectByExpertIdAndflagTime(map);
+		if(historyOpinion !=null){
+			supplierAuditOpinion.setId(historyOpinion.getId());
+			supplierAuditOpinionMapper.updateByPrimaryKeySelective(supplierAuditOpinion);
+			return "更新成功！";
+		}else{
+			supplierAuditOpinionMapper.insertSelective(supplierAuditOpinion);
+			return "保存成功！";
+		}
+	}
+	
 }

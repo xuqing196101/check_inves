@@ -7,10 +7,13 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAuditOpinion;
+import ses.service.sms.SupplierAuditOpinionService;
 import ses.service.sms.SupplierReviewService;
 
 /**
@@ -23,7 +26,10 @@ import ses.service.sms.SupplierReviewService;
 public class SupplierReviewController {
 	
 	@Autowired
-	private SupplierReviewService ssupplierReviewService;
+	private SupplierReviewService supplierReviewService;
+	
+	@Autowired
+	private SupplierAuditOpinionService supplierAuditOpinionService;
 	
 	/**
 	 * 复核列表
@@ -31,15 +37,29 @@ public class SupplierReviewController {
 	 */
 	@RequestMapping(value = "/list")
 	public String list(Supplier supplier, Integer page, Model model){
-		List<Supplier> supplierList = ssupplierReviewService.selectReviewList(supplier, page);
+		List<Supplier> supplierList = supplierReviewService.selectReviewList(supplier, page);
 		PageInfo<Supplier> pageInfo = new PageInfo <Supplier> (supplierList);
 		model.addAttribute("result", pageInfo);
 		return "ses/sms/supplier_review/list";
 	}
 	
-	
 	@RequestMapping(value = "/review")
-	public String review(){
+	public String review(String supplierId, Integer supplierStatus, Model model){
+		model.addAttribute("supplierId", supplierId);
+		model.addAttribute("supplierStatus", supplierStatus);
+		model.addAttribute("sign", 2);
+		
+		//查询意见
+		SupplierAuditOpinion supplierAuditOpinion = supplierAuditOpinionService.selectByExpertIdAndflagTime(supplierId, 1);
+		model.addAttribute("auditOpinion", supplierAuditOpinion == null? "" : supplierAuditOpinion.getOpinion());
+		model.addAttribute("flagAduit", supplierAuditOpinion == null? "" : supplierAuditOpinion.getFlagAduit());
 		return "ses/sms/supplier_review/review";
+	}
+	
+	@RequestMapping(value = "/saveOpinion")
+	@ResponseBody
+	public String saveOpinion(SupplierAuditOpinion supplierAuditOpinion){
+		String msg = supplierAuditOpinionService.saveOpinion(supplierAuditOpinion);
+		return msg;
 	}
 }
