@@ -509,7 +509,9 @@
 					supplierRegist();
 					editTable();
 				}
-
+				if(!s){
+					return false;
+				}
 			}
 			// 点击2事件
 			function fun2() {
@@ -794,7 +796,7 @@
 					layer.msg("邮编格式只能输入数字 !");
 					return false;
 				}
-
+				var s=true;
 				if(idCardNumber != "") {
 					var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(X|x)$)/
 					if(!reg.test(idCardNumber)) {
