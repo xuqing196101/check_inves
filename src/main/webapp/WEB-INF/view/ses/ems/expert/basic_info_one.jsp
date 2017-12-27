@@ -460,6 +460,7 @@
 			function fun() {
 				var idCardNumber = $("#idCardNumber").val().trim();
 				// 身份证唯一性验证
+				var s=true;
 				if(idCardNumber != "") {
 					/*$.ajax({
 						url: '${pageContext.request.contextPath}/user/ajaxIdNumber.do',
@@ -492,12 +493,12 @@
                         success: function(obj) {
                             if(obj == '1') {
                                 layer.msg("居民身份证号码已被占用!");
-                                return false;
+                                s=false;
                             }else if(obj == 'disabled_180'){
                                 layer.msg('该身份证号码在180天内禁止再次注册，请重新填写！', {
                                     offset: '300px'
                                 });
-                                return false;
+                                s=false;
                             }else{
                                 supplierRegist();
                                 editTable();
@@ -798,7 +799,7 @@
 					var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(X|x)$)/
 					if(!reg.test(idCardNumber)) {
 						layer.msg("居民身份证号码格式有误 !");
-						return false;
+						s=false;
 					}
 					if(reg.test(idCardNumber) && idCardNumber.length == 18) {
 						// 分别获取到身份证号码中的年月日并转换为数字格式
@@ -808,20 +809,20 @@
 						// 月份判断
 						if(month < 1 || month > 12) {
 							layer.msg("居民身份证号码格式有误 !");
-							return false;
+							s=false;
 						}
 						// 根据大小月判断日(大月)
 						if(month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
 							if(day < 1 || day > 31) {
 								layer.msg("居民身份证号码格式有误 !");
-								return false;
+								s=false;
 							}
 						}
 						// 根据大小月判断日(大月)
 						if(month == 4 || month == 6 || month == 9 || month == 11) {
 							if(day < 1 || day > 30) {
 								layer.msg("居民身份证号码格式有误 !");
-								return false;
+								s=false;
 							}
 						}
 						// 根据大小月判断日(二月)
@@ -830,14 +831,14 @@
 							if((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
 								if(day < 1 || day > 29) {
 									layer.msg("居民身份证号码格式有误 !");
-									return false;
+									s=false;
 								}
 							}
 							// 平年
 							if(year % 4 != 0 || (year % 100 == 0 && year % 400 != 0)) {
 								if(day < 1 || day > 28) {
 									layer.msg("居民身份证号码格式有误 !");
-									return false;
+									s=false;
 								}
 							}
 						}
@@ -870,7 +871,9 @@
 				if(isok == 1) {
 					return false;
 				}*/
-
+				if(!s){
+					return false;
+				}
 				if(from == "LOCAL") {
 					var coverNote = $("#coverNote").val();
 					if(!coverNote) {
