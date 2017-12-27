@@ -326,15 +326,40 @@
 		SELECT DISTINCT R.SUPPLIER_ID supplierIds FROM T_SES_SMS_SUPPLIER_EXT_RELATE R LEFT JOIN T_SES_SMS_EXTRACT_RECORD N ON N.ID = R.RECORD_ID  WHERE N.PROJECT_ID = #{value}
 	</select>
 
+	<sql id="item_temp">
+		WITH T_ITEM AS (
+			SELECT
+				*
+			FROM
+				T_SES_SMS_SUPPLIER_ITEM
+			MINUS
+				SELECT
+					I.*
+				FROM
+					T_SES_SMS_SUPPLIER_ITEM I
+				LEFT JOIN T_SES_SMS_SUPPLIER_AUDIT AU ON I.CATEGORY_ID = AU.AUDIT_FIELD
+				WHERE
+					AU.SUPPLIER_ID = I.SUPPLIER_ID
+				AND AUDIT_TYPE = CONCAT (
+					CONCAT (
+						'items_',
+						LOWER (I.SUPPLIER_TYPE_RELATE_ID)
+					),
+					'_page'
+				)
+				AND AU.RETURN_STATUS IN (0, 1, 2, 4)
+		) 
+	</sql>
 	<sql id="extractSql">
 		<if test="supplierTypeCode !=null and supplierTypeCode !='' ">
 			LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE T ON T.SUPPLIER_ID = S.ID
-			LEFT JOIN T_SES_SMS_SUPPLIER_ITEM I ON I.SUPPLIER_ID = S.ID
+			LEFT JOIN T_ITEM I ON I.SUPPLIER_ID = S.ID
 			<choose>
 				<when test="supplierTypeCode == 'PROJECT'.toString()">
-					LEFT JOIN T_SES_BMS_CATEGORY_QUA QUA ON I.CATEGORY_ID = QUA.CATEGORY_ID
 					LEFT JOIN T_SES_SMS_SUPPLIER_MAT_ENG E ON E.SUPPLIER_ID = S.ID
+					LEFT JOIN T_SES_SMS_SUPPLIER_APTITUTE AP ON AP.MAT_ENG_ID = E.ID
 					LEFT JOIN T_SES_BMS_DICTIONARY_DATA DA ON I.SUPPLIER_TYPE_RELATE_ID = DA.CODE
+					LEFT JOIN T_SES_BMS_DICTIONARY_DATA DD ON AP."APTITUTE_ LEVEL" = DD.ID
 				</when>
 				<otherwise>
 					LEFT JOIN T_SES_SMS_SUPPLIER_ITEM_LEVEL L ON S.ID = L.SUPPLIER_ID
@@ -350,12 +375,15 @@
 		<if test="addressId != null and addressId != '' ">
 			AND S.ADDRESS in 	<foreach collection="addressIds"  open="(" item="index" close=")" separator=",">	#{index}	</foreach>
 		</if>
+		<!-- 保密要求 -->
 		<if test="isHavingConCert !=null and isHavingConCert != '' ">
 			AND S.IS_HAVING_CON_CERT = #{isHavingConCert}
 		</if>
+		<!-- 企业性质 -->
 		<if test="businessNature !=null and businessNature != '' ">
 			AND S.BUSINESS_NATURE = #{businessNature}
 		</if>
+		<!-- 境外分支 -->
 		<if test="overseasBranch !=null and overseasBranch != '' ">
 			AND S.OVERSEAS_BRANCH = #{overseasBranch}
 		</if>
@@ -395,6 +423,22 @@
 		<if test="supplierTypeCode !=null and supplierTypeCode != '' ">
 			 AND T.SUPPLIER_TYPE_ID  IN  <foreach collection="supplierTypeCodes" open="(" separator="," item="code" close=")"> #{code} </foreach> 
 			 AND I.SUPPLIER_TYPE_RELATE_ID  IN  <foreach collection="supplierTypeCodes" open="(" separator="," item="code" close=")"> #{code} </foreach> 
+			<if test="supplierTypeCode != 'PROJECT'.toString()">
+				AND L.SUPPLIER_TYPE_ID IN <foreach collection="supplierTypeCodes" open="(" separator="," item="code" close=")"> #{code} </foreach> 
+			</if>			
+			<if test="supplierTypeCode == 'PROJECT'.toString()">
+				AND AP."APTITUTE_ LEVEL" IS NOT NULL
+				AND AP.CERT_TYPE IS NOT NULL
+			</if>			
+			 AND I.NODE_LEVEL = 3
+			 <!-- 去除审核不通过类别 -->
+			AND S.ID NOT IN (
+				SELECT AU.SUPPLIER_ID from T_SES_SMS_SUPPLIER_AUDIT AU LEFT JOIN T_SES_BMS_DICTIONARY_DATA DD ON AU.AUDIT_FIELD = DD.ID 
+				WHERE AUDIT_TYPE = 'supplierType_page' AND AU.RETURN_STATUS IN (0, 1, 2, 4) AND DD.CODE IN 
+					<foreach collection="supplierTypeCodes" open="(" item="sid" separator="," close=")">
+						#{sid}	
+					</foreach>
+			)
 		</if>	 
 		<!-- 查询品目 -->
 		<if test="isMulticondition !=null and isMulticondition != ''">
@@ -423,8 +467,12 @@
 		                     where TEM.is_publish = 0
 		                     group by TEM.id) ts
 		            on ts.id = IT.Category_Id
+		            WHERE IT.SUPPLIER_TYPE_RELATE_ID  IN  
+		            <foreach collection="supplierTypeCodes" open="(" item="sid" separator="," close=")">
+						#{sid}	
+					</foreach>
 		         GROUP BY IT.SUPPLIER_ID
-		        HAVING COUNT(IT.SUPPLIER_ID) = #{csize})
+		        HAVING COUNT(IT.SUPPLIER_ID)  &gt;= #{csize})
 			</if>
 		</if>
 		<!-- 查询资质 -->
@@ -442,6 +490,7 @@
 				)
 			</if>
 		</if>
+		<!-- 查询等级 -->
 		<if test="categoryIds !=null and categoryIds != ''">
 			<!-- 查询等级 或关系 -->
 			<if test="supplierTypeCode != 'PROJECT'.toString() and supplierTypeCodes.length == 1">
@@ -473,13 +522,10 @@
 				</if>
 			</if>
 		</if>
-		<!-- 保密要求 -->
-		<!-- 企业性质 -->
-		<!-- 境外分支 -->
 		<if test="businessScope !=null and businessScope != '' and supplierTypeCode == 'PROJECT'.toString()">
 			AND E.BUSINESS_SCOPE LIKE CONCAT(CONCAT('%', #{businessScope}), '%')
 		</if>
-		<if test="supplierIds != null and supplierIds.size>0 ">
+		<if test="supplierIds != null ">
 			AND S.ID NOT IN
 			<foreach collection="supplierIds" open="(" item="sid" separator="," close=")">
 				#{sid}	
@@ -487,19 +533,16 @@
 		</if>
 	</sql>
 	
-	<!-- 语音抽取联调 -->
-	<select id="testVoiceExtract" parameterType="java.lang.String" resultMap="findSupplierMap">
-		SELECT * FROM (SELECT E.*,ROWNUM ROW_NUM FROM T_TEST_TEMP_EXTRACT E) A WHERE A.ROW_NUM BETWEEN 0 AND #{value}
-	</select>
-
 	<!-- 供应商个数 -->
 	<select id="listExtractionSupplierCount" parameterType="extract.model.supplier.SupplierExtractCondition" resultType="int">
+		<include refid="item_temp"/>
 		SELECT COUNT(DISTINCT S.ID) FROM T_SES_SMS_SUPPLIER S
 		<include refid="extractSql"/>
 	</select>
 	
 	<!-- 供应商抽取集合 -->
 	<select id="listExtractionSupplier" parameterType="extract.model.supplier.SupplierExtractCondition" resultMap="findSupplierMap">
+		<include refid="item_temp"/>
 		SELECT SP.* FROM 
 		(SELECT DISTINCT S.ID,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_MOBILE,S.ARMY_BUSINESS_TELEPHONE,DA.NAME SUPPLIER_TYPE  FROM T_SES_SMS_SUPPLIER S
 		<include refid="extractSql"/>
@@ -509,14 +552,23 @@
 	
 	<!-- 与关系查询返回供应商 -->
 	<select id="listExtractionSupplierOfLogicIsAnd" parameterType="extract.model.supplier.SupplierExtractCondition" resultMap="findSupplierMap">
+		<include refid="item_temp"/>
 		SELECT SP.* FROM 
-		(SELECT DISTINCT S.ID,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_MOBILE,S.ARMY_BUSINESS_TELEPHONE,DA.NAME SUPPLIER_TYPE FROM T_SES_SMS_SUPPLIER S
+		(SELECT DISTINCT S.ID,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_MOBILE,S.ARMY_BUSINESS_TELEPHONE,DA.NAME SUPPLIER_TYPE
+		<if test="supplierTypeCode == 'PROJECT'.toString() ">
+			,DD.NAME SUPPLIER_LEVEL
+		</if>
+		<if test="supplierTypeCode != 'PROJECT'.toString()" >
+			,L.SUPPLIER_LEVEL
+		</if>
+		 FROM T_SES_SMS_SUPPLIER S
 		<include refid="extractSql"/>
 		ORDER BY dbms_random.random) SP 
 	</select>
 	
 	<!--  -->
 	<select id="selectSuppleir" parameterType="extract.model.supplier.SupplierExtractCondition" resultMap="findSupplierMap">
+		<include refid="item_temp"/>
 		SELECT DISTINCT S.ID,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_MOBILE,S.ARMY_BUSINESS_TELEPHONE,DA.NAME SUPPLIER_TYPE,L.SUPPLIER_LEVEL  
 		FROM T_SES_SMS_SUPPLIER S
 		<include refid="extractSql"/>
@@ -525,6 +577,7 @@
 	
 	<!-- 自动抽取供应商列表 -->
 	<select id="autoExtractSupplierList" parameterType="extract.model.supplier.SupplierExtractCondition" resultMap="findSupplierMap">
+		<include refid="item_temp"/>
 		SELECT SP.* FROM 
 		(SELECT DISTINCT S.ID,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_MOBILE,S.ARMY_BUSINESS_TELEPHONE,T.SUPPLIER_TYPE_ID  FROM T_SES_SMS_SUPPLIER S
 			<include refid="extractSql"></include>

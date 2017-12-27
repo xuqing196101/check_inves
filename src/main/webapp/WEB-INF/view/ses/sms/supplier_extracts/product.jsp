@@ -59,10 +59,9 @@
 	var loadFlag = true;
     var key;
     var zTreeObj = "";
-    var zNodes = "";
     var categoryId="";
     var temp = new Array();
-    var isCheckParent = true;
+    var isCheckParent = true; //搜索的时候结果选中子节点 不会选中父节点
     var categoryName = new Object();
     $(function() {
       categoryId = sessionStorage.getItem("categoryId");
@@ -77,6 +76,7 @@
     });
     
     function loadZtree(obj) {
+     	var zNodes = "";
         var setting = {
           async: {
             autoParam: ["id"],
@@ -114,38 +114,44 @@
         
         if(obj){
         	// 加载中的菊花图标
-			loading = layer.load(1);
 			var cateName = $("#cateName").val();
 			var cateCode = $("#cateCode").val();
-			isCheckParent = !obj;
-			$.ajax({
-				url: "${pageContext.request.contextPath}/SupplierCondition_new/searchCate.do",
-				type:"post",
-				data: {"typeId" : "${supplierTypeCode}", "cateName" : cateName,"cateCode":cateCode},
-				async: false,
-				dataType: "json",
-				success: function(data){
-					if (!data || data.length<1) {
-						layer.msg("没有符合查询条件的产品类别信息！");
-					} else {
-						zNodes = data;
-						zTreeObj = $.fn.zTree.init($("#ztree"), setting, zNodes);
-						showNodes(zTreeObj,"ztree",null,zNodes);
-						/* zTreeObj.expandAll(true);//全部展开
-						// 如果搜索到的最后一个节点是父节点，折叠最后一个节点
-						var allNodes = zTreeObj.transformToArray(zTreeObj.getNodes());
-						if(allNodes && allNodes.length > 0){
-							// 最后一个节点
-							var lastNode = allNodes[allNodes.length-1];
-							if(lastNode.isParent){
-								zTreeObj.expandNode(lastNode, false);//折叠最后一个节点
-							}
-						} */
+			//名称和编号有一个不为空才回去搜索
+			if(cateName || cateCode){
+				loading = layer.load(1);
+				isCheckParent = !obj;
+				$.ajax({
+					url: "${pageContext.request.contextPath}/SupplierCondition_new/searchCate.do",
+					type:"post",
+					data: {"typeId" : "${supplierTypeCode}", "cateName" : cateName,"cateCode":cateCode},
+					async: false,
+					dataType: "json",
+					success: function(data){
+						if (!data || data.length<1) {
+							layer.msg("没有符合查询条件的产品类别信息！");
+						} else {
+							zNodes = data;
+							zTreeObj = $.fn.zTree.init($("#ztree"), setting, zNodes);
+							showNodes(zTreeObj,"ztree",null,zNodes);
+							/* zTreeObj.expandAll(true);//全部展开
+							// 如果搜索到的最后一个节点是父节点，折叠最后一个节点
+							var allNodes = zTreeObj.transformToArray(zTreeObj.getNodes());
+							if(allNodes && allNodes.length > 0){
+								// 最后一个节点
+								var lastNode = allNodes[allNodes.length-1];
+								if(lastNode.isParent){
+									zTreeObj.expandNode(lastNode, false);//折叠最后一个节点
+								}
+							} */
+						}
+						// 关闭加载中的菊花图标
+						layer.close(loading);
 					}
-					// 关闭加载中的菊花图标
-					layer.close(loading);
-				}
-			});
+				});
+			}else{
+				//名称和编号全都为空，重新加载品目树
+				loadZtree(false);
+			}
         }else{
        		isCheckParent = !obj;
 	        zTreeObj = $.fn.zTree.init($("#ztree"), setting, zNodes);
@@ -360,6 +366,12 @@
     var nodes=Obj.getCheckedNodes(true);  
     var cateName = new Array();
     var cateId = new Array();
+    
+    if(!isCheckParent){
+     //表示当前是搜索
+     categoryId.length>0? Array.prototype.push.apply(cateId,categoryId.split(",")):null;
+     categoryName.length>0? Array.prototype.push.apply(cateName,categoryName):null;
+    }
     
     for(var i=0;i<nodes.length;i++){ 
 	    //判断当前节点不存在存在于temp集合 就添加到cate集合中

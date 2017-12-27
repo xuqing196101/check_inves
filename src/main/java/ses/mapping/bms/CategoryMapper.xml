@@ -63,6 +63,17 @@
 		<result column="SUPPLIER_ENG_REG_LEVEL" property="engLevel" />
 		<result column="IS_PARENT" property="isParent" />
 	</resultMap>
+	<resultMap id="CateTreeMap" type="ses.model.bms.CategoryTree">
+		<id column="ID" property="id" />
+		<result column="NAME" property="name" />
+		<result column="KIND" property="kind" />
+		<result column="PARENT_ID" property="parentId" />
+		<result column="IS_PARENT" property="isParent" />
+		<result column="STATUS" property="status" />
+		<result column="CODE" property="code" />
+		<result column="PARAM_STATUS" property="paramStatus" />
+		<result column="SUPPLIER_REGISTER_LEVEL" property="treeLevel" />
+	</resultMap>
 	
 	<resultMap id="resMap" type="ses.model.bms.Category">
 		<id column="ID" property="id" />
@@ -848,7 +859,7 @@
 		where IS_DELETED=0 AND IS_PUBLISH = 0 and PARENT_ID=#{id} order by CODE
 	</select>
 	
-	<select id="selectCategoryByName" parameterType="map" resultMap="CateMap">
+	<select id="selectCategoryByName" parameterType="map" resultMap="CateTreeMap">
 		<!-- SELECT C.ID, C.NAME, C.STATUS, C.PARENT_ID, C.CODE,C.IS_PARENT FROM (SELECT *
 		FROM T_SES_BMS_CATEGORY
 		START WITH NAME like  CONCAT(CONCAT('%', #{cateName}), '%')
@@ -864,10 +875,10 @@
 		FROM T_SES_BMS_CATEGORY START WITH ID IN 
 		( SELECT ID FROM T_SES_BMS_CATEGORY 
 		<where>
-			<if test="cateName != null">
+			<if test="cateCode != null and cateCode!=''">
 				CODE LIKE CONCAT(CONCAT('%', #{cateCode}), '%') 
 			</if>
-			<if test="cateName != null">
+			<if test="cateName != null and cateName != ''">
 				AND NAME LIKE CONCAT(CONCAT('%', #{cateName}), '%') 
 			</if>
 			AND IS_DELETED=0 

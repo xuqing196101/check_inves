@@ -7,7 +7,6 @@ import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
-import ses.model.sms.Supplier;
 import ses.model.sms.SupplierItemLevel;
 import extract.model.supplier.Continent;
 import extract.model.supplier.Qua;
@@ -165,6 +164,14 @@ public interface SupplierExtractConditionService {
   List<Qualification> qualificationList(String name);
 
 
+  /**
+   * 
+   * <简述>排除供应商（黑名单，已抽取到） 
+   *
+   * @author Jia Chengxiang
+   * @dateTime 2017-12-27上午9:46:01
+   * @param condition
+   */
   void excludeSupplier(SupplierExtractCondition condition);
 
 
@@ -176,29 +183,67 @@ public interface SupplierExtractConditionService {
   int saveContype(SupplierExtractCondition condition, SupplierConType conType);
 
 
+  /**
+   * 
+   * <简述>需求变更后处理抽取条件方法 
+   *
+   * @author Jia Chengxiang
+   * @dateTime 2017-12-27上午9:45:39
+   * @param condition
+   * @param typeCode
+   * @return
+   */
   List<SupplierItemLevel> setExtractCondition2(SupplierExtractCondition condition, String typeCode);
 
-
+  /**
+   * 
+   * <简述> 保存信息至抽取条件副表
+   *
+   * @author Jia Chengxiang
+   * @dateTime 2017-12-27上午9:44:35
+   * @param condition
+   * @return
+   */
   int saveContype2(SupplierExtractCondition condition);
 
 
+  /**
+   * 
+   * <简述>原抽取供应商主方法 
+   *
+   * @author Jia Chengxiang
+   * @dateTime 2017-12-27上午9:45:03
+   * @param condition
+   * @param type
+   * @return
+   */
   Map<String, Object> selectLikeSupplier2(SupplierExtractCondition condition,
 		int type);
 
-
+  
+  /**
+   * 
+   * <简述> 需求变更后抽取供应商方法
+   *
+   * @author Jia Chengxiang
+   * @dateTime 2017-12-27上午9:43:27
+   * @param condition
+   * @param type 表示当前是获取满足人数还是抽取结果
+   * @return
+   */
   Map<String, Object> selectSupplier(SupplierExtractCondition condition, int type);
 
   /**
    * 
-   * <简述>语音抽取联调测试 
+   * <简述>境外分支树（洲，国家） 
    *
    * @author Jia Chengxiang
- * @param string 
-   * @dateTime 2017-12-13下午8:27:39
+   * @dateTime 2017-12-27上午9:43:06
+   * @param cid
+   * @param cname
+   * @param alreadyId
    * @return
    */
-  List<Supplier> testVoiceExtract(String lastRow);
-
   List<Continent> selectBranchTree(String cid, String cname, String[] alreadyId);
 }
 
