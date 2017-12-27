@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.review.SupplierInvesMapper">
+  <resultMap id="SupplierResultMap" 
+  	extends="ses.dao.sms.SupplierMapper.BaseResultMapSimple" 
+  	type="ses.model.sms.Supplier">
+   	<result column="SUPPLIER_TYPE_IDS" property="supplierTypeIds" />
+		<result column="SUPPLIER_TYPE_NAMES" property="supplierTypeNames" />
+  </resultMap>
+  
+  <sql id="Supplier_Column_List">
+  	ID, 
+  	SUPPLIER_NAME, 
+		BUSINESS_NATURE, 
+		SUBMIT_AT,
+		INVES_PEOPLE,
+		INVES_AT,
+		SUPPLIER_STATUS,
+		AUDIT_TEMPORARY
+  </sql>
+  
+  <select id="selectSupplierList" 
+  	resultMap="SupplierResultMap" 
+  	parameterType="ses.model.sms.Supplier">
+  	SELECT 
+  	sup.ID,
+  	sup.SUPPLIER_NAME,
+  	sup.SUBMIT_AT,
+  	sup.INVES_AT,
+  	sup.INVES_PEOPLE,
+  	sup.SUPPLIER_STATUS,
+  	sup.AUDIT_TEMPORARY,
+  	subQ.SUPPLIER_TYPE_IDS,
+  	subQ.SUPPLIER_TYPE_NAMES,
+  	subQ.ADDRESS_NAMES,
+  	dic.NAME AS BUSINESS_NATURE 
+  	FROM(
+		SELECT <include refid="Supplier_Column_List" /> 
+		FROM T_SES_SMS_SUPPLIER 
+		WHERE IS_DELETED = 0 
+		AND SUPPLIER_STATUS IN(5,7,8)
+		AND ID IN(
+			SELECT * FROM(
+			SELECT pass.SUPPLIER_ID FROM T_BSS_PPMS_SUPPLIER_CHECK_PASS pass
+			LEFT JOIN T_BSS_PPMS_PROJECTS proj
+			ON pass.PROJECT_ID = proj.ID
+			WHERE pass.IS_WON_BID = 1 
+			<if test="orgId != null">
+        AND proj.PURCHASE_DEP_ID = #{orgId}
+      </if>
+			ORDER BY pass.CONFIRM_TIME ASC)
+		)) sup
+		LEFT JOIN 
+		(SELECT 
+			ID,
+			wm_concat(DISTINCT(SUPPLIER_TYPE_ID)) AS SUPPLIER_TYPE_IDS,
+			wm_concat(DISTINCT(SUPPLIER_TYPE_NAME)) AS SUPPLIER_TYPE_NAMES,
+			wm_concat(PARENT_AREA_NAME || AREA_NAME) AS ADDRESS_NAMES 
+			FROM(
+			SELECT
+				sup.ID,
+				sr.SUPPLIER_TYPE_ID,
+				dic.NAME AS SUPPLIER_TYPE_NAME,
+				pArea.NAME AS PARENT_AREA_NAME,
+				area.NAME AS AREA_NAME
+				FROM
+				T_SES_SMS_SUPPLIER sup
+				LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE sr ON sup.ID = sr.SUPPLIER_ID
+				LEFT JOIN T_SES_BMS_DICTIONARY_DATA dic ON sr.SUPPLIER_TYPE_ID = dic.CODE
+				LEFT JOIN T_SES_SMS_SUPPLIER_ADDRESS addr ON sup.ID = addr.SUPPLIER_ID
+	      LEFT JOIN T_SES_BMS_AREA area ON area.ID = addr.ADDRESS
+	      LEFT JOIN T_SES_BMS_AREA pArea ON area.PARENT_ID = pArea.ID
+			) GROUP BY ID) subQ
+		ON subQ.ID = sup.ID
+		LEFT JOIN T_SES_BMS_DICTIONARY_DATA dic ON sup.BUSINESS_NATURE = dic.ID
+		WHERE 1 = 1
+		<if test="supplierName != null and supplierName != ''">
+        AND sup.SUPPLIER_NAME LIKE CONCAT(CONCAT('%',#{supplierName}), '%')
+      </if>
+      <if test="status != null">
+        AND sup.SUPPLIER_STATUS = #{status}
+      </if>
+      <if test="auditTemporary != null">
+        AND sup.AUDIT_TEMPORARY = #{auditTemporary}
+      </if>
+      <if test="businessNature != null and businessNature != ''">
+        AND sup.BUSINESS_NATURE = #{businessNature}
+      </if>
+      <if test="invesAt != null and invesAt != ''">
+        AND to_char(sup.INVES_AT,'yyyy-mm-dd') = to_char(#{invesAt},'yyyy-mm-dd')
+      </if>
+      <if test="addressName != null and addressName != ''">
+         AND subQ.ADDRESS_NAMES LIKE CONCAT(CONCAT('%', #{addressName}), '%')
+      </if>
+  </select>
+
+</mapper>

@@ -770,6 +770,9 @@ Supplier implements Serializable {
     
     private Date reviewAt; //复核时间
     
+    private String invesPeople;// 考察人
+    private Date invesAt;// 考察时间
+    
     public String getQrcodeImage() {
 		return qrcodeImage;
 	}
@@ -2240,6 +2243,22 @@ Supplier implements Serializable {
 
 	public void setReviewAt(Date reviewAt) {
 		this.reviewAt = reviewAt;
+	}
+
+	public String getInvesPeople() {
+		return invesPeople;
+	}
+
+	public void setInvesPeople(String invesPeople) {
+		this.invesPeople = invesPeople;
+	}
+
+	public Date getInvesAt() {
+		return invesAt;
+	}
+
+	public void setInvesAt(Date invesAt) {
+		this.invesAt = invesAt;
 	}
 	
 }

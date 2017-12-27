@@ -307,23 +307,20 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 
 		//在数据字典里查询营业执照类型
-		List < DictionaryData > list = DictionaryDataUtil.find(17);
-		for(int i = 0; i < list.size(); i++) {
-			if(supplier.getBusinessType().equals(list.get(i).getId())) {
-				String businessType = list.get(i).getName();
+		List < DictionaryData > businessTypeList = DictionaryDataUtil.find(17);
+		for(int i = 0; i < businessTypeList.size(); i++) {
+			if((supplier.getBusinessType()+"").equals(businessTypeList.get(i).getId())) {
+				String businessType = businessTypeList.get(i).getName();
 				supplier.setBusinessType(businessType);
 			}
 		}
 		
 		//在数据字典里查询企业性质
-		List < DictionaryData > businessList = DictionaryDataUtil.find(32);
-		String businessNature = supplier.getBusinessNature();
-		if(businessNature !=null){
-			for(int i = 0; i < businessList.size(); i++) {
-				if(businessNature.equals(businessList.get(i).getId())) {
-					String business = businessList.get(i).getName();
-					supplier.setBusinessNature(business);
-				}
+		List < DictionaryData > businessNatureList = DictionaryDataUtil.find(32);
+		for(int i = 0; i < businessNatureList.size(); i++) {
+			if((supplier.getBusinessNature()+"").equals(businessNatureList.get(i).getId())) {
+				String businessNature = businessNatureList.get(i).getName();
+				supplier.setBusinessNature(businessNature);
 			}
 		}
 		request.setAttribute("currSupplier", supplier);

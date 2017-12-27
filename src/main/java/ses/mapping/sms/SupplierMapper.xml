@@ -100,6 +100,8 @@
 		<result column="REVIEW_PEOPLE" property="reviewPeople"/>
 		<result column="REVIEW_STATUS" property="reviewStatus"/>
 		<result column="REVIEW_AT" property="reviewAt"/>
+		<result column="INVES_PEOPLE" property="invesPeople"/>
+		<result column="INVES_AT" property="invesAt"/>
     <association property="area" column="ADDRESS" select="ses.dao.bms.AreaMapper.selectById"/>
 	</resultMap>
 
@@ -198,6 +200,11 @@
 		<result column="INSTORAGE_AT" property="instorageAt" jdbcType="TIMESTAMP"/>
 		<result column="RETURN_COUNT" property="returnCount"/>
 		<result column="LAST_RETURN_DATE" property="lastReturnDate" jdbcType="TIMESTAMP"/>
+		<result column="REVIEW_PEOPLE" property="reviewPeople"/>
+		<result column="REVIEW_STATUS" property="reviewStatus"/>
+		<result column="REVIEW_AT" property="reviewAt"/>
+		<result column="INVES_PEOPLE" property="invesPeople"/>
+		<result column="INVES_AT" property="invesAt"/>
 	</resultMap>
 
 	<resultMap type="ses.model.sms.Supplier" id="supplierTypeMap"

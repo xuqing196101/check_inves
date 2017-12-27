@@ -526,6 +526,76 @@ public class SupplierAttachAuditExample {
             return (Criteria) this;
         }
 
+        public Criteria andViewUrlIsNull() {
+            addCriterion("VIEW_URL is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andViewUrlIsNotNull() {
+            addCriterion("VIEW_URL is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andViewUrlEqualTo(String value) {
+            addCriterion("VIEW_URL =", value, "viewUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andViewUrlNotEqualTo(String value) {
+            addCriterion("VIEW_URL <>", value, "viewUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andViewUrlGreaterThan(String value) {
+            addCriterion("VIEW_URL >", value, "viewUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andViewUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("VIEW_URL >=", value, "viewUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andViewUrlLessThan(String value) {
+            addCriterion("VIEW_URL <", value, "viewUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andViewUrlLessThanOrEqualTo(String value) {
+            addCriterion("VIEW_URL <=", value, "viewUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andViewUrlLike(String value) {
+            addCriterion("VIEW_URL like", value, "viewUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andViewUrlNotLike(String value) {
+            addCriterion("VIEW_URL not like", value, "viewUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andViewUrlIn(List<String> values) {
+            addCriterion("VIEW_URL in", values, "viewUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andViewUrlNotIn(List<String> values) {
+            addCriterion("VIEW_URL not in", values, "viewUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andViewUrlBetween(String value1, String value2) {
+            addCriterion("VIEW_URL between", value1, value2, "viewUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andViewUrlNotBetween(String value1, String value2) {
+            addCriterion("VIEW_URL not between", value1, value2, "viewUrl");
+            return (Criteria) this;
+        }
+
         public Criteria andAuditTypeIsNull() {
             addCriterion("AUDIT_TYPE is null");
             return (Criteria) this;

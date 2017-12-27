@@ -7,7 +7,7 @@ package ses.model.sms.review;
  * 
  * @author yggc
  * 
- * @date 2017-12-26
+ * @date 2017-12-27
  *
  */
 public class SupplierAttachAudit {
@@ -42,6 +42,11 @@ public class SupplierAttachAudit {
     private String suggest;
 
     /**
+     * 附件查看的URL
+     */
+    private String viewUrl;
+
+    /**
      * 审核类型（1：复核；2：考察）
      */
     private Integer auditType;
@@ -50,6 +55,11 @@ public class SupplierAttachAudit {
      * 是否删除 0 有效 1 删除
      */
     private Integer isDeleted;
+
+    /**
+     * 附件列表，存储json格式，例如： -- [{"xxx":[{"typeId":"xxx","businessId":"xxx","attachName":"xxx"}...]}...] -- [{"typeId":"xxx","businessId":"xxx","attachName":"xxx"}...]
+     */
+    private String attachList;
 
     /**
      * 主键
@@ -148,6 +158,22 @@ public class SupplierAttachAudit {
     }
 
     /**
+     * 附件查看的URL
+     * @return VIEW_URL 附件查看的URL
+     */
+    public String getViewUrl() {
+        return viewUrl;
+    }
+
+    /**
+     * 附件查看的URL
+     * @param viewUrl 附件查看的URL
+     */
+    public void setViewUrl(String viewUrl) {
+        this.viewUrl = viewUrl;
+    }
+
+    /**
      * 审核类型（1：复核；2：考察）
      * @return AUDIT_TYPE 审核类型（1：复核；2：考察）
      */
@@ -177,5 +203,21 @@ public class SupplierAttachAudit {
      */
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    /**
+     * 附件列表，存储json格式，例如： -- [{"xxx":[{"typeId":"xxx","businessId":"xxx","attachName":"xxx"}...]}...] -- [{"typeId":"xxx","businessId":"xxx","attachName":"xxx"}...]
+     * @return ATTACH_LIST 附件列表，存储json格式，例如： -- [{"xxx":[{"typeId":"xxx","businessId":"xxx","attachName":"xxx"}...]}...] -- [{"typeId":"xxx","businessId":"xxx","attachName":"xxx"}...]
+     */
+    public String getAttachList() {
+        return attachList;
+    }
+
+    /**
+     * 附件列表，存储json格式，例如： -- [{"xxx":[{"typeId":"xxx","businessId":"xxx","attachName":"xxx"}...]}...] -- [{"typeId":"xxx","businessId":"xxx","attachName":"xxx"}...]
+     * @param attachList 附件列表，存储json格式，例如： -- [{"xxx":[{"typeId":"xxx","businessId":"xxx","attachName":"xxx"}...]}...] -- [{"typeId":"xxx","businessId":"xxx","attachName":"xxx"}...]
+     */
+    public void setAttachList(String attachList) {
+        this.attachList = attachList;
     }
 }
