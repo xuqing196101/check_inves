@@ -64,7 +64,7 @@ public class SupplierDictionaryData implements Serializable {
 	
 	private String supplierCategory;//供应商注册品目修改
 	
-	private String supplierBank;
+	private String supplierBank;//基本开户许可证
 	
 	private String supplierConAch;//供应商国家或军队保密工程业绩
 	

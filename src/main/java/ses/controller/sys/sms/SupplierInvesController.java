@@ -17,7 +17,9 @@ import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAudit;
+import ses.model.sms.review.SupplierAttachAudit;
 import ses.service.oms.PurchaseOrgnizationServiceI;
+import ses.service.sms.SupplierAttachAuditService;
 import ses.service.sms.SupplierInvesService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
@@ -35,6 +37,9 @@ import common.utils.JdcgResult;
 @Controller
 @RequestMapping("/supplierInves")
 public class SupplierInvesController extends BaseSupplierController {
+	
+	@Autowired
+	private SupplierAttachAuditService supplierAttachAuditService;
 	@Autowired
 	private SupplierInvesService supplierInvesService;
 	@Autowired
@@ -118,6 +123,17 @@ public class SupplierInvesController extends BaseSupplierController {
 	 * @return
 	 */
 	public ResponseEntity < byte[] > downloadInvesRecord(Model model, String supplierId){
+		
+		// 查询附件审核表是否有生成考察项目
+		int count = supplierAttachAuditService.countBySupplierIdAndType(supplierId, 2);
+		if(count > 0){
+			// 获取考察项目信息
+			List<SupplierAttachAudit> list = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 2);
+		}else{
+			// 添加考察项目信息
+			int addResult = supplierAttachAuditService.addBySupplierIdAndType(supplierId, 2);
+		}
+		
 		// 供应商信息
 		Supplier supplier = supplierService.selectById(supplierId);
 		// 文件存储地址
