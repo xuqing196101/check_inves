@@ -148,4 +148,6 @@ public interface SupplierCheckPassService {
   * @return String
    */
   String selectBySupplierName(String packageId);
+  
+  List<SupplierCheckPass> selectByAll(HashMap<String, Object> map);
 }

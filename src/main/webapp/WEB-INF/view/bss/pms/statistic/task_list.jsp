@@ -35,9 +35,7 @@
   });
   
   function restValue(){
-	  $(':input','#add_form') 
-	  .not(':button, :submit, :reset, :hidden') 
-	  .val('') 
+	  $(':input','#add_form').not(':button, :submit, :reset, :hidden').val('') 
   }
   </script>
 </head>
@@ -67,27 +65,147 @@
 		<h2 class="search_detail">
 			<form id="add_form" action="${pageContext.request.contextPath }/statistic/taskList.html" method="post">
 				<input type="hidden" name="page" id="page">
-				<ul class="demand_list">
-					<li><label class="fl"> 任务名称：</label><span> <input
-							type="text" name="name" value="${task.name}" />
-					</span></li>
-					<li><label class="fl"> 任务文号：</label><span> <input
-							type="text" name="documentNumber" value="${task.documentNumber }" />
-					</span></li>
-					<li><label class="fl"> 下达时间：</label> 
-					<input type="text" name="beginDate" id="draftReviewedAt" value="${task.beginDate}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w150"/>
-					<span class="fl" style="font-size: 14px;">至</span><span> <input type="text" name="endDate" id="draftReviewedAt" value="${task.endDate}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w150"/>
-					</span></li>
-					<li><label class="fl"> 下达部门：</label><span> 
-                          <select name="purchaseId" id="purchaseId" class="w220">
-                             <option value="">请选择</option>
-                             <c:forEach items="${allOrg}" var="org" >
-                                <option value="${org.id}" <c:if test="${org.id==task.purchaseId}">selected="selected"</c:if>>${org.shortName}</option>
-                             </c:forEach>
-                          
-                          </select>
-					</span></li>
-				</ul>
+				<div class="m_row_5">
+					<div class="row">
+						<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			        <div class="row">
+			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">需求部门：</div>
+			          <div class="col-xs-8 f0 lh0">
+			            <select name="department" id="department" class="w100p h32 f14">
+			              <option value="">请选择</option>
+			              <c:forEach items="${allXq}" var="org" >
+			              	<option value="${org.shortName}" <c:if test="${org.shortName eq detail.department}">selected="selected"</c:if>>${org.shortName}</option>
+			              </c:forEach>
+			            </select>
+			          </div>
+			        </div>
+			      </div>
+			      
+			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			        <div class="row">
+			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">任务类型：</div>
+			          <div class="col-xs-8 f0 lh0">
+			            <select name="materialsType" id="materialsType" class="w100p h32 f14">
+			              <option value="">请选择</option>
+			              <c:forEach items="${planTypes}" var="type" >
+			              	<option value="${type.id}" <c:if test="${type.id eq task.materialsType}">selected="selected"</c:if>>${type.name}</option>
+			              </c:forEach>
+			            </select>
+			          </div>
+			        </div>
+			      </div>
+			      
+			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			        <div class="row">
+			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">产品名称：</div>
+			          <div class="col-xs-8 f0 lh0">
+			            <input type="text" name="goodsName" value="${detail.goodsName }" class="w100p h32 f14 mb0">
+			          </div>
+			        </div>
+			      </div>
+			      
+			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			        <div class="row">
+			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">任务名称：</div>
+			          <div class="col-xs-8 f0 lh0">
+			            <input type="text" name="name" value="${task.name}" class="w100p h32 f14 mb0">
+			          </div>
+			        </div>
+			      </div>
+			      
+			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			        <div class="row">
+			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">任务文号：</div>
+			          <div class="col-xs-8 f0 lh0">
+			            <input type="text" name="documentNumber" value="${task.documentNumber}" class="w100p h32 f14 mb0">
+			          </div>
+			        </div>
+			      </div>
+			      
+			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			        <div class="row">
+			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购方式：</div>
+			          <div class="col-xs-8 f0 lh0">
+			            <select name="purchaseType" id="purchaseTypes" class="w100p h32 f14">
+			              <option value="">请选择</option>
+			              <c:forEach items="${dataType}" var="d" >
+			              <option value="${d.id}" <c:if test="${d.id eq detail.purchaseType}">selected="selected"</c:if>>${d.name}</option>
+			              </c:forEach>
+			            </select>
+			          </div>
+			        </div>
+			      </div>
+			      
+			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			        <div class="row">
+			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购机构：</div>
+			          <div class="col-xs-8 f0 lh0">
+			            <select name="purchaseId" id="purchaseId" class="w100p h32 f14">
+			              <option value="">请选择</option>
+			              <c:forEach items="${allOrg}" var="org" >
+			              <option value="${org.id}" <c:if test="${org.id eq task.purchaseId}">selected="selected"</c:if>>${org.shortName}</option>
+			              </c:forEach>
+			            </select>
+			          </div>
+			        </div>
+			      </div>
+			      
+			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			        <div class="row">
+			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">项目编号：</div>
+			          <div class="col-xs-8 f0 lh0">
+			            <input type="text" name="projectNumber" value="${projectNumber}" class="w100p h32 f14 mb0">
+			          </div>
+			        </div>
+			      </div>
+			      
+			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			        <div class="row">
+			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">下达开始时间：</div>
+			          <div class="col-xs-8 f0 lh0">
+			            <input type="text" name="beginDate" id="draftReviewedAt" value="${task.beginDate}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate w100p h32 f14 mb0">
+			          </div>
+			        </div>
+			      </div>
+			      
+			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			        <div class="row">
+			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">下达结束时间：</div>
+			          <div class="col-xs-8 f0 lh0">
+			            <input type="text" name="endDate" id="draftReviewedAt" value="${task.endDate}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate w100p h32 f14 mb0">
+			          </div>
+			        </div>
+			      </div>
+			      
+			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			        <div class="row">
+			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">开标开始时间：</div>
+			          <div class="col-xs-8 f0 lh0">
+			            <input type="text" name="proBeginDate" value="${proBeginDate}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate w100p h32 f14 mb0">
+			          </div>
+			        </div>
+			      </div>
+			      
+			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			        <div class="row">
+			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">开标结束时间：</div>
+			          <div class="col-xs-8 f0 lh0">
+			            <input type="text" name="proEndDate" value="${proEndDate}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate w100p h32 f14 mb0">
+			          </div>
+			        </div>
+			      </div>
+			      
+			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			        <div class="row">
+			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">合同编号：</div>
+			          <div class="col-xs-8 f0 lh0">
+			            <input type="text" name="code" value="${code}" class="w100p h32 f14 mb0">
+			          </div>
+			        </div>
+			      </div>
+			      
+					</div>
+				</div>
 				<div class="tc mt5 clear" width="100%">
 				<input class="btn" type="submit" name="" value="查询" /> <input
 					type="button"  class="btn" onclick="restValue();" value="重置" />
@@ -96,8 +214,8 @@
 			</form>
 		</h2>
 		<div class="col-md-12 pl20 mt10">
-				<input class="btn-u" type="button" name="" value="按任务查询" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/taskList.html'" />
 				<input class="btn-u" type="button" name="" value="按明细查询" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/taskDetailList.html'" />
+				<input class="btn-u" type="button" name="" value="按任务查询" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/taskList.html'" />
 				<input class="btn-u" type="button" name="" value="按需求部门统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charDept.html'" />
 				<input class="btn-u" type="button" name="" value="按采购方式统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charType.html'" />
 				<input class="btn-u" type="button" name="" value="按月统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charMonth.html'" />

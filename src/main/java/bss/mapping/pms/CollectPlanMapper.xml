@@ -345,7 +345,7 @@
       </if>
       
       <if test="userId != null">
-       and  USER_ID IN (SELECT ID FROM T_SES_BMS_USER WHERE ORG_ID = #{userId})
+       and  USER_ID = #{userId}
       </if>
       <if test="orgId != null">
        and  USER_ID IN (

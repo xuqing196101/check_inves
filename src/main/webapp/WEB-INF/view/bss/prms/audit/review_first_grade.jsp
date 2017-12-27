@@ -77,7 +77,7 @@
   								if(data[i].supplierId == $(this).val()){
   									var dataScore = toDecimal(data[i].score);
   									$(this).next().val(dataScore);
-  									$(this).next().next().html("<font color='red' class='f18'>" + dataScore + "</font>");
+  									$(this).next().next().html("<font color='red'>" + dataScore + "</font>");
   									//合计
   									var packageId = "${packageId}";
   									var projectId = "${projectId}";
@@ -88,8 +88,8 @@
   										type:"post",
   										dataType:"JSON",
   										success:function(data){
-											$("input[name='"+supplierId_sum+"_total']").each(function(index,item){
-  												$(this).next().html("<font color='red' class='f18'>" + data+ "</font>");
+  											$("input[name='"+supplierId_sum+"_total']").each(function(index,item){
+  												$(this).next().html("<font color='red'>" + data + "</font>");
   											});
   										}
   									});
@@ -116,16 +116,16 @@
     					data = toDecimal(data);
     					$(obj).parent().next().find("input[name='expertScore']").val(data);
     					// 修改,将input框改为直接显示,input设置为hidden,将input值传给span
-    					$(obj).parent().next().find("input[name='expertScore']").next().html("<font color='red' class='f18'>" + data + "</font>");
+    					$(obj).parent().next().find("input[name='expertScore']").next().html("<font color='red'>" + data + "</font>");
     					$.ajax({
     						url:'${pageContext.request.contextPath}/reviewFirstAudit/supplierTotal.html',
     						data:$("#score_form").serialize(),
     						type:"post",
     						dataType:"JSON",
     						success:function(data) {
-								$("input[name='"+supplierId_sum+"_total']").each(function(index,item){
-									$(this).next().html("<font color='red' class='f18'>" + data + "</font>");
-								});
+    							$("input[name='"+supplierId+"_total']").each(function(index,item){
+    								$(this).next().html("<font color='red'>" + data + "</font>");
+    							});
     						}
     					});
     				}
@@ -191,81 +191,81 @@
   
   <!-- 锁表头js -->
   <script type="text/javascript">
-    function FixTable(TableID, FixColumnNumber, width, height) {
-      if ($("#" + TableID + "_tableLayout").length != 0) {
-        $("#" + TableID + "_tableLayout").before($("#" + TableID));
-        $("#" + TableID + "_tableLayout").empty();
-      }
-      else {
-        $("#" + TableID).after("<div id='" + TableID + "_tableLayout' style='overflow:hidden;height:" + height + "px; width:" + width + "px;'></div>");
-      }
-      $('<div id="' + TableID + '_tableFix"></div>'
-      + '<div id="' + TableID + '_tableHead"></div>'
-      + '<div id="' + TableID + '_tableColumn"></div>'
-      + '<div id="' + TableID + '_tableData"></div>').appendTo("#" + TableID + "_tableLayout");
-      var oldtable = $("#" + TableID);
-      var tableFixClone = oldtable.clone(true);
-      tableFixClone.attr("id", TableID + "_tableFixClone");
-      $("#" + TableID + "_tableFix").append(tableFixClone);
-      var tableHeadClone = oldtable.clone(true);
-      tableHeadClone.attr("id", TableID + "_tableHeadClone");
-      $("#" + TableID + "_tableHead").append(tableHeadClone);
-      var tableColumnClone = oldtable.clone(true);
-      tableColumnClone.attr("id", TableID + "_tableColumnClone");
-      $("#" + TableID + "_tableColumn").append(tableColumnClone);
-      $("#" + TableID + "_tableData").append(oldtable);
-      $("#" + TableID + "_tableLayout table").each(function () {
-        $(this).css("margin", "0");
-      });
-      var HeadHeight = $("#" + TableID + "_tableHead thead").height();
-      HeadHeight += 2;
-      $("#" + TableID + "_tableHead").css("height", HeadHeight);
-      $("#" + TableID + "_tableFix").css("height", HeadHeight);
-      var ColumnsWidth = 0;
-      var ColumnsNumber = 0;
-      $("#" + TableID + "_tableColumn tr:last td:lt(" + FixColumnNumber + ")").each(function () {
-        ColumnsWidth += $(this).outerWidth(true);
-        ColumnsNumber++;
-      });
-      ColumnsWidth += 2;
-      if ($.browser.msie) {
-        switch ($.browser.version) {
-          case "7.0":
-            if (ColumnsNumber >= 3) ColumnsWidth--;
-            break;
-          case "8.0":
-            if (ColumnsNumber >= 2) ColumnsWidth--;
-            break;
-        }
-      }
-      $("#" + TableID + "_tableColumn").css("width", ColumnsWidth);
-      $("#" + TableID + "_tableFix").css("width", ColumnsWidth);
-      $("#" + TableID + "_tableData").scroll(function () {
-        $("#" + TableID + "_tableHead").scrollLeft($("#" + TableID + "_tableData").scrollLeft());
-        $("#" + TableID + "_tableColumn").scrollTop($("#" + TableID + "_tableData").scrollTop());
-      });
-      $("#" + TableID + "_tableFix").css({ "overflow": "hidden", "position": "relative", "z-index": "50", "background-color": "#F7F7F7" });
-      $("#" + TableID + "_tableHead").css({ "overflow": "hidden", "width": width - 17, "position": "relative", "z-index": "45", "background-color": "#F7F7F7" });
-      $("#" + TableID + "_tableColumn").css({ "overflow": "hidden", "height": height - 17, "position": "relative", "z-index": "40", "background-color": "#F7F7F7" });
-      $("#" + TableID + "_tableData").css({ "overflow": "scroll", "width": width, "height": height, "position": "relative", "z-index": "35" });
-      if ($("#" + TableID + "_tableHead").width() > $("#" + TableID + "_tableFix table").width()) {
-        $("#" + TableID + "_tableHead").css("width", $("#" + TableID + "_tableFix table").width());
-        $("#" + TableID + "_tableData").css("width", $("#" + TableID + "_tableFix table").width() + 17);
-      }
-      if ($("#" + TableID + "_tableColumn").height() > $("#" + TableID + "_tableColumn table").height()) {
-        $("#" + TableID + "_tableColumn").css("height", $("#" + TableID + "_tableColumn table").height());
-        $("#" + TableID + "_tableData").css("height", $("#" + TableID + "_tableColumn table").height() + 17);
-      }
-      $("#" + TableID + "_tableFix").offset($("#" + TableID + "_tableLayout").offset());
-      $("#" + TableID + "_tableHead").offset($("#" + TableID + "_tableLayout").offset());
-      $("#" + TableID + "_tableColumn").offset($("#" + TableID + "_tableLayout").offset());
-      $("#" + TableID + "_tableData").offset($("#" + TableID + "_tableLayout").offset());
-    }
-    
-    $(document).ready(function () {
-      var boxwidth = $("#content").width();
-      FixTable("table", 3, boxwidth, 500);
-    });
+    // function FixTable(TableID, FixColumnNumber, width, height) {
+    //   if ($("#" + TableID + "_tableLayout").length != 0) {
+    //     $("#" + TableID + "_tableLayout").before($("#" + TableID));
+    //     $("#" + TableID + "_tableLayout").empty();
+    //   }
+    //   else {
+    //     $("#" + TableID).after("<div id='" + TableID + "_tableLayout' style='overflow:hidden;height:" + height + "px; width:" + width + "px;'></div>");
+    //   }
+    //   $('<div id="' + TableID + '_tableFix"></div>'
+    //   + '<div id="' + TableID + '_tableHead"></div>'
+    //   + '<div id="' + TableID + '_tableColumn"></div>'
+    //   + '<div id="' + TableID + '_tableData"></div>').appendTo("#" + TableID + "_tableLayout");
+    //   var oldtable = $("#" + TableID);
+    //   var tableFixClone = oldtable.clone(true);
+    //   tableFixClone.attr("id", TableID + "_tableFixClone");
+    //   $("#" + TableID + "_tableFix").append(tableFixClone);
+    //   var tableHeadClone = oldtable.clone(true);
+    //   tableHeadClone.attr("id", TableID + "_tableHeadClone");
+    //   $("#" + TableID + "_tableHead").append(tableHeadClone);
+    //   var tableColumnClone = oldtable.clone(true);
+    //   tableColumnClone.attr("id", TableID + "_tableColumnClone");
+    //   $("#" + TableID + "_tableColumn").append(tableColumnClone);
+    //   $("#" + TableID + "_tableData").append(oldtable);
+    //   $("#" + TableID + "_tableLayout table").each(function () {
+    //     $(this).css("margin", "0");
+    //   });
+    //   var HeadHeight = $("#" + TableID + "_tableHead thead").height();
+    //   HeadHeight += 2;
+    //   $("#" + TableID + "_tableHead").css("height", HeadHeight);
+    //   $("#" + TableID + "_tableFix").css("height", HeadHeight);
+    //   var ColumnsWidth = 0;
+    //   var ColumnsNumber = 0;
+    //   $("#" + TableID + "_tableColumn tr:last td:lt(" + FixColumnNumber + ")").each(function () {
+    //     ColumnsWidth += $(this).outerWidth(true);
+    //     ColumnsNumber++;
+    //   });
+    //   ColumnsWidth += 2;
+    //   if ($.browser.msie) {
+    //     switch ($.browser.version) {
+    //       case "7.0":
+    //         if (ColumnsNumber >= 3) ColumnsWidth--;
+    //         break;
+    //       case "8.0":
+    //         if (ColumnsNumber >= 2) ColumnsWidth--;
+    //         break;
+    //     }
+    //   }
+    //   $("#" + TableID + "_tableColumn").css("width", ColumnsWidth);
+    //   $("#" + TableID + "_tableFix").css("width", ColumnsWidth);
+    //   $("#" + TableID + "_tableData").scroll(function () {
+    //     $("#" + TableID + "_tableHead").scrollLeft($("#" + TableID + "_tableData").scrollLeft());
+    //     $("#" + TableID + "_tableColumn").scrollTop($("#" + TableID + "_tableData").scrollTop());
+    //   });
+    //   $("#" + TableID + "_tableFix").css({ "overflow": "hidden", "position": "relative", "z-index": "50", "background-color": "#F7F7F7" });
+    //   $("#" + TableID + "_tableHead").css({ "overflow": "hidden", "width": width - 17, "position": "relative", "z-index": "45", "background-color": "#F7F7F7" });
+    //   $("#" + TableID + "_tableColumn").css({ "overflow": "hidden", "height": height - 17, "position": "relative", "z-index": "40", "background-color": "#F7F7F7" });
+    //   $("#" + TableID + "_tableData").css({ "overflow": "scroll", "width": width, "height": height, "position": "relative", "z-index": "35" });
+    //   if ($("#" + TableID + "_tableHead").width() > $("#" + TableID + "_tableFix table").width()) {
+    //     $("#" + TableID + "_tableHead").css("width", $("#" + TableID + "_tableFix table").width());
+    //     $("#" + TableID + "_tableData").css("width", $("#" + TableID + "_tableFix table").width() + 17);
+    //   }
+    //   if ($("#" + TableID + "_tableColumn").height() > $("#" + TableID + "_tableColumn table").height()) {
+    //     $("#" + TableID + "_tableColumn").css("height", $("#" + TableID + "_tableColumn table").height());
+    //     $("#" + TableID + "_tableData").css("height", $("#" + TableID + "_tableColumn table").height() + 17);
+    //   }
+    //   $("#" + TableID + "_tableFix").offset($("#" + TableID + "_tableLayout").offset());
+    //   $("#" + TableID + "_tableHead").offset($("#" + TableID + "_tableLayout").offset());
+    //   $("#" + TableID + "_tableColumn").offset($("#" + TableID + "_tableLayout").offset());
+    //   $("#" + TableID + "_tableData").offset($("#" + TableID + "_tableLayout").offset());
+    // }
+    // 
+    // $(document).ready(function () {
+    //   var boxwidth = $("#content").width();
+    //   FixTable("table", 3, boxwidth, 500);
+    // });
   </script>
 </head>
   
@@ -297,7 +297,7 @@
 		  <!-- 包id -->
 	   	<input type="hidden" name="packageId" id="packageId" value="${packageId }">
       <div class="content m0" id="content">
-	    <table id="table" style="width:1600px; font-size: medium; max-width:10000px" class="table table-bordered lockout">
+	    <table id="table" class="table table-bordered table-hover lockout" style="width: 1800px;">
 	      <thead>
 			    <tr>
 						<th class="tc w60" rowspan="2">评审项目</th>
@@ -333,14 +333,14 @@
 		 	      <c:if test="${score.typeName == 8}"><c:set var="model" value="模型一B"/></c:if>
 		 	      <c:if test="${score.typeName == 9}"><c:set var="model" value="模型四B"/></c:if>
 		 	      <c:if test="${score.typeName == 10}"><c:set var="model" value="模型一C"/></c:if>
-    	      <td class="tc" rowspan="${score.count}" <c:if test="${score.count eq '0' or score.count == 0}">style="display: none"</c:if> >${markTerm.name}</td>
-    	      <td class="tc">
+    	      <td class="tc f18" rowspan="${score.count}" <c:if test="${score.count eq '0' or score.count == 0}">style="display: none"</c:if> >${markTerm.name}</td>
+    	      <td class="tc f18">
     	        <a href="javascript:void();" title='所 属 模 型 : ${model}&#10;评 审 指 标 : ${score.name}&#10;评 审 内 容 : ${score.reviewContent}'>
     	          <c:if test="${fn:length(score.name) <= 10}">${score.name}</c:if>
     	          <c:if test="${fn:length(score.name) > 10}">${fn:substring(score.name, 0, 10)}...</c:if>
     	        </a>
     	      </td>
-	 	        <td class="tc">${score.standardScore}</td>
+	 	        <td class="tc f18">${score.standardScore}</td>
 	 	        <c:forEach items="${supplierList}" var="supplier">
 		 	      <c:choose>
 		 	      <c:when test="${score.typeName == '0'}">
@@ -392,7 +392,7 @@
 	 	        </td>
 		 	      </c:otherwise>
 		 	      </c:choose>
-		 	      <td class="tc">
+		 	      <td class="tc f18">
 			 	      <input type="hidden" name="supplierId"  value="${supplier.supplierId}"/>
 			 	      <input type="hidden" name="expertScore" readonly="readonly"
 			 	      	<c:forEach items="${scores}" var="sco">
@@ -448,5 +448,85 @@
 	</div>
   </div>
   </div>
+	
+	<!-- 锁表头锁表列 -->
+	<script>
+		function FixTable(TableID, FixColumnNumber, width, height) {
+			if ($("#" + TableID + "_tableLayout").length != 0) {
+				$("#" + TableID + "_tableLayout").before($("#" + TableID));
+				$("#" + TableID + "_tableLayout").empty();
+			}
+			else {
+				$("#" + TableID).after("<div id='" + TableID + "_tableLayout' style='overflow:hidden;height:" + height + "px; width:" + width + "px;'></div>");
+			}
+			$('<div id="' + TableID + '_tableFix"></div>'
+			+ '<div id="' + TableID + '_tableHead"></div>'
+			+ '<div id="' + TableID + '_tableColumn"></div>'
+			+ '<div id="' + TableID + '_tableData"></div>').appendTo("#" + TableID + "_tableLayout");
+			var oldtable = $("#" + TableID);
+			var tableFixClone = oldtable.clone(true);
+			tableFixClone.attr("id", TableID + "_tableFixClone");
+			$("#" + TableID + "_tableFix").append(tableFixClone);
+			var tableHeadClone = oldtable.clone(true);
+			tableHeadClone.attr("id", TableID + "_tableHeadClone");
+			$("#" + TableID + "_tableHead").append(tableHeadClone);
+			var tableColumnClone = oldtable.clone(true);
+			tableColumnClone.attr("id", TableID + "_tableColumnClone");
+			$("#" + TableID + "_tableColumn").append(tableColumnClone);
+			$("#" + TableID + "_tableData").append(oldtable);
+			$("#" + TableID + "_tableLayout table").each(function () {
+				$(this).css("margin", "0");
+			});
+			var HeadHeight = $("#" + TableID + "_tableHead thead").height();
+			HeadHeight += 2;
+			$("#" + TableID + "_tableHead").css("height", HeadHeight);
+			$("#" + TableID + "_tableFix").css("height", HeadHeight);
+			var ColumnsWidth = 0;
+			var ColumnsNumber = 0;
+			$("#" + TableID + "_tableColumn tr:last td:lt(" + FixColumnNumber + ")").each(function () {
+				ColumnsWidth += $(this).outerWidth(true);
+				ColumnsNumber++;
+			});
+			ColumnsWidth += 2;
+			if ($.browser.msie) {
+				switch ($.browser.version) {
+					case "7.0":
+						if (ColumnsNumber >= 3) ColumnsWidth--;
+						break;
+					case "8.0":
+						if (ColumnsNumber >= 2) ColumnsWidth--;
+						break;
+				}
+			}
+			$("#" + TableID + "_tableColumn").css("width", ColumnsWidth);
+			$("#" + TableID + "_tableFix").css("width", ColumnsWidth);
+			$("#" + TableID + "_tableData").scroll(function () {
+				$("#" + TableID + "_tableHead").scrollLeft($("#" + TableID + "_tableData").scrollLeft());
+				$("#" + TableID + "_tableColumn").scrollTop($("#" + TableID + "_tableData").scrollTop());
+			});
+			$("#" + TableID + "_tableFix").css({ "overflow": "hidden", "position": "relative", "z-index": "50", "background-color": "#F7F7F7" });
+			$("#" + TableID + "_tableHead").css({ "overflow": "hidden", "width": width - 17, "position": "relative", "z-index": "45", "background-color": "#F7F7F7" });
+			$("#" + TableID + "_tableColumn").css({ "overflow": "hidden", "height": height - 17, "position": "relative", "z-index": "40", "background-color": "#F7F7F7" });
+			$("#" + TableID + "_tableData").css({ "overflow": "scroll", "width": width, "height": height, "position": "relative", "z-index": "35" });
+			if ($("#" + TableID + "_tableHead").width() > $("#" + TableID + "_tableFix table").width()) {
+				$("#" + TableID + "_tableHead").css("width", $("#" + TableID + "_tableFix table").width());
+				$("#" + TableID + "_tableData").css("width", $("#" + TableID + "_tableFix table").width() + 17);
+			}
+			if ($("#" + TableID + "_tableColumn").height() > $("#" + TableID + "_tableColumn table").height()) {
+				$("#" + TableID + "_tableColumn").css("height", $("#" + TableID + "_tableColumn table").height());
+				$("#" + TableID + "_tableData").css("height", $("#" + TableID + "_tableColumn table").height() + 17);
+			}
+			$("#" + TableID + "_tableFix").offset($("#" + TableID + "_tableLayout").offset());
+			$("#" + TableID + "_tableHead").offset($("#" + TableID + "_tableLayout").offset());
+			$("#" + TableID + "_tableColumn").offset($("#" + TableID + "_tableLayout").offset());
+			$("#" + TableID + "_tableData").offset($("#" + TableID + "_tableLayout").offset());
+		}
+		
+		$(document).ready(function () {
+			var boxwidth = $("#content").width();
+			FixTable("table", 3, boxwidth, 500);
+		});
+	</script>
+	
 </body>
 </html>

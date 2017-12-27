@@ -282,7 +282,7 @@
             <select name="organization" id="organization" class="w100p h32 f14">
               <option value="">请选择</option>
               <c:forEach items="${allOrg}" var="org" >
-              <option value="${org.id}" <c:if test="${org.id==detail.organization}">selected="selected"</c:if>>${org.shortName}</option>
+              <option value="${org.id}" <c:if test="${org.id eq detail.organization}">selected="selected"</c:if>>${org.shortName}</option>
               </c:forEach>
             </select>
           </div>
@@ -363,8 +363,8 @@
 		</form>
 		</h2>
 		<div class="pl20">
-			<input class="btn-u" type="button" name="" value="按任务查询" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/taskList.html'" />
 			<input class="btn-u" type="button" name="" value="按明细查询" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/taskDetailList.html'" />
+			<input class="btn-u" type="button" name="" value="按任务查询" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/taskList.html'" />
 			<input class="btn-u" type="button" name="" value="按需求部门统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charDept.html'" />
 			<input class="btn-u" type="button" name="" value="按采购方式统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charType.html'" />
 			<input class="btn-u" type="button" name="" value="按月统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charMonth.html'" />

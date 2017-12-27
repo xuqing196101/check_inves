@@ -75,7 +75,6 @@ import common.model.UploadFile;
 import common.service.UploadService;
 
 import ses.model.bms.DictionaryData;
-import ses.model.bms.Role;
 import ses.model.bms.User;
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.ExpExtractRecord;
@@ -239,29 +238,25 @@ public class PlanSupervisionController {
                 collectPlan.setFileName(null);
             }
         	HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
-			List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
-			if (superviseOrgId != null && !superviseOrgId.isEmpty() || StringUtils.equals("4", user.getTypeName())) {
-				if (StringUtils.equals("2", user.getTypeName()) || StringUtils.equals("4", user.getTypeName()) || StringUtils.equals("5", user.getTypeName())) {
-					if (StringUtils.equals("2", user.getTypeName())) {
-		            	collectPlan.setUserId(user.getOrg().getId());
-		            } else if (StringUtils.equals("5", user.getTypeName())) {
-		            	collectPlan.setOrgId(superviseOrgId);
-		            }
-					List<CollectPlan> list = collectPlanService.querySupervision(collectPlan, page==null?1:page);
-		            for (int i = 0; i < list.size(); i++ ) {
-		                try {
-		                    User users = userService.getUserById(list.get(i).getUserId());
-		                    list.get(i).setUserId(users.getRelName());
-		                } catch (Exception e) {
-		                    list.get(i).setUserId("");
-		                }
-		            }
-		            PageInfo<CollectPlan> info = new PageInfo<>(list);
-		            model.addAttribute("info", info);
-		            model.addAttribute("collectPlan", collectPlan);
-				}
+        	Integer dataAccess = (Integer) dataMap.get("dataAccess");
+			if (dataAccess == 2){
+				List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
+				collectPlan.setOrgId(superviseOrgId);
+			} else if (dataAccess == 3){
+				collectPlan.setUserId(user.getId());
 			}
-			
+			List<CollectPlan> list = collectPlanService.querySupervision(collectPlan, page==null?1:page);
+            for (int i = 0; i < list.size(); i++ ) {
+                try {
+                    User users = userService.getUserById(list.get(i).getUserId());
+                    list.get(i).setUserId(users.getRelName());
+                } catch (Exception e) {
+                    list.get(i).setUserId("");
+                }
+            }
+            PageInfo<CollectPlan> info = new PageInfo<>(list);
+            model.addAttribute("info", info);
+            model.addAttribute("collectPlan", collectPlan);
         }
         return "sums/ss/planSupervision/list";
     }

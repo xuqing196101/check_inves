@@ -69,6 +69,7 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierService;
+import ses.util.AuthorityUtil;
 import ses.util.DictionaryDataUtil;
 import ses.util.PathUtil;
 import ses.util.PropUtil;
@@ -138,61 +139,54 @@ public class PurchaseRequiredController extends BaseController {
 
 	/**
 	 * 
+	 * @throws IOException 
 	 * @Title: queryPlan @Description: 条件查询分页 author: Li Xiaoxiao @param @param
 	 * purchaseRequired @param @return @return String @throws
 	 */
 	@RequestMapping("/list")
-	public String queryPlan(@CurrentUser User user, PurchaseRequired purchaseRequired, Integer page, Model model) {
-		purchaseRequired.setIsMaster(1);
+	public String queryPlan(@CurrentUser User user, PurchaseRequired purchaseRequired, Integer page, Model model) throws IOException {
+		if (user != null && StringUtils.isNotBlank(user.getTypeName())) {
+			purchaseRequired.setIsMaster(1);
+			if (purchaseRequired.getStatus() == null) {
+				purchaseRequired.setStatus("total");
+			} else if (purchaseRequired.getStatus().equals("5")) {
+				purchaseRequired.setSign("5");
+			}
+			if (purchaseRequired.getStatus().equals("total")) {
+				purchaseRequired.setStatus(null);
+			}
+			HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
+            Integer dataAccess = (Integer) dataMap.get("dataAccess");
+            if (dataAccess == 2) {
+            	List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
+            	purchaseRequired.setUserList(superviseOrgId);
+			} else if (dataAccess == 3) {
+				purchaseRequired.setUserId(user.getId());
+			}
+			if (page == null) {
+				page = StaticVariables.DEFAULT_PAGE;
+			}
+			
+			List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired, page);
+			model.addAttribute("info", new PageInfo<PurchaseRequired>(list));
+			model.addAttribute("inf", purchaseRequired);
 
-		if (purchaseRequired.getStatus() == null) {
-			// purchaseRequired.setStatus("1");
-			purchaseRequired.setStatus("total");
-		}
+			Map<String, Object> map = new HashMap<String, Object>();
+			List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
+			model.addAttribute("requires", requires);
 
-		else if (purchaseRequired.getStatus().equals("5")) {
-			purchaseRequired.setSign("5");
-		}
-		if (purchaseRequired.getStatus().equals("total")) {
-			purchaseRequired.setStatus(null);
-		}
-		if (page == null) {
-			page = StaticVariables.DEFAULT_PAGE;
-		}
-		/*List<Role> roles = user.getRoles();
-		boolean bool = false;
-		if (roles != null && roles.size() > 0) {
-			for (Role r : roles) {
-				if (r.getCode().equals("NEED_M")) {
-					bool = true;
-				}
+			if (user.getOrg() != null) {
+				List<PurchaseOrg> manages = purchserOrgnaztionService.get(user.getOrg().getId());
+				model.addAttribute("manages", manages.size());
+			}
+			
+			//只有需求部门才能操作
+			if("0".equals(user.getTypeName())){
+				model.addAttribute("auth", "show");
+			}else {
+				model.addAttribute("auth", "hidden");
 			}
 		}
-		if (bool != true) {*/
-			purchaseRequired.setUserId(user.getId());
-		/*}*/
-		List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired, page);
-		model.addAttribute("info", new PageInfo<PurchaseRequired>(list));
-		model.addAttribute("inf", purchaseRequired);
-
-		Map<String, Object> map = new HashMap<String, Object>();
-		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
-		model.addAttribute("requires", requires);
-
-		// HashMap<String, Object> maps = new HashMap<String, Object>();
-		// maps.put("typeName", StaticVariables.ORG_TYPE_MANAGE);
-		// List<Orgnization> manages =
-		// orgnizationServiceI.findOrgnizationList(maps);
-		List<PurchaseOrg> manages = purchserOrgnaztionService.get(user.getOrg().getId());
-		// model.addAttribute("manages", manages);
-		
-		//只有需求部门才能操作
-    if("0".equals(user.getTypeName())){
-      model.addAttribute("auth", "show");
-    }else {
-      model.addAttribute("auth", "hidden");
-    }
-		model.addAttribute("manages", manages.size());
 		return "bss/pms/purchaserequird/list";
 	}
 

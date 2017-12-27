@@ -666,16 +666,16 @@ public class PackageExpertServiceImpl implements PackageExpertService {
                       if(ep.getScore().doubleValue()<0){
                         if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                           flg=true;
-                        }else{
+                        }/*else{
                           total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
-                        }
+                        }*/
                       }
                     }
                   }
                 }
-                if(total.doubleValue()>deviation){
+                /*if(total.doubleValue()>deviation){
                   flg=true;
-                }
+                }*/
               }
               if(flg){
                 technologyScore=BigDecimal.ZERO;
@@ -787,16 +787,16 @@ public class PackageExpertServiceImpl implements PackageExpertService {
                     if(ep.getScore().doubleValue()<0){
                       if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                         flg=true;
-                      }else{
+                      }/*else{
                         total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
-                      }
+                      }*/
                     }
                   }
                 }
               }
-              if(total.doubleValue()>deviation){
+              /*if(total.doubleValue()>deviation){
                 flg=true;
-              }
+              }*/
             }
             if(flg){
               obj.setTechnologyScore(BigDecimal.ZERO);
@@ -1365,16 +1365,16 @@ public class PackageExpertServiceImpl implements PackageExpertService {
                       if(ep.getScore().doubleValue()<0){
                         if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                           flg=true;
-                        }else{
+                        }/*else{
                           total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
-                        }
+                        }*/
                       }
                     }
                   }
                 }
-                if(total.doubleValue()>deviation){
+                /*if(total.doubleValue()>deviation){
                   flg=true;
-                }
+                }*/
               }
               if(flg){
                 technologyScore=BigDecimal.ZERO;
@@ -1586,16 +1586,16 @@ public class PackageExpertServiceImpl implements PackageExpertService {
                   if(ep.getScore().doubleValue()<0){
                     if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                       flg=true;
-                    }else{
+                    }/*else{
                       total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
-                    }
+                    }*/
                   }
                 }
               }
             }
-            if(total.doubleValue()>deviation){
+            /*if(total.doubleValue()>deviation){
               flg=true;
-            }
+            }*/
           }
           if(flg){
             score=BigDecimal.ZERO;

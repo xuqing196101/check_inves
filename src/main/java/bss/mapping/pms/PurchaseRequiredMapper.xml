@@ -683,9 +683,6 @@
 			<if test="isMaster != null">
 				and IS_MASTER = #{isMaster}
 			</if>
-	<!-- 		<if test="status==1">
-				and STATUS in('1','2')
-			</if> -->
 			<if test="sign==2 ">
 				and STATUS in('2','3','4','5')
 			</if>
@@ -1282,10 +1279,7 @@
 	
 	<select id="supervisionByDetail" parameterType="java.lang.String" resultMap="PurchaseRequired_Map">
 		SELECT
-			detail. ID, detail.PARENT_ID, detail.SEQ, detail.DEPARTMENT, detail.MATERIAL_NAME,
-			detail.STAND, detail.QUALIT_STAND, detail.ITEM, detail.PURCHASE_COUNT, detail.PRICE,
-			detail.BUDGET, detail.DELIVER_DATE, detail.SUPPLIER, detail.PURCHASE_TYPE,
-			detail.IS_MASTER, detail.STATUS,
+			detail.*,
 			DECODE (
 				(
 					SELECT
@@ -1313,5 +1307,24 @@
 			)
 		ORDER BY
 			detail.IS_MASTER ASC
+	</select>
+	
+	<select id="supervisionByDemand" parameterType="java.lang.String" resultMap="PurchaseRequired_Map">
+			SELECT
+				ID,UNIQUE_ID,PLAN_NAME,CREATED_AT,BUDGET,STATUS,
+			(SELECT REL_NAME FROM T_SES_BMS_USER WHERE ID = P.USER_ID) AS USER_ID
+			FROM
+				T_BSS_PMS_PURCHASE_REQUIRED P
+			WHERE
+				FILE_ID IN (
+					SELECT
+						FILE_ID
+					FROM
+						T_BSS_PMS_PURCHASE_DETAIL
+					WHERE
+						UNIQUE_ID = #{uniqueId}
+					GROUP BY
+						FILE_ID
+				) AND IS_MASTER = 1 ORDER BY CREATED_AT ASC
 	</select>
 </mapper>
