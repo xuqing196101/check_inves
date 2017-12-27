@@ -137,7 +137,8 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);  
 	                    <td style="border: 1px solid #ddd;padding: 5px 10px;">
 	                      <c:forEach items="${expertScoreList}" var="score">
 	                        <c:if test="${score.packageId eq pack.id and score.supplierId eq supplier.suppliers.id and score.expertId eq expert.expert.id}">
-	                          ${score.score}
+	                          <c:if test="${score.score  lt  '0' }">0</c:if>
+			  	             <c:if test="${score.score ge '0' }">${score.score}</c:if>
 	                        </c:if>
 	                      </c:forEach>
 	                    </td>

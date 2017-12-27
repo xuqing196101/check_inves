@@ -2166,7 +2166,9 @@ public class PackageExpertController {
                       if(bms!=null&&bms.size()>0){
                         BidMethod bm=bms.get(0);
                         if("2".equals(bm.getTypeName())){
-                          deviation=bm.getDeviation().doubleValue();
+                          if(bm.getDeviation()!=null){
+                            deviation=bm.getDeviation().doubleValue();
+                          }
                         }  
                       }
                       Boolean flg=false;
@@ -2177,20 +2179,14 @@ public class PackageExpertController {
                         expertScore.setPackageId(pack.getId());
                         expertScore.setProjectId(projectId);
                         expertScore.setSupplierId(ess.getSupplierId());
-                        List<ExpertScore> selectByScore = expertScoreService.selectByScore(expertScore);
-                        for (ExpertScore ep : selectByScore) {
-                          ScoreModel scoreModel=new ScoreModel();
-                          scoreModel.setId(ep.getScoreModelId());
-                          List<ScoreModel> findListByScoreModel = scoreModelService.find(scoreModel);
-                          if(findListByScoreModel!=null&&findListByScoreModel.size()>0){
-                            ScoreModel scoreModel2 = findListByScoreModel.get(0);
-                            if("10".equals(scoreModel2.getTypeName())){
+                        List<ExpertScore> selectByScore = expertScoreService.selectByModelScore(expertScore);
+                        if(selectByScore!=null&&selectByScore.size()>0){
+                          for (ExpertScore ep : selectByScore) {
+                            if("10".equals(ep.getScoreModel().getTypeName())){
                               if(ep.getScore().doubleValue()<0){
-                                if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
+                                if(Math.abs(Double.parseDouble(ep.getScoreModel().getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                                   ess.setScore(0+"");
-                                }/*else{
-                                  total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
-                                }*/
+                                }
                               }
                             }
                           }
@@ -2483,7 +2479,9 @@ public class PackageExpertController {
                     if(bms!=null&&bms.size()>0){
                       BidMethod bm=bms.get(0);
                       if("2".equals(bm.getTypeName())){
-                        deviation=bm.getDeviation().doubleValue();
+                        if(bm.getDeviation()!=null){
+                          deviation=bm.getDeviation().doubleValue();
+                        }
                       }  
                     }
                     Boolean flg=false;
@@ -2494,20 +2492,14 @@ public class PackageExpertController {
                       expertScore.setPackageId(pack.getId());
                       expertScore.setProjectId(projectId);
                       expertScore.setSupplierId(ess.getSupplierId());
-                      List<ExpertScore> selectByScore = expertScoreService.selectByScore(expertScore);
-                      for (ExpertScore ep : selectByScore) {
-                        ScoreModel scoreModel=new ScoreModel();
-                        scoreModel.setId(ep.getScoreModelId());
-                        List<ScoreModel> findListByScoreModel = scoreModelService.find(scoreModel);
-                        if(findListByScoreModel!=null&&findListByScoreModel.size()>0){
-                          ScoreModel scoreModel2 = findListByScoreModel.get(0);
-                          if("10".equals(scoreModel2.getTypeName())){
+                      List<ExpertScore> selectByScore = expertScoreService.selectByModelScore(expertScore);
+                      if(selectByScore!=null&&selectByScore.size()>0){
+                        for (ExpertScore ep : selectByScore) {
+                          if("10".equals(ep.getScoreModel().getTypeName())){
                             if(ep.getScore().doubleValue()<0){
-                              if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
+                              if(Math.abs(Double.parseDouble(ep.getScoreModel().getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                                 ess.setScore(0+"");
-                              }/*else{
-                                total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
-                              }*/
+                              }
                             }
                           }
                         }
@@ -2545,6 +2537,7 @@ public class PackageExpertController {
      */
     @RequestMapping("detailedReview")
     public String detailedReview(String projectId, String packageId, Model model) {
+        long begin=System.currentTimeMillis();
         HashMap<String, Object> searchMap = new HashMap<String, Object>();
         searchMap.put("id", packageId);
         Packages packageModel = packageService.findPackageById(searchMap).get(0);
@@ -2636,7 +2629,9 @@ public class PackageExpertController {
                 if(bms!=null&&bms.size()>0){
                   BidMethod bm=bms.get(0);
                   if("2".equals(bm.getTypeName())){
-                    deviation=bm.getDeviation().doubleValue();
+                    if(bm.getDeviation()!=null){
+                      deviation=bm.getDeviation().doubleValue();
+                    }
                   }  
                 }
                 Boolean flg=false;
@@ -2647,20 +2642,14 @@ public class PackageExpertController {
                   expertScore.setPackageId(packageId);
                   expertScore.setProjectId(projectId);
                   expertScore.setSupplierId(score.getSupplierId());
-                  List<ExpertScore> selectByScore = expertScoreService.selectByScore(expertScore);
-                  for (ExpertScore ep : selectByScore) {
-                    ScoreModel scoreModel=new ScoreModel();
-                    scoreModel.setId(ep.getScoreModelId());
-                    List<ScoreModel> findListByScoreModel = scoreModelService.find(scoreModel);
-                    if(findListByScoreModel!=null&&findListByScoreModel.size()>0){
-                      ScoreModel scoreModel2 = findListByScoreModel.get(0);
-                      if("10".equals(scoreModel2.getTypeName())){
+                  List<ExpertScore> selectByScore = expertScoreService.selectByModelScore(expertScore);
+                  if(selectByScore!=null&&selectByScore.size()>0){
+                    for (ExpertScore ep : selectByScore) {
+                      if("10".equals(ep.getScoreModel().getTypeName())){
                         if(ep.getScore().doubleValue()<0){
-                          if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
+                          if(Math.abs(Double.parseDouble(ep.getScoreModel().getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                             flg=true;
-                          }/*else{
-                            total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
-                          }*/
+                          }
                         }
                       }
                     }
@@ -2678,6 +2667,8 @@ public class PackageExpertController {
         }
         model.addAttribute("expertScoreList", expertScoreList);
         model.addAttribute("packageId", packageId);
+        long end=System.currentTimeMillis();
+        System.out.println("耗时："+(end-begin));
         return "bss/prms/expert_detailed_review";
     }
 
@@ -2801,7 +2792,9 @@ public class PackageExpertController {
             if(bms!=null&&bms.size()>0){
               BidMethod bm=bms.get(0);
               if("2".equals(bm.getTypeName())){
-                deviation=bm.getDeviation().doubleValue();
+                if(bm.getDeviation()!=null){
+                  deviation=bm.getDeviation().doubleValue();
+                }
               }  
             }
             if(deviation!=null){
@@ -2811,22 +2804,15 @@ public class PackageExpertController {
                 expertScore.setPackageId(packageId);
                 expertScore.setProjectId(projectId);
                 expertScore.setSupplierId(sl.getSuppliers().getId());
-                List<ExpertScore> selectByScore = expertScoreService.selectByScore(expertScore);
                 Boolean flg=false;
-                BigDecimal total=BigDecimal.ZERO;
-                for (ExpertScore ep : selectByScore) {
-                  ScoreModel scoreModel1=new ScoreModel();
-                  scoreModel1.setId(ep.getScoreModelId());
-                  List<ScoreModel> findListByScoreModel = scoreModelService.find(scoreModel1);
-                  if(findListByScoreModel!=null&&findListByScoreModel.size()>0){
-                    ScoreModel scoreModel2 = findListByScoreModel.get(0);
-                    if("10".equals(scoreModel2.getTypeName())){
+                List<ExpertScore> selectByScore = expertScoreService.selectByModelScore(expertScore);
+                if(selectByScore!=null&&selectByScore.size()>0){
+                  for (ExpertScore ep : selectByScore) {
+                    if("10".equals(ep.getScoreModel().getTypeName())){
                       if(ep.getScore().doubleValue()<0){
-                        if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
+                        if(Math.abs(Double.parseDouble(ep.getScoreModel().getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                           flg=true;
-                        }/*else{
-                          total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
-                        }*/
+                        }
                       }
                     }
                   }
@@ -3044,7 +3030,9 @@ public class PackageExpertController {
             if(bms!=null&&bms.size()>0){
               BidMethod bm=bms.get(0);
               if("2".equals(bm.getTypeName())){
-                deviation=bm.getDeviation().doubleValue();
+                if(bm.getDeviation()!=null){
+                  deviation=bm.getDeviation().doubleValue();
+                }
               }  
             }
             Boolean flg=false;
@@ -3055,20 +3043,14 @@ public class PackageExpertController {
               expertScore.setPackageId(packId);
               expertScore.setProjectId(projectId);
               expertScore.setSupplierId(saleTender.getSuppliers().getId());
-              List<ExpertScore> selectByScore = expertScoreService.selectByScore(expertScore);
-              for (ExpertScore ep : selectByScore) {
-                ScoreModel scoreModel=new ScoreModel();
-                scoreModel.setId(ep.getScoreModelId());
-                List<ScoreModel> findListByScoreModel = scoreModelService.find(scoreModel);
-                if(findListByScoreModel!=null&&findListByScoreModel.size()>0){
-                  ScoreModel scoreModel2 = findListByScoreModel.get(0);
-                  if("10".equals(scoreModel2.getTypeName())){
+              List<ExpertScore> selectByScore = expertScoreService.selectByModelScore(expertScore);
+              if(selectByScore!=null&&selectByScore.size()>0){
+                for (ExpertScore ep : selectByScore) {
+                  if("10".equals(ep.getScoreModel().getTypeName())){
                     if(ep.getScore().doubleValue()<0){
-                      if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
+                      if(Math.abs(Double.parseDouble(ep.getScoreModel().getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                         flg=true;
-                      }/*else{
-                        total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
-                      }*/
+                      }
                     }
                   }
                 }
@@ -3233,7 +3215,9 @@ public class PackageExpertController {
             if(bms!=null&&bms.size()>0){
               BidMethod bm=bms.get(0);
               if("2".equals(bm.getTypeName())){
-                deviation=bm.getDeviation().doubleValue();
+                if(bm.getDeviation()!=null){
+                  deviation=bm.getDeviation().doubleValue();
+                }
               }  
             }
             Boolean flg=false;
@@ -3244,20 +3228,14 @@ public class PackageExpertController {
               expertScore.setPackageId(packId);
               expertScore.setProjectId(projectId);
               expertScore.setSupplierId(saleTender.getSuppliers().getId());
-              List<ExpertScore> selectByScore = expertScoreService.selectByScore(expertScore);
-              for (ExpertScore ep : selectByScore) {
-                ScoreModel scoreModel=new ScoreModel();
-                scoreModel.setId(ep.getScoreModelId());
-                List<ScoreModel> findListByScoreModel = scoreModelService.find(scoreModel);
-                if(findListByScoreModel!=null&&findListByScoreModel.size()>0){
-                  ScoreModel scoreModel2 = findListByScoreModel.get(0);
-                  if("10".equals(scoreModel2.getTypeName())){
+              List<ExpertScore> selectByScore = expertScoreService.selectByModelScore(expertScore);
+              if(selectByScore!=null&&selectByScore.size()>0){
+                for (ExpertScore ep : selectByScore) {
+                  if("10".equals(ep.getScoreModel().getTypeName())){
                     if(ep.getScore().doubleValue()<0){
-                      if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
+                      if(Math.abs(Double.parseDouble(ep.getScoreModel().getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                         flg=true;
-                      }/*else{
-                        total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
-                      }*/
+                      }
                     }
                   }
                 }
@@ -3416,7 +3394,9 @@ public class PackageExpertController {
               if(bms!=null&&bms.size()>0){
                 BidMethod bm=bms.get(0);
                 if("2".equals(bm.getTypeName())){
-                  deviation=bm.getDeviation().doubleValue();
+                  if(bm.getDeviation()!=null){
+                    deviation=bm.getDeviation().doubleValue();
+                  }
                 }  
               }
               if(deviation!=null){
@@ -3426,22 +3406,16 @@ public class PackageExpertController {
                   expertScore.setPackageId(packageId);
                   expertScore.setProjectId(projectId);
                   expertScore.setSupplierId(sl.getSuppliers().getId());
-                  List<ExpertScore> selectByScore = expertScoreService.selectByScore(expertScore);
                   Boolean flg=false;
                   BigDecimal total=BigDecimal.ZERO;
-                  for (ExpertScore ep : selectByScore) {
-                    ScoreModel scoreModel1=new ScoreModel();
-                    scoreModel1.setId(ep.getScoreModelId());
-                    List<ScoreModel> findListByScoreModel = scoreModelService.find(scoreModel1);
-                    if(findListByScoreModel!=null&&findListByScoreModel.size()>0){
-                      ScoreModel scoreModel2 = findListByScoreModel.get(0);
-                      if("10".equals(scoreModel2.getTypeName())){
+                  List<ExpertScore> selectByScore = expertScoreService.selectByModelScore(expertScore);
+                  if(selectByScore!=null&&selectByScore.size()>0){
+                    for (ExpertScore ep : selectByScore) {
+                      if("10".equals(ep.getScoreModel().getTypeName())){
                         if(ep.getScore().doubleValue()<0){
-                          if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
+                          if(Math.abs(Double.parseDouble(ep.getScoreModel().getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                             flg=true;
-                          }/*else{
-                            total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
-                          }*/
+                          }
                         }
                       }
                     }
@@ -4743,7 +4717,9 @@ public class PackageExpertController {
                   if(bms!=null&&bms.size()>0){
                     BidMethod bm=bms.get(0);
                     if("2".equals(bm.getTypeName())){
-                      deviation=bm.getDeviation().doubleValue();
+                      if(bm.getDeviation()!=null){
+                        deviation=bm.getDeviation().doubleValue();
+                      }
                     }  
                   }
                   Boolean flg=false;
@@ -4754,20 +4730,14 @@ public class PackageExpertController {
                     expertScore.setPackageId(pack.getId());
                     expertScore.setProjectId(pack.getProjectId());
                     expertScore.setSupplierId(ess.getSupplierId());
-                    List<ExpertScore> selectByScore = expertScoreService.selectByScore(expertScore);
-                    for (ExpertScore ep : selectByScore) {
-                      ScoreModel scoreModel=new ScoreModel();
-                      scoreModel.setId(ep.getScoreModelId());
-                      List<ScoreModel> findListByScoreModel = scoreModelService.find(scoreModel);
-                      if(findListByScoreModel!=null&&findListByScoreModel.size()>0){
-                        ScoreModel scoreModel2 = findListByScoreModel.get(0);
-                        if("10".equals(scoreModel2.getTypeName())){
+                    List<ExpertScore> selectByScore = expertScoreService.selectByModelScore(expertScore);
+                    if(selectByScore!=null&&selectByScore.size()>0){
+                      for (ExpertScore ep : selectByScore) {
+                        if("10".equals(ep.getScoreModel().getTypeName())){
                           if(ep.getScore().doubleValue()<0){
-                            if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
+                            if(Math.abs(Double.parseDouble(ep.getScoreModel().getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                               ess.setScore(0+"");
-                            }/*else{
-                              total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
-                            }*/
+                            }
                           }
                         }
                       }
@@ -4964,7 +4934,9 @@ public class PackageExpertController {
                   if(bms!=null&&bms.size()>0){
                     BidMethod bm=bms.get(0);
                     if("2".equals(bm.getTypeName())){
-                      deviation=bm.getDeviation().doubleValue();
+                      if(bm.getDeviation()!=null){
+                        deviation=bm.getDeviation().doubleValue();
+                      }
                     }  
                   }
                   Boolean flg=false;
@@ -4975,20 +4947,14 @@ public class PackageExpertController {
                     expertScore.setPackageId(pack.getId());
                     expertScore.setProjectId(pack.getProjectId());
                     expertScore.setSupplierId(ess.getSupplierId());
-                    List<ExpertScore> selectByScore = expertScoreService.selectByScore(expertScore);
-                    for (ExpertScore ep : selectByScore) {
-                      ScoreModel scoreModel=new ScoreModel();
-                      scoreModel.setId(ep.getScoreModelId());
-                      List<ScoreModel> findListByScoreModel = scoreModelService.find(scoreModel);
-                      if(findListByScoreModel!=null&&findListByScoreModel.size()>0){
-                        ScoreModel scoreModel2 = findListByScoreModel.get(0);
-                        if("10".equals(scoreModel2.getTypeName())){
+                    List<ExpertScore> selectByScore = expertScoreService.selectByModelScore(expertScore);
+                    if(selectByScore!=null&&selectByScore.size()>0){
+                      for (ExpertScore ep : selectByScore) {
+                        if("10".equals(ep.getScoreModel().getTypeName())){
                           if(ep.getScore().doubleValue()<0){
-                            if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
+                            if(Math.abs(Double.parseDouble(ep.getScoreModel().getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                               ess.setScore(0+"");
-                            }/*else{
-                              total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
-                            }*/
+                            }
                           }
                         }
                       }

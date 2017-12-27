@@ -177,7 +177,11 @@
 		                    <td class="tc" colspan="2">
 		                      <c:forEach items="${expertScoreList}" var="score">
 		                        <c:if test="${score.packageId eq pack.id and score.supplierId eq supplier.suppliers.id and score.expertId eq expert.expert.id}">
-		                          <fmt:formatNumber value="${score.score}" pattern="0.00"></fmt:formatNumber> 
+		                          <fmt:formatNumber value="${score.score}" pattern="0.00" var="myInteger"></fmt:formatNumber> 
+		                            
+		                          <c:if test="${myInteger  lt  '0' }">0</c:if>
+			  	                  <c:if test="${myInteger ge '0' }">${myInteger}</c:if>
+		                          
 		                        </c:if>
 		                      </c:forEach>
 		                    </td>
@@ -194,7 +198,7 @@
 		                  <c:forEach items="${rankList}" var="rank">
 		                    <c:if test="${rank.packageId eq pack.id && rank.supplierId eq supplier.suppliers.id}">
 		                       <c:if test="${rank.econScore!=0&&rank.sumScore!=0&&rank.econScore!=null&&rank.techScore!=null}">
-		                         <fmt:formatNumber value="${rank.priceScore}" pattern="0.00"></fmt:formatNumber>(价格)+<fmt:formatNumber value="${rank.econScore}" pattern="0.00"></fmt:formatNumber>(经济)+<fmt:formatNumber value="${rank.techScore}" pattern="0.00"></fmt:formatNumber>(技术)=<fmt:formatNumber value="${rank.sumScore}" pattern="0.00"></fmt:formatNumber>
+		                         <fmt:formatNumber value="${rank.priceScore}" pattern="0.00"></fmt:formatNumber>(价格)+<fmt:formatNumber value="${rank.econScore}" pattern="0.00"></fmt:formatNumber>(经济)+<fmt:formatNumber value="${rank.techScore}" pattern="0.00" var="rankT"></fmt:formatNumber><c:if test="${rankT  lt  '0' }">0</c:if><c:if test="${rankT ge '0' }">${rankT }</c:if>(技术)=<fmt:formatNumber value="${rank.sumScore}" pattern="0.00" />
 		                       </c:if>
 		                    </c:if>
 		                  </c:forEach>
