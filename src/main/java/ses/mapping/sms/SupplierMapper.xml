@@ -99,9 +99,9 @@
 		<result column="LAST_RETURN_DATE" property="lastReturnDate" jdbcType="TIMESTAMP"/>
 		<result column="REVIEW_PEOPLE" property="reviewPeople"/>
 		<result column="REVIEW_STATUS" property="reviewStatus"/>
-		<result column="REVIEW_AT" property="reviewAt"/>
+		<result column="REVIEW_AT" property="reviewAt" jdbcType="TIMESTAMP"/>
 		<result column="INVES_PEOPLE" property="invesPeople"/>
-		<result column="INVES_AT" property="invesAt"/>
+		<result column="INVES_AT" property="invesAt" jdbcType="TIMESTAMP"/>
     <association property="area" column="ADDRESS" select="ses.dao.bms.AreaMapper.selectById"/>
 	</resultMap>
 
@@ -2587,4 +2587,31 @@
 			WHERE
 			  T2.JOIN = 1
     </select>
+    
+    <!-- 更新复核或实地考察信息 -->
+    <update id="updateReviewOrInves" parameterType="ses.model.sms.Supplier">
+      update
+        T_SES_SMS_SUPPLIER
+      set
+        <if test="status !=null">
+          SUPPLIER_STATUS = #{status},
+        </if>
+        <if test="reviewPeople !=null">
+          REVIEW_PEOPLE = #{reviewPeople},
+        </if>
+        <if test="reviewStatus !=null">
+          REVIEW_STATUS = #{reviewStatus},
+        </if>
+        <if test="reviewAt !=null">
+          REVIEW_AT = #{reviewAt},
+        </if>
+        <if test="invesPeople !=null">
+          INVES_PEOPLE = #{invesPeople},
+        </if>
+        <if test="invesAt !=null">
+          INVES_AT = #{invesAt},
+        </if>
+      where
+        ID = #{id}
+    </update>
 </mapper>

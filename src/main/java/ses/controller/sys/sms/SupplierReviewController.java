@@ -1,5 +1,6 @@
 package ses.controller.sys.sms;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 
+import common.annotation.CurrentUser;
+import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAuditOpinion;
 import ses.service.sms.SupplierAuditOpinionService;
 import ses.service.sms.SupplierReviewService;
+import ses.service.sms.SupplierService;
 
 /**
  * 供应商复核
@@ -30,6 +34,9 @@ public class SupplierReviewController {
 	
 	@Autowired
 	private SupplierAuditOpinionService supplierAuditOpinionService;
+	
+	@Autowired
+	private SupplierService  supplierService;
 	
 	/**
 	 * 复核列表
@@ -66,5 +73,33 @@ public class SupplierReviewController {
 	public String saveOpinion(SupplierAuditOpinion supplierAuditOpinion){
 		String msg = supplierAuditOpinionService.saveOpinion(supplierAuditOpinion);
 		return msg;
+	}
+	
+	/**
+	 * 复核结束
+	 */
+	@RequestMapping(value = "/reviewEnd")
+	public void reviewEnd(@CurrentUser User user, SupplierAuditOpinion supplierAuditOpinion, String supplierId, Integer flagAduit){
+		/**
+		 * 保存意见
+		 */
+		supplierAuditOpinionService.saveOpinion(supplierAuditOpinion);
+		/**
+		 * 更新状态
+		 */
+		Supplier supplier = new Supplier();
+		supplier.setId(supplierId);
+		supplier.setReviewAt(new Date());
+		//复核人
+		supplier.setReviewPeople(user.getRelName());
+		//复核通过
+		if(flagAduit == 1){
+			supplier.setStatus(5);
+		}
+		//复核不通过
+		if(flagAduit == 0){
+			supplier.setStatus(6);
+		}
+		supplierService.updateReviewOrInves(supplier);
 	}
 }

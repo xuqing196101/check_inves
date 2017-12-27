@@ -2753,4 +2753,13 @@ public class SupplierServiceImpl implements SupplierService {
 		return recyList;
 	}
 
+	/**
+	 * 更新复核或实地考察信息
+	 */
+	@Override
+	public void updateReviewOrInves(Supplier supplier) {
+		supplierMapper.updateReviewOrInves(supplier);
+		
+	}
+
 }

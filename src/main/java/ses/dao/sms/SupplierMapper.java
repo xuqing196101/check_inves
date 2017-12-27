@@ -705,4 +705,9 @@ public interface SupplierMapper {
 	 * @return
 	 */
 	List<Supplier> selectReviewList ();
+	
+	/**
+	 * 更新复核或实地考察信息
+	 */
+	void updateReviewOrInves(Supplier supplier);
 }

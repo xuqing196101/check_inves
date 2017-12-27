@@ -622,4 +622,8 @@ public interface SupplierService {
 	 */
 	public List<SupplierAptituteRecy> undoDelAptitude(String supplierId);
 
+	/**
+	 * 更新复核或实地考察信息
+	 */
+	void updateReviewOrInves(Supplier supplier);
 }

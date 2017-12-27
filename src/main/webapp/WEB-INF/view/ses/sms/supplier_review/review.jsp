@@ -4,7 +4,6 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp" %>
-    <%-- <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/jump.js"></script> --%>
     <script type="text/javascript">
       $(function(){
     	  //绑定事件
@@ -51,7 +50,7 @@
     	  saveOpinion();
       }
       
-      function saveOpinion(supplierId){
+      function saveOpinion(){
     	  var supplierId = $("input[name='supplierId']").val();
     	  //选择的意见
     	  var selectOption = $("input[name='selectOption']:checked").val();
@@ -65,7 +64,7 @@
     	  }
     	  
 	      $.ajax({
-	    	  url: "${pageContext.request.contextPath}/supplierReview/saveOpinion.do",
+	    	  url: "${pageContext.request.contextPath}/supplierReview/reviewEnd.do",
           type: "post",
           data: {"supplierId" : supplierId, "opinion" : opinion, "flagAduit" : selectOption},
           success: function(result){
@@ -165,6 +164,6 @@
       <a class="btn padding-left-20 padding-right-20 btn_back margin-5">返回</a>
     </div>
     
-    <input value="${supplierId}" name="supplierId" type="hidden">
+    <input name="supplierId" value="${supplierId}" type="hidden">
   </body>
 </html>

@@ -134,7 +134,9 @@
 		$("#reverse_of_"+currentStep).addClass("active").removeAttr("onclick");
 		if(currentStep != "seven" && currentStep != "eight"){
 			// 文本只读
-			$("input[type='text'],textArea").attr("readonly", "readonly");
+			if(sign == 1){
+				$("input[type='text'],textArea").attr("readonly", "readonly");
+			}
 			// 文本添加title
 			$("input[type='text'],textArea").each(function(){
 				$(this).attr("title", $(this).val());
