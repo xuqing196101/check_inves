@@ -74,11 +74,6 @@
       var flag = true;
 
       function start() {
-   	  	var auth='${authType}';
-   	    if(auth !='1'){
-   	    layer.msg("只有采购机构可以操作");
-   	    return;
-   	    }  
         var id = [];
         $('input[name="chkItem"]:checked').each(function() {
           id.push($(this).val());
@@ -269,7 +264,7 @@
       </div>
     </form>
     </h2>
-      <c:if test="${admin!=1 }">
+      <c:if test="${authType == 1}">
         <div class="col-md-12 pl20 mt10">
           <button class="btn btn-windows apply" onclick="start();" type="button">实施</button>
           <button class="btn btn-windows apply" onclick="contract();" type="button">生成合同草案</button>
@@ -294,7 +289,7 @@
           </thead>
           <tbody id="tbody_id">
             <c:forEach items="${info.list}" var="obj" varStatus="vs">
-              <tr  class="pointer <c:if test="${obj.status=='F0EAF1136F7E4E8A8BDA6561AE8B4390'}">red</c:if>">
+              <tr  class="pointer <c:if test="${obj.status eq 'F0EAF1136F7E4E8A8BDA6561AE8B4390'}">red</c:if>">
                 <td class="tc w30">
                   <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()">
                 </td>
@@ -302,11 +297,9 @@
                 <td class="tl" onclick="view('${obj.id}')">${obj.name}</td>
                 <td class="tl" onclick="view('${obj.id}')">${obj.projectNumber}</td>
                 <td class="tc " onclick="view('${obj.id}')">
-                  <c:forEach items="${kind}" var="kind">
-                    <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
-                  </c:forEach>
+                	${obj.purchaseType}
                   <c:if test="${obj.purchaseNewType !='' && obj.purchaseNewType !=null }">
-                  (转${obj.purchaseNewType })
+                  (转${obj.purchaseNewType})
                   </c:if>
                 </td>
                 <td class="tc" onclick="view('${obj.id}')">
@@ -314,12 +307,12 @@
                 </td>
                 <td class="tl">
                   <c:forEach items="${status}" var="status">
-                    <c:if test="${status.id == obj.status}">${status.name}
+                    <c:if test="${status.id eq obj.status}">${status.name}
                     <input type="hidden" value="${status.code}"/>
                     </c:if>
                   </c:forEach>
                 </td>
-                <td class="tl" onclick="view('${obj.id}')">${obj.projectContractor}</td>
+                <td class="tl" onclick="view('${obj.id}')">${obj.principal}</td>
               </tr>
             </c:forEach>
           </tbody>

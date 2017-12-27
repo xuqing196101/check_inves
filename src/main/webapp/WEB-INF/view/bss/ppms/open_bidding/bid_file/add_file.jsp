@@ -620,22 +620,24 @@
 									</div>
 								</div>
 							</div> --%>
+							
+							<div class="mt20 fw f14">
+								审批单：
+								<div class="m_inline m_uploadFiles">
+									<u:show showId="ff1" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
+								</div>
+							</div>
+							
+							<div class="mt20 fw f14">
+								最终意见附件：
+								<div class="m_inline m_uploadFiles f0">
+									<u:show delete="false" showId="ff" businessId="${MapPa['finalId'].id}" sysKey="${sysKey}" typeId="${finalTypeId}" />
+								</div>
+							</div>
 
 							<div class="mt20 fw f14" id="cgspan">最终意见</div>
 							<div class="mt10">
 								<textarea class="w100p h80 resizen" disabled="disabled" id="finalreason" maxlength="2000" name="finalReason" title="不超过2000个字">${MapPa['finalId'].content}</textarea>
-								<div class="fl f0 mt10">
-										<span class="m_inline f14 lh16">审批单：</span>
-										<div class="m_inline m_uploadFiles">
-											<u:show showId="ff1" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
-										</div>
-									</div>
-								<div class="m_uploadFiles mt10">
-									<span class="m_inline f14 lh16">最终意见附件：</span>
-									<div class="m_inline m_uploadFiles f0">
-										<u:show delete="false" showId="ff" businessId="${MapPa['finalId'].id}" sysKey="${sysKey}" typeId="${finalTypeId}" />
-									</div>
-								</div>
 							</div>
 							
 							<div class="clear"></div>
@@ -698,26 +700,28 @@
 									<div class="clear"></div>
 								</div> --%>
 								
+								<div class="mt20 fw f14">
+									<span class="red">*</span>审批单：
+									<div class="m_inline m_uploadFiles">
+										<u:upload id="aa1"  multiple="true" buttonName="文件上传" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+										<u:show showId="ff1" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
+									</div>
+								</div>
+								
+								<div class="mt20 fw f14">
+									<span class="red">*</span>其他部门意见附件：
+									<div class="m_inline m_uploadFiles">
+										<u:upload id="kk" exts=".jpg,.png" multiple="true" businessId="${finalId}" sysKey="${sysKey}" typeId="${finalTypeId}" auto="true" />
+										<u:show showId="ii" businessId="${finalId}" sysKey="${sysKey}" typeId="${finalTypeId}" />
+									</div>
+								</div>
+								
 								<div class="mt20 fw f14" id="cgspan"><span class="red">*</span>最终意见</div>
 								<div class="mt10">
 									<textarea class="w100p h80 resizen" id="finalreason" maxlength="2000" onkeyup="lengthStr('4',this)" name="projectAdviceList[0].content" title="不超过2000个字">${reasons.finalReason}</textarea>
 									<input type="hidden" name="projectAdviceList[0].typeId" value="${finalTypeId}"/>
 									<input type="hidden" name="projectAdviceList[0].id" value="${finalId}"/>
 									<input type="hidden" name="projectAdviceList[0].seq" value="4"/>
-									<div class="fl f0 mt10">
-										<span class="m_inline f14 lh16"><span class="red">*</span>审批单：</span>
-										<div class="m_inline m_uploadFiles">
-											<u:upload id="aa1"  multiple="true" buttonName="文件上传" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-											<u:show showId="ff1" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
-										</div>
-									</div>
-									<div class="fl f0 mt10">
-										<span class="m_inline f14 lh16"><span class="red">*</span>其他部门意见附件：</span>
-										<div class="m_inline m_uploadFiles">
-											<u:upload id="kk" exts=".jpg,.png" multiple="true" businessId="${finalId}" sysKey="${sysKey}" typeId="${finalTypeId}" auto="true" />
-											<u:show showId="ii" businessId="${finalId}" sysKey="${sysKey}" typeId="${finalTypeId}" />
-										</div>
-									</div>
 									<div class="fr mt10">当前已经输入<span class="red" id="in4"></span>字，还可以输入<span class="red" id="into4"></span>字</div>
 									<div class="clear"></div>
 								</div>

@@ -284,4 +284,9 @@ public class BidMethodServiceImpl implements BidMethodService {
 		return flag;
 	}
 
+  @Override
+  public int updateByPrimaryKey(BidMethod bidMethod) {
+    return bidMethodMapper.updateByPrimaryKey(bidMethod);
+  }
+
 }

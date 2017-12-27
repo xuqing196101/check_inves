@@ -128,4 +128,6 @@ public interface ContractRequiredMapper {
     List<ContractRequired> findByMap(Map<String, Object> param);
      
      List<ContractRequired> selectConRequByDetailId(String id);
+     
+     List<Integer> contractStatusSupervision(String id);
 }

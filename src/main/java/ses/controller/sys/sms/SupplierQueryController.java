@@ -240,13 +240,18 @@ public class SupplierQueryController extends BaseSupplierController {
         //在数据字典里查询企业性质
  		List < DictionaryData > businessNature = DictionaryDataUtil.find(32);
  		model.addAttribute("businessNature", businessNature);
+ 		
+ 		//地区
+        List < Area > province = areaService.findRootArea();
+        model.addAttribute("province", province);
         
         //开始循环 判断地址是否
         Map<String, Object> map = supplierEditService.getMapArea();
         Integer maxCount = 0;
         for (Supplier supplier:listSupplier) {
             for (Map.Entry<String, Object> entry:map.entrySet()) {
-                if(supplier.getArea() != null && !"".equals(supplier.getArea().getName()) && supplier.getArea().getName().indexOf(entry.getKey().split(",")[0]) != -1){
+                //if(supplier.getArea() != null && !"".equals(supplier.getArea().getName()) && supplier.getArea().getName().indexOf(entry.getKey().split(",")[0]) != -1){
+                if(supplier.getAreaName() != null && !"".equals(supplier.getAreaName()) && supplier.getAreaName().indexOf(entry.getKey().split(",")[0]) != -1){
                     map.put(entry.getKey(), (Integer)map.get(entry.getKey()) + 1);
                     if (maxCount < (Integer)map.get(entry.getKey())) {
                         maxCount = (Integer)map.get(entry.getKey());
@@ -325,8 +330,8 @@ public class SupplierQueryController extends BaseSupplierController {
         }
 
         //地区
-        List < Area > privnce = areaService.findRootArea();
-        model.addAttribute("privnce", privnce);
+        List < Area > province = areaService.findRootArea();
+        model.addAttribute("province", province);
 		
   		//在数据字典里查询企业性质
  		List < DictionaryData > businessNature = DictionaryDataUtil.find(32);
@@ -365,16 +370,18 @@ public class SupplierQueryController extends BaseSupplierController {
 		}
         
         //企业性质
-        for(Supplier s : listSupplier){
-        	if(s.getBusinessNature() !=null ){
-        		for(int i = 0; i < businessNature.size(); i++) {
-        			if(s.getBusinessNature().equals(businessNature.get(i).getId())) {
-      					String business = businessNature.get(i).getName();
-      					s.setBusinessNature(business);
-      				}
-        		}
-        	}
-        }
+		if(listSupplier != null){
+			for(Supplier s : listSupplier){
+				if(s.getBusinessNature() != null){
+					for(int i = 0; i < businessNature.size(); i++) {
+						if(s.getBusinessNature().equals(businessNature.get(i).getId())) {
+							String business = businessNature.get(i).getName();
+							s.setBusinessNature(business);
+						}
+					}
+				}
+			}
+		}
         
         //全部机构
         /*List<PurchaseDep> allOrg = purChaseDepOrgService.findAllOrg();*/
@@ -634,9 +641,9 @@ public class SupplierQueryController extends BaseSupplierController {
 		request.setAttribute("supplierBranchList", supplierBranchList);
 		
 		//生产经营地址
-		List<Area> privnce = areaService.findRootArea();
+		List<Area> province = areaService.findRootArea();
 		List<SupplierAddress> supplierAddress= supplierAddressService.queryBySupplierId(supplierId);
-		for(Area a : privnce){
+		for(Area a : province){
 			for(SupplierAddress s : supplierAddress){
 				if(a.getId().equals(s.getParentId())){
 					s.setParentName(a.getName());
@@ -1059,16 +1066,18 @@ public class SupplierQueryController extends BaseSupplierController {
      * @param listSupplier 供应商基本信息集合
      */
     public void getSupplierType(List<Supplier> listSupplier){
-        for (Supplier sup : listSupplier) {
-            String supplierTypes = supplierService.selectSupplierTypes(sup);
-            sup.setSupplierType(supplierTypes);
-            DictionaryData dd = DictionaryDataUtil.findById(sup.getBusinessType());
-            String business = null;
-            if (dd != null) {
-                business = dd.getName();
-            }
-            sup.setBusinessType(business);
-        }
+		if(listSupplier != null){
+			for (Supplier sup : listSupplier) {
+		        String supplierTypes = supplierService.selectSupplierTypes(sup);
+		        sup.setSupplierType(supplierTypes);
+		        DictionaryData dd = DictionaryDataUtil.findById(sup.getBusinessType());
+		        String business = null;
+		        if (dd != null) {
+		            business = dd.getName();
+		        }
+		        sup.setBusinessType(business);
+		    }
+		}
     }
 
     /**
@@ -2310,8 +2319,8 @@ public class SupplierQueryController extends BaseSupplierController {
 		}
 
 		// 地区
-		List<Area> privnce = areaService.findRootArea();
-		model.addAttribute("privnce", privnce);
+		List<Area> province = areaService.findRootArea();
+		model.addAttribute("province", province);
 
 		// 在数据字典里查询企业性质
 		List<DictionaryData> businessNature = DictionaryDataUtil.find(32);

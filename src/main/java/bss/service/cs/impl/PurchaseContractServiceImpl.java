@@ -581,4 +581,10 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
 		return purchaseContractMapper.contractSupervisionList(map);
 	}
+
+	@Override
+	public List<PurchaseContract> viewContract(String fileId) {
+		
+		return purchaseContractMapper.contractSupervisionByFileId(fileId);
+	}
 }

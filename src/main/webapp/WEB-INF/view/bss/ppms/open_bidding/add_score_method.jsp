@@ -63,6 +63,18 @@
 					layer.msg("不能高于30%",{offset: ['30%', '40%']});
 					return;
 				}
+						/* if($("#deviation").val().length==0){
+							layer.msg("表单需要填写完整",{offset: ['30%', '40%']});
+		        			return;
+						}else{ */
+							if(!reg.exec($("#deviation").val())){
+								layer.msg("请填写数字",{offset: ['30%', '40%']});
+								return;
+							}
+						/* } */
+        	}
+        	if(typename!=2){
+        		$("#deviation").val("");
         	}
 			form1.submit();
 		}
@@ -70,7 +82,7 @@
 		
 		function show(id){
 		    //综合评分法
-			if (id ==0) {
+			if (id ==0) {//明明是基准加法  你这个备注真是服了
 			   if (!$("#business").hasClass("dnone")) {
 					$("#business").addClass("dnone");
 			    }
@@ -79,6 +91,9 @@
 			    }
 			    if ($("#valid").hasClass("dnone")){
 			    	$("#valid").removeClass("dnone");
+			    }
+			    if (!$("#deviation_li").hasClass("dnone")){
+			    	$("#deviation_li").addClass("dnone");
 			    }
 			}
 			//性价比
@@ -92,10 +107,13 @@
 			    if (!$("#valid").hasClass("dnone")){
 			    	$("#valid").addClass("dnone");
 			    }
+			    if (!$("#deviation_li").hasClass("dnone")){
+			    	$("#deviation_li").addClass("dnone");
+			    }
 			}
 			//基准价法
 			if (id ==2) {
-			    if ($("#business").hasClass("dnone")) {
+			    if ($("#business").hasClass("dnone")) {//明明是综合评分法  你这个备注真是服了
 					$("#business").removeClass("dnone");
 			    }
 			    if (!$("#floatingRatio").hasClass("dnone")){
@@ -103,6 +121,9 @@
 			    }
 			    if ($("#valid").hasClass("dnone")){
 			    	$("#valid").removeClass("dnone");
+			    }
+			    if ($("#deviation_li").hasClass("dnone")){
+			    	$("#deviation_li").removeClass("dnone");
 			    }
 			}
             //最低价
@@ -116,8 +137,25 @@
 			    if (!$("#valid").hasClass("dnone")){
 			    	$("#valid").addClass("dnone");
 			    }
+			    if (!$("#deviation_li").hasClass("dnone")){
+			    	$("#deviation_li").addClass("dnone");
+			    }
 			}
 		}
+	/* 	function medicalTypes(objs){
+        	if($(objs).val()=="0"){
+        		if (!$("#deviation_li").hasClass("dnone")){
+			    	$("#deviation_li").addClass("dnone");
+			    }
+        		$("#deviation").val("");
+        	}else{
+        		if ($("#deviation_li").hasClass("dnone")){
+			    	$("#deviation_li").removeClass("dnone");
+			    }
+        		$("#deviation").val("");
+        	}
+        	
+        } */
 	</script>
 	</head>
 	<body>
@@ -173,6 +211,25 @@
                <span class="input-tip">不能高于30%</span>
               </div>
               <div class="cue">${busi }</div>
+              </div>
+            </li>
+            <%-- <li id="medicalType_li" class="col-md-5 col-sm-6 col-xs-12 pl15 dnone clear mt25">
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">是否为医疗:</span> 
+              <div class="select_common col-md-12 col-sm-12 col-xs-12 p0 mb0">
+              <select class="w180" name="medicalType" id="medicalType" onchange="medicalTypes(this);"  >
+               <option value="0"  <c:if test="${bidMethod.medicalType==0}">selected="selected"</c:if>>否</option>
+               <option value="1" <c:if test="${bidMethod.medicalType==1}">selected="selected"</c:if>>是</option>
+              </select>
+              </div>
+            </li> --%>
+            <li id="deviation_li"  class="col-md-5 col-sm-6 col-xs-12 dnone clear mt25" >
+              <div class="col-md-12 col-xs- 12 col-sm-12 p0">
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">最少满足技术指标数量（<span class="red"]>超过该数量时技术得分0分</span>）：</span> 
+              <div class="input_append input_group col-md-12 col-sm-12 col-xs-12 p0">                         
+                <input name="deviation" id="deviation"  type="text" value="">
+               <span class="add-on">i</span>
+              </div>
+              <div class="cue"></div>
               </div>
             </li>
             <li class="clear"></li>

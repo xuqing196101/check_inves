@@ -288,7 +288,7 @@ public class SupplierConstants extends Constant {
 		Status.PENDING_AUDIT.getValue(),// 待审核
 		Status.RETURN_AUDIT.getValue(),//退回再审核
 		Status.PRE_AUDIT_ENDED.getValue(),// 预审核结束
-		Status.PENDING_REVIEW.getValue()// 待复核
+		//Status.PENDING_REVIEW.getValue()// 待复核
 	};
 	
 	/**
@@ -318,7 +318,8 @@ public class SupplierConstants extends Constant {
 		return (status == Status.PENDING_AUDIT.getValue()
 			|| status == Status.RETURN_AUDIT.getValue()
 			|| status == Status.PRE_AUDIT_ENDED.getValue()
-			|| status == Status.PENDING_REVIEW.getValue())
+			//|| status == Status.PENDING_REVIEW.getValue()
+			)
 			&& Constant.IP_ADDRESS_TYPE.equals(Constant.IP_INNER);
 	}
 	

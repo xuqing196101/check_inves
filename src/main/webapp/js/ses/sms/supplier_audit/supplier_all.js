@@ -64,7 +64,8 @@ function shenhe(id) {
      return;
      } */
     var state = $("#" + id + "").attr("sts");
-    if (state != 0 && state != 9 && state != -2 && state != 1 && state != 5) {
+    //if (state != 0 && state != 9 && state != -2 && state != 1 && state != 5) {
+    if (auditStatusArr && $.inArray(state, auditStatusArr) < 0) {
         layer.msg("请选择待审核项！", {
             offset: '100px',
         });

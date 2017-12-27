@@ -10393,8 +10393,8 @@
                       <w:lang w:val="en-US" w:eastAsia="zh-CN" />
                     </w:rPr>
                     <w:t><#if stockholders.nature??><#if
-                        (stockholders.nature=="1")>法人<#elseif
-                        (stockholders.nature=="2")>自然人</#if></#if></w:t>
+                        (stockholders.nature=="1")>单位投资<#elseif
+                        (stockholders.nature=="2")>个人投资</#if></#if></w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -10698,7 +10698,7 @@
 								<w:sz w:val="21" />
 								<w:szCs w:val="21" />
 							</w:rPr>
-							<w:t>出资人性质为“法人”或“自然人”。</w:t>
+							<w:t>出资人性质为“单位投资”或“个人投资”。</w:t>
 						</w:r>
 					</w:p>
 					<w:p>

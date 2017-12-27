@@ -84,7 +84,7 @@
 		        dataType: "json",
 		        success: function (message) {
 		        		if ('${packId}' == null || '${packId}' == "") {
-			        		window.location.href="${pageContext.request.contextPath}/open_bidding/changtotal.html?projectId=${projectId}";
+			        		window.location.href="${pageContext.request.contextPath}/open_bidding/changtotal.html?projectId=${projectId}&ix=${ix}";
 			        	} else {
 			        		//window.location.href="${pageContext.request.contextPath}/packageExpert/auditManage.html?projectId=${projectId}" + "&flowDefineId=${flowDefineId}";
 			        		$("#tab-3").load("${pageContext.request.contextPath}/packageExpert/toSupplierQuote.html?projectId=${projectId}&flowDefineId=${flowDefineId}");
@@ -263,14 +263,14 @@
 				    </td>
 				    <td class="tl">${treemapValue.suppliers.supplierName}</td>
 					<td class="tc">
-						<input name="total" class="border0 w100p m0" onblur="checkTotal(this)" maxlength="16" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"/>
+						<input name="total" class="f14 border0 w100p m0" onblur="checkTotal(this)" maxlength="16" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"/>
 						<%-- <c:forEach items="${selectQuoteList}" var="obj">
 							<c:if test="${obj.supplierId eq treemapValue.suppliers.id}">
 								<input type="hidden" value="${obj.total}"/>
 							</c:if>
 						</c:forEach> --%>
 					</td>
-					<td class="tc"><input type="text" class="border0 w100p m0" onblur="checkPaymentDate(this)" name="paymentDate"/></td>
+					<td class="tc"><input type="text" class="f14 border0 w100p m0" onblur="checkPaymentDate(this)" name="paymentDate"/></td>
 					<c:if test="${not empty count}">
 					<td class="tc">
 							<select onchange="show(this)">

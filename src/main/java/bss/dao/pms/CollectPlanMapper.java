@@ -126,4 +126,16 @@ public interface CollectPlanMapper {
      * @return
      */
     List<CollectPlan> selectOrgPlan(HashMap<String, Object> map);
+    
+    /**
+     * 
+    * @Title: collectStatusBySupervision
+    * @author FengTian 
+    * @date 2017-12-19 下午6:51:20  
+    * @Description: 需求监督查询计划状态 
+    * @param @param id
+    * @param @return      
+    * @return Integer
+     */
+    Integer collectStatusBySupervision(String id);
 }

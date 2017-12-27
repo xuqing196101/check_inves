@@ -304,4 +304,6 @@ public interface PurchaseContractService {
     List<PurchaseContract> selectByProjectCode(String code);
     
     List<PurchaseContract> contractSupervisionList(HashMap<String,Object> map);
+
+	List<PurchaseContract> viewContract(String fileId);
 }

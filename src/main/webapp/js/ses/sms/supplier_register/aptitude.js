@@ -228,7 +228,7 @@ function isAptitue() {
 	var flag = true;
 	// 审核不通过的供应商类型不校验
 	var infoSupplierTypeAudit = $("#infoSupplierTypeAudit").val();
-	if (infoSupplierTypeAudit.indexOf("PROJECT") > 0) {
+	if (infoSupplierTypeAudit.indexOf("PROJECT") >= 0) {
 		return true;
 	}
 	$("input[type='text']").each(function() {

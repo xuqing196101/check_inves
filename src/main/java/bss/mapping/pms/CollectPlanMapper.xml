@@ -631,4 +631,29 @@
 			  BUDGET DESC
   </select>
   
+  <select id="collectStatusBySupervision" parameterType="java.lang.String" resultType="java.lang.Integer">
+  	SELECT
+			STATUS
+		FROM
+			T_BSS_PMS_COLLECT_PLAN
+		WHERE
+			ID IN (
+				SELECT
+					UNIQUE_ID
+				FROM
+					T_BSS_PMS_PURCHASE_DETAIL
+				WHERE
+					FILE_ID IN (
+						SELECT
+							FILE_ID
+						FROM
+							T_BSS_PMS_PURCHASE_REQUIRED
+						WHERE
+							ID = #{id}
+					)
+				GROUP BY
+					UNIQUE_ID
+			)
+  </select>
+  
 </mapper>
