@@ -1195,8 +1195,10 @@
 													</td>
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid red;" </c:if>>
 														<select name="listSupplierStockholders[${stockvs.index }].nature" class="w100p border0" onchange="onchangeNature(this.value,'${stockvs.index}')">
-															<option value="1" <c:if test="${stockholder.nature==1}"> selected="selected"</c:if> >法人</option>
-															<option value="2" <c:if test="${stockholder.nature==2}"> selected="selected"</c:if> >自然人</option>
+															<%-- <option value="1" <c:if test="${stockholder.nature==1}"> selected="selected"</c:if> >法人</option>
+															<option value="2" <c:if test="${stockholder.nature==2}"> selected="selected"</c:if> >自然人</option> --%>
+															<option value="1" <c:if test="${stockholder.nature==1}"> selected="selected"</c:if> >单位投资</option>
+															<option value="2" <c:if test="${stockholder.nature==2}"> selected="selected"</c:if> >个人投资</option>
 														</select>
 													</td>
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid red;" </c:if>> <input type='text' style='border:0px;' maxlength="50" name='listSupplierStockholders[${stockvs.index }].name' value='${stockholder.name}'  <c:if test="${!fn:contains(audit,stockholder.id)&&currSupplier.status==2}">readonly='readonly'</c:if>  > </td>

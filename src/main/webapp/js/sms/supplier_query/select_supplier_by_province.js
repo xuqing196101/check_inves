@@ -23,9 +23,12 @@ function chongzhi() {
     $("#status option:selected").removeAttr("selected");
     $("#address option:selected").removeAttr("selected");
     $("#businessNature option:selected").removeAttr("selected");
+    
+    $("#form1 input[type='text']").val("");
+    $("#form1 select").val("");
+    
     $("#form1").submit();
 }
-
 
 var key;
 function showCategory() {

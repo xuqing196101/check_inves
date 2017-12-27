@@ -2212,7 +2212,7 @@ public class SupplierServiceImpl implements SupplierService {
             PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
         }
 		List<Supplier> listSupplier = supplierMapper.querySupplierList(supplier);
-        // 封装地区
+        /*// 封装地区
         StringBuffer sb = new StringBuffer();
         Area area = null;
         if(listSupplier != null && !listSupplier.isEmpty()){
@@ -2223,7 +2223,7 @@ public class SupplierServiceImpl implements SupplierService {
                     sb.delete(0, sb.length());
                 }
 			}
-		}
+		}*/
 		/*SupplierStars supplierStars = new SupplierStars();
 		supplierStars.setStatus(1);
 		List<SupplierStars> listSupplierStars = supplierStarsMapper.findSupplierStars(supplierStars);
@@ -2263,7 +2263,7 @@ public class SupplierServiceImpl implements SupplierService {
 			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		}
 		List<Supplier> listSupplier = supplierMapper.selectSupplierListByNoCate(supplier);
-		// 封装地区
+		/*// 封装地区
 		StringBuffer sb = new StringBuffer();
 		Area area = null;
 		if(listSupplier != null && !listSupplier.isEmpty()){
@@ -2274,7 +2274,7 @@ public class SupplierServiceImpl implements SupplierService {
 					sb.delete(0, sb.length());
 				}
 			}
-		}
+		}*/
 		return listSupplier;
 	}
 
@@ -2346,7 +2346,6 @@ public class SupplierServiceImpl implements SupplierService {
           List<SupplierAudit> supNoPassType = null;
           List<String> supplierTypes = null;
           List<String> list = null;
-          Area area = null;
           for (Supplier sup : suppliers) {
               // 企业性质
               if (sup.getBusinessNature() != null) {
@@ -2440,11 +2439,13 @@ public class SupplierServiceImpl implements SupplierService {
               // 注册详细地址信息
               String contactAddress = sup.getContactAddress();
               // 通过address获取省级加市级地址
-              area = sup.getArea();
+              /*area = sup.getArea();
               if (area != null) {
                   sup.setAddress(areasSb.append(area.getName()).append(" ").append(sup.getAreaName())
                           .append(" ").append(contactAddress == null ? "" : contactAddress).toString());
-              }
+              }*/
+              sup.setAddress(areasSb.append(sup.getAreaName())
+        			  .append(" ").append(contactAddress == null ? "" : contactAddress).toString());
               // 状态
               Integer auditTemporary = sup.getAuditTemporary();
               if(auditTemporary != null && auditTemporary != 0){

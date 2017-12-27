@@ -136,6 +136,7 @@
 					<input type="hidden" name="orgName" value="${supplier.orgName}"/>
 					<input type="hidden" name="address" value="${supplier.address}"/>
 					<input type="hidden" name="parentAddress" value="${supplier.parentAddress}"/>
+					<input type="hidden" name="businessScope" value="${supplier.businessScope}"/>
 					<input type="hidden" name="queryCategory" value="${supplier.queryCategory }"/>
 					<input type="hidden" name="supplierTypeIds" value="${supplierTypeIds}" />
 					<input type="hidden" name="supplierLevel" value="${supplier.supplierLevel }"/>
@@ -260,7 +261,7 @@
 			          <div class="col-xs-8 f0 lh0">
 									<select id="pAddress" name="parentAddress" class="w100p h32 f14" onchange="loadAreaSelect(this,'#address')">
 										<option value=''>全部</option>
-										<c:forEach items="${privnce}" var="list">
+										<c:forEach items="${province}" var="list">
 												<option value="${list.id}" <c:if test="${supplier.parentAddress eq list.id}">selected</c:if>>${list.name }</option>
 										</c:forEach>
 									</select>
@@ -284,7 +285,7 @@
 			          <div class="col-xs-8 f0 lh0">
 									<select name="businessScope" id="businessScope" class="w100p h32 f14">
 										<option value=''>全部</option>
-										<c:forEach items="${privnce}" var="list">
+										<c:forEach items="${province}" var="list">
 												<option value="${list.id}" <c:if test="${supplier.businessScope eq list.id}">selected</c:if>>${list.name }</option>
 										</c:forEach>
 									</select>

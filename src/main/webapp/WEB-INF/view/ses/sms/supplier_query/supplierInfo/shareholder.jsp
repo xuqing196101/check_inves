@@ -82,8 +82,10 @@
 								<tr>
 									<td class="tc">${vs.index + 1}</td>
 									<td class="tc">
-										<c:if test="${s.nature eq '1'}">法人</c:if>
-		              	<c:if test="${s.nature eq '2'}">自然人</c:if>
+										<%-- <c:if test="${s.nature eq '1'}">法人</c:if>
+		              	<c:if test="${s.nature eq '2'}">自然人</c:if> --%>
+										<c:if test="${s.nature eq '1'}">单位投资</c:if>
+		              	<c:if test="${s.nature eq '2'}">个人投资</c:if>
 									</td>
 									<td class="tc" id="${s.id }">${s.name}</td>
 									<td class="tc">${s.identity}</td>
