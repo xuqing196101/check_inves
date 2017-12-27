@@ -43,6 +43,7 @@ import ses.model.oms.OrgLocale;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseInfo;
+import ses.model.oms.PurchaseOrg;
 import ses.model.oms.PurchaseRoom;
 import ses.model.oms.PurchaseUnit;
 import ses.model.oms.util.AjaxJsonData;
@@ -201,8 +202,32 @@ public class PurchaseManageController {
 				orgList.add(org);
 			}
 			model.addAttribute("oList", orgList);
+			//查询采购管理部门关联的需求部门信息
+			List<Orgnization> demandList = new ArrayList<Orgnization>();
+			map.clear();
+			map.put("purchaseDepId", orgnization.getId());
+			List<Orgnization> relaPurchaseOrgList = orgnizationServiceI.getRelaPurchaseOrgList(map);
+			for (Orgnization orgnization2 : relaPurchaseOrgList) {
+				if("0".equals(orgnization2.getTypeName())){
+					if (orgnization2 != null && StringUtils.isNotBlank(orgnization2.getProvinceId())){
+						Area area = areaServiceI.listById(orgnization2.getProvinceId());
+						if (area != null){
+							orgnization2.setProvinceName(area.getName());
+						}
+					}
+					if (orgnization2 != null && StringUtils.isNotBlank(orgnization2.getCityId())){
+						Area area = areaServiceI.listById(orgnization2.getCityId());
+						if (area != null){
+							orgnization2.setCityName(area.getName());
+						}
+					}
+					//设置级别名称
+					initLevelName(orgnization2);
+					demandList.add(orgnization2);
+				}
+			}
+			model.addAttribute("demandList", demandList);
 		}
-		
 		return "ses/oms/require_dep/treebody";
 	}
 	
