@@ -1088,6 +1088,8 @@ private Project insertProject(String projectId, String title,String type,String 
       if(flowDefine!=null&&flowDefine.getCode().equals("XMXX")){
           project.setConfirmFile(null);
       }
+      String flowStatus = flowStatus(currFlowDefineId);
+      project.setStatus(flowStatus);
     }
     return project;
   }
