@@ -140,6 +140,9 @@
         <if test="supplierId != null">
             AND T.SUPPLIER_ID = #{supplierId}
         </if>
+        <if test="isDelete != null">
+            AND T.IS_DELETE = #{isDelete}
+        </if>
         ORDER BY T.CREATED_AT DESC)
         WHERE ROWNUM = 1
     </select>

@@ -156,4 +156,21 @@ public class SupplierReviewController {
 		supplierAuditOpinionService.saveOpinion(supplierAuditOpinion);
 		return "暂存成功！";
 	}
+	
+	/**
+	 * 历史复核信息
+	 */
+	@RequestMapping(value = "/historyReviewInfro")
+	public String historyReviewInfro (String supplierId, Model model){
+		//获取意见
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("supplierId", supplierId);
+		map.put("flagTime", 1);
+		map.put("isDelete", 1);
+		SupplierAuditOpinion auditOpinion = supplierAuditOpinionService.selectByExpertIdAndflagTime(map);
+		model.addAttribute("opinion", auditOpinion == null? "" : auditOpinion.getOpinion());
+		model.addAttribute("supplierId", supplierId);
+		model.addAttribute("sign", 2);
+		return "ses/sms/supplier_review/history_review";
+	}
 }
