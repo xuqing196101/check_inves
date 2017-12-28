@@ -3,25 +3,22 @@
 <html>
 
   <head>
+    <title>省级地域的合同主要页</title>
     <%@ include file="/WEB-INF/view/common.jsp" %>
+    <%@ include file="/WEB-INF/view/common/webupload.jsp" %>
   </head>
 
   <body>
     <div class="container">
-      <!-- 列表 -->
       <div class="content table_box">
-        <table class="table table-bordered table-condensed table-hover table-striped">
-          <thead>
-            <tr>
-              <td></td>
-            </tr>
-          </thead>
-          <c:forEach items="${result.list}" var="s" varStatus="vs">
-            <tr>
-              <td></td>
-            </tr>
-          </c:forEach>
-        </table>
+        <ul class="ul_list">
+          <c:forEach items="${areas}" var="area" varStatus="st">
+			      <li class="col-md-3 col-sm-6 col-xs-12 pl15 h70">
+			        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="auditFile(this,'mat_eng_page','${area.name}');">${area.name}：</span>
+			        <u:show showId="area_show_${st.index+1}" delete="false" businessId="${supplierId}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" />
+			      </li>
+			    </c:forEach>
+        </ul>
       </div>
     </div>
   </body>

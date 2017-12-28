@@ -136,7 +136,7 @@
     
       <div class="col-md-12 pl20 mt10">
         <button class="btn btn-windows check" type="button" onclick="shenhe(id)">复核</button>
-        <button class="btn btn-windows check" type="button" onclick="jumppage('${pageContext.request.contextPath}/supplierAttachAudit/finance.html?supplierId=56ceb633d54f427b951c95d8d36ccebd')">重新复核</button>
+        <button class="btn btn-windows check" type="button" onclick="jumppage('${pageContext.request.contextPath}/supplierAttachAudit/contract.html?supplierId=56ceb633d54f427b951c95d8d36ccebd')">重新复核</button>
       </div>
     
 	    <!-- 列表 -->
