@@ -164,5 +164,11 @@ public class SupplierAuditOpinionServiceImpl implements SupplierAuditOpinionServ
 			return "保存成功！";
 		}
 	}
+
+	@Override
+	public void updateByPrimaryKeySelective(SupplierAuditOpinion supplierAuditOpinion) {
+		supplierAuditOpinionMapper.updateByPrimaryKeySelective(supplierAuditOpinion);
+		
+	}
 	
 }

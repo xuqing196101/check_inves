@@ -35,21 +35,8 @@ public class SupplierReviewImpl implements SupplierReviewService{
 		}
 		PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSize")));
 		
-		List<Supplier> supplierList = supplierMapper.selectReviewList();
-		
-		//企业性质
-		List <DictionaryData> businessNatureList = DictionaryDataUtil.find(32);
-        for(Supplier s : supplierList){
-        	if(s.getBusinessNature() !=null ){
-        		for(int i = 0; i < businessNatureList.size(); i++) {
-        			if(s.getBusinessNature().equals(businessNatureList.get(i).getId())) {
-      					String business = businessNatureList.get(i).getName();
-      					s.setBusinessNature(business);
-      				}
-        		}
-        	}
-        }
-        
+		List<Supplier> supplierList = supplierMapper.selectReviewList(supplier);
+
         //供应商类型转换
         getSupplierType(supplierList);
 		return supplierList;

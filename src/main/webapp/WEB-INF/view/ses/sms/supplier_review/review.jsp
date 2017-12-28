@@ -31,27 +31,30 @@
         }
         
         var isRecord = "${isRecord}";
-        //如果有意见就显示"重新复核"按钮
+        //如果有意见就显示"重新复核"按钮，复核表
         if(isRecord == "yes"){
         	$("#review").removeClass("hidden");
+        	$("#checkList").removeClass("hidden");
         }
       }); 
     </script>
     
     <script type="text/javascript">
       function reviewEnd(){
-    	  //显示重新复审、返回按钮
+    	  //显示复核表
     	  $("#checkList").removeClass("hidden");
     	  //显示重新复审、返回按钮
     	  $("#review").removeClass("hidden");
     	  //隐藏复核结束、暂存按钮
     	  $("#reviewEnd").addClass("hidden");
     	  
-    	  saveOpinion();
+    	  var url = "${pageContext.request.contextPath}/supplierReview/reviewEnd.do";
+    	  saveOpinion(url, 0);
       }
       
-      function saveOpinion(){
-    	  var supplierId = $("input[name='supplierId']").val();
+      //保存
+      function saveOpinion(url, msg){
+    	  var supplierId = $("#supplierId").val();
     	  //选择的意见
     	  var selectOption = $("input[name='selectOption']:checked").val();
     	  //手输入的意见
@@ -64,13 +67,38 @@
     	  }
     	  
 	      $.ajax({
-	    	  url: "${pageContext.request.contextPath}/supplierReview/reviewEnd.do",
+	    	  url: url,
           type: "post",
           data: {"supplierId" : supplierId, "opinion" : opinion, "flagAduit" : selectOption},
           success: function(result){
-        	  layer.alert(result, {offset: '100px'});
-          }
+        	  if(msg == 1){
+        		  layer.msg(result, {offset: '100px'});
+        	  }
+          },
+          error: function(){
+              layer.msg("保存失败！", {offset: '100px'});
+            }
 	      });
+      }
+      
+      //重新复核
+      function restartReview(){
+    	  var supplierId = $("#supplierId").val();
+    	  var supplierId = $("input[name='supplierId']").val(supplierId);
+    		$("#submitform").attr("action", "${pageContext.request.contextPath}/supplierReview/restartReview.html");
+    		$("#submitform").submit();
+      }
+      
+      //返回列表
+      function renturnList(){
+    	  $("#submitform").attr("action", "${pageContext.request.contextPath}/supplierReview/list.html");
+        $("#submitform").submit();
+      }
+      
+      //暂存
+      function temporary(){
+    	  var url = "${pageContext.request.contextPath}/supplierReview/temporary.do";
+        saveOpinion(url, 1);
       }
     </script>
   </head>
@@ -155,15 +183,19 @@
     <c:if test="${isRecord eq 'no'}">
       <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc" id="reviewEnd">
 	      <a class="btn padding-left-20 padding-right-20 btn_back margin-5">上一步</a>
-	      <a class="btn padding-left-20 padding-right-20 btn_back margin-5">暂存</a>
+	      <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="temporary();">暂存</a>
 	      <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="reviewEnd();">复核结束</a>
       </div>
     </c:if>
     <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc hidden" id="review">
-      <a class="btn padding-left-20 padding-right-20 btn_back margin-5">重新复核</a>
-      <a class="btn padding-left-20 padding-right-20 btn_back margin-5">返回</a>
+      <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="restartReview();">重新复核</a>
+      <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="renturnList();">返回</a>
     </div>
     
-    <input name="supplierId" value="${supplierId}" type="hidden">
+    <input id="supplierId" value="${supplierId}" type="hidden">
+    
+    <form action="" id="submitform">
+      <input value="" name="supplierId" type="hidden"/>
+    </form>
   </body>
 </html>

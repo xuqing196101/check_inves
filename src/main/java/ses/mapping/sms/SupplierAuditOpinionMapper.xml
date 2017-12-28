@@ -9,9 +9,10 @@
       <result column="FLAG_TIME"  property="flagTime" />
       <result column="FLAG_AUDIT"  property="flagAduit" />
       <result column="IS_DOWNLOAD_ATTCH"  property="isDownLoadAttch" />
+      <result column="IS_DELETE"  property="isDelete" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, SUPPLIER_ID, OPINION, CREATED_AT, FLAG_TIME, FLAG_AUDIT, IS_DOWNLOAD_ATTCH
+    ID, SUPPLIER_ID, OPINION, CREATED_AT, FLAG_TIME, FLAG_AUDIT, IS_DOWNLOAD_ATTCH, IS_DELETE
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     SELECT <include refid="Base_Column_List" />
@@ -119,6 +120,9 @@
             </if>
             <if test="isDownLoadAttch != null" >
                 IS_DOWNLOAD_ATTCH = #{isDownLoadAttch,jdbcType=DECIMAL},
+            </if>
+            <if test="isDelete != null" >
+                IS_DELETE = #{isDelete,jdbcType=DECIMAL},
             </if>
         </set>
         where ID = #{id,jdbcType=VARCHAR}

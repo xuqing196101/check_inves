@@ -81,4 +81,6 @@ public interface SupplierAuditOpinionService {
 	 * @return
 	 */
 	String saveOpinion(SupplierAuditOpinion supplierAuditOpinion );
+	
+	void updateByPrimaryKeySelective (SupplierAuditOpinion supplierAuditOpinion);
 }

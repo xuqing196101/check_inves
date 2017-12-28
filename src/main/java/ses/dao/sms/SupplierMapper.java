@@ -704,7 +704,7 @@ public interface SupplierMapper {
 	 * 复核列表
 	 * @return
 	 */
-	List<Supplier> selectReviewList ();
+	List<Supplier> selectReviewList (Supplier supplier);
 	
 	/**
 	 * 更新复核或实地考察信息

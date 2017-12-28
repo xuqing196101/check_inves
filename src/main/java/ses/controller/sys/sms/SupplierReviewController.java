@@ -1,7 +1,9 @@
 package ses.controller.sys.sms;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -13,12 +15,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAuditOpinion;
 import ses.service.sms.SupplierAuditOpinionService;
 import ses.service.sms.SupplierReviewService;
 import ses.service.sms.SupplierService;
+import ses.util.DictionaryDataUtil;
 
 /**
  * 供应商复核
@@ -47,9 +51,29 @@ public class SupplierReviewController {
 		List<Supplier> supplierList = supplierReviewService.selectReviewList(supplier, page);
 		PageInfo<Supplier> pageInfo = new PageInfo <Supplier> (supplierList);
 		model.addAttribute("result", pageInfo);
+		
+		//企业性质
+		List <DictionaryData> businessNatureList = DictionaryDataUtil.find(32);
+		model.addAttribute("businessNatureList", businessNatureList);
+        for(Supplier s : supplierList){
+        	if(s.getBusinessNature() !=null ){
+        		for(int i = 0; i < businessNatureList.size(); i++) {
+        			if(s.getBusinessNature().equals(businessNatureList.get(i).getId())) {
+      					String business = businessNatureList.get(i).getName();
+      					s.setBusinessNature(business);
+      				}
+        		}
+        	}
+        }
+		
+		model.addAttribute("supplier", supplier);
 		return "ses/sms/supplier_review/list";
 	}
 	
+	/**
+	 * 复核页面
+	 * @return
+	 */
 	@RequestMapping(value = "/review")
 	public String review(String supplierId, Integer supplierStatus, Model model){
 		model.addAttribute("supplierId", supplierId);
@@ -66,13 +90,6 @@ public class SupplierReviewController {
 			model.addAttribute("isRecord", "no");
 		}
 		return "ses/sms/supplier_review/review";
-	}
-	
-	@RequestMapping(value = "/saveOpinion")
-	@ResponseBody
-	public String saveOpinion(SupplierAuditOpinion supplierAuditOpinion){
-		String msg = supplierAuditOpinionService.saveOpinion(supplierAuditOpinion);
-		return msg;
 	}
 	
 	/**
@@ -101,5 +118,42 @@ public class SupplierReviewController {
 			supplier.setStatus(6);
 		}
 		supplierService.updateReviewOrInves(supplier);
+	}
+	
+	/**
+	 * 重新复核
+	 */
+	@RequestMapping(value = "/restartReview")
+	public String  restartReview(String supplierId){
+		Supplier supplier = new Supplier();
+		supplier.setId(supplierId);
+		//重新复核标识
+		supplier.setReviewStatus(1);
+		supplier.setStatus(1);
+		supplierService.updateReviewOrInves(supplier);
+		
+		//获取意见
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("supplierId", supplierId);
+		map.put("flagTime", 1);
+		SupplierAuditOpinion auditOpinion = supplierAuditOpinionService.selectByExpertIdAndflagTime(map);
+		
+		//假删除意见
+		SupplierAuditOpinion supplierAuditOpinion = new SupplierAuditOpinion();
+		supplierAuditOpinion.setIsDelete(1);
+		supplierAuditOpinion.setId(auditOpinion.getId());
+		supplierAuditOpinionService.updateByPrimaryKeySelective(supplierAuditOpinion);
+		
+		return "redirect:list.html";
+	}
+	
+	/**
+	 * 暂存
+	 */
+	@RequestMapping(value = "/temporary", produces="text/html;charset=UTF-8")
+	@ResponseBody
+	public String temporary (SupplierAuditOpinion supplierAuditOpinion){
+		supplierAuditOpinionService.saveOpinion(supplierAuditOpinion);
+		return "暂存成功！";
 	}
 }

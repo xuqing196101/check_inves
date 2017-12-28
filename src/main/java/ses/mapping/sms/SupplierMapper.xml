@@ -2572,7 +2572,7 @@
 	</select>
     
     <!-- 供应商复核列表 -->
-    <select id="selectReviewList" resultMap="BaseResultMap">
+    <select id="selectReviewList" resultMap="BaseResultMap" parameterType="ses.model.sms.Supplier">
       SELECT 
         DISTINCT T1.ID,
 			  T1.SUPPLIER_NAME,
@@ -2586,6 +2586,21 @@
 			LEFT JOIN T_SES_SMS_EXTRACT_RESULT T2 ON T2.SUPPLIER_ID = T1. ID
 			WHERE
 			  T2.JOIN = 1
+			<if test="supplierName != null and supplierName != ''">
+        AND T1.SUPPLIER_NAME LIKE CONCAT(CONCAT('%',#{supplierName}), '%')
+      </if>
+      <if test="status != null">
+        AND T1.SUPPLIER_STATUS = #{status}
+      </if>
+      <if test="auditTemporary != null">
+        AND T1.AUDIT_TEMPORARY = #{auditTemporary}
+      </if>
+      <if test="reviewAt != null and reviewAt != ''">
+        AND to_char(T1.REVIEW_AT,'yyyy-mm-dd') = to_char(#{reviewAt},'yyyy-mm-dd')
+      </if>
+      <if test="businessNature != null and businessNature != ''">
+        AND T1.BUSINESS_NATURE = #{businessNature}
+      </if>
     </select>
     
     <!-- 更新复核或实地考察信息 -->

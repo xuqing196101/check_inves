@@ -40,6 +40,14 @@
         $("#shenhe_form").attr("action", "${pageContext.request.contextPath}/supplierAudit/essential.html");
         $("#shenhe_form").submit();
 		  }
+		  
+		  //重置
+		  function clearSearch(){
+			  $("input[name='supplierName']").val("");
+			  $("input[name='reviewAt']").val("");
+			  $("input[name='status'] option:selected").removeAttr("selected");
+			  $("input[name='businessNature'] option:selected").removeAttr("selected");
+		  }
 		</script>
   </head>
   <body>
@@ -77,10 +85,47 @@
 	          <div class="row">
 	            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">供应商名称：</div>
 	            <div class="col-xs-8 f0 lh0">
-	              <input class="w100p h32 f14 mb0" type="text" id=supplierName name="supplierName" value="${supplier.supplierName }">
+	              <input class="w100p h32 f14 mb0" type="text" name="supplierName" value="${supplier.supplierName}">
 	            </div>
 	          </div>
 	        </div>
+	        
+          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	          <div class="row">
+	            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">状态：</div>
+	            <div class="col-xs-8 f0 lh0">
+	              <select name="status" class="w100p h32 f14">
+	                <option value="">全部</option>
+	                <option <c:if test="${supplier.status == 1 }">selected</c:if> value="1">入库（待复核）</option>
+	                <option <c:if test="${supplier.status == 5 }">selected</c:if> value="5">复核合格（待考察）</option>
+	                <option <c:if test="${supplier.status == 6 }">selected</c:if> value="6">复核不合格</option>
+	              </select>
+	            </div>
+	          </div>
+	        </div>
+	        
+	        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+		        <div class="row">
+		          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">企业性质：</div>
+		          <div class="col-xs-8 f0 lh0">
+		            <select name="businessNature" class="w100p h32 f14">
+		              <option value="">全部</option>
+		              <c:forEach var="business" varStatus="vs" items="${businessNatureList}">
+		                <option <c:if test="${supplier.businessNature eq business.id }">selected</c:if> value="${business.id}">${business.name}</option>
+		              </c:forEach>
+		            </select>
+		          </div>
+		        </div>
+		      </div>
+		      
+		      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+		        <div class="row">
+		          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">审核时间：</div>
+		          <div class="col-xs-8 f0 lh0">
+		            <input name="reviewAt" class="Wdate w100p h32 f14 mb0" value='<fmt:formatDate value="${supplier.reviewAt}" pattern="YYYY-MM-dd"/>' type="text" onClick="WdatePicker()">
+		          </div>
+		        </div>
+		      </div>
 	        
 	        <div class="tc">
 		        <input class="btn mb0"  value="查询" type="submit">
@@ -116,7 +161,7 @@
 	            <td>${s.supplierName}</td>
 	            <td>${s.supplierTypeNames}</td>
 	            <td>${s.businessNature}</td>
-	            <td>${s.reviewAt}</td>
+	            <td><fmt:formatDate value="${s.reviewAt}" pattern="yyyy-MM-dd"/></td>
 	            <td>${s.reviewPeople}</td>
 	            <td>${s.status}</td>
 	          </tr>
