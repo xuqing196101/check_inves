@@ -6,7 +6,7 @@
 <%@ include file="/WEB-INF/view/common.jsp" %>
 <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>军队采购网公告App下载</title>
+<title>军队采购网上商城App下载</title>
 <script type="text/javascript">
   //JS监听浏览器文字大小代码
   (function (doc, win) {
@@ -61,9 +61,9 @@
   <div id="qrCode_body">
   <div class="all">
     <div class="logo">
-      <img src="${pageContext.request.contextPath}/public/portal/images/logo.png" />
+      <img src="${pageContext.request.contextPath}/public/portal/images/shancgehnglogo.jpg" />
     </div>
-    <div class="ewm_title">军队采购网公告App</div>
+    <div class="ewm_title">军队采购网上商城APP</div>
   </div>
   <div class="down_load">
     <a >
@@ -158,7 +158,7 @@
       width: 80%;
   }
   .ewm_title {
-      font-size: 3rem;
+      font-size: 2.5rem;
       margin-top: 3rem;
   }
   .ewm_img {
