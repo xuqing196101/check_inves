@@ -1237,7 +1237,10 @@ function savePerson(){
             }else{
                 $("#sError").empty();
             }
-        }
+        },
+        error : function() {
+        	personFlag = false;
+        },
     });
 
     $.ajax({
@@ -1260,7 +1263,10 @@ function savePerson(){
             }else{
                 $("#eError").empty();
             }
-        }
+        },
+        error : function() {
+        	personFlag = false;
+        },
     });
 	return personFlag;
 }
