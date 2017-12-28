@@ -143,7 +143,12 @@
 	}
 	function refur(packageId,projectId){
 		layer.msg("刷新成功",{offset: ['100px']});
-		$("#tab-6").load('${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId='+packageId+'&projectId='+projectId);
+		var index_load = layer.load(2, {
+      shade: [1, '#FFF']
+    });
+		$("#tab-6").load('${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId='+packageId+'&projectId='+projectId, function () {
+      layer.close(index_load);
+    });
 	}
 </script>
 </head>
