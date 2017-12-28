@@ -36,9 +36,7 @@
 	});
 	
 	function pack(packId,projectId){
-		var index_load = layer.load(2, {
-			shade: [0.4, '#000']
-		});
+		var index_load = layer.load(1);
 		$.ajax({
 			url:'${pageContext.request.contextPath}/reviewFirstAudit/save_score.html',
 			data:{"packId":packId,"projectId":projectId},
