@@ -1278,13 +1278,21 @@
       </div>
       </div>
       </div>
-     <!-- 首页APP下载二维码 -->
+     <!-- 首页公告APP下载二维码 -->
   <div class="m_app_code" id="m_app_code">
-    <span>A<br>P<br>P<br>下<br>载<br>二<br>维<br>码</span>
+    <span>采<br>购<br>公<br>告<br>A<br>P<br>P</span>
     <div class="mac_img">
       <img src="${pageContext.request.contextPath}/public/portal/images/AppDownload.png" alt="">
     </div>
   </div>
+  
+  <!-- 首页网上商城APP下载二维码 -->
+<%--   <div class="m_app_code code2" id="mall_app_code">
+    <span>网<br>上<br>商<br>城<br>A<br>P<br>P</span>
+    <div class="mac_img">
+      <img src="${pageContext.request.contextPath}/public/portal/images/mallQrCode.png" alt="">
+    </div>
+  </div> --%>
 
   <script>
     $(function() {
@@ -1295,6 +1303,13 @@
           $(this).parent().addClass('hover');
         }
       });
+/*       $('#mall_app_code span').on('click', function() {
+          if ($(this).parent().hasClass('hover')) {
+            $(this).parent().removeClass('hover');
+          } else {
+            $(this).parent().addClass('hover');
+          }
+        }); */
     });
   </script>
 

@@ -41,11 +41,21 @@
             <div class="cue">${error_version }</div>
           </div>
         </li>
+        <!-- App类型 -->
+        <li class="col-md-3 col-sm-3 col-xs-3 pl15">
+          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>类型</span>
+          <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+            <select class="w178" name="type">
+              <option value="1" >公告App</option>
+              <option value="2" >网上商城App</option>
+          </select>
+          </div>
+        </li>
         <!-- 上传附件 -->
         <li class="col-md-6 col-sm-6 col-xs-12">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>App安装包上传：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-            <u:upload id="post_attach_up" businessId="${businessId }" sysKey="${sysKey }" typeId="" multiple="true" auto="true" />
+            <u:upload id="post_attach_up" businessId="${businessId }" sysKey="${sysKey }" typeId="" multiple="false" auto="true" />
             <u:show showId="post_attach_show" businessId="${businessId }" sysKey="${sysKey }" typeId=""/>
             <div class="cue" id = "shangchuan">${errorShangchuan }</div>
           </div>
