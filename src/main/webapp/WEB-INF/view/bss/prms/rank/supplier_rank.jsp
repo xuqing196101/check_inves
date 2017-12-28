@@ -5,6 +5,14 @@
 <head>  
   <title>My JSP 'expert_list.jsp' starting page</title>
   <script type="text/javascript">
+	$(function() {
+  		//获取查看或操作权限
+       	var isOperate = $('#isOperate', window.parent.document).val();
+       	if(isOperate == 0) {
+       		//只具有查看权限，隐藏操作按钮
+			$("#packScore").hide();
+		}
+    })
 	function ycDiv(obj, index){
 		if ($(obj).hasClass("spread") && !$(obj).hasClass("shrink")) {
 	    	$(obj).removeClass("spread");
@@ -102,7 +110,7 @@
           </c:if>
           <c:if test="${'OPEN_ZHPFF' eq pack.bidMethodTypeName}">
            <div class="fl mt20 ml10">
-             <button class="btn" onclick="pack('${pack.id}','${pack.projectId}');" type="button">计算报价得分</button>
+             <button class="btn" id="packScore" onclick="pack('${pack.id}','${pack.projectId}');" type="button">计算报价得分</button>
            	</div>
            <div class="fl mt20 ml10">
            <button class="btn" onclick="rankView('${pack.id}','${pack.projectId}');" type="button">下载供应商排名</button>
