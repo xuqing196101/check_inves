@@ -197,7 +197,9 @@
 			  	  <!-- 根据flag的值判断有没有分数值 -->
 			  	  <c:if test="${flag eq '1'}">
 			  	    <td class="tc">
-			  	      ${scores}
+			  	    <fmt:formatNumber value="${scores}" var="myInteger"/>
+			  	      <c:if test="${myInteger  lt  '0' }">0</c:if>
+			  	      <c:if test="${myInteger ge '0' }">${myInteger}</c:if>
 			  	    </td>
 			  	  </c:if>
 			  	  <c:if test="${flag eq '0'}">

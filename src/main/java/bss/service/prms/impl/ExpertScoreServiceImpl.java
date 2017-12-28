@@ -350,6 +350,11 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
     public List<ExpertScore> selectByScore(ExpertScore expertScore) {
       return mapper.selectByScore(expertScore);
     }
+
+    @Override
+    public List<ExpertScore> selectByModelScore(ExpertScore expertScore) {
+      return mapper.selectByModelScore(expertScore);
+    }
     
     
     

@@ -2,6 +2,8 @@ package bss.model.prms;
 
 import java.math.BigDecimal;
 
+import bss.model.ppms.ScoreModel;
+
 public class ExpertScore {
     private String id;
 
@@ -20,6 +22,16 @@ public class ExpertScore {
     private BigDecimal score;
 
     private Short isHistory;
+    
+    private ScoreModel scoreModel;
+
+    public ScoreModel getScoreModel() {
+      return scoreModel;
+    }
+
+    public void setScoreModel(ScoreModel scoreModel) {
+      this.scoreModel = scoreModel;
+    }
 
     public String getId() {
         return id;
