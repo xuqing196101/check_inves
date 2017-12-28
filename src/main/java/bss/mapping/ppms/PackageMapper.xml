@@ -824,4 +824,14 @@
 			DD.REQUIRED_ID = #{requiredId}
 		AND DD.PROJECT_ID = #{projectId}
 	</select>
+	
+	<select id="selectCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT
+			COUNT (pa. ID)
+		FROM
+			T_BSS_PPMS_PACKAGE pa
+		LEFT JOIN T_BSS_PPMS_PROJECTS pp ON PP. ID = PA.PROJECT_ID
+		WHERE
+			PA.IS_DELETED = 0 AND PP.PARENT_ID = #{projectId} AND PP.RELATION_ID IS NULL
+	</select>
 </mapper>

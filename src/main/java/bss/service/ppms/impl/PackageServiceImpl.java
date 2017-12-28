@@ -382,49 +382,39 @@ public class PackageServiceImpl implements PackageService {
 	@Override
 	public Boolean savePackage(String ids, String projectId) {
 		if (StringUtils.isNotBlank(projectId) && StringUtils.isNotBlank(ids)) {
-			Project project = projectMapper.selectProjectByPrimaryKey(projectId);
-			if (project != null) {
-				HashMap<String, Object> map = new HashMap<>();
-				map.put("parentId", project.getId());
-				List<Project> selectByList = projectMapper.selectByList(map);
-				if (selectByList != null && !selectByList.isEmpty()) {
-					Integer number = 0;
-					for (Project project2 : selectByList) {
-						HashMap<String, Object> pack = new HashMap<String, Object>();
-						pack.put("projectId", project2.getId());
-						List<Packages> packList = packageMapper.findPackageById(pack);
-						if (packList != null && !packList.isEmpty()) {
-							number += packList.size();
-						}
-					}
-					addPackage(number, project);
-				} else {
-					addPackage(null, project);
-				}
-
-				HashMap<String, Object> pack = new HashMap<String, Object>();
-				pack.put("projectId", projectId);
-				List<Packages> packList = packageMapper.findPackageById(pack);
-				String[] id = ids.split(StaticVariables.COMMA_SPLLIT);
-				for (String detailId : id) {
-					ProjectDetail detail = detailMapper.selectByPrimaryKey(detailId);
-					if (detail != null) {
-						pack.put("id", detail.getRequiredId());
-						List<ProjectDetail> details = detailMapper.selectByParentId(pack);
-						if (details != null && !details.isEmpty() && details.size() == 1) {
-							details.get(0).setPackageId(packList.get(packList.size() - 1).getId());
-							details.get(0).setUpdateAt(new Date());
-							detailMapper.updateByPrimaryKeySelective(details.get(0));
-						}
-					}
-				}
-				return true;
+			Integer count = packageMapper.selectCount(projectId);
+			if (count != null) {
+				addPackage(count, projectId);
+			} else {
+				addPackage(null, projectId);
 			}
+
+			HashMap<String, Object> pack = new HashMap<String, Object>();
+			pack.put("projectId", projectId);
+			List<Packages> packList = packageMapper.findPackageById(pack);
+			String[] id = ids.split(StaticVariables.COMMA_SPLLIT);
+			pack.put("requiredId", id);
+			pack.put("packageId", packList.get(packList.size() - 1).getId());
+			detailMapper.updateByPackId(pack);
+			/*for (String detailId : id) {
+				ProjectDetail detail = detailMapper.selectByPrimaryKey(detailId);
+				if (detail != null) {
+					pack.put("id", detail.getRequiredId());
+					List<ProjectDetail> details = detailMapper.selectByParentId(pack);
+					if (details != null && !details.isEmpty() && details.size() == 1) {
+						details.get(0).setPackageId(packList.get(packList.size() - 1).getId());
+						details.get(0).setUpdateAt(new Date());
+						detailMapper.updateByPrimaryKeySelective(details.get(0));
+					}
+				}
+			}*/
+			return true;
 		}
 		return false;
 	}
 
-	private void addPackage(Integer number, Project project) {
+	private void addPackage(Integer number, String projectId) {
+		Project project = projectMapper.selectProjectByPrimaryKey(projectId);
 		HashMap<String, Object> pack = new HashMap<String, Object>();
 		pack.put("projectId", project.getId());
 		List<Packages> packList = packageMapper.findPackageById(pack);

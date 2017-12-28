@@ -692,14 +692,14 @@
 					0,
 					'false',
 					'true'
-				) AS cou1,
+				) AS isParent,
 			  project_detail(detail.REQUIRED_ID,#{projectId}) as cou2
 			FROM
 				T_BSS_PPMS_PROJECTS_DETAIL detail
 			WHERE
 				detail.PROJECT_ID = #{projectId}
 			AND detail.package_id IS NULL ) tab
-			where (tab.cou1='false' and cou2='false') or (tab.cou1='true' and cou2='true') or (tab.cou1='false' and cou2='true')
+			where (tab.isParent='false' and cou2='false') or (tab.isParent='true' and cou2='true') or (tab.isParent='false' and cou2='true')
 			 order by TAB.POSITION ASC
 			 
     </select>
@@ -774,5 +774,43 @@
     	update T_BSS_PPMS_PROJECTS_DETAIL
     	SET	PACKAGE_ID = NULL
     	WHERE ID = #{id}
+    </update>
+    
+    <update id="updateByPackId" parameterType="java.util.Map">
+    	UPDATE T_BSS_PPMS_PROJECTS_DETAIL
+			SET PACKAGE_ID = #{packageId},
+			 UPDATED_AT = SYSDATE
+			WHERE
+				ID IN (SELECT
+				id
+			FROM
+				(
+					SELECT
+						detail.*,
+						DECODE (
+							(
+								SELECT
+									COUNT (*)
+								FROM
+									T_BSS_PPMS_PROJECTS_DETAIL
+								WHERE
+									PARENT_ID = detail.REQUIRED_ID
+							),
+							0,
+							'false',
+							'true'
+						) AS isParent
+					FROM
+						T_BSS_PPMS_PROJECTS_DETAIL detail
+					WHERE
+						detail.PROJECT_ID = #{projectId} AND
+						detail.REQUIRED_ID IN (SELECT REQUIRED_ID FROM T_BSS_PPMS_PROJECTS_DETAIL WHERE ID IN
+						<foreach item="item" index="index" collection="requiredId" open="(" separator="," close=")">
+				    	#{item}
+				    </foreach>
+						)
+				)
+			WHERE
+				isParent = 'false')
     </update>
 </mapper>
