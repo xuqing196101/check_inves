@@ -1042,8 +1042,10 @@ public class OpenBiddingController extends BaseSupplierController{
         }
         	jsonObj.put("success", true);
 	  	  //jsonObj.put("message", "暂存成功");
+        	jsonObj.put("projectId", article.getProjectId());
 	      return jsonObj;
       }
+      jsonObj.put("projectId", article.getProjectId());
       jsonObj.put("success", false);
   	  jsonObj.put("message", "保存失败");
       return jsonObj;

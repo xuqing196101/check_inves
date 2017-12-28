@@ -8659,6 +8659,8 @@
 			<p class=MsoNormal style="text-indent:66.5000pt;mso-char-indent-count:4.7500;line-height:29.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:'Times New Roman';font-size:14.0000pt;"><o:p>&nbsp;</o:p></span></p>
 		</div>
 		<span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:黑体;font-size:14.0000pt;"><br clear=all style='page-break-before:always;mso-break-type:section-break'></span>
+		
+		<a name="BID_PRICE_TABLE">
 		<div class="Section7">
 			<p class=MsoNormal><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:黑体;font-size:14.0000pt;"><font face="黑体" >附件</font></span><span style="mso-spacerun:'yes';font-family:宋体;font-size:14.0000pt;">1</span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:黑体;font-size:14.0000pt;"><o:p></o:p></span></p>
 			<p class=MsoNormal align=center style="margin-bottom:12.0000pt;mso-para-margin-bottom:1.0000gd;text-align:center;"><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:方正小标宋简体;font-size:22.0000pt;"><font face="方正小标宋简体" >开标一览表</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:方正小标宋简体;font-size:22.0000pt;"><o:p></o:p></span></p>
@@ -9154,6 +9156,7 @@
 			<p class=MsoNormal style="text-indent:28.0000pt;mso-char-indent-count:2.0000;"><span style="mso-spacerun:'yes';font-family:'Times New Roman';font-size:14.0000pt;"><o:p>&nbsp;</o:p></span></p>
 			<p class=MsoNormal align=center style="text-align:center;"><span style="mso-spacerun:'yes';font-family:'Times New Roman';font-size:16.0000pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="mso-spacerun:'yes';font-family:'Times New Roman';font-size:14.0000pt;"><font face="宋体" >年</font>&nbsp;&nbsp;<font face="宋体" >月</font>&nbsp;&nbsp;<font face="宋体" >日</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';font-size:14.0000pt;"><o:p></o:p></span></p>
 		</div>
+		</a>
 		<span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:黑体;font-size:14.0000pt;"><br clear=all style='page-break-before:always;mso-break-type:section-break'></span>
 		<div class="Section9">
 			<p class=MsoNormal><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:黑体;font-size:14.0000pt;"><font face="黑体" >附件</font></span><span style="mso-spacerun:'yes';font-family:宋体;font-size:14.0000pt;">3</span><span style="mso-spacerun:'yes';font-family:宋体;font-size:14.0000pt;"><o:p></o:p></span></p>

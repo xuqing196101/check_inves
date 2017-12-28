@@ -315,12 +315,12 @@
 	<link href="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.css" rel="stylesheet">
   <script src="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.js"></script>
   <script>
-    // 锁表头锁表列
+    /* // 锁表头锁表列
     $(function () {
       $('#table').m_fixedTable({
         fixedNumber: 1
       });
-    });
+    }); */
   </script>
   </body>
 </html>

@@ -88,8 +88,14 @@
   										type:"post",
   										dataType:"JSON",
   										success:function(data){
+  											var scores="";
+  			    							if(parseFloat(data)<0){
+  			    								scores=0;
+  			    							}else{
+  			    								scores=data;
+  			    							}
   											$("input[name='"+supplierId_sum+"_total']").each(function(index,item){
-  												$(this).next().html("<font color='red'>" + data + "</font>");
+  												$(this).next().html("<font color='red'>" + scores + "</font>");
   											});
   										}
   									});
@@ -123,8 +129,14 @@
     						type:"post",
     						dataType:"JSON",
     						success:function(data) {
+    							var scores="";
+    							if(parseFloat(data)<0){
+    								scores=0;
+    							}else{
+    								scores=data;
+    							}
     							$("input[name='"+supplierId+"_total']").each(function(index,item){
-    								$(this).next().html("<font color='red'>" + data + "</font>");
+    								$(this).next().html("<font color='red'>" + scores + "</font>");
     							});
     						}
     					});
@@ -430,7 +442,10 @@
 			 	          	 </c:if>
 			 	          </c:if>
 			 	        </c:forEach>
-			 	        <font color="red" class="f18">${sum_score}</font>
+			 	        <font color="red" class="f18">
+			 	            <c:if test="${sum_score  lt  '0' }">0</c:if>
+			  	            <c:if test="${sum_score ge '0' }">${sum_score}</c:if>
+			 	        </font>
 			 	        <c:set var="sum_score" value="0"/>
 				      </span>
 			      </td>
@@ -451,7 +466,7 @@
 	
 	<!-- 锁表头锁表列 -->
 	<script>
-		function FixTable(TableID, FixColumnNumber, width, height) {
+		/* function FixTable(TableID, FixColumnNumber, width, height) {
 			if ($("#" + TableID + "_tableLayout").length != 0) {
 				$("#" + TableID + "_tableLayout").before($("#" + TableID));
 				$("#" + TableID + "_tableLayout").empty();
@@ -525,7 +540,7 @@
 		$(document).ready(function () {
 			var boxwidth = $("#content").width();
 			FixTable("table", 3, boxwidth, 500);
-		});
+		}); */
 	</script>
 	
 </body>
