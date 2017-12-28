@@ -143,7 +143,7 @@ public class SupplierAttachAuditController {
 	}
 	
 	/**
-	 * 近三年销售合同主要页及相应合同的银行收款进帐单s
+	 * 近三年销售合同主要页及相应合同的银行收款进帐单
 	 */
 	@RequestMapping(value = "/contract")
 	public String contract(String supplierId, Model model){

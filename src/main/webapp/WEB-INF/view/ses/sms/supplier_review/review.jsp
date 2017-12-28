@@ -182,7 +182,7 @@
     
     <c:if test="${isRecord eq 'no'}">
       <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc" id="reviewEnd">
-	      <a class="btn padding-left-20 padding-right-20 btn_back margin-5">上一步</a>
+	      <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="toStep('six');">上一步</a>
 	      <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="temporary();">暂存</a>
 	      <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="reviewEnd();">复核结束</a>
       </div>
