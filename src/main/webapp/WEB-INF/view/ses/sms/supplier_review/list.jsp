@@ -158,7 +158,7 @@
 	          <tr>
 	            <td class="tc w20"><input name="id" type="radio" value="${s.id}"></td>
 	            <td class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
-	            <td>${s.supplierName}</td>
+	            <td <c:if test="${s.reviewStatus == 1}">class="red"</c:if>>${s.supplierName}</td>
 	            <td>${s.supplierTypeNames}</td>
 	            <td>${s.businessNature}</td>
 	            <td><fmt:formatDate value="${s.reviewAt}" pattern="yyyy-MM-dd"/></td>
