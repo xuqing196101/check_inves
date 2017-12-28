@@ -396,6 +396,76 @@ public class SupplierAttachAuditExample {
             return (Criteria) this;
         }
 
+        public Criteria andAttatchCodeIsNull() {
+            addCriterion("ATTATCH_CODE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttatchCodeIsNotNull() {
+            addCriterion("ATTATCH_CODE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttatchCodeEqualTo(String value) {
+            addCriterion("ATTATCH_CODE =", value, "attatchCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttatchCodeNotEqualTo(String value) {
+            addCriterion("ATTATCH_CODE <>", value, "attatchCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttatchCodeGreaterThan(String value) {
+            addCriterion("ATTATCH_CODE >", value, "attatchCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttatchCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("ATTATCH_CODE >=", value, "attatchCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttatchCodeLessThan(String value) {
+            addCriterion("ATTATCH_CODE <", value, "attatchCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttatchCodeLessThanOrEqualTo(String value) {
+            addCriterion("ATTATCH_CODE <=", value, "attatchCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttatchCodeLike(String value) {
+            addCriterion("ATTATCH_CODE like", value, "attatchCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttatchCodeNotLike(String value) {
+            addCriterion("ATTATCH_CODE not like", value, "attatchCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttatchCodeIn(List<String> values) {
+            addCriterion("ATTATCH_CODE in", values, "attatchCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttatchCodeNotIn(List<String> values) {
+            addCriterion("ATTATCH_CODE not in", values, "attatchCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttatchCodeBetween(String value1, String value2) {
+            addCriterion("ATTATCH_CODE between", value1, value2, "attatchCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andAttatchCodeNotBetween(String value1, String value2) {
+            addCriterion("ATTATCH_CODE not between", value1, value2, "attatchCode");
+            return (Criteria) this;
+        }
+
         public Criteria andAttatchNameIsNull() {
             addCriterion("ATTATCH_NAME is null");
             return (Criteria) this;
@@ -783,6 +853,66 @@ public class SupplierAttachAuditExample {
 
         public Criteria andIsDeletedNotBetween(Integer value1, Integer value2) {
             addCriterion("IS_DELETED not between", value1, value2, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionIsNull() {
+            addCriterion("POSITION is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionIsNotNull() {
+            addCriterion("POSITION is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionEqualTo(Integer value) {
+            addCriterion("POSITION =", value, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionNotEqualTo(Integer value) {
+            addCriterion("POSITION <>", value, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionGreaterThan(Integer value) {
+            addCriterion("POSITION >", value, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionGreaterThanOrEqualTo(Integer value) {
+            addCriterion("POSITION >=", value, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionLessThan(Integer value) {
+            addCriterion("POSITION <", value, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionLessThanOrEqualTo(Integer value) {
+            addCriterion("POSITION <=", value, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionIn(List<Integer> values) {
+            addCriterion("POSITION in", values, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionNotIn(List<Integer> values) {
+            addCriterion("POSITION not in", values, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionBetween(Integer value1, Integer value2) {
+            addCriterion("POSITION between", value1, value2, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionNotBetween(Integer value1, Integer value2) {
+            addCriterion("POSITION not between", value1, value2, "position");
             return (Criteria) this;
         }
     }

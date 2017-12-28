@@ -7,7 +7,7 @@ package ses.model.sms.review;
  * 
  * @author yggc
  * 
- * @date 2017-12-27
+ * @date 2017-12-28
  *
  */
 public class SupplierAttachAudit {
@@ -30,6 +30,11 @@ public class SupplierAttachAudit {
      * 附件业务ID
      */
     private String businessId;
+
+    /**
+     * 附件CODE
+     */
+    private String attatchCode;
 
     /**
      * 附件名称
@@ -60,6 +65,11 @@ public class SupplierAttachAudit {
      * 是否删除 0 有效 1 删除
      */
     private Integer isDeleted;
+
+    /**
+     * 显示位置（排序用）
+     */
+    private Integer position;
 
     /**
      * 附件列表，存储json格式，例如： -- [{"xxx":[{"typeId":"xxx","businessId":"xxx","attachName":"xxx"}...]}...] -- [{"typeId":"xxx","businessId":"xxx","attachName":"xxx"}...]
@@ -128,6 +138,22 @@ public class SupplierAttachAudit {
      */
     public void setBusinessId(String businessId) {
         this.businessId = businessId;
+    }
+
+    /**
+     * 附件CODE
+     * @return ATTATCH_CODE 附件CODE
+     */
+    public String getAttatchCode() {
+        return attatchCode;
+    }
+
+    /**
+     * 附件CODE
+     * @param attatchCode 附件CODE
+     */
+    public void setAttatchCode(String attatchCode) {
+        this.attatchCode = attatchCode;
     }
 
     /**
@@ -224,6 +250,22 @@ public class SupplierAttachAudit {
      */
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    /**
+     * 显示位置（排序用）
+     * @return POSITION 显示位置（排序用）
+     */
+    public Integer getPosition() {
+        return position;
+    }
+
+    /**
+     * 显示位置（排序用）
+     * @param position 显示位置（排序用）
+     */
+    public void setPosition(Integer position) {
+        this.position = position;
     }
 
     /**
