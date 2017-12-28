@@ -36,6 +36,9 @@
 	});
 	
 	function pack(packId,projectId){
+		var index_load = layer.load(2, {
+			shade: [0.4, '#000']
+		});
 		$.ajax({
 			url:'${pageContext.request.contextPath}/reviewFirstAudit/save_score.html',
 			data:{"packId":packId,"projectId":projectId},
@@ -66,6 +69,7 @@
 						/* for(var i=0;i<data.length;i++){
 							$("#price_"+data[i].supplierId+"_"+data[i].packageId).text(data[i].score);
 						} */
+				layer.close(index_load);
 			}
 		});
 	}
