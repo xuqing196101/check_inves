@@ -124,7 +124,7 @@ import java.util.Set;
 /**
  * <p>Title:SupplierAuditController </p>
  * <p>Description: 供应商审核控制类</p>
- * @author Xu Qing
+ * 
  * @date 2016-9-12下午5:14:36
  * 
  */
@@ -265,7 +265,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	
 	/**
 	 * @Title: essentialInformation
-	 * @author Xu Qing
+	 * 
 	 * @date 2016-9-12 下午7:14:09  
 	 * @Description: 基本信息 
 	 * @param @return      
@@ -495,7 +495,7 @@ public class SupplierAuditController extends BaseSupplierController {
 
 	/**
 	 * @Title: financialInformation
-	 * @author Xu Qing
+	 * 
 	 * @date 2016-9-13 上午10:51:15  
 	 * @Description:财务信息
 	 * @param @return      
@@ -598,7 +598,7 @@ public class SupplierAuditController extends BaseSupplierController {
 
 	/**
 	 * @Title: shareholderInformation
-	 * @author Xu Qing
+	 * 
 	 * @date 2016-9-13 上午11:19:37  
 	 * @Description: 股东信息 
 	 * @param @return      
@@ -673,7 +673,7 @@ public class SupplierAuditController extends BaseSupplierController {
 
 	/**
 	 * @Title: materialProduction
-	 * @author Xu Qing
+	 * 
 	 * @date 2016-9-13 下午4:32:12  
 	 * @Description: 物资生产型专业信息 
 	 * @param @return      
@@ -726,7 +726,7 @@ public class SupplierAuditController extends BaseSupplierController {
 
 	/**
 	 * @Title: materialSales
-	 * @author Xu Qing
+	 * 
 	 * @date 2016-9-18 下午8:05:15  
 	 * @Description: 物资销售专业信息 
 	 * @param @return      
@@ -785,7 +785,7 @@ public class SupplierAuditController extends BaseSupplierController {
 
 	/**
 	 * @Title: engineeringInformation
-	 * @author Xu Qing
+	 * 
 	 * @date 2016-9-18 下午8:13:24  
 	 * @Description: 工程专业信息 
 	 * @param @return      
@@ -857,7 +857,7 @@ public class SupplierAuditController extends BaseSupplierController {
 
 	/**
 	 * @Title: serviceInformation
-	 * @author Xu Qing
+	 * 
 	 * @date 2016-9-28 上午11:01:53  
 	 * @Description: 服务专业信息 
 	 * @param @param request
@@ -1318,7 +1318,7 @@ public class SupplierAuditController extends BaseSupplierController {
 
 	/**
 	 * @Title: auditReasons
-	 * @author Xu Qing
+	 * 
 	 * @date 2016-9-18 下午5:55:44  
 	 * @Description: 记录审核原因
 	 * @param @param supplierAudit      
@@ -1548,7 +1548,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	
 	/**
 	 * @Title: reasonsList
-	 * @author Xu Qing
+	 * 
 	 * @date 2016-9-20 上午9:44:58  
 	 * @Description: 审核问题汇总 
 	 * @param @return      
@@ -1639,7 +1639,7 @@ public class SupplierAuditController extends BaseSupplierController {
 
 	/**
 	 * @Title: updateStatus
-	 * @author Xu Qing
+	 * 
 	 * @date 2016-9-20 下午7:32:49  
 	 * @Description: 根据供应商id更新审核状态
 	 * @param @param request
@@ -1904,7 +1904,7 @@ public class SupplierAuditController extends BaseSupplierController {
 
 	/**
 	 * @Title: setExpertBlackListUpload
-	 * @author Xu Qing
+	 * 
 	 * @date 2016-9-29 下午3:22:13  
 	 * @Description:附件上传
 	 * @param @param request
@@ -1945,7 +1945,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	/**
 	 * 
 	 * @Title: supplierInspectListFile
-	 * @author Xu Qing
+	 * 
 	 * @date 2016-9-29 下午3:30:01  
 	 * @Description: 供应商考察附件上传
 	 * @param @param request
@@ -1963,7 +1963,7 @@ public class SupplierAuditController extends BaseSupplierController {
 
 	/**
 	 * @Title: applicationForm
-	 * @author Xu Qing
+	 * 
 	 * @date 2016-9-29 下午7:12:37  
 	 * @Description: 申请表
 	 * @param @param request
@@ -2031,7 +2031,7 @@ public class SupplierAuditController extends BaseSupplierController {
 
 	/**
 	 * @Title: itemInformation
-	 * @author Xu Qing
+	 * 
 	 * @date 2016-10-8 上午10:34:24  
 	 * @Description:品目信息
 	 * @param @param request
@@ -2286,7 +2286,7 @@ public class SupplierAuditController extends BaseSupplierController {
 
 	/**
 	 * @Title: productInformation
-	 * @author Xu Qing
+	 * 
 	 * @date 2016-10-8 下午1:53:27  
 	 * @Description:产品信息
 	 * @param @param request
@@ -2331,7 +2331,7 @@ public class SupplierAuditController extends BaseSupplierController {
 
 	/**
 	 * @Title: download
-	 * @author Xu Qing
+	 * 
 	 * @date 2016-10-8 下午14:57:27  
 	 * @Description:文件下載  
 	 * @return String
@@ -2351,7 +2351,7 @@ public class SupplierAuditController extends BaseSupplierController {
 
 	/**
 	 * @Title: supplierAll
-	 * @author Xu Qing
+	 * 
 	 * @date 2016-10-21 上午9:45:39  
 	 * @Description: 全部供应商
 	 * @param @param request
