@@ -45,7 +45,7 @@
         <li class="col-md-3 col-sm-3 col-xs-3 pl15">
           <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>类型</span>
           <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-            <select class="w178" name="type">
+            <select class="col-md-12 col-sm-12 col-xs-12 p0" name="type">
               <option value="1" >公告App</option>
               <option value="2" >网上商城App</option>
           </select>
