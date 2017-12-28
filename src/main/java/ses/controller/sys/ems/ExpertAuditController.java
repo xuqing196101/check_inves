@@ -2063,7 +2063,7 @@ public class ExpertAuditController{
 							ss=true;
 						}
 					}
-					if(passCount<=0 && ss){
+					if(passCount<=0 && !ss){
 						model.addAttribute("qualified", false);
 						model.addAttribute("message", "当前专家有目录下无通过产品");
 						break;
