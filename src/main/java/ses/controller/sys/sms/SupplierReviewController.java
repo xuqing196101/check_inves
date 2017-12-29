@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
+import common.constant.Constant;
 import common.utils.JdcgResult;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAuditOpinion;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierAuditOpinionService;
 import ses.service.sms.SupplierReviewService;
 import ses.service.sms.SupplierService;
@@ -42,6 +44,9 @@ public class SupplierReviewController {
 	
 	@Autowired
 	private SupplierService  supplierService;
+	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
 	
 	/**
 	 * 复核列表
@@ -88,6 +93,9 @@ public class SupplierReviewController {
 		
 		Supplier supplier = supplierService.selectById(supplierId);
 		model.addAttribute("status", supplier.getStatus());
+		
+		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		return "ses/sms/supplier_review/review";
 	}
 	

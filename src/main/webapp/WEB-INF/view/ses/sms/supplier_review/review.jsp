@@ -4,6 +4,7 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp" %>
+    <%@ include file="/WEB-INF/view/common/webupload.jsp" %>
     <script type="text/javascript">
       $(function(){
     	  //绑定事件
@@ -193,7 +194,13 @@
           <div id="checkList" class="hidden">
             <h2 class="count_flow"><i>4</i>上传供应商复核表</h2>
 	          <ul class="ul_list hand">
-	          
+	            <li class="col-md-6 col-sm-6 col-xs-6">
+                <div>
+	                <span class="fl"><span class="red">*</span>上传复核表：</span>
+	                <u:upload id="pic_review" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierReview}" buttonName="上传彩色扫描件" auto="true" multiple="true"/>
+	                <u:show showId="pic_review" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierReview}" delete = "false"/>
+                </div>
+              </li>
 	          </ul>
           </div>
         </div>
