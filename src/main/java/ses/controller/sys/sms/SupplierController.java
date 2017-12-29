@@ -3965,5 +3965,16 @@ public class SupplierController extends BaseSupplierController {
     	supplierStockholderService.deleteTempStockholder(id);
     	//删除历史表T_SES_SMS_SUPPLIER_HISTORY
     	supplierHistoryService.softDelete(supplierId, id);
+    	//删除审核记录
+    	SupplierAudit supplierAudit = new SupplierAudit();
+    	supplierAudit.setSupplierId(supplierId);
+    	supplierAudit.setAuditField(id);
+     	supplierAudit.setAuditType("basic_page");
+     	Integer[] rss = {1};
+     	List<SupplierAudit> audits = supplierAuditService.getAuditRecords(supplierAudit, rss);
+     	if (audits != null && audits.size() == 1) {
+     		String[] ids = {audits.get(0).getId()};
+     		supplierAuditService.deleteById(ids);
+		}
     }
 }
