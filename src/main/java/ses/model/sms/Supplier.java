@@ -602,6 +602,8 @@ Supplier implements Serializable {
 
 	private String extractOrgid; //抽取的机构id
 	
+	private Date extractAt; //抽取的时间
+	
 	private String orgName; //机构名称
 	private String orgId; //机构ID
 	private String depPhone; //采购机构电话
@@ -2259,6 +2261,14 @@ Supplier implements Serializable {
 
 	public void setInvesAt(Date invesAt) {
 		this.invesAt = invesAt;
+	}
+
+	public Date getExtractAt() {
+		return extractAt;
+	}
+
+	public void setExtractAt(Date extractAt) {
+		this.extractAt = extractAt;
 	}
 	
 }

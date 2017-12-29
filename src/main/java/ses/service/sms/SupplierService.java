@@ -626,4 +626,9 @@ public interface SupplierService {
 	 * 更新复核或实地考察信息
 	 */
 	void updateReviewOrInves(Supplier supplier);
+	
+	/**
+	 * 更新抽取到的供应商
+	 */
+	void updateExtractOrgid(String orgId, List<String> list);
 }
