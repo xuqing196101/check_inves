@@ -42,8 +42,8 @@
         <li class="col-md-6 col-sm-6 col-xs-12">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">版本信息：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-            <u:upload id="post_attach_up" businessId="${businessId }" sysKey="${sysKey }" typeId="" multiple="true" auto="true" />
-            <u:show showId="post_attach_show" businessId="${businessId }" sysKey="${sysKey }" typeId=""/>
+            <%-- <u:upload id="post_attach_up" businessId="${businessId }" sysKey="${sysKey }" typeId="" multiple="true" auto="true" /> --%>
+            <u:show showId="post_attach_show" businessId="${businessId }" sysKey="${sysKey }" typeId="" delete = "false"/>
           </div>
         </li>
       </ul>

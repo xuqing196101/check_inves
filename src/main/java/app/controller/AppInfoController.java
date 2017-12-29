@@ -134,9 +134,9 @@ public class AppInfoController {
      */
     @RequestMapping("/fallback")
     @ResponseBody
-    public String fallback(@CurrentUser User user){
+    public String fallback(@CurrentUser User user,String type){
     	if(null != user && "4".equals(user.getTypeName())){
-    		Integer i = appInfoService.fallbackByVersion();
+    		Integer i = appInfoService.fallbackByVersion(type);
             if(i > 0){
                 return "success";
             }else{
