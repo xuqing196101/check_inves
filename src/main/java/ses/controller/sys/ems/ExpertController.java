@@ -3807,6 +3807,7 @@ public class ExpertController extends BaseController {
         ExpertAudit expertAudit = new ExpertAudit();
         expertAudit.setExpertId(expert.getId());
         expertAudit.setSuggestType("six");
+        expertAudit.setStatusQuery("notPass");
         List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);
         for (ExpertCategory expertCategory : categoriesTxt) {
         	boolean status=false;
