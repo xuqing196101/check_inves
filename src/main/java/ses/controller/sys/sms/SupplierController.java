@@ -72,6 +72,7 @@ import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierHistory;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
@@ -100,6 +101,7 @@ import ses.service.sms.SupplierAuditNotService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierCertEngService;
+import ses.service.sms.SupplierHistoryService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierMatEngService;
 import ses.service.sms.SupplierMatProService;
@@ -107,6 +109,7 @@ import ses.service.sms.SupplierMatSeService;
 import ses.service.sms.SupplierMatSellService;
 import ses.service.sms.SupplierPorjectQuaService;
 import ses.service.sms.SupplierService;
+import ses.service.sms.SupplierStockholderService;
 import ses.service.sms.SupplierTypeRelateService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
@@ -119,6 +122,7 @@ import ses.util.WordUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
@@ -226,8 +230,14 @@ public class SupplierController extends BaseSupplierController {
     @Autowired
     private DeleteLogService deleteLogService;// 删除日志
     
-    @Autowired
+    @Autowired 
     private DownloadService downloadService;// 文件下载
+    
+    @Autowired
+    private SupplierStockholderService supplierStockholderService;//出资人
+    
+    @Autowired
+    private SupplierHistoryService supplierHistoryService;
     
     /**
      * 基本信息（第一步）
@@ -3905,4 +3915,55 @@ public class SupplierController extends BaseSupplierController {
 		return supplierService.get(suppId, type);
     }
     
+    /**
+     *〈简述〉后台管理员临时添加供应商出资人
+     *〈详细描述〉
+     * @author Ye Maolin
+     * @param id
+     * @param supplierId
+     */
+    @ResponseBody
+	@RequestMapping("/saveTempStockholder")
+    public void saveTempStockholder(String id, String supplierId){
+    	SupplierStockholder supplierStockholder = new SupplierStockholder();
+    	supplierStockholder.setSupplierId(supplierId);
+    	supplierStockholder.setId(id);
+    	supplierStockholder.setCreatedAt(new Date());
+    	supplierStockholderService.saveTempStockholder(supplierStockholder);
+    	//插入历史表T_SES_SMS_SUPPLIER_HISTORY
+    	SupplierHistory supplierHistory = new SupplierHistory();
+    	supplierHistory.setBeforeContent("null");
+    	supplierHistory.setCreatedAt(new Date());
+    	supplierHistory.setIsDeleted(0);
+    	supplierHistory.setListType(4);
+    	supplierHistory.setModifyType("shareholder_page");
+    	supplierHistory.setRelationId(id);
+    	supplierHistory.setSupplierId(supplierId);
+    	supplierHistory.setBeforeField("proportion");
+    	supplierHistoryService.add(supplierHistory);
+    	supplierHistory.setBeforeField("name");
+    	supplierHistoryService.add(supplierHistory);
+    	supplierHistory.setBeforeField("nature");
+    	supplierHistoryService.add(supplierHistory);
+    	supplierHistory.setBeforeField("identityType");
+    	supplierHistoryService.add(supplierHistory);
+    	supplierHistory.setBeforeField("identity");
+    	supplierHistoryService.add(supplierHistory);
+    	supplierHistory.setBeforeField("shares");
+    	supplierHistoryService.add(supplierHistory);
+    }
+    
+    /**
+     *〈简述〉后台管理员删除临时添加的供应商出资人
+     *〈详细描述〉**99/9
+     * @author Ye Maolin
+     * @param id
+     */
+    @ResponseBody
+	@RequestMapping("/deleteTempStockholder")
+    public void deleteTempStockholder(String id, String supplierId){
+    	supplierStockholderService.deleteTempStockholder(id);
+    	//删除历史表T_SES_SMS_SUPPLIER_HISTORY
+    	supplierHistoryService.softDelete(supplierId, id);
+    }
 }
