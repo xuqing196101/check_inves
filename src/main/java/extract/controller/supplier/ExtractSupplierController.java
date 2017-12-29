@@ -211,7 +211,7 @@ public class ExtractSupplierController extends BaseController {
     			eRecord=recordService.selectByPrimaryKey(eRecord.getId());
     			if(StringUtils.isEmpty(eRecord.getConditionId())){
     				eRecord.setConditionId(conditionId);
-    				recordService.update(eRecord);
+    				recordService.saveOrUpdateProjectInfo(eRecord);
     			}
     			//从记录列表进入 继续抽取 项目信息
     			model.addAttribute("projectInfo",eRecord);

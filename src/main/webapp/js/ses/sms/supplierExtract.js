@@ -658,7 +658,7 @@ function updateExtractStatus(extractStatus){
 		async:false,
 		success: function (msg) {
 			if(msg<1){
-    			layer.alert("结束状态异常");
+    			layer.alert("状态异常");
     			flag = false;
     		}
 		},
@@ -1123,17 +1123,15 @@ function showCheckArea(treeObj){
    	var names = new Array();
    	
    	for(var i=0; i<areas.length;i++){
-   		if(areas[i].isParent){
+		if(areas[i].isParent){
 			pids.push(areas[i].id);
 			names.push(areas[i].name);
 			idArr.push(areas[i].id);
 			if(treeId == "areaTree"){
-			if(areas[i].id == "0"){
-				// 隐藏地区限制理由
-				$("#areaReson").parents("li").addClass("dnone");
-				break;
-			}else{
-				$("#areaReson").parents("li").removeClass("dnone");
+				if(areas[i].id == "0"){
+					// 隐藏地区限制理由
+					$("#areaReson").parents("li").addClass("dnone");
+					break;
 				}
 			}
    		}else{
@@ -1156,6 +1154,9 @@ function showCheckArea(treeObj){
 		$("#province").val(pids.toString());
 		$("#addressId").val(ids.toString());
 		$("#area").val(names.toString());
+		if($("#province").val()!="0"){
+			$("#areaReson").parents("li").removeClass("dnone");
+		}
    	}else{
    		Array.prototype.push.apply(pids, ids);
 		for ( var i in pids) {
