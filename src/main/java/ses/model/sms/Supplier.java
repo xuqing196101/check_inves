@@ -602,6 +602,8 @@ Supplier implements Serializable {
 
 	private String extractOrgid; //抽取的机构id
 	
+	private Date extractAt; //抽取的时间
+	
 	private String orgName; //机构名称
 	private String orgId; //机构ID
 	private String depPhone; //采购机构电话
@@ -763,6 +765,15 @@ Supplier implements Serializable {
      * @Fields errorNum : 用户登录密码错误次数
      */
     private Integer errorNum;
+    
+    private String reviewPeople;
+    
+    private Integer reviewStatus;
+    
+    private Date reviewAt;
+    
+    private String invesPeople;
+    private Date invesAt;
     
     public String getQrcodeImage() {
 		return qrcodeImage;
@@ -2210,6 +2221,54 @@ Supplier implements Serializable {
 
 	public void setParentAddress(String parentAddress) {
 		this.parentAddress = parentAddress;
+	}
+
+	public String getReviewPeople() {
+		return reviewPeople;
+	}
+
+	public void setReviewPeople(String reviewPeople) {
+		this.reviewPeople = reviewPeople;
+	}
+
+	public Integer getReviewStatus() {
+		return reviewStatus;
+	}
+
+	public void setReviewStatus(Integer reviewStatus) {
+		this.reviewStatus = reviewStatus;
+	}
+
+	public Date getReviewAt() {
+		return reviewAt;
+	}
+
+	public void setReviewAt(Date reviewAt) {
+		this.reviewAt = reviewAt;
+	}
+
+	public String getInvesPeople() {
+		return invesPeople;
+	}
+
+	public void setInvesPeople(String invesPeople) {
+		this.invesPeople = invesPeople;
+	}
+
+	public Date getInvesAt() {
+		return invesAt;
+	}
+
+	public void setInvesAt(Date invesAt) {
+		this.invesAt = invesAt;
+	}
+
+	public Date getExtractAt() {
+		return extractAt;
+	}
+
+	public void setExtractAt(Date extractAt) {
+		this.extractAt = extractAt;
 	}
 	
 }

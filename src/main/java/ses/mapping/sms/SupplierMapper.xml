@@ -97,6 +97,12 @@
 		<result column="INSTORAGE_AT" property="instorageAt" jdbcType="TIMESTAMP"/>
 		<result column="RETURN_COUNT" property="returnCount"/>
 		<result column="LAST_RETURN_DATE" property="lastReturnDate" jdbcType="TIMESTAMP"/>
+		<result column="REVIEW_PEOPLE" property="reviewPeople"/>
+		<result column="REVIEW_STATUS" property="reviewStatus"/>
+		<result column="REVIEW_AT" property="reviewAt" jdbcType="TIMESTAMP"/>
+		<result column="INVES_PEOPLE" property="invesPeople"/>
+		<result column="INVES_AT" property="invesAt" jdbcType="TIMESTAMP"/>
+		<result column="EXTRACT_AT" property="extractAt" jdbcType="TIMESTAMP"/>
     <association property="area" column="ADDRESS" select="ses.dao.bms.AreaMapper.selectById"/>
 	</resultMap>
 
@@ -195,6 +201,12 @@
 		<result column="INSTORAGE_AT" property="instorageAt" jdbcType="TIMESTAMP"/>
 		<result column="RETURN_COUNT" property="returnCount"/>
 		<result column="LAST_RETURN_DATE" property="lastReturnDate" jdbcType="TIMESTAMP"/>
+		<result column="REVIEW_PEOPLE" property="reviewPeople"/>
+		<result column="REVIEW_STATUS" property="reviewStatus"/>
+		<result column="REVIEW_AT" property="reviewAt"/>
+		<result column="INVES_PEOPLE" property="invesPeople"/>
+		<result column="INVES_AT" property="invesAt"/>
+		<result column="EXTRACT_AT" property="extractAt" jdbcType="TIMESTAMP"/>
 	</resultMap>
 
 	<resultMap type="ses.model.sms.Supplier" id="supplierTypeMap"
@@ -2561,4 +2573,81 @@
 		SELECT SUPPLIER_STATUS FROM T_SES_SMS_SUPPLIER WHERE ID = #{id}
 	</select>
     
+    <!-- 供应商复核列表 -->
+    <select id="selectReviewList" resultMap="BaseResultMap" parameterType="ses.model.sms.Supplier">
+      SELECT 
+        DISTINCT T1.ID,
+			  T1.SUPPLIER_NAME,
+			  T1.SUPPLIER_TYPE_ID,
+			  T1.BUSINESS_NATURE,
+			  T1.REVIEW_AT,
+			  T1.REVIEW_PEOPLE,
+			  T1.SUPPLIER_STATUS,
+			  T1.REVIEW_STATUS
+			FROM
+			  T_SES_SMS_SUPPLIER T1
+			LEFT JOIN T_SES_SMS_EXTRACT_RESULT T2 ON T2.SUPPLIER_ID = T1. ID
+			WHERE
+			  T2.JOIN = 1
+			<if test="supplierName != null and supplierName != ''">
+        AND T1.SUPPLIER_NAME LIKE CONCAT(CONCAT('%',#{supplierName}), '%')
+      </if>
+      <if test="status != null">
+        AND T1.SUPPLIER_STATUS = #{status}
+      </if>
+      <if test="auditTemporary != null">
+        AND T1.AUDIT_TEMPORARY = #{auditTemporary}
+      </if>
+      <if test="reviewAt != null and reviewAt != ''">
+        AND to_char(T1.REVIEW_AT,'yyyy-mm-dd') = to_char(#{reviewAt},'yyyy-mm-dd')
+      </if>
+      <if test="businessNature != null and businessNature != ''">
+        AND T1.BUSINESS_NATURE = #{businessNature}
+      </if>
+    </select>
+    
+    <!-- 更新复核或实地考察信息 -->
+    <update id="updateReviewOrInves" parameterType="ses.model.sms.Supplier">
+      update
+        T_SES_SMS_SUPPLIER
+      <set>
+        <if test="status !=null">
+          SUPPLIER_STATUS = #{status},
+        </if>
+        <if test="reviewPeople !=null">
+          REVIEW_PEOPLE = #{reviewPeople},
+        </if>
+        <if test="reviewStatus !=null">
+          REVIEW_STATUS = #{reviewStatus},
+        </if>
+        <if test="reviewAt !=null">
+          REVIEW_AT = #{reviewAt},
+        </if>
+        <if test="invesPeople !=null">
+          INVES_PEOPLE = #{invesPeople},
+        </if>
+        <if test="invesAt !=null">
+          INVES_AT = #{invesAt},
+        </if>
+        <if test="extractOrgid !=null and extractOrgid !=''">
+          EXTRACT_ORGID = #{extractOrgid},
+        </if>
+        <if test="extractAt !=null">
+          EXTRACT_AT = #{extractAt},
+        </if>
+      </set>
+      where
+        ID = #{id}
+    </update>
+    
+    <!-- 查询抽取到的供应商-->
+    <select id="selectExtractOrgidById" parameterType="java.lang.String" resultType="java.lang.Integer">
+			SELECT
+			  COUNT (*)
+			FROM
+			  T_SES_SMS_SUPPLIER
+			WHERE
+			  EXTRACT_ORGID IS NOT NULL
+			AND ID = #{id}
+    </select>
 </mapper>
