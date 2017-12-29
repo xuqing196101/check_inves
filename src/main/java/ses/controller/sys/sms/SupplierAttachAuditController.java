@@ -27,13 +27,23 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierCateTree;
+import ses.model.sms.SupplierCertEng;
+import ses.model.sms.SupplierCertPro;
+import ses.model.sms.SupplierCertSell;
+import ses.model.sms.SupplierCertServe;
+import ses.model.sms.SupplierEngQua;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
+import ses.model.sms.SupplierMatPro;
+import ses.model.sms.SupplierMatSell;
+import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierPorjectQua;
+import ses.model.sms.SupplierRegPerson;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.QualificationService;
 import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierPorjectQuaService;
@@ -68,6 +78,9 @@ public class SupplierAttachAuditController {
 	
 	@Autowired
 	private SupplierPorjectQuaService supplierPorjectQuaService;
+	
+	@Autowired
+	private QualificationService qualificationService;
 	
 	/**
 	 * 生产或经营地址的房产证明或租赁协议
@@ -310,7 +323,7 @@ public class SupplierAttachAuditController {
 		model.addAttribute("serviceQua", serviceQua);
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		model.addAttribute("businessId", supplierId);
-		 String id = DictionaryDataUtil.getId("SUPPLIER_APTITUD");
+		String id = DictionaryDataUtil.getId("SUPPLIER_APTITUD");
 		model.addAttribute("typeId", id);
 
 		String provinceName = "";
@@ -329,6 +342,160 @@ public class SupplierAttachAuditController {
             e.printStackTrace();
         }
 		return "ses/sms/supplier_attach/itemQua";
+	}
+	
+	/**
+	 * 相关准入、认证资质证书
+	 * @return
+	 */
+	@RequestMapping(value = "/certOther")
+	public String certOther(String supplierId, Model model){
+   		//文件
+		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+   		
+		Supplier supplier = supplierService.get(supplierId, 2);
+        model.addAttribute("suppliers", supplier);
+		if(supplier != null){
+			// 勾选的供应商类型
+			model.addAttribute("supplierTypeCode", supplier.getSupplierTypeIds());
+			
+			List < DictionaryData > gcfwList = DictionaryDataUtil.find(6);// 物资/工程/服务
+			for(int i = 0; i < gcfwList.size(); i++) {
+				DictionaryData dd = gcfwList.get(i);
+				String code = dd.getCode();
+				if(code.equals("GOODS")) {// 除去物资
+					gcfwList.remove(dd);
+				}
+			}
+			model.addAttribute("gcfwList", gcfwList);
+			List < DictionaryData > scxsList = DictionaryDataUtil.find(8);// 物资生产/物资销售
+			model.addAttribute("scxsList", scxsList);
+			
+			/**
+			 * 生产
+			 */
+			SupplierMatPro supplierMatPro = supplier.getSupplierMatPro();
+			if(supplierMatPro != null){
+				//资质资格证书信息
+				List < SupplierCertPro > materialProduction = supplierMatPro.getListSupplierCertPros();
+				for(int i = 0; i < materialProduction.size() - 1; i++) {
+					for(int j = materialProduction.size() - 1; j > i; j--) {
+						if(materialProduction.get(j).getId().equals(materialProduction.get(i).getId())) {
+							materialProduction.remove(j);
+						}
+					}
+				}
+				model.addAttribute("materialProduction", materialProduction);
+				model.addAttribute("supplierMatPros", supplierMatPro);
+			}
+
+			/**
+			 * 销售
+			 */
+			//组织机构和人员
+			SupplierMatSell supplierMatSell = supplier.getSupplierMatSell();
+			if(supplierMatSell != null){
+				//资质资格证书
+				List < SupplierCertSell > supplierCertSell = supplierMatSell.getListSupplierCertSells();
+				for(int i = 0; i < supplierCertSell.size() - 1; i++) {
+					for(int j = supplierCertSell.size() - 1; j > i; j--) {
+						if(supplierCertSell.get(j).getId().equals(supplierCertSell.get(i).getId())) {
+							supplierCertSell.remove(j);
+						}
+					}
+				}
+				model.addAttribute("supplierCertSell", supplierCertSell);
+				model.addAttribute("supplierMatSells", supplierMatSell);
+			}
+			
+			/**
+			 * 工程
+			 */
+			//组织结构
+			SupplierMatEng supplierMatEng = supplier.getSupplierMatEng();
+			if(supplierMatEng != null){
+				model.addAttribute("supplierMatEngs", supplierMatEng);
+				//资质证书信息
+				List < SupplierEngQua > supplierEngQuas = supplierMatEng.getListSupplierEngQuas();
+				for(int i = 0; i < supplierEngQuas.size() - 1; i++) {
+					for(int j = supplierEngQuas.size() - 1; j > i; j--) {
+						if(supplierEngQuas.get(j).getId().equals(supplierEngQuas.get(i).getId())) {
+							supplierEngQuas.remove(j);
+						}
+					}
+				}
+				model.addAttribute("supplierEngQuas", supplierEngQuas);
+				//资质资格证书信息
+				List < SupplierCertEng > supplierCertEngs = supplierMatEng.getListSupplierCertEngs();
+				for(int i = 0; i < supplierCertEngs.size() - 1; i++) {
+					for(int j = supplierCertEngs.size() - 1; j > i; j--) {
+						if(supplierCertEngs.get(j).getId().equals(supplierCertEngs.get(i).getId())) {
+							supplierCertEngs.remove(j);
+						}
+					}
+				}
+				model.addAttribute("supplierCertEngs", supplierCertEngs);
+
+				//资质资格信息
+				List < SupplierAptitute > supplierAptitute = supplierMatEng.getListSupplierAptitutes();
+				for(int i = 0; i < supplierAptitute.size() - 1; i++) {
+					for(int j = supplierAptitute.size() - 1; j > i; j--) {
+						if(supplierAptitute.get(j).getId().equals(supplierAptitute.get(i).getId())) {
+							supplierAptitute.remove(j);
+						}
+					}
+				}
+				model.addAttribute("supplierAptitutes", supplierAptitute);
+				//资质类型
+				model.addAttribute("typeList", qualificationService.findList(null, Integer.MAX_VALUE, null, 4));
+				//资质登记
+				List < DictionaryData > businessList = DictionaryDataUtil.find(31);
+				for(DictionaryData data : businessList){
+					for(SupplierAptitute a : supplierAptitute){
+						if(data.getId().equals(a.getAptituteLevel())){
+							a.setAptituteLevel(data.getName());
+						}
+					}
+				}
+			}
+			
+			/**
+			 * 服务
+			 */
+			//组织结构和人员
+			SupplierMatServe supplierMatSe = supplier.getSupplierMatSe();
+			if(supplierMatSe != null){
+				//资质证书信息
+				List < SupplierCertServe > supplierCertSe = supplierMatSe.getListSupplierCertSes();
+				for(int i = 0; i < supplierCertSe.size() - 1; i++) {
+					for(int j = supplierCertSe.size() - 1; j > i; j--) {
+						if(supplierCertSe.get(j).getId().equals(supplierCertSe.get(i).getId())) {
+							supplierCertSe.remove(j);
+						}
+					}
+				}
+				model.addAttribute("supplierCertSes", supplierCertSe);
+				model.addAttribute("supplierMatSes", supplierMatSe);
+			}
+		}
+   		
+   		String provinceName = "";
+   		String cityName = "";
+        try {
+            Area area = areaService.listById(supplier.getAddress());
+            if (area != null) {
+                cityName = area.getName();
+                Area area1 = areaService.listById(area.getParentId());
+                if (area1 != null) {
+                    provinceName = area1.getName();
+                }
+            }
+            supplier.setAddress(provinceName + cityName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		return "ses/sms/supplier_attach/certOther";
 	}
 	
 	/**
