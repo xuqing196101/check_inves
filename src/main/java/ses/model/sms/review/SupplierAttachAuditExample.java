@@ -396,143 +396,143 @@ public class SupplierAttachAuditExample {
             return (Criteria) this;
         }
 
-        public Criteria andAttatchCodeIsNull() {
-            addCriterion("ATTATCH_CODE is null");
+        public Criteria andAttachCodeIsNull() {
+            addCriterion("ATTACH_CODE is null");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchCodeIsNotNull() {
-            addCriterion("ATTATCH_CODE is not null");
+        public Criteria andAttachCodeIsNotNull() {
+            addCriterion("ATTACH_CODE is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchCodeEqualTo(String value) {
-            addCriterion("ATTATCH_CODE =", value, "attatchCode");
+        public Criteria andAttachCodeEqualTo(String value) {
+            addCriterion("ATTACH_CODE =", value, "attachCode");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchCodeNotEqualTo(String value) {
-            addCriterion("ATTATCH_CODE <>", value, "attatchCode");
+        public Criteria andAttachCodeNotEqualTo(String value) {
+            addCriterion("ATTACH_CODE <>", value, "attachCode");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchCodeGreaterThan(String value) {
-            addCriterion("ATTATCH_CODE >", value, "attatchCode");
+        public Criteria andAttachCodeGreaterThan(String value) {
+            addCriterion("ATTACH_CODE >", value, "attachCode");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchCodeGreaterThanOrEqualTo(String value) {
-            addCriterion("ATTATCH_CODE >=", value, "attatchCode");
+        public Criteria andAttachCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("ATTACH_CODE >=", value, "attachCode");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchCodeLessThan(String value) {
-            addCriterion("ATTATCH_CODE <", value, "attatchCode");
+        public Criteria andAttachCodeLessThan(String value) {
+            addCriterion("ATTACH_CODE <", value, "attachCode");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchCodeLessThanOrEqualTo(String value) {
-            addCriterion("ATTATCH_CODE <=", value, "attatchCode");
+        public Criteria andAttachCodeLessThanOrEqualTo(String value) {
+            addCriterion("ATTACH_CODE <=", value, "attachCode");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchCodeLike(String value) {
-            addCriterion("ATTATCH_CODE like", value, "attatchCode");
+        public Criteria andAttachCodeLike(String value) {
+            addCriterion("ATTACH_CODE like", value, "attachCode");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchCodeNotLike(String value) {
-            addCriterion("ATTATCH_CODE not like", value, "attatchCode");
+        public Criteria andAttachCodeNotLike(String value) {
+            addCriterion("ATTACH_CODE not like", value, "attachCode");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchCodeIn(List<String> values) {
-            addCriterion("ATTATCH_CODE in", values, "attatchCode");
+        public Criteria andAttachCodeIn(List<String> values) {
+            addCriterion("ATTACH_CODE in", values, "attachCode");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchCodeNotIn(List<String> values) {
-            addCriterion("ATTATCH_CODE not in", values, "attatchCode");
+        public Criteria andAttachCodeNotIn(List<String> values) {
+            addCriterion("ATTACH_CODE not in", values, "attachCode");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchCodeBetween(String value1, String value2) {
-            addCriterion("ATTATCH_CODE between", value1, value2, "attatchCode");
+        public Criteria andAttachCodeBetween(String value1, String value2) {
+            addCriterion("ATTACH_CODE between", value1, value2, "attachCode");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchCodeNotBetween(String value1, String value2) {
-            addCriterion("ATTATCH_CODE not between", value1, value2, "attatchCode");
+        public Criteria andAttachCodeNotBetween(String value1, String value2) {
+            addCriterion("ATTACH_CODE not between", value1, value2, "attachCode");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchNameIsNull() {
-            addCriterion("ATTATCH_NAME is null");
+        public Criteria andAttachNameIsNull() {
+            addCriterion("ATTACH_NAME is null");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchNameIsNotNull() {
-            addCriterion("ATTATCH_NAME is not null");
+        public Criteria andAttachNameIsNotNull() {
+            addCriterion("ATTACH_NAME is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchNameEqualTo(String value) {
-            addCriterion("ATTATCH_NAME =", value, "attatchName");
+        public Criteria andAttachNameEqualTo(String value) {
+            addCriterion("ATTACH_NAME =", value, "attachName");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchNameNotEqualTo(String value) {
-            addCriterion("ATTATCH_NAME <>", value, "attatchName");
+        public Criteria andAttachNameNotEqualTo(String value) {
+            addCriterion("ATTACH_NAME <>", value, "attachName");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchNameGreaterThan(String value) {
-            addCriterion("ATTATCH_NAME >", value, "attatchName");
+        public Criteria andAttachNameGreaterThan(String value) {
+            addCriterion("ATTACH_NAME >", value, "attachName");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchNameGreaterThanOrEqualTo(String value) {
-            addCriterion("ATTATCH_NAME >=", value, "attatchName");
+        public Criteria andAttachNameGreaterThanOrEqualTo(String value) {
+            addCriterion("ATTACH_NAME >=", value, "attachName");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchNameLessThan(String value) {
-            addCriterion("ATTATCH_NAME <", value, "attatchName");
+        public Criteria andAttachNameLessThan(String value) {
+            addCriterion("ATTACH_NAME <", value, "attachName");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchNameLessThanOrEqualTo(String value) {
-            addCriterion("ATTATCH_NAME <=", value, "attatchName");
+        public Criteria andAttachNameLessThanOrEqualTo(String value) {
+            addCriterion("ATTACH_NAME <=", value, "attachName");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchNameLike(String value) {
-            addCriterion("ATTATCH_NAME like", value, "attatchName");
+        public Criteria andAttachNameLike(String value) {
+            addCriterion("ATTACH_NAME like", value, "attachName");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchNameNotLike(String value) {
-            addCriterion("ATTATCH_NAME not like", value, "attatchName");
+        public Criteria andAttachNameNotLike(String value) {
+            addCriterion("ATTACH_NAME not like", value, "attachName");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchNameIn(List<String> values) {
-            addCriterion("ATTATCH_NAME in", values, "attatchName");
+        public Criteria andAttachNameIn(List<String> values) {
+            addCriterion("ATTACH_NAME in", values, "attachName");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchNameNotIn(List<String> values) {
-            addCriterion("ATTATCH_NAME not in", values, "attatchName");
+        public Criteria andAttachNameNotIn(List<String> values) {
+            addCriterion("ATTACH_NAME not in", values, "attachName");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchNameBetween(String value1, String value2) {
-            addCriterion("ATTATCH_NAME between", value1, value2, "attatchName");
+        public Criteria andAttachNameBetween(String value1, String value2) {
+            addCriterion("ATTACH_NAME between", value1, value2, "attachName");
             return (Criteria) this;
         }
 
-        public Criteria andAttatchNameNotBetween(String value1, String value2) {
-            addCriterion("ATTATCH_NAME not between", value1, value2, "attatchName");
+        public Criteria andAttachNameNotBetween(String value1, String value2) {
+            addCriterion("ATTACH_NAME not between", value1, value2, "attachName");
             return (Criteria) this;
         }
 

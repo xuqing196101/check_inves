@@ -1,6 +1,5 @@
 package ses.controller.sys.sms;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +13,9 @@ import ses.constants.SupplierConstants;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
-import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
-import ses.model.sms.SupplierAudit;
 import ses.model.sms.review.SupplierAttachAudit;
-import ses.service.oms.PurchaseOrgnizationServiceI;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierAttachAuditService;
 import ses.service.sms.SupplierInvesService;
 import ses.service.sms.SupplierService;
@@ -26,6 +23,7 @@ import ses.util.DictionaryDataUtil;
 
 import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
+import common.constant.Constant;
 import common.service.DownloadService;
 import common.utils.JdcgResult;
 
@@ -46,6 +44,8 @@ public class SupplierInvesController extends BaseSupplierController {
 	private SupplierService supplierService;
 	@Autowired
 	private DownloadService downloadService;
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
 	
 	/**
 	 * 考察列表
@@ -101,9 +101,9 @@ public class SupplierInvesController extends BaseSupplierController {
 	 * @param supplierId
 	 * @return
 	 */
-	@RequestMapping("/validateInves")
+	@RequestMapping("validateInves")
 	@ResponseBody
-	public JdcgResult updateStatusOfPublictity(@CurrentUser User user, String supplierId){
+	public JdcgResult validateInves(@CurrentUser User user, String supplierId){
 		if(user == null){
 			return JdcgResult.build(501, "请登录！");
 		}
@@ -180,6 +180,25 @@ public class SupplierInvesController extends BaseSupplierController {
 	@RequestMapping("inves")
 	public String inves(Model model, String supplierId){
 		
+		List<SupplierAttachAudit> itemList = null;
+		// 查询附件审核表是否有生成考察项目
+		int count = supplierAttachAuditService.countBySupplierIdAndType(supplierId, 2);
+		if(count > 0){
+			// 获取考察项目信息
+			itemList = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 2);
+		}else{
+			// 添加考察项目信息
+			int addResult = supplierAttachAuditService.addBySupplierIdAndType(supplierId, 2);
+			if(addResult > 0){
+				itemList = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 2);
+			}
+		}
+		
+		model.addAttribute("itemList", itemList);
+		model.addAttribute("supplierId", supplierId);
+		model.addAttribute("supplierStatus", supplierService.getStatusById(supplierId));
+		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		return "ses/sms/supplier_inves/inves";
 	}
 	

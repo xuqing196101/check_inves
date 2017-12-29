@@ -136,20 +136,20 @@
 			// 文本只读
 			if(sign == 1){
 				$("input[type='text'],textArea").attr("readonly", "readonly");
+				// 文本添加title
+				$("input[type='text'],textArea").each(function(){
+					$(this).attr("title", $(this).val());
+				});
+				// 文本鼠标移入移出效果
+				$("input[type='text'],textArea").each(function () {
+				  var onmousemove = "this.style.background='#E8E8E8'";
+				  var onmouseout = "this.style.background='#FFFFFF'";
+				  $(this).attr("onmousemove", onmousemove);
+				  $(this).attr("onmouseout", onmouseout);
+				});
+				// 隐藏
+				//$("td,li").find("p").hide();
 			}
-			// 文本添加title
-			$("input[type='text'],textArea").each(function(){
-				$(this).attr("title", $(this).val());
-			});
-			// 文本鼠标移入移出效果
-			$("input[type='text'],textArea").each(function () {
-			  var onmousemove = "this.style.background='#E8E8E8'";
-			  var onmouseout = "this.style.background='#FFFFFF'";
-			  $(this).attr("onmousemove", onmousemove);
-			  $(this).attr("onmouseout", onmouseout);
-			});
-			// 隐藏
-			//$("td,li").find("p").hide();
 		}
 		// 预审核结束状态
 		if(supplierSt == -2 || supplierSt == -3 || supplierSt == 3 || (supplierSt == 1 && sign == 1)){

@@ -26,11 +26,11 @@ function shenhe() {
 function validateInves(id){
 	var bool = false;
 	$.ajax({
-        url: globalPath + "/supplierInves/validateInves.html",
+        url: globalPath + "/supplierInves/validateInves.do",
         data: {supplierId : id},
         type: "post",
-        datatype: "json",
-        anysc: false,
+        dataType: "json",
+        async: false,
         success: function (result) {
             if(result && result.status == 200){
             	bool = true;
@@ -41,8 +41,8 @@ function validateInves(id){
         error: function () {
             layer.msg("请求错误！", {offset: '100px'});
         }
-        return bool;
     });
+	return bool;
 }
 
 // 重置

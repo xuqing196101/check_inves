@@ -7,7 +7,7 @@ package ses.model.sms.review;
  * 
  * @author yggc
  * 
- * @date 2017-12-28
+ * @date 2017-12-29
  *
  */
 public class SupplierAttachAudit {
@@ -34,12 +34,12 @@ public class SupplierAttachAudit {
     /**
      * 附件CODE
      */
-    private String attatchCode;
+    private String attachCode;
 
     /**
      * 附件名称
      */
-    private String attatchName;
+    private String attachName;
 
     /**
      * 是否一致
@@ -142,34 +142,34 @@ public class SupplierAttachAudit {
 
     /**
      * 附件CODE
-     * @return ATTATCH_CODE 附件CODE
+     * @return ATTACH_CODE 附件CODE
      */
-    public String getAttatchCode() {
-        return attatchCode;
+    public String getAttachCode() {
+        return attachCode;
     }
 
     /**
      * 附件CODE
-     * @param attatchCode 附件CODE
+     * @param attachCode 附件CODE
      */
-    public void setAttatchCode(String attatchCode) {
-        this.attatchCode = attatchCode;
+    public void setAttachCode(String attachCode) {
+        this.attachCode = attachCode;
     }
 
     /**
      * 附件名称
-     * @return ATTATCH_NAME 附件名称
+     * @return ATTACH_NAME 附件名称
      */
-    public String getAttatchName() {
-        return attatchName;
+    public String getAttachName() {
+        return attachName;
     }
 
     /**
      * 附件名称
-     * @param attatchName 附件名称
+     * @param attachName 附件名称
      */
-    public void setAttatchName(String attatchName) {
-        this.attatchName = attatchName;
+    public void setAttachName(String attachName) {
+        this.attachName = attachName;
     }
 
     /**
