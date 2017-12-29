@@ -8,7 +8,6 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +38,6 @@ import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierPorjectQua;
-import ses.model.sms.SupplierRegPerson;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -472,6 +470,9 @@ public class SupplierAttachAuditController {
 	 */
 	@RequestMapping(value = "/certEng")
 	public String certEng(String supplierId, Model model){
+		//文件
+		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		Supplier supplier = supplierService.get(supplierId, 2);
 		SupplierMatEng supplierMatEng = supplier.getSupplierMatEng();
 		if(supplierMatEng != null){
