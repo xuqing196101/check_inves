@@ -201,8 +201,6 @@ public class ExtractSupplierController extends BaseController {
     				eRecord.setProjectCode(selectById2.getProjectNumber());
     			}else{
     				//随机抽取
-    				
-    				
     			}
     			model.addAttribute("projectInfo", eRecord);
     			model.addAttribute("typeclassId", "hidden");
