@@ -462,4 +462,6 @@ public interface PurchaseDetailMapper {
     * @return List<PurchaseDetail>
      */
     List<PurchaseDetail> supervisionDetail(HashMap<String, Object> map);
+    
+    List<PurchaseDetail> selectByTaskDetail(HashMap<String, Object> map);
 }

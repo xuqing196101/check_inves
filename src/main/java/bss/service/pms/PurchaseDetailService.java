@@ -393,4 +393,6 @@ public interface PurchaseDetailService {
     List<PurchaseDetail> selectByDept(String orgId);
     List<PurchaseDetail> selectByType(String orgId);
     List<Map<String, Object>> selectByMonth(String orgId);
+    
+    List<PurchaseDetail> selectByTaskDetail(HashMap<String, Object> map);
 }

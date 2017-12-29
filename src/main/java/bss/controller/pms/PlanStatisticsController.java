@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
+import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseOrg;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
@@ -767,5 +768,25 @@ public class PlanStatisticsController extends BaseController {
 			}
 		}
 		return "bss/pms/statistic/task_excel";
+	}
+	
+	@RequestMapping("/view")
+	public String view(String id, String orgId, Model model){
+		if (StringUtils.isNotBlank(orgId) && StringUtils.isNotBlank(id)) {
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("orgId", orgId);
+			map.put("uniqueId", id);
+			List<PurchaseDetail> list = purchaseDetailService.selectByTaskDetail(map);
+			model.addAttribute("list", list);
+			model.addAttribute("kind", DictionaryDataUtil.find(5));
+        	String typeId = DictionaryDataUtil.getId("PURCHASE_DETAIL");
+    		model.addAttribute("typeId", typeId);
+    		
+    		HashMap<String,Object> hashMap = new HashMap<String,Object>();
+    		hashMap.put("typeName", 1);
+    		List<PurchaseDep> org = purchaseOrgnizationServiceI.findPurchaseDepList(hashMap);
+    		model.addAttribute("org", org);
+		}
+		return "bss/pms/collect/plan_view";
 	}
 }

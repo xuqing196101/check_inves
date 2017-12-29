@@ -577,4 +577,10 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
 		
 		return purchaseDetailMapper.supervisionDetail(map);
 	}
+
+	@Override
+	public List<PurchaseDetail> selectByTaskDetail(HashMap<String, Object> map) {
+		
+		return purchaseDetailMapper.selectByTaskDetail(map);
+	}
 }

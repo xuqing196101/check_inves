@@ -396,18 +396,6 @@ public class PackageServiceImpl implements PackageService {
 			pack.put("requiredId", id);
 			pack.put("packageId", packList.get(packList.size() - 1).getId());
 			detailMapper.updateByPackId(pack);
-			/*for (String detailId : id) {
-				ProjectDetail detail = detailMapper.selectByPrimaryKey(detailId);
-				if (detail != null) {
-					pack.put("id", detail.getRequiredId());
-					List<ProjectDetail> details = detailMapper.selectByParentId(pack);
-					if (details != null && !details.isEmpty() && details.size() == 1) {
-						details.get(0).setPackageId(packList.get(packList.size() - 1).getId());
-						details.get(0).setUpdateAt(new Date());
-						detailMapper.updateByPrimaryKeySelective(details.get(0));
-					}
-				}
-			}*/
 			return true;
 		}
 		return false;

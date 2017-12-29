@@ -1863,4 +1863,73 @@ ORDER BY
 		ORDER BY
 			detail.IS_MASTER ASC
 	</select>
+	
+	<select id="selectByTaskDetail" parameterType="java.util.Map" resultMap="PurchaseRequired_Map">
+		SELECT
+			detail.*,DECODE (
+				(
+					SELECT
+						COUNT (*)
+					FROM
+						T_BSS_PMS_PURCHASE_DETAIL
+					WHERE
+						PARENT_ID = detail. ID
+				),
+				0,
+				'false',
+				'true'
+			) AS isParent
+		FROM
+			(
+				SELECT
+					dd.*
+				FROM
+					T_BSS_PMS_PURCHASE_DETAIL dd START WITH DD. ID IN (
+						SELECT
+							pd. ID
+						FROM
+							T_BSS_PMS_PURCHASE_DETAIL pd
+						WHERE
+							PD.HISTORY_STATUS = 0
+						AND CONNECT_BY_ISLEAF > 0 START WITH EXISTS (
+							SELECT
+								ASD. ID
+							FROM
+								T_BSS_PMS_PURCHASE_DETAIL asd
+							WHERE
+								ASD.ORGANIZATION_ID = #{orgId}
+							AND ASD.UNIQUE_ID = #{uniqueId}
+							AND asd. ID = pd. ID
+						) CONNECT BY PRIOR pd. ID = pd.PARENT_ID
+						GROUP BY
+							pd. ID
+					) CONNECT BY PRIOR DD.PARENT_ID = DD. ID
+				UNION
+					SELECT
+						dd.*
+					FROM
+						T_BSS_PMS_PURCHASE_DETAIL dd START WITH DD. ID IN (
+							SELECT
+								pd. ID
+							FROM
+								T_BSS_PMS_PURCHASE_DETAIL pd
+							WHERE
+								PD.HISTORY_STATUS = 0
+							AND CONNECT_BY_ISLEAF > 0 START WITH EXISTS (
+								SELECT
+									ASD. ID
+								FROM
+									T_BSS_PMS_PURCHASE_DETAIL asd
+								WHERE
+									ASD.ORGANIZATION_ID = #{orgId}
+									AND ASD.UNIQUE_ID = #{uniqueId}
+								AND asd. ID = pd. ID
+							) CONNECT BY PRIOR pd. ID = pd.PARENT_ID
+							GROUP BY
+								pd. ID
+						) CONNECT BY PRIOR DD.PARENT_ID = DD. ID
+			) detail
+		ORDER BY
+			detail.IS_MASTER
+	</select>
 </mapper>
