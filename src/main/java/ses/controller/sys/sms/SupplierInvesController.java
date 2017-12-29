@@ -122,6 +122,7 @@ public class SupplierInvesController extends BaseSupplierController {
 	 * @param supplierId
 	 * @return
 	 */
+	@RequestMapping("downloadInvesRecord")
 	public ResponseEntity < byte[] > downloadInvesRecord(Model model, String supplierId){
 		
 		// 查询附件审核表是否有生成考察项目
@@ -147,6 +148,7 @@ public class SupplierInvesController extends BaseSupplierController {
 	 * @param supplierId
 	 * @return
 	 */
+	@RequestMapping("downloadAttach")
 	public ResponseEntity < byte[] > downloadAttach(Model model, String supplierId){
 		// 供应商信息
 		Supplier supplier = supplierService.selectById(supplierId);
