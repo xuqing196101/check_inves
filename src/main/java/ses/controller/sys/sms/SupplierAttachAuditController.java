@@ -426,38 +426,6 @@ public class SupplierAttachAuditController {
 					}
 				}
 				model.addAttribute("supplierEngQuas", supplierEngQuas);
-				//资质资格证书信息
-				List < SupplierCertEng > supplierCertEngs = supplierMatEng.getListSupplierCertEngs();
-				for(int i = 0; i < supplierCertEngs.size() - 1; i++) {
-					for(int j = supplierCertEngs.size() - 1; j > i; j--) {
-						if(supplierCertEngs.get(j).getId().equals(supplierCertEngs.get(i).getId())) {
-							supplierCertEngs.remove(j);
-						}
-					}
-				}
-				model.addAttribute("supplierCertEngs", supplierCertEngs);
-
-				//资质资格信息
-				List < SupplierAptitute > supplierAptitute = supplierMatEng.getListSupplierAptitutes();
-				for(int i = 0; i < supplierAptitute.size() - 1; i++) {
-					for(int j = supplierAptitute.size() - 1; j > i; j--) {
-						if(supplierAptitute.get(j).getId().equals(supplierAptitute.get(i).getId())) {
-							supplierAptitute.remove(j);
-						}
-					}
-				}
-				model.addAttribute("supplierAptitutes", supplierAptitute);
-				//资质类型
-				model.addAttribute("typeList", qualificationService.findList(null, Integer.MAX_VALUE, null, 4));
-				//资质登记
-				List < DictionaryData > businessList = DictionaryDataUtil.find(31);
-				for(DictionaryData data : businessList){
-					for(SupplierAptitute a : supplierAptitute){
-						if(data.getId().equals(a.getAptituteLevel())){
-							a.setAptituteLevel(data.getName());
-						}
-					}
-				}
 			}
 			
 			/**
@@ -498,6 +466,51 @@ public class SupplierAttachAuditController {
 		return "ses/sms/supplier_attach/certOther";
 	}
 	
+	/**
+	 * 工程资质证书
+	 * @return
+	 */
+	@RequestMapping(value = "/certEng")
+	public String certEng(String supplierId, Model model){
+		Supplier supplier = supplierService.get(supplierId, 2);
+		SupplierMatEng supplierMatEng = supplier.getSupplierMatEng();
+		if(supplierMatEng != null){
+			model.addAttribute("supplierMatEngs", supplierMatEng);
+			//资质资格证书信息
+			List < SupplierCertEng > supplierCertEngs = supplierMatEng.getListSupplierCertEngs();
+			for(int i = 0; i < supplierCertEngs.size() - 1; i++) {
+				for(int j = supplierCertEngs.size() - 1; j > i; j--) {
+					if(supplierCertEngs.get(j).getId().equals(supplierCertEngs.get(i).getId())) {
+						supplierCertEngs.remove(j);
+					}
+				}
+			}
+			model.addAttribute("supplierCertEngs", supplierCertEngs);
+
+			//资质资格信息
+			List < SupplierAptitute > supplierAptitute = supplierMatEng.getListSupplierAptitutes();
+			for(int i = 0; i < supplierAptitute.size() - 1; i++) {
+				for(int j = supplierAptitute.size() - 1; j > i; j--) {
+					if(supplierAptitute.get(j).getId().equals(supplierAptitute.get(i).getId())) {
+						supplierAptitute.remove(j);
+					}
+				}
+			}
+			model.addAttribute("supplierAptitutes", supplierAptitute);
+			//资质类型
+			model.addAttribute("typeList", qualificationService.findList(null, Integer.MAX_VALUE, null, 4));
+			//资质登记
+			List < DictionaryData > businessList = DictionaryDataUtil.find(31);
+			for(DictionaryData data : businessList){
+				for(SupplierAptitute a : supplierAptitute){
+					if(data.getId().equals(a.getAptituteLevel())){
+						a.setAptituteLevel(data.getName());
+					}
+				}
+			}
+		}
+		return "ses/sms/supplier_attach/certEng";
+	}
 	/**
 	 * 销售
 	 * @param supplierId
