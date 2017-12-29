@@ -30,9 +30,9 @@
         	$("#cate_result").html("复核不合格 。");
         }
         
-        var isRecord = "${isRecord}";
+        var status = ${status};
         //如果有意见就显示"重新复核"按钮，复核表
-        if(isRecord == "yes"){
+        if(status == 5 || status == 6){
         	$("#review").removeClass("hidden");
         	$("#checkList").removeClass("hidden");
         }
@@ -52,7 +52,7 @@
     	  saveOpinion(url, 0);
       }
       
-      //保存
+      //保存数据
       function saveOpinion(url, msg){
     	  var supplierId = $("#supplierId").val();
     	  //选择的意见
@@ -71,12 +71,16 @@
           type: "post",
           data: {"supplierId" : supplierId, "opinion" : opinion, "flagAduit" : selectOption},
           success: function(result){
-        	  if(msg == 1){
-        		  layer.msg(result, {offset: '100px'});
-        	  }
+       		  if(result.status == 200){
+       			  if(msg == 1){
+       				  layer.msg(result.msg, {offset: '100px'});
+       			  }
+             }else{
+               layer.msg("操作失败！", {offset: '100px'});
+             }
           },
           error: function(){
-              layer.msg("保存失败！", {offset: '100px'});
+              layer.msg("操作失败！", {offset: '100px'});
             }
 	      });
       }
@@ -84,9 +88,25 @@
       //重新复核
       function restartReview(){
     	  var supplierId = $("#supplierId").val();
-    	  var supplierId = $("input[name='supplierId']").val(supplierId);
-    		$("#submitform").attr("action", "${pageContext.request.contextPath}/supplierReview/restartReview.html");
-    		$("#submitform").submit();
+        $.ajax({
+          url: "${pageContext.request.contextPath}/supplierReview/restartReview.do",
+          type: "post",
+          data: {"supplierId" : supplierId},
+          success: function(result){
+            if(result.status == 200){
+              layer.msg(result.msg, {offset: '100px'});
+              window.setTimeout(function() {
+                $("#submitform").attr("action", "${pageContext.request.contextPath}/supplierReview/list.html");
+                $("#submitform").submit();
+              }, 1000);
+            }else{
+              layer.msg("操作失败！", {offset: '100px'});
+            }
+          },
+          error: function(){
+            layer.msg("操作失败！", {offset: '100px'});
+          }
+        });
       }
       
       //返回列表
@@ -180,7 +200,7 @@
       </div>
     </div>
     
-    <c:if test="${isRecord eq 'no'}">
+    <c:if test="${status == 1}">
       <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc" id="reviewEnd">
 	      <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="toStep('six');">上一步</a>
 	      <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="temporary();">暂存</a>

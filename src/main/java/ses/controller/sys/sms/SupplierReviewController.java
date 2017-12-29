@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
+import common.utils.JdcgResult;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
@@ -84,11 +85,9 @@ public class SupplierReviewController {
 		SupplierAuditOpinion supplierAuditOpinion = supplierAuditOpinionService.selectByExpertIdAndflagTime(supplierId, 1);
 		model.addAttribute("auditOpinion", supplierAuditOpinion == null? "" : supplierAuditOpinion.getOpinion());
 		model.addAttribute("flagAduit", supplierAuditOpinion == null? "" : supplierAuditOpinion.getFlagAduit());
-		if(supplierAuditOpinion !=null){
-			model.addAttribute("isRecord", "yes");
-		}else{
-			model.addAttribute("isRecord", "no");
-		}
+		
+		Supplier supplier = supplierService.selectById(supplierId);
+		model.addAttribute("status", supplier.getStatus());
 		return "ses/sms/supplier_review/review";
 	}
 	
@@ -96,7 +95,8 @@ public class SupplierReviewController {
 	 * 复核结束
 	 */
 	@RequestMapping(value = "/reviewEnd")
-	public void reviewEnd(@CurrentUser User user, SupplierAuditOpinion supplierAuditOpinion, String supplierId, Integer flagAduit){
+	@ResponseBody
+	public JdcgResult reviewEnd(@CurrentUser User user, SupplierAuditOpinion supplierAuditOpinion, String supplierId, Integer flagAduit){
 		/**
 		 * 保存意见
 		 */
@@ -118,13 +118,15 @@ public class SupplierReviewController {
 			supplier.setStatus(6);
 		}
 		supplierService.updateReviewOrInves(supplier);
+		return new JdcgResult(200, "操作成功!", null);
 	}
 	
 	/**
 	 * 重新复核
 	 */
 	@RequestMapping(value = "/restartReview")
-	public String  restartReview(String supplierId){
+	@ResponseBody
+	public JdcgResult  restartReview(String supplierId){
 		Supplier supplier = new Supplier();
 		supplier.setId(supplierId);
 		//重新复核标识
@@ -139,22 +141,23 @@ public class SupplierReviewController {
 		SupplierAuditOpinion auditOpinion = supplierAuditOpinionService.selectByExpertIdAndflagTime(map);
 		
 		//假删除意见
-		SupplierAuditOpinion supplierAuditOpinion = new SupplierAuditOpinion();
-		supplierAuditOpinion.setIsDelete(1);
-		supplierAuditOpinion.setId(auditOpinion.getId());
-		supplierAuditOpinionService.updateByPrimaryKeySelective(supplierAuditOpinion);
-		
-		return "redirect:list.html";
+		if(auditOpinion !=null){
+			SupplierAuditOpinion supplierAuditOpinion = new SupplierAuditOpinion();
+			supplierAuditOpinion.setIsDelete(1);
+			supplierAuditOpinion.setId(auditOpinion.getId());
+			supplierAuditOpinionService.updateByPrimaryKeySelective(supplierAuditOpinion);
+		}
+		return new JdcgResult(200, "操作成功!", null);
 	}
 	
 	/**
 	 * 暂存
 	 */
-	@RequestMapping(value = "/temporary", produces="text/html;charset=UTF-8")
+	@RequestMapping(value = "/temporary")
 	@ResponseBody
-	public String temporary (SupplierAuditOpinion supplierAuditOpinion){
+	public JdcgResult temporary (SupplierAuditOpinion supplierAuditOpinion){
 		supplierAuditOpinionService.saveOpinion(supplierAuditOpinion);
-		return "暂存成功！";
+		return new JdcgResult(200, "操作成功!", null);
 	}
 	
 	/**

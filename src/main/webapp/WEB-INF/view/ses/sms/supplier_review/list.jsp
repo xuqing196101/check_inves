@@ -37,8 +37,8 @@
 	          return;
 	      }
         $("input[name='supplierId']").val(id);
-        $("#shenhe_form").attr("action", "${pageContext.request.contextPath}/supplierAudit/essential.html");
-        $("#shenhe_form").submit();
+        $("#submitform").attr("action", "${pageContext.request.contextPath}/supplierAudit/essential.html");
+        $("#submitform").submit();
 		  }
 		  
 		  //重置
@@ -48,7 +48,31 @@
 			  $("input[name='status'] option:selected").removeAttr("selected");
 			  $("input[name='businessNature'] option:selected").removeAttr("selected");
 		  }
-		</script>
+		  
+		//重新复核
+    function restartReview(){
+    	var supplierId = $(":radio:checked").val();
+      $.ajax({
+	      url: "${pageContext.request.contextPath}/supplierReview/restartReview.do",
+	      type: "post",
+	      data: {"supplierId" : supplierId},
+	      success: function(result){
+	    	  if(result.status == 200){
+	    		  layer.msg(result.msg, {offset: '100px'});
+            window.setTimeout(function() {
+              $("#submitform").attr("action", "${pageContext.request.contextPath}/supplierReview/list.html");
+              $("#submitform").submit();
+            }, 1000);
+	    	  }else{
+	    		  layer.msg("操作失败！", {offset: '100px'});
+	    	  }
+	      },
+	      error: function(){
+	        layer.msg("操作失败！", {offset: '100px'});
+	      }
+      });
+    }
+	</script>
   </head>
   <body>
     <!--面包屑导航开始-->
@@ -136,7 +160,7 @@
     
       <div class="col-md-12 pl20 mt10">
         <button class="btn btn-windows check" type="button" onclick="shenhe(id)">复核</button>
-        <button class="btn btn-windows check" type="button" onclick="jumppage('${pageContext.request.contextPath}/supplierAttachAudit/certEng.html?supplierId=56ceb633d54f427b951c95d8d36ccebd')">重新复核</button>
+        <button class="btn btn-windows check" type="button" onclick="restartReview();">重新复核</button>
       </div>
     
 	    <!-- 列表 -->
@@ -172,7 +196,7 @@
 	  </div>
   </body>
 
-  <form id="shenhe_form" action="" method="post">
+  <form id="submitform" action="" method="post">
     <input name="supplierId" type="hidden"/>
     <input type="hidden" name="sign" value="2">
   </form>
