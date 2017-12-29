@@ -1242,7 +1242,9 @@ function savePerson(){
         	personFlag = false;
         },
     });
-
+    if(!personFlag){
+        return personFlag;
+    }
     $.ajax({
         type: "POST",
         url: $("#extractUser").attr('action'),
