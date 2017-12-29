@@ -1,11 +1,14 @@
 package ses.controller.sys.sms;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +25,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
+import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
@@ -214,6 +218,248 @@ public class SupplierAttachAuditController {
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		return "ses/sms/supplier_attach/ajax_contract";
 	}
+	
+	/**
+	 * 生产设施设备的购置凭证
+	 * @param supplierId
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/itemQua")
+	public String itemQua(String supplierId, Model model){
+		Supplier supplier = supplierService.get(supplierId, 4);
+		String supplierTypeIds = supplier.getSupplierTypeIds();
+		model.addAttribute("supplierTypeIds", supplierTypeIds);
+
+		//查询所有的三级品目生产
+		List < Category > list2 = getSupplier(supplierId, supplierTypeIds);
+		if(!list2.isEmpty()){
+			removeSame(list2);
+		}
+
+		//查询所有的三级品目生产
+		List < Category > listPro = getSupplier(supplierId, supplierTypeIds);
+		removeSame(listPro);
+		//根据品目id查询所有的证书信息
+		List < QualificationBean > list3 = supplierService.getQuaList(listPro, 2);
+
+		//查询所有的三级品目销售
+		List < Category > listSlae = getSale(supplierId, supplierTypeIds);
+		removeSame(listSlae);
+		//根据品目id查询所有的证书信息
+		List < QualificationBean > saleQua = supplierService.getQuaList(listSlae, 3);
+
+		//查询所有的三级品目服务
+		List < Category > listService = getServer(supplierId, supplierTypeIds);
+		removeSame(listService);
+		//根据品目id查询所有的服务证书信息
+		List < QualificationBean > serviceQua = supplierService.getQuaList(listService, 2);
+
+		//生产证书
+		List < Qualification > qaList = new ArrayList < Qualification > ();
+		List < Qualification > saleList = new ArrayList < Qualification > ();
+		List < Qualification > serviceList = new ArrayList < Qualification > ();
+
+		if(list3 != null && list3.size() > 0) {
+			for(QualificationBean qb: list3) {
+				qaList.addAll(qb.getList());
+			}
+		}
+		//销售
+		if(saleQua != null && saleQua.size() > 0) {
+			for(QualificationBean qb: saleQua) {
+				saleList.addAll(qb.getList());
+			}
+		}
+		//服务
+		if(serviceQua != null && serviceQua.size() > 0) {
+			for(QualificationBean qb: serviceQua) {
+				serviceList.addAll(qb.getList());
+			}
+		}
+
+		//生产
+		StringBuffer sbUp = new StringBuffer("");
+		StringBuffer sbShow = new StringBuffer("");
+		int len = qaList.size() + 1;
+		for(int i = 1; i < len; i++) {
+			sbUp.append("pUp" + i + ",");
+			sbShow.append("pShow" + i + ",");
+
+		}
+		//销售
+		int slaelen = saleList.size() + 1;
+		for(int i = 1; i < slaelen; i++) {
+			sbUp.append("saleUp" + i + ",");
+			sbShow.append("saleShow" + i + ",");
+
+		}
+
+		if(serviceList != null && serviceList.size() > 0) {
+			int serverlen = serviceList.size() + 1;
+			for(int i = 1; i < serverlen; i++) {
+				sbUp.append("serverUp" + i + ",");
+				sbShow.append("serverShow" + i + ",");
+
+			}
+		}
+		model.addAttribute("saleUp", sbUp.toString());
+		model.addAttribute("saleShow", sbShow.toString());
+		model.addAttribute("cateList", list3);
+		model.addAttribute("saleQua", saleQua);
+		model.addAttribute("serviceQua", serviceQua);
+		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		model.addAttribute("businessId", supplierId);
+		 String id = DictionaryDataUtil.getId("SUPPLIER_APTITUD");
+		model.addAttribute("typeId", id);
+
+		String provinceName = "";
+		String cityName = "";
+        try {
+            Area area = areaService.listById(supplier.getAddress());
+            if (area != null) {
+                cityName = area.getName();
+                Area area1 = areaService.listById(area.getParentId());
+                if (area1 != null) {
+                    provinceName = area1.getName();
+                }
+            }
+            supplier.setAddress(provinceName + cityName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		return "ses/sms/supplier_attach/itemQua";
+	}
+	
+	/**
+	 * 销售
+	 * @param supplierId
+	 * @param code
+	 * @return
+	 */
+ 	public List < Category > getSale(String supplierId, String code) {
+ 		List < Category > categoryList = new ArrayList < Category > ();
+
+ 		String[] types = code.split(",");
+ 		for(String s: types) {
+ 			if(s != null) {
+ 				if(s.equals("SALES")) {
+ 					/*categoryId = DictionaryDataUtil.getId("GOODS");
+ 					List < SupplierItem > category = supplierItemService.getCategory(supplierId, categoryId, s);*/
+ 				    Map<String, Object> searchMap = new HashMap<String, Object>();
+                     searchMap.put("supplierId", supplierId);
+                     searchMap.put("type", s);
+                     List < SupplierItem > category = supplierItemService.findByMap(searchMap);
+ 					for(SupplierItem c: category) {
+ 					    Category cate = categoryService.selectByPrimaryKey(c.getCategoryId());
+                         if (cate == null) {
+                             cate = new Category();
+                             DictionaryData data = DictionaryDataUtil.findById(c.getCategoryId());
+                             cate.setId(data.getId());
+                             cate.setParentId(data.getId());
+                             cate.setName(data.getName());
+                         } else {
+                             cate.setParentId(c.getId());
+                         }
+                         categoryList.add(cate);
+ 					}
+ 				}
+ 			}
+ 		}
+ 		return categoryList;
+	 }
+	
+ 	/**
+ 	 * 服务
+ 	 * @param supplierId
+ 	 * @param code
+ 	 * @return
+ 	 */
+ 	public List < Category > getServer(String supplierId, String code) {
+ 		List < Category > categoryList = new ArrayList < Category > ();
+
+ 		String[] types = code.split(",");
+ 		for(String s: types) {
+ 			if(s != null) {
+ 				if(s.equals("SERVICE")) {
+ 					/*categoryId = DictionaryDataUtil.getId("SERVICE");
+ 					List < SupplierItem > category = supplierItemService.getCategory(supplierId, categoryId, s);*/
+ 				    Map<String, Object> searchMap = new HashMap<String, Object>();
+                     searchMap.put("supplierId", supplierId);
+                     searchMap.put("type", s);
+                     List < SupplierItem > category = supplierItemService.findByMap(searchMap);
+ 					for(SupplierItem c: category) {
+ 					    Category cate = categoryService.selectByPrimaryKey(c.getCategoryId());
+                         if (cate == null) {
+                             cate = new Category();
+                             DictionaryData data = DictionaryDataUtil.findById(c.getCategoryId());
+                             cate.setId(data.getId());
+                             cate.setParentId(data.getId());
+                             cate.setName(data.getName());
+                         } else {
+                             cate.setParentId(c.getId());
+                         }
+                         categoryList.add(cate);
+ 					}
+ 				}
+ 			}
+ 		}
+ 		return categoryList;
+ 	}
+ 	
+    /**
+     * @Title: removeSame
+     *  
+     * @date 2017-1-4 下午7:23:33  
+     * @Description:去重
+     * @param @param list      
+     * @return void
+     */
+   public void removeSame(List<Category> list) {
+       for (int i = 0; i < list.size() - 1; i++) {
+           for (int j = list.size() - 1; j > i; j--) {
+               if (list.get(j).getId().equals(list.get(i).getId())) {
+                   list.remove(j);
+               }
+           }
+       }
+    }
+   
+	/**
+	 * 生产所有的三级目录
+	 * @param supplierId
+	 * @param code
+	 * @return
+	 */
+ 	public List < Category > getSupplier(String supplierId, String code) {
+ 		List < Category > categoryList = new ArrayList < Category > ();
+ 		String[] types = code.split(",");
+ 		for(String s: types) {
+ 			if(s != null) {
+ 				if(s.equals("PRODUCT")) {
+                     Map<String, Object> searchMap = new HashMap<String, Object>();
+                     searchMap.put("supplierId", supplierId);
+                     searchMap.put("type", s);
+ 				    List < SupplierItem > category = supplierItemService.findByMap(searchMap);
+ 					for(SupplierItem c: category) {
+ 						Category cate = categoryService.selectByPrimaryKey(c.getCategoryId());
+ 						if (cate == null) {
+ 						    cate = new Category();
+ 						    DictionaryData data = DictionaryDataUtil.findById(c.getCategoryId());
+ 						    cate.setId(data.getId());
+ 						    cate.setParentId(data.getId());
+ 						    cate.setName(data.getName());
+ 						} else {
+ 							//供应商中间表的id和资质证书的id
+ 						    cate.setParentId(c.getId());
+ 						}
+ 						categoryList.add(cate);
+ 					}
+ 				}
+ 			}
+ 		}
+ 		return categoryList;
+ 	}
 	
 	/**
 	 *〈简述〉查询品目信息
