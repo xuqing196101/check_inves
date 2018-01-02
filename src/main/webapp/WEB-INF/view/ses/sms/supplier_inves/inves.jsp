@@ -10,7 +10,7 @@
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">
     <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_inves/inves.js"></script>
-    <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_attach/attach_view.js"></script>
+    <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_attach/attach_audit.js"></script>
   </head>
 
   <body>
