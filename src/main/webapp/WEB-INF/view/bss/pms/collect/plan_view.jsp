@@ -129,7 +129,7 @@
         <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
         <li><a href="javascript:void(0);">保障作业系统</a></li>
         <li><a href="javascript:void(0);">采购计划管理</a></li>
-        <c:if test="${type==null}">
+        <c:if test="${type eq null}">
         <li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/taskassgin/list.html');">采购任务下达</a></li>
         </c:if>
         <!-- <li class="active"><a href="javascript:void(0);">采购需求管理重新</a></li> -->
@@ -166,15 +166,16 @@
             </tr>
           </thead>
 
-          <c:forEach items="${list }" var="obj" varStatus="vs">
+          <c:forEach items="${list}" var="obj" varStatus="vs">
             <tr>
-              <td><div class="seq">${obj.seq }</div> 
+              <td><div class="seq">${obj.seq}</div></td>
+              <td>
+              	<div class="department">
+                	<c:if test="${obj.isParent eq 'true'}">
+              			${obj.department}
+              		</c:if>
+              	</div>
               </td>
-              <td><div class="department">
-                <c:if test="${obj.isParent=='true' }">
-              ${obj.department}
-              </c:if>
-              </div></td >
               <%-- <td class="tl pl20">
                    <c:forEach items="${requires }" var="re" >
                     <c:if test="${obj.department==re.id }"> ${re.name }</c:if>
@@ -183,10 +184,10 @@
               </td> --%>
               <%-- <td>${obj.goodsName }</td> --%>
               <td title="${obj.goodsName}">
-               <div class="goodsname">
+                <div class="goodsname">
                   <c:if test="${fn:length (obj.goodsName) > 8}">${fn:substring(obj.goodsName,0,7)}...</c:if>
                   <c:if test="${fn:length(obj.goodsName) <= 8}">${obj.goodsName}</c:if>
-               </div>
+               	</div>
               </td >
               <%-- <td class="tc"> ${obj.stand }</td> --%>
               <td title="${obj.stand}">
@@ -210,51 +211,51 @@
                 </div>
               </td >
               <td>
-               <div class="purchasecount">
-                 ${obj.purchaseCount }
-               </div>
+               	<div class="purchasecount">
+                 	${obj.purchaseCount}
+               	</div>
               </td>
               <td>
-               <div class="price"> <fmt:formatNumber type="number"   pattern="#,##0.00" value="${obj.price }" /></div>
+               	<div class="price"> <fmt:formatNumber type="number"   pattern="#,##0.00" value="${obj.price }" /></div>
               </td>
               <td>
-               <div class="budget"><fmt:formatNumber type="number"   pattern="#,##0.00" value="${obj.budget}" /></div>
+               	<div class="budget"><fmt:formatNumber type="number"   pattern="#,##0.00" value="${obj.budget}" /></div>
               </td>
               <td>
-               <div class="deliverdate">${obj.deliverDate }</div>
+               	<div class="deliverdate">${obj.deliverDate }</div>
               </td>
               <td class="tc">
                 <div class="purchasetype">
-                <c:if test="${obj.isParent!='true' }">
-                 <c:forEach items="${kind}" var="kind" >
-                 <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
-                 </c:forEach>
-                 </c:if>
+                	<c:if test="${obj.isParent ne 'true' }">
+                 		<c:forEach items="${kind}" var="kind" >
+                 			<c:if test="${kind.id eq obj.purchaseType}">${kind.name}</c:if>
+                 		</c:forEach>
+                 	</c:if>
                 </div>
               </td>
               <td class="tl">
                 <div class="organization">
-                 <c:if test="${obj.isParent!='true'}">
-                  <c:forEach items="${org}" var="og" >
-                   <c:if test="${og.orgId == obj.organization}">${og.shortName}</c:if>
-                  </c:forEach>
+                 	<c:if test="${obj.isParent ne 'true'}">
+                  	<c:forEach items="${org}" var="og" >
+                   		<c:if test="${og.orgId eq obj.organization}">${og.shortName}</c:if>
+                  	</c:forEach>
                   </c:if>
                 </div>
               </td>  
               <td title="${obj.supplier}" class="tl">
-               <div class="purchasename">
-               <c:if test="${obj.isParent!='true' }">
-                <c:if test="${fn:length (obj.supplier) > 8}">${fn:substring(obj.supplier,0,7)}...</c:if>
-                <c:if test="${fn:length(obj.supplier) <= 8}">${obj.supplier}</c:if>
-                </c:if>
-               </div>
+              	<div class="purchasename">
+               		<c:if test="${obj.isParent ne 'true' }">
+                		<c:if test="${fn:length (obj.supplier) > 8}">${fn:substring(obj.supplier,0,7)}...</c:if>
+                		<c:if test="${fn:length(obj.supplier) <= 8}">${obj.supplier}</c:if>
+                	</c:if>
+               	</div>
               </td >
               <%-- <td class="tc">${obj.isFreeTax }</td> --%>
               <td title="${obj.isFreeTax}" class="tc">
-               <div class="freetax">
-                <c:if test="${fn:length (obj.isFreeTax) > 8}">${fn:substring(obj.isFreeTax,0,7)}...</c:if>
-                <c:if test="${fn:length(obj.isFreeTax) <= 8}">${obj.isFreeTax}</c:if>
-               </div>
+               	<div class="freetax">
+                	<c:if test="${fn:length (obj.isFreeTax) > 8}">${fn:substring(obj.isFreeTax,0,7)}...</c:if>
+                	<c:if test="${fn:length(obj.isFreeTax) <= 8}">${obj.isFreeTax}</c:if>
+               	</div>
               </td >
               <%-- <td class="tc">${obj.goodsUse }</td> --%>
            <%--    <td title="${obj.goodsUse}" class="tl pl20">
@@ -264,25 +265,22 @@
               <td class="tl pl20">${obj.useUnit }</td> --%>
               <td title="${obj.memo}">
                 <div class="memo">
-                 <c:if test="${fn:length (obj.memo) > 8}">${fn:substring(obj.memo,0,7)}...</c:if>
-                 <c:if test="${fn:length(obj.memo) <= 8}">${obj.memo}</c:if>
+                 	<c:if test="${fn:length(obj.memo) > 8}">${fn:substring(obj.memo,0,7)}...</c:if>
+                 	<c:if test="${fn:length(obj.memo) <= 8}">${obj.memo}</c:if>
                 </div>
-              </td > 
-           
+              </td>
               <td class="p0">
-					<div class="extrafile">
-							  <u:show showId="pShow${vs.index}"  delete="false" businessId="${obj.id}" sysKey="2" typeId="270FA42F7A214E25B62CD80D1045D158" />
-					  </div> 
-			  </td>
-						 
+								<div class="extrafile">
+							  	<u:show showId="pShow${vs.index}"  delete="false" businessId="${obj.id}" sysKey="2" typeId="270FA42F7A214E25B62CD80D1045D158" />
+					  		</div> 
+			 				</td>
             </tr>
-
           </c:forEach>
         </table>
-  </div>
-  <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
-         <input class="btn btn-windows back" value="返回" type="button"
-                    onclick="location.href='javascript:history.go(-1);'">
-    </div>
+  		</div>
+  		<div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
+    		<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+  		</div>
+  	</div>
 </body>
 </html>

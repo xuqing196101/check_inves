@@ -786,6 +786,7 @@ public class PlanStatisticsController extends BaseController {
     		hashMap.put("typeName", 1);
     		List<PurchaseDep> org = purchaseOrgnizationServiceI.findPurchaseDepList(hashMap);
     		model.addAttribute("org", org);
+    		model.addAttribute("type", 1);
 		}
 		return "bss/pms/collect/plan_view";
 	}
