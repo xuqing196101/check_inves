@@ -101,6 +101,10 @@
 	    </li>
 	  </c:if>
     <c:if test="${sign == 2}">
+      <li id="reverse_of_eleven" onclick="jump('historyReview')">
+        <a aria-expanded="false" href="#tab-4">历史复核信息</a>
+        <i></i>
+      </li>
       <li id="reverse_of_nine" onclick="jump('review')">
         <a aria-expanded="false" href="#tab-4">供应商复核</a>
       </li>

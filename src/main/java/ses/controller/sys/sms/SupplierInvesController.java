@@ -132,7 +132,7 @@ public class SupplierInvesController extends BaseSupplierController {
 		int count = supplierAttachAuditService.countBySupplierIdAndType(supplierId, 2);
 		if(count > 0){
 			// 获取考察项目信息
-			List<SupplierAttachAudit> list = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 2);
+			List<SupplierAttachAudit> list = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 2, 0);
 		}else{
 			// 添加考察项目信息
 			int addResult = supplierAttachAuditService.addBySupplierIdAndType(supplierId, 2);
@@ -166,7 +166,7 @@ public class SupplierInvesController extends BaseSupplierController {
 		int count = supplierAttachAuditService.countBySupplierIdAndType(supplierId, 2);
 		if(count > 0){
 			// 获取考察项目信息
-			List<SupplierAttachAudit> list = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 2);
+			List<SupplierAttachAudit> list = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 2, 0);
 		}else{
 			// 添加考察项目信息
 			int addResult = supplierAttachAuditService.addBySupplierIdAndType(supplierId, 2);
@@ -207,12 +207,12 @@ public class SupplierInvesController extends BaseSupplierController {
 		int count = supplierAttachAuditService.countBySupplierIdAndType(supplierId, 2);
 		if(count > 0){
 			// 获取考察项目信息
-			itemList = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 2);
+			itemList = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 2, 0);
 		}else{
 			// 添加考察项目信息
 			int addResult = supplierAttachAuditService.addBySupplierIdAndType(supplierId, 2);
 			if(addResult > 0){
-				itemList = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 2);
+				itemList = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 2, 0);
 			}
 		}
 		

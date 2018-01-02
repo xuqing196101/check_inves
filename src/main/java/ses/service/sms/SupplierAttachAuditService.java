@@ -25,7 +25,7 @@ public interface SupplierAttachAuditService {
 	 * @param auditType
 	 * @return
 	 */
-	List<SupplierAttachAudit> getBySupplierIdAndType(String supplierId, int auditType);
+	List<SupplierAttachAudit> getBySupplierIdAndType(String supplierId, int auditType, int isDeleted);
 
 	/**
 	 * 添加记录

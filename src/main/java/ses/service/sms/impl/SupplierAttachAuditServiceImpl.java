@@ -105,14 +105,13 @@ public class SupplierAttachAuditServiceImpl implements SupplierAttachAuditServic
 	}
 
 	@Override
-	public List<SupplierAttachAudit> getBySupplierIdAndType(String supplierId,
-			int auditType) {
+	public List<SupplierAttachAudit> getBySupplierIdAndType(String supplierId, int auditType, int isDeleted) {
 		SupplierAttachAuditExample example = new SupplierAttachAuditExample();
 		example.setOrderByClause("position asc");
 		example.createCriteria()
 		.andSupplierIdEqualTo(supplierId)
 		.andAuditTypeEqualTo(auditType)
-		.andIsDeletedEqualTo(0);
+		.andIsDeletedEqualTo(isDeleted);
 		return supplierAttachAuditMapper.selectByExample(example);
 	}
 

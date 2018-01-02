@@ -1987,6 +1987,9 @@ public class SupplierAuditController extends BaseSupplierController {
 		
 		request.setAttribute("supplierStatus", supplierStatus);
 		
+		//是否为重新复核
+		request.setAttribute("reviewStatus",supplier.getReviewStatus());
+		
 		String loginName = user.getLoginName();
 		
 		//回显未通过字段

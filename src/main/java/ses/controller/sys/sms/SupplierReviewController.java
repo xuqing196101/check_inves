@@ -107,12 +107,12 @@ public class SupplierReviewController {
 		int count = supplierAttachAuditService.countBySupplierIdAndType(supplierId, 1);
 		if(count > 0){
 			// 获取复核项目信息
-			itemList = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 1);
+			itemList = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 1, 0);
 		}else{
 			// 添加复核项目信息
 			int addResult = supplierAttachAuditService.addBySupplierIdAndType(supplierId, 1);
 			if(addResult > 0){
-				itemList = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 1);
+				itemList = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 1, 0);
 			}
 		}
 		model.addAttribute("itemList", itemList);
@@ -192,8 +192,8 @@ public class SupplierReviewController {
 	/**
 	 * 历史复核信息
 	 */
-	@RequestMapping(value = "/historyReviewInfro")
-	public String historyReviewInfro (String supplierId, Model model){
+	@RequestMapping(value = "/historyReview")
+	public String historyReview (String supplierId, Model model){
 		//获取意见
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("supplierId", supplierId);
@@ -203,6 +203,11 @@ public class SupplierReviewController {
 		model.addAttribute("opinion", auditOpinion == null? "" : auditOpinion.getOpinion());
 		model.addAttribute("supplierId", supplierId);
 		model.addAttribute("sign", 2);
+		
+		// 获取复核项目信息 --参数二：1是复核，参数二 ：1是删除标记
+		List<SupplierAttachAudit> itemList = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 1, 1);
+		model.addAttribute("itemList", itemList);
+		
 		return "ses/sms/supplier_review/history_review";
 	}
 }

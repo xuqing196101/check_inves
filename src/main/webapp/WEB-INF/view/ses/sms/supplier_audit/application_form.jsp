@@ -147,7 +147,14 @@
 	             <a class="btn"  type="button" onclick="toStep('seven');">下一步</a>
 	           </c:if>
 	           <c:if test="${sign == 2}">
-	             <a class="btn"  type="button" onclick="toStep('nine');">下一步</a>
+	             <c:choose>
+	               <c:when test="${reviewStatus == 1}">
+	                 <a class="btn"  type="button" onclick="toStep('eleven');">下一步</a>
+	               </c:when>
+	               <c:otherwise>
+	                 <a class="btn"  type="button" onclick="toStep('nine');">下一步</a>
+	               </c:otherwise>
+	             </c:choose>
 		           <a class="btn" type="button" onclick="toStep('nine');">转至复核</a>
 		          </c:if>
 		          <c:if test="${sign == 3}">
