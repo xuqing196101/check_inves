@@ -15,8 +15,10 @@ import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
 import ses.model.sms.review.SupplierAttachAudit;
+import ses.model.sms.review.SupplierCateAudit;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierAttachAuditService;
+import ses.service.sms.SupplierCateAuditService;
 import ses.service.sms.SupplierInvesService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
@@ -38,6 +40,8 @@ public class SupplierInvesController extends BaseSupplierController {
 	
 	@Autowired
 	private SupplierAttachAuditService supplierAttachAuditService;
+	@Autowired
+	private SupplierCateAuditService supplierCateAuditService;
 	@Autowired
 	private SupplierInvesService supplierInvesService;
 	@Autowired
@@ -124,8 +128,7 @@ public class SupplierInvesController extends BaseSupplierController {
 	 */
 	@RequestMapping("downloadInvesRecord")
 	public ResponseEntity < byte[] > downloadInvesRecord(Model model, String supplierId){
-		
-		// 查询附件审核表是否有生成考察项目
+		// 查询是否有生成考察项目
 		int count = supplierAttachAuditService.countBySupplierIdAndType(supplierId, 2);
 		if(count > 0){
 			// 获取考察项目信息
@@ -133,6 +136,15 @@ public class SupplierInvesController extends BaseSupplierController {
 		}else{
 			// 添加考察项目信息
 			int addResult = supplierAttachAuditService.addBySupplierIdAndType(supplierId, 2);
+		}
+		// 查询是否有生成产品类别
+		count = supplierCateAuditService.countBySupplierId(supplierId);
+		if(count > 0){
+			// 获取产品类别信息
+			List<SupplierCateAudit> list = supplierCateAuditService.getBySupplierId(supplierId);
+		}else{
+			// 添加产品类别信息
+			int addResult = supplierCateAuditService.addBySupplierId(supplierId);
 		}
 		
 		// 供应商信息
@@ -150,6 +162,16 @@ public class SupplierInvesController extends BaseSupplierController {
 	 */
 	@RequestMapping("downloadAttach")
 	public ResponseEntity < byte[] > downloadAttach(Model model, String supplierId){
+		// 查询是否有生成考察项目
+		int count = supplierAttachAuditService.countBySupplierIdAndType(supplierId, 2);
+		if(count > 0){
+			// 获取考察项目信息
+			List<SupplierAttachAudit> list = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 2);
+		}else{
+			// 添加考察项目信息
+			int addResult = supplierAttachAuditService.addBySupplierIdAndType(supplierId, 2);
+		}
+		
 		// 供应商信息
 		Supplier supplier = supplierService.selectById(supplierId);
 		// 文件存储地址
