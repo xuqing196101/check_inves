@@ -1885,14 +1885,14 @@ public class SupplierController extends BaseSupplierController {
 			return "ses/sms/supplier_register/template_upload";
 		}
 		supplierService.commit(supplier);
-		//刪除上次的审核记录
-		/*supplierAuditService.deleteBySupplierId(supplier.getId());*/
+		/*//刪除上次的审核记录
+		//supplierAuditService.deleteBySupplierId(supplier.getId());
 		SupplierAudit supplierAudit = new SupplierAudit();
 		supplierAudit.setSupplierId(supplier.getId());
 		supplierAuditService.updateIsDeleteBySupplierId(supplierAudit);
 		//清空审核人
 		//supplier.setAuditor("");
-		supplierAuditService.updateStatus(supplier);
+		supplierAuditService.updateStatus(supplier);*/
 		
 		request.getSession().removeAttribute("currSupplier");
 		request.getSession().removeAttribute("sysKey");
@@ -1910,7 +1910,8 @@ public class SupplierController extends BaseSupplierController {
 			return null;
 		}
 		boolean bool = validateUpload(model, supplier.getId());
-		Supplier supp = supplierService.selectOne(supplier.getId());
+		//Supplier supp = supplierService.selectOne(supplier.getId());
+		Supplier supp = checkSupplier;
 		// 删除审核不通过的品目
 		//supplierItemService.deleteItemsBySupplierId(supplier.getId(), (byte)1);
         //校验是否在规定时间未提交审核,如时间>0说明不符合规定则注销信息

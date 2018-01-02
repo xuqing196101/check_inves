@@ -205,7 +205,7 @@ public interface SupplierService {
     * @param creteDate 创建日期
     * @return 供应商集合
     */
-   List<Supplier> getCommintSupplierByDate(String startTime, String endTime);
+   List<Supplier> getCommitSupplierByDate(String startTime, String endTime);
    
    /**
     * 
