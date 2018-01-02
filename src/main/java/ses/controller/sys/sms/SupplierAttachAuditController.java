@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 
@@ -38,11 +39,13 @@ import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierPorjectQua;
+import ses.model.sms.review.SupplierAttachAudit;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.QualificationService;
 import ses.service.sms.SupplierAddressService;
+import ses.service.sms.SupplierAttachAuditService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierPorjectQuaService;
 import ses.service.sms.SupplierService;
@@ -79,6 +82,9 @@ public class SupplierAttachAuditController {
 	
 	@Autowired
 	private QualificationService qualificationService;
+	
+	@Autowired
+	private SupplierAttachAuditService supplierAttachAuditService;
 	
 	/**
 	 * 生产或经营地址的房产证明或租赁协议
@@ -783,5 +789,15 @@ public class SupplierAttachAuditController {
 			}
 		}
 		return categoryList;
+	}
+	
+	/**
+	 * 保存审核信息
+	 * @param supplierAttachAudit
+	 */
+	@RequestMapping(value = "/saveAuditInformation")
+	@ResponseBody
+	public void saveAuditInformation (SupplierAttachAudit supplierAttachAudit){
+		supplierAttachAuditService.saveAuditInformation(supplierAttachAudit);
 	}
 }

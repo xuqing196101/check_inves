@@ -713,4 +713,27 @@ public class SupplierAttachAuditServiceImpl implements SupplierAttachAuditServic
 		return supplierAttachAuditMapper.insertSelective(supplierAttachAudit);
 	}
 
+	/**
+	 *保存附件审核信息
+	 * @param supplierAttachAudit
+	 */
+	@Override
+	public void saveAuditInformation(SupplierAttachAudit supplierAttachAudit) {
+		/*String supplierId = supplierAttachAudit.getSupplierId();
+		Integer auditType = supplierAttachAudit.getAuditType();
+		SupplierAttachAuditExample example = new SupplierAttachAuditExample();
+		example.setOrderByClause("position asc");
+		example.createCriteria()
+		.andSupplierIdEqualTo(supplierId)
+		.andAuditTypeEqualTo(auditType)
+		.andIsDeletedEqualTo(0);
+		List<SupplierAttachAudit> selectByExample = supplierAttachAuditMapper.selectByExample(example);
+		
+		if(selectByExample !=null){*/
+			supplierAttachAuditMapper.updateByPrimaryKeySelective(supplierAttachAudit);
+		/*}else{
+			supplierAttachAuditMapper.insertSelective(supplierAttachAudit);
+		}*/
+	}
+
 }

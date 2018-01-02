@@ -67,36 +67,36 @@
                 </tr>
               </thead>
               <tbody id="tbody_items">
-              	<c:forEach items="${itemList}" var="item" varStatus="vs">
-              		<tr class="h40">
-		                <td class="tc">${vs.index+1}</td>
-		                <td class="tc">${item.attachName}</td>
-		                <td class="tc">
-		                	<c:if test="${empty item.businessId || empty item.typeId}">
-		                		<a href="javascript:;" onclick="viewAttach('${item.viewUrl}','${item.attachName}')">查看</a>
-		                	</c:if>
-		                	<c:if test="${!empty item.businessId && !empty item.typeId}">
-		                		<u:show showId="inves_${vs.index+1}" businessId="${item.businessId}" sysKey="${sysKey}" typeId="${item.typeId}" delete="false"/>
-		                	</c:if>
-		                </td>
-		                <td class="tc">
-		                	<input type="hidden" value="" id="isAccord_${item.id}" />
-		                	<c:if test="${item.isAccord==1}">
-		                		<button class="btn" type="button" onclick="opr('${item.id}')">一致</button>
-		                		<button class="btn bgdd black_link" type="button" onclick="opr('${item.id}')">不一致</button>
-		                	</c:if>
-		                	<c:if test="${item.isAccord==2}">
-		                		<button class="btn bgdd black_link" type="button" onclick="opr('${item.id}')">一致</button>
-		                		<button class="btn bgred" type="button" onclick="opr('${item.id}')">不一致</button>
-		                	</c:if>
-		                	<c:if test="${item.isAccord==0}">
-		                		<button class="btn bgdd black_link" type="button" onclick="opr(this, '${item.id}', 1)">一致</button>
-		                		<button class="btn bgdd black_link" type="button" onclick="opr(this, '${item.id}', 2)">不一致</button>
-		                	</c:if>
-		                </td>
-		                <td><input type="text" class="w300 border0" value="${item.suggest}" maxlength="300" /></td>
-		              </tr>
-              	</c:forEach>
+                <c:forEach items="${itemList}" var="item" varStatus="vs">
+                  <tr class="h40">
+                    <td class="tc">${vs.index+1}</td>
+                    <td class="tc">${item.attachName}</td>
+                    <td class="tc">
+                      <c:if test="${empty item.businessId || empty item.typeId}">
+                        <a href="javascript:;" onclick="viewAttach('${item.viewUrl}','${item.attachName}')">查看</a>
+                      </c:if>
+                      <c:if test="${!empty item.businessId && !empty item.typeId}">
+                        <u:show showId="inves_${vs.index+1}" businessId="${item.businessId}" sysKey="${sysKey}" typeId="${item.typeId}" delete="false"/>
+                      </c:if>
+                    </td>
+                    <td class="tc">
+                      <input type="hidden" value="" id="isAccord_${item.id}" />
+                      <c:if test="${item.isAccord==1}">
+                        <button class="btn" type="button" onclick="opr(this, '${item.id}', 1, 1)">一致</button>
+                        <button class="btn bgdd black_link" type="button" onclick="opr(this, '${item.id}', 2, 2)">不一致</button>
+                      </c:if>
+                      <c:if test="${item.isAccord==2}">
+                        <button class="btn bgdd black_link" type="button" onclick="opr(this, '${item.id}', 1, 2)">一致</button>
+                        <button class="btn bgred" type="button" onclick="opr(this, '${item.id}', 2)">不一致</button>
+                      </c:if>
+                      <c:if test="${item.isAccord==0}">
+                        <button class="btn bgdd black_link" type="button" onclick="opr(this, '${item.id}', 1, 2)">一致</button>
+                        <button class="btn bgdd black_link" type="button" onclick="opr(this, '${item.id}', 2, 2)">不一致</button>
+                      </c:if>
+                    </td>
+                    <td><input type="text" class="w100p mb0" id="${item.id}_suggest_${vs.index+1}" value="${item.suggest}" maxlength="300" onblur="saveAuditSuggest('${item.id}', 2 , ${vs.index+1})"/></td>
+                  </tr>
+                </c:forEach>
               </tbody>
             </table>
           </ul>

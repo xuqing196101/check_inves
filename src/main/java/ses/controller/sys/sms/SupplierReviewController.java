@@ -21,7 +21,9 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAuditOpinion;
+import ses.model.sms.review.SupplierAttachAudit;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.sms.SupplierAttachAuditService;
 import ses.service.sms.SupplierAuditOpinionService;
 import ses.service.sms.SupplierReviewService;
 import ses.service.sms.SupplierService;
@@ -47,6 +49,9 @@ public class SupplierReviewController {
 	
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
+	
+	@Autowired
+	private SupplierAttachAuditService supplierAttachAuditService;
 	
 	/**
 	 * 复核列表
@@ -96,6 +101,22 @@ public class SupplierReviewController {
 		
 		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		
+		List<SupplierAttachAudit> itemList = null;
+		// 查询附件审核表是否有生成复核项目
+		int count = supplierAttachAuditService.countBySupplierIdAndType(supplierId, 1);
+		if(count > 0){
+			// 获取复核项目信息
+			itemList = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 1);
+		}else{
+			// 添加复核项目信息
+			int addResult = supplierAttachAuditService.addBySupplierIdAndType(supplierId, 1);
+			if(addResult > 0){
+				itemList = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 1);
+			}
+		}
+		model.addAttribute("itemList", itemList);
+		
 		return "ses/sms/supplier_review/review";
 	}
 	

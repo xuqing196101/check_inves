@@ -35,4 +35,9 @@ public interface SupplierAttachAuditService {
 	 */
 	int addBySupplierIdAndType(String supplierId, int auditType);
 
+	/**
+	 *保存附件审核信息
+	 * @param supplierAttachAudit
+	 */
+	void saveAuditInformation(SupplierAttachAudit supplierAttachAudit);
 }

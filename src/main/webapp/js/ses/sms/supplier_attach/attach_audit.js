@@ -15,12 +15,13 @@ function viewAttach(url, title) {
 }
 
 //审核操作
-function opr(_this, id, type) {
-	if(type == 1){
+//isAccord是否一致  1：一致， 2不一致。auditType审核类型  1：复核，2考察。
+function opr(_this, id , isAccord, auditType) {
+	if(isAccord == 1){
 		if($(_this).hasClass("bgdd") && $(_this).hasClass("black_link")){// 默认按钮
 			$(_this).removeClass("bgdd");
 			$(_this).removeClass("black_link");
-			$("#isAccord_" + id).val(type);
+			$("#isAccord_" + id).val(isAccord);
 			$(_this).next().removeClass("bgred");
 			$(_this).next().addClass("bgdd");
 			$(_this).next().addClass("black_link");
@@ -30,12 +31,12 @@ function opr(_this, id, type) {
 			$("#isAccord_" + id).val("");
 		}
 	}
-	if(type == 2){
+	if(isAccord == 2){
 		if($(_this).hasClass("bgdd") && $(_this).hasClass("black_link")){// 默认按钮
 			$(_this).removeClass("bgdd");
 			$(_this).removeClass("black_link");
 			$(_this).addClass("bgred");
-			$("#isAccord_" + id).val(type);
+			$("#isAccord_" + id).val(isAccord);
 			$(_this).prev().addClass("bgdd");
 			$(_this).prev().addClass("black_link");
 		}else{
@@ -45,4 +46,31 @@ function opr(_this, id, type) {
 			$("#isAccord_" + id).val("");
 		}
 	}
+	
+	saveAuditIsAccord(id, auditType, isAccord);
+}
+
+//保存意见--isAccord是否一致  1：一致， 2不一致
+function saveAuditIsAccord(id, auditType, isAccord){
+	$.ajax({
+		url : globalPath + "/supplierAttachAudit/saveAuditInformation.do",
+		type: "post",
+		data: {"id" : id, "isAccord" : isAccord, "auditType" : auditType},
+	});
+}
+
+//保存理由--auditType审核类型  1：复核，2考察。
+function saveAuditSuggest(id, auditType, index){
+	var suggest = $("#"+ id +"_suggest_"+ index).val();
+	suggest = trim(suggest);
+	$.ajax({
+		url : globalPath + "/supplierAttachAudit/saveAuditInformation.do",
+		type: "post",
+		data: {"id" : id, "auditType" : auditType, "suggest" : suggest},
+	});
+}
+
+//删除左右两端的空格
+function trim(str) { 
+    return str.replace(/(^\s*)|(\s*$)/g, "");
 }
