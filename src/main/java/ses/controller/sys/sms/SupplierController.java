@@ -3167,7 +3167,7 @@ public class SupplierController extends BaseSupplierController {
 		model.addAttribute("result", pageInfo);
 		model.addAttribute("contract", contractList);
 		// 年份
-		List < Integer > years = supplierService.getThressYear();
+		List < Integer > years = supplierService.getThreeYear();
 		model.addAttribute("years", years);
 		model.addAttribute("supplierTypeId", supplierTypeId);
 		model.addAttribute("supplierId", supplierId);

@@ -2486,7 +2486,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	}
 	
 	private String getContractYearInfo(int index){
-		List<Integer> years = supplierService.getThressYear();
+		List<Integer> years = supplierService.getThreeYear();
 		String info = "";
 		switch (index) {
 		case 1:

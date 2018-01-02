@@ -2820,7 +2820,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		List<SupplierCateTree> allTreeList=supplierAuditService.showContractData(supplierId, cateId, itemId);
 		model.addAttribute("contract", allTreeList);
 		// 年份
-		List < Integer > years = supplierService.getThressYear();
+		List < Integer > years = supplierService.getThreeYear();
 		model.addAttribute("years", years);
 		model.addAttribute("supplierId", supplierId);
 		model.addAttribute("ind", ind-1);
@@ -3680,7 +3680,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		model.addAttribute("result", pageInfo);
 		model.addAttribute("contract", allTreeList);
 		// 年份
-		List < Integer > years = supplierService.getThressYear();
+		List < Integer > years = supplierService.getThreeYear();
 		model.addAttribute("years", years);
 		model.addAttribute("supplierTypeId", supplierTypeId);
 		model.addAttribute("supplierId", supplierId);
