@@ -68,6 +68,7 @@
 		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
 		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
 		<result column="SUBMIT_AT" property="submitAt" jdbcType="TIMESTAMP" />
+		<result column="FIRST_SUBMIT_AT" property="firstSubmitAt" jdbcType="TIMESTAMP" />
 		<result column="SCORE" property="score" />
 		<result column="NAME" property="name" />
 		<result column="AREA_NAME" property="areaName" />
@@ -168,6 +169,7 @@
 		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
 		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
 		<result column="SUBMIT_AT" property="submitAt" jdbcType="TIMESTAMP" />
+		<result column="FIRST_SUBMIT_AT" property="firstSubmitAt" jdbcType="TIMESTAMP" />
 		<result column="SCORE" property="score" />
 		<result column="NAME" property="name" />
 		<result column="AREA_NAME" property="areaName" />
@@ -240,7 +242,7 @@
 		SUPPLIER_PLEDGE,
 		SUPPLIER_REG_LIST, SUPPLIER_EXTRACTS_LIST, SUPPLIER_INSPECT_LIST,
 		SUPPLIER_REVIEW_LIST, SUPPLIER_CHANGE_LIST, SUPPLIER_EXIT_LIST,
-		CREATED_AT, UPDATED_AT,SUBMIT_AT,
+		CREATED_AT, UPDATED_AT, SUBMIT_AT, FIRST_SUBMIT_AT,
 		BUSINESS_CERT,DETAIL_ADDRESS,ARMY_BUSINESS_NAME,ARMY_BUSINESS_FAX,ARMY_BUSINESS_MOBILE,
 		ARMY_BUSINESS_TELEPHONE,ARMY_BUSINESS_EMAIL,AUDIT_DATE,ARMY_BUSINESS_ADDRESS,CONCAT_PROVINCE,CONCAT_CITY,ARMY_BUSINESS_PROVINCE,
 		ARMY_BUSINESS_CITY,IS_PROVISIONAL,DESCRIPTION,LEVEL_SCORE_PRODUCT,LEVEL_SCORE_SALES,LEVEL_SCORE_SERVICE,IS_ILLEGAL,PURCHASE_EXPERIENCE,
@@ -548,11 +550,14 @@
 			<if test="createdAt != null">
 				CREATED_AT,
 			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT,
+			</if>
 			<if test="submitAt != null">
 				SUBMIT_AT,
 			</if>
-			<if test="updatedAt != null">
-				UPDATED_AT,
+			<if test="firstSubmitAt != null">
+				FIRST_SUBMIT_AT,
 			</if>
 			<if test="score != null">
 				SCORE,
@@ -563,7 +568,6 @@
 			<if test="detailAddress != null">
 				DETAIL_ADDRESS,
 			</if>
-
 			<if test="armyBusinessName != null">
 				ARMY_BUSINESS_NAME,
 			</if>
@@ -788,11 +792,14 @@
 			<if test="createdAt != null">
 				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
+			<if test="updatedAt != null">
+				#{updatedAt,jdbcType=TIMESTAMP},
+			</if>
 			<if test="submitAt != null">
 				#{submitAt,jdbcType=TIMESTAMP},
 			</if>
-			<if test="updatedAt != null">
-				#{updatedAt,jdbcType=TIMESTAMP},
+			<if test="firstSubmitAt != null">
+				#{firstSubmitAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="score != null">
 				#{score},
@@ -970,14 +977,22 @@
 			<if test="registFund != null">
 				REGIST_FUND = #{registFund},
 			</if>
+			<if test="branchName != null">
+				BRANCH_NAME = #{branchName},
+				<if test="branchName == '1'.toString() and businessStartDate == null">
+					BUSINESS_START_DATE = '',
+				</if>
+			</if>
 			<if test="businessStartDate != null">
 				BUSINESS_START_DATE =
 				#{businessStartDate,jdbcType=TIMESTAMP},
+				<if test="branchName == null">
+					BRANCH_NAME = '0',
+				</if>
 			</if>
-			<if test="businessStartDate == null">
+			<!-- <if test="businessStartDate == null">
 				BUSINESS_START_DATE = '',
-			</if>
-			
+			</if> -->
 			<if test="businessEndDate != null">
 				BUSINESS_END_DATE =
 				#{businessEndDate,jdbcType=TIMESTAMP},
@@ -999,9 +1014,6 @@
 			</if>
 			<if test="branchAddress != null">
 				BRANCH_ADDRESS = #{branchAddress},
-			</if>
-			<if test="branchName != null">
-				BRANCH_NAME = #{branchName},
 			</if>
 			<if test="branchBusinessScope != null">
 				BRANCH_BUSINESS_SCOPE = #{branchBusinessScope},
@@ -1039,11 +1051,14 @@
 			<if test="createdAt != null">
 				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+			</if>
 			<if test="submitAt != null">
 				SUBMIT_AT = #{submitAt,jdbcType=TIMESTAMP},
 			</if>
-			<if test="updatedAt != null">
-				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+			<if test="firstSubmitAt != null">
+				FIRST_SUBMIT_AT = #{firstSubmitAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="businessCert != null">
 				BUSINESS_CERT = #{businessCert},
@@ -2020,7 +2035,7 @@
 	    包括：0：待审核
               9：退回再审核
 	-->
-	<select id="getCommintSupplierList" resultMap="BaseResultMap">
+	<select id="getCommitSupplierList" resultMap="BaseResultMap">
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER T

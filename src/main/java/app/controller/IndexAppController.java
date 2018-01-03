@@ -276,7 +276,9 @@ public class IndexAppController {
             appData.setIndexMsgList(indexMsgList);
             String version = "";
             //查询最新的版本号
-            List<AppInfo> appInfoList = appInfoService.list(null, 1);
+            AppInfo appInfo = new AppInfo();
+            appInfo.setType("1");
+            List<AppInfo> appInfoList = appInfoService.list(appInfo, 1);
             if(appInfoList != null && appInfoList.size() > 0){
                 version = appInfoList.get(0).getVersion();
             }
@@ -964,7 +966,7 @@ public class IndexAppController {
     
     /**
      * 
-     * Description: 二维码App下载
+     * Description: 二维码公告App下载
      * 
      * @author zhang shubin
      * @data 2017年6月15日
@@ -1000,5 +1002,73 @@ public class IndexAppController {
     @ResponseBody
     public void download(HttpServletRequest request, HttpServletResponse response){
         downloadService.download(request, response);
+    }
+    
+    /**
+     * 
+     * Description: 网上商城App更新
+     * 
+     * @data 2017年12月27日
+     * @param 
+     * @return
+     */
+    @RequestMapping(value="/update",produces = "text/json;charset=UTF-8")
+    @ResponseBody
+    public String update(){
+    	AppImg appImg = new AppImg();
+    	String version = "";
+        //查询最新的版本号
+        AppInfo appInfo = new AppInfo();
+        appInfo.setType("2");
+        List<AppInfo> appInfoList = appInfoService.list(null, 1);
+        if(appInfoList != null && appInfoList.size() > 0){
+            version = appInfoList.get(0).getVersion();
+        }
+        if(version != null && !"".equals(version)){
+			appImg.setStatus(true);
+			AppData appData = new AppData();
+			appData.setVersion(version);
+			// 最新版本的apk下载链接
+			String businessId = "";
+			if (appInfoList != null && appInfoList.size() > 0) {
+				businessId = appInfoList.get(0).getRemark();
+			}
+			String id = appInfoService.selectFileIdByBusinessId(businessId);
+			String downloadUrl = "/api/v1/download.html?id=" + id + "&key=" + Constant.APP_APK_SYS_KEY + "&zipFileName=" + null + "&fileName=" + null;
+			appData.setDownloadUrl(downloadUrl);
+			appImg.setData(appData);
+        }else{
+            appImg.setStatus(false);
+            appImg.setMsg("数据获取失败");
+        }
+        return JSON.toJSONString(appImg);
+    }
+    
+    
+    /**
+     * 
+     * Description: 网上商城App下载二维码
+     * 
+     * @data 2017年12月27日
+     * @param 
+     * @return
+     */
+    @RequestMapping("/mallQrCode")
+    public String mallQrCode(Model model,HttpServletRequest request){
+    	AppInfo appInfo = new AppInfo();
+        appInfo.setType("2");
+        List<AppInfo> appInfoList = appInfoService.list(appInfo, 1);
+        String businessId = "";
+        if(appInfoList != null && appInfoList.size() > 0){
+            businessId = appInfoList.get(0).getRemark();
+        }
+        String id = appInfoService.selectFileIdByBusinessId(businessId);
+        model.addAttribute("sysKey", Constant.APP_APK_SYS_KEY);
+        model.addAttribute("id", id);
+       /* StringBuffer url = request.getRequestURL();  
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString(); */
+        String tempContextUrl = request.getScheme()+"://"+ request.getServerName() +":"+ request.getServerPort() +request.getContextPath();
+        model.addAttribute("tempContextUrl", tempContextUrl);
+        return "ses/app/mallQrCode";
     }
 }

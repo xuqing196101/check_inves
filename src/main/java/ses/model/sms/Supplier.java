@@ -527,6 +527,14 @@ Supplier implements Serializable {
 	 * </pre>
 	 */
 	private Date submitAt;
+	
+	/**
+	 * <pre>
+	 * 第一次提交时间 格式年月日时分秒
+	 * 表字段 : T_SES_SMS_SUPPLIER.FIRST_SUBMIT_AT
+	 * </pre>
+	 */
+	private Date firstSubmitAt;
 
 	private List<SupplierFinance> listSupplierFinances = new ArrayList<SupplierFinance>();
 
@@ -1862,8 +1870,16 @@ Supplier implements Serializable {
     public void setSubmitAt(Date submitAt) {
         this.submitAt = submitAt;
     }
+    
+    public Date getFirstSubmitAt() {
+		return firstSubmitAt;
+	}
 
-    public Integer getPersonSize() {
+	public void setFirstSubmitAt(Date firstSubmitAt) {
+		this.firstSubmitAt = firstSubmitAt;
+	}
+
+	public Integer getPersonSize() {
         return personSize;
     }
 

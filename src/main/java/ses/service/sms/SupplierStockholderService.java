@@ -29,4 +29,20 @@ public interface SupplierStockholderService {
 	 * @return
 	 */
 	public boolean deleteStockholderByIds(String ids);
+
+	/**
+	 *〈简述〉后台管理员临时添加供应商出资人
+	 *〈详细描述〉
+	 * @author Ye Maolin
+	 * @param supplierStockholder
+	 */
+	public void saveTempStockholder(SupplierStockholder supplierStockholder);
+
+	/**
+	 *〈简述〉后台管理员删除临时添加的供应商出资人
+	 *〈详细描述〉
+	 * @author Ye Maolin
+	 * @param id
+	 */
+	public void deleteTempStockholder(String id);
 }

@@ -344,7 +344,7 @@ public class DateUtils {
     /**
      * 
     * @Title: getYear 
-    * @Description: 获取当前所在年年
+    * @Description: 获取当前所在年
     * @author Easong
     * @param @param date
     * @param @return    设定文件 
@@ -482,5 +482,17 @@ public class DateUtils {
 	    int result = aft.get(Calendar.MONTH) - bef.get(Calendar.MONTH);
 	    int month = (aft.get(Calendar.YEAR) - bef.get(Calendar.YEAR)) * 12;
 		return Math.abs(month + result);
+	}
+
+	/**
+	 * 获取当前年份
+	 * @return
+	 */
+	public static int getCurrentYear(Date date) {
+		Calendar cal = Calendar.getInstance();
+		if(date != null){
+			cal.setTime(date);
+		}
+		return cal.get(Calendar.YEAR);
 	}
 }

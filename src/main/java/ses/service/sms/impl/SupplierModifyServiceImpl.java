@@ -422,9 +422,11 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 							if (history.getBeforeField().equals("nature") && !history.getBeforeContent().equals(stockholder.getNature())) {
 								supplierModify.setBeforeField("nature");
 								if(history.getBeforeContent().equals("1")){
-									supplierModify.setBeforeContent("法人");
-								}else{
-									supplierModify.setBeforeContent("自然人");
+									supplierModify.setBeforeContent("单位投资");
+								}else if(history.getBeforeContent().equals("2")){
+									supplierModify.setBeforeContent("个人投资");
+								}else {
+									supplierModify.setBeforeContent(history.getBeforeContent());
 								}
 								supplierModifyMapper.insertSelective(supplierModify);
 							}
@@ -442,6 +444,13 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 								supplierModify.setBeforeContent(history.getBeforeContent());
 								supplierModifyMapper.insertSelective(supplierModify);
 							}
+							
+							/*//证件类型
+							if (history.getBeforeField().equals("identityType") && !history.getBeforeContent().equals(stockholder.getIdentity())) {
+								supplierModify.setBeforeField("identityType");
+								supplierModify.setBeforeContent(history.getBeforeContent());
+								supplierModifyMapper.insertSelective(supplierModify);
+							}*/
 							
 							//出资金额或股份（万元/万份）
 							if (history.getBeforeField().equals("shares") && !history.getBeforeContent().equals(stockholder.getShares())) {
