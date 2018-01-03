@@ -558,18 +558,18 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
   }
 
   @Override
-  public List<PurchaseDetail> selectByDept(String orgId) {
-    return purchaseDetailMapper.selectByDept(orgId);
+  public List<PurchaseDetail> selectByDept(HashMap<String, Object> map) {
+    return purchaseDetailMapper.selectByDept(map);
   }
 
   @Override
-  public List<PurchaseDetail> selectByType(String orgId) {
-    return purchaseDetailMapper.selectByType(orgId);
+  public List<PurchaseDetail> selectByType(HashMap<String, Object> map) {
+    return purchaseDetailMapper.selectByType(map);
   }
 
   @Override
-  public List<Map<String, Object>> selectByMonth(String orgId) {
-    return purchaseDetailMapper.selectByMonth(orgId);
+  public List<Map<String, Object>> selectByMonth(HashMap<String, Object> map) {
+    return purchaseDetailMapper.selectByMonth(map);
   }
 
 	@Override

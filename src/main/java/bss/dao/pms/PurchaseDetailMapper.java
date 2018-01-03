@@ -435,9 +435,9 @@ public interface PurchaseDetailMapper {
     
     List<PurchaseDetail> selectByParentIdList(String id);
     List<PurchaseDetail> selectByTask(HashMap<String, Object> map);
-    List<PurchaseDetail> selectByDept(String orgId);
-    List<PurchaseDetail> selectByType(String orgId);
-    List<Map<String, Object>> selectByMonth(String orgId);
+    List<PurchaseDetail> selectByDept(HashMap<String, Object> map);
+    List<PurchaseDetail> selectByType(HashMap<String, Object> map);
+    List<Map<String, Object>> selectByMonth(HashMap<String, Object> map);
     
     /**
      * 

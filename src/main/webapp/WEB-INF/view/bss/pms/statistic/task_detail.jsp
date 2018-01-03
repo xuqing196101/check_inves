@@ -219,7 +219,7 @@
             <select name="department" id="department" class="w100p h32 f14">
               <option value="">请选择</option>
               <c:forEach items="${allXq}" var="org" >
-              <option value="${org.shortName}" <c:if test="${org.shortName==detail.department}">selected="selected"</c:if>>${org.shortName}</option>
+              <option value="${org.shortName}" <c:if test="${org.shortName eq detail.department}">selected="selected"</c:if>>${org.shortName}</option>
               </c:forEach>
             </select>
           </div>
@@ -265,7 +265,7 @@
             <select name="purchaseType" id="purchaseTypes" class="w100p h32 f14">
               <option value="">请选择</option>
               <c:forEach items="${dataType}" var="d" >
-              <option value="${d.id}" <c:if test="${d.id==detail.purchaseType}">selected="selected"</c:if>>${d.name}</option>
+              <option value="${d.id}" <c:if test="${d.id eq detail.purchaseType}">selected="selected"</c:if>>${d.name}</option>
               </c:forEach>
             </select>
           </div>
