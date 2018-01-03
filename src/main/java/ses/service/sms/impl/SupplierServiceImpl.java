@@ -168,9 +168,6 @@ public class SupplierServiceImpl implements SupplierService {
   private UploadService uploadService;
 
   @Autowired
-  private UserServiceI userService;
-
-  @Autowired
   private RoleServiceI roleService;
 
   @Autowired
@@ -399,7 +396,7 @@ public class SupplierServiceImpl implements SupplierService {
       userrole.setRoleId(listRole.get(0));
       userrole.setUserId(user);
       /**初始化供应商角色*/
-      userService.saveRelativity(userrole);
+      userServiceI.saveRelativity(userrole);
       /**供应商初始化菜单权限*/
             /*String[] roleIds = listRole.get(0).getId().split(",");
             List<String> listMenu = preMenuService.findByRids(roleIds);
@@ -451,17 +448,17 @@ public class SupplierServiceImpl implements SupplierService {
 	  if(supplier.getPurchaseExperience()==null){
 		supplier.setPurchaseExperience("");
 	  }
-
+	  
       supplierMapper.updateByPrimaryKeySelective(supplier);
 
       //更新用户
-      User user = userService.findByTypeId(supplier.getId());
+      User user = userServiceI.findByTypeId(supplier.getId());
       user.setRelName(supplier.getContactName());
       user.setAddress(supplier.getContactAddress());
       user.setEmail(supplier.getContactEmail());
       user.setMobile(supplier.getContactTelephone());
       user.setTelephone(supplier.getContactTelephone());
-      userService.update(user);
+      userServiceI.update(user);
 
       //更新地址
       if (supplier.getAddressList() != null && supplier.getAddressList().size() > 0) {
@@ -546,7 +543,7 @@ public class SupplierServiceImpl implements SupplierService {
    */
   @Override
   public void commit(Supplier supplier) {
-	  //退回修改状态2 
+	//退回修改状态2 
     if (supplier.getStatus() == 2) {
       Map<String, Object> param = new HashMap<String, Object>();
       param.put("isDeleted", 1);
@@ -555,37 +552,43 @@ public class SupplierServiceImpl implements SupplierService {
       todosMapper.updateIsFinish(new Todos("supplier/return_edit.html?id=" + supplier.getId()));
       //退回修改待审核 9
       supplier.setStatus(9);
-    }else{
-    	//待审核
-    	supplier.setStatus(0);
+    } else {
+      //待审核0
+      supplier.setStatus(0);
+      //第一次提交时间
+      supplier.setFirstSubmitAt(new Date());
     }
     // supplier.setCreatedAt(new Date());
     supplier.setSubmitAt(new Date());
-    Supplier key = supplierMapper.selectByPrimaryKey(supplier.getId());
-    supplier.setBusinessStartDate(key.getBusinessStartDate());
-    supplierMapper.updateByPrimaryKeySelective(supplier);
-    supplier = supplierMapper.getSupplier(supplier.getId());
+    int suppUpdateResult = supplierMapper.updateByPrimaryKeySelective(supplier);
+    if (suppUpdateResult > 0) {
+      supplier = supplierMapper.selectByPrimaryKey(supplier.getId());
+    }
     // 用户表插入地址信息
-    User user = userService.findByTypeId(supplier.getId());
-    String address = supplier.getAddress();
-    Area area = areaMapper.selectById(address);
-    // 市
-    String cityName = area.getName();
-    // 省
-    String provinceName = areaMapper.selectById(area.getParentId()).getName();
-    user.setAddress(provinceName.concat(cityName));
-    userMapper.updateByPrimaryKeySelective(user);
+    User user = userServiceI.findByTypeId(supplier.getId());
+    if (user != null) {
+      Area area = areaMapper.selectById(supplier.getAddress());
+      // 市
+      String cityName = "";
+      // 省
+      String provinceName = "";
+      if (area != null) {
+        cityName = area.getName();
+        area = areaMapper.selectById(area.getParentId());
+        if(area != null){
+          provinceName = area.getName();
+        }
+      }
+      user.setAddress(provinceName.concat(cityName));
+      userMapper.updateByPrimaryKeySelective(user);
+    }
     // 推送代办
     Todos todos = new Todos();
-    //获取供应商登录id
-    ses.model.bms.User findByTypeId = userServiceI.findByTypeId(supplier.getId());
-    if (findByTypeId != null) {
-      todos.setSenderId(findByTypeId.getId());// 推送者 ID
+    if (user != null) {
+      todos.setSenderId(user.getId());// 推送者 ID
     }
     todos.setName("【" + supplier.getSupplierName() + "】" + "供应商审核 !");// 待办名称
     todos.setOrgId(supplier.getProcurementDepId());// 机构ID
-    //发送人id
-    todos.setSenderId(user.getId());
     todos.setSenderName(supplier.getSupplierName());
     todos.setPowerId(PropUtil.getProperty("gyscs"));// 权限 ID
     todos.setUrl("supplierAudit/essential.html?supplierId=" + supplier.getId());// URL
@@ -604,7 +607,7 @@ public class SupplierServiceImpl implements SupplierService {
    */
   @Override
   public boolean checkLoginName(String loginName) {
-    List<User> users = userService.findByLoginName(loginName);
+    List<User> users = userServiceI.findByLoginName(loginName);
     if (!users.isEmpty()) {
       return false;
     }
@@ -847,9 +850,8 @@ public class SupplierServiceImpl implements SupplierService {
    * @see ses.service.sms.SupplierService#getCommintSupplierByDate(java.lang.String)
    */
   @Override
-  public List<Supplier> getCommintSupplierByDate(String startTime, String endTime) {
-
-    return supplierMapper.getCommintSupplierList(startTime, endTime);
+  public List<Supplier> getCommitSupplierByDate(String startTime, String endTime) {
+    return supplierMapper.getCommitSupplierList(startTime, endTime);
   }
 
   /**
@@ -874,10 +876,13 @@ public class SupplierServiceImpl implements SupplierService {
   }
 
   @Override
-  public List<Integer> getThressYear() {
+  public List<Integer> getLastThreeYear(int referenceYear) {
     List<Integer> list = new LinkedList<Integer>();
     Calendar cale = Calendar.getInstance();
-    Integer year = cale.get(Calendar.YEAR);
+    int year = cale.get(Calendar.YEAR);
+    if(referenceYear != 0){
+    	year = referenceYear;
+    }
 
     Integer year1 = year - 3;//2013
     Integer year2 = year - 2;//2014
@@ -1526,16 +1531,16 @@ public class SupplierServiceImpl implements SupplierService {
   }
 
 	@Override
-	public SupplierCateTree contractCountCategoyrId(SupplierCateTree cateTree,SupplierItem supplierItem) {
+	public SupplierCateTree contractCountCategoryId(SupplierCateTree cateTree,SupplierItem supplierItem,List < Integer > years) {
 		long rut=0;
 		//合同
-		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
-		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
-		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR") + "_" + years.get(0);
+		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR") + "_" + years.get(1);
+		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR") + "_" + years.get(2);
 		//账单
-		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
-		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
-		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL") + "_" + years.get(0);
+		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL") + "_" + years.get(1);
+		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL") + "_" + years.get(2);
 		
 		String supplierItemId=supplierItem.getId();
 		rut=rut+uploadService.countFileByBusinessId(supplierItemId, id1, common.constant.Constant.SUPPLIER_SYS_KEY);
@@ -2753,4 +2758,29 @@ public class SupplierServiceImpl implements SupplierService {
 		return recyList;
 	}
 
+	/**
+	 * 更新复核或实地考察信息
+	 */
+	@Override
+	public void updateReviewOrInves(Supplier supplier) {
+		supplierMapper.updateReviewOrInves(supplier);
+		
+	}
+
+	/**
+	 * 更新抽取到的供应商
+	 */
+	@Override
+	public void updateExtractOrgid(String orgId, List<String> list) {
+		for(String id : list){
+			Integer num = supplierMapper.selectExtractOrgidById(id);
+			if(num == 0){
+				Supplier supplier = new Supplier();
+				supplier.setId(id);
+				supplier.setExtractAt(new Date());
+				supplier.setExtractOrgid(orgId);
+				supplierMapper.updateReviewOrInves(supplier);
+			}
+		}
+	}
 }

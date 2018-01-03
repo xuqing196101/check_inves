@@ -527,6 +527,14 @@ Supplier implements Serializable {
 	 * </pre>
 	 */
 	private Date submitAt;
+	
+	/**
+	 * <pre>
+	 * 第一次提交时间 格式年月日时分秒
+	 * 表字段 : T_SES_SMS_SUPPLIER.FIRST_SUBMIT_AT
+	 * </pre>
+	 */
+	private Date firstSubmitAt;
 
 	private List<SupplierFinance> listSupplierFinances = new ArrayList<SupplierFinance>();
 
@@ -601,6 +609,8 @@ Supplier implements Serializable {
 	private String isExtract; //是否抽取
 
 	private String extractOrgid; //抽取的机构id
+	
+	private Date extractAt; //抽取的时间
 	
 	private String orgName; //机构名称
 	private String orgId; //机构ID
@@ -763,6 +773,15 @@ Supplier implements Serializable {
      * @Fields errorNum : 用户登录密码错误次数
      */
     private Integer errorNum;
+    
+    private String reviewPeople;
+    
+    private Integer reviewStatus;
+    
+    private Date reviewAt;
+    
+    private String invesPeople;
+    private Date invesAt;
     
     public String getQrcodeImage() {
 		return qrcodeImage;
@@ -1862,8 +1881,16 @@ Supplier implements Serializable {
     public void setSubmitAt(Date submitAt) {
         this.submitAt = submitAt;
     }
+    
+    public Date getFirstSubmitAt() {
+		return firstSubmitAt;
+	}
 
-    public Integer getPersonSize() {
+	public void setFirstSubmitAt(Date firstSubmitAt) {
+		this.firstSubmitAt = firstSubmitAt;
+	}
+
+	public Integer getPersonSize() {
         return personSize;
     }
 
@@ -2210,6 +2237,54 @@ Supplier implements Serializable {
 
 	public void setParentAddress(String parentAddress) {
 		this.parentAddress = parentAddress;
+	}
+
+	public String getReviewPeople() {
+		return reviewPeople;
+	}
+
+	public void setReviewPeople(String reviewPeople) {
+		this.reviewPeople = reviewPeople;
+	}
+
+	public Integer getReviewStatus() {
+		return reviewStatus;
+	}
+
+	public void setReviewStatus(Integer reviewStatus) {
+		this.reviewStatus = reviewStatus;
+	}
+
+	public Date getReviewAt() {
+		return reviewAt;
+	}
+
+	public void setReviewAt(Date reviewAt) {
+		this.reviewAt = reviewAt;
+	}
+
+	public String getInvesPeople() {
+		return invesPeople;
+	}
+
+	public void setInvesPeople(String invesPeople) {
+		this.invesPeople = invesPeople;
+	}
+
+	public Date getInvesAt() {
+		return invesAt;
+	}
+
+	public void setInvesAt(Date invesAt) {
+		this.invesAt = invesAt;
+	}
+
+	public Date getExtractAt() {
+		return extractAt;
+	}
+
+	public void setExtractAt(Date extractAt) {
+		this.extractAt = extractAt;
 	}
 	
 }

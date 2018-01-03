@@ -205,7 +205,7 @@ public interface SupplierService {
     * @param creteDate 创建日期
     * @return 供应商集合
     */
-   List<Supplier> getCommintSupplierByDate(String startTime, String endTime);
+   List<Supplier> getCommitSupplierByDate(String startTime, String endTime);
    
    /**
     * 
@@ -217,9 +217,12 @@ public interface SupplierService {
     */
    List<Supplier> getModifySupplierByDate(String startTime, String endTime);
    
-   
-   
-   List<Integer> getThressYear();
+   /**
+    * 获取近三年
+    * @param referenceYear
+    * @return
+    */
+   List<Integer> getLastThreeYear(int referenceYear);
    
    /**
     * 
@@ -450,7 +453,7 @@ public interface SupplierService {
 	 * @param supplierItemId
 	 * @return
 	 */
-	public SupplierCateTree contractCountCategoyrId(SupplierCateTree cateTree,SupplierItem supplierItem);
+	public SupplierCateTree contractCountCategoryId(SupplierCateTree cateTree,SupplierItem supplierItem,List < Integer > years);
 	
 
 	/**
@@ -622,4 +625,13 @@ public interface SupplierService {
 	 */
 	public List<SupplierAptituteRecy> undoDelAptitude(String supplierId);
 
+	/**
+	 * 更新复核或实地考察信息
+	 */
+	void updateReviewOrInves(Supplier supplier);
+	
+	/**
+	 * 更新抽取到的供应商
+	 */
+	void updateExtractOrgid(String orgId, List<String> list);
 }

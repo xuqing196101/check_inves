@@ -36,7 +36,7 @@
 				        <li class="line-block drop_two">
 				        	<c:choose> 
 							  <c:when test="${sessionScope.loginUserType == 'supplier'}">   
-							     <a href="${pageContext.request.contextPath}/supplierQuery/essential.html?person=1" target="home" class="son-menu"><span class="mr5">◇</span>个人信息</a>
+							     <a href="${pageContext.request.contextPath}/supplierQuery/essential.html?person=1" target="home" class="son-menu"><span class="mr5">◇</span>注册信息</a>
 							  </c:when> 
 							  <c:when test="${sessionScope.loginUserType == 'expert'}">   
 							   	 <a href="${pageContext.request.contextPath}/expert/toPersonInfo.html" target="home" class="son-menu"><span class="mr5">◇</span>个人信息</a>

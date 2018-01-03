@@ -297,7 +297,7 @@ public interface SupplierMapper {
      * @param creteDate 创建日期
      * @return
      */
-    List<Supplier> getCommintSupplierList(@Param("startTime")String startTime, @Param("endTime")String endTime);
+    List<Supplier> getCommitSupplierList(@Param("startTime")String startTime, @Param("endTime")String endTime);
     
     /**
      * 
@@ -698,4 +698,22 @@ public interface SupplierMapper {
      * @return
      */
 	String selectStatusById(String id);
+	
+	/**
+	 * 复核列表
+	 * @return
+	 */
+	List<Supplier> selectReviewList (Supplier supplier);
+	
+	/**
+	 * 更新复核或实地考察信息
+	 */
+	void updateReviewOrInves(Supplier supplier);
+	
+	/**
+	 * 查询抽取到的供应商数量
+	 * @param id
+	 * @return
+	 */
+	Integer selectExtractOrgidById (String id);
 }

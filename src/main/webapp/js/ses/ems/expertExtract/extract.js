@@ -1237,9 +1237,14 @@ function savePerson(){
             }else{
                 $("#sError").empty();
             }
-        }
+        },
+        error : function() {
+        	personFlag = false;
+        },
     });
-
+    if(!personFlag){
+        return personFlag;
+    }
     $.ajax({
         type: "POST",
         url: $("#extractUser").attr('action'),
@@ -1260,7 +1265,10 @@ function savePerson(){
             }else{
                 $("#eError").empty();
             }
-        }
+        },
+        error : function() {
+        	personFlag = false;
+        },
     });
 	return personFlag;
 }

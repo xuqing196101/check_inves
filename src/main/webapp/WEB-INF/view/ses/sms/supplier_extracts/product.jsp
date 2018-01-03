@@ -196,9 +196,9 @@
     //选中前
     function checkBefore(treeId,treeNode){
     	var treeObj=$.fn.zTree.getZTreeObj(treeId);
-    	if(treeNode.treeLevel>5 || treeNode.treeLevel<4){
+    	if(treeNode.treeLevel>5 || treeNode.treeLevel<3){
     		treeObj.checkNode(treeNode, false,false);
-    		layer.msg("当前选择的是"+treeNode.treeLevel+"级品目,仅能选择4,5级品目");
+    		layer.msg("当前选择的是"+treeNode.treeLevel+"级品目,仅能选择3,4,5级品目");
     		return false;
     		//showcheckedNode(treeObj);
     	}
@@ -251,7 +251,7 @@
     	var parentNode = node.getParentNode();
     	if(flag){
     	//需求变动，若是父节点为4级以上品目，不要选中
-    		if(parentNode && parentNode.treeLevel>3){
+    		if(parentNode && parentNode.treeLevel>2){
     			treeObj.checkNode(parentNode, true,false,true);
     			checkAllChildCheckParent(parentNode,treeObj);
     		}

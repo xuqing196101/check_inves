@@ -9,7 +9,7 @@ var level_li = '<li class="col-md-3 col-sm-6 col-xs-12 level" id="level_li">'+
 					'<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">供应商等级：</span>'+
 					'<div class="input-append input_group col-sm-12 col-xs-12 p0">'+
 						'<input type="hidden" name="levelTypeId"> '+
-						'<input type="text" readonly id="level" value="" onclick="showLevel(this);" /> <span class="add-on">i</span>'+
+						'<input type="text" readonly id="level" value="不限等级" onclick="showLevel(this);" /> <span class="add-on">i</span>'+
 						'<div class="cue" id="levelTypeIdError"></div>'+
 					'</div>'+
 				'</li>';
@@ -64,8 +64,8 @@ function selectQua(){
 		}else{
 			$("#quaId").val("");
 			$("[name='level']").val("");
-			$("#level").val("全部等级");
-			$("#quaName").val("全部资质");
+			$("#level").val("不限等级");
+			$("#quaName").val("不限资质");
 		}
 	}
 }
@@ -498,6 +498,9 @@ function saveExtractInfo(){
 					$("#"+k+"Error").html(msg[k]);
 				}
 			}
+		},
+		error:function(request,textStatus,errorThrown){
+			flag = false;
 		}
 	});
 	// 存储人员信息
@@ -521,6 +524,9 @@ function saveExtractInfo(){
 			}else{
 				$("#sError").empty();
 			}
+		},
+		error:function(request,textStatus,errorThrown){
+			flag = false;
 		}
 	});
 	
@@ -544,6 +550,9 @@ function saveExtractInfo(){
 			}else{
 				$("#eError").empty();
 			}
+		},
+		error:function(request,textStatus,errorThrown){
+			flag = false;
 		}
 	});	
 	return flag;
@@ -570,6 +579,9 @@ function saveConditions(){
 				layer.alert("条件存储失败");
 				flag = false;
 			}
+		},
+		error:function(request,textStatus,errorThrown){
+			flag = false;
 		}
 	});	
 	return flag;
@@ -646,9 +658,12 @@ function updateExtractStatus(extractStatus){
 		async:false,
 		success: function (msg) {
 			if(msg<1){
-    			layer.alert("结束状态异常");
+    			layer.alert("状态异常");
     			flag = false;
     		}
+		},
+		error:function(request,textStatus,errorThrown){
+			flag = false;
 		}
 	});
 	
@@ -702,6 +717,9 @@ function appendTd(num,obj,result){
 			}else{
 				flag = true;
 			}
+		},
+		error:function(request,textStatus,errorThrown){
+			flag = false;
 		}
 	});
 	
@@ -994,6 +1012,8 @@ function removeByValue(arr, val) {
  
  function changeGoods(obj){
 	 initCategoryAndLevel();
+	 levelObj ={};
+	 salesLevelObj ={};
 	 selectLikeSupplier();
  }
  
@@ -1019,12 +1039,14 @@ function removeByValue(arr, val) {
  //清空等级显示
  function initTypeLevelId(){
  	$(".level").remove();
- 	
  }
 
  // 清空资质显示
  function emptyQuaInfo(){
  	$("#quaId").val("");
+ 	$("#quaName").val("不限资质");
+ 	$("#level").prev().val("");
+ 	$("#level").val("不限等级");
  }
 
 // 加载地区树形结构
@@ -1101,17 +1123,15 @@ function showCheckArea(treeObj){
    	var names = new Array();
    	
    	for(var i=0; i<areas.length;i++){
-   		if(areas[i].isParent){
+		if(areas[i].isParent){
 			pids.push(areas[i].id);
 			names.push(areas[i].name);
 			idArr.push(areas[i].id);
 			if(treeId == "areaTree"){
-			if(areas[i].id == "0"){
-				// 隐藏地区限制理由
-				$("#areaReson").parents("li").addClass("dnone");
-				break;
-			}else{
-				$("#areaReson").parents("li").removeClass("dnone");
+				if(areas[i].id == "0"){
+					// 隐藏地区限制理由
+					$("#areaReson").parents("li").addClass("dnone");
+					break;
 				}
 			}
    		}else{
@@ -1134,6 +1154,9 @@ function showCheckArea(treeObj){
 		$("#province").val(pids.toString());
 		$("#addressId").val(ids.toString());
 		$("#area").val(names.toString());
+		if($("#province").val()!="0"){
+			$("#areaReson").parents("li").removeClass("dnone");
+		}
    	}else{
    		Array.prototype.push.apply(pids, ids);
 		for ( var i in pids) {
@@ -1377,7 +1400,7 @@ function loadprojectLevelTree(){
 			async:false,
 			dataType:"json",
 			success:function(datas){
-					if(null != datas && "undefind"!= datas && ''!=datas){
+				if(null != datas && "undefind"!= datas && ''!=datas){
 						var treeLevelType = $.fn.zTree.init($("#levelTree"), setting, datas);
 				}else{
 					layer.msg("未能查询出结果");
@@ -2012,10 +2035,12 @@ function resetCondition(obj){
 	loadAreaZtree();
 	//$("#area").val("全国");
 	$("#businessScope").val(bu);
+	//隐藏境外分支地域，去除选中
+	$("#branchCountry").val("");
 	if("PROJECT" == $("#supplierType").val()){
 		 $("#quaId").parents("li").after(level_li);
 	}
-	selectLikeSupplier();
+	selectOverseasBranch($("[name='overseasBranch']"));
 }
 
 /**
