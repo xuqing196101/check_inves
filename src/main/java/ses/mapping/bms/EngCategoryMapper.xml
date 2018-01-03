@@ -552,4 +552,32 @@
 		FROM T_SES_BMS_ENG_CATEGORY
 		WHERE ID = #{id}
 	</select>
+	
+	
+	<!-- 抽取品目查询 -->
+	<select id="selectParentNode" resultMap="CateMap">
+		WITH tmp AS (
+			SELECT
+				<include refid="Base_Column_List" />
+			FROM
+				T_SES_BMS_ENG_CATEGORY C
+			WHERE
+				C.IS_DELETED = 0
+			AND C.IS_PUBLISH = 0
+			AND C.EXPERT_TYPE = #{expertType}
+			START WITH C.SUPPLIER_REGISTER_LEVEL = 2 CONNECT BY PRIOR C. ID = C.PARENT_ID
+		) SELECT
+			*
+		FROM
+			tmp
+		WHERE
+			parent_id IN (
+				SELECT
+					b.parent_id
+				FROM
+					tmp b START WITH ID IN (
+						<foreach collection="categoryIds" item="it" index="in" separator=","> #{it}</foreach>
+					) CONNECT BY PRIOR b.PARENT_ID = b. ID
+			)
+	</select>
 </mapper>
