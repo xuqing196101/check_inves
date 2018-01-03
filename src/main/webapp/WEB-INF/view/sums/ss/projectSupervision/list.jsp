@@ -170,12 +170,8 @@
                   <input type="hidden" name="linkman" value="${obj.linkman}"/>
                 </td>
                 <td class="tl">${obj.projectNumber}</td>
-                <td class="tl">${obj.purchaseDepId}</td>
-                <td class="tc">
-                  <c:forEach items="${kind}" var="kind">
-                    <c:if test="${kind.id eq obj.purchaseType}">${kind.name}</c:if>
-                  </c:forEach>
-                </td>
+                <td class="tl">${obj.purchaseDepName}</td>
+                <td class="tc">${obj.purchaseType}</td>
                 <td class="tc">
                   <fmt:formatDate type='date' value='${obj.createAt}' pattern=" yyyy-MM-dd HH:mm:ss " />
                 </td>
