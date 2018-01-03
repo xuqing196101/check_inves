@@ -157,7 +157,7 @@ public class SupplierReviewServiceImpl implements SupplierReviewService {
 		dataMap.put("supplierName", supplier.getSupplierName() == null ? "" : supplier.getSupplierName());
 
 		// 统一社会信用代码
-		dataMap.put("creditCode", supplier.getCreditCode() == null ? "" : supplier.getSupplierName());
+		dataMap.put("creditCode", supplier.getCreditCode() == null ? "" : supplier.getCreditCode());
 
 		// 供应商类型
 		String supplierType = getSupplierType(supplierId);
