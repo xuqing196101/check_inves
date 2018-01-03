@@ -146,4 +146,14 @@
         ORDER BY T.CREATED_AT DESC)
         WHERE ROWNUM = 1
     </select>
+    
+    <update id="updateIsDownloadAttchBySupplierId" parameterType="java.lang.String">
+      update 
+        T_SES_SMS_SUPPLIER_OPINION
+      set
+        IS_DOWNLOAD_ATTCH = 1
+      where
+        IS_DELETE = 0
+        and SUPPLIER_ID = #{supplierId}
+    </update>
 </mapper>

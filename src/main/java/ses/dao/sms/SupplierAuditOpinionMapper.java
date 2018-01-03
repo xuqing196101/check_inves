@@ -73,4 +73,6 @@ public interface SupplierAuditOpinionMapper {
 	 * @since JDK1.7
 	 */
 	SupplierAuditOpinion selectByExpertIdAndflagTime(Map<String, Object> map);
+	
+	void updateIsDownloadAttchBySupplierId(String supplierId);
 }

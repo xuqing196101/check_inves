@@ -147,29 +147,9 @@ public class SupplierReviewController {
 	 */
 	@RequestMapping(value = "/reviewEnd")
 	@ResponseBody
-	public JdcgResult reviewEnd(@CurrentUser User user, SupplierAuditOpinion supplierAuditOpinion, String supplierId, Integer flagAduit){
-		/**
-		 * 保存意见
-		 */
-		supplierAuditOpinionService.saveOpinion(supplierAuditOpinion);
-		/**
-		 * 更新状态
-		 */
-		Supplier supplier = new Supplier();
-		supplier.setId(supplierId);
-		supplier.setReviewAt(new Date());
-		//复核人
-		supplier.setReviewPeople(user.getRelName());
-		//复核通过
-		if(flagAduit == 1){
-			supplier.setStatus(5);
-		}
-		//复核不通过
-		if(flagAduit == 0){
-			supplier.setStatus(6);
-		}
-		supplierService.updateReviewOrInves(supplier);
-		return new JdcgResult(200, "操作成功!", null);
+	public JdcgResult reviewEnd(@CurrentUser User user, String supplierId){
+		JdcgResult jdcgResult = supplierReviewService.reviewEnd(user, supplierId);
+		return jdcgResult;
 	}
 	
 	/**
@@ -240,6 +220,9 @@ public class SupplierReviewController {
 	 */
 	@RequestMapping(value = "/downloadTable")
 	public ResponseEntity < byte[] > downloadTable(String supplierId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		//标记下载过复核表
+		supplierAuditOpinionService.updateIsDownloadAttchBySupplierId(supplierId);
+		
 		// 文件存储地址
 		String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
 		// 文件名称

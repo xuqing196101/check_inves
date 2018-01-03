@@ -4,7 +4,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import common.utils.JdcgResult;
+import ses.model.bms.User;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAuditOpinion;
 
 /**
  * 供应商复核
@@ -27,5 +30,10 @@ public interface SupplierReviewService {
 	 * 组装word页面需要的数据
 	 */
 	String createWordMethod(HttpServletRequest request, String supplierId);
+	
+	/**
+	 * 复核结束
+	 */
+	JdcgResult reviewEnd(User user, String supplierId);
 	
 }

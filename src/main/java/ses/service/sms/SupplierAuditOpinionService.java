@@ -85,4 +85,6 @@ public interface SupplierAuditOpinionService {
 	void updateByPrimaryKeySelective (SupplierAuditOpinion supplierAuditOpinion);
 	
 	SupplierAuditOpinion selectByMap(Map<String, Object> map);
+	
+	void updateIsDownloadAttchBySupplierId (String supplierId);
 }

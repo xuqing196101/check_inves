@@ -46,49 +46,29 @@
     </script>
     
     <script type="text/javascript">
+      //复核结束
       function reviewEnd(){
-    	  //显示复核表
-    	  $("#checkList").removeClass("hidden");
-    	  //显示重新复审、返回按钮
-    	  $("#review").removeClass("hidden");
-    	  //隐藏复核结束、暂存按钮
-    	  $("#reviewEnd").addClass("hidden");
-    	  
-    	  var url = "${pageContext.request.contextPath}/supplierReview/reviewEnd.do";
-    	  saveOpinion(url, 0);
-      }
-      
-      //保存数据
-      function saveOpinion(url, msg){
     	  var supplierId = $("#supplierId").val();
-    	  //选择的意见
-    	  var selectOption = $("input[name='selectOption']:checked").val();
-    	  //手输入的意见
-    	  var opinion = $("#opinion").val();
-    	  if(selectOption == 1){
-    		  opinion = "复核合格。" + opinion;
-    	  }
-    	  if(selectOption == 0){
-    		  opinion = "复核不合格。" + opinion;
-    	  }
-    	  
-	      $.ajax({
-	    	  url: url,
+        $.ajax({
+          url: "${pageContext.request.contextPath}/supplierReview/reviewEnd.do",
           type: "post",
-          data: {"supplierId" : supplierId, "opinion" : opinion, "flagAduit" : selectOption},
+          data: {"supplierId" : supplierId},
           success: function(result){
-       		  if(result.status == 200){
-       			  if(msg == 1){
-       				  layer.msg(result.msg, {offset: '100px'});
-       			  }
+            if(result.status == 200){
+          	    //显示复核表
+                $("#checkList").removeClass("hidden");
+                //显示重新复审、返回按钮
+                $("#review").removeClass("hidden");
+                //隐藏复核结束、暂存按钮
+                $("#reviewEnd").addClass("hidden");
              }else{
-               layer.msg("操作失败！", {offset: '100px'});
+               layer.msg(result.msg, {offset: '100px'});
              }
           },
           error: function(){
               layer.msg("操作失败！", {offset: '100px'});
             }
-	      });
+        });
       }
       
       //重新复核
@@ -121,10 +101,37 @@
         $("#submitform").submit();
       }
       
-      //暂存
-      function temporary(){
-    	  var url = "${pageContext.request.contextPath}/supplierReview/temporary.do";
-        saveOpinion(url, 1);
+      //暂存/实时保存  type: 1 提示信息， 2：不提示信息
+      function temporary(type){
+    	  var supplierId = $("#supplierId").val();
+        //选择的意见
+        var selectOption = $("input[name='selectOption']:checked").val();
+        //手输入的意见
+        var opinion = $("#opinion").val();
+        if(selectOption == 1){
+          opinion = "复核合格。" + opinion;
+        }
+        if(selectOption == 0){
+          opinion = "复核不合格。" + opinion;
+        }
+        
+        $.ajax({
+          url: "${pageContext.request.contextPath}/supplierReview/temporary.do",
+          type: "post",
+          data: {"supplierId" : supplierId, "opinion" : opinion, "flagAduit" : selectOption},
+          success: function(result){
+            if(result.status == 200){
+            	if(type == 1){
+            		layer.msg(result.msg, {offset: '100px'});
+            	}
+             }else{
+               layer.msg("操作失败！", {offset: '100px'});
+             }
+          },
+          error: function(){
+              layer.msg("操作失败！", {offset: '100px'});
+            }
+        });
       }
       
       //下载复核表
@@ -221,15 +228,15 @@
           <ul class="ul_list hand">
             <li>
               <div class="select_check">
-					      <input type="radio" value="1" name="selectOption" id="qualified">复核合格
-					      <input type="radio" value="0" name="selectOption" id="unqualified">复核不合格
+					      <input type="radio" value="1" name="selectOption" id="qualified" onclick="temporary(2)">复核合格
+					      <input type="radio" value="0" name="selectOption" id="unqualified" onclick="temporary(2)">复核不合格
 				      </div>
             </li>
             <li>
               <div id="cate_result"></div>
             </li>
 						<li class="mt10">
-	             <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${auditOpinion}</textarea>
+	             <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80" onblur="temporary(2)">${auditOpinion}</textarea>
 	          </li>
           </ul>
           
@@ -259,7 +266,7 @@
     <c:if test="${status == 1}">
       <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc" id="reviewEnd">
 	      <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="toStep('six');">上一步</a>
-	      <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="temporary();">暂存</a>
+	      <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="temporary(1);">暂存</a>
 	      <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="reviewEnd();">复核结束</a>
       </div>
     </c:if>
