@@ -5,8 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,18 +20,24 @@ import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
 import common.constant.Constant;
+import common.constant.StaticVariables;
 import common.utils.JdcgResult;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAuditOpinion;
+import ses.model.sms.SupplierTypeRelate;
 import ses.model.sms.review.SupplierAttachAudit;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.oms.PurChaseDepOrgService;
 import ses.service.sms.SupplierAttachAuditService;
 import ses.service.sms.SupplierAuditOpinionService;
+import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierReviewService;
 import ses.service.sms.SupplierService;
+import ses.service.sms.SupplierTypeRelateService;
 import ses.util.DictionaryDataUtil;
+import ses.util.WordUtil;
 
 /**
  * 供应商复核
@@ -53,6 +63,14 @@ public class SupplierReviewController {
 	@Autowired
 	private SupplierAttachAuditService supplierAttachAuditService;
 	
+	@Autowired
+	private SupplierAuditService supplierAuditService;
+	
+	@Autowired
+	private PurChaseDepOrgService purChaseDepOrgService;
+	
+	@Autowired
+	private SupplierTypeRelateService supplierTypeRelateService;
 	/**
 	 * 复核列表
 	 * @return
@@ -215,5 +233,27 @@ public class SupplierReviewController {
 		}else{
 			return new JdcgResult(500, "请选择待复核项!", null);
 		}
+	}
+	
+	/**
+	 * word下载
+	 */
+	@RequestMapping(value = "/downloadTable")
+	public ResponseEntity < byte[] > downloadTable(String supplierId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// 文件存储地址
+		String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
+		// 文件名称
+		String fileName = createWordMethod(request, supplierId);
+		// 下载后的文件名
+		String downFileName = new String("军队供应商复核表.doc".getBytes("UTF-8"), "iso-8859-1");
+		
+		return supplierAuditService.downloadFile(fileName, filePath, downFileName);
+	}
+	
+	/**
+	 * 组装word页面需要的数据
+	 */
+	private String createWordMethod(HttpServletRequest request, String supplierId) throws Exception {
+		return supplierReviewService.createWordMethod(request, supplierId);
 	}
 }

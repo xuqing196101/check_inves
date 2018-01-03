@@ -4,12 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 
 import common.constant.StaticVariables;
+import ses.dao.oms.PurchaseDepMapper;
 import ses.dao.sms.SupplierAuditOpinionMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
@@ -22,13 +25,14 @@ import ses.model.sms.review.SupplierAttachAudit;
 import ses.service.sms.SupplierReviewService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
+import ses.util.WordUtil;
 
 /**
  * 供应商复核
  *
  */
 @Service(value = "/supplierReviewService")
-public class SupplierReviewImpl implements SupplierReviewService{
+public class SupplierReviewServiceImpl implements SupplierReviewService{
 
 	@Autowired
 	private SupplierMapper supplierMapper;
@@ -41,6 +45,9 @@ public class SupplierReviewImpl implements SupplierReviewService{
 	
 	@Autowired
 	private SupplierAttachAuditMapper supplierAttachAuditMapper;
+	
+	@Autowired
+	private PurchaseDepMapper purchaseDepMapper;
 	
 	@Override
 	public List<Supplier> selectReviewList(Supplier supplier, Integer page) {
@@ -123,4 +130,67 @@ public class SupplierReviewImpl implements SupplierReviewService{
 		}
 	}
 	
+	
+	/**
+	 * 组装word页面需要的数据
+	 */
+	@Override
+	public String createWordMethod(HttpServletRequest request, String supplierId) {
+		Map <String, Object> dataMap = new HashMap<String, Object>();
+		
+		//获取供应商信息
+		Supplier supplier = supplierMapper.selectByPrimaryKey(supplierId);
+		
+		//采购机构名称
+		Map<String, Object> selMap = new HashMap<String, Object>();
+		selMap.put("purchaseDepId", supplier.getProcurementDepId());
+		String orgName = purchaseDepMapper.selectOrgFullNameByPurchaseDepId(selMap);
+		dataMap.put("orgName", orgName);
+		
+		//供应商名称
+		dataMap.put("supplierName", supplier.getSupplierName() == null ? "" : supplier.getSupplierName());
+		
+		//统一社会信用代码
+		dataMap.put("creditCode", supplier.getCreditCode() == null ? "" : supplier.getSupplierName());
+		
+		//供应商类型
+		String supplierType = getSupplierType(supplierId);
+		dataMap.put("supplierType", supplierType == null ? "" : supplierType);
+		
+		//附件审核信息
+		SupplierAttachAudit supplierAttachAudit = new SupplierAttachAudit();
+		supplierAttachAudit.setSupplierId(supplierId);
+		supplierAttachAudit.setIsDeleted(0);
+		List<SupplierAttachAudit> atachAuditList = supplierAttachAuditMapper.diySelect(supplierAttachAudit);
+		dataMap.put("atachAuditList", atachAuditList);
+		
+		//最终意见
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("supplierId", supplierId);
+		map.put("flagTime", 1);
+		SupplierAuditOpinion auditOpinion = supplierAuditOpinionMapper.selectByExpertIdAndflagTime(map);
+		dataMap.put("opinion", auditOpinion.getOpinion());
+		
+		String newFileName = WordUtil.createWord(dataMap, "supplierReview.ftl", "supplierReview", request);
+		return newFileName;
+	}
+	
+	
+	/**
+	 * 获取供应商类型
+	 */
+	private String getSupplierType(String supplierId) {
+		List < SupplierTypeRelate> supplierTypeList = supplierTypeRelateMapper.findSupplierTypeIdBySupplierId(supplierId);
+		String typeName = "";
+		for(SupplierTypeRelate str: supplierTypeList) {
+			DictionaryData dd = DictionaryDataUtil.get(str.getSupplierTypeId());
+			if(dd != null) {
+				typeName += dd.getName() + StaticVariables.COMMA_SPLLIT;
+			}
+		}
+		if(typeName.contains(StaticVariables.COMMA_SPLLIT)) {
+			typeName = typeName.substring(0, typeName.length() - 1);
+		}
+		return typeName;
+	}
 }

@@ -663,7 +663,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
   
 	/**
 	 * @Title: deleteBySupplierId
-	 * @author XuQing
+	 * @author 
 	 * @date 2017-2-14 下午4:59:14
 	 * @Description:删除记录
 	 * @param @param supplierId
@@ -705,7 +705,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
     
     /**
      * @Title: updateIsDeleteBySupplierId
-     * @author XuQing 
+     * @author  
      * @date 2017-4-28 下午3:50:56  
      * @Description:软删除历史记录
      * @param @param supplierHistory      

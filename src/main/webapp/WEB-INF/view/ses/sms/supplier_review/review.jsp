@@ -126,6 +126,16 @@
     	  var url = "${pageContext.request.contextPath}/supplierReview/temporary.do";
         saveOpinion(url, 1);
       }
+      
+      //下载复核表
+      function downloadTable (){
+    	  var supplierId = $("#supplierId").val();
+    	  $("input[name='supplierId']").val(supplierId);
+    	  $("#submitform").attr("action", "${pageContext.request.contextPath}/supplierReview/downloadTable.html");
+        $("#submitform").submit();
+    	  
+    	  //window.location.href = "${pageContext.request.contextPath}/supplierReview/downloadTable.do?supplierId=" + supplierId;
+      }
     </script>
   </head>
 
@@ -226,7 +236,7 @@
           <div class="clear"></div>
           <h2 class="count_flow"><i>3</i>下载供应商复核表</h2>
           <ul class="ul_list hand">
-          
+            <a class="btn btn-windows input" onclick='downloadTable()' href="javascript:void(0)">下载复核表</a>
           </ul>
           
           <div class="clear"></div>

@@ -2,6 +2,8 @@ package ses.service.sms;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import ses.model.sms.Supplier;
 
 /**
@@ -20,5 +22,10 @@ public interface SupplierReviewService {
 	 * @param supplierId
 	 */
 	void restartReview(String supplierId);
+	
+	/**
+	 * 组装word页面需要的数据
+	 */
+	String createWordMethod(HttpServletRequest request, String supplierId);
 	
 }
