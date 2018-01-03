@@ -15,4 +15,10 @@ public interface SupplierReviewService {
 	 */
 	List<Supplier> selectReviewList (Supplier supplier, Integer page);
 	
+	/**
+	 * 重新复核
+	 * @param supplierId
+	 */
+	void restartReview(String supplierId);
+	
 }

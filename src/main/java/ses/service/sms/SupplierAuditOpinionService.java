@@ -83,4 +83,6 @@ public interface SupplierAuditOpinionService {
 	String saveOpinion(SupplierAuditOpinion supplierAuditOpinion );
 	
 	void updateByPrimaryKeySelective (SupplierAuditOpinion supplierAuditOpinion);
+	
+	SupplierAuditOpinion selectByMap(Map<String, Object> map);
 }

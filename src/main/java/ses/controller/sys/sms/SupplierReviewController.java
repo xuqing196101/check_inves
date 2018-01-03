@@ -92,7 +92,11 @@ public class SupplierReviewController {
 		model.addAttribute("sign", 2);
 		
 		//查询意见
-		SupplierAuditOpinion supplierAuditOpinion = supplierAuditOpinionService.selectByExpertIdAndflagTime(supplierId, 1);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("supplierId", supplierId);
+		map.put("flagTime", 1);
+		map.put("isDelete", 0);
+		SupplierAuditOpinion supplierAuditOpinion = supplierAuditOpinionService.selectByMap(map);
 		model.addAttribute("auditOpinion", supplierAuditOpinion == null? "" : supplierAuditOpinion.getOpinion());
 		model.addAttribute("flagAduit", supplierAuditOpinion == null? "" : supplierAuditOpinion.getFlagAduit());
 		
@@ -156,27 +160,13 @@ public class SupplierReviewController {
 	@RequestMapping(value = "/restartReview")
 	@ResponseBody
 	public JdcgResult  restartReview(String supplierId){
-		Supplier supplier = new Supplier();
-		supplier.setId(supplierId);
-		//重新复核标识
-		supplier.setReviewStatus(1);
-		supplier.setStatus(1);
-		supplierService.updateReviewOrInves(supplier);
-		
-		//获取意见
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("supplierId", supplierId);
-		map.put("flagTime", 1);
-		SupplierAuditOpinion auditOpinion = supplierAuditOpinionService.selectByExpertIdAndflagTime(map);
-		
-		//假删除意见
-		if(auditOpinion !=null){
-			SupplierAuditOpinion supplierAuditOpinion = new SupplierAuditOpinion();
-			supplierAuditOpinion.setIsDelete(1);
-			supplierAuditOpinion.setId(auditOpinion.getId());
-			supplierAuditOpinionService.updateByPrimaryKeySelective(supplierAuditOpinion);
+		Supplier supplier = supplierService.selectById(supplierId);
+		if(supplier.getStatus() == 5 || supplier.getStatus() == 6){
+			supplierReviewService.restartReview(supplierId);
+			return new JdcgResult(200, "操作成功!", null);
+		}else{
+			return new JdcgResult(500, "请选择复核过的供应商!", null);
 		}
-		return new JdcgResult(200, "操作成功!", null);
 	}
 	
 	/**
@@ -209,5 +199,21 @@ public class SupplierReviewController {
 		model.addAttribute("itemList", itemList);
 		
 		return "ses/sms/supplier_review/history_review";
+	}
+	
+	/**
+	 * 复核操作
+	 * @param suppplierId
+	 * @return
+	 */
+	@RequestMapping(value = "/reviewAudit")
+	@ResponseBody
+	public JdcgResult reviewAudit(String supplierId){
+		Supplier supplier = supplierService.selectById(supplierId);
+		if(supplier.getStatus() == 1){
+			return new JdcgResult(200, "操作成功!", null);
+		}else{
+			return new JdcgResult(500, "请选择待复核项!", null);
+		}
 	}
 }

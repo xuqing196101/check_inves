@@ -28,17 +28,38 @@
 		</script>
 		<script type="text/javascript">
 		  //审核
-		  function shenhe(id) {
-	      var id = $(":radio:checked").val();
-	      if(id == null) {
+		  function shenhe() {
+			  var supplierId = $(":radio:checked").val();
+	      if(supplierId == null) {
 	          layer.msg("请选择供应商！", {
 	            offset: '100px',
 	          });
 	          return;
 	      }
-        $("input[name='supplierId']").val(id);
+	      
+        $("input[name='supplierId']").val(supplierId);
         $("#submitform").attr("action", "${pageContext.request.contextPath}/supplierAudit/essential.html");
         $("#submitform").submit();
+	      
+	      /* $.ajax({
+ 	        url: "${pageContext.request.contextPath}/supplierReview/reviewAudit.do",
+ 	        type: "post",
+ 	        data: {"supplierId" : supplierId},
+ 	        success: function(result){
+ 	          if(result.status == 200){
+ 	            window.setTimeout(function() {
+ 	            	$("input[name='supplierId']").val(supplierId);
+                $("#submitform").attr("action", "${pageContext.request.contextPath}/supplierAudit/essential.html");
+                $("#submitform").submit();
+ 	            }, 1000);
+ 	          }else{
+ 	            layer.msg(result.msg, {offset: '100px'});
+ 	          }
+ 	        },
+ 	        error: function(){
+ 	          layer.msg("操作失败！", {offset: '100px'});
+ 	        }
+	      }); */
 		  }
 		  
 		  //重置
@@ -64,7 +85,7 @@
               $("#submitform").submit();
             }, 1000);
 	    	  }else{
-	    		  layer.msg("操作失败！", {offset: '100px'});
+	    		  layer.msg(result.msg, {offset: '100px'});
 	    	  }
 	      },
 	      error: function(){
@@ -159,7 +180,7 @@
       </h2>
     
       <div class="col-md-12 pl20 mt10">
-        <button class="btn btn-windows check" type="button" onclick="shenhe(id)">复核</button>
+        <button class="btn btn-windows check" type="button" onclick="shenhe()">复核</button>
         <button class="btn btn-windows check" type="button" onclick="restartReview();">重新复核</button>
       </div>
     

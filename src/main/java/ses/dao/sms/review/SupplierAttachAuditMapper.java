@@ -33,4 +33,11 @@ public interface SupplierAttachAuditMapper {
     int updateByPrimaryKeyWithBLOBs(SupplierAttachAudit record);
 
     int updateByPrimaryKey(SupplierAttachAudit record);
+    
+    /**
+     * 条件查询
+     * @param supplierAttachAudit
+     * @return
+     */
+    List<SupplierAttachAudit> diySelect (SupplierAttachAudit supplierAttachAudit);
 }

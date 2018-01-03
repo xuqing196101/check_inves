@@ -170,5 +170,17 @@ public class SupplierAuditOpinionServiceImpl implements SupplierAuditOpinionServ
 		supplierAuditOpinionMapper.updateByPrimaryKeySelective(supplierAuditOpinion);
 		
 	}
+
+	
+	@Override
+	public SupplierAuditOpinion selectByMap(Map<String, Object> map) {
+        SupplierAuditOpinion supplierAuditOpinion = supplierAuditOpinionMapper.selectByExpertIdAndflagTime(map);
+        //  获取意见切割字符串
+        if(supplierAuditOpinion != null && StringUtils.isNotEmpty(supplierAuditOpinion.getOpinion())){
+            int indexOf = supplierAuditOpinion.getOpinion().indexOf("。");
+            supplierAuditOpinion.setOpinion(supplierAuditOpinion.getOpinion().substring(indexOf + 1));
+        }
+        return supplierAuditOpinion;
+	}
 	
 }

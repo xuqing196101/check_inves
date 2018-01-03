@@ -471,4 +471,24 @@
       POSITION = #{position,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  
+  
+  <select id="diySelect" parameterType="ses.model.sms.review.SupplierAttachAudit" resultMap="BaseResultMap">
+    select
+      *
+    from
+      T_SES_SMS_SUPPLIER_ATCH_AUDIT
+    where
+      1=1
+    <if test="supplierId !=null">
+      and SUPPLIER_ID = #{supplierId}
+    </if>
+    <if test="isDeleted !=null">
+      and IS_DELETED = #{isDeleted}
+    </if>
+    <if test="auditType !=null">
+      and AUDIT_TYPE = #{auditType}
+    </if>
+  </select>
 </mapper>
