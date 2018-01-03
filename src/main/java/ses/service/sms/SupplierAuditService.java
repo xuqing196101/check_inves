@@ -441,7 +441,7 @@ public interface SupplierAuditService {
      * @param itemId
      * @return
      */
-    List<SupplierCateTree> showContractData(String supplierId,String cateId,String itemId);
+    List<SupplierCateTree> showContractData(String supplierId,String cateId,String itemId,List < Integer > years);
 
 	/**
 	 *

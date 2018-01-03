@@ -75,7 +75,7 @@
   </div>
   </div>
   <!-- 引导 -->
-  <div class="guide" id="guide"><img src="${pageContext.request.contextPath}/public/portal/images/guide_bg.png" alt=""></div>
+  <div class="guide" id="guide"><img src="${pageContext.request.contextPath}/public/portal/images/mallwx.png" alt=""></div>
   <!-- End 引导 -->
 </body>
 </html>

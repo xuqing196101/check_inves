@@ -88,15 +88,6 @@ import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import common.constant.Constant;
-import common.dao.FileUploadMapper;
-import common.model.UploadFile;
-import common.service.UploadService;
-
-import extract.util.DateUtils;
-
 /**
  * 
  * 版权：(C) 版权所有 
@@ -251,7 +242,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
      * @author myc
      */
     public void getExportData(String startTime, String endTime, Date synchDate){
-        List<Supplier> supplierList = supplierService.getCommintSupplierByDate(startTime, endTime);
+        List<Supplier> supplierList = supplierService.getCommitSupplierByDate(startTime, endTime);
         List<Supplier> list = getSupplierList(supplierList);
 //        List<UploadFile> attachList = new ArrayList<>();
         List<SupplierFinance> listSupplierFinances = new ArrayList<SupplierFinance>();
@@ -480,7 +471,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
         	}
         }
         
-        List < Category > category = new ArrayList < Category > ();
+        List < Category > cateList = new ArrayList < Category > ();
         List < SupplierItem > itemsList = supplierItemService.getItemListBySupplierId(supplier.getId());
 		for(SupplierItem item: itemsList) {
 			//资质文件的
@@ -488,13 +479,13 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
 			 Category cate = categoryService.findById(item.getCategoryId());
 			 if(cate!=null){
 				 cate.setId(item.getId());
-				 category.add(cate);
+				 cateList.add(cate);
 			 }
 			 files.addAll(itemFiles);
 		}
 		
 		// 查询品目合同信息
-		List < ContractBean > contract = supplierService.getContract(category);
+		List < ContractBean > contract = supplierService.getContract(cateList);
 		for(ContractBean con:contract){
 	    	  List<UploadFile> fileList = uploadService.substrBusniessI(con.getId());
 //	    	  List<UploadFile> fileList = uploadService.substrBusinessId(con.getId());
@@ -715,14 +706,11 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
 	public void modify(String startTime, String endTime, Date synchDate) {
 		//获取供应商修改的时间
 	    List<Supplier> supplierList = supplierService.getModifySupplierByDate(startTime, endTime);
-		
 	    List<Supplier> list = getSupplierList(supplierList);
         if (list != null && list.size() > 0){
             FileUtils.writeFile(FileUtils.getNewSupperBackUpFile(),JSON.toJSONString(list));
         }
-     //  recordService.commitSupplierRecord(new Integer(list.size()).toString(), synchDate );
-		
-		
+        //recordService.commitSupplierRecord(new Integer(list.size()).toString(), synchDate );
 		recordService.importModifySupplierRecord(new Integer(list.size()).toString(), synchDate);
 	}
 
