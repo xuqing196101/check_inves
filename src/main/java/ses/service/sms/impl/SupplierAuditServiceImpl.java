@@ -1392,15 +1392,15 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
     }
 
 	@Override
-	public List<SupplierCateTree> showContractData(String supplierId,String cateId,String itemId) {
+	public List<SupplierCateTree> showContractData(String supplierId,String cateId,String itemId,List < Integer > years) {
 		//合同
-		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
-		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
-		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR") + "_" + years.get(0);
+		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR") + "_" + years.get(1);
+		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR") + "_" + years.get(2);
 		//账单
-		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
-		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
-		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL") + "_" + years.get(0);
+		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL") + "_" + years.get(1);
+		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL") + "_" + years.get(2);
 		
 		SupplierCateTree cateTree = new SupplierCateTree();
 		cateTree.setSupplierItemId(itemId);
@@ -1772,14 +1772,21 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 */
 	private Integer countAptitudeProuct(String supplierId, String auditField){
 		int rut=0;
+		// 年份
+		int referenceYear = 0;
+		Supplier supplier = supplierService.selectById(supplierId);
+		if(!"-1".equals(supplier.getStatus()+"")){
+			referenceYear = DateUtils.getCurrentYear(supplier.getFirstSubmitAt());
+		}
+		List < Integer > years = supplierService.getLastThreeYear(referenceYear);
 		//合同
-		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
-		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
-		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR") + "_" + years.get(0);
+		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR") + "_" + years.get(1);
+		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR") + "_" + years.get(2);
 		//账单
-		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
-		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
-		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL") + "_" + years.get(0);
+		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL") + "_" + years.get(1);
+		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL") + "_" + years.get(2);
 		// 合同 1 物资生产
 		int count=countData(supplierId, auditField+"_"+id1, ses.util.Constant.CONTRACT_PRODUCT_PAGE);
 		rut=rut+count;
@@ -1812,14 +1819,21 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 */
 	private Integer countAptitudeSales(String supplierId, String auditField){
 		int rut=0;
+		// 年份
+		int referenceYear = 0;
+		Supplier supplier = supplierService.selectById(supplierId);
+		if(!"-1".equals(supplier.getStatus()+"")){
+			referenceYear = DateUtils.getCurrentYear(supplier.getFirstSubmitAt());
+		}
+		List < Integer > years = supplierService.getLastThreeYear(referenceYear);
 		//合同
-		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
-		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
-		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR") + "_" + years.get(0);
+		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR") + "_" + years.get(1);
+		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR") + "_" + years.get(2);
 		//账单
-		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
-		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
-		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL") + "_" + years.get(0);
+		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL") + "_" + years.get(1);
+		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL") + "_" + years.get(2);
 		// 合同 1 物资销售
 		int count=countData(supplierId, auditField+"_"+id1, ses.util.Constant.CONTRACT_SALES_PAGE);
 		rut=rut+count;
@@ -1843,16 +1857,22 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	
 	@Override
 	public boolean isContractModified(String supplierId, String supplierItemId){
+		// 年份
+		int referenceYear = 0;
+		Supplier supplier = supplierService.selectById(supplierId);
+		if(!"-1".equals(supplier.getStatus()+"")){
+			referenceYear = DateUtils.getCurrentYear(supplier.getFirstSubmitAt());
+		}
+		List < Integer > years = supplierService.getLastThreeYear(referenceYear);
 		//合同
-		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
-		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
-		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR") + "_" + years.get(0);
+		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR") + "_" + years.get(1);
+		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR") + "_" + years.get(2);
 		//账单
-		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
-		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
-		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL") + "_" + years.get(0);
+		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL") + "_" + years.get(1);
+		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL") + "_" + years.get(2);
 		
-		Supplier supplier = supplierMapper.selectByPrimaryKey(supplierId);
 		// 退回修改附件
 		if(supplier != null && supplier.getStatus() != null && (supplier.getStatus() == 0 || supplier.getStatus() == 9)) {
 			SupplierModify supplierFileModify = new SupplierModify();
@@ -2386,14 +2406,21 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			String supplierTypeId, String suggest, String itemIds) {
 		if(StringUtils.isNotBlank(itemIds)){
 			
+			// 年份
+			int referenceYear = 0;
+			Supplier supplier = supplierService.selectById(supplierId);
+			if(!"-1".equals(supplier.getStatus()+"")){
+				referenceYear = DateUtils.getCurrentYear(supplier.getFirstSubmitAt());
+			}
+			List < Integer > years = supplierService.getLastThreeYear(referenceYear);
 			//合同
-			String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
-			String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
-			String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+			String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR") + "_" + years.get(0);
+			String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR") + "_" + years.get(1);
+			String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR") + "_" + years.get(2);
 			//账单
-			String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
-			String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
-			String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+			String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL") + "_" + years.get(0);
+			String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL") + "_" + years.get(1);
+			String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL") + "_" + years.get(2);
 			
 			int result = 0;
 			String auditType = ses.util.Constant.CONTRACT_PRODUCT_PAGE;
@@ -2407,8 +2434,6 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			if(ses.util.Constant.SUPPLIER_SALES.equals(supplierTypeId)){
 				auditType = ses.util.Constant.CONTRACT_SALES_PAGE;
 			}
-			
-			Supplier supplier = supplierService.selectById(supplierId);
 			
 			String code = supplierTypeId;
 			if("PRODUCT".equals(supplierTypeId) || "SALES".equals(supplierTypeId)){
@@ -2452,7 +2477,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 					for(int i = 0; i < ids.length; i++){
 						
 						String auditField = itemId + "_" + ids[i];
-						String auditContent = itemFullName + "（"+getContractYearInfo(i+1)+"）";
+						String auditContent = itemFullName + "（"+getContractYearInfo(supplierId,(i+1))+"）";
 						
 						SupplierAudit audit = new SupplierAudit();
 						audit.setUserId(userId);
@@ -2485,8 +2510,14 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		return null;
 	}
 	
-	private String getContractYearInfo(int index){
-		List<Integer> years = supplierService.getThreeYear();
+	private String getContractYearInfo(String supplierId, int index){
+		// 年份
+		int referenceYear = 0;
+		Supplier supplier = supplierService.selectById(supplierId);
+		if(!"-1".equals(supplier.getStatus()+"")){
+			referenceYear = DateUtils.getCurrentYear(supplier.getFirstSubmitAt());
+		}
+		List < Integer > years = supplierService.getLastThreeYear(referenceYear);
 		String info = "";
 		switch (index) {
 		case 1:

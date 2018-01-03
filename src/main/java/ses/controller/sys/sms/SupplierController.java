@@ -130,6 +130,7 @@ import common.service.DownloadService;
 import common.service.LoginLogService;
 import common.service.UploadService;
 import common.utils.Arith;
+import common.utils.DateUtils;
 import common.utils.IDCardUtil;
 import common.utils.QRCodeUtil;
 import common.utils.RSAEncrypt;
@@ -1761,6 +1762,13 @@ public class SupplierController extends BaseSupplierController {
 		List < UploadFile > filesList;
 		boolean isOk = true;
 		String errContractFiles = "";
+		Supplier supplier = supplierService.selectById(supplierId);
+		// 年份
+		int referenceYear = 0;
+		if(!"-1".equals(supplier.getStatus()+"")){
+			referenceYear = DateUtils.getCurrentYear(supplier.getFirstSubmitAt());
+		}
+		List < Integer > years = supplierService.getLastThreeYear(referenceYear);
 		for(SupplierItem item: itemsList) {
 			String supplierType = item.getSupplierTypeRelateId();
 			if(infoSupplierTypeAudit.indexOf(supplierType) == -1){
@@ -1778,32 +1786,32 @@ public class SupplierController extends BaseSupplierController {
 					errContractFiles = "还有合同附件未上传!";
 					break;
 				}
-				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_ONE_YEAR"), Constant.SUPPLIER_SYS_KEY.toString());
+				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_ONE_YEAR") + "_" + years.get(0), Constant.SUPPLIER_SYS_KEY.toString());
 				if(filesList.size() == 0) {
 					isOk = false;
 					break;
 				}
-				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_TWO_YEAR"), Constant.SUPPLIER_SYS_KEY.toString());
+				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_TWO_YEAR") + "_" + years.get(1), Constant.SUPPLIER_SYS_KEY.toString());
 				if(filesList.size() == 0) {
 					isOk = false;
 					break;
 				}
-				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_THREE_YEAR"), Constant.SUPPLIER_SYS_KEY.toString());
+				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_THREE_YEAR") + "_" + years.get(2), Constant.SUPPLIER_SYS_KEY.toString());
 				if(filesList.size() == 0) {
 					isOk = false;
 					break;
 				}
-				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CTAEGORY_ONE_BIL"), Constant.SUPPLIER_SYS_KEY.toString());
+				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CTAEGORY_ONE_BIL") + "_" + years.get(0), Constant.SUPPLIER_SYS_KEY.toString());
 				if(filesList.size() == 0) {
 					isOk = false;
 					break;
 				}
-				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CTAEGORY_TWO_BIL"), Constant.SUPPLIER_SYS_KEY.toString());
+				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CTAEGORY_TWO_BIL") + "_" + years.get(1), Constant.SUPPLIER_SYS_KEY.toString());
 				if(filesList.size() == 0) {
 					isOk = false;
 					break;
 				}
-				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_THREE_BIL"), Constant.SUPPLIER_SYS_KEY.toString());
+				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_THREE_BIL") + "_" + years.get(2), Constant.SUPPLIER_SYS_KEY.toString());
 				if(filesList.size() == 0) {
 					isOk = false;
 					break;
@@ -3111,14 +3119,24 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@RequestMapping("/ajaxContract")
 	public String ajaxContract(String supplierId, Model model, String supplierTypeId, Integer pageNum) {
+		
+		// 年份
+		int referenceYear = 0;
+		Supplier supplier = supplierService.selectById(supplierId);
+		if(!"-1".equals(supplier.getStatus()+"")){
+			referenceYear = DateUtils.getCurrentYear(supplier.getFirstSubmitAt());
+		}
+		List < Integer > years = supplierService.getLastThreeYear(referenceYear);
+		model.addAttribute("years", years);
+		
 		//合同
-		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
-		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
-		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR") + "_" + years.get(0);
+		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR") + "_" + years.get(1);
+		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR") + "_" + years.get(2);
 		//账单
-		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
-		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
-		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL") + "_" + years.get(0);
+		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL") + "_" + years.get(1);
+		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL") + "_" + years.get(2);
 
 		/*List < Category > categoryList = new ArrayList < Category > ();
 		List < SupplierItem > itemsList = supplierItemService.findCategoryList(supplierId, supplierTypeId, pageNum == null ? 1 : pageNum);
@@ -3167,9 +3185,6 @@ public class SupplierController extends BaseSupplierController {
 		PageInfo < SupplierItem > pageInfo = new PageInfo < SupplierItem > (itemsList);
 		model.addAttribute("result", pageInfo);
 		model.addAttribute("contract", contractList);
-		// 年份
-		List < Integer > years = supplierService.getThreeYear();
-		model.addAttribute("years", years);
 		model.addAttribute("supplierTypeId", supplierTypeId);
 		model.addAttribute("supplierId", supplierId);
 		// 供应商附件sysKey参数

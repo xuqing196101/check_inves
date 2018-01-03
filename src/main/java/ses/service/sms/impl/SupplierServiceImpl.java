@@ -543,7 +543,7 @@ public class SupplierServiceImpl implements SupplierService {
    */
   @Override
   public void commit(Supplier supplier) {
-	  //退回修改状态2 
+	//退回修改状态2 
     if (supplier.getStatus() == 2) {
       Map<String, Object> param = new HashMap<String, Object>();
       param.put("isDeleted", 1);
@@ -553,7 +553,7 @@ public class SupplierServiceImpl implements SupplierService {
       //退回修改待审核 9
       supplier.setStatus(9);
     } else {
-      //待审核
+      //待审核0
       supplier.setStatus(0);
       //第一次提交时间
       supplier.setFirstSubmitAt(new Date());
@@ -876,10 +876,13 @@ public class SupplierServiceImpl implements SupplierService {
   }
 
   @Override
-  public List<Integer> getThreeYear() {
+  public List<Integer> getLastThreeYear(int referenceYear) {
     List<Integer> list = new LinkedList<Integer>();
     Calendar cale = Calendar.getInstance();
-    Integer year = cale.get(Calendar.YEAR);
+    int year = cale.get(Calendar.YEAR);
+    if(referenceYear != 0){
+    	year = referenceYear;
+    }
 
     Integer year1 = year - 3;//2013
     Integer year2 = year - 2;//2014
@@ -1528,16 +1531,16 @@ public class SupplierServiceImpl implements SupplierService {
   }
 
 	@Override
-	public SupplierCateTree contractCountCategoyrId(SupplierCateTree cateTree,SupplierItem supplierItem) {
+	public SupplierCateTree contractCountCategoryId(SupplierCateTree cateTree,SupplierItem supplierItem,List < Integer > years) {
 		long rut=0;
 		//合同
-		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
-		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
-		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR") + "_" + years.get(0);
+		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR") + "_" + years.get(1);
+		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR") + "_" + years.get(2);
 		//账单
-		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
-		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
-		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL") + "_" + years.get(0);
+		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL") + "_" + years.get(1);
+		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL") + "_" + years.get(2);
 		
 		String supplierItemId=supplierItem.getId();
 		rut=rut+uploadService.countFileByBusinessId(supplierItemId, id1, common.constant.Constant.SUPPLIER_SYS_KEY);

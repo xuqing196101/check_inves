@@ -7,6 +7,7 @@ import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.service.UploadService;
+import common.utils.DateUtils;
 import common.utils.JdcgResult;
 import common.utils.ListSortUtil;
 import common.utils.SMSUtil;
@@ -2726,6 +2727,13 @@ public class SupplierAuditController extends BaseSupplierController {
         }
 		SupplierCateTree cateTree=null;
 		if(listSupplierItems != null && !listSupplierItems.isEmpty()){
+			Supplier supplier = supplierService.selectById(supplierId);
+			// 年份
+			int referenceYear = 0;
+			if(!"-1".equals(supplier.getStatus()+"")){
+				referenceYear = DateUtils.getCurrentYear(supplier.getFirstSubmitAt());
+			}
+			List < Integer > years = supplierService.getLastThreeYear(referenceYear);
             for (SupplierItem supplierItem : listSupplierItems) {
                 cateTree=new SupplierCateTree();
                 // 递归获取所有父节点
@@ -2745,7 +2753,7 @@ public class SupplierAuditController extends BaseSupplierController {
     					//--物资生产/物资销售/服务 	审核字段存储：三级节点ID关联的SupplierItem的ID
     					cateTree=supplierAuditService.countCategoryId(cateTree,supplierId,supplierType);
     					//是否有销售合同
-    					cateTree=supplierService.contractCountCategoyrId(cateTree,supplierItem);
+    					cateTree=supplierService.contractCountCategoryId(cateTree,supplierItem,years);
     					// 合同是否修改
     					if(SupplierConstants.isStatusToAudit(supplierStatus)){
     						cateTree.setIsContractModified(supplierAuditService.isContractModified(supplierItem.getSupplierId(), supplierItem.getId()) ? (byte)1 : (byte)0);
@@ -2817,18 +2825,25 @@ public class SupplierAuditController extends BaseSupplierController {
 			return "ses/sms/supplier_audit/aptitude_contract_item";
 		}
 		
-		List<SupplierCateTree> allTreeList=supplierAuditService.showContractData(supplierId, cateId, itemId);
-		model.addAttribute("contract", allTreeList);
+		Supplier supplier = supplierService.selectById(supplierId);
+		
 		// 年份
-		List < Integer > years = supplierService.getThreeYear();
+		int referenceYear = 0;
+		if(!"-1".equals(supplier.getStatus()+"")){
+			referenceYear = DateUtils.getCurrentYear(supplier.getFirstSubmitAt());
+		}
+		List < Integer > years = supplierService.getLastThreeYear(referenceYear);
 		model.addAttribute("years", years);
+		
+		List<SupplierCateTree> allTreeList=supplierAuditService.showContractData(supplierId, cateId, itemId, years);
+		model.addAttribute("contract", allTreeList);
+		
 		model.addAttribute("supplierId", supplierId);
 		model.addAttribute("ind", ind-1);
 		model.addAttribute("tablerId", tablerId);
 		// 供应商附件sysKey参数
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		
-		Supplier supplier = supplierService.selectById(supplierId);
 		// 退回修改附件
 		if(SupplierConstants.isStatusToAudit(supplier.getStatus())){
 			SupplierModify supplierFileModify = new SupplierModify();
@@ -3620,14 +3635,23 @@ public class SupplierAuditController extends BaseSupplierController {
 	 */
 	@RequestMapping(value = "/ajaxContract")
 	public String contractUp(String supplierId, Model model, String supplierTypeId, Integer pageNum) {
+		// 年份
+		int referenceYear = 0;
+		Supplier supplier = supplierService.selectById(supplierId);
+		if(!"-1".equals(supplier.getStatus()+"")){
+			referenceYear = DateUtils.getCurrentYear(supplier.getFirstSubmitAt());
+		}
+		List < Integer > years = supplierService.getLastThreeYear(referenceYear);
+		model.addAttribute("years", years);
+		
 		//合同
-		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
-		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
-		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR") + "_" + years.get(0);
+		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR") + "_" + years.get(1);
+		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR") + "_" + years.get(2);
 		//账单
-		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
-		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
-		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL") + "_" + years.get(0);
+		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL") + "_" + years.get(1);
+		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL") + "_" + years.get(2);
 
 		/*List < Category > category = new ArrayList < Category > ();*/
 		List < SupplierItem > itemsList = supplierItemService.findCategoryList(supplierId, supplierTypeId, pageNum == null ? 1 : pageNum);
@@ -3679,15 +3703,10 @@ public class SupplierAuditController extends BaseSupplierController {
 		PageInfo < SupplierItem > pageInfo = new PageInfo < SupplierItem > (itemsList);
 		model.addAttribute("result", pageInfo);
 		model.addAttribute("contract", allTreeList);
-		// 年份
-		List < Integer > years = supplierService.getThreeYear();
-		model.addAttribute("years", years);
 		model.addAttribute("supplierTypeId", supplierTypeId);
 		model.addAttribute("supplierId", supplierId);
 		// 供应商附件sysKey参数
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
-		
-		Supplier supplier = supplierAuditService.supplierById(supplierId);
 		
 		if(supplier.getStatus() !=null && (supplier.getStatus() == -3 || supplier.getStatus() == -2 || supplier.getStatus() == 0 || supplier.getStatus() == 4 || supplier.getStatus() == 5 || supplier.getStatus() == 9)){
 			//回显未通过字段
@@ -3888,7 +3907,8 @@ public class SupplierAuditController extends BaseSupplierController {
 	@RequestMapping("downloadTable")
 	public ResponseEntity < byte[] > downloadTable(String supplierId, HttpServletRequest request, HttpServletResponse response, String tableType, String opinion) throws Exception {
 		//供应商信息
-		Supplier supplier = supplierAuditService.supplierById(supplierId);
+		//Supplier supplier = supplierAuditService.supplierById(supplierId);
+		Supplier supplier = supplierService.selectById(supplierId);
 		// 文件存储地址
 		String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
 		// 文件名称
@@ -4390,14 +4410,22 @@ public class SupplierAuditController extends BaseSupplierController {
 			//21 近三年销售合同及银行汇款证明
 			StringBuffer saleContractReasons = new StringBuffer();
 			boolean saleContractflag = true;
+			
+			// 年份
+			int referenceYear = 0;
+			if(!"-1".equals(supplier.getStatus()+"")){
+				referenceYear = DateUtils.getCurrentYear(supplier.getFirstSubmitAt());
+			}
+			List < Integer > years = supplierService.getLastThreeYear(referenceYear);
+			
 			//合同
-			String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
-			String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
-			String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+			String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR") + "_" + years.get(0);
+			String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR") + "_" + years.get(1);
+			String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR") + "_" + years.get(2);
 			//账单
-			String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
-			String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
-			String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+			String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL") + "_" + years.get(0);
+			String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL") + "_" + years.get(1);
+			String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL") + "_" + years.get(2);
 			List<String> idList = new ArrayList<>();
 			idList.add(id1);
 			idList.add(id2);

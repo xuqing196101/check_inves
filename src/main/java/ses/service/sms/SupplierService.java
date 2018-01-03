@@ -217,9 +217,12 @@ public interface SupplierService {
     */
    List<Supplier> getModifySupplierByDate(String startTime, String endTime);
    
-   
-   
-   List<Integer> getThreeYear();
+   /**
+    * 获取近三年
+    * @param referenceYear
+    * @return
+    */
+   List<Integer> getLastThreeYear(int referenceYear);
    
    /**
     * 
@@ -450,7 +453,7 @@ public interface SupplierService {
 	 * @param supplierItemId
 	 * @return
 	 */
-	public SupplierCateTree contractCountCategoyrId(SupplierCateTree cateTree,SupplierItem supplierItem);
+	public SupplierCateTree contractCountCategoryId(SupplierCateTree cateTree,SupplierItem supplierItem,List < Integer > years);
 	
 
 	/**
