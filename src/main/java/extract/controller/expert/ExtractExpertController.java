@@ -1,8 +1,10 @@
 package extract.controller.expert;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.EngCategoryMapper;
 import ses.model.bms.AreaZtree;
 import ses.model.bms.Category;
@@ -101,6 +104,9 @@ public class ExtractExpertController {
     /** 自动抽取 **/
     @Autowired
     private AutoExtractService autoExtractService;
+    
+    @Autowired
+    private CategoryMapper categoryMapper;
     
     /**
      * 
@@ -360,6 +366,36 @@ public class ExtractExpertController {
                 ct.setId(parent.getId());
                 ct.setIsParent("true");
                 allCategories.add(ct);
+                String expertType = "";
+                if (typeIds.equals("GOODS_PROJECT")) {
+                	expertType = "0";
+                } else if (typeIds.equals("PROJECT")) {
+                	expertType = "1";
+                }
+                Set<Category> cateSet = new LinkedHashSet<>();
+	    		cateSet.addAll(engCategoryMapper.selectParentNode(expertType,ids.split(",")));
+	    		if(cateSet != null && cateSet.size() > 0) {
+                    for(Category ca: cateSet) {
+                    	if(ca.getLevel() != null && ca.getLevel() > 4){
+                   			continue;
+                    	}
+                        CategoryTree ct22 = new CategoryTree();
+                        ct22.setName(ca.getName());
+                        ct22.setId(ca.getId());
+                        ct22.setParentId(ca.getParentId());
+                        // 判断是否为父级节点
+                        List < Category > nodesList = engCategoryService.findPublishTree(ca.getId(), null);
+                        if(nodesList != null && nodesList.size() > 0) {
+                        	ct22.setIsParent("true");
+                        }
+                        if(ca.getLevel() != null && ca.getLevel() == 4){
+                        	ct22.setIsParent("false");
+                        }
+                        // 判断是否被选中
+                        ct22.setChecked(isChecked(cheIds,ca.getId()));
+                        allCategories.add(ct22);
+                    }
+                }
             } else {
                 List < Category > tempNodes = engCategoryService.findPublishTree(category.getId(), null);
                 List < Category > childNodes = new ArrayList<Category>();
@@ -414,6 +450,42 @@ public class ExtractExpertController {
                 ct.setId(parent.getId());
                 ct.setIsParent("true");
                 allCategories.add(ct);
+                Set<Category> cateSet = new LinkedHashSet<>();
+                int classifyType = 1;
+                switch (code) {
+	    		   case "GOODS":
+	    			   classifyType = 1;
+	    			   break;
+	    		   case "PROJECT":
+	    			   classifyType = 2;
+	    			   break;
+	    		   case "SERVICE":
+	    			   classifyType = 3;
+	    			   break;
+	            }
+	    		cateSet.addAll(categoryMapper.selectParentNode(classifyType,null,ids.split(",")));
+	    		if(cateSet != null && cateSet.size() > 0) {
+                    for(Category ca: cateSet) {
+                    	if(ca.getLevel() != null && ca.getLevel() > 4){
+                   			continue;
+                    	}
+                        CategoryTree ct22 = new CategoryTree();
+                        ct22.setName(ca.getName());
+                        ct22.setId(ca.getId());
+                        ct22.setParentId(ca.getParentId());
+                        // 判断是否为父级节点
+                        List < Category > nodesList = categoryService.findPublishTree(ca.getId(), null);
+                        if(nodesList != null && nodesList.size() > 0) {
+                        	ct22.setIsParent("true");
+                        }
+                        if(ca.getLevel() != null && ca.getLevel() == 4){
+                        	ct22.setIsParent("false");
+                        }
+                        // 判断是否被选中
+                        ct22.setChecked(isChecked(cheIds,ca.getId()));
+                        allCategories.add(ct22);
+                    }
+                }
             } else {
                 List < Category > childNodes = categoryService.findPublishTree(category.getId(), null);
                 if(childNodes != null && childNodes.size() > 0) {
@@ -427,7 +499,7 @@ public class ExtractExpertController {
                         if(nodesList != null && nodesList.size() > 0) {
                             ct.setIsParent("true");
                         }
-                     // 判断是否被选中
+                        // 判断是否被选中
                         ct.setChecked(isChecked(cheIds,ca.getId()));
                         allCategories.add(ct);
                     }
