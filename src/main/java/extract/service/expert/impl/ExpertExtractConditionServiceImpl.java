@@ -476,6 +476,9 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
      * @return
      */
     public Date conversionTime(Date date){
+    	if(null == date){
+    		return null;
+    	}
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		String str = format.format(date);
 		Date date22 = null;
