@@ -33,10 +33,14 @@
         }
         
         var status = ${status};
-        //如果有意见就显示"重新复核"按钮，复核表
         if(status == 5 || status == 6){
+        	//如果有意见就显示"重新复核"按钮，复核表
         	$("#review").removeClass("hidden");
         	$("#checkList").removeClass("hidden");
+        	
+        	//只读
+        	$("input[type='text'],textArea").attr("readonly", "readonly");
+        	$("input[name='selectOption']").attr("disabled", true);
         }
       }); 
     </script>
@@ -184,16 +188,16 @@
                     <td class="tc">
                       <input type="hidden" value="" id="isAccord_${item.id}" />
                       <c:if test="${item.isAccord==1}">
-                        <button class="btn" type="button" onclick="opr(this, '${item.id}', 1, 1)">一致</button>
-                        <button class="btn bgdd black_link" type="button" onclick="opr(this, '${item.id}', 2, 1)">不一致</button>
+                        <button class="btn" type="button" <c:if test="${status == 1}">onclick="opr(this, '${item.id}', 1, 1)"</c:if>>一致</button>
+                        <button class="btn bgdd black_link" type="button" <c:if test="${status == 1}">onclick="opr(this, '${item.id}', 2, 1)"</c:if>>不一致</button>
                       </c:if>
                       <c:if test="${item.isAccord==2}">
-                        <button class="btn bgdd black_link" type="button" onclick="opr(this, '${item.id}', 1, 1)">一致</button>
-                        <button class="btn bgred" type="button" onclick="opr(this, '${item.id}', 2)">不一致</button>
+                        <button class="btn bgdd black_link" type="button" <c:if test="${status == 1}">onclick="opr(this, '${item.id}', 1, 1)"</c:if>>一致</button>
+                        <button class="btn bgred" type="button" <c:if test="${status == 1}">onclick="opr(this, '${item.id}', 2)"</c:if>>不一致</button>
                       </c:if>
                       <c:if test="${item.isAccord==0}">
-                        <button class="btn bgdd black_link" type="button" onclick="opr(this, '${item.id}', 1, 1)">一致</button>
-                        <button class="btn bgdd black_link" type="button" onclick="opr(this, '${item.id}', 2, 1)">不一致</button>
+                        <button class="btn bgdd black_link" type="button" <c:if test="${status == 1}">onclick="opr(this, '${item.id}', 1, 1)"</c:if>>一致</button>
+                        <button class="btn bgdd black_link" type="button" <c:if test="${status == 1}">onclick="opr(this, '${item.id}', 2, 1)"</c:if>>不一致</button>
                       </c:if>
                     </td>
                     <td><input type="text" class="w100p mb0" id="${item.id}_suggest_${vs.index+1}" value="${item.suggest}" maxlength="300" onblur="saveAuditSuggest('${item.id}', 1 , ${vs.index+1})"/></td>
