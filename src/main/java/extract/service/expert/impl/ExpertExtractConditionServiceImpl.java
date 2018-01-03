@@ -3,6 +3,7 @@ package extract.service.expert.impl;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -372,7 +373,7 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                 }
                 //筛选掉评审时间冲突的专家
                 //获取当前的评审时间
-                Date startTime = expertExtractProject.getReviewTime();
+                Date startTime = conversionTime(expertExtractProject.getReviewTime());
                 int days = 0;
                 if(expertExtractProject.getReviewDays() != null){
                     days = Integer.parseInt(expertExtractProject.getReviewDays());
@@ -384,7 +385,7 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                         for (ExpertExtractResult expertExtractResult : allList) {
                             ExpertExtractProject extractProject = expertExtractProjectMapper.selectByPrimaryKey(expertExtractResult.getProjectId());
                             if(extractProject != null){
-                                Date resStartTime = extractProject.getReviewTime();
+                                Date resStartTime = conversionTime(extractProject.getReviewTime());
                                 int resDays = Integer.parseInt(extractProject.getReviewDays());
                                 Date resEndTime = plusDay(resDays, resStartTime);
                                 boolean flag = startTime.before(resStartTime) && endTime.before(resStartTime) || startTime.after(resEndTime) && endTime.after(resEndTime);
@@ -464,5 +465,28 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
         ca.add(Calendar.DATE, num);// num为增加的天数，可以改变的
         currdate = ca.getTime();
         return currdate;
+    }
+    
+    /**
+     * 
+     * Description: 将日期初始化为每天的开始 yyyy-MM-dd 00:00:00
+     * 
+     * @data 2018年1月3日
+     * @param 
+     * @return
+     */
+    public Date conversionTime(Date date){
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		String str = format.format(date);
+		Date date22 = null;
+		try {
+			date22 = format.parse(str);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		if(null == date22){
+			return date;
+		}
+		return date22;
     }
 }
