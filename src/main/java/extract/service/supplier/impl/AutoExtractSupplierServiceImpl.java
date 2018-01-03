@@ -122,7 +122,7 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 				SupplierExtractProjectInfo projectInfo = new SupplierExtractProjectInfo();
 				projectInfo.setStatus((short)1);
 				projectInfo.setId(condition.getRecordId());
-				recordService.update(projectInfo);
+				recordService.saveOrUpdateProjectInfo(projectInfo);
 			}
 			
 		} catch (Exception e) {
@@ -246,7 +246,7 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 			}else{
 				//修改项目状态为抽取结束
 				projectInfo.setStatus((short)1);
-				recordService.update(projectInfo);
+				recordService.saveOrUpdateProjectInfo(projectInfo);
 			}
 		}
 		return "service error";
@@ -343,7 +343,7 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 					}else{
 						//修改项目状态为不满足条件
 						projectInfo.setStatus((short)1);
-						recordService.update(projectInfo);
+						recordService.saveOrUpdateProjectInfo(projectInfo);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -396,7 +396,7 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
                     for (SupplierExtractProjectInfo projectInfo : projectList) {
                         SupplierExtractProjectInfo projectInfo2 = recordService.selectByPrimaryKey(projectInfo.getId());
                         if(projectInfo2 != null){
-                        	recordService.update(projectInfo);
+                        	recordService.saveOrUpdateProjectInfo(projectInfo);
                         }else{
                         	recordService.insertProjectInfo(projectInfo);
                         }

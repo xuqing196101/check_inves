@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import ses.model.ems.Expert;
 import ses.model.ems.ProjectExtract;
 import extract.model.expert.ExpertExtractResult;
 
@@ -176,4 +177,34 @@ public interface ExpertExtractResultMapper {
      * @return
      */
     int updateProjectByEId(ProjectExtract projectExtract);
+    
+    /**
+     * 
+     * Description: 根据专家id查询手机号
+     * 
+     * @data 2018年1月2日
+     * @param 
+     * @return
+     */
+    Expert findByExpertId(@Param("expertId")String expertId);
+    
+    /**
+     * 
+     * Description: 根据项目id查询参加的专家
+     * 
+     * @data 2018年1月2日
+     * @param 
+     * @return
+     */
+    List<ExpertExtractResult> findByProjectId(@Param("projectId")String projectId);
+    
+    /**
+     * 
+     * Description: 判断专家是否第一次参加评审项目
+     * 
+     * @data 2018年1月2日
+     * @param 
+     * @return
+     */
+    Integer vaIsOnceJoin(@Param("expertId")String expertId);
 }

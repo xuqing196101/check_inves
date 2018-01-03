@@ -2758,4 +2758,29 @@ public class SupplierServiceImpl implements SupplierService {
 		return recyList;
 	}
 
+	/**
+	 * 更新复核或实地考察信息
+	 */
+	@Override
+	public void updateReviewOrInves(Supplier supplier) {
+		supplierMapper.updateReviewOrInves(supplier);
+		
+	}
+
+	/**
+	 * 更新抽取到的供应商
+	 */
+	@Override
+	public void updateExtractOrgid(String orgId, List<String> list) {
+		for(String id : list){
+			Integer num = supplierMapper.selectExtractOrgidById(id);
+			if(num == 0){
+				Supplier supplier = new Supplier();
+				supplier.setId(id);
+				supplier.setExtractAt(new Date());
+				supplier.setExtractOrgid(orgId);
+				supplierMapper.updateReviewOrInves(supplier);
+			}
+		}
+	}
 }

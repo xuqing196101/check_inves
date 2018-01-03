@@ -1028,11 +1028,11 @@ public class SupplierExtractConditionServiceimp implements
 		}
 		
 		if (list.size() > 0) {
-			try {
+//			try {
 				return extractConditionRelationMapper.insertConditionRelation(list);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
 		}
 		return 0;
 	}
