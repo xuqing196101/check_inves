@@ -45,7 +45,7 @@
             <a href="javascript:void(0)">供应商管理</a>
           </li>
           <li>
-            <a href="javascript:void(0)">供应商复核</a>
+            <a href="javascript:void(0)">供应商实地考察</a>
           </li>
         </ul>
         <div class="clear"></div>
@@ -55,7 +55,7 @@
     <!-- 搜索 -->
     <div class="container">
       <div class="headline-v2">
-        <h2>供应商复核列表</h2>
+        <h2>供应商考察列表</h2>
       </div>
       <h2 class="search_detail">
         <form action="${pageContext.request.contextPath}/supplierInves/list.html"  method="post" id="formSearch"  class="mb0"> 

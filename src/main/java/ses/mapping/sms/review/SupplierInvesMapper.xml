@@ -39,7 +39,7 @@
 		FROM T_SES_SMS_SUPPLIER 
 		WHERE IS_DELETED = 0 
 		AND SUPPLIER_STATUS IN(5,7,8)
-		AND ID IN(
+		<!-- AND ID IN(
 			SELECT * FROM(
 			SELECT pass.SUPPLIER_ID FROM T_BSS_PPMS_SUPPLIER_CHECK_PASS pass
 			LEFT JOIN T_BSS_PPMS_PROJECTS proj
@@ -49,7 +49,7 @@
         AND proj.PURCHASE_DEP_ID = #{orgId}
       </if>
 			ORDER BY pass.CONFIRM_TIME ASC)
-		)) sup
+		) -->) sup
 		LEFT JOIN 
 		(SELECT 
 			ID,

@@ -28,6 +28,7 @@ import ses.formbean.QualificationBean;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.Qualification;
+import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierCertPro;
@@ -51,6 +52,7 @@ import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
 
 import com.alibaba.fastjson.JSON;
+import common.utils.DateUtils;
 
 @Service("supplierAttachAuditService")
 public class SupplierAttachAuditServiceImpl implements SupplierAttachAuditService {
@@ -650,21 +652,27 @@ public class SupplierAttachAuditServiceImpl implements SupplierAttachAuditServic
 		supplierAttachAudit.setViewUrl("/supplierAttachAudit/contract.html?supplierId="+supplierId);
 		supplierAttachAudit.setPosition(16);
 		
+		// 年份
+		int referenceYear = 0;
+		Supplier supplier = supplierService.selectById(supplierId);
+		if(!"-1".equals(supplier.getStatus()+"")){
+			referenceYear = DateUtils.getCurrentYear(supplier.getFirstSubmitAt());
+		}
+		List < Integer > years = supplierService.getLastThreeYear(referenceYear);
+		
 		//合同
-		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
-		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
-		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR") + "_" + years.get(0);
+		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR") + "_" + years.get(1);
+		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR") + "_" + years.get(2);
 		//账单
-		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
-		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
-		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL") + "_" + years.get(0);
+		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL") + "_" + years.get(1);
+		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL") + "_" + years.get(2);
 		
 		String[] idAry = new String[]{id1, id2, id3, id4, id5, id6};
 		
 		List<String> supplierTypeIdList = supplierTypeRelateService.findTypeBySupplierId(supplierId);
 		if(supplierTypeIdList != null && supplierTypeIdList.size() > 0){
-			// 年份
-			List < Integer > years = supplierService.getThressYear();
 			Map<String, List<Map<String, List<Map<String, Object>>>>> map = new HashMap<>();
 			for(String supplierTypeId : supplierTypeIdList){
 				List < SupplierItem > itemsList = supplierItemService.getItemList(supplierId, supplierTypeId, null, null);

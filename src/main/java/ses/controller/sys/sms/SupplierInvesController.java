@@ -10,17 +10,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.constants.SupplierConstants;
+import ses.dao.sms.review.SupplierInvesOtherMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAuditOpinion;
+import ses.model.sms.SupplierSignature;
 import ses.model.sms.review.SupplierAttachAudit;
 import ses.model.sms.review.SupplierCateAudit;
+import ses.model.sms.review.SupplierInvesOther;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierAttachAuditService;
+import ses.service.sms.SupplierAuditOpinionService;
 import ses.service.sms.SupplierCateAuditService;
+import ses.service.sms.SupplierInvesOtherService;
 import ses.service.sms.SupplierInvesService;
 import ses.service.sms.SupplierService;
+import ses.service.sms.SupplierSignatureService;
 import ses.util.DictionaryDataUtil;
 
 import com.github.pagehelper.PageInfo;
@@ -50,6 +57,12 @@ public class SupplierInvesController extends BaseSupplierController {
 	private DownloadService downloadService;
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
+	@Autowired
+	private SupplierSignatureService supplierSignatureService;
+	@Autowired
+	private SupplierInvesOtherService supplierInvesOtherService;
+	@Autowired
+	private SupplierAuditOpinionService supplierAuditOpinionService;
 	
 	/**
 	 * 考察列表
@@ -203,6 +216,7 @@ public class SupplierInvesController extends BaseSupplierController {
 	public String inves(Model model, String supplierId){
 		
 		List<SupplierAttachAudit> itemList = null;
+		List<SupplierCateAudit> cateList = null;
 		// 查询附件审核表是否有生成考察项目
 		int count = supplierAttachAuditService.countBySupplierIdAndType(supplierId, 2);
 		if(count > 0){
@@ -215,8 +229,32 @@ public class SupplierInvesController extends BaseSupplierController {
 				itemList = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 2, 0);
 			}
 		}
+		// 查询是否有生成产品类别
+		count = supplierCateAuditService.countBySupplierId(supplierId);
+		if(count > 0){
+			// 获取产品类别信息
+			cateList = supplierCateAuditService.getBySupplierId(supplierId);
+		}else{
+			// 添加产品类别信息
+			int addResult = supplierCateAuditService.addBySupplierId(supplierId);
+			if(addResult > 0){
+				cateList = supplierCateAuditService.getBySupplierId(supplierId);
+			}
+		}
+		// 考察组人员信息
+		SupplierSignature supplierSignature = new SupplierSignature();
+		supplierSignature.setSupplierId(supplierId);
+		List<SupplierSignature> signList = supplierSignatureService.selectBySupplierId(supplierSignature);
+		// 其他考察信息
+		SupplierInvesOther other = supplierInvesOtherService.getBySupplierId(supplierId);
+		// 考察意见
+		SupplierAuditOpinion opinion = supplierAuditOpinionService.selectByExpertIdAndflagTime(supplierId, 2);
 		
 		model.addAttribute("itemList", itemList);
+		model.addAttribute("cateList", cateList);
+		model.addAttribute("signList", signList);
+		model.addAttribute("other", other);
+		model.addAttribute("opinion", opinion);
 		model.addAttribute("supplierId", supplierId);
 		model.addAttribute("supplierStatus", supplierService.getStatusById(supplierId));
 		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());

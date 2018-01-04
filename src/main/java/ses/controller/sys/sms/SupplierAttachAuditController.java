@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 
 import common.constant.Constant;
+import common.utils.DateUtils;
 import common.utils.ListSortUtil;
 import ses.formbean.QualificationBean;
 import ses.model.bms.Area;
@@ -177,14 +178,23 @@ public class SupplierAttachAuditController {
 	
 	@RequestMapping("/ajaxContract")
 	public String ajaxContract(String supplierId, Model model, String supplierTypeId, Integer pageNum) {
+		// 年份
+		int referenceYear = 0;
+		Supplier supplier = supplierService.selectById(supplierId);
+		if(!"-1".equals(supplier.getStatus()+"")){
+			referenceYear = DateUtils.getCurrentYear(supplier.getFirstSubmitAt());
+		}
+		List < Integer > years = supplierService.getLastThreeYear(referenceYear);
+		model.addAttribute("years", years);
+		
 		//合同
-		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
-		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
-		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR") + "_" + years.get(0);
+		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR") + "_" + years.get(1);
+		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR") + "_" + years.get(2);
 		//账单
-		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
-		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
-		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL") + "_" + years.get(0);
+		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL") + "_" + years.get(1);
+		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL") + "_" + years.get(2);
 
 		List < SupplierItem > itemsList = supplierItemService.findCategoryList(supplierId, supplierTypeId, pageNum == null ? 1 : pageNum);
 		// 查询已选中的节点信息
@@ -226,9 +236,6 @@ public class SupplierAttachAuditController {
 		PageInfo < SupplierItem > pageInfo = new PageInfo < SupplierItem > (itemsList);
 		model.addAttribute("result", pageInfo);
 		model.addAttribute("contract", allTreeList);
-		// 年份
-		List < Integer > years = supplierService.getThressYear();
-		model.addAttribute("years", years);
 		model.addAttribute("supplierTypeId", supplierTypeId);
 		model.addAttribute("supplierId", supplierId);
 		// 供应商附件sysKey参数

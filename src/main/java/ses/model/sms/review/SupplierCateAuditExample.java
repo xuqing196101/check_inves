@@ -186,6 +186,76 @@ public class SupplierCateAuditExample {
             return (Criteria) this;
         }
 
+        public Criteria andSnIsNull() {
+            addCriterion("SN is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnIsNotNull() {
+            addCriterion("SN is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnEqualTo(String value) {
+            addCriterion("SN =", value, "sn");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnNotEqualTo(String value) {
+            addCriterion("SN <>", value, "sn");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnGreaterThan(String value) {
+            addCriterion("SN >", value, "sn");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnGreaterThanOrEqualTo(String value) {
+            addCriterion("SN >=", value, "sn");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnLessThan(String value) {
+            addCriterion("SN <", value, "sn");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnLessThanOrEqualTo(String value) {
+            addCriterion("SN <=", value, "sn");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnLike(String value) {
+            addCriterion("SN like", value, "sn");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnNotLike(String value) {
+            addCriterion("SN not like", value, "sn");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnIn(List<String> values) {
+            addCriterion("SN in", values, "sn");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnNotIn(List<String> values) {
+            addCriterion("SN not in", values, "sn");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnBetween(String value1, String value2) {
+            addCriterion("SN between", value1, value2, "sn");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnNotBetween(String value1, String value2) {
+            addCriterion("SN not between", value1, value2, "sn");
+            return (Criteria) this;
+        }
+
         public Criteria andSupplierIdIsNull() {
             addCriterion("SUPPLIER_ID is null");
             return (Criteria) this;
@@ -253,6 +323,76 @@ public class SupplierCateAuditExample {
 
         public Criteria andSupplierIdNotBetween(String value1, String value2) {
             addCriterion("SUPPLIER_ID not between", value1, value2, "supplierId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierTypeIdIsNull() {
+            addCriterion("SUPPLIER_TYPE_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierTypeIdIsNotNull() {
+            addCriterion("SUPPLIER_TYPE_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierTypeIdEqualTo(String value) {
+            addCriterion("SUPPLIER_TYPE_ID =", value, "supplierTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierTypeIdNotEqualTo(String value) {
+            addCriterion("SUPPLIER_TYPE_ID <>", value, "supplierTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierTypeIdGreaterThan(String value) {
+            addCriterion("SUPPLIER_TYPE_ID >", value, "supplierTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierTypeIdGreaterThanOrEqualTo(String value) {
+            addCriterion("SUPPLIER_TYPE_ID >=", value, "supplierTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierTypeIdLessThan(String value) {
+            addCriterion("SUPPLIER_TYPE_ID <", value, "supplierTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierTypeIdLessThanOrEqualTo(String value) {
+            addCriterion("SUPPLIER_TYPE_ID <=", value, "supplierTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierTypeIdLike(String value) {
+            addCriterion("SUPPLIER_TYPE_ID like", value, "supplierTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierTypeIdNotLike(String value) {
+            addCriterion("SUPPLIER_TYPE_ID not like", value, "supplierTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierTypeIdIn(List<String> values) {
+            addCriterion("SUPPLIER_TYPE_ID in", values, "supplierTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierTypeIdNotIn(List<String> values) {
+            addCriterion("SUPPLIER_TYPE_ID not in", values, "supplierTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierTypeIdBetween(String value1, String value2) {
+            addCriterion("SUPPLIER_TYPE_ID between", value1, value2, "supplierTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierTypeIdNotBetween(String value1, String value2) {
+            addCriterion("SUPPLIER_TYPE_ID not between", value1, value2, "supplierTypeId");
             return (Criteria) this;
         }
 
@@ -583,6 +723,66 @@ public class SupplierCateAuditExample {
 
         public Criteria andIsDeletedNotBetween(Integer value1, Integer value2) {
             addCriterion("IS_DELETED not between", value1, value2, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionIsNull() {
+            addCriterion("POSITION is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionIsNotNull() {
+            addCriterion("POSITION is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionEqualTo(Integer value) {
+            addCriterion("POSITION =", value, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionNotEqualTo(Integer value) {
+            addCriterion("POSITION <>", value, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionGreaterThan(Integer value) {
+            addCriterion("POSITION >", value, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionGreaterThanOrEqualTo(Integer value) {
+            addCriterion("POSITION >=", value, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionLessThan(Integer value) {
+            addCriterion("POSITION <", value, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionLessThanOrEqualTo(Integer value) {
+            addCriterion("POSITION <=", value, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionIn(List<Integer> values) {
+            addCriterion("POSITION in", values, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionNotIn(List<Integer> values) {
+            addCriterion("POSITION not in", values, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionBetween(Integer value1, Integer value2) {
+            addCriterion("POSITION between", value1, value2, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionNotBetween(Integer value1, Integer value2) {
+            addCriterion("POSITION not between", value1, value2, "position");
             return (Criteria) this;
         }
     }

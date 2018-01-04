@@ -7,7 +7,7 @@ package ses.model.sms.review;
  * 
  * @author yggc
  * 
- * @date 2017-12-27
+ * @date 2018-01-03
  *
  */
 public class SupplierCateAudit {
@@ -17,9 +17,19 @@ public class SupplierCateAudit {
     private String id;
 
     /**
+     * 序号
+     */
+    private String sn;
+
+    /**
      * 供应商ID
      */
     private String supplierId;
+
+    /**
+     * 供应商类型
+     */
+    private String supplierTypeId;
 
     /**
      * 产品类别ID
@@ -47,6 +57,11 @@ public class SupplierCateAudit {
     private Integer isDeleted;
 
     /**
+     * 所在位置
+     */
+    private Integer position;
+
+    /**
      * 主键
      * @return ID 主键
      */
@@ -63,6 +78,22 @@ public class SupplierCateAudit {
     }
 
     /**
+     * 序号
+     * @return SN 序号
+     */
+    public String getSn() {
+        return sn;
+    }
+
+    /**
+     * 序号
+     * @param sn 序号
+     */
+    public void setSn(String sn) {
+        this.sn = sn;
+    }
+
+    /**
      * 供应商ID
      * @return SUPPLIER_ID 供应商ID
      */
@@ -76,6 +107,22 @@ public class SupplierCateAudit {
      */
     public void setSupplierId(String supplierId) {
         this.supplierId = supplierId;
+    }
+
+    /**
+     * 供应商类型
+     * @return SUPPLIER_TYPE_ID 供应商类型
+     */
+    public String getSupplierTypeId() {
+        return supplierTypeId;
+    }
+
+    /**
+     * 供应商类型
+     * @param supplierTypeId 供应商类型
+     */
+    public void setSupplierTypeId(String supplierTypeId) {
+        this.supplierTypeId = supplierTypeId;
     }
 
     /**
@@ -156,5 +203,21 @@ public class SupplierCateAudit {
      */
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    /**
+     * 所在位置
+     * @return POSITION 所在位置
+     */
+    public Integer getPosition() {
+        return position;
+    }
+
+    /**
+     * 所在位置
+     * @param position 所在位置
+     */
+    public void setPosition(Integer position) {
+        this.position = position;
     }
 }

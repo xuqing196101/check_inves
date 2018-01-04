@@ -47,14 +47,14 @@
 
 					<h2 class="count_flow"><i>1</i>上传实地考察记录表</h2>
 					<ul class="ul_list hand">
-					 	<u:upload id="inves" businessId="${supplierId}" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="上传实地考察记录表" auto="true" exts="png,jpeg,jpg,bmp,git" multiple="true"/>
-						<u:show showId="inves" businessId="${supplierId}" sysKey="${ sysKey }" typeId="${ typeId }"/>
+					 	<u:upload id="inves" businessId="${supplierId}" sysKey="${ sysKey }" typeId="${ supplierDictionaryData.supplierImageData }" buttonName="上传实地考察记录表" auto="true" exts="png,jpeg,jpg,bmp,git" multiple="true"/>
+						<u:show showId="inves" businessId="${supplierId}" sysKey="${ sysKey }" typeId="${ supplierDictionaryData.supplierImageData }"/>
 						
-						<u:upload id="inves" businessId="${supplierId}" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="上传考察影像资料" auto="true" exts="png,jpeg,jpg,bmp,git" multiple="true"/>
-						<u:show showId="inves" businessId="${supplierId}" sysKey="${ sysKey }" typeId="${ typeId }"/>
+						<u:upload id="inves" businessId="${supplierId}" sysKey="${ sysKey }" typeId="${ supplierDictionaryData.supplierInvesRecords }" buttonName="上传考察影像资料" auto="true" exts="png,jpeg,jpg,bmp,git" multiple="true"/>
+						<u:show showId="inves" businessId="${supplierId}" sysKey="${ sysKey }" typeId="${ supplierDictionaryData.supplierInvesRecords }"/>
 					</ul>
 					<div class="clear"></div>
-          <h2 class="count_flow"><i>2</i>审核信息</h2>
+          <h2 class="count_flow"><i>2</i>供应商实地考察</h2>
           <ul class="ul_list hand">
             <table class="table table-bordered table-condensed mt5 table_wrap table_input m_table_fixed_border">
               <thead>

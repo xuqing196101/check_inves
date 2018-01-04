@@ -31,5 +31,14 @@ public interface SupplierCateAuditService {
 	 * @return
 	 */
 	int addBySupplierId(String supplierId);
+	
+	/**
+	 * 更新记录
+	 * @param id
+	 * @param isSupplied
+	 * @param suggest
+	 * @return
+	 */
+	int updateById(String id, Integer isSupplied, String suggest);
 
 }
