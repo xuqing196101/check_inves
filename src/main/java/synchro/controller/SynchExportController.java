@@ -367,7 +367,7 @@ public class SynchExportController {
                 infoService.backUpInfos(startTime, endTime, date);
             }
             /**供应商提交*/
-            if (synchType.contains(Constant.DATA_TYPE_SUPPLIER_CODE)) {
+            if (synchType.equals(Constant.DATA_TYPE_SUPPLIER_CODE)) {
                 outerSupplierService.exportCommitSupplier(startTime, endTime, date);
             }
             /**内网退回修改*/
@@ -384,7 +384,7 @@ public class SynchExportController {
             }
             
             /**专家内网，外网数据导出*/
-            if (synchType.contains(Constant.DATA_TYPE_EXPERT_CODE)) {
+            if (synchType.equals(Constant.DATA_TYPE_EXPERT_CODE)) {
                 outerExpertService.backupCreated(startTime, endTime);
             }
             /**内网专家退回修改*/

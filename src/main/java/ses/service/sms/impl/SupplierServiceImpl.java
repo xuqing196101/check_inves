@@ -123,6 +123,7 @@ import ses.util.SupplierToolUtil;
 import ses.util.WfUtil;
 
 import com.github.pagehelper.PageHelper;
+
 import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
@@ -2783,5 +2784,12 @@ public class SupplierServiceImpl implements SupplierService {
 				}
 			}
 		}
+
+	@Override
+	public List<Supplier> getSupplierByReviewTime(String startTime,
+			String endTime) {
+		List<Supplier> suppliers = supplierMapper.getSupplierByReviewTime(startTime, endTime);
+		return suppliers;
 	}
+}
 

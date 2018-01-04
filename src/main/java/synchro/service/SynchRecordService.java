@@ -150,5 +150,14 @@ public interface SynchRecordService {
      * @return
      */
     public String getSynchTime(Integer operType, String dataType);
+
+	/**
+	 *〈简述〉供应商复核结果数据导出记录
+	 *〈详细描述〉
+	 * @author Ye Maolin
+	 * @param date
+	 * @param string
+	 */
+	public void backupExportCheckResults(Date date, String string);
     
 }

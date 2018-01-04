@@ -1,7 +1,9 @@
 package ses.dao.sms;
 
 import extract.model.supplier.SupplierExtractCondition;
+
 import org.apache.ibatis.annotations.Param;
+
 import ses.model.bms.AnalyzeBigDecimal;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCondition;
@@ -716,4 +718,14 @@ public interface SupplierMapper {
 	 * @return
 	 */
 	Integer selectExtractOrgidById (String id);
+
+	/**
+	 *〈简述〉获取时间段内复核结束的供应商
+	 *〈详细描述〉
+	 * @author Ye Maolin
+	 * @param startTime
+	 * @param endTime
+	 * @return
+	 */
+	List<Supplier> getSupplierByReviewTime(@Param("startTime")String startTime, @Param("endTime")String endTime);
 }

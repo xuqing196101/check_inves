@@ -156,4 +156,18 @@
         IS_DELETE = 0
         and SUPPLIER_ID = #{supplierId}
     </update>
+    
+     <!--根据条件查询-->
+    <select id="selectByCondit" parameterType="ses.model.sms.SupplierAuditOpinion" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM T_SES_SMS_SUPPLIER_OPINION
+        WHERE 1=1
+        <if test="supplierId != null and supplierId != ''">
+        	AND SUPPLIER_ID = #{supplierId}
+        </if>
+        <if test="flagTime != null">
+        	AND FLAG_TIME = #{flagTime}
+        </if>
+    </select>
 </mapper>

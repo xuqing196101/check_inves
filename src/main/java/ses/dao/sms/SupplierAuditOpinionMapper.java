@@ -1,8 +1,10 @@
 package ses.dao.sms;
 
 import org.apache.ibatis.annotations.Param;
+
 import ses.model.sms.SupplierAuditOpinion;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -75,4 +77,14 @@ public interface SupplierAuditOpinionMapper {
 	SupplierAuditOpinion selectByExpertIdAndflagTime(Map<String, Object> map);
 	
 	void updateIsDownloadAttchBySupplierId(String supplierId);
+
+	/**
+	 *〈简述〉根据条件查询审核意见
+	 *〈详细描述〉
+	 * @author Ye Maolin
+	 * @param supplierAuditOpinion
+	 * @return
+	 */
+	List<SupplierAuditOpinion> selectByCondit(
+			SupplierAuditOpinion supplierAuditOpinion);
 }

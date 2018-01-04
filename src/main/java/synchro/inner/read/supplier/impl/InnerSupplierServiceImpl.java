@@ -1,11 +1,10 @@
 package synchro.inner.read.supplier.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-
-import common.constant.Constant;
-import common.dao.FileUploadMapper;
-import common.model.UploadFile;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
@@ -42,6 +41,7 @@ import ses.dao.sms.SupplierRegPersonMapper;
 import ses.dao.sms.SupplierSignatureMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
+import ses.dao.sms.review.SupplierAttachAuditMapper;
 import ses.formbean.SupplierAuditFormBean;
 import ses.model.bms.RoleUser;
 import ses.model.bms.Todos;
@@ -71,21 +71,22 @@ import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierSignature;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
+import ses.model.sms.review.SupplierAttachAudit;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierService;
+import ses.util.DictionaryDataUtil;
 import synchro.inner.read.supplier.InnerSupplierService;
 import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
-import iss.model.ps.Article;
-import iss.model.ps.ArticleCategory;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+
+import common.constant.Constant;
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
 
 /**
  * 版权：(C) 版权所有
@@ -211,6 +212,9 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     @Autowired
     private SupplierItemLevelMapper supplierItemLevelMapper;
 
+    @Autowired
+    private SupplierAttachAuditMapper supplierAttachAuditMapper;
+    
     /**
      * @see synchro.inner.read.supplier.InnerSupplierService#importSupplierInfo(java.io.File)
      */
@@ -1052,8 +1056,49 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 
 	@Override
 	public void exportCheckResult(String startTime, String endTime, Date date) {
-		//获取
-		
+		List<Supplier> list = supplierSerice.getSupplierByReviewTime(startTime, endTime);
+		List<SupplierAttachAudit> attachAudits = new ArrayList<SupplierAttachAudit>();
+		List<SupplierAuditOpinion> auditOpinions = new ArrayList<SupplierAuditOpinion>();
+		List<UploadFile> uploadFiles = new ArrayList<UploadFile>();
+		if (list != null && list.size() > 0) {
+			for (Supplier supplier : list) {
+				//获取供应商附件审核记录
+				SupplierAttachAudit supplierAttachAudit = new SupplierAttachAudit();
+				supplierAttachAudit.setSupplierId(supplier.getId());
+				supplierAttachAudit.setAuditType(1);
+				List<SupplierAttachAudit> supplierAttachAudits = supplierAttachAuditMapper.diySelect(supplierAttachAudit);
+				attachAudits.addAll(supplierAttachAudits);
+				//获取供应商复核意见
+				SupplierAuditOpinion supplierAuditOpinion = new SupplierAuditOpinion();
+				supplierAuditOpinion.setSupplierId(supplier.getId());
+				supplierAuditOpinion.setFlagTime(1);
+				List<SupplierAuditOpinion> supplierAuditOpinions = supplierAuditOpinionMapper.selectByCondit(supplierAuditOpinion);
+				auditOpinions.addAll(supplierAuditOpinions);
+				//供应商复核时上传复核表
+				String tableName = Constant.fileSystem.get(1);
+				String typeId = DictionaryDataUtil.getId("SUPPLIER_REVIEW");
+				List<UploadFile> attachList = fileUploadMapper.getFileByBusinessId(supplier.getId(), typeId, tableName);
+				uploadFiles.addAll(attachList);
+			}
+			if (auditOpinions != null && auditOpinions.size() > 0) {
+				FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_AUDIT_OPINION, 38), JSON.toJSONString(auditOpinions));
+
+			}
+			if (attachAudits != null && attachAudits.size() > 0) {
+				FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_CHECK_ATTACH_AUDIT, 38), JSON.toJSONString(attachAudits));
+			}
+			if (uploadFiles != null && uploadFiles.size() > 0){
+				FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_CHECK_ATTACH, 38), JSON.toJSONString(uploadFiles));
+                String basePath = FileUtils.attachExportPath(38);
+                if (StringUtils.isNotBlank(basePath)){
+                    OperAttachment.writeFile(basePath, uploadFiles);
+                }
+            }
+            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_CHECK_RESULT_FILENAME, 38), JSON.toJSONString(list));
+			synchRecordService.backupExportCheckResults(date, new Integer(list.size()).toString());
+		}else {
+			synchRecordService.backupExportCheckResults(date, "0");
+		}
 	}
 
 	@Override

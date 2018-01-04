@@ -189,6 +189,16 @@ public class FileUtils {
     /**导出文件目录**/
     public final static String C_SYNCH_PUBLICITY_EXPERT_FILE_DIRECTORY= PropUtil.getProperty("file.t_ses_sms_expert_publicity_path.system.path");
     
+    /**
+     * @Fields C_SYNCH_SUPPLIER_CHECK : 导出供应商复核目录
+     */
+    public final static String C_SYNCH_SUPPLIER_CHECK = PropUtil.getProperty("file.t_ses_sms_supplier_check.system.path");
+    
+    /**
+     * @Fields C_SYNCH_SUPPLIER_INVEST : 导出供应商实地考察目录
+     */
+    public final static String C_SYNCH_SUPPLIER_INVEST = PropUtil.getProperty("file.t_ses_sms_supplier_invest.system.path");
+    
     /**注销专家 导出创建数据名称**/
     public final static String C_SYNCH_LOGOUT_EXPERT_FILENAME = "_c_delete_expert.dat";
     
@@ -303,6 +313,21 @@ public class FileUtils {
      * @Fields SUPPLIER_CHECK_RESULT_FILENAME : 供应商复核结果导出文件名称
      */
     public final static String SUPPLIER_CHECK_RESULT_FILENAME  = "_c_supplier_check_result.dat";
+    
+    /**
+     * @Fields SUPPLIER_CHECK_ATTACH_AUDIT : 供应商附件审核记录导出文件名称
+     */
+    public final static String SUPPLIER_CHECK_ATTACH_AUDIT  = "_c_supplier_check_attach_audit.dat";
+    
+    /**
+     * @Fields SUPPLIER_AUDIT_OPINION : 供应商复核意见导出文件名称
+     */
+    public final static String SUPPLIER_AUDIT_OPINION  = "_c_supplier_audit_opinion.dat";
+    
+    /**
+     * @Fields SUPPLIER_CHECK_ATTACH : 复核表导出文件名称
+     */
+    public final static String SUPPLIER_CHECK_ATTACH  = "_c_supplier_check_attach.dat";
     
     /**
      * 
@@ -919,8 +944,24 @@ public class FileUtils {
           case 35:  filePath=SUPPLIER_EXTRACT_PATH;break;
           case 36:  filePath=SUPPLIER_EXTRACT_RESULT_PATH;break;
           case 37:  filePath=SUPPLIER_LEVEL_PATH;break;
+          case 38:  filePath=C_SYNCH_SUPPLIER_CHECK;break;
+          case 39:  filePath=C_SYNCH_SUPPLIER_INVEST;break;
         }
         return filePath;
     }
+
+	/**
+	 *〈简述〉供应商复核结果导出文件
+	 *〈详细描述〉
+	 * @author Ye Maolin
+	 * @param fileName 
+	 * @return
+	 */
+	public static File getExportCheckResultFile(String fileNameSuffix) {
+		String fileName = System.currentTimeMillis() + fileNameSuffix;
+        String path = getBackUpPath();
+        final File file = new File(path,fileName);
+        return file;
+	}
     
 }

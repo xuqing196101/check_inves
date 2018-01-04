@@ -361,7 +361,26 @@ public class Constant {
     public final static String SYNCH_SUPPLIER_INVEST_RESULT = "SYNCH_SUPPLIER_INVEST_RESULT";
     
     /**
+     * @Fields INNER_SUPPLIER_INVEST_NUM : 供应商实地考察结果数据内网导出记录描述
+     */
+    public final static String INNER_SUPPLIER_INVEST_NUM = "内网导出供应商实地考察数量:";
+    
+    /**
+     * @Fields OUTER_SUPPLIER_INVEST_NUM : 供应商实地考察结果数据外网导入记录描述
+     */
+    public final static String OUTER_SUPPLIER_INVEST_NUM = "外网导入供应商实地考察数量:";
+    
+    /**
      * @Fields SYNCH_SUPPLIER_CHECK_RESULT : 供应商复核结果
      */
     public final static String SYNCH_SUPPLIER_CHECK_RESULT = "SYNCH_SUPPLIER_CHECK_RESULT";
+    
+    /**
+     * @Fields SUPPLIER_CHECK_RESULT_NUM : 供应商复核结果数据内网导出记录描述
+     */
+    public final static String INNER_SUPPLIER_CHECK_NUM = "内网导出复核供应商数量:";
+    /**
+     * @Fields SUPPLIER_CHECK_RESULT_NUM : 供应商复核结果数据外网导入记录描述
+     */
+    public final static String OUTER_SUPPLIER_CHECK_NUM = "外网导入复核供应商数量:";
 }

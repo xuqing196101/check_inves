@@ -2664,4 +2664,27 @@
 			  EXTRACT_ORGID IS NOT NULL
 			AND ID = #{id}
     </select>
+    
+    <!-- 获取时间段内复核结束的供应商 -->
+    <select id="getSupplierByReviewTime" resultMap="BaseResultMap">
+      SELECT 
+        T1.ID,
+		T1.SUPPLIER_NAME,
+	  	T1.SUPPLIER_TYPE_ID,
+		T1.BUSINESS_NATURE,
+		T1.REVIEW_AT,
+		T1.REVIEW_PEOPLE,
+		T1.SUPPLIER_STATUS,
+		T1.REVIEW_STATUS,
+		T1.EXTRACT_ORGID,
+		T1.EXTRACT_AT
+	  FROM
+	  	T_SES_SMS_SUPPLIER T1
+	  WHERE
+	  	T1.SUPPLIER_STATUS in ('5','6')
+	  AND
+	  	to_char(T1.REVIEW_AT,'yyyy-MM-dd hh24:mi:ss') &gt;= #{startTime}
+	  AND
+	  	to_char(T1.REVIEW_AT,'yyyy-MM-dd hh24:mi:ss') &lt;= #{endTime}	
+    </select>
 </mapper>

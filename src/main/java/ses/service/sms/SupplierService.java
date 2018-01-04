@@ -634,4 +634,15 @@ public interface SupplierService {
 	 * 更新抽取到的供应商
 	 */
 	void updateExtractOrgid(String orgId, List<String> list);
+
+	/**
+	 *〈简述〉获取时间段内复核结束的供应商
+	 *〈详细描述〉
+	 * @author Ye Maolin
+	 * @param startTime
+	 * @param endTime
+	 * @return
+	 */
+	public List<Supplier> getSupplierByReviewTime(String startTime,
+			String endTime);
 }
