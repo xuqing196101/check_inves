@@ -182,19 +182,19 @@
             <table class="table table-bordered table-condensed table-hover">
               <thead>
                 <tr>
-                  <th class="info w50">序号</th>
-                  <th class="info w250">项目</th>
-                  <th class="info w60">扫描件</th>
-                  <th class="info w150">原件与扫描件是否一致</th>
-                  <th class="info">理由</th>
+                  <th class="tc w40">序号</th>
+                  <th>项目</th>
+                  <th class="tc">扫描件</th>
+                  <th class="w150">原件与扫描件是否一致</th>
+                  <th>理由</th>
                 </tr>
               </thead>
               <tbody id="tbody_items">
                 <c:forEach items="${itemList}" var="item" varStatus="vs">
                   <tr class="h40">
-                    <td class="tc w30">${vs.index+1}</td>
-                    <td class="w140">${item.attachName}</td>
-                    <td class="tc">
+                    <td class="tc">${vs.index+1}</td>
+                    <td class="w250">${item.attachName}</td>
+                    <td class="tc w70">
                       <c:if test="${empty item.businessId || empty item.typeId}">
                         <a href="javascript:;" onclick="viewAttach('${item.viewUrl}','${item.attachName}')">查看</a>
                       </c:if>
