@@ -477,7 +477,17 @@
 		</if>
 		<!-- 查询资质 -->
 		<if test="quaId !=null and quaId != '' ">
-			<if test="supplierTypeCode == 'PROJECT'.toString()">
+			<if test="supplierTypeCode == 'PROJECT'.toString() and isMulticondition == 1">
+				AND  E.ID IN (
+					SELECT A.MAT_ENG_ID FROM T_SES_SMS_SUPPLIER_APTITUTE A 
+					WHERE A.CERT_TYPE IN <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
+					<!-- 等级 -->
+					<if test="levelTypeId !=null and levelTypeId != '' ">
+						AND  A."APTITUTE_ LEVEL" IN  <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
+					</if>
+				)
+			</if>
+			<if test="supplierTypeCode == 'PROJECT'.toString() and isMulticondition == 2">
 				AND  E.ID IN (
 					SELECT A.MAT_ENG_ID FROM T_SES_SMS_SUPPLIER_APTITUTE A 
 					WHERE A.CERT_TYPE IN <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>

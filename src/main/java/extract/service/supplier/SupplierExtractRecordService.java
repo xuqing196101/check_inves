@@ -126,4 +126,14 @@ public interface SupplierExtractRecordService {
    */
   Map<String, String> extractAgain(String recordId, String conditionId);
 
+  /**
+   * 
+   * <简述>抽取到的供应商发送短信
+   *
+   * @author Jia Chengxiang
+   * @dateTime 2018-1-4下午8:25:59
+   * @param record
+   */
+  void sendMessageToSupplier(SupplierExtractProjectInfo record);
+
 }

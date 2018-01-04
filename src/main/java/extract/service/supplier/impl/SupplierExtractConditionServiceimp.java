@@ -1136,7 +1136,6 @@ public class SupplierExtractConditionServiceimp implements
 		}
 		
 		
-		first:
 		for (Iterator<Supplier> iterator = supplierSet.iterator() ;iterator.hasNext();) {
 			Supplier s = iterator.next();
 			//List<String> levels = conditionMapper.selectLevelOfLogicIsAnd(hashMap);
@@ -1204,48 +1203,6 @@ public class SupplierExtractConditionServiceimp implements
 				}
 			}
 		}
-			
-		/*	if(levels.size()==1){
-				for (String string : condition.getLevelTypeIds()) {
-					if(levels.get(0).equals(string)){
-						break first;
-					}
-					flag = true;
-				}
-				
-				for (String string : condition.getLevelTypeIds()) {
-					if(levels.get(0).equals(string)){
-						break first;
-					}
-					flag = true;
-				}
-			}else if(levels.size()!=1 ||flag){
-				iterator.remove();
-			}*/
-		/*first:
-		for (Iterator<Supplier> iterator = suppliers.iterator() ;iterator.hasNext();) {
-			boolean flag = false;
-			hashMap.put("supplierId", iterator.next().getId());
-			hashMap.put("categoryIds", condition.getSupplierItemId());
-			List<String> levels = conditionMapper.selectLevelOfLogicIsAnd(hashMap);
-			if(levels.size()==1){
-				for (String string : condition.getLevelTypeIds()) {
-					if(levels.get(0).equals(string)){
-						break first;
-					}
-					flag = true;
-				}
-				
-				for (String string : condition.getLevelTypeIds()) {
-					if(levels.get(0).equals(string)){
-						break first;
-					}
-					flag = true;
-				}
-			}else if(levels.size()!=1 ||flag){
-				iterator.remove();
-			}
-		}*/
 	}
 	
 	/**

@@ -17,7 +17,6 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ses.dao.bms.AreaMapper;
 import ses.dao.ems.ExpertBlackListMapper;
 import ses.dao.ems.ExpertCategoryMapper;
 import ses.dao.ems.ExpertMapper;
@@ -77,10 +76,6 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
     @Autowired
     private ExpertMapper expertMapper;
 
-    //地区
-    @Autowired
-    private AreaMapper areaMapper;
-    
     @Autowired
     private ExpertExtractProjectMapper expertExtractProjectMapper;
     

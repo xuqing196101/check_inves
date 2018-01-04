@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 
 import ses.dao.bms.AreaMapper;
 import ses.dao.bms.CategoryMapper;
-import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.bms.EngCategoryMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.oms.OrgnizationMapper;
@@ -79,10 +78,6 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
     @Autowired
     private ExpertExtractProjectMapper expertExtractProjectMapper;
 
-    //数据字典
-    @Autowired
-    private DictionaryDataMapper dictionaryDataMapper;
-    
     //地区
     @Autowired
     private AreaMapper areaMapper;
