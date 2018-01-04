@@ -364,4 +364,14 @@ public class Constant {
      * @Fields SYNCH_SUPPLIER_CHECK_RESULT : 供应商复核结果
      */
     public final static String SYNCH_SUPPLIER_CHECK_RESULT = "SYNCH_SUPPLIER_CHECK_RESULT";
+    
+    
+    /** 短信发送记录信息导出描述 **/
+    public final static String SMS_RECORD_COMMIT = "导出短信记录数量:";
+    /** 短信发送记录导入描述 **/
+    public final static String SMS_RECORD_COMMIT_IMPORT = "同步短信记录数量:";
+    /** 短信发送记录 **/
+    public final static String DATE_SYNCH_SMS_RECORD ="SYNCH_SMS_RECORD";
+    /** 短信发送记录 **/
+    public final static String SMS_RECORD_FILE_EXPERT = "sms_record";
 }

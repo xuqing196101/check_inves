@@ -304,6 +304,13 @@ public class FileUtils {
      */
     public final static String SUPPLIER_CHECK_RESULT_FILENAME  = "_c_supplier_check_result.dat";
     
+    
+    /** 短信发送记录信息数据名称 **/
+    public final static String SMS_RECORD_PATH_FILENAME="_c_sms_record.dat";
+    /**  短信发送记录目录 路径 38 **/
+    public final static String SMS_RECORD_PATH = PropUtil.getProperty("file.sms_record.system.path");
+    
+    
     /**
      * 
      *〈简述〉创建根目录
@@ -919,6 +926,7 @@ public class FileUtils {
           case 35:  filePath=SUPPLIER_EXTRACT_PATH;break;
           case 36:  filePath=SUPPLIER_EXTRACT_RESULT_PATH;break;
           case 37:  filePath=SUPPLIER_LEVEL_PATH;break;
+          case 38:  filePath=SMS_RECORD_PATH;break;
         }
         return filePath;
     }

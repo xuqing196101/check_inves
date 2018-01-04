@@ -40,14 +40,15 @@ import synchro.service.SynchMilitaryExpertService;
 import synchro.service.SynchRecordService;
 import synchro.service.SynchService;
 import synchro.util.Constant;
+import system.service.sms.SmsRecordService;
 import bss.service.ob.OBProductService;
 import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBSupplierService;
 
 import com.github.pagehelper.PageInfo;
-
 import common.annotation.CurrentUser;
 import common.bean.ResponseBean;
+
 import extract.service.expert.ExpertExtractProjectService;
 import extract.service.supplier.AutoExtractSupplierService;
 
@@ -185,6 +186,12 @@ public class SynchExportController {
 	private ExpertExtractProjectService expertExtractProjectService;
     
     /**
+     * 短信发送记录
+     */
+    @Autowired
+    private SmsRecordService smsRecordService;
+    
+    /**
      * @Fields innerExpertService : 专家数据内网同步接口
      */
     @Autowired
@@ -293,7 +300,11 @@ public class SynchExportController {
 	               iter.remove();
 	           	   continue;
 	              }
-	             
+	              if(dd.getCode().equals(Constant.DATE_SYNCH_SMS_RECORD)){
+		              	//短信记录只能外网导出到内网
+		               iter.remove();
+		           	   continue;
+		          }
 	            }
 	     	}
 	       
@@ -546,6 +557,11 @@ public class SynchExportController {
 	        //地方专家复查结果导出内网
 	        if (synchType.contains(Constant.SYNCH_EXPERT_CHECK_RESULT)) {
 	        	innerExpertService.exportCheckResult(startTime, endTime, date);
+        	}
+	        
+	        //短信发送记录导出
+	        if (synchType.contains(Constant.DATE_SYNCH_SMS_RECORD)) {
+	        	smsRecordService.exportSmsRecord(startTime, endTime, date);
         	}
 	        
 	        bean.setSuccess(true);
