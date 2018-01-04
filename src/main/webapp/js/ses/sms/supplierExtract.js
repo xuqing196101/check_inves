@@ -1574,7 +1574,7 @@ function onBodyDownSalesLevel(event) {
 
 //资质树显示/隐藏
 function onBodyDownQua(event){
-	if (!(event.target.nodeName == "SPAN")) {
+	 if (!(event.target.id == "quaTree" || $(event.target).parents("#quaContent").length > 0)) {
 		hideLevelType("quaContent");
 	}
 }

@@ -17,6 +17,7 @@ import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierStockholderRecy;
+import extract.model.supplier.SupplierExtractResult;
 /**
  * @Title: SupplierInfoService
  * @Description: Supplier 接口
@@ -633,5 +634,5 @@ public interface SupplierService {
 	/**
 	 * 更新抽取到的供应商
 	 */
-	void updateExtractOrgid(String orgId, List<String> list);
+	void updateExtractOrgid(String orgId, List<SupplierExtractResult> sids);
 }

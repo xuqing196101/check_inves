@@ -187,6 +187,7 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 	 * @dateTime 2017-10-13上午10:46:24
 	 * @return
 	 */
+	
 	@Override
 	public String receiveVoiceResult(String json) {
 		
