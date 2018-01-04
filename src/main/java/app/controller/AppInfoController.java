@@ -99,7 +99,7 @@ public class AppInfoController {
             if(appInfo.getVersion() == null || ("").equals(appInfo.getVersion())){
                 flag = false;
                 model.addAttribute("error_version","版本号不能为空");
-            }else if (appInfoService.selectByVersion(appInfo.getVersion()) != null){
+            }else if (appInfoService.selectByVersion(appInfo) != null){
                 flag = false;
                 model.addAttribute("error_version","版本号已存在");
             }
@@ -159,7 +159,14 @@ public class AppInfoController {
     public String view(@CurrentUser User user,Model model,HttpServletRequest request){
     	if(null != user && "4".equals(user.getTypeName())){
 	    	String version = request.getParameter("version") == null ? "" : request.getParameter("version");
-	        AppInfo appInfo = appInfoService.selectByVersion(version);
+	    	String type = request.getParameter("type") == null ? "1" : request.getParameter("type");
+	    	if("".equals(type)){
+	    		type = "1";
+	    	}
+	    	AppInfo appInfo22 = new AppInfo();
+	    	appInfo22.setVersion(version);
+	    	appInfo22.setType(type);
+	        AppInfo appInfo = appInfoService.selectByVersion(appInfo22);
 	        String businessId = "";
 	        if(appInfo != null){
 	            businessId = appInfo.getRemark();

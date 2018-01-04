@@ -975,7 +975,9 @@ public class IndexAppController {
      */
     @RequestMapping("/qrCode")
     public String qrCode(Model model,HttpServletRequest request){
-        List<AppInfo> appInfoList = appInfoService.list(null, 1);
+    	AppInfo appInfo = new AppInfo();
+        appInfo.setType("1");
+        List<AppInfo> appInfoList = appInfoService.list(appInfo, 1);
         String businessId = "";
         if(appInfoList != null && appInfoList.size() > 0){
             businessId = appInfoList.get(0).getRemark();
@@ -1020,7 +1022,7 @@ public class IndexAppController {
         //查询最新的版本号
         AppInfo appInfo = new AppInfo();
         appInfo.setType("2");
-        List<AppInfo> appInfoList = appInfoService.list(null, 1);
+        List<AppInfo> appInfoList = appInfoService.list(appInfo, 1);
         if(appInfoList != null && appInfoList.size() > 0){
             version = appInfoList.get(0).getVersion();
         }
