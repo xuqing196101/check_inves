@@ -29,6 +29,7 @@ function opr(_this, id , isAccord, auditType) {
 			$(_this).addClass("bgdd");
 			$(_this).addClass("black_link");
 			$("#isAccord_" + id).val("");
+			isAccord = 0
 		}
 	}
 	if(isAccord == 2){
@@ -44,6 +45,7 @@ function opr(_this, id , isAccord, auditType) {
 			$(_this).addClass("bgdd");
 			$(_this).addClass("black_link");
 			$("#isAccord_" + id).val("");
+			isAccord = 0
 		}
 	}
 	
@@ -52,6 +54,7 @@ function opr(_this, id , isAccord, auditType) {
 
 //保存意见--isAccord是否一致  1：一致， 2不一致
 function saveAuditIsAccord(id, auditType, isAccord){
+	alert(isAccord);
 	$.ajax({
 		url : globalPath + "/supplierAttachAudit/saveAuditInformation.do",
 		type: "post",
