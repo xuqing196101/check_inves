@@ -189,8 +189,8 @@
 	      <table class="table table-bordered table-condensed table-hover table-striped">
 	        <thead>
 	          <tr>
-	            <td>选择</td>
-	            <td>序号</td>
+	            <td class="tc w40">选择</td>
+	            <td class="tc w60">序号</td>
 	            <td>供应商名称</td>
 	            <td>供应商类型</td>
 	            <td>企业性质</td>
