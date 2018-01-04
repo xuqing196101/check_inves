@@ -33,6 +33,7 @@ import sums.service.oc.ComplaintService;
 import synchro.inner.read.expert.InnerExpertService;
 import synchro.inner.read.supplier.InnerSupplierService;
 import synchro.model.SynchRecord;
+import synchro.outer.back.service.expert.OuterExpertService;
 import synchro.outer.back.service.supplier.OuterSupplierService;
 import synchro.outer.read.att.OuterAttachService;
 import synchro.outer.read.infos.OuterInfoImportService;
@@ -46,9 +47,9 @@ import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBSupplierService;
 
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 import common.bean.ResponseBean;
-
 import extract.service.expert.ExpertExtractProjectService;
 import extract.service.supplier.AutoExtractSupplierService;
 
@@ -178,6 +179,12 @@ public class SynchImportController {
     
     @Autowired
 	private ExpertExtractProjectService expertExtractProjectService;
+    
+    /**
+     * @Fields outerExpertService : 专家外网数据同步接口
+     */
+    @Autowired
+    private OuterExpertService outerExpertService;
 
     /**
      * 〈简述〉初始化导入
@@ -987,6 +994,24 @@ public class SynchImportController {
                     categoryService.importCategoryQua(synchType, f);
                     /** 产品资质表*/
                     qualificationService.importQualification(synchType, f);
+                    
+                    //供应商复核结果导入外网
+        	        if (synchType.contains(Constant.SYNCH_SUPPLIER_CHECK_RESULT)
+        	        		&& f.getName().contains(FileUtils.SUPPLIER_CHECK_RESULT_FILENAME)) {
+                        outerSupplierService.importCheckResult(f);
+                	}
+        	        
+        	        //供应商实地考察结果导入外网
+        	        if (synchType.contains(Constant.SYNCH_SUPPLIER_INVEST_RESULT)
+        	        		&& f.getName().contains(FileUtils.SUPPLIER_INVEST_RESULT_FILENAME)) {
+        	        	outerSupplierService.importInvestResult(f);
+                	}
+        	        
+        	        //地方专家复查结果导入外网
+        	        if (synchType.contains(Constant.SYNCH_EXPERT_CHECK_RESULT)
+        	        		&& f.getName().contains(FileUtils.EXPERT_CHECK_RESULT_FILENAME)) {
+        	        	outerExpertService.importCheckResult(f);
+                	}
                 }
             }
             bean.setSuccess(true);

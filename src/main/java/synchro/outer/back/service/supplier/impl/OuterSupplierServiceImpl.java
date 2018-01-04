@@ -1019,6 +1019,18 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
         recordService.synchBidding(new Date(), num+"", synchro.util.Constant.DATE_SYNCH_SUPPLIER_LEVEL, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.SUPPLIER_LEVEL_COMMIT_IMPORT);
 	}
 
+	@Override
+	public void importCheckResult(File f) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void importInvestResult(File f) {
+		// TODO Auto-generated method stub
+		
+	}
+
     
     
 }
