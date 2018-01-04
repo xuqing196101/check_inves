@@ -2,10 +2,12 @@ package synchro.inner.read.expert.impl;
 
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import ses.dao.bms.UserMapper;
 import ses.dao.ems.ExpertAuditFileModifyMapper;
 import ses.dao.ems.ExpertAuditMapper;
@@ -538,6 +540,12 @@ public class InnerExpertServiceImpl implements InnerExpertService {
         List<Expert> expertList = FileUtils.getExpert(file, Expert.class);
         return expertList;
     }
+
+	@Override
+	public void exportCheckResult(String startTime, String endTime, Date date) {
+		// TODO Auto-generated method stub
+		
+	}
     
 
 }

@@ -2,13 +2,16 @@ package synchro.inner.read.supplier.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+
 import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
+
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import ses.common.AbstractMessageCommon;
 import ses.common.sms.SupplierMessageCommon;
 import ses.dao.bms.TodosMapper;
@@ -74,8 +77,12 @@ import ses.service.sms.SupplierService;
 import synchro.inner.read.supplier.InnerSupplierService;
 import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
+import synchro.util.OperAttachment;
+import iss.model.ps.Article;
+import iss.model.ps.ArticleCategory;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -1041,6 +1048,18 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     		FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_LEVEL_FILENAME, 37), JSON.toJSONString(levels, SerializerFeature.WriteMapNullValue));
     	}
     	synchRecordService.synchBidding(null, levels.size()+"", synchro.util.Constant.DATE_SYNCH_SUPPLIER_LEVEL, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.SUPPLIER_LEVEL_COMMIT);
+	}
+
+	@Override
+	public void exportCheckResult(String startTime, String endTime, Date date) {
+		//获取
+		
+	}
+
+	@Override
+	public void exportInvestResult(String startTime, String endTime, Date date) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
