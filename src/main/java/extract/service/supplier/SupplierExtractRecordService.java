@@ -23,18 +23,6 @@ import extract.model.supplier.SupplierExtractProjectInfo;
  */
 public interface SupplierExtractRecordService {
 
-
-
- 
-
-  /**
-   * 
-   *〈简述〉修改
-   *〈详细描述〉
-   * @author Jia Chengxiang
-   */
-  void update(SupplierExtractProjectInfo extracts);
-
   /**
    * 查询是否存在项目记录
    * @param id

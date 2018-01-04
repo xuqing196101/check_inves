@@ -54,18 +54,35 @@
 			)
 		AND s.IS_PROVISIONAL = '0'
 		AND s.IS_DELETED = 0
-		AND s."ID" NOT IN (
-				SELECT
-					SUPPLIER_ID
-				FROM
-					T_SES_SMS_SUPPLIER_AUDIT sa
-				WHERE 1=1
-				<if test="categoryId != null and categoryId !=''">
-				AND sa.AUDIT_FIELD = #{categoryId,jdbcType=VARCHAR}
-				</if>
-				AND sa.AUDIT_TYPE = #{auditType,jdbcType=VARCHAR}
-				AND sa.RETURN_STATUS IN (0, 1, 2, 4 )
-			)
+		<if test="nodeLevel != null and nodeLevel > 0">
+			<!-- 排除该品目审核不通过的供应商 -->
+			AND s."ID" NOT IN (
+					SELECT
+						SUPPLIER_ID
+					FROM
+						T_SES_SMS_SUPPLIER_AUDIT sa
+					WHERE 1=1
+					<if test="categoryId != null and categoryId !=''">
+						AND sa.AUDIT_FIELD = #{categoryId,jdbcType=VARCHAR}
+					</if>
+					AND sa.AUDIT_TYPE = #{auditType,jdbcType=VARCHAR}
+					AND sa.RETURN_STATUS IN (0, 1, 2, 4 )
+				)
+		</if>
+		<!-- 排除该供应商类型审核不通过的供应商 -->
+		AND s.ID NOT IN (
+			SELECT
+				SUPPLIER_ID
+			FROM
+				T_SES_SMS_SUPPLIER_AUDIT 
+			WHERE
+				AUDIT_FIELD = #{supplierTypeNames}
+			AND AUDIT_TYPE = 'supplierType_page'
+			AND RETURN_STATUS IN (0, 1, 2, 4)
+		)
+		<if test="nodeLevel != null and nodeLevel == 3">
+			AND ll.SUPPLIER_LEVEL IS NOT NULL
+		</if>
         <if test="supplierName != null and supplierName !=''">
             and s.SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
         </if>

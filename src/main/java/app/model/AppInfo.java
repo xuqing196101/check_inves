@@ -33,8 +33,21 @@ public class AppInfo {
      * 删除标识 0正常 1删除
      */
     private Integer isDeleted;
+    
+    /**
+     * App类型  1 公告App   2 网上商城App
+     */
+    private String type;
 
-    public String getVersion() {
+    public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getVersion() {
         return version;
     }
 

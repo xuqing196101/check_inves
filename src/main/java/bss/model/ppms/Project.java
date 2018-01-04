@@ -145,6 +145,9 @@ public class Project {
     
     private String purchaseNewType;
     
+    
+    private String projectTemStatus;
+    
     /**
      * @return Returns the auditReason.
      */
@@ -701,6 +704,14 @@ public class Project {
 
   public void setPurchaseNewType(String purchaseNewType) {
     this.purchaseNewType = purchaseNewType;
+  }
+
+  public String getProjectTemStatus() {
+    return projectTemStatus;
+  }
+
+  public void setProjectTemStatus(String projectTemStatus) {
+    this.projectTemStatus = projectTemStatus;
   }
 
 	

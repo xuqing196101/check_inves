@@ -118,6 +118,7 @@ public class PurchaseAcceptController extends BaseController{
 	 */
 	@RequestMapping("/list")
 	public String queryPlan(@CurrentUser User user,PurchaseRequired purchaseRequired, Integer page, Model model,String status) {
+		 if (user != null && user.getOrg() != null) {
 		Map<String,Object> map=new HashMap<String,Object>();
 //		if(purchaseRequired.getStatus()==null){
 //			map.put("status", "2");
@@ -163,7 +164,9 @@ public class PurchaseAcceptController extends BaseController{
 //			map.put("sign", 2);
 			status="-1";
 		}
-		 
+		
+			
+		
 		List<PurchaseManagement> list2 = purchaseManagementService.queryByMid(user.getOrg().getId(), page==null?1:page,Integer.valueOf(status));
 //		List<PurchaseOrg> list2 = purchaseOrgnizationServiceI.get(user.getOrg().getId());
 		/*PageInfo<PurchaseManagement> pm = new PageInfo<>(list2);*/
@@ -220,6 +223,7 @@ public class PurchaseAcceptController extends BaseController{
     }else {
       model.addAttribute("auth", "hidden");
     }
+		 }
 		return "bss/pms/collect/list";
 	}
 	
@@ -233,8 +237,31 @@ public class PurchaseAcceptController extends BaseController{
     * @throws
      */
     @RequestMapping("/submit")
-    public String submit(String planNo,Model model){
-    	PurchaseRequired p=new PurchaseRequired();
+    public String submit(@CurrentUser User user, String planNo,Model model){
+    	List<PurchaseRequired> list = purchaseRequiredService.supervisionByDetail(planNo);
+    	model.addAttribute("planNo", list.get(0).getUniqueId());
+    	model.addAttribute("list", list);
+    	model.addAttribute("kind", DictionaryDataUtil.find(5));
+    	model.addAttribute("planType", DictionaryDataUtil.findById(list.get(0).getPlanType()).getName());
+    	model.addAttribute("goods", DictionaryDataUtil.getId("GOODS"));
+    	model.addAttribute("dyly", DictionaryDataUtil.getId("DYLY"));
+    	String fileId = list.get(0).getFileId();
+		String typeId = DictionaryDataUtil.getId("PURCHASE_DETAIL");
+		model.addAttribute("typeId", typeId);
+		model.addAttribute("fileId", fileId);
+    	if (user != null && user.getOrg() != null) {
+    		List<Orgnization> orgnizations = new ArrayList<Orgnization>();
+    		List<PurchaseOrg> listOrg = purchaseOrgnizationServiceI.getOrg(user.getOrg().getId());
+    		if (listOrg != null && !listOrg.isEmpty()) {
+				for (PurchaseOrg purchaseOrg : listOrg) {
+					Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(purchaseOrg.getPurchaseDepId());
+					orgnizations.add(orgnization);
+				}
+			}
+    		model.addAttribute("org", orgnizations);
+		}
+    	
+    	/*PurchaseRequired p=new PurchaseRequired();
 		p.setUniqueId(planNo);
 		List<PurchaseRequired> list = purchaseRequiredService.queryUnique(p);
 		for (PurchaseRequired purchaseRequired : list) {
@@ -278,10 +305,10 @@ public class PurchaseAcceptController extends BaseController{
 		String fileId = list.get(0).getFileId();
 		String typeId = DictionaryDataUtil.getId("PURCHASE_DETAIL");
 		model.addAttribute("typeId", typeId);
-		model.addAttribute("fileId", fileId);
+		model.addAttribute("fileId", fileId);*/
 		
 		
-    	return "bss/pms/collect/view";
+    	return "bss/pms/collect/views";
     }
 	
     /**
@@ -295,9 +322,7 @@ public class PurchaseAcceptController extends BaseController{
      */
     @RequestMapping("/update")
     public String updateSubmit(@CurrentUser User user,PurchaseRequiredFormBean list,String reason,HttpServletRequest request,String status,String history,String planNo){
-    	
     	String id="";
-//    	User user = (User) request.getSession().getAttribute("loginUser");
     	if(list!=null){
     	  	List<PurchaseRequired> plist = list.getList();
     	  	id=	plist.get(0).getUserId();

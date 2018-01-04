@@ -157,15 +157,15 @@
 			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJTSHBTG'}"><span class="star_red">[该包转竞谈审核不通过]</span></c:if>
 			 	</h2>
 			 </c:if>
+			 <c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
+		        <c:set value="${treemapValue.packages}" var="packsIds"></c:set>
+		     </c:forEach>
 			 <div class="fl mt20 ml10"><button class="btn" onclick="printWordPrice('${project.id}','${packsIds}')">打印报价</button> </div>
-        <c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
-        <c:set value="${treemapValue.packages}" var="packsIds"></c:set>
-       </c:forEach>
         <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'YZZ'
          && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJZXTP'
           && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJTSHZ'
           && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJTSHBTG'}">
-        <div  class="p0${vsKey.index}">
+        <div  class="p0${vsKey.index} mt20">
 		<table class="table table-bordered table-condensed mt5">
 			<%-- <thead>
 				<tr>

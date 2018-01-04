@@ -349,12 +349,32 @@
 	</select>
 	
 	<select id="selectLevelOfLogicIsAnd" parameterType="map" resultType="java.lang.String">
-		SELECT SUPPLIER_LEVEL FROM T_SES_SMS_SUPPLIER_ITEM_LEVEL WHERE 
-		SUPPLIER_ID = #{supplierId} AND CATEGORY_ID IN
-		<foreach collection="categoryIds" index="in" item="it" open="(" separator="," close=")">
-			#{it}
-		</foreach>
-		GROUP BY SUPPLIER_LEVEL
+		SELECT
+			SUPPLIER_LEVEL
+		FROM
+			T_SES_SMS_SUPPLIER_ITEM_LEVEL
+		WHERE
+			SUPPLIER_ID = #{supplierId}
+		AND SUPPLIER_TYPE_ID = #{typeCode} 
+		AND CATEGORY_ID IN (
+			SELECT DISTINCT
+				TEM. ID
+			FROM
+				(
+					SELECT
+						CATE.*
+					FROM
+						T_SES_BMS_CATEGORY CATE START WITH CATE. ID = #{categoryIds} CONNECT BY PRIOR CATE.PARENT_ID = CATE.ID
+				) TEM
+			WHERE
+				TEM.is_publish = 0
+				AND TEM.SUPPLIER_REGISTER_LEVEL = 4
+		)
+		<if test="null != levels ">
+			AND SUPPLIER_LEVEL IN <foreach collection="levels" index="index" item="it" open="(" close=")" separator=",">
+				#{it}
+			</foreach>
+		</if>
 	</select>
 	<select id="selectContryTree" resultMap="continentMap">
 		WITH TEMP AS (
@@ -385,5 +405,31 @@
 		<if test="cid !=null and cid != '' ">
 			WHERE TEMP.PARENT_ID = #{cid}
 		</if>		
+	</select>
+	
+	
+	<select id="selectProjectLevelForAnd"  resultType="java.lang.String">
+		SELECT
+			NAME
+		FROM
+			(
+				SELECT
+					D . NAME,
+					ROWNUM RM
+				FROM
+					T_SES_SMS_SUPPLIER_MAT_ENG M
+				LEFT JOIN T_SES_SMS_SUPPLIER_APTITUTE A ON M . ID = A .MAT_ENG_ID
+				LEFT JOIN T_SES_BMS_DICTIONARY_DATA D ON D . ID = A ."APTITUTE_ LEVEL"
+				WHERE
+					M .SUPPLIER_ID = #{sid} 
+					<if test="quaIds != null">
+						AND A .CERT_TYPE IN <foreach collection="quaIds" open="(" index="in" item="it" close=")" separator=","> #{it} </foreach>
+					</if>
+					<if test="levels != null ">
+						AND A ."APTITUTE_ LEVEL"  IN <foreach collection="levels" open="(" index="in" item="it" close=")" separator=",">#{it}</foreach>
+					</if>
+			)
+		WHERE
+			RM = 1
 	</select>
 </mapper>

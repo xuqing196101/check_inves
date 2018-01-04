@@ -2079,7 +2079,7 @@ img.img-mouse {
 }
 .section-focus-pic ul li{position:absolute;top:0;left:100%;width:100%;height:100%;list-style-type:none;}
 .section-focus-pic .pages{width:100%;height:100%;}
-.section-focus-pic ul li h3{position:absolute;bottom:0px;left:0;font-weight:normal;color:#FFF;margin-left: 20px;z-index: 111;font-size: 18px; font-family:"微锟斤拷锟脚猴拷";}
+.section-focus-pic ul li h3{position:absolute;bottom:0px;left:0;font-weight:normal;color:#FFF;margin-left: 20px;z-index: 111;font-size: 18px; font-family:"寰敓鏂ゆ嫹閿熻剼鐚存嫹";}
 .section-focus-pic ul li div{position:absolute;bottom:0;left:0;height:50px;background-color:#000;width:100%;opacity: 0.6;filter: alpha(opacity=60);}
 .section-focus-pic .controler{position:absolute;bottom:20px;right:20px;}
 .section-focus-pic .controler b{
@@ -2338,7 +2338,7 @@ a.news_more:hover {
     text-align: center;
     font-weight: normal;
     display: block;
-    /* 张淑彬修改首页工作动态新增消息红钮 */
+    /* 寮犳窇褰慨鏀归椤靛伐浣滃姩鎬佹柊澧炴秷鎭孩閽� */
     z-index:98;
     background:url(../images/report_round.png) no-repeat center;
 }
@@ -2516,7 +2516,7 @@ a.yjfk i{
  border:1px solid #fdaf0f;
 }
 
-/* 业务办理样式 */
+/* 涓氬姟鍔炵悊鏍峰紡 */
 .ywbl_02 a i, .ywbl_01 a i {
   width: 60px;
   height: 50px;
@@ -2661,7 +2661,7 @@ a.yjfk i {
     margin-top: 3px;
   }
 }
-/* 业务办理样式结束 */
+/* 涓氬姟鍔炵悊鏍峰紡缁撴潫 */
 
 
 /* supp_login */
@@ -2932,7 +2932,7 @@ span.list_squre {
 	bottom:2%;
 }
 
-/* max-length 暂定， 防止左右高度不一 超大屏，图片会扁平*/
+/* max-length 鏆傚畾锛� 闃叉宸﹀彸楂樺害涓嶄竴 瓒呭ぇ灞忥紝鍥剧墖浼氭墎骞�*/
 img.sign_left_image {
   width: 100%;
   height: 100%;
@@ -2975,7 +2975,7 @@ img.sign_left_image {
   }
 
 }
-/** 查看页面竖线无白色背景样式 */
+/** 鏌ョ湅椤甸潰绔栫嚎鏃犵櫧鑹茶儗鏅牱寮� */
 h2.list_title{
 	height:16px;
 	line-height: 16px;
@@ -3042,7 +3042,7 @@ h2.list_title{
 
 
 /*indec_two search*/
-/*二级页面search*/
+/*浜岀骇椤甸潰search*/
 .search_box{
 	line-height: 30px;
 	padding:10px;
@@ -3053,7 +3053,7 @@ h2.list_title{
 .search_box input[type="text"]{
 	margin-bottom:0px;
 }
-/*表头固定表格*/
+/*琛ㄥご鍥哄畾琛ㄦ牸*/
 .t_left {
     width: 30%;
     height: auto;
@@ -3086,7 +3086,7 @@ h2.list_title{
 }
 
 
-/**资料下载*/
+/**璧勬枡涓嬭浇*/
 
 .w100{
 	width:100px;
@@ -3148,7 +3148,7 @@ h2.list_title{
     left:0px;
     position: absolute;
 }
-/*登陆提示样式*/
+/*鐧婚檰鎻愮ず鏍峰紡*/
 .msg-wrap {
     min-height: 23px;
     height: auto !important;
@@ -3180,7 +3180,7 @@ h2.list_title{
 }
 
 
-/*首页提示框样式*/
+/*棣栭〉鎻愮ず妗嗘牱寮�*/
 .prompt_top{
 	width:100%;
 	background-color:#FCBE3F;
@@ -3231,7 +3231,7 @@ h2.list_title{
 .prompt_btn .btn{
 	background-color: #fcbe3f;
 }
-/* 三级页面文章内容左右间距 */
+/* 涓夌骇椤甸潰鏂囩珷鍐呭宸﹀彸闂磋窛 */
 .details_box{
 	padding: 30px 3%;
 }
@@ -3347,7 +3347,7 @@ h2.list_title{
 }
 
 
-/* 北京-前端-马田力修改 */
+/* 鍖椾含-鍓嶇-椹敯鍔涗慨鏀� */
 .tab_repair {
     min-width: inherit;
 }
@@ -3356,7 +3356,7 @@ h2.list_title{
     top: auto;
     left: auto;
 }
-/* 访问量统计 */
+/* 璁块棶閲忕粺璁� */
 @media (max-width:767px){
   .visit_count{
 	  font-size:11px;
@@ -3405,18 +3405,21 @@ h2.list_title{
 	background: url(../images/portal_icon.png) no-repeat -1px -475px
 }
 
-/* 北京-开发-张淑彬修改 */
+/* 鍖椾含-寮�鍙�-寮犳窇褰慨鏀� */
 .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
     cursor: default !important;
 }
 
-/* APP二维码 */
+/* APP浜岀淮鐮� */
 .m_app_code {
 	position: fixed;
 	top: 10%;
-	right: -148px;
+	right: -132px;
 	z-index: 100;
 	overflow: hidden;
+}
+.m_app_code.code2 {
+	top: 30%;
 }
 .m_app_code span {
 	display: block;
@@ -3436,21 +3439,21 @@ h2.list_title{
 	right: 0;
 }
 .m_app_code .mac_img img {
-	height : 148px;
-	width : 148px;
+	height : 132px;
+	width : 132px;
 }
-/* 主导航1024下错版修复 */
+/* 涓诲鑸�1024涓嬮敊鐗堜慨澶� */
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
     .header-v4 .navbar-default .m-navbar-nav > li > a {
         font-size: 16px !important;
         padding: 0 9px !important;
     }
 }
-/* 主导航-下拉内容高度设置 */
+/* 涓诲鑸�-涓嬫媺鍐呭楂樺害璁剧疆 */
 .m_buyer_list {
 	height: 238px;
 }
-/* 主导航供应商和专家滚动表格开始 */
+/* 涓诲鑸緵搴斿晢鍜屼笓瀹舵粴鍔ㄨ〃鏍煎紑濮� */
 .m_nav_scroll_head table {
   border: none;
   border-bottom: 1px solid #ddd;
@@ -3520,12 +3523,12 @@ h2.list_title{
     padding: 9px 6px 7px 6px;
   }
 }
-/* 主导航供应商和专家滚动表格结束 */
+/* 涓诲鑸緵搴斿晢鍜屼笓瀹舵粴鍔ㄨ〃鏍肩粨鏉� */
 .list_new li a.publicityCss {
 	display: inline-block;
 	vertical-align: top;
 }
-/* 供应商、专家注册须知页面文件下载修改 */
+/* 渚涘簲鍟嗐�佷笓瀹舵敞鍐岄』鐭ラ〉闈㈡枃浠朵笅杞戒慨鏀� */
 .m_download {
 	padding: 12px 24px;
   background: url(../images/download.png) no-repeat 0px;

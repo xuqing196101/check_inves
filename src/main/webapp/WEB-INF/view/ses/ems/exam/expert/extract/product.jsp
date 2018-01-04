@@ -71,27 +71,99 @@
 	
 	function zTreeBeforeCheck(treeId, treeNode){
 		var rootNode = getCurrentRoot(treeNode).name;
-		if(rootNode == "工程"){
-			if(treeNode.level != 3 && treeNode.isParent == true && treeNode.level != 2){
-				layer.msg("不能选择当前节点！");
-				return false;
-			} else {
-				if (treeNode.checked) {
-					//取消勾选
-					if (contains(idTemp, treeNode.id)) {
-						removeByValue(idTemp, treeNode.id);
-						removeByValue(nameTemp, treeNode.name);
+/* 		if(rootNode == "工程"){ */
+		if(treeNode.level != 3 && treeNode.isParent == true && treeNode.level != 2){
+			layer.msg("不能选择当前节点！");
+			return false;
+		} else {
+			if (treeNode.checked) {
+				//取消勾选
+				if (contains(idTemp, treeNode.id)) {
+					removeByValue(idTemp, treeNode.id);
+					removeByValue(nameTemp, treeNode.name);
+				}
+				//如果取消的是3级节点  就要删除里面所有的子节点
+				if(treeNode.level == 2){
+					var treeObj = $.fn.zTree.getZTreeObj("ztree");
+					var code = '${type}';
+					var idTT = new Array();
+					var nameTT = new Array();
+					for(var k = 0; k < idTemp.length; k++){
+						$.ajax({
+							url : "${pageContext.request.contextPath}/extractExpert/findNodesById.do",
+							type : "post",
+							data : {
+								"code" : code,
+								"id" : idTemp[k]
+							},
+							async : false,
+							dataType : "json",
+							success : function(data) {
+								if(data != ''){
+									if(data.parentId == treeNode.id){
+										idTT.push(data.id);
+										nameTT.push(data.name);
+									}
+								}
+							}
+						});
 					}
-				} else {
-					//勾选
+					for(var i=0; i<idTT.length;i++){
+						removeByValue(idTemp, idTT[i]);
+					}
+					for(var i=0; i<nameTT.length;i++){
+						removeByValue(nameTemp, nameTT[i]);
+					}
+				}else{
+					//如果取消的是4级节点  就要删除里面的父节点
+					var node = treeNode.getParentNode();
+					if (contains(idTemp, node.id)) {
+						removeByValue(idTemp, node.id);
+						removeByValue(nameTemp, node.name);
+					}
+				}
+			} else {
+				//勾选操作
+				if(treeNode.level == 2){
+					//勾选的三级节点就保存他所有的子节点
+					var code = '${type}';
+					var id = treeNode.id;
+					$.ajax({
+						url : "${pageContext.request.contextPath}/extractExpert/getTree.do",
+						type : "post",
+						data : {
+							"code" : code,
+							"id" : id,
+							"ids" : "",
+						},
+						async : false,
+						dataType : "json",
+						success : function(data) {
+							if(data != null && data != ""){
+								for(var i=0;i<data.length;i++){
+									if (!contains(idTemp, data[i].id)) {
+										idTemp.push(data[i].id);
+										nameTemp.push(data[i].name);
+									}
+								}
+							}else{
+								if (!contains(idTemp, treeNode.id)) {
+									idTemp.push(treeNode.id);
+									nameTemp.push(treeNode.name);
+								}
+							}
+						}
+					});
+				}else{
 					if (!contains(idTemp, treeNode.id)) {
 						idTemp.push(treeNode.id);
 						nameTemp.push(treeNode.name);
 					}
 				}
-				return true;
 			}
-		}else{
+			return true;
+		}
+/* 		}else{
 			if (treeNode.level != 3 && treeNode.isParent == true) {
 				layer.msg("不能选择当前节点！");
 				return false;
@@ -111,7 +183,7 @@
 				}
 				return true;
 			}
-		}
+		} */
 	}
 
 	function getCurrentRoot(treeNode) {
@@ -395,7 +467,7 @@
 				
 			</div>
 			<div >
-				产品类别：<input type="text" id="key" class="mr3 empty w125" name="cateName">
+				参评类别：<input type="text" id="key" class="mr3 empty w125" name="cateName">
 				目录编码：<input type="text" id="codeName" class="mr3 empty w125" name="codeName">
 				<div class="tc">
 					<input type="button" id="search" class="btn" value="搜索" onclick="searchCate()">

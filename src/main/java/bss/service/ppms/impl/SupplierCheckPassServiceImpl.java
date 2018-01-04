@@ -399,4 +399,11 @@ public class SupplierCheckPassServiceImpl implements SupplierCheckPassService {
 		
 		return checkPassMapper.selectBySupplierName(packageId);
 	}
+
+	@Override
+	public List<SupplierCheckPass> selectByAll(HashMap<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		return checkPassMapper.selectByAll(map);
+	}
 }

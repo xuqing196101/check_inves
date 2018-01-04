@@ -293,11 +293,11 @@ public interface PurchaseContractMapper {
      * 
     * @Title: contractSupervisionByFileId
     * @author FengTian 
-    * @date 2017-12-20 上午11:58:56  
-    * @Description: 需求监督查出合同 
-    * @param @param id
+    * @date 2017-12-25 上午10:19:13  
+    * @Description: 需求监督查出合同  
+    * @param @param map
     * @param @return      
     * @return List<PurchaseContract>
      */
-    List<PurchaseContract> contractSupervisionByFileId(String id);
+    List<PurchaseContract> contractSupervisionByFileId(HashMap<String, Object> map);
 }

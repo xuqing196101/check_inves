@@ -4,6 +4,13 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 
+* <p>Title:PackageAdvice </p>
+* <p>Description: 转竞谈/中止 审核</p>
+* @author FengTian
+* @date 2018-1-2下午4:28:44
+ */
 public class PackageAdvice {
 
 	/**

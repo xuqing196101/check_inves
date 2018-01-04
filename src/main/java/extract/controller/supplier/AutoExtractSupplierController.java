@@ -1,7 +1,5 @@
 package extract.controller.supplier;
 
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,8 +36,15 @@ public class AutoExtractSupplierController {
 		
 	}
   
+	/**
+	 * 
+	 * <简述>自动抽取测试 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-12-18下午4:27:48
+	 */
 	@RequestMapping("autoExtractTest")
 	public void selectAutoExtractProject(){
-		autoExtractSupplierService.selectAutoExtractProject(new Date(),new Date());
+		//autoExtractSupplierService.selectAutoExtractProject(new Date(),new Date());
 	}
 }

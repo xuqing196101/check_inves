@@ -1,6 +1,5 @@
 package app.dao.app;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -48,7 +47,7 @@ public interface AppInfoMapper {
      * @param 
      * @return
      */
-    Integer fallbackByVersion();
+    Integer fallbackByVersion(@Param("type")String type);
     
     /**
      * 

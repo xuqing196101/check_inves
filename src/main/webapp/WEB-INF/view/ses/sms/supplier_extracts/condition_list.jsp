@@ -522,8 +522,8 @@
 
 				
 			<div class="col-xs-12 tc mt20 dnone" id="end">
-				<button class="center btn" onclick="alterEndInfo(this)">结束</button>
-				<button class="center btn" onclick="extractAgain(this)">再次抽取</button>
+				<button class="center btn" onclick="alterEndInfo(this)">抽取结束</button>
+				<!-- <button class="center btn" onclick="extractAgain(this)">再次抽取</button> -->
 			</div>
 		</div>
 	</div>

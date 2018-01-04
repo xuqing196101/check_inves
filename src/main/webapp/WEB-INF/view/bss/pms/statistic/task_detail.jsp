@@ -191,13 +191,10 @@
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">
-				<li><a
-					href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')">
-						首页</a></li>
+				<li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')">首页</a></li>
 				<li><a href="javascript:void(0);">保障作业系统</a></li>
 				<li><a href="javascript:void(0);">采购计划管理</a></li>
-				<li class="active"><a
-					href="javascript:jumppage('${pageContext.request.contextPath}/statistic/taskList.html');">任务查询统计</a></li>
+				<li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/statistic/taskList.html');">任务查询统计</a></li>
 			</ul>
 			<div class="clear"></div>
 		</div>
@@ -222,7 +219,7 @@
             <select name="department" id="department" class="w100p h32 f14">
               <option value="">请选择</option>
               <c:forEach items="${allXq}" var="org" >
-              <option value="${org.shortName}" <c:if test="${org.shortName==detail.department}">selected="selected"</c:if>>${org.shortName}</option>
+              <option value="${org.shortName}" <c:if test="${org.shortName eq detail.department}">selected="selected"</c:if>>${org.shortName}</option>
               </c:forEach>
             </select>
           </div>
@@ -268,7 +265,7 @@
             <select name="purchaseType" id="purchaseTypes" class="w100p h32 f14">
               <option value="">请选择</option>
               <c:forEach items="${dataType}" var="d" >
-              <option value="${d.id}" <c:if test="${d.id==detail.purchaseType}">selected="selected"</c:if>>${d.name}</option>
+              <option value="${d.id}" <c:if test="${d.id eq detail.purchaseType}">selected="selected"</c:if>>${d.name}</option>
               </c:forEach>
             </select>
           </div>
@@ -282,7 +279,7 @@
             <select name="organization" id="organization" class="w100p h32 f14">
               <option value="">请选择</option>
               <c:forEach items="${allOrg}" var="org" >
-              <option value="${org.id}" <c:if test="${org.id==detail.organization}">selected="selected"</c:if>>${org.shortName}</option>
+              <option value="${org.id}" <c:if test="${org.id eq detail.organization}">selected="selected"</c:if>>${org.shortName}</option>
               </c:forEach>
             </select>
           </div>
@@ -363,8 +360,8 @@
 		</form>
 		</h2>
 		<div class="pl20">
-			<input class="btn-u" type="button" name="" value="按任务查询" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/taskList.html'" />
 			<input class="btn-u" type="button" name="" value="按明细查询" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/taskDetailList.html'" />
+			<input class="btn-u" type="button" name="" value="按任务查询" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/taskList.html'" />
 			<input class="btn-u" type="button" name="" value="按需求部门统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charDept.html'" />
 			<input class="btn-u" type="button" name="" value="按采购方式统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charType.html'" />
 			<input class="btn-u" type="button" name="" value="按月统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charMonth.html'" />

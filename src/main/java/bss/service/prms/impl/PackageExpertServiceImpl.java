@@ -645,38 +645,36 @@ public class PackageExpertServiceImpl implements PackageExpertService {
               if(bms!=null&&bms.size()>0){
                 BidMethod bm=bms.get(0);
                 if("2".equals(bm.getTypeName())){
-                  deviation=bm.getDeviation().doubleValue();
+                  if(bm.getDeviation()!=null){
+                    deviation=bm.getDeviation().doubleValue();
+                  }
                 }  
               }
               Boolean flg=false;
               BigDecimal total=BigDecimal.ZERO;
-              if(deviation!=null){
+              
                 ExpertScore expertScore=new ExpertScore();
                 expertScore.setExpertId(technologyExperts.get(0).getExpert().getId());
                 expertScore.setPackageId(packageId);
                 expertScore.setSupplierId(saleTender.getSuppliers().getId());
-                List<ExpertScore> selectByScore = expertScoreMapper.selectByScore(expertScore);
-                for (ExpertScore ep : selectByScore) {
-                  ScoreModel scoreModel=new ScoreModel();
-                  scoreModel.setId(ep.getScoreModelId());
-                  List<ScoreModel> findListByScoreModel = scoreModelMapper.find(scoreModel);
-                  if(findListByScoreModel!=null&&findListByScoreModel.size()>0){
-                    ScoreModel scoreModel2 = findListByScoreModel.get(0);
-                    if("10".equals(scoreModel2.getTypeName())){
+                List<ExpertScore> selectByScore = expertScoreMapper.selectByModelScore(expertScore);
+                if(selectByScore!=null&&selectByScore.size()>0){
+                  for (ExpertScore ep : selectByScore) {
+                    total=total.add(ep.getScore());
+                    if(deviation!=null){
+                    if("10".equals(ep.getScoreModel().getTypeName())){
                       if(ep.getScore().doubleValue()<0){
-                        if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
+                        if(Math.abs(Double.parseDouble(ep.getScoreModel().getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                           flg=true;
-                        }else{
-                          total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
                         }
                       }
                     }
+                    }
                   }
                 }
-                if(total.doubleValue()>deviation){
+                if(total.doubleValue()<0.0){
                   flg=true;
                 }
-              }
               if(flg){
                 technologyScore=BigDecimal.ZERO;
               }else{
@@ -766,38 +764,37 @@ public class PackageExpertServiceImpl implements PackageExpertService {
             if(bms!=null&&bms.size()>0){
               BidMethod bm=bms.get(0);
               if("2".equals(bm.getTypeName())){
-                deviation=bm.getDeviation().doubleValue();
+                if(bm.getDeviation()!=null){
+                  deviation=bm.getDeviation().doubleValue();
+                }
               }  
             }
             Boolean flg=false;
             BigDecimal total=BigDecimal.ZERO;
-            if(deviation!=null){
+            
               ExpertScore expertScore=new ExpertScore();
               expertScore.setExpertId(technologyExperts.get(0).getExpert().getId());
               expertScore.setPackageId(packageId);
               expertScore.setSupplierId(obj.getSuppliers().getId());
-              List<ExpertScore> selectByScore = expertScoreMapper.selectByScore(expertScore);
-              for (ExpertScore ep : selectByScore) {
-                ScoreModel scoreModel=new ScoreModel();
-                scoreModel.setId(ep.getScoreModelId());
-                List<ScoreModel> findListByScoreModel = scoreModelMapper.find(scoreModel);
-                if(findListByScoreModel!=null&&findListByScoreModel.size()>0){
-                  ScoreModel scoreModel2 = findListByScoreModel.get(0);
-                  if("10".equals(scoreModel2.getTypeName())){
+              List<ExpertScore> selectByScore = expertScoreMapper.selectByModelScore(expertScore);
+              if(selectByScore!=null&&selectByScore.size()>0){
+                for (ExpertScore ep : selectByScore) {
+                  total=total.add(ep.getScore());
+                  if(deviation!=null){
+                  if("10".equals(ep.getScoreModel().getTypeName())){
                     if(ep.getScore().doubleValue()<0){
-                      if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
+                      if(Math.abs(Double.parseDouble(ep.getScoreModel().getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                         flg=true;
-                      }else{
-                        total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
                       }
                     }
                   }
+                  }
                 }
               }
-              if(total.doubleValue()>deviation){
+              
+              if(total.doubleValue()<0.0){
                 flg=true;
               }
-            }
             if(flg){
               obj.setTechnologyScore(BigDecimal.ZERO);
             }
@@ -1344,38 +1341,37 @@ public class PackageExpertServiceImpl implements PackageExpertService {
               if(bms!=null&&bms.size()>0){
                 BidMethod bm=bms.get(0);
                 if("2".equals(bm.getTypeName())){
-                  deviation=bm.getDeviation().doubleValue();
+                  if(bm.getDeviation()!=null){
+                    deviation=bm.getDeviation().doubleValue();
+                  }
                 }  
               }
               Boolean flg=false;
               BigDecimal total=BigDecimal.ZERO;
-              if(deviation!=null){
+             
                 ExpertScore expertScore=new ExpertScore();
                 expertScore.setExpertId(technologyExperts.get(0).getExpert().getId());
                 expertScore.setPackageId(packageId);
                 expertScore.setSupplierId(saleTender.getSuppliers().getId());
-                List<ExpertScore> selectByScore = expertScoreMapper.selectByScore(expertScore);
-                for (ExpertScore ep : selectByScore) {
-                  ScoreModel scoreModel=new ScoreModel();
-                  scoreModel.setId(ep.getScoreModelId());
-                  List<ScoreModel> findListByScoreModel = scoreModelMapper.find(scoreModel);
-                  if(findListByScoreModel!=null&&findListByScoreModel.size()>0){
-                    ScoreModel scoreModel2 = findListByScoreModel.get(0);
-                    if("10".equals(scoreModel2.getTypeName())){
+                List<ExpertScore> selectByScore = expertScoreMapper.selectByModelScore(expertScore);
+                if(selectByScore!=null&&selectByScore.size()>0){
+                  for (ExpertScore ep : selectByScore) {
+                    total=total.add(ep.getScore());
+                    if(deviation!=null){
+                    if("10".equals(ep.getScoreModel().getTypeName())){
                       if(ep.getScore().doubleValue()<0){
-                        if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
+                        if(Math.abs(Double.parseDouble(ep.getScoreModel().getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                           flg=true;
-                        }else{
-                          total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
                         }
                       }
                     }
+                    }
                   }
                 }
-                if(total.doubleValue()>deviation){
+                
+                if(total.doubleValue()<0.0){
                   flg=true;
                 }
-              }
               if(flg){
                 technologyScore=BigDecimal.ZERO;
               }else{
@@ -1565,38 +1561,37 @@ public class PackageExpertServiceImpl implements PackageExpertService {
           if(bms!=null&&bms.size()>0){
             BidMethod bm=bms.get(0);
             if("2".equals(bm.getTypeName())){
-              deviation=bm.getDeviation().doubleValue();
+              if(bm.getDeviation()!=null){
+                deviation=bm.getDeviation().doubleValue();
+              }
             }  
           }
           Boolean flg=false;
           BigDecimal total=BigDecimal.ZERO;
-          if(deviation!=null){
+          
             ExpertScore expertScore=new ExpertScore();
             expertScore.setExpertId(technologyExperts.get(0).getExpert().getId());
             expertScore.setPackageId(packageId);
             expertScore.setSupplierId(saleTender.getSuppliers().getId());
-            List<ExpertScore> selectByScore = expertScoreMapper.selectByScore(expertScore);
-            for (ExpertScore ep : selectByScore) {
-              ScoreModel scoreModel=new ScoreModel();
-              scoreModel.setId(ep.getScoreModelId());
-              List<ScoreModel> findListByScoreModel = scoreModelMapper.find(scoreModel);
-              if(findListByScoreModel!=null&&findListByScoreModel.size()>0){
-                ScoreModel scoreModel2 = findListByScoreModel.get(0);
-                if("10".equals(scoreModel2.getTypeName())){
+            
+            List<ExpertScore> selectByScore = expertScoreMapper.selectByModelScore(expertScore);
+            if(selectByScore!=null&&selectByScore.size()>0){
+              for (ExpertScore ep : selectByScore) {
+                total=total.add(ep.getScore());
+                if(deviation!=null){
+                if("10".equals(ep.getScoreModel().getTypeName())){
                   if(ep.getScore().doubleValue()<0){
-                    if(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
+                    if(Math.abs(Double.parseDouble(ep.getScoreModel().getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())>deviation){
                       flg=true;
-                    }else{
-                      total=total.add(new BigDecimal(Math.abs(Double.parseDouble(scoreModel2.getMaxScore()))-Math.abs(ep.getExpertValue().doubleValue())));
                     }
                   }
                 }
+                }
               }
             }
-            if(total.doubleValue()>deviation){
+            if(total.doubleValue()<0.0){
               flg=true;
             }
-          }
           if(flg){
             score=BigDecimal.ZERO;
           }else{

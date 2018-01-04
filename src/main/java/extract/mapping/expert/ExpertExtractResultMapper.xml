@@ -487,4 +487,26 @@
   <update id="updateIsDelete" parameterType="extract.model.expert.ExpertExtractResult">
     UPDATE T_SES_EMS_EXTRACT_RESULT SET IS_DELETED = 1 WHERE PROJECT_ID = #{projectId} AND EXPERT_ID = #{expertId}
   </update>
+  
+  <!-- 专家基本信息 -->
+  <resultMap id="expertInfoMap" type="ses.model.ems.Expert">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="REAL_NAME" jdbcType="VARCHAR" property="relName" />
+    <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
+  </resultMap>
+  <!-- 根据专家id查询手机号 -->
+  <select id="findByExpertId" parameterType="String" resultMap="expertInfoMap" >
+    SELECT ID,REAL_NAME,MOBILE FROM T_SES_EMS_EXPERT WHERE ID = #{expertId} 
+  </select>
+  
+  <!-- 根据项目id查询参加的专家信息 -->
+  <select id="findByProjectId" parameterType="String" resultMap="BaseResultMap">
+  	SELECT * FROM T_SES_EMS_EXTRACT_RESULT WHERE IS_DELETED = 0 AND IS_JOIN = 1 AND PROJECT_ID = #{projectId}
+  </select>
+  
+  <!-- 根据项目id查询参加的专家信息 -->
+  <select id="vaIsOnceJoin" parameterType="String" resultType="Integer" >
+  	SELECT COUNT(*) FROM T_SES_EMS_EXTRACT_RESULT WHERE IS_JOIN = 1 AND EXPERT_ID = #{expertId}
+  </select>
+  
 </mapper>

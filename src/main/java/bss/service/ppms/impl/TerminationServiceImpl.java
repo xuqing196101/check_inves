@@ -761,6 +761,9 @@ public class TerminationServiceImpl implements TerminationService {
        for(UploadFile uf:files){
          uf.setBusinessId(project.getId());
          uf.setTableName(tableName);
+         if("XMXX_NZCGWJ".equals(project.getProjectTemStatus())){
+           uf.setIsDelete(1);
+         }
          uploadDao.insertFile(uf);
        }
     }
@@ -771,6 +774,9 @@ public class TerminationServiceImpl implements TerminationService {
       for(UploadFile uf:files){
         uf.setBusinessId(project.getId());
         uf.setTableName(tableName);
+        if("XMXX_NZCGWJ".equals(project.getProjectTemStatus())){
+          uf.setIsDelete(1);
+        }
         uploadDao.insertFile(uf);
       }
    }
@@ -781,6 +787,9 @@ public class TerminationServiceImpl implements TerminationService {
       for(UploadFile uf:files){
         uf.setBusinessId(project.getId());
         uf.setTableName(tableName);
+        if("XMXX_NZCGWJ".equals(project.getProjectTemStatus())){
+          uf.setIsDelete(1);
+        }
         uploadDao.insertFile(uf);
       }
    }
@@ -791,6 +800,9 @@ public class TerminationServiceImpl implements TerminationService {
       for(UploadFile uf:files){
         uf.setBusinessId(project.getId());
         uf.setTableName(tableName);
+        if("XMXX_NZCGWJ".equals(project.getProjectTemStatus())){
+          uf.setIsDelete(1);
+        }
         uploadDao.insertFile(uf);
       }
    }
@@ -801,6 +813,9 @@ public class TerminationServiceImpl implements TerminationService {
       for(UploadFile uf:files){
         uf.setBusinessId(project.getId());
         uf.setTableName(tableName);
+        if("XMXX_NZCGWJ".equals(project.getProjectTemStatus())){
+          uf.setIsDelete(1);
+        }
         uploadDao.insertFile(uf);
       }
    }
@@ -811,6 +826,9 @@ public class TerminationServiceImpl implements TerminationService {
       for(UploadFile uf:files){
         uf.setBusinessId(project.getId());
         uf.setTableName(tableName);
+        if("XMXX_NZCGWJ".equals(project.getProjectTemStatus())){
+          uf.setIsDelete(1);
+        }
         uploadDao.insertFile(uf);
       }
    }
@@ -821,6 +839,9 @@ public class TerminationServiceImpl implements TerminationService {
       for(UploadFile uf:files){
         uf.setBusinessId(project.getId());
         uf.setTableName(tableName);
+        if("XMXX_NZCGWJ".equals(project.getProjectTemStatus())){
+          uf.setIsDelete(1);
+        }
         uploadDao.insertFile(uf);
       }
    }
@@ -1085,9 +1106,12 @@ private Project insertProject(String projectId, String title,String type,String 
       project.setParentId("1");
     }else{
       FlowDefine flowDefine = flowDefineMapper.get(currFlowDefineId);
-      if(flowDefine!=null&&flowDefine.getCode().equals("XMXX")){
+      if(flowDefine!=null&&(flowDefine.getCode().equals("XMXX")||flowDefine.getCode().equals("NZCGWJ"))){
           project.setConfirmFile(null);
+          project.setProjectTemStatus("XMXX_NZCGWJ");
       }
+      String flowStatus = flowStatus(currFlowDefineId);
+      project.setStatus(flowStatus);
     }
     return project;
   }

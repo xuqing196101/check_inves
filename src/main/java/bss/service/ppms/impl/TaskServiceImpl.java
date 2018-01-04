@@ -168,10 +168,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
   @Override
-  public List<Task> searchByTask(Task record,Integer page) {
+  public List<Task> searchByTask(HashMap<String, Object> map) {
     PropertiesUtil config = new PropertiesUtil("config.properties");
-    PageHelper.startPage(page,Integer.parseInt(config.getString("pageSizeArticle")));
-      List<Task> list = taskMapper.searchByTask(record);
+    PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSizeArticle")));
+      List<Task> list = taskMapper.searchByTask(map);
     return list;
   }
 

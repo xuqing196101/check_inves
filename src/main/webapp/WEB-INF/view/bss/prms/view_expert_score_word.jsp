@@ -179,7 +179,10 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
 			 	          	 </c:if>
 		 	          </c:if>
 		 	        </c:forEach>
-		 	        <font color="red" class="f18">${sum_score}</font>
+		 	        <font color="red" class="f18">
+                        <c:if test="${sum_score  lt  '0' }">0</c:if>
+			  	        <c:if test="${sum_score ge '0' }">${sum_score}</c:if>
+                      </font>
 		 	        <c:set var="sum_score" value="0"/>
 		      	</span>
 		      </td>

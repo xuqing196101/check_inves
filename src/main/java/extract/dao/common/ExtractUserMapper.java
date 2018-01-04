@@ -10,7 +10,7 @@ public interface ExtractUserMapper {
 
 	List<ExtractUser> getList(ExtractUser user);
 
-	void insertSelectiveAll(List<ExtractUser> list);
+	int insertSelectiveAll(List<ExtractUser> list);
 
 	List<ExtractUser> selectById(String id);
 

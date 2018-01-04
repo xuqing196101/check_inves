@@ -9,7 +9,7 @@ import extract.model.common.ExtractUser;
 
 public interface PersonRelMapper {
 
-	void insertRel(HashMap<String, Object> map);
+	int insertRel(HashMap<String, Object> map);
 
 	List<ExtractUser> getPersonByRecord(String recordId);
 

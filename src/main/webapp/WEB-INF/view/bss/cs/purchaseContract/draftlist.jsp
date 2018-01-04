@@ -12,22 +12,22 @@
 	<meta http-equiv="description" content="This is my page">
   <script type="text/javascript">
   $(function(){
-	  var status = "${purCon.status}";
+	  var status = "${contract.status}";
 	  $("#status").val(status);
 	  laypage({
 		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-		    pages: "${list.pages}", //总页数
+		    pages: "${info.pages}", //总页数
 		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
 		    skip: true, //是否开启跳页
-		    total: "${list.total}",
-		    startRow: "${list.startRow}",
-		    endRow: "${list.endRow}",
-		    groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
+		    total: "${info.total}",
+		    startRow: "${info.startRow}",
+		    endRow: "${info.endRow}",
+		    groups: "${info.pages}">=3?3:"${info.pages}", //连续显示分页数
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 		    	var page = location.search.match(/page=(\d+)/);
 		    	if(page==null){
 		    		page = {};
-		    		var data = "${list.pageNum}";
+		    		var data = "${info.pageNum}";
 		    		page[0]=data;
 		    		page[1]=data;
 		    	}
@@ -407,7 +407,7 @@
    </div> 
 <!-- 项目戳开始 -->
     <form id="form1" action="${pageContext.request.contextPath}/purchaseContract/selectDraftContract.html" method="post">
-    <input type="hidden" value="" name="page" id="page"/>
+    <input type="hidden" name="page" id="page"/>
     <div class="search_detail">
     <div class="m_row_5">
     <div class="row">
@@ -415,7 +415,7 @@
         <div class="row">
           <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购项目：</div>
           <div class="col-xs-8 f0 lh0">
-            <input type="text" value="${purCon.projectName }" id="projectName" name="projectName" class="w100p h32 f14 mb0">
+            <input type="text" value="${contract.projectName }" id="projectName" name="projectName" class="w100p h32 f14 mb0">
           </div>
         </div>
       </div>
@@ -424,7 +424,7 @@
         <div class="row">
           <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">合同编号：</div>
           <div class="col-xs-8 f0 lh0">
-            <input type="text" value="${purCon.code }" id="code" name="code" class="w100p h32 f14 mb0">
+            <input type="text" value="${contract.code }" id="code" name="code" class="w100p h32 f14 mb0">
           </div>
         </div>
       </div>
@@ -433,7 +433,7 @@
         <div class="row">
           <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">计划文件号：</div>
           <div class="col-xs-8 f0 lh0">
-            <input type="text" value="${purCon.documentNumber }" id="documentNumber" name="documentNumber" class="w100p h32 f14 mb0">
+            <input type="text" value="${contract.documentNumber}" id="documentNumber" name="documentNumber" class="w100p h32 f14 mb0">
           </div>
         </div>
       </div>
@@ -442,7 +442,7 @@
         <div class="row">
           <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">供应商：</div>
           <div class="col-xs-8 f0 lh0">
-            <input type="text" value="${purCon.supplierDepName }" id="supplierDepName" name="supplierDepName" class="w100p h32 f14 mb0">
+            <input type="text" value="${contract.supplierDepName }" id="supplierDepName" name="supplierDepName" class="w100p h32 f14 mb0">
           </div>
         </div>
       </div>
@@ -451,7 +451,7 @@
         <div class="row">
           <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">年度：</div>
           <div class="col-xs-8 f0 lh0">
-            <input type="text" value="${purCon.year_string }" id="year" name="year_string" class="w100p h32 f14 mb0">
+            <input type="text" value="${contract.year_string}" id="year" name="year_string" class="w100p h32 f14 mb0">
           </div>
         </div>
       </div>
@@ -461,10 +461,10 @@
           <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">状态：</div>
           <div class="col-xs-8 f0 lh0">
             <select id="status" name="status" class="w100p h32 f14">
-  	      		<option value="">--请选择--</option>
-  	      		<option value="0">暂存</option>
-  	      		<option value="1">草案</option>
-  	      		<option value="2">正式</option>
+  	      		<option value="">请选择</option>
+  	      		<option value="0" <c:if test="${'0' eq contract.status}">selected="selected"</c:if>>暂存</option>
+  	      		<option value="1" <c:if test="${'1' eq contract.status}">selected="selected"</c:if>>草案</option>
+  	      		<option value="2" <c:if test="${'2' eq contract.status}">selected="selected"</c:if>>正式</option>
   	      	</select>
           </div>
         </div>
@@ -514,7 +514,7 @@
 				<th class="info">状态</th>
 			</tr>
 		</thead>
-		<c:forEach items="${draftConList}" var="draftCon" varStatus="vs">
+		<c:forEach items="${info.list}" var="draftCon" varStatus="vs">
 			<tr>
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${draftCon.id}" /></td>
 				<td class="tnone">${draftCon.status}</td>
