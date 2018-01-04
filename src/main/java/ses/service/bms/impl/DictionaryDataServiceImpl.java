@@ -268,6 +268,18 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
 			    supplierDictionaryData.setSupplierHousePoperty(dictionaryData.getId());
 			    continue;
 			}
+			if("SUPPLIER_REVIEW".equals(dictionaryData.getCode())){
+				supplierDictionaryData.setSupplierReview(dictionaryData.getId());
+				continue;
+			}
+			if("SUPPLIER_SURVEY_RECORDS".equals(dictionaryData.getCode())){
+				supplierDictionaryData.setSupplierSurveyRecords(dictionaryData.getId());
+				continue;
+			}
+			if("SUPPLIER_IMAGE_DATA".equals(dictionaryData.getCode())){
+				supplierDictionaryData.setSupplierImageData(dictionaryData.getId());
+				continue;
+			}
 		}
 		return supplierDictionaryData;
 	}

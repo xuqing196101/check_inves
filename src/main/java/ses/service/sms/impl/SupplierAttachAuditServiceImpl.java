@@ -226,7 +226,7 @@ public class SupplierAttachAuditServiceImpl implements SupplierAttachAuditServic
 		// 近三年销售合同主要页及相应合同的银行收款进帐单
 		addContract(supplierId, auditType);
 		
-		return 0;
+		return 1;
 	}
 	
 	private int addAddress(String supplierId, int auditType){

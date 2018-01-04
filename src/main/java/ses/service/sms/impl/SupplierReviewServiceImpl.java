@@ -116,34 +116,71 @@ public class SupplierReviewServiceImpl implements SupplierReviewService {
 		supplier.setStatus(1);
 		supplierMapper.updateReviewOrInves(supplier);
 
-		// 获取意见
+		/**
+		 * 最终意见
+		 */
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("supplierId", supplierId);
 		map.put("flagTime", 1);
-		SupplierAuditOpinion auditOpinion = supplierAuditOpinionMapper.selectByExpertIdAndflagTime(map);
+		
+		SupplierAuditOpinion supplierAuditOpinion = new SupplierAuditOpinion();
+		supplierAuditOpinion.setIsDownLoadAttch(0);
+		
+		//先查看上一次删除的意见
+		map.put("isDelete", 1);
+		SupplierAuditOpinion historyAuditOpinion = supplierAuditOpinionMapper.selectByExpertIdAndflagTime(map);
 
-		// 假删除意见
-		if (auditOpinion != null) {
-			SupplierAuditOpinion supplierAuditOpinion = new SupplierAuditOpinion();
+		
+		//设置上一次意见为历史删除的 isdeete：2
+		if (historyAuditOpinion != null) {
+			supplierAuditOpinion.setIsDelete(2);
+			supplierAuditOpinion.setId(historyAuditOpinion.getId());
+			supplierAuditOpinionMapper.updateByPrimaryKeySelective(supplierAuditOpinion);
+		}
+		
+		//查询现在的记录
+		map.put("isDelete", 0);
+		SupplierAuditOpinion auditOpinion = supplierAuditOpinionMapper.selectByExpertIdAndflagTime(map);
+		//将现在的意见假删除isdeete：1
+		if(auditOpinion != null){
 			supplierAuditOpinion.setIsDelete(1);
-			supplierAuditOpinion.setIsDownLoadAttch(0);
 			supplierAuditOpinion.setId(auditOpinion.getId());
 			supplierAuditOpinionMapper.updateByPrimaryKeySelective(supplierAuditOpinion);
 		}
-
-		// 获取附件审核信息
+		
+		
+		/**
+		 * 审核信息
+		 */
 		SupplierAttachAudit supplierAttachAudit = new SupplierAttachAudit();
 		supplierAttachAudit.setSupplierId(supplierId);
-		supplierAttachAudit.setIsDeleted(0);
-		List<SupplierAttachAudit> diySelect = supplierAttachAuditMapper.diySelect(supplierAttachAudit);
+		supplierAttachAudit.setAuditType(1);
+		
+		SupplierAttachAudit audit = new SupplierAttachAudit();
+		
+		//先查看上一次删除的审核信息
+		supplierAttachAudit.setIsDeleted(1);
+		List<SupplierAttachAudit> historyAttachAuditList = supplierAttachAuditMapper.diySelect(supplierAttachAudit);
 
-		// 假删除附件审核信息
-		if (diySelect != null) {
-			SupplierAttachAudit attachAudit = new SupplierAttachAudit();
-			for (SupplierAttachAudit s : diySelect) {
-				attachAudit.setId(s.getId());
-				attachAudit.setIsDeleted(1);
-				supplierAttachAuditMapper.updateByPrimaryKeySelective(attachAudit);
+		//设置上一次意见为历史删除的 isdeete：2
+		if (historyAttachAuditList != null) {
+			for (SupplierAttachAudit s : historyAttachAuditList) {
+				audit.setId(s.getId());
+				audit.setIsDeleted(2);
+				supplierAttachAuditMapper.updateByPrimaryKeySelective(audit);
+			}
+		}
+		
+		//现在的审核信息
+		supplierAttachAudit.setIsDeleted(0);
+		List<SupplierAttachAudit> attachAuditList = supplierAttachAuditMapper.diySelect(supplierAttachAudit);
+		
+		//设置为假删除  isdeete：1
+		if (attachAuditList != null) {
+			for (SupplierAttachAudit s : attachAuditList) {
+				audit.setId(s.getId());
+				audit.setIsDeleted(1);
+				supplierAttachAuditMapper.updateByPrimaryKeySelective(audit);
 			}
 		}
 	}
@@ -227,20 +264,21 @@ public class SupplierReviewServiceImpl implements SupplierReviewService {
 				/*
 				 * 更新状态
 				 */
-				Supplier s = new Supplier();
-				s.setId(supplierId);
-				s.setReviewAt(new Date());
+				Supplier supplier = new Supplier();
+				supplier.setId(supplierId);
+				supplier.setReviewAt(new Date());
 				//复核人
-				s.setReviewPeople(user.getRelName());
+				supplier.setReviewPeople(user.getRelName());
 				//复核通过
 				if(auditOpinion.getFlagAduit() == 1){
-					s.setStatus(5);
+					supplier.setStatus(5);
 				}
 				//复核不通过
 				if(auditOpinion.getFlagAduit() == 0){
-					s.setStatus(6);
+					supplier.setStatus(6);
 				}
-				supplierMapper.updateReviewOrInves(s);
+				supplier.setReviewStatus(0);
+				supplierMapper.updateReviewOrInves(supplier);
 				return new JdcgResult(200, "操作成功!", null);
 			}else{
 				return new JdcgResult(500, "请下载复核表!", null);

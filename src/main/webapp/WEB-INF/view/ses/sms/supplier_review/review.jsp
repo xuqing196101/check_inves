@@ -243,7 +243,7 @@
           <div class="clear"></div>
           <h2 class="count_flow"><i>3</i>下载供应商复核表</h2>
           <ul class="ul_list hand">
-            <a class="btn btn-windows input" onclick='downloadTable()' href="javascript:void(0)">下载复核表</a>
+            <a class="btn btn-windows input" <c:if test="${status == 1}">onclick='downloadTable()'</c:if> href="javascript:void(0)">下载复核表</a>
           </ul>
           
           <div class="clear"></div>
