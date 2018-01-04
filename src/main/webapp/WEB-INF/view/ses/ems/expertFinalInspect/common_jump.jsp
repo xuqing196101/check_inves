@@ -15,12 +15,22 @@
     <c:if test="${expert.finalInspectCount>0}">
 	    <c:forEach var="i" begin="1" end="${expert.finalInspectCount}" step="1">
 			<li id="reverse_of_four" onclick="tojump('expertAttachment',${i})">
-	        	<a aria-expanded="false" href="#tab-1" data-toggle="tab">历史复查信息</a><i></i>
+				<c:if test="${over!=null&&over!=''}">
+					<c:if test="${notCount == i}">
+						<a aria-expanded="false" href="#tab-1" data-toggle="tab">专家复查</a>
+					</c:if>
+					<c:if test="${notCount != i}">
+						<a aria-expanded="false" href="#tab-1" data-toggle="tab">历史复查信息</a><i></i>
+					</c:if>
+				</c:if>
+				<c:if test="${over==null||over==''}">
+					<a aria-expanded="false" href="#tab-1" data-toggle="tab">历史复查信息</a><i></i>
+				</c:if>
 	    	</li>
 		</c:forEach>
     </c:if>
     <!-- 复查 -->
-    <c:if test="${sign == 3}">
+    <c:if test="${sign == 3 && (over==null||over=='')}">
       <li id="reverse_of_five" onclick="jump('expertAttachment')">
         <a aria-expanded="false" href="#tab-1" data-toggle="tab">专家复查</a>
       </li>

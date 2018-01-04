@@ -317,6 +317,8 @@
 			<input name="batchId" value="${batchId}" type="hidden">
 			<input name="isReviewRevision" value="${isReviewRevision}" type="hidden">
 			<input name="isCheck" value="${isCheck}" type="hidden">
+			<input id="over" name="over" value="${over}" type="hidden">
+			<input id="notCount" name="notCount" value="${notCount}" type="hidden">
 			<input id="finalInspectNumber" name="finalInspectNumber" value="${expert.finalInspectCount==null?1:expert.finalInspectCount+1}" type="hidden">
 		</form>
         <input id="status" value="${status}" type="hidden">

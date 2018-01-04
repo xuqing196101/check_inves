@@ -31,7 +31,7 @@
 
     <script type="text/javascript">
         function view(expertId,sign){
-            window.location.href = "${pageContext.request.contextPath}/expertAudit/basicInfo.html?expertId="+expertId+"&sign="+sign+"&isCheck=yes";
+            window.location.href = "${pageContext.request.contextPath}/finalInspect/basicInfo.html?expertId="+expertId+"&sign="+sign+"&over=over";
         }
       //审核
       function shenhe(id) {
@@ -51,10 +51,10 @@
                   return;
               }
           }
-        var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
+        var state = $("#" + id ).parent("tr").find("td").eq(11).text(); //.trim();
         state = trim(state);
         var sign= ${sign};
-        if((sign == 3 && state == "入库(待复查)")) {
+        if((sign == 3 && state != "入库(待复查)"&&state != "复查中")) {
           layer.msg("请选择待审核项 !", {
             offset: '100px',
           });
@@ -217,7 +217,10 @@
           </thead>
           <c:forEach items="${expertList}" var="expert" varStatus="vs">
             <tr>
-              <td class="tc"><input name="id" type="checkbox" value="${expert.id}" class="select_item"></td>
+              <td class="tc" id="${expert.id}" hidden></td>
+              <td class="tc">
+              <input name="id" type="checkbox" value="${expert.id}" class="select_item">
+              </td>
               <td class="tc">${(vs.count)+(result.pageNum-1)*(result.pageSize)}</td>
               <td class="tl" title="${expert.relName}">
                 <c:if test="${fn:length(expert.relName) >4 }"><a href="javascript:;" onclick="view('${expert.id}',${sign})">${fn:substring(expert.relName,0,4)}...</a></c:if>

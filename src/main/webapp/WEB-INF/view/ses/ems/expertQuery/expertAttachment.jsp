@@ -6,7 +6,8 @@
   <head>
    <%@ include file="/WEB-INF/view/common.jsp" %>
    <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
-   <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ems/expertFinalInspect/merge_jump.js"></script>
+   <%@ include file="/WEB-INF/view/ses/ems/expertQuery/common.jsp"%>
+   <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ems/expertQuery/merge_jump.js"></script>
     <script type="text/javascript">
      function pass(id,typeId) {
     	if($("#passButton"+id).attr("class")=="btn"){
@@ -214,6 +215,7 @@
             // async: false,
              //dataType: "json",
             success: function(e) {
+            	 $("#over").val("over");
             	 $("#form_id").attr("action", "${pageContext.request.contextPath}/finalInspect/expertAttachment.html");
             	 $("#form_id").submit();
 			}
@@ -241,21 +243,14 @@
 					<li>
 						<a href="javascript:void(0)">专家管理</a>
 					</li>
-					<c:if test="${sign == 1}">
-						<li>
-							<a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/expertAudit/list.html?sign=1')">专家初审</a>
-						</li>
-					</c:if>
-					<c:if test="${sign == 2}">
-						<li>
-							<a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/expertAgainAudit/findBatchDetailsList.html?batchId=${batchId}')">专家复审</a>
-						</li>
-					</c:if>
-					<c:if test="${sign == 3}">
-						<li>
-							<a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/expertAudit/list.html?sign=3')">专家复查</a>
-						</li>
-					</c:if>
+					<li>
+						<c:if test="${sign == 1}">
+							<a  href="javascript:jumppage('${pageContext.request.contextPath}/expert/findAllExpert.html')">全部专家查询</a>
+						</c:if>
+						<c:if test="${sign == 2}">
+							<a  href="javascript:jumppage('${pageContext.request.contextPath}/expertQuery/list.html')">入库专家查询</a>
+						</c:if>
+					</li>
 				</ul>
 				<div class="clear"></div>
 			</div>
@@ -263,7 +258,33 @@
 		<div class="container container_box pb70">
 			<div class=" content">
 				<div class="col-md-12 tab-v2 job-content">
-					<%@include file="/WEB-INF/view/ses/ems/expertFinalInspect/common_jump.jsp" %>
+					<ul class="nav nav-tabs bgwhite">
+						<li class="">
+							<a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18" onclick="jump('basicInfo');">基本信息</a>
+						</li>
+						<li class="">
+							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('expertType');">专家类别</a>
+						</li>
+						<li class="">
+							<a aria-expanded="fale" href="#tab-3" data-toggle="tab" class="f18" onclick="jump('product');">参评类别</a>
+						</li>
+						<li class="">
+							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('expertFile');">承诺书和申请表</a>
+						</li>
+						<li class="">
+              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('auditInfo');">采购机构初审意见</a>
+            </li>
+						<li class="">
+              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('review');">专家复审意见</a>
+            </li>
+            <c:if test="${expert.finalInspectCount>0}">
+	    		<c:forEach var="i" begin="1" end="${expert.finalInspectCount}" step="1">
+						<li <c:if test="${notCount eq i}">class="active"</c:if>>
+			              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tojump('expertAttachment',${i});">采购机构复查意见</a>
+			            </li>
+            	</c:forEach>
+            </c:if>
+					</ul>
 					<div class="padding-top-10">
 						 <h2 class="count_flow"><i>1</i>专家复查</h2>
 						 <table class="table table-bordered table-hover mb0">
@@ -290,16 +311,16 @@
 								    	<button type="button" id="passButton${list.id}" 
 								    	<c:if test="${list.status==1}">class="btn"</c:if>
 								    	<c:if test="${list.status!=1}">class="btn bgdd black_link"</c:if>
-								    	<c:if test="${over!=null|| over!=''||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>
+								    	disabled="disabled"
 								    	onclick="pass('${list.id}','${list.typeId}')">一致</button> | 
 								    	<button type="button" id="notPassButton${list.id}" 
 								    	<c:if test="${list.status==2}">class="btn bgred"</c:if>
 								    	<c:if test="${list.status!=2}">class="btn bgdd black_link"</c:if>  
-								    	<c:if test="${over!=null|| over!=''||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>
+								    	disabled="disabled"
 								    	onclick="notPass('${list.id}','${list.typeId}')">不一致</button>
 								    </td>
 								    <td class="tl pl20">
-										<input type="text" id="reason${list.id}" class="w100p mb0" value="${list.reason}" onblur="updReason('${list.id}','${list.typeId}')" <c:if test="${over!=null|| over!=''||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>>
+										<input type="text" id="reason${list.id}" class="w100p mb0" value="${list.reason}" onblur="updReason('${list.id}','${list.typeId}')" disabled="disabled">
 									</td>
 						      </tr>
 						    </c:forEach>
@@ -311,9 +332,9 @@
 						 <ul class="ul_list">
 		                   <li>
 		                   <div class="select_check">
-		                      <input type="radio" id="fchg" <c:if test="${auditOpinion.flagAudit eq '7'}">checked</c:if> name="status" value="7" onclick = "updStatus()" <c:if test="${over!=null|| over!=''||qualified eq 'false'||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>>复查合格
-		                      <input type="radio"  id="fcbhg" <c:if test="${auditOpinion.flagAudit eq '8'}">checked</c:if> name="status" value="8" onclick = "updStatus()" <c:if test="${over!=null|| over!=''||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>>复查不合格
-		                      <input type="radio"  id="zlbq" <c:if test="${auditOpinion.flagAudit eq '17'}">checked</c:if> name="status" value="17" onclick = "updStatus()" <c:if test="${over!=null|| over!=''||qualified eq 'false'||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>>资料不全
+		                      <input type="radio" id="fchg" <c:if test="${auditOpinion.flagAudit eq '7'}">checked</c:if> name="status" value="7" onclick = "updStatus()" disabled="disabled">复查合格
+		                      <input type="radio"  id="fcbhg" <c:if test="${auditOpinion.flagAudit eq '8'}">checked</c:if> name="status" value="8" onclick = "updStatus()" disabled="disabled">复查不合格
+		                      <input type="radio"  id="zlbq" <c:if test="${auditOpinion.flagAudit eq '17'}">checked</c:if> name="status" value="17" onclick = "updStatus()" disabled="disabled">资料不全
 		                    </div>
 		                  </li>
 		                  <li>
@@ -324,26 +345,17 @@
 		                   </div>
 		                 </li>
 		                  <li class="mt10">
-		                     <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80" onblur="updExpertReason()" <c:if test="${over!=null|| over!=''||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>>${auditOpinion.opinion }</textarea>
+		                     <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80" onblur="updExpertReason()" disabled="disabled">${auditOpinion.opinion }</textarea>
 		                  </li>
 		                </ul>
 					</div>
 					<div class="clear"></div>
 					<div class="padding-top-10">
-						<h2 class="count_flow"><i>3</i>下载专家复查表</h2>
+						<h2 class="count_flow"><i>3</i>专家复查表</h2>
 						<ul class="ul_list">
 		                   <li>
-		                		<button class="btn" onclick="dwonExpertFcTable()">下载专家复查表</button>
-		                   </li>
-		                </ul>
-					</div>
-					<div class="clear"></div>
-					<div id="upfcTable" class="padding-top-10" <c:if test="${expert.status!='7' && expert.status!='8' && expert.status!='17' && auditOpinion.flagAudit ==null && auditOpinion.flagAudit ==''}">hidden</c:if>>
-						<h2 class="count_flow"><i>4</i>上传专家复查表</h2>
-						<ul class="ul_list">
-		                   <li>
-		                		<u:upload id="upfcTableFile" businessId="${auditOpinion.id}" sysKey="${expertKey}" typeId="${typeId}" buttonName="上传专家复查表" auto="true" multiple="true"/>
-        						<u:show showId="upfcTableFlie" businessId="${auditOpinion.id}" sysKey="${expertKey}"  typeId="${typeId}" />
+		                   	    <span class="fl">专家复查表：</span>
+		                		<u:show showId="upfcTableFlie" businessId="${auditOpinion.id}" sysKey="${expertKey}" delete="false" typeId="${typeId}" />
 		                   </li>
 		                </ul>
 					</div>
@@ -351,31 +363,20 @@
 			</div>
 		</div>
 		<div class="add_regist tc m_btn_ab">
-			<c:if test="${notCount<expert.finalInspectCount||notCount==1}"><a class="btn mb0 mr0" type="button" onclick="jump('expertFile')">上一步</a></c:if>
-			<c:if test="${notCount>=expert.finalInspectCount&&notCount!=1}"><a class="btn mb0 mr0" type="button" onclick="tojump('expertAttachment',${notCount-1})">上一步</a></c:if>
-	        <c:if test="${notCount<=expert.finalInspectCount && over==null}">
-	        	<a class="btn" type="button" onclick="tojump('expertAttachment',${notCount+1})">下一步</a>
-	        </c:if>
-	        <c:if test="${notCount>expert.finalInspectCount}">
-		        <a class="btn" type="button" onclick="" <c:if test="${expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>>暂存</a>
-		        <a class="btn" type="button" onclick="over()" <c:if test="${expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>>复查结束</a>
-	        </c:if>
+			<c:if test="${sign == 1}">
+				<a class="btn btn-windows reset" href="${pageContext.request.contextPath}/expert/findAllExpert.html">返回列表</a>
+			</c:if>
+			<c:if test="${sign == 2}">
+				<a class="btn btn-windows reset" href="${pageContext.request.contextPath}/expertQuery/list.html">返回列表</a>
+			</c:if>
 	    </div>
  	<input id="status" value=" ${expert.status}" type="hidden">
 	<form id="form_id" action="" method="post">
-	    <input id="expertId" name="expertId" value="${expert.id}" type="hidden">
-	    <input name="sign" value="${sign}" type="hidden">
-	    <input name="batchId" value="${batchId}" type="hidden">
-	    <input name="isReviewRevision" value="${isReviewRevision}" type="hidden">
-	    <input name="isCheck" value="${isCheck}" type="hidden">
-	    <input id="finalInspectNumber" name="finalInspectNumber" value="${expert.finalInspectCount+1}" type="hidden">
-	    <input id="over" name="over" value="${over}" type="hidden">
-	    <input id="notCount" name="notCount" value="${notCount}" type="hidden">
-	</form> 
-	<form id="downloadForm" action="" method="post">
-          <input name="expertId" value="${expert.id}" type="hidden" />
-          <input name=count value="${notCount}" type="hidden">
-    </form>	
+			<input name="expertId" value="${expert.id}" type="hidden">
+			<input id="sign" name="sign" value="${sign}" type="hidden">
+			<input name="status" value="${status}" type="hidden">
+			<input id="finalInspectNumber" name="finalInspectNumber" value="" type="hidden">
+	</form>
 </body>
 
 </html>

@@ -34,9 +34,11 @@ import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.ems.Expert;
+import ses.model.ems.ExpertAttachment;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditOpinion;
 import ses.model.ems.ExpertCategory;
+import ses.model.ems.ExpertFinalInspect;
 import ses.model.ems.ExpertTitle;
 import ses.model.oms.Orgnization;
 import ses.model.sms.SupplierCateTree;
@@ -44,9 +46,11 @@ import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.EngCategoryService;
+import ses.service.ems.ExpertAttachmentService;
 import ses.service.ems.ExpertAuditOpinionService;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertCategoryService;
+import ses.service.ems.ExpertFinalInspectService;
 import ses.service.ems.ExpertService;
 import ses.service.ems.ExpertTitleService;
 import ses.service.oms.OrgnizationServiceI;
@@ -63,6 +67,12 @@ import ses.util.PropUtil;
 @Controller
 @RequestMapping("/expertQuery")
 public class ExpertQueryController {
+	
+	@Autowired
+	private ExpertAttachmentService expertAttachmentService;
+	
+	@Autowired
+	private ExpertFinalInspectService finalInspectService;
 	
 	@Autowired
     private DictionaryDataServiceI dictionaryDataServiceI; // TypeId
@@ -399,6 +409,7 @@ public class ExpertQueryController {
 		model.addAttribute("goodsProjectId", goodsProjectId);
 		model.addAttribute("expertAnalyzeVo", expertAnalyzeVo);
 		model.addAttribute("reqType", reqType);
+		model.addAttribute("expert", expert);
 		
 		return "ses/ems/expertQuery/product";
 	}
@@ -792,6 +803,8 @@ public class ExpertQueryController {
 		model.addAttribute("reqType", reqType);
 		model.addAttribute("expertAnalyzeVo", expertAnalyzeVo);
 		model.addAttribute("status", status);
+		Expert expert = service.selectByPrimaryKey(expertId);
+		model.addAttribute("expert", expert);
 		return "ses/ems/expertQuery/expertFile";
 	}
 	
@@ -932,6 +945,8 @@ public class ExpertQueryController {
 			model.addAttribute("typeId", dictionaryData.getId());
 		}
 		model.addAttribute("sysKey", sysKey);
+		Expert expert = service.selectByPrimaryKey(expertId);
+		model.addAttribute("expert", expert);
 		return "ses/ems/expertQuery/auditInfo";
 	}
 	
@@ -971,6 +986,7 @@ public class ExpertQueryController {
 		}
 		
 		model.addAttribute("expertId", expertId);
+		model.addAttribute("expert", expert);
 		model.addAttribute("sign", sign);
 		model.addAttribute("reqType", reqType);
 		model.addAttribute("status", status);
@@ -1316,4 +1332,121 @@ public class ExpertQueryController {
         int titleSize[] = {5, 20, 15, 10, 40, 25, 15, 15, 20, 15, 800};
         excelUtils.wirteExcel(titleColumn, titleName, titleSize, dataList);
     }
+    @RequestMapping("/expertAttachment")
+	public String expertAttachmentList(String expertId, Integer sign, Model model,String finalInspectNumber) {
+		//初审复审标识（1初审，3复查，2复审）
+		model.addAttribute("sign", sign);
+		Expert expert = expertService.selectByPrimaryKey(expertId);
+		model.addAttribute("expert", expert);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("businessId", expertId);
+		map.put("isDeleted", 0);
+		String gpId = DictionaryDataUtil.getId("GOODS_PROJECT");
+			String pId = DictionaryDataUtil.getId("PROJECT");
+			List<ExpertTitle> proList=expertTitleService.queryByUserId(expert.getId(),pId);
+			List<ExpertTitle> ecoList=expertTitleService.queryByUserId(expert.getId(),gpId);
+		List<ExpertAttachment> list = expertAttachmentService.selectListByMap(map);
+		if(proList.size()>0){
+			for (ExpertTitle expertTitle : proList) {
+				ExpertAttachment e = new ExpertAttachment();
+				e.setId(expertTitle.getId());
+				e.setTypeId("9");
+				e.setBusinessId(expertTitle.getId());
+				e.setName(expertTitle.getQualifcationTitle());
+				list.add(e);
+			}
+		}
+		if(ecoList.size()>0){
+			for (ExpertTitle expertTitle : ecoList) {
+				ExpertAttachment e = new ExpertAttachment();
+				e.setId(expertTitle.getId());
+				e.setTypeId("9");
+				e.setBusinessId(expertTitle.getId());
+				e.setName(expertTitle.getQualifcationTitle());
+				list.add(e);
+			}
+		}
+		List<ExpertAttachment> expertAttachmentList=new ArrayList<ExpertAttachment>();
+		for (ExpertAttachment e : list) {
+			ExpertFinalInspect expertFinalInspect = new ExpertFinalInspect();
+			expertFinalInspect.setExpertId(expertId);
+			expertFinalInspect.setFileId(e.getId());
+			expertFinalInspect.setFinalInspectNumber(finalInspectNumber);
+			ExpertFinalInspect inspect = finalInspectService.getExpertFinalInspect(expertFinalInspect);
+			if(inspect!=null){
+				e.setStatus(inspect.getStatus());
+				e.setReason(inspect.getReason());
+			}
+			String name="";
+			if("50".equals(e.getTypeId())){
+				name="近期免冠彩色证件照";
+			}else if("1".equals(e.getTypeId())){
+				name="缴纳社会保险证明";
+			}else if("2".equals(e.getTypeId())){
+				name="退休证书或退休证明";
+			}else if("3".equals(e.getTypeId())){
+				name="身份证扫描件";
+			}else if("12".equals(e.getTypeId())){
+				name="军队人员身份证件";
+			}else if("4".equals(e.getTypeId())){
+				name="专业技术职称证书";
+			}else if("5".equals(e.getTypeId())){
+				name="毕业证书";
+			}else if("6".equals(e.getTypeId())){
+				name="学位证书";
+			}else if("8".equals(e.getTypeId())){
+				name="推荐信";
+			}else if("7".equals(e.getTypeId())){
+				name="获奖证书";
+			}else if("9".equals(e.getTypeId())){
+				name=e.getName()+"(执业资格证书)";
+			}else if("13".equals(e.getTypeId()) || "14".equals(e.getTypeId())){
+				continue;
+			}
+			e.setName(name);
+			expertAttachmentList.add(e);
+		}
+		// 专家系统key
+	    Integer expertKey = Constant.EXPERT_SYS_KEY;
+		model.addAttribute("expertKey", expertKey);
+		model.addAttribute("list", expertAttachmentList);
+		ExpertAuditOpinion find = new ExpertAuditOpinion();
+		find.setExpertId(expertId);
+		find.setFlagTime(2);
+		List<ExpertAuditOpinion> auditOpinionList = expertAuditOpinionService.selectAllByExpertList(find);
+		if(auditOpinionList.size()>0){
+			if(auditOpinionList.size()>(Integer.valueOf(finalInspectNumber)-1)){
+				ExpertAuditOpinion auditOpinion = auditOpinionList.get(Integer.valueOf(finalInspectNumber)-1);
+				if(auditOpinion.getOpinion()!=null){
+					String[] strings = auditOpinion.getOpinion().split("。");
+					if(strings.length<2){
+						auditOpinion.setOpinion(null);
+					}else{
+						auditOpinion.setOpinion(strings[1]);
+					}
+					
+				}
+				model.addAttribute("auditOpinion", auditOpinion);
+			}else{
+				model.addAttribute("auditOpinion", new ExpertAuditOpinion());
+			}
+		}else{
+			model.addAttribute("auditOpinion", new ExpertAuditOpinion());
+		}
+		ExpertFinalInspect e = new ExpertFinalInspect();
+		e.setExpertId(expertId);
+		e.setStatus("2");
+		e.setFinalInspectNumber(finalInspectNumber);
+		List<ExpertFinalInspect> inspectList = finalInspectService.findExpertFinalInspectList(e);
+		if(inspectList.size()>0){
+			model.addAttribute("qualified",false);
+		}else{
+			model.addAttribute("qualified",true);
+		}
+		//获取专家复查批准表附件类型ID
+		String typeId = DictionaryDataUtil.getId("EXPERT_PZFCB");
+		model.addAttribute("typeId", typeId);
+		model.addAttribute("notCount", finalInspectNumber);
+		return "ses/ems/expertQuery/expertAttachment";
+	}
 }

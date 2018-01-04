@@ -92,7 +92,7 @@ public class ExpertFinalInspectController {
 		}
 		if("1".equals(user.getTypeName())){
 			String orgId=user.getOrg()==null?user.getOrgId():user.getOrg().getId();
-			expert.setFinalInspectPeople(null);
+			expert.setFinalInspectPeople(orgId);
 			List<Expert> expertList = finalInspectService.findExpertFinalInspectList(expert,pageNum);
 			PageInfo< Expert > result = new PageInfo < Expert > (expertList);
 			 for(Expert exp: expertList) {
@@ -149,7 +149,7 @@ public class ExpertFinalInspectController {
 	 * @throws IllegalAccessException 
 	 */
 	@RequestMapping("/basicInfo")
-	public String basicInfo(@CurrentUser User user,HttpServletRequest request,Expert expert, Model model, String expertId, Integer sign, String isCheck){
+	public String basicInfo(@CurrentUser User user,HttpServletRequest request,String notCount,Expert expert, Model model, String expertId, Integer sign, String isCheck){
 		expert = expertService.selectByPrimaryKey(expertId);
 		String see = request.getParameter("see");
 		if(see!=null){
@@ -165,6 +165,11 @@ public class ExpertFinalInspectController {
 		}
 		model.addAttribute("isCheck", isCheck == null? "no" : isCheck);
 		model.addAttribute("expert", expert);
+		if(notCount==null||"".equals(notCount)){
+			notCount=expert.getFinalInspectCount();
+		}
+		model.addAttribute("notCount", notCount);
+		model.addAttribute("over", request.getParameter("over"));
 		//初审复审标识（1初审，2复审，3复查）
 		model.addAttribute("sign", sign);
 		//专家来源
@@ -316,12 +321,14 @@ public class ExpertFinalInspectController {
 	 * @return String
 	 */
 	@RequestMapping("/expertType")
-	public String expertType(ExpertAudit expertAudit, Model model, String expertId, Integer sign, String batchId, String isReviewRevision, String isCheck) {
+	public String expertType(ExpertAudit expertAudit,String over,String notCount, Model model, String expertId, Integer sign, String batchId, String isReviewRevision, String isCheck) {
 		//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
+		model.addAttribute("notCount", notCount);
 		model.addAttribute("isCheck", isCheck == null? "no" : isCheck);
 		Expert expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("expert", expert);
+		model.addAttribute("over", over);
 		
 		String type = expert.getExpertsTypeId();
 		model.addAttribute("expertType", type);
@@ -405,10 +412,12 @@ public class ExpertFinalInspectController {
 	 * @return String
 	 */
 	@RequestMapping("/product")
-	public String product(Expert expert, Model model, String expertId, Integer sign, String batchId, String isReviewRevision, String isCheck) {
+	public String product(Expert expert,String over,String notCount, Model model, String expertId, Integer sign, String batchId, String isReviewRevision, String isCheck) {
 		//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
+		model.addAttribute("over", over);
 		model.addAttribute("batchId", batchId);
+		model.addAttribute("notCount", notCount);
 		model.addAttribute("isCheck", isCheck == null? "no" : isCheck);
 		expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("status", expert.getStatus());
@@ -699,9 +708,11 @@ public class ExpertFinalInspectController {
 		 * @return String
 		 */
 		@RequestMapping("/expertFile")
-		public String expertFile(Expert expert, Model model, String expertId, Integer sign, String isReviewRevision, String isCheck) {
+		public String expertFile(Expert expert,String over,String notCount, Model model, String expertId, Integer sign, String isReviewRevision, String isCheck) {
 			//初审复审标识（1初审，3复查，2复审）
 			model.addAttribute("sign", sign);
+			model.addAttribute("over", over);
+			model.addAttribute("notCount", notCount);
 			model.addAttribute("isCheck", isCheck == null? "no" : isCheck);
 			// 专家系统key
 			Integer expertKey = Constant.EXPERT_SYS_KEY;
@@ -718,11 +729,12 @@ public class ExpertFinalInspectController {
 			return "ses/ems/expertFinalInspect/expertFile";
 		}
 		@RequestMapping("/expertAttachment")
-		public String expertAttachmentList(String expertId, Integer sign, Model model,String finalInspectNumber) {
+		public String expertAttachmentList(String expertId, Integer sign, Model model,String finalInspectNumber,String over) {
 			//初审复审标识（1初审，3复查，2复审）
 			model.addAttribute("sign", sign);
 			Expert expert = expertService.selectByPrimaryKey(expertId);
 			model.addAttribute("expert", expert);
+			model.addAttribute("over", over);
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("businessId", expertId);
 			map.put("isDeleted", 0);
