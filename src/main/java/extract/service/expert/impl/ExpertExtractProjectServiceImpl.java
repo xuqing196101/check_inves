@@ -34,6 +34,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.ProjectExtract;
 import ses.model.oms.Orgnization;
+import ses.service.ems.ExpertFinalInspectService;
 import ses.service.ems.ExpertService;
 import ses.util.AuthorityUtil;
 import ses.util.DictionaryDataUtil;
@@ -142,6 +143,10 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 	/** 自动抽取 **/
 	@Autowired
 	private AutoExtractService autoExtractService;
+	
+	/** 专家复查 **/
+	@Autowired
+	private ExpertFinalInspectService expertFinalInspectService;
     
     /**
      * 保存信息
@@ -629,10 +634,12 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
         int num = 0;
         for (File file2 : file.listFiles()) {
             // 抽取结果信息
+        	Set<String> projectIdSet = new HashSet<String>();
             if (file2.getName().contains(FileUtils.EXTRACT_RESULT_PATH_FILENAME)) {
                 List<ExpertExtractResult> resultList = FileUtils.getBeans(file2, ExpertExtractResult.class);
                 num = resultList == null ? 0 : resultList.size();
                 for (ExpertExtractResult expertExtractResult : resultList) {
+                	projectIdSet.add(expertExtractResult.getProjectId());
                     ExpertExtractResult extractResult = expertExtractResultMapper.selectByPrimaryKey(expertExtractResult.getId() == null ? "" : expertExtractResult.getId());
                     if(extractResult != null){
                         expertExtractResultMapper.updateByPrimaryKeySelective(expertExtractResult);
@@ -656,6 +663,18 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
                     }
                 }
             }
+            for (String str : projectIdSet) {
+            	//抽取结束  将参加的专家加入到专家复查列表里面
+                ExpertExtractProject extractProject = expertExtractProjectMapper.selectByPrimaryKey(str);
+                if(extractProject != null && extractProject.getProcurementDepId() != null){
+                	String orgId = extractProject.getProcurementDepId();
+                	List<ExpertExtractResult> extractResultList = expertExtractResultMapper.findByProjectId(str);
+                	for (ExpertExtractResult expertExtractResult : extractResultList) {
+                		expertFinalInspectService.addFinalInspect(expertExtractResult.getExpertId(), orgId);
+        			}
+                }
+			}
+            
         }
         synchRecordService.synchBidding(new Date(), num+"", Constant.DATE_SYNCH_EXPERT_EXTRACT_RESULT, Constant.OPER_TYPE_IMPORT, Constant.EXPERT_EXTRACT_RESULT_COMMIT_IMPORT);
     }

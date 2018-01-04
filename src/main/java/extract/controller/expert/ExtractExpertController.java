@@ -25,6 +25,7 @@ import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.EngCategoryService;
+import ses.service.ems.ExpertFinalInspectService;
 import ses.service.ems.ExpertService;
 import ses.util.DictionaryDataUtil;
 import bss.model.ppms.AdvancedProject;
@@ -38,6 +39,7 @@ import common.annotation.CurrentUser;
 import extract.model.expert.ExpertExtractCateInfo;
 import extract.model.expert.ExpertExtractCondition;
 import extract.model.expert.ExpertExtractProject;
+import extract.model.expert.ExpertExtractResult;
 import extract.service.expert.AutoExtractService;
 import extract.service.expert.ExpertExtractConditionService;
 import extract.service.expert.ExpertExtractProjectService;
@@ -107,6 +109,10 @@ public class ExtractExpertController {
     
     @Autowired
     private CategoryMapper categoryMapper;
+    
+    /** 专家复查 **/
+    @Autowired
+    private ExpertFinalInspectService expertFinalInspectService;
     
     /**
      * 
@@ -288,6 +294,15 @@ public class ExtractExpertController {
     public String extractEnd(ExpertExtractProject expertExtractProject,ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo,String conId) throws Exception{
         // 修改项目抽取状态
         expertExtractProjectService.updataStatus(expertExtractProject.getId());
+        //抽取结束  将参加的专家加入到专家复查列表里面
+        ExpertExtractProject extractProject = expertExtractProjectService.selectByPrimaryKey(expertExtractProject.getId());
+        if(extractProject != null && extractProject.getProcurementDepId() != null){
+        	String orgId = extractProject.getProcurementDepId();
+        	List<ExpertExtractResult> extractResultList = expertExtractResultService.findByProjectId(expertExtractProject.getId());
+        	for (ExpertExtractResult expertExtractResult : extractResultList) {
+        		expertFinalInspectService.addFinalInspect(expertExtractResult.getExpertId(), orgId);
+			}
+        }
         String jsonString = JSON.toJSONString("success");
         return jsonString;
     }
