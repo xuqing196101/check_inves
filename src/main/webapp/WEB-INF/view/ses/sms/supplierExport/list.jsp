@@ -35,6 +35,19 @@
 				var type = $("#exportType").val();
 				window.location.href="${pageContext.request.contextPath}/supplierExport/exportSupplier_check.html?type="+type+"&name="+$("#name").val();
 			}
+			
+			// document.domain = "caibaojian.com";
+			function setIframeHeight(id) {
+				var iframeHheight = $(window).height() - $('#'+id).offset().top - 20;
+				$('#'+id).css({
+					height: iframeHheight
+				});
+			};
+			
+			$(window).resize(function () {
+				setIframeHeight('actives');
+			});
+			
 		</script>
 </head>
 
@@ -112,7 +125,7 @@
 				    </div>
 						</form>
 						</h2>
-						<iframe frameborder="0" name="actives" id="actives" scrolling="auto" marginheight="0" height="800" width="100%" src=""></iframe>
+						<iframe frameborder="0" name="actives" id="actives" scrolling="auto" marginheight="0" onload="setIframeHeight('actives')" width="100%" src=""></iframe>
 			</div>
 		</div>
 
