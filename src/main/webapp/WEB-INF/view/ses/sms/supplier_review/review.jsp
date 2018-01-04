@@ -179,6 +179,7 @@
            </jsp:include>
           <h2 class="count_flow"><i>1</i>审核信息</h2>
           <ul class="ul_list hand">
+            <a class="red">说明：项目中红色字体为必须复核项，必须选择是否一致；不一致的项目必须填写理由</a>
             <table class="table table-bordered table-condensed table-hover">
               <thead>
                 <tr>
@@ -193,7 +194,14 @@
                 <c:forEach items="${itemList}" var="item" varStatus="vs">
                   <tr class="h40">
                     <td class="tc">${vs.index+1}</td>
-                    <td class="w250">${item.attachName}</td>
+                    <td class="w250 <c:if test="${item.attachCode eq 'SUPPLIER_BUSINESS_CERT'}">red</c:if>
+                    <c:if test="${item.attachCode eq 'SUPPLIER_BEARCHCERT'}">red</c:if>
+                    <c:if test="${item.attachCode eq 'SUPPLIER_FINANCE'}">red</c:if>
+                    <c:if test="${item.attachCode eq 'SUPPLIER_ISO9001'}">red</c:if>
+                    <c:if test="${item.attachCode eq 'SUPPLIER_CON_ACH'}">red</c:if>
+                    <c:if test="${item.attachCode eq 'SUPPLIER_CERT_ENG'}">red</c:if>">
+                    ${item.attachName}</td>
+                    
                     <td class="tc w70">
                       <c:if test="${empty item.businessId || empty item.typeId}">
                         <a href="javascript:;" onclick="viewAttach('${item.viewUrl}','${item.attachName}')">查看</a>

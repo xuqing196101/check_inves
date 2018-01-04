@@ -239,6 +239,7 @@ public class SupplierReviewServiceImpl implements SupplierReviewService {
 		SupplierAttachAudit supplierAttachAudit = new SupplierAttachAudit();
 		supplierAttachAudit.setSupplierId(supplierId);
 		supplierAttachAudit.setIsDeleted(0);
+		supplierAttachAudit.setAuditType(1);
 		List<SupplierAttachAudit> atachAuditList = supplierAttachAuditMapper.diySelect(supplierAttachAudit);
 		dataMap.put("atachAuditList", atachAuditList);
 
@@ -246,6 +247,7 @@ public class SupplierReviewServiceImpl implements SupplierReviewService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("supplierId", supplierId);
 		map.put("flagTime", 1);
+		map.put("isDelete", 0);
 		SupplierAuditOpinion auditOpinion = supplierAuditOpinionMapper.selectByExpertIdAndflagTime(map);
 		dataMap.put("opinion", auditOpinion.getOpinion());
 
@@ -283,6 +285,27 @@ public class SupplierReviewServiceImpl implements SupplierReviewService {
 		map.put("isDelete", 0);
 		SupplierAuditOpinion auditOpinion = supplierAuditOpinionMapper.selectByExpertIdAndflagTime(map);
 		
+		// 附件审核信息
+		SupplierAttachAudit supplierAttachAudit = new SupplierAttachAudit();
+		supplierAttachAudit.setSupplierId(supplierId);
+		supplierAttachAudit.setIsDeleted(0);
+		supplierAttachAudit.setAuditType(1);
+		List<SupplierAttachAudit> atachAuditList = supplierAttachAuditMapper.diySelect(supplierAttachAudit);
+		
+		if(atachAuditList !=null && atachAuditList.size() > 0){
+			for(SupplierAttachAudit s : atachAuditList){
+				if("SUPPLIER_BUSINESS_CERT".equals(s.getAttachCode()) || "SUPPLIER_BEARCHCERT".equals(s.getAttachCode()) || "SUPPLIER_FINANCE".equals(s.getAttachCode()) ||
+						"SUPPLIER_ISO9001".equals(s.getAttachCode()) || "SUPPLIER_CON_ACH".equals(s.getAttachCode()) || "SUPPLIER_CERT_ENG".equals(s.getAttachCode())){
+					if(s.getIsAccord() == 0 ){
+						return new JdcgResult(500, "红色字体为必须复核项!", null);
+					}
+					if(s.getIsAccord() == 2 && s.getSuggest() == null){
+						return new JdcgResult(500, "不一致的项目必须填写理由!", null);
+					}
+				}
+			}
+		}
+		
 		if(auditOpinion !=null && auditOpinion.getFlagAduit() !=null){
 			if(auditOpinion.getIsDownLoadAttch() !=null && auditOpinion.getIsDownLoadAttch() == 1){
 				/*
@@ -310,6 +333,7 @@ public class SupplierReviewServiceImpl implements SupplierReviewService {
 		}else{
 			return new JdcgResult(500, "请选择意见!", null);
 		}
+		
 	}
 
 }
