@@ -289,6 +289,20 @@ public class FileUtils {
     /** 供应商等级目录 路径 37 **/
     public final static String SUPPLIER_LEVEL_PATH = PropUtil.getProperty("file.supplier_level.system.path");
     
+    /**
+     * @Fields EXPERT_CHECK_RESULT_FILENAME : 地方专家复查结果导出文件名称
+     */
+    public final static String EXPERT_CHECK_RESULT_FILENAME = "_c_expert_check_result.dat";
+    
+    /**
+     * @Fields SUPPLIER_INVEST_RESULT_FILENAME : 供应商实地考察结果导出文件名称
+     */
+    public final static String SUPPLIER_INVEST_RESULT_FILENAME  = "_c_supplier_invest_result.dat";
+    
+    /**
+     * @Fields SUPPLIER_CHECK_RESULT_FILENAME : 供应商复核结果导出文件名称
+     */
+    public final static String SUPPLIER_CHECK_RESULT_FILENAME  = "_c_supplier_check_result.dat";
     
     /**
      * 

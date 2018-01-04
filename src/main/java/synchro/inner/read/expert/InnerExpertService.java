@@ -1,6 +1,7 @@
 package synchro.inner.read.expert;
 
 import java.io.File;
+import java.util.Date;
 
 /**
  * 
@@ -50,5 +51,15 @@ public interface InnerExpertService {
      * 将外网注销专家导入内网
      * */
     void delExpert(File file) ;
+
+	/**
+	 *〈简述〉地方专家复查结果导出内网
+	 *〈详细描述〉
+	 * @author Ye Maolin
+	 * @param startTime
+	 * @param endTime
+	 * @param date
+	 */
+	public void exportCheckResult(String startTime, String endTime, Date date);
 
 }
