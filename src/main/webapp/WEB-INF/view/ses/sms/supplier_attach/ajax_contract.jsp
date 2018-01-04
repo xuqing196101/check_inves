@@ -5,15 +5,10 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
-    <title>品目合同</title>
+    <title>近三年销售合同主要页及相应合同的银行收款进帐单</title>
 
     <script type="text/javascript">
       $(function() {
-        //默认不显示叉
-        $("td").each(function() {
-          $(this).find("p").hide();
-        });
-
         layer.close(index);
         laypage({
           cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
@@ -77,16 +72,11 @@
       <input type="hidden" name="supplierTypeId" id="supplierTypeId" value="${supplierTypeId}">
       <table class="table table-bordered m_table_fixed_border">
         <tr>
-          <td class="tc info" rowspan="2">产品名称或小类</td>
+          <td class="" rowspan="2">产品名称或小类</td>
           <td colspan="3" class="tc info">销售合同(体现甲乙双方盖章及标的相关页)</td>
           <td colspan="3" class="tc info">证明合同有效履行的相应银行收款进账单</td>
         </tr>
         <tr>
-          <!-- <td class="info tc w100">类别</td> -->
-          <!-- <td class="info tc" width="10%">大类</td>
-          <td class="info tc"  width="10%">中类</td>
-          <td class="info tc"  width="10%">小类</td>
-          <td class="info tc"  width="8%">名称</td> -->
           <c:forEach items="${years}" var="year">
             <td class="tc info">${year}</td>
           </c:forEach>
@@ -96,12 +86,7 @@
         </tr>
         <c:forEach items="${contract}" var="obj" varStatus="vs">
           <tr>
-            <%-- <td class="tc">${obj.rootNode}</td> --%>
-            <%-- <td class="">${obj.firstNode}</td>
-            <td class="">${obj.secondNode}</td>
-            <td class="">${obj.thirdNode}</td>
-            <td class="">${obj.fourthNode}</td> --%>
-            <td class="">
+            <td>
               ${obj.fourthNode}
               <c:if test="${obj.fourthNode == null || obj.fourthNode ==''}">
                 ${obj.thirdNode}
@@ -114,32 +99,32 @@
               </c:if>
             </td>
             <td class="" <c:if test="${fn:contains(fileModifyField,obj.itemsId.concat(obj.oneContract))}">style="border: 1px solid #FF8C00;"</c:if>>
-              <div class="w125">
+              <div class="tc w50">
                 <u:show delete="false" showId="${fileShow}${(vs.index + 1)*6-1}" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.oneContract}" />
               </div>
             </td>
             <td class="" <c:if test="${fn:contains(fileModifyField,obj.itemsId.concat(obj.twoContract))}">style="border: 1px solid #FF8C00;"</c:if>>
-              <div class="w125">
+              <div class="tc w50">
                 <u:show delete="false" showId="${fileShow}${(vs.index + 1)*6-2}" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.twoContract}" />
               </div>
             </td>
             <td class="" <c:if test="${fn:contains(fileModifyField,obj.itemsId.concat(obj.threeContract))}">style="border: 1px solid #FF8C00;"</c:if>>
-              <div class="w125">
+              <div class="tc w50">
                 <u:show delete="false" showId="${fileShow}${(vs.index + 1)*6-3}" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.threeContract}" />
               </div>
             </td>
             <td class="" <c:if test="${fn:contains(fileModifyField,obj.itemsId.concat(obj.oneBil))}">style="border: 1px solid #FF8C00;"</c:if>>
-              <div class="w125">
+              <div class="tc w50">
                 <u:show delete="false" showId="${fileShow}${(vs.index + 1)*6-4}" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.oneBil}" />
               </div>
             </td>
             <td class="" <c:if test="${fn:contains(fileModifyField,obj.itemsId.concat(obj.twoBil))}">style="border: 1px solid #FF8C00;"</c:if>>
-              <div class="w125">
+              <div class="tc w50">
                 <u:show delete="false" showId="${fileShow}${(vs.index + 1)*6-5}" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.twoBil}" />
               </div>
             </td>
             <td class="" <c:if test="${fn:contains(fileModifyField,obj.itemsId.concat(obj.threeBil))}">style="border: 1px solid #FF8C00;"</c:if>>
-              <div class="w125">
+              <div class="tc w50">
                 <u:show delete="false" showId="${fileShow}${(vs.index + 1)*6-6}" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.threeBil}" />
               </div>
             </td>

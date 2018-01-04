@@ -20,7 +20,6 @@ import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.utils.JdcgResult;
-import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAuditOpinion;
@@ -33,7 +32,6 @@ import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierReviewService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
-import ses.util.DictionaryDataUtil;
 
 /**
  * 供应商复核

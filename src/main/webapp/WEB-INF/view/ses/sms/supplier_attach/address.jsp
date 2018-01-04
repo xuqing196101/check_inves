@@ -15,14 +15,14 @@
         <table class="table table-bordered table-condensed table-hover table-striped">
           <thead>
             <tr>
-              <th>序号</th>
+              <th class="tc w40">序号</th>
               <th>生产或经营地址</th>
               <th>房产证明或租赁协议</th>
             </tr>
           </thead>
           <c:forEach items="${supplierAddress}" var="address" varStatus="vs">
             <tr>
-              <td>${vs.index+1}</td>
+              <td class="tc w40">${vs.index+1}</td>
               <td>${address.parentName}${address.subAddressName}${address.detailAddress}</td>
               <td>
                 <u:show delete="false" showId="house_show_${vs.index+1}" businessId="${address.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}"/>
