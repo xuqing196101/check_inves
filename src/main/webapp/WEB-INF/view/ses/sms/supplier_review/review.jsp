@@ -192,8 +192,8 @@
               <tbody id="tbody_items">
                 <c:forEach items="${itemList}" var="item" varStatus="vs">
                   <tr class="h40">
-                    <td class="tc">${vs.index+1}</td>
-                    <td class="tc">${item.attachName}</td>
+                    <td class="tc w30">${vs.index+1}</td>
+                    <td class="w140">${item.attachName}</td>
                     <td class="tc">
                       <c:if test="${empty item.businessId || empty item.typeId}">
                         <a href="javascript:;" onclick="viewAttach('${item.viewUrl}','${item.attachName}')">查看</a>
