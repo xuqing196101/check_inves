@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -144,7 +145,7 @@ public class SupplierReviewController {
 	public JdcgResult  restartReview(String supplierId){
 		Supplier supplier = supplierService.selectById(supplierId);
 		if(supplier.getStatus() == 5 || supplier.getStatus() == 6){
-			supplierReviewService.restartReview(supplierId);
+			supplierReviewService.updateSestartReview(supplierId);
 			return new JdcgResult(200, "操作成功!", null);
 		}else{
 			return new JdcgResult(500, "请选择复核过的供应商!", null);
@@ -157,6 +158,7 @@ public class SupplierReviewController {
 	@RequestMapping(value = "/temporary")
 	@ResponseBody
 	public JdcgResult temporary (SupplierAuditOpinion supplierAuditOpinion){
+		supplierAuditOpinion.setFlagTime(1);
 		supplierAuditOpinionService.saveOpinion(supplierAuditOpinion);
 		return new JdcgResult(200, "操作成功!", null);
 	}

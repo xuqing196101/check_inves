@@ -24,7 +24,7 @@ public interface SupplierReviewService {
 	 * 重新复核
 	 * @param supplierId
 	 */
-	void restartReview(String supplierId);
+	void updateSestartReview(String supplierId);
 	
 	/**
 	 * 组装word页面需要的数据

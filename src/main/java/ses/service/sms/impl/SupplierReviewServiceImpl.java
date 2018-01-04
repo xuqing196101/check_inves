@@ -9,10 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.github.pagehelper.PageHelper;
 
 import common.constant.StaticVariables;
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
 import common.utils.JdcgResult;
 import ses.dao.oms.PurchaseDepMapper;
 import ses.dao.sms.SupplierAuditOpinionMapper;
@@ -51,6 +55,9 @@ public class SupplierReviewServiceImpl implements SupplierReviewService {
 
 	@Autowired
 	private PurchaseDepMapper purchaseDepMapper;
+	
+	@Autowired
+	private FileUploadMapper fileUploadMapper;
 
 	@Override
 	public List<Supplier> selectReviewList(Supplier supplier, Integer page) {
@@ -108,16 +115,9 @@ public class SupplierReviewServiceImpl implements SupplierReviewService {
 	 * @param supplierId
 	 */
 	@Override
-	public void restartReview(String supplierId) {
-		Supplier supplier = new Supplier();
-		supplier.setId(supplierId);
-		// 重新复核标识
-		supplier.setReviewStatus(1);
-		supplier.setStatus(1);
-		supplierMapper.updateReviewOrInves(supplier);
-
+	public void updateSestartReview(String supplierId) {
 		/**
-		 * 最终意见
+		 * 假删除最终意见
 		 */
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("supplierId", supplierId);
@@ -150,7 +150,7 @@ public class SupplierReviewServiceImpl implements SupplierReviewService {
 		
 		
 		/**
-		 * 审核信息
+		 * 假删除审核信息
 		 */
 		SupplierAttachAudit supplierAttachAudit = new SupplierAttachAudit();
 		supplierAttachAudit.setSupplierId(supplierId);
@@ -183,6 +183,30 @@ public class SupplierReviewServiceImpl implements SupplierReviewService {
 				supplierAttachAuditMapper.updateByPrimaryKeySelective(audit);
 			}
 		}
+		
+		
+		/**
+		 *假删除复核表记录
+		 */
+		
+		String typeId = DictionaryDataUtil.getId("SUPPLIER_REVIEW");
+		if(typeId !=null){
+			List<UploadFile> fileByBusinessId = fileUploadMapper.getFileByBusinessId(supplierId, typeId, "T_SES_SMS_SUPPLIER_ATTACHMENT");
+			if(fileByBusinessId !=null){
+				for(UploadFile u : fileByBusinessId){
+					fileUploadMapper.updateFile("T_SES_SMS_SUPPLIER_ATTACHMENT", u.getId());
+				}
+			}
+		}
+		
+		/**
+		 * 重新复核标识
+		 */
+		Supplier supplier = new Supplier();
+		supplier.setId(supplierId);
+		supplier.setReviewStatus(1);
+		supplier.setStatus(1);
+		supplierMapper.updateReviewOrInves(supplier);
 	}
 
 	/**
