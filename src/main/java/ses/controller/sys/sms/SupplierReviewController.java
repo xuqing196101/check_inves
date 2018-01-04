@@ -1,6 +1,5 @@
 package ses.controller.sys.sms;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,13 +19,11 @@ import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
 import common.constant.Constant;
-import common.constant.StaticVariables;
 import common.utils.JdcgResult;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAuditOpinion;
-import ses.model.sms.SupplierTypeRelate;
 import ses.model.sms.review.SupplierAttachAudit;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.PurChaseDepOrgService;
@@ -37,7 +34,6 @@ import ses.service.sms.SupplierReviewService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
 import ses.util.DictionaryDataUtil;
-import ses.util.WordUtil;
 
 /**
  * 供应商复核
@@ -76,25 +72,15 @@ public class SupplierReviewController {
 	 * @return
 	 */
 	@RequestMapping(value = "/list")
-	public String list(Supplier supplier, Integer page, Model model){
-		List<Supplier> supplierList = supplierReviewService.selectReviewList(supplier, page);
-		PageInfo<Supplier> pageInfo = new PageInfo <Supplier> (supplierList);
+	public String list(@CurrentUser User user, Supplier supplier, Integer page, Model model){
+		String orgId = user.getOrg().getId();
+		supplier.setExtractOrgid(orgId);
+		PageInfo<Supplier> pageInfo = null;
+		if(orgId !=null){
+			List<Supplier> supplierList = supplierReviewService.selectReviewList(supplier, page);
+			pageInfo = new PageInfo <Supplier> (supplierList);
+		}
 		model.addAttribute("result", pageInfo);
-		
-		//企业性质
-		List <DictionaryData> businessNatureList = DictionaryDataUtil.find(32);
-		model.addAttribute("businessNatureList", businessNatureList);
-        for(Supplier s : supplierList){
-        	if(s.getBusinessNature() !=null ){
-        		for(int i = 0; i < businessNatureList.size(); i++) {
-        			if(s.getBusinessNature().equals(businessNatureList.get(i).getId())) {
-      					String business = businessNatureList.get(i).getName();
-      					s.setBusinessNature(business);
-      				}
-        		}
-        	}
-        }
-		
 		model.addAttribute("supplier", supplier);
 		return "ses/sms/supplier_review/list";
 	}

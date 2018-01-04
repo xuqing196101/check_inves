@@ -61,21 +61,21 @@ public class SupplierReviewServiceImpl implements SupplierReviewService {
 
 		List<Supplier> supplierList = supplierMapper.selectReviewList(supplier);
 
-		// 供应商类型转换
+		//数据转换
 		getSupplierType(supplierList);
 		return supplierList;
 	}
 
 	/**
-	 * 类型转换
+	 * 数据类型转换
 	 * 
 	 * @param pageInfo
 	 * @return
 	 */
 	private List<Supplier> getSupplierType(List<Supplier> supplierList) {
 		for (Supplier supplier : supplierList) {
-			List<SupplierTypeRelate> relaList = supplierTypeRelateMapper
-					.findSupplierTypeIdBySupplierId(supplier.getId());
+			//供应商类型
+			List<SupplierTypeRelate> relaList = supplierTypeRelateMapper.findSupplierTypeIdBySupplierId(supplier.getId());
 			String typeName = "";
 			for (SupplierTypeRelate str : relaList) {
 				DictionaryData dd = DictionaryDataUtil.get(str.getSupplierTypeId());
@@ -87,6 +87,17 @@ public class SupplierReviewServiceImpl implements SupplierReviewService {
 				typeName = typeName.substring(0, typeName.length() - 1);
 			}
 			supplier.setSupplierTypeNames(typeName);
+			
+			//企业性质
+			List <DictionaryData> businessNatureList = DictionaryDataUtil.find(32);
+			if(supplier.getBusinessNature() !=null ){
+        		for(int i = 0; i < businessNatureList.size(); i++) {
+        			if(supplier.getBusinessNature().equals(businessNatureList.get(i).getId())) {
+      					String business = businessNatureList.get(i).getName();
+      					supplier.setBusinessNature(business);
+      				}
+        		}
+        	}
 		}
 		return supplierList;
 	}

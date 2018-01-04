@@ -2591,7 +2591,7 @@
     <!-- 供应商复核列表 -->
     <select id="selectReviewList" resultMap="BaseResultMap" parameterType="ses.model.sms.Supplier">
       SELECT 
-        DISTINCT T1.ID,
+        T1.ID,
 			  T1.SUPPLIER_NAME,
 			  T1.SUPPLIER_TYPE_ID,
 			  T1.BUSINESS_NATURE,
@@ -2601,9 +2601,8 @@
 			  T1.REVIEW_STATUS
 			FROM
 			  T_SES_SMS_SUPPLIER T1
-			LEFT JOIN T_SES_SMS_EXTRACT_RESULT T2 ON T2.SUPPLIER_ID = T1. ID
 			WHERE
-			  T2.JOIN = 1
+			  T1.EXTRACT_ORGID = #{extractOrgid}
 			<if test="supplierName != null and supplierName != ''">
         AND T1.SUPPLIER_NAME LIKE CONCAT(CONCAT('%',#{supplierName}), '%')
       </if>

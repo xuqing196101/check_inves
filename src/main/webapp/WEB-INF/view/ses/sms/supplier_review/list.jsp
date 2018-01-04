@@ -64,10 +64,10 @@
 		  
 		  //重置
 		  function clearSearch(){
-			  $("input[name='supplierName']").val("");
-			  $("input[name='reviewAt']").val("");
-			  $("input[name='status'] option:selected").removeAttr("selected");
-			  $("input[name='businessNature'] option:selected").removeAttr("selected");
+			  $("input[name='supplierName']").attr("value", "");
+			  $("input[name='reviewAt']").attr("value", "");
+			  $("#status option:selected").removeAttr("selected");
+			  $("#businessNature option:selected").removeAttr("selected");
 		  }
 		  
 		//重新复核
@@ -139,7 +139,7 @@
 	          <div class="row">
 	            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">状态：</div>
 	            <div class="col-xs-8 f0 lh0">
-	              <select name="status" class="w100p h32 f14">
+	              <select name="status" id="status" class="w100p h32 f14">
 	                <option value="">全部</option>
 	                <option <c:if test="${supplier.status == 1 }">selected</c:if> value="1">入库（待复核）</option>
 	                <option <c:if test="${supplier.status == 5 }">selected</c:if> value="5">复核合格（待考察）</option>
@@ -153,7 +153,7 @@
 		        <div class="row">
 		          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">企业性质：</div>
 		          <div class="col-xs-8 f0 lh0">
-		            <select name="businessNature" class="w100p h32 f14">
+		            <select name="businessNature" id="businessNature" class="w100p h32 f14">
 		              <option value="">全部</option>
 		              <c:forEach var="business" varStatus="vs" items="${businessNatureList}">
 		                <option <c:if test="${supplier.businessNature eq business.id }">selected</c:if> value="${business.id}">${business.name}</option>
