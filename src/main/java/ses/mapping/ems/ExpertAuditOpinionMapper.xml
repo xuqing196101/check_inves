@@ -11,9 +11,10 @@
     <result column="FLAG_AUDIT"  property="flagAudit" />
     <result column="IS_DOWNLOAD_ATTCH"  property="isDownLoadAttch" />
     <result column="IS_DELETED"  property="isDeleted" />
+    <result column="AUDIT_PEOPER"  property="auditPeoper" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, EXPERT_ID, OPINION, CREATED_AT, UPDATED_AT, FLAG_TIME, FLAG_AUDIT, IS_DOWNLOAD_ATTCH, IS_DELETED
+    ID, EXPERT_ID, OPINION, CREATED_AT, UPDATED_AT, FLAG_TIME, FLAG_AUDIT, IS_DOWNLOAD_ATTCH, IS_DELETED,AUDIT_PEOPER
   </sql>
   <select id="selectByPrimaryKey" parameterType="ses.model.ems.ExpertAuditOpinion" resultMap="BaseResultMap">
     select 
@@ -56,6 +57,9 @@
       </if>
       <if test="isDeleted != null" >
         IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="auditPeoper!=null">
+      	AUDIT_PEOPER=#{auditPeoper,jdbcType=VARCHAR}
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -265,5 +269,14 @@
           </if>
           ORDER BY CREATED_AT DESC)
           WHERE ROWNUM = 1
+  </select>
+    <select id="selectAllByExpertList" parameterType="ses.model.ems.ExpertAuditOpinion" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXPERT_AUDIT_OPINION
+    where EXPERT_ID = #{expertId}
+    <if test="flagTime != null" >
+        and FLAG_TIME = #{flagTime}
+      </if>
   </select>
 </mapper>

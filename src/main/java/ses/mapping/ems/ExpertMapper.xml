@@ -74,6 +74,9 @@
 		<result column="REVIEW_UNQUALIFIED_CONFIRM" property="reviewUnqualifiedConfirm" />
 		<result column="STORAGE_AT" property="storageAt" />
 		<result column="REVIEW_STATUS" property="reviewStatus" />
+		<result column="FINALINSPECT_PEOPLE" property="finalInspectPeople" />
+		<result column="FINALINSPECT_STATUS" property="finalInspectStatus" />
+		<result column="FINALINSPECT_COUNT" property="finalInspectCount" />
     </resultMap>
 
     <resultMap id="BaseResultMapVO" type="ses.model.ems.ExpertVO" extends="BaseResultMap">
@@ -192,6 +195,9 @@
         T1.STORAGE_AT,
         T1.AT_DUTY,
         T1.PROFESS_TECH_TITLES,
+        T1.FINALINSPECT_PEOPLE,
+        T1.FINALINSPECT_STATUS,
+        T1.FINALINSPECT_COUNT,
         T2.LOGIN_NAME AS loginName,
         org.SHORT_NAME AS orgName,
         AREA.NAME AS ADDRESS
@@ -216,6 +222,15 @@
         </if>
         <if test="mobile != null and mobile !=''">
              AND T1.MOBILE like CONCAT(CONCAT('%', #{mobile}), '%')
+        </if>
+        <if test="finalInspectPeople!=null">
+        	AND T1.FINALINSPECT_PEOPLE like CONCAT(CONCAT('%', #{finalInspectPeople}), '%')
+        </if>
+        <if test="finalInspectStatus!=null">
+        	AND T1.FINALINSPECT_STATUS=#{finalInspectStatus}
+        </if>
+        <if test="finalInspectCount!=null">
+        	AND T1.FINALINSPECT_COUNT =#{finalInspectCount}
         </if>
         <if test="expertsFrom != null and expertsFrom !=''">
             AND T1.EXPERTS_FROM = #{expertsFrom}
@@ -926,6 +941,15 @@
             </if>
             <if test="reviewUnqualifiedConfirm != null and reviewUnqualifiedConfirm !=''">
                 REVIEW_UNQUALIFIED_CONFIRM = #{reviewUnqualifiedConfirm},
+            </if>
+            <if test="finalInspectPeople!=null">
+                FINALINSPECT_PEOPLE = #{finalInspectPeople},
+            </if>
+            <if test="finalInspectStatus!=null">
+                FINALINSPECT_STATUS = #{finalInspectStatus},
+            </if>
+            <if test="finalInspectCount!=null">
+                FINALINSPECT_COUNT = #{finalInspectCount},
             </if>
         </set>
         where ID = #{id,jdbcType=VARCHAR}
@@ -2954,5 +2978,20 @@
   </select>
   <update id="updateReviewStatus" parameterType="java.lang.String">
   	UPDATE T_SES_EMS_EXPERT SET REVIEW_STATUS='${reciewStatus}' WHERE ID='${id}'
+  </update>
+  <update id="updateExpertFinalInspect" parameterType="ses.model.ems.Expert">
+  	UPDATE T_SES_EMS_EXPERT
+  		 <set>
+            <if test="finalInspectPeople != null">
+                FINALINSPECT_PEOPLE = #{finalInspectPeople,jdbcType=VARCHAR},
+            </if>
+            <if test="finalInspectStatus != null">
+                FINALINSPECT_STATUS = #{finalInspectStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="finalInspectCount != null">
+                FINALINSPECT_COUNT = #{finalInspectCount,jdbcType=VARCHAR},
+            </if>
+         </set>
+         where ID=#{id,jdbcType=VARCHAR}
   </update>
 </mapper>
