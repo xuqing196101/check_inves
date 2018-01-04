@@ -260,3 +260,35 @@ function hideSupplierGradeTreeContent() {
     $("body").unbind("mousedown", onBodyDownSupplierGradeContent);
     $("#search").val("");
 }
+
+// 异步加载地区下拉框
+function loadAreaSelect(_this, appendTarget){
+	var id = $(_this).val();
+	if (id == "") {
+		$(appendTarget).empty();
+		$(appendTarget).append('<option value="" >请选择</option>');
+	}
+	if (id) {
+		$.ajax({
+			async: false,
+			url : globalPath + "/basicData/ajaxAreaData.do",
+			type : "post",
+			dataType : "json",
+			data : {
+				pid : id
+			},
+			success : function(result) {
+				if(result){
+					var html = "";
+					for ( var i = 0; i < result.length; i++) {
+						html += "<option value='" + result[i].id + "'>"
+								+ result[i].name + "</option>";
+					}
+					$(appendTarget).empty();
+					$(appendTarget).append('<option value="" >请选择</option>');
+					$(appendTarget).append(html);
+				}
+			}
+		});
+	}
+}

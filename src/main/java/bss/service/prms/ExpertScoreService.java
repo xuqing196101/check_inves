@@ -133,4 +133,5 @@ public interface ExpertScoreService {
          */
         BigDecimal selectSumByMap(HashMap<String, Object> map);
         List<ExpertScore> selectByScore(ExpertScore expertScore);
+        List<ExpertScore> selectByModelScore(ExpertScore expertScore);
 }

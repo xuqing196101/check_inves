@@ -26,6 +26,7 @@ import ses.model.bms.User;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
+import ses.service.sms.SupplierService;
 import ses.util.AuthorityUtil;
 import ses.util.PropUtil;
 import ses.util.UUIDUtils;
@@ -96,13 +97,9 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
     
     @Autowired
     private PersonRelMapper personRelMapper;
-    
 
-    @Override
-    public void update(SupplierExtractProjectInfo extracts) {
-        recordMapper.saveOrUpdateProjectInfo(extracts);
-    }
-    
+    @Autowired
+    private SupplierService supplierService;
 
 	@Override
 	public SupplierExtractProjectInfo selectByPrimaryKey(String id) {
@@ -158,6 +155,20 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 	 */
 	@Override
 	public int saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo) {
+		
+		if(projectInfo.getStatus().equals("1")){
+			//项目状态为1,将抽取到的供应商做标记，去复核
+			SupplierExtractProjectInfo record = recordMapper.selectByPrimaryKey(projectInfo.getId());
+			List<String> sids = new ArrayList<>();
+			if( StringUtils.isBlank(record.getProjectInto()) && StringUtils.isBlank(record.getProjectId())){
+				sids = resultMapper.selectSupplierIdListByRecordId(record.getId());
+				
+			}else if(StringUtils.isNotBlank(record.getProjectId())){
+				sids =  resultMapper.selectSupplierIdListByProjectId(record.getProjectId());
+			}
+			supplierService.updateExtractOrgid(record.getProcurementDepId(), sids);
+		}
+		
 		projectInfo.setExtractionTime(new Date());
 		return recordMapper.saveOrUpdateProjectInfo(projectInfo);
 	}

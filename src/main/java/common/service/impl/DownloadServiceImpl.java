@@ -319,7 +319,7 @@ public class DownloadServiceImpl implements DownloadService {
 		List<UploadFile> findBybusinessId = fileDao.getFileByBusinessId( businessId, typeId,tableName);
 		List<String> list = new ArrayList<>();
 		for (UploadFile uploadFile : findBybusinessId) {
-			String id =uploadFile.getId();
+			String id = uploadFile.getId();
 			list.add(id);
 		}
 		return list;
@@ -333,7 +333,7 @@ public class DownloadServiceImpl implements DownloadService {
 		    HttpHeaders headers = new HttpHeaders(); 
 		    headers.setContentDispositionFormData("attachment", downFileName);
 		    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-		    ResponseEntity<byte[]> entity = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),headers, HttpStatus.OK);
+		    ResponseEntity<byte[]> entity = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.OK);
 		    file.delete();
 		    return entity;
 		} catch (Exception e) {

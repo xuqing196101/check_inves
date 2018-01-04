@@ -306,8 +306,6 @@ public class SupplierExtractConditionServiceimp implements
 		this.excludeSupplier(condition);
 		try {
 			String typeCode = condition.getSupplierTypeCode();
-			// 原处理抽取条件方法
-			// String code = this.setExtractCondition(typeCode,condition,conType);
 			String code = typeCode.toLowerCase();
 			
 			//品目，等级，供应商类型，供应商id关联关系
@@ -338,14 +336,14 @@ public class SupplierExtractConditionServiceimp implements
 				//查询供应商数量
 				map.put("count", supplierExtRelateMapper.listExtractionSupplierCount(condition));
 			}else if(condition.getIsMulticondition() == 2){
-				List<Supplier> suppliers = supplierExtRelateMapper.listExtractionSupplierOfLogicIsAnd(condition);
-				
+				Set<Supplier> supplierSet = new HashSet<>();
+				supplierSet.addAll(supplierExtRelateMapper.listExtractionSupplierOfLogicIsAnd(condition));
 				//查询等级
-				if(condition.getLevelTypeIds() != null || condition.getSalesLevelTypeIds() !=null){
-					selectSupplierLevelLogicOfAnd(suppliers,condition);
+				if(null != condition.getCategoryIds()){
+					selectSupplierLevelLogicOfAnd(supplierSet,condition);
 				}
-				map.put("list", suppliers);
-				map.put("count", suppliers.size());
+				map.put("list", supplierSet);
+				map.put("count", supplierSet.size());
 			}
 		} catch (Exception e) {
 			map.put("error", "0");
@@ -365,8 +363,7 @@ public class SupplierExtractConditionServiceimp implements
 	 * @return
 	 */
 	private Set<String> selectChild(String pid, String cid) {
-		Set<String> cateSet = conditionMapper.selectChildCate(pid
-				.split(","));
+		Set<String> cateSet = conditionMapper.selectChildCate(pid.split(","));
 		if (StringUtils.isNotBlank(cid)) {
 			cateSet.addAll(Arrays.asList(cid.split(",")));
 		}
@@ -839,7 +836,11 @@ public class SupplierExtractConditionServiceimp implements
 		}
 		
 		//处理查询等级品目
-		return selectCateOfLevel4(condition);
+		if(!condition.getSupplierTypeCode().equals("PROJECT")){
+			return selectCateOfLevel4(condition);
+		}
+		
+		return null;
 		
 	}
 	
@@ -1027,11 +1028,11 @@ public class SupplierExtractConditionServiceimp implements
 		}
 		
 		if (list.size() > 0) {
-			try {
+//			try {
 				return extractConditionRelationMapper.insertConditionRelation(list);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
 		}
 		return 0;
 	}
@@ -1099,20 +1100,129 @@ public class SupplierExtractConditionServiceimp implements
 	
 	/**
 	 * 
-	 * <简述>品目选择或关系时，对供商进行筛选 
+	 * <简述>品目选择与关系时，对供商进行筛选 
 	 *
 	 * @author Jia Chengxiang
 	 * @dateTime 2017-11-20上午11:26:18
 	 * @param 
 	 * @param condition
-	 * @param setExtractCondition2 供应商等级，品目关系
+	 * @param setExtractCondition2 供应商等级，品目关系(非工程)
 	 */
-	public void selectSupplierLevelLogicOfAnd(List<Supplier> suppliers, SupplierExtractCondition condition) {
+	public void selectSupplierLevelLogicOfAnd(Set<Supplier> supplierSet, SupplierExtractCondition condition) {
 		
-		//遍历满足与关系的供应商
-		
+		/**
+		 * 遍历满足与关系的供应商
+		 * 查询条件是 品目，等级，拼接成sql
+		 * 排除品目审核不通过的供应商
+		 * 需要注意的是不限时，生产和销售，品目审核不通过，便利供应商，去表中查询所有审核不通过的品目和对应的类型，要关联品目表，查找是否既是生产又是销售。
+		 * 进行判断
+		 */
+
+		Map<String, Object> cateAndLevelMap = null;
+		Map<String, Object> salesCateAndLevelMap = null;
 		Map<String, Object> hashMap = new HashMap<>();
+		if(!"PROJECT".equals(condition.getSupplierTypeCode())){
+			//json转map 生产型 销售 ，服务
+			String cateAndLevel = condition.getCateAndLevel();
+			cateAndLevel = cateAndLevel.indexOf("＂") != -1 ? cateAndLevel.replace("＂", "\"") : cateAndLevel;
+			cateAndLevelMap = JSON.parseObject(cateAndLevel);
+			
+			if(condition.getSupplierTypeCodes().length>1){
+				//supplierTypeCode 为 GOODS时 表示销售的等级
+				String salesCateAndLevel = condition.getSalesCateAndLevel();
+				salesCateAndLevel = salesCateAndLevel.indexOf("＂") != -1 ? salesCateAndLevel.replace("＂", "\"") : salesCateAndLevel;
+				salesCateAndLevelMap = JSON.parseObject(salesCateAndLevel);
+			}
+		}
+		
+		
 		first:
+		for (Iterator<Supplier> iterator = supplierSet.iterator() ;iterator.hasNext();) {
+			Supplier s = iterator.next();
+			//List<String> levels = conditionMapper.selectLevelOfLogicIsAnd(hashMap);
+			
+			if(condition.getSupplierTypeCode().equals("PROJECT")){
+				/**
+				 * 仅选择了品目，随便查出一个等级
+				 * 选择了资质，因为资质是与关系 随便查一个资质等级
+				 * 选择了等级，将等级作为条件进行筛选
+				 */
+				
+				s.setSupplierLevel(conditionMapper.selectProjectLevelForAnd(s.getId(),condition.getQuaIds(),condition.getLevelTypeIds()));
+			}else if(condition.getSupplierTypeCodes().length>1 || condition.getSupplierTypeCode().equals("GOODS")){
+				//物资类型
+				//存储查询出的供应商
+				Set<String> keySet = cateAndLevelMap.keySet();
+				hashMap.put("supplierId",s.getId());
+				for (String key : keySet) {
+					hashMap.put("categoryIds",key);
+					//生产型品目等级关系
+					String levelstr =(String) cateAndLevelMap.get(key);
+					String[] levels = StringUtils.isNotBlank(levelstr)?levelstr.split(","):null;
+					hashMap.put("levels", levels);
+					hashMap.put("typeCode","PRODUCT");
+					List<String> level = conditionMapper.selectLevelOfLogicIsAnd(hashMap);
+					
+					if(null != level && level.size()>0){
+						s.setSupplierLevel(level.get(0));
+					}else{
+						//销售型品目等级关系
+						levelstr =(String) salesCateAndLevelMap.get(key);
+						levels = StringUtils.isNotBlank(levelstr)?levelstr.split(","):null;
+						hashMap.put("levels", levels);
+						hashMap.put("typeCode","SALES");
+						level = conditionMapper.selectLevelOfLogicIsAnd(hashMap);
+
+						if(null != level && level.size()>0){
+							s.setSupplierLevel(level.get(0));
+						}else{
+							iterator.remove();
+							break;
+						}
+					}
+				}
+				
+			}else{
+				//生产，销售，服务
+				//将品目，等级放进sql中进行查询，有一个品目查询不到对应的等级，则将该供应商删除
+				//存储查询出的供应商
+				Set<String> keySet = cateAndLevelMap.keySet();
+				hashMap.put("supplierId",s.getId());
+				for (String key : keySet) {
+					hashMap.put("categoryIds",key);
+					hashMap.put("typeCode",condition.getSupplierTypeCode());
+					String levelstr =(String) cateAndLevelMap.get(key);
+					String[] levels = StringUtils.isNotBlank(levelstr)?levelstr.split(","):null;
+					hashMap.put("levels", levels);
+					List<String> level = conditionMapper.selectLevelOfLogicIsAnd(hashMap);
+					if(null != level && level.size()>0){
+						s.setSupplierLevel(level.get(0));
+					}else{
+						iterator.remove();
+						break;
+					}
+				}
+			}
+		}
+			
+		/*	if(levels.size()==1){
+				for (String string : condition.getLevelTypeIds()) {
+					if(levels.get(0).equals(string)){
+						break first;
+					}
+					flag = true;
+				}
+				
+				for (String string : condition.getLevelTypeIds()) {
+					if(levels.get(0).equals(string)){
+						break first;
+					}
+					flag = true;
+				}
+			}else if(levels.size()!=1 ||flag){
+				iterator.remove();
+			}*/
+		/*first:
 		for (Iterator<Supplier> iterator = suppliers.iterator() ;iterator.hasNext();) {
 			boolean flag = false;
 			hashMap.put("supplierId", iterator.next().getId());
@@ -1135,7 +1245,7 @@ public class SupplierExtractConditionServiceimp implements
 			}else if(levels.size()!=1 ||flag){
 				iterator.remove();
 			}
-		}
+		}*/
 	}
 	
 	/**
@@ -1152,81 +1262,86 @@ public class SupplierExtractConditionServiceimp implements
 	public Map<String, Object> selectSupplier(SupplierExtractCondition condition ,int type) {
 		String cateAndLevel = condition.getCateAndLevel();
 		String salesCateAndLevel = condition.getSalesCateAndLevel();
-		//选择了等级  选择了多个品目，但是只有一个品目选择了等级，在cateAndLevel中找不到只会存储选过等级的品目，需要处理
-		if(StringUtils.isNotBlank(cateAndLevel)||StringUtils.isNotBlank(salesCateAndLevel)){
+		
+		//存储查询出的供应商
+		HashSet<Supplier> hashSet = new HashSet<>();
+		List<Supplier> suppliers = new ArrayList<>();
+		HashMap<String, Object> hashMap = new HashMap<>();
+		
+		//或关系
+		if(condition.getIsMulticondition()==1){
 			
-			//json转map
-		    cateAndLevel = cateAndLevel.indexOf("＂") != -1 ? cateAndLevel.replace("＂", "\"") : cateAndLevel;
-			Map<String, Object> cateAndLevelMap = JSON.parseObject(cateAndLevel);
-			
-			//存储查询出的供应商
-			HashSet<Object> hashSet = new HashSet<>();
-			List<Supplier> suppliers = new ArrayList<>();
-			HashMap<String, Object> hashMap = new HashMap<>();
-			Set<String> keySet = cateAndLevelMap.keySet();
-			
-			if(condition.getSupplierTypeCode().equals("PROJECT")){
-				//工程的查询资质等级
-				for (String key : keySet) {
-					condition.setQuaId(key);
-					condition.setLevelTypeId((String)cateAndLevelMap.get(key));
-					//3 标记 查询的时候调用品目关联等级查询sql
-					Map<String, Object> supplierMap = selectLikeSupplier2(condition, 3);
-					hashSet.addAll((List<Supplier>) supplierMap.get("list"));
-				}
-			}else if(condition.getSupplierTypeCode().equals("GOODS")){
+			//选择了等级  选择了多个品目，但是只有一个品目选择了等级，在cateAndLevel中找不到只会存储选过等级的品目，需要处理
+			if(StringUtils.isNotBlank(cateAndLevel)||StringUtils.isNotBlank(salesCateAndLevel)){
 				
-				salesCateAndLevel = salesCateAndLevel.indexOf("＂") != -1 ? salesCateAndLevel.replace("＂", "\"") : salesCateAndLevel;
-				Map<String, Object> salesCateAndLevelMap = JSON.parseObject(salesCateAndLevel);
-				Set<String> keySet2 = salesCateAndLevelMap.keySet();
+				//json转map
+				cateAndLevel = cateAndLevel.indexOf("＂") != -1 ? cateAndLevel.replace("＂", "\"") : cateAndLevel;
+				Map<String, Object> cateAndLevelMap = JSON.parseObject(cateAndLevel);
 				
-				//不限的时候是分为生产等级，销售等级
-				//生产等级
-				for (String key : keySet) {
-					condition.setCategoryId(key);
-					condition.setSupplierTypeCode("PRODUCT");
-					condition.setLevelTypeId((String)cateAndLevelMap.get(key));
-					//3 标记 查询的时候调用品目关联等级查询sql
-					Map<String, Object> supplierMap = selectLikeSupplier2(condition, 3);
-					hashSet.addAll((List<Supplier>) supplierMap.get("list"));
-					suppliers.addAll((List<Supplier>)supplierMap.get("list"));
+				Set<String> keySet = cateAndLevelMap.keySet();
+				//品目或关系
+				if(condition.getSupplierTypeCode().equals("GOODS")){
+					salesCateAndLevel = salesCateAndLevel.indexOf("＂") != -1 ? salesCateAndLevel.replace("＂", "\"") : salesCateAndLevel;
+					Map<String, Object> salesCateAndLevelMap = JSON.parseObject(salesCateAndLevel);
+					Set<String> keySet2 = salesCateAndLevelMap.keySet();
+					
+					//不限的时候是分为生产等级，销售等级
+					//生产等级
+					for (String key : keySet) {
+						condition.setCategoryId(key);
+						condition.setSupplierTypeCode("PRODUCT");
+						condition.setLevelTypeId((String)cateAndLevelMap.get(key));
+						//3 标记 查询的时候调用品目关联等级查询sql
+						Map<String, Object> supplierMap = selectLikeSupplier2(condition, 3);
+						hashSet.addAll((List<Supplier>) supplierMap.get("list"));
+						suppliers.addAll((List<Supplier>)supplierMap.get("list"));
+					}
+					//销售等级
+					for (String key : keySet2) {
+						condition.setCategoryId(key);
+						condition.setSupplierTypeCode("SALES");
+						condition.setLevelTypeId((String)salesCateAndLevelMap.get(key));
+						//3 标记 查询的时候调用品目关联等级查询sql
+						Map<String, Object> supplierMap = selectLikeSupplier2(condition, 3);
+						hashSet.addAll((List<Supplier>) supplierMap.get("list"));
+						suppliers.addAll((List<Supplier>)supplierMap.get("list"));
+					}
+				}else{
+					for (String key : keySet) {
+						condition.setCategoryId(key);
+						condition.setLevelTypeId((String)cateAndLevelMap.get(key));
+						//3 标记 查询的时候调用品目关联等级查询sql
+						Map<String, Object> supplierMap = selectLikeSupplier2(condition, 3);
+						hashSet.addAll((List<Supplier>) supplierMap.get("list"));
+					}
 				}
-				//销售等级
-				for (String key : keySet2) {
-					condition.setCategoryId(key);
-					condition.setSupplierTypeCode("SALES");
-					condition.setLevelTypeId((String)salesCateAndLevelMap.get(key));
-					//3 标记 查询的时候调用品目关联等级查询sql
-					Map<String, Object> supplierMap = selectLikeSupplier2(condition, 3);
-					hashSet.addAll((List<Supplier>) supplierMap.get("list"));
-					suppliers.addAll((List<Supplier>)supplierMap.get("list"));
-				}
-			}else{
-				for (String key : keySet) {
-					condition.setCategoryId(key);
-					condition.setLevelTypeId((String)cateAndLevelMap.get(key));
-					//3 标记 查询的时候调用品目关联等级查询sql
-					Map<String, Object> supplierMap = selectLikeSupplier2(condition, 3);
-					hashSet.addAll((List<Supplier>) supplierMap.get("list"));
-				}
-			}
-			if(type == 0){
-				hashMap.put("count", hashSet.size());
-			}else if(type == 1||type == 2){
-				if(suppliers.size()>0 && type == 1){
-					Random random = new Random();
-					int nextInt = random.nextInt(suppliers.size());
-					hashSet.clear();
-					Supplier supplier = suppliers.get(nextInt);
-					hashSet.add(supplier);
-				}
+				
+				//返回数据
+				if(type == 0){
+					hashMap.put("count", hashSet.size());
+				}else if(type == 1||type == 2){
+					if(suppliers.size()>0 && type == 1){
+						Random random = new Random();
+						int nextInt = random.nextInt(suppliers.size());
+						hashSet.clear();
+						Supplier supplier = suppliers.get(nextInt);
+						hashSet.add(supplier);
+					}
 					hashMap.put("list", hashSet);
+				}
+				return hashMap;
+			}else{
+				//未选择等级
+				return selectLikeSupplier2(condition, type==2?1:type);
 			}
-			return hashMap;
-		}else{
-			//未选择等级
-			 return selectLikeSupplier2(condition, type==2?1:type);
+		}else if(condition.getIsMulticondition() == 2){
+			//与关系 查询
+			//先查询品目与关系结果
+			Map<String, Object> selectLikeSupplier2 = selectLikeSupplier2(condition,0);
+			return selectLikeSupplier2;
+			//遍历结果判断
 		}
+		return hashMap;
 	}
 	
 	
@@ -1284,10 +1399,7 @@ public class SupplierExtractConditionServiceimp implements
 		}
 	}
 
-	@Override
-	public List<Supplier> testVoiceExtract(String lastRow) {
-		return  supplierExtRelateMapper.testVoiceExtract(lastRow);
-	}
+	
 	@Override
 	public List<Continent> selectBranchTree(String cid,String cname,String[] alreadyId) {
 		List<Continent> selectContryTree = conditionMapper.selectContryTree(cid,cname);

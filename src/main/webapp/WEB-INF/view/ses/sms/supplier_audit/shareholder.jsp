@@ -1,5 +1,12 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<%@ page import="ses.constants.SupplierConstants" %>
+<%@ page import="ses.model.bms.User" %>
+<% 
+	String account = ((User)session.getAttribute(SupplierConstants.KEY_SESSION_LOGIN_USER)).getLoginName();
+	boolean isAccountToAudit = SupplierConstants.isAccountToAudit(account);
+%>
+<c:set var="isAccountToAudit" value="<%=isAccountToAudit %>" />
 <!DOCTYPE HTML>
 <html>
   <head>
@@ -68,6 +75,10 @@
         </form> --%>
         <ul class="ul_list count_flow">
         	<h5>出资人（股东）信息 （说明：出资人（股东）多于10人的，可以列出出资金额前十位的信息，但所列的出资比例应高于50%）</h5>
+          <c:if test="${isAccountToAudit and supplierStatus == 2}">
+	       	  <button class="btn" type="button" onclick="addStockholder('${supplierId}')">新增</button>
+	       	  <button class="btn" type="button" onclick="deleteStockholder('${supplierId}')">删除</button>
+       	  </c:if>
           <table class="table table-bordered table-condensed table-hover m_table_fixed_border">
             <thead>
 		          <tr>
@@ -81,19 +92,29 @@
 		            <th class="info w50">操作</th>
 		          </tr>
             </thead>
+            <tbody id="stockholder_account_tbody_id">
 	            <c:forEach items="${shareholder}" var="s" varStatus="vs">
-	              <tr>
-		              <td class="tc">${vs.index + 1}</td>
+	              <tr id='stockholder_tr_${s.id}'>
+		              <td class="tc">
+		              	<c:choose>
+		              		<c:when test="${s.name == null && s.nature == null && s.identity == null && s.shares == null && s.proportion == null}">
+				              	<input type='checkbox' name='stockholder_chkItem' value='${s.id}' />
+		              		</c:when>
+		              		<c:otherwise>${vs.index + 1}</c:otherwise>
+		              	</c:choose>
+		              </td>
 		              <td class="tc" id="nature_${s.id }" <c:if test="${fn:contains(field,s.id.concat('_nature'))}">style="border: 1px solid #FF8C00;" onMouseOver="showModifyList(this,'shareholder_page','nature','${s.id}','4');"</c:if>>
-		              	<c:if test="${s.nature eq '1'}">法人</c:if>
-		              	<c:if test="${s.nature eq '2'}">自然人</c:if>
+		              	<%-- <c:if test="${s.nature eq '1'}">法人</c:if>
+		              	<c:if test="${s.nature eq '2'}">自然人</c:if> --%>
+		              	<c:if test="${s.nature eq '1'}">单位投资</c:if>
+		              	<c:if test="${s.nature eq '2'}">个人投资</c:if>
 		              </td>
 		              <td class="tl" id="name_${s.id }" <c:if test="${fn:contains(field,s.id.concat('_name'))}">style="border: 1px solid #FF8C00;" onMouseOver="showModifyList(this,'shareholder_page','name','${s.id}','4');"</c:if> >${s.name}</td>
-		              <td class="tl" id="nature_${s.id }" >
+		              <td class="tl" id="identityType_${s.id }" <c:if test="${fn:contains(field,s.id.concat('_identityType,'))}">style="border: 1px solid #FF8C00;" onMouseOver="showModifyList(this,'shareholder_page','identityType','${s.id}','4');"</c:if>>
                     <c:if test="${s.nature==1}">统一社会信用代码</c:if>
                     <c:if test="${s.nature==2}">居民二代身份证</c:if>
                   </td>
-		              <td class="tc" id="identity_${s.id }" <c:if test="${fn:contains(field,s.id.concat('_identity'))}">style="border: 1px solid #FF8C00;" onMouseOver="showModifyList(this,'shareholder_page','identity','${s.id}','4');"</c:if>>${s.identity}</td>
+		              <td class="tc" id="identity_${s.id }" <c:if test="${fn:contains(field,s.id.concat('_identity,'))}">style="border: 1px solid #FF8C00;" onMouseOver="showModifyList(this,'shareholder_page','identity','${s.id}','4');"</c:if>>${s.identity}</td>
 		              <td class="tc" id="shares_${s.id }" <c:if test="${fn:contains(field,s.id.concat('_shares'))}">style="border: 1px solid #FF8C00;" onMouseOver="showModifyList(this,'shareholder_page','shares','${s.id}','4');"</c:if>>${s.shares}</td>
 		              <td class="tc" id="proportion_${s.id }" <c:if test="${fn:contains(field,s.id.concat('_proportion'))}">style="border: 1px solid #FF8C00;" onMouseOver="showModifyList(this,'shareholder_page','proportion','${s.id}','4');"</c:if>>${s.proportion}</td>
 		              <td class="tc w50">
@@ -124,6 +145,7 @@
 		              </td>
 	              </tr>
 	            </c:forEach>
+	           </tbody>
             </table>
           </ul>
         <div class="col-sm-12 col-xs-12 col-md-12 add_regist tc">

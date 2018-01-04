@@ -371,8 +371,7 @@ public class SupplierExtractCondition {
 	}
 
 	public String[] getCategoryIds() {
-		return StringUtils.isNotBlank(categoryId) ? categoryId.split(",")
-				: null;
+		return StringUtils.isNotBlank(categoryId) ? categoryId.split(","): null;
 	}
 
 	public void setCategoryIds(String[] categoryIds) {
@@ -574,7 +573,7 @@ public class SupplierExtractCondition {
 	}
 
 	public List<String> getSupplierItemId() {
-		return supplierItemId;
+		return null != supplierItemId && supplierItemId.size()>0?supplierItemId:null;
 	}
 
 	public void setSupplierItemId(List<String> supplierItemId) {
@@ -597,7 +596,7 @@ public class SupplierExtractCondition {
 		this.salesCateAndLevel = salesCateAndLevel;
 	}
 	public String[] getBranchCountry() {
-		return branchCountry.length>0?branchCountry:null;
+		return null != branchCountry && branchCountry.length>0?branchCountry:null;
 	}
 	public void setBranchCountry(String[] branchCountry) {
 		this.branchCountry = branchCountry;

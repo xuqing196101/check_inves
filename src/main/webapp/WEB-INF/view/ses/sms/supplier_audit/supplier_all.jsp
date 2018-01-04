@@ -11,6 +11,7 @@
     <script type="text/javascript">
         // 1：审核 2：复核 3：考察
         var sign = '${sign}';
+        // 下载审核表状态
         var downloadCheckTabStatusArr;
         // 待审核状态
         var waitCheckStatus;
@@ -18,6 +19,8 @@
         var waitReCheckStatus;
         // 复核合格（待考察）
         var waitInspectStatus;
+        // 审核状态
+        var auditStatusArr;
         $(function() {
             laypage({
                 cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
@@ -42,13 +45,21 @@
                 Integer pendingAudit = SupplierConstants.Status.PENDING_AUDIT.getValue();
                 Integer pendingReview = SupplierConstants.Status.PENDING_REVIEW.getValue();
                 Integer reviewPassed = SupplierConstants.Status.REVIEW_PASSED.getValue();
-                String statusStr = "";
-                Integer[] status = SupplierConstants.DOWNLOAD_CHECK_TABLE_STATUS;
-                for (int i = 1; i < status.length; i++){
-                    statusStr += status[i] + ",";
+                String downloadStatusStr = "";
+                String auditStatusStr = "";
+                Integer[] downloadStatus = SupplierConstants.DOWNLOAD_CHECK_TABLE_STATUS;
+                Integer[] auditStatus = SupplierConstants.STATUS_TO_AUDIT;
+                for (int i = 0; i < downloadStatus.length; i++){
+                    downloadStatusStr += downloadStatus[i] + ",";
+                }
+                for (int i = 0; i < auditStatus.length; i++){
+                    auditStatusStr += auditStatus[i] + ",";
                 }
             %>
-            downloadCheckTabStatusArr = '<%=statusStr%>';
+            auditStatusArr = '<%=auditStatusStr%>';
+            auditStatusArr = auditStatusArr.split(",");
+            downloadCheckTabStatusArr = '<%=downloadStatusStr%>';
+            downloadCheckTabStatusArr = downloadCheckTabStatusArr.split(",");
             waitCheckStatus = '<%=pendingAudit%>';
             waitReCheckStatus = '<%=pendingReview%>';
             waitInspectStatus = '<%=reviewPassed%>';

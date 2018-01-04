@@ -72,4 +72,6 @@ public interface ExpertScoreMapper {
     BigDecimal selectSumByMap(Map<String, Object> map3);
     
     List<ExpertScore> selectByScore(ExpertScore expertScore);
+    
+    List<ExpertScore> selectByModelScore(ExpertScore expertScore);
 }

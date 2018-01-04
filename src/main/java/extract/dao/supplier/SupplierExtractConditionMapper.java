@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.ibatis.annotations.Param;
+
 import ses.model.bms.Category;
 import ses.model.bms.CategoryQua;
 import ses.model.bms.DictionaryData;
@@ -126,4 +127,18 @@ public interface SupplierExtractConditionMapper {
 	List<String> selectLevelOfLogicIsAnd(Map<String, Object> hashMap);
 
 	List<Continent> selectContryTree(@Param("cid") String cid, @Param("cname")String cname);
+
+	/**
+	 * 工程与关系
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-12-25上午9:59:51
+	 * @param id
+	 * @param quaIds
+	 * @param levelTypeIds
+	 * @return
+	 */
+	String selectProjectLevelForAnd(@Param("sid")String sid, @Param("quaIds")String[] quaIds,
+			@Param("levels")String[] levelTypeIds);
 }

@@ -120,7 +120,7 @@ public class SupplierItemController_old extends BaseController {
 	public String saveCategory(SupplierItem supplierItem, boolean isMutiChecked, String clickFlag) {
 		// 判断是否是取消选中
 		if("0".equals(clickFlag)) {
-			supplierItemService.deleteItems(supplierItem, isMutiChecked);
+			supplierItemService.deleteItems(supplierItem, isMutiChecked, null);
 		} else {
 			supplierItemService.saveOrUpdate(supplierItem, isMutiChecked);
 		}

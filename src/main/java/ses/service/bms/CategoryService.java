@@ -10,13 +10,13 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import common.bean.ResBean;
-
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierTypeTree;
+
+import common.bean.ResBean;
 
 /**
  * @Description: 采购目录管理接口
@@ -469,7 +469,7 @@ public interface CategoryService {
 	 * @param cateCode 
 	 * @return
 	 */
-	Set<Category> selectCategoryByName(String typeId, String cateName, String cateCode);
+	Set<CategoryTree> selectCategoryByName(String typeId, String cateName, String cateCode);
 	 
 	/**
 	 * Description: 根据条件查询目录树

@@ -181,7 +181,7 @@
 	</select>
 	
 	<select id="getMatEngIdBySupplierId" parameterType="java.lang.String" resultType="java.lang.String">
-		select ID from T_SES_SMS_SUPPLIER_MAT_ENG where SUPPLIER_ID = #{supplierId}
+		select ID from T_SES_SMS_SUPPLIER_MAT_ENG where SUPPLIER_ID = #{supplierId} and rownum = 1
 	</select>
 	
 	<select id="findSupplierIdByEngAptId" parameterType="java.lang.String" resultType="java.lang.String">

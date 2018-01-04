@@ -62,6 +62,7 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierAptitute;
+import ses.model.sms.SupplierAptituteRecy;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierAuditNot;
 import ses.model.sms.SupplierBranch;
@@ -71,6 +72,7 @@ import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierHistory;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
@@ -79,6 +81,7 @@ import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierPorjectQua;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
+import ses.model.sms.SupplierStockholderRecy;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
@@ -98,6 +101,7 @@ import ses.service.sms.SupplierAuditNotService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierCertEngService;
+import ses.service.sms.SupplierHistoryService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierMatEngService;
 import ses.service.sms.SupplierMatProService;
@@ -105,6 +109,7 @@ import ses.service.sms.SupplierMatSeService;
 import ses.service.sms.SupplierMatSellService;
 import ses.service.sms.SupplierPorjectQuaService;
 import ses.service.sms.SupplierService;
+import ses.service.sms.SupplierStockholderService;
 import ses.service.sms.SupplierTypeRelateService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
@@ -117,6 +122,7 @@ import ses.util.WordUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
@@ -124,6 +130,7 @@ import common.service.DownloadService;
 import common.service.LoginLogService;
 import common.service.UploadService;
 import common.utils.Arith;
+import common.utils.DateUtils;
 import common.utils.IDCardUtil;
 import common.utils.QRCodeUtil;
 import common.utils.RSAEncrypt;
@@ -224,8 +231,14 @@ public class SupplierController extends BaseSupplierController {
     @Autowired
     private DeleteLogService deleteLogService;// 删除日志
     
-    @Autowired
+    @Autowired 
     private DownloadService downloadService;// 文件下载
+    
+    @Autowired
+    private SupplierStockholderService supplierStockholderService;//出资人
+    
+    @Autowired
+    private SupplierHistoryService supplierHistoryService;
     
     /**
      * 基本信息（第一步）
@@ -1178,7 +1191,7 @@ public class SupplierController extends BaseSupplierController {
 	private void initSupplierTypeAudit(Model model, Supplier supplier){
 		if(supplier != null && supplier.getStatus() != null && supplier.getStatus() == 2){
 			SupplierAudit supplierAudit = new SupplierAudit();
-			supplierAudit.setSupplierId(supplier.getId());;
+			supplierAudit.setSupplierId(supplier.getId());
 			//供应商勾选的类型
 			StringBuffer typePageField = new StringBuffer();
 			supplierAudit.setAuditType("supplierType_page");
@@ -1749,6 +1762,13 @@ public class SupplierController extends BaseSupplierController {
 		List < UploadFile > filesList;
 		boolean isOk = true;
 		String errContractFiles = "";
+		Supplier supplier = supplierService.selectById(supplierId);
+		// 年份
+		int referenceYear = 0;
+		if(!"-1".equals(supplier.getStatus()+"")){
+			referenceYear = DateUtils.getCurrentYear(supplier.getFirstSubmitAt());
+		}
+		List < Integer > years = supplierService.getLastThreeYear(referenceYear);
 		for(SupplierItem item: itemsList) {
 			String supplierType = item.getSupplierTypeRelateId();
 			if(infoSupplierTypeAudit.indexOf(supplierType) == -1){
@@ -1766,32 +1786,32 @@ public class SupplierController extends BaseSupplierController {
 					errContractFiles = "还有合同附件未上传!";
 					break;
 				}
-				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_ONE_YEAR"), Constant.SUPPLIER_SYS_KEY.toString());
+				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_ONE_YEAR") + "_" + years.get(0), Constant.SUPPLIER_SYS_KEY.toString());
 				if(filesList.size() == 0) {
 					isOk = false;
 					break;
 				}
-				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_TWO_YEAR"), Constant.SUPPLIER_SYS_KEY.toString());
+				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_TWO_YEAR") + "_" + years.get(1), Constant.SUPPLIER_SYS_KEY.toString());
 				if(filesList.size() == 0) {
 					isOk = false;
 					break;
 				}
-				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_THREE_YEAR"), Constant.SUPPLIER_SYS_KEY.toString());
+				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_THREE_YEAR") + "_" + years.get(2), Constant.SUPPLIER_SYS_KEY.toString());
 				if(filesList.size() == 0) {
 					isOk = false;
 					break;
 				}
-				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CTAEGORY_ONE_BIL"), Constant.SUPPLIER_SYS_KEY.toString());
+				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CTAEGORY_ONE_BIL") + "_" + years.get(0), Constant.SUPPLIER_SYS_KEY.toString());
 				if(filesList.size() == 0) {
 					isOk = false;
 					break;
 				}
-				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CTAEGORY_TWO_BIL"), Constant.SUPPLIER_SYS_KEY.toString());
+				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CTAEGORY_TWO_BIL") + "_" + years.get(1), Constant.SUPPLIER_SYS_KEY.toString());
 				if(filesList.size() == 0) {
 					isOk = false;
 					break;
 				}
-				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_THREE_BIL"), Constant.SUPPLIER_SYS_KEY.toString());
+				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_THREE_BIL") + "_" + years.get(2), Constant.SUPPLIER_SYS_KEY.toString());
 				if(filesList.size() == 0) {
 					isOk = false;
 					break;
@@ -1873,14 +1893,14 @@ public class SupplierController extends BaseSupplierController {
 			return "ses/sms/supplier_register/template_upload";
 		}
 		supplierService.commit(supplier);
-		//刪除上次的审核记录
-		/*supplierAuditService.deleteBySupplierId(supplier.getId());*/
+		/*//刪除上次的审核记录
+		//supplierAuditService.deleteBySupplierId(supplier.getId());
 		SupplierAudit supplierAudit = new SupplierAudit();
 		supplierAudit.setSupplierId(supplier.getId());
 		supplierAuditService.updateIsDeleteBySupplierId(supplierAudit);
 		//清空审核人
 		//supplier.setAuditor("");
-		supplierAuditService.updateStatus(supplier);
+		supplierAuditService.updateStatus(supplier);*/
 		
 		request.getSession().removeAttribute("currSupplier");
 		request.getSession().removeAttribute("sysKey");
@@ -1898,7 +1918,8 @@ public class SupplierController extends BaseSupplierController {
 			return null;
 		}
 		boolean bool = validateUpload(model, supplier.getId());
-		Supplier supp = supplierService.selectOne(supplier.getId());
+		//Supplier supp = supplierService.selectOne(supplier.getId());
+		Supplier supp = checkSupplier;
 		// 删除审核不通过的品目
 		//supplierItemService.deleteItemsBySupplierId(supplier.getId(), (byte)1);
         //校验是否在规定时间未提交审核,如时间>0说明不符合规定则注销信息
@@ -3098,14 +3119,24 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@RequestMapping("/ajaxContract")
 	public String ajaxContract(String supplierId, Model model, String supplierTypeId, Integer pageNum) {
+		
+		// 年份
+		int referenceYear = 0;
+		Supplier supplier = supplierService.selectById(supplierId);
+		if(!"-1".equals(supplier.getStatus()+"")){
+			referenceYear = DateUtils.getCurrentYear(supplier.getFirstSubmitAt());
+		}
+		List < Integer > years = supplierService.getLastThreeYear(referenceYear);
+		model.addAttribute("years", years);
+		
 		//合同
-		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
-		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
-		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR") + "_" + years.get(0);
+		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR") + "_" + years.get(1);
+		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR") + "_" + years.get(2);
 		//账单
-		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
-		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
-		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL") + "_" + years.get(0);
+		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL") + "_" + years.get(1);
+		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL") + "_" + years.get(2);
 
 		/*List < Category > categoryList = new ArrayList < Category > ();
 		List < SupplierItem > itemsList = supplierItemService.findCategoryList(supplierId, supplierTypeId, pageNum == null ? 1 : pageNum);
@@ -3154,9 +3185,6 @@ public class SupplierController extends BaseSupplierController {
 		PageInfo < SupplierItem > pageInfo = new PageInfo < SupplierItem > (itemsList);
 		model.addAttribute("result", pageInfo);
 		model.addAttribute("contract", contractList);
-		// 年份
-		List < Integer > years = supplierService.getThressYear();
-		model.addAttribute("years", years);
 		model.addAttribute("supplierTypeId", supplierTypeId);
 		model.addAttribute("supplierId", supplierId);
 		// 供应商附件sysKey参数
@@ -3461,8 +3489,9 @@ public class SupplierController extends BaseSupplierController {
     @RequestMapping(value = "/getFileByCode")
     public ModelAndView addSeCert(String certCode, String supplierId, Model model, String number,String professType) {
 //        List<SupplierCertEng> certEng = supplierCertEngService.selectCertEngByCode(certCode, supplierId);
-        SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
-        List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null, matEng.getId(), certCode, professType);
+//        SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
+    	String matEngId = supplierMatEngService.getMatEngIdBySupplierId(supplierId);
+        List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null, matEngId, certCode, professType);
         if (certEng != null && certEng.size() > 0) {
             model.addAttribute("number", number);
             //初始化供应商注册附件类型
@@ -3637,7 +3666,7 @@ public class SupplierController extends BaseSupplierController {
             "UTF-8");
 //        Supplier supplier = JSON.parseObject(supplierJson, Supplier.class);
         /** 创建word文件 **/
-        String fileName = WordUtil.createWord(supplier, "supplier2.ftl",
+        String fileName = WordUtil.createWord(supplier, "supplier3.ftl",
             name, request);
 //        String fileName = WordUtil.createWord(supplier, "test2.ftl",
 //        		name, request);
@@ -3709,6 +3738,10 @@ public class SupplierController extends BaseSupplierController {
     	return string;
     }
     
+    /**
+     * 获取随机生成的UUID
+     * @return
+     */
 	@ResponseBody
 	@RequestMapping("/getUUID")
 	public String getUUID() {
@@ -3716,16 +3749,86 @@ public class SupplierController extends BaseSupplierController {
 	}
     
     /**
-     * @Title: getRandomId
-     * @Description:获取随机生成的ID
-     * author: Li Xiaoxiao 
-     * @return String     
+     * 获取随机生成的ID
+     * @return
      */
     @RequestMapping("/getId")
     @ResponseBody
     public String getRandomId(){
     	String id = UUID.randomUUID().toString().replaceAll("-", "");
     	return id;
+    }
+    
+    /**
+     * 撤销删除股东信息
+     * @param model
+     * @param supplierId
+     * @param ind
+     * @return
+     */
+    @RequestMapping("/undoDelStockholder")
+    public ModelAndView undoDelStockholder(Model model, String supplierId, String ind){
+    	String supplierSt = supplierService.getStatusById(supplierId);
+    	if("2".equals(supplierSt)){
+    		List<SupplierStockholderRecy> recyList = supplierService.undoDelStockholder(supplierId);
+        	if(recyList != null && recyList.size() > 0){
+        		model.addAttribute("listStockholders", recyList);
+        		model.addAttribute("ind", ind);
+        		model.addAttribute("supplierSt", supplierSt);
+        		
+        		SupplierAudit supplierAudit = new SupplierAudit();
+    			supplierAudit.setSupplierId(supplierId);
+    			supplierAudit.setAuditType("basic_page");
+    			List < SupplierAudit > auditLists = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
+
+    			StringBuffer errorField = new StringBuffer();
+    			for(SupplierAudit audit: auditLists) {
+    				errorField.append(audit.getAuditField() + ",");
+    			}
+
+    			model.addAttribute("audit", errorField);
+        	}
+    	}
+	    return new ModelAndView("ses/sms/supplier_register/list_stockholder");
+    }
+    
+    /**
+     * 撤销删除工程资质证书信息
+     * @param model
+     * @param supplierId
+     * @param ind
+     * @return
+     */
+    @RequestMapping("/undoDelAptitude")
+    public ModelAndView undoDelAptitude(Model model, String supplierId, String ind){
+    	String supplierSt = supplierService.getStatusById(supplierId);
+    	if("2".equals(supplierSt)){
+    		List<SupplierAptituteRecy> recyList = supplierService.undoDelAptitude(supplierId);
+        	if(recyList != null && recyList.size() > 0){
+        		model.addAttribute("listAptitutes", recyList);
+        		model.addAttribute("ind", ind);
+        		model.addAttribute("supplierSt", supplierSt);
+        		//初始化供应商注册附件类型
+        		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+        		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+        		//资质类型
+        		List<Qualification> quaList = qualificationService.findList(null, Integer.MAX_VALUE, null, 4);
+        		model.addAttribute("quaList", quaList);
+        		//工程审核记录
+        		SupplierAudit supplierAudit = new SupplierAudit();
+    			supplierAudit.setSupplierId(supplierId);
+    			StringBuffer engPageField = new StringBuffer();
+    			supplierAudit.setAuditType("mat_eng_page");
+    			List < SupplierAudit > engAuditList = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
+    			if(engAuditList != null && !engAuditList.isEmpty()){
+    				for(SupplierAudit audit: engAuditList) {
+    					engPageField.append(audit.getAuditField() + ",");
+    				}
+    			}
+    			model.addAttribute("engPageField", engPageField);
+        	}
+    	}
+    	return new ModelAndView("ses/sms/supplier_register/list_aptitute");
     }
     
     public boolean supplierAptituteService(List<SupplierAptitute> list){
@@ -3828,4 +3931,66 @@ public class SupplierController extends BaseSupplierController {
 		return supplierService.get(suppId, type);
     }
     
+    /**
+     *〈简述〉后台管理员临时添加供应商出资人
+     *〈详细描述〉
+     * @author Ye Maolin
+     * @param id
+     * @param supplierId
+     */
+    @ResponseBody
+	@RequestMapping("/saveTempStockholder")
+    public void saveTempStockholder(String id, String supplierId){
+    	SupplierStockholder supplierStockholder = new SupplierStockholder();
+    	supplierStockholder.setSupplierId(supplierId);
+    	supplierStockholder.setId(id);
+    	supplierStockholder.setCreatedAt(new Date());
+    	supplierStockholderService.saveTempStockholder(supplierStockholder);
+    	//插入历史表T_SES_SMS_SUPPLIER_HISTORY
+    	SupplierHistory supplierHistory = new SupplierHistory();
+    	supplierHistory.setBeforeContent("null");
+    	supplierHistory.setCreatedAt(new Date());
+    	supplierHistory.setIsDeleted(0);
+    	supplierHistory.setListType(4);
+    	supplierHistory.setModifyType("shareholder_page");
+    	supplierHistory.setRelationId(id);
+    	supplierHistory.setSupplierId(supplierId);
+    	supplierHistory.setBeforeField("proportion");
+    	supplierHistoryService.add(supplierHistory);
+    	supplierHistory.setBeforeField("name");
+    	supplierHistoryService.add(supplierHistory);
+    	supplierHistory.setBeforeField("nature");
+    	supplierHistoryService.add(supplierHistory);
+    	supplierHistory.setBeforeField("identityType");
+    	supplierHistoryService.add(supplierHistory);
+    	supplierHistory.setBeforeField("identity");
+    	supplierHistoryService.add(supplierHistory);
+    	supplierHistory.setBeforeField("shares");
+    	supplierHistoryService.add(supplierHistory);
+    }
+    
+    /**
+     *〈简述〉后台管理员删除临时添加的供应商出资人
+     *〈详细描述〉**99/9
+     * @author Ye Maolin
+     * @param id
+     */
+    @ResponseBody
+	@RequestMapping("/deleteTempStockholder")
+    public void deleteTempStockholder(String id, String supplierId){
+    	supplierStockholderService.deleteTempStockholder(id);
+    	//删除历史表T_SES_SMS_SUPPLIER_HISTORY
+    	supplierHistoryService.softDelete(supplierId, id);
+    	//删除审核记录
+    	SupplierAudit supplierAudit = new SupplierAudit();
+    	supplierAudit.setSupplierId(supplierId);
+    	supplierAudit.setAuditField(id);
+     	supplierAudit.setAuditType("basic_page");
+     	Integer[] rss = {1};
+     	List<SupplierAudit> audits = supplierAuditService.getAuditRecords(supplierAudit, rss);
+     	if (audits != null && audits.size() == 1) {
+     		String[] ids = {audits.get(0).getId()};
+     		supplierAuditService.deleteById(ids);
+		}
+    }
 }

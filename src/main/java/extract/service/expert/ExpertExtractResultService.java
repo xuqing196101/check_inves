@@ -22,4 +22,14 @@ public interface ExpertExtractResultService {
      * @return
      */
     void save(ExpertExtractResult expertExtractResult);
+    
+    /**
+     * 
+     * Description: 专家抽取结束短信通知
+     * 
+     * @data 2018年1月2日
+     * @param 
+     * @return
+     */
+    void smsNotice(String projectId, Integer sign);
 }

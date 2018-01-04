@@ -3,7 +3,7 @@
 <mapper namespace="extract.dao.common.PersonRelMapper">
 
 	<!-- 中间关系表添加数据 -->
-	<insert id="insertRel" parameterType="map">
+	<insert id="insertRel" parameterType="map" >
 		INSERT ALL
 		<if test="null!=personIds">
 			<foreach collection="personIds" item="item" separator="">

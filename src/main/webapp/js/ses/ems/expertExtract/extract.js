@@ -68,9 +68,12 @@ function artificial_extracting(isAuto){
     var code = $("#expertKind option:selected").val();
     if(!validationIsNull(code)){
     	layer.close(ae_load);
-        return;
+        return false;
     }
-    savePerson();
+    if(!savePerson()){
+    	layer.close(ae_load);
+        return false;
+    }
     $("#isAuto").val(isAuto);
     //项目信息
     var proRuestl_1 = $("#form").serializeJson();//数据序列化
@@ -493,8 +496,8 @@ function isJoin(select){
     var codeCount = parseInt(coUndifined($("#"+code.toLowerCase()+"_i_count").val()));
     var x, y;
     var oRect = select.getBoundingClientRect();
-    x = oRect.left - 450;
-    y = oRect.top - 150;
+    x = oRect.left/2;
+    y = oRect.top/2;
     layer.confirm('确定本次操作吗？', {
         btn: ['确定', '取消'], shade: 0.01
     }, function (index) {
@@ -1212,7 +1215,7 @@ function checkAll(obj){
 
 
 function savePerson(){
-    var flag = 0;
+	var personFlag = true;
     //存储人员信息
     $.ajax({
         type: "POST",
@@ -1222,8 +1225,8 @@ function savePerson(){
         async:false,
         success: function (msg) {
             $("#supervise").find("span").empty();
-            if(null !=msg){
-                flag++;
+            if(null != msg){
+            	personFlag = false;
                 for ( var k in msg) {
                     if("All"!=k){
                         $("#supervise").find("[name='"+k+"']").parent().append("<span class='red'>"+msg[k]+"</span>");
@@ -1234,9 +1237,14 @@ function savePerson(){
             }else{
                 $("#sError").empty();
             }
-        }
+        },
+        error : function() {
+        	personFlag = false;
+        },
     });
-
+    if(!personFlag){
+        return personFlag;
+    }
     $.ajax({
         type: "POST",
         url: $("#extractUser").attr('action'),
@@ -1245,8 +1253,8 @@ function savePerson(){
         async:false,
         success: function (msg) {
             $("#extractUser").find("span").empty();
-            if(null !=msg){
-                flag++;
+            if(null != msg){
+            	personFlag = false;
                 for ( var k in msg) {
                     if("All"==k){
                         $("#eError").html(msg[k]);
@@ -1257,9 +1265,12 @@ function savePerson(){
             }else{
                 $("#eError").empty();
             }
-        }
+        },
+        error : function() {
+        	personFlag = false;
+        },
     });
-    return true;
+	return personFlag;
 }
 
 //重置抽取条件

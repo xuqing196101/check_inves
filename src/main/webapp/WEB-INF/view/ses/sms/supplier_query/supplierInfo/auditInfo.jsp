@@ -120,6 +120,7 @@
                 </table>
             </div>
             <c:if test="${supplierAuditOpinionFirst != null}">
+                <div class="clear"></div>
                 <h2 class="count_flow"><i>2</i>采购机构审核意见</h2>
                 <div class="ul_list">
                     <table class="table table-bordered table-condensed table-hover">
@@ -127,6 +128,7 @@
                                   class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinionFirst.opinion }</textarea>
                     </table>
                 </div>
+                <div class="clear"></div>
                 <h2 class="count_flow"><i>3</i>批准审核表</h2>
                 <div class="ul_list">
                     <table class="table table-bordered table-condensed table-hover">

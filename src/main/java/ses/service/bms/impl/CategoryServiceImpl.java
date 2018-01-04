@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,7 +15,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +43,6 @@ import synchro.util.OperAttachment;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
-
 import common.bean.ResBean;
 import common.constant.Constant;
 import common.constant.StaticVariables;
@@ -1363,12 +1360,9 @@ public class CategoryServiceImpl implements CategoryService {
 	 * 按品目名称搜索品目树
 	 */
 	@Override
-	public  Set<Category> selectCategoryByName(String typeId,String cateName,String cateCode) {
+	public  Set<CategoryTree> selectCategoryByName(String typeId,String cateName,String cateCode) {
 		
-		if(StringUtils.isBlank(cateCode) && StringUtils.isBlank(cateName)){
-			return null;
-		}
-		HashSet<Category> hashSet = new HashSet<>();
+		HashSet<CategoryTree> hashSet = new HashSet<>();
 		HashMap<String,String> map = new HashMap<>();
 		map.put("cateName", cateName);
 		map.put("cateCode", cateCode);

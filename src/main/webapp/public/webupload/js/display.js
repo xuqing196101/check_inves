@@ -8,11 +8,15 @@ $(function(){
 /**
  * 初始化
  */
-function showInit(){
-	$(".uploaded_file_show").each(function(){
-		var id = $(this).prev()[0].value;
-		packParam(id);
-	});
+function showInit(showId){
+	if(showId){
+		packParam(showId);
+	}else{
+		$(".uploaded_file_show").each(function(){
+			var id = $(this).prev()[0].value;
+			packParam(id);
+		});
+	}
 	
 	/*
 	var singleId = $("#showId").val();
@@ -269,9 +273,9 @@ function disFiles(data,key,id){
  * @param key  对应的系统key
  */
 function disFile(html,obj,key){
-	/*var fileName = obj.path;*/
-	/*var fileExt = fileName.substring(fileName.indexOf(".")+1,fileName.length).toLowerCase();*/
-	var fileExt=obj.path;
+	var fileName = obj.path;
+	var fileExt = fileName.substring(fileName.indexOf(".")+1,fileName.length).toLowerCase();
+	//var fileExt=obj.path;
 	if (/(gif|jpg|jpeg|png|bmp|GIF|JPG|JPEG|PNG|BMP)$/.test(fileExt)) {
 		var url = globalPath + '/file/viewFile.html?id=' + obj.id +'&key=' + key;
 		var li = '<li><div class="col-md-2 padding-0 fl"><div class="fl suolue"><a href="javascript:upPicture();" class="thumbnail mb0 suolue">'

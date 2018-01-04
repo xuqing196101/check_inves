@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
+import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseOrg;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
@@ -383,7 +384,7 @@ public class PlanStatisticsController extends BaseController {
 				  }
 			  }
 		  } else if (dataAccess == 3) {
-			  hashMap.put("orgId", user.getOrg().getId());
+			  hashMap.put("userId", user.getId());
 		  }
 		  if (page==null) {
 			  page = 1;
@@ -438,163 +439,224 @@ public class PlanStatisticsController extends BaseController {
   public String taskDetailList(@CurrentUser User user,Model model,HttpServletResponse response,HttpServletRequest request,Integer page, PurchaseDetail detail,
 		  String beginDate,String endDate,String projectNumber,String proBeginDate, String proEndDate,String code, String materialsType) throws IOException{
 		if (user != null) {
+			  HashMap<String, Object> hashMap = new HashMap<>();
+			  if(detail.getGoodsName()!=null){
+				  hashMap.put("goodsName", detail.getGoodsName().trim());
+			  }
+			  if(detail.getTaskNumber()!=null){
+				  hashMap.put("taskNumber", detail.getTaskNumber().trim());
+			  }
+			  if (detail != null && StringUtils.isNotBlank(detail.getDepartment())) {
+				  hashMap.put("department", detail.getDepartment());
+			  }
+			  if (detail != null && StringUtils.isNotBlank(detail.getPurchaseType())) {
+				  hashMap.put("purchaseType", detail.getPurchaseType());
+			  }
+			  if(beginDate!=null&&!"".equals(beginDate.trim())&&endDate!=null&&!"".equals(endDate.trim())){
+				  hashMap.put("beginDate", beginDate);
+				  hashMap.put("endDate", endDate);
+			  }
+			  if (StringUtils.isNotBlank(materialsType)) {
+				  hashMap.put("materialsType", materialsType);
+			  }
+			  if (StringUtils.isNotBlank(projectNumber)) {
+				  hashMap.put("projectNumber", projectNumber.trim());
+			  }
+			  if (StringUtils.isNotBlank(proBeginDate) && StringUtils.isNotBlank(proEndDate)) {
+				  hashMap.put("proEndDate", proEndDate.trim());
+				  hashMap.put("proBeginDate", proBeginDate.trim());
+			  }
+			  if (StringUtils.isNotBlank(code)) {
+				  hashMap.put("code", code.trim());
+			  }
+			  if (detail != null && StringUtils.isNotBlank(detail.getOrganization())) {
+				  hashMap.put("organization", detail.getOrganization());
+			  }
 			  HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
-			  List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
-			  if (superviseOrgId != null && !superviseOrgId.isEmpty()) {
-				  HashMap<String, Object> hashMap = new HashMap<>();
-				  if(detail.getGoodsName()!=null){
-					  hashMap.put("goodsName", detail.getGoodsName().trim());
-				  }
-				  if(detail.getTaskNumber()!=null){
-					  hashMap.put("taskNumber", detail.getTaskNumber().trim());
-				  }
-				  if (detail != null && StringUtils.isNotBlank(detail.getDepartment())) {
-					  hashMap.put("department", detail.getDepartment());
-				  }
-				  if (detail != null && StringUtils.isNotBlank(detail.getPurchaseType())) {
-					  hashMap.put("purchaseType", detail.getPurchaseType());
-				  }
-				  if(beginDate!=null&&!"".equals(beginDate.trim())&&endDate!=null&&!"".equals(endDate.trim())){
-					  hashMap.put("beginDate", beginDate);
-					  hashMap.put("endDate", endDate);
-				  }
-				  if (StringUtils.isNotBlank(materialsType)) {
-					  hashMap.put("materialsType", materialsType);
-				  }
-				  if (StringUtils.isNotBlank(projectNumber)) {
-					  hashMap.put("projectNumber", projectNumber.trim());
-				  }
-				  if (StringUtils.isNotBlank(proBeginDate) && StringUtils.isNotBlank(proEndDate)) {
-					  hashMap.put("proEndDate", proEndDate.trim());
-					  hashMap.put("proBeginDate", proBeginDate.trim());
-				  }
-				  if (StringUtils.isNotBlank(code)) {
-					  hashMap.put("code", code.trim());
-				  }
-				  if (detail != null && StringUtils.isNotBlank(detail.getOrganization())) {
-					  hashMap.put("organization", detail.getOrganization());
-				  }
-				  if (StringUtils.equals("2", user.getTypeName())) {
-					  hashMap.put("orgId", user.getOrg().getId());
-				  } else if (StringUtils.equals("5", user.getTypeName())) {
-					  hashMap.put("orgList", superviseOrgId);
-				  }
-				  List<PurchaseDetail> PurchaseDetailList = purchaseDetailService.selectByTask(hashMap,page==null?1:page);
-				  PageInfo<PurchaseDetail> info = new PageInfo<>(PurchaseDetailList);
-				  model.addAttribute("info", info);
-				  model.addAttribute("detail", detail);
-				  model.addAttribute("projectNumber", projectNumber);
-				  model.addAttribute("proEndDate", proEndDate);
-				  model.addAttribute("proBeginDate", proBeginDate);
-				  model.addAttribute("code", code);
-				  model.addAttribute("materialsType", materialsType);
-				  model.addAttribute("planTypes", DictionaryDataUtil.find(6));
-				  model.addAttribute("dataType", DictionaryDataUtil.find(5));
+			  Integer dataAccess = (Integer) dataMap.get("dataAccess");
+			  if (dataAccess == 1) {
+				  List<Orgnization> list = orgnizationServiceI.findOrgPartByParam(null);
+				  model.addAttribute("allXq", list);
+				  List<Orgnization> list2 = orgnizationServiceI.findPurchaseOrgByPosition(null);
+				  model.addAttribute("allOrg", list2);
+			  } else if (dataAccess == 2) {
 				  List<Orgnization> list2=new ArrayList<Orgnization>();
 				  List<Orgnization> list3=new ArrayList<Orgnization>();
-				  if (user.getOrg() != null) {
-					  List<PurchaseOrg> listOrg = purchaseOrgnizationServiceI.getOrg(user.getOrg().getId());
-					  for (PurchaseOrg purchaseOrg : listOrg) {
-						  Orgnization orgByPrimaryKey = orgnizationServiceI.getOrgByPrimaryKey(purchaseOrg.getPurchaseDepId());
-						  if(orgByPrimaryKey!=null){
-							  list2.add(orgByPrimaryKey);
+			  		List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
+			  		if (StringUtils.equals("2", user.getTypeName())) {
+			  			hashMap.put("orgId", user.getOrg().getId());
+			  			
+			  			List<PurchaseOrg> listOrg = purchaseOrgnizationServiceI.getOrg(user.getOrg().getId());
+						  for (PurchaseOrg purchaseOrg : listOrg) {
+							  Orgnization orgByPrimaryKey = orgnizationServiceI.getOrgByPrimaryKey(purchaseOrg.getPurchaseDepId());
+							  if(orgByPrimaryKey!=null){
+								  list2.add(orgByPrimaryKey);
+							  }
 						  }
+						  
+						  List<PurchaseOrg> byPurchaseDepId = purchaseOrgnizationServiceI.getByPurchaseDepId(user.getOrg().getId());
+						  for (PurchaseOrg purchaseOrg : byPurchaseDepId) {
+							  Orgnization orgByPrimaryKey = orgnizationServiceI.getOrgByPrimaryKey(purchaseOrg.getOrgId());
+							  if(orgByPrimaryKey!=null){
+								  list3.add(orgByPrimaryKey);
+							  }
+						  }
+			  		} else if (StringUtils.equals("5", user.getTypeName())) {
+			  			hashMap.put("orgList", superviseOrgId);
+			  			
+			  			
+						  HashMap<String, Object> map = new HashMap<>();
+						  map.put("userId", superviseOrgId);
+						  List<Orgnization> selectByIdList = orgnizationServiceI.selectByIdList(map);
+						  for (Orgnization orgnization : selectByIdList) {
+							  if (StringUtils.equals("0", orgnization.getTypeName())) {
+								  list3.add(orgnization);
+							  } else if (StringUtils.equals("1", orgnization.getTypeName())) {
+								  list2.add(orgnization);
+							  }
+						  }
+			  		}
+			  		
+					  model.addAttribute("allOrg",list2);
+					  model.addAttribute("allXq", list3);
+			  } else if (dataAccess == 3){
+      				//查看本人数据
+				  hashMap.put("userId", user.getId());
+				  
+				  List<Orgnization> list2=new ArrayList<Orgnization>();
+				  List<Orgnization> list3=new ArrayList<Orgnization>();
+				  List<PurchaseOrg> listOrg = purchaseOrgnizationServiceI.getOrg(user.getOrg().getId());
+				  for (PurchaseOrg purchaseOrg : listOrg) {
+					  Orgnization orgByPrimaryKey = orgnizationServiceI.getOrgByPrimaryKey(purchaseOrg.getPurchaseDepId());
+					  if(orgByPrimaryKey!=null){
+						  list2.add(orgByPrimaryKey);
 					  }
-					  
-					  List<PurchaseOrg> byPurchaseDepId = purchaseOrgnizationServiceI.getByPurchaseDepId(user.getOrg().getId());
-					  for (PurchaseOrg purchaseOrg : byPurchaseDepId) {
-						  Orgnization orgByPrimaryKey = orgnizationServiceI.getOrgByPrimaryKey(purchaseOrg.getOrgId());
-						  if(orgByPrimaryKey!=null){
-							  list3.add(orgByPrimaryKey);
-						  }
-					  }
-					  
-				  } else {
-					  HashMap<String, Object> map = new HashMap<>();
-					  map.put("userId", superviseOrgId);
-					  List<Orgnization> selectByIdList = orgnizationServiceI.selectByIdList(map);
-					  for (Orgnization orgnization : selectByIdList) {
-						  if (StringUtils.equals("0", orgnization.getTypeName())) {
-							  list3.add(orgnization);
-						  } else if (StringUtils.equals("1", orgnization.getTypeName())) {
-							  list2.add(orgnization);
-						  }
+				  }
+				  
+				  List<PurchaseOrg> byPurchaseDepId = purchaseOrgnizationServiceI.getByPurchaseDepId(user.getOrg().getId());
+				  for (PurchaseOrg purchaseOrg : byPurchaseDepId) {
+					  Orgnization orgByPrimaryKey = orgnizationServiceI.getOrgByPrimaryKey(purchaseOrg.getOrgId());
+					  if(orgByPrimaryKey!=null){
+						  list3.add(orgByPrimaryKey);
 					  }
 				  }
 				  model.addAttribute("allOrg",list2);
 				  model.addAttribute("allXq", list3);
-			  }
+      		  }
+			  List<PurchaseDetail> PurchaseDetailList = purchaseDetailService.selectByTask(hashMap,page==null?1:page);
+			  PageInfo<PurchaseDetail> info = new PageInfo<>(PurchaseDetailList);
+			  model.addAttribute("info", info);
+			  model.addAttribute("detail", detail);
+			  model.addAttribute("projectNumber", projectNumber);
+			  model.addAttribute("proEndDate", proEndDate);
+			  model.addAttribute("proBeginDate", proBeginDate);
+			  model.addAttribute("code", code);
+			  model.addAttribute("materialsType", materialsType);
+			  model.addAttribute("planTypes", DictionaryDataUtil.find(6));
+			  model.addAttribute("dataType", DictionaryDataUtil.find(5));
 		}
 		return "bss/pms/statistic/task_detail";
 	}
 	@RequestMapping("/charDept")
-  public String charDept(@CurrentUser User user,Model model,HttpServletResponse response,HttpServletRequest request){
-	  if(user.getTypeName().equals("2")){
-	  List<PurchaseDetail> selectByDept = purchaseDetailService.selectByDept(user.getOrg().getId());
-	  List<String> name=new ArrayList<String>();
-	  List<String> data=new ArrayList<String>();
-	  BigDecimal max=BigDecimal.ZERO;
-	  for (PurchaseDetail purchaseDetail : selectByDept) {
-	    name.add(purchaseDetail.getDepartment());
-	    data.add(purchaseDetail.getBudget()+"");
-	    BigDecimal min = new BigDecimal(purchaseDetail.getBudget()+"");
-      int n = max.compareTo(min);
-      if(n<0){
-        max=min;
-      }
-    }
-	  model.addAttribute("name", JSON.toJSONString(name));
-	  model.addAttribute("data", JSON.toJSONString(data));
-	  model.addAttribute("max", max);
-	  }
-	 return "bss/pms/statistic/task_dept";
+  public String charDept(@CurrentUser User user,Model model) throws IOException{
+		if (user != null && StringUtils.isNotBlank(user.getTypeName())) {
+			HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
+			Integer dataAccess = (Integer) dataMap.get("dataAccess");
+			HashMap<String, Object> map = new HashMap<>();
+			if (dataAccess == 2) {
+				List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
+				map.put("purchaseDepId", superviseOrgId);
+			} else if (dataAccess == 3) {
+				map.put("userId", user.getId());
+				map.put("orgId", user.getOrg().getId());
+			}
+			List<PurchaseDetail> selectByDept = purchaseDetailService.selectByDept(map);
+			List<String> name=new ArrayList<String>();
+			List<String> data=new ArrayList<String>();
+			BigDecimal max=BigDecimal.ZERO;
+			for (PurchaseDetail purchaseDetail : selectByDept) {
+				name.add(purchaseDetail.getDepartment());
+				data.add(purchaseDetail.getBudget().toString());
+				BigDecimal min = new BigDecimal(purchaseDetail.getBudget().toString());
+				int n = max.compareTo(min);
+				if(n<0){
+					max=min;
+				}
+			}
+			model.addAttribute("name", JSON.toJSONString(name));
+			model.addAttribute("data", JSON.toJSONString(data));
+			model.addAttribute("max", max);
+		}
+		return "bss/pms/statistic/task_dept";
 	}
 	@RequestMapping("/charType")
-  public String charType(@CurrentUser User user,Model model,HttpServletResponse response,HttpServletRequest request){
-	  if(user.getTypeName().equals("2")){
-	  List<PurchaseDetail> selectByDept = purchaseDetailService.selectByType(user.getOrg().getId());
-    List<Map<String, Object>> list=new ArrayList<Map<String, Object>>();
-    List<String> type=new ArrayList<String>();
-    for (PurchaseDetail purchaseDetail : selectByDept) {
-      Map<String, Object> map=new HashMap<String, Object>();
-      if(purchaseDetail.getPurchaseType()!=null){
-        DictionaryData findById = DictionaryDataUtil.findById(purchaseDetail.getPurchaseType());
-        if(findById!=null){
-          map.put("name",findById.getName());
-          map.put("value", purchaseDetail.getBudget());
-          list.add(map);
-          type.add(findById.getName());
-        }
-      }
-    }
-    model.addAttribute("type", JSON.toJSONString(type));
-    model.addAttribute("data", JSON.toJSONString(list));
-	  }
-   return "bss/pms/statistic/task_type";
+  public String charType(@CurrentUser User user,Model model) throws IOException{
+		if (user != null && StringUtils.isNotBlank(user.getTypeName())) {
+			HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
+			Integer dataAccess = (Integer) dataMap.get("dataAccess");
+			HashMap<String, Object> map = new HashMap<>();
+			if (dataAccess == 2) {
+				List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
+				map.put("purchaseDepId", superviseOrgId);
+			} else if (dataAccess == 3) {
+				map.put("userId", user.getId());
+				map.put("orgId", user.getOrg().getId());
+			}
+			List<PurchaseDetail> selectByDept = purchaseDetailService.selectByType(map);
+			if (selectByDept != null && !selectByDept.isEmpty()) {
+				List<Map<String, Object>> list=new ArrayList<Map<String, Object>>();
+			    List<String> type=new ArrayList<String>();
+				for (PurchaseDetail purchaseDetail : selectByDept) {
+					HashMap<String, Object> hashMap = new HashMap<>();
+					if (StringUtils.isNotBlank(purchaseDetail.getPurchaseType())) {
+						DictionaryData data = DictionaryDataUtil.findById(purchaseDetail.getPurchaseType());
+						if (data != null) {
+							hashMap.put("name",data.getName());
+							hashMap.put("value", purchaseDetail.getBudget());
+							list.add(hashMap);
+							type.add(data.getName());
+						}
+					}
+				}
+				model.addAttribute("type", JSON.toJSONString(type));
+			    model.addAttribute("data", JSON.toJSONString(list));
+			}
+		}
+		return "bss/pms/statistic/task_type";
   }
 	@RequestMapping("/charMonth")
-  public String charMonth(@CurrentUser User user,Model model,HttpServletResponse response,HttpServletRequest request){
-	  if(user.getTypeName().equals("2")){
-	  List<Map<String, Object>> selectByMonth = purchaseDetailService.selectByMonth(user.getOrg().getId());
-    List<Map<String, Object>> list=new ArrayList<Map<String, Object>>();
-    List<String> month=new ArrayList<String>();
-    List<String> bud=new ArrayList<String>();
-    Map<String, Object> map=new HashMap<String, Object>();
-    if(selectByMonth!=null&&selectByMonth.size()>0){
-      for (Map<String, Object> purchaseDetail : selectByMonth) {
-        month.add((String) purchaseDetail.get("TASKGIVETIME"));
-        bud.add(purchaseDetail.get("BUDGET").toString());
-      }
-    }
-    map.put("data", bud);
-    map.put("name", "金额");
-    map.put("stack", "总量");
-    map.put("type", "line");
-    list.add(map);
-    model.addAttribute("month", JSON.toJSONString(month));
-    model.addAttribute("data", JSON.toJSONString(list));
-	  }
-   return "bss/pms/statistic/task_month";
+  public String charMonth(@CurrentUser User user,Model model) throws IOException{
+		if (user != null && StringUtils.isNotBlank(user.getTypeName())) {
+			HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
+			Integer dataAccess = (Integer) dataMap.get("dataAccess");
+			HashMap<String, Object> map = new HashMap<>();
+			if (dataAccess == 2) {
+				List<String> superviseOrgId = (List<String>) dataMap.get("superviseOrgs");
+				map.put("purchaseDepId", superviseOrgId);
+			} else if (dataAccess == 3) {
+				map.put("userId", user.getId());
+				map.put("orgId", user.getOrg().getId());
+			}
+			List<Map<String, Object>> selectByMonth = purchaseDetailService.selectByMonth(map);
+			List<Map<String, Object>> list=new ArrayList<Map<String, Object>>();
+		    List<String> month=new ArrayList<String>();
+		    List<String> bud=new ArrayList<String>();
+		    Map<String, Object> map2=new HashMap<String, Object>();
+		    if(selectByMonth!=null&&selectByMonth.size()>0){
+		    	for (Map<String, Object> purchaseDetail : selectByMonth) {
+		    		month.add((String) purchaseDetail.get("TASKGIVETIME"));
+		            bud.add(purchaseDetail.get("BUDGET").toString());
+		    	}
+		    }
+		    map2.put("data", bud);
+	    	map2.put("name", "金额");
+	    	map2.put("stack", "总量");
+	    	map2.put("type", "line");
+	        list.add(map2);
+	        model.addAttribute("month", JSON.toJSONString(month));
+	        model.addAttribute("data", JSON.toJSONString(list));
+		}
+		return "bss/pms/statistic/task_month";
   }
 	
 	/**
@@ -767,5 +829,26 @@ public class PlanStatisticsController extends BaseController {
 			}
 		}
 		return "bss/pms/statistic/task_excel";
+	}
+	
+	@RequestMapping("/view")
+	public String view(String id, String orgId, Model model){
+		if (StringUtils.isNotBlank(orgId) && StringUtils.isNotBlank(id)) {
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("orgId", orgId);
+			map.put("uniqueId", id);
+			List<PurchaseDetail> list = purchaseDetailService.selectByTaskDetail(map);
+			model.addAttribute("list", list);
+			model.addAttribute("kind", DictionaryDataUtil.find(5));
+        	String typeId = DictionaryDataUtil.getId("PURCHASE_DETAIL");
+    		model.addAttribute("typeId", typeId);
+    		
+    		HashMap<String,Object> hashMap = new HashMap<String,Object>();
+    		hashMap.put("typeName", 1);
+    		List<PurchaseDep> org = purchaseOrgnizationServiceI.findPurchaseDepList(hashMap);
+    		model.addAttribute("org", org);
+    		model.addAttribute("type", 1);
+		}
+		return "bss/pms/collect/plan_view";
 	}
 }

@@ -265,6 +265,50 @@
 				</table>
 			  </div>
 			</div>
+			<!-- 如果查看的是采购管理部门要查看对应的需求部门信息 -->
+		    <c:if test="${orgnization.typeName!=null && orgnization.typeName == '2'}">
+		  		<div class="panel-heading overflow-h margin-bottom-20 no-padding" id="ztree_title">
+			  <h2 class="panel-title heading-sm pull-left">
+				<i class="fa fa-bars"></i>
+				需求部门信息
+				<span class="label rounded-2x label-u">正常</span>
+			  </h2>
+			</div>
+			<div class="panel panel-grey clear mt5">
+			  <div class="panel-heading">
+				<h3 class="panel-title">
+				  <i class="fa fa-users"></i> 
+				  需求部门信息
+				</h3>
+			  </div>
+			  <div class="panel-body">
+				<table class="table table-bordered table-condensed table-hover table-striped">
+				  <thead>
+					<tr>
+					  <th>序号</th>
+					  <th>名称</th>
+					  <th>值班室电话</th>
+					  <th>所在地市</th>
+					  <th>详细地址</th>
+					  <th>负责人</th>
+					</tr>
+				  </thead>
+				  <tbody>
+					<c:forEach items="${demandList}" var="p" varStatus="vs">
+					  <tr class="cursor">
+						<td class="tc">${vs.index+1}</td>
+						<td class="tl pl20">${p.name}</td>
+						<td class="tc">${p.telephone}</td>
+						<td class="tl pl20">${p.provinceName}${p.cityName}</td>
+						<td class="tl pl20">${p.address}</td>
+						<td class="tc">${p.contactName}</td>
+					  </tr>
+					</c:forEach>
+				  </tbody>
+				</table>
+			  </div>
+			</div>
+		    </c:if>
 		  </div>
 		  <!-- active 是展示 -->
 		  <div class="tab-pane fade in" id="dep_tab-1">

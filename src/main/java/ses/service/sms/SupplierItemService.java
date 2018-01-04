@@ -112,7 +112,7 @@ public interface SupplierItemService {
 	 * @author WangHuijie
 	 * @param supplierItem
 	 */
-	public void deleteItems(SupplierItem supplierItem, boolean isParentChecked);
+	public void deleteItems(SupplierItem supplierItem, boolean isParentChecked, String recyAptId);
 	
 	/**
 	 *〈简述〉
@@ -324,5 +324,5 @@ public interface SupplierItemService {
 	 */
 	public int countBySupplierIdCategoryId(String supplierId, String categoryId,
 			String code);
-
+	
 }

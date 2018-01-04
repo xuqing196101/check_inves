@@ -37,6 +37,10 @@
   function restValue(){
 	  $(':input','#add_form').not(':button, :submit, :reset, :hidden').val('') 
   }
+  
+  function view(id,orgId){
+  	window.location.href = "${pageContext.request.contextPath}/statistic/view.html?id=" + id + "&orgId=" + orgId;
+  }
   </script>
 </head>
 
@@ -45,9 +49,7 @@
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">
-				<li><a
-					href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')">
-						首页</a></li>
+				<li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')">首页</a></li>
 				<li><a href="javascript:void(0);">保障作业系统</a></li>
 				<li><a href="javascript:void(0);">采购计划管理</a></li>
 				<li class="active"><a
@@ -234,7 +236,7 @@
 					</tr>
 				</thead>
 				<c:forEach items="${info.list}" var="obj" varStatus="vs">
-					<tr>
+					<tr onclick="view('${obj.collectId}','${obj.purchaseId}');">
 						<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 						<td class="tl" title="${obj.name}">
 						  <c:if test="${fn:length (obj.name) > 20}">${fn:substring(obj.name,0,19)}...</c:if>

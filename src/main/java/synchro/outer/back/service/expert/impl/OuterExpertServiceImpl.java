@@ -463,4 +463,10 @@ public class OuterExpertServiceImpl implements OuterExpertService {
         }
         return attchs;
     }
+
+	@Override
+	public void importCheckResult(File f) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -239,4 +239,6 @@ public interface PackageMapper {
     List<Packages> selectBySupplier(HashMap<String, Object> map);
     
     List<Packages> selectByPack(HashMap<String, Object> map);
+    
+    Integer selectCount(String projectId);
 }

@@ -10,6 +10,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import ses.model.bms.Category;
+import ses.model.bms.CategoryTree;
 
 /**
  * 
@@ -411,7 +412,7 @@ public interface CategoryMapper {
 	public List<Category> findpublishTreeByPid(String id);
 
 
-	public Collection<? extends Category> selectCategoryByName(
+	public Collection<? extends CategoryTree> selectCategoryByName(
 			HashMap<String, String> map);
 	/**
 	 *

@@ -744,4 +744,31 @@ public class ExtractExpertController {
             return parentNodeList;
         }
     }
+    
+    /**
+     * 
+     * Description: 根据id获取当前节点信息
+     * 
+     * @author zhang shubin
+     * @data 2017年10月9日
+     * @param 
+     * @return
+     */
+    @RequestMapping("/findNodesById")
+    @ResponseBody
+    public String findNodesById(String code,String id){
+    	Category category = null;
+    	if(code.indexOf(",") == -1){
+    		//工程品目
+    		category = categoryService.selectById(id);
+    	}else{
+    		//工程专业
+    		category = engCategoryService.selectById(id);
+    	}
+    	if(category != null){
+    		return JSON.toJSONString(category);
+    	}else{
+    		return JSON.toJSONString("");
+    	}
+    }
 }

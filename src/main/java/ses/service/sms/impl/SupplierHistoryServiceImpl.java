@@ -333,6 +333,13 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                         historyInfo.setBeforeContent(holder.getName());
                         supplierHistoryMapper.insertSelective(historyInfo);
                     }
+					
+					// 证件类型
+                    if(holder.getIdentityType() !=null){
+                    	historyInfo.setBeforeField("identityType");
+                        historyInfo.setBeforeContent(holder.getIdentityType().toString());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                    }
                     
                     // 出资人社会统一信用代码
                     if(holder.getIdentity() !=null){
@@ -1151,5 +1158,10 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
 	public void updateIsDeleteBySupplierId(SupplierHistory supplierHistory) {
 		supplierHistoryMapper.updateIsDeleteBySupplierId(supplierHistory);
 		
+	}
+
+	@Override
+	public void softDelete(String supplierId, String relationId) {
+		supplierHistoryMapper.softDelete(supplierId, relationId);
 	} 
 }

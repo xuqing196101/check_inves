@@ -1,5 +1,7 @@
 package synchro.outer.back.service.expert;
 
+import java.io.File;
+
 
 /**
  * 
@@ -54,5 +56,13 @@ public interface OuterExpertService {
      * @since JDK1.7
      */
     void selectExpByPublictyOfExport(String startTime, String endTime);
+
+	/**
+	 *〈简述〉地方专家复查结果导入外网
+	 *〈详细描述〉
+	 * @author Ye Maolin
+	 * @param f
+	 */
+	public void importCheckResult(File f);
 
 }

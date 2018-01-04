@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplierItemRecyExtMapper">
+  <resultMap id="BaseResultMap" type="ses.model.sms.SupplierItemRecy">
+    <result column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
+    <result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
+    <result column="SUPPLIER_TYPE_RELATE_ID" jdbcType="VARCHAR" property="supplierTypeRelateId" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="CATE_LEVEL" jdbcType="VARCHAR" property="cateLevel" />
+    <result column="CERT_CODE" jdbcType="VARCHAR" property="certCode" />
+    <result column="DIY_LEVEL" jdbcType="VARCHAR" property="diyLevel" />
+    <result column="QUALIFICATION_TYPE" jdbcType="VARCHAR" property="qualificationType" />
+    <result column="PROFESS_TYPE" jdbcType="VARCHAR" property="professType" />
+    <result column="NODE_LEVEL" jdbcType="DECIMAL" property="nodeLevel" />
+    <result column="IS_RETURNED" jdbcType="DECIMAL" property="isReturned" />
+    <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+    <result column="RECY_TIME" jdbcType="DATE" property="recyTime" />
+    <result column="RECY_APT_ID" jdbcType="VARCHAR" property="recyAptId" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, SUPPLIER_ID, CATEGORY_ID, SUPPLIER_TYPE_RELATE_ID, STATUS, CREATED_AT, UPDATED_AT, 
+    CATE_LEVEL, CERT_CODE, DIY_LEVEL, QUALIFICATION_TYPE, PROFESS_TYPE, NODE_LEVEL, IS_RETURNED, 
+    IS_DELETED, RECY_TIME, RECY_APT_ID
+  </sql>
+  
+  <sql id="ITEM_Column_List">
+    ID, SUPPLIER_ID, CATEGORY_ID, SUPPLIER_TYPE_RELATE_ID, STATUS, CREATED_AT, UPDATED_AT, 
+    CATE_LEVEL, CERT_CODE, DIY_LEVEL, QUALIFICATION_TYPE, PROFESS_TYPE, NODE_LEVEL, IS_RETURNED, 
+    IS_DELETED
+  </sql>
+  
+  <!-- 根据供应商id查询最新时间的记录 -->
+  <select id="selectBySupplierIdAtLast" resultMap="BaseResultMap" parameterType="string">
+  	SELECT recy1.* 
+  	FROM T_SES_SMS_SUPPLIER_ITEM_RECY recy1 
+		RIGHT JOIN(
+			SELECT MAX(RECY_TIME) CT FROM T_SES_SMS_SUPPLIER_ITEM_RECY
+		) recy2 ON recy1.RECY_TIME = recy2.CT
+		WHERE recy1.SUPPLIER_ID = #{supplierId}
+  </select>
+  
+  <!-- 根据供应商工程资质详细信息id查询最新时间的记录 -->
+  <select id="selectByRecyAptId" resultMap="BaseResultMap" parameterType="string">
+  	SELECT <include refid="Base_Column_List" />
+  	FROM T_SES_SMS_SUPPLIER_ITEM_RECY
+		WHERE RECY_APT_ID = #{recyAptId}
+  </select>
+  
+  <!-- 回收品目 -->
+  <insert id="selectItemsIntoRecy">
+  	INSERT INTO T_SES_SMS_SUPPLIER_ITEM_RECY
+		<foreach collection="itemList" item="item" index="index" separator="union all">
+			(SELECT item.*, SYSDATE AS RECY_TIME, #{recyAptId} AS RECY_APT_ID 
+			FROM T_SES_SMS_SUPPLIER_ITEM item
+			WHERE SUPPLIER_ID = #{item.supplierId}
+			AND CATEGORY_ID = #{item.categoryId}
+			AND SUPPLIER_TYPE_RELATE_ID = #{item.supplierTypeRelateId}
+			AND ROWNUM = 1
+			)
+		</foreach>
+  </insert>
+  
+  <!-- 还原品目 -->
+  <insert id="selectRecyIntoItems">
+  	INSERT INTO T_SES_SMS_SUPPLIER_ITEM
+  	SELECT <include refid="ITEM_Column_List" />
+  	FROM T_SES_SMS_SUPPLIER_ITEM_RECY 
+  	WHERE SUPPLIER_ID = #{supplierId} 
+  	AND RECY_APT_ID = #{recyAptId}
+  </insert>
+
+</mapper>

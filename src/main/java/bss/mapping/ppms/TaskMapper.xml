@@ -525,6 +525,7 @@
 			TT.ORG_ID,TT.CREATER_ID,TT.USER_ID
 			FROM
 				T_BSS_PPMS_TASK TT LEFT JOIN T_BSS_PMS_PURCHASE_DETAIL pd ON PD.UNIQUE_ID = TT.COLLECT_ID
+				LEFT JOIN T_BSS_PMS_COLLECT_PLAN cp ON cp.id = TT.COLLECT_ID
 				LEFT JOIN (SELECT PT.TASK_ID,PT.PROJECT_ID,PP.PROJECT_NUMBER,PP.BID_DATE FROM T_BSS_PPMS_PROJECT_TASK pt LEFT JOIN T_BSS_PPMS_PROJECTS pp ON pp.id = pt.project_id) AA ON AA.TASK_ID = TT.ID
 				LEFT JOIN T_BSS_CS_PURCHASE_CONTRACT CPC ON AA.PROJECT_ID = CPC.PROJECT_ID
 			WHERE
@@ -535,6 +536,9 @@
      </if>
      <if test="name != null and name != ''">
        	and  TT.NAME like CONCAT(CONCAT('%', #{name}), '%')
+     </if>
+     <if test="userId != null and userId != ''">
+       	and  cp.USER_ID = #{userId}
      </if>
       <if test="orgId != null and orgId !=''">
         and TT.PURCHASE_ID in (select PURCHASE_DEP_ID from T_SES_OMS_PURDEP_ORG where 1=1 and org_id=#{orgId})
