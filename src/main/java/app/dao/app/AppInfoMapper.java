@@ -36,7 +36,7 @@ public interface AppInfoMapper {
      * @param 
      * @return
      */
-    AppInfo selectByVersion(@Param("version")String version);
+    AppInfo selectByVersion(AppInfo appInfo);
     
     /**
      * 

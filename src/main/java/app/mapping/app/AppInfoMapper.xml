@@ -24,7 +24,7 @@
       AND VERSION LIKE CONCAT(CONCAT('%', #{version}), '%')
     </if>
     <if test='type != null and type == "1"'>
-      AND TYPE = #{type} OR TYPE IS NULL
+      AND (TYPE = #{type} OR TYPE IS NULL)
     </if>
     <if test='type != null and type == "2"'>
       AND TYPE = #{type}
@@ -33,10 +33,16 @@
   </select>
 
   <!-- 通过主键查询 -->
-  <select id="selectByVersion" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByVersion" resultMap="BaseResultMap" parameterType="app.model.AppInfo" >
     SELECT <include refid="Base_Column_List"/>
     FROM T_SES_APP_INFO 
     WHERE VERSION = #{version}
+    <if test='type != null and type == "1"'>
+      AND (TYPE = #{type} OR TYPE IS NULL)
+    </if>
+    <if test='type != null and type == "2"'>
+      AND TYPE = #{type}
+    </if>
   </select>
 
   <!-- 回退 -->
@@ -45,7 +51,7 @@
       SELECT VERSION FROM (
         SELECT VERSION FROM T_SES_APP_INFO WHERE IS_DELETED = 0 
         <if test='type != null and type == "1"'>
-	      AND TYPE = #{type} OR TYPE IS NULL
+	      AND (TYPE = #{type} OR TYPE IS NULL)
 	    </if>
 	    <if test='type != null and type == "2"'>
 	      AND TYPE = #{type}
@@ -53,6 +59,12 @@
         ORDER BY CREATED_AT DESC 
       ) WHERE ROWNUM = 1
     )
+    <if test='type != null and type == "1"'>
+      AND (TYPE = #{type} OR TYPE IS NULL)
+    </if>
+    <if test='type != null and type == "2"'>
+      AND TYPE = #{type}
+    </if>
   </update>
   
   <!-- 查询上传文件的路径 -->

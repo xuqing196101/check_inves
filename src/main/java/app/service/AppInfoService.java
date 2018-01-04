@@ -37,7 +37,7 @@ public interface AppInfoService {
      * @param 
      * @return
      */
-    AppInfo selectByVersion(@Param("version")String version);
+    AppInfo selectByVersion(AppInfo appInfo);
     
     /**
      * 
