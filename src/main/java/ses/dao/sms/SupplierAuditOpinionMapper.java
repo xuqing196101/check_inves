@@ -87,4 +87,20 @@ public interface SupplierAuditOpinionMapper {
 	 */
 	List<SupplierAuditOpinion> selectByCondit(
 			SupplierAuditOpinion supplierAuditOpinion);
+
+	/**
+	 *〈简述〉全部更新
+	 *〈详细描述〉
+	 * @author Ye Maolin
+	 * @param supplierAuditOpinion
+	 */
+	void updateByPrimaryKey(SupplierAuditOpinion supplierAuditOpinion);
+
+	/**
+	 *〈简述〉新增
+	 *〈详细描述〉
+	 * @author Ye Maolin
+	 * @param supplierAuditOpinion
+	 */
+	void insert(SupplierAuditOpinion supplierAuditOpinion);
 }

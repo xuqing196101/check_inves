@@ -189,16 +189,6 @@ public class FileUtils {
     /**导出文件目录**/
     public final static String C_SYNCH_PUBLICITY_EXPERT_FILE_DIRECTORY= PropUtil.getProperty("file.t_ses_sms_expert_publicity_path.system.path");
     
-    /**
-     * @Fields C_SYNCH_SUPPLIER_CHECK : 导出供应商复核目录
-     */
-    public final static String C_SYNCH_SUPPLIER_CHECK = PropUtil.getProperty("file.t_ses_sms_supplier_check.system.path");
-    
-    /**
-     * @Fields C_SYNCH_SUPPLIER_INVEST : 导出供应商实地考察目录
-     */
-    public final static String C_SYNCH_SUPPLIER_INVEST = PropUtil.getProperty("file.t_ses_sms_supplier_invest.system.path");
-    
     /**注销专家 导出创建数据名称**/
     public final static String C_SYNCH_LOGOUT_EXPERT_FILENAME = "_c_delete_expert.dat";
     
@@ -310,6 +300,16 @@ public class FileUtils {
     public final static String SUPPLIER_INVEST_RESULT_FILENAME  = "_c_supplier_invest_result.dat";
     
     /**
+     * @Fields C_SYNCH_SUPPLIER_INVEST : 导出供应商实地考察目录
+     */
+    public final static String C_SYNCH_SUPPLIER_INVEST = PropUtil.getProperty("file.t_ses_sms_supplier_invest.system.path");
+    
+    /**
+     * @Fields C_SYNCH_SUPPLIER_INVEST : 导出供应商实地考察附件目录
+     */
+    public final static String C_SYNCH_SUPPLIER_INVEST_FILE = PropUtil.getProperty("file.t_ses_sms_supplier_invest_file.system.path");
+    
+    /**
      * @Fields SUPPLIER_CHECK_RESULT_FILENAME : 供应商复核结果导出文件名称
      */
     public final static String SUPPLIER_CHECK_RESULT_FILENAME  = "_c_supplier_check_result.dat";
@@ -328,6 +328,16 @@ public class FileUtils {
      * @Fields SUPPLIER_CHECK_ATTACH : 复核表导出文件名称
      */
     public final static String SUPPLIER_CHECK_ATTACH  = "_c_supplier_check_attach.dat";
+    
+    /**
+     * @Fields C_SYNCH_SUPPLIER_CHECK : 导出供应商复核目录
+     */
+    public final static String C_SYNCH_SUPPLIER_CHECK = PropUtil.getProperty("file.t_ses_sms_supplier_check.system.path");
+    
+    /**
+     * @Fields C_SYNCH_SUPPLIER_CHECK : 导出供应商复核附件目录
+     */
+    public final static String C_SYNCH_SUPPLIER_CHECK_FILE = PropUtil.getProperty("file.t_ses_sms_supplier_check_file.system.path");
     
     /**
      * 
@@ -946,6 +956,8 @@ public class FileUtils {
           case 37:  filePath=SUPPLIER_LEVEL_PATH;break;
           case 38:  filePath=C_SYNCH_SUPPLIER_CHECK;break;
           case 39:  filePath=C_SYNCH_SUPPLIER_INVEST;break;
+          case 40:  filePath=C_SYNCH_SUPPLIER_CHECK_FILE;break;
+          case 41:  filePath=C_SYNCH_SUPPLIER_INVEST_FILE;break;
         }
         return filePath;
     }

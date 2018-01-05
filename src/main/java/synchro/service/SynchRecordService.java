@@ -158,6 +158,14 @@ public interface SynchRecordService {
 	 * @param date
 	 * @param string
 	 */
-	public void backupExportCheckResults(Date date, String string);
+	public void backupExportCheckResults(Date date, String num);
+
+	/**
+	 *〈简述〉供应商复核结果数据导入记录
+	 *〈详细描述〉
+	 * @author Ye Maolin
+	 * @param string
+	 */
+	public void backupImportCheckResults(String num);
     
 }

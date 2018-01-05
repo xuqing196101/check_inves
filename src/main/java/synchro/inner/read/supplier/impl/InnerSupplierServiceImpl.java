@@ -1089,7 +1089,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 			}
 			if (uploadFiles != null && uploadFiles.size() > 0){
 				FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_CHECK_ATTACH, 38), JSON.toJSONString(uploadFiles));
-                String basePath = FileUtils.attachExportPath(38);
+                String basePath = FileUtils.attachExportPath(40);
                 if (StringUtils.isNotBlank(basePath)){
                     OperAttachment.writeFile(basePath, uploadFiles);
                 }

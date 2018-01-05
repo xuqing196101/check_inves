@@ -490,5 +490,8 @@
     <if test="auditType !=null">
       and AUDIT_TYPE = #{auditType}
     </if>
+    <if test="id !=null">
+      and ID = #{id}
+    </if>
   </select>
 </mapper>

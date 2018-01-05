@@ -268,5 +268,15 @@ public class SynchRecordServiceImpl implements SynchRecordService {
             mapper.save(sr);
         }
 	}
+
+	@Override
+	public void backupImportCheckResults(String num) {
+		DictionaryData dd = DictionaryDataUtil.get(Constant.SYNCH_SUPPLIER_CHECK_RESULT);
+        if (dd != null && StringUtils.isNotBlank(dd.getId())){
+            SynchRecord sr  = packSynchRecord(dd.getId(), Constant.OPER_TYPE_IMPORT, 
+                    Constant.OUTER_SUPPLIER_CHECK_NUM + num, new Date());
+            mapper.save(sr);
+        }
+	}
     
 }

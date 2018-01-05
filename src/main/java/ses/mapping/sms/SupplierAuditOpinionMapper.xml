@@ -48,6 +48,9 @@
           <if test="isDownLoadAttch != null">
               IS_DOWNLOAD_ATTCH,
           </if>
+          <if test="isDelete != null">
+              IS_DELETE,
+          </if>
       </trim>
       <trim prefix="values (" suffix=")" suffixOverrides=",">
           <if test="id != null">
@@ -71,7 +74,34 @@
           <if test="isDownLoadAttch != null">
               #{isDownLoadAttch},
           </if>
+          <if test="isDelete != null">
+              #{isDelete},
+          </if>
       </trim>
+  </insert>
+  
+  <insert id="insert" parameterType="ses.model.sms.SupplierAuditOpinion">
+      insert into T_SES_SMS_SUPPLIER_OPINION
+      (
+         ID,
+         SUPPLIER_ID,
+         OPINION,
+         CREATED_AT,
+         FLAG_TIME,
+         FLAG_AUDIT,
+         IS_DOWNLOAD_ATTCH,
+         IS_DELETE
+      )
+      values (
+              #{id},
+              #{supplierId},
+              #{opinion},
+              #{createdAt},
+              #{flagTime},
+              #{flagAduit},
+              #{isDownLoadAttch},
+              #{isDelete}
+      )
   </insert>
   
   <!-- 根据供应商ID查询信息 -->
@@ -124,6 +154,20 @@
             <if test="isDelete != null" >
                 IS_DELETE = #{isDelete,jdbcType=DECIMAL},
             </if>
+        </set>
+        where ID = #{id,jdbcType=VARCHAR}
+    </update>
+    
+    <update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierAuditOpinion" >
+        update T_SES_SMS_SUPPLIER_OPINION
+        <set>
+           SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+           OPINION = #{opinion,jdbcType=VARCHAR},
+           CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+           FLAG_TIME = #{flagTime,jdbcType=DECIMAL},
+           FLAG_AUDIT = #{flagAduit,jdbcType=DECIMAL},
+           IS_DOWNLOAD_ATTCH = #{isDownLoadAttch,jdbcType=DECIMAL},
+           IS_DELETE = #{isDelete,jdbcType=DECIMAL},
         </set>
         where ID = #{id,jdbcType=VARCHAR}
     </update>
