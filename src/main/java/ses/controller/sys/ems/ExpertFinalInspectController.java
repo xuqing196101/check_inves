@@ -164,11 +164,16 @@ public class ExpertFinalInspectController {
 			expertService.updateByPrimaryKeySelective(e);
 		}
 		model.addAttribute("isCheck", isCheck == null? "no" : isCheck);
-		model.addAttribute("expert", expert);
 		if(notCount==null||"".equals(notCount)){
-			notCount=expert.getFinalInspectCount();
+			notCount="0".equals(expert.getFinalInspectCount())?"1":expert.getFinalInspectCount();
 		}
 		model.addAttribute("notCount", notCount);
+		if("7".equals(expert.getStatus())||"8".equals(expert.getStatus())){
+			if("0".equals(expert.getFinalInspectCount())){
+				expert.setFinalInspectCount("1");
+			}
+		}
+		model.addAttribute("expert", expert);
 		model.addAttribute("over", request.getParameter("over"));
 		//初审复审标识（1初审，2复审，3复查）
 		model.addAttribute("sign", sign);
@@ -327,6 +332,11 @@ public class ExpertFinalInspectController {
 		model.addAttribute("notCount", notCount);
 		model.addAttribute("isCheck", isCheck == null? "no" : isCheck);
 		Expert expert = expertService.selectByPrimaryKey(expertId);
+		if("7".equals(expert.getStatus())||"8".equals(expert.getStatus())){
+			if("0".equals(expert.getFinalInspectCount())){
+				expert.setFinalInspectCount("1");
+			}
+		}
 		model.addAttribute("expert", expert);
 		model.addAttribute("over", over);
 		
@@ -454,6 +464,11 @@ public class ExpertFinalInspectController {
 
 		model.addAttribute("goodsServerId", goodsServerId);
 		model.addAttribute("goodsProjectId", goodsProjectId);
+		if("7".equals(expert.getStatus())||"8".equals(expert.getStatus())){
+			if("0".equals(expert.getFinalInspectCount())){
+				expert.setFinalInspectCount("1");
+			}
+		}
 		model.addAttribute("expert", expert);
 		
 		return "ses/ems/expertFinalInspect/product";
@@ -485,31 +500,41 @@ public class ExpertFinalInspectController {
         // 查询已选中的节点信息(所有子节点)
         List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId);
         List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
+        ExpertAudit a = new ExpertAudit();
+        a.setExpertId(expertId);
+    	a.setAuditFalg(2);
+        a.setSuggestType("six");
+        a.setAuditStatus("6");
         int count=0;
         if(items != null && !items.isEmpty()){
             for (ExpertCategory expertCategory : items) {
-                count++;
-                if (!DictionaryDataUtil.findById(expertCategory.getTypeId()).getCode().equals("ENG_INFO_ID")) {
-                    Category data = categoryService.findById(expertCategory.getCategoryId());
-                    if(data.getCode().length()<9){
-                    	 List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
-                         if (findPublishTree.size() == 0) {
-                             expertItems.add(expertCategory);
-                         } else if (data != null && data.getCode().length() == 7) {
-                             expertItems.add(expertCategory);
-                         }
+            	 a.setAuditFieldId(expertCategory.getCategoryId());
+                 //初审理由
+             	ExpertAudit firstAuditInfo = expertAuditService.findAuditByExpertId(a);
+             	if(firstAuditInfo==null){
+             		count++;
+                    if (!DictionaryDataUtil.findById(expertCategory.getTypeId()).getCode().equals("ENG_INFO_ID")) {
+                        Category data = categoryService.findById(expertCategory.getCategoryId());
+                        if(data.getCode().length()<9){
+                        	 List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
+                             if (findPublishTree.size() == 0) {
+                                 expertItems.add(expertCategory);
+                             } else if (data != null && data.getCode().length() == 7) {
+                                 expertItems.add(expertCategory);
+                             }
+                        }
+                    } else {
+                        Category data = engCategoryService.findById(expertCategory.getCategoryId());
+                        if(data.getCode().length()<9){
+                        	  List<Category> findPublishTree = engCategoryService.findPublishTree(expertCategory.getCategoryId(), null);
+                              if (findPublishTree.size() == 0) {
+                                  expertItems.add(expertCategory);
+                              } else if (data != null && data.getCode().length() == 7) {
+                                  expertItems.add(expertCategory);
+                              }
+                        }
                     }
-                } else {
-                    Category data = engCategoryService.findById(expertCategory.getCategoryId());
-                    if(data.getCode().length()<9){
-                    	  List<Category> findPublishTree = engCategoryService.findPublishTree(expertCategory.getCategoryId(), null);
-                          if (findPublishTree.size() == 0) {
-                              expertItems.add(expertCategory);
-                          } else if (data != null && data.getCode().length() == 7) {
-                              expertItems.add(expertCategory);
-                          }
-                    }
-                }
+             	}
             }
         }
         List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
@@ -723,6 +748,11 @@ public class ExpertFinalInspectController {
 			model.addAttribute("typeMap", typeMap);
 
 			expert = expertService.selectByPrimaryKey(expertId);
+			if("7".equals(expert.getStatus())||"8".equals(expert.getStatus())){
+				if("0".equals(expert.getFinalInspectCount())){
+					expert.setFinalInspectCount("1");
+				}
+			}
 			model.addAttribute("expert", expert);
 			model.addAttribute("expertId", expertId);
 			model.addAttribute("status", expert.getStatus());
@@ -733,6 +763,11 @@ public class ExpertFinalInspectController {
 			//初审复审标识（1初审，3复查，2复审）
 			model.addAttribute("sign", sign);
 			Expert expert = expertService.selectByPrimaryKey(expertId);
+			if("7".equals(expert.getStatus())||"8".equals(expert.getStatus())){
+				if("0".equals(expert.getFinalInspectCount())){
+					expert.setFinalInspectCount("1");
+				}
+			}
 			model.addAttribute("expert", expert);
 			model.addAttribute("over", over);
 			Map<String, Object> map = new HashMap<String, Object>();
@@ -928,7 +963,7 @@ public class ExpertFinalInspectController {
 			}
 			e.setFinalInspectCount(count);
 		}
-		e.setFinalInspectPeople("s");
+		e.setFinalInspectPeople(orgId);
 		//设置复审中状态
 		e.setAuditTemporary(0);
 		// 设置修改时间

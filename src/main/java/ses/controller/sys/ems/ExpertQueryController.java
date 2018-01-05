@@ -140,6 +140,11 @@ public class ExpertQueryController {
 		model.addAttribute("sysId", expertId);
 		// Constant.EXPERT_SYS_VALUE;
 		model.addAttribute("expertKey", expertKey);
+		if("7".equals(expert.getStatus())||"8".equals(expert.getStatus())){
+			if("0".equals(expert.getFinalInspectCount())){
+				expert.setFinalInspectCount("1");
+			}
+		}
         model.addAttribute("expert", expert);
 
         //专家来源
@@ -314,6 +319,11 @@ public class ExpertQueryController {
 		model.addAttribute("hwList", hwList);
 
 		Expert expert = expertService.selectByPrimaryKey(expertId);
+		if("7".equals(expert.getStatus())||"8".equals(expert.getStatus())){
+			if("0".equals(expert.getFinalInspectCount())){
+				expert.setFinalInspectCount("1");
+			}
+		}
 		model.addAttribute("expert", expert);
 
 		List<ExpertTitle> expertTitleList = new ArrayList<>();
@@ -409,6 +419,11 @@ public class ExpertQueryController {
 		model.addAttribute("goodsProjectId", goodsProjectId);
 		model.addAttribute("expertAnalyzeVo", expertAnalyzeVo);
 		model.addAttribute("reqType", reqType);
+		if("7".equals(expert.getStatus())||"8".equals(expert.getStatus())){
+			if("0".equals(expert.getFinalInspectCount())){
+				expert.setFinalInspectCount("1");
+			}
+		}
 		model.addAttribute("expert", expert);
 		
 		return "ses/ems/expertQuery/product";
@@ -804,6 +819,11 @@ public class ExpertQueryController {
 		model.addAttribute("expertAnalyzeVo", expertAnalyzeVo);
 		model.addAttribute("status", status);
 		Expert expert = service.selectByPrimaryKey(expertId);
+		if("7".equals(expert.getStatus())||"8".equals(expert.getStatus())){
+			if("0".equals(expert.getFinalInspectCount())){
+				expert.setFinalInspectCount("1");
+			}
+		}
 		model.addAttribute("expert", expert);
 		return "ses/ems/expertQuery/expertFile";
 	}
@@ -946,6 +966,11 @@ public class ExpertQueryController {
 		}
 		model.addAttribute("sysKey", sysKey);
 		Expert expert = service.selectByPrimaryKey(expertId);
+		if("7".equals(expert.getStatus())||"8".equals(expert.getStatus())){
+			if("0".equals(expert.getFinalInspectCount())){
+				expert.setFinalInspectCount("1");
+			}
+		}
 		model.addAttribute("expert", expert);
 		return "ses/ems/expertQuery/auditInfo";
 	}
@@ -986,6 +1011,11 @@ public class ExpertQueryController {
 		}
 		
 		model.addAttribute("expertId", expertId);
+		if("7".equals(expert.getStatus())||"8".equals(expert.getStatus())){
+			if("0".equals(expert.getFinalInspectCount())){
+				expert.setFinalInspectCount("1");
+			}
+		}
 		model.addAttribute("expert", expert);
 		model.addAttribute("sign", sign);
 		model.addAttribute("reqType", reqType);
@@ -1337,6 +1367,11 @@ public class ExpertQueryController {
 		//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
 		Expert expert = expertService.selectByPrimaryKey(expertId);
+		if("7".equals(expert.getStatus())||"8".equals(expert.getStatus())){
+			if("0".equals(expert.getFinalInspectCount())){
+				expert.setFinalInspectCount("1");
+			}
+		}
 		model.addAttribute("expert", expert);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("businessId", expertId);

@@ -168,6 +168,7 @@
 			}
     	 });
 	}
+     var indexRecheck;
      function over() {
     	var s=true;
 		$(".red").each(function(){
@@ -202,7 +203,18 @@
 			layer.alert("必须填写复查理由！", {offset: '100px'});
 			return;
 		}
-		 var expertId=$("#expertId").val();
+		indexRecheck = layer.open({
+	  	    shift: 1, //0-6的动画形式，-1不开启
+	  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+	  	    title: ['资料不全确认','border-bottom:1px solid #e5e5e5'],
+	  	    shade:0.01, //遮罩透明度
+		  		type : 1,
+		  		area : [ '30%', '250px'  ], //宽高
+		  		content : $('#openDiv'),
+		});
+	}
+     function confirm(){
+    	 var expertId=$("#expertId").val();
 		 var finalInspectNumber=$("#finalInspectNumber").val();
 		 $.ajax({
              url: "${pageContext.request.contextPath}/finalInspect/over.do",
@@ -218,7 +230,10 @@
             	 $("#form_id").submit();
 			}
     	 });
-	}
+     }
+     function cancel(){
+    	 layer.close(indexRecheck);
+     }
      function dwonExpertFcTable() {
     	 $("#downloadForm").attr("action", "${pageContext.request.contextPath}/finalInspect/downloadExpertFinalInspect.html");
          $("#downloadForm").submit();
@@ -290,16 +305,16 @@
 								    	<button type="button" id="passButton${list.id}" 
 								    	<c:if test="${list.status==1}">class="btn"</c:if>
 								    	<c:if test="${list.status!=1}">class="btn bgdd black_link"</c:if>
-								    	<c:if test="${over!=null|| over!=''||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>
+								    	<c:if test="${(over!=null&& over!='')||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>
 								    	onclick="pass('${list.id}','${list.typeId}')">一致</button> | 
 								    	<button type="button" id="notPassButton${list.id}" 
 								    	<c:if test="${list.status==2}">class="btn bgred"</c:if>
 								    	<c:if test="${list.status!=2}">class="btn bgdd black_link"</c:if>  
-								    	<c:if test="${over!=null|| over!=''||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>
+								    	<c:if test="${(over!=null&& over!='')||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>
 								    	onclick="notPass('${list.id}','${list.typeId}')">不一致</button>
 								    </td>
 								    <td class="tl pl20">
-										<input type="text" id="reason${list.id}" class="w100p mb0" value="${list.reason}" onblur="updReason('${list.id}','${list.typeId}')" <c:if test="${over!=null|| over!=''||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>>
+										<input type="text" id="reason${list.id}" class="w100p mb0" value="${list.reason}" onblur="updReason('${list.id}','${list.typeId}')" <c:if test="${(over!=null&& over!='')||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>>
 									</td>
 						      </tr>
 						    </c:forEach>
@@ -311,9 +326,9 @@
 						 <ul class="ul_list">
 		                   <li>
 		                   <div class="select_check">
-		                      <input type="radio" id="fchg" <c:if test="${auditOpinion.flagAudit eq '7'}">checked</c:if> name="status" value="7" onclick = "updStatus()" <c:if test="${over!=null|| over!=''||qualified eq 'false'||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>>复查合格
-		                      <input type="radio"  id="fcbhg" <c:if test="${auditOpinion.flagAudit eq '8'}">checked</c:if> name="status" value="8" onclick = "updStatus()" <c:if test="${over!=null|| over!=''||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>>复查不合格
-		                      <input type="radio"  id="zlbq" <c:if test="${auditOpinion.flagAudit eq '17'}">checked</c:if> name="status" value="17" onclick = "updStatus()" <c:if test="${over!=null|| over!=''||qualified eq 'false'||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>>资料不全
+		                      <input type="radio" id="fchg" <c:if test="${auditOpinion.flagAudit eq '7'}">checked</c:if> name="status" value="7" onclick = "updStatus()" <c:if test="${(over!=null&& over!='')||qualified eq 'false'||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>>复查合格
+		                      <input type="radio"  id="fcbhg" <c:if test="${auditOpinion.flagAudit eq '8'}">checked</c:if> name="status" value="8" onclick = "updStatus()" <c:if test="${(over!=null&& over!='')||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>>复查不合格
+		                      <input type="radio"  id="zlbq" <c:if test="${auditOpinion.flagAudit eq '17'}">checked</c:if> name="status" value="17" onclick = "updStatus()" <c:if test="${(over!=null&& over!='')||qualified eq 'false'||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>>资料不全
 		                    </div>
 		                  </li>
 		                  <li>
@@ -324,7 +339,7 @@
 		                   </div>
 		                 </li>
 		                  <li class="mt10">
-		                     <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80" onblur="updExpertReason()" <c:if test="${over!=null|| over!=''||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>>${auditOpinion.opinion }</textarea>
+		                     <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80" onblur="updExpertReason()" <c:if test="${(over!=null&& over!='')||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>>${auditOpinion.opinion }</textarea>
 		                  </li>
 		                </ul>
 					</div>
@@ -376,6 +391,18 @@
           <input name="expertId" value="${expert.id}" type="hidden" />
           <input name=count value="${notCount}" type="hidden">
     </form>	
+     <div id="openDiv" class="dnone layui-layer-wrap p20">
+    	<div class="tl ">
+    		已记录资料不全次数:${expert.finalInspectCount}</br></br>
+    		
+    		当被记录资料不全达3次时,系统将直接判定该专家为"复查不合格",是否确认记录该专家本次复查"资料不全"?
+    	</div>
+      <div class="tc mt50">
+        <input class="btn" type="button" onclick="confirm();" value="确认"> 
+        <input class="btn" type="button" onclick="cancel();" value="取消"> 
+      </div>
+      <div class="clear"></div>
+    </div>
 </body>
 
 </html>

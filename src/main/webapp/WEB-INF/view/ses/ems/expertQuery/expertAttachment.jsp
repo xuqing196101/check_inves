@@ -308,19 +308,11 @@
 								    	<u:show showId="${vs.index + 1}"  delete="false" businessId="${list.businessId}" sysKey="${expertKey}" typeId="${list.typeId}" />
 								    </td>
 								    <td class="tc pl20" >
-								    	<button type="button" id="passButton${list.id}" 
-								    	<c:if test="${list.status==1}">class="btn"</c:if>
-								    	<c:if test="${list.status!=1}">class="btn bgdd black_link"</c:if>
-								    	disabled="disabled"
-								    	onclick="pass('${list.id}','${list.typeId}')">一致</button> | 
-								    	<button type="button" id="notPassButton${list.id}" 
-								    	<c:if test="${list.status==2}">class="btn bgred"</c:if>
-								    	<c:if test="${list.status!=2}">class="btn bgdd black_link"</c:if>  
-								    	disabled="disabled"
-								    	onclick="notPass('${list.id}','${list.typeId}')">不一致</button>
+								    	<c:if test="${list.status==1}">一致</c:if>
+								    	<c:if test="${list.status==2}">不一致</c:if>
 								    </td>
-								    <td class="tl pl20">
-										<input type="text" id="reason${list.id}" class="w100p mb0" value="${list.reason}" onblur="updReason('${list.id}','${list.typeId}')" disabled="disabled">
+								    <td class="tc pl20">
+										${list.reason}
 									</td>
 						      </tr>
 						    </c:forEach>
@@ -330,23 +322,15 @@
 					<div class="padding-top-10">
 						<h2 class="count_flow"><i>2</i>复查意见</h2>
 						 <ul class="ul_list">
-		                   <li>
-		                   <div class="select_check">
-		                      <input type="radio" id="fchg" <c:if test="${auditOpinion.flagAudit eq '7'}">checked</c:if> name="status" value="7" onclick = "updStatus()" disabled="disabled">复查合格
-		                      <input type="radio"  id="fcbhg" <c:if test="${auditOpinion.flagAudit eq '8'}">checked</c:if> name="status" value="8" onclick = "updStatus()" disabled="disabled">复查不合格
-		                      <input type="radio"  id="zlbq" <c:if test="${auditOpinion.flagAudit eq '17'}">checked</c:if> name="status" value="17" onclick = "updStatus()" disabled="disabled">资料不全
-		                    </div>
-		                  </li>
 		                  <li>
 		                   <div id="check_opinion">
 		                   		<c:if test="${auditOpinion.flagAudit eq '7'}">复查合格。</c:if>
 		                   		<c:if test="${auditOpinion.flagAudit eq '8'}">复查不合格。</c:if>
 		                   		<c:if test="${auditOpinion.flagAudit eq '17'}">资料不全。</c:if>
+		                   		${auditOpinion.opinion }
 		                   </div>
 		                 </li>
-		                  <li class="mt10">
-		                     <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80" onblur="updExpertReason()" disabled="disabled">${auditOpinion.opinion }</textarea>
-		                  </li>
+		                  
 		                </ul>
 					</div>
 					<div class="clear"></div>
