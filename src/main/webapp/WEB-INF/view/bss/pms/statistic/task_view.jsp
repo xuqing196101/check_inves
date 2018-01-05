@@ -9,9 +9,9 @@
 
 <body>
   <!--面包屑导航开始-->
-  <div class="margin-top-10 breadcrumbs ">
+  <div class="margin-top-10 breadcrumbs">
     <div class="container" id="container">
-      <ul class="breadcrumb margin-left-0">
+      <ul class="breadcrumb pl0">
         <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
         <li><a href="javascript:void(0);">保障作业系统</a></li>
         <li><a href="javascript:void(0);">采购计划管理</a></li>
@@ -21,11 +21,11 @@
     </div>
   </div>
   <div class="container">
-    <div class="headline-v2 fl">
+    <div class="headline-v2 ml0">
      <h2>任务明细</h2>
     </div>
-    <div class="col-md-12 col-xs-12 col-sm-12 mt5 content require_ul_list" id="content">
-       <table id="table" class="table table-bordered table-condensed lockout">
+    <div class="m_boxS1" id="content">
+       <table id="table" class="table table-bordered" style="min-width: 1600px;">
           <thead>
             <tr>
               <th class="info seq">序号</th>
@@ -196,4 +196,15 @@
         $("table tr:eq(1)").find("td:eq(9)").children(":first").next().val(total);
       }
 </script> -->
+
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.css">
+  <script src="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.js"></script>
+  <script>
+    $(function () {
+      $('#table').m_fixedTable({
+        fixedNumber: 2
+      });
+    });
+  </script>
+  
 </html>

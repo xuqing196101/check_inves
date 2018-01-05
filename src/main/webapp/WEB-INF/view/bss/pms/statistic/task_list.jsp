@@ -48,7 +48,7 @@
 	<!--面包屑导航开始-->
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">
-			<ul class="breadcrumb margin-left-0">
+			<ul class="breadcrumb pl0">
 				<li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')">首页</a></li>
 				<li><a href="javascript:void(0);">保障作业系统</a></li>
 				<li><a href="javascript:void(0);">采购计划管理</a></li>
@@ -60,16 +60,16 @@
 	</div>
 	<!-- 录入采购计划开始-->
 	<div class="container">
-		<div class="headline-v2 fl">
+		<div class="headline-v2 ml0">
 			<h2>按任务查询</h2>
 		</div>
 
-		<h2 class="search_detail">
+		<h2 class="search_detail ml0">
 			<form id="add_form" action="${pageContext.request.contextPath }/statistic/taskList.html" method="post">
 				<input type="hidden" name="page" id="page">
 				<div class="m_row_5">
 					<div class="row">
-						<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+						<div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 			        <div class="row">
 			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">需求部门：</div>
 			          <div class="col-xs-8 f0 lh0">
@@ -83,7 +83,7 @@
 			        </div>
 			      </div>
 			      
-			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 			        <div class="row">
 			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">任务类型：</div>
 			          <div class="col-xs-8 f0 lh0">
@@ -97,7 +97,7 @@
 			        </div>
 			      </div>
 			      
-			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 			        <div class="row">
 			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">产品名称：</div>
 			          <div class="col-xs-8 f0 lh0">
@@ -106,7 +106,7 @@
 			        </div>
 			      </div>
 			      
-			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 			        <div class="row">
 			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">任务名称：</div>
 			          <div class="col-xs-8 f0 lh0">
@@ -115,7 +115,7 @@
 			        </div>
 			      </div>
 			      
-			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 			        <div class="row">
 			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">任务文号：</div>
 			          <div class="col-xs-8 f0 lh0">
@@ -124,7 +124,7 @@
 			        </div>
 			      </div>
 			      
-			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 			        <div class="row">
 			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购方式：</div>
 			          <div class="col-xs-8 f0 lh0">
@@ -138,7 +138,7 @@
 			        </div>
 			      </div>
 			      
-			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 			        <div class="row">
 			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购机构：</div>
 			          <div class="col-xs-8 f0 lh0">
@@ -152,7 +152,7 @@
 			        </div>
 			      </div>
 			      
-			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 			        <div class="row">
 			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">项目编号：</div>
 			          <div class="col-xs-8 f0 lh0">
@@ -161,7 +161,7 @@
 			        </div>
 			      </div>
 			      
-			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 			        <div class="row">
 			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">下达开始时间：</div>
 			          <div class="col-xs-8 f0 lh0">
@@ -170,7 +170,7 @@
 			        </div>
 			      </div>
 			      
-			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 			        <div class="row">
 			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">下达结束时间：</div>
 			          <div class="col-xs-8 f0 lh0">
@@ -179,7 +179,7 @@
 			        </div>
 			      </div>
 			      
-			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 			        <div class="row">
 			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">开标开始时间：</div>
 			          <div class="col-xs-8 f0 lh0">
@@ -188,7 +188,7 @@
 			        </div>
 			      </div>
 			      
-			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 			        <div class="row">
 			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">开标结束时间：</div>
 			          <div class="col-xs-8 f0 lh0">
@@ -197,7 +197,7 @@
 			        </div>
 			      </div>
 			      
-			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 			        <div class="row">
 			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">合同编号：</div>
 			          <div class="col-xs-8 f0 lh0">
@@ -215,53 +215,49 @@
 				</div>
 			</form>
 		</h2>
-		<div class="col-md-12 pl20 mt10">
-				<input class="btn-u" type="button" name="" value="按明细查询" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/taskDetailList.html'" />
-				<input class="btn-u" type="button" name="" value="按任务查询" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/taskList.html'" />
-				<input class="btn-u" type="button" name="" value="按需求部门统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charDept.html'" />
-				<input class="btn-u" type="button" name="" value="按采购方式统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charType.html'" />
-				<input class="btn-u" type="button" name="" value="按月统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charMonth.html'" />
-			</div>
-		<div class="content table_box">
-			<table class="table table-bordered table-condensed table-hover">
-				<thead>
-					<tr>
-						<th class="info w50">序号</th>
-						<th class="info" width="30%">任务名称</th>
-						<th class="info" width="20%">任务文号</th>
-						<th class="info" width="10%">预算金额（万元）</th>
-						<th class="info" width="10%">下达部门</th>
-						<th class="info" width="15%">下达时间</th>
-						<th class="info w80">状态</th>
-					</tr>
-				</thead>
-				<c:forEach items="${info.list}" var="obj" varStatus="vs">
-					<tr onclick="view('${obj.collectId}','${obj.purchaseId}');">
-						<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-						<td class="tl" title="${obj.name}">
-						  <c:if test="${fn:length (obj.name) > 20}">${fn:substring(obj.name,0,19)}...</c:if>
-                          <c:if test="${fn:length(obj.name) <=20}">${obj.name}</c:if>
-						</td>
-						<td class="tl" title="${obj.documentNumber }">
-						  <c:if test="${fn:length (obj.documentNumber) > 20}">${fn:substring(obj.documentNumber,0,19)}...</c:if>
-                          <c:if test="${fn:length(obj.documentNumber) <=20}">${obj.documentNumber}</c:if>
-						</td>
-						<td class="tr"><fmt:formatNumber type="number"  pattern="#,##0.0000"  value="${obj.budget}"  /></td>
-						<td class="tc">${obj.orgName }</td>
-						<td class="tc"><fmt:formatDate value="${obj.giveTime }" pattern="yyyy-MM-dd HH:mm:ss"/>  </td>
-						<td>
-						<c:if test="${obj.status eq '0'}"> 未受领</c:if>
-		                <c:if test="${obj.status eq '1'}">已受领</c:if>
-		                <c:if test="${obj.status eq '2'}">已取消</c:if>
-						</td>
-					</tr>
-				</c:forEach>
+		<input class="btn-u mb0" type="button" name="" value="按明细查询" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/taskDetailList.html'" />
+		<input class="btn-u mb0" type="button" name="" value="按任务查询" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/taskList.html'" />
+		<input class="btn-u mb0" type="button" name="" value="按需求部门统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charDept.html'" />
+		<input class="btn-u mb0" type="button" name="" value="按采购方式统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charType.html'" />
+		<input class="btn-u mb0" type="button" name="" value="按月统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charMonth.html'" />
+		<table class="table table-bordered table-condensed table-hover mt10">
+			<thead>
+				<tr>
+					<th class="w50">序号</th>
+					<th>任务名称</th>
+					<th class="w200">任务文号</th>
+					<th class="w180">预算金额（万元）</th>
+					<th class="w120">下达部门</th>
+					<th class="w180">下达时间</th>
+					<th class="w80">状态</th>
+				</tr>
+			</thead>
+			<c:forEach items="${info.list}" var="obj" varStatus="vs">
+				<tr class="hand" onclick="view('${obj.collectId}','${obj.purchaseId}');">
+					<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+					<td class="tl" title="${obj.name}">
+					  <c:if test="${fn:length (obj.name) > 20}">${fn:substring(obj.name,0,19)}...</c:if>
+                        <c:if test="${fn:length(obj.name) <=20}">${obj.name}</c:if>
+					</td>
+					<td class="tl" title="${obj.documentNumber }">
+					  <c:if test="${fn:length (obj.documentNumber) > 20}">${fn:substring(obj.documentNumber,0,19)}...</c:if>
+                        <c:if test="${fn:length(obj.documentNumber) <=20}">${obj.documentNumber}</c:if>
+					</td>
+					<td class="tr"><fmt:formatNumber type="number"  pattern="#,##0.0000"  value="${obj.budget}"  /></td>
+					<td class="tc">${obj.orgName }</td>
+					<td class="tc"><fmt:formatDate value="${obj.giveTime }" pattern="yyyy-MM-dd HH:mm:ss"/>  </td>
+					<td class="tc">
+					<c:if test="${obj.status eq '0'}"> 未受领</c:if>
+	                <c:if test="${obj.status eq '1'}">已受领</c:if>
+	                <c:if test="${obj.status eq '2'}">已取消</c:if>
+					</td>
+				</tr>
+			</c:forEach>
 
 
-			</table>
+		</table>
 
-			<div id="pagediv" align="right"></div>
-		</div>
+		<div id="pagediv" align="right"></div>
 	</div>
 
 
