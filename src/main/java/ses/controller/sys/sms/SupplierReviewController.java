@@ -153,7 +153,7 @@ public class SupplierReviewController {
 	}
 	
 	/**
-	 * 暂存
+	 * 暂存/实时保存
 	 */
 	@RequestMapping(value = "/temporary")
 	@ResponseBody

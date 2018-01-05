@@ -493,5 +493,8 @@
     <if test="id !=null">
       and ID = #{id}
     </if>
+    <if test="isAccord !=null">
+      and IS_ACCORD = #{isAccord}
+    </if>
   </select>
 </mapper>

@@ -77,6 +77,10 @@
                         <button class="btn bgdd black_link" type="button">一致</button>
                         <button class="btn bgred" type="button">不一致</button>
                       </c:if>
+                      <c:if test="${item.isAccord==0}">
+                        <button class="btn bgdd black_link" type="button">一致</button>
+                        <button class="btn bgdd black_link" type="button">不一致</button>
+                      </c:if>
                     </td>
                     <td><input type="text" class="w100p mb0" disabled value="${item.suggest}"/></td>
                   </tr>
