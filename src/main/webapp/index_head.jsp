@@ -1287,12 +1287,12 @@
   </div>
   
   <!-- 首页网上商城APP下载二维码 -->
-<%--   <div class="m_app_code code2" id="mall_app_code">
+  <div class="m_app_code code2" id="mall_app_code">
     <span>网<br>上<br>商<br>城<br>A<br>P<br>P</span>
     <div class="mac_img">
       <img src="${pageContext.request.contextPath}/public/portal/images/mallQrCode.png" alt="">
     </div>
-  </div> --%>
+  </div>
 
   <script>
     $(function() {
@@ -1303,13 +1303,13 @@
           $(this).parent().addClass('hover');
         }
       });
-/*       $('#mall_app_code span').on('click', function() {
+      $('#mall_app_code span').on('click', function() {
           if ($(this).parent().hasClass('hover')) {
             $(this).parent().removeClass('hover');
           } else {
             $(this).parent().addClass('hover');
           }
-        }); */
+        });
     });
   </script>
 
