@@ -64,7 +64,7 @@
 </div>
 
 <!-- 修改订列表开始-->
-<div class="container">
+<div class="container mt10">
     <div class="tab-content">
         <div class="tab-v2">
             <ul class="nav nav-tabs bgwhite">
@@ -74,21 +74,21 @@
                   id="formID">
                 <div class="tab-content padding-top-20">
                     <div class="tab-pane fade active in" id="tab-1">
-                        <h2 class="count_flow jbxx">基本信息</h2>
+                        <h2 class="count_flow jbxx mt0">基本信息</h2>
                         <input type="hidden" value="2" name="typeName"/>
 
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
-                                    <td class="bggrey">采购机构名称：</td>
+                                    <td class="bggrey w160 tr">采购机构名称：</td>
                                     <td>${purchaseDep.name }</td>
-                                    <td class="bggrey ">采购业务范围：</td>
+                                    <td class="bggrey w160 tr">采购业务范围：</td>
                                     <td>${purchaseDep.businessRange }</td>
                                 </tr>
                                 <tr>
-                                    <td class="bggrey">单位主要领导及电话：</td>
+                                    <td class="bggrey tr">单位主要领导及电话：</td>
                                     <td>${purchaseDep.leaderTelephone }</td>
-                                    <td class="bggrey ">单位地址：</td>
+                                    <td class="bggrey tr">单位地址：</td>
                                     <td>${purchaseDep.address }</td>
                                 </tr>
                             </tbody>
@@ -103,22 +103,22 @@
                             </tbody>
                         </table> -->
                         <h2 class="count_flow jbxx">采购人员</h2>
-                        <table id="tb1" class="table table-bordered table-condensed table-hover table-striped">
+                        <table id="tb1" class="table table-bordered table-condensed table-hover table-striped mb0">
                             <thead>
                                 <tr>
-                                    <th class="info w50">序号</th>
-                                    <th class="info">姓名</th>
-                                    <th class="info">所属采购机构</th>
-                                    <th class="info">人员类别</th>
-                                    <th class="info">性别</th>
-                                    <!-- <th class="info">年龄</th> -->
-                                    <th class="info">职务</th>
-                                    <th class="info">职称</th>
-                                    <th class="info">采购资格等级</th>
-                                    <th class="info">学历</th>
-                                    <th class="info">办公号码</th>
-                                    <!-- <th class="info">资质证书类型</th> -->
-                                    <th class="info">资质证书编号</th>
+                                    <th class="w50">序号</th>
+                                    <th>姓名</th>
+                                    <th>所属采购机构</th>
+                                    <th>人员类别</th>
+                                    <th>性别</th>
+                                    <!-- <th>年龄</th> -->
+                                    <th>职务</th>
+                                    <th>职称</th>
+                                    <th>采购资格等级</th>
+                                    <th>学历</th>
+                                    <th>办公号码</th>
+                                    <!-- <th>资质证书类型</th> -->
+                                    <th>资质证书编号</th>
                                 </tr>
                             </thead>
                             <tbody>

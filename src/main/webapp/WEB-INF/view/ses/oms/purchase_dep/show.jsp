@@ -502,19 +502,19 @@
             <input type="hidden" value="${purchaseDep.typeName }" name="orgnization.typeName" />
             <div class="tab-content padding-top-20">
               <div class="tab-pane fade active in" id="tab-1">
-                <h2 class="count_flow jbxx">基本信息</h2>
+                <h2 class="count_flow jbxx mt0">基本信息</h2>
                 <input class="hide" name="orgnization.id" type="hidden" value="${purchaseDep.orgId }">
                 <input class="hide" name="id" type="hidden" value="${purchaseDep.id }">
                 <table class="table table-bordered">
                   <tbody>
                   
                     <tr>
-                      <td class="bggrey" width="13%" >采购机构名称：</td>
-                      <td width="20%">${purchaseDep.name }</td>
-                      <td class="bggrey" width="13%">采购机构简称：</td>
-                      <td width="20%">${purchaseDep.shortName }</td>
-                      <td class="bggrey" width="14%">采购机构单位级别：</td>
-                      <td width="20%">
+                      <td class="bggrey w160 tr">采购机构名称：</td>
+                      <td>${purchaseDep.name }</td>
+                      <td class="bggrey w160 tr">采购机构简称：</td>
+                      <td>${purchaseDep.shortName }</td>
+                      <td class="bggrey w160 tr">采购机构单位级别：</td>
+                      <td>
                         <c:forEach items="${unitLevelList}" var="unitLevel">
                            <c:if test="${unitLevel.id == purchaseDep.levelDep}">
                              ${unitLevel.name}
@@ -524,30 +524,30 @@
                     </tr>
                     
                     <tr>
-                      <td class="bggrey">行政隶属单位：</td>
+                      <td class="bggrey tr">行政隶属单位：</td>
                       <td>${purchaseDep.subordinateOrgName }</td>
-                      <td class="bggrey">采购业务范围：</td>
+                      <td class="bggrey tr">采购业务范围：</td>
                       <td>${purchaseDep.businessRange }</td>
-                      <td class="bggrey">采购机构地址：</td>
+                      <td class="bggrey tr">采购机构地址：</td>
                       <td>${purchaseDep.address }</td>
                     </tr>
                     
                     <tr>
-                      <td class="bggrey">邮编：</td>
+                      <td class="bggrey tr">邮编：</td>
                       <td>${purchaseDep.postCode }</td>
-                      <td class="bggrey">省：</td>
+                      <td class="bggrey tr">省：</td>
                       <td>${area.name }</td>
-                      <td class="bggrey">市：</td>
+                      <td class="bggrey tr">市：</td>
                       <td>${area1.name }</td>
                     </tr>
                     
                     <tr>
-                      <td class="bggrey" width="13%">值班室电话：</td>
-                      <td width="20%">${purchaseDep.dutyRoomPhone }</td>
-                      <td class="bggrey" width="13%">传真号：</td>
-                      <td width="20%">${purchaseDep.fax }</td>
-                      <td class="bggrey" width="14%">是否具有审核供应商：</td>
-                      <td width="20%">
+                      <td class="bggrey tr">值班室电话：</td>
+                      <td>${purchaseDep.dutyRoomPhone }</td>
+                      <td class="bggrey tr">传真号：</td>
+                      <td>${purchaseDep.fax }</td>
+                      <td class="bggrey tr">是否具有审核供应商：</td>
+                      <td>
                         <c:if test="${'1' eq purchaseDep.isAuditSupplier}">是 </c:if>
                         <c:if test="${'0' eq purchaseDep.isAuditSupplier}">否 </c:if>
                       </td>
@@ -561,8 +561,8 @@
                   <tbody>
                   
                     <tr>
-                      <td class="bggrey" width="13%">采购资质等级：</td>
-                      <td  width="20%">
+                      <td class="bggrey w160 tr">采购资质等级：</td>
+                      <td>
                         <c:if test="${'1' eq purchaseDep.quaLevel}">一级 </c:if>
                         <c:if test="${'2' eq purchaseDep.quaLevel}">二级 </c:if>
                         <c:if test="${'3' eq purchaseDep.quaLevel}">三级 </c:if>
@@ -573,27 +573,27 @@
                         <c:if test="${'8' eq purchaseDep.quaLevel}">八级 </c:if>
                         <c:if test="${'9' eq purchaseDep.quaLevel}">九级</c:if>
                       </td>
-                      <td class="bggrey "  width="13%">采购资质范围：</td>
-                      <td  width="20%">
+                      <td class="bggrey w160 tr">采购资质范围：</td>
+                      <td>
                         <c:if test="${'1' eq purchaseDep.quaRange}">综合 </c:if>
                         <c:if test="${'2' eq purchaseDep.quaRange}">物资 </c:if>
                         <c:if test="${'3' eq purchaseDep.quaRange}">工程</c:if>
                         <c:if test="${'4' eq purchaseDep.quaRange}">服务</c:if>
                       </td>
-                      <td class="bggrey"  width="14%">采购资质编号：</td>
-                      <td  width="20%">${purchaseDep.quaCode }</td>
+                      <td class="bggrey w160 tr">采购资质编号：</td>
+                      <td>${purchaseDep.quaCode }</td>
                     </tr>
                     
                     <tr>
-                      <td class="bggrey ">采购资质开始日期：</td>
+                      <td class="bggrey tr">采购资质开始日期：</td>
                       <td>
                         <fmt:formatDate value="${purchaseDep.quaStartDate}" pattern="yyyy-MM-dd" />
                       </td>
-                      <td class="bggrey">采购资质截止日期：</td>
+                      <td class="bggrey tr">采购资质截止日期：</td>
                       <td>
                         <fmt:formatDate value="${purchaseDep.quaEdndate}" pattern="yyyy-MM-dd" />
                       </td>
-                      <td class="bggrey ">采购资格证书图片：</td>
+                      <td class="bggrey tr">采购资格证书图片：</td>
                       <td>
                         <u:show delete="false" showId="cert_show_id" businessId="${purchaseDep.id}" typeId="${purchaseTypeId}" sysKey="2" />
                       </td>
@@ -606,75 +606,75 @@
                   <tbody>
                   
                     <tr>
-                      <td class="bggrey"  width="20%">单位主要领导姓名：</td>
-                      <td width="30%">${purchaseDep.leaderTelephone}</td>
-                      <td class="bggrey" width="20%">军官编制人数：</td>
-                      <td width="30%">${purchaseDep.officerCountnum}</td>
+                      <td class="bggrey w180 tr">单位主要领导姓名：</td>
+                      <td>${purchaseDep.leaderTelephone}</td>
+                      <td class="bggrey w180 tr">军官编制人数：</td>
+                      <td>${purchaseDep.officerCountnum}</td>
                     </tr>
                     <tr>
-                      <td class="bggrey ">军官现有人数：</td>
+                      <td class="bggrey tr">军官现有人数：</td>
                       <td>${purchaseDep.officerNowCounts}</td>
-                      <td class="bggrey">士兵现有人数：</td>
+                      <td class="bggrey tr">士兵现有人数：</td>
                       <td>${purchaseDep.soldierNowCounts}</td>
                     </tr>
                     
                     <tr>
-                      <td class="bggrey ">士兵编制人数：</td>
+                      <td class="bggrey tr">士兵编制人数：</td>
                       <td>${purchaseDep.soldierNum}</td>
-                      <td class="bggrey ">职工编制人数：</td>
+                      <td class="bggrey tr">职工编制人数：</td>
                       <td>${purchaseDep.staffNum}</td>
                     </tr>
                     
                     <tr>
-                      <td class="bggrey">职工现有人数：</td>
+                      <td class="bggrey tr">职工现有人数：</td>
                       <td>${purchaseDep.staffNowCounts}</td>
-                      <td class="bggrey ">具备采购资格人员数量：</td>
+                      <td class="bggrey tr">具备采购资格人员数量：</td>
                       <td>${purchaseDep.purchasersCount}</td>
                     </tr>
                     
                     <tr>
-                      <td class="bggrey ">初级采购师人数：</td>
+                      <td class="bggrey tr">初级采购师人数：</td>
                       <td>${purchaseDep.juniorPurCount}</td>
-                      <td class="bggrey">高级采购师人数：</td>
+                      <td class="bggrey tr">高级采购师人数：</td>
                       <td>${purchaseDep.seniorPurCount}</td>
                     </tr>
                     
                   </tbody>
                 </table>
                 <h2 class="count_flow jbxx">甲方信息</h2>
-                <table class="table table-bordered">
+                <table class="table table-bordered mb0">
                   <tbody>
                     <tr>
-                      <td class="bggrey" width="20%">单位名称：</td>
-                      <td width="30%">${purchaseDep.depName}</td>
-                      <td class="bggrey" width="20%">法定代表人：</td>
-                      <td width="30%">${purchaseDep.legal}</td>
+                      <td class="bggrey w160 tr">单位名称：</td>
+                      <td>${purchaseDep.depName}</td>
+                      <td class="bggrey w160 tr">法定代表人：</td>
+                      <td>${purchaseDep.legal}</td>
                     </tr>
                     <tr>
-                      <td class="bggrey ">委托代理人：</td>
+                      <td class="bggrey tr">委托代理人：</td>
                       <td>${purchaseDep.agent}</td>
-                      <td class="bggrey">联系人：</td>
+                      <td class="bggrey tr">联系人：</td>
                       <td>${purchaseDep.contact}</td>
                     </tr>
                     
                     <tr>
-                      <td class="bggrey ">联系电话：</td>
+                      <td class="bggrey tr">联系电话：</td>
                       <td>${purchaseDep.contactTelephone}</td>
-                      <td class="bggrey ">通讯地址：</td>
+                      <td class="bggrey tr">通讯地址：</td>
                       <td>${purchaseDep.contactAddress}</td>
                     </tr>
                     
                     <tr>
-                      <td class="bggrey">邮政编码：</td>
+                      <td class="bggrey tr">邮政编码：</td>
                       <td>${purchaseDep.unitPostCode}</td>
-                      <td class="bggrey ">付款单位：</td>
+                      <td class="bggrey tr">付款单位：</td>
                       <td>${purchaseDep.payDep}</td>
                     </tr>
                     
                     <tr>
-                      <td class="bggrey ">开户银行：</td>
+                      <td class="bggrey tr">开户银行：</td>
                       <td>${purchaseDep.bank}</td>
-                      <td class="bggrey ">银行账号：</td>
+                      <td class="bggrey tr">银行账号：</td>
                       <td>${purchaseDep.bankAccount}</td>
                     </tr>
                     
@@ -687,59 +687,56 @@
                 <!-- <div class="headline-v2">
                   <h2>部门信息</h2>
                 </div> -->
-                <div class="content table_box">
-                  <table class="table table-bordered table-condensed table-hover table-striped" id="tab-orgnization">
+                  <table class="table table-bordered table-hover table-striped mb0" id="tab-orgnization">
                     <thead>
                       <tr>
-                        <th class="info f13">序号</th>
-                        <th class="info f13">部门名称</th>
-                        <th class="info f13">主要职责</th>
+                        <th class="w50">序号</th>
+                        <th>部门名称</th>
+                        <th>主要职责</th>
                       </tr>
                     </thead>
                     <tbody>
                            <c:forEach items="${orgInfos}" var="obj" varStatus="vs">
                           <tr style="cursor: pointer;">
-                              <td class="tc w50">${(vs.index+1)}</td>
+                              <td class="tc">${(vs.index+1)}</td>
                               <td class="tc">${obj.purchaseUnitName}</td>
                               <td class="tc">${obj.purchaseUnitDuty}</td>
                              </tr>
                         </c:forEach>
                     </tbody>
                   </table>
-                </div>
-                <div class="clear"></div>
               </div>
 
               <!-- 股东信息 -->
               <div class="tab-pane fade height-200" id="tab-3">
-                <h2 class="count_flow jbxx">基本信息</h2>
+                <h2 class="count_flow jbxx mt0">基本信息</h2>
                 <table class="table table-bordered">
                   <tbody>
                   
                     <tr>
-                      <td class="bggrey">办公场地总面积：</td>
+                      <td class="bggrey w160 tr">办公场地总面积：</td>
                       <td>${purchaseDep.officeArea}</td>
-                      <td class="bggrey ">办公司数量：</td>
+                      <td class="bggrey w160 tr">办公司数量：</td>
                       <td>${purchaseDep.officeCount}</td>
-                      <td class="bggrey ">会议室数量：</td>
+                      <td class="bggrey w160 tr">会议室数量：</td>
                       <td>${purchaseDep.mettingRoomCount}</td>
                     </tr>
                     
                     <tr>
-                      <td class="bggrey">招标室数量：</td>
+                      <td class="bggrey tr">招标室数量：</td>
                       <td>${purchaseDep.inviteRoomCount}</td>
-                      <td class="bggrey ">评标室数量：</td>
+                      <td class="bggrey tr">评标室数量：</td>
                       <td>${purchaseDep.bidRoomCount}</td>
-                      <td class="bggrey ">是否接入网络：</td>
+                      <td class="bggrey tr">是否接入网络：</td>
                       <td>
                         <c:if test="${purchaseDep.accessNetwork eq '0' }">是</c:if>
                         <c:if test="${purchaseDep.accessNetwork eq '1' }">否</c:if>
                       </td>
                     </tr>
                     <tr>
-                      <td class="bggrey">接入方式：</td>
+                      <td class="bggrey tr">接入方式：</td>
                       <td>${purchaseDep.accessWay}</td>
-                      <td class="bggrey ">是否具备视频监控系统：</td>
+                      <td class="bggrey tr">是否具备视频监控系统：</td>
                       <td colspan="3">
                         <c:if test="${purchaseDep.videoSurveillance eq '0' }">是</c:if>
                         <c:if test="${purchaseDep.videoSurveillance eq '1' }">否</c:if>
@@ -748,24 +745,23 @@
                   </tbody>
                 </table>
                 <h2 class="count_flow jbxx">场所信息</h2>
-                <div class="content table_box">
-                  <table class="table table-bordered table-condensed table-hover table-striped" id="tab-position">
+                  <table class="table table-bordered table-condensed table-hover table-striped mb0" id="tab-position">
                     <thead>
                     
                       <tr>
-                        <th class="info f13">序号</th>
-                        <th class="info f13">类型</th>
-                        <th class="info f13">编号</th>
-                        <th class="info f13">位置</th>
-                        <th class="info f13">面积</th>
-                        <th class="info f13">容纳人员数量</th>
+                        <th class="w50">序号</th>
+                        <th>类型</th>
+                        <th>编号</th>
+                        <th>位置</th>
+                        <th>面积</th>
+                        <th>容纳人员数量</th>
                       </tr>
                       
                     </thead>
                     <tbody>
                         <c:forEach items="${locales}" var="obj" varStatus="vs">
                               <tr style="cursor: pointer;">
-                              <td class="tc w50">${(vs.index+1)}</td>
+                              <td class="tc">${(vs.index+1)}</td>
                               <td class="tc">
                               <c:if test="${'1' eq obj.siteType}"> 办公室</c:if>
                               <c:if test="${'2' eq obj.siteType}"> 会议室</c:if>
@@ -780,57 +776,52 @@
                           </c:forEach>
                     </tbody>
                   </table>
-                </div>
               </div>
               <div class="tab-pane fade height-200" id="tab-4">
                 <!-- <div class="headline-v2">
                   <h2>采购管理部门信息</h2>
                 </div> -->
-                <div class="content table_box">
-                  <table class="table table-bordered table-condensed table-hover table-striped" id="tab">
+                  <table class="table table-bordered table-condensed table-hover table-striped mb0" id="tab">
                     <thead>
                       <tr>
-                        <th class="info w50">序号</th>
-                        <th class="info f13">机构名称</th>
+                        <th class="w50">序号</th>
+                        <th>机构名称</th>
                       </tr>
                     </thead>
                     <tbody>
                         <c:if test="${lists != null}">
                         <c:forEach items="${lists}" var="obj" varStatus="vs">
                              <tr style="cursor: pointer;">
-                              <td class="tc w50">${(vs.index+1)}</td>
-                              <td class="tc w50">${obj.name}</td>
+                              <td class="tc">${(vs.index+1)}</td>
+                              <td class="tc">${obj.name}</td>
                              </tr>
                           </c:forEach>
                           </c:if>
                     </tbody>
                   </table>
-                </div>
               </div>
               <div class="tab-pane fade height-200" id="tab-5">
                 <!-- <div class="headline-v2">
                   <h2>采购人员列表</h2>
                 </div> -->
-                <div class="content table_box">
-                  <table class="table table-bordered table-condensed table-hover table-striped" id="tab1">
+                  <table class="table table-bordered table-condensed table-hover table-striped mb0" id="tab1">
                     <thead>
                       <tr>
-                        <th class="info w50">序号</th>
-                        <th class="info f13">姓名</th>
+                        <th class="w50">序号</th>
+                        <th>姓名</th>
                       </tr>
                     </thead>
                     <tbody>
                         <c:if test="${users != null}">
 	                        <c:forEach items="${users}" var="obj" varStatus="vs">
 	                             <tr style="cursor: pointer;">
-	                              <td class="tc w50">${(vs.index+1)}</td>
-	                              <td class="tc w50">${obj.relName}</td>
+	                              <td class="tc">${(vs.index+1)}</td>
+	                              <td class="tc">${obj.relName}</td>
 	                             </tr>
 	                          </c:forEach>
                           </c:if>
                     </tbody>
                   </table>
-                </div>
               </div>
             </div>
             <div class="mt20 tc col-sm-12 col-xs-12 col-md-12">

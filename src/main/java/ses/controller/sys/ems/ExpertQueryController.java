@@ -1425,8 +1425,9 @@ public class ExpertQueryController {
 				name="军队人员身份证件";
 			}else if("4".equals(e.getTypeId())){
 				name="专业技术职称证书";
-			}else if("5".equals(e.getTypeId())){
-				name="毕业证书";
+			}else if("5".equals(e.getTypeId())){//毕业证书
+				continue;
+				//name="毕业证书";
 			}else if("6".equals(e.getTypeId())){
 				name="学位证书";
 			}else if("8".equals(e.getTypeId())){
