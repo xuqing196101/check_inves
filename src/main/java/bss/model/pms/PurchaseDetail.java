@@ -146,6 +146,8 @@ public class PurchaseDetail {
   private String projectId;
   private String packId;
   
+  private String budgets;//总金额
+  
   
   public String getBeginDate() {
     return beginDate;
@@ -737,6 +739,14 @@ public Integer getProjectStatus() {
 
 	public void setPackId(String packId) {
 		this.packId = packId;
+	}
+
+	public String getBudgets() {
+		return budgets;
+	}
+
+	public void setBudgets(String budgets) {
+		this.budgets = budgets;
 	}
     
 }
