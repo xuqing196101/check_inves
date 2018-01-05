@@ -40,4 +40,11 @@ public interface SupplierAttachAuditService {
 	 * @param supplierAttachAudit
 	 */
 	void saveAuditInformation(SupplierAttachAudit supplierAttachAudit);
+	
+	/**
+	 * 获取审核信息
+	 * @param supplierAttachAudit
+	 * @return
+	 */
+	List<SupplierAttachAudit> diySelect (SupplierAttachAudit supplierAttachAudit);
 }

@@ -101,7 +101,7 @@
         $("#submitform").submit();
       }
       
-      //暂存/实时保存  type: 1 提示信息， 2：不提示信息
+      //暂存/实时保存  type: 1 暂存， 2：实时保存
       function temporary(type){
     	  var supplierId = $("#supplierId").val();
         //选择的意见
