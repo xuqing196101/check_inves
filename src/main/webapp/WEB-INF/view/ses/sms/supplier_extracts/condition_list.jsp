@@ -72,6 +72,7 @@
 				<input name="sellBeginTime" type="hidden" id="sellBeginTime">
 				<input name="sellEndTime" type="hidden" id="sellEndTime">
 				<input name="extractTheWay" type="hidden" id="extractTheWay" >
+				<input name="status" type="hidden" value="2" >
 				<!-- 记录id -->
 				<input type="hidden" value="${projectInfo.id}" name="id">
 				<h2 class="count_flow">

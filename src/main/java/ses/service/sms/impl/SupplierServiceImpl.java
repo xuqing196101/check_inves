@@ -130,6 +130,8 @@ import common.service.UploadService;
 import common.utils.DateUtils;
 import common.utils.ListSortUtil;
 
+import extract.model.supplier.SupplierExtractResult;
+
 /**
  * @Title: SupplierServiceImpl
  * @Description: SupplierServiceImpl 实现类
@@ -2772,19 +2774,20 @@ public class SupplierServiceImpl implements SupplierService {
 	 * 更新抽取到的供应商
 	 */
 	@Override
-	public void updateExtractOrgid(String orgId, List<String> list) {
-		for(String id : list){
-				Integer num = supplierMapper.selectExtractOrgidById(id);
-				if(num == 0){
-					Supplier supplier = new Supplier();
-					supplier.setId(id);
-					supplier.setExtractAt(new Date());
-					supplier.setExtractOrgid(orgId);
-					supplierMapper.updateReviewOrInves(supplier);
-				}
+	public void updateExtractOrgid(String orgId, List<SupplierExtractResult> list) {
+		for(SupplierExtractResult result : list){
+			String id = result.getSupplierId();
+			Integer num = supplierMapper.selectExtractOrgidById(id);
+			if(num == 0){
+				Supplier supplier = new Supplier();
+				supplier.setId(id);
+				supplier.setExtractAt(DateUtils.stringToTime(result.getUpdatedAt()));
+				supplier.setExtractOrgid(orgId);
+				supplierMapper.updateReviewOrInves(supplier);
 			}
 		}
-
+	}
+	
 	@Override
 	public List<Supplier> getSupplierByReviewTime(String startTime,
 			String endTime) {

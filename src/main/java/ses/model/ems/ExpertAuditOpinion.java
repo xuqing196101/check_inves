@@ -27,7 +27,16 @@ public class ExpertAuditOpinion implements Serializable{
 	
 	/**0:未删除，1：已删除*/
 	private Integer isDeleted;
-
+	
+	/**记录本次复查人**/
+	private String  auditPeoper;
+	
+	public String getAuditPeoper() {
+		return auditPeoper;
+	}
+	public void setAuditPeoper(String auditPeoper) {
+		this.auditPeoper = auditPeoper;
+	}
 	public String getId() {
 		return id;
 	}

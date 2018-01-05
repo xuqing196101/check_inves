@@ -276,4 +276,6 @@ public interface EngCategoryMapper {
     List<Category> searchByCodeandName(@Param("cateName") String cateName, @Param("codeName") String codeName, @Param("isjj")String isjj);
     
 	Category selectById(@Param("id") String id);
+	
+	List<Category> selectParentNode(@Param("expertType") String expertType,@Param("categoryIds") String[] categoryIds);
 }

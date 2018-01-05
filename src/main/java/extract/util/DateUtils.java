@@ -12,6 +12,7 @@ public class DateUtils {
 	
     /** 时间格式 **/
     private final static String  TIME_PATTERN ="yyyy-MM-dd HH:mm:ss";
+    private final static String  DATE_HOUR ="yyyy年MM月dd日HH时";
       
     /** 
      * 将Date类转换为XMLGregorianCalendar 
@@ -74,6 +75,20 @@ public class DateUtils {
     public static String dateToString(Date date){
         SimpleDateFormat  format = new SimpleDateFormat(TIME_PATTERN);
         return format.format(date);
+    }
+    
+    
+    /**
+     * 
+     *〈简述〉date转string 
+     *〈详细描述〉日期转string(转换至小时)中文表示  例：  2018年1月1日10时
+     * @author myc
+     * @param date 
+     * @return
+     */
+    public static String dateToZHString(Date date){
+    	SimpleDateFormat  format = new SimpleDateFormat(DATE_HOUR);
+    	return format.format(date);
     }
     
     /**

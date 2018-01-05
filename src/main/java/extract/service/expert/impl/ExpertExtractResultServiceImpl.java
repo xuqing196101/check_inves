@@ -185,4 +185,13 @@ public class ExpertExtractResultServiceImpl implements ExpertExtractResultServic
 		}
 	}
 
+	
+	/**
+	 * 根据项目id查询参加抽取的专家
+	 */
+	@Override
+	public List<ExpertExtractResult> findByProjectId(String projectId) {
+		return expertExtractResultMapper.findByProjectId(projectId);
+	}
+
 }

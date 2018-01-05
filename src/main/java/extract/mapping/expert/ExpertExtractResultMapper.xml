@@ -500,7 +500,7 @@
   </select>
   
   <!-- 根据项目id查询参加的专家信息 -->
-  <select id="findByProjectId" parameterType="String" resultMap="BaseResultMap">
+  <select id="findByProjectId" parameterType="String" resultMap="BaseResultMap" flushCache="true" useCache="false">
   	SELECT * FROM T_SES_EMS_EXTRACT_RESULT WHERE IS_DELETED = 0 AND IS_JOIN = 1 AND PROJECT_ID = #{projectId}
   </select>
   

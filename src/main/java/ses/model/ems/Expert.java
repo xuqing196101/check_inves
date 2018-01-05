@@ -553,9 +553,39 @@ public class Expert extends ExpertHistory implements Serializable {
     
     private Date startTime;
     private Date endTime;
+    /**标识复查人*/
+    private String finalInspectPeople;
+    /**标识专家复查状态*/
+    private String finalInspectStatus;
+    /**标识专家资料不全次数*/
+    private String finalInspectCount;
     
+    
+    public String getFinalInspectPeople() {
+		return finalInspectPeople;
+	}
 
-    public Date getStartTime() {
+	public void setFinalInspectPeople(String finalInspectPeople) {
+		this.finalInspectPeople = finalInspectPeople;
+	}
+
+	public String getFinalInspectStatus() {
+		return finalInspectStatus;
+	}
+
+	public void setFinalInspectStatus(String finalInspectStatus) {
+		this.finalInspectStatus = finalInspectStatus;
+	}
+
+	public String getFinalInspectCount() {
+		return finalInspectCount;
+	}
+
+	public void setFinalInspectCount(String finalInspectCount) {
+		this.finalInspectCount = finalInspectCount;
+	}
+
+	public Date getStartTime() {
 		return startTime;
 	}
 

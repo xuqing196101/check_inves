@@ -71,6 +71,12 @@ public class OrgServiceImpl implements OrgService{
 		   }
 		
 	}
+
+	@Override
+	public Orgnization selectByorg(String id) {
+		// TODO Auto-generated method stub
+		return orgnizationMapper.selectByorg(id);
+	}
 	
 	
 }

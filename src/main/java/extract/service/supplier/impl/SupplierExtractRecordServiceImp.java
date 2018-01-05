@@ -19,21 +19,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import ses.dao.bms.AreaMapper;
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.oms.OrgnizationMapper;
 import ses.dao.sms.SupplierMapper;
+import ses.model.bms.Area;
 import ses.model.bms.User;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
 import ses.service.sms.SupplierService;
 import ses.util.AuthorityUtil;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.UUIDUtils;
 import ses.util.WordUtil;
+import system.model.sms.SmsRecord;
 import bss.dao.ppms.SaleTenderMapper;
 
 import com.github.pagehelper.PageHelper;
+import common.utils.SMSUtil;
 
 import extract.dao.common.ExtractUserMapper;
 import extract.dao.common.PersonRelMapper;
@@ -48,6 +53,7 @@ import extract.model.supplier.SupplierExtractCondition;
 import extract.model.supplier.SupplierExtractProjectInfo;
 import extract.model.supplier.SupplierExtractResult;
 import extract.service.supplier.SupplierExtractRecordService;
+import extract.util.DateUtils;
 
 /**
  * @Description:供应商抽取
@@ -71,6 +77,8 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
     @Autowired
     SaleTenderMapper saleTenderMapper;
     
+    @Autowired
+    AreaMapper areaMapper;
     
     @Autowired
     private ExpertService service;
@@ -117,6 +125,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 			project.setProcurementDepIds(arrayList);
 		}else{
 			HashMap<String, Object> dataMap = AuthorityUtil.dataAuthority(user.getId());
+			@SuppressWarnings("unchecked")
 			List<String> orgIds = (List<String>) dataMap.get("superviseOrgs");
 			project.setProcurementDepIds(orgIds);
 		}
@@ -156,15 +165,15 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 	@Override
 	public int saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo) {
 		
-		if(projectInfo.getStatus().equals("1")){
-			//项目状态为1,将抽取到的供应商做标记，去复核
+		if(1 == projectInfo.getStatus()){
+			//项目状态为1,将首次抽取到的供应商做标记，去复核
 			SupplierExtractProjectInfo record = recordMapper.selectByPrimaryKey(projectInfo.getId());
-			List<String> sids = new ArrayList<>();
+			List<SupplierExtractResult> sids = new ArrayList<>();
 			if( StringUtils.isBlank(record.getProjectInto()) && StringUtils.isBlank(record.getProjectId())){
-				sids = resultMapper.selectSupplierIdListByRecordId(record.getId());
+				sids = resultMapper.selectFirstSupplierToBeExtract(record.getId());
 				
 			}else if(StringUtils.isNotBlank(record.getProjectId())){
-				sids =  resultMapper.selectSupplierIdListByProjectId(record.getProjectId());
+				sids =  resultMapper.selectFirstSupplierToBeExtractOfRel(record.getProjectId());
 			}
 			supplierService.updateExtractOrgid(record.getProcurementDepId(), sids);
 		}
@@ -194,7 +203,6 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 		//SupplierExtractProjectInfo p = new SupplierExtractProjectInfo(id);
 		//p.setStatus((short) 1);
 		//recordMapper.saveOrUpdateProjectInfo(p);
-		
 		
 		//根据记录id 查询项目信息不同供应商类别打印两个记录表
 		Map<String, Object> info = selectExtractInfo(id,projectInto);
@@ -355,9 +363,13 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 			map.put("quaLevel", temp);
 			
 			//抽取结果
-			HashMap<String,String> hashMap2 = new HashMap<>();
+			HashMap<String,Object> hashMap2 = new HashMap<>();
 			hashMap2.put("recordId", recordId);
 			hashMap2.put("supplierType",projectCode);
+			List<Integer> joins = new ArrayList<>();
+			joins.add(0);
+			joins.add(1);
+			hashMap2.put("join",joins);
 			if("relPro".equals(projectInto)){
 				map.put("result", resultMapper.getSupplierListByRidForRel(hashMap2));
 			}else if("advPro".equals(projectInto)){
@@ -437,9 +449,13 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 					map.put(c+"Level",temp);
 					
 					//抽取结果
-					HashMap<String,String> hashMap2 = new HashMap<>();
+					HashMap<String,Object> hashMap2 = new HashMap<>();
 					hashMap2.put("recordId", recordId);
 					hashMap2.put("supplierType",typeCode);
+					List<Integer> joins = new ArrayList<>();
+					joins.add(0);
+					joins.add(1);
+					hashMap2.put("join",joins);
 					map.put(c+"Result", resultMapper.getSupplierListByRid(hashMap2));
 				}	
 				
@@ -493,9 +509,13 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 				map.put("level",temp);
 				
 				//抽取结果
-				HashMap<String,String> hashMap2 = new HashMap<>();
+				HashMap<String,Object> hashMap2 = new HashMap<>();
 				hashMap2.put("recordId", recordId);
 				hashMap2.put("supplierType",supplierTypeCode);
+				ArrayList<Integer> joins = new ArrayList<>();
+				joins.add(0);
+				joins.add(1);
+				hashMap2.put("joins", joins);
 				if("relPro".equals(projectInto)){
 					map.put("result", resultMapper.getSupplierListByRidForRel(hashMap2));
 				}else if("advPro".equals(projectInto)){
@@ -621,9 +641,13 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 			map.put("quaLevel", temp);
 			
 			//抽取结果
-			HashMap<String,String> hashMap2 = new HashMap<>();
+			HashMap<String,Object> hashMap2 = new HashMap<>();
 			hashMap2.put("recordId", recordId);
 			hashMap2.put("supplierType",projectCode);
+			List<Integer> joins = new ArrayList<>();
+			joins.add(0);
+			joins.add(1);
+			hashMap2.put("join",joins);
 			if("relPro".equals(projectInto)){
 				map.put("result", resultMapper.getSupplierListByRidForRel(hashMap2));
 			}else if("advPro".equals(projectInto)){
@@ -748,9 +772,13 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 			}
 			
 			//抽取结果
-			HashMap<String,String> hashMap2 = new HashMap<>();
+			HashMap<String,Object> hashMap2 = new HashMap<>();
 			hashMap2.put("recordId", recordId);
 			hashMap2.put("supplierType",supplierTypeCode);
+			List<Integer> joins = new ArrayList<>();
+			joins.add(0);
+			joins.add(1);
+			hashMap2.put("join",joins);
 			List<SupplierExtractResult> supplierList = null ;
 			if("relPro".equals(projectInto)){
 				supplierList = resultMapper.getSupplierListByRidForRel(hashMap2);
@@ -809,6 +837,63 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
     	hashMap.put("conditionId",cid_new);
     	hashMap.put("recordId", rid_new);
 		return hashMap;
+	}
+	
+	/**
+	 * 
+	 * <简述>给抽取到的供应商发送短信 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2018-1-2下午7:19:07
+	 */
+	@Override
+	public void  sendMessageToSupplier(SupplierExtractProjectInfo record) {
+		SmsRecord smsRecord = new SmsRecord();
+		smsRecord.setSendLink(DictionaryDataUtil.getId("GYSCQDX"));
+		smsRecord.setOperator(record.getExtractUser());
+		smsRecord.setOrgId(record.getProcurementDepId());
+        //受领采购文件地址
+		StringBuffer sb = new StringBuffer();
+        String province = record.getSellProvince();
+        String city = record.getSellAddress();
+        if(StringUtils.isNotBlank(province)){
+            Area area1 = areaMapper.selectById(province);
+            if(area1 != null){
+            	sb.append(area1.getName());
+            }
+            if(StringUtils.isNotBlank(city)){
+            	Area area2 = areaMapper.selectById(city);
+            	if(area1 != null && area2 != null){
+            		sb.append(area2.getName());
+            	}
+            }
+            sb.append(record.getSellSite());
+        }
+        String address = sb.toString();
+        
+        //待发送短信供应商集合
+        List<SupplierExtractResult> supplierList = null ;
+        HashMap<String,Object> hashMap2 = new HashMap<>();
+		hashMap2.put("recordId", record.getId());
+		//hashMap2.put("supplierType",supplierTypeCode);
+		List<Integer> joins = new ArrayList<>();
+		joins.add(1);
+		hashMap2.put("join",joins);
+		if(StringUtils.isNotBlank(record.getProjectInto())){
+			supplierList = resultMapper.getSupplierListByRidForRel(hashMap2);
+		}else{
+			supplierList = resultMapper.getSupplierListByRid(hashMap2);
+		}
+		
+		//编辑内容，发送短信
+		for (SupplierExtractResult supplier : supplierList) {
+			//短信发送内容
+			smsRecord.setRecipient(supplier.getSupplierName());
+			smsRecord.setReceiveNumber(supplier.getArmyBuinessTelephone());
+			String content = "【军队采购网通知】你单位已确定参加"+record.getProjectName()+"，请携带有效身份证明，于"+DateUtils.dateToZHString(record.getSellBegin())+"前往"+address+"购买或领取采购文件。采购机构联系人："+record.getContactPerson()+"，联系座机："+record.getContactNum()+"，联系手机："+record.getContactPhone()+"。";
+			smsRecord.setSendContent(content);
+			SMSUtil.sendMsg(smsRecord);
+		}
 	}
 
 }

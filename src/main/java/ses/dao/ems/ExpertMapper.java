@@ -453,4 +453,5 @@ public interface ExpertMapper {
      */
     List<ExpertVO> selectInStorageExpert(Map<String, Object> map);
     void updateReviewStatus(@Param("reciewStatus") String reciewStatus,@Param("id")String id);
+    void updateExpertFinalInspect(Expert e);
 }
