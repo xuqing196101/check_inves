@@ -68,7 +68,7 @@
   <div class="down_load">
     <a >
       <div class="down_andrio down_main">
-        <p class="white" onclick = "download('${id}',${sysKey},'${tempContextUrl }')"><img src="${pageContext.request.contextPath}/public/portal/images/android.png">点此下载</p>
+        <p class="white" onclick = "download('${id}',${sysKey},'')"><img src="${pageContext.request.contextPath}/public/portal/images/android.png">点此下载</p>
         <div class="footer_tips">温馨提示：本APP只适用于安卓操作系统的手机。</div>
       </div>
     </a>
