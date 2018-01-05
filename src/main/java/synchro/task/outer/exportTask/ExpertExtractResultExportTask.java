@@ -73,7 +73,7 @@ public class ExpertExtractResultExportTask {
 	 */
 	public void infoExport(){
 		if ("1".equals(StaticVariables.ipAddressType)) {
-			/** 外网导入 **/
+			/** 外网导出 **/
 			DictionaryData info = DictionaryDataUtil.get(Constant.DATE_SYNCH_EXPERT_EXTRACT);
 			if(info != null && StringUtils.isNotBlank(info.getId())){
 				String startTime = recordService.getSynchTime(Constant.OPER_TYPE_EXPORT, info.getId());

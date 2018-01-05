@@ -10,14 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.bms.AreaMapper;
-import ses.dao.ems.ExpertTitleMapper;
 import ses.model.bms.Area;
 import ses.model.ems.Expert;
-import ses.model.ems.ExpertTitle;
 import ses.model.ems.ProjectExtract;
 import ses.util.DictionaryDataUtil;
 import system.model.sms.SmsRecord;
+
 import common.utils.SMSUtil;
+
 import extract.dao.expert.ExpertExtractProjectMapper;
 import extract.dao.expert.ExpertExtractResultMapper;
 import extract.model.expert.ExpertExtractProject;
@@ -46,8 +46,6 @@ public class ExpertExtractResultServiceImpl implements ExpertExtractResultServic
     //地区
     @Autowired
     private AreaMapper areaMapper;
-    
-    private ExpertTitleMapper expertTitleMapper;
     
     /**
      * 保存抽取结果信息
@@ -142,17 +140,6 @@ public class ExpertExtractResultServiceImpl implements ExpertExtractResultServic
 		List<ExpertExtractResult> resultList = expertExtractResultMapper.findByProjectId(projectId);
 		for (ExpertExtractResult expertExtractResult : resultList) {
 			Expert expert = expertExtractResultMapper.findByExpertId(expertExtractResult.getExpertId());
-			//执业资格  T_SES_EMS_EXPERT_TITLE
-			List<ExpertTitle> tList = expertTitleMapper.selectByExpertId(expert.getId());
-			StringBuffer titleSb = new StringBuffer();
-			for (ExpertTitle expertTitle : tList) {
-				titleSb.append(expertTitle.getQualifcationTitle() == null ? "" : expertTitle.getQualifcationTitle());
-				titleSb.append("、");
-			}
-			String titles = "";
-			if(titleSb.length() > 0){
-				titles = titleSb.toString().substring(0, titleSb.length() - 1);
-            }
 			smsRecord.setRecipient(expert.getRelName());
 			smsRecord.setReceiveNumber(expert.getMobile());
 			//短信发送内容
@@ -173,11 +160,8 @@ public class ExpertExtractResultServiceImpl implements ExpertExtractResultServic
 				//正式专家第一次被抽取到
 				Integer cNum = expertExtractResultMapper.vaIsOnceJoin(expertExtractResult.getExpertId());
 				if(cNum < 2){
-					if(!"".equals(titles)){
-						titles = "," + titles + "执业资格证书";
-					}
 					//专家第一次抽取后（自动/人工）
-					content = "【军队采购网通知】"+expert.getRelName()+"专家您好！您已确定参加"+expertExtractProject.getProjectName()+"项目评审。请携带有效身份证件,军队人员身份证件(军队专家),专业技术职称证书,学位证书,相关机关事业部门推荐信(可无),国家科技进步三等或军队科技进步二等以上获奖证书(可无)"+ titles +"等注册基本信息彩色扫描件原件，至评审现场进行复查。";
+					content = "【军队采购网通知】"+expert.getRelName()+"专家您好！您已确定参加"+expertExtractProject.getProjectName()+"项目评审。请携带有效身份证件,军队人员身份证件(军队专家),专业技术职称证书,学位证书,相关机关事业部门推荐信(可无),国家科技进步三等或军队科技进步二等以上获奖证书(可无),工程类专家注册时使用执业资格证书等注册基本信息彩色扫描件原件，至评审现场进行复查。";
 					smsRecord.setSendContent(content);
 					SMSUtil.sendMsg(smsRecord);
 				}
