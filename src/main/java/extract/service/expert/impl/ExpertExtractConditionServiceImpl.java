@@ -391,6 +391,14 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                         }
                     }
                 }
+                //筛选掉专家类别审核不通过的专家
+                String typ = DictionaryDataUtil.get(typeCode).getId();
+                if(typ != null && !"".equals(typ)){
+                	List<String> auditNotList = expertExtractConditionMapper.selectAuditByType(DictionaryDataUtil.get(typeCode).getId());
+                	if(auditNotList != null && auditNotList.size() > 0){
+                		notExpertIds.addAll(auditNotList);
+                	}
+                }
                 map.put("notExpertIds",notExpertIds);
                 map.put("notSize",notExpertIds.size());
                 //技术职称
