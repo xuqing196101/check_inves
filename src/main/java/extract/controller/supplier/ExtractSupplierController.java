@@ -109,7 +109,8 @@ public class ExtractSupplierController extends BaseController {
      * @return String
      * @throws Exception 
      */
-    @RequestMapping("/projectList")
+    @SuppressWarnings("unchecked")
+	@RequestMapping("/projectList")
     public String list(Integer page, Model model, SupplierExtractProjectInfo project,@CurrentUser User user,String startTime,String endTime){
     	List<PreMenu> resource = (List<PreMenu>) request.getSession().getAttribute("resource");
     	boolean flag = false;
@@ -375,7 +376,6 @@ public class ExtractSupplierController extends BaseController {
     	try {
 			printRecord = recordService.printRecord(id,request,response,projectInto);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	return printRecord;

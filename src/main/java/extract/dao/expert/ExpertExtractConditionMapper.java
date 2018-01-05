@@ -74,5 +74,15 @@ public interface ExpertExtractConditionMapper {
      * @return List<String>
      */
     List<String> findAreaIdByParentId(String[] array);
+    
+    /**
+     * 
+     * Description: 根据专家类别查询审核不通过的专家
+     * 
+     * @data 2018年1月5日
+     * @param 
+     * @return
+     */
+    List<String> selectAuditByType(@Param("expertsTypeId") String expertsTypeId);
 
 }
