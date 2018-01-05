@@ -124,6 +124,16 @@ public class SupplierReviewController {
 		}
 		model.addAttribute("itemList", itemList);
 		
+		
+		//查询审核不一致的数据，有就不让点复核合格
+		SupplierAttachAudit attachAudit = new SupplierAttachAudit();
+		attachAudit.setSupplierId(supplierId);
+		attachAudit.setAuditType(1);
+		attachAudit.setIsAccord(2);
+		attachAudit.setIsDeleted(0);
+		List<SupplierAttachAudit> diySelect = supplierAttachAuditService.diySelect(attachAudit);
+		model.addAttribute("noPass", diySelect == null? 0 : diySelect.size());
+		
 		return "ses/sms/supplier_review/review";
 	}
 	

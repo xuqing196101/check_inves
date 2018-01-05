@@ -54,10 +54,20 @@ function opr(_this, id , isAccord, auditType) {
 
 //保存意见--isAccord是否一致  1：一致， 2不一致
 function saveAuditIsAccord(id, auditType, isAccord){
+	var supplierId = $("#supplierId").val();
 	$.ajax({
 		url : globalPath + "/supplierAttachAudit/saveAuditInformation.do",
 		type: "post",
-		data: {"id" : id, "isAccord" : isAccord, "auditType" : auditType},
+		data: {"id" : id, "isAccord" : isAccord, "auditType" : auditType, "supplierId" : supplierId},
+		success: function(result){
+			if(result.data > 0){
+				$("#qualified").attr("checked", false);
+				$("#qualified").attr("disabled", true);
+				//$("#cate_result").html("");
+			}else{
+				$("#qualified").attr("disabled", false);
+			}
+		}
 	});
 }
 

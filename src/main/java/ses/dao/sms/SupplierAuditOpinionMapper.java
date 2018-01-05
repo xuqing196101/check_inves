@@ -103,4 +103,6 @@ public interface SupplierAuditOpinionMapper {
 	 * @param supplierAuditOpinion
 	 */
 	void insert(SupplierAuditOpinion supplierAuditOpinion);
+	
+	void updateFlagAuditById(String id);
 }

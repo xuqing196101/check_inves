@@ -187,6 +187,9 @@
         <if test="isDelete != null">
             AND T.IS_DELETE = #{isDelete}
         </if>
+        <if test="flagAudit != null">
+            AND T.FLAG_AUDIT = #{flagAudit}
+        </if>
         ORDER BY T.CREATED_AT DESC)
         WHERE ROWNUM = 1
     </select>
@@ -214,4 +217,13 @@
         	AND FLAG_TIME = #{flagTime}
         </if>
     </select>
+    
+    <update id="updateFlagAuditById" parameterType="java.lang.String">
+      update
+       T_SES_SMS_SUPPLIER_OPINION
+      set
+        FLAG_AUDIT = NULL
+      WHERE
+        ID = #{id}
+    </update>
 </mapper>

@@ -87,7 +87,7 @@
                       </c:if>
                       <c:if test="${item.isAccord==2}">
                         <button class="btn bgdd black_link" type="button" onclick="opr(this, '${item.id}', 1, 2)">一致</button>
-                        <button class="btn bgred" type="button" onclick="opr(this, '${item.id}', 2)">不一致</button>
+                        <button class="btn bgred" type="button" onclick="opr(this, '${item.id}', 2, 2)">不一致</button>
                       </c:if>
                       <c:if test="${item.isAccord==0}">
                         <button class="btn bgdd black_link" type="button" onclick="opr(this, '${item.id}', 1, 2)">一致</button>

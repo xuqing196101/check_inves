@@ -18,6 +18,7 @@ import com.github.pagehelper.PageInfo;
 
 import common.constant.Constant;
 import common.utils.DateUtils;
+import common.utils.JdcgResult;
 import common.utils.ListSortUtil;
 import ses.formbean.QualificationBean;
 import ses.model.bms.Area;
@@ -27,6 +28,7 @@ import ses.model.bms.Qualification;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAptitute;
+import ses.model.sms.SupplierAuditOpinion;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
@@ -47,6 +49,7 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.QualificationService;
 import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierAttachAuditService;
+import ses.service.sms.SupplierAuditOpinionService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierPorjectQuaService;
 import ses.service.sms.SupplierService;
@@ -86,6 +89,9 @@ public class SupplierAttachAuditController {
 	
 	@Autowired
 	private SupplierAttachAuditService supplierAttachAuditService;
+	
+	@Autowired
+	private SupplierAuditOpinionService supplierAuditOpinionService;
 	
 	/**
 	 * 生产或经营地址的房产证明或租赁协议
@@ -804,7 +810,35 @@ public class SupplierAttachAuditController {
 	 */
 	@RequestMapping(value = "/saveAuditInformation")
 	@ResponseBody
-	public void saveAuditInformation (SupplierAttachAudit supplierAttachAudit){
+	public JdcgResult saveAuditInformation (SupplierAttachAudit supplierAttachAudit){
+		//保存数据
 		supplierAttachAuditService.saveAuditInformation(supplierAttachAudit);
+		
+		//查询不一致的数据
+		List<SupplierAttachAudit> diySelect = null;
+		if(supplierAttachAudit.getSupplierId() !=null && supplierAttachAudit.getAuditType()!=null){
+			SupplierAttachAudit attachAudit = new SupplierAttachAudit();
+			attachAudit.setSupplierId(supplierAttachAudit.getSupplierId());
+			attachAudit.setAuditType(supplierAttachAudit.getAuditType());
+			attachAudit.setIsAccord(2);
+			attachAudit.setIsDeleted(0);
+			diySelect = supplierAttachAuditService.diySelect(attachAudit);
+			
+			if(diySelect !=null && diySelect.size() > 0 ){
+				//查询是否有合格的意见
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("supplierId", supplierAttachAudit.getSupplierId());
+				map.put("flagTime", supplierAttachAudit.getAuditType());
+				map.put("isDelete", 0);
+				map.put("flagAudit", 1);
+				SupplierAuditOpinion opinion = supplierAuditOpinionService.selectByExpertIdAndflagTime(map);
+				//有不一致项就更新合格的意见为null
+				if(opinion !=null){
+					supplierAuditOpinionService.updateFlagAuditById(opinion.getId());
+				}
+			}
+		}
+
+		return new JdcgResult(200, "保存成功！", diySelect == null? 0 : diySelect.size());
 	}
 }

@@ -188,5 +188,11 @@ public class SupplierAuditOpinionServiceImpl implements SupplierAuditOpinionServ
 	public void updateIsDownloadAttchBySupplierId(String supplierId) {
 		supplierAuditOpinionMapper.updateIsDownloadAttchBySupplierId(supplierId);
 	}
+
+	@Override
+	public void updateFlagAuditById(String id) {
+		supplierAuditOpinionMapper.updateFlagAuditById(id);
+		
+	}
 	
 }

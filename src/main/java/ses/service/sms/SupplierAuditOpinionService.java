@@ -87,4 +87,6 @@ public interface SupplierAuditOpinionService {
 	SupplierAuditOpinion selectByMap(Map<String, Object> map);
 	
 	void updateIsDownloadAttchBySupplierId (String supplierId);
+	
+	void updateFlagAuditById(String id);
 }

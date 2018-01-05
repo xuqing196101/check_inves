@@ -42,6 +42,13 @@
         	$("input[type='text'],textArea").attr("readonly", "readonly");
         	$("input[name='selectOption']").attr("disabled", true);
         }
+        
+        
+        //有不一致项就禁用《复核合格》
+        var noPass = ${noPass};
+        if(noPass != 0 ){
+        	$("#qualified").attr("disabled", true);
+        }
       }); 
     </script>
     
@@ -218,7 +225,7 @@
                       </c:if>
                       <c:if test="${item.isAccord==2}">
                         <button class="btn bgdd black_link" type="button" <c:if test="${status == 1}">onclick="opr(this, '${item.id}', 1, 1)"</c:if>>一致</button>
-                        <button class="btn bgred" type="button" <c:if test="${status == 1}">onclick="opr(this, '${item.id}', 2)"</c:if>>不一致</button>
+                        <button class="btn bgred" type="button" <c:if test="${status == 1}">onclick="opr(this, '${item.id}', 2, 1)"</c:if>>不一致</button>
                       </c:if>
                       <c:if test="${item.isAccord==0}">
                         <button class="btn bgdd black_link" type="button" <c:if test="${status == 1}">onclick="opr(this, '${item.id}', 1, 1)"</c:if>>一致</button>
