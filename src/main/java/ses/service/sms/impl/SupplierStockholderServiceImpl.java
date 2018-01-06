@@ -92,5 +92,15 @@ public class SupplierStockholderServiceImpl implements SupplierStockholderServic
 		}
 		return isSuccess;
 	}
+
+	@Override
+	public void saveTempStockholder(SupplierStockholder supplierStockholder) {
+		supplierStockholderMapper.insertSelective(supplierStockholder);
+	}
+
+	@Override
+	public void deleteTempStockholder(String id) {
+		supplierStockholderMapper.deleteByPrimaryKey(id);
+	}
 	
 }

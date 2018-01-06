@@ -297,7 +297,7 @@ public interface SupplierMapper {
      * @param creteDate 创建日期
      * @return
      */
-    List<Supplier> getCommintSupplierList(@Param("startTime")String startTime, @Param("endTime")String endTime);
+    List<Supplier> getCommitSupplierList(@Param("startTime")String startTime, @Param("endTime")String endTime);
     
     /**
      * 

@@ -1,18 +1,16 @@
 package app.service.impl;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.util.PropertiesUtil;
-
-import com.github.pagehelper.PageHelper;
-
 import app.dao.app.AppInfoMapper;
 import app.model.AppInfo;
 import app.service.AppInfoService;
+
+import com.github.pagehelper.PageHelper;
 
 /**
  * 
@@ -38,13 +36,13 @@ public class AppInfoServiceImpl implements AppInfoService{
     }
 
     @Override
-    public AppInfo selectByVersion(String version) {
-        return appInfoMapper.selectByVersion(version);
+    public AppInfo selectByVersion(AppInfo appInfo) {
+        return appInfoMapper.selectByVersion(appInfo);
     }
 
     @Override
-    public Integer fallbackByVersion() {
-        return appInfoMapper.fallbackByVersion();
+    public Integer fallbackByVersion(String type) {
+        return appInfoMapper.fallbackByVersion(type);
     }
 
     @Override

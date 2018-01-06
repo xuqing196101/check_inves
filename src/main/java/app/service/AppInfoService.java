@@ -1,6 +1,5 @@
 package app.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -38,7 +37,7 @@ public interface AppInfoService {
      * @param 
      * @return
      */
-    AppInfo selectByVersion(@Param("version")String version);
+    AppInfo selectByVersion(AppInfo appInfo);
     
     /**
      * 
@@ -49,7 +48,7 @@ public interface AppInfoService {
      * @param 
      * @return
      */
-    Integer fallbackByVersion();
+    Integer fallbackByVersion(String type);
     
     /**
      * 

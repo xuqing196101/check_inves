@@ -38,27 +38,43 @@
 		layer.msg("只有资源服务中心才能操作");
 		return;
 	}
-    layer.confirm('您确定要回退吗?', {
-      title: '提示',
-      offset: ['222px', '360px'],
-      shade: 0.01
-    }, function(index) {
-      layer.close(index);
-      $.ajax({
-        url: "${pageContext.request.contextPath }/appInfo/fallback.do",
-        type: "post",
-        data: {},
-        success: function(data) {
-          if(data == 'success'){
-            window.location.href = "${pageContext.request.contextPath }/appInfo/list.html";
-          }else{
-          	layer.msg("回退失败");
-          }
-        },
-        error: function() {
-      	  layer.msg("回退失败");
+    var type = "";
+    layer.open({
+        type: 1,
+        title: "选择类型",
+        shadeClose: true,
+        shade: 0.01,
+        area: ['350px', '180px'],
+        content: $("#selectType"),
+        btnAlign : 'c',
+        btn: '确定', 
+        yes: function (index, layero) {
+        	type = $('input[name="selType"]:checked').val();
+		    if(typeof (type) == "undefined" || type == ""){
+		    	layer.close(index);
+		    	layer.msg("请选择一种类型进行版本回退");
+		    	return;
+		    }
+		    $.ajax({
+		        url: "${pageContext.request.contextPath }/appInfo/fallback.do",
+		        type: "post",
+		        data: {
+		        	"type" : type,
+		        },
+		        success: function(data) {
+		          if(data == 'success'){
+		            window.location.href = "${pageContext.request.contextPath }/appInfo/list.html";
+		          }else{
+		          	layer.msg("回退失败");
+		          }
+		          layer.close(index);
+		        },
+		        error: function() {
+		      	  layer.msg("回退失败");
+		      	  layer.close(index);
+		        }
+		     });
         }
-     });
     });
   }
 
@@ -69,13 +85,13 @@
   }
   
   //查看详情
-  function view(version){
+  function view(version,type){
     var authType = "${authType}";
     if(authType != '4'){
       layer.msg("只有资源服务中心才能操作");
       return;
     }
-    window.location.href = "${pageContext.request.contextPath }/appInfo/view.html?version="+version;
+    window.location.href = "${pageContext.request.contextPath }/appInfo/view.html?version="+version+"&type="+type;
   }
   
   //新增
@@ -111,6 +127,15 @@
           <label class="fl">版本号：</label>
           <input type="text" id="version" class="" name = "version" value="${appInfo.version }"/>
         </li>
+        <li>
+          <label class="fl">类型：</label>
+          <select class="w178" name="type">
+              <option value="" <c:if test="${appInfo.type == '' }">selected="selected"</c:if> >全部</option>
+              <option value="1" <c:if test="${appInfo.type == '1' }">selected="selected"</c:if> >公告App</option>
+              <option value="2" <c:if test="${appInfo.type == '2' }">selected="selected"</c:if> >网上商城App</option>
+          </select>
+        </li>
+
         <input class="btn fl mt1" type="submit" value="查询" /> 
         <input class="btn fl mt1" type="button" onclick="resetQuery()" value="重置"/>  
       </ul>
@@ -130,6 +155,7 @@
            <th class="w50">序号</th>
            <th width="">版本号</th>
            <th width="">更新时间</th>
+           <th width="">类型</th>
          </tr>
         </thead>
         <tbody>
@@ -137,9 +163,15 @@
             <tr class="tc">
               <%-- <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${appInfo.version }" /></td> --%>
               <td class="w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-              <td class="tc" onclick = "view('${appInfo.version}')">${appInfo.version }</td>
+              <td class="tc" onclick = "view('${appInfo.version}','${appInfo.type }')">${appInfo.version }</td>
               <td class="tc">
                 <fmt:formatDate value="${appInfo.createdAt }" pattern="yyyy-MM-dd" />
+              </td>
+              <td class="tc">
+                <c:choose>
+                	<c:when test="${appInfo.type != null && appInfo.type == '2' }">网上商城App</c:when>
+                	<c:otherwise>公告App</c:otherwise>
+                </c:choose>
               </td>
             </tr>
           </c:forEach>
@@ -147,6 +179,10 @@
     </table>
   </div>
   <div id="pagediv" align="right"></div>
+  <div id="selectType" class="p20 tc hide">
+  	<input type = "radio" name = "selType" id="selType_1" value = "1"><label for="selType_1" class="hand m_inline ml5">公告App</label>
+  	<input type = "radio" name = "selType" id="selType_2" value = "2" class="ml20"><label for="selType_2" class="hand m_inline ml5">网上商城App</label>
+  </div>
   </div>
 </body>
 </html>

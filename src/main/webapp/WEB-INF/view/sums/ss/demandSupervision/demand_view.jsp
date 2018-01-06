@@ -125,10 +125,10 @@
                   <c:if test="${contractStatus eq 100}">
 		                <div data-dimension="150" data-text="100%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="100" data-fgcolor="#24a34a" data-bgcolor="#eee" class="circle_box"></div>
 		              </c:if>
-		              <c:if test="${contractStatus gt 20 && contractStatus ge 99}">
+		              <c:if test="${contractStatus gt 20 and contractStatus <= 99}">
 		                <div data-dimension="150" data-text="${contractStatus}%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="${contractStatus}" data-fgcolor="#68d6fa" data-bgcolor="#eee" class="circle_box"></div>
 		              </c:if>
-		              <c:if test="${contractStatus gt 0 && contractStatus ge 20}">
+		              <c:if test="${contractStatus gt 0 and contractStatus <= 20}">
 		                <div data-dimension="150" data-text="${contractStatus}%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="${contractStatus}" data-fgcolor="#ff8641" data-bgcolor="#eee" class="circle_box"></div>
 		              </c:if>
                 </c:if>

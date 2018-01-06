@@ -223,4 +223,15 @@
   	and IS_DELETED = 0
   </update>
   
+  <!-- 删除临时添加的出资人历史记录 -->
+  <update id="softDelete" parameterType="java.lang.String">
+  	update
+  		T_SES_SMS_SUPPLIER_HISTORY
+  	set
+  		IS_DELETED = 1
+  	where 
+  		SUPPLIER_ID = #{supplierId}
+  	and RELATION_ID = #{relationId}
+  </update>
+  
 </mapper>

@@ -31,6 +31,7 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import sums.service.oc.ComplaintService;
 import synchro.inner.back.service.infos.InnerInfoExportService;
+import synchro.inner.read.expert.InnerExpertService;
 import synchro.inner.read.supplier.InnerSupplierService;
 import synchro.model.SynchRecord;
 import synchro.outer.back.service.expert.OuterExpertService;
@@ -44,9 +45,9 @@ import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBSupplierService;
 
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 import common.bean.ResponseBean;
-
 import extract.service.expert.ExpertExtractProjectService;
 import extract.service.supplier.AutoExtractSupplierService;
 
@@ -182,6 +183,12 @@ public class SynchExportController {
     
     @Autowired
 	private ExpertExtractProjectService expertExtractProjectService;
+    
+    /**
+     * @Fields innerExpertService : 专家数据内网同步接口
+     */
+    @Autowired
+    private InnerExpertService innerExpertService;
     
     /**
      * 〈简述〉初始化导出
@@ -525,6 +532,22 @@ public class SynchExportController {
 	        if (synchType.contains(Constant.DATE_SYNCH_EXPERT_EXTRACT_RESULT)) {
 	        	expertExtractProjectService.exportExpertExtractResult(startTime, endTime, date);
         	}
+	        
+	        //供应商复核结果导出内网
+	        if (synchType.contains(Constant.SYNCH_SUPPLIER_CHECK_RESULT)) {
+	        	innerSupplierService.exportCheckResult(startTime, endTime, date);
+        	}
+	        
+	        //供应商实地考察结果导出内网
+	        if (synchType.contains(Constant.SYNCH_SUPPLIER_INVEST_RESULT)) {
+	        	innerSupplierService.exportInvestResult(startTime, endTime, date);
+        	}
+	        
+	        //地方专家复查结果导出内网
+	        if (synchType.contains(Constant.SYNCH_EXPERT_CHECK_RESULT)) {
+	        	innerExpertService.exportCheckResult(startTime, endTime, date);
+        	}
+	        
 	        bean.setSuccess(true);
 	        return bean;
         }

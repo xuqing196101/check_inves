@@ -349,4 +349,19 @@ public class Constant {
     public final static String SUPPLIER_LEVEL_COMMIT = "导出供应商等级数量:";
     /** 供应商等级文件夹名称 **/
     public final static String SUPPLIER_LEVEL_FILE_NAME = "supplier_level";
+    
+    /**
+     * @Fields SYNCH_EXPERT_CHECK_RESULT : 地方专家复查结果
+     */
+    public final static String SYNCH_EXPERT_CHECK_RESULT = "SYNCH_EXPERT_CHECK_RESULT";
+    
+    /**
+     * @Fields SYNCH_SUPPLIER_INVEST_RESULT : 供应商实地考察结果
+     */
+    public final static String SYNCH_SUPPLIER_INVEST_RESULT = "SYNCH_SUPPLIER_INVEST_RESULT";
+    
+    /**
+     * @Fields SYNCH_SUPPLIER_CHECK_RESULT : 供应商复核结果
+     */
+    public final static String SYNCH_SUPPLIER_CHECK_RESULT = "SYNCH_SUPPLIER_CHECK_RESULT";
 }

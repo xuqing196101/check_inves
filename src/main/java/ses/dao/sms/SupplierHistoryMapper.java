@@ -56,5 +56,14 @@ public interface SupplierHistoryMapper {
      * @return void
      */
     void updateIsDeleteBySupplierId(SupplierHistory supplierHistory);
+
+	/**
+	 *〈简述〉删除临时添加的出资人历史记录
+	 *〈详细描述〉
+	 * @author Ye Maolin
+	 * @param supplierId
+	 * @param relationId
+	 */
+	void softDelete(@Param("supplierId")String supplierId, @Param("relationId")String relationId);
     
 }

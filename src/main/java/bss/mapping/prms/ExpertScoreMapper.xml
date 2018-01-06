@@ -255,4 +255,37 @@
        AND SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
       </if>
       </select>
+      <select id="selectByModelScore" parameterType="bss.model.prms.ExpertScore" resultType="bss.model.prms.ExpertScore">
+      select s.EXPERT_VALUE as expertValue,s.SCORE as score, m.MAX_SCORE as "scoreModel.maxScore",m.TYPE_NAME as "scoreModel.typeName" from (
+			SELECT
+				ID,
+				EXPERT_ID,
+				PROJECT_ID,
+				PACKAGE_ID,
+				SUPPLIER_ID,
+				SCORE_MODEL_ID,
+				EXPERT_VALUE,
+				SCORE,
+				IS_HISTORY
+			FROM
+				T_BSS_PRMS_EXPERT_SCORE
+			WHERE
+				1 = 1
+		  <if test="expertId != null and expertId != ''">
+	       AND EXPERT_ID = #{expertId,jdbcType=VARCHAR}
+	      </if>
+	      <if test="projectId != null and projectId != ''">
+	       AND PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+	      </if>
+	      <if test="packageId != null and packageId != ''">
+	       AND PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
+	      </if>
+	      <if test="supplierId != null and supplierId != ''">
+	       AND SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
+	      </if>
+		   ) 
+			s INNER JOIN T_BSS_PPMS_SCORE_MODEL m 
+			on s.SCORE_MODEL_ID=m.ID and m.IS_DELETED=0
+      </select>
+      
 </mapper>

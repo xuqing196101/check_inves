@@ -53,6 +53,7 @@ public class SupplierItemLevelServiceImpl implements SupplierItemLevelServer {
 	@Override
 	public List<SupplierItemLevel> findSupplierItemLevel(SupplierItemLevel supplier, Integer page, String categoryIds, String clickCategoryId, String nodeLevel) {
 		List<SupplierItemLevel> rutlist=new ArrayList<SupplierItemLevel>();
+		Integer nLevel = Integer.parseInt(nodeLevel);
 		if(StringUtils.isBlank(supplier.getSupplierTypeId())){
 		 	return rutlist;
 		}
@@ -64,15 +65,15 @@ public class SupplierItemLevelServiceImpl implements SupplierItemLevelServer {
 		if(supplierType ==null){
 			return rutlist;
 		}
-		page=page==null?0:page;
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		
 		String auditType = "";
 		if (SupplierToolUtil.TOOL_SALES.equals(supplierType)) {
 			auditType = "items_sales_page";
 		} else {
 			auditType = "items_product_page";
 		}
+		//供应商类型数据字典id
+		String supplierTypeNames = supplier.getSupplierTypeId();
 		 //判断 是否是工程
         if(SupplierToolUtil.TOOL_PROJECT.equals(supplierType)){
 			Supplier sup =new Supplier();
@@ -83,11 +84,13 @@ public class SupplierItemLevelServiceImpl implements SupplierItemLevelServer {
 			sup.setSupplierType(supplierType);
 			//根据品目查询资质
 			//List<CategoryQua> list = categoryQuaMapper.findList(categoryIds);
-			
+			page=page==null?0:page;
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 			List<SupplierItemLevel> supplierItemLevels = new ArrayList<SupplierItemLevel>();
 			if (categoryIds == null || "".equals(categoryIds)) {
 				//查询工程品目下所有入库供应商
-				supplierItemLevels = supplierItemLevelMapper.selectByCategoryId(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(), null, auditType);
+				supplierItemLevels = supplierItemLevelMapper.selectByCategoryId(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(), null, auditType, nLevel, supplierTypeNames);
 			} else {
 				supplierItemLevels = supplierItemLevelMapper.selectProjectSupplierByCategory(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(), supplier.getSupplierLevel(), auditType);
 			}
@@ -139,12 +142,41 @@ public class SupplierItemLevelServiceImpl implements SupplierItemLevelServer {
 	        */
 	        return supplierItemLevels;
 	    }else{
-	    	Integer nLevel = Integer.parseInt(nodeLevel);
 	    	if (nLevel != null && nLevel >= 4) {
+	    		//计算四级等级
+				supplierService.againSupplierLevel(supplier.getSupplierTypeId(), categoryIds);
+	    		page=page==null?0:page;
+	    		PropertiesUtil config = new PropertiesUtil("config.properties");
+	    		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 	    		//如果是大于或等于五级的品目，就查其父级四级目录的等级
-				return supplierItemLevelMapper.selectFourCategoryLevelOutfour(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(), supplier.getSupplierLevelName(), clickCategoryId, auditType);
-			} else {
-				return supplierItemLevelMapper.selectByCategoryId(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(), supplier.getSupplierLevelName(), auditType);
+				return supplierItemLevelMapper.selectFourCategoryLevelOutfour(categoryIds,
+						supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(),
+						supplier.getSupplierLevelName(), clickCategoryId, auditType);
+			} else if(nLevel != null && nLevel == 3){
+				//计算等级
+				supplierService.againSupplierLevel(supplier.getSupplierTypeId(), categoryIds);
+				page=page==null?0:page;
+				PropertiesUtil config = new PropertiesUtil("config.properties");
+				PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+				//四级节点
+				return supplierItemLevelMapper.selectByCategoryId(categoryIds,
+						supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(),
+						supplier.getSupplierLevelName(), auditType, nLevel, supplierTypeNames);
+			} else if(nLevel != null && nLevel == 0){
+				page=page==null?0:page;
+				PropertiesUtil config = new PropertiesUtil("config.properties");
+				PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+				//根节点
+				return supplierItemLevelMapper.selectByCategoryId(categoryIds,
+						supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(),
+						supplier.getSupplierLevelName(), auditType, nLevel, supplierTypeNames);
+			} else{
+				page=page==null?0:page;
+				PropertiesUtil config = new PropertiesUtil("config.properties");
+				PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+				return supplierItemLevelMapper.selectByCategoryId(categoryIds,
+						supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(),
+						supplier.getSupplierLevelName(), auditType, nLevel, supplierTypeNames);
 			}
 	    }
 	}

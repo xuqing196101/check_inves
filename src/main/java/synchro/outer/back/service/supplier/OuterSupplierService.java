@@ -104,4 +104,20 @@ public interface OuterSupplierService {
 	 * @param f
 	 */
 	public void importSupplierLevel(File f);
+
+	/**
+	 *〈简述〉供应商复核结果导入外网
+	 *〈详细描述〉
+	 * @author Ye Maolin
+	 * @param f
+	 */
+	public void importCheckResult(File f);
+
+	/**
+	 *〈简述〉供应商实地考察结果导入外网
+	 *〈详细描述〉
+	 * @author Ye Maolin
+	 * @param f
+	 */
+	public void importInvestResult(File f);
 }

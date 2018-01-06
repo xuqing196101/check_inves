@@ -199,3 +199,78 @@ function auditFile(_this, auditType, auditField) {
 		});
 	}
 }
+
+//添加出资人
+function addStockholder(supplierId){
+	var uId = null;
+	$.ajax({
+		url : globalPath + "/supplier/getUUID.do",
+		async : false,
+		success : function(data) {
+			uId = data;
+		}
+	});
+	$("#stockholder_account_tbody_id").append(
+		"<tr id='stockholder_tr_"+uId+"'>" 
+		+ "<td class='tc'><input type='checkbox' name='stockholder_chkItem' value='"
+		+ uId
+		+ "' />"
+		+ "</td>"
+		+ "<td class='tc'></td>"
+		+ "<td class='tc'></td>"
+		+ "<td class='tc'></td>"
+		+ "<td class='tc'></td>"
+		+ "<td class='tc'></td>"
+		+ "<td class='tc'></td>"
+		+ "<td class='tc'>"
+		+ "<img src='"+ globalPath +"/public/backend/images/light_icon.png' class='icon_edit' "
+        + 'onclick="auditList(this,'
+        + "'basic_page','"
+        + uId
+        + "','股东信息','');"
+        + '"/>'
+		+ "</td>"
+		+ "</tr>");
+	//添加到数据库
+	$.ajax({
+		url : globalPath + "/supplier/saveTempStockholder.do",
+		async : false,
+		data : {
+			id : uId,
+			supplierId : supplierId
+		},
+		success : function(data) {
+			
+		}
+	});
+}
+//删除出资人
+function deleteStockholder(supplierId){
+	var count = 0;
+	$('input[name="stockholder_chkItem"]:checked').each(function(){ 
+		count++; 
+	}); 
+	if(count>0){
+		$('input[name="stockholder_chkItem"]:checked').each(function(){ 
+			var currId = $(this).val();
+			$("#stockholder_tr_"+currId).remove();
+			//删除数据
+			$.ajax({
+				url : globalPath + "/supplier/deleteTempStockholder.do",
+				async : false,
+				data : {
+					id : currId,
+					supplierId : supplierId
+				},
+				success : function(data) {
+					
+				}
+			});
+		}); 
+	}else{
+		layer.alert("请选择要删除的行",{offset: '222px', shade:0.01});
+	}
+	
+	
+}
+

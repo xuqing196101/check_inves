@@ -8,10 +8,11 @@
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
     <result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
   </resultMap>
 
   <sql id="Base_Column_List" >
-    VERSION, PATH, REMARK, IS_DELETED, CREATED_AT ,UPDATED_AT
+    VERSION, PATH, REMARK, IS_DELETED, CREATED_AT ,UPDATED_AT ,TYPE
   </sql>
   
   <!-- 查询所有 -->
@@ -22,23 +23,48 @@
     <if test="version != null and version != ''">
       AND VERSION LIKE CONCAT(CONCAT('%', #{version}), '%')
     </if>
+    <if test='type != null and type == "1"'>
+      AND (TYPE = #{type} OR TYPE IS NULL)
+    </if>
+    <if test='type != null and type == "2"'>
+      AND TYPE = #{type}
+    </if>
     ORDER BY CREATED_AT DESC
   </select>
 
   <!-- 通过主键查询 -->
-  <select id="selectByVersion" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByVersion" resultMap="BaseResultMap" parameterType="app.model.AppInfo" >
     SELECT <include refid="Base_Column_List"/>
     FROM T_SES_APP_INFO 
     WHERE VERSION = #{version}
+    <if test='type != null and type == "1"'>
+      AND (TYPE = #{type} OR TYPE IS NULL)
+    </if>
+    <if test='type != null and type == "2"'>
+      AND TYPE = #{type}
+    </if>
   </select>
 
   <!-- 回退 -->
-  <update id="fallbackByVersion" parameterType="app.model.AppInfo">
+  <update id="fallbackByVersion" parameterType="String">
     UPDATE T_SES_APP_INFO SET IS_DELETED = 1 WHERE VERSION = (
       SELECT VERSION FROM (
-        SELECT VERSION FROM T_SES_APP_INFO WHERE IS_DELETED = 0 ORDER BY CREATED_AT DESC 
+        SELECT VERSION FROM T_SES_APP_INFO WHERE IS_DELETED = 0 
+        <if test='type != null and type == "1"'>
+	      AND (TYPE = #{type} OR TYPE IS NULL)
+	    </if>
+	    <if test='type != null and type == "2"'>
+	      AND TYPE = #{type}
+	    </if>
+        ORDER BY CREATED_AT DESC 
       ) WHERE ROWNUM = 1
     )
+    <if test='type != null and type == "1"'>
+      AND (TYPE = #{type} OR TYPE IS NULL)
+    </if>
+    <if test='type != null and type == "2"'>
+      AND TYPE = #{type}
+    </if>
   </update>
   
   <!-- 查询上传文件的路径 -->
@@ -48,13 +74,13 @@
   
   <!-- 新增 -->
   <insert id="add" parameterType="app.model.AppInfo">
-    INSERT INTO T_SES_APP_INFO (VERSION,PATH,CREATED_AT,IS_DELETED,REMARK)
-    VALUES (#{version},#{path},#{createdAt},0,#{remark})
+    INSERT INTO T_SES_APP_INFO (VERSION,PATH,CREATED_AT,IS_DELETED,REMARK,TYPE)
+    VALUES (#{version},#{path},#{createdAt},0,#{remark},#{type})
   </insert>
   
   <!-- 查询上传文件的路径 -->
   <select id="selectFileIdByBusinessId" parameterType="String" resultType="String">
-    SELECT ID FROM T_SES_APP_ATTACHMENT WHERE IS_DELETED = 0 AND BUSINESS_ID = #{businessId}
+	SELECT ID FROM T_SES_APP_ATTACHMENT WHERE IS_DELETED = 0 AND BUSINESS_ID = #{businessId} ORDER BY CREATED_AT DESC
   </select>
   
 </mapper>

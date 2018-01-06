@@ -508,7 +508,7 @@
      ORDER BY GIVE_TIME DESC
   </select>
   
-  <select id="searchByTask" parameterType="bss.model.ppms.Task" resultMap="BaseResultMap">
+  <select id="searchByTask" parameterType="java.util.Map" resultMap="BaseResultMap">
     SELECT
 				TT.ID,TT.NAME,TT.PURCHASE_ID,
 			(SELECT SHORT_NAME FROM T_SES_OMS_ORG WHERE ID = TT.PURCHASE_ID) AS orgName,
@@ -519,19 +519,26 @@
 					FROM
 						DETAIL_BUDGET DD
 					WHERE
-						DD.UNIQUE_ID = tt.COLLECT_ID) as BUDGET,
+						DD.UNIQUE_ID = tt.COLLECT_ID
+						AND DD.ORGANIZATION_ID = TT.PURCHASE_ID) as BUDGET,
 			tt.COLLECT_ID,
 			TT.ORG_ID,TT.CREATER_ID,TT.USER_ID
 			FROM
-				T_BSS_PPMS_TASK TT
+				T_BSS_PPMS_TASK TT LEFT JOIN T_BSS_PMS_PURCHASE_DETAIL pd ON PD.UNIQUE_ID = TT.COLLECT_ID
+				LEFT JOIN T_BSS_PMS_COLLECT_PLAN cp ON cp.id = TT.COLLECT_ID
+				LEFT JOIN (SELECT PT.TASK_ID,PT.PROJECT_ID,PP.PROJECT_NUMBER,PP.BID_DATE FROM T_BSS_PPMS_PROJECT_TASK pt LEFT JOIN T_BSS_PPMS_PROJECTS pp ON pp.id = pt.project_id) AA ON AA.TASK_ID = TT.ID
+				LEFT JOIN T_BSS_CS_PURCHASE_CONTRACT CPC ON AA.PROJECT_ID = CPC.PROJECT_ID
 			WHERE
 				TT.TASK_NATURE = 0
 			AND TT.COLLECT_ID IS NOT NULL 
-     <if test="beginDate!=null and endDate!=null">
+     <if test="beginDate != null and endDate != null">
         and TT.GIVE_TIME BETWEEN TO_DATE(#{beginDate},'yyyy-MM-dd HH24:mi:ss') and TO_DATE(#{endDate},'yyyy-MM-dd HH24:mi:ss')
      </if>
      <if test="name != null and name != ''">
        	and  TT.NAME like CONCAT(CONCAT('%', #{name}), '%')
+     </if>
+     <if test="userId != null and userId != ''">
+       	and  cp.USER_ID = #{userId}
      </if>
       <if test="orgId != null and orgId !=''">
         and TT.PURCHASE_ID in (select PURCHASE_DEP_ID from T_SES_OMS_PURDEP_ORG where 1=1 and org_id=#{orgId})
@@ -543,11 +550,35 @@
 				</foreach>
       </if> 
       <if test="purchaseId != null and purchaseId !=''">
-        and TT.PURCHASE_ID like  CONCAT(CONCAT('%', #{purchaseId}), '%')
+        and TT.PURCHASE_ID = #{purchaseId}
       </if> 
       <if test="documentNumber != null and documentNumber !=''">
         and TT.DOCUMENT_NUMBER like  CONCAT(CONCAT('%', #{documentNumber}), '%')
       </if>
+      <if test="materialsType != null and materialsType !=''">
+        and TT.MATERIALS_TYPE = #{materialsType}
+      </if>
+      <if test="department != null and department !=''">
+        and pd.DEPARTMENT = #{department}
+      </if>
+      <if test="code !=null and code != ''">
+		   	AND CPC.CODE LIKE CONCAT(CONCAT('%', #{code}), '%')
+		  </if>
+		  <if test="proBeginDate != null and proEndDate != null">
+      	and TO_CHAR(AA.BID_DATE,'yyyy-MM-dd') BETWEEN #{proBeginDate} and #{proEndDate}
+   		</if>
+   		<if test="projectNumber != null and projectNumber != ''">
+	   		AND AA.PROJECT_NUMBER LIKE CONCAT(CONCAT('%', #{projectNumber}), '%') 
+	   	</if>
+	   	<if test="goodsName!=null and goodsName!=''">
+		   	AND pd.MATERIAL_NAME LIKE CONCAT(CONCAT('%', #{goodsName}), '%')
+		  </if>
+		  <if test="purchaseType!=null and purchaseType!=''">
+		      and pd.PURCHASE_TYPE=#{purchaseType}
+		   </if>
+		  GROUP BY TT. ID, TT. NAME, TT.PURCHASE_ID,TT.DOCUMENT_NUMBER,
+			 TT.GIVE_TIME, TT.STATUS, TT.MATERIALS_TYPE, TT.ACCEPT_TIME,tt.COLLECT_ID, 
+			TT.ORG_ID, TT.CREATER_ID, TT.USER_ID
      ORDER BY TT.GIVE_TIME DESC, TT.STATUS ASC
   </select>
 </mapper>

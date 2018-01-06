@@ -212,9 +212,7 @@
         }
         if(info.length > 0) {
           if(count == 0) {
-            layer.alert("请选择明细", {
-              offset: ['20%', '40%']
-            });
+            layer.alert("请选择明细");
             $(".layui-layer-shade").remove();
             return;
           }
@@ -236,16 +234,14 @@
           clickCortisone = 1;
           $.ajax({
             type: "POST",
-            url: "${pageContext.request.contextPath }/project/addPack.do?ids=" + ids + "&projectId=" + projectId,
+            url: "${pageContext.request.contextPath}/project/addPack.do?ids=" + ids + "&projectId=" + projectId,
             success: function(data) {
               var datas = eval("(" + data + ")");
               if(datas == false) {
                 layer.alert("一个包只能有一个供应商");
               } else {
-                layer.msg('添加成功', {
-                  offset: ['40%', '45%']
-                });
-                window.location.href = "${pageContext.request.contextPath }/project/subPackage.do?projectId=" + projectId;
+                layer.msg("添加成功");
+                window.location.href = "${pageContext.request.contextPath}/project/subPackage.do?projectId=" + projectId;
               }
             }
           });

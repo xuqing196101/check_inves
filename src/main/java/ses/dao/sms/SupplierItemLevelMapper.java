@@ -40,10 +40,12 @@ public interface SupplierItemLevelMapper {
      * @author YangHongLiang
      * @version 2017-6-22
      * @param supplierLevel 
+     * @param nLevel 
+     * @param supplierTypeNames 
      * @param id
      * @return
      */
-    List<SupplierItemLevel> selectByCategoryId(@Param("categoryId")String categoryId, @Param("supplierTypeRelateId")String supplierTypeRelateId , @Param("armyBusinessName")String armyBusinessName, @Param("supplierName")String supplierName, @Param("supplierLevel")String supplierLevel, @Param("auditType")String auditType);
+    List<SupplierItemLevel> selectByCategoryId(@Param("categoryId")String categoryId, @Param("supplierTypeRelateId")String supplierTypeRelateId , @Param("armyBusinessName")String armyBusinessName, @Param("supplierName")String supplierName, @Param("supplierLevel")String supplierLevel, @Param("auditType")String auditType, @Param("nodeLevel")Integer nLevel, @Param("supplierTypeNames")String supplierTypeNames);
     /**
      * 
      * Description:根据条件更新数据

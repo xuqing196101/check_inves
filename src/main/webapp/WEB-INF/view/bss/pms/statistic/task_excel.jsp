@@ -1,3 +1,4 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" import="java.util.*,java.net.*" pageEncoding="utf-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp"%>
 
@@ -54,7 +55,10 @@ div.Section1 {
 </style>
 
 <%
-	String fileName = "明细信息";
+	Date currentTime = new Date();
+  SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+  String dateString = formatter.format(currentTime);
+	String fileName = "任务查询明细信息"+"（" +dateString+ "）";
 	String UserAgent = request.getHeader("USER-AGENT").toLowerCase();
 	String tem = "";
 	if (UserAgent != null) {
@@ -83,12 +87,10 @@ div.Section1 {
 		<table align="center" style="border-left:1px solid #dddddd; border-top:1px solid #dddddd; border-collapse: collapse;width:100%;">
 			<thead>
 				<tr>
+					<th class="info w80" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">任务名称</th>
+					<th class="info w80" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">任务文号</th>
+					<th class="info w80" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">需求部门</th>
 					<th class="info w50" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">序号</th>
-					<c:if test="${names ne null}">
-					<c:forEach items="${names}" var="name">
-						<th class="info" width="9%" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">${name}</th>
-					</c:forEach>
-					</c:if>
 					<th class="info" width="9%" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">产品名称</th>
 					<th class="info" width="9%" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">质量标准</th>
 					<th class="info" width="8%" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">质量参数</th>
@@ -97,12 +99,36 @@ div.Section1 {
 					<th class="info" width="7%" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">单价<br/>(元)</th>
 					<th class="info" width="10%" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">预算价格<br/>(万元)</th>
 					<th class="info" width="6%" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">采购方式</th>
+					<th class="w120" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">采购机构</th>
+					<th class="w100" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">下达时间</th>
+					<c:if test="${names ne null}">
+					<c:forEach items="${names}" var="name">
+						<th class="info" width="9%" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">${name}</th>
+					</c:forEach>
+					</c:if>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach items="${list}" var="obj" varStatus="vs">
 					<tr style="cursor: pointer;">
-						<td class="tc w50" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">${obj.seq}</td>
+						<td class="tc" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">${obj.taskName}</td>
+						<td class="tc" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">${obj.taskNumber}</td>
+						<td class="tc" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">${obj.department}</td>
+						<td class="tc w50" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd; vnd.ms-excel.numberformat:@">${obj.seq}</td>
+						<td class="tl" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">${obj.goodsName}</td>
+						<td class="tl" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">${obj.stand}</td>
+						<td class="tl" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">${obj.qualitStand}</td>
+						<td class="tc" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">${obj.item}</td>
+						<td class="tr" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">${obj.purchaseCount}</td>
+						<td class="tc" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">
+							<fmt:formatNumber type="number" pattern="#,##0.00" value="${obj.price}" />
+						</td>
+						<td class="tr" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">
+							<fmt:formatNumber type="number" pattern="#,##0.00" value="${obj.budget}" />
+						</td>
+						<td class="tc" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">${obj.purchaseType}</td>
+						<td class="tc" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">${obj.organization}</td>
+						<td class="tc" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;"><fmt:formatDate value="${obj.taskGiveTime}" pattern="yyyy-MM-dd"/></td>
 						<c:if test="${types ne null}">
 							<c:forEach items="${types}" var="type">
 							<td class="tl" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd; vnd.ms-excel.numberformat:@">
@@ -125,18 +151,6 @@ div.Section1 {
 							</td>
 							</c:forEach>
 						</c:if>
-						<td class="tl" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">${obj.goodsName}</td>
-						<td class="tl" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">${obj.stand}</td>
-						<td class="tl" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">${obj.qualitStand}</td>
-						<td class="tc" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">${obj.item}</td>
-						<td class="tr" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">${obj.purchaseCount}</td>
-						<td class="tc" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">
-							<fmt:formatNumber type="number" pattern="#,##0.00" value="${obj.price}" />
-						</td>
-						<td class="tr" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">
-							<fmt:formatNumber type="number" pattern="#,##0.00" value="${obj.budget}" />
-						</td>
-						<td class="tc" style="border-right: solid 1px #ddd; border-bottom: solid 1px #ddd;">${obj.purchaseType}</td>
 					</tr>
 				</c:forEach>
 			</tbody>

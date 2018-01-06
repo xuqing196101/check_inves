@@ -5,6 +5,14 @@
 <head>  
   <title>My JSP 'expert_list.jsp' starting page</title>
   <script type="text/javascript">
+	$(function() {
+  		//获取查看或操作权限
+       	var isOperate = $('#isOperate', window.parent.document).val();
+       	if(isOperate == 0) {
+       		//只具有查看权限，隐藏操作按钮
+			$("#packScore").hide();
+		}
+    })
 	function ycDiv(obj, index){
 		if ($(obj).hasClass("spread") && !$(obj).hasClass("shrink")) {
 	    	$(obj).removeClass("spread");
@@ -36,6 +44,7 @@
 	});
 	
 	function pack(packId,projectId){
+		var index_load = layer.load(1);
 		$.ajax({
 			url:'${pageContext.request.contextPath}/reviewFirstAudit/save_score.html',
 			data:{"packId":packId,"projectId":projectId},
@@ -66,6 +75,7 @@
 						/* for(var i=0;i<data.length;i++){
 							$("#price_"+data[i].supplierId+"_"+data[i].packageId).text(data[i].score);
 						} */
+				layer.close(index_load);
 			}
 		});
 	}
@@ -78,7 +88,7 @@
     <h2 class="list_title">供应商排名</h2>
 	  <div class="tab-pane fade active in" id="tab-1">
         <c:forEach items="${packagesList}" var="pack" varStatus="vs">
-          <div class="over_scroll col-md-12 col-xs-12 col-sm-12 p0 m0">
+          <div class="col-md-12 col-xs-12 col-sm-12 p0 m0">
           <h2 onclick="ycDiv(this,'${vs.index}')" class="count_flow hand fl clear spread">${pack.name}   </h2>
           <c:if test="${'OPEN_ZHPFF' ne pack.bidMethodTypeName}">
 	          <div class="fl mt20 ml10">
@@ -100,7 +110,7 @@
           </c:if>
           <c:if test="${'OPEN_ZHPFF' eq pack.bidMethodTypeName}">
            <div class="fl mt20 ml10">
-             <button class="btn" onclick="pack('${pack.id}','${pack.projectId}');" type="button">计算报价得分</button>
+             <button class="btn" id="packScore" onclick="pack('${pack.id}','${pack.projectId}');" type="button">计算报价得分</button>
            	</div>
            <div class="fl mt20 ml10">
            <button class="btn" onclick="rankView('${pack.id}','${pack.projectId}');" type="button">下载供应商排名</button>
@@ -177,7 +187,11 @@
 		                    <td class="tc" colspan="2">
 		                      <c:forEach items="${expertScoreList}" var="score">
 		                        <c:if test="${score.packageId eq pack.id and score.supplierId eq supplier.suppliers.id and score.expertId eq expert.expert.id}">
-		                          <fmt:formatNumber value="${score.score}" pattern="0.00"></fmt:formatNumber> 
+		                          <fmt:formatNumber value="${score.score}" pattern="0.00" var="myInteger"></fmt:formatNumber> 
+		                            
+		                          <c:if test="${myInteger  lt  '0' }">0</c:if>
+			  	                  <c:if test="${myInteger ge '0' }">${myInteger}</c:if>
+		                          
 		                        </c:if>
 		                      </c:forEach>
 		                    </td>
@@ -194,7 +208,7 @@
 		                  <c:forEach items="${rankList}" var="rank">
 		                    <c:if test="${rank.packageId eq pack.id && rank.supplierId eq supplier.suppliers.id}">
 		                       <c:if test="${rank.econScore!=0&&rank.sumScore!=0&&rank.econScore!=null&&rank.techScore!=null}">
-		                         <fmt:formatNumber value="${rank.priceScore}" pattern="0.00"></fmt:formatNumber>(价格)+<fmt:formatNumber value="${rank.econScore}" pattern="0.00"></fmt:formatNumber>(经济)+<fmt:formatNumber value="${rank.techScore}" pattern="0.00"></fmt:formatNumber>(技术)=<fmt:formatNumber value="${rank.sumScore}" pattern="0.00"></fmt:formatNumber>
+		                         <fmt:formatNumber value="${rank.priceScore}" pattern="0.00"></fmt:formatNumber>(价格)+<fmt:formatNumber value="${rank.econScore}" pattern="0.00"></fmt:formatNumber>(经济)+<fmt:formatNumber value="${rank.techScore}" pattern="0.00" var="rankT"></fmt:formatNumber><c:if test="${rankT  lt  '0' }">0</c:if><c:if test="${rankT ge '0' }">${rankT }</c:if>(技术)=<fmt:formatNumber value="${rank.sumScore}" pattern="0.00" />
 		                       </c:if>
 		                    </c:if>
 		                  </c:forEach>
