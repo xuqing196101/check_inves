@@ -43,14 +43,15 @@ import synchro.util.Constant;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
 import system.service.sms.SmsRecordService;
+import system.service.sms.SmsRecordTempService;
 import bss.service.ob.OBProductService;
 import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBSupplierService;
 
 import com.github.pagehelper.PageInfo;
-
 import common.annotation.CurrentUser;
 import common.bean.ResponseBean;
+
 import extract.service.expert.ExpertExtractProjectService;
 import extract.service.supplier.AutoExtractSupplierService;
 
@@ -192,6 +193,12 @@ public class SynchImportController {
      */
     @Autowired
     private SmsRecordService smsRecordService;
+    
+    /**
+     * 短信发送记录
+     */
+    @Autowired
+    private SmsRecordTempService smsRecordTempService;
 
     /**
      * 〈简述〉初始化导入
@@ -296,6 +303,11 @@ public class SynchImportController {
 
                     if (dd.getCode().equals(Constant.SYNCH_PUBLICITY_EXPERT)) {
                         /**公示专家**/
+                        iter.remove();
+                        continue;
+                    }
+                    if (dd.getCode().equals(Constant.DATE_SYNCH_SMS_RECORD_TEMP)) {
+                        //待发送只能外网导出到内网
                         iter.remove();
                         continue;
                     }
@@ -1033,6 +1045,19 @@ public class SynchImportController {
 							}
 							if (f.isDirectory()) {
 								if (f.getName().contains(Constant.SMS_RECORD_FILE_EXPERT)) {
+									OperAttachment.moveFolder(f);
+								}
+							}
+						}
+                   }
+                   if("1".equals(ipAddressType)){
+						//待发送短信外网导入
+						if (synchType.contains(Constant.DATE_SYNCH_SMS_RECORD_TEMP)) {
+							if (f.getName().contains(Constant.SMS_RECORD_TEMP_FILE_EXPERT)) {
+								smsRecordTempService.importSmsRecordTemp(f);
+							}
+							if (f.isDirectory()) {
+								if (f.getName().contains(Constant.SMS_RECORD_TEMP_FILE_EXPERT)) {
 									OperAttachment.moveFolder(f);
 								}
 							}

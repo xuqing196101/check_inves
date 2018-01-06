@@ -41,6 +41,7 @@ import synchro.service.SynchRecordService;
 import synchro.service.SynchService;
 import synchro.util.Constant;
 import system.service.sms.SmsRecordService;
+import system.service.sms.SmsRecordTempService;
 import bss.service.ob.OBProductService;
 import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBSupplierService;
@@ -192,6 +193,12 @@ public class SynchExportController {
     private SmsRecordService smsRecordService;
     
     /**
+     * 待发送短信记录
+     */
+    @Autowired
+    private SmsRecordTempService smsRecordTempService;
+    
+    /**
      * @Fields innerExpertService : 专家数据内网同步接口
      */
     @Autowired
@@ -292,6 +299,11 @@ public class SynchExportController {
 	            	  iter.remove();
 	            	  continue;
 	              }
+	              if(dd.getCode().equals(Constant.DATE_SYNCH_SMS_RECORD_TEMP)){
+		              	//待发送短信只能内网导出到外网
+		               iter.remove();
+		           	   continue;
+		          }
 	          }
 	          //内网时
 	          if(ipAddressType.equals("0")){
@@ -564,6 +576,10 @@ public class SynchExportController {
 	        	smsRecordService.exportSmsRecord(startTime, endTime, date);
         	}
 	        
+	        //待发送短信导出
+	        if (synchType.contains(Constant.DATE_SYNCH_SMS_RECORD_TEMP)) {
+	        	smsRecordTempService.exportSmsRecordTemp(startTime, endTime, date);
+        	}
 	        bean.setSuccess(true);
 	        return bean;
         }

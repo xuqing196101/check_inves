@@ -372,6 +372,15 @@ public class Constant {
     public final static String SMS_RECORD_COMMIT_IMPORT = "同步短信记录数量:";
     /** 短信发送记录 **/
     public final static String DATE_SYNCH_SMS_RECORD ="SYNCH_SMS_RECORD";
-    /** 短信发送记录 **/
+    /** 短信发送记录文件目录 **/
     public final static String SMS_RECORD_FILE_EXPERT = "sms_record";
+    
+    /** 待发送短信导出描述 **/
+    public final static String SMS_RECORD_TEMP_COMMIT = "导出待发送短信数量:";
+    /** 待发送短信导入描述 **/
+    public final static String SMS_RECORD_TEMP_COMMIT_IMPORT = "同步短信记录数量:";
+    /** 待发送短信记录 **/
+    public final static String DATE_SYNCH_SMS_RECORD_TEMP ="SYNCH_S_MS_RECORD_TEMP";
+    /** 待发送短信文件目录 **/
+    public final static String SMS_RECORD_TEMP_FILE_EXPERT = "sms_record_temp";
 }
