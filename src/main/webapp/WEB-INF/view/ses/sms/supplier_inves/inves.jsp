@@ -42,7 +42,7 @@
             <jsp:param value="ten" name="currentStep"/>
             <jsp:param value="${supplierId}" name="supplierId"/>
             <jsp:param value="${supplierStatus}" name="supplierStatus"/>
-            <jsp:param value="${sign}" name="sign"/>
+            <jsp:param value="3" name="sign"/>
            </jsp:include>
 
 					<h2 class="count_flow"><i>1</i>上传实地考察记录表</h2>

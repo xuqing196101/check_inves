@@ -11,4 +11,8 @@ public interface SupplierInvesOtherService {
 
 	SupplierInvesOther getBySupplierId(String supplierId);
 
+	int add(SupplierInvesOther supplierInvesOther);
+
+	int update(SupplierInvesOther supplierInvesOther);
+
 }

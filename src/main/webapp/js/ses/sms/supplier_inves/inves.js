@@ -32,7 +32,7 @@ function delSignature(id){
 		data : {id : id},
 		success : function(data) {
 			if(data && data.status == 200){
-				$("#tr_" + id).remove();
+				$("tr[data-id='"+id+"']").remove();
 				var signNumber = $("#signNumber").val();
 				$("#signNumber").val(--signNumber);
 				// 重新计算序号
@@ -88,9 +88,9 @@ function tempSaveAuditOpinion(_this){
 // 实时更新考察组人员
 function tempSaveSignature(_this){
 	var param = {};
-	var id = $(_this).parent("tr").attr("data-id");
-	var index = $(_this).parent("tr").attr("id").replace("tr_", "");
-	var name = _this.name.replace("signs["+index+"]", "");
+	var id = $(_this).parents("tr").attr("data-id");
+	var index = $(_this).parents("tr").attr("id").replace("tr_", "");
+	var name = _this.name.replace("signs["+index+"].", "");
 	param["id"] = id;
 	if(id == ""){
 		param["supplierId"] = $("#supplierId").val();

@@ -1,34 +1,37 @@
 package ses.controller.sys.sms;
 
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.constants.SupplierConstants;
-import ses.dao.sms.review.SupplierInvesOtherMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAuditOpinion;
-import ses.model.sms.SupplierSignature;
 import ses.model.sms.review.SupplierAttachAudit;
+import ses.model.sms.review.SupplierAuditSign;
 import ses.model.sms.review.SupplierCateAudit;
 import ses.model.sms.review.SupplierInvesOther;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierAttachAuditService;
 import ses.service.sms.SupplierAuditOpinionService;
+import ses.service.sms.SupplierAuditSignService;
 import ses.service.sms.SupplierCateAuditService;
 import ses.service.sms.SupplierInvesOtherService;
 import ses.service.sms.SupplierInvesService;
 import ses.service.sms.SupplierService;
-import ses.service.sms.SupplierSignatureService;
 import ses.util.DictionaryDataUtil;
+import ses.util.WfUtil;
 
 import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
@@ -58,7 +61,7 @@ public class SupplierInvesController extends BaseSupplierController {
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
 	@Autowired
-	private SupplierSignatureService supplierSignatureService;
+	private SupplierAuditSignService supplierAuditSignService;
 	@Autowired
 	private SupplierInvesOtherService supplierInvesOtherService;
 	@Autowired
@@ -215,7 +218,7 @@ public class SupplierInvesController extends BaseSupplierController {
 	}
 	
 	/**
-	 * 考察信息
+	 * 考察信息页面
 	 * @param model
 	 * @param supplierId
 	 * @return
@@ -250,24 +253,157 @@ public class SupplierInvesController extends BaseSupplierController {
 			}
 		}
 		// 考察组人员信息
-		SupplierSignature supplierSignature = new SupplierSignature();
-		supplierSignature.setSupplierId(supplierId);
-		List<SupplierSignature> signList = supplierSignatureService.selectBySupplierId(supplierSignature);
+		List<SupplierAuditSign> signList = supplierAuditSignService.getBySupplierId(supplierId);
 		// 其他考察信息
 		SupplierInvesOther other = supplierInvesOtherService.getBySupplierId(supplierId);
 		// 考察意见
-		SupplierAuditOpinion opinion = supplierAuditOpinionService.selectByExpertIdAndflagTime(supplierId, 2);
+		SupplierAuditOpinion auditOpinion = supplierAuditOpinionService.selectByExpertIdAndflagTime(supplierId, 2);
 		
 		model.addAttribute("itemList", itemList);
 		model.addAttribute("cateList", cateList);
 		model.addAttribute("signList", signList);
 		model.addAttribute("other", other);
-		model.addAttribute("opinion", opinion);
+		model.addAttribute("auditOpinion", auditOpinion);
 		model.addAttribute("supplierId", supplierId);
 		model.addAttribute("supplierStatus", supplierService.getStatusById(supplierId));
+		model.addAttribute("sign", 3);
 		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		return "ses/sms/supplier_inves/inves";
+	}
+	
+	/**
+	 * 保存产品类别审核
+	 * @param id
+	 * @param isSupplied
+	 * @param suggest
+	 * @return
+	 */
+	@RequestMapping("saveCateAudit")
+	@ResponseBody
+	public JdcgResult saveCateAudit(String id, Integer isSupplied, String suggest){
+		int result = supplierCateAuditService.updateById(id, isSupplied, suggest);
+		if(result > 0){
+			return JdcgResult.ok();
+		}
+		return null;
+	}
+	
+	/**
+	 * 保存考察其他信息
+	 * @param other
+	 * @return
+	 */
+	@RequestMapping("saveInvesOther")
+	@ResponseBody
+	public JdcgResult saveInvesOther(SupplierInvesOther other){
+		int result = 0;
+		if(StringUtils.isBlank(other.getId())){
+			other.setId(WfUtil.createUUID());
+			result = supplierInvesOtherService.add(other);
+		}else{
+			result = supplierInvesOtherService.update(other);
+		}
+		if(result > 0){
+			return JdcgResult.ok(other);
+		}
+		return null;
+	}
+	
+	/**
+	 * 保存考察意见
+	 * @param other
+	 * @return
+	 */
+	@RequestMapping("saveAuditOpinion")
+	@ResponseBody
+	public JdcgResult saveAuditOpinion(SupplierAuditOpinion supplierAuditOpinion){
+		supplierAuditOpinion.setFlagTime(2);
+		supplierAuditOpinionService.saveOpinion(supplierAuditOpinion);
+		return JdcgResult.ok(supplierAuditOpinion);
+	}
+	
+	/**
+	 * 添加考察组成员
+	 * @param supplierId
+	 * @return
+	 */
+	@RequestMapping("addSignature")
+	@ResponseBody
+	public JdcgResult addSignature(String supplierId){
+		SupplierAuditSign sign = new SupplierAuditSign();
+		sign.setId(WfUtil.createUUID());
+		sign.setSupplierId(supplierId);
+		sign.setCreatedAt(new Date());
+		int result = supplierAuditSignService.add(sign);
+		if(result > 0){
+			return JdcgResult.ok(sign);
+		}
+		return null;
+	}
+	
+	/**
+	 * 删除考察组成员
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("delSignature")
+	@ResponseBody
+	public JdcgResult delSignature(String id){
+		int result = supplierAuditSignService.del(id);
+		if(result > 0){
+			return JdcgResult.ok();
+		}
+		return null;
+	}
+	
+	/**
+	 * 保存考察组人员
+	 * @param sign
+	 * @return
+	 */
+	@RequestMapping("saveSignature")
+	@ResponseBody
+	public JdcgResult saveSignature(SupplierAuditSign sign){
+		int result = 0;
+		if(StringUtils.isBlank(sign.getId())){
+			sign.setId(WfUtil.createUUID());
+			result = supplierAuditSignService.add(sign);
+		}else{
+			result = supplierAuditSignService.update(sign);
+		}
+		if(result > 0){
+			return JdcgResult.ok(sign);
+		}
+		return null;
+	}
+	
+	/**
+	 * 保存考察组人员列表
+	 * @param supplierId
+	 * @param signs
+	 * @return
+	 */
+	@RequestMapping("saveSignatureList")
+	@ResponseBody
+	public JdcgResult saveSignatureList(String supplierId, @RequestBody List<SupplierAuditSign> signs){
+		int result = 0;
+		if(signs != null && signs.size() > 0){
+			for(SupplierAuditSign sign : signs){
+				if(StringUtils.isBlank(sign.getId())){
+					sign.setId(WfUtil.createUUID());
+					sign.setSupplierId(supplierId);
+					sign.setCreatedAt(new Date());
+					result += supplierAuditSignService.add(sign);
+				}else{
+					result += supplierAuditSignService.update(sign);
+				}
+			}
+		}
+		if(result > 0){
+			return JdcgResult.ok();
+		}
+		return null;
 	}
 	
 }

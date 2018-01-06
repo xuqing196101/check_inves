@@ -25,4 +25,14 @@ public class SupplierInvesOtherServiceImpl implements SupplierInvesOtherService 
 		}
 		return null;
 	}
+
+	@Override
+	public int add(SupplierInvesOther supplierInvesOther) {
+		return supplierInvesOtherMapper.insert(supplierInvesOther);
+	}
+
+	@Override
+	public int update(SupplierInvesOther supplierInvesOther) {
+		return supplierInvesOtherMapper.updateByPrimaryKeySelective(supplierInvesOther);
+	}
 }

@@ -28,6 +28,7 @@
 <c:set var="ipAddressType" value="<%=ipAddressType %>"/>
 <c:set var="ipInner" value="<%=ipInner %>"/>
 <c:set var="ipOuter" value="<%=ipOuter %>"/> --%>
+<c:set var="sign" value="<%=sign %>"/>
 
 <ul class="flow_step">
     <li id="reverse_of_one"  onclick="jump('essential')">
