@@ -47,7 +47,7 @@ public class IssData {
 
         //只显示公开的
         //sMap.put("IS_PUBLISH", 1);
-        int statusArray[] = {1,4,5,-5,7};
+        int statusArray[] = {1,5,7};
         sMap.put("size", statusArray.length);
         sMap.put("statusArray", statusArray);
         sMap.put("auditTemporary", 0);

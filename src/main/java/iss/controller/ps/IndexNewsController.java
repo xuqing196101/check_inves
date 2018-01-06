@@ -2160,7 +2160,7 @@ public class IndexNewsController extends BaseSupplierController{
 				sMap.put("statusArray", statusArray);
 				model.addAttribute("status", status );
 			}else{
-				int statusArray[] = {1,-4,5,-5,7};
+				int statusArray[] = {1,5,7};
                 sMap.put("size", statusArray.length);
 				sMap.put("statusArray", statusArray);
 			}
