@@ -1,11 +1,13 @@
 package ses.controller.sys.sms;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -184,10 +186,27 @@ public class SupplierInvesController extends BaseSupplierController {
 		// 供应商类型
 		dataMap.put("supplierType", getSupplierType(supplierId));
 		//住所
+		String provinceName = "";
+        String cityName = "";
+		try {
+            if(StringUtils.isNotBlank(supplier.getAddress())){
+            Area area = areaService.listById(supplier.getAddress());
+            if (area != null) {
+                cityName = area.getName();
+                Area area1 = areaService.listById(area.getParentId());
+                if (area1 != null) {
+                    provinceName = area1.getName();
+                }
+            }
+            supplier.setAddress(provinceName + cityName);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 		dataMap.put("address", supplier.getAddress());
 		//生产经营地址
 		List < Area > province = areaService.findRootArea();
-		List < SupplierAddress > adressList = supplierAddressService.queryBySupplierId(supplierId);
+		/*List < SupplierAddress > adressList = supplierAddressService.queryBySupplierId(supplierId);
 		if(!adressList.isEmpty() && adressList.size() > 0 ){
 			for(Area a: province) {
 				for(SupplierAddress s: adressList) {
@@ -196,7 +215,14 @@ public class SupplierInvesController extends BaseSupplierController {
 					}
 				}
 			}
-		}
+		}*/
+		
+		//测试数据
+		List < SupplierAddress > adressList = new ArrayList<>();
+		SupplierAddress supplierAddress = new SupplierAddress();
+		supplierAddress.setParentName("北京");
+		supplierAddress.setSubAddressName("丰台");
+		adressList.add(supplierAddress);
 		dataMap.put("adressList", adressList);
 		
 		/**

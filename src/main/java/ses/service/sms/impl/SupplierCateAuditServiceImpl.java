@@ -141,7 +141,7 @@ public class SupplierCateAuditServiceImpl implements SupplierCateAuditService {
 											supplierCateAudit.setSupplierTypeId(item.getSupplierTypeRelateId());
 											supplierCateAudit.setCategoryId(cateTree.getFirstNodeID());
 											supplierCateAudit.setCategoryName(cateTree.getFirstNode());
-											supplierCateAudit.setSn("（"+toChinese(firstN)+"）");
+											supplierCateAudit.setSn("("+toChinese(firstN)+")");
 											supplierCateAudit.setPosition(result+1);
 											result += supplierCateAuditMapper.insertSelective(supplierCateAudit);
 										}
