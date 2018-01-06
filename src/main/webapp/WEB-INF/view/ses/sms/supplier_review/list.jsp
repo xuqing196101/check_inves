@@ -124,8 +124,9 @@
       </div>
       <h2 class="search_detail">
         <form action="${pageContext.request.contextPath}/supplierReview/list.html"  method="post" id="formSearch"  class="mb0"> 
-          <input type="hidden" name="page" id="page">
-          
+        <input type="hidden" name="page" id="page">
+        <div class="m_row_5">
+    	  <div class="row">
           <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
 	          <div class="row">
 	            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">供应商名称：</div>
@@ -171,11 +172,13 @@
 		          </div>
 		        </div>
 		      </div>
-	        
-	        <div class="tc">
-		        <input class="btn mb0"  value="查询" type="submit">
-		        <input class="btn mb0" onclick="clearSearch();" value="重置" type="reset">
-          </div>
+        </div>
+        </div>
+        
+        <div class="tc">
+          <input class="btn mb0"  value="查询" type="submit">
+          <input class="btn mb0" onclick="clearSearch();" value="重置" type="reset">
+        </div>
         </form>
       </h2>
     
@@ -186,29 +189,29 @@
     
 	    <!-- 列表 -->
 	    <div class="content table_box">
-	      <table class="table table-bordered table-condensed table-hover table-striped">
+	      <table class="table table-bordered table-hover">
 	        <thead>
 	          <tr>
-	            <td class="tc w40">选择</td>
-	            <td class="tc w60">序号</td>
-	            <td>供应商名称</td>
-	            <td>供应商类型</td>
-	            <td>企业性质</td>
-	            <td>最新审核时间</td>
-	            <td>审核人</td>
-	            <td>状态</td>
+	            <th class="tc w50">选择</th>
+	            <th class="tc w50">序号</th>
+	            <th>供应商名称</th>
+	            <th>供应商类型</th>
+	            <th class="w140">企业性质</th>
+	            <th class="w160">最新审核时间</th>
+	            <th class="w100">审核人</th>
+	            <th class="w180">状态</th>
 	          </tr>
 	        </thead>
 	        <c:forEach items="${result.list}" var="s" varStatus="vs">
 	          <tr>
-	            <td class="tc w20"><input name="id" type="radio" value="${s.id}"></td>
-	            <td class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
+	            <td class="tc"><input name="id" type="radio" value="${s.id}"></td>
+	            <td class="tc">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
 	            <td <c:if test="${s.reviewStatus == 1}">class="red"</c:if>>${s.supplierName}</td>
 	            <td>${s.supplierTypeNames}</td>
-	            <td>${s.businessNature}</td>
-	            <td><fmt:formatDate value="${s.reviewAt}" pattern="yyyy-MM-dd"/></td>
-	            <td>${s.reviewPeople}</td>
-	            <td>${s.status}</td>
+	            <td class="tc">${s.businessNature}</td>
+	            <td class="tc"><fmt:formatDate value="${s.reviewAt}" pattern="yyyy-MM-dd"/></td>
+	            <td class="tc">${s.reviewPeople}</td>
+	            <td class="tc">${s.status}</td>
 	          </tr>
 	        </c:forEach>
 	      </table>
