@@ -157,7 +157,6 @@ scheduler.attachEvent("onEventChanged", function(event_id, event_object){
 
 
 scheduler.attachEvent("onEventAdded", function(event_id, event_object){
-	  alert('aa');
     var id = event_object.id;
     var text = event_object.text;
    
