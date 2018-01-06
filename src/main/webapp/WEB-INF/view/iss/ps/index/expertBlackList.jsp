@@ -65,7 +65,7 @@
 							</c:if>
 							<li>
 								<span class="col-md-2 col-sm-2 col-xs-4" title="${data.relName}">${name}</span>
-								<span class="col-md-1 col-sm-1 col-xs-4 tc">${data.expertTypeName} </span>
+								<span class="col-md-1 col-sm-1 col-xs-4 tc" title="${data.expertTypeName}">${data.expertTypeName} </span>
 								<span class="col-md-2 col-sm-2 col-xs-124 tc">
 									<c:if test="${data.punishType == 1}">警告</c:if>
 									<c:if test="${data.punishType == 2}">严重警告</c:if>
