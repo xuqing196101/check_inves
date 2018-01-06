@@ -32,16 +32,17 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.UUIDUtils;
 import ses.util.WordUtil;
-import system.model.sms.SmsRecord;
+import system.model.sms.SmsRecordTemp;
+import system.service.sms.SmsRecordTempService;
 import bss.dao.ppms.SaleTenderMapper;
 
 import com.github.pagehelper.PageHelper;
 import common.service.DownloadService;
-import common.utils.SMSUtil;
 
 import extract.dao.common.ExtractUserMapper;
 import extract.dao.common.PersonRelMapper;
 import extract.dao.common.SuperviseMapper;
+import extract.dao.expert.ExpertExtractResultMapper;
 import extract.dao.supplier.ExtractConditionRelationMapper;
 import extract.dao.supplier.SupplierExtractConditionMapper;
 import extract.dao.supplier.SupplierExtractRecordMapper;
@@ -107,6 +108,12 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 
     @Autowired
     private SupplierService supplierService;
+    
+    @Autowired
+    private ExpertExtractResultMapper expertExtractResultMapper;
+    
+    @Autowired
+    private SmsRecordTempService smsRecordTempService;
 
 	@Override
 	public SupplierExtractProjectInfo selectByPrimaryKey(String id) {
@@ -175,6 +182,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 				sids =  resultMapper.selectFirstSupplierToBeExtractOfRel(record.getProjectId());
 			}
 			supplierService.updateExtractOrgid(record.getProcurementDepId(), sids);
+			sendMessageToSupplier(record);
 		}
 		
 		projectInfo.setExtractionTime(new Date());
@@ -847,10 +855,13 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 	 */
 	@Override
 	public void  sendMessageToSupplier(SupplierExtractProjectInfo record) {
-		SmsRecord smsRecord = new SmsRecord();
+		if(record.getProcurementDepId().equals("4")){
+			return;
+		}
+		SmsRecordTemp smsRecord = new SmsRecordTemp();
+		smsRecord.setOrgId(record.getProcurementDepId());
 		smsRecord.setSendLink(DictionaryDataUtil.getId("GYSCQDX"));
 		smsRecord.setOperator(record.getExtractUser());
-		smsRecord.setOrgId(record.getProcurementDepId());
         //受领采购文件地址
 		StringBuffer sb = new StringBuffer();
         String province = record.getSellProvince();
@@ -879,7 +890,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 		joins.add(1);
 		hashMap2.put("join",joins);
 		if(StringUtils.isNotBlank(record.getProjectInto())){
-			supplierList = resultMapper.getSupplierListByRidForRel(hashMap2);
+			supplierList = resultMapper.getSupplierListByRidForAdv(hashMap2);
 		}else{
 			supplierList = resultMapper.getSupplierListByRid(hashMap2);
 		}
@@ -887,11 +898,12 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 		//编辑内容，发送短信
 		for (SupplierExtractResult supplier : supplierList) {
 			//短信发送内容
-			smsRecord.setRecipient(supplier.getSupplierName());
+			String userId = expertExtractResultMapper.findUserByTypeId(supplier.getSupplierId());
+			smsRecord.setRecipient(userId);
 			smsRecord.setReceiveNumber(supplier.getArmyBuinessTelephone());
 			String content = "【军队采购网通知】你单位已确定参加"+record.getProjectName()+"，请携带有效身份证明，于"+DateUtils.dateToZHString(record.getSellBegin())+"前往"+address+"购买或领取采购文件。采购机构联系人："+record.getContactPerson()+"，联系座机："+record.getContactNum()+"，联系手机："+record.getContactPhone()+"。";
 			smsRecord.setSendContent(content);
-			SMSUtil.sendMsg(smsRecord);
+			smsRecordTempService.insertSelective(smsRecord);
 		}
 	}
 

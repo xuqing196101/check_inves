@@ -107,5 +107,11 @@
 		<if test="extractTheWay != null and extractTheWay != ''">
 			AND R.EXTRACT_THE_WAY = #{extractTheWay}
 		</if>
+		<if test="startTime != null and startTime != ''">
+        	AND R.UPDATED_AT &gt;= to_date(#{startTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
+        </if>
+        <if test="endTime != null and endTime != ''">
+        	AND R.UPDATED_AT  &lt;= to_date(#{endTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
+      	</if>
 	</select>
 </mapper>

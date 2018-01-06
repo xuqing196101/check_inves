@@ -367,7 +367,20 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 		conditions.add(condition);
 		//查询项目信息
 		SupplierExtractProjectInfo projectInfo = recordService.selectByPrimaryKey(condition.getRecordId());
-		projectInfos.add(projectInfo);
+		SupplierExtractProjectInfo supplierExtractProjectInfo = new SupplierExtractProjectInfo();
+		
+		//限制需要导出的内容
+		/*supplierExtractProjectInfo.setId(projectInfo.getId());
+		supplierExtractProjectInfo.setProjectName(projectInfo.getProjectName());
+		supplierExtractProjectInfo.setSellProvince(projectInfo.getSellProvince());
+		supplierExtractProjectInfo.setSellAddress(projectInfo.getSellAddress());
+		supplierExtractProjectInfo.setSellSite(projectInfo.getSellSite());
+		supplierExtractProjectInfo.setSellBegin(projectInfo.getSellBegin());
+		supplierExtractProjectInfo.setSellEnd(projectInfo.getSellEnd());
+		supplierExtractProjectInfo.setCreatedAt(projectInfo.getCreatedAt());
+		supplierExtractProjectInfo.setUpdatedAt(projectInfo.getUpdatedAt());*/
+		
+		projectInfos.add(supplierExtractProjectInfo);
 		if(null!=projectInfo){
 			projectInfo.setStatus((short)2);
 			projectInfo.setExtractTheWay((short)0);
@@ -528,6 +541,8 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 			Map<String, Object> hashMap = new HashMap<>();
 			hashMap.put("extractTheWay", "0");
 			hashMap.put("status", "1");
+			hashMap.put("startTime", start);
+			hashMap.put("endTime", end);
 			List<SupplierExtractCondition> conditionList = conditionMapper.selectConditionListByMap(hashMap);
 			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_EXTRACT_CONDITION_PATH_FILENAME, 35),JSON.toJSONString(conditionList));
 			count +=  conditionList.size();

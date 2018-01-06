@@ -1,6 +1,12 @@
 package extract.model.supplier;
 
+import java.util.Date;
+
+import org.apache.commons.lang3.StringUtils;
+
 import ses.model.sms.SupplierExtRelate;
+
+import common.utils.DateUtils;
 
 public class SupplierExtractResult extends SupplierExtRelate {
     
@@ -207,4 +213,18 @@ public class SupplierExtractResult extends SupplierExtRelate {
 	public void setPid(String pid) {
 		this.pid = pid;
 	}
+
+	@Override
+	public Date getCreatedAt() {
+		return null!=super.getCreatedAt()?super.getCreatedAt():new Date();
+	}
+
+	@Override
+	public String getUpdatedAt() {
+		return StringUtils.isNotBlank(super.getUpdatedAt())?super.getUpdatedAt():DateUtils.getCurrentTime();
+	}
+
+	
+	
+	
 }
