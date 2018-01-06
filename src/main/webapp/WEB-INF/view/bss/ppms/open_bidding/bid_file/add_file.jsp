@@ -524,7 +524,7 @@
 		<div class="bggrey p20_15 mt10">
 			<div class="count_flow m0"><i>1</i><span class="fw">编报说明</span></div>
 			<div class="fl mt10 ml34">
-				<span class="m_inline f14 lh20">编报说明：</span>
+				<span class="m_inline fw f14 lh20">编报说明：</span>
 				<div class="m_inline m_uploadFiles f0">
 					<u:show showId="g" groups="b,c,d" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeApproval}" />
 				</div>
@@ -544,12 +544,12 @@
 		<div class="bggrey p20_15 mt10">
 			<div class="count_flow m0"><i>2</i><span class="fw">采购文件</span></div>
 			<div class="fl mt10 ml34">
-				<span class="m_inline f14 lh20">采购文件：</span>
+				<span class="m_inline fw f14 lh20">采购文件：</span>
 				<div class="m_inline m_uploadFiles f0">
 					<u:show showId="j" groups="b,c,d" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${projectTypeId}" />
 				</div>
 				<div class="clear mt10"></div>
-				<span class="m_inline f14 lh20">&nbsp;&nbsp;&nbsp;审批单：</span>
+				<span class="m_inline fw f14 lh20">&nbsp;&nbsp;&nbsp;审批单：</span>
 				<div class="m_inline m_uploadFiles f0">
 					<ul id="hs_disFileId" class="uploadFiles"><li class="file_load"><a href="${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=${project.id}&type=17"></a></li></ul>
 				</div>
