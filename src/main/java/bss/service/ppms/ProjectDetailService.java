@@ -153,5 +153,5 @@ public interface ProjectDetailService {
 	 * @param @param map      
 	 * @return void
 	  */
-	 void updateByPackNull(String id);
+	 void updateByPackNull(String id, String projectId);
 }

@@ -105,7 +105,7 @@ public interface ProjectDetailMapper {
 	 * @param @param map      
 	 * @return void
 	  */
-	 void updateByPackNull(String id);
+	 void updateByPackNull(HashMap<String, Object> map);
 	 
 	 void updateByPackId(HashMap<String, Object> map);
 	 

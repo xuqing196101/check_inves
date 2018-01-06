@@ -164,8 +164,7 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
         return projectDetailMapper.selectById(map);
     }
 	@Override
-	public List<ProjectDetail> selectTheSubjectBySupplierId(
-			HashMap<String, Object> map, String supplierId) {
+	public List<ProjectDetail> selectTheSubjectBySupplierId(HashMap<String, Object> map, String supplierId) {
 		List<ProjectDetail> projectDetailList = projectDetailMapper.selectById(map);
 		for (ProjectDetail projectDetail : projectDetailList) {
 			//定义一个list集合查询符合map条件的标的信息
@@ -371,9 +370,11 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
 	}
 
 	@Override
-	public void updateByPackNull(String id) {
-		
-		projectDetailMapper.updateByPackNull(id);
+	public void updateByPackNull(String id, String projectId) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("projectId", projectId);
+		map.put("id", id);
+		projectDetailMapper.updateByPackNull(map);
 	}
 
 }

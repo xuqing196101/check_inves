@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.oms.OrgnizationMapper;
+import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.util.DictionaryDataUtil;
@@ -434,32 +435,17 @@ public class PackageServiceImpl implements PackageService {
     map.put("projectId", projectId);
     List<Packages> list = packageMapper.findByID(map);
     if (list != null && !list.isEmpty()) {
-      for (Packages packages : list) {
-        HashMap<String, Object> packageId = new HashMap<>();
-        packageId.put("packageId", packages.getId());
-        packageId.put("projectId", projectId);
-        List<ProjectDetail> selectByProjectIdAndPackageId = detailMapper.selectByProjectIdAndPackageId(packageId);
-        packages.setProjectDetails(selectByProjectIdAndPackageId);
-        /*Set<ProjectDetail> details = new HashSet<ProjectDetail>();
-        List<ProjectDetail> listDetail = new ArrayList<ProjectDetail>();
-        HashMap<String, Object> packageId = new HashMap<>();
-        packageId.put("packageId", packages.getId());
-        List<ProjectDetail> detailList = detailMapper.selectById(packageId);
-        if (detailList != null && detailList.size() > 0) {
-          for (ProjectDetail projectDetail : detailList) {
-            HashMap<String, Object> dMap = new HashMap<String, Object>();
-            dMap.put("projectId", projectId);
-            dMap.put("id", projectDetail.getRequiredId());
-            List<ProjectDetail> lists = detailMapper.selectByParent(dMap);
-            if (lists != null && !lists.isEmpty()) {
-              details.addAll(lists);
-               //packages.setProjectDetails(lists); 
-            }
-          }
-        }
-        listDetail.addAll(details);
-        packages.setProjectDetails(listDetail);*/
-      }
+    	for (Packages packages : list) {
+    		HashMap<String, Object> packageId = new HashMap<>();
+    		packageId.put("packageId", packages.getId());
+    		packageId.put("projectId", projectId);
+    		List<ProjectDetail> selectByProjectIdAndPackageId = detailMapper.selectByProjectIdAndPackageId(packageId);
+    		if (StringUtils.isNotBlank(packages.getProjectStatus())) {
+				DictionaryData data = DictionaryDataUtil.findById(packages.getProjectStatus());
+				packages.setProjectStatus(data.getCode());
+			}
+    		packages.setProjectDetails(selectByProjectIdAndPackageId);
+    	}
     }
     return list;
   }

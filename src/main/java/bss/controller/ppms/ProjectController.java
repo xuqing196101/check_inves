@@ -3657,16 +3657,36 @@ public class ProjectController extends BaseController {
     
     @RequestMapping("/deletedDetail")
     @ResponseBody
-    public String deletedDetail(String id){
-    	if (StringUtils.isNotBlank(id)) {
+    public String deletedDetail(String id, String projectId, String packageId, String type){
+    	if (StringUtils.isNotBlank(id) && StringUtils.isNotBlank(projectId)) {
+    		Project project = projectService.selectById(projectId);
+    		String status = DictionaryDataUtil.getId("YZZ");
+    		if (StringUtils.equals("1", type)) {
+				project.setStatus(status);
+        		projectService.update(project);
+        		
+        		HashMap<String, Object> map = new HashMap<>();
+        		map.put("projectId", projectId);
+        		List<Packages> findByID = packageService.findByID(map);
+        		if (findByID != null && !findByID.isEmpty()) {
+					Packages packages = findByID.get(0);
+					packages.setProjectStatus(status);
+					packageService.updateByPrimaryKeySelective(packages);
+				}
+			} else if (StringUtils.equals("2", type)) {
+				Packages packages = packageService.selectByPrimaryKeyId(packageId);
+				packages.setIsDeleted(1);
+				packages.setProjectStatus(status);
+				packageService.updateByPrimaryKeySelective(packages);
+			}
+    		
 			String[] ids = id.split(StaticVariables.COMMA_SPLLIT);
 			for (String string : ids) {
-				detailService.updateByPackNull(string);
+				detailService.updateByPackNull(string, project.getParentId());
 			}
 			return StaticVariables.SUCCESS;
 		} else {
 			return StaticVariables.FAILED;
 		}
-    	
     }
 }
