@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.maven.surefire.shade.org.apache.maven.shared.artifact.filter.StatisticsReportingArtifactFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -34,6 +33,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import ses.util.PropUtil;
+
 import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
@@ -341,4 +341,11 @@ public class DownloadServiceImpl implements DownloadService {
 			return null;
 		}
 	}
+	
+	@Override
+	public void downLoadFile(HttpServletRequest request,
+			HttpServletResponse response, String filePath, String fileName) {
+		downloadFile(request, response, filePath, fileName);
+	}
+	
 }

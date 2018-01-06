@@ -1,14 +1,11 @@
 package common.service;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.ResponseEntity;
-
-import common.model.UploadFile;
 /**
  * 
  * 版权：(C) 版权所有 
@@ -54,6 +51,21 @@ public interface DownloadService {
      * @param filePath 文件路径
      */
     public void downLoadFile(HttpServletRequest request,HttpServletResponse response, String filePath);
+    
+    
+    /**
+     * 
+     *〈简述〉下载文件
+     *〈详细描述〉
+     * @author jiachengxiang
+     * @param request {@link HttpServletRequest}
+     * @param response{@link HttpServletResponse}
+     * @param filePath 文件路径
+     * @param filePath 下载文件名称
+     */
+    public void downLoadFile(HttpServletRequest request,HttpServletResponse response, String filePath,String fileName);
+    
+    
     /**
      * 重写jsp页面下载，如果上传多个只下载最近上传的一个，根据bussId查找所有的上传
      * @author LiWanlin

@@ -851,7 +851,7 @@ public class SupplierExtractConditionServiceimp implements
 		List<ExtractConditionRelation> list = new ArrayList<>();
 		String cid = condition.getId();
 		// 删除上次查询条件
-		extractConditionRelationMapper.deleteConditionRelationByMap(condition
+		extractConditionRelationMapper.deleteConditionRelationByCid(condition
 				.getId());
 		// 省份，直辖市
 		if (StringUtils.isNotEmpty(condition.getProvince())) {
@@ -947,7 +947,7 @@ public class SupplierExtractConditionServiceimp implements
 		List<ExtractConditionRelation> list = new ArrayList<>();
 		String cid = condition.getId();
 		// 删除上次查询条件
-		extractConditionRelationMapper.deleteConditionRelationByMap(condition
+		extractConditionRelationMapper.deleteConditionRelationByCid(condition
 				.getId());
 		// 省份，直辖市
 		if (StringUtils.isNotEmpty(condition.getProvince())) {

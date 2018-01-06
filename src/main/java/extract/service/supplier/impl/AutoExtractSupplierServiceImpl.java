@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.json.JSONObject;
 
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierExtRelate;
 import ses.util.MobileUtils;
+import ses.util.PropUtil;
 import synchro.service.SynchRecordService;
 import synchro.util.Constant;
 import synchro.util.FileUtils;
@@ -375,9 +378,6 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 		//条件信息
         FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_EXTRACT_CONDITION_PATH_FILENAME, 35),JSON.toJSONString(conditions));
 		
-        //详细条件
-        //FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_EXTRACT_CONTYPE_PATH_FILENAME, 35),JSON.toJSONString(condition.getSupplierConType()));
-		
         synchRecordService.synchBidding(new Date(), "1", Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO, Constant.OPER_TYPE_EXPORT, Constant.SUPPLIER_EXTRACT_COMMIT);
 		return "OK";
 	}
@@ -404,6 +404,7 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
                     }
                 }
             }
+            
             // 抽取条件
             if (file2.getName().contains(FileUtils.SUPPLIER_EXTRACT_CONDITION_PATH_FILENAME)) {
                 List<SupplierExtractCondition> conditions = FileUtils.getBeans(file2, SupplierExtractCondition.class);
@@ -417,6 +418,18 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
                     }
                     conditionService.saveContype2(condition);
                 }
+            }
+            // 抽取条件附表
+            if (file2.getName().contains(FileUtils.SUPPLIER_EXTRACT_CONTYPE_PATH_FILENAME)) {
+            	Set<String> conditionIds = new HashSet<>();
+            	List<ExtractConditionRelation> conTypes = FileUtils.getBeans(file2, ExtractConditionRelation.class);
+            	num += conTypes.size();
+            	for (ExtractConditionRelation conType : conTypes) {
+            		conditionIds.add(conType.getConditionId());
+				}
+            	//先删除，再插入
+            	contypeMapper.deleteConditionRelationByCids(conditionIds);
+        		contypeMapper.insertConditionRelation(conTypes);
             }
         }
         synchRecordService.synchBidding(new Date(), num+"", Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO, Constant.OPER_TYPE_IMPORT, Constant.SUPPLIER_EXTRACT_COMMIT_IMPORT);
@@ -445,7 +458,7 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
             }
             if (file2.getName().contains(FileUtils.SUPPLIER_EXTRACT_ADV_RESULT_PATH_FILENAME)) {
             	List<SupplierExtractResult> resultList = FileUtils.getBeans(file2, SupplierExtractResult.class);
-            	 num += resultList == null ? 0 : resultList.size();
+            	num += resultList == null ? 0 : resultList.size();
             	for (SupplierExtractResult result : resultList) {
             		SupplierExtractResult selectById = resultService.selectAdvById(result.getId());
             		if(selectById != null){
@@ -493,18 +506,38 @@ public class AutoExtractSupplierServiceImpl implements AutoExtractSupplierServic
 	   */
 	@Override
 	public Map<String, Object> exportExtractProjectInfo(String start, String end, Date synchDate) {
+		
+		//获取是否内网标识 1外网 0内网
+        String ipAddressType= PropUtil.getProperty("ipAddressType");
+		int count = 0;
 		//查询项目信息
 		SupplierExtractProjectInfo projectInfo = new SupplierExtractProjectInfo();
-		projectInfo.setExtractTheWay((short)0);
+		//projectInfo.setExtractTheWay((short)0);
 		projectInfo.setStartTime(start);
 		projectInfo.setEndTime(end);
 		projectInfo.setStatus((short)1);
 		List<SupplierExtractProjectInfo> projectInfos  = recordService.selectRecordForExport(projectInfo);
 		if(projectInfos.size()>0){
+			count +=  projectInfos.size();
 			//生成json 并保存
 			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_EXTRACT_PROJECT_PATH_FILENAME, 35),JSON.toJSONString(projectInfos));
 		}
-		synchRecordService.synchBidding(synchDate, projectInfos.size()+"", Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO, Constant.OPER_TYPE_EXPORT, Constant.SUPPLIER_EXTRACT_COMMIT);
+		
+		//若是内网，导出语音抽取项目的条件
+		if(StringUtils.equals("0", ipAddressType)){
+			Map<String, Object> hashMap = new HashMap<>();
+			hashMap.put("extractTheWay", "0");
+			hashMap.put("status", "1");
+			List<SupplierExtractCondition> conditionList = conditionMapper.selectConditionListByMap(hashMap);
+			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_EXTRACT_CONDITION_PATH_FILENAME, 35),JSON.toJSONString(conditionList));
+			count +=  conditionList.size();
+			
+			//详细条件
+			List<ExtractConditionRelation> conTypeLis =contypeMapper.selectConTypeListByMap(hashMap);
+	        FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_EXTRACT_CONTYPE_PATH_FILENAME, 35),JSON.toJSONString(conTypeLis));
+	        count +=  conTypeLis.size();
+		}
+		synchRecordService.synchBidding(synchDate, count+"", Constant.DATE_SYNCH_SUPPLIER_EXTRACT_INFO, Constant.OPER_TYPE_EXPORT, Constant.SUPPLIER_EXTRACT_COMMIT);
 		return null;
 	}
 	

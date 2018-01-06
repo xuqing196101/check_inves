@@ -3,7 +3,7 @@
  */
 package extract.service.supplier.impl;
 
-import java.net.URLEncoder;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import ses.dao.bms.AreaMapper;
@@ -27,7 +26,6 @@ import ses.model.bms.Area;
 import ses.model.bms.User;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
-import ses.service.ems.ExpertService;
 import ses.service.sms.SupplierService;
 import ses.util.AuthorityUtil;
 import ses.util.DictionaryDataUtil;
@@ -38,6 +36,7 @@ import system.model.sms.SmsRecord;
 import bss.dao.ppms.SaleTenderMapper;
 
 import com.github.pagehelper.PageHelper;
+import common.service.DownloadService;
 import common.utils.SMSUtil;
 
 import extract.dao.common.ExtractUserMapper;
@@ -81,7 +80,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
     AreaMapper areaMapper;
     
     @Autowired
-    private ExpertService service;
+    private DownloadService service;
     
     @Autowired
     private DictionaryDataMapper dictionaryDataMapper; 
@@ -196,7 +195,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 	 * @throws Exception 
 	 */
 	@Override
-	public ResponseEntity<byte[]> printRecord(String id, HttpServletRequest request,
+	public void printRecord(String id, HttpServletRequest request,
 			HttpServletResponse response,String projectInto) throws Exception {
 		
 		//将项目状态变为抽取结束
@@ -208,7 +207,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 		Map<String, Object> info = selectExtractInfo(id,projectInto);
 		
 		if(null==info){
-			return null;
+			return ;
 		}
 	        
         // 文件存储地址
@@ -242,16 +241,16 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
         	downFileName = "军队供应商抽取记录表(物资服务类).doc";
         }
       
-        if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
+       /* if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
             //解决IE下文件名乱码
             downFileName = URLEncoder.encode(downFileName, "UTF-8");
         } else {
             //解决非IE下文件名乱码
             downFileName = new String(downFileName.getBytes("UTF-8"), "ISO8859-1");
-        }
-        return service.downloadFile(fileName, filePath, downFileName);
+        }*/
+        service.downLoadFile(request,response, filePath+File.separator+fileName, downFileName);
 	}
-
+	
 	/**
 	 * 
 	 * <简述>需求变更前代码未优化时下载记录表查询信息方法 
