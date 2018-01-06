@@ -3922,12 +3922,12 @@ public class SupplierController extends BaseSupplierController {
 			alertInfo("您现在的状态是："+SupplierConstants.STATUSMAP.get(supplier.getStatus()), request.getContextPath()+"/");
 			return null;
 		}
-		String referer = request.getHeader("referer");
+		/*String referer = request.getHeader("referer");
 		if(referer == null){// 如果是浏览器地址栏直接访问，则跳转至基本信息
 			String basicInfoUrl = request.getContextPath() + "/supplier/basicInfo.html?suppId="+suppId;
 			printOutMsg(response, "<script>location.href='"+basicInfoUrl+"';</script>");
 			return null;
-		}
+		}*/
 		return supplierService.get(suppId, type);
     }
     

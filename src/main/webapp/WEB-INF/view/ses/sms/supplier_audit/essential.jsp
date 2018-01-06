@@ -1128,6 +1128,13 @@
             <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempAudit();">暂存</a>
           </c:if>
           <a class="btn" type="button" onclick="toStep('two');">下一步</a>
+          
+          <c:if test="${sign == 2}">
+           <a class="btn" type="button" onclick="toStep('nine');">转至复核</a>
+          </c:if>
+          <c:if test="${sign == 3}">
+           <a class="btn" type="button" onclick="toStep('ten');">转至考察</a>
+          </c:if>
         </div>
     </div>
     <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html"

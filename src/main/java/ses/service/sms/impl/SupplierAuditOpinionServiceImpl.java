@@ -13,6 +13,7 @@ import ses.service.sms.SupplierAuditOpinionService;
 import ses.service.sms.SupplierAuditService;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service("supplierAuditOpinionService")
@@ -144,4 +145,54 @@ public class SupplierAuditOpinionServiceImpl implements SupplierAuditOpinionServ
 		return supplierAuditOpinionMapper.selectByExpertId(supplierId);
 	}
 
+	@Override
+	public String saveOpinion(SupplierAuditOpinion supplierAuditOpinion) {
+		supplierAuditOpinion.setCreatedAt(new Date());
+		supplierAuditOpinion.setFlagTime(1);
+		
+		//查询是否有意见
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("supplierId", supplierAuditOpinion.getSupplierId());
+		map.put("flagTime", 1);
+		map.put("isDelete", 0);
+		SupplierAuditOpinion historyOpinion = supplierAuditOpinionMapper.selectByExpertIdAndflagTime(map);
+		if(historyOpinion !=null){
+			supplierAuditOpinion.setId(historyOpinion.getId());
+			supplierAuditOpinionMapper.updateByPrimaryKeySelective(supplierAuditOpinion);
+			return "更新成功！";
+		}else{
+			supplierAuditOpinionMapper.insertSelective(supplierAuditOpinion);
+			return "保存成功！";
+		}
+	}
+
+	@Override
+	public void updateByPrimaryKeySelective(SupplierAuditOpinion supplierAuditOpinion) {
+		supplierAuditOpinionMapper.updateByPrimaryKeySelective(supplierAuditOpinion);
+		
+	}
+
+	
+	@Override
+	public SupplierAuditOpinion selectByMap(Map<String, Object> map) {
+        SupplierAuditOpinion supplierAuditOpinion = supplierAuditOpinionMapper.selectByExpertIdAndflagTime(map);
+        //  获取意见切割字符串
+        if(supplierAuditOpinion != null && StringUtils.isNotEmpty(supplierAuditOpinion.getOpinion())){
+            int indexOf = supplierAuditOpinion.getOpinion().indexOf("。");
+            supplierAuditOpinion.setOpinion(supplierAuditOpinion.getOpinion().substring(indexOf + 1));
+        }
+        return supplierAuditOpinion;
+	}
+
+	@Override
+	public void updateIsDownloadAttchBySupplierId(String supplierId) {
+		supplierAuditOpinionMapper.updateIsDownloadAttchBySupplierId(supplierId);
+	}
+
+	@Override
+	public void updateFlagAuditById(String id) {
+		supplierAuditOpinionMapper.updateFlagAuditById(id);
+		
+	}
+	
 }

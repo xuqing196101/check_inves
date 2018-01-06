@@ -9,9 +9,10 @@
       <result column="FLAG_TIME"  property="flagTime" />
       <result column="FLAG_AUDIT"  property="flagAduit" />
       <result column="IS_DOWNLOAD_ATTCH"  property="isDownLoadAttch" />
+      <result column="IS_DELETE"  property="isDelete" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, SUPPLIER_ID, OPINION, CREATED_AT, FLAG_TIME, FLAG_AUDIT, IS_DOWNLOAD_ATTCH
+    ID, SUPPLIER_ID, OPINION, CREATED_AT, FLAG_TIME, FLAG_AUDIT, IS_DOWNLOAD_ATTCH, IS_DELETE
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     SELECT <include refid="Base_Column_List" />
@@ -47,6 +48,9 @@
           <if test="isDownLoadAttch != null">
               IS_DOWNLOAD_ATTCH,
           </if>
+          <if test="isDelete != null">
+              IS_DELETE,
+          </if>
       </trim>
       <trim prefix="values (" suffix=")" suffixOverrides=",">
           <if test="id != null">
@@ -70,7 +74,34 @@
           <if test="isDownLoadAttch != null">
               #{isDownLoadAttch},
           </if>
+          <if test="isDelete != null">
+              #{isDelete},
+          </if>
       </trim>
+  </insert>
+  
+  <insert id="insert" parameterType="ses.model.sms.SupplierAuditOpinion">
+      insert into T_SES_SMS_SUPPLIER_OPINION
+      (
+         ID,
+         SUPPLIER_ID,
+         OPINION,
+         CREATED_AT,
+         FLAG_TIME,
+         FLAG_AUDIT,
+         IS_DOWNLOAD_ATTCH,
+         IS_DELETE
+      )
+      values (
+              #{id},
+              #{supplierId},
+              #{opinion},
+              #{createdAt},
+              #{flagTime},
+              #{flagAduit},
+              #{isDownLoadAttch},
+              #{isDelete}
+      )
   </insert>
   
   <!-- 根据供应商ID查询信息 -->
@@ -120,6 +151,23 @@
             <if test="isDownLoadAttch != null" >
                 IS_DOWNLOAD_ATTCH = #{isDownLoadAttch,jdbcType=DECIMAL},
             </if>
+            <if test="isDelete != null" >
+                IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=VARCHAR}
+    </update>
+    
+    <update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierAuditOpinion" >
+        update T_SES_SMS_SUPPLIER_OPINION
+        <set>
+           SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+           OPINION = #{opinion,jdbcType=VARCHAR},
+           CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+           FLAG_TIME = #{flagTime,jdbcType=DECIMAL},
+           FLAG_AUDIT = #{flagAduit,jdbcType=DECIMAL},
+           IS_DOWNLOAD_ATTCH = #{isDownLoadAttch,jdbcType=DECIMAL},
+           IS_DELETE = #{isDelete,jdbcType=DECIMAL},
         </set>
         where ID = #{id,jdbcType=VARCHAR}
     </update>
@@ -136,7 +184,46 @@
         <if test="supplierId != null">
             AND T.SUPPLIER_ID = #{supplierId}
         </if>
+        <if test="isDelete != null">
+            AND T.IS_DELETE = #{isDelete}
+        </if>
+        <if test="flagAudit != null">
+            AND T.FLAG_AUDIT = #{flagAudit}
+        </if>
         ORDER BY T.CREATED_AT DESC)
         WHERE ROWNUM = 1
     </select>
+    
+    <update id="updateIsDownloadAttchBySupplierId" parameterType="java.lang.String">
+      update 
+        T_SES_SMS_SUPPLIER_OPINION
+      set
+        IS_DOWNLOAD_ATTCH = 1
+      where
+        IS_DELETE = 0
+        and SUPPLIER_ID = #{supplierId}
+    </update>
+    
+     <!--根据条件查询-->
+    <select id="selectByCondit" parameterType="ses.model.sms.SupplierAuditOpinion" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM T_SES_SMS_SUPPLIER_OPINION
+        WHERE 1=1
+        <if test="supplierId != null and supplierId != ''">
+        	AND SUPPLIER_ID = #{supplierId}
+        </if>
+        <if test="flagTime != null">
+        	AND FLAG_TIME = #{flagTime}
+        </if>
+    </select>
+    
+    <update id="updateFlagAuditById" parameterType="java.lang.String">
+      update
+       T_SES_SMS_SUPPLIER_OPINION
+      set
+        FLAG_AUDIT = NULL
+      WHERE
+        ID = #{id}
+    </update>
 </mapper>

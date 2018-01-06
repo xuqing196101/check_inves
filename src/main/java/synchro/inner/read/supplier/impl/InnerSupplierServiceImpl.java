@@ -1,11 +1,10 @@
 package synchro.inner.read.supplier.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-
-import common.constant.Constant;
-import common.dao.FileUploadMapper;
-import common.model.UploadFile;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
@@ -42,6 +41,10 @@ import ses.dao.sms.SupplierRegPersonMapper;
 import ses.dao.sms.SupplierSignatureMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
+import ses.dao.sms.review.SupplierAttachAuditMapper;
+import ses.dao.sms.review.SupplierAuditSignMapper;
+import ses.dao.sms.review.SupplierCateAuditMapper;
+import ses.dao.sms.review.SupplierInvesOtherMapper;
 import ses.formbean.SupplierAuditFormBean;
 import ses.model.bms.RoleUser;
 import ses.model.bms.Todos;
@@ -70,22 +73,30 @@ import ses.model.sms.SupplierModify;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierSignature;
 import ses.model.sms.SupplierStockholder;
+import ses.model.sms.SupplierSynch;
 import ses.model.sms.SupplierTypeRelate;
+import ses.model.sms.review.SupplierAttachAudit;
+import ses.model.sms.review.SupplierAuditSign;
+import ses.model.sms.review.SupplierAuditSignExample;
+import ses.model.sms.review.SupplierCateAudit;
+import ses.model.sms.review.SupplierCateAuditExample;
+import ses.model.sms.review.SupplierInvesOther;
+import ses.model.sms.review.SupplierInvesOtherExample;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierService;
+import ses.util.DictionaryDataUtil;
 import synchro.inner.read.supplier.InnerSupplierService;
 import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
-import iss.model.ps.Article;
-import iss.model.ps.ArticleCategory;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+
+import common.constant.Constant;
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
 
 /**
  * 版权：(C) 版权所有
@@ -211,6 +222,18 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     @Autowired
     private SupplierItemLevelMapper supplierItemLevelMapper;
 
+    @Autowired
+    private SupplierAttachAuditMapper supplierAttachAuditMapper;
+    
+    @Autowired
+    private SupplierCateAuditMapper supplierCateAuditMapper;
+    
+    @Autowired
+    private SupplierInvesOtherMapper supplierInvesOtherMapper;
+    
+    @Autowired
+    private SupplierAuditSignMapper supplierAuditSignMapper;
+    
     /**
      * @see synchro.inner.read.supplier.InnerSupplierService#importSupplierInfo(java.io.File)
      */
@@ -1052,14 +1075,107 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 
 	@Override
 	public void exportCheckResult(String startTime, String endTime, Date date) {
-		//获取
-		
+		List<Supplier> list = supplierSerice.getSupplierByReviewTime(startTime, endTime);
+		List<SupplierAttachAudit> attachAudits = new ArrayList<SupplierAttachAudit>();
+		List<SupplierAuditOpinion> auditOpinions = new ArrayList<SupplierAuditOpinion>();
+		List<UploadFile> uploadFiles = new ArrayList<UploadFile>();
+		if (list != null && list.size() > 0) {
+			for (Supplier supplier : list) {
+				//获取供应商附件审核记录
+				SupplierAttachAudit supplierAttachAudit = new SupplierAttachAudit();
+				supplierAttachAudit.setSupplierId(supplier.getId());
+				supplierAttachAudit.setAuditType(1);
+				List<SupplierAttachAudit> supplierAttachAudits = supplierAttachAuditMapper.diySelect(supplierAttachAudit);
+				attachAudits.addAll(supplierAttachAudits);
+				//获取供应商复核意见
+				SupplierAuditOpinion supplierAuditOpinion = new SupplierAuditOpinion();
+				supplierAuditOpinion.setSupplierId(supplier.getId());
+				supplierAuditOpinion.setFlagTime(1);
+				List<SupplierAuditOpinion> supplierAuditOpinions = supplierAuditOpinionMapper.selectByCondit(supplierAuditOpinion);
+				auditOpinions.addAll(supplierAuditOpinions);
+				//供应商复核时上传复核表
+				String tableName = Constant.fileSystem.get(1);
+				String typeId = DictionaryDataUtil.getId("SUPPLIER_REVIEW");
+				List<UploadFile> attachList = fileUploadMapper.getFileByBusinessId(supplier.getId(), typeId, tableName);
+				uploadFiles.addAll(attachList);
+			}
+			if (auditOpinions != null && auditOpinions.size() > 0) {
+				FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_AUDIT_OPINION, 38), JSON.toJSONString(auditOpinions));
+
+			}
+			if (attachAudits != null && attachAudits.size() > 0) {
+				FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_CHECK_ATTACH_AUDIT, 38), JSON.toJSONString(attachAudits));
+			}
+			if (uploadFiles != null && uploadFiles.size() > 0){
+				FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_CHECK_ATTACH, 38), JSON.toJSONString(uploadFiles));
+                String basePath = FileUtils.attachExportPath(40);
+                if (StringUtils.isNotBlank(basePath)){
+                    OperAttachment.writeFile(basePath, uploadFiles);
+                }
+            }
+            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_CHECK_RESULT_FILENAME, 38), JSON.toJSONString(list));
+			synchRecordService.backupExportCheckResults(date, new Integer(list.size()).toString());
+		}else {
+			synchRecordService.backupExportCheckResults(date, "0");
+		}
 	}
 
 	@Override
 	public void exportInvestResult(String startTime, String endTime, Date date) {
-		// TODO Auto-generated method stub
-		
+		List<SupplierSynch> list = supplierMapper.getSupplierByInvesTime(startTime, endTime);
+		if (list != null && list.size() > 0) {
+			for (SupplierSynch supplier : list) {
+				//获取供应商附件实地考察记录
+				SupplierAttachAudit supplierAttachAudit = new SupplierAttachAudit();
+				supplierAttachAudit.setSupplierId(supplier.getId());
+				supplierAttachAudit.setAuditType(2);
+				List<SupplierAttachAudit> supplierAttachAudits = supplierAttachAuditMapper.diySelect(supplierAttachAudit);
+				supplier.setAttachAudits(supplierAttachAudits);
+				//获取供应商实地考察意见
+				SupplierAuditOpinion supplierAuditOpinion = new SupplierAuditOpinion();
+				supplierAuditOpinion.setSupplierId(supplier.getId());
+				supplierAuditOpinion.setFlagTime(2);
+				List<SupplierAuditOpinion> supplierAuditOpinions = supplierAuditOpinionMapper.selectByCondit(supplierAuditOpinion);
+				supplier.setAuditOpinions(supplierAuditOpinions);
+				//供应商实地考察时上传附件
+				List<UploadFile> uploadFiles = new ArrayList<UploadFile>();
+				String tableName = Constant.fileSystem.get(1);
+					//实地考察时需要上传考察影像资料
+				String typeId = DictionaryDataUtil.getId("SUPPLIER_IMAGE_DATA");
+				List<UploadFile> attachList = fileUploadMapper.getFileByBusinessId(supplier.getId(), typeId, tableName);
+				uploadFiles.addAll(attachList);
+					//供应商实地考察时上传的实地考察记录表
+				String typeId2 = DictionaryDataUtil.getId("SUPPLIER_SURVEY_RECORDS");
+				List<UploadFile> attachList2 = fileUploadMapper.getFileByBusinessId(supplier.getId(), typeId2, tableName);
+				uploadFiles.addAll(attachList2);
+				if (uploadFiles != null && uploadFiles.size() > 0){
+					String basePath = FileUtils.attachExportPath(41);
+	                if (StringUtils.isNotBlank(basePath)){
+	                    OperAttachment.writeFile(basePath, uploadFiles);
+	                }
+	            }
+				supplier.setAttchList(uploadFiles);
+				//供应商实地考察其他信息
+				SupplierInvesOtherExample invesOtherExample = new SupplierInvesOtherExample();
+				invesOtherExample.createCriteria().andSupplierIdEqualTo(supplier.getId());
+				List<SupplierInvesOther> invesOthers = supplierInvesOtherMapper.selectByExample(invesOtherExample);
+				supplier.setInvesOthers(invesOthers);
+				//产品类别审核表
+				SupplierCateAuditExample auditExample = new SupplierCateAuditExample();
+				auditExample.createCriteria().andSupplierIdEqualTo(supplier.getId());
+				List<SupplierCateAudit> cateAudits = supplierCateAuditMapper.selectByExample(auditExample);
+				supplier.setCateAudits(cateAudits);
+				//考察组签字
+				SupplierAuditSignExample auditSignExample = new SupplierAuditSignExample();
+				auditSignExample.createCriteria().andSupplierIdEqualTo(supplier.getId());
+				List<SupplierAuditSign> auditSigns = supplierAuditSignMapper.selectByExample(auditSignExample);
+				supplier.setAuditSigns(auditSigns);
+			}
+            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_INVEST_RESULT_FILENAME, 39), JSON.toJSONString(list));
+			synchRecordService.backupExportInvestResults(date, new Integer(list.size()).toString());
+		} else {
+			synchRecordService.backupExportInvestResults(date, "0");
+		}
 	}
 
 }

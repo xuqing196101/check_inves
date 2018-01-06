@@ -882,6 +882,9 @@
 .black {
   color: #000000;
 }
+.black_link, .black_link:hover {
+	color: #000 !important;
+}
 
 .brown{
   color:#997a00;

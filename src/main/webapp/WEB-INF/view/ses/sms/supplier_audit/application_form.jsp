@@ -143,7 +143,24 @@
 	           <c:if test="${isStatusToAudit}">
 	             <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempAudit();">暂存</a>
 	           </c:if>
-	           <a class="btn"  type="button" onclick="toStep('seven');">下一步</a>
+	           <c:if test="${sign == 1}">
+	             <a class="btn"  type="button" onclick="toStep('seven');">下一步</a>
+	           </c:if>
+	           <c:if test="${sign == 2}">
+	             <c:choose>
+	               <c:when test="${reviewStatus == 1}">
+	                 <a class="btn"  type="button" onclick="toStep('eleven');">下一步</a>
+	               </c:when>
+	               <c:otherwise>
+	                 <a class="btn"  type="button" onclick="toStep('nine');">下一步</a>
+	               </c:otherwise>
+	             </c:choose>
+		           <a class="btn" type="button" onclick="toStep('nine');">转至复核</a>
+		          </c:if>
+		          <c:if test="${sign == 3}">
+		            <a class="btn"  type="button" onclick="toStep('ten');">下一步</a>
+		            <a class="btn" type="button" onclick="toStep('ten');">转至考察</a>
+		          </c:if>
 	         </div>
          </div>
        </div>

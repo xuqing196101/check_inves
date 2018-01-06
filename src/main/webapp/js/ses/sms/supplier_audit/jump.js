@@ -77,6 +77,21 @@ function jump(str) {
 
         }*/
     }
+    
+    //复核
+    if (str == "historyReview") {
+        action = globalPath + "/supplierReview/historyReview.html";
+    }
+    
+    //考察
+    if (str == "inves") {
+        action = globalPath + "/supplierInves/inves.html";
+    }
+    
+    //复核
+    if (str == "review") {
+        action = globalPath + "/supplierReview/review.html";
+    }
     submitJumpForm(action);
 }
 

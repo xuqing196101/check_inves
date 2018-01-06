@@ -156,6 +156,13 @@
           </c:if>
           <%--<a class="btn"  type="button" onclick="nextStep('${url}');">下一步</a>--%>
           <a class="btn"  type="button" onclick="toStep('four');">下一步</a>
+          
+          <c:if test="${sign == 2}">
+           <a class="btn" type="button" onclick="toStep('nine');">转至复核</a>
+          </c:if>
+          <c:if test="${sign == 3}">
+           <a class="btn" type="button" onclick="toStep('ten');">转至考察</a>
+          </c:if>
 	      </div>
         </div>
       </div>

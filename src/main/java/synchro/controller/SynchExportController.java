@@ -367,7 +367,7 @@ public class SynchExportController {
                 infoService.backUpInfos(startTime, endTime, date);
             }
             /**供应商提交*/
-            if (synchType.contains(Constant.DATA_TYPE_SUPPLIER_CODE)) {
+            if (synchType.equals(Constant.DATA_TYPE_SUPPLIER_CODE)) {
                 outerSupplierService.exportCommitSupplier(startTime, endTime, date);
             }
             /**内网退回修改*/
@@ -384,7 +384,7 @@ public class SynchExportController {
             }
             
             /**专家内网，外网数据导出*/
-            if (synchType.contains(Constant.DATA_TYPE_EXPERT_CODE)) {
+            if (synchType.equals(Constant.DATA_TYPE_EXPERT_CODE)) {
                 outerExpertService.backupCreated(startTime, endTime);
             }
             /**内网专家退回修改*/
@@ -535,17 +535,35 @@ public class SynchExportController {
 	        
 	        //供应商复核结果导出内网
 	        if (synchType.contains(Constant.SYNCH_SUPPLIER_CHECK_RESULT)) {
-	        	innerSupplierService.exportCheckResult(startTime, endTime, date);
+	        	if ("0".equals(ipAddressType)) {
+	        		innerSupplierService.exportCheckResult(startTime, endTime, date);
+				}else {
+					bean.setSuccess(false);
+					bean.setObj("请从内网导出!");
+			        return bean;
+				}
         	}
 	        
 	        //供应商实地考察结果导出内网
 	        if (synchType.contains(Constant.SYNCH_SUPPLIER_INVEST_RESULT)) {
-	        	innerSupplierService.exportInvestResult(startTime, endTime, date);
+	        	if ("0".equals(ipAddressType)) {
+	        		innerSupplierService.exportInvestResult(startTime, endTime, date);
+				}else {
+					bean.setSuccess(false);
+					bean.setObj("请从内网导出!");
+			        return bean;
+				}
         	}
 	        
 	        //地方专家复查结果导出内网
 	        if (synchType.contains(Constant.SYNCH_EXPERT_CHECK_RESULT)) {
-	        	innerExpertService.exportCheckResult(startTime, endTime, date);
+	        	if ("0".equals(ipAddressType)) {
+	        		innerExpertService.exportCheckResult(startTime, endTime, date);
+				}else {
+					bean.setSuccess(false);
+					bean.setObj("请从内网导出!");
+			        return bean;
+				}
         	}
 	        
 	        bean.setSuccess(true);
