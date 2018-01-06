@@ -24,7 +24,7 @@
     where ID = #{id,jdbcType=VARCHAR} and IS_DELETED = 0
   </select>
   
-  <select id="findAll" resultMap="BaseResultMap">
+  <select id="findAll" resultMap="BaseResultMap" flushCache="true" useCache="false">
   	SELECT 
     <include refid="Base_Column_List" />
     FROM T_SYSTEM_SMS_RECORD_TEMP
