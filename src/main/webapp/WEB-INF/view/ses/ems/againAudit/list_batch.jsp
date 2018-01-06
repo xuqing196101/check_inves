@@ -52,7 +52,7 @@
         <input type="hidden" name="sign" value="${sign }">
         <div class="m_row_5">
         <div class="row">
-          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+          <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
             <div class="row">
               <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">批次名称：</div>
               <div class="col-xs-8 f0 lh0">
@@ -61,7 +61,7 @@
             </div>
           </div>
           
-          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+          <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
             <div class="row">
               <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">批次创建时间：</div>
               <div class="col-xs-8 f0 lh0">
@@ -70,7 +70,7 @@
             </div>
           </div>
           
-          <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+          <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
             <div class="row">
               <div class="col-xs-12 f0">
                 <button type="button" class="btn mb0 mr5 h32" onclick="batchList_search()">查询</button>
