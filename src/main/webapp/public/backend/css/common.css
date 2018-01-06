@@ -1373,3 +1373,7 @@ text-align:center;
 .m_select2 .select2-container-multi .select2-choices .select2-search-field input {
   margin: 0;
 }
+/* layer.open iframe 时的loadding样式 */
+.m_layer_loadS2 .layui-layer-load {
+  background: url(../../layer/skin/default/loading-2.gif) no-repeat center;
+}
