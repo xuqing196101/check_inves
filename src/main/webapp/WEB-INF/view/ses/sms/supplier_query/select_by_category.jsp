@@ -208,11 +208,16 @@
 				return !node.isParent && node.isFirstNode;
 			}
 			function resetQuery() {
-				var Obj = $.fn.zTree.getZTreeObj("treeDemo");
+				/* var Obj = $.fn.zTree.getZTreeObj("treeDemo");
 				Obj.checkAllNodes(false);
 				$("#supplierName").val("");
 				$("#contactName").val("");
-				$("#form1").submit();
+				$("#form1").submit(); */
+				$("#supplierName").val("");
+				$("#contactName").val("");
+				$("#supplierLevel").val("");
+				$("#projectAllLevels").val("");
+				$("#page").val(1);
 			}
 			
 			function iFrameHeight() {   
