@@ -33,10 +33,10 @@
   </select>
 
   <!-- 通过主键查询 -->
-  <select id="selectByVersion" resultMap="BaseResultMap" parameterType="app.model.AppInfo" >
+  <select id="selectByVersion" resultMap="BaseResultMap" parameterType="app.model.AppInfo">
     SELECT <include refid="Base_Column_List"/>
     FROM T_SES_APP_INFO 
-    WHERE VERSION = #{version}
+    WHERE IS_DELETED = 0 AND VERSION = #{version}
     <if test='type != null and type == "1"'>
       AND (TYPE = #{type} OR TYPE IS NULL)
     </if>

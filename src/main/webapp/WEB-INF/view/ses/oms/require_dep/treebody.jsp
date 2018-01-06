@@ -197,7 +197,7 @@
 					  <th>手机</th>
 					  <th>电话</th>
 					  <th>详细地址</th>
-					  <th>军网邮箱</th>
+					 <!--  <th>军网邮箱</th> -->
 				    </tr>
 				  </thead>
 				  <tbody>
@@ -207,9 +207,9 @@
 						<td class="tc">${vs.index+1}</td>
 						<td class="tc">${u.relName}</td>
 						<td class="tc">${u.mobile}</td>
-						<td class="tc">${u.telephone}</td>
+						<td class="tc">${u.telephone2}</td>
 						<td class="tl pl20">${u.address}</td>
-						<td class="tl pl20">${u.email}</td>
+						<%-- <td class="tl pl20">${u.email}</td> --%>
 					  </tr>
 					</c:forEach>
 				  </tbody>

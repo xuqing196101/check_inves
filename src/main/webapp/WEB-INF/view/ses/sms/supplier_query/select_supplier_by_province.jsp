@@ -149,7 +149,7 @@
 	        <input type="hidden" name="page" id="page">
 					<div class="m_row_5">
 			    <div class="row">
-			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 			        <div class="row">
 			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">供应商名称：</div>
 			          <div class="col-xs-8 f0 lh0">
@@ -158,7 +158,7 @@
 			        </div>
 			      </div>
 			      
-			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 			        <div class="row">
 			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">企业性质：</div>
 			          <div class="col-xs-8 f0 lh0">
@@ -172,7 +172,7 @@
 			        </div>
 			      </div>
 						
-						<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+						<div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 			        <div class="row">
 			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">供应商状态：</div>
 			          <div class="col-xs-8 f0 lh0">
@@ -186,7 +186,7 @@
 			        </div>
 			      </div>
 						
-						<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+						<div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 			        <div class="row">
 			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">临时供应商：</div>
 			          <div class="col-xs-8 f0 lh0">
@@ -199,7 +199,7 @@
 			        </div>
 			      </div>
 						
-						<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+						<div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 			        <div class="row">
 			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">社会信用代码：</div>
 			          <div class="col-xs-8 f0 lh0">
@@ -208,7 +208,7 @@
 			        </div>
 			      </div>
 						
-						<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+						<div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 			        <div class="row">
 			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购机构：</div>
 			          <div class="col-xs-8 f0 lh0">
@@ -225,7 +225,7 @@
 			      </div>
 						
 						<c:if test ="${sign == 1 }">
-						<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+						<div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 			        <div class="row">
 			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">供应商品目：</div>
 			          <div class="col-xs-8 f0 lh0">
@@ -255,7 +255,7 @@
 			        </div>
 			      </div>
 						
-						<div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+						<div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 			        <div class="row">
 			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">地区（省）：</div>
 			          <div class="col-xs-8 f0 lh0">
@@ -268,7 +268,7 @@
 			          </div>
 			        </div>
 			      </div>
-			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 			        <div class="row">
 			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">地区（市）：</div>
 			          <div class="col-xs-8 f0 lh0">
@@ -279,7 +279,7 @@
 			        </div>
 			      </div>
 			      
-			      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+			      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 			        <div class="row">
 			          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">工程业务地域：</div>
 			          <div class="col-xs-8 f0 lh0">

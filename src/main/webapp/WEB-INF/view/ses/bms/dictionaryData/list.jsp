@@ -29,20 +29,20 @@
    
   	/** 全选全不选 */
 	function selectAll(){
-		 var checklist = document.getElementsByName ("chkItem");
-		 var checkAll = document.getElementById("checkAll");
-		   if(checkAll.checked){
-			   for(var i=0;i<checklist.length;i++)
-			   {
-			      checklist[i].checked = true;
-			   } 
-			 }else{
-			  for(var j=0;j<checklist.length;j++)
-			  {
-			     checklist[j].checked = false;
-			  }
-		 	}
-		}
+	 var checklist = document.getElementsByName ("chkItem");
+	 var checkAll = document.getElementById("checkAll");
+	   if(checkAll.checked){
+		   for(var i=0;i<checklist.length;i++)
+		   {
+		      checklist[i].checked = true;
+		   } 
+		 }else{
+		  for(var j=0;j<checklist.length;j++)
+		  {
+		     checklist[j].checked = false;
+		  }
+	 	}
+	}
 	
 	/** 单选 */
 	function check(){

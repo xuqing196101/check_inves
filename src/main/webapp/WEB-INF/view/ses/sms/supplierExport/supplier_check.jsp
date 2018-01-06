@@ -16,13 +16,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
-
-<script type="text/javascript">
-		</script>
 </head>
 
 <body>
-				<div class="content table_box pl0">
 						<table id="supTable"
 								class="table table-bordered table-condensed table-hover table-striped">
 								<thead >
@@ -136,7 +132,16 @@
 									  <td>${KCHG}</td>
 									</tr>
 								</table>
-						</div>
+						
+						<link rel="stylesheet" href="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.css">
+						<script type="text/javascript" src="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.js"></script>
+						<script>
+							$(function () {
+								$('#supTable').m_fixedTable({
+									fixedNumber: 2
+								});
+							});
+						</script>
 					
 </body>
 

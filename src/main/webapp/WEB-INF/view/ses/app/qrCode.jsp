@@ -6,7 +6,7 @@
 <%@ include file="/WEB-INF/view/common.jsp" %>
 <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>军队采购网公告App下载</title>
+<title>军队采购网公告APP下载</title>
 <script type="text/javascript">
   //JS监听浏览器文字大小代码
   (function (doc, win) {
@@ -63,13 +63,13 @@
     <div class="logo">
       <img src="${pageContext.request.contextPath}/public/portal/images/logo.png" />
     </div>
-    <div class="ewm_title">军队采购网公告App</div>
+    <div class="ewm_title">军队采购网公告APP</div>
   </div>
   <div class="down_load">
     <a >
       <div class="down_andrio down_main">
-        <p class="white" onclick = "download('${id}',${sysKey},'${tempContextUrl }')"><img src="${pageContext.request.contextPath}/public/portal/images/android.png">点此下载</p>
-        <div class="footer_tips">温馨提示：本App只适用于安卓操作系统的手机。</div>
+        <p class="white" onclick = "download('${id}',${sysKey},'')"><img src="${pageContext.request.contextPath}/public/portal/images/android.png">点此下载</p>
+        <div class="footer_tips">温馨提示：本APP只适用于安卓操作系统的手机。</div>
       </div>
     </a>
   </div>

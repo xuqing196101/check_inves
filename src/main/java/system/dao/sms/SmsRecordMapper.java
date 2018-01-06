@@ -100,4 +100,14 @@ public interface SmsRecordMapper {
      * @return int
      */
     int updateBymsgId(SmsRecord record);
+    
+    /**
+     * 
+     * Description: 根据修改时间查询
+     * 
+     * @data 2018年1月4日
+     * @param 
+     * @return
+     */
+    List<SmsRecord> selectByUpdateDate(@Param("start")String start,@Param("end")String end);
 }

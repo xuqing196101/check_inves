@@ -5,7 +5,9 @@ import bss.model.ob.OBProduct;
 import bss.model.ob.OBSupplier;
 import bss.service.ob.OBProductService;
 import bss.service.ob.OBSupplierService;
+
 import com.github.pagehelper.PageInfo;
+
 import common.constant.Constant;
 import common.constant.OnlineBidding;
 import common.model.UploadFile;
@@ -27,6 +29,7 @@ import iss.service.ps.ArticleTypeService;
 import iss.service.ps.DownloadUserService;
 import iss.service.ps.IndexNewsService;
 import iss.service.ps.SearchService;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -36,6 +39,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
@@ -73,6 +77,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
@@ -993,6 +998,28 @@ public class IndexNewsController extends BaseSupplierController{
 		}
 		expert.setRelName(relName);
 		List<ExpertBlackListVO> expertList = expertBlackListService.findExpertBlackList(expert,expertTypeId,page==null?1:page);
+		for(ExpertBlackListVO exp: expertList) {
+            StringBuffer type = new StringBuffer();
+            if(exp.getExpertTypeName() != null) {
+                for(String typeId: exp.getExpertTypeName().split(",")) {
+                    DictionaryData data = dictionaryDataServiceI.getDictionaryData(typeId);
+                    if(data != null){
+                    	if(6 == data.getKind()) {
+                    		type.append(data.getName() + "技术、");
+                        } else {
+                        	type.append(data.getName() + "、");
+                        }
+                    }
+                }
+                if(type.length() > 0){
+                	String expertsType = type.toString().substring(0, type.length() - 1);
+                	exp.setExpertTypeName(expertsType);
+                }
+            } else {
+                exp.setExpertTypeName("");
+            }
+        }
+		
 		request.setAttribute("page", new PageInfo<ExpertBlackListVO>(expertList));
 		model.addAttribute("expertList", expertList);
 		//回显
@@ -2133,7 +2160,7 @@ public class IndexNewsController extends BaseSupplierController{
 				sMap.put("statusArray", statusArray);
 				model.addAttribute("status", status );
 			}else{
-				int statusArray[] = {1,-4,5,-5,7};
+				int statusArray[] = {1,5,7};
                 sMap.put("size", statusArray.length);
 				sMap.put("statusArray", statusArray);
 			}
