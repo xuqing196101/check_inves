@@ -2670,8 +2670,6 @@
       SELECT 
         T1.ID,
 		T1.SUPPLIER_NAME,
-	  	T1.SUPPLIER_TYPE_ID,
-		T1.BUSINESS_NATURE,
 		T1.REVIEW_AT,
 		T1.REVIEW_PEOPLE,
 		T1.SUPPLIER_STATUS,
@@ -2682,6 +2680,23 @@
 	  	T_SES_SMS_SUPPLIER T1
 	  WHERE
 	  	T1.SUPPLIER_STATUS in ('5','6')
+	  AND
+	  	to_char(T1.REVIEW_AT,'yyyy-MM-dd hh24:mi:ss') &gt;= #{startTime}
+	  AND
+	  	to_char(T1.REVIEW_AT,'yyyy-MM-dd hh24:mi:ss') &lt;= #{endTime}	
+    </select>
+    
+    <!-- 获取时间段内实地考察结束的供应商 -->
+    <select id="getSupplierByInvesTime" resultType="ses.model.sms.SupplierSynch">
+      SELECT 
+        T1.ID,
+		T1.SUPPLIER_NAME,
+		T1.INVES_PEOPLE,
+		T1.INVES_AT
+	  FROM
+	  	T_SES_SMS_SUPPLIER T1
+	  WHERE
+	  	T1.SUPPLIER_STATUS in ('7','8')
 	  AND
 	  	to_char(T1.REVIEW_AT,'yyyy-MM-dd hh24:mi:ss') &gt;= #{startTime}
 	  AND

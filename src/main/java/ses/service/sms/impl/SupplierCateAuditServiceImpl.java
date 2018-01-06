@@ -236,20 +236,53 @@ public class SupplierCateAuditServiceImpl implements SupplierCateAuditService {
 			record.setIsSupplied(isSupplied);
 			record.setSuggest(suggest);
 			result = supplierCateAuditMapper.updateByPrimaryKeySelective(record);
-			// 更新子节点
-			String categoryId = supplierCateAudit.getCategoryId();
-			List<Category> clist = categoryService.getCListById(categoryId);
-			if(clist != null && clist.size() > 0){
-				List<String> cid = new ArrayList<>();
-				for(Category c : clist){
-					cid.add(c.getId());
+			if(result > 0){
+				DictionaryData dd = DictionaryDataUtil.findById(supplierCateAudit.getCategoryId());
+				if(dd != null && dd.getKind() != null && (dd.getKind() == 6 || dd.getKind() == 8)){
+					// 如果更新的是供应商类型，则同步更新该类型下的所有产品类别
+					SupplierCateAuditExample example = new SupplierCateAuditExample();
+					example.createCriteria()
+					.andSupplierIdEqualTo(supplierCateAudit.getSupplierId())
+					.andSupplierTypeIdEqualTo(supplierCateAudit.getSupplierTypeId());
+					record = new SupplierCateAudit();
+					record.setIsSupplied(isSupplied);
+					//record.setSuggest(suggest);
+					result = supplierCateAuditMapper.updateByExampleSelective(record, example);
+				}else{
+					// 同步更新子节点
+					String categoryId = supplierCateAudit.getCategoryId();
+					List<Category> clist = categoryService.getCListById(categoryId);
+					if(clist != null && clist.size() > 0){
+						List<String> cids = new ArrayList<>();
+						for(Category c : clist){
+							cids.add(c.getId());
+						}
+						int limit = 1000;// sql in 最大支持1000
+						do{
+							List<String> subCids = new ArrayList<>();
+							if(cids.size() > limit){
+								for(int i=0; i<limit; i++){
+									subCids.add(cids.get(i));
+								}
+								cids = new ArrayList<>();
+								for(int i=limit; i<cids.size(); i++){
+									cids.add(cids.get(i));
+								}
+							}else{
+								subCids = cids;
+							}
+							SupplierCateAuditExample example = new SupplierCateAuditExample();
+							example.createCriteria()
+							.andCategoryIdIn(subCids)
+							.andSupplierIdEqualTo(supplierCateAudit.getSupplierId())
+							.andSupplierTypeIdEqualTo(supplierCateAudit.getSupplierTypeId());
+							record = new SupplierCateAudit();
+							record.setIsSupplied(isSupplied);
+							//record.setSuggest(suggest);
+							result = supplierCateAuditMapper.updateByExampleSelective(record, example);
+						}while(cids.size() > limit);
+					}
 				}
-				SupplierCateAuditExample example = new SupplierCateAuditExample();
-				example.createCriteria().andCategoryIdIn(cid);
-				record = new SupplierCateAudit();
-				record.setIsSupplied(isSupplied);
-				record.setSuggest(suggest);
-				result = supplierCateAuditMapper.updateByExampleSelective(record, example);
 			}
 		}
 		return result;

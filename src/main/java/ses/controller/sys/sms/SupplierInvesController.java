@@ -1,7 +1,10 @@
 package ses.controller.sys.sms;
 
 import java.util.Date;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,29 +16,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.constants.SupplierConstants;
+import ses.model.bms.Area;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAuditOpinion;
+import ses.model.sms.SupplierTypeRelate;
 import ses.model.sms.review.SupplierAttachAudit;
 import ses.model.sms.review.SupplierAuditSign;
 import ses.model.sms.review.SupplierCateAudit;
 import ses.model.sms.review.SupplierInvesOther;
+import ses.service.bms.AreaServiceI;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.oms.PurChaseDepOrgService;
+import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierAttachAuditService;
 import ses.service.sms.SupplierAuditOpinionService;
 import ses.service.sms.SupplierAuditSignService;
+import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierCateAuditService;
 import ses.service.sms.SupplierInvesOtherService;
 import ses.service.sms.SupplierInvesService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
+import ses.service.sms.SupplierTypeRelateService;
+import ses.util.WordUtil;
 
 import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
 import common.constant.Constant;
+import common.constant.StaticVariables;
 import common.service.DownloadService;
 import common.utils.JdcgResult;
 
@@ -66,6 +79,17 @@ public class SupplierInvesController extends BaseSupplierController {
 	private SupplierInvesOtherService supplierInvesOtherService;
 	@Autowired
 	private SupplierAuditOpinionService supplierAuditOpinionService;
+	@Autowired
+	private SupplierAuditService supplierAuditService;
+	@Autowired
+	private PurChaseDepOrgService purChaseDepOrgService;
+	@Autowired
+	private SupplierTypeRelateService supplierTypeRelateService;
+	@Autowired
+	private SupplierAddressService supplierAddressService;
+	@Autowired
+	private AreaServiceI areaService;
+
 	
 	/**
 	 * 考察列表
@@ -141,11 +165,46 @@ public class SupplierInvesController extends BaseSupplierController {
 	 * @param model
 	 * @param supplierId
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping("downloadInvesRecord")
-	public ResponseEntity < byte[] > downloadInvesRecord(Model model, String supplierId){
+	public ResponseEntity < byte[] > downloadInvesRecord(Model model, String supplierId) throws UnsupportedEncodingException{
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		/**
+		 * 供应商信息
+		 */
+		Supplier supplier = supplierService.selectById(supplierId);
+		// 采购机构全称
+		Map<String, Object> selMap = new HashMap<String, Object>();
+		selMap.put("purchaseDepId", supplier.getProcurementDepId());
+		String orgName = purChaseDepOrgService.selectOrgFullNameByPurchaseDepId(selMap);
+		dataMap.put("orgName", orgName);
+		//供应商名称
+		dataMap.put("supplierName", supplier.getSupplierName());
+		//统一社会信用代码
+		dataMap.put("creditCode", supplier.getCreditCode());
+		// 供应商类型
+		dataMap.put("supplierType", getSupplierType(supplierId));
+		//住所
+		dataMap.put("address", supplier.getAddress());
+		//生产经营地址
+		List < Area > province = areaService.findRootArea();
+		List < SupplierAddress > adressList = supplierAddressService.queryBySupplierId(supplierId);
+		if(!adressList.isEmpty() && adressList.size() > 0 ){
+			for(Area a: province) {
+				for(SupplierAddress s: adressList) {
+					if(a.getId().equals(s.getParentId())) {
+						s.setParentName(a.getName());
+					}
+				}
+			}
+		}
+		dataMap.put("adressList", adressList);
+		
+		/**
+		 * 查验资质原件情况
+		 */
 		List<SupplierAttachAudit> attachList = null;
-		List<SupplierCateAudit> cateList = null;
 		// 查询是否有生成考察项目
 		int count = supplierAttachAuditService.countBySupplierIdAndType(supplierId, 2);
 		if(count > 0){
@@ -158,6 +217,13 @@ public class SupplierInvesController extends BaseSupplierController {
 				attachList = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 2, 0);
 			}
 		}
+		
+		dataMap.put("attachList", attachList);
+		
+		/**
+		 * 申报产品类别产品提供能力情况
+		 */
+		List<SupplierCateAudit> cateList = null;
 		// 查询是否有生成产品类别
 		count = supplierCateAuditService.countBySupplierId(supplierId);
 		if(count > 0){
@@ -170,12 +236,19 @@ public class SupplierInvesController extends BaseSupplierController {
 				cateList = supplierCateAuditService.getBySupplierId(supplierId);
 			}
 		}
+		dataMap.put("cateList", cateList);
 		
-		// 供应商信息
-		Supplier supplier = supplierService.selectById(supplierId);
+		
 		// 文件存储地址
 		String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
-		return null;
+		
+		// 文件名称
+		String fileName = WordUtil.createWord(dataMap, "supplierInspection.ftl", "supplierInspection", request);
+		
+		// 下载后的文件名
+		String downFileName = new String("军队供应商实地考察记录表.doc".getBytes("UTF-8"), "iso-8859-1");
+		
+		return supplierAuditService.downloadFile(fileName, filePath, downFileName);
 	}
 	
 	/**
@@ -207,14 +280,19 @@ public class SupplierInvesController extends BaseSupplierController {
 	 * 下载意见函
 	 * @param model
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping("downloadOpinionLetter")
-	public ResponseEntity < byte[] > downloadOpinionLetter(Model model){
+	public ResponseEntity < byte[] > downloadOpinionLetter(Model model) throws UnsupportedEncodingException{
 		// 文件存储地址
 		String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
-		String fileName = "军队供应商实地考察廉政意见函.doc";
-		downloadService.downLoadFile(request, response, filePath + "/" + fileName);
-		return null;
+		// 文件名称
+		String fileName = WordUtil.createWord(null, "supplierOpinionLetter.ftl", "supplierOpinionLetter", request);
+		
+		// 下载后的文件名
+		String downFileName = new String("军队供应商实地考察廉政意见函.doc".getBytes("UTF-8"), "iso-8859-1");
+		
+		return supplierAuditService.downloadFile(fileName, filePath, downFileName);
 	}
 	
 	/**
@@ -273,6 +351,7 @@ public class SupplierInvesController extends BaseSupplierController {
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * 保存产品类别审核
 	 * @param id
 	 * @param isSupplied
@@ -404,6 +483,26 @@ public class SupplierInvesController extends BaseSupplierController {
 			return JdcgResult.ok();
 		}
 		return null;
+	}
+	
+	/**
+	 * 获取供应商类型
+	 * @param supplierId
+	 * @return
+	 */
+	private String getSupplierType(String supplierId) {
+		List<SupplierTypeRelate> supplierTypeList = supplierTypeRelateService.queryBySupplier(supplierId);
+		String typeName = "";
+		for (SupplierTypeRelate str : supplierTypeList) {
+			DictionaryData dd = DictionaryDataUtil.get(str.getSupplierTypeId());
+			if (dd != null) {
+				typeName += dd.getName() + StaticVariables.COMMA_SPLLIT;
+			}
+		}
+		if (typeName.contains(StaticVariables.COMMA_SPLLIT)) {
+			typeName = typeName.substring(0, typeName.length() - 1);
+		}
+		return typeName;
 	}
 	
 }

@@ -11,9 +11,9 @@ function addSignature(){
 				signNumber = parseInt(signNumber);
 				var html = '<tr class="h40" id="tr_'+data.data.id+'">'+
 			            	'<td class="tc">'+(signNumber+1)+'<input type="hidden" name="signs['+signNumber+'].id" value="'+data.data.id+'" /></td>'+
-			                '<td class="tc"><input type="text" class="w100p mb0" name="signs['+signNumber+'].name" value="" maxlength="10"/></td>'+
-			                '<td class="tc"><input type="text" class="w100p mb0" name="signs['+signNumber+'].company" value="" maxlength="50"/></td>'+
-			                '<td class="tc"><input type="text" class="w100p mb0" name="signs['+signNumber+'].job" value="" maxlength="50"/></td>'+
+			                '<td class="tc"><input type="text" class="w100p mb0" name="signs['+signNumber+'].name" value="" onchange="tempSaveSignature(this)" maxlength="10"/></td>'+
+			                '<td class="tc"><input type="text" class="w100p mb0" name="signs['+signNumber+'].company" value="" onchange="tempSaveSignature(this)" maxlength="50"/></td>'+
+			                '<td class="tc"><input type="text" class="w100p mb0" name="signs['+signNumber+'].job" value="" onchange="tempSaveSignature(this)" maxlength="50"/></td>'+
 			                '<td class="tc"><img src="'+globalPath+'/public/backend/images/sc.png" onclick="delSignature('+data.data.id+')"></td>'+
 				            '</tr>';
 				$("#tbody_sign").append(html);
@@ -47,10 +47,14 @@ function delSignature(id){
 // 实时更新考察产品类别
 function tempSaveCateAudit(id){
 	$.ajax({
-		url : globalPath + "/supplierInves/delSignature.do",
+		url : globalPath + "/supplierInves/saveCateAudit.do",
 		type : "post",
 		dataType : "json",
-		data : {id : id},
+		data : {
+			id : id,
+			isSupplied : $("#isSupplied_"+id).val(),
+			suggest : $("#suggest_"+id).val()
+		},
 		success : function(data) {
 			if(data && data.status == 200){
 				
@@ -110,6 +114,41 @@ function tempSaveSignature(_this){
 			}
 		}
 	});
+}
+
+// 审核操作
+function oprCateAudit(_this, id , isSupplied) {
+	if(isSupplied == 1){
+		if($(_this).hasClass("bgdd") && $(_this).hasClass("black_link")){// 默认按钮
+			$(_this).removeClass("bgdd");
+			$(_this).removeClass("black_link");
+			$("#isSupplied_" + id).val(isSupplied);
+			$(_this).next().removeClass("bgred");
+			$(_this).next().addClass("bgdd");
+			$(_this).next().addClass("black_link");
+		}else{
+			$(_this).addClass("bgdd");
+			$(_this).addClass("black_link");
+			$("#isSupplied_" + id).val("0");
+		}
+	}
+	if(isSupplied == 2){
+		if($(_this).hasClass("bgdd") && $(_this).hasClass("black_link")){// 默认按钮
+			$(_this).removeClass("bgdd");
+			$(_this).removeClass("black_link");
+			$(_this).addClass("bgred");
+			$("#isSupplied_" + id).val(isSupplied);
+			$(_this).prev().addClass("bgdd");
+			$(_this).prev().addClass("black_link");
+		}else{
+			$(_this).removeClass("bgred");
+			$(_this).addClass("bgdd");
+			$(_this).addClass("black_link");
+			$("#isSupplied_" + id).val("0");
+		}
+	}
+	
+	tempSaveCateAudit(id);
 }
 
 // 考察结束

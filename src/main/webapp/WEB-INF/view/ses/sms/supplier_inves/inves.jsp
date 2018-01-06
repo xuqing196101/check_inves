@@ -90,12 +90,12 @@
 	                    <td class="tc">
 	                      <input type="hidden" value="" id="isAccord_${item.id}" />
 	                      <c:if test="${item.isAccord==1}">
-	                        <button class="btn" type="button" onclick="opr(this, '${item.id}', 1, 1)">一致</button>
+	                        <button class="btn" type="button" onclick="opr(this, '${item.id}', 1, 2)">一致</button>
 	                        <button class="btn bgdd black_link" type="button" onclick="opr(this, '${item.id}', 2, 2)">不一致</button>
 	                      </c:if>
 	                      <c:if test="${item.isAccord==2}">
 	                        <button class="btn bgdd black_link" type="button" onclick="opr(this, '${item.id}', 1, 2)">一致</button>
-	                        <button class="btn bgred" type="button" onclick="opr(this, '${item.id}', 2)">不一致</button>
+	                        <button class="btn bgred" type="button" onclick="opr(this, '${item.id}', 2, 2)">不一致</button>
 	                      </c:if>
 	                      <c:if test="${item.isAccord==0}">
 	                        <button class="btn bgdd black_link" type="button" onclick="opr(this, '${item.id}', 1, 2)">一致</button>
@@ -127,19 +127,19 @@
 	                    <td class="tc">
 	                      <input type="hidden" value="0" id="isSupplied_${item.id}" />
 	                      <c:if test="${item.isSupplied==1}">
-	                        <button class="btn" type="button" onclick="opr(this, '${item.id}', 1, 1)">是</button>
-	                        <button class="btn bgdd black_link" type="button" onclick="opr(this, '${item.id}', 2, 2)">否</button>
+	                        <button class="btn" type="button" onclick="oprCateAudit(this, '${item.id}', 1)">是</button>
+	                        <button class="btn bgdd black_link" type="button" onclick="oprCateAudit(this, '${item.id}', 2)">否</button>
 	                      </c:if>
 	                      <c:if test="${item.isSupplied==2}">
-	                        <button class="btn bgdd black_link" type="button" onclick="opr(this, '${item.id}', 1, 2)">是</button>
-	                        <button class="btn bgred" type="button" onclick="opr(this, '${item.id}', 2)">否</button>
+	                        <button class="btn bgdd black_link" type="button" onclick="oprCateAudit(this, '${item.id}', 1)">是</button>
+	                        <button class="btn bgred" type="button" onclick="oprCateAudit(this, '${item.id}', 2)">否</button>
 	                      </c:if>
 	                      <c:if test="${item.isSupplied==0}">
-	                        <button class="btn bgdd black_link" type="button" onclick="opr(this, '${item.id}', 1, 2)">是</button>
-	                        <button class="btn bgdd black_link" type="button" onclick="opr(this, '${item.id}', 2, 2)">否</button>
+	                        <button class="btn bgdd black_link" type="button" onclick="oprCateAudit(this, '${item.id}', 1)">是</button>
+	                        <button class="btn bgdd black_link" type="button" onclick="oprCateAudit(this, '${item.id}', 2)">否</button>
 	                      </c:if>
 	                    </td>
-	                    <td><input type="text" class="w100p mb0" id="${item.id}_suggest" value="${item.suggest}" maxlength="300" onblur="tempSaveCateAudit('${item.id}')"/></td>
+	                    <td><input type="text" class="w100p mb0" id="suggest_${item.id}" value="${item.suggest}" maxlength="300" onchange="tempSaveCateAudit('${item.id}')"/></td>
 	                  </tr>
 	                </c:forEach>
 	              </tbody>
@@ -160,15 +160,15 @@
           <ul class="ul_list">
             <li>
               <div class="select_check">
-					      <input type="radio" value="1" name="selectOption" id="qualified" onclick="tempSaveAuditOpinion()">考察合格
-					      <input type="radio" value="0" name="selectOption" id="unqualified" onclick="tempSaveAuditOpinion()">考察不合格
+					      <input type="radio" value="1" name="selectOption" id="qualified" onclick="tempSaveAuditOpinion(this)">考察合格
+					      <input type="radio" value="0" name="selectOption" id="unqualified" onclick="tempSaveAuditOpinion(this)">考察不合格
 				      </div>
             </li>
             <li>
               <div id="cate_result"></div>
             </li>
 						<li class="mt10">
-	             <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80" onblur="tempSaveAuditOpinion()" maxlength="300">${auditOpinion}</textarea>
+	             <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80" onchange="tempSaveAuditOpinion(this)" maxlength="300">${auditOpinion}</textarea>
 	          </li>
           </ul>
           <div class="clear"></div>
