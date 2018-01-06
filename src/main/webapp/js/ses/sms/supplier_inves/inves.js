@@ -89,12 +89,14 @@ function tempSaveAuditOpinion(_this){
 function tempSaveSignature(_this){
 	var param = {};
 	var id = $(_this).parent("tr").attr("data-id");
-	var name = 
+	var index = $(_this).parent("tr").attr("id").replace("tr_", "");
+	var name = _this.name.replace("signs["+index+"]", "");
 	param["id"] = id;
 	if(id == ""){
 		param["supplierId"] = $("#supplierId").val();
 	}
-	param[_this.name] = _this.value;
+	param[name] = _this.value;
+	console.log(param);
 	$.ajax({
 		url : globalPath + "/supplierInves/saveSignature.do",
 		type : "post",
