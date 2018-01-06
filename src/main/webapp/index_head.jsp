@@ -780,9 +780,13 @@
                   <li>
                   <%-- <a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="f18 mr5 fl">·</span>${shortName}</a> --%>
                   <a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="javascript:;"><span class="f18 mr5 fl">·</span>${shortName}</a>
-                  <span class="hex pull-right col-md-4 col-sm-5 col-xs-12">
-                  <c:if test="${sl.punishType == 0}">警告</c:if>
-                  <c:if test="${sl.punishType == 1}">不得参与采购活动</c:if>
+                  
+                  <c:if test="${sl.punishType == 0}">
+                  	<span class="hex pull-right col-md-4 col-sm-5 col-xs-12" title="警告">警告
+                  </c:if>
+                  <c:if test="${sl.punishType == 1}">
+                  	<span class="hex pull-right col-md-4 col-sm-5 col-xs-12" title="不得参与采购活动">不得参与采购活动
+                  </c:if>
                   </span>
                   </li>
                   </c:forEach>
