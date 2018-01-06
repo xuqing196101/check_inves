@@ -233,17 +233,17 @@
 	    <div class="mt80 tc mb50 position_fixed" >
 	        <c:if test="${page==1}">
 	          <button class="btn btn-windows back" disabled="disabled" >上一页</button>
-	          <button class="btn btn-windows back" onclick="window.location.href='${pageContext.request.contextPath}/intelligentScore/viewPackageModel.html?packId=${packageId}&projectId=${projectId}&page=${page+1}'">下一页</button>
+	          <button class="btn btn-windows next" onclick="window.location.href='${pageContext.request.contextPath}/intelligentScore/viewPackageModel.html?packId=${packageId}&projectId=${projectId}&page=${page+1}'">下一页</button>
 	        </c:if>
 	        <c:if test="${page!=1&&page!=3}">
 	          <button class="btn btn-windows back" onclick="window.location.href='${pageContext.request.contextPath}/intelligentScore/viewPackageModel.html?packId=${packageId}&projectId=${projectId}&page=${page-1}'">上一页</button>
-	          <button class="btn btn-windows back" onclick="window.location.href='${pageContext.request.contextPath}/intelligentScore/viewPackageModel.html?packId=${packageId}&projectId=${projectId}&page=${page+1}'">下一页</button>
+	          <button class="btn btn-windows next" onclick="window.location.href='${pageContext.request.contextPath}/intelligentScore/viewPackageModel.html?packId=${packageId}&projectId=${projectId}&page=${page+1}'">下一页</button>
 	        </c:if>
 	        <c:if test="${page==3}">
 	          <button class="btn btn-windows back"  onclick="window.location.href='${pageContext.request.contextPath}/intelligentScore/viewPackageModel.html?packId=${packageId}&projectId=${projectId}&page=${page-1}'">上一页</button>
-	          <button class="btn btn-windows back" disabled="disabled" >下一页</button>
+	          <button class="btn btn-windows next" disabled="disabled" >下一页</button>
 	        </c:if>
-	        <button class="btn btn-windows back" onclick="window.close();">关闭</button>
+	        <button class="btn btn-windows cancel" onclick="window.close();">关闭</button>
 	    </div>
 </body>
 </html>
