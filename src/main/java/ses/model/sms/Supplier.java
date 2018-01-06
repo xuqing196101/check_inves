@@ -4,6 +4,7 @@ import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.Packages;
 import bss.model.ppms.ProjectDetail;
 import common.model.UploadFile;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -16,6 +17,9 @@ import ses.model.bms.CategoryParameter;
 import ses.model.bms.RoleUser;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
+import ses.model.sms.review.SupplierAttachAudit;
+import ses.model.sms.review.SupplierCateAudit;
+import ses.model.sms.review.SupplierInvesOther;
 import ses.util.MyAnnotation;
 
 /**
@@ -782,7 +786,7 @@ Supplier implements Serializable {
     
     private String invesPeople;// 考察人
     private Date invesAt;// 考察时间
-    
+	
     public String getQrcodeImage() {
 		return qrcodeImage;
 	}
