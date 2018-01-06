@@ -123,6 +123,11 @@
 	            layer.alert("请选择要删除的地区",{offset: ['222px', '390px'], shade:0.01});
 	        }
 	    }
+        
+        function initSearch(){
+        	$("#search_condition").val("");
+        	selectTree();
+        }
 </script>
 
 </head>
@@ -160,7 +165,8 @@
       <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
         <div class="row">
           <div class="col-xs-12 f0">
-						<button  class="btn mb0 mr0 h32" onclick="selectTree();">查询</button>
+				<button  class="btn mb0 h32" onclick="selectTree();">查询</button>
+				<button  class="btn mb0 mr0 h32" onclick="initSearch();">重置</button>
           </div>
         </div>
       </div>
