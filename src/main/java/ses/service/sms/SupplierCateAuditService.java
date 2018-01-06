@@ -37,9 +37,9 @@ public interface SupplierCateAuditService {
 	 * @param id
 	 * @param isSupplied
 	 * @param suggest
-	 * @return
+	 * @return 返回被更新记录的id集合
 	 */
-	int updateById(String id, Integer isSupplied, String suggest);
+	List<String> updateById(String id, Integer isSupplied, String suggest);
 
 	/**
 	 * 统计考察通过/不通过记录

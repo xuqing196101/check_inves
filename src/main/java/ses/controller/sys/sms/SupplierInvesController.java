@@ -385,9 +385,9 @@ public class SupplierInvesController extends BaseSupplierController {
 	@RequestMapping("saveCateAudit")
 	@ResponseBody
 	public JdcgResult saveCateAudit(String id, Integer isSupplied, String suggest){
-		int result = supplierCateAuditService.updateById(id, isSupplied, suggest);
-		if(result > 0){
-			return JdcgResult.ok();
+		List<String> ids = supplierCateAuditService.updateById(id, isSupplied, suggest);
+		if(ids != null && ids.size() > 0){
+			return JdcgResult.ok(ids);
 		}
 		return null;
 	}

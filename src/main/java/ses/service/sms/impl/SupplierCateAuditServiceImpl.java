@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.sms.review.SupplierCateAuditMapper;
+import ses.dao.sms.review.SupplierInvesMapper;
 import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.sms.SupplierAudit;
@@ -37,6 +38,8 @@ public class SupplierCateAuditServiceImpl implements SupplierCateAuditService {
 	private SupplierTypeRelateService supplierTypeRelateService;
 	@Autowired
 	private CategoryService categoryService;
+	@Autowired
+	private SupplierInvesMapper supplierInvesMapper;
 
 	@Override
 	public int countBySupplierId(String supplierId) {
@@ -229,7 +232,8 @@ public class SupplierCateAuditServiceImpl implements SupplierCateAuditService {
 	}
 	
 	@Override
-	public int updateById(String id, Integer isSupplied, String suggest) {
+	public List<String> updateById(String id, Integer isSupplied, String suggest) {
+		List<String> ids = new ArrayList<String>();
 		int result = 0;
 		SupplierCateAudit supplierCateAudit = supplierCateAuditMapper.selectByPrimaryKey(id);
 		if(supplierCateAudit != null){
@@ -250,6 +254,9 @@ public class SupplierCateAuditServiceImpl implements SupplierCateAuditService {
 					record.setIsSupplied(isSupplied);
 					//record.setSuggest(suggest);
 					result = supplierCateAuditMapper.updateByExampleSelective(record, example);
+					if(result > 0){
+						ids = supplierInvesMapper.selectCateAuditIdsBySupplierTypeId(supplierCateAudit.getSupplierId(), supplierCateAudit.getSupplierTypeId());
+					}
 				}else{
 					// 同步更新子节点
 					String categoryId = supplierCateAudit.getCategoryId();
@@ -282,12 +289,17 @@ public class SupplierCateAuditServiceImpl implements SupplierCateAuditService {
 							record.setIsSupplied(isSupplied);
 							//record.setSuggest(suggest);
 							result = supplierCateAuditMapper.updateByExampleSelective(record, example);
+							result = supplierCateAuditMapper.updateByExampleSelective(record, example);
+							if(result > 0){
+								List<String> subIds = supplierInvesMapper.selectCateAuditIdsByCategoryIds(supplierCateAudit.getSupplierId(), supplierCateAudit.getSupplierTypeId(), subCids);
+								ids.addAll(subIds);
+							}
 						}while(cids.size() > limit);
 					}
 				}
 			}
 		}
-		return result;
+		return ids;
 	}
 	
 	@Override

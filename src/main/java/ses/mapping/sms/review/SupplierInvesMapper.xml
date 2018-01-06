@@ -93,5 +93,25 @@
          AND subQ.ADDRESS_NAMES LIKE CONCAT(CONCAT('%', #{addressName}), '%')
       </if>
   </select>
+  
+  <!-- 查询产品类别考察id集合(根据供应商类型) -->
+  <select id="selectCateAuditIdsBySupplierTypeId" resultType="string">
+  	select ID from T_SES_SMS_SUPPLIER_CATE_AUDIT 
+  	where SUPPLIER_ID = #{supplierId}
+  	and SUPPLIER_TYPE_ID = #{supplierTypeId}
+  </select>
+  
+  <!-- 查询产品类别考察id集合(根据产品类别id数组) -->
+  <select id="selectCateAuditIdsByCategoryIds" resultType="string">
+  	select ID from T_SES_SMS_SUPPLIER_CATE_AUDIT 
+  	where SUPPLIER_ID = #{supplierId}
+  	and SUPPLIER_TYPE_ID = #{supplierTypeId}
+  	<if test="categoryIds != null and categoryIds.size != 0">
+			and CATEGORY_ID in
+			<foreach collection="categoryIds" item="item" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+  </select>
 
 </mapper>

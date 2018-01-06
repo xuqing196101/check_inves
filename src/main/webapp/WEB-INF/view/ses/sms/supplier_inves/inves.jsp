@@ -136,16 +136,16 @@
 	                    <td class="tc">
 	                      <input type="hidden" value="0" id="isSupplied_${item.id}" />
 	                      <c:if test="${item.isSupplied==1}">
-	                        <button class="btn" type="button" onclick="oprCateAudit(this, '${item.id}', 1)">是</button>
-	                        <button class="btn bgdd black_link" type="button" onclick="oprCateAudit(this, '${item.id}', 2)">否</button>
+	                        <button id="btn_yes_${item.id}" class="btn" type="button" onclick="oprCateAudit(this, '${item.id}', 1)">是</button>
+	                        <button id="btn_no_${item.id}" class="btn bgdd black_link" type="button" onclick="oprCateAudit(this, '${item.id}', 2)">否</button>
 	                      </c:if>
 	                      <c:if test="${item.isSupplied==2}">
-	                        <button class="btn bgdd black_link" type="button" onclick="oprCateAudit(this, '${item.id}', 1)">是</button>
-	                        <button class="btn bgred" type="button" onclick="oprCateAudit(this, '${item.id}', 2)">否</button>
+	                        <button id="btn_yes_${item.id}" class="btn bgdd black_link" type="button" onclick="oprCateAudit(this, '${item.id}', 1)">是</button>
+	                        <button id="btn_no_${item.id}" class="btn bgred" type="button" onclick="oprCateAudit(this, '${item.id}', 2)">否</button>
 	                      </c:if>
 	                      <c:if test="${item.isSupplied==0}">
-	                        <button class="btn bgdd black_link" type="button" onclick="oprCateAudit(this, '${item.id}', 1)">是</button>
-	                        <button class="btn bgdd black_link" type="button" onclick="oprCateAudit(this, '${item.id}', 2)">否</button>
+	                        <button id="btn_yes_${item.id}" class="btn bgdd black_link" type="button" onclick="oprCateAudit(this, '${item.id}', 1)">是</button>
+	                        <button id="btn_no_${item.id}" class="btn bgdd black_link" type="button" onclick="oprCateAudit(this, '${item.id}', 2)">否</button>
 	                      </c:if>
 	                    </td>
 	                    <td><input type="text" class="w100p mb0" id="suggest_${item.id}" value="${item.suggest}" maxlength="300" onchange="tempSaveCateAudit('${item.id}')"/></td>

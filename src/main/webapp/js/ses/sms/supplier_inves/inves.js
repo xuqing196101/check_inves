@@ -46,18 +46,30 @@ function delSignature(id){
 
 // 实时更新考察产品类别
 function tempSaveCateAudit(id){
+	var isSupplied = $("#isSupplied_"+id).val();
+	var suggest = $("#suggest_"+id).val();
 	$.ajax({
 		url : globalPath + "/supplierInves/saveCateAudit.do",
 		type : "post",
 		dataType : "json",
 		data : {
 			id : id,
-			isSupplied : $("#isSupplied_"+id).val(),
-			suggest : $("#suggest_"+id).val()
+			isSupplied : isSupplied,
+			suggest : suggest
 		},
 		success : function(data) {
 			if(data && data.status == 200){
-				
+				var ids = data.data;
+				if(ids){
+					for(var i=0,len=ids.length; i<len; i++){
+						if(isSupplied == 1){
+							changeCateAuditBtn("#btn_yes_"+id, ids[i], isSupplied);
+						}
+						if(isSupplied == 2){
+							changeCateAuditBtn("#btn_no_"+id, ids[i], isSupplied);
+						}
+					}
+				}
 			}
 		}
 	});
@@ -145,6 +157,11 @@ function tempSaveSignature(_this){
 
 // 审核操作
 function oprCateAudit(_this, id , isSupplied) {
+	changeCateAuditBtn(_this, id, isSupplied);
+	tempSaveCateAudit(id);
+}
+
+function changeCateAuditBtn(_this, id , isSupplied){
 	var countCateAuditNotPass = parseInt($("#countCateAuditNotPass").val());
 	if(isSupplied == 1){
 		if($(_this).hasClass("bgdd") && $(_this).hasClass("black_link")){// 默认按钮
@@ -177,8 +194,6 @@ function oprCateAudit(_this, id , isSupplied) {
 			$("#countCateAuditNotPass").val(--countCateAuditNotPass);
 		}
 	}
-	
-	tempSaveCateAudit(id);
 }
 
 // 考察合格鼠标悬停事件
