@@ -43,8 +43,8 @@
 		</div>
 		<div class="col-md-12 col-sm-12 col-xs-12 report_list_box">
 			<div class="col-md-12 col-sm-12 col-xs-12 report_list_title">
-				<div class="col-md-2 col-xs-4 col-sm-2 tc f16">专家名称</div>
-				<div class="col-md-1 col-xs-4 col-sm-1 tc f16">类型</div>
+				<div class="col-md-2 col-xs-4 col-sm-2 tc f16">专家姓名</div>
+				<div class="col-md-1 col-xs-4 col-sm-1 tc f16">专家类型</div>
 				<div class="col-md-2 col-xs-4 col-sm-2 tc f16">处罚类型</div>
 				<div class="col-md-2 col-xs-4 col-sm-2 tc f16">处罚日期</div>
 				<div class="col-md-2 col-xs-4 col-sm-2 tc f16">处罚时限</div>
