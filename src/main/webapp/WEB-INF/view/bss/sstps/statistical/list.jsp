@@ -78,7 +78,7 @@
       <form id="form1" action="${pageContext.request.contextPath}/statistical/view.html" method="post" enctype="multipart/form-data" class="mb0">
       <div class="m_row_5">
       <div class="row">
-        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
           <div class="row">
             <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购机构：</div>
             <div class="col-xs-8 f0 lh0">
@@ -92,7 +92,7 @@
           </div>
         </div>
         
-        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
           <div class="row">
             <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">合同名称：</div>
             <div class="col-xs-8 f0 lh0">
@@ -101,7 +101,7 @@
           </div>
         </div>
         
-        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
           <div class="row">
             <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">合同编号：</div>
             <div class="col-xs-8 f0 lh0">
@@ -110,7 +110,7 @@
           </div>
         </div>
         
-        <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
           <div class="row">
             <div class="col-xs-12 f0">
               <button type="submit" class="btn mb0 h32">查询</button>
