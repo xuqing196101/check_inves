@@ -308,4 +308,43 @@ public class SupplierTask {
     		innerSupplierService.exportCheckResult(startTime, endTime, date);
 		}
 	}
+	
+	/**
+	 *〈简述〉外网执行：定时导入供应商实地考察结果
+	 *〈详细描述〉
+	 * @author Ye Maolin
+	 */
+	public void handlerImportSupplierInvest(){
+		//获取是否内网标识 1外网 0内网
+        String ipAddressType = PropUtil.getProperty("ipAddressType");
+        File file = FileUtils.getImportFile();
+    	if ("1".equals(ipAddressType) && file != null && file.exists()){
+            File [] files = file.listFiles();
+            for (File f : files){
+            	//供应商实地考察结果导入外网
+    	        if (f.isDirectory() && FileUtils.getSynchAttachFile(39).equals("/" + f.getName())) {
+    	        	outerSupplierService.importInvestResult(f);
+            	}
+            }
+    	} 
+	}
+	
+	/**
+	 *〈简述〉内网执行：导出供应商实地考察结果
+	 *〈详细描述〉
+	 * @author Ye Maolin
+	 */
+	public void handlerExportSupplierInvest(){
+		//获取是否内网标识 1外网 0内网
+        String ipAddressType = PropUtil.getProperty("ipAddressType");
+		if ("0".equals(ipAddressType)) {
+			Date date=new Date();
+			Date addDate = supplierService.addDate(date, 3, -1);
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+			String fat = sdf.format(addDate);
+			String startTime=fat+" 00:00:00";
+			String endTime=fat+" 23:59:59";
+    		innerSupplierService.exportInvestResult(startTime, endTime, date);
+		}
+	}
 }

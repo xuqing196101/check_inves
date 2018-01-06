@@ -72,6 +72,10 @@
         <task:scheduled ref="SupplierTask" method="handlerImportSupplierCheck" cron="0 30 7 * * ?"/>
         <!-- 【内网执行】每天凌晨1点导出供应商复核结果 -->
         <task:scheduled ref="SupplierTask" method="handlerExportSupplierCheck" cron="0 0 1 * * ?"/>
+        <!-- 【外网执行】每天凌晨7点50导入供应商实地考察结果 -->
+        <task:scheduled ref="SupplierTask" method="handlerImportSupplierInvest" cron="0 50 7 * * ?"/>
+        <!-- 【内网执行】每天凌晨1点20分导出供应商实地考察结果 -->
+        <task:scheduled ref="SupplierTask" method="handlerExportSupplierInvest" cron="0 20 1 * * ?"/>
 
         <!-- ================================================（图片处理定时任务）================================================ -->
         <!-- (外网执行)供应商图片外网导出 -->
