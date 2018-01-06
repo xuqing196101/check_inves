@@ -31,5 +31,5 @@ public interface ExpertExtractResultService {
      * @param 
      * @return
      */
-    void smsNotice(String projectId, Integer sign);
+    void smsNotice(String projectId);
 }
