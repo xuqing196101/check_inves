@@ -33,6 +33,7 @@ import ses.dao.sms.SupplierModifyMapper;
 import ses.dao.sms.SupplierRegPersonMapper;
 import ses.dao.sms.SupplierSignatureMapper;
 import ses.dao.sms.review.SupplierAttachAuditMapper;
+import ses.dao.sms.review.SupplierAuditSignMapper;
 import ses.dao.sms.review.SupplierCateAuditMapper;
 import ses.dao.sms.review.SupplierInvesOtherMapper;
 import ses.formbean.ContractBean;
@@ -69,10 +70,9 @@ import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierSynch;
 import ses.model.sms.SupplierTypeRelate;
 import ses.model.sms.review.SupplierAttachAudit;
+import ses.model.sms.review.SupplierAuditSign;
 import ses.model.sms.review.SupplierCateAudit;
-import ses.model.sms.review.SupplierCateAuditExample;
 import ses.model.sms.review.SupplierInvesOther;
-import ses.model.sms.review.SupplierInvesOtherExample;
 import ses.service.bms.CategoryService;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.SupplierAddressService;
@@ -91,11 +91,11 @@ import synchro.util.OperAttachment;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-
 import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
 import common.service.UploadService;
+
 import extract.util.DateUtils;
 
 /**
@@ -245,6 +245,9 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     
     @Autowired
     private SupplierInvesOtherMapper supplierInvesOtherMapper;
+    
+    @Autowired
+    private SupplierAuditSignMapper supplierAuditSignMapper;
     
     /**
      * 
@@ -1092,71 +1095,86 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
 
 	@Override
 	public void importInvestResult(File f) {
-		 for (File file2 : f.listFiles()) {
-             if (file2.getName().contains(FileUtils.SUPPLIER_INVEST_RESULT_FILENAME)) {
-            	 List<SupplierSynch> list = FileUtils.getBeans(file2, SupplierSynch.class); 
-                 if (list != null && list.size() > 0){
-                	 for (SupplierSynch supplier : list) {
-                		 supplierMapper.updateReviewOrInves(supplier);
-                		 //附件考察表
-                		 List<SupplierAttachAudit> supplierAttachAudits = supplier.getAttachAudits();
-                		 for (SupplierAttachAudit supplierAttachAudit : supplierAttachAudits) {
-                    		 SupplierAttachAudit attachAudit = new SupplierAttachAudit();
-                    		 attachAudit.setId(supplierAttachAudit.getId());
-                    		 List<SupplierAttachAudit> attachAudits = supplierAttachAuditMapper.diySelect(supplierAttachAudit);
-                    		 if (attachAudits != null && attachAudits.size() > 0) {
-                    			 supplierAttachAuditMapper.updateByPrimaryKey(supplierAttachAudit);
-                    		 }else {
-                    			 supplierAttachAuditMapper.insert(supplierAttachAudit);
-                    		 }
-                    	 }
-                		 //实地考察意见
-                		 List<SupplierAuditOpinion> supplierAuditOpinions = supplier.getAuditOpinions();
-                		 for (SupplierAuditOpinion supplierAuditOpinion : supplierAuditOpinions) {
-                    		 SupplierAuditOpinion auditOpinion_old = supplierAuditOpinionMapper.findByPrimaryKey(supplierAuditOpinion.getId());
-                    		 if (auditOpinion_old != null) {
-                    			 supplierAuditOpinionMapper.updateByPrimaryKey(supplierAuditOpinion);
-        					 } else {
-        						 supplierAuditOpinionMapper.insert(supplierAuditOpinion);
-        					 }
-                    	 }
-                		 //上传附件
-                		 List<UploadFile> uploadFiles = supplier.getAttchList();
-                    	 for (UploadFile uploadFile : uploadFiles){
-                    		 Integer count = uploadService.findCountById(uploadFile.getId(),Constant.SUPPLIER_SYS_KEY);
-                    		 if (count > 0){
-                    			 uploadService.updateFile(uploadFile, Constant.SUPPLIER_SYS_KEY);
-                    		 } else {
-                    			 uploadService.insertFile(uploadFile,Constant.SUPPLIER_SYS_KEY);
-                    		 }
-                    	 }
-                		 //供应商实地考察其他信息
-                		 List<SupplierInvesOther> invesOthers = supplier.getInvesOthers();
-                		 for (SupplierInvesOther supplierInvesOther : invesOthers) {
-                			 SupplierInvesOther invesOther = supplierInvesOtherMapper.selectByPrimaryKey(supplierInvesOther.getId());
-                			 if (invesOther != null) {
-                				 supplierInvesOtherMapper.updateByPrimaryKey(supplierInvesOther);
-                			 } else {
-                				 supplierInvesOtherMapper.insert(supplierInvesOther);
-                			 }
-                		 }
-         				 //产品类别审核表
-         				 List<SupplierCateAudit> cateAudits = supplier.getCateAudits();
-         				 for (SupplierCateAudit supplierCateAudit : cateAudits) {
-         					SupplierCateAudit cateAudit = supplierCateAuditMapper.selectByPrimaryKey(supplierCateAudit.getId());
-         					if (cateAudit != null) {
-         						supplierCateAuditMapper.updateByPrimaryKey(supplierCateAudit);
-							} else {
-								supplierCateAuditMapper.insert(supplierCateAudit);
+		try {
+			for (File file2 : f.listFiles()) {
+				if (file2.getName().contains(FileUtils.SUPPLIER_INVEST_RESULT_FILENAME)) {
+					List<SupplierSynch> list = FileUtils.getBeans(file2, SupplierSynch.class); 
+					if (list != null && list.size() > 0){
+						for (SupplierSynch supplier : list) {
+							supplierMapper.updateReviewOrInves(supplier);
+							//1.附件考察表
+							List<SupplierAttachAudit> supplierAttachAudits = supplier.getAttachAudits();
+							for (SupplierAttachAudit supplierAttachAudit : supplierAttachAudits) {
+								SupplierAttachAudit attachAudit = new SupplierAttachAudit();
+								attachAudit.setId(supplierAttachAudit.getId());
+								List<SupplierAttachAudit> attachAudits = supplierAttachAuditMapper.diySelect(supplierAttachAudit);
+								if (attachAudits != null && attachAudits.size() > 0) {
+									supplierAttachAuditMapper.updateByPrimaryKey(supplierAttachAudit);
+								}else {
+									supplierAttachAuditMapper.insert(supplierAttachAudit);
+								}
 							}
-         				 }
-                	 }
-                 }
-                 recordService.backupImportCheckResults(new Integer(list.size()).toString());
-             }else if (file2.getName().contains(synchro.util.Constant.ATTACH_FILE_SUPPLIER)) {
-            	 OperAttachment.moveFolder(file2);
-             }
-         }
+							//2.实地考察意见
+							List<SupplierAuditOpinion> supplierAuditOpinions = supplier.getAuditOpinions();
+							for (SupplierAuditOpinion supplierAuditOpinion : supplierAuditOpinions) {
+								SupplierAuditOpinion auditOpinion_old = supplierAuditOpinionMapper.findByPrimaryKey(supplierAuditOpinion.getId());
+								if (auditOpinion_old != null) {
+									supplierAuditOpinionMapper.updateByPrimaryKey(supplierAuditOpinion);
+								} else {
+									supplierAuditOpinionMapper.insert(supplierAuditOpinion);
+								}
+							}
+							//3.上传附件
+							List<UploadFile> uploadFiles = supplier.getAttchList();
+							for (UploadFile uploadFile : uploadFiles){
+								Integer count = uploadService.findCountById(uploadFile.getId(),Constant.SUPPLIER_SYS_KEY);
+								if (count > 0){
+									uploadService.updateFile(uploadFile, Constant.SUPPLIER_SYS_KEY);
+								} else {
+									uploadService.insertFile(uploadFile,Constant.SUPPLIER_SYS_KEY);
+								}
+							}
+							//4.供应商实地考察其他信息
+							List<SupplierInvesOther> invesOthers = supplier.getInvesOthers();
+							for (SupplierInvesOther supplierInvesOther : invesOthers) {
+								SupplierInvesOther invesOther = supplierInvesOtherMapper.selectByPrimaryKey(supplierInvesOther.getId());
+								if (invesOther != null) {
+									supplierInvesOtherMapper.updateByPrimaryKey(supplierInvesOther);
+								} else {
+									supplierInvesOtherMapper.insert(supplierInvesOther);
+								}
+							}
+							//5.产品类别审核表
+							List<SupplierCateAudit> cateAudits = supplier.getCateAudits();
+							for (SupplierCateAudit supplierCateAudit : cateAudits) {
+								SupplierCateAudit cateAudit = supplierCateAuditMapper.selectByPrimaryKey(supplierCateAudit.getId());
+								if (cateAudit != null) {
+									supplierCateAuditMapper.updateByPrimaryKey(supplierCateAudit);
+								} else {
+									supplierCateAuditMapper.insert(supplierCateAudit);
+								}
+							}
+							//6.考察组签字
+							List<SupplierAuditSign> auditSigns = supplier.getAuditSigns();
+							for (SupplierAuditSign supplierAuditSign : auditSigns) {
+								SupplierAuditSign auditSign = supplierAuditSignMapper.selectByPrimaryKey(supplierAuditSign.getId());
+								if (auditSign != null) {
+									supplierAuditSignMapper.updateByPrimaryKey(supplierAuditSign);
+								} else {
+									supplierAuditSignMapper.insert(supplierAuditSign);
+								}
+							}
+						}
+					}
+					recordService.backupImportCheckResults(new Integer(list.size()).toString());
+				}else if (file2.getName().contains(synchro.util.Constant.ATTACH_FILE_SUPPLIER)) {
+					OperAttachment.moveFolder(file2);
+				}
+			}
+		 } catch (Exception e) {
+			e.printStackTrace();
+			//发送短信
+			
+		}
 	}
-    
 }

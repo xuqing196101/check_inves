@@ -1122,59 +1122,64 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 
 	@Override
 	public void exportInvestResult(String startTime, String endTime, Date date) {
-		List<SupplierSynch> list = supplierMapper.getSupplierByInvesTime(startTime, endTime);
-		if (list != null && list.size() > 0) {
-			for (SupplierSynch supplier : list) {
-				//获取供应商附件实地考察记录
-				SupplierAttachAudit supplierAttachAudit = new SupplierAttachAudit();
-				supplierAttachAudit.setSupplierId(supplier.getId());
-				supplierAttachAudit.setAuditType(2);
-				List<SupplierAttachAudit> supplierAttachAudits = supplierAttachAuditMapper.diySelect(supplierAttachAudit);
-				supplier.setAttachAudits(supplierAttachAudits);
-				//获取供应商实地考察意见
-				SupplierAuditOpinion supplierAuditOpinion = new SupplierAuditOpinion();
-				supplierAuditOpinion.setSupplierId(supplier.getId());
-				supplierAuditOpinion.setFlagTime(2);
-				List<SupplierAuditOpinion> supplierAuditOpinions = supplierAuditOpinionMapper.selectByCondit(supplierAuditOpinion);
-				supplier.setAuditOpinions(supplierAuditOpinions);
-				//供应商实地考察时上传附件
-				List<UploadFile> uploadFiles = new ArrayList<UploadFile>();
-				String tableName = Constant.fileSystem.get(1);
+		try {
+			List<SupplierSynch> list = supplierMapper.getSupplierByInvesTime(startTime, endTime);
+			if (list != null && list.size() > 0) {
+				for (SupplierSynch supplier : list) {
+					//1.获取供应商附件实地考察记录
+					SupplierAttachAudit supplierAttachAudit = new SupplierAttachAudit();
+					supplierAttachAudit.setSupplierId(supplier.getId());
+					supplierAttachAudit.setAuditType(2);
+					List<SupplierAttachAudit> supplierAttachAudits = supplierAttachAuditMapper.diySelect(supplierAttachAudit);
+					supplier.setAttachAudits(supplierAttachAudits);
+					//2.获取供应商实地考察意见
+					SupplierAuditOpinion supplierAuditOpinion = new SupplierAuditOpinion();
+					supplierAuditOpinion.setSupplierId(supplier.getId());
+					supplierAuditOpinion.setFlagTime(2);
+					List<SupplierAuditOpinion> supplierAuditOpinions = supplierAuditOpinionMapper.selectByCondit(supplierAuditOpinion);
+					supplier.setAuditOpinions(supplierAuditOpinions);
+					//3.供应商实地考察时上传附件
+					List<UploadFile> uploadFiles = new ArrayList<UploadFile>();
+					String tableName = Constant.fileSystem.get(1);
 					//实地考察时需要上传考察影像资料
-				String typeId = DictionaryDataUtil.getId("SUPPLIER_IMAGE_DATA");
-				List<UploadFile> attachList = fileUploadMapper.getFileByBusinessId(supplier.getId(), typeId, tableName);
-				uploadFiles.addAll(attachList);
+					String typeId = DictionaryDataUtil.getId("SUPPLIER_IMAGE_DATA");
+					List<UploadFile> attachList = fileUploadMapper.getFileByBusinessId(supplier.getId(), typeId, tableName);
+					uploadFiles.addAll(attachList);
 					//供应商实地考察时上传的实地考察记录表
-				String typeId2 = DictionaryDataUtil.getId("SUPPLIER_SURVEY_RECORDS");
-				List<UploadFile> attachList2 = fileUploadMapper.getFileByBusinessId(supplier.getId(), typeId2, tableName);
-				uploadFiles.addAll(attachList2);
-				if (uploadFiles != null && uploadFiles.size() > 0){
-					String basePath = FileUtils.attachExportPath(41);
-	                if (StringUtils.isNotBlank(basePath)){
-	                    OperAttachment.writeFile(basePath, uploadFiles);
-	                }
-	            }
-				supplier.setAttchList(uploadFiles);
-				//供应商实地考察其他信息
-				SupplierInvesOtherExample invesOtherExample = new SupplierInvesOtherExample();
-				invesOtherExample.createCriteria().andSupplierIdEqualTo(supplier.getId());
-				List<SupplierInvesOther> invesOthers = supplierInvesOtherMapper.selectByExample(invesOtherExample);
-				supplier.setInvesOthers(invesOthers);
-				//产品类别审核表
-				SupplierCateAuditExample auditExample = new SupplierCateAuditExample();
-				auditExample.createCriteria().andSupplierIdEqualTo(supplier.getId());
-				List<SupplierCateAudit> cateAudits = supplierCateAuditMapper.selectByExample(auditExample);
-				supplier.setCateAudits(cateAudits);
-				//考察组签字
-				SupplierAuditSignExample auditSignExample = new SupplierAuditSignExample();
-				auditSignExample.createCriteria().andSupplierIdEqualTo(supplier.getId());
-				List<SupplierAuditSign> auditSigns = supplierAuditSignMapper.selectByExample(auditSignExample);
-				supplier.setAuditSigns(auditSigns);
+					String typeId2 = DictionaryDataUtil.getId("SUPPLIER_SURVEY_RECORDS");
+					List<UploadFile> attachList2 = fileUploadMapper.getFileByBusinessId(supplier.getId(), typeId2, tableName);
+					uploadFiles.addAll(attachList2);
+					if (uploadFiles != null && uploadFiles.size() > 0){
+						String basePath = FileUtils.attachExportPath(41);
+						if (StringUtils.isNotBlank(basePath)){
+							OperAttachment.writeFile(basePath, uploadFiles);
+						}
+					}
+					supplier.setAttchList(uploadFiles);
+					//4.供应商实地考察其他信息
+					SupplierInvesOtherExample invesOtherExample = new SupplierInvesOtherExample();
+					invesOtherExample.createCriteria().andSupplierIdEqualTo(supplier.getId());
+					List<SupplierInvesOther> invesOthers = supplierInvesOtherMapper.selectByExample(invesOtherExample);
+					supplier.setInvesOthers(invesOthers);
+					//5.产品类别审核表
+					SupplierCateAuditExample auditExample = new SupplierCateAuditExample();
+					auditExample.createCriteria().andSupplierIdEqualTo(supplier.getId());
+					List<SupplierCateAudit> cateAudits = supplierCateAuditMapper.selectByExample(auditExample);
+					supplier.setCateAudits(cateAudits);
+					//6.考察组签字
+					SupplierAuditSignExample auditSignExample = new SupplierAuditSignExample();
+					auditSignExample.createCriteria().andSupplierIdEqualTo(supplier.getId());
+					List<SupplierAuditSign> auditSigns = supplierAuditSignMapper.selectByExample(auditSignExample);
+					supplier.setAuditSigns(auditSigns);
+				}
+				FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_INVEST_RESULT_FILENAME, 39), JSON.toJSONString(list));
+				synchRecordService.backupExportInvestResults(date, new Integer(list.size()).toString());
+			} else {
+				synchRecordService.backupExportInvestResults(date, "0");
 			}
-            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_INVEST_RESULT_FILENAME, 39), JSON.toJSONString(list));
-			synchRecordService.backupExportInvestResults(date, new Integer(list.size()).toString());
-		} else {
-			synchRecordService.backupExportInvestResults(date, "0");
+		} catch (Exception e) {
+			e.printStackTrace();
+			//发送短信
 		}
 	}
 
