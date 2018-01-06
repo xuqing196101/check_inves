@@ -47,4 +47,21 @@ public interface SupplierAttachAuditService {
 	 * @return
 	 */
 	List<SupplierAttachAudit> diySelect (SupplierAttachAudit supplierAttachAudit);
+
+	/**
+	 * 统计考察通过/不通过记录
+	 * @param supplierId
+	 * @param auditType
+	 * @param isAccord
+	 * @return
+	 */
+	int countByIsAccord(String supplierId, int auditType, int isAccord);
+
+	/**
+	 * 统计没有填写理由的不通过项
+	 * @param supplierId
+	 * @param auditType
+	 * @return
+	 */
+	int countByNoSuggest(String supplierId, int auditType);
 }

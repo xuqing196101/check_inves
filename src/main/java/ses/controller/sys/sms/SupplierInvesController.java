@@ -2,6 +2,7 @@ package ses.controller.sys.sms;
 
 import java.util.Date;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -186,10 +187,27 @@ public class SupplierInvesController extends BaseSupplierController {
 		// 供应商类型
 		dataMap.put("supplierType", getSupplierType(supplierId));
 		//住所
+		String provinceName = "";
+        String cityName = "";
+		try {
+            if(StringUtils.isNotBlank(supplier.getAddress())){
+            Area area = areaService.listById(supplier.getAddress());
+            if (area != null) {
+                cityName = area.getName();
+                Area area1 = areaService.listById(area.getParentId());
+                if (area1 != null) {
+                    provinceName = area1.getName();
+                }
+            }
+            supplier.setAddress(provinceName + cityName);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 		dataMap.put("address", supplier.getAddress());
 		//生产经营地址
 		List < Area > province = areaService.findRootArea();
-		List < SupplierAddress > adressList = supplierAddressService.queryBySupplierId(supplierId);
+		/*List < SupplierAddress > adressList = supplierAddressService.queryBySupplierId(supplierId);
 		if(!adressList.isEmpty() && adressList.size() > 0 ){
 			for(Area a: province) {
 				for(SupplierAddress s: adressList) {
@@ -198,7 +216,14 @@ public class SupplierInvesController extends BaseSupplierController {
 					}
 				}
 			}
-		}
+		}*/
+		
+		//测试数据
+		List < SupplierAddress > adressList = new ArrayList<>();
+		SupplierAddress supplierAddress = new SupplierAddress();
+		supplierAddress.setParentName("北京");
+		supplierAddress.setSubAddressName("丰台");
+		adressList.add(supplierAddress);
 		dataMap.put("adressList", adressList);
 		
 		/**
@@ -335,13 +360,13 @@ public class SupplierInvesController extends BaseSupplierController {
 		// 其他考察信息
 		SupplierInvesOther other = supplierInvesOtherService.getBySupplierId(supplierId);
 		// 考察意见
-		SupplierAuditOpinion auditOpinion = supplierAuditOpinionService.selectByExpertIdAndflagTime(supplierId, 2);
+		SupplierAuditOpinion supplierAuditOpinion = supplierAuditOpinionService.selectByExpertIdAndflagTime(supplierId, 2);
 		
 		model.addAttribute("itemList", itemList);
 		model.addAttribute("cateList", cateList);
 		model.addAttribute("signList", signList);
 		model.addAttribute("other", other);
-		model.addAttribute("auditOpinion", auditOpinion);
+		model.addAttribute("supplierAuditOpinion", supplierAuditOpinion);
 		model.addAttribute("supplierId", supplierId);
 		model.addAttribute("supplierStatus", supplierService.getStatusById(supplierId));
 		model.addAttribute("sign", 3);
@@ -351,7 +376,6 @@ public class SupplierInvesController extends BaseSupplierController {
 	}
 	
 	/**
-<<<<<<< HEAD
 	 * 保存产品类别审核
 	 * @param id
 	 * @param isSupplied
@@ -397,6 +421,19 @@ public class SupplierInvesController extends BaseSupplierController {
 	@RequestMapping("saveAuditOpinion")
 	@ResponseBody
 	public JdcgResult saveAuditOpinion(SupplierAuditOpinion supplierAuditOpinion){
+		String supplierId = supplierAuditOpinion.getSupplierId();
+		// 考察合格与考察不合格校验
+		if(supplierAuditOpinion.getFlagAduit() != null && supplierAuditOpinion.getFlagAduit() == 1){
+			int countIsAccordNotPass = supplierAttachAuditService.countByIsAccord(supplierId, 2, 2);
+			if(countIsAccordNotPass > 0){
+				return JdcgResult.build(501, "考察项目中存在于原件不一致的扫描件！");
+			}
+			int countIsSuppliedNotPass = supplierCateAuditService.countByIsSupplied(supplierId, 2);
+			int countAllCate = supplierCateAuditService.countBySupplierId(supplierId);
+			if(countIsSuppliedNotPass == countAllCate){
+				return JdcgResult.build(501, "考察的产品类别全部不通过，不能选择考察合格！");
+			}
+		}
 		supplierAuditOpinion.setFlagTime(2);
 		supplierAuditOpinionService.saveOpinion(supplierAuditOpinion);
 		return JdcgResult.ok(supplierAuditOpinion);
@@ -479,6 +516,61 @@ public class SupplierInvesController extends BaseSupplierController {
 				}
 			}
 		}
+		if(result > 0){
+			return JdcgResult.ok();
+		}
+		return null;
+	}
+	
+	/**
+	 * 考察结束
+	 * @param user
+	 * @param supplierId
+	 * @param auditFlag
+	 * @return
+	 */
+	@RequestMapping("invesEnd")
+	@ResponseBody
+	public JdcgResult invesEnd(@CurrentUser User user, String supplierId, String auditFlag){
+		int result = 0;
+		if(user == null){
+			return JdcgResult.build(501, "登录失效！");
+		}
+		if(!"1".equals(auditFlag) && !"0".equals(auditFlag)){
+			return JdcgResult.build(501, "非法参数！");
+		}
+		// 考察不通过项没有填写理由
+		int countAttachNoSuggest = supplierAttachAuditService.countByNoSuggest(supplierId, 2);
+		int countCateNoSuggest = supplierCateAuditService.countByNoSuggest(supplierId);
+		if(countAttachNoSuggest > 0){
+			return JdcgResult.build(501, "扫描件考察项中存在未填写不合格理由的！");
+		}
+		if(countCateNoSuggest > 0){
+			return JdcgResult.build(501, "产品类别考察项中存在未填写不合格理由的！");
+		}
+		// 考察合格与考察不合格校验
+		int status = 0;
+		if("1".equals(auditFlag)){
+			int countIsAccordNotPass = supplierAttachAuditService.countByIsAccord(supplierId, 2, 2);
+			if(countIsAccordNotPass > 0){
+				return JdcgResult.build(501, "考察项目中存在与原件不一致的扫描件！");
+			}
+			int countIsSuppliedNotPass = supplierCateAuditService.countByIsSupplied(supplierId, 2);
+			int countAllCate = supplierCateAuditService.countBySupplierId(supplierId);
+			if(countIsSuppliedNotPass == countAllCate){
+				return JdcgResult.build(501, "考察的产品类别全部不通过，不能选择考察合格！");
+			}
+			status = SupplierConstants.Status.INVESTIGATE_PASSED.getValue();
+		}
+		if("0".equals(auditFlag)){
+			status = SupplierConstants.Status.INVESTIGATE_NOT_PASS.getValue();
+		}
+		Supplier supplier = new Supplier();
+		supplier.setId(supplierId);
+		supplier.setInvesPeople(user.getRelName());
+		supplier.setInvesAt(new Date());
+		supplier.setStatus(status);
+		result = supplierService.updateReviewOrInves(supplier);
 		if(result > 0){
 			return JdcgResult.ok();
 		}

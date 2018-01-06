@@ -41,4 +41,19 @@ public interface SupplierCateAuditService {
 	 */
 	int updateById(String id, Integer isSupplied, String suggest);
 
+	/**
+	 * 统计考察通过/不通过记录
+	 * @param supplierId
+	 * @param isSupplied
+	 * @return
+	 */
+	int countByIsSupplied(String supplierId, int isSupplied);
+
+	/**
+	 * 统计没有填写理由的不通过项
+	 * @param supplierId
+	 * @return
+	 */
+	int countByNoSuggest(String supplierId);
+
 }

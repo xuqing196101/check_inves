@@ -41,7 +41,9 @@ public class SupplierCateAuditServiceImpl implements SupplierCateAuditService {
 	@Override
 	public int countBySupplierId(String supplierId) {
 		SupplierCateAuditExample example = new SupplierCateAuditExample();
-		example.createCriteria().andSupplierIdEqualTo(supplierId).andIsDeletedEqualTo(0);
+		example.createCriteria()
+		.andSupplierIdEqualTo(supplierId)
+		.andIsDeletedEqualTo(0);
 		return supplierCateAuditMapper.countByExample(example);
 	}
 
@@ -141,7 +143,7 @@ public class SupplierCateAuditServiceImpl implements SupplierCateAuditService {
 											supplierCateAudit.setSupplierTypeId(item.getSupplierTypeRelateId());
 											supplierCateAudit.setCategoryId(cateTree.getFirstNodeID());
 											supplierCateAudit.setCategoryName(cateTree.getFirstNode());
-											supplierCateAudit.setSn("（"+toChinese(firstN)+"）");
+											supplierCateAudit.setSn("("+toChinese(firstN)+")");
 											supplierCateAudit.setPosition(result+1);
 											result += supplierCateAuditMapper.insertSelective(supplierCateAudit);
 										}
@@ -286,6 +288,27 @@ public class SupplierCateAuditServiceImpl implements SupplierCateAuditService {
 			}
 		}
 		return result;
+	}
+	
+	@Override
+	public int countByIsSupplied(String supplierId, int isSupplied) {
+		SupplierCateAuditExample example = new SupplierCateAuditExample();
+		example.createCriteria()
+		.andSupplierIdEqualTo(supplierId)
+		.andIsSuppliedEqualTo(isSupplied)
+		.andIsDeletedEqualTo(0);
+		return supplierCateAuditMapper.countByExample(example);
+	}
+	
+	@Override
+	public int countByNoSuggest(String supplierId) {
+		SupplierCateAuditExample example = new SupplierCateAuditExample();
+		example.createCriteria()
+		.andSupplierIdEqualTo(supplierId)
+		.andIsSuppliedEqualTo(2)
+		.andSuggestIsNull()
+		.andIsDeletedEqualTo(0);
+		return supplierCateAuditMapper.countByExample(example);
 	}
 	
 	/**

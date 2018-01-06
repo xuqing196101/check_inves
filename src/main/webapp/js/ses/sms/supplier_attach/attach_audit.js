@@ -17,6 +17,7 @@ function viewAttach(url, title) {
 //审核操作
 //isAccord是否一致  1：一致， 2不一致。auditType审核类型  1：复核，2考察。
 function opr(_this, id , isAccord, auditType) {
+	var countAttachAuditNotPass = parseInt($("#countAttachAuditNotPass").val());
 	if(isAccord == 1){
 		if($(_this).hasClass("bgdd") && $(_this).hasClass("black_link")){// 默认按钮
 			$(_this).removeClass("bgdd");
@@ -29,7 +30,7 @@ function opr(_this, id , isAccord, auditType) {
 			$(_this).addClass("bgdd");
 			$(_this).addClass("black_link");
 			$("#isAccord_" + id).val("");
-			isAccord = 0
+			isAccord = 0;
 		}
 	}
 	if(isAccord == 2){
@@ -40,12 +41,14 @@ function opr(_this, id , isAccord, auditType) {
 			$("#isAccord_" + id).val(isAccord);
 			$(_this).prev().addClass("bgdd");
 			$(_this).prev().addClass("black_link");
+			$("#countAttachAuditNotPass").val(++countAttachAuditNotPass);
 		}else{
 			$(_this).removeClass("bgred");
 			$(_this).addClass("bgdd");
 			$(_this).addClass("black_link");
 			$("#isAccord_" + id).val("");
-			isAccord = 0
+			isAccord = 0;
+			$("#countAttachAuditNotPass").val(--countAttachAuditNotPass);
 		}
 	}
 	

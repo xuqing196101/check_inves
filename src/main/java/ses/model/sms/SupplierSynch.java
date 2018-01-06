@@ -8,6 +8,14 @@ import ses.model.sms.review.SupplierAuditSign;
 import ses.model.sms.review.SupplierCateAudit;
 import ses.model.sms.review.SupplierInvesOther;
 
+/**
+ * <简述>供应商实地考察导出关联
+ * <详细描述>
+ * @author   Ye Maolin
+ * @version  
+ * @since
+ * @see
+ */
 @SuppressWarnings("serial")
 public class SupplierSynch extends Supplier{
 	

@@ -87,7 +87,35 @@ function tempSaveInvesOther(_this){
 }
 //实时更新考察意见
 function tempSaveAuditOpinion(_this){
-	
+	var param = {};
+	var id = $("#auditOpinionId").val();
+	param["id"] = id;
+	//if(id == ""){
+		param["supplierId"] = $("#supplierId").val();
+	//}
+	param[_this.name] = _this.value;
+	if(_this.name == "opinion" && $("#cate_result").val() != ""){
+		param[_this.name] = $("#cate_result").val() + _this.value;
+	}
+	$.ajax({
+		url : globalPath + "/supplierInves/saveAuditOpinion.do",
+		type : "post",
+		dataType : "json",
+		data : param,
+		success : function(data) {
+			if(data){
+				if(data.status == 200){
+					if(id == ""){
+						$("#auditOpinionId").val(data.data.id);
+					}
+				}else{
+					layer.msg(data.msg, {offset: '100px'});
+					$("#qualified").attr("checked", false);
+					$("#qualified").attr("disabled", true);
+				}
+			}
+		}
+	});
 }
 // 实时更新考察组人员
 function tempSaveSignature(_this){
@@ -100,7 +128,6 @@ function tempSaveSignature(_this){
 		param["supplierId"] = $("#supplierId").val();
 	}
 	param[name] = _this.value;
-	console.log(param);
 	$.ajax({
 		url : globalPath + "/supplierInves/saveSignature.do",
 		type : "post",
@@ -118,6 +145,7 @@ function tempSaveSignature(_this){
 
 // 审核操作
 function oprCateAudit(_this, id , isSupplied) {
+	var countCateAuditNotPass = parseInt($("#countCateAuditNotPass").val());
 	if(isSupplied == 1){
 		if($(_this).hasClass("bgdd") && $(_this).hasClass("black_link")){// 默认按钮
 			$(_this).removeClass("bgdd");
@@ -140,18 +168,51 @@ function oprCateAudit(_this, id , isSupplied) {
 			$("#isSupplied_" + id).val(isSupplied);
 			$(_this).prev().addClass("bgdd");
 			$(_this).prev().addClass("black_link");
+			$("#countCateAuditNotPass").val(++countCateAuditNotPass);
 		}else{
 			$(_this).removeClass("bgred");
 			$(_this).addClass("bgdd");
 			$(_this).addClass("black_link");
 			$("#isSupplied_" + id).val("0");
+			$("#countCateAuditNotPass").val(--countCateAuditNotPass);
 		}
 	}
 	
 	tempSaveCateAudit(id);
 }
 
+// 考察合格鼠标悬停事件
+function onmouseoverInvesPass(){
+	var countAttachAuditNotPass = parseInt($("#countAttachAuditNotPass").val());
+	var countCateAuditNotPass = parseInt($("#countCateAuditNotPass").val());
+	var countCateAuditAll = parseInt($("#countCateAuditAll").val());
+	if(countAttachAuditNotPass > 0 || countCateAuditNotPass == countCateAuditAll){
+		$("#qualified").attr("disabled", true);
+	}else{
+		$("#qualified").attr("disabled", false);
+	}
+}
+
 // 考察结束
-function endInves(){
-	
+function invesEnd(){
+	var supplierId = $("#supplierId").val();
+	var auditFlag = $("input[name='flagAduit']:checked").val();
+	$.ajax({
+		url : globalPath + "/supplierInves/invesEnd.do",
+		type : "post",
+		dataType : "json",
+		data : {
+			supplierId : supplierId,
+			auditFlag : auditFlag
+		},
+		success : function(data) {
+			if(data){
+				if(data.status == 200){
+					location.href = globalPath + "/supplierInves/list.html";
+				}else{
+					layer.msg(data.msg, {offset: '100px'});
+				}
+			}
+		}
+	});
 }

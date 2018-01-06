@@ -75,7 +75,11 @@
 	                </tr>
 	              </thead>
 	              <tbody id="tbody_items">
+	              	<c:set var="countAttachAuditNotPass" value="0"/>
 	                <c:forEach items="${itemList}" var="item" varStatus="vs">
+	                	<c:if test="${item.isAccord==2}">
+	                		<c:set var="countAttachAuditNotPass" value="${countAttachAuditNotPass+1}"/>
+	                	</c:if>
 	                  <tr class="h40">
 	                    <td class="tc">${vs.index+1}</td>
 	                    <td class="tc">${item.attachName}</td>
@@ -107,6 +111,7 @@
 	                </c:forEach>
 	              </tbody>
 	            </table>
+	            <input type="hidden" id="countAttachAuditNotPass" value="${countAttachAuditNotPass}" />
 						</li>
 						<li>申报产品类别产品提供能力情况</li>
 						<li>
@@ -120,7 +125,11 @@
 	                </tr>
 	              </thead>
 	              <tbody id="tbody_cates">
+	              	<c:set var="countCateAuditNotPass" value="0"/>
 	                <c:forEach items="${cateList}" var="item" varStatus="vs">
+	                	<c:if test="${item.isSupplied==2}">
+	                		<c:set var="countCateAuditNotPass" value="${countCateAuditNotPass+1}"/>
+	                	</c:if>
 	                  <tr class="h40">
 	                    <td class="tc">${item.sn}</td>
 	                    <td class="tc">${item.categoryName}</td>
@@ -144,6 +153,8 @@
 	                </c:forEach>
 	              </tbody>
 	            </table>
+	            <input type="hidden" id="countCateAuditNotPass" value="${countCateAuditNotPass}" />
+	            <input type="hidden" id="countCateAuditAll" value="${fn:length(cateList)}" />
 						</li>
 						<li class="mt10"><span>主要生产场所情况</span></li>
 						<li class="mt10">
@@ -159,16 +170,22 @@
           <h2 class="count_flow"><i>3</i>考察意见</h2>
           <ul class="ul_list">
             <li>
+            	<input type="hidden" value="${supplierAuditOpinion.id}" id="auditOpinionId" />
               <div class="select_check">
-					      <input type="radio" value="1" name="selectOption" id="qualified" onclick="tempSaveAuditOpinion(this)">考察合格
-					      <input type="radio" value="0" name="selectOption" id="unqualified" onclick="tempSaveAuditOpinion(this)">考察不合格
+					      <input type="radio" value="1" name="flagAduit" onclick="tempSaveAuditOpinion(this)" 
+					      onmouseover="onmouseoverInvesPass()" id="qualified"
+					      <c:if test="${supplierAuditOpinion.flagAduit == 1}">checked="checked"</c:if>
+					      <c:if test="${countAttachAuditNotPass > 0 || countCateAuditNotPass == fn:length(cateList)}">disabled="disabled"</c:if>>考察合格
+					      <input type="radio" value="0" name="flagAduit" onclick="tempSaveAuditOpinion(this)" 
+					      <c:if test="${supplierAuditOpinion.flagAduit == 0}">checked="checked"</c:if>>考察不合格
 				      </div>
             </li>
             <li>
               <div id="cate_result"></div>
             </li>
 						<li class="mt10">
-	             <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80" onchange="tempSaveAuditOpinion(this)" maxlength="300">${auditOpinion}</textarea>
+	             <textarea id="opinion" name="opinion" class="col-md-12 col-xs-12 col-sm-12 h80"
+	             onchange="tempSaveAuditOpinion(this)" maxlength="300">${supplierAuditOpinion.opinion}</textarea>
 	          </li>
           </ul>
           <div class="clear"></div>

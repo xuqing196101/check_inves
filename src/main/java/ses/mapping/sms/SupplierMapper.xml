@@ -2690,16 +2690,16 @@
     <select id="getSupplierByInvesTime" resultType="ses.model.sms.SupplierSynch">
       SELECT 
         T1.ID,
-		T1.SUPPLIER_NAME,
-		T1.INVES_PEOPLE,
-		T1.INVES_AT
+		T1.SUPPLIER_NAME AS supplierName,
+		T1.INVES_PEOPLE AS invesPeople,
+		T1.INVES_AT AS invesAt
 	  FROM
 	  	T_SES_SMS_SUPPLIER T1
 	  WHERE
 	  	T1.SUPPLIER_STATUS in ('7','8')
 	  AND
-	  	to_char(T1.REVIEW_AT,'yyyy-MM-dd hh24:mi:ss') &gt;= #{startTime}
+	  	to_char(T1.INVES_AT,'yyyy-MM-dd hh24:mi:ss') &gt;= #{startTime}
 	  AND
-	  	to_char(T1.REVIEW_AT,'yyyy-MM-dd hh24:mi:ss') &lt;= #{endTime}	
+	  	to_char(T1.INVES_AT,'yyyy-MM-dd hh24:mi:ss') &lt;= #{endTime}	
     </select>
 </mapper>

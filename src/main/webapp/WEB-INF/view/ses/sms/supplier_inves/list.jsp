@@ -161,10 +161,12 @@
 	            <td class="tl">${s.supplierName}</td>
 	            <td class="tl">${s.supplierTypeNames}</td>
 	            <td class="tc">${s.businessNature}</td>
-	            <td class="tc">${s.invesAt}</td>
+	            <td class="tc"><fmt:formatDate value="${s.invesAt}" pattern="yyyy-MM-dd" /></td>
 	            <td class="tc">${s.invesPeople}</td>
 	            <td class="tc" id="${s.id}" sts="${s.status}">
 	            	<c:if test="${s.status == 5 and s.auditTemporary != 3}"><span
+                      class="label rounded-2x label-u">${supplierStatusMap[s.status]}</span></c:if>
+	            	<c:if test="${s.status == 7 or s.status == 8}"><span
                       class="label rounded-2x label-u">${supplierStatusMap[s.status]}</span></c:if>
               	<c:if test="${s.status == 5 and s.auditTemporary == 3}"><span
                       class="label rounded-2x label-u">${supplierAuditTemporaryStatusMap[s.auditTemporary]}</span></c:if>

@@ -738,4 +738,27 @@ public class SupplierAttachAuditServiceImpl implements SupplierAttachAuditServic
 		return supplierAttachAuditMapper.diySelect(supplierAttachAudit);
 	}
 
+	@Override
+	public int countByIsAccord(String supplierId, int auditType, int isAccord) {
+		SupplierAttachAuditExample example = new SupplierAttachAuditExample();
+		example.createCriteria()
+		.andSupplierIdEqualTo(supplierId)
+		.andAuditTypeEqualTo(auditType)
+		.andIsAccordEqualTo(isAccord)
+		.andIsDeletedEqualTo(0);
+		return supplierAttachAuditMapper.countByExample(example);
+	}
+
+	@Override
+	public int countByNoSuggest(String supplierId, int auditType) {
+		SupplierAttachAuditExample example = new SupplierAttachAuditExample();
+		example.createCriteria()
+		.andSupplierIdEqualTo(supplierId)
+		.andAuditTypeEqualTo(auditType)
+		.andIsAccordEqualTo(2)
+		.andSuggestIsNull()
+		.andIsDeletedEqualTo(0);
+		return supplierAttachAuditMapper.countByExample(example);
+	}
+
 }

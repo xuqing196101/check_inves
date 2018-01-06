@@ -111,15 +111,18 @@ public class SupplierReviewController {
 		
 		List<SupplierAttachAudit> itemList = null;
 		// 查询附件审核表是否有生成复核项目
-		int count = supplierAttachAuditService.countBySupplierIdAndType(supplierId, 1);
-		if(count > 0){
-			// 获取复核项目信息
-			itemList = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 1, 0);
-		}else{
-			// 添加复核项目信息
-			int addResult = supplierAttachAuditService.addBySupplierIdAndType(supplierId, 1);
-			if(addResult > 0){
+		
+		synchronized(SupplierAttachAudit.class){
+			int count = supplierAttachAuditService.countBySupplierIdAndType(supplierId, 1);
+			if(count > 0){
+				// 获取复核项目信息
 				itemList = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 1, 0);
+			}else{
+				// 添加复核项目信息
+				int addResult = supplierAttachAuditService.addBySupplierIdAndType(supplierId, 1);
+				if(addResult > 0){
+					itemList = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 1, 0);
+				}
 			}
 		}
 		model.addAttribute("itemList", itemList);

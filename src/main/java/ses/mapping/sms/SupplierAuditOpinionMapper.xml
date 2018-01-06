@@ -93,14 +93,14 @@
          IS_DELETE
       )
       values (
-              #{id},
-              #{supplierId},
-              #{opinion},
-              #{createdAt},
-              #{flagTime},
-              #{flagAduit},
-              #{isDownLoadAttch},
-              #{isDelete}
+              #{id,jdbcType=VARCHAR},
+              #{supplierId,jdbcType=VARCHAR},
+              #{opinion,jdbcType=VARCHAR},
+              #{createdAt,jdbcType=DATE},
+              #{flagTime,jdbcType=INTEGER},
+              #{flagAduit,jdbcType=INTEGER},
+              #{isDownLoadAttch,jdbcType=INTEGER},
+              #{isDelete,jdbcType=INTEGER}
       )
   </insert>
   

@@ -2765,8 +2765,8 @@ public class SupplierServiceImpl implements SupplierService {
 	 * 更新复核或实地考察信息
 	 */
 	@Override
-	public void updateReviewOrInves(Supplier supplier) {
-		supplierMapper.updateReviewOrInves(supplier);
+	public int updateReviewOrInves(Supplier supplier) {
+		return supplierMapper.updateReviewOrInves(supplier);
 		
 	}
 

@@ -148,12 +148,11 @@ public class SupplierAuditOpinionServiceImpl implements SupplierAuditOpinionServ
 	@Override
 	public String saveOpinion(SupplierAuditOpinion supplierAuditOpinion) {
 		supplierAuditOpinion.setCreatedAt(new Date());
-		supplierAuditOpinion.setFlagTime(1);
 		
 		//查询是否有意见
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("supplierId", supplierAuditOpinion.getSupplierId());
-		map.put("flagTime", 1);
+		map.put("flagTime", supplierAuditOpinion.getFlagTime());
 		map.put("isDelete", 0);
 		SupplierAuditOpinion historyOpinion = supplierAuditOpinionMapper.selectByExpertIdAndflagTime(map);
 		if(historyOpinion !=null){
