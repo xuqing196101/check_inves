@@ -45,7 +45,7 @@ function delSignature(id){
 }
 
 // 实时更新考察产品类别
-function tempSaveCateAudit(id){
+function tempSaveCateAudit(id, _isSupplied){
 	var isSupplied = $("#isSupplied_"+id).val();
 	var suggest = $("#suggest_"+id).val();
 	$.ajax({
@@ -60,13 +60,14 @@ function tempSaveCateAudit(id){
 		success : function(data) {
 			if(data && data.status == 200){
 				var ids = data.data;
-				if(ids){
+				if(ids && ids.length > 0){
+					ids.splice($.inArray(id, ids), 1);
 					for(var i=0,len=ids.length; i<len; i++){
-						if(isSupplied == 1){
-							changeCateAuditBtn("#btn_yes_"+id, ids[i], isSupplied);
+						if(_isSupplied == 1){
+							changeCateAuditBtn("#btn_yes_"+ids[i], ids[i], _isSupplied);
 						}
-						if(isSupplied == 2){
-							changeCateAuditBtn("#btn_no_"+id, ids[i], isSupplied);
+						if(_isSupplied == 2){
+							changeCateAuditBtn("#btn_no_"+ids[i], ids[i], _isSupplied);
 						}
 					}
 				}
@@ -156,33 +157,37 @@ function tempSaveSignature(_this){
 }
 
 // 审核操作
-function oprCateAudit(_this, id , isSupplied) {
-	changeCateAuditBtn(_this, id, isSupplied);
-	tempSaveCateAudit(id);
+function oprCateAudit(_this, id , _isSupplied) {
+	changeCateAuditBtn(_this, id, _isSupplied);
+	tempSaveCateAudit(id, _isSupplied);
 }
 
-function changeCateAuditBtn(_this, id , isSupplied){
+function changeCateAuditBtn(_this, id , _isSupplied){
 	var countCateAuditNotPass = parseInt($("#countCateAuditNotPass").val());
-	if(isSupplied == 1){
+	var isSupplied = $("#isSupplied_" + id).val();
+	if(_isSupplied == 1){
 		if($(_this).hasClass("bgdd") && $(_this).hasClass("black_link")){// 默认按钮
 			$(_this).removeClass("bgdd");
 			$(_this).removeClass("black_link");
-			$("#isSupplied_" + id).val(isSupplied);
+			$("#isSupplied_" + id).val(_isSupplied);
 			$(_this).next().removeClass("bgred");
 			$(_this).next().addClass("bgdd");
 			$(_this).next().addClass("black_link");
+			if(isSupplied == 2){
+				$("#countCateAuditNotPass").val(--countCateAuditNotPass);
+			}
 		}else{
 			$(_this).addClass("bgdd");
 			$(_this).addClass("black_link");
 			$("#isSupplied_" + id).val("0");
 		}
 	}
-	if(isSupplied == 2){
+	if(_isSupplied == 2){
 		if($(_this).hasClass("bgdd") && $(_this).hasClass("black_link")){// 默认按钮
 			$(_this).removeClass("bgdd");
 			$(_this).removeClass("black_link");
 			$(_this).addClass("bgred");
-			$("#isSupplied_" + id).val(isSupplied);
+			$("#isSupplied_" + id).val(_isSupplied);
 			$(_this).prev().addClass("bgdd");
 			$(_this).prev().addClass("black_link");
 			$("#countCateAuditNotPass").val(++countCateAuditNotPass);

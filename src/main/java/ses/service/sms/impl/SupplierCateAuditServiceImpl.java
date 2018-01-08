@@ -193,7 +193,7 @@ public class SupplierCateAuditServiceImpl implements SupplierCateAuditService {
 											supplierCateAudit.setSupplierTypeId(item.getSupplierTypeRelateId());
 											supplierCateAudit.setCategoryId(cateTree.getThirdNodeID());
 											supplierCateAudit.setCategoryName(cateTree.getThirdNode());
-											supplierCateAudit.setSn("（"+thirdN+"）");
+											supplierCateAudit.setSn("("+thirdN+")");
 											supplierCateAudit.setPosition(result+1);
 											result += supplierCateAuditMapper.insertSelective(supplierCateAudit);
 										}
@@ -252,7 +252,7 @@ public class SupplierCateAuditServiceImpl implements SupplierCateAuditService {
 					.andSupplierTypeIdEqualTo(supplierCateAudit.getSupplierTypeId());
 					record = new SupplierCateAudit();
 					record.setIsSupplied(isSupplied);
-					//record.setSuggest(suggest);
+					record.setSuggest(suggest);
 					result = supplierCateAuditMapper.updateByExampleSelective(record, example);
 					if(result > 0){
 						ids = supplierInvesMapper.selectCateAuditIdsBySupplierTypeId(supplierCateAudit.getSupplierId(), supplierCateAudit.getSupplierTypeId());
@@ -287,7 +287,7 @@ public class SupplierCateAuditServiceImpl implements SupplierCateAuditService {
 							.andSupplierTypeIdEqualTo(supplierCateAudit.getSupplierTypeId());
 							record = new SupplierCateAudit();
 							record.setIsSupplied(isSupplied);
-							//record.setSuggest(suggest);
+							record.setSuggest(suggest);
 							result = supplierCateAuditMapper.updateByExampleSelective(record, example);
 							result = supplierCateAuditMapper.updateByExampleSelective(record, example);
 							if(result > 0){
