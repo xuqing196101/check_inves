@@ -1785,7 +1785,7 @@ public class ExpertServiceImpl implements ExpertService {
 		mapper.updateReviewStatus("", expertId);
 	}
 	public List<Expert> getFcExpertByDate(String startDate, String endDate) {
-	    return mapper.getFcExpertByDate(startDate, endDate,/*DictionaryDataUtil.getId("LOCAL")*/DictionaryDataUtil.getId("ARMY"));
+	    return mapper.getFcExpertByDate(startDate, endDate,DictionaryDataUtil.getId("LOCAL"));
 	}
 }
 
