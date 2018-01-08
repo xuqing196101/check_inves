@@ -1107,12 +1107,21 @@ public class ExpertFinalInspectController {
 	      StringBuffer expertType = new StringBuffer();
 	        if(e.getExpertsTypeId() != null && !"".equals(e.getExpertsTypeId())) {
 	        for (String typeId : e.getExpertsTypeId().split(",")) {
-	            if(dictionaryDataServiceI.getDictionaryData(typeId).getKind() == 6){
-	                expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "技术、");
-	            }else{
-	                expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");    
-	            }
-	            
+	        	ExpertAudit audit = new ExpertAudit();
+				audit.setExpertId(e.getId());
+				audit.setSuggestType("seven");
+				audit.setType("1");
+				audit.setAuditFalg(2);
+				audit.setStatusQuery("notPass");
+				audit.setAuditFieldId(typeId);
+				List<ExpertAudit> a = expertAuditService.getListByExpert(audit);
+				if(a.size()==0){
+					if(dictionaryDataServiceI.getDictionaryData(typeId).getKind() == 6){
+		                expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "技术、");
+		            }else{
+		                expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");    
+		            }
+				}
 	        }
 	        }
 	        String expertsType = expertType.toString().substring(0, expertType.length() - 1);
@@ -1129,6 +1138,24 @@ public class ExpertFinalInspectController {
 	        } else {
 	           e.setExpertsFrom("");
 	        }
+	        String expertTypeId="";
+	        String[] ids = e.getExpertsTypeId().split(",");
+	        String gpId = DictionaryDataUtil.getId("GOODS_PROJECT");
+			String pId = DictionaryDataUtil.getId("PROJECT");
+	        for(String id:ids){
+	        	if(id.equals(gpId)){
+	        		expertTypeId=gpId;
+	        	}
+	        	if(id.equals(pId)){
+	        		expertTypeId=pId;
+	        	}
+	        }
+	        List<ExpertTitle>  titleList= expertTitleService.queryByUserId(e.getId(),expertTypeId);
+	        StringBuffer title = new StringBuffer();
+ 			for (ExpertTitle expertTitle : titleList) {
+				title.append(expertTitle.getQualifcationTitle()+"、");
+			}
+ 			e.setProfessional(title.toString().substring(0, expertType.length() - 1));
 	      dataMap.put("expert", e);
 	      dataMap.put("list", list);
 	      dataMap.put("orgName", orgName);
