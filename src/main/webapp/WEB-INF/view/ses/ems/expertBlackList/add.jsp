@@ -92,7 +92,7 @@
 			     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>处罚日期：</span>
              <div class="input-append input_group col-sm-12 col-xs-12 p0">
-               <input class="input_group" readonly="readonly" name="dateOfPunishment"  required="required" type="text" onclick='WdatePicker()' value="<fmt:formatDate value="${dateOfPunishment}" pattern='yyyy-MM-dd'/>">
+               <input class="input_group" readonly="readonly" name="dateOfPunishment"  required="required" type="text"  onclick="WdatePicker({maxDate:'%y-%M-%d'})"  value="<fmt:formatDate value="${dateOfPunishment}" pattern='yyyy-MM-dd'/>">
                <div class="cue"> ${err_dateOfPunishment } </div>
              </div>
            </li>

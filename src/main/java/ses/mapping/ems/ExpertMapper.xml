@@ -77,6 +77,7 @@
 		<result column="FINALINSPECT_PEOPLE" property="finalInspectPeople" />
 		<result column="FINALINSPECT_STATUS" property="finalInspectStatus" />
 		<result column="FINALINSPECT_COUNT" property="finalInspectCount" />
+		<result column="FINALINSPECT_AT" jdbcType="TIMESTAMP" property="finalInspectAt" />
     </resultMap>
 
     <resultMap id="BaseResultMapVO" type="ses.model.ems.ExpertVO" extends="BaseResultMap">
@@ -129,7 +130,8 @@
         TIME_PROFESSIONAL,
         IS_PUBLISH,IS_ADD_EXPERT,IS_TITLE,TEACH_TITLE, EXTRACT_ORGID, AUDITOR,
         AUDIT_OPINION_ATTACH,
-        IS_REVIEW_END,REVIEW_PEOPLE,REVIEW_UNQUALIFIED_CONFIRM,STORAGE_AT,REVIEW_STATUS
+        IS_REVIEW_END,REVIEW_PEOPLE,REVIEW_UNQUALIFIED_CONFIRM,STORAGE_AT,REVIEW_STATUS,
+        FINALINSPECT_PEOPLE,FINALINSPECT_STATUS,FINALINSPECT_COUNT,FINALINSPECT_AT
     </sql>
     <sql id="Column_List">
         e.ID, e.IS_SUBMIT, e.IS_DO, e.IS_DELETE, e.CREATED_AT,
@@ -950,6 +952,9 @@
             </if>
             <if test="finalInspectCount!=null">
                 FINALINSPECT_COUNT = #{finalInspectCount},
+            </if>
+            <if test="finalInspectAt!=null">
+                FINALINSPECT_AT = #{finalInspectAt,jdbcType=TIMESTAMP},
             </if>
         </set>
         where ID = #{id,jdbcType=VARCHAR}
@@ -2504,6 +2509,7 @@
         to_date(#{startDate,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
         AND
         AUDIT_AT &lt;= to_date(#{endDate,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+        AND STATUS IN ('1','2','3')
     </select>
      <!-- 根据修改时间获取注销专家 -->
     <select id="getDeleteExpertByDate" resultMap="BaseResultMap">
@@ -2994,4 +3000,16 @@
          </set>
          where ID=#{id,jdbcType=VARCHAR}
   </update>
+  <!-- 根据复查时间获取专家 -->
+    <select id="getFcExpertByDate" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM T_SES_EMS_EXPERT
+        WHERE  EXPERTS_FROM=#{netType} AND
+        FINALINSPECT_AT &gt;=
+        to_date(#{startDate,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+        AND
+        FINALINSPECT_AT &lt;= to_date(#{endDate,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+        AND STATUS IN ('7','8','17')
+    </select>
 </mapper>

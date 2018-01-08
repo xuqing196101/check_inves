@@ -308,6 +308,7 @@ public interface ExpertMapper {
      * @return 专家集合
      */
      List<Expert> getDeleteExpertByDate(@Param("startDate")String startDate,@Param("endDate")String endDate,@Param("netType")String netType);
+     List<Expert> getFcExpertByDate(@Param("startDate")String startDate,@Param("endDate")String endDate,@Param("netType")String netType);
     /**
      * @Title: updateById
      * @date 2017-5-9 上午9:54:00  

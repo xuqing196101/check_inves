@@ -1,5 +1,6 @@
 package synchro.inner.read.expert.impl;
 
+import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
 
@@ -7,6 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.alibaba.fastjson.JSON;
 
 import ses.dao.bms.UserMapper;
 import ses.dao.ems.ExpertAuditFileModifyMapper;
@@ -23,6 +26,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.RoleUser;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
+import ses.model.ems.ExpertAttachment;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
 import ses.model.ems.ExpertAuditOpinion;
@@ -30,20 +34,27 @@ import ses.model.ems.ExpertBatch;
 import ses.model.ems.ExpertBatchDetails;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertEngHistory;
+import ses.model.ems.ExpertFinalInspect;
 import ses.model.ems.ExpertHistory;
 import ses.model.ems.ExpertTitle;
 import ses.service.bms.UserServiceI;
+import ses.service.ems.ExpertAttachmentService;
+import ses.service.ems.ExpertAuditOpinionService;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertCategoryService;
+import ses.service.ems.ExpertFinalInspectService;
 import ses.service.ems.ExpertService;
 import ses.util.DictionaryDataUtil;
 import synchro.inner.read.expert.InnerExpertService;
 import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
+import synchro.util.OperAttachment;
 
 import java.io.File;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -61,6 +72,8 @@ public class InnerExpertServiceImpl implements InnerExpertService {
     /** 记录service **/
     @Autowired
     private SynchRecordService synchRecordService;
+    @Autowired
+	private ExpertAttachmentService expertAttachmentService;
     
     /** 用户service **/
     @Autowired
@@ -102,9 +115,11 @@ public class InnerExpertServiceImpl implements InnerExpertService {
     @Autowired
     private ExpertCategoryMapper expertCategoryMapper;
     @Autowired
-	private ExpertAuditService expertAuditService;
+	private ExpertFinalInspectService finalInspectService;
     @Autowired
 	private ExpertBatchMapper expertBatchMapper;
+	@Autowired
+	private ExpertAuditOpinionService expertAuditOpinionService;
     /**
      * 
      * @see synchro.inner.read.expert.InnerExpertService#readNewExpertInfo(java.io.File)
@@ -544,7 +559,56 @@ public class InnerExpertServiceImpl implements InnerExpertService {
 	@Override
 	public void exportCheckResult(String startTime, String endTime, Date date) {
 		// TODO Auto-generated method stub
-		
+		List<Expert> list = expertService.getFcExpertByDate(startTime,endTime);
+		if(list.size()>0){
+			for (Expert expert : list) {
+				int number=0;
+				if("7".equals(expert.getStatus())||"8".equals(expert.getStatus())){
+					if(!"3".equals(expert.getFinalInspectCount())){
+						number=Integer.valueOf(expert.getFinalInspectCount())+1;
+					}else{
+						number=Integer.valueOf(expert.getFinalInspectCount());
+					}
+				}else{
+					number=Integer.valueOf(expert.getFinalInspectCount());
+				}
+				//复查意见
+				ExpertAuditOpinion find = new ExpertAuditOpinion();
+				find.setExpertId(expert.getId());
+				find.setFlagTime(2);
+				List<ExpertAuditOpinion> auditOpinionList = expertAuditOpinionService.selectAllByExpertList(find);
+				if(auditOpinionList.size()>0){
+					if(auditOpinionList.size()>(number-1)){
+						ExpertAuditOpinion auditOpinion = auditOpinionList.get(number-1);
+						expert.setExpertAuditOpinion(auditOpinion);
+					}
+				}
+				//复查表
+				if(expert.getExpertAuditOpinion()!=null){
+					// 专家系统key
+					//获取专家复查批准表附件类型ID
+					String typeId = DictionaryDataUtil.getId("EXPERT_PZFCB");
+					List<UploadFile> uploadFiles = fileUploadMapper.getFileByBusinessId(expert.getExpertAuditOpinion().getId(), typeId, "T_SES_EMS_EXPERT_ATTACHMENT");
+					expert.setAttchList(uploadFiles);
+					if (uploadFiles != null && uploadFiles.size() > 0){
+		                String basePath = FileUtils.attachExportPath(43);
+		                if (StringUtils.isNotBlank(basePath)){
+		                    OperAttachment.writeFile(basePath, uploadFiles);
+		                }
+		            }
+				}
+				//复查项审核记录
+				ExpertFinalInspect expertFinalInspect = new ExpertFinalInspect();
+				expertFinalInspect.setExpertId(expert.getId());
+				expertFinalInspect.setFinalInspectNumber(number+"");
+				List<ExpertFinalInspect> expertFinalInspectList = finalInspectService.findExpertFinalInspectList(expertFinalInspect);
+				expert.setExpertFinalInspectList(expertFinalInspectList);
+			}
+			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXPERT_CHECK_RESULT_FILENAME, 42), JSON.toJSONString(list));
+			synchRecordService.backupExpertExportCheckResults(date, new Integer(list.size()).toString());
+		}else{
+			synchRecordService.backupExpertExportCheckResults(date, new Integer(list.size()).toString());
+		}
 	}
     
 

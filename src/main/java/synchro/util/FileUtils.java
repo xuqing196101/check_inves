@@ -338,6 +338,15 @@ public class FileUtils {
      * @Fields C_SYNCH_SUPPLIER_CHECK : 导出供应商复核附件目录
      */
     public final static String C_SYNCH_SUPPLIER_CHECK_FILE = PropUtil.getProperty("file.t_ses_sms_supplier_check_file.system.path");
+    /**
+     * @Fields C_SYNCH_SUPPLIER_CHECK : 导出专家复查目录
+     */
+    public final static String C_SYNCH_EXPERT_CHECK = PropUtil.getProperty("file.t_ses_sms_expert_check.system.path");
+    
+    /**
+     * @Fields C_SYNCH_SUPPLIER_CHECK : 导出专家复查附件目录
+     */
+    public final static String C_SYNCH_EXPERT_CHECK_FILE = PropUtil.getProperty("file.t_ses_sms_expert_check_file.system.path");
     
     /**
      * 
@@ -958,6 +967,8 @@ public class FileUtils {
           case 39:  filePath=C_SYNCH_SUPPLIER_INVEST;break;
           case 40:  filePath=C_SYNCH_SUPPLIER_CHECK_FILE;break;
           case 41:  filePath=C_SYNCH_SUPPLIER_INVEST_FILE;break;
+          case 42:  filePath=C_SYNCH_EXPERT_CHECK;break;
+          case 43:  filePath=C_SYNCH_EXPERT_CHECK_FILE;break;
         }
         return filePath;
     }

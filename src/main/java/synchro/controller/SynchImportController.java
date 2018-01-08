@@ -461,7 +461,7 @@ public class SynchImportController {
                         }
                     }
                     /**专家导入内网*/
-                    if (synchType.contains(Constant.DATA_TYPE_EXPERT_CODE)) {
+                    if (synchType.contains(Constant.DATA_TYPE_EXPERT_CODE)&&!synchType.equals(Constant.SYNCH_EXPERT_CHECK_RESULT)) {
                         if (f.getName().contains(FileUtils.C_EXPERT_FILENAME)) {
                             innerExpertService.readNewExpertInfo(f);
                         }
@@ -1024,7 +1024,8 @@ public class SynchImportController {
         	        
         	        //地方专家复查结果导入外网
         	        if (synchType.contains(Constant.SYNCH_EXPERT_CHECK_RESULT)
-        	        		&& f.getName().contains(FileUtils.EXPERT_CHECK_RESULT_FILENAME)) {
+        	        		&& f.isDirectory()
+        	        		&& FileUtils.getSynchAttachFile(42).equals("/" + f.getName())) {
         	        	outerExpertService.importCheckResult(f);
                 	}
                 }
