@@ -104,7 +104,6 @@
 	        <a aria-expanded="false" href="#tab-4">上传批准审核表</a>
 	    </li>
 	  </c:if>
-	  reviewStatus:${reviewStatus}
     <c:if test="${sign == 2}">
       <c:if test="${reviewStatus == 1}">
 	      <li id="reverse_of_eleven" onclick="jump('historyReview')">

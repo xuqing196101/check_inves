@@ -36,4 +36,9 @@ public interface SupplierReviewService {
 	 */
 	JdcgResult reviewEnd(User user, String supplierId);
 	
+	/**
+	 * 下载复核表时校验
+	 */
+	JdcgResult downloadTableCheck(String supplierId);
+	
 }
