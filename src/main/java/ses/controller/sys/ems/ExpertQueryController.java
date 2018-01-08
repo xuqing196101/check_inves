@@ -147,6 +147,17 @@ public class ExpertQueryController {
 		}else if(!"17".equals(expert.getStatus())){
 				expert.setFinalInspectCount("1");
 		}
+		
+		DictionaryData gender = dictionaryDataServiceI.getDictionaryData(expert.getGender());
+        if(gender != null) {
+            expert.setGender(gender.getName());
+        }
+        // 政治面貌
+        DictionaryData politics = dictionaryDataServiceI.getDictionaryData(expert.getPoliticsStatus());
+        if(politics != null) {
+            expert.setPoliticsStatus(politics.getName());
+        }
+		
         model.addAttribute("expert", expert);
 
         //专家来源

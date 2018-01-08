@@ -24,8 +24,8 @@
 					async: false,
 					dataType: "json",
 					success: function(response) {
-						$("#tSex").html(response.gender);
-						$("#tFace").html(response.politicsStatus);
+						//$("#tSex").html(response.gender);
+						//$("#tFace").html(response.politicsStatus);
 						$("#Taddress").html(response.address);
 						$("#tHight").html(response.hightEducation);
 						$("#idType").html(response.idType);
@@ -112,7 +112,7 @@
 							</tr>
 							<tr>
 								<td width="12%" class="bggrey">性别</td>
-								<td width="25%" id="tSex"></td>
+								<td width="25%" id="tSex">${expert.gender}</td>
 								<td width="12%" class="bggrey">出生日期</td>
 								<td width="25%" id="tBirthday">
 									<fmt:formatDate value="${expert.birthday}" pattern="yyyy-MM-dd" />
@@ -120,7 +120,7 @@
 							</tr>
 							<tr>
 								<td width="12%" class="bggrey">政治面貌</td>
-								<td width="25%" id="tFace"></td>
+								<td width="25%" id="tFace">${expert.politicsStatus}</td>
 								<td width="12%" class="bggrey">民族</td>
 								<td width="25%">${expert.nation}</td>
 							</tr>
