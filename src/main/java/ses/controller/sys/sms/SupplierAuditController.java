@@ -276,6 +276,8 @@ public class SupplierAuditController extends BaseSupplierController {
 	public String essentialInformation(@CurrentUser User user, HttpServletRequest request, Supplier supplier, String supplierId, Integer sign) {
 		
 		supplier = supplierService.get(supplierId, 1);
+		//是否为重新复核
+		request.setAttribute("reviewStatus",supplier.getReviewStatus());
 		
 		// 获取登录用户
 		Object loginUserSession = request.getSession().getAttribute("loginUser");
@@ -503,10 +505,11 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("financial")
-	public String financialInformation(@CurrentUser User user, HttpServletRequest request, String supplierId, Integer supplierStatus, Integer sign) {
+	public String financialInformation(@CurrentUser User user, HttpServletRequest request, String supplierId, Integer supplierStatus, Integer sign, Integer reviewStatus) {
 		request.setAttribute("supplierId", supplierId);
 		request.setAttribute("supplierStatus", supplierStatus);
 		request.setAttribute("sign", sign);
+		request.setAttribute("reviewStatus", reviewStatus);
 
 		//文件
 		if(supplierId != null) {
@@ -606,11 +609,12 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("shareholder")
-	public String shareholderInformation(@CurrentUser User user, HttpServletRequest request, SupplierStockholder supplierStockholder, Integer supplierStatus, Integer sign) {
+	public String shareholderInformation(@CurrentUser User user, HttpServletRequest request, SupplierStockholder supplierStockholder, Integer supplierStatus, Integer sign, Integer reviewStatus) {
 		String supplierId = supplierStockholder.getSupplierId();
 		request.setAttribute("supplierId", supplierId);
 		request.setAttribute("supplierStatus", supplierStatus);
 		request.setAttribute("sign", sign);
+		request.setAttribute("reviewStatus", reviewStatus);
 		
 		List < SupplierStockholder > list = supplierAuditService.ShareholderBySupplierId(supplierId);
 		request.setAttribute("shareholder", list);
@@ -922,11 +926,11 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return
 	 */
 	@RequestMapping("supplierType")
-	public String supplierType(@CurrentUser User user, HttpServletRequest request, SupplierMatSell supplierMatSell, SupplierMatPro supplierMatPro, SupplierMatEng supplierMatEng, SupplierMatServe supplierMatSe, String supplierId, Integer supplierStatus, Integer sign) {
+	public String supplierType(@CurrentUser User user, HttpServletRequest request, SupplierMatSell supplierMatSell, SupplierMatPro supplierMatPro, SupplierMatEng supplierMatEng, SupplierMatServe supplierMatSe, String supplierId, Integer supplierStatus, Integer sign, Integer reviewStatus) {
 		request.setAttribute("supplierId", supplierId);
 		request.setAttribute("supplierStatus", supplierStatus);
 		request.setAttribute("sign", sign);
-
+		request.setAttribute("reviewStatus", reviewStatus);
 		//文件
 		request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
@@ -1974,7 +1978,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("applicationForm")
-	public String applicationForm(@CurrentUser User user, HttpServletRequest request, SupplierAudit supplierAudit, Supplier supplier, Integer supplierStatus, Integer sign) throws IOException {
+	public String applicationForm(@CurrentUser User user, HttpServletRequest request, SupplierAudit supplierAudit, Supplier supplier, Integer supplierStatus, Integer sign, Integer reviewStatus) throws IOException {
 		request.setAttribute("sign", sign);
 		
 		String supplierId = supplierAudit.getSupplierId();
@@ -1989,7 +1993,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("supplierStatus", supplierStatus);
 		
 		//是否为重新复核
-		request.setAttribute("reviewStatus",supplier.getReviewStatus());
+		request.setAttribute("reviewStatus", reviewStatus);
 		
 		String loginName = user.getLoginName();
 		
@@ -2679,10 +2683,11 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return
 	 */
 	@RequestMapping("toPageAptitude")
-	public String toPageAptitude(Model model,String supplierId,String supplierStatus,String sign){
+	public String toPageAptitude(Model model,String supplierId,String supplierStatus,String sign, Integer reviewStatus){
 		model.addAttribute("supplierId", supplierId);
 		model.addAttribute("sign", sign);
 		model.addAttribute("supplierStatus", supplierStatus);
+		model.addAttribute("reviewStatus", reviewStatus);
 		//封装 目录分类 分别显示相关的数据
 		if(StringUtils.isNotBlank(supplierId)){
 			List<String> supplierTypes=supplierTypeRelateService.findTypeBySupplierId(supplierId);

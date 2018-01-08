@@ -89,10 +89,11 @@ public class SupplierReviewController {
 	 * @return
 	 */
 	@RequestMapping(value = "/review")
-	public String review(String supplierId, Integer supplierStatus, Model model){
+	public String review(String supplierId, Integer supplierStatus, Integer reviewStatus, Model model){
 		model.addAttribute("supplierId", supplierId);
 		model.addAttribute("supplierStatus", supplierStatus);
 		model.addAttribute("sign", 2);
+		model.addAttribute("reviewStatus", reviewStatus);
 		
 		//查询意见
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -180,7 +181,11 @@ public class SupplierReviewController {
 	 * 历史复核信息
 	 */
 	@RequestMapping(value = "/historyReview")
-	public String historyReview (String supplierId, Model model){
+	public String historyReview (String supplierId, Integer reviewStatus, Model model){
+		model.addAttribute("supplierId", supplierId);
+		model.addAttribute("sign", 2);
+		model.addAttribute("reviewStatus", reviewStatus);
+		
 		//获取意见
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("supplierId", supplierId);
@@ -188,8 +193,6 @@ public class SupplierReviewController {
 		map.put("isDelete", 1);
 		SupplierAuditOpinion auditOpinion = supplierAuditOpinionService.selectByExpertIdAndflagTime(map);
 		model.addAttribute("opinion", auditOpinion == null? "" : auditOpinion.getOpinion());
-		model.addAttribute("supplierId", supplierId);
-		model.addAttribute("sign", 2);
 		
 		// 获取复核项目信息 --参数二：1是复核，参数二 ：1是删除标记
 		List<SupplierAttachAudit> itemList = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 1, 1);

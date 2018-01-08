@@ -5,6 +5,9 @@
   <head>
     <%@ include file="/WEB-INF/view/common.jsp" %>
     <%@ include file="/WEB-INF/view/common/webupload.jsp" %>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
     <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_attach/attach_audit.js"></script>
     <script type="text/javascript">
       $(function(){
@@ -183,6 +186,7 @@
             <jsp:param value="${supplierId}" name="supplierId"/>
             <jsp:param value="${supplierStatus}" name="supplierStatus"/>
             <jsp:param value="${sign }" name="sign"/>
+            <jsp:param value="${reviewStatus}" name="reviewStatus"/>
            </jsp:include>
           <h2 class="count_flow"><i>1</i>审核信息</h2>
           <ul class="ul_list hand">
@@ -280,7 +284,12 @@
     
     <c:if test="${status == 1}">
       <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc" id="reviewEnd">
-	      <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="toStep('six');">上一步</a>
+        <c:if test="${reviewStatus != 1}">
+	        <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="toStep('six');">上一步</a>
+	      </c:if>
+	      <c:if test="${reviewStatus == 1}">
+	        <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="toStep('eleven');">上一步</a>
+	      </c:if>
 	      <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="temporary(1);">暂存</a>
 	      <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="reviewEnd();">复核结束</a>
       </div>

@@ -105,6 +105,7 @@
            	<jsp:param value="${supplierId }" name="supplierId"/>
            	<jsp:param value="${supplierStatus }" name="supplierStatus"/>
            	<jsp:param value="${sign }" name="sign"/>
+           	<jsp:param value="${reviewStatus}" name="reviewStatus"/>
           </jsp:include>
 					<!-- 供应商类型信息头 -->
 					<ul class="ul_list count_flow w100p">
