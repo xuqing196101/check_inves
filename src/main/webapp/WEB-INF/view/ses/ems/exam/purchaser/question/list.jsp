@@ -349,7 +349,7 @@
 	    </div>
 	    </div>
 		 	</h2>
-
+			<c:if test="${properties['ipAddressType'] == 0}"> 
 			<div class="col-md-12 pl20 mt10">
 				<input type="button" class="btn btn-windows add" value="新增" onclick="add()" />
 				<input type="button" class="btn btn-windows edit" value="修改" onclick="edit()" />
@@ -358,7 +358,7 @@
 				<input type="button" value="导入" class="btn btn-windows input" onclick="poiExcel()" />
 				<input type="file" name="file" id="excelFile" style="display:inline;" />
 			</div>
-
+			</c:if>
 			<div class="content table_box">
 				<table class="table table-bordered table-condensed table-hover">
 					<thead>

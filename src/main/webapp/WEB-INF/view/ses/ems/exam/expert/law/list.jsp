@@ -299,7 +299,7 @@
 		    </ul>
 		    <div class="clear"></div>
 	 	</h2>
-
+		<c:if test="${properties['ipAddressType'] == 0}"> 
 			<!-- 按钮开始-->
 			<div class="col-md-12 pl20 mt10">
 				<button class="btn btn-windows add" type="button" onclick="addLaw()">新增</button>
@@ -309,7 +309,7 @@
 				<button class="btn btn-windows input" type="button" onclick="poiExcel()">导入</button>
 				<input type="file" name="file" id="excelFile" style="display:inline" />
 			</div>
-
+		</c:if>
 			<div class="content table_box">
 				<table class="table table-bordered table-condensed table-hover">
 					<thead>

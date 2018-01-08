@@ -177,11 +177,13 @@
 			    <h2 class="panel-title heading-sm pull-left">
 				  <i class="fa fa-bars"></i> ${orgnization.name }人员信息 <span class="label rounded-2x label-u">正常</span>
 				</h2>
+				<c:if test="${properties['ipAddressType'] == 0}"> 
 				<div class="pull-right">
 				  <a class="btn btn-windows add" href="javascript:void(0)" onClick="addUser();"><i class="fa fa-search-plus"></i> 添加人员</a>
 				  <a class="btn btn-windows edit" href="javascript:void(0)" onClick="editUser();"><i class="fa fa-wrench"></i> 修改人员</a>
 				  <a class="btn btn-windows delete" href="javascript:void(0)" onClick="delUser();"><i class="fa fa-plus"></i> 删除人员</a>
 				</div>
+				</c:if>
 			  </div>
 			  <div class="panel panel-grey clear mt5">
 				<div class="panel-heading">

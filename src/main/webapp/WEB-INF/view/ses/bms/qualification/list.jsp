@@ -88,7 +88,7 @@
           </div>
           </div>
 			  </h2>
-	      
+	      	<c:if test="${properties['ipAddressType'] == 0}"> 
 		   	  <!-- 操作按钮-->
 			  <div class="col-md-12 pl20 mt10">
 			    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
@@ -98,6 +98,7 @@
 				<button class="btn btn-windows add" type="button" onclick="level();">维护等级</button>
 				</c:if>
 			  </div>
+			  </c:if>
 			  <div class="content table_box">
 		        <table class="table table-bordered table-condensed table-hover table-striped" id="dataTable">
 		          <thead>
