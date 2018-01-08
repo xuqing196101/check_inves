@@ -762,35 +762,7 @@
 							</w:p>
 						</w:tc>
 					</w:tr>
-					<w:tr>
-						<w:trPr>
-							<w:trHeight w:val="567" /></w:trPr>
-						<w:tc>
-							<w:tcPr>
-								<w:tcW w:w="10080" w:type="dxa" />
-								<w:gridSpan w:val="8" />
-								<w:shd w:val="clear" w:color="auto" w:fill="auto" />
-								<w:vAlign w:val="center" /></w:tcPr>
-							<w:p>
-								<w:pPr>
-									<w:jc w:val="center" />
-									<w:rPr>
-										<w:rFonts w:ascii="Calibri" w:h-ansi="Calibri" w:cs="Calibri" w:hint="fareast" />
-										<wx:font wx:val="Calibri" />
-										<w:sz w:val="18" />
-										<w:sz-cs w:val="18" /></w:rPr>
-								</w:pPr>
-								<w:r>
-									<w:rPr>
-										<w:rFonts w:ascii="Calibri" w:h-ansi="Calibri" w:cs="Calibri" w:hint="fareast" />
-										<wx:font wx:val="宋体" />
-										<w:sz w:val="18" />
-										<w:sz-cs w:val="18" /></w:rPr>
-									<w:t>复查评审专家资料情况</w:t>
-								</w:r>
-							</w:p>
-						</w:tc>
-					</w:tr>
+					
 					<w:tr>
 						<w:trPr>
 							<w:trHeight w:val="567" /></w:trPr>

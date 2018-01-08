@@ -472,36 +472,40 @@ public class OuterExpertServiceImpl implements OuterExpertService {
 	@Override
 	public void importCheckResult(File f) {
 		// TODO Auto-generated method stub
-		 for (File file2 : f.listFiles()) {
-			 if(file2.getName().contains(FileUtils.EXPERT_CHECK_RESULT_FILENAME)){
-				 List<Expert> list=FileUtils.getBeans(file2, Expert.class); 
-					for (Expert expert : list) {
-						//专家意见
-						if(expert.getExpertAuditOpinion()!=null){
-							expertAuditOpinionService.inserOpinion(expert.getExpertAuditOpinion());
+		try {
+			for (File file2 : f.listFiles()) {
+				 if(file2.getName().contains(FileUtils.EXPERT_CHECK_RESULT_FILENAME)){
+					 List<Expert> list=FileUtils.getBeans(file2, Expert.class); 
+						for (Expert expert : list) {
+							//专家意见
+							if(expert.getExpertAuditOpinion()!=null){
+								expertAuditOpinionService.inserOpinion(expert.getExpertAuditOpinion());
+							}
+							//专家附件
+							for (UploadFile uf : expert.getAttchList()) {
+								  UploadFile ufile = fileUploadMapper.queryById(uf.getId(), "T_SES_EMS_EXPERT_ATTACHMENT");
+		        				   if(ufile==null){
+		        					   uf.setTableName("T_SES_EMS_EXPERT_ATTACHMENT");
+		        	    			   fileUploadMapper.saveFile(uf);
+		        				   }else{
+		        					   uf.setTableName("T_SES_EMS_EXPERT_ATTACHMENT");
+		        	    			   fileUploadMapper.updateFileById(uf);
+		        				   }
+							}
+							//专家复查表
+							for (ExpertFinalInspect expertFinalInspect : expert.getExpertFinalInspectList()) {
+								finalInspectService.insertExpertFinalInspect(expertFinalInspect);
+							}
+							expertService.updateByPrimaryKeySelective(expert);
 						}
-						//专家附件
-						for (UploadFile uf : expert.getAttchList()) {
-							  UploadFile ufile = fileUploadMapper.queryById(uf.getId(), "T_SES_EMS_EXPERT_ATTACHMENT");
-	        				   if(ufile==null){
-	        					   uf.setTableName("T_SES_EMS_EXPERT_ATTACHMENT");
-	        	    			   fileUploadMapper.saveFile(uf);
-	        				   }else{
-	        					   uf.setTableName("T_SES_EMS_EXPERT_ATTACHMENT");
-	        	    			   fileUploadMapper.updateFileById(uf);
-	        				   }
-						}
-						//专家复查表
-						for (ExpertFinalInspect expertFinalInspect : expert.getExpertFinalInspectList()) {
-							finalInspectService.insertExpertFinalInspect(expertFinalInspect);
-						}
-						expertService.updateByPrimaryKeySelective(expert);
-					}
-					 recordService.backupExpertImportCheckResults(new Integer(list.size()).toString());
-			 }else if (file2.getName().contains(synchro.util.Constant.ATTCH_FILE_EXPERT)){
-				 OperAttachment.moveFolder(file2);
+						 recordService.backupExpertImportCheckResults(new Integer(list.size()).toString());
+				 }else if (file2.getName().contains(synchro.util.Constant.ATTCH_FILE_EXPERT)){
+					 OperAttachment.moveFolder(file2);
+				 }
 			 }
-		 }
-		
+		} catch (Exception e) {
+			// TODO: handle exception
+			 e.printStackTrace();
+		}
 	}
 }

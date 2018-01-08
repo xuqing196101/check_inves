@@ -559,55 +559,60 @@ public class InnerExpertServiceImpl implements InnerExpertService {
 	@Override
 	public void exportCheckResult(String startTime, String endTime, Date date) {
 		// TODO Auto-generated method stub
-		List<Expert> list = expertService.getFcExpertByDate(startTime,endTime);
-		if(list.size()>0){
-			for (Expert expert : list) {
-				int number=0;
-				if("7".equals(expert.getStatus())||"8".equals(expert.getStatus())){
-					if(!"3".equals(expert.getFinalInspectCount())){
-						number=Integer.valueOf(expert.getFinalInspectCount())+1;
+		try {
+			List<Expert> list = expertService.getFcExpertByDate(startTime,endTime);
+			if(list.size()>0){
+				for (Expert expert : list) {
+					int number=0;
+					if("7".equals(expert.getStatus())||"8".equals(expert.getStatus())){
+						if(!"3".equals(expert.getFinalInspectCount())){
+							number=Integer.valueOf(expert.getFinalInspectCount())+1;
+						}else{
+							number=Integer.valueOf(expert.getFinalInspectCount());
+						}
 					}else{
 						number=Integer.valueOf(expert.getFinalInspectCount());
 					}
-				}else{
-					number=Integer.valueOf(expert.getFinalInspectCount());
-				}
-				//复查意见
-				ExpertAuditOpinion find = new ExpertAuditOpinion();
-				find.setExpertId(expert.getId());
-				find.setFlagTime(2);
-				List<ExpertAuditOpinion> auditOpinionList = expertAuditOpinionService.selectAllByExpertList(find);
-				if(auditOpinionList.size()>0){
-					if(auditOpinionList.size()>(number-1)){
-						ExpertAuditOpinion auditOpinion = auditOpinionList.get(number-1);
-						expert.setExpertAuditOpinion(auditOpinion);
+					//复查意见
+					ExpertAuditOpinion find = new ExpertAuditOpinion();
+					find.setExpertId(expert.getId());
+					find.setFlagTime(2);
+					List<ExpertAuditOpinion> auditOpinionList = expertAuditOpinionService.selectAllByExpertList(find);
+					if(auditOpinionList.size()>0){
+						if(auditOpinionList.size()>(number-1)){
+							ExpertAuditOpinion auditOpinion = auditOpinionList.get(number-1);
+							expert.setExpertAuditOpinion(auditOpinion);
+						}
 					}
+					//复查表
+					if(expert.getExpertAuditOpinion()!=null){
+						// 专家系统key
+						//获取专家复查批准表附件类型ID
+						String typeId = DictionaryDataUtil.getId("EXPERT_PZFCB");
+						List<UploadFile> uploadFiles = fileUploadMapper.getFileByBusinessId(expert.getExpertAuditOpinion().getId(), typeId, "T_SES_EMS_EXPERT_ATTACHMENT");
+						expert.setAttchList(uploadFiles);
+						if (uploadFiles != null && uploadFiles.size() > 0){
+			                String basePath = FileUtils.attachExportPath(43);
+			                if (StringUtils.isNotBlank(basePath)){
+			                    OperAttachment.writeFile(basePath, uploadFiles);
+			                }
+			            }
+					}
+					//复查项审核记录
+					ExpertFinalInspect expertFinalInspect = new ExpertFinalInspect();
+					expertFinalInspect.setExpertId(expert.getId());
+					expertFinalInspect.setFinalInspectNumber(number+"");
+					List<ExpertFinalInspect> expertFinalInspectList = finalInspectService.findExpertFinalInspectList(expertFinalInspect);
+					expert.setExpertFinalInspectList(expertFinalInspectList);
 				}
-				//复查表
-				if(expert.getExpertAuditOpinion()!=null){
-					// 专家系统key
-					//获取专家复查批准表附件类型ID
-					String typeId = DictionaryDataUtil.getId("EXPERT_PZFCB");
-					List<UploadFile> uploadFiles = fileUploadMapper.getFileByBusinessId(expert.getExpertAuditOpinion().getId(), typeId, "T_SES_EMS_EXPERT_ATTACHMENT");
-					expert.setAttchList(uploadFiles);
-					if (uploadFiles != null && uploadFiles.size() > 0){
-		                String basePath = FileUtils.attachExportPath(43);
-		                if (StringUtils.isNotBlank(basePath)){
-		                    OperAttachment.writeFile(basePath, uploadFiles);
-		                }
-		            }
-				}
-				//复查项审核记录
-				ExpertFinalInspect expertFinalInspect = new ExpertFinalInspect();
-				expertFinalInspect.setExpertId(expert.getId());
-				expertFinalInspect.setFinalInspectNumber(number+"");
-				List<ExpertFinalInspect> expertFinalInspectList = finalInspectService.findExpertFinalInspectList(expertFinalInspect);
-				expert.setExpertFinalInspectList(expertFinalInspectList);
+				FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXPERT_CHECK_RESULT_FILENAME, 42), JSON.toJSONString(list));
+				synchRecordService.backupExpertExportCheckResults(date, new Integer(list.size()).toString());
+			}else{
+				synchRecordService.backupExpertExportCheckResults(date, new Integer(list.size()).toString());
 			}
-			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXPERT_CHECK_RESULT_FILENAME, 42), JSON.toJSONString(list));
-			synchRecordService.backupExpertExportCheckResults(date, new Integer(list.size()).toString());
-		}else{
-			synchRecordService.backupExpertExportCheckResults(date, new Integer(list.size()).toString());
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
     

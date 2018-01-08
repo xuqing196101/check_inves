@@ -46,6 +46,11 @@
 							  </c:otherwise> 
 							</c:choose>
 				        </li>
+				        <c:if test="${sessionScope.loginUserType == 'expert'}">
+					        <li class="line-block drop_two">
+					        	<a href="${pageContext.request.contextPath}/expert/getExpertInformation.html" target="home" class="son-menu"><span class="mr5">◇</span>变更联系方式</a>
+					        </li>
+				        </c:if>
 				        <li class="line-block drop_two">
 				             <a href="${pageContext.request.contextPath}/user/resetPassword.html" target="home" class="son-menu"><span class="mr5">◇</span>重置密码</a>
 				        </li>

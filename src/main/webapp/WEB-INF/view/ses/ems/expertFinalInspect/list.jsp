@@ -51,7 +51,7 @@
                   return;
               }
           }
-        var state = $("#" + id ).parent("tr").find("td").eq(11).text(); //.trim();
+        var state = $("#" + id ).parent("tr").find("td").eq(10).text(); //.trim();
         state = trim(state);
         var sign= ${sign};
         if((sign == 3 && state != "入库(待复查)"&&state != "复查中"&&state != "资料不全")) {
