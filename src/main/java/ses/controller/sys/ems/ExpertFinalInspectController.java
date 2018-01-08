@@ -940,27 +940,31 @@ public class ExpertFinalInspectController {
 	 */
 	@RequestMapping(value = "/auditOpinion")
 	@ResponseBody
-	public void auditOpinion(ExpertAuditOpinion expertAuditOpinion,String count) throws UnsupportedEncodingException {
+	public void auditOpinion(@CurrentUser User user,ExpertAuditOpinion expertAuditOpinion,String count) throws UnsupportedEncodingException {
 		ExpertAuditOpinion find = new ExpertAuditOpinion();
 		find.setExpertId(expertAuditOpinion.getExpertId());
 		find.setFlagTime(2);
 		List<ExpertAuditOpinion> list = expertAuditOpinionService.selectAllByExpertList(find);
+		String orgId=user.getOrg()==null?user.getOrgId():user.getOrg().getId();
 		if(list.size()>0){
 			if(list.size()>(Integer.valueOf(count)-1)){
 				ExpertAuditOpinion auditOpinion = list.get(Integer.valueOf(count)-1);
 				expertAuditOpinion.setId(auditOpinion.getId());
 				expertAuditOpinion.setUpdatedAt(new Date());
+				expertAuditOpinion.setAuditPeoper(orgId);
 				expertAuditOpinionService.updateByPrimaryKeySelective(expertAuditOpinion);
 			}else{
 				expertAuditOpinion.setId(UUID.randomUUID().toString().replaceAll("-", ""));
 				expertAuditOpinion.setCreatedAt(new Date());
 				expertAuditOpinion.setIsDeleted(0);
+				expertAuditOpinion.setAuditPeoper(orgId);
 				expertAuditOpinionService.inserOpinion(expertAuditOpinion);
 			}
 		}else{
 			expertAuditOpinion.setId(UUID.randomUUID().toString().replaceAll("-", ""));
 			expertAuditOpinion.setCreatedAt(new Date());
 			expertAuditOpinion.setIsDeleted(0);
+			expertAuditOpinion.setAuditPeoper(orgId);
 			expertAuditOpinionService.inserOpinion(expertAuditOpinion);
 		}
 	}
@@ -1104,7 +1108,10 @@ public class ExpertFinalInspectController {
 	 private String createWordMethod(List<ExpertAttachment> list,String orgName,Expert e,ExpertAuditOpinion opinion, HttpServletRequest request) throws Exception {
 	      /** 用于组装word页面需要的数据 */
 	      Map<String, Object> dataMap = new HashMap<String, Object>();
+	      String gpId = DictionaryDataUtil.getId("GOODS_PROJECT");
+		  String pId = DictionaryDataUtil.getId("PROJECT");
 	      StringBuffer expertType = new StringBuffer();
+	      String expertTypeId="";
 	        if(e.getExpertsTypeId() != null && !"".equals(e.getExpertsTypeId())) {
 	        for (String typeId : e.getExpertsTypeId().split(",")) {
 	        	ExpertAudit audit = new ExpertAudit();
@@ -1116,6 +1123,12 @@ public class ExpertFinalInspectController {
 				audit.setAuditFieldId(typeId);
 				List<ExpertAudit> a = expertAuditService.getListByExpert(audit);
 				if(a.size()==0){
+					if(typeId.equals(gpId)){
+		        		expertTypeId=gpId;
+		        	}
+		        	if(typeId.equals(pId)){
+		        		expertTypeId=pId;
+		        	}
 					if(dictionaryDataServiceI.getDictionaryData(typeId).getKind() == 6){
 		                expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "技术、");
 		            }else{
@@ -1138,24 +1151,14 @@ public class ExpertFinalInspectController {
 	        } else {
 	           e.setExpertsFrom("");
 	        }
-	        String expertTypeId="";
-	        String[] ids = e.getExpertsTypeId().split(",");
-	        String gpId = DictionaryDataUtil.getId("GOODS_PROJECT");
-			String pId = DictionaryDataUtil.getId("PROJECT");
-	        for(String id:ids){
-	        	if(id.equals(gpId)){
-	        		expertTypeId=gpId;
-	        	}
-	        	if(id.equals(pId)){
-	        		expertTypeId=pId;
-	        	}
-	        }
+	        
+	        
 	        List<ExpertTitle>  titleList= expertTitleService.queryByUserId(e.getId(),expertTypeId);
 	        StringBuffer title = new StringBuffer();
  			for (ExpertTitle expertTitle : titleList) {
 				title.append(expertTitle.getQualifcationTitle()+"、");
 			}
- 			e.setProfessional(title.toString().substring(0, expertType.length() - 1));
+ 			e.setProfessional(title.toString().substring(0, title.toString().length()-1));
 	      dataMap.put("expert", e);
 	      dataMap.put("list", list);
 	      dataMap.put("orgName", orgName);
