@@ -1,5 +1,13 @@
 package ses.service.sms.impl;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,7 +15,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,10 +60,17 @@ import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropUtil;
 import ses.util.WfUtil;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import common.constant.Constant;
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
 import common.utils.DateUtils;
+import common.utils.UploadUtil;
 
 @Service("supplierAttachAuditService")
 public class SupplierAttachAuditServiceImpl implements SupplierAttachAuditService {
@@ -95,6 +113,8 @@ public class SupplierAttachAuditServiceImpl implements SupplierAttachAuditServic
 	private CategoryService categoryService;
 	@Autowired
 	private QualificationMapper qualificationMapper;
+	@Autowired
+    private FileUploadMapper fileUploadMapper;
 
 	@Override
 	public int countBySupplierIdAndType(String supplierId, int auditType) {
@@ -759,6 +779,67 @@ public class SupplierAttachAuditServiceImpl implements SupplierAttachAuditServic
 		.andSuggestIsNull()
 		.andIsDeletedEqualTo(0);
 		return supplierAttachAuditMapper.countByExample(example);
+	}
+
+	@Override
+	public String zipFile(List<SupplierAttachAudit> attachAudits) {
+		try {
+			if(attachAudits != null && attachAudits.size() > 0){
+				String tempPath = PropUtil.getProperty("file.base.path") + File.separator + PropUtil.getProperty("file.temp.path");
+				String rootFileName = "供应商扫描件";
+				File rootFile = new File(tempPath + File.separator + rootFileName);
+				rootFile.mkdirs();
+			    UploadUtil.createDir(tempPath);
+			    ZipOutputStream zipOut = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(rootFile+".zip")));
+				for(SupplierAttachAudit attachAudit : attachAudits){
+					attachAudit = supplierAttachAuditMapper.selectByPrimaryKey(attachAudit.getId());
+					if(attachAudit != null){
+						String attachList = attachAudit.getAttachList();
+						if(StringUtils.isNotBlank(attachList)){
+							String itemFileName = attachAudit.getAttachName();
+							String itemFileCode = attachAudit.getAttachCode();
+							File itemFile = new File(rootFile + File.separator + itemFileName);
+							itemFile.mkdirs();
+							if("HOUSE_PROPERTY".equals(itemFileCode)
+							|| "SUPPLIER_BUSIESSSCOPE".equals(itemFileCode)){
+								//[{"attachName":"湖南省长沙市北京市海淀区杏石口路99号1幢20301","businessId":"542c0c5a31db45f0b2c3137a5f68dbbe","typeId":"62170BFB3A3C4423A17A4414A1E5869F"}]
+								//ObjectMapper objectMapper = new ObjectMapper();
+								//List<Map<String, Object>> mapList = objectMapper.readValue(attachList, new TypeReference<List<Map<String, Object>>>() {});
+								JSONArray jsonArray = JSONArray.parseArray(attachList);
+								for(int i = 0; i < jsonArray.size(); i++){//遍历JSONArray数组  
+									JSONObject jsonObject = jsonArray.getJSONObject(i);//获得JSONArray数组中的JSONObject对象
+									String attachName = jsonObject.getString("attachName");
+									String businessId = jsonObject.getString("businessId");
+									String typeId = jsonObject.getString("typeId");
+									File attachFile = new File(itemFile + File.separator + attachName);
+									attachFile.mkdirs();
+									String tableName = Constant.fileSystem.get(Constant.SUPPLIER_SYS_KEY);
+									List<UploadFile> fileList = fileUploadMapper.getFileByBusinessId(businessId, typeId, tableName);
+									if(fileList != null && fileList.size() > 0){
+										for(UploadFile uploadFile : fileList){
+											File file = new File(attachFile + File.separator + uploadFile.getName());
+											InputStream in = new BufferedInputStream(new FileInputStream(new File(uploadFile.getPath())));
+											//ZipOutputStream zipOut = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(zipFile)));
+											OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
+											UploadUtil.writeFile(in, out);
+										}
+									}
+								}
+							}
+							ZipEntry zipEntry = new ZipEntry(itemFile.getName());
+							zipOut.putNextEntry(zipEntry);
+							InputStream in = new BufferedInputStream(new FileInputStream(itemFile));
+							UploadUtil.writeFile(in, zipOut);
+						}
+					}
+				}
+				zipOut.flush();
+	            zipOut.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
