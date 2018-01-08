@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.util.PropUtil;
 import synchro.service.SynchRecordService;
 import synchro.util.Constant;
 import synchro.util.FileUtils;
@@ -17,6 +18,7 @@ import system.model.sms.SmsRecordTemp;
 import system.service.sms.SmsRecordTempService;
 
 import com.alibaba.fastjson.JSON;
+
 import common.utils.SMSUtil;
 
 @Service("smsRecordTempService")
@@ -87,20 +89,24 @@ public class SmsRecordTempServiceImpl implements SmsRecordTempService {
                     	smsRecordTempMapper.insertSelective(smsRecordTemp);
                     }
                 }
-                List<SmsRecordTemp> list = smsRecordTempMapper.findAll();
-                for (SmsRecordTemp smsRecordTemp : list) {
-            		//发送短信
-                    SmsRecord smsRecord = new SmsRecord();
-            		smsRecord.setSendLink(smsRecordTemp.getSendLink());
-            		smsRecord.setOperator(smsRecordTemp.getOperator());
-            		smsRecord.setSendContent(smsRecordTemp.getSendContent());
-            		smsRecord.setRecipient(smsRecordTemp.getRecipient());
-            		smsRecord.setReceiveNumber(smsRecordTemp.getReceiveNumber());
-            		smsRecord.setOrgId(smsRecordTemp.getOrgId());
-            		SMSUtil.sendMsg(smsRecord);
-                    //发送完之后删除
-                    smsRecordTempMapper.deleteByPrimaryKey(smsRecordTemp.getId());
-				}
+                //判断 如果是生产环境才会调用发短信方法
+                String environment= PropUtil.getProperty("environment");
+                if("1".equals(environment)){
+                	List<SmsRecordTemp> list = smsRecordTempMapper.findAll();
+                	for (SmsRecordTemp smsRecordTemp : list) {
+                		//发送短信
+                		SmsRecord smsRecord = new SmsRecord();
+                		smsRecord.setSendLink(smsRecordTemp.getSendLink());
+                		smsRecord.setOperator(smsRecordTemp.getOperator());
+                		smsRecord.setSendContent(smsRecordTemp.getSendContent());
+                		smsRecord.setRecipient(smsRecordTemp.getRecipient());
+                		smsRecord.setReceiveNumber(smsRecordTemp.getReceiveNumber());
+                		smsRecord.setOrgId(smsRecordTemp.getOrgId());
+                		SMSUtil.sendMsg(smsRecord);
+                		//发送完之后删除
+                		smsRecordTempMapper.deleteByPrimaryKey(smsRecordTemp.getId());
+                	}
+                }
             }
         }
         synchRecordService.synchBidding(new Date(), num+"", Constant.DATE_SYNCH_SMS_RECORD_TEMP, Constant.OPER_TYPE_IMPORT, Constant.SMS_RECORD_TEMP_COMMIT_IMPORT);
