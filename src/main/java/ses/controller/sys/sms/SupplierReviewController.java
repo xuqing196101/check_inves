@@ -241,4 +241,14 @@ public class SupplierReviewController {
 	private String createWordMethod(HttpServletRequest request, String supplierId) throws Exception {
 		return supplierReviewService.createWordMethod(request, supplierId);
 	}
+	
+	/**
+	 * 下载复核表时的校验
+	 */
+	@RequestMapping(value = "/downloadTableCheck")
+	@ResponseBody
+	public JdcgResult downloadTableCheck(String supplierId){
+		JdcgResult jdcgResult = supplierReviewService.downloadTableCheck(supplierId);
+		return jdcgResult;
+	}
 }
