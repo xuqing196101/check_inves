@@ -18,6 +18,7 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import com.google.zxing.WriterException;
 
+import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
@@ -5228,5 +5229,23 @@ public class ExpertController extends BaseController {
 			e.printStackTrace();
 		}
     }
-    
+    @RequestMapping("getExpertInformation")
+    public String getExpertInformation(@CurrentUser User user, Model model){
+    	Expert expert = service.selectByPrimaryKey(user.getTypeId());
+    	model.addAttribute("expert", expert);
+    	return "ses/ems/expert/expert_information";
+    }
+    @RequestMapping("updateExpertInformation")
+    @ResponseBody
+    public boolean updateExpertInformation(Expert e){
+    	User user = userService.findByTypeId(e.getId());
+    	if(user!=null){
+    		user.setMobile(e.getMobile());
+    		user.setEmail(e.getEmail());
+    		user.setTelephone(e.getTelephone());
+    		userService.update(user);
+    	}
+    	service.updateByPrimaryKeySelective(e);
+    	return true;
+    }
 }
