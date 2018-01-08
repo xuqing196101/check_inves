@@ -69,7 +69,7 @@
 			var orgType = $("#org_type").val();
 			var setting;
 			if (orgType == '3') {
-				return;
+				orgType = 0;
 			}
 			var index = layer.load(0, {
 				shade : [ 0.1, '#fff' ],
@@ -277,7 +277,7 @@
 				$("#oId").val("");
 			}
 		    
-			if (orgType == '3') {
+			/* if (orgType == '3') {
 				$("#select_org").show();
 			   $("#isOrgShow").show();
 			   $("#orgTitle").html("所属机构");
@@ -285,7 +285,7 @@
                 $("#ajax_orgId").html("");
                 $("#tempOrg").hide();
 				$("#oId").attr("type","text");
-			} else if (orgType =='5') {
+			} else  */if (orgType =='5') {
 				$("#select_org").show();
 			   $("#isOrgShow").hide();
 			   $("#orgTitle").html("监管对象");
