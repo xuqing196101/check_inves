@@ -169,7 +169,11 @@ public class ExpertFinalInspectController {
 		}
 		model.addAttribute("notCount", notCount);
 		if("7".equals(expert.getStatus())||"8".equals(expert.getStatus())){
-			if("0".equals(expert.getFinalInspectCount())){
+			if(!"3".equals(expert.getFinalInspectCount())){
+				expert.setFinalInspectCount(Integer.valueOf(expert.getFinalInspectCount())+1+"");
+			}
+		}else if(!"17".equals(expert.getStatus())){
+			if(request.getParameter("over")!=null&&request.getParameter("over")!=""){
 				expert.setFinalInspectCount("1");
 			}
 		}
@@ -333,7 +337,11 @@ public class ExpertFinalInspectController {
 		model.addAttribute("isCheck", isCheck == null? "no" : isCheck);
 		Expert expert = expertService.selectByPrimaryKey(expertId);
 		if("7".equals(expert.getStatus())||"8".equals(expert.getStatus())){
-			if("0".equals(expert.getFinalInspectCount())){
+			if(!"3".equals(expert.getFinalInspectCount())){
+				expert.setFinalInspectCount(Integer.valueOf(expert.getFinalInspectCount())+1+"");
+			}
+		}else if(!"17".equals(expert.getStatus())){
+			if(over!=null&&over!=""){
 				expert.setFinalInspectCount("1");
 			}
 		}
@@ -465,7 +473,11 @@ public class ExpertFinalInspectController {
 		model.addAttribute("goodsServerId", goodsServerId);
 		model.addAttribute("goodsProjectId", goodsProjectId);
 		if("7".equals(expert.getStatus())||"8".equals(expert.getStatus())){
-			if("0".equals(expert.getFinalInspectCount())){
+			if(!"3".equals(expert.getFinalInspectCount())){
+				expert.setFinalInspectCount(Integer.valueOf(expert.getFinalInspectCount())+1+"");
+			}
+		}else if(!"17".equals(expert.getStatus())){
+			if(over!=null&&over!=""){
 				expert.setFinalInspectCount("1");
 			}
 		}
@@ -749,7 +761,11 @@ public class ExpertFinalInspectController {
 
 			expert = expertService.selectByPrimaryKey(expertId);
 			if("7".equals(expert.getStatus())||"8".equals(expert.getStatus())){
-				if("0".equals(expert.getFinalInspectCount())){
+				if(!"3".equals(expert.getFinalInspectCount())){
+					expert.setFinalInspectCount(Integer.valueOf(expert.getFinalInspectCount())+1+"");
+				}
+			}else if(!"17".equals(expert.getStatus())){
+				if(over!=null&&over!=""){
 					expert.setFinalInspectCount("1");
 				}
 			}
@@ -764,7 +780,11 @@ public class ExpertFinalInspectController {
 			model.addAttribute("sign", sign);
 			Expert expert = expertService.selectByPrimaryKey(expertId);
 			if("7".equals(expert.getStatus())||"8".equals(expert.getStatus())){
-				if("0".equals(expert.getFinalInspectCount())){
+				if(!"3".equals(expert.getFinalInspectCount())){
+					expert.setFinalInspectCount(Integer.valueOf(expert.getFinalInspectCount())+1+"");
+				}
+			}else if(!"17".equals(expert.getStatus())){
+				if(over!=null&&over!=""){
 					expert.setFinalInspectCount("1");
 				}
 			}
@@ -969,6 +989,8 @@ public class ExpertFinalInspectController {
 		e.setAuditTemporary(0);
 		// 设置修改时间
 		e.setUpdatedAt(new Date());
+		e.setFinalInspectAt(new Date());
+		e.setAuditAt(new Date());
 		expertService.updateByPrimaryKeySelective(e);
 		return true;
 	}

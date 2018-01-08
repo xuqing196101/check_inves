@@ -383,4 +383,12 @@ public class Constant {
      * @Fields SUPPLIER_CHECK_RESULT_NUM : 供应商复核结果数据外网导入记录描述
      */
     public final static String OUTER_SUPPLIER_CHECK_NUM = "外网导入复核供应商数量:";
+    /**
+     * @Fields EXPERT_CHECK_RESULT_NUM : 专家复查结果数据内网导出记录描述
+     */
+    public final static String INNER_EXPERT_CHECK_NUM = "内网导出复查专家数量:";
+    /**
+     * @Fields EXPERT_CHECK_RESULT_NUM : 专家复查结果数据外网导入记录描述
+     */
+    public final static String OUTER_EXPERT_CHECK_NUM = "外网导入复查专家数量:";
 }

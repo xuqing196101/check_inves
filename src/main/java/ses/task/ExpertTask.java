@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import ses.service.ems.ExpertAuditService;
 import ses.service.sms.SupplierService;
+import ses.util.PropUtil;
 import synchro.inner.read.expert.InnerExpertService;
 import synchro.outer.back.service.expert.OuterExpertService;
 import synchro.outer.read.att.OuterAttachService;
@@ -160,4 +161,46 @@ public class ExpertTask {
               }
           }
      }
+     /**
+      * 
+     * @Title: 
+     * @Description: 专家复查内网导出
+     * @param      
+     * @return void     
+     * @throws
+      */
+     public void handlerExportExpertCheck() {
+    	//获取是否内网标识 1外网 0内网
+         String ipAddressType = PropUtil.getProperty("ipAddressType");
+ 		if ("0".equals(ipAddressType)) {
+	    	Date date=new Date();
+	  		Date addDate = supplierService.addDate(date, 3, -1);
+	  		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+	  		String fat = sdf.format(addDate);
+	  		String startTime=fat+" 00:00:00";
+	  		String endTime=fat+" 23:59:59";
+	  		innerExpertService.exportCheckResult(startTime, endTime, date);
+  		}
+	}
+     /**
+      * 
+     * @Title: 
+     * @Description: 专家复查外网导入
+     * @param      
+     * @return void     
+     * @throws
+      */
+     public void handlerImportExpertCheck() {
+    	//获取是否内网标识 1外网 0内网
+         String ipAddressType = PropUtil.getProperty("ipAddressType");
+         File file = FileUtils.getImportFile();
+ 		if ("1".equals(ipAddressType)&& file != null && file.exists()) {
+ 			 File [] files = file.listFiles();
+ 			 for (File f : files){
+	 			 if(f.isDirectory() && FileUtils.getSynchAttachFile(42).equals("/" + f.getName())){
+	 				outerExpertService.importCheckResult(f);
+	 			 }
+ 			 }
+ 		}
+	}
 }

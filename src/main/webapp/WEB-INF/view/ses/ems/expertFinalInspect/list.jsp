@@ -54,7 +54,7 @@
         var state = $("#" + id ).parent("tr").find("td").eq(11).text(); //.trim();
         state = trim(state);
         var sign= ${sign};
-        if((sign == 3 && state != "入库(待复查)"&&state != "复查中")) {
+        if((sign == 3 && state != "入库(待复查)"&&state != "复查中"&&state != "资料不全")) {
           layer.msg("请选择待审核项 !", {
             offset: '100px',
           });
@@ -317,6 +317,9 @@
               </c:if>
               <c:if test="${sign == 3 and expert.status eq '8' }">
                 <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复查未合格</span></td>
+              </c:if>
+              <c:if test="${sign == 3 and expert.status eq '17' }">
+                <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">资料不全</span></td>
               </c:if>
               <td class="tc">${expert.finalInspectCount==null?0:expert.finalInspectCount}</td>
             </tr>
