@@ -208,7 +208,6 @@
               <th class="info w100">专业职称(职务)</th>
               <th class="info w30">类型</th>
               <th class="info w50">类别</th>
-              <th class="info w60">最新提交时间</th>
               <th class="info w60">最新审核时间</th>
               <th class="info w70">审核人</th>
               <th class="info w60">状态</th>
@@ -244,9 +243,6 @@
               <td class="hand" title="${expert.expertsTypeId}">
                 <c:if test="${fn:length (expert.expertsTypeId) > 4}">${fn:substring(expert.expertsTypeId,0,4)}...</c:if>
                 <c:if test="${fn:length (expert.expertsTypeId) <= 4}">${expert.expertsTypeId}</c:if>
-              </td>
-              <td class="tc" onclick="shenhe('${expert.id}');">
-                <fmt:formatDate type='date' value='${expert.submitAt }' dateStyle="default" pattern="yyyy-MM-dd" />
               </td>
               <td class="tc" onclick="shenhe('${expert.id}');">
                 <fmt:formatDate type='date' value='${expert.auditAt }' dateStyle="default" pattern="yyyy-MM-dd" />
