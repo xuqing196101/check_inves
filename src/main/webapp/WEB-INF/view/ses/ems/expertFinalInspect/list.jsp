@@ -165,6 +165,8 @@
                       <option <c:if test="${state eq '6'}">selected</c:if> value="6">入库(待复查)</option>
                       <option <c:if test="${state eq '7'}">selected</c:if> value="7">复查合格</option>
                       <option <c:if test="${state eq '8'}">selected</c:if> value="8">复查未合格</option>
+                      <option <c:if test="${state eq '17'}">selected</c:if> value="17">资料不全</option>
+                      <option <c:if test="${state eq '20'}">selected</c:if> value="20">复查中</option>
                     </c:if>
                   </select>
                 </div>

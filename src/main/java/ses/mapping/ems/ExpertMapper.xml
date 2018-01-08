@@ -274,6 +274,9 @@
         <if test="auditTemporary !=null">
           and T1.AUDIT_TEMPORARY = #{auditTemporary}
         </if>
+        <if test="auditAt !=null">
+           AND TO_CHAR(T1.AUDIT_AT,'YY-MM-DD') = TO_CHAR(#{auditAt},'YY-MM-DD')
+        </if>
         <if test="address != null and address !=''">
 		      AND A.PARENT_ID = #{address}
 		    </if>

@@ -91,8 +91,15 @@ public class ExpertFinalInspectController {
 			pageNum = StaticVariables.DEFAULT_PAGE;
 		}
 		if("1".equals(user.getTypeName())){
+			model.addAttribute("state", expert.getStatus());
+			model.addAttribute("relName", expert.getRelName());
+			model.addAttribute("auditAt", expert.getAuditAt());
 			String orgId=user.getOrg()==null?user.getOrgId():user.getOrg().getId();
 			expert.setFinalInspectPeople(orgId);
+			if("20".equals(expert.getStatus())){
+				expert.setStatus("6");
+				expert.setAuditTemporary(3);
+			}
 			List<Expert> expertList = finalInspectService.findExpertFinalInspectList(expert,pageNum);
 			PageInfo< Expert > result = new PageInfo < Expert > (expertList);
 			 for(Expert exp: expertList) {
