@@ -565,7 +565,7 @@
                     <w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
                     <wx:font wx:val="宋体" />
                     <w:sz w:val="24" /></w:rPr>
-                  <w:t>年 月 日</w:t>
+                  <w:t>年     月     日</w:t>
                 </w:r>
               </w:p>
             </w:tc>

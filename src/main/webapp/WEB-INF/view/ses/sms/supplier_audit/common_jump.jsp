@@ -22,6 +22,9 @@
 	request.setAttribute("ipAddressType", ipAddressType);
 	request.setAttribute("ipInner", ipInner);
 	request.setAttribute("ipOuter", ipOuter);
+	
+	int reviewStatus = NumberUtils.toInt(request.getParameter("reviewStatus"));
+	request.setAttribute("reviewStatus", reviewStatus);
 %>
 <%-- <c:set var="isAudit" value="<%=isAudit %>"/>
 <c:set var="isStatusToAudit" value="<%=isStatusToAudit %>"/>
@@ -101,11 +104,14 @@
 	        <a aria-expanded="false" href="#tab-4">上传批准审核表</a>
 	    </li>
 	  </c:if>
+	  reviewStatus:${reviewStatus}
     <c:if test="${sign == 2}">
-      <li id="reverse_of_eleven" onclick="jump('historyReview')">
-        <a aria-expanded="false" href="#tab-4">历史复核信息</a>
-        <i></i>
-      </li>
+      <c:if test="${reviewStatus == 1}">
+	      <li id="reverse_of_eleven" onclick="jump('historyReview')">
+	        <a aria-expanded="false" href="#tab-4">历史复核信息</a>
+	        <i></i>
+	      </li>
+      </c:if>
       <li id="reverse_of_nine" onclick="jump('review')">
         <a aria-expanded="false" href="#tab-4">供应商复核</a>
       </li>
@@ -132,6 +138,7 @@
 	var supplierSt = "<%=supplierSt %>";
 	var currentStep = "<%=currentStep %>";
 	var sign = "<%=sign %>";
+	var reviewStatus = "<%=reviewStatus %>";
 	
 	$(function(){
 		// 导航栏选中

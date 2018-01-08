@@ -77,6 +77,7 @@
             	<jsp:param value="${currSupplier.id }" name="supplierId"/>
             	<jsp:param value="${currSupplier.status }" name="supplierStatus"/>
             	<jsp:param value="${sign }" name="sign"/>
+            	<jsp:param value="${currSupplier.reviewStatus}" name="reviewStatus"/>
             </jsp:include>
             
             <%-- <form id="form_id" action="${pageContext.request.contextPath}/supplierAudit/financial.html" method="post">

@@ -54,7 +54,7 @@
         var state = $("#" + id ).parent("tr").find("td").eq(11).text(); //.trim();
         state = trim(state);
         var sign= ${sign};
-        if((sign == 3 && state != "入库(待复查)"&&state != "复查中")) {
+        if((sign == 3 && state != "入库(待复查)"&&state != "复查中"&&state != "资料不全")) {
           layer.msg("请选择待审核项 !", {
             offset: '100px',
           });
@@ -208,7 +208,6 @@
               <th class="info w100">专业职称(职务)</th>
               <th class="info w30">类型</th>
               <th class="info w50">类别</th>
-              <th class="info w60">最新提交时间</th>
               <th class="info w60">最新审核时间</th>
               <th class="info w70">审核人</th>
               <th class="info w60">状态</th>
@@ -244,9 +243,6 @@
               <td class="hand" title="${expert.expertsTypeId}">
                 <c:if test="${fn:length (expert.expertsTypeId) > 4}">${fn:substring(expert.expertsTypeId,0,4)}...</c:if>
                 <c:if test="${fn:length (expert.expertsTypeId) <= 4}">${expert.expertsTypeId}</c:if>
-              </td>
-              <td class="tc" onclick="shenhe('${expert.id}');">
-                <fmt:formatDate type='date' value='${expert.submitAt }' dateStyle="default" pattern="yyyy-MM-dd" />
               </td>
               <td class="tc" onclick="shenhe('${expert.id}');">
                 <fmt:formatDate type='date' value='${expert.auditAt }' dateStyle="default" pattern="yyyy-MM-dd" />
@@ -317,6 +313,9 @@
               </c:if>
               <c:if test="${sign == 3 and expert.status eq '8' }">
                 <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复查未合格</span></td>
+              </c:if>
+              <c:if test="${sign == 3 and expert.status eq '17' }">
+                <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">资料不全</span></td>
               </c:if>
               <td class="tc">${expert.finalInspectCount==null?0:expert.finalInspectCount}</td>
             </tr>

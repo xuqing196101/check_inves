@@ -461,7 +461,7 @@
             var position = '';
             $('#list_content tr').each(function () {
               if (getUrlParam('expertId') == $(this).find('input[name="expertId"]').val()) {
-                position = $(this).offset().top;
+                position = $(this).offset().top - parseInt($('.mfixed-header').height());
               }
             });
             

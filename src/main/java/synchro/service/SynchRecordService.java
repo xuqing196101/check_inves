@@ -184,5 +184,19 @@ public interface SynchRecordService {
 	 * @param num
 	 */
 	public void backupImportInvestResults(String num);
+	/**
+	 *〈简述〉专家复查结果数据导出记录
+	 *〈详细描述〉
+	 * @author Shi Shuai 
+	 * @param num
+	 */
+	void backupExpertExportCheckResults(Date date, String num);
+	/**
+	 *〈简述〉专家复查结果数据导入记录
+	 *〈详细描述〉
+	 * @author Shi Shuai
+	 * @param num
+	 */
+	void backupExpertImportCheckResults(String num);
     
 }

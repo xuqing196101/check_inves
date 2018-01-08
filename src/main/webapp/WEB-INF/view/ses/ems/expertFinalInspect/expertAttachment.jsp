@@ -203,15 +203,36 @@
 			layer.alert("必须填写复查理由！", {offset: '100px'});
 			return;
 		}
-		indexRecheck = layer.open({
-	  	    shift: 1, //0-6的动画形式，-1不开启
-	  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
-	  	    title: ['资料不全确认','border-bottom:1px solid #e5e5e5'],
-	  	    shade:0.01, //遮罩透明度
-		  		type : 1,
-		  		area : [ '30%', '250px'  ], //宽高
-		  		content : $('#openDiv'),
-		});
+		var status = $(":radio:checked").val();
+		if(status=="17"){
+			indexRecheck = layer.open({
+		  	    shift: 1, //0-6的动画形式，-1不开启
+		  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+		  	    title: ['资料不全确认','border-bottom:1px solid #e5e5e5'],
+		  	    shade:0.01, //遮罩透明度
+			  		type : 1,
+			  		area : [ '30%', '250px'  ], //宽高
+			  		content : $('#openDiv'),
+			});
+		}else{
+			 var expertId=$("#expertId").val();
+			 var finalInspectNumber=$("#finalInspectNumber").val();
+			 $.ajax({
+	             url: "${pageContext.request.contextPath}/finalInspect/over.do",
+	             data: {
+	                 "expertId": expertId,
+	                 "count":finalInspectNumber
+	             },
+	             type: "POST",
+	            // async: false,
+	             //dataType: "json",
+	            success: function(e) {
+	            	 $("#form_id").attr("action", "${pageContext.request.contextPath}/finalInspect/expertAttachment.html");
+	            	 $("#form_id").submit();
+				}
+	    	 });
+		}
+		
 	}
      function confirm(){
     	 var expertId=$("#expertId").val();
@@ -321,28 +342,45 @@
 						  </table> 
 					</div>
 					<div class="clear"></div>
-					<div class="padding-top-10">
-						<h2 class="count_flow"><i>2</i>复查意见</h2>
-						 <ul class="ul_list">
-		                   <li>
-		                   <div class="select_check">
-		                      <input type="radio" id="fchg" <c:if test="${auditOpinion.flagAudit eq '7'}">checked</c:if> name="status" value="7" onclick = "updStatus()" <c:if test="${(over!=null&& over!='')||qualified eq 'false'||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>>复查合格
-		                      <input type="radio"  id="fcbhg" <c:if test="${auditOpinion.flagAudit eq '8'}">checked</c:if> name="status" value="8" onclick = "updStatus()" <c:if test="${(over!=null&& over!='')||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>>复查不合格
-		                      <input type="radio"  id="zlbq" <c:if test="${auditOpinion.flagAudit eq '17'}">checked</c:if> name="status" value="17" onclick = "updStatus()" <c:if test="${(over!=null&& over!='')||qualified eq 'false'||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>>资料不全
-		                    </div>
-		                  </li>
-		                  <li>
-		                   <div id="check_opinion">
-		                   		<c:if test="${auditOpinion.flagAudit eq '7'}">复查合格。</c:if>
-		                   		<c:if test="${auditOpinion.flagAudit eq '8'}">复查不合格。</c:if>
-		                   		<c:if test="${auditOpinion.flagAudit eq '17'}">资料不全。</c:if>
-		                   </div>
-		                 </li>
-		                  <li class="mt10">
-		                     <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80" onblur="updExpertReason()" <c:if test="${(over!=null&& over!='')||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>>${auditOpinion.opinion }</textarea>
-		                  </li>
-		                </ul>
-					</div>
+					<c:if test="${over==null||over==''}">
+						<div class="padding-top-10">
+							<h2 class="count_flow"><i>2</i>复查意见</h2>
+							 <ul class="ul_list">
+			                   <li>
+			                   <div class="select_check">
+			                      <input type="radio" id="fchg" <c:if test="${auditOpinion.flagAudit eq '7'}">checked</c:if> name="status" value="7" onclick = "updStatus()" <c:if test="${(over!=null&& over!='')||qualified eq 'false'||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>>复查合格
+			                      <input type="radio"  id="fcbhg" <c:if test="${auditOpinion.flagAudit eq '8'}">checked</c:if> name="status" value="8" onclick = "updStatus()" <c:if test="${(over!=null&& over!='')||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>>复查不合格
+			                      <input type="radio"  id="zlbq" <c:if test="${auditOpinion.flagAudit eq '17'}">checked</c:if> name="status" value="17" onclick = "updStatus()" <c:if test="${(over!=null&& over!='')||qualified eq 'false'||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>>资料不全
+			                    </div>
+			                  </li>
+			                  <li>
+			                   <div id="check_opinion">
+			                   		<c:if test="${auditOpinion.flagAudit eq '7'}">复查合格。</c:if>
+			                   		<c:if test="${auditOpinion.flagAudit eq '8'}">复查不合格。</c:if>
+			                   		<c:if test="${auditOpinion.flagAudit eq '17'}">资料不全。</c:if>
+			                   </div>
+			                 </li>
+			                  <li class="mt10">
+			                     <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80" onblur="updExpertReason()" <c:if test="${(over!=null&& over!='')||expert.status=='7' || expert.status=='8' || (expert.status=='17'&&notCount<=expert.finalInspectCount)}">disabled="disabled"</c:if>>${auditOpinion.opinion }</textarea>
+			                  </li>
+			                </ul>
+						</div>
+					</c:if>
+					<c:if test="${over!=null&&over!=''}">
+						<div class="padding-top-10">
+							<h2 class="count_flow"><i>2</i>复查意见</h2>
+							 <ul class="ul_list">
+			                  <li>
+			                   <div id="check_opinion">
+			                   		<c:if test="${auditOpinion.flagAudit eq '7'}">复查合格。</c:if>
+			                   		<c:if test="${auditOpinion.flagAudit eq '8'}">复查不合格。</c:if>
+			                   		<c:if test="${auditOpinion.flagAudit eq '17'}">资料不全。</c:if>
+			                   		${auditOpinion.opinion }
+			                   </div>
+			                 </li>
+			                </ul>
+						</div>
+					</c:if>
 					<div class="clear"></div>
 					<div class="padding-top-10">
 						<h2 class="count_flow"><i>3</i>下载专家复查表</h2>
@@ -353,7 +391,7 @@
 		                </ul>
 					</div>
 					<div class="clear"></div>
-					<div id="upfcTable" class="padding-top-10" <c:if test="${expert.status!='7' && expert.status!='8' && expert.status!='17' && auditOpinion.flagAudit ==null && auditOpinion.flagAudit ==''}">hidden</c:if>>
+					<div id="upfcTable" class="padding-top-10" <c:if test="${expert.status!='7' && expert.status!='8' && expert.status!='17' }">hidden</c:if>><!-- &&( auditOpinion.flagAudit ==null || auditOpinion.flagAudit =='') -->
 						<h2 class="count_flow"><i>4</i>上传专家复查表</h2>
 						<ul class="ul_list">
 		                   <li>

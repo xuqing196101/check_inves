@@ -96,7 +96,7 @@
 								<th class="info w50">序号</th>
 								<th class="info">操作人</th>
 								<th class="info w70">操作类型</th>
-								<th class="info w130">专家</th>
+								<th class="info w130">专家姓名</th>
 								<th class="info w140">操作时间</th>
 								<th class="info w90">处罚日期</th>
 								<th class="info w80">处罚时限</th>

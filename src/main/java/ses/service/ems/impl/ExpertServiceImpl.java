@@ -1784,6 +1784,9 @@ public class ExpertServiceImpl implements ExpertService {
 		// TODO Auto-generated method stub
 		mapper.updateReviewStatus("", expertId);
 	}
+	public List<Expert> getFcExpertByDate(String startDate, String endDate) {
+	    return mapper.getFcExpertByDate(startDate, endDate,/*DictionaryDataUtil.getId("LOCAL")*/DictionaryDataUtil.getId("ARMY"));
+	}
 }
 
 

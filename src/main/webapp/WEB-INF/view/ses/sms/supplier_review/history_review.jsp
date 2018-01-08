@@ -44,6 +44,7 @@
             <jsp:param value="${supplierId}" name="supplierId"/>
             <jsp:param value="${supplierStatus}" name="supplierStatus"/>
             <jsp:param value="${sign}" name="sign"/>
+            <jsp:param value="${reviewStatus}" name="reviewStatus"/>
            </jsp:include>
           <h2 class="count_flow"><i>1</i>审核信息</h2>
           <ul class="ul_list hand">
@@ -102,6 +103,7 @@
 
     <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
       <a class="btn" type="button" onclick="toStep('six');">上一步</a>
+      <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="toStep('nine');">下一步</a> -->
       <a class="btn" type="button" onclick="toStep('nine');">转至复核</a>
     </div>
     

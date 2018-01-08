@@ -593,5 +593,6 @@ public interface ExpertService {
      * @return 专家集合
      */
     List<Expert> getDeleteExpertByDate(String startDate,String endDate);
+    List<Expert> getFcExpertByDate(String startDate, String endDate);
     
 }

@@ -74,6 +74,7 @@
            	<jsp:param value="${supplierId }" name="supplierId"/>
            	<jsp:param value="${supplierStatus }" name="supplierStatus"/>
            	<jsp:param value="${sign }" name="sign"/>
+           	<jsp:param value="${reviewStatus}" name="reviewStatus"/>
           </jsp:include>
 					<%-- <form id="form_id" action="" method="post">
 						<input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">

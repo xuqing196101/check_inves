@@ -48,6 +48,7 @@
          	<jsp:param value="${supplierId }" name="supplierId"/>
          	<jsp:param value="${supplierStatus }" name="supplierStatus"/>
          	<jsp:param value="${sign }" name="sign"/>
+         	<jsp:param value="${reviewStatus}" name="reviewStatus"/>
         </jsp:include>
 				<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab count_flow ">
 				</ul>
