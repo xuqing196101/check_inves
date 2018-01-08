@@ -542,7 +542,7 @@ public class SynchExportController {
 	        	} 
 //	        }
 	        if("0".equals(ipAddressType)){
-	        	//军队专家内网导进外网 
+	        	//内网专家内网导进外网 
 	        	if (synchType.contains(Constant.DATE_SYNCH_MILITARY_EXPERT)) {
 	        		synchMilitaryExpertService.militaryExpertExport(startTime, endTime, date);
 	        	}

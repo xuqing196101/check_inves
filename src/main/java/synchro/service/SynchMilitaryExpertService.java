@@ -14,7 +14,7 @@ public interface SynchMilitaryExpertService {
 
 	/**
 	 * 
-	 * Description: 军队专家导出
+	 * Description: 内网专家导出
 	 * 
 	 * @data 2017年10月20日
 	 * @param 
@@ -24,7 +24,7 @@ public interface SynchMilitaryExpertService {
 	
 	/**
 	 * 
-	 * Description: 军队专家导入
+	 * Description: 内网专家导入
 	 * 
 	 * @author zhang shubin
 	 * @data 2017年10月20日

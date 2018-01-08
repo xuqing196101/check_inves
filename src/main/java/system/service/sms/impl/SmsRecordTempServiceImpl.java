@@ -17,7 +17,6 @@ import system.model.sms.SmsRecordTemp;
 import system.service.sms.SmsRecordTempService;
 
 import com.alibaba.fastjson.JSON;
-
 import common.utils.SMSUtil;
 
 @Service("smsRecordTempService")
@@ -54,7 +53,7 @@ public class SmsRecordTempServiceImpl implements SmsRecordTempService {
 	}
 	
 	/**
-	 * 短信发送记录导出
+	 * 导出待发送短信
 	 */
 	@Override
 	public void exportSmsRecordTemp(String startTime, String endTime, Date date) {
@@ -62,7 +61,6 @@ public class SmsRecordTempServiceImpl implements SmsRecordTempService {
         List<SmsRecordTemp> smsRecordTempList = smsRecordTempMapper.selectByUpdateDate(startTime, endTime);
         if (smsRecordTempList != null && smsRecordTempList.size() > 0) {
             sum = sum + smsRecordTempList.size();
-            // 专家抽取结果信息
             FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SMS_RECORD_TEMP_PATH_FILENAME, 39), JSON.toJSONString(smsRecordTempList));
             for (SmsRecordTemp smsRecordTemp : smsRecordTempList) {
             	smsRecordTempMapper.deleteByPrimaryKey(smsRecordTemp.getId());
@@ -72,7 +70,7 @@ public class SmsRecordTempServiceImpl implements SmsRecordTempService {
 	}
 
 	/**
-	 * 导入短信发送记录
+	 * 导入待发送短信
 	 */
 	@Override
 	public void importSmsRecordTemp(File file) {

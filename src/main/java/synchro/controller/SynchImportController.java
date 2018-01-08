@@ -979,7 +979,7 @@ public class SynchImportController {
                         }
                     	
                     }
-                    //军队专家信息外网导入
+                    //内网专家信息外网导入
                     if("1".equals(ipAddressType)){
                     	if (synchType.contains(Constant.DATE_SYNCH_MILITARY_EXPERT)) {
                     		if (f.getName().equals(Constant.MILITARY_EXPERT_FILE_EXPERT)) {
