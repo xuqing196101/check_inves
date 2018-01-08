@@ -5,24 +5,23 @@ import java.io.File;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import common.constant.StaticVariables;
+
 import synchro.inner.read.InnerFilesRepeater;
-import synchro.service.SynchMilitaryExpertService;
 import synchro.util.Constant;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
-
-import common.constant.StaticVariables;
+import system.service.sms.SmsRecordTempService;
 
 /**
  * 
- * Description: 外网导入军队专家
+ * Description: 外网导入待发送短信
  * 
- * @author zhang shubin
- * @version 2016-9-7
+ * @version 2018年1月6日
  * @since JDK1.7
  */
-@Component("militaryExpertImportTask")
-public class MilitaryExpertImportTask {
+@Component("smsRecordTempImport")
+public class SmsImportTask {
 
 	/**
 	 * 文件导入
@@ -30,25 +29,29 @@ public class MilitaryExpertImportTask {
 	@Autowired
 	private InnerFilesRepeater fileRepeater;
 	
-	/**
-	 * 专家同步
-	 */
-	@Autowired
-	private SynchMilitaryExpertService synchMilitaryExpertService;
-	
-	public void militaryExpertImport(){
-        if ("1".equals(StaticVariables.ipAddressType)) {
-//			fileRepeater.initFiles();
+    @Autowired
+    private SmsRecordTempService smsRecordTempService;
+    
+    /**
+     * 
+     * Description: 外网导入待发送短信
+     * 
+     * @data 2018年1月6日
+     * @param 
+     * @return
+     */
+	public void smsImport() {
+		if ("1".equals(StaticVariables.ipAddressType)) {
 			/** 外网导入 **/
 			File file = FileUtils.getImportFile();
 			if (file != null && file.exists()) {
 				File[] files = file.listFiles();
 				for (File f : files) {
-					if (f.getName().equals(Constant.MILITARY_EXPERT_FILE_EXPERT)) {
-						synchMilitaryExpertService.militaryExpertImport(f);
+					if (f.getName().equals(Constant.SMS_RECORD_TEMP_FILE_EXPERT)) {
+						smsRecordTempService.importSmsRecordTemp(f);
 					}
 					if (f.isDirectory()) {
-						if (f.getName().equals(Constant.MILITARY_EXPERT_FILE_EXPERT)) {
+						if (f.getName().equals(Constant.SMS_RECORD_TEMP_FILE_EXPERT)) {
 							OperAttachment.moveFolder(f);
 						}
 					}
