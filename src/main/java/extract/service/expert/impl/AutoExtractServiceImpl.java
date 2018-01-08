@@ -45,6 +45,7 @@ import extract.model.expert.ExpertResult;
 import extract.model.expert.ProjectVoiceResult;
 import extract.service.expert.AutoExtractService;
 import extract.service.expert.ExpertExtractConditionService;
+import extract.service.expert.ExpertExtractResultService;
 import extract.util.DateUtils;
 import extract.util.WebServiceUtil;
 
@@ -76,6 +77,9 @@ public class AutoExtractServiceImpl implements AutoExtractService {
     
     @Autowired
     private ExpertExtractConditionService expertExtractConditionService;
+    
+    @Autowired
+    private ExpertExtractResultService expertExtractResultService;
 
     //地区
     @Autowired
@@ -305,6 +309,8 @@ public class AutoExtractServiceImpl implements AutoExtractService {
 	            projectMap.put("projectId", expertExtractProject.getId());
 	            projectMap.put("updatedAt", new Date());
 	            expertExtractProjectMapper.updataStatus(projectMap);
+	            //将专家信息存入待发送短信表便于发短信
+	            expertExtractResultService.smsNotice(expertExtractProject.getId());
 	            return "OK";
 	        }else{
 	            //需要继续抽取

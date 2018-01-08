@@ -1,5 +1,6 @@
 package extract.service.expert.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,15 +15,14 @@ import ses.model.bms.Area;
 import ses.model.ems.Expert;
 import ses.model.ems.ProjectExtract;
 import ses.util.DictionaryDataUtil;
-import system.model.sms.SmsRecord;
-
-import common.utils.SMSUtil;
-
+import system.dao.sms.SmsRecordTempMapper;
+import system.model.sms.SmsRecordTemp;
 import extract.dao.expert.ExpertExtractProjectMapper;
 import extract.dao.expert.ExpertExtractResultMapper;
 import extract.model.expert.ExpertExtractProject;
 import extract.model.expert.ExpertExtractResult;
 import extract.service.expert.ExpertExtractResultService;
+import extract.util.DateUtils;
 
 /**
  * 
@@ -46,6 +46,9 @@ public class ExpertExtractResultServiceImpl implements ExpertExtractResultServic
     //地区
     @Autowired
     private AreaMapper areaMapper;
+    
+    @Autowired
+    private SmsRecordTempMapper smsRecordTempMapper;
     
     /**
      * 保存抽取结果信息
@@ -118,10 +121,15 @@ public class ExpertExtractResultServiceImpl implements ExpertExtractResultServic
 	@Override
 	public void smsNotice(String projectId) {
 		ExpertExtractProject expertExtractProject = expertExtractProjectMapper.selectByPrimaryKey(projectId);
-		SmsRecord smsRecord = new SmsRecord();
-		smsRecord.setSendLink(DictionaryDataUtil.getId("ZJCQDX"));
-		smsRecord.setOperator(expertExtractProject.getCreaterId());
-		smsRecord.setOrgId(expertExtractProject.getProcurementDepId());
+		SmsRecordTemp smsRecordTemp = new SmsRecordTemp();
+		smsRecordTemp.setIsDeleted((short)0);
+		smsRecordTemp.setUpdatedAt(new Date());
+		smsRecordTemp.setSendLink(DictionaryDataUtil.getId("ZJCQDX"));
+		smsRecordTemp.setOperator(expertExtractProject.getCreaterId());
+		smsRecordTemp.setOrgId(expertExtractProject.getProcurementDepId());
+		//评审时间
+		SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日HH时mm分");
+    	String dateStr = format.format(expertExtractProject.getReviewTime());
         //评审地点
 		StringBuffer sb = new StringBuffer();
         String reviewProvince = expertExtractProject.getReviewProvince();
@@ -140,20 +148,22 @@ public class ExpertExtractResultServiceImpl implements ExpertExtractResultServic
 		List<ExpertExtractResult> resultList = expertExtractResultMapper.findByProjectId(projectId);
 		for (ExpertExtractResult expertExtractResult : resultList) {
 			Expert expert = expertExtractResultMapper.findByExpertId(expertExtractResult.getExpertId());
-			smsRecord.setRecipient(expert.getRelName());
-			smsRecord.setReceiveNumber(expert.getMobile());
+			smsRecordTemp.setRecipient(expertExtractResultMapper.findUserByTypeId(expert.getId()));
+			smsRecordTemp.setReceiveNumber(expert.getMobile());
 			//短信发送内容
-			String content = "【军队采购网通知】"+expert.getRelName()+"专家您好！您已确定参加"+expertExtractProject.getProjectName()+"项目评审。请携带有效身份证件，于xxxx年xx月xx日xx时xx分（评审时间）前往"+address+"参加评审，共需评审"+expertExtractProject.getReviewDays()+"天。采购机构联系人："+expertExtractProject.getContactPerson()+"；手机："+expertExtractProject.getContactNum()+"。";
-			smsRecord.setSendContent(content);
-			//SMSUtil.sendMsg(smsRecord);
+			String content = "【军队采购网通知】"+expert.getRelName()+"专家您好！您已确定参加"+expertExtractProject.getProjectName()+"项目评审。请携带有效身份证件，于"+dateStr+"前往"+address+"参加评审，共需评审"+expertExtractProject.getReviewDays()+"天。采购机构联系人："+expertExtractProject.getContactPerson()+"；手机："+expertExtractProject.getContactNum()+"。";
+			smsRecordTemp.setSendContent(content);
+			smsRecordTemp.setId(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase());
+			smsRecordTempMapper.insertSelective(smsRecordTemp);
 			if(null == expertExtractResult.getIsAlternate()){
 				//正式专家第一次被抽取到
 				Integer cNum = expertExtractResultMapper.vaIsOnceJoin(expertExtractResult.getExpertId());
 				if(cNum < 2){
 					//专家第一次抽取后（自动/人工）
 					content = "【军队采购网通知】"+expert.getRelName()+"专家您好！您已确定参加"+expertExtractProject.getProjectName()+"项目评审。请携带有效身份证件,军队人员身份证件(军队专家),专业技术职称证书,学位证书,相关机关事业部门推荐信(可无),国家科技进步三等或军队科技进步二等以上获奖证书(可无),工程类专家注册时使用执业资格证书等注册基本信息彩色扫描件原件，至评审现场进行复查。";
-					smsRecord.setSendContent(content);
-					//SMSUtil.sendMsg(smsRecord);
+					smsRecordTemp.setSendContent(content);
+					smsRecordTemp.setId(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase());
+					smsRecordTempMapper.insertSelective(smsRecordTemp);
 				}
 			}
 		}

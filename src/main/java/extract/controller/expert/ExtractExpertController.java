@@ -288,6 +288,8 @@ public class ExtractExpertController {
     public String extractEnd(ExpertExtractProject expertExtractProject,ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo,String conId) throws Exception{
         // 修改项目抽取状态
         expertExtractProjectService.updataStatus(expertExtractProject.getId());
+        //将专家信息存入待发送短信表便于发短信
+        expertExtractResultService.smsNotice(expertExtractProject.getId());
         String jsonString = JSON.toJSONString("success");
         return jsonString;
     }
