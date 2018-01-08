@@ -85,13 +85,13 @@
   }
   
   //查看详情
-  function view(version){
+  function view(version,type){
     var authType = "${authType}";
     if(authType != '4'){
       layer.msg("只有资源服务中心才能操作");
       return;
     }
-    window.location.href = "${pageContext.request.contextPath }/appInfo/view.html?version="+version;
+    window.location.href = "${pageContext.request.contextPath }/appInfo/view.html?version="+version+"&type="+type;
   }
   
   //新增
@@ -163,7 +163,7 @@
             <tr class="tc">
               <%-- <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${appInfo.version }" /></td> --%>
               <td class="w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-              <td class="tc" onclick = "view('${appInfo.version}')">${appInfo.version }</td>
+              <td class="tc" onclick = "view('${appInfo.version}','${appInfo.type }')">${appInfo.version }</td>
               <td class="tc">
                 <fmt:formatDate value="${appInfo.createdAt }" pattern="yyyy-MM-dd" />
               </td>

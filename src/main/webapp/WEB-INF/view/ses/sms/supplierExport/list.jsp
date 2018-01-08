@@ -54,7 +54,7 @@
 					<li>
 						<a href="javascript:void(0);">进口代理商管理</a>
 					</li>--%>
-				<li class="active"><a href="javascript:void(0);">两库审核状态</a></li>
+				<li class="active"><a href="javascript:void(0);">两库审核进度</a></li>
 			</ul>
 			<div class="clear"></div>
 		</div>

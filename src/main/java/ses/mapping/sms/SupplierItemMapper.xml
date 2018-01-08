@@ -678,6 +678,7 @@
 		AND s.IS_PROVISIONAL = '0'
 		AND s.IS_DELETED = 0
 		<!-- 排除该品目审核不通过的供应商 -->
+		<if test="queryCategorys != null and queryCategorys.size() > 0">
 		AND s.ID NOT IN (
 			SELECT
 				SUPPLIER_ID
@@ -694,6 +695,7 @@
 			GROUP BY SUPPLIER_ID
 		  	HAVING COUNT(*) >= #{returnCount}
 		)
+		</if>
 		<!-- 排除该供应商类型审核不通过的供应商 -->
 		AND s.ID NOT IN (
 			SELECT

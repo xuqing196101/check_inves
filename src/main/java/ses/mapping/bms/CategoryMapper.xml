@@ -899,7 +899,7 @@
 		  START WITH T.ID IN (SELECT ID
 			FROM T_SES_BMS_CATEGORY T
 			WHERE T.IS_DELETED = 0
-			AND IS_PUBLISH = 0
+			AND T.IS_PUBLISH = 0
 			<if test="status != null and status != ''">
 				AND CLASSIFY_STATUS IN (#{status}, 3)
 			</if>

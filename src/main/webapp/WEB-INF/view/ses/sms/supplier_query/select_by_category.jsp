@@ -12,7 +12,7 @@
 				var zTreeObj;
 				var zNodes;
 				loadZtree();
-
+			
 				function loadZtree() {
 					var setting = {
 						async: {
@@ -261,13 +261,58 @@
 		    var loading = layer.load(1);
 		    // 获取搜索内容
 		    var searchName = $("#cateKey").val().replace(/(^\s*)|(\s*$)/g, "");
+		    if(null == searchName || searchName == ''){
+		    	var zTreeObj;
+				var zNodes;
+
+				var setting = {
+					async: {
+						autoParam: ["id"],
+						enable: true,
+						url: "${pageContext.request.contextPath}/category/supplierCreatetree.do",
+						otherParam: {
+							categoryIds: "${categoryIds}",
+						},
+						dataType: "json",
+						type: "post",
+					},
+				 /* check: {
+						enable: true,
+						chkboxType: {
+							"Y": "s",
+							"N": "s"
+						}
+					}, */
+					callback: {
+						onClick: zTreeOnClick
+					},
+					data: {
+						simpleData: {
+							enable: true,
+							idKey: "id",
+							pIdKey: "parentId"
+						}
+					},
+					view: {
+						fontCss: getFontCss
+					}
+				};
+				zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+				key = $("#key");
+				key.bind("focus", focusKey)
+					.bind("blur", blurKey)
+					.bind("propertychange", searchNode)
+					.bind("input", searchNode);
+		    	layer.close(loading);
+		    	return;
+		    }
 		    var parms = "PRODUCT,SALES,PROJECT,SERVICE";
 		    treeSetting.async.otherParam= ["code", parms];
 		    $.ajax({
 		        url: globalPath + "/category/selectAllCateByCond.do",
 		        data: {
 		            "name": searchName,
-		            "code": parms
+		            "code": parms,
 		        },
 		        async: false,
 		        type: "post",
