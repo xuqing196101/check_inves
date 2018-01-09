@@ -22,7 +22,7 @@ public class SmsRecordTemp {
     private String sendLink;
 
     /**
-     * 操作人
+     * 操作人 user表的ID
      */
     private String operator;
 
@@ -32,7 +32,7 @@ public class SmsRecordTemp {
     private String sendContent;
 
     /**
-     * 接收人
+     * 接收人   user表的ID
      */
     private String recipient;
 
