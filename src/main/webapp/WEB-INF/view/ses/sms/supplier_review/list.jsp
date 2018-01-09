@@ -37,29 +37,21 @@
 	          return;
 	      }
 	      
-        $("input[name='supplierId']").val(supplierId);
-        $("#submitform").attr("action", "${pageContext.request.contextPath}/supplierAudit/essential.html");
-        $("#submitform").submit();
-	      
-	      /* $.ajax({
+	      $.ajax({
  	        url: "${pageContext.request.contextPath}/supplierReview/reviewAudit.do",
  	        type: "post",
  	        data: {"supplierId" : supplierId},
- 	        success: function(result){
- 	          if(result.status == 200){
- 	            window.setTimeout(function() {
- 	            	$("input[name='supplierId']").val(supplierId);
-                $("#submitform").attr("action", "${pageContext.request.contextPath}/supplierAudit/essential.html");
-                $("#submitform").submit();
- 	            }, 1000);
- 	          }else{
- 	            layer.msg(result.msg, {offset: '100px'});
- 	          }
+ 	        success: function(){
+	          window.setTimeout(function() {
+	          	$("input[name='supplierId']").val(supplierId);
+	            $("#submitform").attr("action", "${pageContext.request.contextPath}/supplierAudit/essential.html");
+	            $("#submitform").submit();
+	          }, 1000);
  	        },
  	        error: function(){
  	          layer.msg("操作失败！", {offset: '100px'});
  	        }
-	      }); */
+	      });
 		  }
 		  
 		  //重置
@@ -142,7 +134,8 @@
 	            <div class="col-xs-8 f0 lh0">
 	              <select name="status" id="status" class="w100p h32 f14 hand">
 	                <option value="">全部</option>
-	                <option <c:if test="${supplier.status == 1 }">selected</c:if> value="1">入库（待复核）</option>
+	                <option <c:if test="${supplier.auditTemporary == 2 }">selected</c:if> value="-1">复核中</option>
+	                <option <c:if test="${supplier.status == 1 and supplier.auditTemporary != 2}">selected</c:if> value="1">入库（待复核）</option>
 	                <option <c:if test="${supplier.status == 5 }">selected</c:if> value="5">复核合格（待考察）</option>
 	                <option <c:if test="${supplier.status == 6 }">selected</c:if> value="6">复核不合格</option>
 	              </select>
@@ -212,7 +205,8 @@
 	            <td class="tc"><fmt:formatDate value="${s.reviewAt}" pattern="yyyy-MM-dd"/></td>
 	            <td class="tc">${s.reviewPeople}</td>
 	            <td class="tc">
-	              <c:if test="${s.status == 1}"><span class="label rounded-2x label-dark">入库（待复核）</span></c:if>
+	              <c:if test="${s.status == 1 and s.auditTemporary == 2}"><span class="label rounded-2x label-dark">复核中</span></c:if>
+	              <c:if test="${s.status == 1 and s.auditTemporary != 2}"><span class="label rounded-2x label-dark">入库（待复核）</span></c:if>
 	              <c:if test="${s.status == 5}"><span class="label rounded-2x label-u">复核合格（待考察）</span></c:if>
 	              <c:if test="${s.status == 6}"><span class="label rounded-2x label-dark">复核不合格</span></c:if>
 	            </td>

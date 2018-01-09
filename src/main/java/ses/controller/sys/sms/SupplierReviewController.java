@@ -1,5 +1,6 @@
 package ses.controller.sys.sms;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -208,12 +209,18 @@ public class SupplierReviewController {
 	 */
 	@RequestMapping(value = "/reviewAudit")
 	@ResponseBody
-	public JdcgResult reviewAudit(String supplierId){
+	public void reviewAudit(@CurrentUser User user, String supplierId){
 		Supplier supplier = supplierService.selectById(supplierId);
 		if(supplier.getStatus() == 1){
-			return new JdcgResult(200, "操作成功!", null);
-		}else{
-			return new JdcgResult(500, "请选择待复核项!", null);
+			Supplier s = new Supplier();
+			s.setId(supplierId);
+			//复核时间
+			s.setReviewAt(new Date());
+			//复核人
+			s.setReviewPeople(user.getRelName());
+			//复核中
+			s.setAuditTemporary(2);
+			supplierService.updateReviewOrInves(s);
 		}
 	}
 	

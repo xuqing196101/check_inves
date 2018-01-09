@@ -2610,7 +2610,8 @@
 			  T1.REVIEW_AT,
 			  T1.REVIEW_PEOPLE,
 			  T1.SUPPLIER_STATUS,
-			  T1.REVIEW_STATUS
+			  T1.REVIEW_STATUS,
+			  T1.AUDIT_TEMPORARY
 			FROM
 			  T_SES_SMS_SUPPLIER T1
 			WHERE
@@ -2663,6 +2664,9 @@
         </if>
         <if test="extractProjectId !=null">
           EXTRACT_PROJECT_ID = #{extractProjectId},
+        </if>
+        <if test="auditTemporary !=null">
+          AUDIT_TEMPORARY = #{auditTemporary},
         </if>
       </set>
       where

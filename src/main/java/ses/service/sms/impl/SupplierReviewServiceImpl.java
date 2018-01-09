@@ -65,6 +65,14 @@ public class SupplierReviewServiceImpl implements SupplierReviewService {
 			page = StaticVariables.DEFAULT_PAGE;
 		}
 		PageHelper.startPage(page, Integer.parseInt(PropUtil.getProperty("pageSize")));
+		
+		//搜索复核中状态
+		if(supplier.getStatus() !=null && supplier.getStatus() == -1){
+			supplier.setAuditTemporary(2);
+			supplier.setStatus(1);
+		}else if(supplier.getStatus() !=null && supplier.getStatus() == 1){
+			supplier.setAuditTemporary(0);
+		}
 
 		List<Supplier> supplierList = supplierMapper.selectReviewList(supplier);
 
@@ -313,9 +321,11 @@ public class SupplierReviewServiceImpl implements SupplierReviewService {
 				 */
 				Supplier supplier = new Supplier();
 				supplier.setId(supplierId);
-				supplier.setReviewAt(new Date());
+				//还原复审中状态
+				supplier.setAuditTemporary(0);
+				//supplier.setReviewAt(new Date());
 				//复核人
-				supplier.setReviewPeople(user.getRelName());
+				//supplier.setReviewPeople(user.getRelName());
 				//复核通过
 				if(auditOpinion.getFlagAduit() == 1){
 					supplier.setStatus(5);
