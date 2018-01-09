@@ -1004,6 +1004,7 @@ public class IndexAppController {
      * @param response {@link HttpServletResponse}
      */
     @RequestMapping("/download")
+    @ResponseBody
     public void download(HttpServletRequest request, HttpServletResponse response) throws IOException{
     	  String path=null;
     	  String id = request.getParameter("id");
@@ -1014,6 +1015,9 @@ public class IndexAppController {
           if(downFile != null){
         	  path = downFile.getPath();
         	  file = new File(path);
+          }
+          if(null == file){
+        	  return;
           }
           if(!file.exists()){
               String errorMessage = "Sorry. The file you are looking for does not exist";
