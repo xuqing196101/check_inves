@@ -43,7 +43,7 @@
 	</div>
     <!-- right -->
 	<div class="tag-box tag-box-v4 col-md-9 col-xs-12 col-sm-9" > 
-	     
+	  <c:if test="${properties['ipAddressType'] == 0}">   
 	  <!--  button  -->
 	  <div class="col-md-12 col-sm-12 col-xs-12">
 	    <div class="pull-left">
@@ -52,6 +52,7 @@
 		  <button class="btn btn-windows delete" onclick="delTreeNode();" type="submit">删除</button>
 	    </div>
 	  </div>
+	  </c:if>
 		 
 	  <!-- 内容 -->
 	  <div class="col-md-12 col-sm-12 col-xs-12 mt20 clear">

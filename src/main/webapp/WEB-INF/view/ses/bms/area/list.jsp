@@ -187,11 +187,13 @@
                         </div>
                     </div>
                     <div class="tag-box tag-box-v4 col-md-9 col-sm" id="show_content_div">
+                    <c:if test="${properties['ipAddressType'] == 0}"> 
                     <div style="margin-bottom: 6px; ">
                         <button class="btn btn-windows add" type="button" onclick="add();">新增</button> 
                         <button class="btn btn-windows edit" type="button" onclick="edit();">修改</button> 
                         <button class="btn btn-windows delete" type="button" onclick="del();">删除</button> 
                     </div>
+                    </c:if>
                         <input type="hidden" name="nodeId" id="mid">
                         <div class="tab-pane fade in" id="dep_tab-2">
                            <ul class="timeline-v2" id="con">

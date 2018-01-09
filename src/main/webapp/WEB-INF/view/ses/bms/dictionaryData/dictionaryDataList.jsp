@@ -59,7 +59,9 @@
 										+'  </div>'
 										+'  </div>';
 										tabhtml +='</h2>';
+					<% if(ipAddressType != null && ipAddressType.equals("0")) { %>
                     tabhtml +='<div class="col-md-12 col-xs-12 col-sm-12 p0"><button class="btn btn-windows add" type="button" onclick="add()">新增</button><button class="btn btn-windows edit" type="button" onclick="edit()">修改</button><button class="btn btn-windows delete" type="button" onclick="del();">删除</button></div>';
+					<%}%>
                     tabhtml +='<div class="content table_box pl0"><table class="table table-bordered table-condensed table-hover table-striped">';
            			tabhtml +='<thead><tr><th class="info w30 tc"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>';
 					tabhtml +='<th class="info w50">序号</th>';
@@ -167,7 +169,9 @@
 											  +'  </div>'
 											  +'  </div>';
   	                    tabhtml +='</h2>';
+  	                  	<% if(ipAddressType != null && ipAddressType.equals("0")) { %>
   	                    tabhtml +='<div class="col-md-12 col-xs-12 col-sm-12 p0"><button class="btn btn-windows add" type="button" onclick="add()">新增</button><button class="btn btn-windows edit" type="button" onclick="edit()">修改</button><button class="btn btn-windows delete" type="button" onclick="del();">删除</button></div>';
+  	                    <% } %>
   	                    tabhtml +='<div class="content table_box pl0"><table class="table table-bordered table-condensed table-hover table-striped">';
   	           			tabhtml +='<thead><tr><th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>';
   						tabhtml +='<th class="info w50">序号</th>';
