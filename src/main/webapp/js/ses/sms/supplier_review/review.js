@@ -31,8 +31,12 @@ $(function(){
     	$("#checkList").removeClass("hidden");
     	
     	//只读
-    	$("input[type='text'],textArea").attr("readonly", "readonly");
+    	$("input[type='text'],textArea").attr("disabled", true);
     	$("input[name='selectOption']").attr("disabled", true);
+    	$("#downloadTable").attr("disabled", true);
+    	$("button[name='isAccord']").each(function(){
+   		 $(this).prop("disabled", true);
+      });
     }
         
         
@@ -58,6 +62,14 @@ function reviewEnd(){
 				$("#review").removeClass("hidden");
 				//隐藏复核结束、暂存按钮
 				$("#reviewEnd").addClass("hidden");
+				
+				//只读
+		    	$("input[type='text'],textArea").attr("disabled", true);
+		    	$("input[name='selectOption']").attr("disabled", true);
+		    	$("#downloadTable").attr("disabled", true);
+		    	$("button[name='isAccord']").each(function(){
+		    		 $(this).prop("disabled", true);
+		    	});
 			}else{
 				layer.msg(result.msg, {offset: '100px'});
 			}
