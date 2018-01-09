@@ -32,7 +32,7 @@
                     tabhtml +='<h2 class="search_detail ml0">'; 
 										tabhtml +='<div class="m_row_5" id="form1">'
 										+'  <div class="row">'
-										+'    <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">'
+										+'    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">'
 										+'      <div class="row">'
 										+'        <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">编码：</div>'
 										+'        <div class="col-xs-8 f0 lh0">'
@@ -40,7 +40,7 @@
 										+'        </div>'
 										+'      </div>'
 										+'    </div>'
-										+'    <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">'
+										+'    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">'
 										+'      <div class="row">'
 										+'        <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">名称：</div>'
 										+'        <div class="col-xs-8 f0 lh0">'
@@ -48,7 +48,7 @@
 										+'        </div>'
 										+'      </div>'
 										+'    </div>'
-										+'    <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">'
+										+'    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">'
 										+'      <div class="row">'
 										+'        <div class="col-xs-12 f0">'
 										+'					<button type="button" onclick="search(1,'+kind+')" class="btn mb0 h32">查询</button>'
@@ -59,17 +59,25 @@
 										+'  </div>'
 										+'  </div>';
 										tabhtml +='</h2>';
+					<% if(ipAddressType != null && ipAddressType.equals("0")) { %>
                     tabhtml +='<div class="col-md-12 col-xs-12 col-sm-12 p0"><button class="btn btn-windows add" type="button" onclick="add()">新增</button><button class="btn btn-windows edit" type="button" onclick="edit()">修改</button><button class="btn btn-windows delete" type="button" onclick="del();">删除</button></div>';
+					<%}%>
                     tabhtml +='<div class="content table_box pl0"><table class="table table-bordered table-condensed table-hover table-striped">';
            			tabhtml +='<thead><tr><th class="info w30 tc"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>';
 					tabhtml +='<th class="info w50">序号</th>';
-					/* tabhtml +='<th class="info w50">排序</th>'; */
-					tabhtml +='<th class="info" width="40%">编码</th>';
+					tabhtml +='<th class="info w50">排序</th>';
+					tabhtml +='<th class="info">编码</th>';
 					tabhtml +='<th class="info">名称</th></tr></thead>';
 					for(var i =0;i<list.length;i++){
+						var post;
+						if (list[i].position == null || typeof(list[i].position)=="undefined") {
+							post = "";
+						}else{
+							post = list[i].position;
+						}
 						tabhtml +='<tr><td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="'+list[i].id+'" /></td>';
 						tabhtml +='<td class="tc">'+(i+1+(pageInfo.pageNum-1)*(pageInfo.pageSize))+'</td>';
-						/* tabhtml +='<td class="tc" >'+list[i].position+'</td>'; */
+						tabhtml +='<td class="tc" >'+post+'</td>';
 						tabhtml +='<td class="tl" >'+list[i].code+'</td>';
 						tabhtml +='<td class="tl">'+list[i].name+'</td>';
 						tabhtml +='</tr>';
@@ -134,7 +142,7 @@
   	                    tabhtml +='<h2 class="search_detail ml0">';
 												tabhtml +='<div class="m_row_5" id="form1">'
 											  +'  <div class="row">'
-											  +'    <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">'
+											  +'    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">'
 											  +'      <div class="row">'
 											  +'        <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">编码：</div>'
 											  +'        <div class="col-xs-8 f0 lh0">'
@@ -142,7 +150,7 @@
 											  +'        </div>'
 											  +'      </div>'
 											  +'    </div>'
-											  +'    <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">'
+											  +'    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">'
 											  +'      <div class="row">'
 											  +'        <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">名称：</div>'
 											  +'        <div class="col-xs-8 f0 lh0">'
@@ -150,7 +158,7 @@
 											  +'        </div>'
 											  +'      </div>'
 											  +'    </div>'
-											  +'    <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">'
+											  +'    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">'
 											  +'      <div class="row">'
 											  +'        <div class="col-xs-12 f0">'
 												+'					<button type="button" onclick="search(1,'+kind+')" class="btn mb0 h32">查询</button>'
@@ -161,19 +169,27 @@
 											  +'  </div>'
 											  +'  </div>';
   	                    tabhtml +='</h2>';
+  	                  	<% if(ipAddressType != null && ipAddressType.equals("0")) { %>
   	                    tabhtml +='<div class="col-md-12 col-xs-12 col-sm-12 p0"><button class="btn btn-windows add" type="button" onclick="add()">新增</button><button class="btn btn-windows edit" type="button" onclick="edit()">修改</button><button class="btn btn-windows delete" type="button" onclick="del();">删除</button></div>';
+  	                    <% } %>
   	                    tabhtml +='<div class="content table_box pl0"><table class="table table-bordered table-condensed table-hover table-striped">';
   	           			tabhtml +='<thead><tr><th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>';
   						tabhtml +='<th class="info w50">序号</th>';
-  						tabhtml +='<th class="info">排序</th>';
+  						tabhtml +='<th class="info w50">排序</th>';
   						tabhtml +='<th class="info">编码</th>';
   						tabhtml +='<th class="info">名称</th></tr></thead>';
   						for(var i =0;i<list.length;i++){
+  							var post;
+  							if (list[i].position == null || typeof(list[i].position)=="undefined") {
+  								post = "";
+  							}else{
+  								post = list[i].position;
+  							}
   							tabhtml +='<tr><td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="'+list[i].id+'" /></td>';
   							tabhtml +='<td class="tc">'+(i+1+(pageInfo.pageNum-1)*(pageInfo.pageSize))+'</td>';
-  							tabhtml +='<td class="tc" >'+list[i].position+'</td>';
-  							tabhtml +='<td class="tc" >'+list[i].code+'</td>';
-  							tabhtml +='<td class="tc">'+list[i].name+'</td>';
+  							tabhtml +='<td class="tc" >'+post+'</td>';
+  							tabhtml +='<td class="t1" >'+list[i].code+'</td>';
+  							tabhtml +='<td class="t1">'+list[i].name+'</td>';
   							tabhtml +='</tr>';
   						}
   						tabhtml +='</table></div>';

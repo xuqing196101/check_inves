@@ -255,7 +255,7 @@
           <input type="hidden" name="flag" value="0">
           <div class="m_row_5">
           <div class="row">
-            <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
               <div class="row">
                 <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">名称：</div>
                 <div class="col-xs-8 f0 lh0">
@@ -264,7 +264,7 @@
               </div>
             </div>
             
-            <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
               <div class="row">
                 <div class="col-xs-12 f0">
                   <button type="button" onclick="submit()" class="btn mb0 h32">查询</button>
@@ -277,6 +277,7 @@
           </form>
           </h2>
 			<!-- 表格开始-->
+			<c:if test="${properties['ipAddressType'] == 0}"> 
 			 <div class="col-md-12 pl20 mt10">
 			 		<button class="btn btn-windows add"   type="button" onclick="add();">新增</button>
 					<button class="btn btn-windows edit"   type="button" onclick="edit();">修改</button>
@@ -286,6 +287,7 @@
 					<button class="btn btn-windows edit"   type="button" onclick="purchaseStash('启用','资质启用','0')">资质启用</button>
 					<button class="btn btn-windows edit"   type="button" onclick="purchaseStash('终止','资质终止','2')">资质终止</button>
 			</div>
+			</c:if>
 			<div class="content table_box">
                 <table class="table table-bordered table-condensed table-hover table-striped break-all">
 							<thead>

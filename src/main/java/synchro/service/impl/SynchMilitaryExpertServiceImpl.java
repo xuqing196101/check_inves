@@ -48,7 +48,7 @@ public class SynchMilitaryExpertServiceImpl implements SynchMilitaryExpertServic
     private ExpertCategoryMapper expertCategoryMapper;
 
 	/**
-	 * 军队专家导出
+	 * 内网专家导出
 	 */
 	@Override
 	public void militaryExpertExport(String start, String end, Date synchDate) {

@@ -10,11 +10,6 @@ import common.utils.DateUtils;
 
 public class SupplierExtractResult extends SupplierExtRelate {
     
-    /**
-     * 供应商id
-     */
-	private String supplierId;
-	
 	/**
 	 * 条件id
 	 */
@@ -27,11 +22,6 @@ public class SupplierExtractResult extends SupplierExtRelate {
 	
 	
 	/**
-	 * 结果id
-	 */
-	private String id;
-	
-	/**
 	 * 是否参加
 	 */
 	private Short join;
@@ -41,19 +31,10 @@ public class SupplierExtractResult extends SupplierExtRelate {
 	 */
 	private String reason;
 	
-	private String updatedAt;
-	
 	/**
 	 * 供应商类型代码
 	 */
 	private String supplierType;
-	
-	private Short isDeleted;
-	
-	/**
-	 * 反馈时间
-	 */
-	private Date createdAt;
 	
 	private String projectType;
 
@@ -85,14 +66,6 @@ public class SupplierExtractResult extends SupplierExtRelate {
 	
 	private Short status;
 
-	public String getSupplierId() {
-		return supplierId;
-	}
-
-	public void setSupplierId(String supplierId) {
-		this.supplierId = supplierId;
-	}
-
 	public String getConditionId() {
 		return conditionId;
 	}
@@ -109,13 +82,6 @@ public class SupplierExtractResult extends SupplierExtRelate {
 		this.recordId = recordId;
 	}
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public Short getJoin() {
 		return join;
@@ -133,13 +99,6 @@ public class SupplierExtractResult extends SupplierExtRelate {
 		this.reason = reason;
 	}
 
-	public String getUpdatedAt() {
-		return StringUtils.isNotBlank(this.updatedAt)?this.updatedAt:DateUtils.getCurrentTime();
-	}
-
-	public void setUpdatedAt(String updatedAt) {
-		this.updatedAt = updatedAt;
-	}
 
 	public String getSupplierType() {
 		return supplierType;
@@ -149,21 +108,6 @@ public class SupplierExtractResult extends SupplierExtRelate {
 		this.supplierType = supplierType;
 	}
 
-	public Short getIsDeleted() {
-		return isDeleted;
-	}
-
-	public void setIsDeleted(Short isDeleted) {
-		this.isDeleted = isDeleted;
-	}
-
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
 
 	public String getProjectType() {
 		return projectType;
@@ -223,7 +167,6 @@ public class SupplierExtractResult extends SupplierExtRelate {
 
 	public SupplierExtractResult() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public SupplierExtractResult(String conditionId,String supplierId,
@@ -231,7 +174,7 @@ public class SupplierExtractResult extends SupplierExtRelate {
 			String projectType, String armyBuinessTelephone) {
 		super();
 		this.conditionId = conditionId;
-		this.supplierId = supplierId;
+		setSupplierId(supplierId);
 		this.recordId = recordId;
 		this.join = join;
 		this.supplierType = supplierType;
@@ -270,4 +213,18 @@ public class SupplierExtractResult extends SupplierExtRelate {
 	public void setPid(String pid) {
 		this.pid = pid;
 	}
+
+	@Override
+	public Date getCreatedAt() {
+		return null!=super.getCreatedAt()?super.getCreatedAt():new Date();
+	}
+
+	@Override
+	public String getUpdatedAt() {
+		return StringUtils.isNotBlank(super.getUpdatedAt())?super.getUpdatedAt():DateUtils.getCurrentTime();
+	}
+
+	
+	
+	
 }

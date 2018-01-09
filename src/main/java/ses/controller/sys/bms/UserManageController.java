@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,7 +48,6 @@ import bss.util.CheckUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.utils.JdcgResult;
@@ -375,12 +373,11 @@ public class UserManageController extends BaseController{
 		    }
 		//机构
 		if(user.getOrgId() != null && !"".equals(user.getOrgId())){
-			if ("3".equals(user.getTypeName())  ) {// 
+			/*if ("3".equals(user.getTypeName())  ) {// 
 			  user.setOrgName(user.getOrgId());
-			} else if( "5".equals(user.getTypeName())||"4".equals(user.getTypeName())){
+			} else */if( "5".equals(user.getTypeName())||"4".equals(user.getTypeName())){
 				
 			}else{
-				
 				Orgnization org = orgnizationService.getOrgByPrimaryKey(user.getOrgId());
 				if (org != null){
 					user.setOrg(org);
@@ -671,10 +668,10 @@ public class UserManageController extends BaseController{
 			    }
 			//机构
 			if(orgId != null && !"".equals(orgId)){
-				if ("3".equals(u.getTypeName())  ) {//|| "4".equals(u.getTypeName())
+				/*if ("3".equals(u.getTypeName())  ) {//|| "4".equals(u.getTypeName())
 				  u.setOrg(null);
 	              u.setOrgName(orgId);
-	      } else if("5".equals(u.getTypeName())|| "4".equals(u.getTypeName())){
+	      } else */if("5".equals(u.getTypeName())|| "4".equals(u.getTypeName())){
 	      }else {
 	        HashMap<String, Object> orgMap = new HashMap<String, Object>();
 	        orgMap.put("id", orgId);

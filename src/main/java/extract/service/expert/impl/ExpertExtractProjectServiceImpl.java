@@ -46,6 +46,7 @@ import synchro.util.FileUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
+import common.constant.StaticVariables;
 
 import extract.dao.common.ExtractUserMapper;
 import extract.dao.common.SuperviseMapper;
@@ -613,10 +614,13 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
             }
         }
         //判断是否有导出的项目信息  如果有则进行语音抽取
-        ExecutorService pool = Executors.newCachedThreadPool();
-        ExpertExtractRunable expertExtractRunable = new ExpertExtractRunable(projectList, autoExtractService);
-        pool.submit(expertExtractRunable);
-        pool.shutdown();
+        //如果外网导入 去进行语音抽取
+        if ("1".equals(StaticVariables.ipAddressType)) {
+        	ExecutorService pool = Executors.newCachedThreadPool();
+        	ExpertExtractRunable expertExtractRunable = new ExpertExtractRunable(projectList, autoExtractService);
+        	pool.submit(expertExtractRunable);
+        	pool.shutdown();
+        }
         synchRecordService.synchBidding(new Date(), num+"", Constant.DATE_SYNCH_EXPERT_EXTRACT, Constant.OPER_TYPE_IMPORT, Constant.EXPERT_EXTRACT_COMMIT_IMPORT);
         return projectList;
     }

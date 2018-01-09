@@ -123,6 +123,11 @@
 	            layer.alert("请选择要删除的地区",{offset: ['222px', '390px'], shade:0.01});
 	        }
 	    }
+        
+        function initSearch(){
+        	$("#search_condition").val("");
+        	selectTree();
+        }
 </script>
 
 </head>
@@ -148,7 +153,7 @@
 		<h2 class="search_detail">
 		<div class="m_row_5">
     <div class="row">
-      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
         <div class="row">
           <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">地区名称：</div>
           <div class="col-xs-8 f0 lh0">
@@ -157,10 +162,11 @@
         </div>
       </div>
       
-      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
         <div class="row">
           <div class="col-xs-12 f0">
-						<button  class="btn mb0 mr0 h32" onclick="selectTree();">查询</button>
+				<button  class="btn mb0 h32" onclick="selectTree();">查询</button>
+				<button  class="btn mb0 mr0 h32" onclick="initSearch();">重置</button>
           </div>
         </div>
       </div>
@@ -181,11 +187,13 @@
                         </div>
                     </div>
                     <div class="tag-box tag-box-v4 col-md-9 col-sm" id="show_content_div">
+                    <c:if test="${properties['ipAddressType'] == 0}"> 
                     <div style="margin-bottom: 6px; ">
                         <button class="btn btn-windows add" type="button" onclick="add();">新增</button> 
                         <button class="btn btn-windows edit" type="button" onclick="edit();">修改</button> 
                         <button class="btn btn-windows delete" type="button" onclick="del();">删除</button> 
                     </div>
+                    </c:if>
                         <input type="hidden" name="nodeId" id="mid">
                         <div class="tab-pane fade in" id="dep_tab-2">
                            <ul class="timeline-v2" id="con">

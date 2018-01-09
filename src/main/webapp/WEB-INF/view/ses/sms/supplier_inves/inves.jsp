@@ -11,6 +11,11 @@
     <meta http-equiv="expires" content="0">
     <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_inves/inves.js"></script>
     <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_attach/attach_audit.js"></script>
+		<style type="text/css">
+			.label-inline{
+				display: inline;
+			}
+		</style>
   </head>
 
   <body>
@@ -125,8 +130,12 @@
 	                </tr>
 	              </thead>
 	              <tbody id="tbody_cates">
+	              	<c:set var="countCateAuditHasPass" value="0"/>
 	              	<c:set var="countCateAuditNotPass" value="0"/>
 	                <c:forEach items="${cateList}" var="item" varStatus="vs">
+	                	<c:if test="${item.isSupplied==1}">
+	                		<c:set var="countCateAuditHasPass" value="${countCateAuditHasPass+1}"/>
+	                	</c:if>
 	                	<c:if test="${item.isSupplied==2}">
 	                		<c:set var="countCateAuditNotPass" value="${countCateAuditNotPass+1}"/>
 	                	</c:if>
@@ -175,9 +184,10 @@
 					      <input type="radio" value="1" name="flagAduit" onclick="tempSaveAuditOpinion(this)" 
 					      onmouseover="onmouseoverInvesPass()" id="qualified"
 					      <c:if test="${supplierAuditOpinion.flagAduit == 1}">checked="checked"</c:if>
-					      <c:if test="${countAttachAuditNotPass > 0 || countCateAuditNotPass == fn:length(cateList)}">disabled="disabled"</c:if>>考察合格
+					      <c:if test="${countAttachAuditNotPass > 0 || countCateAuditNotPass == fn:length(cateList)}">disabled="disabled"</c:if>><label for="qualified" class="label-inline">考察合格</label>
 					      <input type="radio" value="0" name="flagAduit" onclick="tempSaveAuditOpinion(this)" 
-					      <c:if test="${supplierAuditOpinion.flagAduit == 0}">checked="checked"</c:if>>考察不合格
+					      id="unqualified"
+					      <c:if test="${supplierAuditOpinion.flagAduit == 0}">checked="checked"</c:if>><label for="unqualified" class="label-inline">考察不合格</label>
 				      </div>
             </li>
             <li>

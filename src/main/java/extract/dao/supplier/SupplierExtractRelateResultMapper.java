@@ -167,8 +167,9 @@ public interface SupplierExtractRelateResultMapper {
 	 * @author Jia Chengxiang
 	 * @dateTime 2017-10-17上午11:23:06
 	 * @param supplierExtractResult
+	 * @return 
 	 */
-	void updateAdvSupplierJoin(SupplierExtractResult supplierExtractResult);
+	int updateAdvSupplierJoin(SupplierExtractResult supplierExtractResult);
 	
 	/**
 	 * 修改真实项目供应商参加状态（自动抽取）
@@ -177,8 +178,9 @@ public interface SupplierExtractRelateResultMapper {
 	 * @author Jia Chengxiang
 	 * @dateTime 2017-10-17上午11:23:06
 	 * @param supplierExtractResult
+	 * @return 
 	 */
-	void updateRelSupplierJoin(SupplierExtractResult supplierExtractResult);
+	int updateRelSupplierJoin(SupplierExtractResult supplierExtractResult);
 	
 	/**
 	 * 修改供应商参加状态（自动抽取）
@@ -187,8 +189,9 @@ public interface SupplierExtractRelateResultMapper {
 	 * @author Jia Chengxiang
 	 * @dateTime 2017-10-17上午11:23:06
 	 * @param supplierExtractResult
+	 * @return 
 	 */
-	void updateSupplierJoin(SupplierExtractResult supplierExtractResult);
+	int updateSupplierJoin(SupplierExtractResult supplierExtractResult);
 	
 	/**
 	 * 根据条件id查询抽取结果
@@ -308,4 +311,13 @@ public interface SupplierExtractRelateResultMapper {
 	 * @return
 	 */
 	List<SupplierExtractResult> selectFirstSupplierToBeExtractOfRel(String projectId);
+
+	int updateAdvSupplierJoinBySupplierMobile(
+			SupplierExtractResult supplierExtractResult);
+
+	int updateRelSupplierJoinBySupplierMobile(
+			SupplierExtractResult supplierExtractResult);
+
+	int updateSupplierJoinBySupplierMobile(
+			SupplierExtractResult supplierExtractResult);
 }

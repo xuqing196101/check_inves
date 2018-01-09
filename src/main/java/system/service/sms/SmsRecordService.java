@@ -1,5 +1,7 @@
 package system.service.sms;
 
+import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 import ses.model.bms.User;
@@ -63,4 +65,24 @@ public interface SmsRecordService {
      * @return int
      */
     void updateBymsgId(SmsRecord record);
+    
+    /**
+     * 
+     * Description: 短信发送记录导出
+     * 
+     * @data 2018年1月4日
+     * @param 
+     * @return
+     */
+    void exportSmsRecord(String startTime, String endTime, Date date);
+    
+    /**
+     * 
+     * Description: 导入短信发送记录
+     * 
+     * @data 2018年1月4日
+     * @param 
+     * @return
+     */
+    void importSmsRecord(File file);
 }

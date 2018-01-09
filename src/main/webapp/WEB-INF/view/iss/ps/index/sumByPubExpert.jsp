@@ -107,7 +107,7 @@
                                入库(待复查)
                            </c:when>
                            <c:when test="${item.status eq '7'}">
-                               复查通过
+                               复查合格
                            </c:when>
                            <c:when test="${item.status eq '17'}">
                                资料不全

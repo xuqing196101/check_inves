@@ -35,6 +35,19 @@
 				var type = $("#exportType").val();
 				window.location.href="${pageContext.request.contextPath}/supplierExport/exportSupplier_check.html?type="+type+"&name="+$("#name").val();
 			}
+			
+			// document.domain = "caibaojian.com";
+			function setIframeHeight(id) {
+				var iframeHheight = $(window).height() - $('#'+id).offset().top - 20;
+				$('#'+id).css({
+					height: iframeHheight
+				});
+			};
+			
+			$(window).resize(function () {
+				setIframeHeight('actives');
+			});
+			
 		</script>
 </head>
 
@@ -85,7 +98,7 @@
 						<input type="hidden" name="type" id="type" value="1"/>
 						<div class="m_row_5">
 				    <div class="row">
-				      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+				      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
 				        <div class="row">
 				          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">采购机构：</div>
 				          <div class="col-xs-8 f0 lh0">
@@ -99,7 +112,7 @@
 				        </div>
 				      </div>
 				      
-				      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+				      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
 				        <div class="row">
 				          <div class="col-xs-12 f0">
 										<button type="button" class="btn mb0 h32" onclick="search();">查询</button>
@@ -112,7 +125,7 @@
 				    </div>
 						</form>
 						</h2>
-						<iframe frameborder="0" name="actives" id="actives" scrolling="auto" marginheight="0" height="800" width="100%" src=""></iframe>
+						<iframe frameborder="0" name="actives" id="actives" scrolling="auto" marginheight="0" onload="setIframeHeight('actives')" width="100%" src=""></iframe>
 			</div>
 		</div>
 

@@ -303,6 +303,8 @@ public class ExtractExpertController {
         		expertFinalInspectService.addFinalInspect(expertExtractResult.getExpertId(), orgId);
 			}
         }
+        //将专家信息存入待发送短信表便于发短信
+        expertExtractResultService.smsNotice(expertExtractProject.getId());
         String jsonString = JSON.toJSONString("success");
         return jsonString;
     }

@@ -80,16 +80,16 @@
                     <td class="tc">
                       <input type="hidden" value="" id="isAccord_${item.id}" />
                       <c:if test="${item.isAccord==1}">
-                        <button class="btn" type="button" <c:if test="${status == 1}">onclick="opr(this, '${item.id}', 1, 1)"</c:if>>一致</button>
-                        <button class="btn bgdd black_link" type="button" <c:if test="${status == 1}">onclick="opr(this, '${item.id}', 2, 1)"</c:if>>不一致</button>
+                        <button class="btn" name="isAccord" <c:if test="${status == 1}">onclick="opr(this, '${item.id}', 1, 1)"</c:if>>一致</button>
+                        <button class="btn bgdd black_link" name="isAccord" <c:if test="${status == 1}">onclick="opr(this, '${item.id}', 2, 1)"</c:if>>不一致</button>
                       </c:if>
                       <c:if test="${item.isAccord==2}">
-                        <button class="btn bgdd black_link" type="button" <c:if test="${status == 1}">onclick="opr(this, '${item.id}', 1, 1)"</c:if>>一致</button>
-                        <button class="btn bgred" type="button" <c:if test="${status == 1}">onclick="opr(this, '${item.id}', 2, 1)"</c:if>>不一致</button>
+                        <button class="btn bgdd black_link" name="isAccord" <c:if test="${status == 1}">onclick="opr(this, '${item.id}', 1, 1)"</c:if>>一致</button>
+                        <button class="btn bgred" type="button" name="isAccord" <c:if test="${status == 1}">onclick="opr(this, '${item.id}', 2, 1)"</c:if>>不一致</button>
                       </c:if>
                       <c:if test="${item.isAccord==0}">
-                        <button class="btn bgdd black_link" type="button" <c:if test="${status == 1}">onclick="opr(this, '${item.id}', 1, 1)"</c:if>>一致</button>
-                        <button class="btn bgdd black_link" type="button" <c:if test="${status == 1}">onclick="opr(this, '${item.id}', 2, 1)"</c:if>>不一致</button>
+                        <button class="btn bgdd black_link" name="isAccord" <c:if test="${status == 1}">onclick="opr(this, '${item.id}', 1, 1)"</c:if>>一致</button>
+                        <button class="btn bgdd black_link" name="isAccord" <c:if test="${status == 1}">onclick="opr(this, '${item.id}', 2, 1)"</c:if>>不一致</button>
                       </c:if>
                     </td>
                     <td><input type="text" class="w100p mb0" id="${item.id}_suggest_${vs.index+1}" value="${item.suggest}" maxlength="300" onblur="saveAuditSuggest('${item.id}', 1 , ${vs.index+1})"/></td>
@@ -118,7 +118,7 @@
           <div class="clear"></div>
           <h2 class="count_flow"><i>3</i>下载供应商复核表</h2>
           <ul class="ul_list hand">
-            <a class="btn btn-windows input" <c:if test="${status == 1}">onclick='downloadTable()'</c:if> href="javascript:void(0)">下载复核表</a>
+            <a class="btn btn-windows input" id="downloadTable" <c:if test="${status == 1}">onclick='downloadTable()'</c:if> href="javascript:void(0)">下载复核表</a>
           </ul>
           
           <div class="clear"></div>

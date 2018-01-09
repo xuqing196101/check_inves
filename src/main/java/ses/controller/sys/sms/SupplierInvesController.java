@@ -284,15 +284,21 @@ public class SupplierInvesController extends BaseSupplierController {
 	 */
 	@RequestMapping("downloadAttach")
 	public ResponseEntity < byte[] > downloadAttach(Model model, String supplierId){
+		List<SupplierAttachAudit> attachList = null;
 		// 查询是否有生成考察项目
 		int count = supplierAttachAuditService.countBySupplierIdAndType(supplierId, 2);
 		if(count > 0){
 			// 获取考察项目信息
-			List<SupplierAttachAudit> list = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 2, 0);
+			attachList = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 2, 0);
 		}else{
 			// 添加考察项目信息
 			int addResult = supplierAttachAuditService.addBySupplierIdAndType(supplierId, 2);
+			if(addResult > 0){
+				attachList = supplierAttachAuditService.getBySupplierIdAndType(supplierId, 2, 0);
+			}
 		}
+		
+		String zipPath = supplierAttachAuditService.zipFile(attachList);
 		
 		// 供应商信息
 		Supplier supplier = supplierService.selectById(supplierId);

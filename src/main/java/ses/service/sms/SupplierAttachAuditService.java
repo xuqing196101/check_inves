@@ -1,6 +1,10 @@
 package ses.service.sms;
 
+import java.io.IOException;
 import java.util.List;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 import ses.model.sms.review.SupplierAttachAudit;
 
@@ -64,4 +68,14 @@ public interface SupplierAttachAuditService {
 	 * @return
 	 */
 	int countByNoSuggest(String supplierId, int auditType);
+
+	/**
+	 * 压缩文件
+	 * @param attachAudits
+	 * @return
+	 * @throws IOException 
+	 * @throws JsonMappingException 
+	 * @throws JsonParseException 
+	 */
+	String zipFile(List<SupplierAttachAudit> attachAudits);
 }

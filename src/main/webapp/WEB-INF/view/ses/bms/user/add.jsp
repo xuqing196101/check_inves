@@ -113,7 +113,7 @@
 			var orgType = $("#org_type").val();
 			var setting;
 			if (orgType == '3' ) {
-				return;
+				orgType = 0;
 			}
 			var index = layer.load(0, {
 				shade : [ 0.1, '#fff' ],
@@ -323,7 +323,7 @@
 			   //$("#oId").val("");
 			}
 			$("#orgParent").val("");
-			if (orgType == '3' ) {
+			/* if (orgType == '3' ) {
 			   $("#isOrgShow").show();
 			   $("#orgTitle").html("所属机构");
 			   $("#orgSel").show();
@@ -332,7 +332,7 @@
 				$("#tempOrg").hide();
 				$("#orgSel").hide();
 				$("#oId").attr("type","text"); 
-			} else if (  orgType == '5') {
+			} else  */if (  orgType == '5') {
 			   $("#select_org").show();
 			   $("#isOrgShow").hide();
 			   $("#orgTitle").html("监管对象");
@@ -518,6 +518,7 @@
 	}
 	
 	function a() {
+		
 		var emaila = $("#email").val();
 		var regex = "/^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g";
 		 if(emaila.indexOf("。") > 0){
