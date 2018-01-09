@@ -457,7 +457,7 @@ public class ExpertQueryController {
 	 * @return
 	 */
 	@RequestMapping("/getCategories")
-	public String getCategories(String expertId, String typeId, Model model, String flags, Integer pageNum) {
+	public String getCategories(String expertId, String typeId, Model model, String flags, Integer pageNum, Integer sign) {
 		String code = DictionaryDataUtil.findById(typeId).getCode();
         String flag = null;
         if (code != null && code.equals("GOODS_PROJECT")) {
@@ -474,10 +474,10 @@ public class ExpertQueryController {
         if(StringUtils.isNotEmpty(flags)){
             // 公示品目删选
             items = expertCategoryService.selectPassCateByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
-        }else {
-            /*items = expertCategoryService.selectPassCategoryByExpertId(expertId, typeId);*/
-            
-           items = expertCategoryService.getListByExpertId(expertId, typeId);
+        }else if(sign == 2){
+            items = expertCategoryService.selectPassCategoryByExpertId(expertId, typeId);
+        }else{
+        	items = expertCategoryService.getListByExpertId(expertId, typeId);
         }
 
         List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
