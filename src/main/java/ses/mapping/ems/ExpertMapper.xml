@@ -274,6 +274,9 @@
         <if test="auditTemporary !=null">
           and T1.AUDIT_TEMPORARY = #{auditTemporary}
         </if>
+        <if test="auditAt !=null">
+           AND TO_CHAR(T1.AUDIT_AT,'YY-MM-DD') = TO_CHAR(#{auditAt},'YY-MM-DD')
+        </if>
         <if test="address != null and address !=''">
 		      AND A.PARENT_ID = #{address}
 		    </if>
@@ -2320,7 +2323,7 @@
         </foreach>) 
       ) t5  on t1.ID = t5.expertId
     </if>
-    where (T1.STATUS = 6 or T1.STATUS = 7 or T1.STATUS = 13 or T1.STATUS = 17 or T1.STATUS = 19)
+    where (T1.STATUS = 6 or T1.STATUS = 7 or T1.STATUS = 13 or T1.STATUS = 17)
     AND T1.IS_PROVISIONAL = '0'
     AND T1.IS_DELETE = 0
     <if test="relName != null and relName !=''">
@@ -2370,7 +2373,7 @@
     <if test="addressName != null and addressName !=''">
       and AREA.NAME like CONCAT(CONCAT('%', #{addressName}), '%')
     </if>
-    ORDER BY DECODE (T1.STATUS,'6','1'),T1.STORAGE_AT DESC NULLS LAST
+    <!-- ORDER BY DECODE (T1.STATUS,'6','1'),T1.STORAGE_AT DESC NULLS LAST -->
   </select>
 
 	<!-- 统计注册专家数 -->

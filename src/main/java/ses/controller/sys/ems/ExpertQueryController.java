@@ -147,6 +147,17 @@ public class ExpertQueryController {
 		}else if(!"17".equals(expert.getStatus())){
 				expert.setFinalInspectCount("1");
 		}
+		
+		DictionaryData gender = dictionaryDataServiceI.getDictionaryData(expert.getGender());
+        if(gender != null) {
+            expert.setGender(gender.getName());
+        }
+        // 政治面貌
+        DictionaryData politics = dictionaryDataServiceI.getDictionaryData(expert.getPoliticsStatus());
+        if(politics != null) {
+            expert.setPoliticsStatus(politics.getName());
+        }
+		
         model.addAttribute("expert", expert);
 
         //专家来源
@@ -446,7 +457,7 @@ public class ExpertQueryController {
 	 * @return
 	 */
 	@RequestMapping("/getCategories")
-	public String getCategories(String expertId, String typeId, Model model, String flags, Integer pageNum) {
+	public String getCategories(String expertId, String typeId, Model model, String flags, Integer pageNum, Integer sign) {
 		String code = DictionaryDataUtil.findById(typeId).getCode();
         String flag = null;
         if (code != null && code.equals("GOODS_PROJECT")) {
@@ -463,10 +474,10 @@ public class ExpertQueryController {
         if(StringUtils.isNotEmpty(flags)){
             // 公示品目删选
             items = expertCategoryService.selectPassCateByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
-        }else {
-            /*items = expertCategoryService.selectPassCategoryByExpertId(expertId, typeId);*/
-            
-           items = expertCategoryService.getListByExpertId(expertId, typeId);
+        }else if(sign == 2){
+            items = expertCategoryService.selectPassCategoryByExpertId(expertId, typeId);
+        }else{
+        	items = expertCategoryService.getListByExpertId(expertId, typeId);
         }
 
         List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
@@ -522,6 +533,7 @@ public class ExpertQueryController {
         
         
         ExpertAudit expertAudit = new ExpertAudit();
+        ExpertAudit audit = new ExpertAudit();
         for(SupplierCateTree cate: allTreeList) {
             cate.setRootNode(cate.getRootNode() == null ? "" : cate.getRootNode());
             cate.setFirstNode(cate.getFirstNode() == null ? "" : cate.getFirstNode());
@@ -561,6 +573,29 @@ public class ExpertQueryController {
             	//审核记录没有审核记录并且意见表里有意见才“通过”
             }else if(reviewAudit !=null && reviewAuditInfo == null){
             	cate.setReviewAudit("通过。");
+            }
+            
+            
+            /**
+             * 类型不通过的，下面品目全部不通过
+             */
+            audit.setExpertId(expertId);
+        	audit.setSuggestType("seven");
+        	audit.setType("1");
+        	audit.setAuditStatus("6");
+        	audit.setAuditFieldId(typeId);
+        	//初审
+        	audit.setAuditFalg(1);
+            ExpertAudit firstAuditItemsTypeNoPass = expertAuditService.findAuditByExpertId(audit);
+            if(firstAuditItemsTypeNoPass !=null && firstAuditItemsTypeNoPass.getAuditReason() !=null){
+            	cate.setAuditReason("不通过，原因：" +  firstAuditItemsTypeNoPass.getAuditReason());
+            }
+            
+            //复审
+            audit.setAuditFalg(2);
+            ExpertAudit reviewAuditInfoItemsTypeNoPass = expertAuditService.findAuditByExpertId(audit);
+            if(reviewAuditInfoItemsTypeNoPass !=null && reviewAuditInfoItemsTypeNoPass.getAuditReason() !=null){
+            	cate.setReviewAudit("不通过，原因：" + reviewAuditInfoItemsTypeNoPass.getAuditReason());
             }
         }
         model.addAttribute("expertId", expertId);
