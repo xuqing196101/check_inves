@@ -140,7 +140,7 @@
 	          <div class="row">
 	            <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">状态：</div>
 	            <div class="col-xs-8 f0 lh0">
-	              <select name="status" id="status" class="w100p h32 f14">
+	              <select name="status" id="status" class="w100p h32 f14 hand">
 	                <option value="">全部</option>
 	                <option <c:if test="${supplier.status == 1 }">selected</c:if> value="1">入库（待复核）</option>
 	                <option <c:if test="${supplier.status == 5 }">selected</c:if> value="5">复核合格（待考察）</option>
@@ -154,7 +154,7 @@
 		        <div class="row">
 		          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">企业性质：</div>
 		          <div class="col-xs-8 f0 lh0">
-		            <select name="businessNature" id="businessNature" class="w100p h32 f14">
+		            <select name="businessNature" id="businessNature" class="w100p h32 f14 hand">
 		              <option value="">全部</option>
 		              <c:forEach var="business" varStatus="vs" items="${businessNatureList}">
 		                <option <c:if test="${supplier.businessNature eq business.id }">selected</c:if> value="${business.id}">${business.name}</option>
@@ -168,7 +168,7 @@
 		        <div class="row">
 		          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">审核时间：</div>
 		          <div class="col-xs-8 f0 lh0">
-		            <input name="reviewAt" class="Wdate w100p h32 f14 mb0" value='<fmt:formatDate value="${supplier.reviewAt}" pattern="YYYY-MM-dd"/>' type="text" onClick="WdatePicker()">
+		            <input name="reviewAt" class="Wdate w100p h32 f14 mb0 hand" value='<fmt:formatDate value="${supplier.reviewAt}" pattern="YYYY-MM-dd"/>' type="text" onClick="WdatePicker()">
 		          </div>
 		        </div>
 		      </div>
@@ -196,10 +196,10 @@
 	            <th class="tc w50">序号</th>
 	            <th>供应商名称</th>
 	            <th>供应商类型</th>
-	            <th class="w140">企业性质</th>
-	            <th class="w160">最新审核时间</th>
+	            <th class="w100">企业性质</th>
+	            <th class="w100">最新审核时间</th>
 	            <th class="w100">审核人</th>
-	            <th class="w180">状态</th>
+	            <th class="w100">状态</th>
 	          </tr>
 	        </thead>
 	        <c:forEach items="${result.list}" var="s" varStatus="vs">
@@ -211,7 +211,11 @@
 	            <td class="tc">${s.businessNature}</td>
 	            <td class="tc"><fmt:formatDate value="${s.reviewAt}" pattern="yyyy-MM-dd"/></td>
 	            <td class="tc">${s.reviewPeople}</td>
-	            <td class="tc">${s.status}</td>
+	            <td class="tc">
+	              <c:if test="${s.status == 1}"><span class="label rounded-2x label-dark">入库（待复核）</span></c:if>
+	              <c:if test="${s.status == 5}"><span class="label rounded-2x label-u">复核合格（待考察）</span></c:if>
+	              <c:if test="${s.status == 6}"><span class="label rounded-2x label-dark">复核不合格</span></c:if>
+	            </td>
 	          </tr>
 	        </c:forEach>
 	      </table>
