@@ -533,6 +533,7 @@ public class ExpertQueryController {
         
         
         ExpertAudit expertAudit = new ExpertAudit();
+        ExpertAudit audit = new ExpertAudit();
         for(SupplierCateTree cate: allTreeList) {
             cate.setRootNode(cate.getRootNode() == null ? "" : cate.getRootNode());
             cate.setFirstNode(cate.getFirstNode() == null ? "" : cate.getFirstNode());
@@ -572,6 +573,29 @@ public class ExpertQueryController {
             	//审核记录没有审核记录并且意见表里有意见才“通过”
             }else if(reviewAudit !=null && reviewAuditInfo == null){
             	cate.setReviewAudit("通过。");
+            }
+            
+            
+            /**
+             * 类型不通过的，下面品目全部不通过
+             */
+            audit.setExpertId(expertId);
+        	audit.setSuggestType("seven");
+        	audit.setType("1");
+        	audit.setAuditStatus("6");
+        	audit.setAuditFieldId(typeId);
+        	//初审
+        	audit.setAuditFalg(1);
+            ExpertAudit firstAuditItemsTypeNoPass = expertAuditService.findAuditByExpertId(audit);
+            if(firstAuditItemsTypeNoPass !=null && firstAuditItemsTypeNoPass.getAuditReason() !=null){
+            	cate.setAuditReason("不通过，原因：" +  firstAuditItemsTypeNoPass.getAuditReason());
+            }
+            
+            //复审
+            audit.setAuditFalg(2);
+            ExpertAudit reviewAuditInfoItemsTypeNoPass = expertAuditService.findAuditByExpertId(audit);
+            if(reviewAuditInfoItemsTypeNoPass !=null && reviewAuditInfoItemsTypeNoPass.getAuditReason() !=null){
+            	cate.setReviewAudit("不通过，原因：" + reviewAuditInfoItemsTypeNoPass.getAuditReason());
             }
         }
         model.addAttribute("expertId", expertId);
