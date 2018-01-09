@@ -787,6 +787,7 @@ Supplier implements Serializable {
     private String invesPeople;// 考察人
     private Date invesAt;// 考察时间
 	
+    private String extractProjectId; //抽取的项目id
     public String getQrcodeImage() {
 		return qrcodeImage;
 	}
@@ -2290,5 +2291,14 @@ Supplier implements Serializable {
 	public void setInvesAt(Date invesAt) {
 		this.invesAt = invesAt;
 	}
+
+	public String getExtractProjectId() {
+		return extractProjectId;
+	}
+
+	public void setExtractProjectId(String extractProjectId) {
+		this.extractProjectId = extractProjectId;
+	}
+
 	
 }

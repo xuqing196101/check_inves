@@ -7,6 +7,8 @@
 		<result column="PROPERTY_NAME" jdbcType="DECIMAL" property="propertyName" />
 		<result column="PROPERTY_VALUE" jdbcType="VARCHAR" property="propertyValue" />
 		<result column="CATE_LEVEL" jdbcType="VARCHAR" property="cateLevel" />
+		<result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
+		<result column="CREATED_AT" jdbcType="VARCHAR" property="createdAt" />
 	</resultMap>
 
 	<sql id="base_column">
@@ -30,6 +32,12 @@
 					<if test="item.cateLevel !='' and item.cateLevel != null ">
 						CATE_LEVEL
 					</if>
+					<if test="item.isDelete !='' and item.isDelete != null ">
+						IS_DELETE
+					</if>
+					<if test="item.createdAt !='' and item.createdAt != null ">
+						CREATED_AT
+					</if>
 				</trim>
 			VALUES
 				<trim prefix="(" suffixOverrides="," suffix=")">
@@ -45,13 +53,25 @@
 					<if test="item.cateLevel !='' and item.cateLevel != null ">
 						#{item.cateLevel,jdbcType=VARCHAR}
 					</if>
+					<if test="item.isDelete !='' and item.isDelete != null ">
+						#{item.isDelete,jdbcType=DECIMAL}
+					</if>
+					<if test="item.createdAt !='' and item.createdAt != null ">
+						#{item.createdAt,jdbcType=TIMESTAMP}
+					</if>
 				</trim>
 		</foreach>
 		SELECT 1 FROM DUAL
 	</insert>	
 	<!-- 根据ID 和 属性名删除 -->
-	<delete id="deleteConditionRelationByMap" parameterType="java.lang.String">
+	<delete id="deleteConditionRelationByCid" parameterType="java.lang.String">
 		DELETE FROM T_SES_SMS_EXTRACT_CONDITIONS WHERE CONDITION_ID = #{conditionId}
+	</delete>
+	<delete id="deleteConditionRelationByCids" parameterType="java.util.Set">
+		DELETE FROM T_SES_SMS_EXTRACT_CONDITIONS WHERE CONDITION_ID IN
+		<foreach collection="set" open="(" index="ind" item="cid" separator="," close=")">
+			 #{cid}
+		</foreach>
 	</delete>
 	
 	<!-- 按条件id 和 属性名查询 -->
@@ -70,5 +90,28 @@
 		SELECT CONDITION_ID,PROPERTY_NAME,CATE.NAME PROPERTY_VALUE,NVL(CATE_LEVEL,'全部级别') CATE_LEVEL FROM T_SES_SMS_EXTRACT_CONDITIONS C
 		LEFT JOIN T_SES_BMS_CATEGORY CATE ON C.PROPERTY_VALUE = CATE.ID
 		WHERE CONDITION_ID = #{conditionId} AND PROPERTY_NAME = #{propertyName}
+	</select>
+	
+	<select id="selectConTypeListByMap" parameterType="map" resultMap="base_info">
+		SELECT
+			CS.*
+		FROM
+			T_SES_SMS_EXTRACT_RECORD R
+		LEFT JOIN T_SES_SMS_EXTRACT_CONDITION C ON R. ID = C.RECORD_ID
+		LEFT JOIN T_SES_SMS_EXTRACT_CONDITIONS CS ON C.ID = CS.CONDITION_ID
+		WHERE
+			R.IS_DELETE = 0
+		<if test="status != null and status != ''">
+			AND R.STATUS = #{status}
+		</if>
+		<if test="extractTheWay != null and extractTheWay != ''">
+			AND R.EXTRACT_THE_WAY = #{extractTheWay}
+		</if>
+		<if test="startTime != null and startTime != ''">
+        	AND R.UPDATED_AT &gt;= to_date(#{startTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
+        </if>
+        <if test="endTime != null and endTime != ''">
+        	AND R.UPDATED_AT  &lt;= to_date(#{endTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
+      	</if>
 	</select>
 </mapper>

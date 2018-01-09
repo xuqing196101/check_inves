@@ -757,7 +757,7 @@ function appendTd(num,obj,result){
      "<td >"+armyBusinessName+"</td>" +
      "<td  >"+armyBuinessMobile+"</td>" +
      "<td  >"+armyBuinessTelephone+"</td>" +
-     "<td  class='res'><select onchange='operation(this)'> <option value='0'>请选择</option> <option value='1'>能参加</option> <option value='2'>待定</option> <option value='3'>不能参加</option> </td>" +
+     "<td  class='res'><select onchange='operation(this)'> <option value='0'>请选择</option><option value='2'>待定</option> <option value='1'>能参加</option> <option value='3'>不能参加</option> </td>" +
      "</tr>";
 	$(obj).append(tex);
 	// 更新序号
@@ -1953,19 +1953,17 @@ function alterEndInfo(obj){
             var elemIF = document.createElement("iframe");   
             elemIF.src = globalPath+"/SupplierExtracts_new/printRecord.html?id="+$("[name='recordId']").val()+"&projectInto="+projectType;   
             elemIF.style.display = "none";   
-            document.body.appendChild(elemIF);   
+            window.parent.document.body.appendChild(elemIF);   
 	        }catch(e){ 
 	 
 	    } 
-		setTimeout(function(){
-			$(obj).siblings().prop("disabled",true);
-			if(projectType){
-				window.open("","_self").close();
-			}else{
-				window.location.href = globalPath+"/SupplierExtracts_new/projectList.html";
-			}
-		}, 1500);
 	        
+		$(obj).siblings().prop("disabled",true);
+		if(projectType){
+			window.open("","_self").close();
+		}else{
+			window.location.href = globalPath+"/SupplierExtracts_new/projectList.html";
+		}
 		layer.close(index);
 	});
 }

@@ -1,5 +1,7 @@
 package extract.model.supplier;
 
+import java.util.Date;
+
 public class ExtractConditionRelation {
 	
 	/**
@@ -18,6 +20,10 @@ public class ExtractConditionRelation {
 	private String propertyValue;
 	
 	private String cateLevel;
+	
+	private Integer isDelete;
+	
+	private Date createdAt;
 	
 	public String getConditionId() {
 		return conditionId;
@@ -77,7 +83,16 @@ public class ExtractConditionRelation {
 	public ExtractConditionRelation() {
 		super();
 	}
-	
-	
-	
+	public Integer getIsDelete() {
+		return isDelete;
+	}
+	public void setIsDelete(Integer isDelete) {
+		this.isDelete = isDelete;
+	}
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
 }

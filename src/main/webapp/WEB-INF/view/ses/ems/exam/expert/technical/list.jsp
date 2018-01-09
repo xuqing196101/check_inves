@@ -309,7 +309,7 @@
 			<div class="search_detail">
 			<div class="m_row_5">
 	    <div class="row">
-	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
 	        <div class="row">
 	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">题干：</div>
 	          <div class="col-xs-8 f0 lh0">
@@ -318,7 +318,7 @@
 	        </div>
 	      </div>
 	      
-	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
 	        <div class="row">
 	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">题型：</div>
 	          <div class="col-xs-8 f0 lh0">
@@ -331,7 +331,7 @@
 	        </div>
 	      </div>
 	      
-	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+	      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
 	        <div class="row">
 	          <div class="col-xs-12 f0">
 							<button type="button" onclick="query()" class="btn mb0 h32">查询</button>
@@ -342,7 +342,7 @@
 	    </div>
 	    </div>
 			</div>
-
+			<c:if test="${properties['ipAddressType'] == 0}"> 
 			<!-- 表格开始-->
 			<div class="col-md-12 pl20 mt10">
 				<button class="btn btn-windows add" type="button" onclick="addTechnical()">新增</button>
@@ -352,7 +352,7 @@
 				<button class="btn btn-windows input" type="button" onclick="poiExcel()">导入</button>
 				<input type="file" name="file" id="excelFile" style="display:inline" />
 			</div>
-
+			</c:if>
 			<div class="content table_box">
 				<table class="table table-bordered table-condensed table-hover">
 					<thead>

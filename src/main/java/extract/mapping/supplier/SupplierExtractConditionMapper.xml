@@ -432,4 +432,26 @@
 		WHERE
 			RM = 1
 	</select>
+	
+	<select id="selectConditionListByMap" parameterType="map" resultMap="BaseResultMap">
+		SELECT
+			C.*
+		FROM
+			T_SES_SMS_EXTRACT_RECORD R
+		LEFT JOIN T_SES_SMS_EXTRACT_CONDITION C ON R. ID = C.RECORD_ID
+		WHERE
+			R.IS_DELETE = 0
+		<if test="status != null and status != ''">
+			AND R.STATUS = #{status}
+		</if>
+		<if test="extractTheWay != null and extractTheWay != ''">
+			AND R.EXTRACT_THE_WAY = #{extractTheWay}
+		</if>
+		<if test="startTime != null and startTime != ''">
+          	AND R.UPDATED_AT &gt;= to_date(#{startTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
+        </if>
+        <if test="endTime != null and endTime != ''">
+        	AND R.UPDATED_AT  &lt;= to_date(#{endTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
+        </if>
+	</select>
 </mapper>

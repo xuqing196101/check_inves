@@ -364,7 +364,7 @@
 			<h2 class="search_detail">
 			<div class="m_row_5">
 	    <div class="row">
-	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 	        <div class="row">
 	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">档案名称：</div>
 	          <div class="col-xs-8 f0 lh0">
@@ -373,7 +373,7 @@
 	        </div>
 	      </div>
 	      
-	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 	        <div class="row">
 	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">档案编号：</div>
 	          <div class="col-xs-8 f0 lh0">
@@ -382,7 +382,7 @@
 	        </div>
 	      </div>
 	      
-	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 	        <div class="row">
 	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">合同编号：</div>
 	          <div class="col-xs-8 f0 lh0">
@@ -391,7 +391,7 @@
 	        </div>
 	      </div>
 	      
-	      <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3 mb10">
+	      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 mb10">
 	        <div class="row">
 	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">状态：</div>
 	          <div class="col-xs-8 f0 lh0">

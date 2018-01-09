@@ -247,25 +247,25 @@
 											<c:choose>
 												<c:when test="${isStatusToAudit}">
 													<c:if test="${isNotPass == 0 and isAllTypeNotPass == 0 and isAllItemNotPass == 0}">
-														<input type="radio" name="selectOption" value="1" id="pass"><label class="label-inline" for="pass">预审核通过</label>
-														<input type="radio" disabled="disabled" name="selectOption" value="0" title="没有预审核不通过的项"><label class="label-inline">预审核不通过</label>
+														<input type="radio" name="selectOption" value="1" id="pass"><label class="label-inline" for="pass">审核通过</label>
+														<input type="radio" disabled="disabled" name="selectOption" value="0" title="没有审核不通过的项"><label class="label-inline">审核不通过</label>
 													</c:if>
 													<%-- <c:if test="${isNotPass >= 1 or isAllTypeNotPass == 1 or isAllItemNotPass == 1}">
-														<input type="radio" disabled="disabled" name="selectOption" value="1" title="还有预审核未通过的项"><label class="label-inline">预审核通过</label>
-														<input type="radio" name="selectOption" value="0" id="notpass"><label class="label-inline" for="notpass">预审核不通过</label>
+														<input type="radio" disabled="disabled" name="selectOption" value="1" title="还有审核未通过的项"><label class="label-inline">审核通过</label>
+														<input type="radio" name="selectOption" value="0" id="notpass"><label class="label-inline" for="notpass">审核不通过</label>
 													</c:if> --%>
 													<c:if test="${isAllTypeNotPass == 1 or isAllItemNotPass == 1}">
-														<input type="radio" disabled="disabled" name="selectOption" value="1" title="还有预审核未通过的项"><label class="label-inline">预审核通过</label>
-														<input type="radio" name="selectOption" value="0" id="notpass"><label class="label-inline" for="notpass">预审核不通过</label>
+														<input type="radio" disabled="disabled" name="selectOption" value="1" title="还有审核未通过的项"><label class="label-inline">审核通过</label>
+														<input type="radio" name="selectOption" value="0" id="notpass"><label class="label-inline" for="notpass">审核不通过</label>
 													</c:if>
 													<c:if test="${isNotPass >= 1 and isAllTypeNotPass == 0 and isAllItemNotPass == 0}">
-														<input type="radio" name="selectOption" value="1" id="pass"><label class="label-inline" for="pass">预审核通过</label>
-														<input type="radio" name="selectOption" value="0" id="notpass"><label class="label-inline" for="notpass">预审核不通过</label>
+														<input type="radio" name="selectOption" value="1" id="pass"><label class="label-inline" for="pass">审核通过</label>
+														<input type="radio" name="selectOption" value="0" id="notpass"><label class="label-inline" for="notpass">审核不通过</label>
 													</c:if>
 												</c:when>
 												<c:otherwise>
-													<input type="radio" disabled="disabled" name="selectOption" value="1"><label class="label-inline">预审核通过</label>
-													<input type="radio" disabled="disabled" name="selectOption" value="0"><label class="label-inline">预审核不通过</label>
+													<input type="radio" disabled="disabled" name="selectOption" value="1"><label class="label-inline">审核通过</label>
+													<input type="radio" disabled="disabled" name="selectOption" value="0"><label class="label-inline">审核不通过</label>
 												</c:otherwise>
 											</c:choose>
 										</div>

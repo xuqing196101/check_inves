@@ -104,6 +104,7 @@
 		<result column="INVES_PEOPLE" property="invesPeople"/>
 		<result column="INVES_AT" property="invesAt" jdbcType="TIMESTAMP"/>
 		<result column="EXTRACT_AT" property="extractAt" jdbcType="TIMESTAMP"/>
+		<result column="EXTRACT_PROJECT_ID" property="extractProjectId"/>
     <association property="area" column="ADDRESS" select="ses.dao.bms.AreaMapper.selectById"/>
 	</resultMap>
 
@@ -209,6 +210,7 @@
 		<result column="INVES_PEOPLE" property="invesPeople"/>
 		<result column="INVES_AT" property="invesAt"/>
 		<result column="EXTRACT_AT" property="extractAt" jdbcType="TIMESTAMP"/>
+		<result column="EXTRACT_PROJECT_ID" property="extractProjectId"/>
 	</resultMap>
 
 	<resultMap type="ses.model.sms.Supplier" id="supplierTypeMap"
@@ -259,7 +261,7 @@
 		ARMY_BUSINESS_TELEPHONE,ARMY_BUSINESS_EMAIL,AUDIT_DATE,ARMY_BUSINESS_ADDRESS,CONCAT_PROVINCE,CONCAT_CITY,ARMY_BUSINESS_PROVINCE,
 		ARMY_BUSINESS_CITY,IS_PROVISIONAL,DESCRIPTION,LEVEL_SCORE_PRODUCT,LEVEL_SCORE_SALES,LEVEL_SCORE_SERVICE,IS_ILLEGAL,PURCHASE_EXPERIENCE,
 		IS_HAVING_CON_CERT, BUSINESS_NATURE, IS_PUBLISH, EXTRACT_ORGID, IS_DELETED, AUDITOR, AUDIT_TEMPORARY,AUDIT_OPINION_ATTACH,
-		INSTORAGE_AT,RETURN_COUNT,LAST_RETURN_DATE, REVIEW_STATUS, REVIEW_PEOPLE, REVIEW_AT, INVES_PEOPLE, INVES_AT, EXTRACT_AT
+		INSTORAGE_AT,RETURN_COUNT,LAST_RETURN_DATE, REVIEW_STATUS, REVIEW_PEOPLE, REVIEW_AT, INVES_PEOPLE, INVES_AT, EXTRACT_AT, EXTRACT_PROJECT_ID
 	</sql>
 	<!--查询每个供应商所对应的所有类型 作者SBW -->
 	<select id="selectSupplierTypes" parameterType="ses.model.sms.Supplier"
@@ -2658,6 +2660,9 @@
         </if>
         <if test="extractAt !=null">
           EXTRACT_AT = #{extractAt},
+        </if>
+        <if test="extractProjectId !=null">
+          EXTRACT_PROJECT_ID = #{extractProjectId},
         </if>
       </set>
       where

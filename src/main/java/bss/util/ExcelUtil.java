@@ -55,59 +55,59 @@ import java.util.regex.Pattern;
  */
 @Component
 public class ExcelUtil {
- 
-  
+
+
   @Autowired
   private PurchaseRequiredService  purchaseRequiredService;
   /**定型产品**/
   @Autowired
   private  OBProjectServer OBProjectServer;
-  
+
   @Autowired
   private OBProductService oBProductService;
-  
+
   @Autowired
   private OrgnizationServiceI orgnizationService;
-  
+
   @Autowired
   private CategoryService categoryService;
-  
+
   @Autowired
   private SupplierService supplierService;
-  
+
   @Autowired
   private OBSupplierService oBSupplierService;
-  
+
   private static ExcelUtil excelUtil;
-  
-  
+
+
   public void setDdService(PurchaseRequiredService purchaseRequiredService){
       this.purchaseRequiredService = purchaseRequiredService;
   }
   public void setObProjectServer(OBProjectServer OBProjectServer){
 	  this.OBProjectServer=OBProjectServer;
   }
-  
-  @PostConstruct 
+
+  @PostConstruct
   public void init(){
 	  excelUtil = this;
 	  excelUtil.purchaseRequiredService = this.purchaseRequiredService;
 	  excelUtil.OBProjectServer = this.OBProjectServer;
 	  excelUtil.orgnizationService=this.orgnizationService;
   }
-  
-  
-  
- 
+
+
+
+
   	/**
-	 * @throws FileNotFoundException 
+	 * @throws FileNotFoundException
 	 *
 	* @Title: readExcel
 	* @Description: 读取 excel表格内容
-	* author: Li Xiaoxiao 
+	* author: Li Xiaoxiao
 	* @param @param path
-	* @param @return     
-	* @return List<PurchaseRequired>     
+	* @param @return
+	* @return List<PurchaseRequired>
 	 */
 	public static Map<String,Object> readExcel(MultipartFile file) throws Exception{
 		Map<String,Object> map=new HashMap<String,Object>();
@@ -131,7 +131,7 @@ public class ExcelUtil {
 	        			}
 	        		}
 	        	}
-	        
+
 	        	if(row.getRowNum()>1){
 	        		Cell cel = row.getCell(0);
 	        		if(cel==null){
@@ -140,9 +140,9 @@ public class ExcelUtil {
     					 bool=false;
         				 break;
     				}
-	        		
-	        		
-	        	 
+
+
+
 	        		for (Cell cell : row) {
 	        			 if(cell.getColumnIndex()==0){
 			        			if(cell.getCellType()==1){
@@ -160,7 +160,7 @@ public class ExcelUtil {
  			        				}
  			        				rq.setSeq(cell.getRichStringCellValue().toString());
 			        				 continue;
-			        			} 
+			        			}
 			        			if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
 			        				rq.setSeq(String.valueOf((int)cell.getNumericCellValue()));
 			        				 continue;
@@ -186,7 +186,7 @@ public class ExcelUtil {
 			        					 }
 	        				    	 }
 	        					 }*/
-	        				
+
 	        					 rq.setDepartment(cell.getStringCellValue());
 		        				 continue;
 		        			}else{
@@ -216,12 +216,12 @@ public class ExcelUtil {
 		        			}
 	        				 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
 	        					 String stand = String.valueOf(cell.getNumericCellValue());
-	 		        				 rq.setStand(stand.substring(0, stand.lastIndexOf("."))); 
+	 		        				 rq.setStand(stand.substring(0, stand.lastIndexOf(".")));
 	 		        				 continue;
-	 	        				 
+
 	        				 }
-	        				 
-	        				 
+
+
 	        				 if(cell.getCellType()!=3){
 		        				 errMsg=String.valueOf(row.getRowNum()+1)+"行，D列错误";
 		        				 map.put("errMsg", errMsg);
@@ -243,8 +243,8 @@ public class ExcelUtil {
 	        				 if(cell.getCellType()==1){
 	        					 rq.setItem(cell.getStringCellValue());
 		        				 continue;
-		        				 
-	        		
+
+
 		        			}if(cell.getCellType()!=3){
 		        				 errMsg=String.valueOf(row.getRowNum()+1)+"行，F列错误";
 		        				 map.put("errMsg", errMsg);
@@ -272,11 +272,11 @@ public class ExcelUtil {
 			        				 map.put("errMsg", errMsg);
 			        				 bool=false;
 			        				 break;*/
-	        					   rq.setPurchaseCount(new BigDecimal(0)); 
+	        					   rq.setPurchaseCount(new BigDecimal(0));
                        continue;
 	        					 }
-	 	        				 if(value!=null){ 
-	 		        				 rq.setPurchaseCount(new BigDecimal(cell.getNumericCellValue())); 
+	 	        				 if(value!=null){
+	 		        				 rq.setPurchaseCount(new BigDecimal(cell.getNumericCellValue()));
 	 		        				 continue;
 	 	        				 }
 	        				 }else if(cell.getCellType()!=3){
@@ -290,12 +290,12 @@ public class ExcelUtil {
 	        			 if(cell.getColumnIndex()==7){
 	        				 boolean addMer = isAddMer(sheet,row.getRowNum(),cell.getColumnIndex());
 	        				 if(rq.getItem()!=null){
-	        				   
+
 	        					 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC||cell.getCellType()==HSSFCell.CELL_TYPE_FORMULA){
 			        				  rq.setPrice(new BigDecimal(cell.getNumericCellValue()));
 		        					 continue;
 		        				 }
-	                    
+
 //	        					 else  if(addMer==true){
 //	        						 errMsg=String.valueOf(row.getRowNum()+1)+"行，H列错误,不能合并单元格！";
 //			        				 map.put("errMsg", errMsg); 
@@ -306,11 +306,11 @@ public class ExcelUtil {
 //		        				 } 
 	        					 if(cell.getCellType()!=3){
 		        					 errMsg=String.valueOf(row.getRowNum()+1)+"行，H列错误";
-			        				 map.put("errMsg", errMsg); 
+			        				 map.put("errMsg", errMsg);
 			        				 bool=false;
 			        				 continue;
 		        				 }
-	        				
+
 	        				 }
 	        			 }
 	        			 if(cell.getColumnIndex()==8){
@@ -324,8 +324,8 @@ public class ExcelUtil {
 //		        				 bool=false;
 //		        				 break;
 //	        				 }
-	        				 
-	        				 
+
+
 	        					 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC||cell.getCellType()==HSSFCell.CELL_TYPE_FORMULA){
 	        					   rq.setBudget(new BigDecimal(cell.getNumericCellValue()));
 		        					 continue;
@@ -337,7 +337,7 @@ public class ExcelUtil {
 			        				 break;
 		        				 }
 //	        				 }
-	        				
+
 	        			 }
 	        			 if(cell.getColumnIndex()==9){
 	        				if(rq.getItem()!=null){
@@ -352,16 +352,16 @@ public class ExcelUtil {
 	        					 if(cell.getCellType()==HSSFCell.CELL_TYPE_STRING){
 	        						 rq.setDeliverDate(cell.getStringCellValue());
 	        						 continue;
-		        					
+
 		        				 }else if(cell.getCellType()!=3){
 		        					 errMsg=String.valueOf(row.getRowNum()+1)+"行，J列错误";
-			        				 map.put("errMsg", errMsg); 
+			        				 map.put("errMsg", errMsg);
 			        				 bool=false;
 			        				 break;
 		        				 }
 	        				}
 	        			 }
-	        	
+
 	        			 if(cell.getColumnIndex()==11){
 	        				if(cell.getCellType()==1){
 	        					rq.setSupplier(cell.getStringCellValue());
@@ -372,7 +372,7 @@ public class ExcelUtil {
 	        				}else{
 	        					continue;
 	        				}
-	        				 
+
 	        			 }
 	        			 if(cell.getColumnIndex()==10){
 	        				 if(cell.getCellType()==HSSFCell.CELL_TYPE_STRING){
@@ -381,13 +381,13 @@ public class ExcelUtil {
 	        					 continue;
 	        				 }else if(cell.getCellType()!=3){
 	        					 errMsg=String.valueOf(row.getRowNum()+1)+"行，K错误!";
-		        				 map.put("errMsg", errMsg); 
+		        				 map.put("errMsg", errMsg);
 		        				 bool=false;
 		        				 break;
 	        				 }
-	        				
+
 	        			 }
-	        			 
+
 //	        			 if(cell.getColumnIndex()==12){
 //	        				 if(cell.getCellType()==1){
 //	        					 rq.setIsFreeTax(cell.getStringCellValue());
@@ -448,7 +448,7 @@ public class ExcelUtil {
 	        			 rq.setPlanName(planName);
 	        			 rq.setStatus("1");
 	        			 rq.setHistoryStatus("0");
-	        			 
+
 						}
        			 if(rq.getPurchaseCount()!=null){
      				/*if(rq.getQualitStand()==null||StringUtils.isBlank(rq.getQualitStand().trim())){
@@ -464,16 +464,16 @@ public class ExcelUtil {
 	        				 map.put("errMsg", errMsg);
 	        				 bool=false;
 	        				 break;
-     			  } 
+     			  }
      		 }
-			 
+
 			 if(rq.getPurchaseCount()!=null&&rq.getPrice()!=null){
      				if(rq.getItem()==null||StringUtils.isBlank(rq.getItem().trim())){
      					 errMsg=String.valueOf(row.getRowNum()+1)+"行，计量单位不能为空";
 	        				 map.put("errMsg", errMsg);
 	        				 bool=false;
 	        				 break;
-     			  } 
+     			  }
      		 }
 			 if(rq.getPurchaseCount()!=null&&rq.getPrice()!=null){
      				if(rq.getPrice()==null){
@@ -481,7 +481,7 @@ public class ExcelUtil {
 	        				 map.put("errMsg", errMsg);
 	        				 bool=false;
 	        				 break;
-     			  } 
+     			  }
      		 }
 			 if(rq.getPurchaseCount()!=null&&rq.getPrice()!=null){
      				if(rq.getBudget()==null){
@@ -489,7 +489,7 @@ public class ExcelUtil {
 	        				 map.put("errMsg", errMsg);
 	        				 bool=false;
 	        				 break;
-     			  } 
+     			  }
      		 }
 			 if(rq.getPurchaseCount()!=null){
      				/*if(rq.getDeliverDate()==null||StringUtils.isBlank(rq.getDeliverDate().trim())){
@@ -505,10 +505,10 @@ public class ExcelUtil {
 	        				 map.put("errMsg", errMsg);
 	        				 bool=false;
 	        				 break;
-     			  } 
+     			  }
      		 }
 			 ///
-			 
+
 //   			 if(rq.getPrice()!=null){
 //     				if(rq.getQualitStand()==null||StringUtils.isBlank(rq.getQualitStand().trim())){
 //     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，质量技术参数不能为空";
@@ -621,27 +621,27 @@ public class ExcelUtil {
 	        		list.add(rq);
 					}
 	        	}
-	        	
-		
+
+
 	        map.put("list", list);
-		
+
 		return map;
-		
+
 	}
-	
-	
+
+
   	/**
-	 * @throws FileNotFoundException 
+	 * @throws FileNotFoundException
 	 *
 	* @Title: readExcel
 	* @Description: 读取 excel表格内容
-	* author: Li Xiaoxiao 
+	* author: Li Xiaoxiao
 	* @param @param path
-	* @param @return     
-	* @return List<PurchaseRequired>     
+	* @param @return
+	* @return List<PurchaseRequired>
 	 */
 	public static Map<String,Object> cgjhExcel(MultipartFile file) throws Exception{
-		
+
 		Map<String,Object> map=new HashMap<String,Object>();
 		List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
 		 //FileInputStream fis = new FileInputStream(path);
@@ -663,7 +663,7 @@ public class ExcelUtil {
 	        			}
 	        		}
 	        	}
-	        
+
 	        	if(row.getRowNum()>1){
 	        		Cell cel = row.getCell(0);
 	        		if(cel==null){
@@ -672,11 +672,11 @@ public class ExcelUtil {
     					 bool=false;
         				 break;
     				}
-	        		
-	        		
-	        	 
+
+
+
 	        		for (Cell cell : row) {
-	        		
+
 	        			 if(cell.getColumnIndex()==0){
 			        			if(cell.getCellType()==1){
  			        				if(cell.getStringCellValue().contains("(")||cell.getStringCellValue().contains(")")){
@@ -693,7 +693,7 @@ public class ExcelUtil {
  			        				}
  			        				rq.setSeq(cell.getRichStringCellValue().toString());
 			        				 continue;
-			        			} 
+			        			}
 			        			if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
 			        				rq.setSeq(String.valueOf((int)cell.getNumericCellValue()));
 			        				 continue;
@@ -719,8 +719,8 @@ public class ExcelUtil {
 			        					 }
 	        				    	 }
 	        					 }*/
-	        				
-		        				
+
+
 	        					 rq.setDepartment(cell.getStringCellValue());
 		        				 continue;
 		        			}else{
@@ -768,8 +768,8 @@ public class ExcelUtil {
 	        				 if(cell.getCellType()==1){
 	        					 rq.setItem(cell.getStringCellValue());
 		        				 continue;
-		        				 
-	        		
+
+
 		        			}if(cell.getCellType()!=3){
 		        				 errMsg=String.valueOf(row.getRowNum()+1)+"行，F列错误";
 		        				 map.put("errMsg", errMsg);
@@ -798,15 +798,15 @@ public class ExcelUtil {
 			        				 bool=false;
 			        				 break;
 	        					 }
-	 	        				 if(value!=null){ 
-	 		        				 rq.setPurchaseCount(new BigDecimal(cell.getNumericCellValue())); 
+	 	        				 if(value!=null){
+	 		        				 rq.setPurchaseCount(new BigDecimal(cell.getNumericCellValue()));
 	 		        				 continue;
 	 	        				 }
 	        				 }else if(cell.getCellType()!=3){
-	        				   Pattern pattern = Pattern.compile("[0-9]*"); 
+	        				   Pattern pattern = Pattern.compile("[0-9]*");
 	        				   Matcher isNum = pattern.matcher(cell.getStringCellValue());
 	        				   if(isNum.matches()){
-	        				     rq.setPurchaseCount(new BigDecimal(cell.getStringCellValue())); 
+	        				     rq.setPurchaseCount(new BigDecimal(cell.getStringCellValue()));
                        continue;
 	        				   }else{
 	        				     errMsg=String.valueOf(row.getRowNum()+1)+"行，G列错误";
@@ -820,12 +820,12 @@ public class ExcelUtil {
 	        			 if(cell.getColumnIndex()==7){
 	        				 boolean addMer = isAddMer(sheet,row.getRowNum(),cell.getColumnIndex());
 	        				 if(rq.getItem()!=null){
-	        					
+
 	        					 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC||cell.getCellType()==HSSFCell.CELL_TYPE_FORMULA){
 			        				  rq.setPrice(new BigDecimal(cell.getNumericCellValue()));
 		        					 continue;
 		        				 }
-	        					 
+
 //	        					 else  if(addMer==true){
 //	        						 errMsg=String.valueOf(row.getRowNum()+1)+"行，H列错误,不能合并单元格！";
 //			        				 map.put("errMsg", errMsg); 
@@ -836,18 +836,18 @@ public class ExcelUtil {
 //		        				 } 
 	        					 if(cell.getCellType()!=3){
 	        					   String stringCellValue=cell.getStringCellValue()!=null?cell.getStringCellValue().replaceAll(",", ""):"";
-                       Pattern pattern = Pattern.compile("^([1-9][\\d]{0,14}|0)(\\.[\\d]{1,4})?$"); 
+                       Pattern pattern = Pattern.compile("^([1-9][\\d]{0,14}|0)(\\.[\\d]{1,4})?$");
                        Matcher isNum = pattern.matcher(stringCellValue);
                        if(isNum.matches()){
                          rq.setPrice(new BigDecimal(stringCellValue));
                        }else{
                          errMsg=String.valueOf(row.getRowNum()+1)+"行，H列错误";
-                         map.put("errMsg", errMsg); 
+                         map.put("errMsg", errMsg);
                          bool=false;
                          continue;
                        }
 		        				 }
-	        				
+
 	        				 }
 	        			 }
 	        			 if(cell.getColumnIndex()==8){
@@ -861,15 +861,15 @@ public class ExcelUtil {
 //		        				 bool=false;
 //		        				 break;
 //	        				 }
-	        				 
-	        				 
+
+
 	        					 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC||cell.getCellType()==HSSFCell.CELL_TYPE_FORMULA){
 		        					 rq.setBudget(new BigDecimal(cell.getNumericCellValue()));
 		        					 continue;
 		        				 }
 	        					 if(cell.getCellType()!=3){
 	        					   String stringCellValue=cell.getStringCellValue()!=null?cell.getStringCellValue().replaceAll(",", ""):"";
-	        					   Pattern pattern = Pattern.compile("^([1-9][\\d]{0,14}|0)(\\.[\\d]{1,4})?$"); 
+	        					   Pattern pattern = Pattern.compile("^([1-9][\\d]{0,14}|0)(\\.[\\d]{1,4})?$");
 	                     Matcher isNum = pattern.matcher(stringCellValue);
 	                     if(isNum.matches()){
 	                       rq.setBudget(new BigDecimal(stringCellValue));
@@ -882,7 +882,7 @@ public class ExcelUtil {
 	                     }
 		        				 }
 //	        				 }
-	        				
+
 	        			 }
 	        			 if(cell.getColumnIndex()==9){
 	        				if(rq.getItem()!=null){
@@ -896,23 +896,23 @@ public class ExcelUtil {
 		        				 }
 	        					 if(cell.getCellType()==HSSFCell.CELL_TYPE_STRING){
 	        						 rq.setDeliverDate(cell.getStringCellValue());
-		        					
+
 		        				 }else if(cell.getCellType()!=3){
 		        					 errMsg=String.valueOf(row.getRowNum()+1)+"行，J列错误";
-			        				 map.put("errMsg", errMsg); 
+			        				 map.put("errMsg", errMsg);
 			        				 bool=false;
 			        				 break;
 		        				 }
 	        				}
 	        			 }
-	        	
+
 	        			 if(cell.getColumnIndex()==10){
 	        			   if(cell.getCellType()==HSSFCell.CELL_TYPE_STRING){
                      String str = cell.getStringCellValue();
                      rq.setPurchaseType(str);
                    }else if(cell.getCellType()!=3){
                      errMsg=String.valueOf(row.getRowNum()+1)+"K行列错误!";
-                     map.put("errMsg", errMsg); 
+                     map.put("errMsg", errMsg);
                      bool=false;
                      break;
                    }
@@ -925,11 +925,11 @@ public class ExcelUtil {
                        errMsg=String.valueOf(row.getRowNum()+1)+"行L列错误，采购机构不存在，请在系统中维护！";
                        map.put("errMsg", errMsg);
                         bool=false;
-                        break; 
+                        break;
                      }
                      continue;
-                  
-                  }else if(cell.getCellType()!=3){ 
+
+                  }else if(cell.getCellType()!=3){
                      errMsg=String.valueOf(row.getRowNum()+1)+"行L列错误";
                      map.put("errMsg", errMsg);
                      bool=false;
@@ -966,28 +966,28 @@ public class ExcelUtil {
 	        		list.add(rq);
 					}
 	        	}
-	        	
-		
+
+
 	        map.put("list", list);
-		
+
 		return map;
-		
+
 	}
-	
-	
-	
+
+
+
 	/**
-	 * @throws FileNotFoundException 
+	 * @throws FileNotFoundException
 	 *
 	* @Title: readExcel
 	* @Description: 读取 excel竞价定型产品表格内容
 	* author: YangHongLiang
 	* @param @param path
-	* @param @return     
-	* @return List<PurchaseRequired>     
-	 * @throws IOException 
-	 * @throws InvalidFormatException 
-	 * @throws EncryptedDocumentException 
+	* @param @return
+	* @return List<PurchaseRequired>
+	 * @throws IOException
+	 * @throws InvalidFormatException
+	 * @throws EncryptedDocumentException
 	 */
 	public static Map<String,Object> readOBExcel(MultipartFile file) throws EncryptedDocumentException, InvalidFormatException, IOException{
 		List<OBProduct> list=new LinkedList<OBProduct>();
@@ -1049,9 +1049,9 @@ public class ExcelUtil {
 				        					 bool=false;
 					        				 break;
 			        					}
-			        					
+
 			        				}
-			        			} 
+			        			}
 	        			 }
 	        			 if(cell.getColumnIndex()==1){
 	        				 if(cell.getCellType()==0){
@@ -1087,7 +1087,7 @@ public class ExcelUtil {
 		        				 bool=false;
 		        				 break;
 		        			}
-	        			 }        		
+	        			 }
 	        			}
 	        		if(bool==false)break;
 	        		list.add(obp);
@@ -1096,20 +1096,20 @@ public class ExcelUtil {
 	         map.put("list", list);
 		return map;
 	}
-	
+
 	/**
-	 * @throws IOException 
-	 * @throws InvalidFormatException 
-	 * @throws EncryptedDocumentException 
-	 * 
+	 * @throws IOException
+	 * @throws InvalidFormatException
+	 * @throws EncryptedDocumentException
+	 *
 	 * Description: 定型产品文件上传
-	 * 
+	 *
 	 * @author  zhang shubin
-	 * @version  2017年3月16日 
+	 * @version  2017年3月16日
 	 * @param  @param file
 	 * @param  @return
-	 * @param  @throws Exception 
-	 * @return Map<String,Object> 
+	 * @param  @throws Exception
+	 * @return Map<String,Object>
 	 * @exception
 	 */
 	public static Map<String,Object> readOBProductExcel(MultipartFile file) throws InvalidFormatException, IOException{
@@ -1322,7 +1322,7 @@ public class ExcelUtil {
         					}
         				}
         			 }*/
-        			
+
         			//第五列
     				if(cell.getColumnIndex()==4){
     					String standardModel = cell.getRichStringCellValue().toString().trim();
@@ -1341,17 +1341,17 @@ public class ExcelUtil {
         map.put("list", list);
 		return map;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * Description: 供应商列表上传
-	 * 
+	 *
 	 * @author  zhang shubin
-	 * @version  2017年3月16日 
+	 * @version  2017年3月16日
 	 * @param  @param file
 	 * @param  @return
-	 * @param  @throws Exception 
-	 * @return Map<String,Object> 
+	 * @param  @throws Exception
+	 * @return Map<String,Object>
 	 * @exception
 	 */
 	public static Map<String,Object> readOBSupplierExcel(MultipartFile file) throws Exception{
@@ -1366,11 +1366,11 @@ public class ExcelUtil {
         for(Row row:sheet){
         	String uscc = "";
         	OBSupplier obp=new OBSupplier();
-        	for(Cell cell : row){
+        	/*for(Cell cell : row){
         		if(cell.getColumnIndex()==0){
     				planName=cell.getStringCellValue();
     			}
-        	}
+        	}*/
         	if(row.getRowNum()>1){
         		Cell cel = row.getCell(0);
         		if(cel==null){
@@ -1379,191 +1379,189 @@ public class ExcelUtil {
 					 bool=false;
    				 break;
 				}
-        		for (Cell cell : row) {
-        			//判断第一列
-        			if(cell.getColumnIndex()==0){
-        				if(cell.getCellType()==1){
-        					//判断是否为空
-        					if(cell.getStringCellValue().trim().length()<1){
-	        					errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，供应商名称不能为空!";
-	        					 map.put("errMsg", errMsg);
-	        					 bool=false;
-		        				 break;
-	        				}
-        					String supplierName = cell.getRichStringCellValue().toString().trim();
-        					List<Supplier> listsupplier = excelUtil.supplierService.selByName(supplierName);
-        					//验证供应商是否存在
-        					if(listsupplier == null || listsupplier.size() < 1){
-        						errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，供应商不存在!";
-        						map.put("errMsg", errMsg);
-	        					 bool=false;
-		        				 break;
-        					}
-        					Supplier supplier = listsupplier.get(0);
-        					uscc = supplier.getCreditCode();
-        					suId = supplier.getId();
-        					obp.setSupplierId(supplier.getId());
-        				}
-        			}
-        			//第二列  统一信用代码
-        			if(cell.getColumnIndex()==6){
-    					if(cell.getCellType()==1){
-        					//判断是否为空
-        					if(cell.getStringCellValue().trim().length()<1){
-	        					errMsg=String.valueOf(row.getRowNum()+1)+"行G列错误，不能为空!";
-	        					 map.put("errMsg", errMsg);
-	        					 bool=false;
-		        				 break;
-	        				}
-        					String str = cell.getRichStringCellValue().toString().trim();
-        					if(!str.trim().equals(uscc)){
-        						errMsg=String.valueOf(row.getRowNum()+1)+"行G列错误，统一社会信用代码不正确!";
-	        					 map.put("errMsg", errMsg);
-	        					 bool=false;
-		        				 break;
-        					}
-        					obp.setUscc(str);
-        					}
-        				}
-        			// 第三列  供应商联系人姓名
-    				if(cell.getColumnIndex()==3){
-    					if(cell.getCellType()==1){
-        					//判断是否为空
-        					if(cell.getStringCellValue().trim().length()<1){
-	        					errMsg=String.valueOf(row.getRowNum()+1)+"行D列错误，不能为空!";
-	        					 map.put("errMsg", errMsg);
-	        					 bool=false;
-		        				 break;
-	        				}
-        					String str = cell.getRichStringCellValue().toString().trim();
-        					obp.setContactName(str);
-        				}
-        			 }
-    				//第四列  供应商联系人电话
-    				if(cell.getColumnIndex()==4){
-    					if(cell.getCellType()==0){
-    						int i = (int) cell.getNumericCellValue();
-       					 obp.setContactTel(Integer.toString(i));//数量
-		        			 continue;
-       				 }if(cell.getCellType()!=3){
-       					 errMsg=String.valueOf(row.getRowNum()+1)+"行，E列错误,请输入正确的电话号";
-	        				 map.put("errMsg", errMsg);
-	        				 bool=false;
-	        				 break;
-	        			}
-        			 }
-    				//第五例  资质证书编号
-    				if(cell.getColumnIndex()==5){
-    					if(cell.getCellType()==1){
-        					//判断是否为空
-        					if(cell.getStringCellValue().trim().length()<1){
-	        					errMsg=String.valueOf(row.getRowNum()+1)+"行F列错误，不能为空!";
-	        					 map.put("errMsg", errMsg);
-	        					 bool=false;
-		        				 break;
-	        				}else{
-	        					Integer ii = excelUtil.oBSupplierService.yzzsCode(cell.getRichStringCellValue().toString().trim(), null);
-	        					if(ii > 0){
-	        						errMsg=String.valueOf(row.getRowNum()+1)+"行F列错误，资质证书编号不能重复!";
-		        					 map.put("errMsg", errMsg);
-		        					 bool=false;
-			        				 break;
-	        					}
-	        				}
-        					String str = cell.getRichStringCellValue().toString();
-        					obp.setCertCode(str);
-        				}
-        			 }
-    				//第六列  所属产品目录
-    				if(cell.getColumnIndex()==7){
-    					if(cell.getCellType()==1){
-        					//判断是否为空
-        					if(cell.getStringCellValue().trim().length()<1){
-	        					errMsg=String.valueOf(row.getRowNum()+1)+"行H列错误，不能为空!";
-	        					 map.put("errMsg", errMsg);
-	        					 bool=false;
-		        				 break;
-	        				}
-        					String str = cell.getRichStringCellValue().toString().trim();
-        					List<Category> list2 = excelUtil.categoryService.selectByCode(str);
-        					if(null == list2 || list2.size() == 0){
-        						errMsg=String.valueOf(row.getRowNum()+1)+"行H列错误，不存在!";
-	        					 map.put("errMsg", errMsg);
-	        					 bool=false;
-		        				 break;
-        					}else{
-        						HashMap<String, Object> map1 = new HashMap<String, Object>();
-        						map1.put("id", list2.get(0).getId());
-        						if(excelUtil.categoryService.findCategoryByChildren(map1).size() != 0){
-        							errMsg=String.valueOf(row.getRowNum()+1)+"行H列错误，请选择目录末节点添加!";
-   	        					 	map.put("errMsg", errMsg);
-   	        					 	bool=false;
-   	        					 	break;
-        						}
-        						if(excelUtil.oBSupplierService.yzSupplierName(suId, list2.get(0).getId(), null) > 0){
-        							errMsg=String.valueOf(row.getRowNum()+1)+"行H列错误，不能重复添加!";
-   	        					 map.put("errMsg", errMsg);
-   	        					 bool=false;
-   		        				 break;
-        						}
-        					}
-        					obp.setSmallPointsId(list2.get(0).getId());
-        					}
-        				}
-    				//第七列  证书有效期
-    				if(cell.getColumnIndex()==1){
-    					if(cell.getCellType()==1){
-        					//判断是否为空
-        					if(cell.getStringCellValue().trim().length()<1){
-	        					errMsg=String.valueOf(row.getRowNum()+1)+"行B列错误，不能为空!";
-	        					 map.put("errMsg", errMsg);
-	        					 bool=false;
-		        				 break;
-	        				}
-        				}else if(HSSFDateUtil.isCellDateFormatted(cell)){
-        					Date time = cell.getDateCellValue();
-        					obp.setCertValidPeriod(time);
-        				}else{
-        					errMsg=String.valueOf(row.getRowNum()+1)+"行B列错误，日期格式错误!";
-       					 map.put("errMsg", errMsg);
-       					 bool=false;
-	        				 break;
-        				}
-        			 }
-    				//第八列 质检机构
-    				if(cell.getColumnIndex()==2){
-    					if(cell.getCellType()==1){
-        					//判断是否为空
-        					if(cell.getStringCellValue().trim().length()<1){
-	        					errMsg=String.valueOf(row.getRowNum()+1)+"行C列错误，不能为空!";
-	        					 map.put("errMsg", errMsg);
-	        					 bool=false;
-		        				 break;
-	        				}
-        					String str = cell.getRichStringCellValue().toString().trim();
-        					obp.setQualityInspectionDep(str);
-        				}
-        			 }
-    				
-    				
-        		}
+				for (Cell cell : row){
+                    //判断第一列
+                    if(cell.getColumnIndex()==0){
+                        if(cell.getCellType()==1){
+                            //判断是否为空
+                            if(cell.getStringCellValue().trim().length()<1){
+                                errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，供应商名称不能为空!";
+                                map.put("errMsg", errMsg);
+                                bool=false;
+                                break;
+                            }
+                            String supplierName = cell.getRichStringCellValue().toString().trim();
+                            List<Supplier> listsupplier = excelUtil.supplierService.selByName(supplierName);
+                            //验证供应商是否存在
+                            if(listsupplier == null || listsupplier.size() < 1){
+                                errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，供应商不存在!";
+                                map.put("errMsg", errMsg);
+                                bool=false;
+                                break;
+                            }
+                            Supplier supplier = listsupplier.get(0);
+                            uscc = supplier.getCreditCode();
+                            suId = supplier.getId();
+                            obp.setSupplierId(supplier.getId());
+                        }
+                    }
+                    //第二列  统一信用代码
+                    if(cell.getColumnIndex()==1){
+                        if(cell.getCellType()==1){
+                            //判断是否为空
+                            if(cell.getStringCellValue().trim().length()<1){
+                                errMsg=String.valueOf(row.getRowNum()+1)+"行B列错误，不能为空!";
+                                map.put("errMsg", errMsg);
+                                bool=false;
+                                break;
+                            }
+                            String str = cell.getRichStringCellValue().toString().trim();
+                            if(!str.trim().equals(uscc)){
+                                errMsg=String.valueOf(row.getRowNum()+1)+"行B列错误，统一社会信用代码不正确!";
+                                map.put("errMsg", errMsg);
+                                bool=false;
+                                break;
+                            }
+                            obp.setUscc(str);
+                        }
+                    }
+                    // 第三列  供应商联系人姓名
+                    if(cell.getColumnIndex()==2){
+                        if(cell.getCellType()==1){
+                            //判断是否为空
+                            if(cell.getStringCellValue().trim().length()<1){
+                                errMsg=String.valueOf(row.getRowNum()+1)+"行C列错误，不能为空!";
+                                map.put("errMsg", errMsg);
+                                bool=false;
+                                break;
+                            }
+                            String str = cell.getRichStringCellValue().toString().trim();
+                            obp.setContactName(str);
+                        }
+                    }
+                    //第四列  供应商联系人电话
+                    if(cell.getColumnIndex()==3){
+                        if(cell.getCellType()==0){
+                            int i = (int) cell.getNumericCellValue();
+                            obp.setContactTel(Integer.toString(i));//数量
+                            continue;
+                        }if(cell.getCellType()==3){
+                            errMsg=String.valueOf(row.getRowNum()+1)+"行，D列错误,请输入正确的电话号";
+                            map.put("errMsg", errMsg);
+                            bool=false;
+                            break;
+                        }
+                    }
+                    //第五例  资质证书编号
+                    if(cell.getColumnIndex()==4){
+                        if(cell.getCellType()==1){
+                            //判断是否为空
+                            if(cell.getStringCellValue().trim().length()<1){
+                                errMsg=String.valueOf(row.getRowNum()+1)+"行E列错误，不能为空!";
+                                map.put("errMsg", errMsg);
+                                bool=false;
+                                break;
+                            }else{
+                                Integer ii = excelUtil.oBSupplierService.yzzsCode(cell.getRichStringCellValue().toString().trim(), null);
+                                if(ii > 0){
+                                    errMsg=String.valueOf(row.getRowNum()+1)+"行E列错误，资质证书编号不能重复!";
+                                    map.put("errMsg", errMsg);
+                                    bool=false;
+                                    break;
+                                }
+                            }
+                            String str = cell.getRichStringCellValue().toString();
+                            obp.setCertCode(str);
+                        }
+                    }
+                    //第六列  所属产品目录
+                    if(cell.getColumnIndex()==5){
+                        if(cell.getCellType()==1){
+                            //判断是否为空
+                            if(cell.getStringCellValue().trim().length()<1){
+                                errMsg=String.valueOf(row.getRowNum()+1)+"行F列错误，不能为空!";
+                                map.put("errMsg", errMsg);
+                                bool=false;
+                                break;
+                            }
+                            String str = cell.getRichStringCellValue().toString().trim();
+                            List<Category> list2 = excelUtil.categoryService.selectByCode(str);
+                            if(null == list2 || list2.size() == 0){
+                                errMsg=String.valueOf(row.getRowNum()+1)+"行F列错误，不存在!";
+                                map.put("errMsg", errMsg);
+                                bool=false;
+                                break;
+                            }else{
+                                HashMap<String, Object> map1 = new HashMap<String, Object>();
+                                map1.put("id", list2.get(0).getId());
+                                if(excelUtil.categoryService.findCategoryByChildren(map1).size() != 0){
+                                    errMsg=String.valueOf(row.getRowNum()+1)+"行F列错误，请选择目录末节点添加!";
+                                    map.put("errMsg", errMsg);
+                                    bool=false;
+                                    break;
+                                }
+                                if(excelUtil.oBSupplierService.yzSupplierName(suId, list2.get(0).getId(), null) > 0){
+                                    errMsg=String.valueOf(row.getRowNum()+1)+"行F列错误，不能重复添加!";
+                                    map.put("errMsg", errMsg);
+                                    bool=false;
+                                    break;
+                                }
+                            }
+                            obp.setSmallPointsId(list2.get(0).getId());
+                        }
+                    }
+                    //第七列  证书有效期
+                    if(cell.getColumnIndex()==6){
+                        if(cell.getCellType()==1){
+                            //判断是否为空
+                            if(cell.getStringCellValue().trim().length()<1){
+                                errMsg=String.valueOf(row.getRowNum()+1)+"行G列错误，不能为空!";
+                                map.put("errMsg", errMsg);
+                                bool=false;
+                                break;
+                            }
+                        }else if(HSSFDateUtil.isCellDateFormatted(cell)){
+                            Date time = cell.getDateCellValue();
+                            obp.setCertValidPeriod(time);
+                        }else{
+                            errMsg=String.valueOf(row.getRowNum()+1)+"行G列错误，日期格式错误!";
+                            map.put("errMsg", errMsg);
+                            bool=false;
+                            break;
+                        }
+                    }
+                    //第八列 质检机构
+                    if(cell.getColumnIndex()==7){
+                        if(cell.getCellType()==1){
+                            //判断是否为空
+                            if(cell.getStringCellValue().trim().length()<1){
+                                errMsg=String.valueOf(row.getRowNum()+1)+"行H列错误，不能为空!";
+                                map.put("errMsg", errMsg);
+                                bool=false;
+                                break;
+                            }
+                            String str = cell.getRichStringCellValue().toString().trim();
+                            obp.setQualityInspectionDep(str);
+                        }
+                    }
+                }
         		if(bool==false)break;
         		list.add(obp);
         	}
         }
         map.put("list", list);
 		return map;
-	
+
 	}
-	
-	
-	
-	
+
+
+
+
 	public static void readPlanExcel(MultipartFile file) throws Exception{
     List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
-    
+
           Workbook workbook = WorkbookFactory.create(file.getInputStream());
-         
+
           Sheet sheet = workbook.getSheetAt(0);
           Row firstRow = sheet.getRow(0);
           CollectPlan collect = new CollectPlan();
@@ -1573,91 +1571,91 @@ public class ExcelUtil {
           String id = UUID.randomUUID().toString().replaceAll("-", "");
           collect.setId(id);
           collPlan.add(collect);
-          
+
 
   }
-	
-	
-	
-	
+
+
+
+
 	/**
-	 * 
+	 *
 	* @Title: isAddMer
 	* @Description: 判断是否合并单元格
-	* author: Li Xiaoxiao 
+	* author: Li Xiaoxiao
 	* @param @param sheet
 	* @param @param r
 	* @param @param c
-	* @param @return     
-	* @return boolean     
+	* @param @return
+	* @return boolean
 	* @throws
 	 */
 	public static boolean isAddMer(Sheet sheet,int r,int c){
 		boolean bool=true;
 
-	      int sheetMergeCount = sheet.getNumMergedRegions();  
-	      for (int i = 0; i < sheetMergeCount; i++) {  
-	        CellRangeAddress range = sheet.getMergedRegion(i);  
-	        int firstColumn = range.getFirstColumn();  
-	        int lastColumn = range.getLastColumn();  
-	        int firstRow = range.getFirstRow();  
-	        int lastRow = range.getLastRow();  
-	        if(r == firstRow && r == lastRow){  
-	            if(c >= firstColumn && c <= lastColumn){  
-	                return true;  
-	            }  
-	        }  
-	      }  
+	      int sheetMergeCount = sheet.getNumMergedRegions();
+	      for (int i = 0; i < sheetMergeCount; i++) {
+	        CellRangeAddress range = sheet.getMergedRegion(i);
+	        int firstColumn = range.getFirstColumn();
+	        int lastColumn = range.getLastColumn();
+	        int firstRow = range.getFirstRow();
+	        int lastRow = range.getLastRow();
+	        if(r == firstRow && r == lastRow){
+	            if(c >= firstColumn && c <= lastColumn){
+	                return true;
+	            }
+	        }
+	      }
 		return bool;
 	}
 	/**
-	 * 
+	 *
 	* @Title: getMergedRegionValue
 	* @Description: 获取合并单元格的第一个值
-	* author: Li Xiaoxiao 
+	* author: Li Xiaoxiao
 	* @param @param sheet
 	* @param @param row
 	* @param @param column
-	* @param @return     
-	* @return String     
+	* @param @return
+	* @return String
 	* @throws
 	 */
-    public static BigDecimal getMergedRegionValue(Sheet sheet ,int row , int column){    
-        
-        int sheetMergeCount = sheet.getNumMergedRegions();    
-            
-        for(int i = 0 ; i < sheetMergeCount ; i++){    
-            CellRangeAddress ca = sheet.getMergedRegion(i);    
-            int firstColumn = ca.getFirstColumn();    
-            int lastColumn = ca.getLastColumn();    
-            int firstRow = ca.getFirstRow();    
-            int lastRow = ca.getLastRow();    
-                
-            if(row >= firstRow && row <= lastRow){    
-                    
-                if(column >= firstColumn && column <= lastColumn){    
-                    Row fRow = sheet.getRow(firstRow);    
-                    Cell fCell = fRow.getCell(firstColumn);    
-                    return getCellValue(fCell) ;    
-                }    
-            }    
-        }    
-            
-        return null ;    
-    }    
-    
-    public static BigDecimal getCellValue(Cell cell){    
-        
-          if(cell.getCellType() == Cell.CELL_TYPE_NUMERIC){    
-                
-            return new BigDecimal(cell.getNumericCellValue());    
-                
-        }    
-        return null;    
-    }    
- 
+    public static BigDecimal getMergedRegionValue(Sheet sheet ,int row , int column){
 
-    
+        int sheetMergeCount = sheet.getNumMergedRegions();
+
+        for(int i = 0 ; i < sheetMergeCount ; i++){
+            CellRangeAddress ca = sheet.getMergedRegion(i);
+            int firstColumn = ca.getFirstColumn();
+            int lastColumn = ca.getLastColumn();
+            int firstRow = ca.getFirstRow();
+            int lastRow = ca.getLastRow();
+
+            if(row >= firstRow && row <= lastRow){
+
+                if(column >= firstColumn && column <= lastColumn){
+                    Row fRow = sheet.getRow(firstRow);
+                    Cell fCell = fRow.getCell(firstColumn);
+                    return getCellValue(fCell) ;
+                }
+            }
+        }
+
+        return null ;
+    }
+
+    public static BigDecimal getCellValue(Cell cell){
+
+          if(cell.getCellType() == Cell.CELL_TYPE_NUMERIC){
+
+            return new BigDecimal(cell.getNumericCellValue());
+
+        }
+        return null;
+    }
+
+
+
     public static boolean isContainChinese(String str){
 		boolean bool=true;
 		Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
@@ -1669,9 +1667,9 @@ public class ExcelUtil {
 	    }
 		return bool;
 	}
-    
-    
-    
-    
- 
+
+
+
+
+
 }

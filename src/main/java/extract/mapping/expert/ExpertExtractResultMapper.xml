@@ -466,7 +466,7 @@
     WHERE PROJECT_ID = #{projectId} AND EXPERT_ID = #{expertId}
   </update>
   
-  <select id="selNumByConditionId" parameterType="Map" resultType="Integer">
+  <select id="selNumByConditionId" parameterType="Map" resultType="Integer" flushCache="true" useCache="false">
   	SELECT COUNT(EXPERT_ID) FROM T_SES_EMS_EXTRACT_RESULT WHERE CONDITION_ID = #{conditionId} AND IS_JOIN = 1
   	<if test="isAlternate != null">
       AND IS_ALTERNATE = #{isAlternate}
@@ -504,9 +504,15 @@
   	SELECT * FROM T_SES_EMS_EXTRACT_RESULT WHERE IS_DELETED = 0 AND IS_JOIN = 1 AND PROJECT_ID = #{projectId}
   </select>
   
-  <!-- 根据项目id查询参加的专家信息 -->
+  <!-- 验证专家是否第一次参与评审 -->
   <select id="vaIsOnceJoin" parameterType="String" resultType="Integer" >
   	SELECT COUNT(*) FROM T_SES_EMS_EXTRACT_RESULT WHERE IS_JOIN = 1 AND EXPERT_ID = #{expertId}
   </select>
   
+  <!-- 根据typeId查询UserId -->
+  <select id="findUserByTypeId" parameterType="String" resultType="String">
+    SELECT ID
+    FROM T_SES_BMS_USER
+    WHERE TYPE_ID = #{typeId}
+  </select>
 </mapper>

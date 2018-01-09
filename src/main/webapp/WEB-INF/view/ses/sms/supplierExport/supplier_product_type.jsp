@@ -22,7 +22,6 @@
 </head>
 
 <body>
-				<div class="content table_box">
 						<table id="supTableFormal"
 								class="table table-bordered table-condensed table-hover table-striped">
 								<thead>
@@ -76,7 +75,15 @@
 								  <td></td>
 								</tr>
 							</table>
-						</div>
+							<link rel="stylesheet" href="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.css">
+							<script type="text/javascript" src="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.js"></script>
+							<script>
+								$(function () {
+									$('#supTable').m_fixedTable({
+										fixedNumber: 2
+									});
+								});
+							</script>
 					
 </body>
 

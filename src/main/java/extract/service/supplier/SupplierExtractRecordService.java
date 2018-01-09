@@ -9,8 +9,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.http.ResponseEntity;
-
 import ses.model.bms.User;
 import extract.model.supplier.SupplierExtractProjectInfo;
 
@@ -78,7 +76,7 @@ public interface SupplierExtractRecordService {
    * @return
    * @throws Exception
    */
-  ResponseEntity<byte[]> printRecord(String id, HttpServletRequest request, HttpServletResponse response, String projectInto) throws Exception;
+  void printRecord(String id, HttpServletRequest request, HttpServletResponse response, String projectInto) throws Exception;
 
   /**
    * 

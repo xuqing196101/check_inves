@@ -207,4 +207,14 @@ public interface ExpertExtractResultMapper {
      * @return
      */
     Integer vaIsOnceJoin(@Param("expertId")String expertId);
+    
+    /**
+     * 
+     * Description:  根据typeId查询用户ID
+     * 
+     * @data 2018年1月6日
+     * @param 
+     * @return
+     */
+    String findUserByTypeId(@Param("typeId")String typeId);
 }

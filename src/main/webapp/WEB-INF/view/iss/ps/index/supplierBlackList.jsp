@@ -43,12 +43,12 @@
 		</div>
 		<div class="col-md-12 col-sm-12 col-xs-12 report_list_box">
 			<div class="col-md-12 col-sm-12 col-xs-12 report_list_title">
-				<div class="col-md-2 col-xs-4 col-sm-2 tc f16">供应商名称</div>
-				<div class="col-md-1 col-xs-4 col-sm-1 tc f16">类型</div>
-				<div class="col-md-2 col-xs-4 col-sm-2 tc f16">处罚类型</div>
-				<div class="col-md-2 col-xs-4 col-sm-2 tc f16">列入时间</div>
-				<div class="col-md-2 col-xs-4 col-sm-2 tc f16">截止时间</div>
-				<div class="col-md-3 col-xs-4 col-sm-3 tc f16">处罚理由</div>
+				<div class="col-xs-2 tc f16">供应商名称</div>
+				<div class="col-xs-2 tc f16">供应商类型</div>
+				<div class="col-xs-2 tc f16">处罚方式</div>
+				<div class="col-xs-2 tc f16">起始时间</div>
+				<div class="col-xs-2 tc f16">截止时间</div>
+				<div class="col-xs-2 tc f16">处罚理由</div>
 			</div>
 			<ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
 				<c:choose>
@@ -63,19 +63,19 @@
 								<c:set value="${fn:substring(reason,0,15)}..." var="reason" />
 							</c:if>
 							<li>
-								<span class="col-md-2 col-sm-2 col-xs-4" title="${data.supplierName}">${name}</span>
-								<span class="col-md-1 col-sm-1 col-xs-4 tc">${data.supplierTypeName} </span>
-								<span class="col-md-2 col-sm-2 col-xs-4 tc">
+								<span class="col-xs-2" title="${data.supplierName}">${name}</span>
+								<span class="col-xs-2 tc">${data.supplierTypeName} </span>
+								<span class="col-xs-2 tc">
 									<c:if test="${data.punishType == 0}">警告</c:if>
 									<c:if test="${data.punishType == 1}">不得参与采购活动</c:if>
 								</span>
-								<span class="col-md-2 col-sm-2 col-xs-6 tc">
+								<span class="col-xs-2 tc">
 									<fmt:formatDate value='${data.startTime}' pattern="yyyy-MM-dd " />
 								</span>
-								<span class="col-md-2 col-sm-2 col-xs-6 tc">
+								<span class="col-xs-2 tc">
 									<fmt:formatDate value='${data.endTime}' pattern="yyyy-MM-dd " />
 								</span>
-								<span class="col-md-3 col-sm-3 col-xs-12" title="${data.reason}">${reason}</span>
+								<span class="col-xs-2" title="${data.reason}">${reason}</span>
 							</li>
 						</c:forEach>
 					</c:when>

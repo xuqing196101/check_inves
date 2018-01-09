@@ -284,10 +284,12 @@
     </div>
 
 	<!-- 表格开始-->
+	<c:if test="${properties['ipAddressType'] == 0}"> 
     <div class="col-md-12 pl20 mt10">
    		<button class="btn btn-windows check" type="button" onclick="checked()">审核</button>
 		<button class="btn btn-windows check" type="button" onclick="checkedBatch()">批量审核</button>
     </div>
+    </c:if>
    <div class="content table_box">
     	<table class="table table-bordered table-condensed">
 		<thead>

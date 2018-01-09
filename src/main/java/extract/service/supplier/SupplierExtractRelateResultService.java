@@ -44,5 +44,19 @@ import extract.model.supplier.SupplierVoiceResult;
   void insertAdvSelective(SupplierExtractResult result);
 
   SupplierExtractResult selectAdvById(String id);
+  
+  
+  /**
+   * 
+   * <简述>添加或修改供应商参加状态 
+   *
+   * @author Jia Chengxiang
+   * @dateTime 2018-1-6下午3:59:06
+   * @param supplierExtRelate
+   * @param projectType
+   * @return
+   */
+  int saveOrUpdateResult(SupplierExtractResult supplierExtRelate,
+		String projectType);
 
 }
