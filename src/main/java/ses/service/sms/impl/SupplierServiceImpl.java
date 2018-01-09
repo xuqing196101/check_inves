@@ -2794,5 +2794,10 @@ public class SupplierServiceImpl implements SupplierService {
 		List<Supplier> suppliers = supplierMapper.getSupplierByReviewTime(startTime, endTime);
 		return suppliers;
 	}
+
+	@Override
+	public String getNameById(String supplierId) {
+		return supplierMapper.selectNameById(supplierId);
+	}
 }
 

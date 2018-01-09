@@ -1,12 +1,14 @@
 package ses.controller.sys.sms;
 
 import java.util.Date;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -300,10 +302,9 @@ public class SupplierInvesController extends BaseSupplierController {
 		
 		String zipPath = supplierAttachAuditService.zipFile(attachList);
 		
-		// 供应商信息
-		Supplier supplier = supplierService.selectById(supplierId);
-		// 文件存储地址
-		String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
+		downloadService.downLoadFile(request, response, zipPath);
+		FileUtils.deleteQuietly(new File(zipPath));
+		
 		return null;
 	}
 	

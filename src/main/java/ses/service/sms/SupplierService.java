@@ -646,4 +646,11 @@ public interface SupplierService {
 	 */
 	public List<Supplier> getSupplierByReviewTime(String startTime,
 			String endTime);
+
+	/**
+	 * 根据id查询名称
+	 * @param supplierId
+	 * @return
+	 */
+	public String getNameById(String supplierId);
 }

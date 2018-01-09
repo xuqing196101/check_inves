@@ -2599,6 +2599,11 @@
 	<select id="selectStatusById" parameterType="string" resultType="string">
 		SELECT SUPPLIER_STATUS FROM T_SES_SMS_SUPPLIER WHERE ID = #{id}
 	</select>
+	
+	<!--根据供应商id查询名称-->
+	<select id="selectNameById" parameterType="string" resultType="string">
+		SELECT SUPPLIER_NAME FROM T_SES_SMS_SUPPLIER WHERE ID = #{id}
+	</select>
     
     <!-- 供应商复核列表 -->
     <select id="selectReviewList" resultMap="BaseResultMap" parameterType="ses.model.sms.Supplier">

@@ -739,4 +739,11 @@ public interface SupplierMapper {
 	 * @return
 	 */
 	List<SupplierSynch> getSupplierByInvesTime(@Param("startTime")String startTime, @Param("endTime")String endTime);
+
+	/**
+	 * 根据id查询名称
+	 * @param supplierId
+	 * @return
+	 */
+	String selectNameById(String supplierId);
 }

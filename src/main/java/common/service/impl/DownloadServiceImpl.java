@@ -124,7 +124,7 @@ public class DownloadServiceImpl implements DownloadService {
      * @param filePath 文件路径
      * @param fileName 文件名称
      */
-    public void downloadFile(HttpServletRequest request, HttpServletResponse response,String filePath ,String fileName){
+    public void downloadFile(HttpServletRequest request, HttpServletResponse response, String filePath, String fileName){
         response.reset();
         String userAgent = request.getHeader("User-Agent"); 
         try {

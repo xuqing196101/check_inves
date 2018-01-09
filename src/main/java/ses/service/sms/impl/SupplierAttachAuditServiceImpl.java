@@ -10,13 +10,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,11 +63,13 @@ import ses.util.WfUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+
 import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
 import common.utils.DateUtils;
 import common.utils.UploadUtil;
+import common.utils.ZipTools;
 
 @Service("supplierAttachAuditService")
 public class SupplierAttachAuditServiceImpl implements SupplierAttachAuditService {
@@ -518,7 +517,7 @@ public class SupplierAttachAuditServiceImpl implements SupplierAttachAuditServic
 		if(supplierMatEngId != null){
 			List<SupplierAptitute> aptList = supplierAptituteMapper.findAptituteByMatEngId(supplierMatEngId);
 			if(aptList != null && aptList.size() > 0){
-				Set<String> certNameSet = new HashSet<>();
+				/*Set<String> certNameSet = new HashSet<>();
 				for(SupplierAptitute apt : aptList){
 					certNameSet.add(apt.getCertName());
 				}
@@ -545,6 +544,22 @@ public class SupplierAttachAuditServiceImpl implements SupplierAttachAuditServic
 					map.put(certName, valueMapList);
 				}
 				mapList.add(map);
+				attachListJson = JSON.toJSONString(mapList);*/
+				List<Map<String, Object>> mapList = new ArrayList<>();
+				for(SupplierAptitute apt : aptList){
+					Map<String, Object> map = new HashMap<>();
+					map.put("typeId", typeId);
+					map.put("businessId", apt.getId());
+					String certType = apt.getCertType();
+					if(certType != null){
+						Qualification qua = qualificationMapper.getQualification(certType);
+						if(qua != null){
+							certType = qua.getName();
+						}
+					}
+					map.put("attachName", certType);
+					mapList.add(map);
+				}
 				attachListJson = JSON.toJSONString(mapList);
 				supplierAttachAudit.setAttachList(attachListJson);
 				return supplierAttachAuditMapper.insertSelective(supplierAttachAudit);
@@ -781,63 +796,170 @@ public class SupplierAttachAuditServiceImpl implements SupplierAttachAuditServic
 		return supplierAttachAuditMapper.countByExample(example);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public String zipFile(List<SupplierAttachAudit> attachAudits) {
+		InputStream in = null;
+		OutputStream out = null;
 		try {
 			if(attachAudits != null && attachAudits.size() > 0){
 				String tempPath = PropUtil.getProperty("file.base.path") + File.separator + PropUtil.getProperty("file.temp.path");
-				String rootFileName = "供应商扫描件";
-				File rootFile = new File(tempPath + File.separator + rootFileName);
+				String tableName = Constant.fileSystem.get(Constant.SUPPLIER_SYS_KEY);
+				String supplierId = attachAudits.get(0).getSupplierId();
+				String supplierName = supplierService.getNameById(supplierId);
+				String rootFileName = supplierName + "扫描件";
+				UploadUtil.createDir(tempPath);
+				File rootFile = new File(tempPath, rootFileName);
 				rootFile.mkdirs();
-			    UploadUtil.createDir(tempPath);
-			    ZipOutputStream zipOut = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(rootFile+".zip")));
 				for(SupplierAttachAudit attachAudit : attachAudits){
 					attachAudit = supplierAttachAuditMapper.selectByPrimaryKey(attachAudit.getId());
 					if(attachAudit != null){
+						String itemBusinessId = attachAudit.getBusinessId();
+						String itemTypeId = attachAudit.getTypeId();
 						String attachList = attachAudit.getAttachList();
+						String itemFileName = attachAudit.getAttachName();
+						String itemFileCode = attachAudit.getAttachCode();
+						File itemFile = new File(rootFile, itemFileName);
+						itemFile.mkdirs();
+						if(StringUtils.isNotBlank(itemBusinessId)
+								&& StringUtils.isNotBlank(itemTypeId)
+								&& StringUtils.isBlank(attachList)){
+							List<UploadFile> fileList = fileUploadMapper.getFileByBusinessId(itemBusinessId, itemTypeId, tableName);
+							if(fileList != null && fileList.size() > 0){
+								for(UploadFile uploadFile : fileList){
+									File file = new File(itemFile, uploadFile.getName());
+									File fileByPath = new File(uploadFile.getPath());
+									if(fileByPath.exists()){
+										in = new BufferedInputStream(new FileInputStream(fileByPath));
+										out = new BufferedOutputStream(new FileOutputStream(file));
+										UploadUtil.writeFile(in, out);
+									}
+								}
+							}
+						}
 						if(StringUtils.isNotBlank(attachList)){
-							String itemFileName = attachAudit.getAttachName();
-							String itemFileCode = attachAudit.getAttachCode();
-							File itemFile = new File(rootFile + File.separator + itemFileName);
-							itemFile.mkdirs();
 							if("HOUSE_PROPERTY".equals(itemFileCode)
-							|| "SUPPLIER_BUSIESSSCOPE".equals(itemFileCode)){
+								|| "SUPPLIER_BUSIESSSCOPE".equals(itemFileCode)
+								|| "SUPPLIER_CERT_ENG".equals(itemFileCode)){
 								//[{"attachName":"湖南省长沙市北京市海淀区杏石口路99号1幢20301","businessId":"542c0c5a31db45f0b2c3137a5f68dbbe","typeId":"62170BFB3A3C4423A17A4414A1E5869F"}]
 								//ObjectMapper objectMapper = new ObjectMapper();
 								//List<Map<String, Object>> mapList = objectMapper.readValue(attachList, new TypeReference<List<Map<String, Object>>>() {});
 								JSONArray jsonArray = JSONArray.parseArray(attachList);
-								for(int i = 0; i < jsonArray.size(); i++){//遍历JSONArray数组  
+								for(int i = 0; i < jsonArray.size(); i++){//遍历JSONArray数组
 									JSONObject jsonObject = jsonArray.getJSONObject(i);//获得JSONArray数组中的JSONObject对象
 									String attachName = jsonObject.getString("attachName");
 									String businessId = jsonObject.getString("businessId");
 									String typeId = jsonObject.getString("typeId");
-									File attachFile = new File(itemFile + File.separator + attachName);
+									File attachFile = new File(itemFile, attachName);
 									attachFile.mkdirs();
-									String tableName = Constant.fileSystem.get(Constant.SUPPLIER_SYS_KEY);
 									List<UploadFile> fileList = fileUploadMapper.getFileByBusinessId(businessId, typeId, tableName);
 									if(fileList != null && fileList.size() > 0){
 										for(UploadFile uploadFile : fileList){
-											File file = new File(attachFile + File.separator + uploadFile.getName());
-											InputStream in = new BufferedInputStream(new FileInputStream(new File(uploadFile.getPath())));
-											//ZipOutputStream zipOut = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(zipFile)));
-											OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
-											UploadUtil.writeFile(in, out);
+											File file = new File(attachFile, uploadFile.getName());
+											File fileByPath = new File(uploadFile.getPath());
+											if(fileByPath.exists()){
+												in = new BufferedInputStream(new FileInputStream(fileByPath));
+												out = new BufferedOutputStream(new FileOutputStream(file));
+												UploadUtil.writeFile(in, out);
+											}
 										}
 									}
 								}
 							}
-							ZipEntry zipEntry = new ZipEntry(itemFile.getName());
-							zipOut.putNextEntry(zipEntry);
-							InputStream in = new BufferedInputStream(new FileInputStream(itemFile));
-							UploadUtil.writeFile(in, zipOut);
+							if("SUPPLIER_FINANCE".equals(itemFileCode)
+									|| "SUPPLIER_CERT_OTHER".equals(itemFileCode)){
+								Map<String, List<Map<String, Object>>> map = JSONObject.parseObject(attachList, HashMap.class);
+								Set<Entry<String, List<Map<String, Object>>>> entrySet = map.entrySet();
+								for(Entry<String, List<Map<String, Object>>> entry : entrySet){
+									String key = entry.getKey();
+									List<Map<String, Object>> value = entry.getValue();
+									File keyFile = new File(itemFile, key);
+									keyFile.mkdirs();
+									for(Map<String, Object> valueMap : value){
+										String attachName = (String) valueMap.get("attachName");
+										String businessId = (String) valueMap.get("businessId");
+										String typeId = (String) valueMap.get("typeId");
+										File attachFile = new File(keyFile, attachName);
+										attachFile.mkdirs();
+										List<UploadFile> fileList = fileUploadMapper.getFileByBusinessId(businessId, typeId, tableName);
+										if(fileList != null && fileList.size() > 0){
+											for(UploadFile uploadFile : fileList){
+												File file = new File(attachFile, uploadFile.getName());
+												File fileByPath = new File(uploadFile.getPath());
+												if(fileByPath.exists()){
+													in = new BufferedInputStream(new FileInputStream(fileByPath));
+													out = new BufferedOutputStream(new FileOutputStream(file));
+													UploadUtil.writeFile(in, out);
+												}
+											}
+										}
+									}
+								}
+							}
+							if("SUPPLIER_ITEM_QUA".equals(itemFileCode)
+									|| "SUPPLIER_CONTRACT".equals(itemFileCode)){
+								//ObjectMapper objectMapper = new ObjectMapper();
+								//Map<String, List<Map<String, List<Map<String, Object>>>>> map = objectMapper.readValue(attachList, new org.codehaus.jackson.type.TypeReference<Map<String, List<Map<String, List<Map<String, Object>>>>>>() {});
+								Map<String, List<Map<String, List<Map<String, Object>>>>> map = JSONObject.parseObject(attachList, HashMap.class);
+								Set<Entry<String, List<Map<String, List<Map<String, Object>>>>>> entrySet = map.entrySet();
+								for(Entry<String, List<Map<String, List<Map<String, Object>>>>> entry : entrySet){
+									String key = entry.getKey();
+									List<Map<String, List<Map<String, Object>>>> value = entry.getValue();
+									File keyFile = new File(itemFile, key);
+									keyFile.mkdirs();
+									for(Map<String, List<Map<String, Object>>> valueMap : value){
+										Set<Entry<String, List<Map<String, Object>>>> valueMapEntrySet = valueMap.entrySet();
+										for(Entry<String, List<Map<String, Object>>> valueMapEntry : valueMapEntrySet){
+											String valueMapKey = valueMapEntry.getKey();
+											List<Map<String, Object>> valueMapValue = valueMapEntry.getValue();
+											File valueMapKeyFile = new File(keyFile, valueMapKey);
+											valueMapKeyFile.mkdirs();
+											for(Map<String, Object> valueMapValueMap : valueMapValue){
+												String attachName = (String) valueMapValueMap.get("attachName");
+												String businessId = (String) valueMapValueMap.get("businessId");
+												String typeId = (String) valueMapValueMap.get("typeId");
+												File attachFile = new File(valueMapKeyFile, attachName);
+												attachFile.mkdirs();
+												List<UploadFile> fileList = fileUploadMapper.getFileByBusinessId(businessId, typeId, tableName);
+												if(fileList != null && fileList.size() > 0){
+													for(UploadFile uploadFile : fileList){
+														File file = new File(attachFile, uploadFile.getName());
+														File fileByPath = new File(uploadFile.getPath());
+														if(fileByPath.exists()){
+															in = new BufferedInputStream(new FileInputStream(fileByPath));
+															out = new BufferedOutputStream(new FileOutputStream(file));
+															UploadUtil.writeFile(in, out);
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
 						}
 					}
 				}
-				zipOut.flush();
-	            zipOut.close();
+				ZipTools.zipMultiFile(rootFile.getPath(), rootFile.getPath()+".zip", false);
+				return rootFile.getPath()+".zip";
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			if(out != null){
+				try {
+					out.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if(in != null){
+				try {
+					in.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return null;
 	}
