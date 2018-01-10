@@ -390,6 +390,15 @@ public class SupplierReviewServiceImpl implements SupplierReviewService {
 		}
 		
 		if(auditOpinion !=null && auditOpinion.getFlagAduit() !=null){
+			//不通过必须填写理由
+			if(auditOpinion.getFlagAduit() == 0 && auditOpinion.getOpinion() !=null){
+				//  获取意见切割字符串
+	            int indexOf = auditOpinion.getOpinion().indexOf("。");
+	            String substring = auditOpinion.getOpinion().substring(indexOf + 1);
+	            if(StringUtils.isEmpty(substring) || substring == null){
+	            	return new JdcgResult(500, "请填写理由!", null);
+	            }
+			}
 			return new JdcgResult(200, "操作成功!", null);
 		}else{
 			return new JdcgResult(500, "请选择意见!", null);
