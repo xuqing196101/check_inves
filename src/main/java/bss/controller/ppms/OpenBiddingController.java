@@ -1652,6 +1652,7 @@ public class OpenBiddingController extends BaseSupplierController{
       packList = listPackage1;
     }
 
+    Project project = projectService.selectById(projectId);
     for (Packages pack : packList) {
       Packages ps = packageService.selectByPrimaryKeyId(pack.getId());
       if(ps!=null&&ps.getProjectStatus()!=null){
@@ -1668,6 +1669,11 @@ public class OpenBiddingController extends BaseSupplierController{
     	condition.setIsFirstPass(1);
       }
       List<SaleTender> stList = saleTenderService.find(condition);
+      
+      //供应商复核
+      supplierService.updateReview(project.getPurchaseDepId(), stList);
+      
+      
       List<SaleTender> stList1 = new ArrayList<SaleTender>();
       stList1.addAll(stList);
       for (SaleTender st1 : stList1) {
@@ -2525,6 +2531,9 @@ public class OpenBiddingController extends BaseSupplierController{
       }
     StringBuilder sb = new StringBuilder("");
     List<SaleTender> saleTenderList = saleTenderService.find(st);
+    //供应商复核
+    Project project = projectService.selectById(projectId);
+    supplierService.updateReview(project.getPurchaseDepId(), saleTenderList);
     for (SaleTender saleTender : saleTenderList) {
       sb.append(saleTender.getPackages());
     }

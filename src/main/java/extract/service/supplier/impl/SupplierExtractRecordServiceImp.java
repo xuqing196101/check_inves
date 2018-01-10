@@ -166,7 +166,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 			}else if(StringUtils.isNotBlank(record.getProjectId())){
 				sids =  resultMapper.selectSupplierIdListByProjectId(record.getProjectId());
 			}
-			supplierService.updateExtractOrgid(record.getProcurementDepId(), sids);
+			//supplierService.updateExtractOrgid(record.getProcurementDepId(), sids);
 		}
 		
 		projectInfo.setExtractionTime(new Date());
