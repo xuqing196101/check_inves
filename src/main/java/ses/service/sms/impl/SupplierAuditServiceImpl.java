@@ -2649,7 +2649,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		JdcgResult result = getTypeAndItemNotPass(supplierId);
 		if("0".equals(flag)){// 预审核不通过
 			if(auditCount == 0 && (result != null && result.getStatus() == 0)){
-				return JdcgResult.build(500, "没有预审核不通过项！");
+				return JdcgResult.build(500, "没有审核不通过项！");
 			}
 		}
 		if("1".equals(flag)){// 预审核通过

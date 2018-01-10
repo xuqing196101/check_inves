@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="system.dao.sms.SmsRecordTempMapper">
+  <resultMap id="BaseResultMap" type="system.model.sms.SmsRecordTemp">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="SEND_LINK" jdbcType="VARCHAR" property="sendLink" />
+    <result column="OPERATOR" jdbcType="VARCHAR" property="operator" />
+    <result column="SEND_CONTENT" jdbcType="VARCHAR" property="sendContent" />
+    <result column="RECIPIENT" jdbcType="VARCHAR" property="recipient" />
+    <result column="RECEIVE_NUMBER" jdbcType="VARCHAR" property="receiveNumber" />
+    <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+    <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, SEND_LINK, OPERATOR, SEND_CONTENT, RECIPIENT, RECEIVE_NUMBER, IS_DELETED, ORG_ID, UPDATED_AT
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYSTEM_SMS_RECORD_TEMP
+    where ID = #{id,jdbcType=VARCHAR} and IS_DELETED = 0
+  </select>
+  
+  <select id="findAll" resultMap="BaseResultMap" flushCache="true" useCache="false">
+  	SELECT 
+    <include refid="Base_Column_List" />
+    FROM T_SYSTEM_SMS_RECORD_TEMP
+    WHERE IS_DELETED = 0
+  </select>
+  
+  <!-- 删除 修改删除标识 -->
+  <update id="deleteByPrimaryKey" parameterType="java.lang.String">
+    UPDATE T_SYSTEM_SMS_RECORD_TEMP
+    SET IS_DELETED = 1
+    WHERE ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <insert id="insert" parameterType="system.model.sms.SmsRecordTemp">
+    insert into T_SYSTEM_SMS_RECORD_TEMP (ID, SEND_LINK, OPERATOR, 
+      SEND_CONTENT, RECIPIENT, RECEIVE_NUMBER, 
+      IS_DELETED, ORG_ID,UPDATED_AT)
+    values (#{id,jdbcType=VARCHAR}, #{sendLink,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
+      #{sendContent,jdbcType=VARCHAR}, #{recipient,jdbcType=VARCHAR}, #{receiveNumber,jdbcType=VARCHAR}, 
+      #{isDeleted,jdbcType=DECIMAL}, #{orgId,jdbcType=VARCHAR},#{updatedAt,jdbcType=DATE})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="system.model.sms.SmsRecordTemp">
+    insert into T_SYSTEM_SMS_RECORD_TEMP
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="sendLink != null">
+        SEND_LINK,
+      </if>
+      <if test="operator != null">
+        OPERATOR,
+      </if>
+      <if test="sendContent != null">
+        SEND_CONTENT,
+      </if>
+      <if test="recipient != null">
+        RECIPIENT,
+      </if>
+      <if test="receiveNumber != null">
+        RECEIVE_NUMBER,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="orgId != null">
+        ORG_ID,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="sendLink != null">
+        #{sendLink,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="sendContent != null">
+        #{sendContent,jdbcType=VARCHAR},
+      </if>
+      <if test="recipient != null">
+        #{recipient,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveNumber != null">
+        #{receiveNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="system.model.sms.SmsRecordTemp">
+    update T_SYSTEM_SMS_RECORD_TEMP
+    <set>
+      <if test="sendLink != null">
+        SEND_LINK = #{sendLink,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        OPERATOR = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="sendContent != null">
+        SEND_CONTENT = #{sendContent,jdbcType=VARCHAR},
+      </if>
+      <if test="recipient != null">
+        RECIPIENT = #{recipient,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveNumber != null">
+        RECEIVE_NUMBER = #{receiveNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="orgId != null">
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="system.model.sms.SmsRecordTemp">
+    update T_SYSTEM_SMS_RECORD_TEMP
+    set SEND_LINK = #{sendLink,jdbcType=VARCHAR},
+      OPERATOR = #{operator,jdbcType=VARCHAR},
+      SEND_CONTENT = #{sendContent,jdbcType=VARCHAR},
+      RECIPIENT = #{recipient,jdbcType=VARCHAR},
+      RECEIVE_NUMBER = #{receiveNumber,jdbcType=VARCHAR},
+      IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      ORG_ID = #{orgId,jdbcType=VARCHAR},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 根据修改时间查询 -->
+  <select id="selectByUpdateDate" resultMap="BaseResultMap" >
+    SELECT * FROM T_SYSTEM_SMS_RECORD_TEMP WHERE IS_DELETED = 0
+    AND to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
+    AND to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;= #{end,jdbcType=VARCHAR} 
+  </select>
+</mapper>

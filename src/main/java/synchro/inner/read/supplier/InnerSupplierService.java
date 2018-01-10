@@ -1,6 +1,7 @@
 package synchro.inner.read.supplier;
 
 import java.io.File;
+import java.util.Date;
 
 /**
  * 
@@ -66,5 +67,27 @@ public interface InnerSupplierService {
 	 * @param endTime
 	 */
 	public void selectSupplierLevelOfExport(String startTime, String endTime);
+
+
+	/**
+	 *〈简述〉供应商复核结果导出内网
+	 *〈详细描述〉
+	 * @author Ye Maolin
+	 * @param startTime
+	 * @param endTime
+	 * @param date
+	 */
+	public void exportCheckResult(String startTime, String endTime, Date date);
+
+
+	/**
+	 *〈简述〉供应商实地考察结果导出内网
+	 *〈详细描述〉
+	 * @author Ye Maolin
+	 * @param startTime
+	 * @param endTime
+	 * @param date
+	 */
+	public void exportInvestResult(String startTime, String endTime, Date date);
 
 }

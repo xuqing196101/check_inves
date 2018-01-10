@@ -43,9 +43,9 @@
 		</div>
 		<div class="col-md-12 col-sm-12 col-xs-12 report_list_box">
 			<div class="col-md-12 col-sm-12 col-xs-12 report_list_title">
-				<div class="col-md-2 col-xs-4 col-sm-2 tc f16">专家名称</div>
-				<div class="col-md-1 col-xs-4 col-sm-1 tc f16">类型</div>
-				<div class="col-md-2 col-xs-4 col-sm-2 tc f16">处罚类型</div>
+				<div class="col-md-2 col-xs-4 col-sm-2 tc f16">专家姓名</div>
+				<div class="col-md-1 col-xs-4 col-sm-1 tc f16">专家类型</div>
+				<div class="col-md-2 col-xs-4 col-sm-2 tc f16">处罚方式</div>
 				<div class="col-md-2 col-xs-4 col-sm-2 tc f16">处罚日期</div>
 				<div class="col-md-2 col-xs-4 col-sm-2 tc f16">处罚时限</div>
 				<div class="col-md-3 col-xs-4 col-sm-3 tc f16">处罚理由</div>
@@ -65,7 +65,7 @@
 							</c:if>
 							<li>
 								<span class="col-md-2 col-sm-2 col-xs-4" title="${data.relName}">${name}</span>
-								<span class="col-md-1 col-sm-1 col-xs-4 tc">${data.expertTypeName} </span>
+								<span class="col-md-1 col-sm-1 col-xs-4 tc" title="${data.expertTypeName}">${data.expertTypeName} </span>
 								<span class="col-md-2 col-sm-2 col-xs-124 tc">
 									<c:if test="${data.punishType == 1}">警告</c:if>
 									<c:if test="${data.punishType == 2}">严重警告</c:if>

@@ -1052,7 +1052,7 @@
         select
         <include refid="Base_Column_List"/>
         from T_SES_BMS_USER
-        where LOGIN_NAME=#{loginName} and NET_TYPE=#{note}
+        where LOGIN_NAME=#{loginName} and NET_TYPE=#{note,jdbcType=VARCHAR}
     </select>
 
 

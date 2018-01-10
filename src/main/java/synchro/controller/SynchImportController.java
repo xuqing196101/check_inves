@@ -33,6 +33,7 @@ import sums.service.oc.ComplaintService;
 import synchro.inner.read.expert.InnerExpertService;
 import synchro.inner.read.supplier.InnerSupplierService;
 import synchro.model.SynchRecord;
+import synchro.outer.back.service.expert.OuterExpertService;
 import synchro.outer.back.service.supplier.OuterSupplierService;
 import synchro.outer.read.att.OuterAttachService;
 import synchro.outer.read.infos.OuterInfoImportService;
@@ -41,6 +42,8 @@ import synchro.service.SynchService;
 import synchro.util.Constant;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
+import system.service.sms.SmsRecordService;
+import system.service.sms.SmsRecordTempService;
 import bss.service.ob.OBProductService;
 import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBSupplierService;
@@ -178,6 +181,24 @@ public class SynchImportController {
     
     @Autowired
 	private ExpertExtractProjectService expertExtractProjectService;
+    
+    /**
+     * @Fields outerExpertService : 专家外网数据同步接口
+     */
+    @Autowired
+    private OuterExpertService outerExpertService;
+    
+    /**
+     * 短信发送记录
+     */
+    @Autowired
+    private SmsRecordService smsRecordService;
+    
+    /**
+     * 短信发送记录
+     */
+    @Autowired
+    private SmsRecordTempService smsRecordTempService;
 
     /**
      * 〈简述〉初始化导入
@@ -285,11 +306,21 @@ public class SynchImportController {
                         iter.remove();
                         continue;
                     }
+                    if (dd.getCode().equals(Constant.DATE_SYNCH_SMS_RECORD_TEMP)) {
+                        //待发送只能外网导出到内网
+                        iter.remove();
+                        continue;
+                    }
                 }
                 //外网时
                 if (ipAddressType.equals("1")) {
                     if (dd.getCode().equals(Constant.DATA_TYPE_BIDDING_RESULT_CODE)) {
                         /**竞价结果导出  只能是外网导出内网**/
+                        iter.remove();
+                        continue;
+                    }
+                    if (dd.getCode().equals(Constant.DATE_SYNCH_SMS_RECORD)) {
+                        //短信发送记录只能外网导出到内网
                         iter.remove();
                         continue;
                     }
@@ -948,7 +979,7 @@ public class SynchImportController {
                         }
                     	
                     }
-                    //军队专家信息外网导入
+                    //内网专家信息外网导入
                     if("1".equals(ipAddressType)){
                     	if (synchType.contains(Constant.DATE_SYNCH_MILITARY_EXPERT)) {
                     		if (f.getName().equals(Constant.MILITARY_EXPERT_FILE_EXPERT)) {
@@ -987,6 +1018,51 @@ public class SynchImportController {
                     categoryService.importCategoryQua(synchType, f);
                     /** 产品资质表*/
                     qualificationService.importQualification(synchType, f);
+                    
+                    //供应商复核结果导入外网
+        	        if (synchType.contains(Constant.SYNCH_SUPPLIER_CHECK_RESULT)
+        	        		&& f.getName().contains(FileUtils.SUPPLIER_CHECK_RESULT_FILENAME)) {
+                        outerSupplierService.importCheckResult(f);
+                	}
+        	        
+        	        //供应商实地考察结果导入外网
+        	        if (synchType.contains(Constant.SYNCH_SUPPLIER_INVEST_RESULT)
+        	        		&& f.getName().contains(FileUtils.SUPPLIER_INVEST_RESULT_FILENAME)) {
+        	        	outerSupplierService.importInvestResult(f);
+                	}
+        	        
+        	        //地方专家复查结果导入外网
+        	        if (synchType.contains(Constant.SYNCH_EXPERT_CHECK_RESULT)
+        	        		&& f.getName().contains(FileUtils.EXPERT_CHECK_RESULT_FILENAME)) {
+        	        	outerExpertService.importCheckResult(f);
+                	}
+        	        
+                    if("0".equals(ipAddressType)){
+						// 短信发送记录只能内网导入
+						if (synchType.contains(Constant.DATE_SYNCH_SMS_RECORD)) {
+							if (f.getName().contains(Constant.SMS_RECORD_FILE_EXPERT)) {
+								smsRecordService.importSmsRecord(f);
+							}
+							if (f.isDirectory()) {
+								if (f.getName().contains(Constant.SMS_RECORD_FILE_EXPERT)) {
+									OperAttachment.moveFolder(f);
+								}
+							}
+						}
+                   }
+                   if("1".equals(ipAddressType)){
+						//待发送短信外网导入
+						if (synchType.contains(Constant.DATE_SYNCH_SMS_RECORD_TEMP)) {
+							if (f.getName().contains(Constant.SMS_RECORD_TEMP_FILE_EXPERT)) {
+								smsRecordTempService.importSmsRecordTemp(f);
+							}
+							if (f.isDirectory()) {
+								if (f.getName().contains(Constant.SMS_RECORD_TEMP_FILE_EXPERT)) {
+									OperAttachment.moveFolder(f);
+								}
+							}
+						}
+                   }
                 }
             }
             bean.setSuccess(true);

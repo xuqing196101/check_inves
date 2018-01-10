@@ -68,9 +68,9 @@
             <select name="status" id="status" class="form-control">
                 <option value="">全部</option>
                 <option value="1">入库（待复核）</option>
-               	<option value="-4">预复核结束</option>
+               	<!-- <option value="-4">预复核结束</option> -->
                 <option value="5">复核合格（待考察）</option>
-                <option value="-5">预考察结束</option>
+                <!-- <option value="-5">预考察结束</option> -->
                 <option value="7">考察合格</option>
                 <%--<c:choose>
                    <c:when test="${!empty status && fn:contains('1,4,6',status)}">

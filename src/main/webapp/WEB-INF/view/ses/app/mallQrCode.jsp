@@ -6,7 +6,7 @@
 <%@ include file="/WEB-INF/view/common.jsp" %>
 <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>军队采购网上商城App下载</title>
+<title>军队采购网上商城APP下载</title>
 <script type="text/javascript">
   //JS监听浏览器文字大小代码
   (function (doc, win) {
@@ -29,12 +29,7 @@
     var fileName = null;
       if(bid != ""){
         var id = bid;
-        var form = $("<form>");   
-        form.attr('style', 'display:none');   
-        form.attr('method', 'post');
-        form.attr('action', '${pageContext.request.contextPath}/api/v1/download.html?id='+ id +'&key='+key + '&zipFileName=' + encodeURI(encodeURI(zipFileName)) + '&fileName=' + encodeURI(encodeURI(fileName)));
-        $('body').append(form); 
-        form.submit();
+      	$("#dow").attr("src","${pageContext.request.contextPath}/api/v1/download.html?id="+ id +"&key="+ key +"&zipFileName=" + encodeURI(encodeURI(zipFileName)) + "&fileName=" + encodeURI(encodeURI(fileName)));
       }
   }
   
@@ -68,8 +63,8 @@
   <div class="down_load">
     <a >
       <div class="down_andrio down_main">
-        <p class="white" onclick = "download('${id}',${sysKey},'${tempContextUrl }')"><img src="${pageContext.request.contextPath}/public/portal/images/android.png">点此下载</p>
-        <div class="footer_tips">温馨提示：本App只适用于安卓操作系统的手机。</div>
+        <p class="white" onclick = "download('${id}',${sysKey},'')"><img src="${pageContext.request.contextPath}/public/portal/images/android.png">点此下载</p>
+        <div class="footer_tips">温馨提示：本APP只适用于安卓操作系统的手机。</div>
       </div>
     </a>
   </div>
@@ -77,6 +72,8 @@
   <!-- 引导 -->
   <div class="guide" id="guide"><img src="${pageContext.request.contextPath}/public/portal/images/mallwx.png" alt=""></div>
   <!-- End 引导 -->
+  <!-- 下载页面 -->
+  <iframe class = "hide" id = "dow"></iframe>
 </body>
 </html>
 <style type="text/css">

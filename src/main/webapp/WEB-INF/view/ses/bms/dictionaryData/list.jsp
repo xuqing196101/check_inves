@@ -29,20 +29,20 @@
    
   	/** 全选全不选 */
 	function selectAll(){
-		 var checklist = document.getElementsByName ("chkItem");
-		 var checkAll = document.getElementById("checkAll");
-		   if(checkAll.checked){
-			   for(var i=0;i<checklist.length;i++)
-			   {
-			      checklist[i].checked = true;
-			   } 
-			 }else{
-			  for(var j=0;j<checklist.length;j++)
-			  {
-			     checklist[j].checked = false;
-			  }
-		 	}
-		}
+	 var checklist = document.getElementsByName ("chkItem");
+	 var checkAll = document.getElementById("checkAll");
+	   if(checkAll.checked){
+		   for(var i=0;i<checklist.length;i++)
+		   {
+		      checklist[i].checked = true;
+		   } 
+		 }else{
+		  for(var j=0;j<checklist.length;j++)
+		  {
+		     checklist[j].checked = false;
+		  }
+	 	}
+	}
 	
 	/** 单选 */
 	function check(){
@@ -142,12 +142,13 @@
 		        </form>
 		     </h2>
 
+	  <c:if test="${properties['ipAddressType'] == 0}"> 
    	  <!-- 表格开始-->
 	  <div class="col-md-12 pl20 mt10">
 			    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 				<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 	  </div>
-   
+   	  </c:if>
 	  <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover">
 				<thead>

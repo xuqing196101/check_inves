@@ -68,7 +68,7 @@
 		      <h2 class="search_detail">
           <div class="m_row_5">
           <div class="row">
-            <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
               <div class="row">
                 <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">资质名称：</div>
                 <div class="col-xs-8 f0 lh0">
@@ -77,7 +77,7 @@
               </div>
             </div>
             
-            <div class="col-xs-2 col-sm-4 col-md-4 col-lg-3">
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
               <div class="row">
                 <div class="col-xs-12 f0">
                   <button type="button" onclick="search();" class="btn mb0 h32">查询</button>
@@ -88,7 +88,7 @@
           </div>
           </div>
 			  </h2>
-	      
+	      	<c:if test="${properties['ipAddressType'] == 0}"> 
 		   	  <!-- 操作按钮-->
 			  <div class="col-md-12 pl20 mt10">
 			    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
@@ -98,6 +98,7 @@
 				<button class="btn btn-windows add" type="button" onclick="level();">维护等级</button>
 				</c:if>
 			  </div>
+			  </c:if>
 			  <div class="content table_box">
 		        <table class="table table-bordered table-condensed table-hover table-striped" id="dataTable">
 		          <thead>

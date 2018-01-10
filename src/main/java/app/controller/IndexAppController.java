@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URLConnection;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -50,8 +53,8 @@ import app.service.IndexAppService;
 
 import com.alibaba.fastjson.JSON;
 import common.constant.Constant;
+import common.dao.FileUploadMapper;
 import common.model.UploadFile;
-import common.service.DownloadService;
 import common.service.UploadService;
 
 /**
@@ -112,9 +115,9 @@ public class IndexAppController {
     @Autowired
     private SupplierAuditService supplierAuditService;
     
-    /** 文件下载service */
+    /** 文件dao */
     @Autowired
-    private DownloadService downloadService;
+    private FileUploadMapper fileDao;
 
     //工作动态typeId标识
     private static final String INDEX_DYNAMIC = "110"; 
@@ -975,7 +978,9 @@ public class IndexAppController {
      */
     @RequestMapping("/qrCode")
     public String qrCode(Model model,HttpServletRequest request){
-        List<AppInfo> appInfoList = appInfoService.list(null, 1);
+    	AppInfo appInfo = new AppInfo();
+        appInfo.setType("1");
+        List<AppInfo> appInfoList = appInfoService.list(appInfo, 1);
         String businessId = "";
         if(appInfoList != null && appInfoList.size() > 0){
             businessId = appInfoList.get(0).getRemark();
@@ -1000,8 +1005,39 @@ public class IndexAppController {
      */
     @RequestMapping("/download")
     @ResponseBody
-    public void download(HttpServletRequest request, HttpServletResponse response){
-        downloadService.download(request, response);
+    public void download(HttpServletRequest request, HttpServletResponse response) throws IOException{
+    	  String path=null;
+    	  String id = request.getParameter("id");
+          Integer systemKey = Integer.parseInt(request.getParameter("key"));
+          String tableName = Constant.fileSystem.get(systemKey);
+          UploadFile downFile = fileDao.getFileById(id, tableName);
+          File file = null;
+          if(downFile != null){
+        	  path = downFile.getPath();
+        	  file = new File(path);
+          }
+          if(null == file){
+        	  return;
+          }
+          if(!file.exists()){
+              String errorMessage = "Sorry. The file you are looking for does not exist";
+              System.out.println(errorMessage);
+              OutputStream outputStream = response.getOutputStream();
+              outputStream.write(errorMessage.getBytes(Charset.forName("UTF-8")));
+              outputStream.close();
+              return;
+          }
+          String mimeType= URLConnection.guessContentTypeFromName(file.getName());
+          if(mimeType==null){
+              System.out.println("mimetype is not detectable, will take default");
+              mimeType = "application/octet-stream";
+          }
+          System.out.println("mimetype : "+mimeType);
+          response.setContentType(mimeType);
+          response.setHeader("Content-Disposition", String.format("inline; filename=\"" + downFile.getName() +"\""));
+          response.setContentLength((int)file.length());
+          InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+          FileCopyUtils.copy(inputStream, response.getOutputStream());
     }
     
     /**
@@ -1020,7 +1056,7 @@ public class IndexAppController {
         //查询最新的版本号
         AppInfo appInfo = new AppInfo();
         appInfo.setType("2");
-        List<AppInfo> appInfoList = appInfoService.list(null, 1);
+        List<AppInfo> appInfoList = appInfoService.list(appInfo, 1);
         if(appInfoList != null && appInfoList.size() > 0){
             version = appInfoList.get(0).getVersion();
         }

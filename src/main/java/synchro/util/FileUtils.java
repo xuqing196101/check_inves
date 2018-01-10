@@ -289,6 +289,32 @@ public class FileUtils {
     /** 供应商等级目录 路径 37 **/
     public final static String SUPPLIER_LEVEL_PATH = PropUtil.getProperty("file.supplier_level.system.path");
     
+    /**
+     * @Fields EXPERT_CHECK_RESULT_FILENAME : 地方专家复查结果导出文件名称
+     */
+    public final static String EXPERT_CHECK_RESULT_FILENAME = "_c_expert_check_result.dat";
+    
+    /**
+     * @Fields SUPPLIER_INVEST_RESULT_FILENAME : 供应商实地考察结果导出文件名称
+     */
+    public final static String SUPPLIER_INVEST_RESULT_FILENAME  = "_c_supplier_invest_result.dat";
+    
+    /**
+     * @Fields SUPPLIER_CHECK_RESULT_FILENAME : 供应商复核结果导出文件名称
+     */
+    public final static String SUPPLIER_CHECK_RESULT_FILENAME  = "_c_supplier_check_result.dat";
+    
+    
+    /** 短信发送记录信息数据名称 **/
+    public final static String SMS_RECORD_PATH_FILENAME="_c_sms_record.dat";
+    /**  短信发送记录目录 路径 38 **/
+    public final static String SMS_RECORD_PATH = PropUtil.getProperty("file.sms_record.system.path");
+    
+    /** 待发送短信数据名称 **/
+    public final static String SMS_RECORD_TEMP_PATH_FILENAME="_cmm_sms_record_temp.dat";
+    /**  待发送短信目录 路径 39 **/
+    public final static String SMS_RECORD_TEMP_PATH = PropUtil.getProperty("file.sms_record_temp.system.path");
+    
     
     /**
      * 
@@ -905,6 +931,8 @@ public class FileUtils {
           case 35:  filePath=SUPPLIER_EXTRACT_PATH;break;
           case 36:  filePath=SUPPLIER_EXTRACT_RESULT_PATH;break;
           case 37:  filePath=SUPPLIER_LEVEL_PATH;break;
+          case 38:  filePath=SMS_RECORD_PATH;break;
+          case 39:  filePath=SMS_RECORD_TEMP_PATH;break;
         }
         return filePath;
     }

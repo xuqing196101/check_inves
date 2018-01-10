@@ -263,20 +263,22 @@
   
   <!-- 查询专家黑名单列表 -->
   <select id="selectExpertBlacklist" resultMap="ExpertBlacklistMap">
-  	SELECT eb.*, 
-		CASE dd.KIND
+  	SELECT 
+  		eb.*,
+  		e.EXPERTS_TYPE_ID AS EXPERT_TYPE_NAME
+		<!-- CASE dd.KIND
 		WHEN 6 THEN CONCAT(dd.NAME, '技术')
 		ELSE dd.NAME
-		END AS EXPERT_TYPE_NAME
+		END AS EXPERT_TYPE_NAME -->
 		FROM T_SES_EMS_EXPERT_BLACKLIST eb
 		LEFT JOIN T_SES_EMS_EXPERT e ON eb.EXPERT_ID = e.ID
-		LEFT JOIN T_SES_BMS_DICTIONARY_DATA dd ON dd.ID = e.EXPERTS_TYPE_ID
+		<!-- LEFT JOIN T_SES_BMS_DICTIONARY_DATA dd ON dd.ID = e.EXPERTS_TYPE_ID -->
 		WHERE eb.STATUS = 0
 		<if test="expertBlacklist.relName != null and expertBlacklist.relName != ''">
 			AND eb.REL_NAME like  CONCAT(CONCAT('%', #{expertBlacklist.relName}), '%')
 		</if>
 		<if test="expertTypeId != null and expertTypeId != ''">
-			AND e.EXPERTS_TYPE_ID = #{expertTypeId}
+		 	AND instr(e.EXPERTS_TYPE_ID, #{expertTypeId}) > 0 
 		</if>
 		ORDER BY eb.DATE_OF_PUNISHMENT desc
   </select>
