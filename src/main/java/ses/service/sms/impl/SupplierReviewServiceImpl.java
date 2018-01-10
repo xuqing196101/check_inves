@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -315,6 +316,15 @@ public class SupplierReviewServiceImpl implements SupplierReviewService {
 		}
 		
 		if(auditOpinion !=null && auditOpinion.getFlagAduit() !=null){
+			//不通过必须填写理由
+			if(auditOpinion.getFlagAduit() == 0 && auditOpinion.getOpinion() !=null){
+				//  获取意见切割字符串
+	            int indexOf = auditOpinion.getOpinion().indexOf("。");
+	            String substring = auditOpinion.getOpinion().substring(indexOf + 1);
+	            if(StringUtils.isEmpty(substring) || substring == null){
+	            	return new JdcgResult(500, "请填写理由!", null);
+	            }
+			}
 			if(auditOpinion.getIsDownLoadAttch() !=null && auditOpinion.getIsDownLoadAttch() == 1){
 				/*
 				 * 更新状态
