@@ -2775,11 +2775,13 @@ public class SupplierServiceImpl implements SupplierService {
 	@Override
 	public void updateReview(String orgId, List<SaleTender> list) {
 		for(SaleTender saleTender : list){
-			Integer num = supplierMapper.selectReviewOrgIdById(saleTender.getSupplierId());
-			if(num == 0){
+			Supplier s = supplierMapper.selectReviewInfo(saleTender.getSuppliers().getId());
+			if(s !=null && s.getReviewOrgId() ==null && s.getIsProvisional() == 0 && s.getStatus() == 5){
 				Supplier supplier = new Supplier();
-				supplier.setId(saleTender.getSupplierId());
-				supplier.setExtractOrgid(orgId);
+				supplier.setId(saleTender.getSuppliers().getId());
+				supplier.setReviewProjectId(saleTender.getProjectId());
+				supplier.setReviewOrgId(orgId);
+				supplier.setReviewAt(saleTender.getProject().getBidDate());
 				supplierMapper.updateReviewOrInves(supplier);
 			}
 		}

@@ -783,6 +783,9 @@ Supplier implements Serializable {
     private String invesPeople;
     private Date invesAt;
     
+    private Date bidOpeningAt; //开标时间
+    private String reviewProjectId; //复核的项目id
+    private String reviewOrgId; //复核的采购机构
     public String getQrcodeImage() {
 		return qrcodeImage;
 	}
@@ -2285,6 +2288,30 @@ Supplier implements Serializable {
 
 	public void setExtractAt(Date extractAt) {
 		this.extractAt = extractAt;
+	}
+
+	public Date getBidOpeningAt() {
+		return bidOpeningAt;
+	}
+
+	public void setBidOpeningAt(Date bidOpeningAt) {
+		this.bidOpeningAt = bidOpeningAt;
+	}
+
+	public String getReviewProjectId() {
+		return reviewProjectId;
+	}
+
+	public void setReviewProjectId(String reviewProjectId) {
+		this.reviewProjectId = reviewProjectId;
+	}
+
+	public String getReviewOrgId() {
+		return reviewOrgId;
+	}
+
+	public void setReviewOrgId(String reviewOrgId) {
+		this.reviewOrgId = reviewOrgId;
 	}
 	
 }

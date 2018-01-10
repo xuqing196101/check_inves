@@ -711,5 +711,5 @@ public interface SupplierMapper {
 	void updateReviewOrInves(Supplier supplier);
 	
 
-	Integer selectReviewOrgIdById (String id);
+	Supplier selectReviewInfo (String id);
 }

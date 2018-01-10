@@ -2677,13 +2677,12 @@
         ID = #{id}
     </update>
     
-    <select id="selectReviewOrgIdById" parameterType="java.lang.String" resultType="java.lang.Integer">
+    <select id="selectReviewInfo" parameterType="java.lang.String" resultType="BaseResultMap">
 			SELECT
-			  COUNT (*)
+			  REVIEW_ORG_ID,REVIEW_PROJECT_ID,SUPPLIER_STATUS,IS_PROVISIONAL
 			FROM
 			  T_SES_SMS_SUPPLIER
 			WHERE
-			  REVIEW_ORG_ID IS NOT NULL
 			AND ID = #{id}
     </select>
 </mapper>
