@@ -107,4 +107,6 @@ public interface ProjectDetailMapper {
 	  */
 	 void updateByPackNull(String id);
 	 
+	 void updateByPackId(HashMap<String, Object> map);
+	 
 }

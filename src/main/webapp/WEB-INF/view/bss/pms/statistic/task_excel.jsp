@@ -56,7 +56,7 @@ div.Section1 {
 
 <%
 	Date currentTime = new Date();
-  SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+  SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
   String dateString = formatter.format(currentTime);
 	String fileName = "任务查询明细信息"+"（" +dateString+ "）";
 	String UserAgent = request.getHeader("USER-AGENT").toLowerCase();

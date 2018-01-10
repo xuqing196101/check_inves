@@ -2480,6 +2480,7 @@
         to_date(#{startDate,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
         AND
         AUDIT_AT &lt;= to_date(#{endDate,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+        AND STATUS IN ('1','2','3')
     </select>
      <!-- 根据修改时间获取注销专家 -->
     <select id="getDeleteExpertByDate" resultMap="BaseResultMap">

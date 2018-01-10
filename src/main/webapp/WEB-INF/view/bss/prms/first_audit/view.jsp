@@ -402,7 +402,12 @@
 	}
 	function refur(projectId,packageId,flowDefineId){
 		layer.msg("刷新成功",{offset: ['100px']});
-		$("#tab-5").load("${pageContext.request.contextPath}/packageExpert/firstAuditView.html?packageId="+packageId+"&projectId="+projectId+"&flowDefineId="+flowDefineId);
+    var index_load = layer.load(2, {
+      shade: [1, '#FFF']
+    });
+		$("#tab-5").load("${pageContext.request.contextPath}/packageExpert/firstAuditView.html?packageId="+packageId+"&projectId="+projectId+"&flowDefineId="+flowDefineId, function () {
+      layer.close(index_load);
+    });
 	}
   </script>
   <body>

@@ -5,6 +5,7 @@
 <head>
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <link href="${pageContext.request.contextPath}/public/highmap/js/font-awesome.css" media="screen" rel="stylesheet">
+<%-- <script type="text/javascript" src="${pageContext.request.contextPath}/js/system/analyze/echartsTemplate.js"></script> --%>
 <script type="text/javascript">
     $(function(){
 				var dataAxis =eval('${name}');
@@ -71,10 +72,16 @@
 					    ]
 					};
 				$("#funsionCharts").html("");
-				var myChart = echarts.init(document.getElementById("funsionCharts"));
+			 var myChart = echarts.init(document.getElementById("funsionCharts"));
 				myChart.setOption(option);
 				myChart.hideLoading();
+				
+					/* myChart.on('click', function (params) {
+                window.location.href = "${pageContext.request.contextPath}/statistic/taskList.html?department=" + params.name;
+          }); */
 		});
+		
+	
   </script>
 </head>
 
@@ -83,9 +90,7 @@
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">
-				<li><a
-					href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')">
-						首页</a></li>
+				<li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')">首页</a></li>
 				<li><a href="javascript:void(0);">保障作业系统</a></li>
 				<li><a href="javascript:void(0);">采购计划管理</a></li>
 				<li class="active"><a

@@ -275,7 +275,7 @@
 				
 				<div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
 	        <div class="row">
-	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">身份证号：</div>
+	          <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">用户名：</div>
 	          <div class="col-xs-8 f0 lh0">
 							<input class="w100p h32 f14" name="loginName" type="text" value="${expert.loginName }">
 	          </div>

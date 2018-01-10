@@ -150,23 +150,8 @@ public class ProjectSupervisionController {
         	if (page == null) {
                 page = 1;
             }
-            PageHelper.startPage(page, Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-            List<Project> list = projectService.selectByConition(map);
-            for (int i = 0; i < list.size(); i++ ) {
-                Orgnization org = orgnizationService.getOrgByPrimaryKey(list.get(i).getPurchaseDepId());
-                if(org != null && StringUtils.isNotBlank(org.getName())){
-                    list.get(i).setPurchaseDepId(org.getName());
-                }else{
-                    list.get(i).setPurchaseDepId("");
-                }
-                if(StringUtils.isNotBlank(list.get(i).getAppointMan())){
-                    User users = userService.getUserById(list.get(i).getAppointMan());
-                    if(users != null && StringUtils.isNotBlank(users.getRelName())){
-                        list.get(i).setAppointMan(users.getRelName());
-                    }
-                }
-                
-            }
+        	map.put("page", page);
+            List<Project> list = projectService.selectByPurchaseDep(map);
             model.addAttribute("info", new PageInfo<Project>(list));
             model.addAttribute("kind", DictionaryDataUtil.find(5));// 获取数据字典数据
             model.addAttribute("yzz", DictionaryDataUtil.getId("YZZ"));

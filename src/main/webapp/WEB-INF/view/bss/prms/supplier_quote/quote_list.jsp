@@ -165,7 +165,7 @@
          && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJZXTP'
           && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJTSHZ'
           && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJTSHBTG'}">
-        <div  class="p0${vsKey.index}">
+        <div  class="p0${vsKey.index} mt20">
 		<table class="table table-bordered table-condensed mt5">
 			<%-- <thead>
 				<tr>
