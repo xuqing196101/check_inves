@@ -73,8 +73,26 @@ public interface SupplierExtractConditionMapper {
 	 */
 	List<String> getLevelByList(List<String> byMap);
 
+	/**
+	 * 
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2018-1-5下午2:55:32
+	 * @param cid
+	 * @return
+	 */
 	List<Category> checkParentCate(String cid);
 
+	/**
+	 * 查询品目子节点
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2018-1-5下午2:55:24
+	 * @param split
+	 * @return
+	 */
 	Set<String> selectChildCate(String[] split);
 	
 	/**
@@ -124,8 +142,27 @@ public interface SupplierExtractConditionMapper {
 	List<String> selectQuaLevelBySupplierIdAndQuaId(Map<String, Object> map);
 
 
+	/**
+	 * 查询与关系时等级是否满足
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2018-1-5下午2:54:42
+	 * @param hashMap
+	 * @return
+	 */
 	List<String> selectLevelOfLogicIsAnd(Map<String, Object> hashMap);
 
+	/**
+	 * 
+	 * <简述>境外分支树（洲，国家） 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2018-1-5下午2:54:19
+	 * @param cid
+	 * @param cname
+	 * @return
+	 */
 	List<Continent> selectContryTree(@Param("cid") String cid, @Param("cname")String cname);
 
 	/**
@@ -141,4 +178,17 @@ public interface SupplierExtractConditionMapper {
 	 */
 	String selectProjectLevelForAnd(@Param("sid")String sid, @Param("quaIds")String[] quaIds,
 			@Param("levels")String[] levelTypeIds);
+
+
+	/**
+	 * 
+	 * <简述> 查询抽取条件集合
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2018-1-5下午2:53:03
+	 * @param hashMap
+	 * @return
+	 */
+	List<SupplierExtractCondition> selectConditionListByMap(
+			Map<String, Object> hashMap);
 }

@@ -4,6 +4,7 @@
 package extract.service.supplier.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +41,7 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
   @Autowired
   SupplierMapper supplierMapper;
   @Autowired
-  SupplierExtractRecordMapper supplierExtractsMapper;
+  SupplierExtractRecordMapper supplierExtractRecordMapper;
   
   /**
    * 存储结果
@@ -63,6 +64,7 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 				arrayList.add(supplierExtractResult);
 			}
 		}
+		
 		//预研项目
 		if("advPro".equals(projectType) && arrayList.size()>0){
 			return supplierExtRelateMapper.insertAdv(arrayList);
@@ -85,7 +87,7 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 		if(null == suppliers){
 			//修改状态
 			for (SupplierExtractResult supplierExtractResult : setSupplierExtractResult) {
-				updateSupplierJoin(supplierExtractResult,projectType);
+				updateSupplierJoinBySupplierMobile(supplierExtractResult,projectType);
 			}
 		}else if(null == suppliers2){
 			
@@ -129,7 +131,7 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 	}
 	
 	/**
-	 * 修改供应商参加状态
+	 * 修改供应商参加状态（自动抽取根据供应商联系电话进行修改）
 	 * <简述> 
 	 *
 	 * @author Jia Chengxiang
@@ -137,15 +139,16 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 	 * @param supplierExtractResult
 	 * @param projectType
 	 */
-	public void updateSupplierJoin(SupplierExtractResult supplierExtractResult,String projectType) {
+	public int updateSupplierJoinBySupplierMobile(SupplierExtractResult supplierExtractResult,String projectType) {
 		
 		if("advPro".equals(projectType)){
-			supplierExtRelateMapper.updateAdvSupplierJoin(supplierExtractResult);
+			return supplierExtRelateMapper.updateAdvSupplierJoinBySupplierMobile(supplierExtractResult);
 		}else if("relPro".equals(projectType)){
-			supplierExtRelateMapper.updateRelSupplierJoin(supplierExtractResult);
+			return supplierExtRelateMapper.updateRelSupplierJoinBySupplierMobile(supplierExtractResult);
 		}else if(StringUtils.isBlank(projectType)){
-			supplierExtRelateMapper.updateSupplierJoin(supplierExtractResult);
+			return supplierExtRelateMapper.updateSupplierJoinBySupplierMobile(supplierExtractResult);
 		}
+		return 0;
 	}
 
 
@@ -197,6 +200,49 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 	@Override
 	public void insertAdvSelective(SupplierExtractResult result) {
 		supplierExtRelateMapper.insertAdvSelective(result);
+	}
+
+	@Override
+	public int saveOrUpdateResult(SupplierExtractResult supplierExtRelate,
+			String projectType) {
+		Map<String, Object> hashMap = new HashMap<>();
+		hashMap.put("recordId", supplierExtRelate.getRecordId());
+		hashMap.put("supplierId", supplierExtRelate.getSupplierId());
+		//查询是否存在记录
+		List<SupplierExtractResult> result = new ArrayList<>();
+		if(StringUtils.isNotBlank(projectType)){
+			result = supplierExtRelateMapper.getSupplierListByRidForAdv(hashMap);
+		}else{
+			result = supplierExtRelateMapper.getSupplierListByRid(hashMap);
+		}
+		
+		if(result.size()>0){
+			return updateSupplierJoin(supplierExtRelate, projectType);
+		}else{
+			return saveResult(supplierExtRelate, projectType);
+		}
+	}
+
+	/**
+	 * 
+	 * <简述> 修改供应商参加状态
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2018-1-6下午4:28:12
+	 * @param supplierExtRelate
+	 * @param projectType
+	 * @return
+	 */
+	private int updateSupplierJoin(SupplierExtractResult supplierExtractResult,
+			String projectType) {
+		if("advPro".equals(projectType)){
+			return supplierExtRelateMapper.updateAdvSupplierJoin(supplierExtractResult);
+		}else if("relPro".equals(projectType)){
+			return supplierExtRelateMapper.updateRelSupplierJoin(supplierExtractResult);
+		}else if(StringUtils.isBlank(projectType)){
+			return supplierExtRelateMapper.updateSupplierJoin(supplierExtractResult);
+		}
+		return 0;
 	}
 }
 

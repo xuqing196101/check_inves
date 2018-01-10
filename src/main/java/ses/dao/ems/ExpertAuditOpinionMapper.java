@@ -97,4 +97,5 @@ public interface ExpertAuditOpinionMapper {
     void updateisDeletedByExpertId (Map<String, Object> map);
     
     ExpertAuditOpinion selectAllByExpertId(ExpertAuditOpinion expertAuditOpinion);
+    List<ExpertAuditOpinion> selectAllByExpertList(ExpertAuditOpinion expertAuditOpinion);
 }

@@ -212,4 +212,22 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 	public ExpertAuditOpinion selectAllByExpertId(ExpertAuditOpinion expertAuditOpinion) {
 		return mapper.selectAllByExpertId(expertAuditOpinion);
 	}
+
+	@Override
+	public List<ExpertAuditOpinion> selectAllByExpertList(ExpertAuditOpinion expertAuditOpinion) {
+		// TODO Auto-generated method stub
+		return mapper.selectAllByExpertList(expertAuditOpinion);
+	}
+
+	@Override
+	public void inserOpinion(ExpertAuditOpinion e) {
+		// TODO Auto-generated method stub
+		mapper.insertSelective(e);
+	}
+
+	@Override
+	public void updateByPrimaryKeySelective(ExpertAuditOpinion e) {
+		// TODO Auto-generated method stub
+		mapper.updateByPrimaryKeySelective(e);
+	}
 }

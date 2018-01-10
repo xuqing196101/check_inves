@@ -119,7 +119,10 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
 				"SUPPLIER_CON_ACH",
 				"SUPPLIER_PRO_CONTRACT",
 				"INDENTITY_UP",
-                "HOUSE_PROPERTY"//房产证明或租赁协议
+                "HOUSE_PROPERTY",//房产证明或租赁协议
+                "SUPPLIER_REVIEW", //供应商复核表
+                "SUPPLIER_SURVEY_RECORDS", //实地考察记录表
+                "SUPPLIER_IMAGE_DATA" //考察影像资料
 			};
 		param.put("strs", strs);
 		param.put("isDeleted", 0);
@@ -264,6 +267,18 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
 			if("HOUSE_PROPERTY".equals(dictionaryData.getCode())){
 			    supplierDictionaryData.setSupplierHousePoperty(dictionaryData.getId());
 			    continue;
+			}
+			if("SUPPLIER_REVIEW".equals(dictionaryData.getCode())){
+				supplierDictionaryData.setSupplierReview(dictionaryData.getId());
+				continue;
+			}
+			if("SUPPLIER_SURVEY_RECORDS".equals(dictionaryData.getCode())){
+				supplierDictionaryData.setSupplierSurveyRecords(dictionaryData.getId());
+				continue;
+			}
+			if("SUPPLIER_IMAGE_DATA".equals(dictionaryData.getCode())){
+				supplierDictionaryData.setSupplierImageData(dictionaryData.getId());
+				continue;
 			}
 		}
 		return supplierDictionaryData;

@@ -21,7 +21,7 @@ public class SupplierAuditOpinion implements Serializable{
 	private Integer isDownLoadAttch;
 	/**审核意见  同意..../不同意**/
 	private String cateResult;
-
+	private Integer isDelete; //是否删除，0：未删除，1：已删除
 	public String getId() {
 		return id;
 	}
@@ -78,4 +78,12 @@ public class SupplierAuditOpinion implements Serializable{
 	public void setCateResult(String cateResult) {
 		this.cateResult = cateResult;
 	}
+	public Integer getIsDelete() {
+		return isDelete;
+	}
+	public void setIsDelete(Integer isDelete) {
+		this.isDelete = isDelete;
+	}
+
+	
 }

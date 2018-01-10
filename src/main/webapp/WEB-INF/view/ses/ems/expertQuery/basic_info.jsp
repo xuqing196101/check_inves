@@ -24,8 +24,8 @@
 					async: false,
 					dataType: "json",
 					success: function(response) {
-						$("#tSex").html(response.gender);
-						$("#tFace").html(response.politicsStatus);
+						//$("#tSex").html(response.gender);
+						//$("#tFace").html(response.politicsStatus);
 						$("#Taddress").html(response.address);
 						$("#tHight").html(response.hightEducation);
 						$("#idType").html(response.idType);
@@ -88,9 +88,13 @@
 						<li class="">
               <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('review');">专家复审意见</a>
             </li>
+            <c:if test="${expert.finalInspectCount>0}">
+	    		<c:forEach var="i" begin="1" end="${expert.finalInspectCount}" step="1">
 						<li class="">
-              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('reviewCheck');">采购机构复查意见</a>
-            </li>
+			              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tojump('expertAttachment',${i});">采购机构复查意见</a>
+			            </li>
+            	</c:forEach>
+            </c:if>
 					</ul>
 
 					<input type="hidden" name="id" id="id" value="${expert.id}" />
@@ -108,7 +112,7 @@
 							</tr>
 							<tr>
 								<td width="12%" class="bggrey">性别</td>
-								<td width="25%" id="tSex"></td>
+								<td width="25%" id="tSex">${expert.gender}</td>
 								<td width="12%" class="bggrey">出生日期</td>
 								<td width="25%" id="tBirthday">
 									<fmt:formatDate value="${expert.birthday}" pattern="yyyy-MM-dd" />
@@ -116,7 +120,7 @@
 							</tr>
 							<tr>
 								<td width="12%" class="bggrey">政治面貌</td>
-								<td width="25%" id="tFace"></td>
+								<td width="25%" id="tFace">${expert.politicsStatus}</td>
 								<td width="12%" class="bggrey">民族</td>
 								<td width="25%">${expert.nation}</td>
 							</tr>
@@ -338,8 +342,9 @@
 		</div>
 		<form id="form_id" action="" method="post">
 			<input name="expertId" value="${expertId}" type="hidden">
-			<input name="sign" value="${sign}" type="hidden">
+			<input id="sign" name="sign" value="${sign}" type="hidden">
 			<input name="status" value="${status}" type="hidden">
+			<input id="finalInspectNumber" name="finalInspectNumber" value="" type="hidden">
 		</form>
 	</body>
 

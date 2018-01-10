@@ -161,7 +161,7 @@
         <div class="row">
           <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">起始时间：</div>
           <div class="col-xs-8 f0 lh0">
-            <input id="startTime" name="startTime" type="text" value="${startTime}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" type="text" readonly="readonly" class="Wdate w100p h32 f14 mb0">
+            <input id="startTime" name="startTime" type="text" value="${startTime}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" type="text" readonly="readonly" class="Wdate w100p h32 f14 mb0">
           </div>
         </div>
       </div>
@@ -170,7 +170,7 @@
         <div class="row">
           <div class="col-xs-4 f14 h32 lh32 tr text-nowrapEl">结束时间：</div>
           <div class="col-xs-8 f0 lh0">
-            <input id="endTime" name="endTime" type="text" value="${endTime}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" type="text" readonly="readonly" class="Wdate w100p h32 f14 mb0">
+            <input id="endTime" name="endTime" type="text" value="${endTime}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" type="text" readonly="readonly" class="Wdate w100p h32 f14 mb0">
           </div>
         </div>
       </div>

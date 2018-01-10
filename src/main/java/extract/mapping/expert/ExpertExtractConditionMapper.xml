@@ -212,4 +212,15 @@
 			</foreach>
 		ORDER BY ID
 	</select>
+
+	<!-- 根据专家类别查询审核不通过的专家 -->
+	<select id="selectAuditByType" parameterType="String" resultType="String">
+		SELECT DISTINCT 
+			EXPERT_ID 
+		FROM 
+			T_SES_EMS_EXPERT_AUDIT 
+		WHERE 
+			AUDIT_FALG = 2 AND AUDIT_STATUS = 6
+			AND AUDIT_FIELD_ID = #{expertsTypeId}
+	</select>
 </mapper>

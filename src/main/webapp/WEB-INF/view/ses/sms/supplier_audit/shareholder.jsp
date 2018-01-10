@@ -67,6 +67,7 @@
            	<jsp:param value="${supplierId }" name="supplierId"/>
            	<jsp:param value="${supplierStatus }" name="supplierStatus"/>
            	<jsp:param value="${sign }" name="sign"/>
+           	<jsp:param value="${reviewStatus}" name="reviewStatus"/>
           </jsp:include>
         <%-- <form id="form_id" action="" method="post" >
             <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
@@ -156,6 +157,13 @@
           </c:if>
           <%--<a class="btn"  type="button" onclick="nextStep('${url}');">下一步</a>--%>
           <a class="btn"  type="button" onclick="toStep('four');">下一步</a>
+          
+          <c:if test="${sign == 2}">
+           <a class="btn" type="button" onclick="toStep('nine');">转至复核</a>
+          </c:if>
+          <c:if test="${sign == 3}">
+           <a class="btn" type="button" onclick="toStep('ten');">转至考察</a>
+          </c:if>
 	      </div>
         </div>
       </div>

@@ -63,7 +63,7 @@ public class SmsRecordTempServiceImpl implements SmsRecordTempService {
         List<SmsRecordTemp> smsRecordTempList = smsRecordTempMapper.selectByUpdateDate(startTime, endTime);
         if (smsRecordTempList != null && smsRecordTempList.size() > 0) {
             sum = sum + smsRecordTempList.size();
-            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SMS_RECORD_TEMP_PATH_FILENAME, 39), JSON.toJSONString(smsRecordTempList));
+            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SMS_RECORD_TEMP_PATH_FILENAME, 45), JSON.toJSONString(smsRecordTempList));
             for (SmsRecordTemp smsRecordTemp : smsRecordTempList) {
             	smsRecordTempMapper.deleteByPrimaryKey(smsRecordTemp.getId());
 			}

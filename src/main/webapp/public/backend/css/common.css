@@ -456,6 +456,8 @@
 
 .pb20 {
   padding-bottom: 20px; }
+  
+.pb70 { padding-bottom: 70px !important; }
 
 .pl0 {
   padding-left: 0px!important; }
@@ -880,6 +882,9 @@
 .black {
   color: #000000;
 }
+.black_link, .black_link:hover {
+	color: #000 !important;
+}
 
 .brown{
   color:#997a00;
@@ -914,6 +919,10 @@
 
 .bgwhite {
   background-color: #ffffff !important;
+}
+
+.black_link, .black_link:hover {
+	color: #000 !important;
 }
 
 .bg7 {
@@ -1372,6 +1381,16 @@ text-align:center;
 }
 .m_select2 .select2-container-multi .select2-choices .select2-search-field input {
   margin: 0;
+}
+/* 浮动到底部的按钮 */
+.m_btn_ab {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	padding: 10px 0;
+	background-color: #FFF;
+	z-index: 10;
 }
 /* layer.open iframe 时的loadding样式 */
 .m_layer_loadS2 .layui-layer-load {

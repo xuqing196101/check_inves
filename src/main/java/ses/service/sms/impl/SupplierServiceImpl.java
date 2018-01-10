@@ -28,6 +28,15 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import com.github.pagehelper.PageHelper;
+
+import bss.model.ppms.SaleTender;
+import common.constant.StaticVariables;
+import common.model.UploadFile;
+import common.service.UploadService;
+import common.utils.DateUtils;
+import common.utils.ListSortUtil;
+import extract.model.supplier.SupplierExtractResult;
 import ses.constants.SupplierConstants;
 import ses.dao.bms.AreaMapper;
 import ses.dao.bms.CategoryMapper;
@@ -121,15 +130,6 @@ import ses.util.PropertiesUtil;
 import ses.util.SupplierLevelSort;
 import ses.util.SupplierToolUtil;
 import ses.util.WfUtil;
-
-import com.github.pagehelper.PageHelper;
-
-import bss.model.ppms.SaleTender;
-import common.constant.StaticVariables;
-import common.model.UploadFile;
-import common.service.UploadService;
-import common.utils.DateUtils;
-import common.utils.ListSortUtil;
 
 /**
  * @Title: SupplierServiceImpl
@@ -2764,8 +2764,8 @@ public class SupplierServiceImpl implements SupplierService {
 	 * 更新复核或实地考察信息
 	 */
 	@Override
-	public void updateReviewOrInves(Supplier supplier) {
-		supplierMapper.updateReviewOrInves(supplier);
+	public int updateReviewOrInves(Supplier supplier) {
+		return supplierMapper.updateReviewOrInves(supplier);
 		
 	}
 
@@ -2786,4 +2786,18 @@ public class SupplierServiceImpl implements SupplierService {
 			}
 		}
 	}
+	
+	@Override
+	public List<Supplier> getSupplierByReviewTime(String startTime,
+			String endTime) {
+		List<Supplier> suppliers = supplierMapper.getSupplierByReviewTime(startTime, endTime);
+		return suppliers;
+	}
+
+	@Override
+	public String getNameById(String supplierId) {
+		return supplierMapper.selectNameById(supplierId);
+	}
+
 }
+

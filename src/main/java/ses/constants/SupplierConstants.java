@@ -247,7 +247,7 @@ public class SupplierConstants extends Constant {
 	public final static Map<Integer, String> STATUSMAP_KAOCHA = new LinkedHashMap<Integer, String>();
 	static{
 		STATUSMAP_KAOCHA.put(Status.REVIEW_PASSED.getValue(), "复核合格（待考察）");
-		STATUSMAP_KAOCHA.put(Status.PRE_INVESTIGATE_ENDED.getValue(), "预考察结束");
+//		STATUSMAP_KAOCHA.put(Status.PRE_INVESTIGATE_ENDED.getValue(), "预考察结束");
 		STATUSMAP_KAOCHA.put(Status.INVESTIGATE_PASSED.getValue(), "考察合格");
 		STATUSMAP_KAOCHA.put(Status.INVESTIGATE_NOT_PASS.getValue(), "考察不合格");
 	}

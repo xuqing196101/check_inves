@@ -16,7 +16,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.annotation.Scope;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -109,7 +108,8 @@ public class ExtractSupplierController extends BaseController {
      * @return String
      * @throws Exception 
      */
-    @RequestMapping("/projectList")
+    @SuppressWarnings("unchecked")
+	@RequestMapping("/projectList")
     public String list(Integer page, Model model, SupplierExtractProjectInfo project,@CurrentUser User user,String startTime,String endTime){
     	List<PreMenu> resource = (List<PreMenu>) request.getSession().getAttribute("resource");
     	boolean flag = false;
@@ -268,7 +268,7 @@ public class ExtractSupplierController extends BaseController {
     	
     	//保存抽取记录  供应商id  记录id 条件id  结果id 是否参加 不参加理由 供应商类型代码
     	//supplierExtRelate.setId(UUIDUtils.getUUID32());
-    	int saveResult = extRelateService.saveResult(supplierExtRelate,projectType);
+    	int saveResult = extRelateService.saveOrUpdateResult(supplierExtRelate,projectType);
     	return JSON.toJSONString(saveResult);
     }
 
@@ -370,15 +370,13 @@ public class ExtractSupplierController extends BaseController {
      * @return
      */
     @RequestMapping("/printRecord")																						
-    public ResponseEntity<byte[]> printRecord(String id,HttpServletRequest request, HttpServletResponse response,String projectInto){
-    	ResponseEntity<byte[]> printRecord = null;
+    public void printRecord(String id,HttpServletRequest request, HttpServletResponse response,String projectInto){
+    	
     	try {
-			printRecord = recordService.printRecord(id,request,response,projectInto);
+			 recordService.printRecord(id,request,response,projectInto);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	return printRecord;
     }
     
     /**

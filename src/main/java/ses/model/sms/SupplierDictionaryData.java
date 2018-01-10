@@ -64,7 +64,7 @@ public class SupplierDictionaryData implements Serializable {
 	
 	private String supplierCategory;//供应商注册品目修改
 	
-	private String supplierBank;
+	private String supplierBank;//基本开户许可证
 	
 	private String supplierConAch;//供应商国家或军队保密工程业绩
 	
@@ -73,6 +73,12 @@ public class SupplierDictionaryData implements Serializable {
 	private String supplierPresentation; //供应商现场考察报告
 
     private String supplierHousePoperty;//供应商房产证明或租赁协议
+    
+    private String supplierReview; //供应商复核表
+    
+    private String supplierSurveyRecords; //实地考察记录表
+    
+    private String supplierImageData; //考察影像资料
 	
 	public String getSupplierTaxCert() {
 		return supplierTaxCert;
@@ -346,4 +352,29 @@ public class SupplierDictionaryData implements Serializable {
         this.supplierHousePoperty = supplierHousePoperty;
     }
 
+	public String getSupplierReview() {
+		return supplierReview;
+	}
+
+	public void setSupplierReview(String supplierReview) {
+		this.supplierReview = supplierReview;
+	}
+
+	public String getSupplierSurveyRecords() {
+		return supplierSurveyRecords;
+	}
+
+	public void setSupplierSurveyRecords(String supplierSurveyRecords) {
+		this.supplierSurveyRecords = supplierSurveyRecords;
+	}
+
+	public String getSupplierImageData() {
+		return supplierImageData;
+	}
+
+	public void setSupplierImageData(String supplierImageData) {
+		this.supplierImageData = supplierImageData;
+	}
+    
+    
 }

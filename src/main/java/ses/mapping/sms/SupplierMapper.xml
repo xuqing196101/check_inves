@@ -212,6 +212,7 @@
 		<result column="INVES_PEOPLE" property="invesPeople"/>
 		<result column="INVES_AT" property="invesAt"/>
 		<result column="EXTRACT_AT" property="extractAt" jdbcType="TIMESTAMP"/>
+		<result column="EXTRACT_PROJECT_ID" property="extractProjectId"/>
 	</resultMap>
 
 	<resultMap type="ses.model.sms.Supplier" id="supplierTypeMap"
@@ -262,7 +263,7 @@
 		ARMY_BUSINESS_TELEPHONE,ARMY_BUSINESS_EMAIL,AUDIT_DATE,ARMY_BUSINESS_ADDRESS,CONCAT_PROVINCE,CONCAT_CITY,ARMY_BUSINESS_PROVINCE,
 		ARMY_BUSINESS_CITY,IS_PROVISIONAL,DESCRIPTION,LEVEL_SCORE_PRODUCT,LEVEL_SCORE_SALES,LEVEL_SCORE_SERVICE,IS_ILLEGAL,PURCHASE_EXPERIENCE,
 		IS_HAVING_CON_CERT, BUSINESS_NATURE, IS_PUBLISH, EXTRACT_ORGID, IS_DELETED, AUDITOR, AUDIT_TEMPORARY,AUDIT_OPINION_ATTACH,
-		INSTORAGE_AT,RETURN_COUNT,LAST_RETURN_DATE
+		INSTORAGE_AT,RETURN_COUNT,LAST_RETURN_DATE, REVIEW_STATUS, REVIEW_PEOPLE, REVIEW_AT, INVES_PEOPLE, INVES_AT, EXTRACT_AT, EXTRACT_PROJECT_ID
 	</sql>
 	<!--查询每个供应商所对应的所有类型 作者SBW -->
 	<select id="selectSupplierTypes" parameterType="ses.model.sms.Supplier"
@@ -2600,23 +2601,28 @@
 	<select id="selectStatusById" parameterType="string" resultType="string">
 		SELECT SUPPLIER_STATUS FROM T_SES_SMS_SUPPLIER WHERE ID = #{id}
 	</select>
+	
+	<!--根据供应商id查询名称-->
+	<select id="selectNameById" parameterType="string" resultType="string">
+		SELECT SUPPLIER_NAME FROM T_SES_SMS_SUPPLIER WHERE ID = #{id}
+	</select>
     
     <!-- 供应商复核列表 -->
     <select id="selectReviewList" resultMap="BaseResultMap" parameterType="ses.model.sms.Supplier">
       SELECT 
-        DISTINCT T1.ID,
+        T1.ID,
 			  T1.SUPPLIER_NAME,
 			  T1.SUPPLIER_TYPE_ID,
 			  T1.BUSINESS_NATURE,
 			  T1.REVIEW_AT,
 			  T1.REVIEW_PEOPLE,
 			  T1.SUPPLIER_STATUS,
-			  T1.REVIEW_STATUS
+			  T1.REVIEW_STATUS,
+			  T1.AUDIT_TEMPORARY
 			FROM
 			  T_SES_SMS_SUPPLIER T1
-			LEFT JOIN T_SES_SMS_EXTRACT_RESULT T2 ON T2.SUPPLIER_ID = T1. ID
 			WHERE
-			  T2.JOIN = 1
+			  T1.EXTRACT_ORGID = #{extractOrgid}
 			<if test="supplierName != null and supplierName != ''">
         AND T1.SUPPLIER_NAME LIKE CONCAT(CONCAT('%',#{supplierName}), '%')
       </if>
@@ -2671,6 +2677,11 @@
         </if>
         <if test="reviewOrgId !=null">
           REVIEW_ORG_ID = #{reviewOrgId},
+        <if test="extractProjectId !=null">
+          EXTRACT_PROJECT_ID = #{extractProjectId},
+        </if>
+        <if test="auditTemporary !=null">
+          AUDIT_TEMPORARY = #{auditTemporary},
         </if>
       </set>
       where
@@ -2684,5 +2695,43 @@
 			  T_SES_SMS_SUPPLIER
 			WHERE
 			  ID = #{id}
+    </select>
+    
+    <!-- 获取时间段内复核结束的供应商 -->
+    <select id="getSupplierByReviewTime" resultMap="BaseResultMap">
+      SELECT 
+        T1.ID,
+		T1.SUPPLIER_NAME,
+		T1.REVIEW_AT,
+		T1.REVIEW_PEOPLE,
+		T1.SUPPLIER_STATUS,
+		T1.REVIEW_STATUS,
+		T1.EXTRACT_ORGID,
+		T1.EXTRACT_AT
+	  FROM
+	  	T_SES_SMS_SUPPLIER T1
+	  WHERE
+	  	T1.SUPPLIER_STATUS in ('5','6')
+	  AND
+	  	to_char(T1.REVIEW_AT,'yyyy-MM-dd hh24:mi:ss') &gt;= #{startTime}
+	  AND
+	  	to_char(T1.REVIEW_AT,'yyyy-MM-dd hh24:mi:ss') &lt;= #{endTime}	
+    </select>
+    
+    <!-- 获取时间段内实地考察结束的供应商 -->
+    <select id="getSupplierByInvesTime" resultType="ses.model.sms.SupplierSynch">
+      SELECT 
+        T1.ID,
+		T1.SUPPLIER_NAME AS supplierName,
+		T1.INVES_PEOPLE AS invesPeople,
+		T1.INVES_AT AS invesAt
+	  FROM
+	  	T_SES_SMS_SUPPLIER T1
+	  WHERE
+	  	T1.SUPPLIER_STATUS in ('7','8')
+	  AND
+	  	to_char(T1.INVES_AT,'yyyy-MM-dd hh24:mi:ss') &gt;= #{startTime}
+	  AND
+	  	to_char(T1.INVES_AT,'yyyy-MM-dd hh24:mi:ss') &lt;= #{endTime}	
     </select>
 </mapper>

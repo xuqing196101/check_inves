@@ -10,14 +10,14 @@
     <result column="CREATED_AT"  property="createdAt" />
     <result column="UPDATED_AT"  property="updatedAt" />
 		<result column="BATCH"  property="batch" />
-
   </resultMap>
+  
   <sql id="Base_Column_List">
     ID, SUPPLIER_ID, NAME, CREATED_AT, UPDATED_AT, COMPANY, JOB, BATCH
   </sql>
   <select id="selectBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    *
+    <include refid="Base_Column_List"/>
     from T_SES_SMS_SUPPLIER_AUDIT_SIGN
     where SUPPLIER_ID = #{supplierId}
   </select>
@@ -149,7 +149,7 @@
   
   
   <select id="queryById" resultMap="BaseResultMap">
-      select 
+    select 
     <include refid="Base_Column_List"/>
     from T_SES_SMS_SUPPLIER_AUDIT_SIGN
     where ID = #{id}

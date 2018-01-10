@@ -151,8 +151,8 @@
               <select name="status" id="status" class="w100p h32 f14">
                  <option selected="selected" value=''>全部</option>
                  <option <c:if test="${expert.status =='6' }">selected</c:if> value="6">入库(待复查)</option>
-                 <option <c:if test="${expert.status eq 'reviewLook'}">selected</c:if> value="reviewLook">复查中</option>
-                 <option <c:if test="${expert.status =='19' }">selected</c:if> value="19">预复查结束</option>
+                 <%-- <option <c:if test="${expert.status eq 'reviewLook'}">selected</c:if> value="reviewLook">复查中</option>
+                 <option <c:if test="${expert.status =='19' }">selected</c:if> value="19">预复查结束</option> --%>
                  <option <c:if test="${expert.status =='7' }">selected</c:if> value="7">复查合格</option>
                  <option <c:if test="${expert.status =='13' }">selected</c:if> value="13">无产品专家</option>
                  <option <c:if test="${expert.status =='17' }">selected</c:if> value="17">资料不全</option>
@@ -292,15 +292,15 @@
               <td class="tc">${e.address }</td> --%>
               <td class="tc"><fmt:formatDate value="${e.storageAt }" pattern="yyyy-MM-dd" /></td>
               <td class="tc" id="${e.id}">
-                <c:if test="${e.status eq '6' and e.auditTemporary != 3}">
+                <c:if test="${e.status eq '6'}">
                   <span class="label rounded-2x label-u">入库(待复查)</span>
                 </c:if>
-                <c:if test="${e.status eq '6' and e.auditTemporary == 3}">
+                <%-- <c:if test="${e.status eq '6' and e.auditTemporary == 3}">
                   <span class="label rounded-2x label-u">复查中</span>
                 </c:if>
                 <c:if test="${e.status eq '19' }">
                   <span class="label rounded-2x label-u">预复查结束</span>
-                </c:if>
+                </c:if> --%>
                 <c:if test="${e.status eq '7' }">
                   <span class="label rounded-2x label-u">复查合格</span>
                 </c:if>

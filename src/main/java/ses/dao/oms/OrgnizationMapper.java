@@ -362,4 +362,5 @@ public interface OrgnizationMapper {
 	String selOrgIdByDepId(String id);
 	
 	List<Orgnization> selectByIdList(HashMap<String, Object> map);
+	Orgnization selectByorg(String id);
 }

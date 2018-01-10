@@ -23,8 +23,10 @@ import ses.model.ems.Expert;
 import ses.model.ems.ProjectExtract;
 import ses.util.DictionaryDataUtil;
 import ses.util.MobileUtils;
+import system.model.sms.SmsRecord;
 
 import com.alibaba.fastjson.JSON;
+import common.utils.SMSUtil;
 
 import extract.autoVoiceExtract.Epoint005WebService;
 import extract.autoVoiceExtract.PeopleYytz;
@@ -43,6 +45,7 @@ import extract.model.expert.ExpertResult;
 import extract.model.expert.ProjectVoiceResult;
 import extract.service.expert.AutoExtractService;
 import extract.service.expert.ExpertExtractConditionService;
+import extract.service.expert.ExpertExtractResultService;
 import extract.util.DateUtils;
 import extract.util.WebServiceUtil;
 
@@ -74,6 +77,9 @@ public class AutoExtractServiceImpl implements AutoExtractService {
     
     @Autowired
     private ExpertExtractConditionService expertExtractConditionService;
+    
+    @Autowired
+    private ExpertExtractResultService expertExtractResultService;
 
     //地区
     @Autowired
@@ -121,6 +127,21 @@ public class AutoExtractServiceImpl implements AutoExtractService {
 	                expertExtractResult.setIsJoin((short)3);
 	                expertExtractResult.setIsDeleted((short)1);
 	                expertExtractResultMapper.updateByProjectIdandExpertId(expertExtractResult);
+	            }else if(expertResult.getJoin() == 9){
+	                //请假失败  需要发送短信提示
+	            	ExpertExtractProject expertExtractProject22 = expertExtractProjectMapper.selectByPrimaryKey(projectVoiceResult.getRecordeId());
+	            	SmsRecord smsRecord = new SmsRecord();
+	        		smsRecord.setSendLink(DictionaryDataUtil.getId("ZJCQDX"));
+	        		smsRecord.setOperator(expertExtractProject22.getCreaterId());
+	        		smsRecord.setOrgId(expertExtractProject22.getProcurementDepId());
+	        		Expert ex = expertExtractResultMapper.findByExpertId(expertId);
+	        		String userId = expertExtractResultMapper.findUserByTypeId(expertId);
+	        		smsRecord.setRecipient(userId);
+	    			smsRecord.setReceiveNumber(ex.getMobile());
+	    			String content = "【军队采购网通知】"+ex.getRelName()+"专家您好！"+expertExtractProject22.getProjectName()+"项目距离评审时间不足24小时，已不允许取消。如您有特殊情况，请立刻与采购机构联系，联系人："+expertExtractProject22.getContactPerson()+"，手机："+expertExtractProject22.getContactNum()+"。一小时内未联系，视为可以按时参加采购评审。无故不参加评审活动，将可能失去评审专家资格。";
+	    			smsRecord.setSendContent(content);
+	    			SMSUtil.sendMsg(smsRecord);
+	    			return "OK";
 	            }
 	            //标识是否是从项目实施进入的抽取
 	            if(expertExtractProject != null && expertExtractProject.getPackageId() != null){
@@ -288,6 +309,8 @@ public class AutoExtractServiceImpl implements AutoExtractService {
 	            projectMap.put("projectId", expertExtractProject.getId());
 	            projectMap.put("updatedAt", new Date());
 	            expertExtractProjectMapper.updataStatus(projectMap);
+	            //将专家信息存入待发送短信表便于发短信
+	            expertExtractResultService.smsNotice(expertExtractProject.getId());
 	            return "OK";
 	        }else{
 	            //需要继续抽取

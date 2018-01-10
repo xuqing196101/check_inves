@@ -1,5 +1,7 @@
 package extract.service.expert;
 
+import java.util.List;
+
 import extract.model.expert.ExpertExtractResult;
 
 /**
@@ -31,5 +33,15 @@ public interface ExpertExtractResultService {
      * @param 
      * @return
      */
-    void smsNotice(String projectId, Integer sign);
+	void smsNotice(String projectId);
+    
+    /**
+     * 
+     * Description: 根据项目id查询参加的专家
+     * 
+     * @data 2018年1月2日
+     * @param 
+     * @return
+     */
+    List<ExpertExtractResult> findByProjectId(String projectId);
 }

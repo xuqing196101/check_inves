@@ -25,7 +25,11 @@
 	</sql>
 	
 	<sql id="Base_Column">
-		s.ID, s.SUPPLIER_ID, s.CATEGORY_ID, s.SUPPLIER_TYPE_RELATE_ID, s.STATUS, s.CREATED_AT, s.UPDATED_AT, s.CATE_LEVEL, s.CERT_CODE, s.DIY_LEVEL, s.QUALIFICATION_TYPE,s.PROFESS_TYPE, c.CODE
+		s.ID, s.SUPPLIER_ID, s.CATEGORY_ID, s.SUPPLIER_TYPE_RELATE_ID, 
+		s.STATUS, s.CREATED_AT, s.UPDATED_AT, s.CATE_LEVEL, s.CERT_CODE, 
+		s.DIY_LEVEL, s.QUALIFICATION_TYPE,s.PROFESS_TYPE, 
+		s.NODE_LEVEL, s.IS_RETURNED, s.IS_DELETED,
+		c.CODE
 	</sql>
 	
 	<select id="getItemListBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">

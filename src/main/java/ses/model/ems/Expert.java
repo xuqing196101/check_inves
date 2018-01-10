@@ -180,7 +180,7 @@ public class Expert extends ExpertHistory implements Serializable {
     private List<UploadFile> attchList = new ArrayList<UploadFile>();
 
     private List<RoleUser> userRoles = new LinkedList<RoleUser>();
-
+    private List<ExpertFinalInspect> expertFinalInspectList=new ArrayList<ExpertFinalInspect>();
     private RoleUser roleUser;
 
     private Integer netType;
@@ -191,7 +191,15 @@ public class Expert extends ExpertHistory implements Serializable {
     private String reviewStatus;
     private String notIn;
     
-    public String getNotIn() {
+    public List<ExpertFinalInspect> getExpertFinalInspectList() {
+		return expertFinalInspectList;
+	}
+
+	public void setExpertFinalInspectList(List<ExpertFinalInspect> expertFinalInspectList) {
+		this.expertFinalInspectList = expertFinalInspectList;
+	}
+
+	public String getNotIn() {
 		return notIn;
 	}
 
@@ -553,9 +561,49 @@ public class Expert extends ExpertHistory implements Serializable {
     
     private Date startTime;
     private Date endTime;
+    /**标识复查人*/
+    private String finalInspectPeople;
+    /**标识专家复查状态*/
+    private String finalInspectStatus;
+    /**标识专家资料不全次数*/
+    private String finalInspectCount;
+    /**复查时间**/
+    private Date finalInspectAt;
     
+    
+    public Date getFinalInspectAt() {
+		return finalInspectAt;
+	}
 
-    public Date getStartTime() {
+	public void setFinalInspectAt(Date finalInspectAt) {
+		this.finalInspectAt = finalInspectAt;
+	}
+
+	public String getFinalInspectPeople() {
+		return finalInspectPeople;
+	}
+
+	public void setFinalInspectPeople(String finalInspectPeople) {
+		this.finalInspectPeople = finalInspectPeople;
+	}
+
+	public String getFinalInspectStatus() {
+		return finalInspectStatus;
+	}
+
+	public void setFinalInspectStatus(String finalInspectStatus) {
+		this.finalInspectStatus = finalInspectStatus;
+	}
+
+	public String getFinalInspectCount() {
+		return finalInspectCount;
+	}
+
+	public void setFinalInspectCount(String finalInspectCount) {
+		this.finalInspectCount = finalInspectCount;
+	}
+
+	public Date getStartTime() {
 		return startTime;
 	}
 

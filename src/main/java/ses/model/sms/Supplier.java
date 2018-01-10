@@ -4,6 +4,7 @@ import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.Packages;
 import bss.model.ppms.ProjectDetail;
 import common.model.UploadFile;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -16,6 +17,9 @@ import ses.model.bms.CategoryParameter;
 import ses.model.bms.RoleUser;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
+import ses.model.sms.review.SupplierAttachAudit;
+import ses.model.sms.review.SupplierCateAudit;
+import ses.model.sms.review.SupplierInvesOther;
 import ses.util.MyAnnotation;
 
 /**
@@ -774,15 +778,14 @@ Supplier implements Serializable {
      */
     private Integer errorNum;
     
-    private String reviewPeople;
+    private String reviewPeople; //复核人
     
-    private Integer reviewStatus;
+    private Integer reviewStatus; // 1：重新复核
     
-    private Date reviewAt;
+    private Date reviewAt; //复核时间
     
-    private String invesPeople;
-    private Date invesAt;
-    
+    private String invesPeople;// 考察人
+    private Date invesAt;// 考察时间
     private Date bidOpeningAt; //开标时间
     private String reviewProjectId; //复核的项目id
     private String reviewOrgId; //复核的采购机构
@@ -2242,6 +2245,14 @@ Supplier implements Serializable {
 		this.parentAddress = parentAddress;
 	}
 
+	public Date getExtractAt() {
+		return extractAt;
+	}
+
+	public void setExtractAt(Date extractAt) {
+		this.extractAt = extractAt;
+	}
+
 	public String getReviewPeople() {
 		return reviewPeople;
 	}
@@ -2280,14 +2291,6 @@ Supplier implements Serializable {
 
 	public void setInvesAt(Date invesAt) {
 		this.invesAt = invesAt;
-	}
-
-	public Date getExtractAt() {
-		return extractAt;
-	}
-
-	public void setExtractAt(Date extractAt) {
-		this.extractAt = extractAt;
 	}
 
 	public Date getBidOpeningAt() {

@@ -126,7 +126,11 @@ function synchExport(){
 				list(1);
 			}else{
 				layer.close(index);
-				layer.msg("导出失败");
+				if (res.obj != null) {
+					layer.msg(res.obj);
+				} else {
+					layer.msg("导出失败");
+				}
 			}
 		},
 		error:function(){

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.ExpertFinalInspectMapper">
+    <resultMap id="BaseResultMap" type="ses.model.ems.ExpertFinalInspect">
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="EXPERT_ID" jdbcType="VARCHAR" property="expertId" />
+        <result column="FILE_ID" jdbcType="VARCHAR" property="fileId" />
+        <result column="FILE_TYPE" jdbcType="VARCHAR" property="fileType" />
+        <result column="STATUS" jdbcType="VARCHAR" property="status" />
+        <result column="REASON" jdbcType="VARCHAR" property="reason" />
+        <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+        <result column="UPDATE_AT" jdbcType="TIMESTAMP" property="updateAt" />
+        <result column="FINALINSPECT_NUMBER" jdbcType="VARCHAR" property="finalInspectNumber" />
+    </resultMap>
+    <sql id="Base_List">
+    	ID,EXPERT_ID,FILE_ID,FILE_TYPE,STATUS,REASON,CREATE_AT,UPDATE_AT,FINALINSPECT_NUMBER
+    </sql>
+ 	<select id="findExpertFinalInspectList" resultMap="BaseResultMap"  parameterType="ses.model.ems.ExpertFinalInspect">
+	 		select 
+	 		 <include refid="Base_List" />
+	 		 from T_SES_EMS_EXPERT_FINALINSPECT where 1=1
+	 		 <if test="expertId != null">
+	            and EXPERT_ID=#{expertId}
+	        </if>
+	        <if test="status != null">
+	        	and STATUS=#{status}
+	        </if>
+	        <if test="fileId != null">
+	        	and FILE_ID=#{fileId}
+	        </if>
+	        <if test="finalInspectNumber != null">
+	        	and FINALINSPECT_NUMBER=#{finalInspectNumber}
+	        </if>
+ 	</select>
+ 	<select id="getExpertFinalInspect" resultMap="BaseResultMap"  parameterType="ses.model.ems.ExpertFinalInspect">
+	 		select 
+	 		 <include refid="Base_List" />
+	 		 from T_SES_EMS_EXPERT_FINALINSPECT where 1=1
+	 		 <if test="expertId != null">
+	            and EXPERT_ID=#{expertId}
+	        </if>
+	        <if test="status != null">
+	        	and STATUS=#{status}
+	        </if>
+	        <if test="fileId != null">
+	        	and FILE_ID=#{fileId}
+	        </if>
+	        <if test="finalInspectNumber != null">
+	        	and FINALINSPECT_NUMBER=#{finalInspectNumber}
+	        </if>
+ 	</select>
+    <insert id="insertExpertFinalInspect" parameterType="ses.model.ems.ExpertFinalInspect">
+        insert into T_SES_EMS_EXPERT_FINALINSPECT
+        (ID,EXPERT_ID,FILE_ID,FILE_TYPE,STATUS,REASON,CREATE_AT,UPDATE_AT,FINALINSPECT_NUMBER)
+        values
+        (#{id,jdbcType=VARCHAR}, #{expertId,jdbcType=VARCHAR},#{fileId,jdbcType=VARCHAR}, #{fileType,jdbcType=VARCHAR},  #{status,jdbcType=VARCHAR}, 
+        #{reason,jdbcType=VARCHAR},#{createAt,jdbcType=TIMESTAMP}, #{updateAt,jdbcType=TIMESTAMP},#{finalInspectNumber,jdbcType=VARCHAR})
+    </insert>
+   <update  id="updateExpertFinalInspect" parameterType="ses.model.ems.ExpertFinalInspect">
+   		update T_SES_EMS_EXPERT_FINALINSPECT 
+   			<set>
+   				<if test="status!=null">
+   					STATUS=#{status,jdbcType=VARCHAR},
+   				</if>
+   				<if test="reason!=null">
+   					REASON=#{reason,jdbcType=VARCHAR},
+   				</if>
+   				<if test="updateAt!=null">
+   					UPDATE_AT=#{updateAt,jdbcType=TIMESTAMP},
+   				</if>
+   			</set>
+   		where ID=#{id,jdbcType=VARCHAR}
+   </update>
+   <update  id="updateExpertFinalInspectStatusIsNull" parameterType="ses.model.ems.ExpertFinalInspect">
+   		update T_SES_EMS_EXPERT_FINALINSPECT 
+   			SET STATUS=null
+   		where ID=#{id,jdbcType=VARCHAR}
+   </update>
+</mapper>

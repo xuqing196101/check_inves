@@ -477,7 +477,17 @@
 		</if>
 		<!-- 查询资质 -->
 		<if test="quaId !=null and quaId != '' ">
-			<if test="supplierTypeCode == 'PROJECT'.toString()">
+			<if test="supplierTypeCode == 'PROJECT'.toString() and isMulticondition == 1">
+				AND  E.ID IN (
+					SELECT A.MAT_ENG_ID FROM T_SES_SMS_SUPPLIER_APTITUTE A 
+					WHERE A.CERT_TYPE IN <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
+					<!-- 等级 -->
+					<if test="levelTypeId !=null and levelTypeId != '' ">
+						AND  A."APTITUTE_ LEVEL" IN  <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
+					</if>
+				)
+			</if>
+			<if test="supplierTypeCode == 'PROJECT'.toString() and isMulticondition == 2">
 				AND  E.ID IN (
 					SELECT A.MAT_ENG_ID FROM T_SES_SMS_SUPPLIER_APTITUTE A 
 					WHERE A.CERT_TYPE IN <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
@@ -588,25 +598,58 @@
 	<!-- 0 不能参加，1能参加 -->
 	<select id="getSupplierListByRid" parameterType="map" resultMap="BaseResultMap">
 		SELECT <include refid="extractResult"></include> FROM T_SES_SMS_EXTRACT_RESULT R LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
-		WHERE R.RECORD_ID = #{recordId} AND R.SUPPLIER_TYPE = #{supplierType}  AND R.JOIN IN (0,1) ORDER BY R.CREATED_AT ASC
+		WHERE R.RECORD_ID = #{recordId} 
+		<if test="supplierId!=null and supplierId!=''">
+			AND R.SUPPLIER_ID = #{supplierId}
+		</if>
+		<if test="supplierType != null and supplierType !='' ">
+			AND R.SUPPLIER_TYPE = #{supplierType} 
+		</if>
+		<if test="joins != null">
+			AND R.JOIN IN  <foreach collection="joins" open="(" item="it" index="in" separator="," close=")">
+				#{it}
+			</foreach>
+		</if>
+		ORDER BY R.CREATED_AT ASC
 	</select>
 	
 	
 	<!-- 真实抽取结果 -->
 	<!-- 0 不能参加，1能参加 -->
 	<select id="getSupplierListByRidForRel" parameterType="map" resultMap="BaseResultMap">
-		SELECT <include refid="extractResultAdv"></include> FROM T_SES_SMS_SUPPLIER_EXT_RELATE R LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
-		WHERE R.RECORD_ID = #{recordId}  <!--AND R.SUPPLIER_TYPE = #{supplierType}  --> AND R.OPERATING_TYPE IN (0,1) ORDER BY R.CREATED_AT ASC
+		SELECT <include refid="extractResultAdv"/> FROM T_SES_SMS_SUPPLIER_EXT_RELATE R 
+		LEFT JOIN T_SES_SMS_EXTRACT_RECORD RE ON RE.ID = R.RECORD_ID 
+		LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
+		WHERE RE.PROJECT_ID in (SELECT PROJECT_ID FROM T_SES_SMS_EXTRACT_RECORD WHERE ID = #{recordId})
+		<if test="supplierId!=null and supplierId!=''">
+			AND R.SUPPLIER_ID = #{supplierId}
+		</if>
+		<if test="joins != null">
+			AND R.OPERATING_TYPE IN  <foreach collection="joins" open="(" item="it" index="in" separator="," close=")">
+				#{it}
+			</foreach>
+		</if>
+		ORDER BY R.CREATED_AT ASC
 	</select>
 	
 	
 	<!-- 预研抽取结果 -->
 	<!-- 0 不能参加，1能参加 -->
 	<select id="getSupplierListByRidForAdv" parameterType="map" resultMap="BaseResultMap">
-		SELECT<include refid="extractResultAdv"></include> FROM T_SES_SMS_SUPPLIER_EXT_RELATE R LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
-		WHERE R.RECORD_ID = #{recordId} <!-- AND R.SUPPLIER_TYPE = #{supplierType} -->  AND R.OPERATING_TYPE IN (0,1) ORDER BY R.CREATED_AT ASC
+		SELECT <include refid="extractResultAdv"/> FROM T_SES_SMS_SUPPLIER_EXT_RELATE R 
+		LEFT JOIN T_SES_SMS_EXTRACT_RECORD RE ON RE.ID = R.RECORD_ID 
+		LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
+		WHERE RE.PROJECT_ID in (SELECT PROJECT_ID FROM T_SES_SMS_EXTRACT_RECORD WHERE ID = #{recordId})
+		<if test="supplierId!=null and supplierId!=''">
+			AND R.SUPPLIER_ID = #{supplierId}
+		</if>
+		<if test="joins != null">
+			AND R.OPERATING_TYPE IN  <foreach collection="joins" open="(" item="it" index="in" separator="," close=")">
+				#{it}
+			</foreach>
+		</if>
+		ORDER BY R.CREATED_AT ASC
 	</select>
-	
 	
 	<!-- 查询供应商类型 -->
 	<select id="selectTypeCodeBySid" parameterType="java.lang.String" resultType="java.lang.String">
@@ -704,10 +747,8 @@
          SELECT 1 FROM DUAL
 	</insert>
 
-	<update id="updateSupplierJoin" parameterType="extract.model.supplier.SupplierExtractResult">
-		update 
-		(select t.* from  T_SES_SMS_EXTRACT_RESULT t left join t_ses_sms_supplier s on t.supplier_id = s.id  where s.army_business_telephone = #{armyBuinessTelephone})
-		re
+	<update id="updateSupplierJoinBySupplierMobile" parameterType="extract.model.supplier.SupplierExtractResult">
+		update T_SES_SMS_EXTRACT_RESULT re
 		<set>
 			<if test="supplierId != null">
 				re.SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
@@ -744,12 +785,11 @@
 			</if>
 		</set>
 		where re.CONDITION_ID = #{conditionId,jdbcType=VARCHAR} AND re.RECORD_ID = #{recordId,jdbcType=VARCHAR}
+		AND RE.SUPPLIER_ID = (select S.ID t_ses_sms_supplier s  where s.army_business_telephone = #{armyBuinessTelephone})	
 	</update>
 	
-	<update id="updateRelSupplierJoin" parameterType="extract.model.supplier.SupplierExtractResult">
-		update 
-		(select t.* from  T_SES_SMS_SUPPLIER_EXT_RELATE t left join t_ses_sms_supplier s on t.supplier_id = s.id  where s.army_business_telephone = #{armyBuinessTelephone})
-		re
+	<update id="updateRelSupplierJoinBySupplierMobile" parameterType="extract.model.supplier.SupplierExtractResult">
+		update T_SES_SMS_SUPPLIER_EXT_RELATE re
 		<set>
 			<if test="supplierId != null">
 				re.SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
@@ -780,16 +820,12 @@
 			</if>
 		</set>
 		where re.SUPPLIER_CONDITION_ID = #{conditionId,jdbcType=VARCHAR} AND re.RECORD_ID = #{recordId,jdbcType=VARCHAR}
+		AND RE.SUPPLIER_ID = (select S.ID t_ses_sms_supplier s  where s.army_business_telephone = #{armyBuinessTelephone})	
 	</update>
 	
 	
-	<update id="updateAdvSupplierJoin" parameterType="extract.model.supplier.SupplierExtractResult">
-		update 
-		(select t.* from  T_SES_SMS_SUPPLIER_EXT_RELATE t left join t_ses_sms_supplier s on t.supplier_id = s.id  where s.army_business_telephone = #{armyBuinessTelephone})	
-		re
-		<if test="supplierId != null">
-				re.SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
-			</if>
+	<update id="updateAdvSupplierJoinBySupplierMobile" parameterType="extract.model.supplier.SupplierExtractResult">
+		update T_SES_SMS_SUPPLIER_EXT_RELATE re
 			<if test="createdAt != null">
 				re.CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
@@ -818,7 +854,116 @@
 			<if test="projectType != null">
 				re.REVIEW_TYPE = #{projectType,jdbcType=VARCHAR},
 			</if>
-		where re.SUPPLIER_CONDITION_ID = #{conditionId,jdbcType=VARCHAR} AND re.RECORD_ID = #{recordId,jdbcType=VARCHAR}
+		where re.SUPPLIER_CONDITION_ID = #{conditionId,jdbcType=VARCHAR} AND re.RECORD_ID = #{recordId,jdbcType=VARCHAR} 
+		AND RE.SUPPLIER_ID = (select S.ID t_ses_sms_supplier s  where s.army_business_telephone = #{armyBuinessTelephone})	
+	</update>
+	
+	<update id="updateSupplierJoin" parameterType="extract.model.supplier.SupplierExtractResult">
+		update T_SES_SMS_EXTRACT_RESULT re
+		<set>
+			<if test="supplierId != null">
+				re.SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+			</if>
+			<if test="createdAt != null">
+				re.CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="operatingType != null">
+				re.OPERATING_TYPE = #{operatingType,jdbcType=DECIMAL},
+			</if>
+			<if test="isDeleted != null">
+				re.IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+			</if>
+			<if test="reason != null">
+				re.REASON = #{reason,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null">
+				re.PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="updatedAt != null">
+				re.UPDATED_AT = #{updatedAt,jdbcType=VARCHAR},
+			</if>
+			<if test="conTypeId != null">
+				re.CON_TYPE_ID = #{conTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="statusCount != null">
+				re.STATUS_COUNT = #{statusCount,jdbcType=DECIMAL},
+			</if>
+			<if test="join != null">
+				re.JOIN = #{join,jdbcType=DECIMAL},
+			</if>
+			<if test="reviewType != null">
+				re.REVIEW_TYPE = #{reviewType,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where re.CONDITION_ID = #{conditionId,jdbcType=VARCHAR} AND re.RECORD_ID = #{recordId,jdbcType=VARCHAR} AND RE.SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateRelSupplierJoin" parameterType="extract.model.supplier.SupplierExtractResult">
+		update T_SES_SMS_SUPPLIER_EXT_RELATE re
+		<set>
+			<if test="supplierId != null">
+				re.SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+			</if>
+			<if test="createdAt != null">
+				re.CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="join != null">
+				re.OPERATING_TYPE = #{join,jdbcType=DECIMAL},
+			</if>
+			<if test="isDeleted != null">
+				re.IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+			</if>
+			<if test="reason != null">
+				re.REASON = #{reason,jdbcType=VARCHAR},
+			</if>
+			<if test="updatedAt != null">
+				re.UPDATED_AT = #{updatedAt,jdbcType=VARCHAR},
+			</if>
+			<if test="conTypeId != null">
+				re.CON_TYPE_ID = #{conTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				re.STATUS_COUNT = #{status,jdbcType=DECIMAL},
+			</if>
+			<if test="projectType != null">
+				re.REVIEW_TYPE = #{projectType,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where re.SUPPLIER_CONDITION_ID = #{conditionId,jdbcType=VARCHAR} AND re.RECORD_ID = #{recordId,jdbcType=VARCHAR} AND RE.SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
+	</update>
+	
+	
+	<update id="updateAdvSupplierJoin" parameterType="extract.model.supplier.SupplierExtractResult">
+		update T_SES_SMS_SUPPLIER_EXT_RELATE re
+			<if test="createdAt != null">
+				re.CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="join != null">
+				re.OPERATING_TYPE = #{join,jdbcType=DECIMAL},
+			</if>
+			<if test="isDeleted != null">
+				re.IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+			</if>
+			<if test="reason != null">
+				re.REASON = #{reason,jdbcType=VARCHAR},
+			</if>
+			<!-- 包名不应会被修改 -->
+			<!-- <if test="projectId != null">
+				PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+			</if> -->
+			<if test="updatedAt != null">
+				re.UPDATED_AT = #{updatedAt,jdbcType=VARCHAR},
+			</if>
+			<if test="conTypeId != null">
+				re.CON_TYPE_ID = #{conTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				re.STATUS_COUNT = #{status,jdbcType=DECIMAL},
+			</if>
+			<if test="projectType != null">
+				re.REVIEW_TYPE = #{projectType,jdbcType=VARCHAR},
+			</if>
+		where re.SUPPLIER_CONDITION_ID = #{conditionId,jdbcType=VARCHAR} AND re.RECORD_ID = #{recordId,jdbcType=VARCHAR} AND RE.SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
 	</update>
 	
 	<!-- 存储进真实项目 -->
@@ -1060,5 +1205,61 @@
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
+	
+	
+	<select id="selectFirstSupplierToBeExtract"  resultMap="BaseResultMap">
+		SELECT
+			SUPPLIER_ID,UPDATED_AT
+		FROM
+			T_SES_SMS_EXTRACT_RESULT
+		WHERE
+			JOIN = 1
+		AND	RECORD_ID = #{value}
+		AND SUPPLIER_ID NOT IN (
+			SELECT
+				RS.SUPPLIER_ID
+			FROM
+				T_SES_SMS_EXTRACT_RECORD R
+			LEFT JOIN T_SES_SMS_EXTRACT_RESULT RS ON R. ID = RS.RECORD_ID
+			WHERE
+				R.STATUS = 1
+			AND RS.
+			JOIN = 1
+			AND R.IS_DELETE = 0
+			GROUP BY
+				SUPPLIER_ID
+		)
+	</select>
+	
+	
+	<select id="selectFirstSupplierToBeExtractOfRel" resultMap="advResult">
+		SELECT
+			SUPPLIER_ID,UPDATED_AT
+		FROM
+			T_SES_SMS_SUPPLIER_EXT_RELATE
+		WHERE
+			OPERATING_TYPE = 1
+		AND	RECORD_ID IN (
+				SELECT
+					ID
+				FROM
+					T_SES_SMS_EXTRACT_RECORD
+				WHERE
+					PROJECT_ID = #{value}
+			)
+		AND SUPPLIER_ID NOT IN (
+			SELECT
+				RS.SUPPLIER_ID
+			FROM
+				T_SES_SMS_EXTRACT_RECORD R
+			LEFT JOIN T_SES_SMS_SUPPLIER_EXT_RELATE RS ON R. ID = RS.RECORD_ID
+			WHERE
+				R.STATUS = 1
+			AND RS.OPERATING_TYPE = 1
+			AND R.IS_DELETE = 0
+			GROUP BY
+				SUPPLIER_ID
+		)
+	</select>
 	
 </mapper>

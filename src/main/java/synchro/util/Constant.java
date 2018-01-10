@@ -361,10 +361,36 @@ public class Constant {
     public final static String SYNCH_SUPPLIER_INVEST_RESULT = "SYNCH_SUPPLIER_INVEST_RESULT";
     
     /**
+     * @Fields INNER_SUPPLIER_INVEST_NUM : 供应商实地考察结果数据内网导出记录描述
+     */
+    public final static String INNER_SUPPLIER_INVEST_NUM = "内网导出供应商实地考察数量:";
+    
+    /**
+     * @Fields OUTER_SUPPLIER_INVEST_NUM : 供应商实地考察结果数据外网导入记录描述
+     */
+    public final static String OUTER_SUPPLIER_INVEST_NUM = "外网导入供应商实地考察数量:";
+    
+    /**
      * @Fields SYNCH_SUPPLIER_CHECK_RESULT : 供应商复核结果
      */
     public final static String SYNCH_SUPPLIER_CHECK_RESULT = "SYNCH_SUPPLIER_CHECK_RESULT";
     
+    /**
+     * @Fields SUPPLIER_CHECK_RESULT_NUM : 供应商复核结果数据内网导出记录描述
+     */
+    public final static String INNER_SUPPLIER_CHECK_NUM = "内网导出复核供应商数量:";
+    /**
+     * @Fields SUPPLIER_CHECK_RESULT_NUM : 供应商复核结果数据外网导入记录描述
+     */
+    public final static String OUTER_SUPPLIER_CHECK_NUM = "外网导入复核供应商数量:";
+    /**
+     * @Fields EXPERT_CHECK_RESULT_NUM : 专家复查结果数据内网导出记录描述
+     */
+    public final static String INNER_EXPERT_CHECK_NUM = "内网导出复查专家数量:";
+    /**
+     * @Fields EXPERT_CHECK_RESULT_NUM : 专家复查结果数据外网导入记录描述
+     */
+    public final static String OUTER_EXPERT_CHECK_NUM = "外网导入复查专家数量:";
     
     /** 短信发送记录信息导出描述 **/
     public final static String SMS_RECORD_COMMIT = "导出短信记录数量:";

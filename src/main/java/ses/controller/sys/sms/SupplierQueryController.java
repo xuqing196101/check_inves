@@ -1100,7 +1100,7 @@ public class SupplierQueryController extends BaseSupplierController {
     
     /**
      * @Title: aptitude
-     * @author XuQing 
+     *  
      * @date 2016-12-28 上午11:12:26  
      * @Description:资质文件维护
      * @param @return      
@@ -1305,7 +1305,7 @@ public class SupplierQueryController extends BaseSupplierController {
     
 	/**
 	 * @Title: getTreeListByCategoryId
-	 * @author XuQing 
+	 *  
 	 * @date 2017-3-9 下午4:25:16  
 	 * @Description:
 	 * @param @param categoryId
@@ -1469,7 +1469,7 @@ public class SupplierQueryController extends BaseSupplierController {
 	
     /**
      * @Title: contract
-     * @author XuQing 
+     *  
      * @date 2016-12-28 上午11:12:33  
      * @Description:品目合同
      * @param @return      
@@ -1734,7 +1734,7 @@ public class SupplierQueryController extends BaseSupplierController {
     
 	/**
 	 * @Title: contractUp
-	 * @author XuQing 
+	 *  
 	 * @date 2017-1-17 下午5:46:54  
 	 * @Description:加载点击标签下的合同
 	 * @param @param supplierId
@@ -1823,7 +1823,7 @@ public class SupplierQueryController extends BaseSupplierController {
 
 	/**
 	 * @Title: contractUp
-	 * @author XuQing 
+	 *  
 	 * @date 2017-1-17 下午5:47:19  
 	 * @Description:加载全部标签
 	 * @param @param supplierId
@@ -1899,7 +1899,7 @@ public class SupplierQueryController extends BaseSupplierController {
     
     /**
      * @Title: removeSame
-     * @author XuQing 
+     *  
      * @date 2017-1-4 下午7:23:33  
      * @Description:去重
      * @param @param list      
@@ -2244,7 +2244,7 @@ public class SupplierQueryController extends BaseSupplierController {
        
       /**
        * @Title: cancellation
-       * @author XuQing 
+       *  
        * @date 2017-3-8 下午1:33:37  
        * @Description:供应商注销
        * @param @param supplierIds      

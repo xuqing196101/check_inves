@@ -144,9 +144,13 @@
             <li class="">
               <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('review');">专家复审意见</a>
             </li>
-            <li class="">
-              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('reviewCheck');">采购机构复查意见</a>
-            </li>
+            <c:if test="${expert.finalInspectCount>0}">
+	    		<c:forEach var="i" begin="1" end="${expert.finalInspectCount}" step="1">
+						<li class="">
+			              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tojump('expertAttachment',${i});">采购机构复查意见</a>
+			            </li>
+            	</c:forEach>
+            </c:if>
           </ul>
           
           <h2 class="count_flow"><i>1</i>审核信息</h2>
@@ -248,6 +252,7 @@
       <input name="expertId" value="${expertId}" type="hidden">
       <input name="sign" value="${sign}" type="hidden">
       <input name="status" value="${status}" type="hidden">
+      <input id="finalInspectNumber" name="finalInspectNumber" value="" type="hidden">
     </form>
   </body>
 

@@ -9,8 +9,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.http.ResponseEntity;
-
 import ses.model.bms.User;
 import extract.model.supplier.SupplierExtractProjectInfo;
 
@@ -78,7 +76,7 @@ public interface SupplierExtractRecordService {
    * @return
    * @throws Exception
    */
-  ResponseEntity<byte[]> printRecord(String id, HttpServletRequest request, HttpServletResponse response, String projectInto) throws Exception;
+  void printRecord(String id, HttpServletRequest request, HttpServletResponse response, String projectInto) throws Exception;
 
   /**
    * 
@@ -125,5 +123,15 @@ public interface SupplierExtractRecordService {
    * @return
    */
   Map<String, String> extractAgain(String recordId, String conditionId);
+
+  /**
+   * 
+   * <简述>抽取到的供应商发送短信
+   *
+   * @author Jia Chengxiang
+   * @dateTime 2018-1-4下午8:25:59
+   * @param record
+   */
+  void sendMessageToSupplier(SupplierExtractProjectInfo record);
 
 }

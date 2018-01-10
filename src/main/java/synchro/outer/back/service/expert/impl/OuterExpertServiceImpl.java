@@ -37,11 +37,14 @@ import ses.model.ems.ExpertBatch;
 import ses.model.ems.ExpertBatchDetails;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertEngHistory;
+import ses.model.ems.ExpertFinalInspect;
 import ses.model.ems.ExpertHistory;
 import ses.model.ems.ExpertTitle;
+import ses.model.sms.SupplierSynch;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertAuditOpinionService;
 import ses.service.ems.ExpertCategoryService;
+import ses.service.ems.ExpertFinalInspectService;
 import ses.service.ems.ExpertService;
 import ses.util.DictionaryDataUtil;
 import synchro.outer.back.service.expert.OuterExpertService;
@@ -78,7 +81,9 @@ public class OuterExpertServiceImpl implements OuterExpertService {
      */
     @Autowired
     private ExpertService expertService;
-
+    
+    @Autowired
+	private ExpertFinalInspectService finalInspectService;
     /**
      * 专家-品目service
      */
@@ -467,6 +472,40 @@ public class OuterExpertServiceImpl implements OuterExpertService {
 	@Override
 	public void importCheckResult(File f) {
 		// TODO Auto-generated method stub
-		
+		try {
+			for (File file2 : f.listFiles()) {
+				 if(file2.getName().contains(FileUtils.EXPERT_CHECK_RESULT_FILENAME)){
+					 List<Expert> list=FileUtils.getBeans(file2, Expert.class); 
+						for (Expert expert : list) {
+							//专家意见
+							if(expert.getExpertAuditOpinion()!=null){
+								expertAuditOpinionService.inserOpinion(expert.getExpertAuditOpinion());
+							}
+							//专家附件
+							for (UploadFile uf : expert.getAttchList()) {
+								  UploadFile ufile = fileUploadMapper.queryById(uf.getId(), "T_SES_EMS_EXPERT_ATTACHMENT");
+		        				   if(ufile==null){
+		        					   uf.setTableName("T_SES_EMS_EXPERT_ATTACHMENT");
+		        	    			   fileUploadMapper.saveFile(uf);
+		        				   }else{
+		        					   uf.setTableName("T_SES_EMS_EXPERT_ATTACHMENT");
+		        	    			   fileUploadMapper.updateFileById(uf);
+		        				   }
+							}
+							//专家复查表
+							for (ExpertFinalInspect expertFinalInspect : expert.getExpertFinalInspectList()) {
+								finalInspectService.insertExpertFinalInspect(expertFinalInspect);
+							}
+							expertService.updateByPrimaryKeySelective(expert);
+						}
+						 recordService.backupExpertImportCheckResults(new Integer(list.size()).toString());
+				 }else if (file2.getName().contains(synchro.util.Constant.ATTCH_FILE_EXPERT)){
+					 OperAttachment.moveFolder(file2);
+				 }
+			 }
+		} catch (Exception e) {
+			// TODO: handle exception
+			 e.printStackTrace();
+		}
 	}
 }

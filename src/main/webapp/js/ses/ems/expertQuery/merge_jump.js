@@ -48,3 +48,12 @@ function jump(str){
   $("#form_id").attr("action",action);
   $("#form_id").submit();
 }
+function tojump(str,i) {
+    if (str == "expertAttachment") {
+    	action = globalPath + "/expertQuery/expertAttachment.html";
+    }
+    //$("#sign").val(3);
+    $("#finalInspectNumber").val(i);
+    $("#form_id").attr("action", action);
+    $("#form_id").submit();
+}

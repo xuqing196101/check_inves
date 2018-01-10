@@ -42,30 +42,31 @@
 				var serCodeId = $("#serCodeId").val();
 				var goodsProjectId = $("#goodsProjectId").val();
 				var goodsEngInfoId = $("#goodsEngInfoId").val();
+				var sign = $("input[name='sign']").val();
 				if(mat == "mat_page") {
 					// 物资品目信息
 					loading = layer.load(1);
-					var path = "${pageContext.request.contextPath}/expertQuery/getCategories.html?expertId=" + expertId + "&typeId=" + matCodeId;
+					var path = "${pageContext.request.contextPath}/expertQuery/getCategories.html?expertId=" + expertId + "&typeId=" + matCodeId +"&sign=" + sign;
 					$("#tbody_category").load(path);
 				} else if(eng == "eng_page") {
 					// 工程品目信息
 					loading = layer.load(1);
-					var path = "${pageContext.request.contextPath}/expertQuery/getCategories.html?expertId=" + expertId + "&typeId=" + engCodeId;
+					var path = "${pageContext.request.contextPath}/expertQuery/getCategories.html?expertId=" + expertId + "&typeId=" + engCodeId +"&sign=" + sign;
 					$("#tbody_category").load(path);
 				} else if(ser == "ser_page") {
 					// 服务
 					loading = layer.load(1);
-					var path = "${pageContext.request.contextPath}/expertQuery/getCategories.html?expertId=" + expertId + "&typeId=" + serCodeId;
+					var path = "${pageContext.request.contextPath}/expertQuery/getCategories.html?expertId=" + expertId + "&typeId=" + serCodeId +"&sign=" + sign;
 					$("#tbody_category").load(path);
 				} else if(goodsProject == "goodsProject_page") {
 					// 工程产品类别信息
 					loading = layer.load(1);
-					var path = "${pageContext.request.contextPath}/expertQuery/getCategories.html?expertId=" + expertId + "&typeId=" + goodsProjectId;
+					var path = "${pageContext.request.contextPath}/expertQuery/getCategories.html?expertId=" + expertId + "&typeId=" + goodsProjectId +"&sign=" + sign;
 					$("#tbody_category").load(path);
 				} else if(goodsEngInfo == "goodsEngInfo_page") {
 					// 工程专业属性信息
 					loading = layer.load(1);
-					var path = "${pageContext.request.contextPath}/expertQuery/getCategories.html?expertId=" + expertId + "&typeId=" + goodsEngInfoId;
+					var path = "${pageContext.request.contextPath}/expertQuery/getCategories.html?expertId=" + expertId + "&typeId=" + goodsEngInfoId +"&sign=" + sign;
 					$("#tbody_category").load(path);
 				}
 			});
@@ -74,8 +75,9 @@
 				// 加载已选品目列表
 				loading = layer.load(1);
 				var expertId = $("#expertId").val();
-				var path = "${pageContext.request.contextPath}/expertQuery/getCategories.html?expertId=" + expertId + "&typeId=" + code;
-				$("#tbody_category").load(path);
+				var sign = $("input[name='sign']").val();
+				var path = "${pageContext.request.contextPath}/expertQuery/getCategories.html?expertId=" + expertId + "&typeId=" + code +"&sign=" + sign;
+ 				$("#tbody_category").load(path);
 			};
 		</script>
 
@@ -136,9 +138,13 @@
             <li class="">
               <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('review');">专家复审意见</a>
             </li>
-            <li class="">
-              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('reviewCheck');">采购机构复查意见</a>
-            </li>
+            <c:if test="${expert.finalInspectCount>0}">
+	    		<c:forEach var="i" begin="1" end="${expert.finalInspectCount}" step="1">
+						<li class="">
+			              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tojump('expertAttachment',${i});">采购机构复查意见</a>
+			            </li>
+            	</c:forEach>
+            </c:if>
 					</ul>
 					<div class="padding-top-10">
 						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab hand">
@@ -224,6 +230,7 @@
 			<input name="expertId" id="expertId" value="${expertId}" type="hidden">
 			<input name="sign" value="${sign}" type="hidden">
 			<input name="status" value="${status}" type="hidden">
+			<input id="finalInspectNumber" name="finalInspectNumber" value="" type="hidden">
 		</form>
 	</body>
 

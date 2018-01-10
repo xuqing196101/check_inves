@@ -485,7 +485,7 @@ public class SynchImportController {
                         }
                     }
                     /**专家导入内网*/
-                    if (synchType.contains(Constant.DATA_TYPE_EXPERT_CODE)) {
+                    if (synchType.contains(Constant.DATA_TYPE_EXPERT_CODE)&&!synchType.equals(Constant.SYNCH_EXPERT_CHECK_RESULT)) {
                         if (f.getName().contains(FileUtils.C_EXPERT_FILENAME)) {
                             innerExpertService.readNewExpertInfo(f);
                         }
@@ -1021,19 +1021,35 @@ public class SynchImportController {
                     
                     //供应商复核结果导入外网
         	        if (synchType.contains(Constant.SYNCH_SUPPLIER_CHECK_RESULT)
-        	        		&& f.getName().contains(FileUtils.SUPPLIER_CHECK_RESULT_FILENAME)) {
-                        outerSupplierService.importCheckResult(f);
+        	        		&& f.isDirectory()
+        	        		&& FileUtils.getSynchAttachFile(38).equals("/" + f.getName())) {
+        	        	if ("1".equals(ipAddressType)) {
+        	        		outerSupplierService.importCheckResult(f);
+        				}else {
+        					bean.setSuccess(false);
+        					bean.setObj("请从外网导入!");
+        			        return bean;
+        				}
+                       
                 	}
         	        
         	        //供应商实地考察结果导入外网
         	        if (synchType.contains(Constant.SYNCH_SUPPLIER_INVEST_RESULT)
-        	        		&& f.getName().contains(FileUtils.SUPPLIER_INVEST_RESULT_FILENAME)) {
-        	        	outerSupplierService.importInvestResult(f);
+        	        		&& f.isDirectory()
+        	        		&& FileUtils.getSynchAttachFile(39).equals("/" + f.getName())) {
+        	        	if ("1".equals(ipAddressType)) {
+        	        		outerSupplierService.importInvestResult(f);
+        				}else {
+        					bean.setSuccess(false);
+        					bean.setObj("请从外网导入!");
+        			        return bean;
+        				}
                 	}
         	        
         	        //地方专家复查结果导入外网
         	        if (synchType.contains(Constant.SYNCH_EXPERT_CHECK_RESULT)
-        	        		&& f.getName().contains(FileUtils.EXPERT_CHECK_RESULT_FILENAME)) {
+        	        		&& f.isDirectory()
+        	        		&& FileUtils.getSynchAttachFile(42).equals("/" + f.getName())) {
         	        	outerExpertService.importCheckResult(f);
                 	}
         	        

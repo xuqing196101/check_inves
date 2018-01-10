@@ -1552,23 +1552,34 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 				DictionaryData rootNode = DictionaryDataUtil.findById(parentNodeList.get(0).getParentId());
 				if(rootNode != null){
 					cateTree.setRootNode(rootNode.getName());
+					cateTree.setRootNodeID(rootNode.getId());
 				}
 				cateTree.setFirstNode(parentNodeList.get(0).getName());
+				cateTree.setFirstNodeID(parentNodeList.get(0).getId());
 			}
 			if(parentNodeList.size() > 1){
 				cateTree.setFirstNode(parentNodeList.get(0).getName());
 				cateTree.setSecondNode(parentNodeList.get(1).getName());
+				cateTree.setFirstNodeID(parentNodeList.get(0).getId());
+				cateTree.setSecondNodeID(parentNodeList.get(1).getId());
 			}
 			if(parentNodeList.size() > 2){
 				cateTree.setFirstNode(parentNodeList.get(0).getName());
 				cateTree.setSecondNode(parentNodeList.get(1).getName());
 				cateTree.setThirdNode(parentNodeList.get(2).getName());
+				cateTree.setFirstNodeID(parentNodeList.get(0).getId());
+				cateTree.setSecondNodeID(parentNodeList.get(1).getId());
+				cateTree.setThirdNodeID(parentNodeList.get(2).getId());
 			}
 			if(parentNodeList.size() > 3){
 				cateTree.setFirstNode(parentNodeList.get(0).getName());
 				cateTree.setSecondNode(parentNodeList.get(1).getName());
 				cateTree.setThirdNode(parentNodeList.get(2).getName());
 				cateTree.setFourthNode(parentNodeList.get(3).getName());
+				cateTree.setFirstNodeID(parentNodeList.get(0).getId());
+				cateTree.setSecondNodeID(parentNodeList.get(1).getId());
+				cateTree.setThirdNodeID(parentNodeList.get(2).getId());
+				cateTree.setFourthNodeID(parentNodeList.get(3).getId());
 			}
 		}
         /*// 递归获取所有父节点

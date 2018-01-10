@@ -105,6 +105,7 @@
            	<jsp:param value="${supplierId }" name="supplierId"/>
            	<jsp:param value="${supplierStatus }" name="supplierStatus"/>
            	<jsp:param value="${sign }" name="sign"/>
+           	<jsp:param value="${reviewStatus}" name="reviewStatus"/>
           </jsp:include>
 					<!-- 供应商类型信息头 -->
 					<ul class="ul_list count_flow w100p">
@@ -1002,6 +1003,13 @@
 			            <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempAudit();">暂存</a>
 			          </c:if>
 								<a class="btn" type="button" onclick="toStep('five');">下一步</a>
+								
+								<c:if test="${sign == 2}">
+			           <a class="btn" type="button" onclick="toStep('nine');">转至复核</a>
+			          </c:if>
+			          <c:if test="${sign == 3}">
+			           <a class="btn" type="button" onclick="toStep('ten');">转至考察</a>
+			          </c:if>
 							</div>
 						</div>
 					</div>

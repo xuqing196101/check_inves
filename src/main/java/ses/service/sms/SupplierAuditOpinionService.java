@@ -74,4 +74,19 @@ public interface SupplierAuditOpinionService {
      * @since JDK1.7
      */
 	SupplierAuditOpinion selectByExpertIdAndflagTime(Map<String, Object> map);
+	
+	/**
+	 * 保存意见
+	 * @param supplierAuditOpinion
+	 * @return
+	 */
+	String saveOpinion(SupplierAuditOpinion supplierAuditOpinion );
+	
+	void updateByPrimaryKeySelective (SupplierAuditOpinion supplierAuditOpinion);
+	
+	SupplierAuditOpinion selectByMap(Map<String, Object> map);
+	
+	void updateIsDownloadAttchBySupplierId (String supplierId);
+	
+	void updateFlagAuditById(String id);
 }

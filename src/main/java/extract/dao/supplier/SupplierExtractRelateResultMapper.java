@@ -1,7 +1,6 @@
 package extract.dao.supplier;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,10 +61,10 @@ public interface SupplierExtractRelateResultMapper {
 	
 	/**
 	 * 记录id查询抽取到的详细供应商信息
-	 * @param hashMap2
+	 * @param hashMap
 	 * @return
 	 */
-	List<SupplierExtractResult> getSupplierListByRid(HashMap<String, String> hashMap2);
+	List<SupplierExtractResult> getSupplierListByRid(Map<String, Object> hashMap);
 	
 	/**
 	 * 
@@ -76,7 +75,7 @@ public interface SupplierExtractRelateResultMapper {
 	 * @param hashMap2
 	 * @return
 	 */
-	List<SupplierExtractResult> getSupplierListByRidForRel(HashMap<String, String> hashMap2);
+	List<SupplierExtractResult> getSupplierListByRidForRel(Map<String, Object> hashMap);
 	
 	/**
 	 * 查询预言项目抽取结果
@@ -84,10 +83,10 @@ public interface SupplierExtractRelateResultMapper {
 	 *
 	 * @author Jia Chengxiang
 	 * @dateTime 2017-9-26上午4:40:03
-	 * @param hashMap2
+	 * @param hashMap
 	 * @return
 	 */
-	List<SupplierExtractResult> getSupplierListByRidForAdv(HashMap<String, String> hashMap2);
+	List<SupplierExtractResult> getSupplierListByRidForAdv(Map<String, Object> hashMap);
 	
 	/**
 	 * 查询该项目已经联系过的供应商
@@ -168,8 +167,9 @@ public interface SupplierExtractRelateResultMapper {
 	 * @author Jia Chengxiang
 	 * @dateTime 2017-10-17上午11:23:06
 	 * @param supplierExtractResult
+	 * @return 
 	 */
-	void updateAdvSupplierJoin(SupplierExtractResult supplierExtractResult);
+	int updateAdvSupplierJoin(SupplierExtractResult supplierExtractResult);
 	
 	/**
 	 * 修改真实项目供应商参加状态（自动抽取）
@@ -178,8 +178,9 @@ public interface SupplierExtractRelateResultMapper {
 	 * @author Jia Chengxiang
 	 * @dateTime 2017-10-17上午11:23:06
 	 * @param supplierExtractResult
+	 * @return 
 	 */
-	void updateRelSupplierJoin(SupplierExtractResult supplierExtractResult);
+	int updateRelSupplierJoin(SupplierExtractResult supplierExtractResult);
 	
 	/**
 	 * 修改供应商参加状态（自动抽取）
@@ -188,8 +189,9 @@ public interface SupplierExtractRelateResultMapper {
 	 * @author Jia Chengxiang
 	 * @dateTime 2017-10-17上午11:23:06
 	 * @param supplierExtractResult
+	 * @return 
 	 */
-	void updateSupplierJoin(SupplierExtractResult supplierExtractResult);
+	int updateSupplierJoin(SupplierExtractResult supplierExtractResult);
 	
 	/**
 	 * 根据条件id查询抽取结果
@@ -286,4 +288,36 @@ public interface SupplierExtractRelateResultMapper {
 	 * @return
 	 */
 	List<Supplier> selectSuppleir(SupplierExtractCondition condition);
+
+	
+	/**
+	 * 
+	 * <简述>查询首次抽取到的供应商Id 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2018-1-3下午6:14:57
+	 * @param id
+	 * @return
+	 */
+	List<SupplierExtractResult> selectFirstSupplierToBeExtract(String id);
+
+	/**
+	 * 
+	 * <简述>查询正式项目首次抽取到的供应商Id 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2018-1-3下午6:14:57
+	 * @param id
+	 * @return
+	 */
+	List<SupplierExtractResult> selectFirstSupplierToBeExtractOfRel(String projectId);
+
+	int updateAdvSupplierJoinBySupplierMobile(
+			SupplierExtractResult supplierExtractResult);
+
+	int updateRelSupplierJoinBySupplierMobile(
+			SupplierExtractResult supplierExtractResult);
+
+	int updateSupplierJoinBySupplierMobile(
+			SupplierExtractResult supplierExtractResult);
 }

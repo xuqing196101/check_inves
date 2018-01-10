@@ -68,6 +68,14 @@
         <task:scheduled ref="SupplierTask" method="handleSupplierPublicity" cron="0 30 0 * * ?"/>
         <!-- 【内网】每天凌晨2点半计算供应商等级 -->
         <task:scheduled ref="SupplierTask" method="handlerCountSupplierLevel" cron="0 30 2 * * ?"/>
+        <!-- 【外网执行】每天凌晨7点半导入供应商复核结果 -->
+        <task:scheduled ref="SupplierTask" method="handlerImportSupplierCheck" cron="0 30 7 * * ?"/>
+        <!-- 【内网执行】每天凌晨1点导出供应商复核结果 -->
+        <task:scheduled ref="SupplierTask" method="handlerExportSupplierCheck" cron="0 0 1 * * ?"/>
+        <!-- 【外网执行】每天凌晨7点50导入供应商实地考察结果 -->
+        <task:scheduled ref="SupplierTask" method="handlerImportSupplierInvest" cron="0 50 7 * * ?"/>
+        <!-- 【内网执行】每天凌晨1点20分导出供应商实地考察结果 -->
+        <task:scheduled ref="SupplierTask" method="handlerExportSupplierInvest" cron="0 20 1 * * ?"/>
 
         <!-- ================================================（图片处理定时任务）================================================ -->
         <!-- (外网执行)供应商图片外网导出 -->
@@ -86,6 +94,11 @@
         <task:scheduled ref="ExpertTask" method="exportLogoutExpert" cron="0 30 1 * * ?"/>
         <!-- 每天凌晨7点导入外网注销专家到内网  (内网执行)-->
         <task:scheduled ref="ExpertTask" method="importLogoutExpert" cron="0 0 7 * * ?"/>
+        
+        <!-- 【内网执行】 每天凌晨2点导出内网地方专家复查结果 -->
+        <task:scheduled ref="ExpertTask" method="handlerExportExpertCheck" cron="0 0 2 * * ? "/>
+        <!-- 【外网执行】每天凌晨7点40导入内网地方专家复查结果 -->
+        <task:scheduled ref="ExpertTask" method="handlerImportExpertCheck" cron="0 40 7 * * ? "/>
 
         <!-- ================================================（统计定时任务）================================================ -->
         <!-- 统计日登录、日注册、日上传文件(每天凌晨十二点半执行一次) -->

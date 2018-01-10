@@ -74,6 +74,10 @@
 		<result column="REVIEW_UNQUALIFIED_CONFIRM" property="reviewUnqualifiedConfirm" />
 		<result column="STORAGE_AT" property="storageAt" />
 		<result column="REVIEW_STATUS" property="reviewStatus" />
+		<result column="FINALINSPECT_PEOPLE" property="finalInspectPeople" />
+		<result column="FINALINSPECT_STATUS" property="finalInspectStatus" />
+		<result column="FINALINSPECT_COUNT" property="finalInspectCount" />
+		<result column="FINALINSPECT_AT" jdbcType="TIMESTAMP" property="finalInspectAt" />
     </resultMap>
 
     <resultMap id="BaseResultMapVO" type="ses.model.ems.ExpertVO" extends="BaseResultMap">
@@ -126,7 +130,8 @@
         TIME_PROFESSIONAL,
         IS_PUBLISH,IS_ADD_EXPERT,IS_TITLE,TEACH_TITLE, EXTRACT_ORGID, AUDITOR,
         AUDIT_OPINION_ATTACH,
-        IS_REVIEW_END,REVIEW_PEOPLE,REVIEW_UNQUALIFIED_CONFIRM,STORAGE_AT,REVIEW_STATUS
+        IS_REVIEW_END,REVIEW_PEOPLE,REVIEW_UNQUALIFIED_CONFIRM,STORAGE_AT,REVIEW_STATUS,
+        FINALINSPECT_PEOPLE,FINALINSPECT_STATUS,FINALINSPECT_COUNT,FINALINSPECT_AT
     </sql>
     <sql id="Column_List">
         e.ID, e.IS_SUBMIT, e.IS_DO, e.IS_DELETE, e.CREATED_AT,
@@ -192,6 +197,9 @@
         T1.STORAGE_AT,
         T1.AT_DUTY,
         T1.PROFESS_TECH_TITLES,
+        T1.FINALINSPECT_PEOPLE,
+        T1.FINALINSPECT_STATUS,
+        T1.FINALINSPECT_COUNT,
         T2.LOGIN_NAME AS loginName,
         org.SHORT_NAME AS orgName,
         AREA.NAME AS ADDRESS
@@ -216,6 +224,15 @@
         </if>
         <if test="mobile != null and mobile !=''">
              AND T1.MOBILE like CONCAT(CONCAT('%', #{mobile}), '%')
+        </if>
+        <if test="finalInspectPeople!=null">
+        	AND T1.FINALINSPECT_PEOPLE like CONCAT(CONCAT('%', #{finalInspectPeople}), '%')
+        </if>
+        <if test="finalInspectStatus!=null">
+        	AND T1.FINALINSPECT_STATUS=#{finalInspectStatus}
+        </if>
+        <if test="finalInspectCount!=null">
+        	AND T1.FINALINSPECT_COUNT =#{finalInspectCount}
         </if>
         <if test="expertsFrom != null and expertsFrom !=''">
             AND T1.EXPERTS_FROM = #{expertsFrom}
@@ -256,6 +273,9 @@
         </if>
         <if test="auditTemporary !=null">
           and T1.AUDIT_TEMPORARY = #{auditTemporary}
+        </if>
+        <if test="auditAt !=null">
+           AND TO_CHAR(T1.AUDIT_AT,'YY-MM-DD') = TO_CHAR(#{auditAt},'YY-MM-DD')
         </if>
         <if test="address != null and address !=''">
 		      AND A.PARENT_ID = #{address}
@@ -926,6 +946,18 @@
             </if>
             <if test="reviewUnqualifiedConfirm != null and reviewUnqualifiedConfirm !=''">
                 REVIEW_UNQUALIFIED_CONFIRM = #{reviewUnqualifiedConfirm},
+            </if>
+            <if test="finalInspectPeople!=null">
+                FINALINSPECT_PEOPLE = #{finalInspectPeople},
+            </if>
+            <if test="finalInspectStatus!=null">
+                FINALINSPECT_STATUS = #{finalInspectStatus},
+            </if>
+            <if test="finalInspectCount!=null">
+                FINALINSPECT_COUNT = #{finalInspectCount},
+            </if>
+            <if test="finalInspectAt!=null">
+                FINALINSPECT_AT = #{finalInspectAt,jdbcType=TIMESTAMP},
             </if>
         </set>
         where ID = #{id,jdbcType=VARCHAR}
@@ -1779,6 +1811,7 @@
         <include refid="Base_Column_List" />
         FROM T_SES_EMS_EXPERT
         WHERE 
+        EXPERTS_FROM=#{netType} AND
         SUBMIT_AT &gt;=
 		to_date(#{startDate,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
 		AND
@@ -2290,7 +2323,7 @@
         </foreach>) 
       ) t5  on t1.ID = t5.expertId
     </if>
-    where (T1.STATUS = 6 or T1.STATUS = 7 or T1.STATUS = 13 or T1.STATUS = 17 or T1.STATUS = 19)
+    where (T1.STATUS = 6 or T1.STATUS = 7 or T1.STATUS = 13 or T1.STATUS = 17)
     AND T1.IS_PROVISIONAL = '0'
     AND T1.IS_DELETE = 0
     <if test="relName != null and relName !=''">
@@ -2340,7 +2373,7 @@
     <if test="addressName != null and addressName !=''">
       and AREA.NAME like CONCAT(CONCAT('%', #{addressName}), '%')
     </if>
-    ORDER BY DECODE (T1.STATUS,'6','1'),T1.STORAGE_AT DESC NULLS LAST
+    <!-- ORDER BY DECODE (T1.STATUS,'6','1'),T1.STORAGE_AT DESC NULLS LAST -->
   </select>
 
 	<!-- 统计注册专家数 -->
@@ -2880,7 +2913,7 @@
         FROM 
           T_SES_EMS_EXPERT
         WHERE 
-          IS_DELETE = 0 AND STATUS in (6,7) AND IS_PROVISIONAL &lt;&gt; 1
+          IS_DELETE = 0 AND STATUS in (6,7,17) AND IS_PROVISIONAL &lt;&gt; 1
         <!-- 查询品目包含的专家 -->
         <if test="size > 0">
           AND ID IN 
@@ -2956,4 +2989,31 @@
   <update id="updateReviewStatus" parameterType="java.lang.String">
   	UPDATE T_SES_EMS_EXPERT SET REVIEW_STATUS='${reciewStatus}' WHERE ID='${id}'
   </update>
+  <update id="updateExpertFinalInspect" parameterType="ses.model.ems.Expert">
+  	UPDATE T_SES_EMS_EXPERT
+  		 <set>
+            <if test="finalInspectPeople != null">
+                FINALINSPECT_PEOPLE = #{finalInspectPeople,jdbcType=VARCHAR},
+            </if>
+            <if test="finalInspectStatus != null">
+                FINALINSPECT_STATUS = #{finalInspectStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="finalInspectCount != null">
+                FINALINSPECT_COUNT = #{finalInspectCount,jdbcType=VARCHAR},
+            </if>
+         </set>
+         where ID=#{id,jdbcType=VARCHAR}
+  </update>
+  <!-- 根据复查时间获取专家 -->
+    <select id="getFcExpertByDate" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM T_SES_EMS_EXPERT
+        WHERE  EXPERTS_FROM=#{netType} AND
+        FINALINSPECT_AT &gt;=
+        to_date(#{startDate,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+        AND
+        FINALINSPECT_AT &lt;= to_date(#{endDate,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+        AND STATUS IN ('7','8','17')
+    </select>
 </mapper>

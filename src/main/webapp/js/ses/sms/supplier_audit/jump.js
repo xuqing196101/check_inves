@@ -77,6 +77,21 @@ function jump(str) {
 
         }*/
     }
+    
+    //复核
+    if (str == "historyReview") {
+        action = globalPath + "/supplierReview/historyReview.html";
+    }
+    
+    //考察
+    if (str == "inves") {
+        action = globalPath + "/supplierInves/inves.html";
+    }
+    
+    //复核
+    if (str == "review") {
+        action = globalPath + "/supplierReview/review.html";
+    }
     submitJumpForm(action);
 }
 
@@ -86,7 +101,8 @@ function submitJumpForm(action){
     var $hidSupplierId = $('<input name="supplierId" value="'+supplierId+'" type="hidden"/>');
     var $hidSupplierSt = $('<input name="supplierStatus" value="'+supplierSt+'" type="hidden"/>');
     var $hidSign = $('<input name="sign" value="'+sign+'" type="hidden"/>');
-    $form.append($hidSupplierId).append($hidSupplierSt).append($hidSign);
+    var $reviewStatus = $('<input name="reviewStatus" value="'+reviewStatus+'" type="hidden"/>');
+    $form.append($hidSupplierId).append($hidSupplierSt).append($hidSign).append($reviewStatus);
     $("body").append($form);
 //    $("#form_id").attr("action", action);
 //    $("#form_id").submit();

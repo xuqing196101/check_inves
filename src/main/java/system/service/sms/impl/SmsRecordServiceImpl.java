@@ -106,7 +106,7 @@ public class SmsRecordServiceImpl implements SmsRecordService{
         if (smsRecordList != null && smsRecordList.size() > 0) {
             sum = sum + smsRecordList.size();
             // 专家抽取结果信息
-            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SMS_RECORD_PATH_FILENAME, 38), JSON.toJSONString(smsRecordList));
+            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SMS_RECORD_PATH_FILENAME, 44), JSON.toJSONString(smsRecordList));
         }
         synchRecordService.synchBidding(new Date(), sum + "",Constant.DATE_SYNCH_SMS_RECORD, Constant.OPER_TYPE_EXPORT,Constant.SMS_RECORD_COMMIT);
 	}

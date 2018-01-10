@@ -18,6 +18,7 @@ import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierStockholderRecy;
+import extract.model.supplier.SupplierExtractResult;
 /**
  * @Title: SupplierInfoService
  * @Description: Supplier 接口
@@ -629,10 +630,28 @@ public interface SupplierService {
 	/**
 	 * 更新复核或实地考察信息
 	 */
-	void updateReviewOrInves(Supplier supplier);
+	int updateReviewOrInves(Supplier supplier);
 	
 	/**
 	 * 更新复核
 	 */
 	void updateReview(String orgId, List<SaleTender> list);
+
+	/**
+	 *〈简述〉获取时间段内复核结束的供应商
+	 *〈详细描述〉
+	 * @author Ye Maolin
+	 * @param startTime
+	 * @param endTime
+	 * @return
+	 */
+	public List<Supplier> getSupplierByReviewTime(String startTime,
+			String endTime);
+
+	/**
+	 * 根据id查询名称
+	 * @param supplierId
+	 * @return
+	 */
+	public String getNameById(String supplierId);
 }

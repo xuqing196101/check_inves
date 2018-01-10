@@ -3,6 +3,7 @@
 <%@ page import="org.apache.commons.lang3.math.NumberUtils"%>
 <%@ page import="ses.constants.SupplierConstants"%>
 <%@ page import="ses.model.bms.User" %>
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
 <% 
 	String ipAddressType = SupplierConstants.IP_ADDRESS_TYPE;
 	String ipInner = SupplierConstants.IP_INNER;
@@ -21,12 +22,16 @@
 	request.setAttribute("ipAddressType", ipAddressType);
 	request.setAttribute("ipInner", ipInner);
 	request.setAttribute("ipOuter", ipOuter);
+	
+	int reviewStatus = NumberUtils.toInt(request.getParameter("reviewStatus"));
+	request.setAttribute("reviewStatus", reviewStatus);
 %>
 <%-- <c:set var="isAudit" value="<%=isAudit %>"/>
 <c:set var="isStatusToAudit" value="<%=isStatusToAudit %>"/>
 <c:set var="ipAddressType" value="<%=ipAddressType %>"/>
 <c:set var="ipInner" value="<%=ipInner %>"/>
 <c:set var="ipOuter" value="<%=ipOuter %>"/> --%>
+<c:set var="sign" value="<%=sign %>"/>
 
 <ul class="flow_step">
     <li id="reverse_of_one"  onclick="jump('essential')">
@@ -80,8 +85,8 @@
     </li>
     <li onclick = "jump('contract')" >
       <a aria-expanded="false" href="#tab-4">销售合同</a>
-       <i></i>-->
-    </li>
+       <i></i>
+    </li>-->
     <li id="reverse_of_five" onclick="jump('aptitude')">
         <a aria-expanded="false" href="#tab-4">产品类别及资质合同</a>
         <i></i>
@@ -90,13 +95,31 @@
         <a aria-expanded="false" href="#tab-4">承诺书和申请表</a>
         <i></i>
     </li>
-    <li id="reverse_of_seven" onclick="jump('reasonsList')">
-        <a aria-expanded="false" href="#tab-4">审核汇总</a>
-        <i id="reverse_of_seven_i" class="display-none"></i>
-    </li>
-    <li id="reverse_of_eight" onclick="jump('uploadApproveFile')" class="display-none">
-        <a aria-expanded="false" href="#tab-4">上传批准审核表</a>
-    </li>
+    <c:if test="${sign == 1}">
+	    <li id="reverse_of_seven" onclick="jump('reasonsList')">
+	        <a aria-expanded="false" href="#tab-4">审核汇总</a>
+	        <i id="reverse_of_seven_i" class="display-none"></i>
+	    </li>
+	    <li id="reverse_of_eight" onclick="jump('uploadApproveFile')" class="display-none">
+	        <a aria-expanded="false" href="#tab-4">上传批准审核表</a>
+	    </li>
+	  </c:if>
+    <c:if test="${sign == 2}">
+      <c:if test="${reviewStatus == 1}">
+	      <li id="reverse_of_eleven" onclick="jump('historyReview')">
+	        <a aria-expanded="false" href="#tab-4">历史复核信息</a>
+	        <i></i>
+	      </li>
+      </c:if>
+      <li id="reverse_of_nine" onclick="jump('review')">
+        <a aria-expanded="false" href="#tab-4">供应商复核</a>
+      </li>
+    </c:if>
+    <c:if test="${sign == 3}">
+      <li id="reverse_of_ten" onclick="jump('inves')">
+        <a aria-expanded="false" href="#tab-4">供应商实地考察</a>
+      </li>
+    </c:if>
 </ul>
 <style type="text/css">
   .border_red{
@@ -114,6 +137,7 @@
 	var supplierSt = "<%=supplierSt %>";
 	var currentStep = "<%=currentStep %>";
 	var sign = "<%=sign %>";
+	var reviewStatus = "<%=reviewStatus %>";
 	
 	$(function(){
 		// 导航栏选中
@@ -121,20 +145,22 @@
 		$("#reverse_of_"+currentStep).addClass("active").removeAttr("onclick");
 		if(currentStep != "seven" && currentStep != "eight"){
 			// 文本只读
-			$("input[type='text'],textArea").attr("readonly", "readonly");
-			// 文本添加title
-			$("input[type='text'],textArea").each(function(){
-				$(this).attr("title", $(this).val());
-			});
-			// 文本鼠标移入移出效果
-			$("input[type='text'],textArea").each(function () {
-			  var onmousemove = "this.style.background='#E8E8E8'";
-			  var onmouseout = "this.style.background='#FFFFFF'";
-			  $(this).attr("onmousemove", onmousemove);
-			  $(this).attr("onmouseout", onmouseout);
-			});
-			// 隐藏
-			//$("td,li").find("p").hide();
+			if(sign == 1){
+				$("input[type='text'],textArea").attr("readonly", "readonly");
+				// 文本添加title
+				$("input[type='text'],textArea").each(function(){
+					$(this).attr("title", $(this).val());
+				});
+				// 文本鼠标移入移出效果
+				$("input[type='text'],textArea").each(function () {
+				  var onmousemove = "this.style.background='#E8E8E8'";
+				  var onmouseout = "this.style.background='#FFFFFF'";
+				  $(this).attr("onmousemove", onmousemove);
+				  $(this).attr("onmouseout", onmouseout);
+				});
+				// 隐藏
+				//$("td,li").find("p").hide();
+			}
 		}
 		// 预审核结束状态
 		if(supplierSt == -2 || supplierSt == -3 || supplierSt == 3 || (supplierSt == 1 && sign == 1)){
