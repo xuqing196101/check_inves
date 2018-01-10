@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import bss.model.ppms.SaleTender;
 import ses.formbean.ContractBean;
 import ses.formbean.QualificationBean;
 import ses.formbean.SupplierItemCategoryBean;
@@ -631,7 +632,7 @@ public interface SupplierService {
 	void updateReviewOrInves(Supplier supplier);
 	
 	/**
-	 * 更新抽取到的供应商
+	 * 更新复核
 	 */
-	void updateExtractOrgid(String orgId, List<String> list);
+	void updateReview(String orgId, List<SaleTender> list);
 }

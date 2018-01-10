@@ -710,10 +710,6 @@ public interface SupplierMapper {
 	 */
 	void updateReviewOrInves(Supplier supplier);
 	
-	/**
-	 * 查询抽取到的供应商数量
-	 * @param id
-	 * @return
-	 */
-	Integer selectExtractOrgidById (String id);
+
+	Integer selectReviewOrgIdById (String id);
 }

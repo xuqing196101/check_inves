@@ -104,6 +104,9 @@
 		<result column="INVES_PEOPLE" property="invesPeople"/>
 		<result column="INVES_AT" property="invesAt" jdbcType="TIMESTAMP"/>
 		<result column="EXTRACT_AT" property="extractAt" jdbcType="TIMESTAMP"/>
+		<result column="REVIEW_PROJECT_ID" property="reviewProjectId"/>
+		<result column="REVIEW_ORG_ID" property="reviewOrgId"/>
+		<result column="BID_OPENING_AT" property="bidOpeningAt" jdbcType="TIMESTAMP"/>
     <association property="area" column="ADDRESS" select="ses.dao.bms.AreaMapper.selectById"/>
 	</resultMap>
 
@@ -2660,19 +2663,27 @@
         <if test="extractAt !=null">
           EXTRACT_AT = #{extractAt},
         </if>
+        <if test="bidOpeningAt !=null">
+          BID_OPENING_AT = #{bidOpeningAt},
+        </if>
+        <if test="reviewProjectId !=null">
+          REVIEW_PROJECT_ID = #{reviewProjectId},
+        </if>
+        <if test="reviewOrgId !=null">
+          REVIEW_ORG_ID = #{reviewOrgId},
+        </if>
       </set>
       where
         ID = #{id}
     </update>
     
-    <!-- 查询抽取到的供应商-->
-    <select id="selectExtractOrgidById" parameterType="java.lang.String" resultType="java.lang.Integer">
+    <select id="selectReviewOrgIdById" parameterType="java.lang.String" resultType="java.lang.Integer">
 			SELECT
 			  COUNT (*)
 			FROM
 			  T_SES_SMS_SUPPLIER
 			WHERE
-			  EXTRACT_ORGID IS NOT NULL
+			  REVIEW_ORG_ID IS NOT NULL
 			AND ID = #{id}
     </select>
 </mapper>

@@ -123,6 +123,8 @@ import ses.util.SupplierToolUtil;
 import ses.util.WfUtil;
 
 import com.github.pagehelper.PageHelper;
+
+import bss.model.ppms.SaleTender;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
@@ -2768,16 +2770,15 @@ public class SupplierServiceImpl implements SupplierService {
 	}
 
 	/**
-	 * 更新抽取到的供应商
+	 * 更新复核
 	 */
 	@Override
-	public void updateExtractOrgid(String orgId, List<String> list) {
-		for(String id : list){
-			Integer num = supplierMapper.selectExtractOrgidById(id);
+	public void updateReview(String orgId, List<SaleTender> list) {
+		for(SaleTender saleTender : list){
+			Integer num = supplierMapper.selectReviewOrgIdById(saleTender.getSupplierId());
 			if(num == 0){
 				Supplier supplier = new Supplier();
-				supplier.setId(id);
-				supplier.setExtractAt(new Date());
+				supplier.setId(saleTender.getSupplierId());
 				supplier.setExtractOrgid(orgId);
 				supplierMapper.updateReviewOrInves(supplier);
 			}
