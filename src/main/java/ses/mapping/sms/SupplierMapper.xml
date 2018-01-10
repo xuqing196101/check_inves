@@ -2677,6 +2677,7 @@
         </if>
         <if test="reviewOrgId !=null">
           REVIEW_ORG_ID = #{reviewOrgId},
+        </if>
         <if test="extractProjectId !=null">
           EXTRACT_PROJECT_ID = #{extractProjectId},
         </if>
