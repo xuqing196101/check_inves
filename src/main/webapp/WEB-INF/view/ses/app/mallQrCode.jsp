@@ -29,13 +29,7 @@
     var fileName = null;
       if(bid != ""){
         var id = bid;
-        /* var form = $("<form>");   
-        form.attr('style', 'display:none');   
-        form.attr('method', 'post');
-        form.attr('action', '${pageContext.request.contextPath}/api/v1/download.html?id='+ id +'&key='+key + '&zipFileName=' + encodeURI(encodeURI(zipFileName)) + '&fileName=' + encodeURI(encodeURI(fileName)));
-        $('body').append(form); 
-        form.submit().remove(); */
-        window.location.href = "${pageContext.request.contextPath}/api/v1/download.html?id="+ id +"&key="+ key +"&zipFileName=" + encodeURI(encodeURI(zipFileName)) + "&fileName=" + encodeURI(encodeURI(fileName));
+      	$("#dow").attr("src","${pageContext.request.contextPath}/api/v1/download.html?id="+ id +"&key="+ key +"&zipFileName=" + encodeURI(encodeURI(zipFileName)) + "&fileName=" + encodeURI(encodeURI(fileName)));
       }
   }
   
@@ -78,6 +72,8 @@
   <!-- 引导 -->
   <div class="guide" id="guide"><img src="${pageContext.request.contextPath}/public/portal/images/mallwx.png" alt=""></div>
   <!-- End 引导 -->
+  <!-- 下载页面 -->
+  <iframe class = "hide" id = "dow"></iframe>
 </body>
 </html>
 <style type="text/css">
