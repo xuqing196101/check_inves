@@ -188,9 +188,9 @@
 
 <body>
 	<!--面包屑导航开始-->
-	<div class="margin-top-10 breadcrumbs ">
+	<div class="margin-top-10 breadcrumbs">
 		<div class="container">
-			<ul class="breadcrumb margin-left-0">
+			<ul class="breadcrumb pl0">
 				<li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')">首页</a></li>
 				<li><a href="javascript:void(0);">保障作业系统</a></li>
 				<li><a href="javascript:void(0);">采购计划管理</a></li>
@@ -201,13 +201,13 @@
 	</div>
 	<!-- 录入采购计划开始-->
 	<div class="container">
-		<div class="headline-v2 fl">
+		<div class="headline-v2 ml0">
 			<h2>按明细查询</h2>
 		</div>
 		<div id="packageContent" class="packageContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 			<ul id="tree" class="ztree" style="margin-top:0;"></ul>
 		</div>
-		<h2 class="search_detail">
+		<h2 class="search_detail ml0">
 		<form id="add_form" action="${pageContext.request.contextPath }/statistic/taskDetailList.html" method="post">
 		<input type="hidden" name="page" id="page">
     <div class="m_row_5">
@@ -359,29 +359,26 @@
     </div>
 		</form>
 		</h2>
-		<div class="pl20">
 			<input class="btn-u" type="button" name="" value="按明细查询" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/taskDetailList.html'" />
 			<input class="btn-u" type="button" name="" value="按任务查询" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/taskList.html'" />
 			<input class="btn-u" type="button" name="" value="按需求部门统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charDept.html'" />
 			<input class="btn-u" type="button" name="" value="按采购方式统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charType.html'" />
 			<input class="btn-u" type="button" name="" value="按月统计" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/charMonth.html'" />
-		</div>
-		<div class="content table_box pt10">
-			<table class="table table-bordered table-condensed table-hover">
+			<table class="table table-bordered table-condensed table-hover mt10">
 				<thead>
 					<tr>
 						<th class="w50">序号</th>
-						<th class="w80">任务名称</th>
-						<th class="w80">任务文号</th>
+						<th class="w100">任务名称</th>
+						<th class="w100">任务文号</th>
 						<th class="w80">需求部门</th>
 						<th class="w80">产品编号</th>
 						<th>产品名称</th>
-						<th class="w80">单位</th>
+						<th class="w50">单位</th>
 						<th class="w80">采购数量</th>
 						<th class="w80">单价(元)</th>
 						<th class="w80">金额(万元)</th>
-						<th class="w100">采购方式</th>
-						<th class="w120">采购机构</th>
+						<th class="w80">采购方式</th>
+						<th class="w100">采购机构</th>
 						<th class="w100">下达时间</th>
 					</tr>
 				</thead>
@@ -415,14 +412,17 @@
 						<td class="tc"><fmt:formatDate value="${obj.taskGiveTime}" pattern="yyyy-MM-dd"/></td>
 					</tr>
 				</c:forEach>
-
-
 			</table>
 
 			<div id="pagediv" align="right"></div>
-		</div>
 	</div>
-
+	
+	<script type="text/javascript">
+		var index_load = layer.load(1, {shade: [1, '#FFF']});
+		$(function () {
+			layer.close(index_load);
+		});
+	</script>
 
 </body>
 </html>

@@ -770,9 +770,9 @@
 					detail.PROJECT_ID = #{projectId} 
     </select>
     
-    <update id="updateByPackNull" parameterType="java.lang.String">
+    <update id="updateByPackNull" parameterType="java.util.Map">
     	update T_BSS_PPMS_PROJECTS_DETAIL
-    	SET	PACKAGE_ID = NULL
+    	SET	PACKAGE_ID = NULL, PROJECT_ID = #{projectId}
     	WHERE ID = #{id}
     </update>
     
@@ -813,4 +813,17 @@
 			WHERE
 				isParent = 'false')
     </update>
+    
+    <select id="selectByBudget" parameterType="java.util.Map" resultType="java.math.BigDecimal">
+    	SELECT
+    	 SUM(BUDGET)
+    	FROM T_BSS_PPMS_PROJECTS_DETAIL WHERE
+    	<if test="packageId != null and packageId != ''">
+    		PACKAGE_ID = #{packageId}
+    	</if>
+    	<if test="projectId != null and projectId != ''">
+    		AND PROJECT_ID = #{projectId}
+    	</if>
+    	
+    </select>
 </mapper>

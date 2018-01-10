@@ -736,6 +736,9 @@
 .back{
    background-position: -35px -161px;
 }
+.next{
+   background-position: -35px -1590px;
+}
 .edit{
    background-position: -35px -51px;
 }

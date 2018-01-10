@@ -28,11 +28,15 @@
 	          if(isCharges == 1  || isCharges == 3 || isCharges == 4){
 	            var isCharge = $("input[name='fileName']");
 	            isCharge[0].checked=true;
-	            $(isCharge).attr("disabled","disabled");
+	            $(isCharge[0]).attr("disabled","disabled");
+	            $(isCharge[1]).addClass("hide");
+	            $(isCharge[1]).next().hide();
 	          } else if (isCharges == 5){
 	            var isCharge = $("input[name='fileName']");
 	            isCharge[1].checked=true;
-	            $(isCharge).attr("disabled","disabled");
+	            $(isCharge[1]).attr("disabled","disabled");
+	            $(isCharge[0]).addClass("hide");
+	            $(isCharge[0]).next().hide();
 	          }
 	        }
 		 });
@@ -127,15 +131,13 @@
 		</div>
 		
 		<div class="col-md-12 col-sm-12 col-xs-12 m_boxS1 mt20">
+			<div class="mb10"><span class="star_red">*</span>采购文件是否需要提交至管理部门报批</div>
 			<div class="clear">
 				<input type="radio" name="fileName" value="1" id="fileName_1"><label for="fileName_1" class="m_inline hand ml5">报批</label>
 				<input type="radio" name="fileName" value="5" id="fileName_2" class="ml10"><label for="fileName_2" class="m_inline hand ml5">不报批</label>
 			</div>
 			<c:if test="${project.confirmFile eq null or project.confirmFile == 0 or project.confirmFile == 2}">
-			<p>采购文件是否需要提交至管理部门报批</p>
 			 <button class="btn btn-windows save" type="button" onclick="saveFile()"">完成</button>
-       <!-- <button class="btn btn-windows save" type="button" onclick="saveFile('1')"">报批</button>
-       <button class="btn" type="button" onclick="saveFile('5')">不报批</button> -->
        </c:if>
      </div>
 	</body>

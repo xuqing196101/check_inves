@@ -8,9 +8,9 @@
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <script type="text/javascript">
       /** 全选全不选 */
-      function selectAll() {
-        var checklist = document.getElementsByName("chkItem");
-        var checkAll = document.getElementById("checkAll");
+      function selectAll(index) {
+        var checklist = document.getElementsByName("chkItem"+ index);
+        var checkAll = document.getElementById("checkAll" + index);
         if(checkAll.checked) {
           for(var i = 0; i < checklist.length; i++) {
             checklist[i].checked = true;
@@ -23,10 +23,10 @@
       }
 
       /** 单选 */
-      function check() {
+      function check(index) {
         var count = 0;
-        var checklist = document.getElementsByName("chkItem");
-        var checkAll = document.getElementById("checkAll");
+        var checklist = document.getElementsByName("chkItem"+ index);
+        var checkAll = document.getElementById("checkAll" + index);
         for(var i = 0; i < checklist.length; i++) {
           if(checklist[i].checked == false) {
             checkAll.checked = false;
@@ -75,25 +75,74 @@
         }
       } 
       
-      function deleted(){
-      	var id = [];
-      	$("input[name='chkItem']:checked").each(function() {
-      		id.push($(this).val());
-      	});
-      	$.ajax({
-      		url: "${pageContext.request.contextPath}/project/deletedDetail.html?id=" + id,
-          type: "post",
-          dataType: "text",
-          async: false,
-          success: function(result) {
-            if(result == "ok") {
-            	 layer.msg("删除成功");
-            	 window.location.reload()
-            } else {
-            	 layer.msg("删除失败");
-            }
-          }
-      	});
+      function deleted(indexs){
+      	var table_index = $(".left_table").length;
+      	if (table_index == 1) {
+      		layer.confirm('本项目就一包,您确定要中止项目吗?', {
+		          title: '提示',
+		          shade: 0.01
+		        },function(index) {
+		          layer.close(index);
+		          $.ajax({
+			      		url: "${pageContext.request.contextPath}/project/deletedDetail.html?projectId=${projectId}&type=1",
+			          type: "post",
+			          dataType: "text",
+			          async: false,
+			          success: function(result) {
+			            if(result == "ok") {
+			            	 layer.msg("删除成功");
+			            	 window.location.reload();
+			            } else {
+			            	 layer.msg("删除失败");
+			            }
+			          }
+			      	});
+		        });
+      	} else {
+      		var id = [];
+      		var packId = [];
+	      	$("input[name='chkItem"+indexs+"']:checked").each(function() {
+	      		id.push($(this).val());
+	      		packId.push($(this).next().val());
+	      	});
+	      	if (id.length == $("input[name='chkItem"+indexs+"']").length) {
+	      		layer.confirm('您确定要删除本包吗?', {
+		          title: '提示',
+		          shade: 0.01
+		        },function(index) {
+		          layer.close(index);
+		          $.ajax({
+			      		url: "${pageContext.request.contextPath}/project/deletedDetail.html?id=" + id + "&projectId=${projectId}&type=2&packageId=" + packId,
+			          type: "post",
+			          dataType: "text",
+			          async: false,
+			          success: function(result) {
+			            if(result == "ok") {
+			            	 layer.msg("删除成功");
+			            	 window.location.reload();
+			            } else {
+			            	 layer.msg("删除失败");
+			            }
+			          }
+			      	});
+		        });
+	      	} else {
+	      		/* $.ajax({
+		      		url: "${pageContext.request.contextPath}/project/deletedDetail.html?id=" + id + "&projectId=${projectId}&type=3",
+		          type: "post",
+		          dataType: "text",
+		          async: false,
+		          success: function(result) {
+		            if(result == "ok") {
+		            	 layer.msg("删除成功");
+		            	 window.location.reload();
+		            } else {
+		            	 layer.msg("删除失败");
+		            }
+		          }
+		      	}); */
+	      	}
+      	}
       }
     </script>
   </head>
@@ -139,16 +188,24 @@
           	<div class="col-md-12 col-sm-6 col-xs-12 p0">
             	<span onclick="ycDiv(this,'${p.index}')" id="package" class="count_flow hand shrink"></span>
               <span class="f16 b">包名：</span>
-              <span class="f14 blue">${pack.name}</span>
+              <span class="f14 blue">${pack.name}
+              <c:if test="${pack.projectStatus eq 'YZZ'}"><span class="star_red">[该包已终止]</span></c:if> 
+						 	<c:if test="${pack.projectStatus eq 'ZJZXTP'}"><span class="star_red">[该包已转竞谈]</span></c:if>
+						 	<c:if test="${pack.projectStatus eq 'ZJTSHZ'}"><span class="star_red">[该包转竞谈审核中]</span></c:if>
+						  <c:if test="${pack.projectStatus eq 'ZJTSHBTG'}"><span class="star_red">[该包转竞谈审核不通过]</span></c:if>
+              </span>
             </div>
             <div class="clear"></div>
             <div id="table_1_${p.index}" class="hide">
-            <button class="btn" type="button" onclick="deleted()">删除</button>
+            <button class="btn" type="button" onclick="deleted('${p.index}')" 
+	            <c:if test="${pack.projectStatus eq 'ZJZXTP' 
+	            || pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJTSHZ'
+	            || pack.projectStatus eq 'ZJTSHBTG'}">disabled="disabled"</c:if>>删除</button>
             <table  class="table table-bordered table-condensed table-hover table-striped left_table lockout  mt10 mb0">
               <thead>
                 <tr class="space_nowrap">
                 	<th class="w30">
-		                <input type="checkbox" id="checkAll" onclick="selectAll()" />
+		                <input type="checkbox" id="checkAll${p.index}" onclick="selectAll('${p.index}')" />
 		              </th>
                   <th class="info seq">序号</th>
                   <th class="info department">需求部门</th>
@@ -166,7 +223,8 @@
               <c:forEach items="${pack.projectDetails}" var="obj" varStatus="vs">
                 <tr style="cursor: pointer;">
                 	<td class="tc w30">
-	                  <input type="checkbox" value="${obj.id}" name="chkItem" onclick="check()">
+	                  <input type="checkbox" value="${obj.id}" name="chkItem${p.index}" onclick="check('${p.index}')">
+	                  <input type="hidden" value="${obj.packageId}"/>
 	                </td>
                   <td><div class="seq">${obj.serialNumber}</div></td>
                   <td>

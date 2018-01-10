@@ -172,6 +172,8 @@ public class PurchaseContract implements Serializable{
 	
 	private Integer transportFees; //有无运杂费 1有 0 无
 	
+	private Integer auditStatus; //审核状态：1.未审核；2.审核中；3.审核通过；4.审核不通过
+	
 	private List<AfterSaleSer> afterSaleSers;
 	
 	public Supplier getSupplier() {
@@ -815,6 +817,14 @@ public class PurchaseContract implements Serializable{
 
   public void setTransportFees(Integer transportFees) {
     this.transportFees = transportFees;
+  }
+  
+  public Integer getAuditStatus() {
+	return auditStatus;
+  }
+
+  public void setAuditStatus(Integer auditStatus) {
+	this.auditStatus = auditStatus;
   }
 
   public static long getSerialversionuid() {

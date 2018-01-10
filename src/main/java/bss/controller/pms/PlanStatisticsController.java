@@ -839,16 +839,9 @@ public class PlanStatisticsController extends BaseController {
 			map.put("uniqueId", id);
 			List<PurchaseDetail> list = purchaseDetailService.selectByTaskDetail(map);
 			model.addAttribute("list", list);
-			model.addAttribute("kind", DictionaryDataUtil.find(5));
         	String typeId = DictionaryDataUtil.getId("PURCHASE_DETAIL");
     		model.addAttribute("typeId", typeId);
-    		
-    		HashMap<String,Object> hashMap = new HashMap<String,Object>();
-    		hashMap.put("typeName", 1);
-    		List<PurchaseDep> org = purchaseOrgnizationServiceI.findPurchaseDepList(hashMap);
-    		model.addAttribute("org", org);
-    		model.addAttribute("type", 1);
 		}
-		return "bss/pms/collect/plan_view";
+		return "bss/pms/statistic/task_view";
 	}
 }

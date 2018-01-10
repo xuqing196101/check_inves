@@ -1933,7 +1933,14 @@ ORDER BY
 			detail.IS_MASTER ASC
 	</select>
 	
-	<select id="selectByTaskDetail" parameterType="java.util.Map" resultMap="PurchaseRequired_Map">
+	<select id="selectByTaskDetail" parameterType="java.util.Map" resultType="bss.model.pms.PurchaseDetail">
+		SELECT TAB.ID,TAB.SEQ,TAB.DEPARTMENT AS department,TAB.MATERIAL_NAME AS goodsName,TAB.STAND AS stand,
+		TAB.QUALIT_STAND AS qualitStand,TAB.ITEM,TAB.isParent,
+		TAB.PURCHASE_COUNT AS purchaseCount,TAB.PRICE,TAB.DELIVER_DATE,TAB.SUPPLIER AS supplier,TAB.MEMO,
+		(SELECT name FROM T_SES_BMS_DICTIONARY_DATA WHERE ID = TAB.PURCHASE_TYPE) AS purchaseType,
+	(SELECT SHORT_NAME FROM T_SES_OMS_ORG WHERE ID = TAB.ORGANIZATION_ID) AS organization,
+	decode(isParent,'true',PUR_TASK_DETAIL(#{orgId},#{uniqueId},TAB.id),TAB.budget) AS budgets
+		 FROM (
 		SELECT
 			detail.*,DECODE (
 				(
@@ -1959,15 +1966,14 @@ ORDER BY
 						FROM
 							T_BSS_PMS_PURCHASE_DETAIL pd
 						WHERE
-							PD.HISTORY_STATUS = 0
+							PD.HISTORY_STATUS = 0	and PD.ORGANIZATION_ID = #{orgId}
 						AND CONNECT_BY_ISLEAF > 0 START WITH EXISTS (
 							SELECT
 								ASD. ID
 							FROM
 								T_BSS_PMS_PURCHASE_DETAIL asd
 							WHERE
-								ASD.ORGANIZATION_ID = #{orgId}
-							AND ASD.UNIQUE_ID = #{uniqueId}
+							 ASD.UNIQUE_ID = #{uniqueId}
 							AND asd. ID = pd. ID
 						) CONNECT BY PRIOR pd. ID = pd.PARENT_ID
 						GROUP BY
@@ -1983,15 +1989,14 @@ ORDER BY
 							FROM
 								T_BSS_PMS_PURCHASE_DETAIL pd
 							WHERE
-								PD.HISTORY_STATUS = 0
+								PD.HISTORY_STATUS = 0 and PD.ORGANIZATION_ID = #{orgId}
 							AND CONNECT_BY_ISLEAF > 0 START WITH EXISTS (
 								SELECT
 									ASD. ID
 								FROM
 									T_BSS_PMS_PURCHASE_DETAIL asd
 								WHERE
-									ASD.ORGANIZATION_ID = #{orgId}
-									AND ASD.UNIQUE_ID = #{uniqueId}
+									 ASD.UNIQUE_ID = #{uniqueId}
 								AND asd. ID = pd. ID
 							) CONNECT BY PRIOR pd. ID = pd.PARENT_ID
 							GROUP BY
@@ -1999,6 +2004,6 @@ ORDER BY
 						) CONNECT BY PRIOR DD.PARENT_ID = DD. ID
 			) detail
 		ORDER BY
-			detail.IS_MASTER
+			detail.IS_MASTER DESC) TAB order by TAB.is_master 
 	</select>
 </mapper>

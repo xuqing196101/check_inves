@@ -1,5 +1,6 @@
 package bss.dao.ppms;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -105,8 +106,10 @@ public interface ProjectDetailMapper {
 	 * @param @param map      
 	 * @return void
 	  */
-	 void updateByPackNull(String id);
+	 void updateByPackNull(HashMap<String, Object> map);
 	 
 	 void updateByPackId(HashMap<String, Object> map);
+	 
+	 BigDecimal selectByBudget(HashMap<String, Object> map);
 	 
 }

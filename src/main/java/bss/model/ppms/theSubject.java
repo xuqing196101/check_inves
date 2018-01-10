@@ -110,6 +110,12 @@ public class theSubject {
     private String trademark;
     
     private String serialNumber;
+    
+    private String memo;
+    
+    private String deliverDate;
+    
+    private BigDecimal budget;
 
     /**
      * <pre>
@@ -433,6 +439,30 @@ public class theSubject {
 
 	public void setSerialNumber(String serialNumber) {
 		this.serialNumber = serialNumber;
+	}
+
+	public String getMemo() {
+		return memo;
+	}
+
+	public void setMemo(String memo) {
+		this.memo = memo;
+	}
+
+	public String getDeliverDate() {
+		return deliverDate;
+	}
+
+	public void setDeliverDate(String deliverDate) {
+		this.deliverDate = deliverDate;
+	}
+
+	public BigDecimal getBudget() {
+		return budget;
+	}
+
+	public void setBudget(BigDecimal budget) {
+		this.budget = budget;
 	}
     
 }

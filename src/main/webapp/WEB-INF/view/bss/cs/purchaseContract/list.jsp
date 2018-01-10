@@ -99,28 +99,31 @@
           layer.msg("只有采购机构可以操作");
           return;
         }
-        var ids = [];
-        var supid = [];
-        var supcheckid = [];
-        var isCreateContract = [];
-        var transactionAmount = [];
+        var packId = [];
+        var supplierId = [];
+        var supcheckId = [];
+        var status = [];
+        var wonPrice = [];
+        var projectId = [];
         $('input[name="chkItem"]:checked').each(function() {
-          ids.push($(this).val());
-          supid.push($(this).parent().next().text());
-          supcheckid.push($(this).parent().next().next().text());
-          isCreateContract.push($(this).parent().next().next().next().text());
-          transactionAmount.push($(this).parent().next().next().next().next().text());
+          packId.push($(this).val());
+          projectId.push($(this).next().val());
+          supplierId.push($(this).parent().next().text());
+          supcheckId.push($(this).parent().next().next().text());
+          status.push($(this).parent().next().next().next().text());
+          wonPrice.push($(this).parent().next().next().next().next().text());
         });
-        if(ids.length > 0) {
-          if(ids.length > 1) {
+        if(packId.length > 0) {
+          if(packId.length > 1) {
             layer.msg("只可选择一条项目生成");
           } else {
-            if(isCreateContract == 1) {
+            if(status == 1) {
               layer.msg("已生成过");
-            } else if(isCreateContract == 2) {
+            } else if(status == 2) {
               layer.msg("暂存文件请在修改暂存中生成");
             } else {
-              window.location.href = "${pageContext.request.contextPath}/purchaseContract/createCommonContract.html?supid=" + supid + "&id=" + ids + "&supcheckid=" + supcheckid + "&transactionAmount=" + transactionAmount;
+            	window.location.href = "${pageContext.request.contextPath}/purchaseContract/createCommonContract.html?id=" + packId + "&supid=" + supplierId + "&supcheckid=" + supcheckId + "&transactionAmount=" + wonPrice;
+              //window.location.href = "${pageContext.request.contextPath}/purchaseContract/createCommonContract.html?supplierId=" + supplierId + "&packId=" + packId + "&supcheckId=" + supcheckId + "&wonPrice=" + wonPrice + "&projectId=" + projectId;
             }
           }
         } else {
@@ -306,11 +309,14 @@
           </thead>
           <c:forEach items="${list.list}" var="pass" varStatus="vs">
             <tr>
-              <td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${pass.packages.id}" /></td>
+              <td class="tc pointer">
+              	<input onclick="check()" type="checkbox" name="chkItem" value="${pass.packageId}" />
+              	<input type="hidden" value="${pass.projectId}"/>
+              </td>
               <td class="tnone">${pass.supplierId}</td>
               <td class="tnone">${pass.id}</td>
               <td class="tnone">${pass.isCreateContract}</td>
-              <td class="tnone">${pass.packages.wonPrice}</td>
+              <td class="tnone">${pass.wonPrice}</td>
               <td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
               <c:set value="${pass.projectName}" var="name"></c:set>
               <c:set value="${fn:length(name)}" var="length"></c:set>
