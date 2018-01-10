@@ -814,7 +814,8 @@
           <ul class="flow_step">
             <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="">基本信息</a><i></i></li>
             <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="">标的信息</a><i></i></li>
-			<li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="">合同文本</a></li>
+			<li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="">合同文本</a><i></i></li>
+			<li class=""><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="">审核结果</a></li>
           </ul>
           <form id="contractForm" action="${pageContext.request.contextPath}/purchaseContract/updateDraftContract.html" method="post">
           <div class="tab-content padding-top-20">
@@ -983,8 +984,8 @@
 			 	<li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><!-- <div class="red star_red">*</div> -->授权书：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-			        <u:upload id="post_attach_up" businessId="${attachuuid}" sysKey="${bookattachsysKey}" typeId="${bookattachtypeId}" multiple="true" auto="true" />
-					<u:show showId="post_attach_show" businessId="${attachuuid}" sysKey="${bookattachsysKey}" typeId="${bookattachtypeId}"/>
+			        <u:upload id="post_attach_up" businessId="${attachuuid}"  sysKey="${bookattachsysKey}" typeId="${bookattachtypeId}" multiple="true" auto="true" />
+							<u:show showId="post_attach_show" businessId="${attachuuid}"  sysKey="${bookattachsysKey}" typeId="${bookattachtypeId}"/>
 	       			</div>
 				 </li>
 				 <div class="clear"></div>
@@ -1392,6 +1393,33 @@
 				<script type="text/javascript" src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
 			</form>
           </div> 
+          <div class="tab-pane fade" id="tab-4">
+         			<div class="ul_list mb0 p20">
+         				<table class="table table-bordered m0">
+		              <tbody>
+		                <tr>
+		                  <td width="10%" class="info">审核结论：</td>
+		                  <td width="25%">
+		                  	<c:if test="${contractAdvice.status eq null || contractAdvice.status == 1}">未审核</c:if>
+		                  	<c:if test="${contractAdvice.status == 2}">审核中</c:if>
+		                  	<c:if test="${contractAdvice.status == 3}">审核通过</c:if>
+		                  	<c:if test="${contractAdvice.status == 4}">审核不通过</c:if>
+		                  </td>
+		                  <td width="10%" class="info">审核附件：</td>
+		                  <td width="25%"><u:show showId="show_${contractAdvice.id}" businessId="${contractAdvice.id}" sysKey="2" typeId="${auditId}"/></td>
+		                	<td width="10%" class="info">审核意见：</td>
+		                  <td width="25%">${contractAdvice.reason}</td>
+		                </tr>
+		                <tr>
+		                  <td width="10%" class="info">审核人：</td>
+		                  <td width="25%">${contractAdvice.userId}</td>
+		                  <td width="10%" class="info">审核时间：</td>
+		                  <td width="25%"><fmt:formatDate type='date' value='${contractAdvice.aduitTime}' pattern=" yyyy-MM-dd HH:mm:ss "/></td>
+		                </tr>
+		              </tbody>
+		            </table>
+         			</div>
+         		</div>
 		</div> 
 		</form>
 		<div  class="col-md-12 tc mt20">
@@ -1425,8 +1453,8 @@
 						<div class="red star_red">*</div>草案批复意见上传：
 					</span>
 			    	<div class="col-md-8 col-sm-6 col-xs-6 p0">
-			        <u:upload id="post_attach_up" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}" auto="true" />
-					<u:show showId="post_attach_show" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
+			        <u:upload id="post_attach_ups${attachuuid}" businessId="${attachuuid}"  sysKey="${attachsysKey}" typeId="${attachtypeId}" auto="true" />
+					<u:show showId="post_attach_shows${attachuuid}" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
 					</div>
 				</li>
 				<li class="tc col-md-12 col-sm-12 col-xs-12 mt20">

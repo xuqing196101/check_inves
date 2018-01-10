@@ -1,5 +1,6 @@
 package bss.service.ppms.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -375,6 +376,12 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
 		map.put("projectId", projectId);
 		map.put("id", id);
 		projectDetailMapper.updateByPackNull(map);
+	}
+
+	@Override
+	public BigDecimal selectByBudget(HashMap<String, Object> map) {
+		
+		return projectDetailMapper.selectByBudget(map);
 	}
 
 }

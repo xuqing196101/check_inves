@@ -264,4 +264,17 @@
 			from dual
 		</foreach>
 	</insert>
+	
+	<select id="selectByTheSubject" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT TS. ID, TS.DETAIL_ID, TS.GOODS_NAME, TS.STAND, TS.QUALIT_STAND,
+			TS.ITEM, TS.PURCHASE_COUNT, ts.UNIT_PRICE, PD.MEMO as memo,
+			PD.DELIVER_DATE as deliverDate, PD.SERIAL_NUMBER as serialNumber,
+			(TS.PURCHASE_COUNT * TS.UNIT_PRICE) AS BUDGET
+		FROM
+			T_BSS_PPMS_THE_SUBJECT ts
+		LEFT JOIN T_BSS_PPMS_PROJECTS_DETAIL pd ON PD. ID = TS.DETAIL_ID
+		WHERE
+			TS.SUPPLIER_ID = #{supplierId}
+		AND TS.PACKAGE_ID = #{packageId}
+	</select>
 </mapper>

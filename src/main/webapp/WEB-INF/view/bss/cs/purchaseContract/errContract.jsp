@@ -1496,7 +1496,7 @@
 						<div class="col-md-12 tc mt20">
 							<input type="button" class="btn btn-windows save mb20" onclick="staging()" value="暂存" />
 							<input type="button" class="btn btn-windows save mb20" onclick="protocol()" value="生成草案" />
-							<input type="button" class="btn btn-windows save mb20" onclick="createContract()" value="生成正式合同" />
+							<!-- <input type="button" class="btn btn-windows save mb20" onclick="createContract()" value="生成正式合同" /> -->
 							<%--<input type="button" class="btn btn-windows save mb20" onclick="printContract()" value="打印"/>
    			--%><input type="button" class="btn btn-windows cancel mb20" onclick="abandoned()" value="取消">
 						</div>

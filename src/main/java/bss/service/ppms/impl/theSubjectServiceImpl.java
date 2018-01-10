@@ -14,54 +14,65 @@ import bss.service.ppms.theSubjectService;
 @Service
 public class theSubjectServiceImpl implements theSubjectService {
 
-  @Autowired
-  theSubjectMapper theSubjectMapper;
-  /**
-   * 插入数据
-   * @see bss.service.ppms.theSubjectService#insert(bss.model.ppms.theSubject)
-   */
-  @Override
-  public void insert(theSubject subject) {
-      subject.setCreatedAt(new Date());
-      theSubjectMapper.insertSelective(subject);
-  }
+	@Autowired
+	theSubjectMapper theSubjectMapper;
 
-  /**
-   * 修改
-   * @see bss.service.ppms.theSubjectService#update(bss.model.ppms.theSubject)
-   */
-  @Override
-  public void update(theSubject subject) {
-    theSubjectMapper.updateByPrimaryKeySelective(subject);
-  }
+	/**
+	 * 插入数据
+	 * 
+	 * @see bss.service.ppms.theSubjectService#insert(bss.model.ppms.theSubject)
+	 */
+	@Override
+	public void insert(theSubject subject) {
+		subject.setCreatedAt(new Date());
+		theSubjectMapper.insertSelective(subject);
+	}
 
-  /**
-   * 查询
-   * @see bss.service.ppms.theSubjectService#list(bss.model.ppms.theSubject)
-   */
-  @Override
-  public List<theSubject> list(theSubject subject) {
-    return  theSubjectMapper.list(subject);   
-  }
+	/**
+	 * 修改
+	 * 
+	 * @see bss.service.ppms.theSubjectService#update(bss.model.ppms.theSubject)
+	 */
+	@Override
+	public void update(theSubject subject) {
+		theSubjectMapper.updateByPrimaryKeySelective(subject);
+	}
 
-  /**
-   * 批量插入
-   * @see bss.service.ppms.theSubjectService#insertList(java.util.List)
-   */
-  @Override
-  public void insertList(List<theSubject> list) {
-    theSubjectMapper.insertList(list);
-  }
+	/**
+	 * 查询
+	 * 
+	 * @see bss.service.ppms.theSubjectService#list(bss.model.ppms.theSubject)
+	 */
+	@Override
+	public List<theSubject> list(theSubject subject) {
+		return theSubjectMapper.list(subject);
+	}
 
-@Override
-public List<theSubject> selectBysupplierIdAndPackagesId(HashMap<String, Object> map) {
-	return theSubjectMapper.selectBysupplierIdAndPackagesId(map);
-	
-}
+	/**
+	 * 批量插入
+	 * 
+	 * @see bss.service.ppms.theSubjectService#insertList(java.util.List)
+	 */
+	@Override
+	public void insertList(List<theSubject> list) {
+		theSubjectMapper.insertList(list);
+	}
 
-@Override
-public List<theSubject> selectByPackagesId(String packagesId) {
-	return theSubjectMapper.selectByPackagesId(packagesId);
-}
+	@Override
+	public List<theSubject> selectBysupplierIdAndPackagesId(
+			HashMap<String, Object> map) {
+		return theSubjectMapper.selectBysupplierIdAndPackagesId(map);
+
+	}
+
+	@Override
+	public List<theSubject> selectByPackagesId(String packagesId) {
+		return theSubjectMapper.selectByPackagesId(packagesId);
+	}
+
+	@Override
+	public List<theSubject> selectByTheSubject(HashMap<String, Object> map) {
+		return theSubjectMapper.selectByTheSubject(map);
+	}
 
 }

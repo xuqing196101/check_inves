@@ -412,13 +412,17 @@
 						<td class="tc"><fmt:formatDate value="${obj.taskGiveTime}" pattern="yyyy-MM-dd"/></td>
 					</tr>
 				</c:forEach>
-
-
 			</table>
 
 			<div id="pagediv" align="right"></div>
 	</div>
-
+	
+	<script type="text/javascript">
+		var index_load = layer.load(1, {shade: [1, '#FFF']});
+		$(function () {
+			layer.close(index_load);
+		});
+	</script>
 
 </body>
 </html>

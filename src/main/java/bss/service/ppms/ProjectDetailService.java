@@ -1,5 +1,6 @@
 package bss.service.ppms;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -154,4 +155,6 @@ public interface ProjectDetailService {
 	 * @return void
 	  */
 	 void updateByPackNull(String id, String projectId);
+	 
+	 BigDecimal selectByBudget(HashMap<String, Object> map);
 }

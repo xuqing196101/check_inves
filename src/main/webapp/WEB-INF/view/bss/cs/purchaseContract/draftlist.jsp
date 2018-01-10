@@ -99,11 +99,11 @@
 			for(var i=0;i<status.length;i++){
 				if(status[i]==2){
 					flag = false;
-					layer.alert("正式合同不可删除",{offset: ['222px', '390px'], shade:0.01});
+					layer.alert("正式合同不可删除",{shade:0.01});
 				}
 			}
 			if(flag){
-				layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+				layer.confirm('您确定要删除吗?', {title:'提示',shade:0.01}, function(index){
 					layer.close(index);
 					window.location.href="${pageContext.request.contextPath}/purchaseContract/deleteDraft.html?ids="+ids;
 				});
@@ -114,12 +114,6 @@
 		}
     }
   	
-  	function query(){
-  		var projectName = $("#projectName").val();
-  		var projectCode = $("#projectCode").val();
-  		var purchaseDep = $("#purchaseDep").val();
-  		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html?projectName="+projectName+"&projectCode="+projectCode+"&purchaseDep="+purchaseDep;
-  	}
   	
   	function resetForm(){
   		var auth='${authType}';
@@ -180,29 +174,24 @@
   	    }
   		var ids =[];
   		var status = "";
+  		var auditStatus = [];
   		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).val());
 			status=($(this).parent().next().text());
+			auditStatus.push($(this).parent().parent().children(":last").find("input").val());
 		}); 
 		if(ids.length>0){
 			if(ids.length>1){
-				layer.alert("只可选择一条草案生成",{offset: ['222px', '390px'], shade:0.01});
+				layer.msg("只可选择一条草案生成");
 			}else{
 				if(status!=1){
-					layer.alert("只可选择草案合同生成",{offset: ['222px', '390px'], shade:0.01});
+					layer.msg("只可选择草案合同生成");
 				}else{
-				/*ind = layer.open({
-					shift: 1, //0-6的动画形式，-1不开启
-				    moveType: 1, //拖拽风格，0是默认，1是传统拖动
-				    title: ['请输入合同批准文号','border-bottom:1px solid #e5e5e5'],
-				    shade:0.01, //遮罩透明度
-					type : 1,
-					skin : 'layui-layer-rim', //加上边框
-					area : [ '40%', '300px' ], //宽高
-					content : $('#numberWin'),
-					offset: ['10%', '25%']
-				});*/
-				window.location.href="${pageContext.request.contextPath}/purchaseContract/toFormalContract.html?id="+ids;
+					if(auditStatus == 3){
+						window.location.href="${pageContext.request.contextPath}/purchaseContract/toFormalContract.html?id="+ids;
+					} else {
+						layer.msg("审核通过才可生成正式合同");
+					}
 				}
 			}
 		}else{
@@ -271,15 +260,6 @@
 		layer.close(ind);
 	}
 	
-	function out(content){
-		layer.msg(content, {
-			    skin: 'demo-class',
-				shade:false,
-				closeBtn:[0,true],
-				area: ['600px'],
-				time : 4000    //默认消息框不关闭
-		});//去掉msg图标
-  	}
 	
 	function updateModel(){
 		window.location.href="${pageContext.request.contextPath}/templet/search.html?temType=合同模板";
@@ -362,27 +342,51 @@
 		}else{
 			layer.alert("请选择要修改的合同",{offset: ['222px', '390px'], shade:0.01});
 		}
-  		/* var ids =[]; 
-  		var supcheckid = [];
-  		var isCreateContract =[] ;
-		$('input[name="chkItem"]:checked').each(function(){
-			ids.push($(this).val()); 
-			supcheckid.push($(this).parent().next().next().text());
-			isCreateContract.push($(this).parent().next().next().next().text());
-		});
-		if(ids.length>0){
-			if(ids.length>1){
-				layer.alert("只可选择一条修改",{offset: ['222px', '390px'], shade:0.01});
-			}else{
-				if(isCreateContract==2){
-					window.location.href="${pageContext.request.contextPath}/purchaseContract/updateZanCun.html?supcheckid="+supcheckid+"&isCreateContract="+isCreateContract;
-				}else{
-					layer.alert("只可选择暂存的修改",{offset: ['222px', '390px'], shade:0.01});
+  	}
+  	
+  	function audit(){
+  		var id = []; 
+  		var status = [];
+  		var projectId = [];
+  		var auditStatus = [];
+			$('input[name="chkItem"]:checked').each(function(){ 
+				id.push($(this).val());
+				projectId.push($(this).next().val());
+				status.push($(this).parent().next().text());
+				auditStatus.push($(this).parent().parent().children(":last").find("input").val());
+			});
+			if (id.length < 1) {
+				layer.msg("请选择");
+			} else if (id.length == 1) {
+				if ($.inArray("0", status) == -1 && $.inArray("2", status) == -1) {
+					if (auditStatus == 1 || auditStatus == 4) {
+						$.ajax({
+							url:"${pageContext.request.contextPath}/purchaseContract/audit.html?id=" + id + "&projectId=" + projectId,
+							type:"post",
+	  					dataType:"text",
+							async: false,
+							success:function(data){
+								if (data == "ok") {
+									layer.msg("提交成功");
+									$("#form1").submit();
+								} else if (data == "1") {
+									layer.msg("已提交审核");
+								} else {
+									layer.msg("提交失败");
+								}
+							}
+						});
+					} else if (auditStatus == 2) {
+						layer.msg("已提交审核");
+					} else {
+						layer.msg("已审核");
+					}
+				} else {
+					layer.msg("只有草案才能提交审核");
 				}
+			} else {
+				layer.msg("只能选择一条");
 			}
-		}else{
-			layer.alert("请选择要修改的信息",{offset: ['222px', '390px'], shade:0.01});
-		} */
   	}
   	
   </script>
@@ -485,6 +489,7 @@
    	  	  <button class="btn" onclick="printContract()">打印</button>
 	      <button class="btn" onclick="createContract()">生成正式合同</button>
 	      <button class="btn" onclick="manualCreateContract()">新增合同</button>
+	      <button class="btn" onclick="audit()">提交至管理部门审核</button>
 	      <!-- <button class="btn" onclick="updateZanCun()">修改暂存</button> -->
 	      <%--<button class="btn" onclick="createDraftContract()">生成草案合同</button>
 	      <button class="btn" onclick="updateModel()">更新合同模板</button>
@@ -512,11 +517,15 @@
 				<th class="info">甲方单位</th>
 				<th class="info">供应商</th>
 				<th class="info">状态</th>
+				<th class="info">审核状态</th>
 			</tr>
 		</thead>
 		<c:forEach items="${info.list}" var="draftCon" varStatus="vs">
 			<tr>
-				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${draftCon.id}" /></td>
+				<td class="tc pointer">
+					<input onclick="check()" type="checkbox" name="chkItem" value="${draftCon.id}" />
+					<input type="hidden" value="${draftCon.projectId}"/>
+				</td>
 				<td class="tnone">${draftCon.status}</td>
 				<td class="pointer tc" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				<c:set value="${draftCon.code}" var="code"></c:set>
@@ -543,18 +552,18 @@
 				<td class="tl pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.budgetSubjectItem}</td>
 				<td class="tl pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.showDemandSector}</td>
 				<td class="tl pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.showSupplierDepName}</td>
-				<%--<c:if test="${draftCon.status==0}">
-					<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">暂存</td>
-				</c:if>
-				--%><c:if test="${draftCon.status==1}">
-					<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">草案</td>
-				</c:if>
-				<c:if test="${draftCon.status==2}">
-					<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">正式</td>
-				</c:if>
-				<c:if test="${draftCon.status==0}">
-					<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">暂存</td>
-				</c:if>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">
+					<c:if test="${draftCon.status==0}">暂存</c:if>
+					<c:if test="${draftCon.status==1}">草案</c:if>
+					<c:if test="${draftCon.status==2}">正式</c:if>
+				</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">
+					<input type="hidden" value="${draftCon.auditStatus}"/>
+					<c:if test="${draftCon.auditStatus==1}">未审核</c:if>
+					<c:if test="${draftCon.auditStatus==2}">审核中</c:if>
+					<c:if test="${draftCon.auditStatus==3}">审核通过</c:if>
+					<c:if test="${draftCon.auditStatus==4}">审核不通过</c:if>
+				</td>
 			</tr>
 		</c:forEach>
 	</table>

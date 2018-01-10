@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.cs.ContractAdviceMapper">
+  <resultMap id="ContractAdviceResult" type="bss.model.cs.ContractAdvice">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+    <result column="CONTRACT_ID" jdbcType="VARCHAR" property="contractId" />
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="REASON" jdbcType="VARCHAR" property="reason" />
+    <result column="PROPOSER" jdbcType="VARCHAR" property="proposer" />
+    <result column="STATUS" property="status" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="ADUIT_TIME" jdbcType="TIMESTAMP" property="aduitTime" />
+    <result column="IS_DELETED" property="isDeleted" />
+    <association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey" />
+    <association property="purchaseContract" column="CONTRACT_ID" select="bss.dao.cs.PurchaseContractMapper.selectContractByid" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, PROJECT_ID, CONTRACT_ID, CREATED_AT, ADUIT_TIME, USER_ID, STATUS, REASON, IS_DELETED, PROPOSER
+  </sql>
+  
+  <!-- 查询条件 -->
+  <sql id="Example_Where_Clause">
+  	WHERE 1=1 AND ca.IS_DELETED = 0
+    <trim suffixOverrides=",">
+      <if test="id != null and id != ''">
+        AND ca.ID = #{id} 
+      </if>
+      <if test="projectId != null">
+        AND ca.PROJECT_ID = #{projectId} 
+      </if>
+      <if test="contractId != null">
+        AND ca.CONTRACT_ID = #{contractId} 
+      </if>
+      <if test="createdAt != null">
+        AND ca.CREATED_AT = #{createdAt} 
+      </if>
+      <if test="aduitTime != null">
+        AND ca.ADUIT_TIME = #{aduitTime} 
+      </if>
+      <if test="status != null">
+        AND ca.STATUS = #{status} 
+      </if>
+      <if test="proposer != null and proposer !='' ">
+        AND ca.PROPOSER = #{proposer} 
+      </if>
+      <if test="userId != null and userId !='' ">
+        AND ca.USER_ID = #{userId} 
+      </if>
+    </trim>
+  </sql>
+  
+  <!-- 1.根据id主键查询 -->
+  <select id="selectById" parameterType="java.lang.String" resultMap="ContractAdviceResult">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM T_BSS_CS_CONTRACT_ADVICE
+    WHERE ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 2.根据条件查询 -->
+  <select id="findByList" flushCache="true" parameterType="java.util.Map" resultMap="ContractAdviceResult">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM T_BSS_CS_CONTRACT_ADVICE ca
+    <include refid="Example_Where_Clause"/>
+    ORDER BY ca.CREATED_AT DESC
+  </select>
+  
+  <!-- 3.插入数据 -->
+  <insert id="insert" parameterType="bss.model.cs.ContractAdvice">
+    insert into T_BSS_CS_CONTRACT_ADVICE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="contractId != null">
+        CONTRACT_ID,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="aduitTime != null">
+        ADUIT_TIME,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="reason != null">
+        REASON,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="proposer != null">
+        PROPOSER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="contractId != null">
+        #{contractId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="aduitTime != null">
+        #{aduitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+      <if test="reason != null">
+        #{reason},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+      <if test="proposer != null">
+        #{proposer},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 4.更新数据 -->
+  <update id="update" parameterType="bss.model.cs.ContractAdvice">
+    update T_BSS_CS_CONTRACT_ADVICE
+    <set>
+      <if test="projectId != null">
+        PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="contractId != null">
+        CONTRACT_ID = #{contractId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status},
+      </if>
+      <if test="reason != null">
+        REASON = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="aduitTime != null">
+        ADUIT_TIME = #{aduitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted},
+      </if>
+      <if test="proposer != null">
+        PROPOSER = #{proposer},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 5.根据合同ID查询是否存在-->
+  <select id="selectByContractId" parameterType="java.lang.String" resultType="java.lang.Integer">
+  	SELECT
+  		COUNT(*)
+  	FROM T_BSS_CS_CONTRACT_ADVICE
+  		WHERE IS_DELETED = 0 AND CONTRACT_ID = #{contractId}
+  </select>
+  
+  <!-- 6.审核列表查询-->
+  <select id="selectByAll" parameterType="java.util.Map" resultMap="ContractAdviceResult">
+  	SELECT
+			cca.ID, cca.PROJECT_ID, cca.CONTRACT_ID, cca.CREATED_AT, cca.ADUIT_TIME,
+			cca.USER_ID, cca.STATUS, cca.REASON,
+			(SELECT REL_NAME FROM T_SES_BMS_USER WHERE ID = cca.PROPOSER) AS PROPOSER
+		FROM
+			T_BSS_CS_CONTRACT_ADVICE cca
+		LEFT JOIN T_BSS_CS_PURCHASE_CONTRACT cpc ON CCA.CONTRACT_ID = CPC. ID
+		WHERE
+			CCA.IS_DELETED = 0 AND EXISTS (
+				SELECT
+					PO.PURCHASE_DEP_ID
+				FROM
+					T_SES_OMS_PURDEP_ORG po
+				WHERE
+					PO.PURCHASE_DEP_ID = CPC.PURCHASE_DEP_NAME
+				AND PO.ORG_ID = #{orgId}
+			)
+		<if test="projectName != null and projectName != ''">
+			AND CPC.PROJECT_NAME LIKE CONCAT(CONCAT('%', #{projectName}), '%')
+		</if>
+		<if test="name != null and name != ''">
+		 	AND CPC.NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
+		</if>
+		<if test="status != null and status != ''">
+			AND CCA.STATUS = #{status}
+		</if>
+		<if test="code != null and code != ''">
+			AND CPC.CODE LIKE CONCAT(CONCAT('%', #{code}), '%')
+		</if>
+		ORDER BY cca.CREATED_AT DESC
+  </select>
+</mapper>

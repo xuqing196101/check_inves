@@ -703,7 +703,7 @@
 								<div class="mt20 fw f14">
 									<span class="red">*</span>审批单：
 									<div class="m_inline m_uploadFiles">
-										<u:upload id="aa1"  multiple="true" buttonName="文件上传" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+										<u:upload id="aa1"  multiple="true" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 										<u:show showId="ff1" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
 									</div>
 								</div>

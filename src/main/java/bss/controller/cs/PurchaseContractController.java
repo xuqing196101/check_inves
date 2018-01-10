@@ -1,10 +1,9 @@
 package bss.controller.cs;
 
 
-import ses.util.AuthorityUtil;
 import ses.util.DictionaryDataUtil;
+import ses.util.WfUtil;
 
-import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -18,31 +17,24 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
-import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
@@ -50,21 +42,19 @@ import ses.model.bms.Role;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
-import ses.model.oms.PurchaseOrg;
 import ses.model.sms.AfterSaleSer;
 import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
-import ses.service.bms.RoleServiceI;
+import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurChaseDepOrgService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.AfterSaleSerService;
 import ses.service.sms.SupplierService;
 import ses.util.ValidateUtils;
-import bss.dao.ppms.theSubjectMapper;
+import bss.model.cs.ContractAdvice;
 import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
-import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
@@ -72,6 +62,7 @@ import bss.model.ppms.ProjectTask;
 import bss.model.ppms.SupplierCheckPass;
 import bss.model.ppms.Task;
 import bss.model.ppms.theSubject;
+import bss.service.cs.ContractAdviceService;
 import bss.service.cs.ContractRequiredService;
 import bss.service.cs.PurchaseContractService;
 import bss.service.ppms.PackageService;
@@ -81,7 +72,6 @@ import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.SupplierCheckPassService;
 import bss.service.ppms.TaskService;
 import bss.service.ppms.theSubjectService;
-import bss.service.ppms.impl.theSubjectServiceImpl;
 import bss.service.sstps.AppraisalContractService;
 import bss.util.ExportExcel;
 
@@ -89,6 +79,7 @@ import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
 import common.constant.Constant;
+import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.DownloadService;
 import common.service.UploadService;
@@ -157,13 +148,16 @@ public class PurchaseContractController extends BaseSupplierController {
     private PurChaseDepOrgService chaseDepOrgService;
 
     @Autowired
-    private OrgnizationServiceI orgnizationService;
-
-    @Autowired
     private AfterSaleSerService saleSerService;
 
     @Autowired
     private theSubjectService theSubjectService;
+    
+    @Autowired
+    private ContractAdviceService contractAdviceService;
+    
+    @Autowired
+    private UserServiceI userService;
 
     /**
      * 
@@ -351,7 +345,6 @@ public class PurchaseContractController extends BaseSupplierController {
         String[] supplierId = suppliers.split(",");
         String flag = "true";
         String news = "";
-        List<String> supIdList = new ArrayList<String>();
         List<Project> proList = new ArrayList<Project>();
         for (int i = 0; i < ids.length; i++ ) {
             HashMap<String, Object> map = new HashMap<String, Object>();
@@ -554,6 +547,59 @@ public class PurchaseContractController extends BaseSupplierController {
             }
         }
         return "2";
+    }
+    
+    @RequestMapping("/createcContract")
+    public String createcContract(Model model, String packId, String projectId, String supplierId, String supcheckId, String wonPrice){
+    	//UUID
+        String contractuuid = WfUtil.createUUID();
+        model.addAttribute("attachuuid", contractuuid);
+        
+        //草案批复意见
+        String attachtypeId = DictionaryDataUtil.getId("DRAFT_REVIEWED");
+        model.addAttribute("attachtypeId", attachtypeId);
+        model.addAttribute("attachsysKey", Constant.TENDER_SYS_KEY);
+        
+        //授权书 
+        String bookattachtypeId = DictionaryDataUtil.getId("CONTRACT_WARRANT");
+        model.addAttribute("bookattachtypeId", bookattachtypeId);
+        model.addAttribute("bookattachsysKey", Constant.TENDER_SYS_KEY);
+        
+        //采购方式
+        model.addAttribute("kinds", DictionaryDataUtil.find(5));
+        
+        //合同总金额
+        BigDecimal totalPrice = new BigDecimal(wonPrice);
+        model.addAttribute("totalPrice", totalPrice);
+        
+        //标的信息
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("supplierId", supplierId);
+        map.put("packageId", packId);
+        List<theSubject> subjectList = theSubjectService.selectByTheSubject(map);
+        if (subjectList != null && !subjectList.isEmpty()) {
+			model.addAttribute("subjectList", subjectList);
+		}
+        
+        if (StringUtils.isNotBlank(projectId)) {
+        	//项目信息
+			Project project = projectService.selectById(projectId);
+			model.addAttribute("project", project);
+			//任务文号
+			List<Task> selectByProjectTask = taskService.selectByProjectTask(projectId);
+			if (selectByProjectTask != null && !selectByProjectTask.isEmpty()) {
+				model.addAttribute("documentNumber", selectByProjectTask.get(0).getDocumentNumber());
+			}
+		}
+        
+        //获取包的预算价格
+        HashMap<String, Object> map1 = new HashMap<String, Object>();
+        map1.put("packageId", packId);
+        map1.put("projectId", projectId);
+        BigDecimal budgets = projectDetailService.selectByBudget(map1);
+        BigDecimal budget = budgets.setScale(4, BigDecimal.ROUND_HALF_UP);
+        model.addAttribute("budget", budget);
+        return "bss/cs/purchaseContract/newContract";
     }
 
     /**
@@ -1097,8 +1143,7 @@ public class PurchaseContractController extends BaseSupplierController {
         purCon.setBudget_string(purCon.getBudget() == null ? "" : purCon.getBudget().toString());
         purCon.setSupplierBankAccount_string(purCon.getSupplierBankAccount() == null ? "" : purCon.getSupplierBankAccount().toString());
         purCon.setPurchaseBankAccount_string(purCon.getPurchaseBankAccount() == null ? "" : purCon.getPurchaseBankAccount().toString());
-        purCon.setBudget(new BigDecimal(
-            purCon.getBudget_string().equals("") ? "0" : purCon.getBudget_string().toString()));
+        purCon.setBudget(new BigDecimal(purCon.getBudget_string().equals("") ? "0" : purCon.getBudget_string().toString()));
         purCon.setSupplierBankAccount(purCon.getSupplierBankAccount_string());
         purCon.setPurchaseBankAccount(purCon.getPurchaseBankAccount_string());
         List<ContractRequired> resultList = contractRequiredService.selectConRequeByContractId(purCon.getId());
@@ -1416,7 +1461,7 @@ public class PurchaseContractController extends BaseSupplierController {
      * @param @return
      * @return Map
      */
-    public Map valid(Model model, PurchaseContract purCon) {
+    public Map<String, Object> valid(Model model, PurchaseContract purCon) {
         Map<String, Object> map = new HashMap<String, Object>();
         boolean flag = true;
         if (ValidateUtils.isNull(purCon.getSupplierBankAccount_string())) {
@@ -1701,7 +1746,7 @@ public class PurchaseContractController extends BaseSupplierController {
 		}
         map.put("purchaseDepName", user.getOrg().getId());
         List<PurchaseContract> list = purchaseContractService.contractSupervisionList(map);
-        BigDecimal contractSum = new BigDecimal(0);
+        BigDecimal contractSum = BigDecimal.ZERO;
         for (PurchaseContract purchaseContract : list) {
         	 if (purchaseContract.getMoney() != null) {
                  contractSum = contractSum.add(purchaseContract.getMoney());
@@ -2024,6 +2069,15 @@ public class PurchaseContractController extends BaseSupplierController {
         model.addAttribute("attachuuid", draftCon.getId());
         Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(draftCon.getPurchaseDepName());
         PurchaseDep purchaseDep = chaseDepOrgService.findByOrgId(draftCon.getPurchaseDepName());
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("contractId", id);
+        List<ContractAdvice> find = contractAdviceService.find(map);
+        if (find != null && !find.isEmpty()) {
+        	User user = userService.getUserById(find.get(0).getUserId());
+        	find.get(0).setUserId(user.getRelName());
+			model.addAttribute("contractAdvice", find.get(0));
+			model.addAttribute("auditId", DictionaryDataUtil.getId("CONTRACT_AUDIT"));
+		}
         model.addAttribute("purCon", draftCon);
         model.addAttribute("kinds", DictionaryDataUtil.find(5));
         model.addAttribute("id", id);
@@ -2295,7 +2349,7 @@ public class PurchaseContractController extends BaseSupplierController {
         if (flag) {
             purCon.setUpdatedAt(new Date());
             purCon.setFormalAt(new Date());
-            List<ContractRequired> requList = contractRequiredService.selectConRequeByContractId(purCon.getId());
+            //List<ContractRequired> requList = contractRequiredService.selectConRequeByContractId(purCon.getId());
             PurchaseContract pur = purchaseContractService.selectById(purCon.getId());
             purchaseContractService.updateByPrimaryKeySelective(purCon);
             // purchaseContractService.createWord(pur, requList,request);
@@ -3054,7 +3108,7 @@ public class PurchaseContractController extends BaseSupplierController {
         String status = req.getParameter("status");
         String url = "";
         PurchaseContract pur = purchaseContractService.selectById(id);
-        List<ContractRequired> requList = contractRequiredService.selectConRequeByContractId(pur.getId());
+        //List<ContractRequired> requList = contractRequiredService.selectConRequeByContractId(pur.getId());
         /* Map<String, Object> map = purchaseContractService.createWord(pur, requList, req); */
         model.addAttribute("id", id);
         model.addAttribute("pur", pur);
@@ -3300,7 +3354,7 @@ public class PurchaseContractController extends BaseSupplierController {
         throws Exception {
         List<ContractRequired> list = new ArrayList<ContractRequired>();
         ContractRequired purchaseRequired = null;
-        String fileName = file.getOriginalFilename();
+        //String fileName = file.getOriginalFilename();
         WorkbookFactory.create(file.getInputStream());
         Workbook workbook = WorkbookFactory.create(file.getInputStream());
         Sheet sheet = workbook.getSheetAt(0);
@@ -3385,5 +3439,16 @@ public class PurchaseContractController extends BaseSupplierController {
                 purchaseRequired.setMemo(cell.getStringCellValue());
             }
         }
+    }
+    
+    @RequestMapping("/audit")
+    @ResponseBody
+    public String audit(@CurrentUser User user, String id, String projectId) {
+		Boolean flag = contractAdviceService.saveContractAdvice(id, projectId, user.getId());
+		if (flag) {
+			return StaticVariables.SUCCESS;
+		} else {
+			return StaticVariables.FAILED;
+		}
     }
 }

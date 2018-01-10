@@ -68,6 +68,7 @@
     <result column="WARRANTY_AMOUNT" jdbcType="DECIMAL" property="warrantyAmount" />
     <result column="TRIAL_PRICE" jdbcType="DECIMAL" property="trialPrice" />
     <result column="TRANSPORT_FEES" jdbcType="DECIMAL" property="transportFees" />
+    <result column="AUDIT_STATUS"  property="auditStatus" />
     <association property="supplier" column="SUPPLIER_DEP_NAME" select="ses.dao.sms.SupplierMapper.selectOne"/>
   </resultMap>
   
@@ -86,7 +87,7 @@
     FORMAL_GIT_AT,FORMAL_REVIEWED_AT,IS_IMPORT,IS_DECLARE,PURCHASE_TYPE,PROJECT_ID,FINALLY_CLOSED,
     BING_DEP_NAME,BING_CONTACT,BING_CONTACT_TELEPHONE,BING_CONTACT_ADDRESS,BING_UNITPOST_CODE,
     SUPPLIER_CHECK_IDS,PROJECT_CODE,MANUAL_TYPE,FORMAL_AT,ORG_ID,CREATE_ID,PREPAID_RATIO,PREPAYMENT_AMOUNT,
-    WARRANTY_RATIO,WARRANTY_AMOUNT,TRIAL_PRICE,TRANSPORT_FEES
+    WARRANTY_RATIO,WARRANTY_AMOUNT,TRIAL_PRICE,TRANSPORT_FEES,AUDIT_STATUS
   </sql>
   <sql id="PurCon_BlOB_Column_List">
   	CONTENT
@@ -403,7 +404,8 @@
       CONTENT,PROJECT_NAME,IS_APPEAL,APPROVE_PIC,CREATED_AT,UPDATED_AT,IS_DELETED,CONTRACT_TYPE,
       DRAFT_GIT_AT,DRAFT_REVIEWED_AT,FORMAL_GIT_AT,FORMAL_REVIEWED_AT
       CONTENT,PROJECT_NAME,IS_APPEAL,APPROVE_PIC,CREATED_AT,UPDATED_AT,IS_DELETED,CONTRACT_TYPE,IS_IMPORT,IS_DECLARE,
-      PURCHASE_TYPE,PROJECT_ID,FINALLY_CLOSED,BING_DEP_NAME,BING_CONTACT,BING_CONTACT_TELEPHONE,BING_CONTACT_ADDRESS,BING_UNITPOST_CODE,PROJECT_CODE,MANUAL_TYPE,FORMAL_AT
+      PURCHASE_TYPE,PROJECT_ID,FINALLY_CLOSED,BING_DEP_NAME,BING_CONTACT,BING_CONTACT_TELEPHONE,BING_CONTACT_ADDRESS,
+      BING_UNITPOST_CODE,PROJECT_CODE,MANUAL_TYPE,FORMAL_AT,AUDIT_STATUS
       )
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{money,jdbcType=DECIMAL}, #{demandSector,jdbcType=VARCHAR}, #{budget,jdbcType=DECIMAL}, 
@@ -420,7 +422,8 @@
       #{supplierPurId,jdbcType=VARCHAR},#{content},#{projectName},#{appeal},#{approvePic},#{createdAt,jdbcType=TIMESTAMP},#{updatedAt,jdbcType=TIMESTAMP},#{isDeleted},
       #{contractType},#{draftGitAt,jdbcType=TIMESTAMP},#{draftReviewedAt,jdbcType=TIMESTAMP},#{formalGitAt,jdbcType=TIMESTAMP},#{formalReviewedAt,jdbcType=TIMESTAMP},
       #{contractType},#{isImport},#{isDeclare},#{purchaseType},#{projectId}.#{finallyClosed},
-      #{bingDepName},#{bingContact},#{bingContactTelephone},#{bingContactAddress},#{bingUnitpostCode},#{projectCode,jdbcType=VARCHAR},#{manualType},#{formalAt,jdbcType=TIMESTAMP}
+      #{bingDepName},#{bingContact},#{bingContactTelephone},#{bingContactAddress},#{bingUnitpostCode},
+      #{projectCode,jdbcType=VARCHAR},#{manualType},#{formalAt,jdbcType=TIMESTAMP},#{auditStatus}
       )
   </insert>
   <insert id="insertSelective" parameterType="bss.model.cs.PurchaseContract">
@@ -627,6 +630,9 @@
       <if test="transportFees != null">
         TRANSPORT_FEES,
       </if>
+      <if test="auditStatus != null">
+        AUDIT_STATUS,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -830,6 +836,9 @@
       <if test="transportFees != null">
         #{transportFees},
       </if>
+      <if test="auditStatus != null">
+        #{auditStatus},
+      </if>
     </trim>
   </insert>
   
@@ -1028,6 +1037,9 @@
       <if test="transportFees != null">
         TRANSPORT_FEES,
       </if>
+      <if test="auditStatus != null">
+        AUDIT_STATUS,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -1222,6 +1234,9 @@
       <if test="transportFees != null">
         #{transportFees},
       </if>
+      <if test="auditStatus != null">
+        #{auditStatus},
+      </if>
     </trim>
   </insert>
   
@@ -1412,7 +1427,10 @@
         TRIAL_PRICE=#{trialPrice},
       </if>
       <if test="transportFees != null">
-        TRANSPORT_FEES=#{transportFees}
+        TRANSPORT_FEES=#{transportFees},
+      </if>
+      <if test="auditStatus != null">
+        AUDIT_STATUS=#{auditStatus},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -1481,7 +1499,8 @@
       WARRANTY_RATIO=#{warrantyRatio},
       WARRANTY_AMOUNT=#{warrantyAmount},
       TRIAL_PRICE=#{trialPrice},
-      TRANSPORT_FEES=#{transportFees}
+      TRANSPORT_FEES=#{transportFees},
+      AUDIT_STATUS=#{auditStatus}
     where ID = #{id,jdbcType=VARCHAR}
     
   </update>
@@ -1522,6 +1541,7 @@
 			pc.SUPPLIER_DEP_NAME,
 			SUP.SUPPLIER_NAME AS showSupplierDepName,
 			PC.PURCHASE_DEP_NAME,
+			pc.AUDIT_STATUS,
 			(SELECT SHORT_NAME FROM T_SES_OMS_ORG WHERE ID = PC.PURCHASE_DEP_NAME) AS showDemandSector
 		FROM
 			T_BSS_CS_PURCHASE_CONTRACT pc
