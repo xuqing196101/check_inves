@@ -2683,6 +2683,6 @@
 			FROM
 			  T_SES_SMS_SUPPLIER
 			WHERE
-			AND ID = #{id}
+			  ID = #{id}
     </select>
 </mapper>
