@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +21,7 @@ import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.utils.JdcgResult;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAuditOpinion;
@@ -34,6 +34,7 @@ import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierReviewService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
+import ses.util.DictionaryDataUtil;
 
 /**
  * 供应商复核
@@ -82,6 +83,10 @@ public class SupplierReviewController {
 		}
 		model.addAttribute("result", pageInfo);
 		model.addAttribute("supplier", supplier);
+		
+		//企业性质
+		List <DictionaryData> businessNatureList = DictionaryDataUtil.find(32);
+		model.addAttribute("businessNatureList", businessNatureList);
 		return "ses/sms/supplier_review/list";
 	}
 	
